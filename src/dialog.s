@@ -19,6 +19,7 @@ PointeurBank1de2:
     STA.B $3F
     LDA #$01
     RTL
+
 PointeurBank3:
     REP #$20
     LDA.L dialog_bank_ptr_base + 0x600,X
@@ -141,6 +142,9 @@ ChargeLettre:
     LDA.B $3F
     PHA
     PLB
+    LDA.B #$00
+    XBA
+    LDA.B #$00
     LDA.W $0000,X
     STA.B CURRENT_C
     PLB
