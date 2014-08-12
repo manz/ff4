@@ -7,6 +7,8 @@
 ; ******************
 ; ** Declarations **
 ; ******************
+    vram_tile_set_pointer = 0x6800
+    vram_tile_map_pointer = 0x2840
 
 	CNTR = $15
 	CURRENT_C = $30
@@ -85,10 +87,9 @@ vwfstart:
 	STA $210C
 	
 	jsr.w vblank_wrk
-	dma_transfer_to_vram_call($7E421B,$6800,$0690,$1801)
+	dma_transfer_to_vram_call($7E421B,vram_tile_set_pointer,$0690,$1801)
 	jsr.w vblank_wrk
-	dma_transfer_to_vram_call($7E421B,$6800+$348,$0690,$1801)
-
+	dma_transfer_to_vram_call($7E421B,vram_tile_set_pointer+$348,$0690,$1801)
 	jsr.w vblank_wrk
 	dma_transfer_to_vram_call($0AF000,$6000, $1000, $1801)
 
@@ -672,7 +673,7 @@ vramcpy2:
 	LDX.W #WRAM
 	STX.W $4302
 
-	LDX.W #$6800
+	LDX.W #vram_tile_set_pointer
 	STX.W $2116
 
 	LDX.W #$0D20
@@ -727,7 +728,7 @@ lop2:
 	PLB
 	PHA
 	PLA
-	;.vramcpym ($7E421B,$6800,$0D10,7,$1801)		;copie de l'image de la vwf
+	;.vramcpym ($7E421B,vram_tile_set_pointer,$0D10,7,$1801)		;copie de l'image de la vwf
 	
 	RTS
 
@@ -841,12 +842,9 @@ nowaitpad:
 	PLA
 	jsr.w clr
 	jsr.w vblank_wrk
-	dma_transfer_to_vram_call($7E421B,$6800,$0690,$1801)
-	;.vramcpym ($7E421B,$6800,$0690,7,$1801)		;copie de l'image de la vwf
+	dma_transfer_to_vram_call($7E421B,vram_tile_set_pointer,$0690,$1801)
 	jsr.w vblank_wrk
-	dma_transfer_to_vram_call($7E48AB,$6800 + $348,$0690,$1801)
-	;.vramcpym ($7E48AB,$6800+$348,$0690,7,$1801)		;copie de l'image de la vwf
-	
+	dma_transfer_to_vram_call($7E48AB,vram_tile_set_pointer + $348,$0690,$1801)
 	RTS
 
 vblank_wrk:
@@ -887,7 +885,7 @@ wdisplay:
 	lda.b oldtilepos
 	lsr			; addresse vram /2
 	clc
-	adc.w #$6800
+	adc.w #vram_tile_set_pointer
 	sta.w $2116
 
 	
@@ -942,12 +940,11 @@ wdisplay:
 	LDA.B winstate
 	BEQ nowindow
 	
-	dma_transfer_to_vram_call(winmap, 0x2840, 0x2C0, 0x1801)
-	;.vramcpym (winmap,$2840,endmap-winmap,7,$1801)	;copie de la map
+	dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
 	BRA window
 	
 nowindow:
-    dma_transfer_to_vram_call(intromap, 0x2840, 0x0280, 0x1801)
+    dma_transfer_to_vram_call(intromap, vram_tile_map_pointer, 0x0280, 0x1801)
 
 ;	.vramcpym (intromap,$2840,$0280,7,$1801)	;copie de la map
 	
@@ -962,7 +959,7 @@ nowindow:
 	RTS
 
 wclear:
-	LDX #$2840
+	LDX #vram_tile_map_pointer
 	STX $2116
 	STZ $10
 	LDX.w #clearmap
