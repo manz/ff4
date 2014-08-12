@@ -273,6 +273,7 @@ nouveau_cadre:
 ;** printfname **
 ;****************
 printname:
+{
 	JSR.W ChargeLettreInc
 	ASL
 	STA.B $18
@@ -281,9 +282,9 @@ printname:
 	ADC $18
 	STA.B $18
 	STZ.B $19
-	LDX.W $18
+	LDX.B $18
 
-	STZ CNTR
+	LDY.W #$0000
 	
 next:
 	LDX.B $18
@@ -293,22 +294,23 @@ next:
 	BEQ exit
 	INX
 	PHX
+	PHY
 	JSR.W makeptr
 	JSR.W ShiftNew
 	JSR.W wdisplay
+	PLY
 	PLX
 
 suite:
 	INC.B $18
 
-	INC.B CNTR
-	LDA.B CNTR
-	CMP #$06
+	INY
+	CPY.W #$0006
 	BEQ exit
 	JMP.W next
 exit:
 	JMP.W main
-
+}
 ;********************
 ;** Nouvelle ligne **
 ;********************
