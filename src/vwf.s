@@ -59,18 +59,18 @@ vwfstart:
 	LDA.B temp
 	STA $7E5242
 
-	STZ CNTR
+	STZ.B CNTR
 	
-	STZ CURRENT_C
-	STZ TILEPOS
+	STZ.B CURRENT_C
+	STZ.B TILEPOS
 
-	stz oldtilepos
+	stz.B oldtilepos
 
-	STZ CNTR2
-	STZ temp
+	STZ.B CNTR2
+	STZ.B temp
 
-	STZ pixel_c
-	STZ pixel_c+1
+	STZ.B pixel_c
+	STZ.B pixel_c+1
 	
 	LDA.B #$01
 	STA.B winstate
@@ -224,7 +224,7 @@ _loop_B5C3:
 	INX
 	CPX.W #$0005
 	BEQ _loop_B5D2
-	JMP _loop_B5C3
+	JMP.W _loop_B5C3
 
 _loop_B5D2:
 	LDA.B $36,X
@@ -353,13 +353,12 @@ suit2:
 
 suit3:	
 
-	STZ CURRENT_C
-	STZ TILEPOS
-	STZ CNTR2
-	STZ temp
-
-	STZ pixel_c
-	STZ pixel_c+1
+	STZ.B CURRENT_C
+	STZ.B TILEPOS
+	STZ.B CNTR2
+	STZ.B temp
+	STZ.B pixel_c
+	STZ.B pixel_c+1
 
 	LDA.B #$08
 	STA.B BITSLEFT
@@ -465,7 +464,7 @@ _store:
 		
 	INY
 				
-	DEC CNTR
+	DEC.B CNTR
 	BNE Boucle2
 		
 	PLB
@@ -510,7 +509,7 @@ loopdec:
 coupe:
 	CLC
 	ADC #$08
-	INC TILEPOS
+	INC.B TILEPOS
 	BRA loopdec
 
 
@@ -571,7 +570,7 @@ debut2:
 	INX
 	INC
 
-	DEC nchars
+	DEC.B nchars
 	BNE debut2
 RTS
 
