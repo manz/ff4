@@ -82,16 +82,18 @@ vwfstart:
 	STA.B BITSLEFT
 
 	JSR.W clr		; on efface un peu de Wram
-	
-	LDA #$02
-	STA $210C
-	
+
+
 	jsr.w vblank_wrk
 	dma_transfer_to_vram_call($7E421B,vram_tile_set_pointer,$0690,$1801)
 	jsr.w vblank_wrk
 	dma_transfer_to_vram_call($7E421B,vram_tile_set_pointer+$348,$0690,$1801)
 	jsr.w vblank_wrk
 	dma_transfer_to_vram_call($0AF000,$6000, $1000, $1801)
+
+    ; Sets the BG3 vram pointer to 0x6000
+    LDA #$06
+	STA $210C
 
 	JSR.W ChargeLettre
 	BRA firstrun
@@ -119,6 +121,12 @@ fin:
 	STA.B $ED
 	STA.B $DE
 
+    ; FIXME: this is the wrong place to do it since later the game
+    ; waits for the user to press a button.
+
+    ; restore the tileset position in vram
+    LDA #$02
+	STA $210C
 	RTL
 
 ;******************
@@ -656,9 +664,6 @@ vramcpy2:
 	PHA
 	PHX
 
-	LDA.B #$06		;change l'addresse du tile set du BG3 à $6000
-	STA.W $210C		;dans la vram
-
 	LDA.B #$80
 	STA $2115
 	STZ $420B
@@ -916,8 +921,6 @@ wdisplay:
 
 ;; transfer
 
-	LDA.B #$06		;change l'addresse du tile set du BG3 à $6000
-	STA.W $210C		;dans la vram
 
 ;; FIXME: il faut absoument permettre l'utilisation de parenthèses
 ;; dans les expressions la précédence des operateurs était différente (fausse?)
