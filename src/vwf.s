@@ -810,6 +810,7 @@ retour:
 
 ;Wait for joypad 1
 waitpad:
+{
 	PHA
 	LDA.B winstate
 	BEQ nowaitpad
@@ -817,28 +818,22 @@ waitpad:
 padloop:
 	LDA.W $4218
 	BEQ padloop
-	PLA
-	JSR.W clr	
-	jsr.w vblank_wrk
-	dma_transfer_to_vram_call($7E421B,$6800,$0690,$1801)
-	;.vramcpym ($7E421B,$6800,$0690,7,$1801)		;copie de l'image de la vwf
-	jsr.w vblank_wrk
-    dma_transfer_to_vram_call($7E48AB,$6800+$348,$0690,$1801)
-
-	;.vramcpym ($7E48AB,$6800+$348,$0690,7,$1801)		;copie de l'image de la vwf
-	RTS
+	BRA end
 	
 nowaitpad:
-	
 	LDA.B #$10
-	STA CNTR
-	nowaitloop:
+	STA.B CNTR
+
+{
+loop:
 	WAI
 	WAI
 	WAI
 	WAI
-	DEC CNTR
-	BNE nowaitloop
+	DEC.B CNTR
+	BNE loop
+}
+end:
 	PLA
 	jsr.w clr
 	jsr.w vblank_wrk
@@ -846,6 +841,7 @@ nowaitpad:
 	jsr.w vblank_wrk
 	dma_transfer_to_vram_call($7E48AB,vram_tile_set_pointer + $348,$0690,$1801)
 	RTS
+}
 
 vblank_wrk:
 l1:
