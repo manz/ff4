@@ -1,63 +1,63 @@
 PointeurBank1de1:
-    REP #$20
+    REP #0x20
     LDA.L dialog_bank_ptr_base,X
-    STA.B $3D
-    LDA.W #$0000
-    SEP #$20
+    STA.B 0x3D
+    LDA.W #0x0000
+    SEP #0x20
     LDA.L dialog_bank_ptr_base + 2,X
-    STA.B $3F
-    LDA.B #$01
+    STA.B 0x3F
+    LDA.B #0x01
     RTL
 
 PointeurBank1de2:
-    REP #$20
+    REP #0x20
     LDA.L dialog_bank_ptr_base + 0x300,X
-    STA.B $3D
-    LDA.W #$0000
-    SEP #$20
+    STA.B 0x3D
+    LDA.W #0x0000
+    SEP #0x20
     LDA.L dialog_bank_ptr_base + 0x300 + 2,X
-    STA.B $3F
-    LDA #$01
+    STA.B 0x3F
+    LDA #0x01
     RTL
 
 PointeurBank3:
-    REP #$20
+    REP #0x20
     LDA.L dialog_bank_ptr_base + 0x600,X
-    STA.B $3D
-    LDA.W #$0000
-    SEP #$20
+    STA.B 0x3D
+    LDA.W #0x0000
+    SEP #0x20
     LDA.L dialog_bank_ptr_base + 0x600 + 2,X
-    STA.B $3F
-    LDA #$02
+    STA.B 0x3F
+    LDA #0x02
     RTL
 CalculePositionTb:
-    LDA.B $B2
-    STA.B $3D
-    STZ.B $3E
-    REP #$20
-    LDA.B $3D
+    LDA.B 0xB2
+    STA.B 0x3D
+    STZ.B 0x3E
+    REP #0x20
+    LDA.B 0x3D
     CLC
     ASL
-    ADC.B $3D
+    ADC.B 0x3D
     TAX
-    SEP #$20
+    SEP #0x20
     RTL
 PointeurBank2:
 {
-    REP #$20
-    LDA.B $3D
+    REP #0x20
+    LDA.B 0x3D
     ASL
     CLC
-    ADC.B $3D
+    ADC.B 0x3D
     TAX
     LDA.L dialog_bank_ptr_base + 0x800,X
-    STA.B $3D
-    LDA.W #$0000
-    SEP #$20
+    STA.B 0x3D
+    LDA.W #0x0000
+    SEP #0x20
     LDA.L dialog_bank_ptr_base + 0x800 + 2,X
-    STA.B $3F
-    LDX.B $3D
-    LDA.B $B2
+    STA.B 0x3F
+    LDX.B 0x3D
+    LDA.B 0xB2
     BEQ _FinBk2
     TAY
 _LoopBk2:
@@ -67,41 +67,41 @@ _LoopBk2:
     PHA
     JSR.W ChargeLettreIncBk2
     PLA
-    CMP #$03
+    CMP #0x03
     BEQ _LoopBk2
     PHA
     PLA
-    CMP #$04
+    CMP #0x04
     BEQ _LoopBk2
     DEY
     BNE _LoopBk2
     INX
 _FinBk2:
-    STX.W $0772
-    STZ.B $DD
+    STX.W 0x0772
+    STZ.B 0xDD
     RTL
     ChargeLettreDecBk2:
-    LDX.B $3D
+    LDX.B 0x3D
     DEX
     BMI _OkBk2
-    DEC.B $3F
-    LDX.W #$FFFF
+    DEC.B 0x3F
+    LDX.W #0xFFFF
     BRA _OkBk2
     ChargeLettreIncBk2:
-    LDX.B $3D
+    LDX.B 0x3D
     INX
     BMI _OkBk2
-    INC.B $3F
-    LDX.W #$8000
+    INC.B 0x3F
+    LDX.W #0x8000
 _OkBk2:
-    STX.B $3D
+    STX.B 0x3D
     ChargeLettreBk2:
-    LDX.B $3D
+    LDX.B 0x3D
     PHB
-    LDA.B $3F
+    LDA.B 0x3F
     PHA
     PLB
-    LDA.W $0000,X
+    LDA.W 0x0000,X
     PLB
     PHA
     PLA
@@ -111,13 +111,13 @@ _OkBk2:
 incpointer:
 {
     PHX
-    LDX.W $0772
+    LDX.W 0x0772
     INX
     BNE no_overflow
-    INC.B $3F
-    LDX.W #$8000
+    INC.B 0x3F
+    LDX.W #0x8000
     no_overflow:
-    STX.W $0772
+    STX.W 0x0772
     PLX
     RTS
 }
@@ -127,25 +127,25 @@ incpointer:
 ;=====================================================================
 ChargeLettreInc:
 {
-    LDX.W $0772
+    LDX.W 0x0772
     INX
-    CPX.W #$0000
+    CPX.W #0x0000
     BNE no_overflow
-    INC.B $3F
-    LDX.W #$8000
+    INC.B 0x3F
+    LDX.W #0x8000
     no_overflow:
-    STX.W $0772
+    STX.W 0x0772
 }
 ChargeLettre:
-    LDX.W $0772
+    LDX.W 0x0772
     PHB
-    LDA.B $3F
+    LDA.B 0x3F
     PHA
     PLB
-    LDA.B #$00
+    LDA.B #0x00
     XBA
-    LDA.B #$00
-    LDA.W $0000,X
+    LDA.B #0x00
+    LDA.W 0x0000,X
     STA.B CURRENT_C
     PLB
     PHA

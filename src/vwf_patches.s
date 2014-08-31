@@ -5,32 +5,32 @@
 *=0x00B404
 	JSR.L CalculePositionTb
  	JSR.L PointeurBank1de1
- 	STA.B $DD
- 	LDX.B $3D
- 	STX.W $0772
+ 	STA.B 0xDD
+ 	LDX.B 0x3D
+ 	STX.W 0x0772
  	RTS
  
  *=0x00B41D
  	JSR.L CalculePositionTb
  	JSR.L PointeurBank1de2
- 	STA.B $DD
- 	LDX.B $3D
- 	STX.W $0772
+ 	STA.B 0xDD
+ 	LDX.B 0x3D
+ 	STX.W 0x0772
  	RTS
  
  *=0x00B436
  	JSR.L CalculePositionTb
  	JSR.L PointeurBank3
- 	STA.B $DD
- 	LDX.B $3D
- 	STX.W $0772
+ 	STA.B 0xDD
+ 	LDX.B 0x3D
+ 	STX.W 0x0772
  	RTS
  
  *=0x00B3BB
- 	LDA.W $1702
- 	STA.B $3D
- 	LDA.W $1701
- 	STA.B $3E
+ 	LDA.W 0x1702
+ 	STA.B 0x3D
+ 	LDA.W 0x1701
+ 	STA.B 0x3E
  	JSR.L PointeurBank2
  	RTS
  
@@ -38,7 +38,7 @@
 
 ; Patch pour eviter les problemes de scroll du texte
 *=0x00B736
-	LDA.B #$EC
+	LDA.B #0xEC
 
 
 ; Patching Map Display
@@ -49,55 +49,55 @@
 
 
 ;*=0x00B333
-;	STZ.B $EB
+;	STZ.B 0xEB
 ;
 
 *=0x00B81C
-	LDA #$03
+	LDA #0x03
 
 
 *=0x00B848
-	LDX.W #$001A
+	LDX.W #0x001A
 
 
 *=0x00B86B
-	LDX.W #$001A
+	LDX.W #0x001A
 
 
 *=0x00B88A
-	ADC.B #$1A
+	ADC.B #0x1A
 
 
 *=0x00B897
-	ADC.B #$1A
+	ADC.B #0x1A
 
 
 ;patch pour pouvoir utiliser la vwf dans les intros
 *=0x00D438
-	LDY.W #$21D1
+	LDY.W #0x21D1
 
 
-;patch de l'interieur de la fenètre pour decaler de $100 et utiliser le tileset vwfé :^)
+;patch de l'interieur de la fenètre pour decaler de 0x100 et utiliser le tileset vwfé :^)
 *=0x14F75C
-.db $D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21
-.db $D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21,$D0,$21
+.db 0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21
+.db 0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21,0xD0,0x21
 
 
-txref = $ED
+txref = 0xED
 *=0x14F66C
-	.dw $2006+txref,$2008+txref			; ô OUI ;)
+	.dw 0x2006+txref,0x2008+txref			; ô OUI ;)
 
 
 *=0x14F67C
-	.dw $2007+txref,$2009+txref			; Bah oui
+	.dw 0x2007+txref,0x2009+txref			; Bah oui
 
 
 *=0x14F68C
-	.dw $2000+txref,$2002+txref,$2004+txref		; ô NON
+	.dw 0x2000+txref,0x2002+txref,0x2004+txref		; ô NON
 
 
 *=0x14F69C
-	.dw $2001+txref,$2003+txref,$2005+txref		;bah Non
+	.dw 0x2001+txref,0x2003+txref,0x2005+txref		;bah Non
 
 
 
@@ -144,20 +144,20 @@ NOP
 
 ;scroll 1
 *=0x00B706
-	STZ.W $2112
+	STZ.W 0x2112
 
 
 ;scroll 2
 *=0x00B733
-	STZ.W $2111
+	STZ.W 0x2111
 
 
 *=0x00B738
-	STZ.W $2112
+	STZ.W 0x2112
 
 
 *=0x00B755
-	STZ.W $2112
+	STZ.W 0x2112
 
 
 ;clear map call
@@ -169,36 +169,36 @@ NOP
 ;décalage des mini fenètres ^^
 ;haut de la fenètre Gils
 *=0x00AD33
-	LDX.W #$2892+$100
+	LDX.W #0x2892+0x100
 
 ;suite
 *=0x00AD42
-	LDX.W #$28B2+$100
+	LDX.W #0x28B2+0x100
 
 
-;00AD5A LDX #$28D2
+;00AD5A LDX #0x28D2
 *=0x00AD5A
-	LDX.W #$28D2+$100
+	LDX.W #0x28D2+0x100
 
 
-;00AD72 LDX #$28F2
+;00AD72 LDX #0x28F2
 *=0x00AD72
-	LDX.W #$28F2+$100
+	LDX.W #0x28F2+0x100
 
 
-;00AD8A LDX #$28D3
+;00AD8A LDX #0x28D3
 *=0x00AD8A
-	LDX.W #$28D3+$100
+	LDX.W #0x28D3+0x100
 
 
 *=0x00AEE7
-	LDA.B #$29
+	LDA.B #0x29
 
 
 ;décalage du curseur
 *=0x00AE38
-	LDX.W #$29C4
+	LDX.W #0x29C4
 
 
 *=0x00AE51
-	LDX.W #$2A04
+	LDX.W #0x2A04
