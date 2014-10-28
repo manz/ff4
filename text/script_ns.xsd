@@ -13,4 +13,11 @@
       <xs:element type="pointerType" name="pointer" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:element name="fixedlist" type="fixedlistType"/>
+  <xs:complexType name="fixedlistType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="fixed" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:positiveInteger" name="length"/>
+  </xs:complexType>
 </xs:schema>
