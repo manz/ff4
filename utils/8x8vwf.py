@@ -1,7 +1,7 @@
 from math import ceil
 import binascii
-from scipy import ndimage
 import struct
+from PIL import Image
 from utils.font import get_char, get_max_width
 import numpy as np
 
@@ -19,7 +19,7 @@ def text_to_char(text):
 
 
 def build_text_image(font_file, text_data):
-    image = ndimage.imread(font_file)
+    image = np.array(Image.open(font_file))
 
     # text = [0x6E, 0x7C, 0x89, 0x90]
     text = text_to_char(text_data)
