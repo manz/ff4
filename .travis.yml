@@ -1,8 +1,9 @@
 language: python
 python:
 - '3.4'
+before_install: "sudo apt-get install liblapack-dev libatlas-dev"
 install: pip install -r requirements.txt
-script: ./build.py
+script: python3.4 build.py
 deploy:
   provider: releases
   api_key:
