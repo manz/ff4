@@ -1,0 +1,12 @@
+language: python
+python:
+- '3.4'
+install: pip install -r requirements.txt
+script: ./build.py
+deploy:
+  provider: releases
+  api_key:
+    secure: nRzGa4y5c1Au3rYSoepsyIM8m6NTvkobmze0iKqOpRkNkS0L+r+EfAySgVpOB9eFPDzkgIbjWPe5L1TbPs/UQDHxauPpL2xwJiDSKimGYipVGhVZoSwI6jREIc51zU4jqAi37kNUKPRsDg5HDKkE7IhnRlcEqppOkGT23/DYd7o=
+  file: build/ff4.ips
+  on:
+    repo: manz/ff4
