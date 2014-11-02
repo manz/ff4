@@ -695,7 +695,12 @@ retour_auto:
 	BRA firstrun2
 loopchr:
 	JSR.W ChargeLettreInc
-	
+
+    CMP #0x04
+    bne normal_char
+    lda #6 * 8
+    bra add_accumulator_value_to_temp
+	normal_char:
 ;règles de césure
 	BEQ chrfound	;Message Break \n<end>\n\n
 	CMP #0xFF	;espace
@@ -713,6 +718,7 @@ loopchr:
 	LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
 	INC
 
+add_accumulator_value_to_temp:
 	REP #0x20
 	CLC
 	ADC.B temp
