@@ -38,6 +38,7 @@ start_splash_screen:
 
 	rtl
 
+; TODO: rewrite as HDMA table would make it look less hacky.
 splash_screen_fade_out:
 {
     stz 0x00

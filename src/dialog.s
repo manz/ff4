@@ -1,25 +1,26 @@
 PointeurBank1de1:
     REP #0x20
-    LDA.L dialog_bank_ptr_base,X
+    LDA.L assets_bank1_1_ptr,X
     STA.B 0x3D
     LDA.W #0x0000
     SEP #0x20
-    LDA.L dialog_bank_ptr_base + 2,X
+    LDA.L assets_bank1_1_ptr + 2,X
     STA.B 0x3F
     LDA.B #0x01
     RTL
-
+; the bank 1 of 1 is only 0x100 pointers long and not 0x200 as the text dump suggests.
 PointeurBank1de2:
     REP #0x20
-    LDA.L dialog_bank_ptr_base + 0x300,X
+    LDA.L assets_bank1_1_ptr + 0x300, X
     STA.B 0x3D
     LDA.W #0x0000
     SEP #0x20
-    LDA.L dialog_bank_ptr_base + 0x300 + 2,X
+    LDA.L assets_bank1_1_ptr + 0x300 + 2,X
     STA.B 0x3F
     LDA #0x01
     RTL
 
+; genuinely false
 PointeurBank3:
     REP #0x20
     LDA.L dialog_bank_ptr_base + 0x600,X
@@ -30,6 +31,7 @@ PointeurBank3:
     STA.B 0x3F
     LDA #0x02
     RTL
+
 CalculePositionTb:
     LDA.B 0xB2
     STA.B 0x3D
@@ -50,11 +52,11 @@ PointeurBank2:
     CLC
     ADC.B 0x3D
     TAX
-    LDA.L dialog_bank_ptr_base + 0x800,X
+    LDA.L assets_bank2_ptr,X
     STA.B 0x3D
     LDA.W #0x0000
     SEP #0x20
-    LDA.L dialog_bank_ptr_base + 0x800 + 2,X
+    LDA.L assets_bank2_ptr + 2,X
     STA.B 0x3F
     LDX.B 0x3D
     LDA.B 0xB2
