@@ -1,4 +1,5 @@
 git+https://github.com/manz/a816.git
 pillow
+atlas
 numpy
 scipy
