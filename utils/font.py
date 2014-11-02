@@ -1,7 +1,8 @@
 from math import ceil
 import binascii
 import numpy as np
-from scipy import ndimage
+from PIL import Image
+# from scipy import ndimage
 import struct
 
 
@@ -41,7 +42,9 @@ def get_max_width(char):
 
 
 def convert_font_to_1bpp(font_file, has_grid=True):
-    image = ndimage.imread(font_file)
+    image = np.array(Image.open("input.png"))
+
+    # image = ndimage.imread(font_file)
 
     char = get_char(image, 0x00, has_grid, 8, 16)
 
