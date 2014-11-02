@@ -1,0 +1,2940 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:pointer id="0">Cecil des Ailes Rouges°! Le village de Mist se trouve de l'autre côté de la grotte au nord-ouest°![end]Le roi se comporte de plus en plus bizarrement°! Et tous ceux qui s'opposent à lui finissent comme Cid...[end]Seigneur Cecil°! Vengez le roi°![end]Pourquoi le roi enseignait-t-il la lame noire à ses hommes°?[end]Le roi nous a fait tant de mal... Il n'était jamais comme ça, avant. Pourquoi a-t-il changé°?[end]C'était vous, ce chevalier noir°! Ce que vous êtes splendide, maintenant°![end]J'ai un mauvais pressentiment à propos de Mist...[end]Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'il recherchait quelqu'un. Il doit être à l'auberge...[end]J'ai entendu dire que le roi a été tué et remplacé par un monstre. Et il n'a pas non plus d'héritier...[end]Ouah, c'est un chevalier noir°! Effrayant°! Mais plutôt chouette...[end]Je me demande si ce chevalier noir est vraiment mort... Je l'aimais plutôt°![end]Seigneur Cecil°! Tuez Golbeze°!![end]La porte du bâtiment à l'ouest de la ville°?[new]
+Elle donne sur une voie navigable souterraine qui mène au château.[new]
+Mais maintenant elle est scellée.[end]C'est la première fois depuis la fondation de Baron qu'on n'a pas de roi...[end]Le chevalier noir°! Non...m-m-monsieur, je n'ai rien dit contre le roi°! Je...je danserai pour vous. Ça vous va°?[end]Le roi a été vraiment dur, dernièrement,...[new]
+Et je n'ai pas le droit de danser. Déçu°?[end]C'était vous, ce chevalier noir°![new]
+Vous êtes bien mieux sans cette armure lugubre et toute pleine de sueur°!
+Allez, dansons°![end]</sn:pointer>
+
+<sn:pointer id="1">Not only did that mysterious
+fire kill powerful Summoners,
+but innocent women and
+children as well.[end]So this is the end of the
+history of Mist's Summoners...[end]There's a rumor of a Phantom
+beast dwelling under Baron.
+His sword is said to kill
+his enemies with one strike![end]We Summoners have the
+ability to conjure monsters
+from the Phantom World...
+
+a plane that supposedly existsdeep under the surface of the
+Earth.[end]</sn:pointer>
+
+<sn:pointer id="2">This is the Oasis town of
+Kaipo, deep in the Damcyan
+Desert.[end]Some woman from Baron
+stumbled in here recently...
+She was taken to a neighbor's
+house to recover.[end]Anna's fallen in love.
+
+
+
+Who's Anna?
+She was a girl who lived here
+and fell in love with a
+wandering bard...
+Her father, Master Tella
+wouldn't allow them to be
+together, so they ran away
+from Kaipo.[end]I want to be a dancer at
+Damcyan but there are many
+monsters lurking in the
+Underwater Channel.
+Will you watch my
+Synchronized Dance?[end]The Underwater Channel is to
+the northeast, but I hear
+that eight ferocious sea
+snakes guard the exit![end]The castle to the north,
+Damcyan, governs this desert.
+I heard the prince has a voiceof an angel.[end]If you're going to bring a
+little girl with you,
+you should put her in the
+back ranks.[end]</sn:pointer>
+
+<sn:pointer id="3">You son of a bitch!
+You're that damned Dark
+Knight! Take this!
+
+Toad![end]You become a Paladin?
+Yeah, right![end][0x55][end]Of all those who tried,
+it was you who became a
+Paladin...[end]Do you know how much we've
+suffered because of you?[end]Oh, hello Palom, Porom!
+Mt. Ordeals is to the East![end]I sensed that you were
+laboring under the weight of
+your sins...
+I'll pray for you as well.[end]I have nothing to say to you!
+Get the hell away from me![end]Lots of powerful undead roam
+Mt. Ordeals!
+Your Dark Sword is useless![end]You...a Paladin!?[end]Why do men hurt other men?[end]Endure the trial and accept
+the holy light![end]Please do not forget the
+spirit of the Paladin.[end]You bastard! You've got a lot
+of guts coming here![end]Lots of people have
+challenged Mt. Ordeals, but
+not one has ever come back.[end]This doesn't mean that I've
+forgiven you![end]Oh!
+
+
+
+It's Baron's...
+
+
+
+Dark Knight!![end]Oh!
+
+
+
+You become a Paladin?
+
+
+
+You're joking, right?[end]Oh!
+
+
+
+Hey, you're...
+
+
+
+...a Paladin?
+
+
+
+What a surprise![end][0x55][end]This is the Devil Road
+that leads to Baron.
+To guard against future
+invasions we sealed it off.[end]The Devil Road is a
+mysterious dimensional road.
+
+
+Traveling this road drains
+a lot of vital energy,
+hence its name.[end]</sn:pointer>
+
+<sn:pointer id="4">Wh, whoa, you're huge!
+Are you guys giants?[end]You're a human, aren't you?
+Please be careful not to
+step on anyone![end]You must need a lot of food
+to fill your huge stomachs!
+How about some ant steak?
+No?  Grasshopper pie, then?[end]We mine the Mithril ore,
+the frogs refine it,
+and the Little People forge
+it.
+We even make weapons that
+you humans can use![end]I've come a long way from the
+Mithril Mountain to the
+north.
+
+Even though you could get
+there in a minute with your
+long legs, it's a long
+journey for us![end]Yeah, baby! Yeah![end]Can ya dig it?[end]We're the Mithril Boys!
+
+
+
+C'mon everybody!
+Rock your body![end]Rock your body right!
+
+
+
+Mithril's back, alright![end]Thank you![end]</sn:pointer>
+
+<sn:pointer id="5">Oh, hello, there!
+Want to swim with me?[end]Welcome to Toroia, the city
+of water and forests![end]Why are you swimming in armor?It'll rust!
+Take it off, silly![end]Hey, this one's got firm
+hands!
+
+
+Aagh!!
+Wh..what the...
+you startled me!
+
+Go away, damnit![end]I wonder where my husband
+went..?[end]Have you heard of the Echoer?
+It's an amazing plant
+that can send your
+voice far away![end]....
+
+
+
+Leave me alone.
+I'm sunbathing![end]We mine gems from the cave in
+the north. However, we can't
+wear anything metal.
+It gets really heavy.[end]</sn:pointer>
+
+<sn:pointer id="6">This is the town of those of
+Dwarven blood, Agalt.[end]According to legend,
+everything consists
+of a front and a back.
+
+Yes, this world is no
+exception...[end]Since I'm a descendant of
+dwarves, I'm really short!
+I wish I was a descendant
+of an Ogre...[end]Eh?
+Our ancestors?
+How did they get there?
+Well, that's a long story...
+Eh? I guess I forgot it...[end]I can't live without the sun.
+But my ancestors were
+different.[end]I'm really strong!
+But my great great great
+great GREAT grandfather was
+much, much stronger![end][0x55][end]We have an old well that has
+been here for ages.
+It's said to be bottomless.[end]</sn:pointer>
+
+<sn:pointer id="7">[0x55][end]</sn:pointer>
+
+<sn:pointer id="8">[0x55][end]</sn:pointer>
+
+<sn:pointer id="9">[0x55][end]</sn:pointer>
+
+<sn:pointer id="10">[0x55][end]</sn:pointer>
+
+<sn:pointer id="11">Hey mister, why are you
+wearing clothes like that?
+Are you a bad man?[end]Dad says that no more
+customers are coming.
+And there are scary soldiers
+at the bar too...[end][space][0x7]Dancers wanted!
+[space][0x6]Beauty and dancing
+[space][0x8]skills a must!
+
+ -Baron Inn Bartender
+  An Equal Opportunity
+  Employer   [end]Oh, the Dark Knight from the
+castle! Have a drink.
+Huh?... Oh, no sir.
+Your money's no good here.[end]They say that Cid's been
+locked up in the castle!
+And he hid the new model
+airship as well![end]Mr. Cecil, want a drink?
+How splendid you are now!
+Sit down and have one
+on the house![end]It...it's Cecil of the
+Red Wings!
+I...I've done nothing wrong!
+
+I always pay my taxes, on timeand in the full amount![end]The soldiers from the castle
+are doing whatever they
+please at the bar![end]The town's finally got its
+old spirit back!
+Okay, back to work![end]You were that Dark Knight,
+weren't you?
+I think you look a lot
+better like this.[end][0x55][end]You're tough!
+You really kicked those
+soldier's asses!
+I like you!
+Tonight, stay for free![end]Hey, aren't the drinks
+ready yet?
+
+
+Who the hell are you!?[end]</sn:pointer>
+
+<sn:pointer id="12">[0x55][end]</sn:pointer>
+
+<sn:pointer id="13">Cid: Zzz...Zzz...
+ I've finished the new
+ model engine!
+ snort...snort...[end]Dad pulled another
+all-nighter!
+He still thinks he's young...
+
+Plus everyone in town is
+grumbling about the soldiers
+and the king, but there are
+many good people like you...
+Dad's always arguing with the
+townspeople about that...[end][space][0xa]Principles
+[space][0xe]of
+[space][0xb]Buoyancy[end][space][0xb]History
+[space][0xe]of
+[space][0x9]Shipbuilding[end][space][0xb]A Guide
+[space][0xe]to
+[space][0x6]Birds of the World[end]Lord Cecil!?
+You're alive!
+Dad hasn't come back from the
+castle in a long time. 
+There are rumors that
+he's been put in prison!
+Oh, God, I'm so worried...
+Please find him![end]Dad!
+You're safe! What's that?
+You're going with Cecil?
+
+Dad, you aren't exactly a
+spring chicken anymore!
+
+
+Cecil, please look after him
+and make sure he stays out of
+trouble![end]Please take care of my father.Is he working on the airship
+again?[end]Zzz...Zzz...[end]</sn:pointer>
+
+<sn:pointer id="14">Rosa's mother: What are the
+ king's motives nowadays...
+ I hear you all did something
+ awful in Mysidia!
+ Please, don't get Rosa
+ caught up in anything like
+ that...[end]Rosa's mother: Rosa ran
+ away to search for you!
+ Where is she now?[end]Rosa's mother: Rosa!
+ You're safe!
+Rosa: I'm sorry...
+
+Rosa's mother: You should
+ be, worrying your old mother
+ like that.
+ You're staying right here!
+ I shouldn't have let you
+ become a White Magician
+ at all.
+
+Rosa: No, Mom! It was
+ good that I did!
+ Cecil's a fighter, so I can
+ provide him support!
+ And you fought alongside Dad
+ as a White Magician long ago! 
+
+Rosa's mother: ...Rosa...
+ Your father...
+ was a great Knight.
+ I understand...
+ Cecil, please take care
+ of her.[end]</sn:pointer>
+
+<sn:pointer id="15">[0x55][end]</sn:pointer>
+
+<sn:pointer id="16">[0x55][end][0x55][end][0x55][end][0x55][end]Sage Tella and his daughter
+Anna were living happily
+together, but then Anna ran
+away from home..I wonder why?[end]</sn:pointer>
+
+<sn:pointer id="17">Hi, I'm a traveling scholar.
+I want to do research at
+Fabul, a town east of Damcyan. 
+But this strange old guy by
+the Underwater Channel won't
+let me pass...[end]Oh, how unusual, a customer...Because of all the monsters,
+we are seeing fewer customers
+nowadays.[end]   Cure your desert-parched
+ thirst with a special Kaipo
+        Micro Brew!
+     Valid ID required.[end]Only the royal family can
+enter Antlion's cave which
+is east of Damcyan.
+
+If ordinary folks were
+allowed in, it would really
+pep up business.
+Imagine...all those gems...![end]</sn:pointer>
+
+<sn:pointer id="18">A girl from Baron collapsed
+right outside this village.
+
+
+She was delirious with fever
+and kept calling out
+'Cecil, Cecil...!'[end]So you're that Cecil who she
+was calling for.
+Take care of her![end]In order to cure the desert
+fever, you need the
+'Light of the Desert'...
+
+an elusive gem found only in
+the Antlion's lair...[end]The Light of the Desert is theonly cure for Desert Fever.[end]Rosa: ...[music][0x13]
+
+
+
+ Ooh...
+
+
+
+ Cecil...
+
+
+
+ Don't leave me Cecil![end]I'm glad you're better.
+For a short time, I almost
+felt like I had a daughter
+of my own.
+Please visit us again![end]</sn:pointer>
+
+<sn:pointer id="19">What do you want to rob
+from us this time![end]Mt. Ordeals? Just going
+there is pointless![end]Never forgive the Baronian
+pillage that robbed us of
+our crystal and the lives
+of our people![end]I can't believe you...
+You've become...[end]Our friends! Give us
+back our friends![end]Palom, Porom!
+Don't trust this man![end]How beautiful...
+So this is what a Paladin
+looks like...[end]Shaddap! -hic-
+I ain't afraid of no
+Dark Knight![end]-hic- You, become a Paladin!
+Hee hee hee! Ha ha ha ha ha![end]Whoa! A real Paladin?[end]Oh, look who walked into
+my bar...
+The Dark Knight from Baron.
+
+Here, have one on the house.[end]You a Paladin? Ha!
+Hell, I can be one too![end]You really became a Paladin!
+Have one on me,
+poison-free this time.[end]P-p-p-please shpare me! -hic-[end]P-p-p-please shpa...
+
+
+
+Huh? You're going to climb
+Mt. Ordeals?[end]Wow, you surely look splendid![end]Cecil: Ack![end]I put a little bit of poison
+in your drink! Damn!
+Not strong enough![end]</sn:pointer>
+
+<sn:pointer id="20">[0x55][end]</sn:pointer>
+
+<sn:pointer id="21">[0x55][end]</sn:pointer>
+
+<sn:pointer id="22">[0x55][end][0x55][end]Fire, Earth, Water, and Wind
+are the basis of everything.[end]Breathing techniques for
+casting Black Magic.[end]My First Cure: An EZ-Reader[end][0x55][end][0x55][end]The Village Elder forgives
+everything.
+But I will not forgive you...[end]If you become a Paladin,
+I will trust you.[end]We trust you![end]This is the House of Prayers.
+The Village Elder will
+listen to your story.[end]Go find out...
+find out whether you can
+accept the light...[end]Your inner light has grown
+from a faint glimmer to a
+radiant light![end]Where do evil hearts
+come from? I'm not sure...
+Everyone starts out as
+an innocent baby...[end]The Paladin is a Holy Knight,
+the opposite of a Dark Knight.[end]You are a Paladin!
+...Perhaps it was fate.[end]Girl: What's wrong?
+Village Elder: Where's
+ Palom?
+
+Girl: Jeez, Palom, not again![end]Boy: So you're that guy from
+ Baron, huh? The old man
+ ordered me to help you.
+ Guess I don't have a choice.
+ You'd better be grateful![end]Porom: You're Mr. Cecil,
+ aren't you.
+ I'm very pleased to make
+ your acquaintance.[end]Porom: Hey Palom, go ahead
+ and greet him![end]Palom: Pleased to meet ya,
+ pal![end][space][0x5]Black Magician Palom
+[space][0xe]and
+[space][0x5]White Magician Porom
+[space][0x7]joined the party![music][0x29][delay][0x28][end]Village Elder: Now go to
+ Mt. Ordeals!
+ Palom! Porom!
+ I'm counting on you![end]</sn:pointer>
+
+<sn:pointer id="23">Your fate is in your hands.
+All I can do now is pray for
+you...
+
+Palom, Porom.
+Behave yourselves and try
+not to hinder Sir Cecil.[end]Palom and Porom!
+
+
+
+I see...but did Fate
+intend for them to 
+sacrifice themselves..?[end]The Village Elder has been
+praying in the Tower of
+Prayers ever since you left.[end]We will also pray, for
+all living creatures.[end]Tella too!?
+I warned him not to fight withhatred like that...the fool...[end]We will continue to pray![end]Hurry to the moon![end]Village Elder: The Magical
+ Ship is a vessel to the moon! 
+
+ According to Mysidian
+ archives, aside from a switch to control normal flight,
+ there is a Crystal of Flight. If you speak to it,
+ you should be able to go to
+ the moon!
+
+ Cecil: I'll give it a try![end]</sn:pointer>
+
+<sn:pointer id="24">The atmosphere here is great!
+Not only that, but a lot
+of guys drop by,
+so our evenings are fun...
+if you know what I mean![end]All right!
+Today, I got a spot at the
+counter!
+Tomorrow, upstairs![end]Hiya cutie! -wink-[end]I'm glad I've lived so long!
+I'd prefer this place to
+Heaven![end]You seem to want to spend
+some quality time with an
+older, more mature woman.
+
+What's with that look!?[end]Oh, baby!
+
+
+
+I think I love you!
+
+
+
+Aaah!
+
+
+
+You're a guy!![end][0x55][end]No matter how you look
+at them, and I do, often,
+the girls here are awesome![end]Hello!
+What's your pleasure?[end]Liar!
+Get out of here![end]</sn:pointer>
+
+<sn:pointer id="25">Give me a guy with no
+chest hair next time.[end]Sir, do you have enough money?It gets pretty expensive
+up here.[end]This old man talks of
+nothing but old war stories!
+I'm so sick of it![end]And then!
+I killed the Goblin
+with a mighty blow from
+my Staff, and...[end]Hey, this is for members only.Get outta here now![end]Damn, that old bastard!
+He's got my Jennifer![end][0x55][end]Awright, Awright!
+I'll tell you who
+your daddy is![end]I gotta bring the food![end]</sn:pointer>
+
+<sn:pointer id="26">Kya!
+
+
+
+What, didn't you get enough
+of us during the show?
+Stay out of the dressing
+room![end][0x55][end]Welcome.
+It'll be showtime shortly.
+
+
+If you enjoy the show, please
+remember to be generous with
+the tips.[end]Damn, I wish I was as
+young as you...[end]</sn:pointer>
+
+<sn:pointer id="27">[0x55][end]</sn:pointer>
+
+<sn:pointer id="28">Because of the pure water
+and fertile soil, we can get
+plenty of fresh vegetables.
+
+Therefore, it's an ideal
+environment for breeding
+Chocobos. [end][0x55][end][space][0x5]Biology of Chocobos[end][space][0x9]You too can
+[space][0x8]hatch Chocobos[end]</sn:pointer>
+
+<sn:pointer id="29">Have you ever seen these?
+They're Black Chocobos.
+
+
+Since these Chocobos have beentamed by humans, they can't
+fly anymore.
+
+However, the wild ones
+in the Chocobo village to
+the north can fly,
+although not very high.
+They can only land in
+forests, unfortunately.[end]Black Chocobos always
+remember their way back home,
+and will return there.
+
+But, after all, since
+they're feral animals,
+they run away after only
+one trip.[end][space][0x6]Advanced Chocobos
+[space][0x9]Discovered!
+[space][0x7]Black Chocobos!
+[space][0xc]-Toroia Newspaper[end]Kyun, Kyun[end][0x55][end]Chocobos are cute, but...
+WHEW...they smell bad![end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end]I want to fly on a Black
+Chocobo, but they always get
+mad whenever I go near them.
+Do I not love them enough?[end]</sn:pointer>
+
+<sn:pointer id="30">This is Corillo's Observatory.The world's only telescope
+is here. 
+
+Recently strange events have
+been happening on the moon.
+All of our efforts have  
+gone towards observing it.
+What's going on there..?[end]My husband has been so
+absorbed in his work
+that he doesn't even
+eat or sleep![end][space][0x7]The Romanticism
+[space][0xc]of the
+[space][0xa]Night Sky[end][space][0x9]The Origins
+[space][0xc]of the
+[space][0x8]Constellations[end][space][0x4]The Phases of the Moon
+[space][0x5]and the History of Man[end]</sn:pointer>
+
+<sn:pointer id="31">I am Corillo.
+I keep a constant watch on thenight sky from this tower.
+
+This planet has two moons.
+One has no life on it,
+but the other one might,
+most peculiar...
+That moon's turning red.
+Red, the same color as
+our blood...
+
+I hope nothing bad is about
+to happen...[end]</sn:pointer>
+
+<sn:pointer id="32">I saw some red ships going
+into the crater to the north![end]Even while the rest of the
+world is suffering from the
+ravages of war, it's peaceful
+here.
+We DO get hit with
+earthquakes, however.[end]My grandma is the oldest
+person in the village.
+She knows everything![end]Our ancestors came from the
+large hole in the mountains
+to the north.
+
+But the hole is blocked now,
+and you can't get there by
+land or from the sky.[end]There's an old legend...
+
+
+
+When we return the Magma Stoneto its birthplace, the way
+to the Land of the
+Underground Sun will open.[end]Absence of light is darkness.
+The cold of night must follow
+the light of day.
+
+Both coexist in this world,
+Light and Darkness...
+That's what our ancestors
+said![end]Hey, I'll show you a
+mysterious dance.
+Here goes![end]Our ancestors came from the
+underground.
+There's a sun there, a sun
+of magma.[end]</sn:pointer>
+
+<sn:pointer id="33">[0x55][end]</sn:pointer>
+
+<sn:pointer id="34">[0x55][end]</sn:pointer>
+
+<sn:pointer id="35">[0x55][end]</sn:pointer>
+
+<sn:pointer id="36">Nothing out of the ordinary![end]The King was a monster..?[end]I've felt a real air of
+uneasiness around the
+castle recently...[end]Were we...also Golbeze's
+pawns?[end]You're leaving early
+tomorrow, right?
+Rest well tonight.[end]Until you fulfill your
+mission, we are ordered not
+to let you back inside the
+castle![end]Who the hell are you?
+You got a pass to get inside?[end]It's evening...
+You shouldn't leave right now.[end]I've heard that there are
+times when Phantom Beasts are
+immune to attack.[end]I have this feeling I've
+seen you somewhere before...[end]This tower is off limits.[end]Cid: You're back, Cecil![end]Cid: Rosa's been
+ worried!
+ If you make her cry,
+ I won't forgive you!
+ By the way, how are my
+ lovely airships doing?
+ I don't want your crewmen
+ abusing 'em.
+ Hey, what's with that face?
+
+
+
+Cecil: To tell the
+ truth, Cid...
+
+
+Cid: What!? Nobody
+ besides you could command
+ the Red Wings! Jeez, what's
+ with the King recently?
+ He wants me to make
+ a new model of airship, but
+ I don't want to turn 'em 
+ into war machines!
+ Now he tells you to go hunt
+ Phantom Beasts?
+ The townsfolk are all
+ confused, not to mention me.
+ In any case, you be
+ careful now, hear! 
+ I'm going home.
+
+ I've been spending a lot of
+ time at work recently, and
+ my daughter is giving me
+ hell about it![end]Have you seen our boss,
+Cid around?
+
+
+He went off thinking about
+God-knows-what, leaving us
+to clean the airships.[end]Boss! And Mr. Cecil![end]Looks like Boss is acting
+same as usual, doesn't it?[end]Man, we've got to pull ANOTHERall-nighter? If he wasn't suchan insulting bastard, we'd
+actually enjoy this.
+Ah! D...don't tell our boss!
+T...tell him that...uh...
+work is fun![end]Aah! G-g-g-g-ghost!
+
+
+
+Huh, you're the real thing?
+Thank God!  I thought you
+were haunting me or something.[end]Yep...I've gotten as good as
+Boss at this...
+
+
+D...Don't tell him I just
+said that![end]</sn:pointer>
+
+<sn:pointer id="37">Is...is Prince Gilbert all
+right...[end]</sn:pointer>
+
+<sn:pointer id="38">Sir Yang! You're back.
+His Majesty is waiting.[end]It's too dangerous to go
+outside now!
+For the time being, you
+should just rest...[end]We'll protect the castle
+somehow.[end]Oh, Sir Cecil![end]</sn:pointer>
+
+<sn:pointer id="39">I love being a frog.
+Plenty of kisses from
+fair maidens...[end]Welcome to Toroia Castle![end]Yes, my name is Jeremiah.
+How did you know?[end]Oh, travelers!
+Please make yourselves
+at home.[end]Ribbit! Ribbit!
+I love being green![end]Are you here about the
+Crystal?
+Then you should talk to the
+Clerics inside the castle.[end][0x55][end]The eight Clerics are
+dignified messengers of God.
+Please conduct yourselves
+accordingly.[end]</sn:pointer>
+
+<sn:pointer id="40">[0x55][end]</sn:pointer>
+
+<sn:pointer id="41">[0x55][end]</sn:pointer>
+
+<sn:pointer id="42">You should take the treasure
+in this room to help you
+defeat the Phantom Beasts.
+
+If you push the switch in the
+wall, the door will open.[end]I hear moaning coming from
+under the castle.
+It couldn't be...His Majesty?
+Could it be...a curse?[end]I hear you brought back the
+Crystal of Water from Mysidia![end]The soldiers working for
+Golbeze weren't human...[end]...!?
+
+
+
+I...I'm not sleeping![end]His majesty was murdered by
+that fiend..?[end]Cain: Are you ready,
+ Cecil?
+Cecil: I'm counting on you,
+ Cain.
+Cain: Just leave
+ everything to me![end]Sir Cecil![end]Cecil: What's wrong?
+Palom: It smells...
+Porom: It smells like a
+ monster![end]Beigan: What? Where!?[end]Palom: Jeez, man!
+ You can't go around
+ trusting everybody!
+
+Cecil: Beigan too..?
+ How much of Baron does
+ Golbeze control..?[end]</sn:pointer>
+
+<sn:pointer id="43">I've felt a strange atmosphereabout the king lately...[end]Sir Cecil!
+Please take the throne![end]I don't like that
+Beigan asshole![end]Even without a king,
+Baron's indestructible!
+But without the Red Wings...[end]I believe in His Majesty![end]Lord Cecil, avenge the King![end]The village of Mist is
+northwest of Baron.
+
+
+It's said to always be
+enshrouded in a deep
+envelope of fog.[end]We will defend the castle
+in the name of the
+Dragon Knights![end]If the Dragon Knight Captain
+Cain and Sir Cecil team up,
+that ring has guaranteed
+delivery![end]Sir Cain is unflappable![end]A lot of things are being
+said about His Majesty,
+but if he hears about it...[end]We will handle things while
+you are away![end]Cain: What's wrong?
+ Can't sleep?[end]Cecil: It's here!?
+Cid: Yep, right under their
+ noses![end]If you value your life,
+then you shouldn't start
+getting ideas.[end]Even though I realized that
+the king had changed,
+I kept quiet to protect
+myself...[end]</sn:pointer>
+
+<sn:pointer id="44">King Baron: Cecil, you're
+ safe! And I see you've
+ become quite a warrior!
+Cecil: Your Majesty...
+King Baron: But you've
+ become a Paladin. That makes
+ me unhappy...You traded your
+ Darkness for Holy Light.
+Cecil: King Baron?...[end]'Why you...you damn imposter!'[end]Cid: You bastard!
+ Puttin' me in a moldy old
+ place like that!
+
+ I'm gonna get medieval on
+ your ass!
+ E..eh?[end]Cecil: Cid!
+Cid: Cecil! It's you!
+ You're alive!
+ You had me so worried!
+Cecil: Sorry...
+Cid: Where's Rosa!?
+ She ran after you...
+
+Cecil: Golbeze kidnapped
+ her...
+
+
+Cid: What?!
+ Even though you were there
+ to protect her?
+ But that Golbeze...
+ Not only is he abusin' my
+ airships, but Rosa too!?[end]Tella: That girl's in
+ danger!
+ Quickly, take us to the
+ airship![end]Cid: Who's this old fart?
+Tella: Look who's talking!
+Cid: Whaddya mean?
+ I'm not over-the-hill yet![end]Porom: Now, now...
+ You're Sir Cid, correct?
+ This is Master Tella.
+
+ He is a great sage from
+ Mysidia.[end]Porom: This is Sir Yang,
+ the head of Fabul's monks.
+
+
+ And I'm Porom, an
+ apprentice magician from
+ Mysidia.[end]Palom: And I'm a...
+ superstar!
+Porom: The rude one is my
+ twin brother, Palom.
+Palom: Ah, go to hell.[end]Yang: I am very pleased to
+ make your acquaintance, sir.
+ It's dangerous here so
+ we should hurry.
+Cid: Hey! You certainly know
+ your manners![end]Cecil: Cid, where's the
+ new model airship?
+Cid: Heheheh...[end]We'll never let the monsters
+take the castle again![end]Cid: Where no one would
+ even think to look!
+ I just finished it![end]Tella: We've have
+ no time for this!
+ Rosa's life is on the line![end]Cid: Damn, you're an
+ annoying old geezer!
+ I get it already!
+ Come on, it's this way![end]King Baron: Indeed! I am one
+ of Golbeze's Four Emperors,
+ Cagnazzo of Water![end]
+    Received the Bomb Ring.[end]</sn:pointer>
+
+<sn:pointer id="45">[0x55][end]</sn:pointer>
+
+<sn:pointer id="46">[0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end]Baron's treasure is stored
+beyond here! Off limits![end]</sn:pointer>
+
+<sn:pointer id="47">[0x55][end]</sn:pointer>
+
+<sn:pointer id="48">We imprisoned the Mysidian
+Magicians who resisted in thisdungeon. You can talk to them
+through the bars.[end]I hope we never have to
+use this dungeon again.[end]You're that Dark Knight!
+Do you expect to get away
+with this!?[end]We don't care what
+happens to us.
+Just return the Crystal
+to Mysidia![end]You don't understand anything!The Crystal's not just an
+ordinary gem![end]</sn:pointer>
+
+<sn:pointer id="49">Ow!
+That's a bruise there![end]C...Captain?
+You've become so splendid!
+Me?  Oh, I'm much better![end]Captain...[end]You were alive after all![end]I'm going to go get drunk and
+try to forget about what
+happened at Mysidia...[end]With His Majesty dead, you're
+the only one who can lead
+Baron![end]That job left me with a
+bad feeling.[end]Golbeze took the Red Wings![end]The Red Wings have
+sunk to a new low...[end]Damn! If only we had
+the Airships!
+I'm tired of sitting around
+and getting drunk!
+I wanna fight![end]</sn:pointer>
+
+<sn:pointer id="50">[0x55][end]</sn:pointer>
+
+<sn:pointer id="51">I've changed your sheets.
+I hear you're leaving early
+tomorrow morning...
+Rest well tonight.[end]</sn:pointer>
+
+<sn:pointer id="52">[0x55][end]</sn:pointer>
+
+<sn:pointer id="53">[0x55][end]</sn:pointer>
+
+<sn:pointer id="54">[0x55][end]</sn:pointer>
+
+<sn:pointer id="55">[0x55][end]</sn:pointer>
+
+<sn:pointer id="56">[0x55][end]</sn:pointer>
+
+<sn:pointer id="57">[0x55][end]</sn:pointer>
+
+<sn:pointer id="58">[0x55][end]</sn:pointer>
+
+<sn:pointer id="59">[0x55][end]</sn:pointer>
+
+<sn:pointer id="60">[0x55][end]</sn:pointer>
+
+<sn:pointer id="61">[0x55][end]</sn:pointer>
+
+<sn:pointer id="62">[0x55][end]</sn:pointer>
+
+<sn:pointer id="63">Th, the Crystal...stolen...![end]</sn:pointer>
+
+<sn:pointer id="64">I..I've got to make it to the
+healing pot above...![end]</sn:pointer>
+
+<sn:pointer id="65">Tella: That's...
+ Oh my God!! Anna!![end]Tella: You..You're that Bard!
+ You son of a bitch!
+ Anna's dead because of
+ you!!
+Bard: !?[end]Gilbert: The Light of the
+ Desert is created from the
+ secretions of the Antlion
+ when it lays its eggs.
+ Its cave is to the east,
+ but we must cross a shallow
+ stream to get there.
+
+ There is a Hovercraft in
+ Damcyan that can cross the
+ shallows. It can also cross
+ the shoals back to Kaipo.[end]We're the only survivors.
+Maybe we can retreat to
+Kaipo...
+
+We can use the hovercraft
+and go through the shallows
+by the west shore to get
+there.[end]Perhaps we can retreat
+to Fabul...
+
+
+But the path to Fabul through
+Mt. Hobs has been blocked by
+a thick layer of ice brought
+from frozen winds.[end]Tella: ...Who is this
+ Golbeze person!?
+
+
+Gilbert: He came recently to
+ Baron and took control of
+ the Red Wings.
+
+ I can only think that he's
+ using them to gather the
+ Crystals...-sniff-...
+
+Tella: Pitiful fool!
+ Crying won't bring back
+ Anna!
+
+ Golbeze of Baron!!
+ I will avenge Anna![end]Cecil: Tella, you can't
+ do that alone![end]Tella: I don't need your
+ help!
+ I'll kill Golbeze on my own![end]Tella left the party.[end]Gilbert: A...Anna...
+ -sob-, -sob-[end]Rydia: Crybaby![end]Rydia: You're a man,
+ aren't you?
+ A grown-up!
+ So act like one...!
+ You're not the only one
+ who has lost a loved one...
+Cecil: Rydia...[end]Gilbert: You may be right...
+ I am just a weakling!
+ In that case, I'll stay here
+ with Anna forever!
+ I don't care about
+ anything else![end]Cecil: Damnit, you're not
+ the only one sad here!
+
+
+ Do you think staying here
+ and crying like a child
+ would make Anna happy!?
+
+ Besides, right now we need
+ your help!
+
+
+Gilbert: Me, help YOU?
+
+
+
+Cecil: I'm Cecil.
+ A friend of mine collapsed
+ near Kaipo, stricken with
+ desert fever.
+ We need the Light of the
+ Desert to cure her.
+ Moreover, we need your help!
+
+Gilbert: My help...
+Cecil: Right.
+ For Rosa's sake...
+ please![end]Gilbert: This Rosa person
+ seems like someone important
+ to you...You shouldn't lose
+ the one you love...[end]</sn:pointer>
+
+<sn:pointer id="66">My eyes...oh, I can't see...
+Are you an ally?
+Don't let them get this
+treasure...please![end]</sn:pointer>
+
+<sn:pointer id="67">[0x55][end]</sn:pointer>
+
+<sn:pointer id="68">[0x55][end]</sn:pointer>
+
+<sn:pointer id="69">[0x55][end]</sn:pointer>
+
+<sn:pointer id="70">[0x55][end]</sn:pointer>
+
+<sn:pointer id="71">We lost our main forces?
+Impossible![end]And we sit here, useless...[end]There's a strange rumor
+circulating among the sailors.Something about the Master of
+the Ocean getting angry...[end]You're all right![end]</sn:pointer>
+
+<sn:pointer id="72">You've come back,
+Master Yang![end]You must be tired.
+Please rest at the inn.[end]For some reason
+there have been many
+shipwrecks recently.
+Be careful![end]Oh, you're all right![end]</sn:pointer>
+
+<sn:pointer id="73">[0x55][end][0x55][end][0x55][end]His Majesty was injured in
+the attack and is resting
+in his bedroom.[end]</sn:pointer>
+
+<sn:pointer id="74">[0x55][end]</sn:pointer>
+
+<sn:pointer id="75">[0x55][end]</sn:pointer>
+
+<sn:pointer id="76">[0x55][end]</sn:pointer>
+
+<sn:pointer id="77">I heard you were ambushed
+on top of Mt. Hobs!
+Are you all right?[end]If only we had an airship we
+could have some way to
+fight back![end]Oh, I'm not asleep.
+I'm meditating![end]Be careful, everyone![end]</sn:pointer>
+
+<sn:pointer id="78">Are you back from your
+training, Master Yang?[end]Wow, that was one helluva
+attack![end]We'll be all right whatever
+happens inside the castle!
+We've got Monks to defend it![end]I'm glad the town of Fabul is
+within the castle walls.
+If we were outside, we'd
+be dead now![end]Master Yang!
+Your feet should
+be registered as deadly
+weapons![end]ACHOO!
+
+
+
+I want to train to be strong
+and quick like our Monks![end]</sn:pointer>
+
+<sn:pointer id="79">King Fabul: Good God,
+ what a mess...
+ But we've got to reorganize
+ and strengthen our defenses!
+ Don't worry about me.
+ You should get some rest
+ for the time being.[end]King Fabul: ...Oh, really?
+ Very well, Yang.
+ Accompany them and lend
+ them your power!
+ Sir Cecil, I can't find
+ words to thank you enough.
+ And Rosa was captured as
+ well...
+ I'll order a ship readied
+ immediately.
+
+
+ Sir Cecil.
+ Take this sword with you.
+ This is a sword of a Dark
+ Knight who visited long ago.
+ It's the least I can do to
+ thank you for defending
+ Fabul.
+
+ ...But it is still a sword
+ of darkness...
+ It will prove useless
+ against true evil.
+ Please defeat Golbeze![end]King Fabul: If all of the
+ Crystals are collected,
+ the entire world will face
+ an unprecedented crisis!
+ I'm counting on you![end]This is His Majesty's bedroom![end]His Majesty was also a Monk,
+so don't worry about his
+safety![end]King Fabul: As soon as you're
+ ready, walk east to the dock. There should be a ship
+ waiting for you there.[end]Cecil: I guess I'll take a
+ nap in the King's bed![end]Received Deathbringer![end]</sn:pointer>
+
+<sn:pointer id="80">[0x55][end]</sn:pointer>
+
+<sn:pointer id="81">This is the Castle's
+infirmary.[end]If only I had as much magic
+power as Rosa...[end]Kill....that Golbeze![end]Monsters were a part of
+Baron's army![end]</sn:pointer>
+
+<sn:pointer id="82">Woman: Oh, welcome home!
+
+
+
+Yang: This is my wife.
+ This is Sir Cecil.
+ He and his friends saved
+ my life.
+Yang's wife: Thanks!
+ By the way, dear, is this
+ really a time for you to be
+ hanging around here?[end]Yang's wife: You're
+ safe!
+Yang: Thanks to these
+ people, Fabul was saved.
+Yang's wife: You've
+ done a lot for us.
+ Thank you very much...
+
+Yang: No one harmed you,
+ did they?
+Yang's wife: Of course not!
+ I'm your wife, after all!
+ A soldier from Baron came,
+ but I whacked him over the
+ head with my frying pan![end]Don't just sit around here!
+Go kill the bad guys and
+then return![end]Yang is dead? Yeah, right!
+He's not someone who
+dies easily!
+No...He's not...[end]So that's where he was...
+Oh, these onions...
+Making my eyes water...[end]He shouldn't be miserable
+like that! Please...
+Give him a good whack
+with this![end]Received the Frying Pan of
+Love![end]Yang?! He's underground?[end]Sorry, I'm stuck here doing
+lousy housework all the time.
+
+
+This is all I've got to thank
+you with, but it should come
+in handy somehow.[end]Received the Meat Cleaver![end]Don't worry about me!
+Tell Yang to get well soon
+and fight for the future of
+the world!
+And...that I love him.[end]</sn:pointer>
+
+<sn:pointer id="83">[0x55][end]</sn:pointer>
+
+<sn:pointer id="84">Tella: All right, let's
+ rest here.[end]Tella: If we rest on top of
+ this magic rune, a force
+ field will surround us that
+ monsters can't enter.
+ We can rest here in a
+ Tent or Cottage, and
+ save our game.
+
+ In preparation for tomorrow's battle, let's rest in
+ my tent and heal our wounds![end]</sn:pointer>
+
+<sn:pointer id="85">You want me to dance?
+How rude! I'm a soldier![end]Baron's been acting up a lot
+recently, but they probably
+won't attack here.[end]These may look like leotards,
+but they're actually our
+battle gear!
+
+Quite practical, really.
+They're easy to move in,
+lightweight, and comfortable.
+
+The fact that they happen to
+be fashionable is an
+added bonus![end]Toroia is protected by women.
+We guards are also all women.[end]I'm not just some old woman!
+I'm the prime minister!
+The Clerics are in the
+inner chamber.[end]A survivor from Damcyan
+washed ashore recently.
+He says that he was the
+prince or something.[end][0x55][end]Toroia has never been in a warbefore. If we get involved in
+a war, what would we have to
+do to protect our country?[end]</sn:pointer>
+
+<sn:pointer id="86">The Clerics are eight sisters.For generations, they have
+been the guardians of
+the Crystal.[end]The Earth Crystal has bestowedToroia with the blessings of
+nature.
+
+If we lose the Crystal,
+this region will become 
+a barren wasteland...[end]This is much better than
+being ruled by a lot of
+savage men![end]It looks like you're
+in a tight spot.
+As promised, we will lend you
+the Crystal of Earth.[end]The Crystal of Earth was
+stolen?
+Again?[end]Dark Elf is weak against
+metal weapons.
+
+
+In order to defend that
+weakness, he has increased
+the gravitational field in
+his cave.[end]We'll entrust you with
+the Crystal.
+Take care of it![end]To think that some evil man
+is gathering the Crystals![end]Dark Elf lives in the cave
+to the northeast.[end]What was that voice!?[end]The Crystal was stolen?
+Don't just stand there,
+get it back![end]If you can retrieve the
+Crystal we promise to lend
+it to you.
+First, bring it back here.[end]Please use the treasure
+in the basement.[end]Golbeze getting his hands on
+the Crystal is a lot worse
+than what will happen to
+Toroia without it![end]If you equip metal weapons
+and armor in the cave to the
+northeast, you won't be able
+to move![end]And we just got it back!
+I guess there's no choice.
+Just remember, we're only
+lending it to you![end]The Crystals were scattered
+across the world to make sure
+that nothing like this would
+ever happen.[end]We cannot give you the
+Earth Crystal, but if you get
+it back for us we can at
+least lend it to you.[end]What was that voice just now?[end]It's said that he who gathers
+all the Crystals will attain
+incredible power.[end]The Earth Crystal?
+It was stolen by Dark Elf.[end]The Crystal's power changes
+depending on who it is that
+possesses it!
+
+If an evil person has it then
+it would have terrible
+repercussions![end]If the rumor that there are
+more than four Crystals is
+true, then there still is
+hope left.[end]Toroia is governed by us,
+the eight Clerics.
+We were endowed with the EarthCrystal's blessing, but now..[end]What on Earth just happened!?[end]Oh no!
+It's not just Toroia.
+The entire world is in
+danger now![end]Clerics: That's...!!![end]It's the Earth Crystal!
+You got it back!
+Well done![end]Looks like you have the
+Crystal...[end]Cid: That voice!
+Cecil: Cain![music][0x16]
+
+
+Cain: Go outside and get
+ on your airship...
+ I'll take you to Rosa.[end]</sn:pointer>
+
+<sn:pointer id="87">[0x55][end]</sn:pointer>
+
+<sn:pointer id="88">Lord Gilbert is only resting.
+Me? I'm a nurse.
+The doctor is this lady.[end]He shouldn't overdo
+himself now.[end]Gilbert: Cecil....
+ You must save Rosa![end]We have an injured
+patient here.
+Please be quiet![end]Please...for my sake too.[end]Tella is dead?!
+Why..?
+Why does everyone I love
+die..?[end]Yang too...
+If...if only I were
+stronger...[end]Oh, so Yang is all right...
+Have you told his wife?[end]This is Gilbert's harp...[end]</sn:pointer>
+
+<sn:pointer id="89">[0x55][end]</sn:pointer>
+
+<sn:pointer id="90">This was an underground
+prison, but it's now our
+treasure chamber.[end]You know perfectly well that
+that's a lie![end]Then take the treasure.[end]And you expect to get in?[end]</sn:pointer>
+
+<sn:pointer id="91">[0x55][end]</sn:pointer>
+
+<sn:pointer id="92">[0x55][end]</sn:pointer>
+
+<sn:pointer id="93">[0x55][end]</sn:pointer>
+
+<sn:pointer id="94">[0x55][end]</sn:pointer>
+
+<sn:pointer id="95">[0x55][end]</sn:pointer>
+
+<sn:pointer id="96">[0x55][end]</sn:pointer>
+
+<sn:pointer id="97">[0x55][end]</sn:pointer>
+
+<sn:pointer id="98">[0x55][end]</sn:pointer>
+
+<sn:pointer id="99">[0x55][end]</sn:pointer>
+
+<sn:pointer id="100">[0x55][end]</sn:pointer>
+
+<sn:pointer id="101">[0x55][end]</sn:pointer>
+
+<sn:pointer id="102">We're researching so we can
+be useful in battle.[end]The king was a monster?
+We couldn't sense that...
+We must have much more to
+learn.[end]Some monsters are immune to
+the basic Fire, Ice, and
+Thunder spells.
+
+It seems that there was once
+stronger magic than that...[end]So the legendary magic
+Meteo exists![end]Sleep!
+
+
+
+Eh?
+
+
+
+You're not sleepy?
+
+
+
+That's odd...[end]Piggy!
+
+
+
+Ack!
+
+
+
+Whoops...[end]Sorry, that was Minimum![end]</sn:pointer>
+
+<sn:pointer id="103">Rosa wanted to help you,
+so she chose to become a
+White Magician.
+Don't worry her![end]We can only pray that the
+souls of the dead soldiers
+can rest in peace.[end]I'm studying the basics of
+White Magic. I can cast three
+levels of white magic...
+Cure, Cure 2, and Cure 3![end]To think that a monster
+had replaced the king..[end]His Majesty has recently been
+as energetic and robust as
+ever, full of life and vigor!
+
+But there's something strange
+about him...[end]We'll assist the soldiers
+with our White Magic![end]</sn:pointer>
+
+<sn:pointer id="104">[0x55][end]</sn:pointer>
+
+<sn:pointer id="105">Put your characters without a
+lot of energy in the back row
+of your party!
+
+During a fight, pressing left
+on the control pad will swap
+the front and back rows.
+Pressing right will guard.
+Also, if you want to use a
+weapon as an item in combat,
+select Item and scroll to the
+top to select your weapon!
+Use that to change your
+weapons or refill your
+arrows, and you are
+assured of victory![end]You need to make decisions
+quickly in battle!
+
+
+Those without the confidence
+to do so should lower their
+Battle Speed!
+
+Those confident in their
+abilities can change the
+Battle Mode in the Config
+menu to Active.
+Monsters will attack you even
+when you're selecting items ormagic, making for an even morethrilling battle![end]There are places within caves
+where you can save your game.
+Use these places often![end]If you can't carry any
+more items, you can give them
+to the Fat Chocobo in the
+Chocobo Forest!
+If you smell Chocobos, use
+Gysahl's vegetables![end]The man over there is
+Namingway.
+If you want to change your
+name, just ask him![end]If you fight hopeless
+battles, you'll just die!
+
+
+If you think you're in
+trouble, don't think twice
+about running.
+
+Press the L and R buttons at
+the same time to flee from
+battle!
+
+Also, there are spells that
+you can cast on multiple
+targets.
+
+If you press left during
+battle, you'll select all the
+enemies, and pressing right
+will select all your allies!
+You can cast spells on your
+entire party in this same
+fashion on the menu screen![end]</sn:pointer>
+
+<sn:pointer id="106">[0x55][end]</sn:pointer>
+
+<sn:pointer id="107">[0x55][end]</sn:pointer>
+
+<sn:pointer id="108">'Turn back....'
+
+
+
+Cecil: Who's there?![end]'Leave now...'
+
+
+
+Cain: Is that a
+ Phantom Beast?[end]Cecil: We must deliver this
+ Bomb Ring to the village of
+ Mist!
+
+'Then I have no choice!'
+
+
+
+Cain: The fog is gathering![end]</sn:pointer>
+
+<sn:pointer id="109">[0x55][end]</sn:pointer>
+
+<sn:pointer id="110">[0x55][end]</sn:pointer>
+
+<sn:pointer id="111">Old man: Who are you?
+ This waterway is infested
+ with monsters!
+
+ It's too dangerous
+ for youngsters like you!
+ Go back to Kaipo![end]</sn:pointer>
+
+<sn:pointer id="112">[0x55][end]</sn:pointer>
+
+<sn:pointer id="113">[0x55][end]</sn:pointer>
+
+<sn:pointer id="114">[0x55][end]</sn:pointer>
+
+<sn:pointer id="115">Tella: We can go outside
+ from here.
+ The monster lies under the
+ upcoming waterfall!
+ It would be wise to camp in
+ a Tent in the overworld,
+ just in case![end]</sn:pointer>
+
+<sn:pointer id="116">[0x55][end]</sn:pointer>
+
+<sn:pointer id="117">[0x55][end]</sn:pointer>
+
+<sn:pointer id="118">Tella: Here it comes![end]Tella: Octomammoth![end]Tella: Now we can proceed to
+ Damcyan!
+ Beyond this waterfall is an
+ exit to the surface![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="119">[0x55][end]</sn:pointer>
+
+<sn:pointer id="120">[0x55][end]</sn:pointer>
+
+<sn:pointer id="121">[0x55][end]</sn:pointer>
+
+<sn:pointer id="122">[0x55][end]</sn:pointer>
+
+<sn:pointer id="123">[0x55][end]</sn:pointer>
+
+<sn:pointer id="124">[0x55][end]</sn:pointer>
+
+<sn:pointer id="125">[0x55][end]</sn:pointer>
+
+<sn:pointer id="126">The path is blocked by
+a wall of thick ice.[end]Rosa: Rydia.
+ Try to cast fire.
+Rydia: ...[end]Rydia: ...No.
+Rosa: ?
+Rydia: I hate fire!
+
+Cecil: I see...
+ Because of that Bomb Ring's
+ inferno, Mist was...[end]Rosa: What? Listen, Rydia.
+ You're the only one here with the power to melt this ice.
+Rydia: ...
+Rosa: If we can't get past
+ this ice to Fabul, many more
+ people will be in danger...
+ Please...try to be brave!
+Gilbert: Brave...
+
+
+
+Rosa: Rydia, please!
+Gilbert: Come on, Rydia!
+Cecil: ...
+
+Rydia: ...
+
+
+
+ ...
+
+
+
+ ...[end]Rydia: Fire!![end]
+[space][0x5]Rydia learned Fire![music][0x29][delay][0x28][end]Gilbert: That's incredible,
+ Rydia!
+Rydia: heh...
+Rosa: Thank you, Rydia!
+Cecil: Rydia...[end]Gilbert: Rydia?
+Rosa: You CAN do this![end]</sn:pointer>
+
+<sn:pointer id="127">Gilbert: Those clothes..
+ He must be a Monk of Fabul![end]Gilbert: That one looks
+ tough!
+Rydia: Let's help him![end]Monk: Thank you for coming to
+ my aid in my hour of need.
+ I am the captain of the
+ Monks of Fabul, Yang.
+ My men and I were training
+ here on Mt. Hobs, and
+ suddenly we were attacked by
+ hordes of monsters.
+ My men...were all killed...
+ I am the only one alive...
+
+
+Cecil: We're headed to
+ Fabul.
+
+
+Rosa: A man called Golbeze
+ is using Baron to collect
+ the Crystals...[end]Monk: Haa![end]Cecil: What's that?[end]Rosa: Most likely, those
+ monsters were sent by
+ Golbeze...[end]Yang: In order to weaken
+ Fabul's defenses!?
+
+
+Cecil: If that's the case,
+ then they should be coming
+ any minute!
+ We'll help you!
+ Quickly, we must go to
+ Fabul![end]Yang: But I can't let you
+ get caught up in all this...
+Cecil: This is our fight
+ too!
+Gilbert: I'm the Prince of
+ Damcyan.
+Cecil: Rosa and I were
+ from Baron.
+ And this girl...
+ I was deceived by the
+ King of Baron and then...
+
+Rydia: ...[end]Yang: You have your own
+ reasons as well, I see...
+ I apologize! May I
+ request your help?
+Cecil: Of course! Let's go!
+Yang: Fabul is east of the
+ mountain.
+ Let's hurry![end]
+ Monk Yang joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="128">[0x55][end]</sn:pointer>
+
+<sn:pointer id="129">[0x55][end]</sn:pointer>
+
+<sn:pointer id="130">[0x55][end]</sn:pointer>
+
+<sn:pointer id="131">[0x55][end]</sn:pointer>
+
+<sn:pointer id="132">The path is blocked by
+searing flame![end]</sn:pointer>
+
+<sn:pointer id="133">[0x55][end]</sn:pointer>
+
+<sn:pointer id="134">[0x55][end]</sn:pointer>
+
+<sn:pointer id="135">'Hiss... Hiss...'
+
+
+
+Porom: Palom! Be quiet!
+Palom: It wasn't me![end]'Hiss... Hiss...'
+
+
+
+Porom: There you go again!
+Palom: It's not me, damnit![end]</sn:pointer>
+
+<sn:pointer id="136">[0x55][end]</sn:pointer>
+
+<sn:pointer id="137">[0x55][end]</sn:pointer>
+
+<sn:pointer id="138">'Mwa ha ha ha...'
+
+
+
+'So, you managed to
+ defeat me...
+ However, I will not die
+ that easily...'
+'Mwa ha ha ha...
+ I will use my last
+ breath of life to take
+ you with me!'
+'I'll be waiting for you
+ in Hell!
+ Heh heheh!'[end]Tella: The walls![end]Cid: It's locked![music][0x23]
+Tella: This door too![end]Cecil: Palom! Porom![end]Palom: It's been fun, dude!
+Porom: I was honored to
+ fight alongside you!
+
+Tella: What are you two
+ doing!
+Palom: We can't let you all
+ die here!
+Porom: Master Tella!
+ Take care of Cecil![end]Palom: Let's do it, Porom!
+Porom: Yeah![end]Cecil: WAIT!
+
+
+
+Palom and Porom: ...
+ BREAK!![end]Cecil: Palom...
+ Porom!!![music][0x2a][delay][0x28][end]The two of them have turned
+into stone by their own
+will...[end]Yang: They sacrificed
+ themselves...[end]Cid: This is now a
+ battle of vengeance!
+ Just wail 'till I bring out
+ my Enterprise![end]Tella: How rash!!
+ Let me see what I can
+ do...
+
+ Esuna![end]His Majesty is angry at you.
+Until you deliver the Bomb
+Ring to Mist, he refuses to
+see you.[end]Tella: Those damn fools!
+ They were so young! Why?
+ It should have been me!
+ Not these children![end]</sn:pointer>
+
+<sn:pointer id="139">Cecil: This well looks
+ bottomless...[end]</sn:pointer>
+
+<sn:pointer id="140">Cid: Ugh! The gravity here's 
+ so strong!
+ We won't be able to move
+ if we wear metallic armor!
+Yang: My claws appear
+ to be all right.
+Tella: Don't worry!
+ We still have my magic![end]</sn:pointer>
+
+<sn:pointer id="141">[0x55][end]</sn:pointer>
+
+<sn:pointer id="142">[0x55][end]</sn:pointer>
+
+<sn:pointer id="143">[0x55][end]</sn:pointer>
+
+<sn:pointer id="144">[0x55][end]</sn:pointer>
+
+<sn:pointer id="145">[0x55][end]</sn:pointer>
+
+<sn:pointer id="146">[0x55][end]</sn:pointer>
+
+<sn:pointer id="147">[0x55][end]</sn:pointer>
+
+<sn:pointer id="148">Cecil: If I could only use
+ my sword...!![end]Cecil: I understand...
+ Gilbert![end]Sealed by Dark Elf's
+magical power.[end]ARGH...DAMN-YOU!
+I'M-GOING-TO-KILL-YOU!![end]</sn:pointer>
+
+<sn:pointer id="149">[0x55][end]</sn:pointer>
+
+<sn:pointer id="150">[0x55][end]</sn:pointer>
+
+<sn:pointer id="151">This is the Devil Road,
+which leads to Mysidia.
+
+
+We once used it to trade with
+Mysidia, but it's been sealed
+off from Mysidia's side so
+it's impassable now.
+Below here is the
+Training Room.[end]So the seal from Mysidia's
+side was broken![end]The Road is sealed from
+Mysidia's side, so you
+can't use it.[end]</sn:pointer>
+
+<sn:pointer id="152">[0x55][end]</sn:pointer>
+
+<sn:pointer id="153">[0x55][end]</sn:pointer>
+
+<sn:pointer id="154">[0x55][end]</sn:pointer>
+
+<sn:pointer id="155">[0x55][end]</sn:pointer>
+
+<sn:pointer id="156">[0x55][end]</sn:pointer>
+
+<sn:pointer id="157">[0x55][end]</sn:pointer>
+
+<sn:pointer id="158">[0x55][end]</sn:pointer>
+
+<sn:pointer id="159">Golbeze: So he even killed
+ Cagnazzo...
+ He's gotten much stronger.
+
+Cain: About the last
+ Crystal...
+
+
+Golbeze: I know...it would be
+ difficult to retrieve from
+ where it is now.
+
+Cain: Why don't you send
+ Cecil to fetch it for you?
+Golbeze: I don't follow...[end]Cain: We have Rosa here.
+ We could exchange her for
+ the Crystal...
+ What do you think?[end]Golbeze: Oh, I see...
+ Then we can kill him
+ when he brings it to us...
+
+ Fiendishly clever, Cain...
+ You might be useful yet.[end]Cain: Very well, then I'll
+ go relay the message to him.[end]Rosa: Cain![end]Cain: You still think
+ Cecil's better than me?[end]Cecil: If we were even a
+ second too late, this
+ guillotine would have
+ chopped Rosa in half![end]</sn:pointer>
+
+<sn:pointer id="160">My father found a strange
+ore here.
+His hobby is collecting
+animal tails.[end]Who are you? Go away!
+If you have a tail
+though, that's another story![end]Th...this is the Rat's Tail
+I've been searching for!
+All right, I'll give you a
+little bit of this ore!
+Received Adamant![music][0x29][delay][0x28][end]Th..this is...the legendary
+Pink's Tail!
+All right, I'll give
+you this too!
+Received Adamant Armor![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="161">[0x55][end]</sn:pointer>
+
+<sn:pointer id="162">[0x55][end]</sn:pointer>
+
+<sn:pointer id="163">FuSoYa: Get up near his
+ mouth!
+Cid: Who's this?
+
+Cecil: He's FuSoYa, a man of
+ the Moon.
+Cid: A man of the Moon?!
+FuSoYa: Can you do it?
+Cid: Who do you think I
+ am!? I'm Cid!
+ Just shut up and leave it
+ to me![end]FuSoYa: NOW!
+Cid: Hang on, everyone![end]</sn:pointer>
+
+<sn:pointer id="164">[0x55][end]</sn:pointer>
+
+<sn:pointer id="165">[0x55][end]</sn:pointer>
+
+<sn:pointer id="166">[0x55][end]</sn:pointer>
+
+<sn:pointer id="167">Cecil: How are we going
+ to get in?
+
+
+Edge: Leave that to me!
+ This is my patented
+ 'pass-through-walls'
+ technique![end]Edge: HIYAAA![end]</sn:pointer>
+
+<sn:pointer id="168">[0x55][end]</sn:pointer>
+
+<sn:pointer id="169">[0x55][end]</sn:pointer>
+
+<sn:pointer id="170">[0x55][end]</sn:pointer>
+
+<sn:pointer id="171">[0x55][end]</sn:pointer>
+
+<sn:pointer id="172">[0x55][end]</sn:pointer>
+
+<sn:pointer id="173">[0x55][end]</sn:pointer>
+
+<sn:pointer id="174">[0x55][end]</sn:pointer>
+
+<sn:pointer id="175">[0x55][end]</sn:pointer>
+
+<sn:pointer id="176">[0x55][end]</sn:pointer>
+
+<sn:pointer id="177">[0x55][end]</sn:pointer>
+
+<sn:pointer id="178">[0x55][end]</sn:pointer>
+
+<sn:pointer id="179">[0x55][end]</sn:pointer>
+
+<sn:pointer id="180">[0x55][end]</sn:pointer>
+
+<sn:pointer id="181">[0x55][end]</sn:pointer>
+
+<sn:pointer id="182">[0x55][end]</sn:pointer>
+
+<sn:pointer id="183">[0x55][end]</sn:pointer>
+
+<sn:pointer id="184">[0x55][end]</sn:pointer>
+
+<sn:pointer id="185">[0x55][end]</sn:pointer>
+
+<sn:pointer id="186">[0x55][end]</sn:pointer>
+
+<sn:pointer id="187">[0x55][end]</sn:pointer>
+
+<sn:pointer id="188">'You've kept us waiting!'[end]'The Giant will not stop!'[end]'Ha ha ha! You...'[end]'...You will all die here!'[end]Cecil: The Four Emperors!
+
+
+
+Scarmiglione: Lord Zemus...
+
+
+
+Cagnazzo: Gave us new
+ life...
+
+
+Barbariccia: To kill you!
+
+
+
+Rubicante: We meet again!
+ You showed me the power of
+ those who join forces!
+ Now, prepare yourselves![end]Rubicante: Fight us with all
+ your might![end]Scarmiglione: Lord Zemus![end]Cagnazzo: No... It can't be...[end]Barbariccia: ...why...?[end]Rubicante: We've...failed...[end]</sn:pointer>
+
+<sn:pointer id="189">[0x55][end]</sn:pointer>
+
+<sn:pointer id="190">[0x55][end]</sn:pointer>
+
+<sn:pointer id="191">[0x55][end]</sn:pointer>
+
+<sn:pointer id="192">Cecil: Is everyone all right?[end]</sn:pointer>
+
+<sn:pointer id="193">[0x55][end]</sn:pointer>
+
+<sn:pointer id="194">[0x55][end]</sn:pointer>
+
+<sn:pointer id="195">Yang: To think it would be
+ hidden here..
+Tella: Incredible!
+
+Cid: Sorry to keep you
+ waiting, Enterprise!
+ Let's go![end]Cecil: This is...!![end]</sn:pointer>
+
+<sn:pointer id="196">Cecil: Cain![end]Cain: So you're still alive,
+ Cecil.[end]Cid: Cain, what the hell 
+ do you think you're doing!?
+ What do you want?[end]Cecil: Rosa had
+ better be safe...is she?
+
+
+Cain: So you really are
+ worried about your little
+ whore, aren't you?
+
+ If you want to see her
+ again...alive...
+ you'll have to trade her for
+ the Earth Crystal of Toroia.
+Cecil: What!?[end]Tella: You coward!
+Cain: When you get it,
+ I'll contact you.
+
+ You'd better get it,
+ understand? If you really
+ care about Rosa, that is.
+
+Yang: You son of a bitch![end]Cecil: Cain! Come to your
+ senses![end]Cain: That's all I have
+ to say.[end]</sn:pointer>
+
+<sn:pointer id="197">[0x55][end]</sn:pointer>
+
+<sn:pointer id="198">[0x55][end]</sn:pointer>
+
+<sn:pointer id="199">[0x55][end]</sn:pointer>
+
+<sn:pointer id="200">Who's there!
+
+
+
+Oh, you're human![end]This is where all the
+survivors are hiding.[end]This is the road to
+Rubicante's headquarters,
+the Tower of Babil.[end]We've lost our castle...
+This is our home now.[end]We are the people of Eblana![end]Our Young Master went to checkthings out, but he's been gonetoo long...Hope he's not
+doing anything rash...[end][0x55][end]There's not much food left.
+I wonder how long we can
+hold out..?[end]Young Master, show us your
+ultimate Ninjutsu![end]We'll hold out here until
+the Young Master returns![end]</sn:pointer>
+
+<sn:pointer id="201">Our Young Master went ahead
+alone![end]When the Young Master gets
+angry, he becomes very
+powerful...[end]</sn:pointer>
+
+<sn:pointer id="202">Stop our Young Master...[end]Our Young Master went
+after Rubicante![end]You're all right, Master!
+It's too dangerous to go any
+further right now![end]</sn:pointer>
+
+<sn:pointer id="203">[0x55][end]</sn:pointer>
+
+<sn:pointer id="204">[0x55][end]</sn:pointer>
+
+<sn:pointer id="205">[0x55][end]</sn:pointer>
+
+<sn:pointer id="206">The Young Master will kill theenemy for sure![end]When the Young Master was
+away, the King and Queen
+were captured...[end]I'm going to protect my mom!
+She's got my little brother
+or sister inside of her![end]Eblana is a nation of powerfulninja warriors...
+But we were defeated so
+easily...[end]Is this the end of the
+Ninjas of Eblana...?[end]I am the chief minister
+of Eblana.
+
+
+Our Master is foul-mouthed
+and temperamental, but
+honorable...
+
+He's digging a passage to the
+Tower of Babil to avenge the
+King and Queen.
+
+But I'm worried about him.
+He's probably gone too
+far again...[end]Hang on, dear![end]Where did monsters like
+that come from?[end]Oh, son...[end]The Young Master said he was
+going to kill the bad guys!
+We can return to the castle
+soon, right...?
+Right...?[end]I'll take care of things here!Please be careful!
+If you die too, then
+Eblana will...[end]</sn:pointer>
+
+<sn:pointer id="207">[0x55][end]</sn:pointer>
+
+<sn:pointer id="208">Cid: Aw, jeez. As soon as we
+ get her up and running,
+ she's gotta show off her
+ stuff!
+ Well, whaddya say, babe?
+ Let's show 'em what you got![end]Cecil: Wait!
+Yang: That's...
+Tella: A white flag?[end]Yang: Sir Cecil...
+Cid: Cain?  What's
+ gotten into you..?[end]Cecil: Let's go to Toroia!
+ Cid, head northwest![end]</sn:pointer>
+
+<sn:pointer id="209">[0x55][end]</sn:pointer>
+
+<sn:pointer id="210">[0x55][end]</sn:pointer>
+
+<sn:pointer id="211">[0x55][end]</sn:pointer>
+
+<sn:pointer id="212">[0x55][end]</sn:pointer>
+
+<sn:pointer id="213">[0x55][end]</sn:pointer>
+
+<sn:pointer id="214">[0x55][end]</sn:pointer>
+
+<sn:pointer id="215">[0x55][end]</sn:pointer>
+
+<sn:pointer id="216">[0x55][end]</sn:pointer>
+
+<sn:pointer id="217">[0x55][end]</sn:pointer>
+
+<sn:pointer id="218">[0x55][end]</sn:pointer>
+
+<sn:pointer id="219">[0x55][end]</sn:pointer>
+
+<sn:pointer id="220">[0x55][end]</sn:pointer>
+
+<sn:pointer id="221">[0x55][end]</sn:pointer>
+
+<sn:pointer id="222">[0x55][end]</sn:pointer>
+
+<sn:pointer id="223">[0x55][end]</sn:pointer>
+
+<sn:pointer id="224">[0x55][end]</sn:pointer>
+
+<sn:pointer id="225">[0x55][end]</sn:pointer>
+
+<sn:pointer id="226">[0x55][end]</sn:pointer>
+
+<sn:pointer id="227">[0x55][end]</sn:pointer>
+
+<sn:pointer id="228">[0x55][end]</sn:pointer>
+
+<sn:pointer id="229">[0x55][end]</sn:pointer>
+
+<sn:pointer id="230">[0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end]An evil Dark Knight like you
+can't even touch the
+merchandise that we're
+selling here![end]If you can come back in one
+piece you'd be able to use
+the weapons here...
+but that's impossible.[end]I said that you can't
+use....a Paladin?
+YOU...?[end]</sn:pointer>
+
+<sn:pointer id="231">[0x55][end]</sn:pointer>
+
+<sn:pointer id="232">I'm the most beautiful
+girl in town!
+I'm too small for you to see?
+Look reeeeeeeally closely![end]Lemme tell you, havin'
+a beautiful daughter ain't
+nothin' but trouble!
+
+Gotta get me a shotgun
+to keep all them tiny
+boys offa her.[end]</sn:pointer>
+
+<sn:pointer id="233">[0x55][end]</sn:pointer>
+
+<sn:pointer id="234">[0x55][end]</sn:pointer>
+
+<sn:pointer id="235">[0x55][end]</sn:pointer>
+
+<sn:pointer id="236">[0x55][end]If your journey is long,
+don't forget your Potions,
+Antidotes, and Tents![end]</sn:pointer>
+
+<sn:pointer id="237">[0x55][end]</sn:pointer>
+
+<sn:pointer id="238">[0x55][end]</sn:pointer>
+
+<sn:pointer id="239">[0x55][end]</sn:pointer>
+
+<sn:pointer id="240">[0x55][end]</sn:pointer>
+
+<sn:pointer id="241">[0x55][end]</sn:pointer>
+
+<sn:pointer id="242">[0x55][end]</sn:pointer>
+
+<sn:pointer id="243">[0x55][end]</sn:pointer>
+
+<sn:pointer id="244">[0x55][end]</sn:pointer>
+
+<sn:pointer id="245">[0x55][end]</sn:pointer>
+
+<sn:pointer id="246">[0x55][end]</sn:pointer>
+
+<sn:pointer id="247">[0x55][end]</sn:pointer>
+
+<sn:pointer id="248">[0x55][end]</sn:pointer>
+
+<sn:pointer id="249">[0x55][end]</sn:pointer>
+
+<sn:pointer id="250">[0x55][end]</sn:pointer>
+
+<sn:pointer id="251">[0x55][end]</sn:pointer>
+
+<sn:pointer id="252">[0x55][end]</sn:pointer>
+
+<sn:pointer id="253">[0x55][end]</sn:pointer>
+
+<sn:pointer id="254">[0x55][end]</sn:pointer>
+
+<sn:pointer id="255">[0x55][end]</sn:pointer>
+
+<sn:pointer id="256">[0x55][end]</sn:pointer>
+
+<sn:pointer id="257">Hey, where did y'all come
+from?[end]'Lali-ho?'
+I thought all Dwarves said
+'Hi-ho?'
+Oh, well, off to work I go.[end]Hi-ho! Recently there's been
+a lot of commotion at the
+castle...
+did something happen?[end]Y'all came from the surface?
+So there really is a surface
+world after all![end]Didja know?
+The cave to the northwest
+leads to the Phantom World.
+Ain't it weird?[end]I hear that the ocean on the
+surface is blue.
+It is?
+That's disgusting![end]</sn:pointer>
+
+<sn:pointer id="258">This is the house of the best
+blacksmith in the world,
+Master Kukuro, Lali.[end]The Master's lost his will to
+work and does nothing but
+sleep, Lali.[end]The Master's been really
+busy, Lali![end]I'm going to become a smith
+as good as the Master is!![end]You think it would be done
+that soon!?
+Don't be so impatient![end]It's done! The Holy Sword
+Excalibur!
+Use it with all your
+mind, body, and soul!
+You received Excalibur![music][0x29][delay][0x28][end]Thanks to you, I've finally
+gotten back my will to work.[end]Wow! Master could even make a
+sword as powerful as this,
+Lali![end]</sn:pointer>
+
+<sn:pointer id="259">I'm not making any more
+swords!
+
+
+What a failure I am...
+I can't even find the
+legendary ore Adamant...[end]This is the Adamant!
+
+
+
+All right, in thanks,
+I'll make that old sword
+of yours better than new![end]You handed over the
+Legendary Sword.[end]Zzz...[end]</sn:pointer>
+
+<sn:pointer id="260">There are Sylphs in the cave
+far to the northwest![end]The Sylphs are so timid!
+Even though we're nice![end]</sn:pointer>
+
+<sn:pointer id="261">A customer? How unusual![end]</sn:pointer>
+
+<sn:pointer id="262">Wow, congrats on making it
+this far!
+Take whatever ya want![end]I'm just a simple peasant.[end]</sn:pointer>
+
+<sn:pointer id="263">Lali-ho![end]This is the Dwarf Castle
+ruled by King Jiott![end]Golbeze is a bad guy!
+But y'all seem to be
+pretty nice![end]Go see King Jiott![end]Nothing out of the unusual!![end]All's quiet on the eastern
+front![end]Golbeze retreated![end]Is the upper world filled
+with evil men?[end]</sn:pointer>
+
+<sn:pointer id="264">Lali-ho is the greeting of
+the Dwarves![end]Everyone together now!
+
+
+
+3-2-1!
+
+
+
+Lali-ho![end]Lali-ho!
+Glad you're all right![end]King Jiott's waiting for you![end]We're court ladies!
+Yes, we do have beards.
+Excessive facial hair is
+considered beautiful here![end]Recently the hole to the
+surface collapsed!
+
+
+Around that area, we rescued
+some weird old man.
+He's recovering in the
+medical room.[end]I'm Luka!
+My dolls have disappeared.
+Have you seen them?[end]</sn:pointer>
+
+<sn:pointer id="265">The Tank Force is the
+Dwarves' main strength!
+We won't be defeated so
+easily![end]The King's been really kind
+to Luka since the Queen died![end]Lali-ho!
+
+
+
+Have you learned it yet?[end]If you can get used to it, theunderworld's pretty nice!
+I hope you can stay here
+a while, Lali![end]Cecil: I'm sorry.
+ Golbeze got the Crystal...
+
+
+Jiott: Damn...
+ All we can do now is protect
+ the last Crystal.
+
+Rosa: Where is the last
+ Crystal?
+Jiott: It's in a sealed cave.
+
+ Golbeze went there, but
+ don't worry.
+ Without the key to release
+ the seal, nobody can enter.
+ Therefore, we have a plan of
+ attack, but we'll need your 
+ assistance.
+
+Cecil: It's our fault
+ that we lost the crystal!
+ If there's anything we
+ can do to help...
+Jiott: While Golbeze is
+ occupied at the sealed
+ cave...
+                             
+ could you sneak into the
+ Tower of Babil and retrieve
+ the other seven Crystals?
+
+Cain: The Tower of Babil?
+Yang: That huge tower?!
+
+
+Jiott: Don't worry! I'll have
+ our Tank Force attack the
+ Tower! During the diversion,
+ go in and grab the crystals!
+ Now is our only chance,
+ while Golbeze is gone![end]Cain: So what should we do?
+Rydia: It's the enemy's
+ base, isn't it?
+
+Rosa: It would be quite
+ dangerous.
+
+
+Yang: But you know what
+ they say...
+ Nothing ventured, nothing
+ gained.
+Cain: Our only chance would
+ be now while Golbeze is
+ elsewhere.
+Cecil: All right then...[end]Cecil: We'll do it![end]Jiott: Thank you!
+ Under the castle is the
+ entrance to a secret
+ passage!
+ It's normally off limits,
+ but you can use it!
+
+
+ I pray for your success![end]My dolls were evil?
+I'm so angry, I could scream![end]Jiott: We'll hold off the
+ enemy's main forces!
+ You go to the Sealed Cave
+ to the southwest![end]Jiott: Go to Mysidia!
+ The fate of everything
+ is in your hands![end]Daddy says that this necklace
+belonged to my mother, the
+late Queen.[end]Near the sealed cave is the
+continent of Tomera where
+more dwarves live!
+
+But we can't get there
+because of the lava![end]If you can fly, you should be
+able to go to the sealed cave.But Dwarves can't fly!
+We have to rely on you![end]There's a rumor that there's
+a road to the Phantom World
+somewhere here in the
+underworld![end]You can't fly over the lava?
+Can't that old airship guy
+fix it up for you?[end]Come see me again. Promise![end]</sn:pointer>
+
+<sn:pointer id="266">Fat Chocobo!?
+How rude!!
+It's called the Bird God here![end]Here a glorious bird,
+who will keep anything
+for you, appears![end]Nobody is allowed past
+this wall without the King's
+permission![end]You have the King's
+permission?
+Then you may pass![end]</sn:pointer>
+
+<sn:pointer id="267">Lali-ho![end]Be careful![end]There's a really nasty,
+powerful gun in the
+Tower of Babil![end]The monsters in the
+underworld are strong!
+Don't let your guard down![end]</sn:pointer>
+
+<sn:pointer id="268">[0x55][end]</sn:pointer>
+
+<sn:pointer id="269">[0x55][end]</sn:pointer>
+
+<sn:pointer id="270">Dwarven weapons are heavy!
+Will you humans be able to
+use them?[end]Dwarven armor is thick!
+Can you humans move in it?[end]</sn:pointer>
+
+<sn:pointer id="271">I'm brave!
+But y'all are braver![end]Come back in one piece![end]If it gets too dangerous,
+don't press your luck...flee![end]Even if Golbeze isn't in the
+Tower of Babil, the strongest
+of the Four Emperors,
+Rubicante of Fire, still is![end]Our Tank Force will divert
+the Giant Gun!
+At that time, sneak in, Lali![end]This is a Pot of Life!
+Take a swig![end]</sn:pointer>
+
+<sn:pointer id="272">[0x55][end]</sn:pointer>
+
+<sn:pointer id="273">Dwarven items are mysterious!
+Can you humans use them?[end]</sn:pointer>
+
+<sn:pointer id="274">This is the medical room.[end]Sometimes, even Dwarves get
+hurt![end]That man is unusually
+energetic for an old geezer![end]What a crotchety old man!
+He doesn't do anything but
+complain about the food,
+but he eats like a horse![end]There's nothing like a good
+night's sleep to make you
+feel better, Lali![end]Zzz...Zzz[end]That old guy's body is not
+tough enough to be doing that![end]If you can get past his
+temper, complaints, and
+snoring, he's a nice guy![end]Zzz... snort ...Zzz[end]That old guy's amazing![end]People from the upper world
+are very skilled![end]Cid: Treat that
+ airship as if it were me!
+ Don't let me down![end]</sn:pointer>
+
+<sn:pointer id="275">[0x55][end]</sn:pointer>
+
+<sn:pointer id="276">[0x55][end]</sn:pointer>
+
+<sn:pointer id="277">[0x55][end]</sn:pointer>
+
+<sn:pointer id="278">[0x55][end]</sn:pointer>
+
+<sn:pointer id="279">[0x55][end]</sn:pointer>
+
+<sn:pointer id="280">[0x55][end]</sn:pointer>
+
+<sn:pointer id="281">[0x55][end]</sn:pointer>
+
+<sn:pointer id="282">[0x55][end]</sn:pointer>
+
+<sn:pointer id="283">You guys are fighting
+Golbeze too?
+Please take the treasure here!Good luck![end]King Jiott sent his
+permission personally!
+Use the treasure well![end]</sn:pointer>
+
+<sn:pointer id="284">[0x55][end]</sn:pointer>
+
+<sn:pointer id="285">[0x55][end]</sn:pointer>
+
+<sn:pointer id="286">[0x55][end]</sn:pointer>
+
+<sn:pointer id="287">[0x55][end]</sn:pointer>
+
+<sn:pointer id="288">Aaaah! Thish ish what I need.
+Lesh fightin', more drinkin'!
+Oh, and jusht a lil' dancin',
+too.[end]Aagh!
+
+
+
+Why'sh the room shpinnin'?
+Lali, I'm really drunk![end]</sn:pointer>
+
+<sn:pointer id="289">[0x55][end]</sn:pointer>
+
+<sn:pointer id="290">[0x55][end]</sn:pointer>
+
+<sn:pointer id="291">[0x55][end]</sn:pointer>
+
+<sn:pointer id="292">[0x55][end]</sn:pointer>
+
+<sn:pointer id="293">It's broken and won't open...[end]</sn:pointer>
+
+<sn:pointer id="294">[0x55][end]</sn:pointer>
+
+<sn:pointer id="295">[0x55][end]</sn:pointer>
+
+<sn:pointer id="296">Doctor: Lord Rubicante,
+ be careful.
+
+
+Rubicante: Don't worry.
+ The castle of Ninjas,
+ Eblana, has already fallen.
+
+ I'm leaving the tower
+ to you while I'm out.[end]Doctor: Hahahaha!
+ Neither Lord Golbeze nor
+ Rubicante are here!
+ I'm in charge now!
+ I can conduct my
+ experiments in peace!
+
+
+Rydia: What a weirdo...[end]Doctor: Who's there!!?[end]Cain: Does it matter how?
+ You'd better call for help,
+ doc. Rubicante's not here
+ to protect you![end]Doctor: You think I'm just
+ some pocket-protecting wimp?
+ I am the brains of this
+ whole operation.
+ I am Lugeie!
+ Weapons are useless compared
+ to my superior intellect!
+
+Cain: Don't make me laugh![end]Lugeie: Grr....
+ I'll have my beloved son
+ bring me your heads![end]Rydia: They're going
+ to kill the dwarves![end]Yang: The Giant Gun![end]Cain: We've got to
+ destroy it![end]Lugeie: Screw you!
+ I'll show you the power
+ of science![end]Rosa: Shh!![end]Cecil: Damn!
+
+
+
+Doctor: You! Cecil!
+ How did you get in here!?[end]Cecil: It looks like some
+ sort of a warp mechanism,
+ but we can't use it...[end]</sn:pointer>
+
+<sn:pointer id="297">Director - Hironobu Sakaguchi: Welcome![end]Map Design -
+Yasushi Matsumura:
+ Eru, Naito, Naoshi, Hoshiya,
+ Kuwahara, long time no see!
+ What's wrong?
+ ...Eh? I've got the
+ wrong people!?
+
+ Whoops....[end]Graphics - Masanori Hoshino:
+ I drew all the monsters
+ you're fighting.
+
+ If there's one you
+ particularly like, please
+ let me know which one![end]I'm Taka, the Dot maker!
+As soon as I'm finished with
+this game I'll probably
+become a Super Dot Man![end]Graphics - Ryouko Tanaka:
+ This will be my final
+ production.
+ I hope you like it![end]Graphics - Hiromi Nakada:
+ ...So basically, I'm left
+ as the only woman on the
+ Final Fantasy team!
+ You can count on me![end]Menu Programmer -
+Keitaro Adachi:
+ Heheh...
+ No sweat, no sweat![end]Newbie Toshio Endo:
+ My shoulder's stiff!!
+ My eyes hurt!!
+ My ears hurt!![end]Newbie Shinichi Tanaka:
+ Starting with our next
+ release, I'll be on the
+ programming team.
+ Pleased to meet you
+ all!
+
+
+ ...I want my own desk soon.[end]Newbie Ikuya Dobashi:
+ Please let me out of here!
+ I haven't stolen anything!![end]Newbie Kyoji Koizumi:
+ Heh...
+
+
+ If you know from the
+ beginning you don't get a
+ Golden Week, making games
+ isn't so bad!
+ Don't you think so
+ Sakaguchi-san?[end]</sn:pointer>
+
+<sn:pointer id="298">Sound Programmer -
+Minoru Akao:
+ Phew...
+
+ Well then, what should
+ I do now?[end]Sound Effects - Akira Ueda:
+ Aki Yama-san, Takemotchi
+ Shin-kun, Kazu-kun, everyone
+ else, are you watching?
+ I've made lots of sounds.
+ Listen to them![end]Music Composition -
+Nobuo Uematsu:
+ Hm!
+
+ From looking at you, you
+ seem to have quite a hidden
+ appreciation for music.
+
+ Shall I play my clarinet for
+ you?[end]Sound Effects - Kenshi Ito:
+ Once you beat Final Fantasy
+ IV, try Seiken Densetsu 3![end]</sn:pointer>
+
+<sn:pointer id="299">Up until here, no games
+allowed![end]Rosa and Rydia are
+pretty damn hot!
+You'll find my power useful!
+
+ Game Engineer Tokita Takashi
+[space][0x7]joined the party![music][0x29][delay][0x28]
+
+
+ Please...take me with you!
+ I can't stand it here
+ any more![music][0x2][end]Chief Programmer - Ken Narita: Don't put in any more
+ events!!
+
+ Stop finding more bugs!
+
+
+
+ Damn! I might have to
+ drop out of college![end]Zzz..Zzz..[end]</sn:pointer>
+
+<sn:pointer id="300">FuSoYa: Let's get inside now
+ while we can![end]Cecil: Help us, Cid![end]</sn:pointer>
+
+<sn:pointer id="301">'Wahaha! Die, you puny
+ dwarves!'[end]Cecil: That's as far as
+ you go![end]'You bastards!'
+'How the hell did you
+ get in!?'
+
+'Get 'em!'[end]'Shit! Well, take this!'[end]'Now nobody can stop the
+ Giant Gun!'[end]Cecil: Damn!
+Cain: Oh, God![end]Cecil: Yang!
+Rosa: What are you doing!?[end]Yang: I'll handle things
+ here! You all get out of
+ here quickly!
+Rydia: No!!
+Cecil: Yang, the gun's
+ going to go off and the
+ whole room's going to blow!
+
+Yang: ...Forgive me![end]</sn:pointer>
+
+<sn:pointer id="302">[0x55][end]</sn:pointer>
+
+<sn:pointer id="303">[0x55][end]</sn:pointer>
+
+<sn:pointer id="304">[0x55][end]</sn:pointer>
+
+<sn:pointer id="305">[0x55][end]</sn:pointer>
+
+<sn:pointer id="306">[0x55][end]</sn:pointer>
+
+<sn:pointer id="307">This is your destiny...
+Return to the moon![end]We wanna go too...
+But it doesn't look like
+we're gonna get to!
+We're counting on you, bud![end]You've become such a
+fantastic Paladin!
+We really weren't mistaken
+in helping you back then![end]The fate of everything living
+on this Earth rests with you![end]Fight for me...and for Tella![end]It appears it is your destiny
+to confront this.
+I pray for your safety![end]How come you won't take me
+along! Really...
+Listen, you!
+You come back alive![end]Mr. Cecil, please come
+back soon![end]'Cause if you're not around
+then Boss gets in a nasty
+mood![end]Prince Gilbert is always
+thinking about you all![end]I never dreamed that things
+would end up like this.[end]Come back and visit the
+castle underground again
+soon![end]</sn:pointer>
+
+<sn:pointer id="308">[0x55][end]</sn:pointer>
+
+<sn:pointer id="309">[0x55][end]</sn:pointer>
+
+<sn:pointer id="310">[0x55][end]</sn:pointer>
+
+<sn:pointer id="311">[0x55][end]</sn:pointer>
+
+<sn:pointer id="312">[0x55][end]</sn:pointer>
+
+<sn:pointer id="313">[0x55][end]</sn:pointer>
+
+<sn:pointer id="314">Rydia, you've come back![end]You're the first humans to
+come here besides Rydia.[end]This is the Phantom World,
+the world where the Phantom
+Beasts live.[end]The King of the Phantom Beastslives deep within the center
+of our world.[end]</sn:pointer>
+
+<sn:pointer id="315">[0x55][end]</sn:pointer>
+
+<sn:pointer id="316">Long time no see, Rydia![end]The Phantom World is ruled by
+Ashura and the King of the
+Phantom Beasts.[end]I hear our buddies in the
+other world aren't behaving
+themselves.[end]They say if you can't defeat
+Lady Ashura, then the King
+won't even listen to you![end]Yo, Rydia!
+What?
+Is it weird for us to be
+talking?[end]This is our world's library.
+A treasure trove of knowledge
+from all aspects of our world![end]Rydia!
+I'm so glad you've come back![end]Oh, Rydia!
+Are these people your friends?[end]</sn:pointer>
+
+<sn:pointer id="317">Rydia!
+Please don't go away
+ever again![end]</sn:pointer>
+
+<sn:pointer id="318">Shh!!
+Quiet in the library![end]Hmm....will I like this
+book...I wonder?[end]The Giant who shakes the
+Earth, Titan...
+
+
+With his power he tears apart
+the earth, and all creatures
+will fall into the chasm
+he creates.[end]The Demon of Fire, Ifrit...
+
+
+
+His fire is said to be able
+to consume anything.[end]There is said to be Summoning
+Magic that nobody yet knows
+about...[end]The mild old man Ramuh...
+
+
+
+Slow to anger, quick to
+judge...
+he calls forth storm clouds
+and ferocious lightning.[end]The Queen of Ice, Shiva...
+
+
+
+Those who anger her have
+their hearts frozen solid.[end]Chocobo...
+
+
+
+The most adorable of the
+Phantom Beasts![end]Summoning Magic...Magic
+which calls Phantom Beasts
+from their mystic realm...
+
+There are very few who
+possess this power.[end]The Phantom World has a much,
+much longer history than that
+of the human world...[end]The cave which connects our
+world with the human world...
+
+
+Only those with a strong body
+and a pure spirit are granted
+passage...[end]Phantom Beasts are
+phantasmic animals...
+
+
+When their power is wielded bysomeone with a guiding light,
+they strike a mighty blow for
+the cause of Justice...[end]Is there literature in the
+human world too?[end]</sn:pointer>
+
+<sn:pointer id="319">It's never boring here.
+There are so many books,
+it would take an eternity
+to read them all![end]For monsters that
+'Libra' does not work on,
+the Monster Dictionary will
+show their true nature...[end]Phantom Beast, Monster,
+Human...
+Where did they come from,
+and where are they going...
+The mystery of eternity...[end]Long, long ago, a great ship
+came from the moon to Earth...Now it sleeps deep in the
+belly of a dragon.[end]To the one who surpasses the
+Phantom Beast King...
+
+
+There is said to be a Phantom
+Beast God who created us and
+is protecting us from afar.
+He does not know defeat...
+Only his own power reflected
+upon himself would cause him
+harm...[end]There are two moons...
+But it is said that in ancienttimes there was only one.[end]The Queen of the
+Phantom World, Ashura...
+
+
+As the wife of the Phantom
+Beast King, she is the
+gateway to his audience.
+
+Only those who can surpass
+her will be able to see the
+true form of the King...[end]The Phantom Beast King...
+
+
+
+He appeared from the
+northern ocean.
+He is said to be master of theoceans, and is without rival.[end]Odin, the knight of great
+warriors past...
+
+
+The only time he was ever
+defeated was when a bolt of
+lightning struck his sword.[end]The kind, slender Sylph...
+
+
+
+When they join forces, they
+channel the life energy of
+their foes into themselves...[end]The Law of the Phantom Beast
+World...
+
+
+...is to have strength and a
+pure heart...
+Affirm that strength, and
+test their soul by combat![end]</sn:pointer>
+
+<sn:pointer id="320">This is the room of the
+Phantom Beast King and Queen.[end]In order to speak with the
+Phantom Beast King, you need
+permission from Queen Ashura.[end]Rydia...
+You have strong, kind friends.You may call me any time...[end]You possess a strong, guiding
+Light!
+
+
+I shall lend you my power
+as the Master of the Oceans,
+Leviathan![end]The Phantom Beast King?
+No, no, I'm just some old
+fool![end]Then I shall test your power![end]Unfortunately then, I cannot
+lend you my power.[end]Once you have confidence,
+I'll fight you any time![end]</sn:pointer>
+
+<sn:pointer id="321">Can humans use the
+weapons here?[end]Well, what do you know,
+it's Rydia![end]</sn:pointer>
+
+<sn:pointer id="322">We don't like humans here,
+Rydia.[end]We just want to live
+peacefully.[end]</sn:pointer>
+
+<sn:pointer id="323">Chocobo, Shiva, Ramuh...
+All of them live here...[end]That Ifrit!
+A hothead as usual.[end]If you cast Levitate,
+you'll escape Titan's wrath![end]</sn:pointer>
+
+<sn:pointer id="324">[0x55][end]</sn:pointer>
+
+<sn:pointer id="325">[0x55][end]</sn:pointer>
+
+<sn:pointer id="326">[0x55][end]</sn:pointer>
+
+<sn:pointer id="327">[0x55][end]</sn:pointer>
+
+<sn:pointer id="328">[0x55][end]</sn:pointer>
+
+<sn:pointer id="329">Yang: ...Fight for me![end]AAH! Humans!![end]Just leave Yang to us![end]What are you doing here!
+Get out! Now![end]Don't take Yang away![end]We won't give you Yang![end]You humans are so violent![end]We found him collapsed
+outside of our hole.
+But he hasn't awakened...
+
+We've been tending to him
+ever since...
+Is our love not enough..?[end]What would you do if
+Yang died!?[end]Yang: Uuuh...
+
+
+
+ Uhh...is it time for
+ training already?
+ Let me sleep a little
+ longer...[end]Yang: Eh!? Sir Cecil?
+Cecil: Yang!
+Rydia: I'm so glad
+ you're safe!
+Yang: The Sylphs pulled
+ me from the jaws of death.
+Rosa: Thanks to you,
+ the Giant Gun was destroyed!
+Yang: I'm going with you...
+Sylph: No, you have to sleep![end]Yang: The fate of the world
+ hangs in the balance!
+ I cannot just lie here!
+
+Edge: This isn't a place
+ for a wounded guy like you.[end]Yang: Who are you?
+Edge: I'm Edge of Eblana!
+ I'll be a lot more useful
+ than you would!
+Yang: Eblana! A ninja...?
+ I'm coming too...!!
+
+
+Sylph: Don't be ridiculous!
+ We'll help them![end]Yang: ?
+
+
+
+Sylph: This person's a
+ Summoner, right?
+ She'll be able to call us!
+ We'll fight in your place!
+Rydia: Pleased to meet you,
+ Miss Sylph!
+
+
+
+[space][0x5]Rydia learned Sylph![music][0x29][delay][0x28][end]Sylph: Ah! Stop![end]Yang's gotten all better![end]It's lonely without Yang...[end]He's married so...ah well.[end]Tell Yang we said hi![end]</sn:pointer>
+
+<sn:pointer id="330">[0x55][end]</sn:pointer>
+
+<sn:pointer id="331">[0x55][end]</sn:pointer>
+
+<sn:pointer id="332">[0x55][end]</sn:pointer>
+
+<sn:pointer id="333">[0x55][end]</sn:pointer>
+
+<sn:pointer id="334">[0x55][end]</sn:pointer>
+
+<sn:pointer id="335">[0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end]What business do you have
+with...him..?[end]Eh?
+You're only half...[end]You're the first people
+that Lord Bahamut
+acknowledged![end]Your destiny still awaits
+you...[end]You haven't been accepted
+by Leviathan.
+Leave now.[end]I sense a great power and
+spirit from within...
+Rydia! If my power is ever
+needed, you may call my name![end][0x55][end][0x55][end][0x55][end][0x55][end]We are the Crystals of the
+Moon.[end]The balance of the eight
+Crystals on the Blue Planet
+is kept here on the moon.[end]The People of the Moon are
+sleeping deep underneath
+the ground...
+
+FuSoYa is the guardian of
+those who are sleeping.[end]Zemus is a terrible man.
+Even though he is sealed deep
+below the Earth, his evil
+spirit only increases...[end]Only our power keeps Zemus
+sealed in the moon's core.[end]Zemus used Golbeze to gather
+the Crystals of the Blue
+Planet and increased their
+power with the Tower of Babil.[end]Even now, we feel him trying
+to destroy the seal...[end]The floor in the center of
+the room leads to the core of
+the moon...
+Zemus' realm...[end]When the Tower of Babil was
+destroyed, our seal was
+weakened![end]Sleeping with the Lunarians 
+below are powerful weapons.[end]Earlier, FuSoYa and KluYa's
+son entered, but they've been
+down there quite a while.[end]We're using all our power to
+try and keep Zemus sealed
+deep in the core of
+the moon.[end]There is a great energy
+flowing between Zemus and us.[end]I fear for FuSoYa and KluYa's
+son...[end]Go to the core![end]We shall guide you to the
+path that leads to the core![end][0x55][end][0x55][end][0x55][end]Change your name?
+What do you mean?[end]Hm, hm hm hmmm....[end]We are the Humingway family.[end]Come to think of it,
+there was one of our friends
+who built a ship and went to
+the Blue Planet...
+He was really good at making
+up nicknames...[end][0x55][end][0x55][end][0x55][end]You received the Murasame![music][0x29][delay][0x28][end][0x55][end]You received Ragnarok![music][0x29][delay][0x28][end][0x55][end][0x55][end]You received the Masamune![music][0x29][delay][0x28][end]Did you actually think that
+people from the Blue Planet
+would be able to use this...
+Masamune!?[end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end]You received the Holy Lance![music][0x29][delay][0x28][end][0x55][end][0x55][end][0x55][end][0x55][end][0x55][end][end][0x55][end][end][0x55][end][0x55]</sn:pointer>
+
+</sn:script>
