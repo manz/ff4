@@ -29,7 +29,7 @@ dma_transfer_to_vram:
     vram_pointer    = stack_ptr - 4
     count           = stack_ptr - 6
     dma_mode        = stack_ptr - 8
-    channel         = 4
+    channel         = 7
 
     rep #0x20
     sep #0x10
