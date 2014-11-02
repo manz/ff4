@@ -42,7 +42,7 @@ def get_max_width(char):
 
 
 def convert_font_to_1bpp(font_file, has_grid=True):
-    image = np.array(Image.open("input.png"))
+    image = np.array(Image.open(font_file))
 
     # image = ndimage.imread(font_file)
 
