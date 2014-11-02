@@ -116,6 +116,10 @@ if __name__ == '__main__':
     ]
 
     build_assets(assets_list)
+
+    if not os.path.exists('build'):
+        os.mkdir('build')
+
     build_patch('ff4.s', 'build/ff4.ips')
 
 
