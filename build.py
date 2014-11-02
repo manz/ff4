@@ -66,20 +66,21 @@ def build_text_assets(banks):
 
 
 def build_vwf_font_asset(font_file, data_file, len_table_file):
-    if assets_need_refresh(font_file, data_file):
-        len_table, data = convert_font_to_1bpp(font_file)
+    len_table, data = convert_font_to_1bpp(font_file)
 
-        # Espace
-        len_table[0xFF] = 5
-        # Espace fine
-        len_table[0xFD] = 1
-        # Espace insécable
-        len_table[0xFE] = 5
+    # œ
+    len_table[0xA0] = 7
+    # Espace
+    len_table[0xFF] = 5
+    # Espace fine
+    len_table[0xFD] = 1
+    # Espace insécable
+    len_table[0xFE] = 5
 
-        with open(data_file, 'wb') as fd:
-            fd.write(data)
-        with open(len_table_file, 'wb') as fd:
-            fd.write(bytes(len_table.values()))
+    with open(data_file, 'wb') as fd:
+        fd.write(data)
+    with open(len_table_file, 'wb') as fd:
+        fd.write(bytes(len_table.values()))
 
 
 assets_builder = {
