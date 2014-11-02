@@ -1,15 +1,36 @@
 # coding:utf-8
 #!/usr/bin/env python3.4
 import os
+from xml.etree import ElementTree
 
 from a816.cpu.cpu_65c816 import snes_to_rom
 from a816.program import Program
 from script import Table
 from script.formulas import long_low_rom_pointer
-from script.pointers import read_pointers_from_xml, write_pointers_value_as_binary, write_pointers_addresses_as_binary
-
+from script.pointers import read_pointers_from_xml, write_pointers_value_as_binary, write_pointers_addresses_as_binary, \
+    Pointer
 from utils.font import convert_font_to_1bpp
-from utils.vwf_text_formater import vwf_text_format
+
+
+def read_fixed_from_xml(input_file, table, formatter=None):
+    pointer_table = []
+    with open(input_file, encoding='utf-8') as datasource:
+        tree = ElementTree.parse(datasource)
+        root = tree.getroot()
+        i = 0
+        padding = root.get('padding')
+        length = int(root.get('length'))
+        for child in root:
+            text = child.text
+            pointer = Pointer(i)
+            pointer.value = table.to_bytes(formatter(text) if formatter else text) if text else b''
+
+            if len(pointer.value) < length:
+                pad_length = length - len(pointer.value)
+                pointer.value += table.to_bytes(padding) * pad_length
+
+            pointer_table.append(pointer)
+    return pointer_table
 
 
 def assets_need_refresh(source, destination):
@@ -25,13 +46,18 @@ def assets_need_refresh(source, destination):
 def build_patch(input, output):
     ff4_asm = Program()
     ff4_asm.assemble_as_patch(input, output)
+    ff4_asm.resolver.dump_symbol_map()
 
 
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
-    if assets_need_refresh(input_file, binary_text_file) or True:
-        pointers = read_pointers_from_xml(input_file, table, vwf_text_format)
-        write_pointers_value_as_binary(pointers, binary_text_file)
-        write_pointers_addresses_as_binary(pointers, long_low_rom_pointer(snes_to_rom(address)), pointers_file)
+    pointers = read_pointers_from_xml(input_file, table)
+    write_pointers_value_as_binary(pointers, binary_text_file)
+    write_pointers_addresses_as_binary(pointers, long_low_rom_pointer(snes_to_rom(address)), pointers_file)
+
+
+def build_fixed_asset(table, input_file, binary_text_file):
+    pointers = read_fixed_from_xml(input_file, table)
+    write_pointers_value_as_binary(pointers, binary_text_file)
 
 
 def build_text_assets(banks):
@@ -58,6 +84,7 @@ def build_vwf_font_asset(font_file, data_file, len_table_file):
 
 assets_builder = {
     'script': build_text_asset,
+    'fixed': build_fixed_asset,
     'vwf-font': build_vwf_font_asset
 }
 
@@ -70,14 +97,22 @@ def build_assets(assets):
 
 if __name__ == '__main__':
     dialog_table = Table('text/ff4fr.tbl')
+    menu_table = Table('text/ff4_menus.tbl')
+
+    lang = 'fr'
+    text_root = 'text/{lang}'.format(lang=lang)
 
     assets_list = [
-        # ('script', dialog_table, 'text/us-bank1-1.xml', 'assets/bank1_1.dat', 'assets/bank1_1.ptr', 0x228000),
-        ('script', dialog_table, 'text/us-bank1-1.xml', 'assets/bank1_1.dat', 'assets/bank1_1.ptr', 0x228000),
+        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-1.xml'.format(lang=lang)), 'assets/bank1_1.dat',
+         'assets/bank1_1.ptr', 0x228000),
+        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-2.xml'.format(lang=lang)), 'assets/bank1_2.dat',
+         'assets/bank1_2.ptr', 0x24A000),
+        ('script', dialog_table, os.path.join(text_root, '{lang}-bank2.xml'.format(lang=lang)), 'assets/bank2.dat',
+         'assets/bank2.ptr', 0x25A000),
+        ('vwf-font', 'fonts/vwf.png', 'assets/font.dat', 'assets/font_length_table.dat'),
+        ('fixed', menu_table, os.path.join(text_root, '{lang}-items.xml'.format(lang=lang)), 'assets/items.dat'),
+        ('fixed', menu_table, os.path.join(text_root, '{lang}-magic.xml'.format(lang=lang)), 'assets/magic.dat'),
 
-        ('script', dialog_table, 'text/us-bank1-2.xml', 'assets/bank1_2.dat', 'assets/bank1_2.ptr', 0x24A000),
-        ('script', dialog_table, 'text/us-bank2.xml', 'assets/bank2.dat', 'assets/bank2.ptr', 0x25A000),
-        ('vwf-font', 'vwf.bmp', 'assets/font.dat', 'assets/font_length_table.dat')
     ]
 
     build_assets(assets_list)
