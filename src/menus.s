@@ -1,10 +1,64 @@
-;=========================================
-; -Final Fantasy IV-
-; Reprogrammation ASM
-; modifié: 23:23 18/02/2004
-;=========================================
-
 .table 'text/ff4_menus.tbl'
+*=0x1efccd
+    ; D:2100
+    lda #0x02
+    sta 0x01
+    lda #0x00
+    sta 0x02
+    sta 0x03
+    sta 0x05
+    sta 0x06
+
+    ; BG 1 screen address
+    lda #0x62
+    sta 0x07
+    ; BG 2 screen address
+    lda #0x6a
+    sta 0x08
+    ; BG 3 screen address
+    lda #0x72
+    sta 0x09
+    ; BG 4 screen address
+    lda #0x7a
+    sta 0x0a
+
+    ; BG 1, 2 Name address
+    ; old value 0x22
+    lda #0x22
+    sta 0x0b
+    ; BG 2, 4 Name address
+    lda #0x22
+    sta 0x0c
+
+    lda #0x00
+    sta 0x420b
+    sta 0x420c
+    lda #0x80
+    sta 0x15
+    tdc
+    sta 0x16
+    sta 0x17
+    lda #0x1f
+    sta 0x2c
+    tdc
+    sta 0x2d
+    sta 0x2e
+    sta 0x2f
+    sta 0x30
+    sta 0x31
+    sta 0x33
+    lda #0xe0
+    sta 0x32
+    rtl
+
+; RELATED TO ADD SOME TILES TO THE FONT TILESET 8x8 font stuff
+; copy more to vram to erase tileset extension.
+;*=0x14ffeb
+; ldx #0x2000
+
+; copies the vram to the wram to make room for 8x8 font when on the map (might be used for inside as well).
+;*=0x14ff90
+; ldx #0x1800
 
 ; Petite fenètre 'Impossible ...' : 0x01A7DE
 *=0x01A80D
@@ -31,13 +85,11 @@ character_names:
 	.text 'Golbez'
 	.text 'Anna  '
 
-*=0x0FA764
-    .text 'Chevalier Noir  '
-    .text 'Cheva'
-    ;li
-    .db 0x9E
-    .text 'er Dragon '
-    .text 'Invocatrice     '
+
+
+; Move monsters names
+;02ffcf lda 0x2e8000,x
+
 
 
 ; NIVEAU
@@ -85,10 +137,32 @@ character_names:
 
 ;modification des fenètres:
 *=0x01DB61
-	.dw 0x0000, 0x1A1C	;fenètre principale
-	.dw 0x04EE, 0x0507	;fenètre Gils
-	.dw 0x04EE, 0x0507	;fenètre temps
-	.dw 0x006E, 0x0F07	;fenètre menu principal
+;	.dw 0x0000, 0x1A1C	;fenètre principale
+;	.dw 0x04EE, 0x0507	;fenètre Gils
+;	.dw 0x04EE, 0x0507	;fenètre temps
+;	.dw 0x006E, 0x0F07	;fenètre menu principal
+
+
+.dw 0x0000, 0x1A16 ; fenètre principale
+.dw 0x05EC, 0x0308 ; fenètre Gils
+.dw 0x04EE, 0x0207 ; fenetre temps
+.dw 0x002E, 0x1107 ; fenètre menu principal
+;.dw 0x0070, 0xCBCA
+;.dw 0xEADC, 0xF001
+;.dw 0xA800, 0x8CA7
+;.dw 0x01FF, 0x0170
+
+; original windowZe
+;.dw 0x0000, 0x1A16 ; fenètre principale
+;.dw 0x05EA, 0x0308 ; fenètre Gils
+;.dw 0x04EC, 0x0207 ; fenetre temps
+;.dw 0x002C, 0x1107 ; fenètre menu principal
+;.dw 0x0070, 0xCBCA
+;.dw 0xEADC, 0xF001
+;.dw 0xA800, 0x8CA7
+;.dw 0x01FF, 0x0170
+
+;*=0x01DB6D
 
 
 ;*****************
@@ -111,7 +185,7 @@ character_names:
 
 ; decalage du nombre de Gils
 *=0x018FAF
-	ADC.W #0x0012
+	ADC.W #0x0052
 
 
 
@@ -145,10 +219,12 @@ character_names:
 
 ; alongement des noms de classe à 16 caractères.
 *=0x018FD3
-	ASL
-	ASL
-	ASL
-	ASL
+    jsr.l load_classes_pointer
+
+	;ASL
+	;ASL
+	;ASL
+	;ASL
 	NOP
 	NOP
 	STA.B 0x45
@@ -157,11 +233,26 @@ character_names:
 	LDA.B #0x0F
 
 
-*=0x018FE7
-	JSR.L _8x16
-	JSR.L _8x16dis2
-	NOP
-	NOP
+;018ff4 sta 0x0000,y   [7ed8d5] A:0002 X:003c Y:d8d5 S:02e5 D:0100 DB:7e nvMxdIzc V: 92 H: 512
+*=0x18ff4
+    nop
+    nop
+    nop
+; Move the class names where to freespace
+; 018fe3 lda 0x0fa764,x
+*=0x018fe3
+    lda.l characters_classes, x
+    beq 0x018ffe + 2
+	;JSR.L _8x16
+	;NOP
+	;NOP
+;	NOP
+;	NOP
+	jsr.l _8x16
+	jsr.l _8x16dis2
+	;jsr.l _8x8_vwf_display2
+;	NOP
+;	NOP
 	NOP
 
 ;exemple d'appel
@@ -330,9 +421,39 @@ character_names:
 	LDY.W #0x0007
 	STA.W 0xC5FF,X
 
+
+;
+; Spells menu
+;
+
+
+; length of spells names
 *=0x01B345
 	LDA.B #0x07
 
+; compute spell pointer
+;01b319 rep #0x20
+;01b31b asl a
+;01b31c sta 0x45
+;01b31e asl a
+;01b31f adc 0x45
+;01b321 adc #0x8900
+;01b324 tay
+;01b325 sep #0x20
+;01b327 lda #0x0f
+
+*=0x01b319
+    rep #0x20
+    asl
+    asl
+    asl
+    nop
+    nop
+    nop
+    adc.w #assets_magic_dat
+    tay
+    sep #0x20
+    lda.b #assets_magic_dat >> 16
 
 ;*************************************
 ;** Menu Status	                    **
@@ -415,6 +536,20 @@ retmag 	= 0x01AFAD
 retmag2	= 0x01AFC1
 retmag3	= 0x01AFD5
 
+load_classes_pointer:
+    phx
+    rep #0x20
+
+    and.w #0x00FF
+    asl
+    tax
+
+    lda.l characters_classes_table, x
+    sep #0x20
+
+    plx
+    rtl
+
 ;ça foire si je mets autre chose que des ASL
 calc_itempos:
 	ASL
@@ -451,6 +586,15 @@ derout_equip:
 	RTS
 PT0000:
 	JSR.W 0x80D9
+
+    ;dma_transfer_to_vram_nofunk(assets_menu_bin, 0x6000, assets_menu_bin__size, 0x1801)
+
+	highway_to_hell:
+;	wait_for_vblank_inline()
+;	dma_transfer_to_vram_nofunk(0x0AF000 ,0x6000, 0x1000, 0x1801)
+;	wait_for_vblank_inline()
+ ;   dma_transfer_to_vram_nofunk(fuck, 0x2810, assets_menu_bin__size, 0x1801)
+
 	LDA.B #0x00
 	JSR.L textload
 	RTS
@@ -487,6 +631,23 @@ _8x16:
 	RTL
 
 ; modification de la 8x16 pour le menu
+_8x8_vwf_display1:
+    sta.l 0x7E0040,X
+    lda #0x01
+    ora 0x7E0041, X
+    sta.l 0x7E0041, X
+    inx
+    inx
+    rtl
+
+_8x8_vwf_display2:
+   STA.W 0x0040,Y
+   lda #0x01
+   ora 0x34
+   sta 0x34
+   iny
+   rtl
+
 _8x16disp:
 	CMP #0x00
 	BEQ no_8x16
@@ -549,9 +710,16 @@ deroutage:
 
 
 ;chargement du pointeur et chargement du texte
+vwf_text_load:
+    pha
+    lda #0x01
+    sta 0x03
+    pla
+    bra _textload
 
 textload:
-
+    stz 0x03
+_textload:
 	;chargement du pointeur
 	PHX
 	REP #0x20
@@ -587,10 +755,18 @@ load_char_loop:
 
 	CMP #0x01
 	BEQ load_wram_pointer
-
+    pha
+    lda 0x03
+    bne vwf_display
+    pla
 	JSR.L _8x16
 	JSR.L _8x16disp
+	bra _text_load_continue
 
+vwf_display:
+    pla
+	jsr.l _8x8_vwf_display1
+_text_load_continue:
 	BRA load_char_loop
 end_of_string:
 	PLX
@@ -625,6 +801,78 @@ menu_text_pointer_table:
 .include 'src/txt_menu.s'
 
 commandes:
-.text 'Attaquer           '
+    .text 'Attaquer           '
 
-; .incsrc 'battle.asm'
+
+
+
+characters_classes:
+;    .table 'text/gen/menu.tbl'
+    black_knight:
+    .text 'Chevalier noir'
+    .db 0
+    dragon_knight:
+    .text 'Chevalier dragon'
+    .db 0
+
+    summoner:
+    .text 'Invokeur'
+    .db 0
+
+    sage:
+    .text 'Sage'
+    .db 0
+
+    ministrel:
+    .text 'Menestrel'
+    .db 0
+
+    white_wizard:
+    .text 'Sorcier Blanc'
+    .db 0
+
+    monk:
+    .text 'Moine'
+    .db 0
+
+    black_wizard:
+    .text 'Sorcier Noir'
+    .db 0
+
+    paladin:
+    .text 'Paladin'
+    .db 0
+
+    engineer:
+    .text 'Ingenieur'
+    .db 0
+
+
+    ninja:
+    .text 'Ninja'
+    .db 0
+
+    lunarian:
+    .text 'Selenite'
+    .db 0
+
+
+
+characters_classes_table:
+  .dw black_knight - characters_classes
+  .dw dragon_knight - characters_classes
+  .dw summoner - characters_classes
+  .dw sage - characters_classes
+  .dw ministrel - characters_classes
+  .dw white_wizard - characters_classes
+  .dw monk - characters_classes
+  .dw black_wizard - characters_classes
+  .dw white_wizard - characters_classes
+  .dw paladin - characters_classes
+  .dw engineer - characters_classes
+  .dw summoner - characters_classes
+  .dw ninja - characters_classes
+  .dw lunarian - characters_classes
+
+
+;.incbin 'assets/menu.bin'

@@ -22,9 +22,12 @@
 ;	nchars = 0x19
 
 ;	oldtilepos = 0xF6
+    WRAM = 0x7E421B
+; super fx ram i guess :)
+	ram_mirror = WRAM + 0x1000
 
-	WRAM = 0x421B
-	WRAM2 = 0x423B
+;	WRAM = 0x421B
+;	WRAM2 = 0x423B
 	WRAMPTR = 0x2108
 
 ;** routine principale
@@ -36,7 +39,8 @@ vwfstart:
 	LDA.B #0x01
 	STA.W 0x420D
 
-    var_base = 0xe0
+
+    var_base = 0x00
     CNTR        = var_base
     CURRENT_C   = var_base + 2
     BITSLEFT    = var_base + 4
@@ -52,7 +56,9 @@ vwfstart:
 	oldtilepos  = var_base + 22
 	TILEPOS     = var_base + 24
 
-	ram_mirror = 0x7E523D
+
+    php
+    sep #0x20
     save_16_bit_var(CNTR, ram_mirror)
     save_16_bit_var(CURRENT_C, ram_mirror)
     save_16_bit_var(BITSLEFT, ram_mirror)
@@ -66,39 +72,8 @@ vwfstart:
     save_16_bit_var(pixel_c, ram_mirror)
     save_16_bit_var(oldtilepos, ram_mirror)
     save_16_bit_var(TILEPOS, ram_mirror)
+    plp
 
-
-
-;	LDA.B CNTR
-;	STA 0x7E523D
-
-;	LDA.B CURRENT_C
-;	STA 0x7E523E
-
-;	LDA.B BITSLEFT
-;	STA 0x7E523F
-
-;	LDA.B TILEPOS
-;	STA 0x7E5240
-	
-;	LDA.B CNTR2
-;	STA 0x7E5241
-
-;	LDA.B temp
-;	STA 0x7E5242
-
-;	STZ.B CNTR
-	
-;	STZ.B CURRENT_C
-;	STZ.B TILEPOS
-
-;	stz.B oldtilepos
-
-;	STZ.B CNTR2
-;	STZ.B temp
-
-;	STZ.B pixel_c
-;	STZ.B pixel_c+1
 	
 	LDA.B #0x01
 	STA.B winstate
@@ -110,12 +85,15 @@ vwfstart:
 
 
 	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(0x7E421B,vram_tile_set_pointer,0x0690,0x1801)
+	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
 	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(0x7E421B,vram_tile_set_pointer+0x348,0x0690,0x1801)
+	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
 	jsr.w wait_for_vblank
-	
+
     ; copy the old font tileset
+    ; should we really mess with that ?
+    ; it was used when we wanted to have the 8x8 and the vwf in the same dialog
+    ; it seems deprecated
 	dma_transfer_to_vram_call(0x0AF000,0x6000, 0x1000, 0x1801)
 
     ; Sets the BG3 vram pointer to 0x6000
@@ -132,32 +110,22 @@ firstrun:
 	JMP.W parse
 	BRA main
 fin:
-    restore_16_bits_var(CNTR, ram_mirror)
-    restore_16_bits_var(CURRENT_C, ram_mirror)
-    restore_16_bits_var(BITSLEFT, ram_mirror)
-    restore_16_bits_var(CNTR2, ram_mirror)
-    restore_16_bits_var(temp, ram_mirror)
-    restore_16_bits_var(scroll, ram_mirror)
-    restore_16_bits_var(vsize, ram_mirror)
-    restore_16_bits_var(winstate, ram_mirror)
-    restore_16_bits_var(tstart, ram_mirror)
-    restore_16_bits_var(nchars, ram_mirror)
-    restore_16_bits_var(pixel_c, ram_mirror)
-    restore_16_bits_var(oldtilepos, ram_mirror)
-    restore_16_bits_var(TILEPOS, ram_mirror)
-
-;	LDA 0x7E523D
-;	STA.B 0x00
-
-;	LDA 0x7E523E
-;	STA.B 0x01
-
-;	LDA 0x7E523F
-;	STA.B 0x02
-
-;	JSR.W wdisplay
-;	STZ.B TILEPOS
-	; clear current char
+;    php
+;    sep #0x20
+;    restore_16_bits_var(CNTR, ram_mirror)
+;    restore_16_bits_var(CURRENT_C, ram_mirror)
+;    restore_16_bits_var(BITSLEFT, ram_mirror)
+;    restore_16_bits_var(CNTR2, ram_mirror)
+;    restore_16_bits_var(temp, ram_mirror)
+;    restore_16_bits_var(scroll, ram_mirror)
+;    restore_16_bits_var(vsize, ram_mirror)
+;    restore_16_bits_var(winstate, ram_mirror)
+;    restore_16_bits_var(tstart, ram_mirror)
+;    restore_16_bits_var(nchars, ram_mirror)
+;    restore_16_bits_var(pixel_c, ram_mirror)
+;    restore_16_bits_var(oldtilepos, ram_mirror)
+;    restore_16_bits_var(TILEPOS, ram_mirror)
+;    plp
 
 	LDA.B #0x01
 	STA.B 0xED
@@ -183,37 +151,47 @@ _nxt1:
 	
 _nxt2:	
 	CMP #0x02
-	BNE _nxt6
+	BNE _nxt3
 	JMP.W space
 	
-_nxt6:
+_nxt3:
 	;Changement de Musique
 	CMP #0x03
-	BNE _nxt3
+	BNE _nxt4
 	JMP.W musique
 	
-_nxt3:
+_nxt4:
 	; Nom des personages
 	CMP #0x04
-	BNE _nxt4
+	BNE _nxt5
 	JMP.W printname
-_nxt4:
+_nxt5:
 
 	; Delay avant de fermer ?
 	CMP #0x05
-	BNE _nxt5
-	;	JMP.W _code05
-	_nxt5:
-	
+	BNE _nxt6
+		JMP.W _code05
+_nxt6:
+	; it might lack 06 and 07 text opcodes
+
+	cmp #0x06
+	bne _nxt7
+
+	_nxt7:
+	cmp #0x07
+	bne _nxt8
+    jmp.w _code07
+
+	_nxt8:
 	CMP #0x08
-	BNE _nxt8
+	BNE _nxt9
 	JMP.W _code08
 	
-_nxt8:	
+_nxt9:
 	CMP #0xFB
 	BNE _nxtFB
 	STZ.B winstate
-	
+	jmp.w main
 _nxtFB:
 	CMP #0xFC
 	BNE _nxtFC
@@ -230,7 +208,6 @@ _nxtFF:
 	;retour auto a ajouter ici
 	
 return_a:
-
 	JSR.W makeptr
 	JSR.W ShiftNew
 	JSR.W wdisplay
@@ -280,13 +257,13 @@ _loop_B5D2:
 		;00B5DC INY
 	PHX
 	PHY
-	
+
 	STA.B CURRENT_C			;appel de la vwf
 
 	JSR.W makeptr
 	JSR.W ShiftNew
 	JSR.W wdisplay
-	
+
 	PLY
 	PLX
 
@@ -320,18 +297,18 @@ printname:
 {
 	JSR.W ChargeLettreInc
 	ASL
-	STA.B 0x18
+	STA.B 0x30
 	ASL
 	CLC
-	ADC 0x18
-	STA.B 0x18
-	STZ.B 0x19
-	LDX.B 0x18
+	ADC 0x30
+	STA.B 0x30
+	STZ.B 0x31
+	LDX.B 0x30
 
 	LDY.W #0x0000
 	
 next:
-	LDX.B 0x18
+	LDX.B 0x30
 	LDA 0x1500,X
 	STA.B CURRENT_C
 	CMP #0xFF
@@ -346,7 +323,7 @@ next:
 	PLX
 
 suite:
-	INC.B 0x18
+	INC.B 0x30
 
 	INY
 	CPY.W #0x0006
@@ -443,6 +420,60 @@ _code05:
 	STX 0x08F6
 	JMP.W main
 
+
+.macro vwf_putchar() {
+    phx
+	phy
+
+	sta.b CURRENT_C
+
+	jsr.w makeptr
+	jsr.w ShiftNew
+	jsr.w wdisplay
+
+	ply
+	plx
+}
+
+; display item or magic
+_code07:
+{
+    lda 0x08FB
+
+    rep #0x20
+    and.w #0x00FF
+    sta.b temp
+    asl
+    asl
+    asl
+    adc.b temp
+    tax
+    sep #0x20
+
+    ; skip first char (usually a space or a symbol.)
+    inx
+    lda #0x09
+
+loop:
+    pha
+    lda 0x0F8000, x
+    cmp #0xFF
+    beq cleanup
+    vwf_putchar()
+
+    inx
+
+    pla
+    dec
+    bne loop
+    bra end
+cleanup:
+    pla
+end:
+    lda #0x00
+    jmp.w main
+}
+
 ;*******************
 ;** Shift Routine **
 ;*******************
@@ -500,12 +531,14 @@ _shift:
 _store:
 	INY
 	XBA
-		
-	ORA.W WRAM,Y
-	STA.W WRAM,Y
+	PHX
+	TYX
+	ORA.L WRAM,x
+	STA.L WRAM,x
 	XBA
-	STA.W WRAM2,Y
-		
+	STA.L WRAM+0x20,x
+    TXY
+    PLX
 	INY
 				
 	DEC.B CNTR
@@ -612,7 +645,7 @@ makeptr:
 ;===================================
 clr:
 	PHB			;efface la la ram pour y stocker l'image
-	LDA.B #0x7E
+	LDA.B #WRAM >> 16
 	PHA
 	PLB
 	LDX.W #0x0000
@@ -734,25 +767,25 @@ padloop:
 	BRA end
 	
 nowaitpad:
-	LDA.B #0x10
-	STA.B CNTR
-
-{
-loop:
-	WAI
-	WAI
-	WAI
-	WAI
-	DEC.B CNTR
-	BNE loop
-}
+;	LDA.B #0x10
+;	STA.B CNTR
+;
+;{
+;loop:
+;	WAI
+;	WAI
+;	WAI
+;	WAI
+;	DEC.B CNTR
+;	BNE loop
+;}
 end:
 	PLA
 	jsr.w clr
 	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(0x7E421B,vram_tile_set_pointer,0x0690,0x1801)
+	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
 	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(0x7E48AB,vram_tile_set_pointer + 0x348,0x0690,0x1801)
+	dma_transfer_to_vram_call(WRAM + 0x348,vram_tile_set_pointer + 0x348,0x0690,0x1801)
 	RTS
 }
 
@@ -788,7 +821,7 @@ wdisplay:
 	
 	lda.b oldtilepos
 	clc
-	adc.w #0x421B
+	adc.w #WRAM & 0xFFFF
 	sta.w 0x4372
 	
 	pla
@@ -798,7 +831,7 @@ wdisplay:
 	
 	LDX.W #0x1801
 	STX.W 0x4370
-	LDA.B #0x7E
+	LDA.B #0xFF & (WRAM >> 16)
 	STA.W 0x4374
 
 	LDX.W #0x0040
@@ -847,7 +880,10 @@ nowindow:
 	RTS
 
 wclear:
-    dma_transfer_to_vram_call(clearmap, vram_tile_map_pointer, endclearmap-clearmap, 0x02)
+    ; restore tileset position
+    LDA #0x02
+	STA 0x210C
+    dma_transfer_to_vram_call(clearmap, vram_tile_map_pointer, endclearmap-clearmap, 0x1801)
 	RTL
 
 winmap:
@@ -879,7 +915,7 @@ intromap:
 .dw 0x2000,0x2000,0x2000,0x219D,0x219F,0x21A1,0x21A3,0x21A5,0x21A7,0x21A9,0x21AB,0x21AD,0x21AF,0x21B1,0x21B3,0x21B5,0x21B7,0x21B9,0x21BB,0x21BD,0x21BF,0x21C1,0x21C3,0x21C5,0x21C7,0x21C9,0x21CB,0x21CE,0x21D0,0x2000,0x2000,0x2000
 .dw 0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000
 
-; cela manque certes d'optimisation je ferai une routine pour effacer de la map a ma guise un jour
+; cela manque certes d'optimisation je ferai une routine pour effacer de la map
 clearmap:
 .dw 0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000
 .dw 0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000
