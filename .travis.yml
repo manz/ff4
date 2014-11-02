@@ -1,7 +1,9 @@
 language: python
 python:
 - '3.4'
-before_install: "sudo apt-get install liblapack-dev libatlas-dev"
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libatlas-dev libatlas-base-dev liblapack-dev gfortran
 install: pip install -r requirements.txt
 script: python3.4 build.py
 deploy:
