@@ -6,38 +6,38 @@
     newline_offset = 4
 
     ; those vars are pretty dangerous !!
-;	CNTR = 0x15
-;	CURRENT_C = 0x30
-;	pixel_c = 0x20
-;	BITSLEFT = 0x04
-;	TILEPOS = 0x06
-;	CNTR2 = 0x08
-;	temp = 0x0A
+;    CNTR = 0x15
+;    CURRENT_C = 0x30
+;    pixel_c = 0x20
+;    BITSLEFT = 0x04
+;    TILEPOS = 0x06
+;    CNTR2 = 0x08
+;    temp = 0x0A
 ;;vramcpy call;
-;	scroll = 0x10
-;	vsize = 0x12
+;    scroll = 0x10
+;    vsize = 0x12
 ;;buildmap call
-;	winstate = 0x17
-;	tstart = 0x18
-;	nchars = 0x19
+;    winstate = 0x17
+;    tstart = 0x18
+;    nchars = 0x19
 
-;	oldtilepos = 0xF6
+;    oldtilepos = 0xF6
     WRAM = 0x7E421B
 ; super fx ram i guess :)
-	ram_mirror = WRAM + 0x1000
+    ram_mirror = WRAM + 0x1000
 
-;	WRAM = 0x421B
-;	WRAM2 = 0x423B
-	WRAMPTR = 0x2108
+;    WRAM = 0x421B
+;    WRAM2 = 0x423B
+    WRAMPTR = 0x2108
 
 ;** routine principale
 vwfstart:
 
-	SEP #0x20
-	REP #0x10
+    SEP #0x20
+    REP #0x10
 
-	LDA.B #0x01
-	STA.W 0x420D
+    LDA.B #0x01
+    STA.W 0x420D
 
 
     var_base = 0x00
@@ -47,14 +47,14 @@ vwfstart:
     CNTR2       = var_base + 6
     temp        = var_base + 8
     scroll      = var_base + 10
-	vsize       = var_base + 12
+    vsize       = var_base + 12
 ;;buildmap call
     winstate    = var_base + 14
-	tstart      = var_base + 16
-	nchars      = var_base + 18
-	pixel_c     = var_base + 20
-	oldtilepos  = var_base + 22
-	TILEPOS     = var_base + 24
+    tstart      = var_base + 16
+    nchars      = var_base + 18
+    pixel_c     = var_base + 20
+    oldtilepos  = var_base + 22
+    TILEPOS     = var_base + 24
 
 
     php
@@ -74,41 +74,41 @@ vwfstart:
     save_16_bit_var(TILEPOS, ram_mirror)
     plp
 
-	
-	LDA.B #0x01
-	STA.B winstate
+    
+    LDA.B #0x01
+    STA.B winstate
 
-	LDA.B #0x08
-	STA.B BITSLEFT
+    LDA.B #0x08
+    STA.B BITSLEFT
 
-	JSR.W clr		; on efface un peu de Wram
+    JSR.W clr        ; on efface un peu de Wram
 
 
-	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
-	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
-	jsr.w wait_for_vblank
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
+    jsr.w wait_for_vblank
 
     ; copy the old font tileset
     ; should we really mess with that ?
     ; it was used when we wanted to have the 8x8 and the vwf in the same dialog
     ; it seems deprecated
-	dma_transfer_to_vram_call(0x0AF000,0x6000, 0x1000, 0x1801)
+    dma_transfer_to_vram_call(0x0AF000,0x6000, 0x1000, 0x1801)
 
     ; Sets the BG3 vram pointer to 0x6000
     LDA #0x06
-	STA 0x210C
+    STA 0x210C
 
-	JSR.W ChargeLettre
-	BRA firstrun
-	
-main:	
-	JSR.W ChargeLettreInc
-	
+    JSR.W ChargeLettre
+    BRA firstrun
+    
+main:    
+    JSR.W ChargeLettreInc
+    
 firstrun:
-	JMP.W parse
-	BRA main
+    JMP.W parse
+    BRA main
 fin:
 ;    php
 ;    sep #0x20
@@ -127,11 +127,11 @@ fin:
 ;    restore_16_bits_var(TILEPOS, ram_mirror)
 ;    plp
 
-	LDA.B #0x01
-	STA.B 0xED
-	STA.B 0xDE
+    LDA.B #0x01
+    STA.B 0xED
+    STA.B 0xDE
 
-	RTL
+    RTL
 
 ;******************
 ;** Parsing code **
@@ -139,155 +139,155 @@ fin:
 
 parse:
 
-	; Message Break
-	CMP #0x00
-	BNE _nxt1
-	JMP.W fin
-	
+    ; Message Break
+    CMP #0x00
+    BNE _nxt1
+    JMP.W fin
+    
 _nxt1:
-	CMP #0x01
-	BNE _nxt2
-	JMP.W newline
-	
-_nxt2:	
-	CMP #0x02
-	BNE _nxt3
-	JMP.W space
-	
+    CMP #0x01
+    BNE _nxt2
+    JMP.W newline
+    
+_nxt2:    
+    CMP #0x02
+    BNE _nxt3
+    JMP.W space
+    
 _nxt3:
-	;Changement de Musique
-	CMP #0x03
-	BNE _nxt4
-	JMP.W musique
-	
+    ;Changement de Musique
+    CMP #0x03
+    BNE _nxt4
+    JMP.W musique
+    
 _nxt4:
-	; Nom des personages
-	CMP #0x04
-	BNE _nxt5
-	JMP.W printname
+    ; Nom des personages
+    CMP #0x04
+    BNE _nxt5
+    JMP.W printname
 _nxt5:
 
-	; Delay avant de fermer ?
-	CMP #0x05
-	BNE _nxt6
-		JMP.W _code05
+    ; Delay avant de fermer ?
+    CMP #0x05
+    BNE _nxt6
+        JMP.W _code05
 _nxt6:
-	; it might lack 06 and 07 text opcodes
+    ; it might lack 06 and 07 text opcodes
 
-	cmp #0x06
-	bne _nxt7
+    cmp #0x06
+    bne _nxt7
 
-	_nxt7:
-	cmp #0x07
-	bne _nxt8
+    _nxt7:
+    cmp #0x07
+    bne _nxt8
     jmp.w _code07
 
-	_nxt8:
-	CMP #0x08
-	BNE _nxt9
-	JMP.W _code08
-	
+    _nxt8:
+    CMP #0x08
+    BNE _nxt9
+    JMP.W _code08
+    
 _nxt9:
-	CMP #0xFB
-	BNE _nxtFB
-	STZ.B winstate
-	jmp.w main
+    CMP #0xFB
+    BNE _nxtFB
+    STZ.B winstate
+    jmp.w main
 _nxtFB:
-	CMP #0xFC
-	BNE _nxtFC
-	JMP.W suit3
-	
-_nxtFC:	
-	CMP #0xFF
-	BNE _nxtFF
-	JMP.W retour_auto
-	
+    CMP #0xFC
+    BNE _nxtFC
+    JMP.W suit3
+    
+_nxtFC:    
+    CMP #0xFF
+    BNE _nxtFF
+    JMP.W retour_auto
+    
 _nxtFF:
 
-	; on fabrique le pointeur de font et le pointeur vers la wram
-	;retour auto a ajouter ici
-	
+    ; on fabrique le pointeur de font et le pointeur vers la wram
+    ;retour auto a ajouter ici
+    
 return_a:
-	JSR.W makeptr
-	JSR.W ShiftNew
-	JSR.W wdisplay
+    JSR.W makeptr
+    JSR.W ShiftNew
+    JSR.W wdisplay
 
-	JMP.W main
-	
-	
+    JMP.W main
+    
+    
 ;***********
 ;** Space **
 ;***********
 space:
-	JSR.W ChargeLettreInc
-	CLC
-	ADC.B TILEPOS
-	JMP.W main
+    JSR.W ChargeLettreInc
+    CLC
+    ADC.B TILEPOS
+    JMP.W main
 
 ;******************
 ;Cout en gils
 ;******************
 
 _code08:
-	LDA.W 0x08F8
-	STA.B 0x30
-	LDA.W 0x08F9
-	STA.B 0x31
-	LDA.W 0x08FA
-	STA.B 0x32
-	JSR.L 0x15C324
+    LDA.W 0x08F8
+    STA.B 0x30
+    LDA.W 0x08F9
+    STA.B 0x31
+    LDA.W 0x08FA
+    STA.B 0x32
+    JSR.L 0x15C324
 
-	LDX.W #0x0000
+    LDX.W #0x0000
 
 _loop_B5C3:
-	LDA.B 0x36,X
-	CMP #0x80
-	BNE _loop_B5D2
-	INX
-	CPX.W #0x0005
-	BEQ _loop_B5D2
-	JMP.W _loop_B5C3
+    LDA.B 0x36,X
+    CMP #0x80
+    BNE _loop_B5D2
+    INX
+    CPX.W #0x0005
+    BEQ _loop_B5D2
+    JMP.W _loop_B5C3
 
 _loop_B5D2:
-	LDA.B 0x36,X
-		; Old code
-		;00B5D4 STA 0x0774,Y
-		;00B5D7 LDA #0xFF
-		;00B5D9 STA 0x0834,Y
-		;00B5DC INY
-	PHX
-	PHY
+    LDA.B 0x36,X
+        ; Old code
+        ;00B5D4 STA 0x0774,Y
+        ;00B5D7 LDA #0xFF
+        ;00B5D9 STA 0x0834,Y
+        ;00B5DC INY
+    PHX
+    PHY
 
-	STA.B CURRENT_C			;appel de la vwf
+    STA.B CURRENT_C            ;appel de la vwf
 
-	JSR.W makeptr
-	JSR.W ShiftNew
-	JSR.W wdisplay
+    JSR.W makeptr
+    JSR.W ShiftNew
+    JSR.W wdisplay
 
-	PLY
-	PLX
+    PLY
+    PLX
 
-	INX
-	CPX.W #0x0006
-	BNE _loop_B5D2
+    INX
+    CPX.W #0x0006
+    BNE _loop_B5D2
 
-	JMP.W main
+    JMP.W main
 
 ;================================
 ;Nouveau Cadre
 ;================================
 
 nouveau_cadre:
-		
+        
     dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
 
 
-	LDA.B #0x00
-	STA.B TILEPOS
-	JSR.W incpointer
-	LDA.B #0x01
-	STA.B 0xED
-	RTL
+    LDA.B #0x00
+    STA.B TILEPOS
+    JSR.W incpointer
+    LDA.B #0x01
+    STA.B 0xED
+    RTL
 
 
 ;****************
@@ -295,144 +295,144 @@ nouveau_cadre:
 ;****************
 printname:
 {
-	JSR.W ChargeLettreInc
-	ASL
-	STA.B 0x30
-	ASL
-	CLC
-	ADC 0x30
-	STA.B 0x30
-	STZ.B 0x31
-	LDX.B 0x30
+    JSR.W ChargeLettreInc
+    ASL
+    STA.B 0x30
+    ASL
+    CLC
+    ADC 0x30
+    STA.B 0x30
+    STZ.B 0x31
+    LDX.B 0x30
 
-	LDY.W #0x0000
-	
+    LDY.W #0x0000
+    
 next:
-	LDX.B 0x30
-	LDA 0x1500,X
-	STA.B CURRENT_C
-	CMP #0xFF
-	BEQ exit
-	INX
-	PHX
-	PHY
-	JSR.W makeptr
-	JSR.W ShiftNew
-	JSR.W wdisplay
-	PLY
-	PLX
+    LDX.B 0x30
+    LDA 0x1500,X
+    STA.B CURRENT_C
+    CMP #0xFF
+    BEQ exit
+    INX
+    PHX
+    PHY
+    JSR.W makeptr
+    JSR.W ShiftNew
+    JSR.W wdisplay
+    PLY
+    PLX
 
 suite:
-	INC.B 0x30
+    INC.B 0x30
 
-	INY
-	CPY.W #0x0006
-	BEQ exit
-	JMP.W next
+    INY
+    CPY.W #0x0006
+    BEQ exit
+    JMP.W next
 exit:
-	JMP.W main
+    JMP.W main
 }
 ;********************
 ;** Nouvelle ligne **
 ;********************
 newline:
-	STZ.B pixel_c
-	STZ.B pixel_c+1
+    STZ.B pixel_c
+    STZ.B pixel_c+1
 
-	REP #0x20
-	LDA.W #newline_offset
-	SEP #0x20
+    REP #0x20
+    LDA.W #newline_offset
+    SEP #0x20
 
-	STA.B BITSLEFT
+    STA.B BITSLEFT
 
-	LDA.B TILEPOS
-	CLC
-	;Second line
-	CMP #0x1A+1
-	BCS suit
-	
-	LDA.B #0x1A
-	STA.B TILEPOS
-	BRA end
+    LDA.B TILEPOS
+    CLC
+    ;Second line
+    CMP #0x1A+1
+    BCS suit
+    
+    LDA.B #0x1A
+    STA.B TILEPOS
+    BRA end
 suit:
 
-	;Third Line
-	CMP #0x34+1
-	BCS suit2
-	LDA.B #0x34
-	STA.B TILEPOS
-	BRA end
+    ;Third Line
+    CMP #0x34+1
+    BCS suit2
+    LDA.B #0x34
+    STA.B TILEPOS
+    BRA end
 suit2:
-	
-	;Forth Line
-	CMP #0x4E+1
-	BCS suit3
+    
+    ;Forth Line
+    CMP #0x4E+1
+    BCS suit3
 
-	LDA.B #0x4E
-	STA.B TILEPOS
-	BRA end
+    LDA.B #0x4E
+    STA.B TILEPOS
+    BRA end
 
-suit3:	
+suit3:    
 
-	STZ.B CURRENT_C
-	STZ.B TILEPOS
-	STZ.B CNTR2
-	STZ.B temp
-	STZ.B pixel_c
-	STZ.B pixel_c+1
+    STZ.B CURRENT_C
+    STZ.B TILEPOS
+    STZ.B CNTR2
+    STZ.B temp
+    STZ.B pixel_c
+    STZ.B pixel_c+1
 
-	LDA.B #0x08
-	STA.B BITSLEFT
+    LDA.B #0x08
+    STA.B BITSLEFT
 
-	JSR.W clr
-	JSR.W waitpad
-	JSR.W wdisplay
+    JSR.W clr
+    JSR.W waitpad
+    JSR.W wdisplay
 end:
 
-	JMP.W main
+    JMP.W main
 
 ;*************
 ;** Musique **
 ;*************
 
 musique:
-	JSR.W ChargeLettreInc
-	STA 0x1E01
-	LDA.B #0x01
-	STA 0x1E00
+    JSR.W ChargeLettreInc
+    STA 0x1E01
+    LDA.B #0x01
+    STA 0x1E00
 
-	JSR.L 0x048004
-	JMP.W main
+    JSR.L 0x048004
+    JMP.W main
 
 _code05:
-	JSR.W ChargeLettreInc
-	STZ 0x19
-	ASL
-	ROL 0x19
-	ASL
-	ROL 0x19
-	ASL
-	ROL 0x19
-	STA 0x18
-	LDX 0x18
-	STX 0x08F4
-	LDX 0x0000
-	STX 0x08F6
-	JMP.W main
+    JSR.W ChargeLettreInc
+    STZ 0x19
+    ASL
+    ROL 0x19
+    ASL
+    ROL 0x19
+    ASL
+    ROL 0x19
+    STA 0x18
+    LDX 0x18
+    STX 0x08F4
+    LDX 0x0000
+    STX 0x08F6
+    JMP.W main
 
 
 .macro vwf_putchar() {
     phx
-	phy
+    phy
 
-	sta.b CURRENT_C
+    sta.b CURRENT_C
 
-	jsr.w makeptr
-	jsr.w ShiftNew
-	jsr.w wdisplay
+    jsr.w makeptr
+    jsr.w ShiftNew
+    jsr.w wdisplay
 
-	ply
-	plx
+    ply
+    plx
 }
 
 ; display item or magic
@@ -479,163 +479,163 @@ end:
 ;*******************
 
 ShiftNew:
-	REP #0x20
-	LDA.W #0x0010
-	STA.B CNTR
-	SEP #0x20
+    REP #0x20
+    LDA.W #0x0010
+    STA.B CNTR
+    SEP #0x20
 
-	PHB
-	LDA.B #0x7E
-	PHA
-	PLB
+    PHB
+    LDA.B #0x7E
+    PHA
+    PLB
 
 Boucle2:
-	REP #0x20
-	LDA.W #0x0000
-	STZ.B CNTR2
-	SEP #0x20
-	PHX
-	LDA.B BITSLEFT
-	
-	CMP #0x08
-	BNE _shift
-	PLX
-	LDA.L assets_font_dat,X
-	INX
-	XBA
-	BRA _store
-		
+    REP #0x20
+    LDA.W #0x0000
+    STZ.B CNTR2
+    SEP #0x20
+    PHX
+    LDA.B BITSLEFT
+    
+    CMP #0x08
+    BNE _shift
+    PLX
+    LDA.L assets_font_dat,X
+    INX
+    XBA
+    BRA _store
+        
 _shift:
-	TAX			; using math multiplication
-	LDA.L vwf_shift_table,X
-	STA.L 0x004202		; MULTPILIER
+    TAX            ; using math multiplication
+    LDA.L vwf_shift_table,X
+    STA.L 0x004202        ; MULTPILIER
 
-		
-	PLX
-		
-	;REP #0x20
-		
-	LDA.L assets_font_dat,X
-	INX
+        
+    PLX
+        
+    ;REP #0x20
+        
+    LDA.L assets_font_dat,X
+    INX
 
-	STA.L 0x004203		; MULTIPLICAND
-	
-	REP #0x20
-	NOP
-	NOP
-	NOP
-	NOP
-	LDA.L 0x004216	; the result is stored in 0x4216-0x4217
-	SEP #0x20
+    STA.L 0x004203        ; MULTIPLICAND
+    
+    REP #0x20
+    NOP
+    NOP
+    NOP
+    NOP
+    LDA.L 0x004216    ; the result is stored in 0x4216-0x4217
+    SEP #0x20
 
 _store:
-	INY
-	XBA
-	PHX
-	TYX
-	ORA.L WRAM,x
-	STA.L WRAM,x
-	XBA
-	STA.L WRAM+0x20,x
+    INY
+    XBA
+    PHX
+    TYX
+    ORA.L WRAM,x
+    STA.L WRAM,x
+    XBA
+    STA.L WRAM+0x20,x
     TXY
     PLX
-	INY
-				
-	DEC.B CNTR
-	BNE Boucle2
-		
-	PLB
-	PHA
-	PLA
+    INY
+                
+    DEC.B CNTR
+    BNE Boucle2
+        
+    PLB
+    PHA
+    PLA
 
-	REP #0x20
-	STZ.B temp
-	LDA.W #0x0000
-	LDX.W #0x0000
-	SEP #0x20
+    REP #0x20
+    STZ.B temp
+    LDA.W #0x0000
+    LDX.W #0x0000
+    SEP #0x20
 
-	LDA.B CURRENT_C
-	TAX
+    LDA.B CURRENT_C
+    TAX
 
-	LDA.L assets_font_length_table_dat,X
-	STA.B temp
-		
-	REP #0x20
-	CLC
-	
-	ADC.B pixel_c
-	INC
-	CLC
-	STA.B pixel_c
-	LDA.W #0x0000
-	SEP #0x20
+    LDA.L assets_font_length_table_dat,X
+    STA.B temp
+        
+    REP #0x20
+    CLC
+    
+    ADC.B pixel_c
+    INC
+    CLC
+    STA.B pixel_c
+    LDA.W #0x0000
+    SEP #0x20
 
-	LDA.B BITSLEFT
+    LDA.B BITSLEFT
 
-	CLC
-	SBC.B temp
+    CLC
+    SBC.B temp
 
 loopdec:
-	CMP #0x00
-	BMI coupe
-	BEQ coupe
-		
-	STA.B BITSLEFT
-	RTS
+    CMP #0x00
+    BMI coupe
+    BEQ coupe
+        
+    STA.B BITSLEFT
+    RTS
 
 coupe:
-	CLC
-	ADC #0x08
-	INC.B TILEPOS
-	BRA loopdec
+    CLC
+    ADC #0x08
+    INC.B TILEPOS
+    BRA loopdec
 
 
 vwf_shift_table:
-.db 0b00000000				; dummy entrie =0
-.db 0b00000010				;1
-.db 0b00000100				;2
-.db 0b00001000				;3
-.db 0b00010000				;4
-.db 0b00100000				;5
-.db 0b01000000				;6
-.db 0b10000000				;7
-.db 0b10000000				;8
+.db 0b00000000                ; dummy entrie =0
+.db 0b00000010                ;1
+.db 0b00000100                ;2
+.db 0b00001000                ;3
+.db 0b00010000                ;4
+.db 0b00100000                ;5
+.db 0b01000000                ;6
+.db 0b10000000                ;7
+.db 0b10000000                ;8
 
 ;************************
 ;** build font pointer **
 ;************************
 
 makeptr:
-	PHA	
-	
-	LDX.W #0x0000
-	LDY.W #0x0000
-	LDA.B CURRENT_C
-	XBA
-	LDA #0x00
-	XBA
-	REP #0x20
-	ASL
-	ASL
-	ASL
-	ASL
-	TAX
-	LDA.W #0x0000
-	SEP #0x20
+    PHA    
+    
+    LDX.W #0x0000
+    LDY.W #0x0000
+    LDA.B CURRENT_C
+    XBA
+    LDA #0x00
+    XBA
+    REP #0x20
+    ASL
+    ASL
+    ASL
+    ASL
+    TAX
+    LDA.W #0x0000
+    SEP #0x20
 
-	LDA.B TILEPOS
-	sta.b oldtilepos
-	REP #0x20
-	ASL
-	ASL
-	ASL
-	ASL
-	ASL
-	sta.b oldtilepos
-	TAY
-	SEP #0x20
-	PLA
-	RTS
+    LDA.B TILEPOS
+    sta.b oldtilepos
+    REP #0x20
+    ASL
+    ASL
+    ASL
+    ASL
+    ASL
+    sta.b oldtilepos
+    TAY
+    SEP #0x20
+    PLA
+    RTS
 
 
 
@@ -644,39 +644,39 @@ makeptr:
 ;
 ;===================================
 clr:
-	PHB			;efface la la ram pour y stocker l'image
-	LDA.B #WRAM >> 16
-	PHA
-	PLB
-	LDX.W #0x0000
+    PHB            ;efface la la ram pour y stocker l'image
+    LDA.B #WRAM >> 16
+    PHA
+    PLB
+    LDX.W #0x0000
 lop:
-	LDA.B #0xFF
-	STA.W WRAM,X
-	INX
+    LDA.B #0xFF
+    STA.W WRAM,X
+    INX
 
-	LDA.B #0x00
-	STA.W WRAM,X
-	INX
+    LDA.B #0x00
+    STA.W WRAM,X
+    INX
 
-	CPX.W #0x0D10
-		
-	BNE lop
-	
+    CPX.W #0x0D10
+        
+    BNE lop
+    
 lop2:
-		
-	LDA.B #0x00
-	STA.W WRAM,X
-		
-	INX
-		
-	CPX.W #0x0D20
-	BNE lop2
+        
+    LDA.B #0x00
+    STA.W WRAM,X
+        
+    INX
+        
+    CPX.W #0x0D20
+    BNE lop2
 
-	PLB
-	PHA
-	PLA
+    PLB
+    PHA
+    PLA
 
-	RTS
+    RTS
 
 ;*****************
 ;** Retour auto **
@@ -684,77 +684,77 @@ lop2:
 ;on cherche l'espace suivant
 retour_auto:
 
-	PHX
-	LDX.W #0x0000
-	LDY.W 0x0772	;on sauve la position de lecture dans Y
-	STZ.B temp
-	STZ.B temp+1
-	LDA.B 0x3F
-	;LDA.B CURRENT_C
-	PHA
-	BRA firstrun2
+    PHX
+    LDX.W #0x0000
+    LDY.W 0x0772    ;on sauve la position de lecture dans Y
+    STZ.B temp
+    STZ.B temp+1
+    LDA.B 0x3F
+    ;LDA.B CURRENT_C
+    PHA
+    BRA firstrun2
 loopchr:
-	JSR.W ChargeLettreInc
+    JSR.W ChargeLettreInc
 
     CMP #0x04
     bne normal_char
     lda #6 * 8
     bra add_accumulator_value_to_temp
-	normal_char:
+    normal_char:
 ;règles de césure
-	BEQ chrfound	;Message Break \n<end>\n\n
-	CMP #0xFF	;espace
-	BEQ chrfound
-	CMP #0xFC	;<new>
-	BEQ chrfound
-	CMP #0x01	;\n
-	BEQ chrfound
+    BEQ chrfound    ;Message Break \n<end>\n\n
+    CMP #0xFF    ;espace
+    BEQ chrfound
+    CMP #0xFC    ;<new>
+    BEQ chrfound
+    CMP #0x01    ;\n
+    BEQ chrfound
 
-	firstrun2:
-	;REP #0x20
-	TAX
-	;SEP #0x20
+    firstrun2:
+    ;REP #0x20
+    TAX
+    ;SEP #0x20
 
-	LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
-	INC
+    LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
+    INC
 
 add_accumulator_value_to_temp:
-	REP #0x20
-	CLC
-	ADC.B temp
-	STA.B temp
-	SEP #0x20
-	
-	;else
-	BRA loopchr
+    REP #0x20
+    CLC
+    ADC.B temp
+    STA.B temp
+    SEP #0x20
+    
+    ;else
+    BRA loopchr
 
-	chrfound:
+    chrfound:
 
-	REP #0x20
-	LDA.W #0x0000
-	LDA.B pixel_c
-	CLC
-	ADC.B temp
+    REP #0x20
+    LDA.W #0x0000
+    LDA.B pixel_c
+    CLC
+    ADC.B temp
 
-	CMP.W #0x00CD-newline_offset	;largeur max en pixel
-	BMI noreturn
+    CMP.W #0x00CD-newline_offset    ;largeur max en pixel
+    BMI noreturn
 retour:
-	SEP #0x20
-	PLA
-	STA.B 0x3F
-	STY.W 0x0772	; restoration de la position du texte
-	PLX
-	JMP.W newline
-	
-	noreturn:
-	;LDA.W #0x0000
-	SEP #0x20
-	PLA
-	STA.B 0x3F
-	STY.W 0x0772	; restauration de la position du texte
-	JSR.W ChargeLettre ; ça evite a certains caractères de passer à la trappe
-	PLX
-	JMP.W return_a
+    SEP #0x20
+    PLA
+    STA.B 0x3F
+    STY.W 0x0772    ; restoration de la position du texte
+    PLX
+    JMP.W newline
+    
+    noreturn:
+    ;LDA.W #0x0000
+    SEP #0x20
+    PLA
+    STA.B 0x3F
+    STY.W 0x0772    ; restauration de la position du texte
+    JSR.W ChargeLettre ; ça evite a certains caractères de passer à la trappe
+    PLX
+    JMP.W return_a
 
 
 ;Wait for vblank routine
@@ -763,36 +763,36 @@ retour:
 ;Wait for joypad 1
 waitpad:
 {
-	PHA
-	LDA.B winstate
-	BEQ nowaitpad
-	
+    PHA
+    LDA.B winstate
+    BEQ nowaitpad
+    
 padloop:
-	LDA.W 0x4218
-	BEQ padloop
-	BRA end
-	
+    LDA.W 0x4218
+    BEQ padloop
+    BRA end
+    
 nowaitpad:
-;	LDA.B #0x10
-;	STA.B CNTR
+;    LDA.B #0x10
+;    STA.B CNTR
 ;
 ;{
 ;loop:
-;	WAI
-;	WAI
-;	WAI
-;	WAI
-;	DEC.B CNTR
-;	BNE loop
+;    WAI
+;    WAI
+;    WAI
+;    WAI
+;    DEC.B CNTR
+;    BNE loop
 ;}
 end:
-	PLA
-	jsr.w clr
-	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
-	jsr.w wait_for_vblank
-	dma_transfer_to_vram_call(WRAM + 0x348,vram_tile_set_pointer + 0x348,0x0690,0x1801)
-	RTS
+    PLA
+    jsr.w clr
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM + 0x348,vram_tile_set_pointer + 0x348,0x0690,0x1801)
+    RTS
 }
 
 wdisplay:
@@ -800,97 +800,97 @@ wdisplay:
 
 ;wait for vblank to transfer
 
-	jsr.w wait_for_vblank
+    jsr.w wait_for_vblank
 
-;	php 
-	sep #0x20
+;    php 
+    sep #0x20
 
 
-	;macro expansion
-	
-	PHP
-	PHA
-	PHX
+    ;macro expansion
+    
+    PHP
+    PHA
+    PHX
 
-	LDA.B #0x80
-	STA.W 0x2115
+    LDA.B #0x80
+    STA.W 0x2115
 
-	rep #0x20
-	pha
+    rep #0x20
+    pha
 
-	lda.b oldtilepos
-	lsr			; addresse vram /2
-	clc
-	adc.w #vram_tile_set_pointer
-	sta.w 0x2116
+    lda.b oldtilepos
+    lsr            ; addresse vram /2
+    clc
+    adc.w #vram_tile_set_pointer
+    sta.w 0x2116
 
-	
-	lda.b oldtilepos
-	clc
-	adc.w #WRAM & 0xFFFF
-	sta.w 0x4372
-	
-	pla
-	sep #0x20
-	
-	channel=7
-	
-	LDX.W #0x1801
-	STX.W 0x4370
-	LDA.B #0xFF & (WRAM >> 16)
-	STA.W 0x4374
+    
+    lda.b oldtilepos
+    clc
+    adc.w #WRAM & 0xFFFF
+    sta.w 0x4372
+    
+    pla
+    sep #0x20
+    
+    channel=7
+    
+    LDX.W #0x1801
+    STX.W 0x4370
+    LDA.B #0xFF & (WRAM >> 16)
+    STA.W 0x4374
 
-	LDX.W #0x0040
-	STX.W 0x4375
-	LDA.B #0x01<<7
-	STA 0x420B
+    LDX.W #0x0040
+    STX.W 0x4375
+    LDA.B #0x01<<7
+    STA 0x420B
 
-	NOP
-	NOP
-	
-	PLX
-	PLA
-	PLP
-	
+    NOP
+    NOP
+    
+    PLX
+    PLA
+    PLP
+    
 
 ;; transfer
 
-	LDA.B #(0x0A<<2)+1		;déplacement du tileset
-	STA.W 0x2109		;vers 0x2800 ?
+    LDA.B #(0x0A<<2)+1        ;déplacement du tileset
+    STA.W 0x2109        ;vers 0x2800 ?
 
-	STZ.W 0x2111		;horizontal scrool BG3
-	STZ.W 0x2111
+    STZ.W 0x2111        ;horizontal scrool BG3
+    STZ.W 0x2111
 
-	STZ.W 0x2112		;vertical scrool BG3
-	STZ.W 0x2112
-	
-	LDA.B winstate
-	BEQ nowindow
-	
-	dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
-	BRA window
-	
+    STZ.W 0x2112        ;vertical scrool BG3
+    STZ.W 0x2112
+    
+    LDA.B winstate
+    BEQ nowindow
+    
+    dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
+    BRA window
+    
 nowindow:
     dma_transfer_to_vram_call(intromap, vram_tile_map_pointer, 0x0280, 0x1801)
 
-	window:
-;	LDA.B #0x0F		;screen:ON luminosité au max
-;	STA.W 0x2100
+    window:
+;    LDA.B #0x0F        ;screen:ON luminosité au max
+;    STA.W 0x2100
 {
     LDA.B CURRENT_C
     CMP #0xFF
     BEQ no_char_wait
-	WAI			;wait for interrupts
-	no_char_wait:
+    WAI            ;wait for interrupts
+    no_char_wait:
 }
-	RTS
+    RTS
 
 wclear:
     ; restore tileset position
     LDA #0x02
-	STA 0x210C
+    STA 0x210C
     dma_transfer_to_vram_call(clearmap, vram_tile_map_pointer, endclearmap-clearmap, 0x1801)
-	RTL
+    RTL
 
 winmap:
 .dw 0x2000,0x2000,0x2016,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2017,0x2018,0x2000,0x2000
