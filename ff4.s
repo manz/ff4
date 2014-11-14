@@ -3,7 +3,7 @@
 ; ----------------
 .include 'src/libmz.i'
 
-.include 'src/vwf_patches.s'
+.include 'src/minimal_vwf_patches.s'
 ;.include 'src/battle.s'
 
 dialog_bank_ptr_base = 0x218000
@@ -14,20 +14,16 @@ dialog_bank_ptr_base = 0x218000
 ; target PCB: SHVC-1A5B
 
 ;FFD5 20H / 30H Map Mode
-;*=0xFFD6
-;    .db 0x02 ; Cartridge Type
-;    .db 0x0B ; ~ 0BH ROM Size
-;    .db 0x05 ; RAM Size
+*=0xFFD6
+    .db 0x02 ; Cartridge Type
+    .db 0x0B ; ~ 0BH ROM Size
+    .db 0x05 ; RAM Size
 
 
 ; déroutage pour ajouter le splash screen
 *=0x008031
 	jsr.l start_splash_screen
 
-; déroutage pour utiliser la vwf dans les dialogues.
-*=0x00B463
-	jsr.l vwfstart
-	rts
 
 ;*=0x0AF000
 ;   .incbin 'fonts/8x8.bin'
