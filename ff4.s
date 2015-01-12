@@ -5,6 +5,7 @@
 
 .include 'src/minimal_vwf_patches.s'
 ;.include 'src/battle.s'
+.include 'src/places_names.s'
 
 dialog_bank_ptr_base = 0x218000
 
@@ -24,10 +25,17 @@ dialog_bank_ptr_base = 0x218000
 *=0x008031
 	jsr.l start_splash_screen
 
+; déroutage pour utiliser la vwf dans les dialogues.
+*=0x00B463
+	jsr.l vwfstart
+	rts
 
 ;*=0x0AF000
 ;   .incbin 'fonts/8x8.bin'
 
+; Patch des noms des personages
+*=0x0FA710
+	.incbin 'assets/characters_names.dat'
 
 *=0x0f8000
     .incbin 'assets/items.dat'
@@ -38,7 +46,9 @@ dialog_bank_ptr_base = 0x218000
     .include 'src/vwf.s'
     .include 'src/dialog.s'
     .include 'src/menus.s'
+	.include 'src/places_names_window.s'
     .incbin 'assets/magic.dat'
+	.incbin 'assets/places_names.dat'
 
 *=0x218000
     .incbin 'assets/bank1_1.ptr'
@@ -53,7 +63,6 @@ dialog_bank_ptr_base = 0x218000
 
 *=0x25A000
     .incbin 'assets/bank2.dat'
-;    .incbin 'assets/places.dat'
 
 *=0x27A000
     .incbin 'assets/font.dat'
