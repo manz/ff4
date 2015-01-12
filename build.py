@@ -28,7 +28,25 @@ def read_fixed_from_xml(input_file, table, formatter=None):
             if len(pointer.value) < length:
                 pad_length = length - len(pointer.value)
                 pointer.value += table.to_bytes(padding) * pad_length
+            elif len(pointer.value) > length:
+                pointer.value = pointer.value[:length]
 
+            pointer_table.append(pointer)
+    return pointer_table
+
+
+def read_stringarray_from_xml(input_file, table):
+    pointer_table = []
+    with open(input_file, encoding='utf-8') as datasource:
+        tree = ElementTree.parse(datasource)
+        root = tree.getroot()
+        i = 0
+        eos = int(root.get('eos'), 16)
+        for child in root:
+            text = child.text
+            pointer = Pointer(i)
+            pointer.value = table.to_bytes(text) if text else b''
+            pointer.value += bytearray([eos])
             pointer_table.append(pointer)
     return pointer_table
 
@@ -60,6 +78,11 @@ def build_fixed_asset(table, input_file, binary_text_file):
     write_pointers_value_as_binary(pointers, binary_text_file)
 
 
+def build_null_terminated(table, input_file, binary_text_file):
+    pointers = read_stringarray_from_xml(input_file, table)
+    write_pointers_value_as_binary(pointers, binary_text_file)
+
+
 def build_text_assets(banks):
     for bank in banks:
         build_text_asset(dialog_table, bank[0], bank[1], bank[2], bank[3])
@@ -86,6 +109,7 @@ def build_vwf_font_asset(font_file, data_file, len_table_file):
 assets_builder = {
     'script': build_text_asset,
     'fixed': build_fixed_asset,
+    'nullterminated': build_null_terminated,
     'vwf-font': build_vwf_font_asset
 }
 
@@ -113,7 +137,9 @@ if __name__ == '__main__':
         ('vwf-font', 'fonts/vwf.png', 'assets/font.dat', 'assets/font_length_table.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-items.xml'.format(lang=lang)), 'assets/items.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-magic.xml'.format(lang=lang)), 'assets/magic.dat'),
-
+        ('fixed', menu_table, os.path.join(text_root, '{lang}-battle_commands.xml'.format(lang=lang)), 'assets/battle_commands.dat'),
+        ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)), 'assets/characters_names.dat'),
+        ('nullterminated', menu_table, os.path.join(text_root, '{lang}-places-names.xml'.format(lang=lang)), 'assets/places_names.dat')
     ]
 
     build_assets(assets_list)
