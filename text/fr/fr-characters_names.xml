@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="6" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+    <sn:fixed>Cecil</sn:fixed>
+    <sn:fixed>Cain</sn:fixed>
+    <sn:fixed>Rydia</sn:fixed>
+    <sn:fixed>Tella</sn:fixed>
+    <sn:fixed>Gilbert</sn:fixed>
+    <sn:fixed>Rosa</sn:fixed>
+    <sn:fixed>Yang</sn:fixed>
+    <sn:fixed>Palom</sn:fixed>
+    <sn:fixed>Porom</sn:fixed>
+    <sn:fixed>Cid</sn:fixed>
+    <sn:fixed>Edge</sn:fixed>
+    <sn:fixed>FuSoYa</sn:fixed>
+    <sn:fixed>Golbez</sn:fixed>
+    <sn:fixed>Anna</sn:fixed>
+</sn:fixedlist>
+
