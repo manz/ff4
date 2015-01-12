@@ -137,7 +137,6 @@ if __name__ == '__main__':
         ('vwf-font', 'fonts/vwf.png', 'assets/font.dat', 'assets/font_length_table.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-items.xml'.format(lang=lang)), 'assets/items.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-magic.xml'.format(lang=lang)), 'assets/magic.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-battle_commands.xml'.format(lang=lang)), 'assets/battle_commands.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)), 'assets/characters_names.dat'),
         ('nullterminated', menu_table, os.path.join(text_root, '{lang}-places-names.xml'.format(lang=lang)), 'assets/places_names.dat')
     ]
