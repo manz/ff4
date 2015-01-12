@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
+    <sn:string>Floor 1</sn:string>
+    <sn:string>Floor 2</sn:string>
+    <sn:string>Floor 3</sn:string>
+    <sn:string>Floor 4</sn:string>
+    <sn:string>Floor 5</sn:string>
+    <sn:string>Floor 6</sn:string>
+    <sn:string>Floor 7</sn:string>
+    <sn:string>Floor 8</sn:string>
+    <sn:string>Basement Floor 1</sn:string>
+    <sn:string>Basement Floor 2</sn:string>
+    <sn:string>Basement Floor 3</sn:string>
+    <sn:string>Basement Floor 4</sn:string>
+    <sn:string>Basement Floor 5</sn:string>
+    <sn:string>Basement Floor 6</sn:string>
+    <sn:string>Basement Floor 7</sn:string>
+    <sn:string>Basement Floor 8</sn:string>
+    <sn:string>Inn</sn:string>
+    <sn:string>Weapon Shop</sn:string>
+    <sn:string>Armor Shop</sn:string>
+    <sn:string>Tool Shop</sn:string>
+    <sn:string>Cafe</sn:string>
+    <sn:string>Camp</sn:string>
+    <sn:string>King's Room</sn:string>
+    <sn:string>Dungeon</sn:string>
+    <sn:string>Crystal Room</sn:string>
+    <sn:string>Chocobo Forest</sn:string>
+    <sn:string>Chocobo Village</sn:string>
+    <sn:string>Weapon and Armor Shop</sn:string>
+    <sn:string>Left Tower</sn:string>
+    <sn:string>Right Tower</sn:string>
+    <sn:string>Hidden Room</sn:string>
+    <sn:string>Training Room</sn:string>
+    <sn:string>Baron Castle</sn:string>
+    <sn:string>White Magic Classroom</sn:string>
+    <sn:string>Black Magic Classroom</sn:string>
+    <sn:string>Your Room</sn:string>
+    <sn:string>Town of Baron</sn:string>
+    <sn:string>Underground Lake</sn:string>
+    <sn:string>Underground Channel -N.</sn:string>
+    <sn:string>Cave of Mist</sn:string>
+    <sn:string>Village of Mist</sn:string>
+    <sn:string>A House</sn:string>
+    <sn:string>Oasis Village of Kaipo</sn:string>
+    <sn:string>Underground Channel -S.</sn:string>
+    <sn:string>Underground Waterfall</sn:string>
+    <sn:string>Damcyan Castle</sn:string>
+    <sn:string>Dungeon of Damcyan</sn:string>
+    <sn:string>Antlion Basement Floor 1</sn:string>
+    <sn:string>Antlion's Nest</sn:string>
+    <sn:string>Mount Hobs - West</sn:string>
+    <sn:string>Summit</sn:string>
+    <sn:string>Fabul</sn:string>
+    <sn:string>Mount Hobs - East</sn:string>
+    <sn:string>Fabul Harbor</sn:string>
+    <sn:string>Ship to Baron</sn:string>
+    <sn:string>Ancient Waterway</sn:string>
+    <sn:string>Mysidia</sn:string>
+    <sn:string>Tower of Prayers</sn:string>
+    <sn:string>Devil Road</sn:string>
+    <sn:string>Prayer Room</sn:string>
+    <sn:string>Mt. Ordeals - Entrance</sn:string>
+    <sn:string>Mithril Town</sn:string>
+    <sn:string>Beach</sn:string>
+    <sn:string>Dummy</sn:string>
+    <sn:string>Toroia Castle</sn:string>
+    <sn:string>Town of Toroia</sn:string>
+    <sn:string>Development Room</sn:string>
+    <sn:string>Black Chocobo Farm</sn:string>
+    <sn:string>Village of Agalt</sn:string>
+    <sn:string>Astronomy Tower</sn:string>
+    <sn:string>Observation Room</sn:string>
+    <sn:string>Cave of Power</sn:string>
+    <sn:string>Eblana Castle</sn:string>
+    <sn:string>Cave of Eblana</sn:string>
+    <sn:string>Tower of Babil - Floor 1</sn:string>
+    <sn:string>Tower of Zott</sn:string>
+    <sn:string>Giant's Mouth</sn:string>
+    <sn:string>Castle of Dwarves</sn:string>
+    <sn:string>Back Room</sn:string>
+    <sn:string>Passage to Babil</sn:string>
+    <sn:string>Mt. Ordeals -3rd Station</sn:string>
+    <sn:string>Mt. Ordeals -7th Station</sn:string>
+    <sn:string>Under Eblana Castle</sn:string>
+    <sn:string>Red Cap</sn:string>
+    <sn:string>Enterprise</sn:string>
+    <sn:string>Magical Ship</sn:string>
+    <sn:string>'King' Pub</sn:string>
+    <sn:string>Blacksmith Kukuro's Home</sn:string>
+    <sn:string>Village of Tomera</sn:string>
+    <sn:string>Cave to Phantom World</sn:string>
+    <sn:string>Sealed Cave</sn:string>
+    <sn:string>Adamant Cave</sn:string>
+    <sn:string>Dwarves' Military Base</sn:string>
+    <sn:string>Gigantic Cannon</sn:string>
+    <sn:string>Cave of the Phantom God</sn:string>
+    <sn:string>Home of the Lunarians</sn:string>
+    <sn:string>Cave of the Sylphs</sn:string>
+    <sn:string>Lunar Underground 1</sn:string>
+    <sn:string>Lunar Underground 2</sn:string>
+    <sn:string>Lunar Underground 3</sn:string>
+    <sn:string>Lunar Underground 4</sn:string>
+    <sn:string>Lunar Underground 5</sn:string>
+    <sn:string>Lunar Underground 6</sn:string>
+    <sn:string>Lunar Underground 7</sn:string>
+    <sn:string>Zemus Zone</sn:string>
+    <sn:string>Lunar Underground Pass</sn:string>
+    <sn:string>Zeromus</sn:string>
+    <sn:string>Right Under Babil</sn:string>
+    <sn:string>'Laliho' Pub</sn:string>
+    <sn:string>Music Room</sn:string>
+    <sn:string>Upper Room</sn:string>
+    <sn:string>Phantom World</sn:string>
+    <sn:string>A Few Books</sn:string>
+    <sn:string>A Residence</sn:string>
+    <sn:string>Giant's Neck</sn:string>
+    <sn:string>Giant's Chest</sn:string>
+    <sn:string>Giant's Stomach</sn:string>
+    <sn:string>Passage Inside the Giant</sn:string>
+    <sn:string>Inside the Giant</sn:string>
+    <sn:string>Giant's Lung</sn:string>
+    <sn:string>Control System</sn:string>
+    <sn:string>Cave of the Lunarians</sn:string>
+</sn:stringarray>
