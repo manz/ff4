@@ -6,6 +6,7 @@
 .include 'src/minimal_vwf_patches.s'
 ;.include 'src/battle.s'
 .include 'src/places_names.s'
+.include 'src/new_game.s'
 
 dialog_bank_ptr_base = 0x218000
 
