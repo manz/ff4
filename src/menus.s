@@ -67,24 +67,6 @@
     NOP
 
 
-; Patch des noms des personages
-*=0x0FA710
-character_names:
-	.text 'Cecil '
-	.text 'Cain  '
-	.text 'Rydia '
-	.text 'Tella '
-	.text 'Gibert'
-	.text 'Rosa  '
-	.text 'Yang  '
-	.text 'Palom '
-	.text 'Porom '
-	.text 'Cid   '
-	.text 'Edge  '
-	.text 'FuSoYa'
-	.text 'Golbez'
-	.text 'Anna  '
-
 
 
 ; Move monsters names
