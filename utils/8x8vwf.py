@@ -116,9 +116,11 @@ menu_items = [
     'Selenite'
 ]
 
+
 def generate_8x8_vwf_asset(string_list, prefix, table_start, max_tile_length=None):
     k = 0
     current_id = table_start
+
     with open('assets/%s.bin' % prefix, 'wb') as output:
         with open('assets/%s.len' % prefix, 'wb') as length_table:
             with open('text/gen/%s.tbl' % prefix, 'wt', encoding='utf-8') as table:
@@ -139,5 +141,6 @@ def generate_8x8_vwf_asset(string_list, prefix, table_start, max_tile_length=Non
                     current_id += tile_count
                     k += 1
 
+
 if __name__ == '__main__':
-    generate_8x8_vwf_asset(menu_items, 'menu', 0x02)
+    generate_8x8_vwf_asset(['Niveau', 'Gils'], 'niveau', 0xF0)
