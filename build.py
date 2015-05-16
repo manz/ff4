@@ -11,6 +11,7 @@ from script.pointers import read_pointers_from_xml, write_pointers_value_as_bina
     Pointer
 import struct
 from utils.font import convert_font_to_1bpp
+from utils.smallvwf import generate_8x8_vwf_asset
 
 
 def read_fixed_from_xml(input_file, table, formatter=None):
@@ -152,6 +153,7 @@ if __name__ == '__main__':
     ]
 
     build_assets(assets_list)
+    generate_8x8_vwf_asset(['Niveau', 'Gils'], 'niveau', 0xF0)
 
     if not os.path.exists('build'):
         os.mkdir('build')
