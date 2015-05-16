@@ -123,7 +123,7 @@ def generate_8x8_vwf_asset(string_list, prefix, table_start, max_tile_length=Non
 
     with open('assets/%s.bin' % prefix, 'wb') as output:
         with open('assets/%s.len' % prefix, 'wb') as length_table:
-            with open('text/gen/%s.tbl' % prefix, 'wt', encoding='utf-8') as table:
+            with open('text/%s.tbl' % prefix, 'wt', encoding='utf-8') as table:
                 if max_tile_length:
                     line_length = (max_tile_length * 2 * 8)
                 for string in string_list:
