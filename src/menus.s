@@ -571,7 +571,6 @@ PT0000:
 
     ;dma_transfer_to_vram_nofunk(assets_menu_bin, 0x6000, assets_menu_bin__size, 0x1801)
 
-	highway_to_hell:
 ;	wait_for_vblank_inline()
 ;	dma_transfer_to_vram_nofunk(0x0AF000 ,0x6000, 0x1000, 0x1801)
 ;	wait_for_vblank_inline()
@@ -596,6 +595,7 @@ PT0003:
 	LDA.B #0x06
 	JSR.L textload
 	RTS
+endofbidule:
 
 ; freespace
 *=0x20B000

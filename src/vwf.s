@@ -25,16 +25,19 @@ vwfstart:
     BITSLEFT    = var_base + 4
     CNTR2       = var_base + 6
     temp        = var_base + 8
-    scroll      = var_base + 10
-    vsize       = var_base + 12
-;;buildmap call
-    winstate    = var_base + 14
-    tstart      = var_base + 16
-    nchars      = var_base + 18
-    pixel_c     = var_base + 20
-    oldtilepos  = var_base + 22
-    TILEPOS     = var_base + 24
+    font_addr   = var_base + 10 ; 11 12
+;    scroll      = var_base + 10
+;    vsize       = var_base + 12
+	font_length  = var_base + 13 ; 14 15
+    winstate     = var_base + 16
+    nchars       = var_base + 18
+    pixel_c      = var_base + 20
+    oldtilepos   = var_base + 22
+    TILEPOS      = var_base + 24
     no_wait_for_action = 0xcb
+
+    lda #0
+    jsr.w setup_font
 
     php
     sep #0x20
@@ -43,10 +46,10 @@ vwfstart:
     save_16_bit_var(BITSLEFT, ram_mirror)
     save_16_bit_var(CNTR2, ram_mirror)
     save_16_bit_var(temp, ram_mirror)
-    save_16_bit_var(scroll, ram_mirror)
-    save_16_bit_var(vsize, ram_mirror)
+;    save_16_bit_var(scroll, ram_mirror)
+;    save_16_bit_var(vsize, ram_mirror)
     save_16_bit_var(winstate, ram_mirror)
-    save_16_bit_var(tstart, ram_mirror)
+;    save_16_bit_var(tstart, ram_mirror)
     save_16_bit_var(nchars, ram_mirror)
     save_16_bit_var(pixel_c, ram_mirror)
     save_16_bit_var(oldtilepos, ram_mirror)
@@ -132,7 +135,7 @@ _nxt5:
     ; Delay avant de fermer ?
     CMP #0x05
     BNE _nxt6
-        JMP.W _code05
+	JMP.W _code05
 _nxt6:
     ; it might lack 06 and 07 text opcodes
 
@@ -158,11 +161,17 @@ _nxtFB:
     CMP #0xFC
     BNE _nxtFC
     JMP.W suit3
-    
-_nxtFC:    
+_nxtFC:
+	cmp #0xFE
+	bne _nxtFE
+    jsr.w ChargeLettreInc
+    jsr.w setup_font
+    jmp.w main
+_nxtFE:
     CMP #0xFF
     BNE _nxtFF
     JMP.W retour_auto
+
     
 _nxtFF:
 
@@ -251,6 +260,10 @@ _loop_B5D2:
 ;****************
 display_character_name:
 {
+;	pha
+;	lda.b #3
+;	jsr.w setup_font
+;	pla
     JSR.W ChargeLettreInc
     ASL
     STA.B 0x30
@@ -286,6 +299,10 @@ suite:
     BEQ exit
     JMP.W next
 exit:
+;	pha
+;	lda.b #0
+;	jsr.w setup_font
+;	pla
     JMP.W main
 }
 ;********************
@@ -362,15 +379,15 @@ musique:
 
 _code05:
     JSR.W ChargeLettreInc
-    STZ 0x19
+    STZ.b temp+1
     ASL
-    ROL 0x19
+    ROL.b temp+1
     ASL
-    ROL 0x19
+    ROL.b temp+1
     ASL
-    ROL 0x19
-    STA 0x18
-    LDX 0x18
+    ROL.b temp+1
+    STA.b temp
+    LDX.b temp
     STX 0x08F4
     LDX 0x0000
     STX 0x08F6
@@ -456,7 +473,12 @@ Boucle2:
     CMP #0x08
     BNE _shift
     PLX
-    LDA.L assets_font_dat,X
+   ; LDA.L assets_font_dat,X
+    phy
+    txy
+    lda.b [font_addr], y
+    tyx
+    ply
     INX
     XBA
     BRA _store
@@ -471,7 +493,12 @@ _shift:
         
     ;REP #0x20
         
-    LDA.L assets_font_dat,X
+    ;LDA.L assets_font_dat,X
+    phy
+    txy
+    lda.b [font_addr], y
+    tyx
+    ply
     INX
 
     STA.L 0x004203        ; MULTIPLICAND
@@ -513,7 +540,10 @@ _store:
     LDA.B CURRENT_C
     TAX
 
-    LDA.L assets_font_length_table_dat,X
+;    LDA.L assets_font_length_table_dat,X
+	txy
+	lda.b [font_length], y
+	tyx
     STA.B temp
         
     REP #0x20
@@ -556,6 +586,33 @@ vwf_shift_table:
 .db 0b01000000                ;6
 .db 0b10000000                ;7
 .db 0b10000000                ;8
+
+setup_font:
+{
+	phx
+	pha
+	asl
+	sta.b temp
+	pla
+	clc
+	adc.b temp
+	tax
+
+	rep #0x20
+	lda.l font_table, x
+	sta.b font_addr
+	lda.l length_table,x
+	sta.b font_length
+	sep #0x20
+
+	lda.l font_table+2, x
+	sta.b font_addr+2
+	lda.l length_table+2,x
+	sta.b font_length+2
+
+	plx
+	rts
+}
 
 ;************************
 ;** build font pointer **
@@ -663,7 +720,12 @@ firstrun2:
     TAX
     ;SEP #0x20
 
-    LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
+    ;LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
+    phy
+    txy
+    lda.b [font_length], y
+    tyx
+    ply
     INC
 
 add_accumulator_value_to_temp:
@@ -718,18 +780,18 @@ padloop:
     BRA end
     
 nowaitpad:
-;    LDA.B #0x10
-;    STA.B CNTR
-;
-;{
-;loop:
-;    WAI
-;    WAI
-;    WAI
-;    WAI
-;    DEC.B CNTR
-;    BNE loop
-;}
+    LDA.B #0x10
+    STA.B CNTR
+
+{
+loop:
+    wai
+    wai
+    wai
+    wai
+    dec.b CNTR
+    bne loop
+}
 end:
     pla
     jsr.w clr
