@@ -146,6 +146,8 @@ if __name__ == '__main__':
          'assets/characters_names.dat'),
         ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)),
          'assets/characters_names.dat'),
+        ('fixed', menu_table, os.path.join(text_root, '{lang}-battle_commands.xml'.format(lang=lang)),
+         'assets/battle_commands.dat'),
         ('nullterminated', menu_table, os.path.join(text_root, '{lang}-places-names.xml'.format(lang=lang)),
          'assets/places_names.dat'),
         ('nullterminated', menu_table, os.path.join(text_root, '{lang}-characters_classes.xml'.format(lang=lang)),
