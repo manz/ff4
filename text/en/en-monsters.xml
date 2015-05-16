@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="9" xmlns:sn="http://snes.ninja/ScriptNS">
+    <sn:fixed>Goblin</sn:fixed>
+    <sn:fixed>Basilisk</sn:fixed>
+    <sn:fixed>Dive Eagle</sn:fixed>
+    <sn:fixed>Float Eye</sn:fixed>
+    <sn:fixed>Insectus</sn:fixed>
+    <sn:fixed>Face Bat</sn:fixed>
+    <sn:fixed>Wood Eyes</sn:fixed>
+    <sn:fixed>Sword Rat</sn:fixed>
+    <sn:fixed>Mini Mage</sn:fixed>
+    <sn:fixed>Sand Sahag</sn:fixed>
+    <sn:fixed>Flying Eye</sn:fixed>
+    <sn:fixed>HandLegger</sn:fixed>
+    <sn:fixed>Sand Worm</sn:fixed>
+    <sn:fixed>Gigantoad</sn:fixed>
+    <sn:fixed>Fang Shell</sn:fixed>
+    <sn:fixed>Zombie</sn:fixed>
+    <sn:fixed>Fly Killer</sn:fixed>
+    <sn:fixed>Blood Rose</sn:fixed>
+    <sn:fixed>Organitoad</sn:fixed>
+    <sn:fixed>Marshma[0xba]ow</sn:fixed>
+    <sn:fixed>Ye[0xba]ow Je[0xba]y</sn:fixed>
+    <sn:fixed>Sahagin</sn:fixed>
+    <sn:fixed>Lacy</sn:fixed>
+    <sn:fixed>Creesalis</sn:fixed>
+    <sn:fixed>GoblinCap[0xc1]</sn:fixed>
+    <sn:fixed>Black Liz[0xc1]</sn:fixed>
+    <sn:fixed>Adamantium</sn:fixed>
+    <sn:fixed>Domovoy</sn:fixed>
+    <sn:fixed>Bavarois</sn:fixed>
+    <sn:fixed>Soldier</sn:fixed>
+    <sn:fixed>General</sn:fixed>
+    <sn:fixed>Gatlinger</sn:fixed>
+    <sn:fixed>Rilmarder</sn:fixed>
+    <sn:fixed>DethBeauty</sn:fixed>
+    <sn:fixed>Spirit</sn:fixed>
+    <sn:fixed>Skeleton</sn:fixed>
+    <sn:fixed>Cockatrice</sn:fixed>
+    <sn:fixed>Gargoyle</sn:fixed>
+    <sn:fixed>RudranBaby</sn:fixed>
+    <sn:fixed>Belfegoyle</sn:fixed>
+    <sn:fixed>Zuu</sn:fixed>
+    <sn:fixed>Sea Pot</sn:fixed>
+    <sn:fixed>Alligator</sn:fixed>
+    <sn:fixed>Splasher</sn:fixed>
+    <sn:fixed>Marine</sn:fixed>
+    <sn:fixed>Captain</sn:fixed>
+    <sn:fixed>Soul</sn:fixed>
+    <sn:fixed>BloodyBone</sn:fixed>
+    <sn:fixed>Ghoul</sn:fixed>
+    <sn:fixed>Skulljar</sn:fixed>
+    <sn:fixed>Revenant</sn:fixed>
+    <sn:fixed>DracuLady</sn:fixed>
+    <sn:fixed>Heiropatra</sn:fixed>
+    <sn:fixed>Sku[0xba]Dragon</sn:fixed>
+    <sn:fixed>Lit[0xc1] Fish</sn:fixed>
+    <sn:fixed>GigasGator</sn:fixed>
+    <sn:fixed>Hydra</sn:fixed>
+    <sn:fixed>Flood Worm</sn:fixed>
+    <sn:fixed>BaronGuard</sn:fixed>
+    <sn:fixed>Lamia</sn:fixed>
+    <sn:fixed>HellNeedle</sn:fixed>
+    <sn:fixed>Twin Snake</sn:fixed>
+    <sn:fixed>Lit[0xc1]Spirit</sn:fixed>
+    <sn:fixed>MindFlayer</sn:fixed>
+    <sn:fixed>Naga</sn:fixed>
+    <sn:fixed>Ogre</sn:fixed>
+    <sn:fixed>Cait Sith</sn:fixed>
+    <sn:fixed>Black Kn[0xc1]</sn:fixed>
+    <sn:fixed>Centaur</sn:fixed>
+    <sn:fixed>Miss Vamp[0xc1]</sn:fixed>
+    <sn:fixed>Marion</sn:fixed>
+    <sn:fixed>Marionette</sn:fixed>
+    <sn:fixed>Gloom Wing</sn:fixed>
+    <sn:fixed>Deathtanet</sn:fixed>
+    <sn:fixed>Marid</sn:fixed>
+    <sn:fixed>Satanite</sn:fixed>
+    <sn:fixed>Armadillo</sn:fixed>
+    <sn:fixed>Lady Guard</sn:fixed>
+    <sn:fixed>IceWarrior</sn:fixed>
+    <sn:fixed>NagaRusher</sn:fixed>
+    <sn:fixed>Medusa</sn:fixed>
+    <sn:fixed>Zombiesaur</sn:fixed>
+    <sn:fixed>MagmaTurtl</sn:fixed>
+    <sn:fixed>Imp</sn:fixed>
+    <sn:fixed>Dream Evil</sn:fixed>
+    <sn:fixed>Bomb</sn:fixed>
+    <sn:fixed>Pain Bomb</sn:fixed>
+    <sn:fixed>Chimera</sn:fixed>
+    <sn:fixed>HellTurtle</sn:fixed>
+    <sn:fixed>Iron Dress</sn:fixed>
+    <sn:fixed>Flame Dog</sn:fixed>
+    <sn:fixed>Gorgon</sn:fixed>
+    <sn:fixed>StoneGolem</sn:fixed>
+    <sn:fixed>Lilith</sn:fixed>
+    <sn:fixed>QueenLamia</sn:fixed>
+    <sn:fixed>Toady Toad</sn:fixed>
+    <sn:fixed>Molz</sn:fixed>
+    <sn:fixed>Rudra</sn:fixed>
+    <sn:fixed>Sorcerer</sn:fixed>
+    <sn:fixed>Mad Ogre</sn:fixed>
+    <sn:fixed>FakePuppet</sn:fixed>
+    <sn:fixed>Bloody Bat</sn:fixed>
+    <sn:fixed>Arachne</sn:fixed>
+    <sn:fixed>Flame Kn[0xc1]</sn:fixed>
+    <sn:fixed>MachCannon</sn:fixed>
+    <sn:fixed>RemedyBomb</sn:fixed>
+    <sn:fixed>Dk[0xc1]Grenade</sn:fixed>
+    <sn:fixed>Plague</sn:fixed>
+    <sn:fixed>Last Arm</sn:fixed>
+    <sn:fixed>Kuar</sn:fixed>
+    <sn:fixed>MachDragon</sn:fixed>
+    <sn:fixed>Araneid</sn:fixed>
+    <sn:fixed>Prankster</sn:fixed>
+    <sn:fixed>Centipede</sn:fixed>
+    <sn:fixed>Abyss Worm</sn:fixed>
+    <sn:fixed>Bloody Red</sn:fixed>
+    <sn:fixed>Misleader</sn:fixed>
+    <sn:fixed>Blizlizard</sn:fixed>
+    <sn:fixed>He[0xba]Flapper</sn:fixed>
+    <sn:fixed>Evil Head</sn:fixed>
+    <sn:fixed>Ice Beast</sn:fixed>
+    <sn:fixed>Summoner</sn:fixed>
+    <sn:fixed>Sorceress</sn:fixed>
+    <sn:fixed>AssultDoor</sn:fixed>
+    <sn:fixed>ToadyWitch</sn:fixed>
+    <sn:fixed>Mammon</sn:fixed>
+    <sn:fixed>ChimraHead</sn:fixed>
+    <sn:fixed>Luna Virus</sn:fixed>
+    <sn:fixed>ZemusBreth</sn:fixed>
+    <sn:fixed>WhiteMoose</sn:fixed>
+    <sn:fixed>Pudding</sn:fixed>
+    <sn:fixed>Zemus Mind</sn:fixed>
+    <sn:fixed>MithrilGol</sn:fixed>
+    <sn:fixed>GreenDragn</sn:fixed>
+    <sn:fixed>Pink Puff</sn:fixed>
+    <sn:fixed>Eyes</sn:fixed>
+    <sn:fixed>MachSolder</sn:fixed>
+    <sn:fixed>GiantSoldr</sn:fixed>
+    <sn:fixed>MoonGodess</sn:fixed>
+    <sn:fixed>Molbol</sn:fixed>
+    <sn:fixed>SilverDrag</sn:fixed>
+    <sn:fixed>YellowDrag</sn:fixed>
+    <sn:fixed>Satan Jr[0xc1]</sn:fixed>
+    <sn:fixed>Eucaryote</sn:fixed>
+    <sn:fixed>Phase</sn:fixed>
+    <sn:fixed>IronSolder</sn:fixed>
+    <sn:fixed>DemonSoldr</sn:fixed>
+    <sn:fixed>SteelGolem</sn:fixed>
+    <sn:fixed>Allemagne</sn:fixed>
+    <sn:fixed>Lunasaurus</sn:fixed>
+    <sn:fixed>Searcher</sn:fixed>
+    <sn:fixed>DarkWizard</sn:fixed>
+    <sn:fixed>Dk[0xc1]Bahamut</sn:fixed>
+    <sn:fixed>Procaryote</sn:fixed>
+    <sn:fixed>Tidar[0xd3]hian</sn:fixed>
+    <sn:fixed>BlueDragon</sn:fixed>
+    <sn:fixed>GoldDragon</sn:fixed>
+    <sn:fixed>Lit[0xc1]Dragon</sn:fixed>
+    <sn:fixed>Wh[0xd3]eDragon</sn:fixed>
+    <sn:fixed>Red Dragon</sn:fixed>
+    <sn:fixed>Behemoth</sn:fixed>
+    <sn:fixed>MistDragon</sn:fixed>
+    <sn:fixed>Octomamoth</sn:fixed>
+    <sn:fixed>Antlion</sn:fixed>
+    <sn:fixed>MotherBomb</sn:fixed>
+    <sn:fixed>Scarmig[0xee]on</sn:fixed>
+    <sn:fixed>Scarmig[0xee]on</sn:fixed>
+    <sn:fixed>Beigan</sn:fixed>
+    <sn:fixed>Right Arm</sn:fixed>
+    <sn:fixed>Left Arm</sn:fixed>
+    <sn:fixed>Cagnazzo</sn:fixed>
+    <sn:fixed>Dark Elf</sn:fixed>
+    <sn:fixed>Dark Elf</sn:fixed>
+    <sn:fixed>Dog</sn:fixed>
+    <sn:fixed>Mag</sn:fixed>
+    <sn:fixed>Rag</sn:fixed>
+    <sn:fixed>Golbeze</sn:fixed>
+    <sn:fixed>Barbaricia</sn:fixed>
+    <sn:fixed>Calca</sn:fixed>
+    <sn:fixed>Calcabrena</sn:fixed>
+    <sn:fixed>Golbeze</sn:fixed>
+    <sn:fixed>ShadowDrgn</sn:fixed>
+    <sn:fixed>Doctor</sn:fixed>
+    <sn:fixed>Balnaba</sn:fixed>
+    <sn:fixed>Lugeie</sn:fixed>
+    <sn:fixed>Eblana K[0xc1]</sn:fixed>
+    <sn:fixed>Eblana Q[0xc1]</sn:fixed>
+    <sn:fixed>Rubicante</sn:fixed>
+    <sn:fixed>Odin</sn:fixed>
+    <sn:fixed>Leviathan</sn:fixed>
+    <sn:fixed>Bahamut</sn:fixed>
+    <sn:fixed>Demon Wall</sn:fixed>
+    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>4 Emperors</sn:fixed>
+    <sn:fixed>4 Emperors</sn:fixed>
+    <sn:fixed>DarkDragon</sn:fixed>
+    <sn:fixed>Sahagin</sn:fixed>
+    <sn:fixed>ControlSys</sn:fixed>
+    <sn:fixed>DefenseSys</sn:fixed>
+    <sn:fixed>Zemus</sn:fixed>
+    <sn:fixed>Zeromus</sn:fixed>
+    <sn:fixed>Zeromus</sn:fixed>
+    <sn:fixed>Dragon Kn[0xc1]</sn:fixed>
+    <sn:fixed>Bard</sn:fixed>
+    <sn:fixed>Monk</sn:fixed>
+    <sn:fixed>DarkKnight</sn:fixed>
+    <sn:fixed>Girl</sn:fixed>
+    <sn:fixed>Titan</sn:fixed>
+    <sn:fixed>Float Eye</sn:fixed>
+    <sn:fixed>Zuu</sn:fixed>
+    <sn:fixed>Brena</sn:fixed>
+    <sn:fixed>Skullnant</sn:fixed>
+    <sn:fixed>FusedMecha</sn:fixed>
+    <sn:fixed>Attack Sys</sn:fixed>
+    <sn:fixed>Monster214</sn:fixed>
+    <sn:fixed>K[0xc1] Higuchi</sn:fixed>
+    <sn:fixed>Zeromus</sn:fixed>
+    <sn:fixed>H[0xc1] Ito</sn:fixed>
+    <sn:fixed>A[0xc1] Matsui</sn:fixed>
+    <sn:fixed>K[0xc1] Aoki</sn:fixed>
+    <sn:fixed>H[0xc1] Nakada</sn:fixed>
+    <sn:fixed>K[0xc1] Yoshii</sn:fixed>
+    <sn:fixed>Takahashi</sn:fixed>
+    <sn:fixed>MysteryEgg</sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed></sn:fixed>
+</sn:fixedlist>
