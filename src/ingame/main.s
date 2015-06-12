@@ -14,7 +14,7 @@
 
 ; moves gils two chars on the right
 *=0x0187DA
-    ldy.w     #0x062A + 4
+    ldy.w #0x062A + 4
 
 ; TIME
 *=0x0187C5
@@ -121,3 +121,33 @@ end:
 	LDA.B #0xC8
 	STA.W 0x0576,Y
 }
+
+; main menu spells
+
+; length of spells names
+*=0x01B345
+	lda.b #0x07
+
+; compute spell pointer
+;01b319 rep #0x20
+;01b31b asl a
+;01b31c sta 0x45
+;01b31e asl a
+;01b31f adc 0x45
+;01b321 adc #0x8900
+;01b324 tay
+;01b325 sep #0x20
+;01b327 lda #0x0f
+
+*=0x01b319
+    rep #0x20
+    asl
+    asl
+    asl
+    nop
+    nop
+    nop
+    adc.w #assets_magic_dat
+    tay
+    sep #0x20
+    lda.b #assets_magic_dat >> 16
