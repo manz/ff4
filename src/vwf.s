@@ -780,16 +780,11 @@ padloop:
     BRA end
     
 nowaitpad:
-    LDA.B #0x10
-    STA.B CNTR
-
+    lda.b #0x20
 {
-loop:
-    wai
-    wai
-    wai
-    wai
-    dec.b CNTR
+    loop:
+    jsr.w wait_for_vblank
+    dec
     bne loop
 }
 end:
