@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="11" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixedlist length="10" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:fixed>Fight</sn:fixed>
     <sn:fixed>Item</sn:fixed>
     <sn:fixed>White</sn:fixed>
