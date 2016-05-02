@@ -40,8 +40,9 @@ dialog_bank_ptr_base = 0x218000
 ;*=0x0AF000
 ;   .incbin 'fonts/8x8.bin'
 
-*=0x0AFF00
-	.incbin 'assets/niveau.bin'
+;*=0x0AFF00-0x10 * 10
+*=0x0AF900
+	.incbin 'assets/vwf_precomp.bin'
 
 ; Patch des noms des personages
 *=0x0FA710
