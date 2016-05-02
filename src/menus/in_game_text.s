@@ -93,11 +93,10 @@ exp_for_next_level:
 
 char_stats:
 	.dw 0x0114 - 0x80
-	; use precomputed 8x8vwf.
-	.db 0xF0
-	.db 0xF1
-	.db 0xF2
-	.db 0xF3
+{
+	.table 'text/vwf_precomp.tbl'
+	.text 'Niveau'
+}
 	.db 1
 	.dw 0x01A0
 	.text 'Expérience'
@@ -180,7 +179,7 @@ config:
 	.db 0x01
 
 	.dw 0x01C4
-	.text 'Vitesse Cbt'
+	.text 'Vit. Combat'
 	.db 0x01
 
 	.dw 0x021E
@@ -188,7 +187,7 @@ config:
 	.db 0x01
 
 	.dw 0x0244
-	.text 'Vitesse Msg'
+	.text 'Vit. Texte'
 	.db 0x01
 
 	.dw 0x02C4

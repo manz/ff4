@@ -1,8 +1,10 @@
 .scope shops {
 gils:
 	.dw 0x0176 ; - 4
-	.db 0xf4, 0xf5
-;	.text 'Gils'
+	{
+	.table 'text/vwf_precomp.tbl'
+	.text 'Gils'
+	}
 	.db 0
 
 welcome_and_actions:

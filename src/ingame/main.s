@@ -64,13 +64,13 @@ end:
 *=0x0189C3
 {
 	level_offset = 7 * 2
-	lda #0xF0
+	lda #0x90
 	sta.w 0+level_offset, x
-	lda #0xF1
+	lda #0x91
 	sta.w 2+level_offset, x
-	lda #0xF2
+	lda #0x92
 	sta.w 4+level_offset, x
-	lda #0xF3
+	lda #0x93
 	sta.w 6+level_offset, x
 	nop
 

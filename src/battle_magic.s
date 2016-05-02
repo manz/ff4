@@ -1,13 +1,28 @@
 battle_magic_length = 8
 
+*=0x029EAD
+	rts
+; Try to fix the disable mask
+*=0x029EC0
+	adc.b #battle_magic_length * 2
+
+; Use the Yellow text palette
+*=0x029EDB
+	lda #0x0f
+
+*=0x029EE9
+	cpy.b #battle_magic_length * 2 + 1
+
+; number of spells line (Adds 50% because we have 2 spells per line
+; where originaly it was 3. clear related
+*=0x02984D
+	ldx.w #0x0018
+
 ; used for the copy for the dakuten offset
 *=0x02A094
 	; _ _ _ _ _ _
 	; A B B B B B
 	lda.b #battle_magic_length
-
-;*=0x02A0DC
-;	lda.b #battle_magic_length - 1
 
 *=0x02A0E2
 	lda.b #battle_magic_length
@@ -33,7 +48,7 @@ battle_magic_length = 8
 	stx  0x04
 
 ;original
-magic_data_base = 0x909A
+magic_data_base = 0x909A + 0x60
 
 ;magic_data_base = 0x703720
 *=0x029893
@@ -95,14 +110,6 @@ fsize = 0x900
     .dw (magic_data_base + fsize * 2) & 0xFFFF
     .dw (magic_data_base + fsize * 3) & 0xFFFF
     .dw (magic_data_base + fsize * 4) & 0xFFFF
-
-;*=0x16ff39
-;	.dw 0x2C7A
-;	.dw 0x2C7A + fsize
-;	.dw 0x2C7A + fsize * 2
-;	.dw 0x2C7A + fsize * 3
-;	.dw 0x2C7A + fsize * 4
-
 
 *=0x029834
 	ldx.w #0x300 ; 0x240
