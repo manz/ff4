@@ -126,7 +126,7 @@ if __name__ == '__main__':
     dialog_table = Table('text/ff4fr.tbl')
     menu_table = Table('text/ff4_menus.tbl')
 
-    lang = 'en'
+    lang = 'fr'
     text_root = 'text/{lang}'.format(lang=lang)
 
     assets_list = [
@@ -155,7 +155,7 @@ if __name__ == '__main__':
     ]
 
     build_assets(assets_list)
-    generate_8x8_vwf_asset(['Niveau', 'Gils'], 'niveau', 0xF0)
+    generate_8x8_vwf_asset(['Niveau', 'Gils', 'Passer', 'Garde'], 'vwf_precomp', 0x90)
 
     if not os.path.exists('build'):
         os.mkdir('build')
