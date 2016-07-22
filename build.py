@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.4
+#!/usr/bin/env python3
 # coding:utf-8
 import os
 from xml.etree import ElementTree
@@ -71,6 +71,7 @@ def build_patch(input, output):
 
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
     pointers = read_pointers_from_xml(input_file, table)
+
     write_pointers_value_as_binary(pointers, binary_text_file)
     write_pointers_addresses_as_binary(pointers, long_low_rom_pointer(snes_to_rom(address)), pointers_file)
 
@@ -130,36 +131,41 @@ if __name__ == '__main__':
     text_root = 'text/{lang}'.format(lang=lang)
 
     assets_list = [
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-1.xml'.format(lang=lang)), 'assets/bank1_1.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank1-1.xml'), 'assets/bank1_1.dat',
          'assets/bank1_1.ptr', 0x228000),
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-2.xml'.format(lang=lang)), 'assets/bank1_2.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank1-2.xml'), 'assets/bank1_2.dat',
          'assets/bank1_2.ptr', 0x24A000),
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank2.xml'.format(lang=lang)), 'assets/bank2.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank2.xml'), 'assets/bank2.dat',
          'assets/bank2.ptr', 0x25A000),
+
         ('vwf-font', 'fonts/vwf.png', False, 'assets/font.dat', 'assets/font_length_table.dat'),
         ('vwf-font', 'fonts/bold_vwf.png', False, 'assets/bold_font.dat', 'assets/bold_font_length_table.dat'),
         ('vwf-font', 'fonts/wicked_vwf.png', False, 'assets/wicked_font.dat', 'assets/wicked_font_length_table.dat'),
         ('vwf-font', 'fonts/book_vwf.png', False, 'assets/book_font.dat', 'assets/book_font_length_table.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-items.xml'.format(lang=lang)), 'assets/items.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-magic.xml'.format(lang=lang)), 'assets/magic.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)),
-         'assets/characters_names.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)),
-         'assets/characters_names.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-battle_commands.xml'.format(lang=lang)),
-         'assets/battle_commands.dat'),
-        ('nullterminated', menu_table, os.path.join(text_root, '{lang}-places-names.xml'.format(lang=lang)),
-         'assets/places_names.dat'),
-        ('nullterminated', menu_table, os.path.join(text_root, '{lang}-characters_classes.xml'.format(lang=lang)),
-         'assets/classes.dat', 'assets/classes.ptr')
+
+        ('fixed', menu_table, os.path.join(text_root, 'items.xml'), 'assets/items.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'magic.xml'), 'assets/magic.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'monsters.xml'), 'assets/monsters.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'characters_names.xml'), 'assets/characters_names.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'battle_commands.xml'), 'assets/battle_commands.dat'),
+
+        ('nullterminated', menu_table, os.path.join(text_root, 'places-names.xml'), 'assets/places_names.dat'),
+        ('nullterminated', menu_table, os.path.join(text_root, 'characters_classes.xml'),
+         'assets/classes.dat', 'assets/classes.ptr'),
     ]
 
     build_assets(assets_list)
-    generate_8x8_vwf_asset(['Niveau', 'Gils', 'Passer', 'Garde'], 'vwf_precomp', 0x90)
+
+    small_text = [
+        'Niveau',
+        'Gils',
+        'Passer',
+        'Garde'
+    ]
+
+    generate_8x8_vwf_asset(small_text, 'vwf_precomp', 0x90)
 
     if not os.path.exists('build'):
         os.mkdir('build')
 
     build_patch('ff4.s', 'build/ff4.ips')
-
-
