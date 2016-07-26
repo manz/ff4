@@ -1,19 +1,5 @@
 battle_magic_length = 8
 
-*=0x029EAD
-	rts
-; Try to fix the disable mask
-*=0x029EC0
-	adc.b #battle_magic_length * 2
-
-; Use the Yellow text palette
-*=0x029EDB
-	lda #0x0f
-
-*=0x029EE9
-	cpy.b #battle_magic_length * 2 + 1
-
-; number of spells line (Adds 50% because we have 2 spells per line
 ; where originaly it was 3. clear related
 *=0x02984D
 	ldx.w #0x0018
@@ -180,3 +166,57 @@ fsize = 0x900
 	;dec 0x63
 	nop
 	nop
+
+*=0x02A567
+     lda.b #battle_magic_length
+
+*=0x02A573
+    lda.l assets_magic_dat,X
+*=0x02A57E
+    lda.l assets_magic_dat+1,X
+
+; sets the palette for disabled spells (Not enough MP)
+*=0x029EC8
+                lda #0x48
+                sta 7
+loc_29ECC:
+                ldy.w #1
+                lda (0)
+                bmi loc_29EDB
+                lda #0
+                sta 6
+                lda #0
+                bra loc_29EE3
+loc_29EDB:
+                lda #4
+                sta 6
+                bra loc_29EE3
+loc_29EE1:
+                lda 6
+loc_29EE3:
+
+                sta (2),Y
+                sta (4),Y
+                iny
+                iny
+                cpy.w #battle_magic_length * 2 + 1 ; len * 2 + 1 : 0x0D
+                bne loc_29EE1
+                rep #0x20 ; ' '
+;.A16
+                lda 2
+                clc
+                adc.w #battle_magic_length * 4 ; next word len * 4 : 0x18
+                sta 2
+                clc
+                adc.w #battle_magic_length * 2 ; len * 2 0x0c
+                sta 4
+                lda 0
+                clc
+                adc.w #4  ; next magic struct
+                sta 0
+                tdc
+                sep #0x20
+;.A8
+                dec 7 ; loop on all magic
+                bne loc_29ECC
+                rts
