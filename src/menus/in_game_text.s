@@ -224,6 +224,10 @@ config:
 
 
 controls:
+    .dw 0x0092
+    .text 'Personaliser'
+    .db 0x01
+
 	.dw 0x0204
 	.text 'Action'
 	.db 0x01
