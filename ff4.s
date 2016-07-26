@@ -51,6 +51,9 @@ dialog_bank_ptr_base = 0x218000
 *=0x0f8000
     .incbin 'assets/items.dat'
 
+*=0x0E9800
+    .incbin 'assets/monsters.dat'
+
 *=0x208000
     .include 'src/libmz.s'
     .include 'src/intro.s'
