@@ -21,6 +21,16 @@
 *=0x01D1A4
 	load_system_menu_text_pointer(options.config)
 
+; move controls title window
+*=0x01E204
+    .db 0x50
+    .db 0x00
+    .db 0x0B
+    .db 0x02
+
+*=0x01D487
+    ldy.w #0xE204
+
 ; controles
 *=0x01D48D
 	load_system_menu_text_pointer(options.controls)
