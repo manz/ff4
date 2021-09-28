@@ -7,7 +7,7 @@ git clone https://github.com/manz/ff4.git ff4
 cd ff4
 
 # create the python 3 virtualenv
-virtualenv VE_ff4 -p `python3.4-config --exec-prefix`/bin/python3.4
+virtualenv VE_ff4 -p `python3-config --exec-prefix`/bin/python3
 
 # install dependencies
 source VE_ff4/bin/activate
