@@ -1,22 +1,3 @@
-.macro dma_transfer_to_vram_call(source, vramptr, count, mode)
-{
-    php
-    pha
-    phx
-    pea.w return_addr-1
-    pea.w source & 0xFFFF
-    pea.w  0x00FF & (source >> 16)
-    pea.w vramptr
-    pea.w count
-    pea.w mode
-    jmp.l dma_transfer_to_vram
-return_addr:
-    plx
-    pla
-    plp
-}
-
-
 .macro wait_for_vblank_inline() {
     pha
 negative:
@@ -69,7 +50,6 @@ positive:
 	PLP
 }
 
-
 .macro dma_transfer_to_vram_call(source, vramptr, count, mode)
 {
     php
@@ -81,27 +61,28 @@ positive:
     pea.w vramptr
     pea.w count
     pea.w mode
-    jmp.l dma_transfer_to_vram
+    jmp.w dma_transfer_to_vram
 return_addr:
     plx
     pla
     plp
 }
 
+
 .macro dma_transfer_to_palette_call(source, count)
 {
-    php 
-    pha 
-    phx 
-    pea.w return_addr-1 
+    php
+    pha
+    phx
+    pea.w return_addr-1
     pea.w source & 0xFFFF
     pea.w 0x00FF & (source >> 16)
-    pea.w count 
-    jmp.w dma_transfer_to_palette 
-    return_addr: 
-    plx 
-    pla 
-    plp 
+    pea.w count
+    jmp.w dma_transfer_to_palette
+    return_addr:
+    plx
+    pla
+    plp
 }
 
 .macro save_8_bit_var(var, mirror_addr) {
@@ -133,6 +114,10 @@ return_addr:
 
 .macro set_ax_8bit() {
     sep #0x30
+}
+
+.macro set_ax_16() {
+    rep #0x30
 }
 
 .macro set_a_8_x_16() {

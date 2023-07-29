@@ -28,11 +28,13 @@
     <sn:string>Chocobo Forest</sn:string>
     <sn:string>Chocobo Village</sn:string>
     <sn:string>Weapon and Armor Shop</sn:string>
-    <sn:string>Left Tower</sn:string>
-    <sn:string>Right Tower</sn:string>
-    <sn:string>Hidden Room</sn:string>
-    <sn:string>Training Room</sn:string>
-    <sn:string>Baron Castle</sn:string>
+    <!--<sn:string>Left Tower</sn:string>-->
+    <sn:string>Tour Ouest</sn:string>
+    <!--<sn:string>Right Tower</sn:string>-->
+    <sn:string>Tour Est</sn:string>
+    <sn:string>Piece Cachée</sn:string>
+    <sn:string>Salle d'entrainement</sn:string>
+    <sn:string>Château de Baron</sn:string>
     <sn:string>White Magic Classroom</sn:string>
     <sn:string>Black Magic Classroom</sn:string>
     <sn:string>Your Room</sn:string>

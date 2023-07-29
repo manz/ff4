@@ -3,36 +3,36 @@
 ;=====================================================================
 
 *=0x00B404
-	JSR.L CalculePositionTb
- 	JSR.L PointeurBank1de1
- 	STA.B 0xDD
- 	LDX.B 0x3D
- 	STX.W 0x0772
- 	RTS
+	jsr.l CalculePositionTb
+ 	jsr.l PointeurBank1de1
+ 	sta 0xDD
+ 	ldx 0x3D
+ 	stx 0x0772
+ 	rts
 
  *=0x00B41D
- 	JSR.L CalculePositionTb
- 	JSR.L PointeurBank1de2
- 	STA.B 0xDD
- 	LDX.B 0x3D
- 	STX.W 0x0772
- 	RTS
+ 	jsr.l CalculePositionTb
+ 	jsr.l PointeurBank1de2
+ 	sta 0xDD
+ 	ldx 0x3D
+ 	stx 0x0772
+ 	rts
 
  *=0x00B436
- 	JSR.L CalculePositionTb
- 	JSR.L PointeurBank3
- 	STA.B 0xDD
- 	LDX.B 0x3D
- 	STX.W 0x0772
- 	RTS
+ 	jsr.l CalculePositionTb
+ 	jsr.l PointeurBank3
+ 	sta 0xDD
+ 	ldx 0x3D
+ 	stx 0x0772
+ 	rts
 
  *=0x00B3BB
- 	LDA.W 0x1702
- 	STA.B 0x3D
- 	LDA.W 0x1701
- 	STA.B 0x3E
- 	JSR.L PointeurBank2
- 	RTS
+ 	lda 0x1702
+ 	sta 0x3D
+ 	lda 0x1701
+ 	sta 0x3E
+ 	jsr.l PointeurBank2
+ 	rts
 
 ; nukes the first call of display_script because the text
 ; has to be rendered before animating the window display

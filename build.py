@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 # coding:utf-8
-#!/usr/bin/env python3.4
 import os
 from xml.etree import ElementTree
 
@@ -9,7 +9,9 @@ from script import Table
 from script.formulas import long_low_rom_pointer
 from script.pointers import read_pointers_from_xml, write_pointers_value_as_binary, write_pointers_addresses_as_binary, \
     Pointer
+import struct
 from utils.font import convert_font_to_1bpp
+from utils.smallvwf import generate_8x8_vwf_asset
 
 
 def read_fixed_from_xml(input_file, table, formatter=None):
@@ -69,6 +71,7 @@ def build_patch(input, output):
 
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
     pointers = read_pointers_from_xml(input_file, table)
+
     write_pointers_value_as_binary(pointers, binary_text_file)
     write_pointers_addresses_as_binary(pointers, long_low_rom_pointer(snes_to_rom(address)), pointers_file)
 
@@ -78,9 +81,11 @@ def build_fixed_asset(table, input_file, binary_text_file):
     write_pointers_value_as_binary(pointers, binary_text_file)
 
 
-def build_null_terminated(table, input_file, binary_text_file):
+def build_null_terminated(table, input_file, binary_text_file, pointers_file=None):
     pointers = read_stringarray_from_xml(input_file, table)
     write_pointers_value_as_binary(pointers, binary_text_file)
+    if pointers_file:
+        write_pointers_addresses_as_binary(pointers, lambda v: struct.pack('<H', v), pointers_file)
 
 
 def build_text_assets(banks):
@@ -88,17 +93,15 @@ def build_text_assets(banks):
         build_text_asset(dialog_table, bank[0], bank[1], bank[2], bank[3])
 
 
-def build_vwf_font_asset(font_file, data_file, len_table_file):
-    len_table, data = convert_font_to_1bpp(font_file)
+def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file):
+    len_table, data = convert_font_to_1bpp(font_file, has_grid)
 
-    # œ
-    len_table[0xA0] = 7
     # Espace
-    len_table[0xFF] = 5
+    len_table[0xFF] = 3
     # Espace fine
     len_table[0xFD] = 1
     # Espace insécable
-    len_table[0xFE] = 5
+    len_table[0xFE] = 2
 
     with open(data_file, 'wb') as fd:
         fd.write(data)
@@ -128,25 +131,41 @@ if __name__ == '__main__':
     text_root = 'text/{lang}'.format(lang=lang)
 
     assets_list = [
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-1.xml'.format(lang=lang)), 'assets/bank1_1.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank1-1.xml'), 'assets/bank1_1.dat',
          'assets/bank1_1.ptr', 0x228000),
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank1-2.xml'.format(lang=lang)), 'assets/bank1_2.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank1-2.xml'), 'assets/bank1_2.dat',
          'assets/bank1_2.ptr', 0x24A000),
-        ('script', dialog_table, os.path.join(text_root, '{lang}-bank2.xml'.format(lang=lang)), 'assets/bank2.dat',
+        ('script', dialog_table, os.path.join(text_root, 'bank2.xml'), 'assets/bank2.dat',
          'assets/bank2.ptr', 0x25A000),
-        ('vwf-font', 'fonts/vwf.png', 'assets/font.dat', 'assets/font_length_table.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-items.xml'.format(lang=lang)), 'assets/items.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-magic.xml'.format(lang=lang)), 'assets/magic.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)), 'assets/characters_names.dat'),
-        ('fixed', menu_table, os.path.join(text_root, '{lang}-characters_names.xml'.format(lang=lang)), 'assets/characters_names.dat'),
-        ('nullterminated', menu_table, os.path.join(text_root, '{lang}-places-names.xml'.format(lang=lang)), 'assets/places_names.dat')
+
+        ('vwf-font', 'fonts/vwf.png', False, 'assets/font.dat', 'assets/font_length_table.dat'),
+        ('vwf-font', 'fonts/bold_vwf.png', False, 'assets/bold_font.dat', 'assets/bold_font_length_table.dat'),
+        ('vwf-font', 'fonts/wicked_vwf.png', False, 'assets/wicked_font.dat', 'assets/wicked_font_length_table.dat'),
+        ('vwf-font', 'fonts/book_vwf.png', False, 'assets/book_font.dat', 'assets/book_font_length_table.dat'),
+
+        ('fixed', menu_table, os.path.join(text_root, 'items.xml'), 'assets/items.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'magic.xml'), 'assets/magic.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'monsters.xml'), 'assets/monsters.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'characters_names.xml'), 'assets/characters_names.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'battle_commands.xml'), 'assets/battle_commands.dat'),
+
+        ('nullterminated', menu_table, os.path.join(text_root, 'places-names.xml'), 'assets/places_names.dat'),
+        ('nullterminated', menu_table, os.path.join(text_root, 'characters_classes.xml'),
+         'assets/classes.dat', 'assets/classes.ptr'),
     ]
 
     build_assets(assets_list)
+
+    small_text = [
+        'Niveau',
+        'Gils',
+        'Passer',
+        'Garde'
+    ]
+
+    generate_8x8_vwf_asset(small_text, 'vwf_precomp', 0x90)
 
     if not os.path.exists('build'):
         os.mkdir('build')
 
     build_patch('ff4.s', 'build/ff4.ips')
-
-
