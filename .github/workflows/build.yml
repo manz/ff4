@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  create:
+    tags:
+
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    - uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install Requirements
+      if: steps.cache-requirements.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt
+    - name: Build patch
+      run: ./build.py
+    - name: Upload nightly patch artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ff4-nightly
+        path: ff4.ips
