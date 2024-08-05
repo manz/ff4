@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: ff4-nightly
-        path: ff4.ips
+        path: build/ff4.ips
