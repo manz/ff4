@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:pointer id="0">Aucun effet[end]</sn:pointer>
+
+<sn:pointer id="1">PM insuffisants[end]</sn:pointer>
+
+<sn:pointer id="2">Attaque préventive ![end]</sn:pointer>
+
+<sn:pointer id="3">Attaque surprise ![end]</sn:pointer>
+
+<sn:pointer id="4">Attaque par-derrière ![end]</sn:pointer>
+
+<sn:pointer id="5">Il s’est enfui[end]</sn:pointer>
+
+<sn:pointer id="6">Victoire en combat ![end]</sn:pointer>
+
+<sn:pointer id="7">Je me souviens ![end]</sn:pointer>
+
+<sn:pointer id="8">Non, ce n’est pas ça[end]</sn:pointer>
+
+<sn:pointer id="9">Hélas, je ne me souviens de rien[end]</sn:pointer>
+
+<sn:pointer id="10">Je ne peux pas parler[end]</sn:pointer>
+
+<sn:pointer id="11">Chanson des grenouilles[end]</sn:pointer>
+
+<sn:pointer id="12">Berceuse[end]</sn:pointer>
+
+<sn:pointer id="13">Chanson de séduction[end]</sn:pointer>
+
+<sn:pointer id="14">Chanson du silence[end]</sn:pointer>
+
+<sn:pointer id="15">くすりが たりない[end]</sn:pointer>
+
+<sn:pointer id="16">La prière n’a pas atteint le ciel[end]</sn:pointer>
+
+<sn:pointer id="17">La synchronisation est perturbée[end]</sn:pointer>
+
+<sn:pointer id="18">Magie augmentée ![end]</sn:pointer>
+
+<sn:pointer id="19">Monstre paniqué[end]</sn:pointer>
+
+<sn:pointer id="20">Pas de faiblesse[end]</sn:pointer>
+
+<sn:pointer id="21">Faible au feu[end]</sn:pointer>
+
+<sn:pointer id="22">Faible au gel[end]</sn:pointer>
+
+<sn:pointer id="23">Faible à la foudre[end]</sn:pointer>
+
+<sn:pointer id="24">Faible aux ténèbres[end]</sn:pointer>
+
+<sn:pointer id="25">Faible à la lumière[end]</sn:pointer>
+
+<sn:pointer id="26">Faible aux objets volants[end]</sn:pointer>
+
+<sn:pointer id="27">Vol raté[end]</sn:pointer>
+
+<sn:pointer id="28">Découvert par un monstre[end]</sn:pointer>
+
+<sn:pointer id="29">[0x6]3 à volé[end]</sn:pointer>
+
+<sn:pointer id="30">[0x6]0/[0x6]1[end]</sn:pointer>
+
+<sn:pointer id="31">[0x6]0 Gils obtenus[end]</sn:pointer>
+
+<sn:pointer id="32">[0x6]1 points d'expérience acquis[end]</sn:pointer>
+
+<sn:pointer id="33">[0x6]2 gagne un niveau.[end]</sn:pointer>
+
+<sn:pointer id="34">Impossible de fuir ![end]</sn:pointer>
+
+<sn:pointer id="35">[0x6]4 appris![end]</sn:pointer>
+
+<sn:pointer id="36">Le groupe a été anéanti…[end]</sn:pointer>
+
+<sn:pointer id="37">Incapable de se battre ![end]</sn:pointer>
+
+<sn:pointer id="38">Pétrifié ![end]</sn:pointer>
+
+<sn:pointer id="39">Transformé en grenouille ![end]</sn:pointer>
+
+<sn:pointer id="40">Transformé en nain ![end]</sn:pointer>
+
+<sn:pointer id="41">Transformé en cochon ![end]</sn:pointer>
+
+<sn:pointer id="42">Silence ![end]</sn:pointer>
+
+<sn:pointer id="43">Enveloppé dans les ténèbres ![end]</sn:pointer>
+
+<sn:pointer id="44">Empoisonné ![end]</sn:pointer>
+
+<sn:pointer id="45">Maudit ![end]</sn:pointer>
+
+<sn:pointer id="46">だみー[end]</sn:pointer>
+
+<sn:pointer id="47">Paralysé ![end]</sn:pointer>
+
+<sn:pointer id="48">Endormi ![end]</sn:pointer>
+
+<sn:pointer id="49">Confus ![end]</sn:pointer>
+
+<sn:pointer id="50">Évanoui ![end]</sn:pointer>
+
+<sn:pointer id="51">On se pétrifie peu à peu !?[end]</sn:pointer>
+
+<sn:pointer id="52">On se pétrifie peu à peu !?[end]</sn:pointer>
+
+<sn:pointer id="53">Dégâts de poison[end]</sn:pointer>
+
+<sn:pointer id="54">PV régénérés[end]</sn:pointer>
+
+<sn:pointer id="55">[0x6]0 Gils tombés![end]</sn:pointer>
+
+<sn:pointer id="56">“Peu à peu, l’énergie s’est épuisée et la force a disparu.[end]</sn:pointer>
+
+<sn:pointer id="57">Force concentrée, puissance d’attaque doublée ![end]</sn:pointer>
+
+</sn:script>
