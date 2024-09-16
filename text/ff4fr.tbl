@@ -3,10 +3,14 @@
 02:1=[space]
 03:1=[music]
 05:1=[delay]
+fe00=[normal]
+fe01=[wicked]
+fe02=[book]
+fe03=[bold]
 0400=Cecil
 0401=Cain
 0402=Rydia
-0403=Tella
+0403=Tellah
 0404=Gilbert
 0405=Rosa
 0406=Yang
@@ -111,7 +115,6 @@
 9D=Ï
 9E=Î
 9F=Ç
-A0A1=œ
 FB=[nowindow]
 FC=[new]\n
 FD=°

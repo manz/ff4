@@ -25,16 +25,19 @@ vwfstart:
     BITSLEFT    = var_base + 4
     CNTR2       = var_base + 6
     temp        = var_base + 8
-    scroll      = var_base + 10
-    vsize       = var_base + 12
-;;buildmap call
-    winstate    = var_base + 14
-    tstart      = var_base + 16
-    nchars      = var_base + 18
-    pixel_c     = var_base + 20
-    oldtilepos  = var_base + 22
-    TILEPOS     = var_base + 24
+    font_addr   = var_base + 10 ; 11 12
+;    scroll      = var_base + 10
+;    vsize       = var_base + 12
+    font_length  = var_base + 13 ; 14 15
+    winstate     = var_base + 16
+    nchars       = var_base + 18
+    pixel_c      = var_base + 20
+    oldtilepos   = var_base + 22
+    TILEPOS      = var_base + 24
     no_wait_for_action = 0xcb
+
+    lda #0
+    jsr.w setup_font
 
     php
     sep #0x20
@@ -43,17 +46,17 @@ vwfstart:
     save_16_bit_var(BITSLEFT, ram_mirror)
     save_16_bit_var(CNTR2, ram_mirror)
     save_16_bit_var(temp, ram_mirror)
-    save_16_bit_var(scroll, ram_mirror)
-    save_16_bit_var(vsize, ram_mirror)
+;    save_16_bit_var(scroll, ram_mirror)
+;    save_16_bit_var(vsize, ram_mirror)
     save_16_bit_var(winstate, ram_mirror)
-    save_16_bit_var(tstart, ram_mirror)
+;    save_16_bit_var(tstart, ram_mirror)
     save_16_bit_var(nchars, ram_mirror)
     save_16_bit_var(pixel_c, ram_mirror)
     save_16_bit_var(oldtilepos, ram_mirror)
     save_16_bit_var(TILEPOS, ram_mirror)
     plp
 
-    
+
     LDA.B #0x01
     STA.B winstate
 
@@ -67,9 +70,9 @@ vwfstart:
     dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
-    jsr.w wait_for_vblank
 
     ; copy the old font tileset
+    jsr.w wait_for_vblank
     dma_transfer_to_vram_call(0x0AF000,0x6000, 0x800, 0x1801)
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(0x0AF000+0x800,0x6000+0x400, 0x800, 0x1801)
@@ -83,15 +86,15 @@ vwfstart:
 
     JSR.W ChargeLettre
     BRA firstrun
-    
-main:    
+
+main:
     JSR.W ChargeLettreInc
-    
+
 firstrun:
     JMP.W parse
     BRA main
 fin:
-	lda #0x01
+    lda #0x01
     sta 0xDE
     rtl
 
@@ -105,23 +108,23 @@ parse:
     CMP #0x00
     BNE _nxt1
     JMP.W fin
-    
+
 _nxt1:
     CMP #0x01
     BNE _nxt2
     JMP.W newline
-    
-_nxt2:    
+
+_nxt2:
     CMP #0x02
     BNE _nxt3
     JMP.W space
-    
+
 _nxt3:
     ;Changement de Musique
     CMP #0x03
     BNE _nxt4
     JMP.W musique
-    
+
 _nxt4:
     ; Nom des personages
     CMP #0x04
@@ -132,7 +135,7 @@ _nxt5:
     ; Delay avant de fermer ?
     CMP #0x05
     BNE _nxt6
-        JMP.W _code05
+    JMP.W _code05
 _nxt6:
     ; it might lack 06 and 07 text opcodes
 
@@ -148,7 +151,7 @@ _nxt6:
     CMP #0x08
     BNE _nxt9
     JMP.W _code08
-    
+
 _nxt9:
     CMP #0xFB
     BNE _nxtFB
@@ -158,25 +161,31 @@ _nxtFB:
     CMP #0xFC
     BNE _nxtFC
     JMP.W suit3
-    
-_nxtFC:    
+_nxtFC:
+    cmp #0xFE
+    bne _nxtFE
+    jsr.w ChargeLettreInc
+    jsr.w setup_font
+    jmp.w main
+_nxtFE:
     CMP #0xFF
     BNE _nxtFF
     JMP.W retour_auto
-    
+
+
 _nxtFF:
 
     ; on fabrique le pointeur de font et le pointeur vers la wram
     ;retour auto a ajouter ici
-    
+
 return_a:
     JSR.W makeptr
     JSR.W ShiftNew
     JSR.W wdisplay
 
     JMP.W main
-    
-    
+
+
 ;***********
 ;** Space **
 ;***********
@@ -239,7 +248,7 @@ _loop_B5D2:
 ;Nouveau Cadre
 ;================================
 
-;nouveau_cadre:        
+;nouveau_cadre:
 ;    dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
 ;    STZ.B TILEPOS
 ;    JSR.W incpointer
@@ -251,6 +260,10 @@ _loop_B5D2:
 ;****************
 display_character_name:
 {
+;    pha
+;    lda.b #3
+;    jsr.w setup_font
+;    pla
     JSR.W ChargeLettreInc
     ASL
     STA.B 0x30
@@ -262,7 +275,7 @@ display_character_name:
     LDX.B 0x30
 
     LDY.W #0x0000
-    
+
 next:
     LDX.B 0x30
     LDA 0x1500,X
@@ -286,6 +299,10 @@ suite:
     BEQ exit
     JMP.W next
 exit:
+;    pha
+;    lda.b #0
+;    jsr.w setup_font
+;    pla
     JMP.W main
 }
 ;********************
@@ -306,7 +323,7 @@ newline:
     ;Second line
     CMP #0x1A+1
     BCS suit
-    
+
     LDA.B #0x1A
     STA.B TILEPOS
     BRA end
@@ -319,7 +336,7 @@ suit:
     STA.B TILEPOS
     BRA end
 suit2:
-    
+
     ;Forth Line
     CMP #0x4E+1
     BCS suit3
@@ -328,7 +345,7 @@ suit2:
     STA.B TILEPOS
     BRA end
 
-suit3:    
+suit3:
 
     STZ.B CURRENT_C
     STZ.B TILEPOS
@@ -362,15 +379,15 @@ musique:
 
 _code05:
     JSR.W ChargeLettreInc
-    STZ 0x19
+    STZ.b temp+1
     ASL
-    ROL 0x19
+    ROL.b temp+1
     ASL
-    ROL 0x19
+    ROL.b temp+1
     ASL
-    ROL 0x19
-    STA 0x18
-    LDX 0x18
+    ROL.b temp+1
+    STA.b temp
+    LDX.b temp
     STX 0x08F4
     LDX 0x0000
     STX 0x08F6
@@ -452,30 +469,37 @@ Boucle2:
     SEP #0x20
     PHX
     LDA.B BITSLEFT
-    
+
     CMP #0x08
     BNE _shift
     PLX
-    LDA.L assets_font_dat,X
+   ; LDA.L assets_font_dat,X
+    phy
+    txy
+    lda.b [font_addr], y
+    tyx
+    ply
     INX
     XBA
     BRA _store
-        
+
 _shift:
     TAX            ; using math multiplication
     LDA.L vwf_shift_table,X
     STA.L 0x004202        ; MULTPILIER
 
-        
+
     PLX
-        
-    ;REP #0x20
-        
-    LDA.L assets_font_dat,X
+
+    phy
+    txy
+    lda.b [font_addr], y
+    tyx
+    ply
     INX
 
     STA.L 0x004203        ; MULTIPLICAND
-    
+
     REP #0x20
     NOP
     NOP
@@ -496,10 +520,10 @@ _store:
     TXY
     PLX
     INY
-                
+
     DEC.B CNTR
     BNE Boucle2
-        
+
     PLB
     PHA
     PLA
@@ -513,12 +537,15 @@ _store:
     LDA.B CURRENT_C
     TAX
 
-    LDA.L assets_font_length_table_dat,X
+;    LDA.L assets_font_length_table_dat,X
+    txy
+    lda.b [font_length], y
+    tyx
     STA.B temp
-        
+
     REP #0x20
     CLC
-    
+
     ADC.B pixel_c
     INC
     CLC
@@ -535,7 +562,7 @@ loopdec:
     CMP #0x00
     BMI coupe
     BEQ coupe
-        
+
     STA.B BITSLEFT
     RTS
 
@@ -557,13 +584,41 @@ vwf_shift_table:
 .db 0b10000000                ;7
 .db 0b10000000                ;8
 
+setup_font:
+; A: font index
+{
+    phx
+    pha
+    asl
+    sta.b temp
+    pla
+    clc
+    adc.b temp
+    tax
+
+    rep #0x20
+    lda.l font_table, x
+    sta.b font_addr
+    lda.l length_table,x
+    sta.b font_length
+    sep #0x20
+
+    lda.l font_table+2, x
+    sta.b font_addr+2
+    lda.l length_table+2,x
+    sta.b font_length+2
+
+    plx
+    rts
+}
+
 ;************************
 ;** build font pointer **
 ;************************
 
 makeptr:
-    PHA    
-    
+    PHA
+
     LDX.W #0x0000
     LDY.W #0x0000
     LDA.B CURRENT_C
@@ -611,16 +666,16 @@ lop:
     INX
 
     CPX.W #0x0D10
-        
+
     BNE lop
-    
+
 lop2:
-        
+
     LDA.B #0x00
     STA.W WRAM,X
-        
+
     INX
-        
+
     CPX.W #0x0D20
     BNE lop2
 
@@ -663,7 +718,12 @@ firstrun2:
     TAX
     ;SEP #0x20
 
-    LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
+    ;LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
+    phy
+    txy
+    lda.b [font_length], y
+    tyx
+    ply
     INC
 
 add_accumulator_value_to_temp:
@@ -672,7 +732,7 @@ add_accumulator_value_to_temp:
     ADC.B temp
     STA.B temp
     SEP #0x20
-    
+
     ;else
     BRA loopchr
 
@@ -693,7 +753,7 @@ retour:
     STY.W 0x0772    ; restoration de la position du texte
     PLX
     JMP.W newline
-    
+
     noreturn:
     ;LDA.W #0x0000
     SEP #0x20
@@ -711,25 +771,20 @@ waitpad:
     PHA
     LDA.B no_wait_for_action
     BNE nowaitpad
-    
+
 padloop:
     LDA.W 0x4218
     BEQ padloop
     BRA end
-    
+
 nowaitpad:
-;    LDA.B #0x10
-;    STA.B CNTR
-;
-;{
-;loop:
-;    WAI
-;    WAI
-;    WAI
-;    WAI
-;    DEC.B CNTR
-;    BNE loop
-;}
+    lda.b #0x20
+{
+    loop:
+    jsr.w wait_for_vblank
+    dec
+    bne loop
+}
 end:
     pla
     jsr.w clr
@@ -748,7 +803,7 @@ wdisplay:
 
 
     ;macro expansion
-    
+
     PHP
     PHA
     PHX
@@ -765,17 +820,17 @@ wdisplay:
     adc.w #vram_tile_set_pointer
     sta.w 0x2116
 
-    
+
     lda.b oldtilepos
     clc
     adc.w #WRAM & 0xFFFF
     sta.w 0x4372
-    
+
     pla
     sep #0x20
-    
+
     channel=7
-    
+
     LDX.W #0x1801
     STX.W 0x4370
     LDA.B #0xFF & (WRAM >> 16)
@@ -788,18 +843,18 @@ wdisplay:
 
     NOP
     NOP
-    
+
     PLX
     PLA
     PLP
-    
+
 
     LDA.B no_wait_for_action
     BNE nowindow
-    
+
     dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, endwinmap-winmap, 0x1801)
     BRA window
-    
+
 nowindow:
     dma_transfer_to_vram_call(intromap, vram_tile_map_pointer, endintromap-intromap, 0x1801)
 
