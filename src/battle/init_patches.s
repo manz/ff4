@@ -1,0 +1,5 @@
+.include 'commands_patches.s'
+.include 'graphics_patches.s'
+.include 'items_patches.s'
+.include 'magic_patches.s'
+.include 'sram_patches.s'
