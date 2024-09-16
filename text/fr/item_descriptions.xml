@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
+    <sn:string>Ne peut pas &#234;tre utilis&#233; dans le menu.</sn:string>
+    <sn:string>Restaure des HP.</sn:string>
+    <sn:string>Restaure des MP.</sn:string>
+    <sn:string>Restaure compl&#232;tement les HP/MP.</sn:string>
+    <sn:string>Gu&#233;rit l'incapacit&#233; de combattre.</sn:string>
+    <sn:string>Gu&#233;rit la p&#233;trification.</sn:string>
+    <sn:string>Gu&#233;rit le statut de grenouille.</sn:string>
+    <sn:string>Gu&#233;rit le statut de nain.</sn:string>
+    <sn:string>Gu&#233;rit le statut de cochon.</sn:string>
+    <sn:string>Gu&#233;rit le silence.</sn:string>
+    <sn:string>Gu&#233;rit la c&#233;cit&#233;.</sn:string>
+    <sn:string>Neutralise le poison.</sn:string>
+    <sn:string>Enl&#232;ve la mal&#233;diction.</sn:string>
+    <sn:string>Gu&#233;rit divers &#233;tats.</sn:string>
+    <sn:string>Reposez-vous pour restaurer les HP/MP.</sn:string>
+    <sn:string>Revient &#224; l'&#233;tape pr&#233;c&#233;dente.</sn:string>
+    <sn:string>T&#233;l&#233;porte &#224; la surface.</sn:string>
+    <sn:string>Affichez la carte de la r&#233;gion.</sn:string>
+    <sn:string>L&#233;vitera temporairement.</sn:string>
+    <sn:string>Livre favori!</sn:string>
+    <sn:string>C'est de la magie d'invocation.</sn:string>
+    <sn:string>Transforme en nain ou r&#233;tablit.</sn:string>
+    <sn:string>Transforme en grenouille ou r&#233;tablit.</sn:string>
+    <sn:string>Transforme en cochon ou r&#233;tablit.</sn:string>
+    <sn:string>C'est une boisson mystique.</sn:string>
+    <sn:string>C'est une pomme dor&#233;e.</sn:string>
+    <sn:string>C'est une pomme argent&#233;e.</sn:string>
+    <sn:string>Cela attire des monstres.</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+    <sn:string>Test</sn:string>
+</sn:stringarray>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sn:fixedlist length="9" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:fixed></sn:fixed>
+    <sn:fixed/>
     <sn:fixed>[0x29]FireClaw</sn:fixed>
     <sn:fixed>[0x29]IceClaw</sn:fixed>
     <sn:fixed>[0x29]Thunder</sn:fixed>

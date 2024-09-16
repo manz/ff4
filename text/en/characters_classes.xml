@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
+    <sn:string>Black Knight</sn:string>
+    <sn:string>Dragon Knight</sn:string>
+    <sn:string>Summoner</sn:string>
+    <sn:string>Sage</sn:string>
+    <sn:string>Ministrel</sn:string>
+    <sn:string>White Mage</sn:string>
+    <sn:string>Monk</sn:string>
+    <sn:string>Black Knight</sn:string>
+    <sn:string>White Knight</sn:string>
+    <sn:string>Paladin</sn:string>
+    <sn:string>Engineer</sn:string>
+    <sn:string>Summoner</sn:string>
+    <sn:string>Ninja</sn:string>
+    <sn:string>Lunarian</sn:string>
+</sn:stringarray>

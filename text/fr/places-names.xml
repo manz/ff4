@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:string>Floor 1</sn:string>
-    <sn:string>Floor 2</sn:string>
-    <sn:string>Floor 3</sn:string>
-    <sn:string>Floor 4</sn:string>
-    <sn:string>Floor 5</sn:string>
-    <sn:string>Floor 6</sn:string>
-    <sn:string>Floor 7</sn:string>
-    <sn:string>Floor 8</sn:string>
+    <sn:string>Rez-de-chaussé</sn:string>
+    <sn:string>1er Étage</sn:string>
+    <sn:string>2eme Étage</sn:string>
+    <sn:string>3eme Étage</sn:string>
+    <sn:string>4eme Étage</sn:string>
+    <sn:string>5eme Étage</sn:string>
+    <sn:string>6eme Étage</sn:string>
+    <sn:string>7eme Étage</sn:string>
     <sn:string>Basement Floor 1</sn:string>
     <sn:string>Basement Floor 2</sn:string>
     <sn:string>Basement Floor 3</sn:string>
@@ -16,33 +16,35 @@
     <sn:string>Basement Floor 6</sn:string>
     <sn:string>Basement Floor 7</sn:string>
     <sn:string>Basement Floor 8</sn:string>
-    <sn:string>Inn</sn:string>
-    <sn:string>Weapon Shop</sn:string>
+    <sn:string>Auberge</sn:string>
+    <sn:string>Armurerie</sn:string>
     <sn:string>Armor Shop</sn:string>
-    <sn:string>Tool Shop</sn:string>
-    <sn:string>Cafe</sn:string>
+    <sn:string>Quincaillerie</sn:string>
+    <sn:string>Café</sn:string>
     <sn:string>Camp</sn:string>
-    <sn:string>King's Room</sn:string>
-    <sn:string>Dungeon</sn:string>
-    <sn:string>Crystal Room</sn:string>
-    <sn:string>Chocobo Forest</sn:string>
-    <sn:string>Chocobo Village</sn:string>
+    <sn:string>Chambre Royale</sn:string>
+    <sn:string>Donjon</sn:string>
+    <sn:string>Chambre du Crystal</sn:string>
+    <sn:string>Forêt Chocobo</sn:string>
+    <sn:string>Village Chocobo</sn:string>
     <sn:string>Weapon and Armor Shop</sn:string>
-    <sn:string>Left Tower</sn:string>
-    <sn:string>Right Tower</sn:string>
-    <sn:string>Hidden Room</sn:string>
-    <sn:string>Training Room</sn:string>
-    <sn:string>Baron Castle</sn:string>
+    <!--<sn:string>Left Tower</sn:string>-->
+    <sn:string>Tour Ouest</sn:string>
+    <!--<sn:string>Right Tower</sn:string>-->
+    <sn:string>Tour Est</sn:string>
+    <sn:string>Piece Cachée</sn:string>
+    <sn:string>Salle d'entrainement</sn:string>
+    <sn:string>Château de Baron</sn:string>
     <sn:string>White Magic Classroom</sn:string>
     <sn:string>Black Magic Classroom</sn:string>
-    <sn:string>Your Room</sn:string>
-    <sn:string>Town of Baron</sn:string>
-    <sn:string>Underground Lake</sn:string>
+    <sn:string>Ta Chambre</sn:string>
+    <sn:string>Village de Baron</sn:string>
+    <sn:string>Lac Souterrain</sn:string>
     <sn:string>Underground Channel -N.</sn:string>
-    <sn:string>Cave of Mist</sn:string>
-    <sn:string>Village of Mist</sn:string>
-    <sn:string>A House</sn:string>
-    <sn:string>Oasis Village of Kaipo</sn:string>
+    <sn:string>Grotte de Mist</sn:string>
+    <sn:string>Village de Mist</sn:string>
+    <sn:string>Maison</sn:string>
+    <sn:string>Oasis de Kaipo</sn:string>
     <sn:string>Underground Channel -S.</sn:string>
     <sn:string>Underground Waterfall</sn:string>
     <sn:string>Damcyan Castle</sn:string>
@@ -77,7 +79,7 @@
     <sn:string>Tower of Babil - Floor 1</sn:string>
     <sn:string>Tower of Zott</sn:string>
     <sn:string>Giant's Mouth</sn:string>
-    <sn:string>Castle of Dwarves</sn:string>
+    <sn:string>Château des Nains</sn:string>
     <sn:string>Back Room</sn:string>
     <sn:string>Passage to Babil</sn:string>
     <sn:string>Mt. Ordeals -3rd Station</sn:string>

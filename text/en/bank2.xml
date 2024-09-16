@@ -1455,23 +1455,9 @@ fashion on the menu screen![end]</sn:pointer>
 
 <sn:pointer id="107">[0x55][end]</sn:pointer>
 
-<sn:pointer id="108">'Turn back....'
-
-
-
-Cecil: Who's there?![end]'Leave now...'
-
-
-
-Cain: Is that a
- Phantom Beast?[end]Cecil: We must deliver this
- Bomb Ring to the village of
- Mist!
-
-'Then I have no choice!'
-
-
-
+<sn:pointer id="108">[wicked]Turn back....[/wicked][new]
+Cecil: Who's there?![end][wicked]Leave now...[/wicked][new]
+Cain: Is that a Phantom Beast?[end]Cecil: We must deliver this Bomb Ring to the village of Mist![new][wicked]Then I have no choice![wicked][new]
 Cain: The fog is gathering![end]</sn:pointer>
 
 <sn:pointer id="109">[0x55][end]</sn:pointer>
