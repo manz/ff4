@@ -5,12 +5,15 @@
 .include 'src/system_menus_text.i'
 
 .include 'src/minimal_vwf_patches.s'
-.include 'src/battle.s'
-.include 'src/battle_magic.s'
+
+.include 'src/battle/graphics_patches.s'
+.include 'src/battle/magic_patches.s'
+.include 'src/battle/commands_patches.s'
+.include 'src/battle/message_patches.s'
+.include 'src/battle/sram_patches.s'
 
 .include 'src/places_names.s'
 .include 'src/new_game.s'
-.include 'src/shop_menu.s'
 .include 'src/ingame/menus.i'
 
 
@@ -28,21 +31,23 @@ dialog_bank_ptr_base = 0x218000
     .db 0x05 ; RAM Size
 
 
+.if BUILD_INTRO {
 ; déroutage pour ajouter le splash screen
 *=0x008031
 	jsr.l start_splash_screen
+}
 
 ; déroutage pour utiliser la vwf dans les dialogues.
 *=0x00B463
 	jsr.l vwfstart
 	rts
 
-;*=0x0AF000
-;   .incbin 'fonts/8x8.bin'
+*=0x0AF000
+   .incbin 'fonts/8x8.bin'
 
 ;*=0x0AFF00-0x10 * 10
-*=0x0AF900
-	.incbin 'assets/vwf_precomp.bin'
+;*=0x0AF900
+;	.incbin 'assets/vwf_precomp.bin'
 
 ; Patch des noms des personages
 *=0x0FA710
@@ -55,68 +60,86 @@ dialog_bank_ptr_base = 0x218000
     .incbin 'assets/monsters.dat'
 
 *=0x208000
-    .include 'src/libmz.s'
-    .include 'src/intro.s'
-    .include 'src/vwf.s'
-    .include 'src/dialog.s'
-	.include 'src/places_names_window.s'
-	; system menu text routines
-	.include 'src/system_menus_text.s'
+  .include 'src/libmz.s'
+  .if BUILD_INTRO {
+  	.include 'src/intro.s'
+  }
+  .include 'src/vwf.s'
+  .include 'src/small_vwf/init.s'
 
-	; menu text scopes
-	.include 'src/menus/start_screen_text.s'
-	.include 'src/menus/tools_shop_text.s'
-	.include 'src/menus/in_game_text.s'
+  .include 'src/battle/sram.s'
+  .include 'src/battle/message.s'
+  .include 'src/battle/graphics.s'
 
-	.include 'src/battle_sram.s'
+  .include 'src/dialog.s'
+  .include 'src/places_names_window.s'
+  ; system menu text routines
+  .include 'src/system_menus_text.s'
 
-    .incbin 'assets/magic.dat'
-	.incbin 'assets/places_names.dat'
-	.incbin 'assets/classes.ptr'
-	.incbin 'assets/classes.dat'
+  ; menu text scopes
+  .include 'src/menus/start_screen_text.s'
+  .include 'src/menus/tools_shop_text.s'
+  .include 'src/menus/in_game_text.s'
+
+
+  .incbin 'assets/magic.dat'
+  .incbin 'assets/places_names.dat'
+  .incbin 'assets/classes.ptr'
+  .incbin 'assets/classes.dat'
+  .incbin 'assets/item_descriptions.dat'
 
 *=0x218000
-    .incbin 'assets/bank1_1.ptr'
-    .incbin 'assets/bank1_2.ptr'
-    .incbin 'assets/bank2.ptr'
+  .incbin 'assets/bank1_1.ptr'
+  .incbin 'assets/bank1_2.ptr'
+  .incbin 'assets/bank2.ptr'
 
 *=0x228000
-    .incbin 'assets/bank1_1.dat'
+  .incbin 'assets/bank1_1.dat'
 
 *=0x24A000
-    .incbin 'assets/bank1_2.dat'
+  .incbin 'assets/bank1_2.dat'
 
 *=0x25A000
-    .incbin 'assets/bank2.dat'
+  .incbin 'assets/bank2.dat'
 
 *=0x27A000
-    .incbin 'assets/font.dat'
-    .incbin 'assets/font_length_table.dat'
-	.incbin 'assets/wicked_font.dat'
-    .incbin 'assets/wicked_font_length_table.dat'
-	.incbin 'assets/book_font.dat'
-    .incbin 'assets/book_font_length_table.dat'
-    .incbin 'assets/bold_font.dat'
-    .incbin 'assets/bold_font_length_table.dat'
-    .incbin 'assets/battle_commands.dat'
+  .incbin 'assets/menu_font.dat'
+  .incbin 'assets/menu_font_length_table.dat'
+  .incbin 'assets/font.dat'
+  .incbin 'assets/font_length_table.dat'
+  .incbin 'assets/wicked_font.dat'
+  .incbin 'assets/wicked_font_length_table.dat'
+  .incbin 'assets/book_font.dat'
+  .incbin 'assets/book_font_length_table.dat'
+  .incbin 'assets/bold_font.dat'
+  .incbin 'assets/bold_font_length_table.dat'
+  .incbin 'assets/battle_commands.dat'
 
 font_table:
-	.pointer assets_font_dat
-	.pointer assets_wicked_font_dat
-	.pointer assets_book_font_dat
-	.pointer assets_bold_font_dat
+  .pointer assets_font_dat
+  .pointer assets_wicked_font_dat
+  .pointer assets_book_font_dat
+  .pointer assets_bold_font_dat
 length_table:
-	.pointer assets_font_length_table_dat
-	.pointer assets_wicked_font_length_table_dat
-	.pointer assets_book_font_length_table_dat
-	.pointer assets_bold_font_length_table_dat
+  .pointer assets_font_length_table_dat
+  .pointer assets_wicked_font_length_table_dat
+  .pointer assets_book_font_length_table_dat
+  .pointer assets_bold_font_length_table_dat
 
 ; Splash screen assets
 *=0x298000
-    .incbin 'assets/intro.map'
-    .incbin 'assets/intro.col'
-    .incbin 'assets/intro.set'
+	.incbin 'assets/battle_messages.ptr'
+	.incbin 'assets/battle_messages.dat'
 
+*=0x299900
+	.incbin 'assets/battle_text.ptr'
+	.incbin 'assets/battle_text.dat'
+
+.if BUILD_INTRO {
+    .incbin 'assets/logo.map'
+    .incbin 'assets/logo.col'
+    .incbin 'assets/logo.set'
+}
 
 
 
