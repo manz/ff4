@@ -15,3 +15,4 @@ curl https://raw.githubusercontent.com/manz/ff4/master/bootstrap.sh | sh
 ![battle-menu.png](screenshots/battle-menu.png)
 ![load-save-menu.png](screenshots/load-save-menu.png)
 ![main-menu.png](screenshots/main-menu.png)
+![two-columns-magic.png](screenshots/two-columns-magic.png)
