@@ -30,14 +30,25 @@
 ; |0xe0000, 0x2000
 ; |-------------------
 
+BG1_VRAM_ADDR = 0xd0000
+BG2_VRAM_ADDR = 0xc0000
 
 ; resize bg1 to 32x64 and moves it to v:0xd000
 *=0x0382f5
     ; bg 1
-    lda.b #(0xd000 >> 9 | 0b01)
+    lda.b #(BG1_VRAM_ADDR >> 9 | 0b01)
     sta 0x2107
-    lda.b #(0xc000 >> 9 | 0b01)
+    lda.b #(BG2_VRAM_ADDR | 0b01)
     sta 0x2108
+
+
+; Fix teleport resizing bg 1 & 2, that reverted them to their original addresses.
+*=0x02f11a
+    ; bg 1
+    lda.b #BG1_VRAM_ADDR
+    sta.l 0x002107
+    lda.b #BG2_VRAM_ADDR
+    sta.l 0x002108
 
 ; bg1 move
 *=0x028B3B
@@ -54,7 +65,7 @@
 
 ;02/921F: A0 00 5C     LDY #$5C00
 *=0x02921F
-    ldy.w#0x6400
+    ldy.w #0x6400
 
 ; Menu defend row mp cost init
 *=0x16fdd6 + 6 * 6
@@ -63,9 +74,6 @@
 
 *=0x16fe0c + 6 * 6
     .dw 0xd366, 0x6400 + 0x260, 0x0140
-
-
-
 
 *=0x0292F8
     ; move the text buffer pointer back 3 entries
