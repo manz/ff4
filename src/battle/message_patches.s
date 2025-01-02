@@ -30,24 +30,22 @@
 ; |0xe0000, 0x2000
 ; |-------------------
 
-BG1_VRAM_ADDR = 0xd0000
-BG2_VRAM_ADDR = 0xc0000
 
 ; resize bg1 to 32x64 and moves it to v:0xd000
 *=0x0382f5
     ; bg 1
-    lda.b #(BG1_VRAM_ADDR >> 9 | 0b01)
+    lda.b #(0xd000 >> 9 | 0b01)
     sta 0x2107
-    lda.b #(BG2_VRAM_ADDR | 0b01)
+    lda.b #(0xc000 >> 9 | 0b01)
     sta 0x2108
 
 
 ; Fix teleport resizing bg 1 & 2, that reverted them to their original addresses.
 *=0x02f11a
     ; bg 1
-    lda.b #BG1_VRAM_ADDR
+    lda.b #(0xd000 >> 9 | 0b01)
     sta.l 0x002107
-    lda.b #BG2_VRAM_ADDR
+    lda.b #(0xc000 >> 9 | 0b01)
     sta.l 0x002108
 
 ; bg1 move
