@@ -91,7 +91,7 @@ _loop:
 
 ;
   .include 'src/libmz.s'
-  .if BUILD_INTRO {
+  .if ENABLE_INTRO {
   	.include 'src/intro.s'
   }
   .include 'src/vwf.s'
@@ -166,7 +166,7 @@ length_table:
 	.incbin 'assets/battle_text.ptr'
 	.incbin 'assets/battle_text.dat'
 
-.if BUILD_INTRO {
+.if ENABLE_INTRO {
     .incbin 'assets/logo.map'
     .incbin 'assets/logo.col'
     .incbin 'assets/logo.set'
