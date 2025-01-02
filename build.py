@@ -216,6 +216,37 @@ if __name__ == '__main__':
 
     build_assets(assets_list)
 
+    credits_file = Path(f"./text/{lang}/credits.txt")
+    menu_table.parse_table_line("0A=.")
+    del menu_table.lookup[".."]
+    credits_text = credits_file.read_text()
+
+    credits_lines = credits_text.split("\n")
+    credits_bin = Path("./assets/credits_text.bin")
+    lines_bytes = []
+
+    for line in credits_lines:
+        if line:
+            line_bytes = menu_table.to_bytes(line)
+            line_bytes_centered = line_bytes.center(32, b"\xff")
+            delta = 16 - len(line_bytes) // 2
+
+            lines_bytes.append(b"\x02" + bytes([delta]) + line_bytes)
+        else:
+            lines_bytes.append(b"")
+
+    credits_bin.write_bytes((b"\x01".join(lines_bytes)) + b"\x00")
+    the_end_gfx_path = Path(f"text") / lang / "the_end_gfx.bin"
+    translated_gfx = Path("assets/the_end_gfx.bin")
+
+    the_end_gfx = the_end_gfx_path.read_bytes()
+    output_buffer = bytes()
+    k = 0
+    while k < len(the_end_gfx):
+        output_buffer += bytes([the_end_gfx[k] | the_end_gfx[k+1] << 4])
+        k+=2
+    translated_gfx.write_bytes(output_buffer)
+
     small_text = [
         'Niveau',
         'Gils'
