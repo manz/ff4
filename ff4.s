@@ -14,6 +14,7 @@
 
 .include 'src/places_names.s'
 .include 'src/new_game.s'
+.include 'src/credits.s'
 .include 'src/ingame/menus.i'
 
 
@@ -125,6 +126,7 @@ length_table:
   .pointer assets_wicked_font_length_table_dat
   .pointer assets_book_font_length_table_dat
   .pointer assets_bold_font_length_table_dat
+  .incbin 'assets/credits_text.bin'
 
 ; Splash screen assets
 *=0x298000
