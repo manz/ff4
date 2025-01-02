@@ -48,6 +48,7 @@ first_window:
     lda 0x01
     sta 0xDE
     sta 0xED
+    jsr.l vwfinit
     rts
 
 animation_wait_route:
@@ -82,7 +83,6 @@ wait_for_open_animation:
     jmp.w animation_wait_route
 end_of_animation:
     jmp.w 0xB369 ; skip_wait_for_action_button
-
 
 
 {
