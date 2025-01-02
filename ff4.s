@@ -66,6 +66,9 @@ dialog_bank_ptr_base = 0x218000
 *=0x0FA710
 	.incbin 'assets/characters_names.dat'
 
+*=0x0F8AB0
+	.incbin 'assets/attack-names.dat'
+
 *=0x0f8000
     .incbin 'assets/items.dat'
 
