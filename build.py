@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# coding:utf-8
+
 import os
 import struct
 from pathlib import Path
@@ -207,6 +207,7 @@ if __name__ == '__main__':
         ('fixed', menu_table, os.path.join(text_root, 'monsters.xml'), 'assets/monsters.dat'),
         ('fixed', menu_table, os.path.join(text_root, 'characters_names.xml'), 'assets/characters_names.dat'),
         ('fixed', menu_table, os.path.join(text_root, 'battle_commands.xml'), 'assets/battle_commands.dat'),
+        ('fixed', menu_table, os.path.join(text_root, 'attack-names.xml'), 'assets/attack-names.dat'),
 
         ('nullterminated', menu_table, os.path.join(text_root, 'places-names.xml'), 'assets/places_names.dat'),
         (
