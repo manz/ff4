@@ -222,3 +222,14 @@ loc_29EE3:
                 dec 7 ; loop on all magic
                 bne loc_29ECC
                 rts
+
+; patches for display attack name
+*=0x02cbcc
+    lda.b #battle_magic_length
+
+*=0x02cbdd
+    lda.l assets_magic_dat, x
+
+*=0x02cbe6
+    cpy.w #battle_magic_length + 1
+
