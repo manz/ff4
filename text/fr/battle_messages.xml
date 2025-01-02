@@ -2,13 +2,13 @@
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
 <sn:pointer id="0">Le dragon a changé de forme en brouillard ![end]</sn:pointer>
 
-<sn:pointer id="1">Retour à la normale ! C’est le moment d’attaquer ![end]</sn:pointer>
+<sn:pointer id="1">Il reprend sa forme ! C'est le moment d’attaquer ![end]</sn:pointer>
 
-<sn:pointer id="2">Le brouillard annule toutes les attaques.[end]</sn:pointer>
+<sn:pointer id="2">Le brouillard annule toutes les attaques ![end]</sn:pointer>
 
-<sn:pointer id="3">Si vous attaquez, vous serez touché par le souffle du dragon ![end]</sn:pointer>
+<sn:pointer id="3">Si tu attaques, le souffle du dragon te détruira ![end]</sn:pointer>
 
-<sn:pointer id="4">C’est le moment de le vaincre quand il montre sa véritable forme ![end]</sn:pointer>
+<sn:pointer id="4">Quand il révèle sa forme, c'est le moment de le battre ![end]</sn:pointer>
 
 <sn:pointer id="5">Adieu[end]</sn:pointer>
 
@@ -16,55 +16,55 @@
 
 <sn:pointer id="7">Mes adorables enfants[end]</sn:pointer>
 
-<sn:pointer id="8">… en train de confirmer l’intrus…[end]</sn:pointer>
+<sn:pointer id="8">... en train de confirmer l'intrus...[end]</sn:pointer>
 
 <sn:pointer id="9">Fou ! Je vais venir vers vous maintenant ![end]</sn:pointer>
 
-<sn:pointer id="10">Yang「C’est inutile… il n’y a pas de chance de gagner…[end]</sn:pointer>
+<sn:pointer id="10">Yang: C'est inutile... il n'y a pas de chance de gagner...[end]</sn:pointer>
 
-<sn:pointer id="11">Si seulement je pouvais utiliser l’épée…[end]</sn:pointer>
+<sn:pointer id="11">Si seulement je pouvais utiliser l'épée...[end]</sn:pointer>
 
-<sn:pointer id="12">Tella「Bon sang...[end]</sn:pointer>
+<sn:pointer id="12">Tella: Bon sang...[end]</sn:pointer>
 
-<sn:pointer id="13">Si c’est le cas, il n’y a pas d’autre choix que de changer de forme ![end]</sn:pointer>
+<sn:pointer id="13">Si c'est le cas, il n'y a pas d'autre choix que de changer de forme ![end]</sn:pointer>
 
 <sn:pointer id="14">Réveillez-vous! Yang![end]</sn:pointer>
 
 <sn:pointer id="15">Meurs !![end]</sn:pointer>
 
-<sn:pointer id="16">『Cecilだ! Tu ne comprends pas ![end]</sn:pointer>
+<sn:pointer id="16">Cecil ! Tu ne comprends pas ![end]</sn:pointer>
 
 <sn:pointer id="17">En avant ![end]</sn:pointer>
 
 <sn:pointer id="18">Aïe‥‥[end]</sn:pointer>
 
-<sn:pointer id="19">Je n’en peux plus, c’est insupportable !!![end]</sn:pointer>
+<sn:pointer id="19">Je n'en peux plus, c'est insupportable !!![end]</sn:pointer>
 
-<sn:pointer id="20">Celui qui a vu l’invitation ne peut pas être laissé en vie.”[end]</sn:pointer>
+<sn:pointer id="20">Celui qui a vu l'invitation ne peut pas être laissé en vie.[end]</sn:pointer>
 
-<sn:pointer id="21">S’il vous plaît ! Arrêtez tous les deux ![end]</sn:pointer>
+<sn:pointer id="21">S'il vous plaît ! Arrêtez tous les deux ![end]</sn:pointer>
 
 <sn:pointer id="22">Tella: Toi, comment oses-tu faire du mal à ma fille‥‥[end]</sn:pointer>
 
-<sn:pointer id="23">C’est faux ![end]</sn:pointer>
+<sn:pointer id="23">C'est faux ![end]</sn:pointer>
 
-<sn:pointer id="24">Tella「Qu’est-ce qui est faux ?![end]</sn:pointer>
+<sn:pointer id="24">Tella: Qu'est-ce qui est faux ?![end]</sn:pointer>
 
-<sn:pointer id="25">Veuillez écouter ce que j’ai à dire ![end]</sn:pointer>
+<sn:pointer id="25">Veuillez écouter ce que j'ai à dire ![end]</sn:pointer>
 
 <sn:pointer id="26">Tella: Tais-toi ![end]</sn:pointer>
 
 <sn:pointer id="27">Barde:Je vous en prie ![end]</sn:pointer>
 
-<sn:pointer id="28">Tell: Cette douleur, c’est la douleur d’Anna…[end]</sn:pointer>
+<sn:pointer id="28">Tell: Cette douleur, c'est la douleur d'Anna...[end]</sn:pointer>
 
-<sn:pointer id="29">Anna… qu’est-ce que…[end]</sn:pointer>
+<sn:pointer id="29">Anna... qu'est-ce que...[end]</sn:pointer>
 
-<sn:pointer id="30">Si tu es un véritable paladin…[end]</sn:pointer>
+<sn:pointer id="30">Si tu es un véritable paladin...[end]</sn:pointer>
 
 <sn:pointer id="31">Range ton épée et endure ![end]</sn:pointer>
 
-<sn:pointer id="32">Plutôt que la justice, plutôt que ce qui est juste…[end]</sn:pointer>
+<sn:pointer id="32">Plutôt que la justice, plutôt que ce qui est juste...[end]</sn:pointer>
 
 <sn:pointer id="33">Il y a quelque chose de plus important.[end]</sn:pointer>
 
@@ -72,11 +72,11 @@
 
 <sn:pointer id="35">Je vais te pousser du haut de la falaise ![end]</sn:pointer>
 
-<sn:pointer id="36">Tella: Le moment est-il venu d’utiliser Météore‥‥ ?[end]</sn:pointer>
+<sn:pointer id="36">Tella: Le moment est-il venu d'utiliser Météore‥‥ ?[end]</sn:pointer>
 
 <sn:pointer id="37">Arrête ! Si tu fais ça‥‥[end]</sn:pointer>
 
-<sn:pointer id="38">Yang: C’est toi qui ne tiendras pas ![end]</sn:pointer>
+<sn:pointer id="38">Yang: C'est toi qui ne tiendras pas ![end]</sn:pointer>
 
 <sn:pointer id="39">Tella: Convertis toute ma vie en PM ![end]</sn:pointer>
 
@@ -92,39 +92,39 @@
 
 <sn:pointer id="45">Maintenant, Rag! Utilise la magie sur moi ![end]</sn:pointer>
 
-<sn:pointer id="46">C’est inutile, on ne peut pas voir à cause du vent depuis l’avant ![end]</sn:pointer>
+<sn:pointer id="46">C'est inutile, on ne peut pas voir à cause du vent depuis l'avant ![end]</sn:pointer>
 
-<sn:pointer id="47">Il n’y a pas d’autre choix que de frapper en sautant ![end]</sn:pointer>
+<sn:pointer id="47">Il n'y a pas d'autre choix que de frapper en sautant ![end]</sn:pointer>
 
 <sn:pointer id="48">Roi: Vous aussi, hein ? Si vous voulez mourir autant que ça‥‥[end]</sn:pointer>
 
-<sn:pointer id="49">Je vais tous vous réduire en sable de l’enfer ![end]</sn:pointer>
+<sn:pointer id="49">Je vais tous vous réduire en sable de l'enfer ![end]</sn:pointer>
 
-<sn:pointer id="50">Edge: Qu’est-ce qui t’arrive !?[end]</sn:pointer>
+<sn:pointer id="50">Edge: Qu'est-ce qui t'arrive !?[end]</sn:pointer>
 
 <sn:pointer id="51">Papa ! Maman ![end]</sn:pointer>
 
-<sn:pointer id="52">Edge: C’est moi ! Hé‥‥[end]</sn:pointer>
+<sn:pointer id="52">Edge: C'est moi ! Hé‥‥[end]</sn:pointer>
 
 <sn:pointer id="53">Le roi et la reine ont récupéré leur raison ![end]</sn:pointer>
 
-<sn:pointer id="54">Roi: Edge, hein‥‥ Écoute ce que j’ai à dire.[end]</sn:pointer>
+<sn:pointer id="54">Roi: Edge, hein‥‥ Écoute ce que j'ai à dire.[end]</sn:pointer>
 
 <sn:pointer id="55">Nous ne sommes plus des êtres humains‥‥[end]</sn:pointer>
 
 <sn:pointer id="56">Nous sommes des êtres qui ne devraient pas exister.[end]</sn:pointer>
 
-<sn:pointer id="57">Reine: Il n’y a rien à te laisser‥‥[end]</sn:pointer>
+<sn:pointer id="57">Reine: Il n'y a rien à te laisser‥‥[end]</sn:pointer>
 
 <sn:pointer id="58">Pourquoi ! Cain ![end]</sn:pointer>
 
 <sn:pointer id="59">Cette question est inutile ![end]</sn:pointer>
 
-<sn:pointer id="60">Que diable s’est-il passé !?[end]</sn:pointer>
+<sn:pointer id="60">Que diable s'est-il passé !?[end]</sn:pointer>
 
-<sn:pointer id="61">Tais-toi, c’est bruyant ![end]</sn:pointer>
+<sn:pointer id="61">Tais-toi, c'est bruyant ![end]</sn:pointer>
 
-<sn:pointer id="62">Cecil ! C’est le coup final ![end]</sn:pointer>
+<sn:pointer id="62">Cecil ! C'est le coup final ![end]</sn:pointer>
 
 <sn:pointer id="63">Ça va exploserーーー![end]</sn:pointer>
 
@@ -132,7 +132,7 @@
 
 <sn:pointer id="65">A-Anna ![end]</sn:pointer>
 
-<sn:pointer id="66">Tu n’es pas aussi faible que tu le penses.[end]</sn:pointer>
+<sn:pointer id="66">Tu n'es pas aussi faible que tu le penses.[end]</sn:pointer>
 
 <sn:pointer id="67">Crois en toi ![end]</sn:pointer>
 
@@ -140,9 +140,9 @@
 
 <sn:pointer id="69">Ugh, gloups ![end]</sn:pointer>
 
-<sn:pointer id="70">Nous avons commencé à rassembler de l’eau pour le tsunami ![end]</sn:pointer>
+<sn:pointer id="70">Nous avons commencé à rassembler de l'eau pour le tsunami ![end]</sn:pointer>
 
-<sn:pointer id="71">Renforcez la défense en restant à l’intérieur ![end]</sn:pointer>
+<sn:pointer id="71">Renforcez la défense en restant à l'intérieur ![end]</sn:pointer>
 
 <sn:pointer id="72">Tella: Comme prévu, un serviteur des ténèbres ![end]</sn:pointer>
 
@@ -150,7 +150,7 @@
 
 <sn:pointer id="74">Golbez: Ha ha ha ha[end]</sn:pointer>
 
-<sn:pointer id="75">C’est cela, votre pouvoir‥‥[end]</sn:pointer>
+<sn:pointer id="75">C'est cela, votre pouvoir‥‥[end]</sn:pointer>
 
 <sn:pointer id="76">Je vais vous demander de rester tranquille un moment ![end]</sn:pointer>
 
@@ -160,7 +160,7 @@
 
 <sn:pointer id="79">Viens, Dragon Noir ![end]</sn:pointer>
 
-<sn:pointer id="80">Golbez: Cecil, c’est toi le prochain ![end]</sn:pointer>
+<sn:pointer id="80">Golbez: Cecil, c'est toi le prochain ![end]</sn:pointer>
 
 <sn:pointer id="81">Capitaine: Attaquez ! [end]</sn:pointer>
 
@@ -180,63 +180,63 @@
 
 <sn:pointer id="89">Professeur: Aïe ! Que fais-tu en me frappant ?[end]</sn:pointer>
 
-<sn:pointer id="90">C’est là-bas, là-bas, tu as compris ![end]</sn:pointer>
+<sn:pointer id="90">C'est là-bas, là-bas, tu as compris ![end]</sn:pointer>
 
 <sn:pointer id="91">Professeur: Bien, montre-moi ta puissance ![end]</sn:pointer>
 
 <sn:pointer id="92">Professeur : Comment osez-vous, ma chère Balneva‥ ![end]</sn:pointer>
 
-<sn:pointer id="93">Professeur: Dans ce cas, je vais m’en occuper moi-même.[end]</sn:pointer>
+<sn:pointer id="93">Professeur: Dans ce cas, je vais m'en occuper moi-même.[end]</sn:pointer>
 
 <sn:pointer id="94">Balneva, contrôle-le ![end]</sn:pointer>
 
-<sn:pointer id="95">Professeur: Il ne faut pas que l’huile vienne à manquer ![end]</sn:pointer>
+<sn:pointer id="95">Professeur: Il ne faut pas que l'huile vienne à manquer ![end]</sn:pointer>
 
 <sn:pointer id="96">Balneva: A‥b‥ra‥c‥k‥[end]</sn:pointer>
 
-<sn:pointer id="97">Je vais te montrer ce qu’est la véritable terreur ![end]</sn:pointer>
+<sn:pointer id="97">Je vais te montrer ce qu'est la véritable terreur ![end]</sn:pointer>
 
 <sn:pointer id="98">Transformation ![end]</sn:pointer>
 
-<sn:pointer id="99">Professeur: “Oh, qu’est-ce que c’est que ce bouton… ◉Tch”[end]</sn:pointer>
+<sn:pointer id="99">Professeur: Oh, qu'est-ce que c'est que ce bouton... ◉Tch[end]</sn:pointer>
 
-<sn:pointer id="100">Chien : “Grande sœur, on y va!”[end]</sn:pointer>
+<sn:pointer id="100">Chien : Grande sœur, on y va![end]</sn:pointer>
 
-<sn:pointer id="101">Lag : “Grande sœur Mag, renvoie-le!”[end]</sn:pointer>
+<sn:pointer id="101">Lag : Grande sœur Mag, renvoie-le![end]</sn:pointer>
 
-<sn:pointer id="102">Les trois sœurs Magus : “Attaque Delta !!”[end]</sn:pointer>
+<sn:pointer id="102">Les trois sœurs Magus : Attaque Delta !![end]</sn:pointer>
 
-<sn:pointer id="103">“Tu vas mourir.”[end]</sn:pointer>
+<sn:pointer id="103">Tu vas mourir.[end]</sn:pointer>
 
 <sn:pointer id="104">Le courant électrique a transpercé Odin ![end]</sn:pointer>
 
-<sn:pointer id="105">Rubicante : “Qu’est-ce que c’est que cette pitoyable technique…?”[end]</sn:pointer>
+<sn:pointer id="105">Rubicante : Qu'est-ce que c'est que cette pitoyable technique...?[end]</sn:pointer>
 
-<sn:pointer id="106">“Un jour, je renaîtrai certainement.”[end]</sn:pointer>
+<sn:pointer id="106">Un jour, je renaîtrai certainement.[end]</sn:pointer>
 
-<sn:pointer id="107">“Le feu, c’est comme ça qu’on l’utilise !”[end]</sn:pointer>
+<sn:pointer id="107">Le feu, c'est comme ça qu'on l'utilise ![end]</sn:pointer>
 
-<sn:pointer id="108">Edge「‥‥[end]</sn:pointer>
+<sn:pointer id="108">Edge: ‥‥[end]</sn:pointer>
 
-<sn:pointer id="109">“Pendant que nous avons encore conscience”[end]</sn:pointer>
+<sn:pointer id="109">Pendant que nous avons encore conscience[end]</sn:pointer>
 
-<sn:pointer id="110">“Nous devons nous battre ici…”[end]</sn:pointer>
+<sn:pointer id="110">Nous devons nous battre ici...[end]</sn:pointer>
 
-<sn:pointer id="111">“Après, je compte sur toi, Edge.”[end]</sn:pointer>
+<sn:pointer id="111">Après, je compte sur toi, Edge.[end]</sn:pointer>
 
-<sn:pointer id="112">Edge: “Je ne veux pas ! Je ne veux pas y aller !”[end]</sn:pointer>
+<sn:pointer id="112">Edge: Je ne veux pas ! Je ne veux pas y aller ![end]</sn:pointer>
 
-<sn:pointer id="113">“Adieu, Edge.”[end]</sn:pointer>
+<sn:pointer id="113">Adieu, Edge.[end]</sn:pointer>
 
-<sn:pointer id="114">Edge: “Attends ! Maman !”[end]</sn:pointer>
+<sn:pointer id="114">Edge: Attends ! Maman ![end]</sn:pointer>
 
-<sn:pointer id="115">“Je ne veux pas――”[end]</sn:pointer>
+<sn:pointer id="115">Je ne veux pas――[end]</sn:pointer>
 
-<sn:pointer id="116">“La barrière a été brisée par l’élément foudre !”[end]</sn:pointer>
+<sn:pointer id="116">La barrière a été brisée par l'élément foudre ![end]</sn:pointer>
 
-<sn:pointer id="117">“Tous les effets magiques ont été annulés !”[end]</sn:pointer>
+<sn:pointer id="117">Tous les effets magiques ont été annulés ![end]</sn:pointer>
 
-<sn:pointer id="118">“Incompétent !”[end]</sn:pointer>
+<sn:pointer id="118">Incompétent ![end]</sn:pointer>
 
 <sn:pointer id="119">Ah[end]</sn:pointer>
 
@@ -250,126 +250,126 @@
 
 <sn:pointer id="124">           1[end]</sn:pointer>
 
-<sn:pointer id="125">“Les poupées vont fusionner !”[end]</sn:pointer>
+<sn:pointer id="125">Les poupées vont fusionner ![end]</sn:pointer>
 
-<sn:pointer id="126">“La puissance de fusion est épuisée !”[end]</sn:pointer>
+<sn:pointer id="126">La puissance de fusion est épuisée ![end]</sn:pointer>
 
-<sn:pointer id="127">FuSoYa: “Encore un effort et la puissance sera dirigée vers Méteo !”[end]</sn:pointer>
+<sn:pointer id="127">FuSoYa: Encore un effort et la puissance sera dirigée vers Méteo ![end]</sn:pointer>
 
 <sn:pointer id="128">Bien sûr ![end]</sn:pointer>
 
-<sn:pointer id="129">Zemus: “Utilise toute ta puissance.”[end]</sn:pointer>
+<sn:pointer id="129">Zemus: Utilise toute ta puissance.[end]</sn:pointer>
 
-<sn:pointer id="130">Zemus: “Même si ce corps se détruit…”[end]</sn:pointer>
+<sn:pointer id="130">Zemus: Même si ce corps se détruit...[end]</sn:pointer>
 
-<sn:pointer id="131">“Mais l’âme… se… fusionnera…”[end]</sn:pointer>
+<sn:pointer id="131">Mais l'âme... se... fusionnera...[end]</sn:pointer>
 
-<sn:pointer id="132">FuSoYa: “C’est inutile, Méteo ne lui fera aucun effet !”[end]</sn:pointer>
+<sn:pointer id="132">FuSoYa: C'est inutile, Méteo ne lui fera aucun effet ![end]</sn:pointer>
 
-<sn:pointer id="133">“Golbez ! C’est le moment d’utiliser les cristaux !”[end]</sn:pointer>
+<sn:pointer id="133">Golbez ! C'est le moment d'utiliser les cristaux ![end]</sn:pointer>
 
-<sn:pointer id="134">Zeromus: “C’est toi qui as emprunté le chemin des ténèbres.”[end]</sn:pointer>
+<sn:pointer id="134">Zeromus: C'est toi qui as emprunté le chemin des ténèbres.[end]</sn:pointer>
 
-<sn:pointer id="135">“Même si tu utilises les cristaux, la lumière ne reviendra pas.”[end]</sn:pointer>
+<sn:pointer id="135">Même si tu utilises les cristaux, la lumière ne reviendra pas.[end]</sn:pointer>
 
-<sn:pointer id="136">“Il ne reste plus que l’oubli dans les ténèbres !”[end]</sn:pointer>
+<sn:pointer id="136">Il ne reste plus que l'oubli dans les ténèbres ![end]</sn:pointer>
 
-<sn:pointer id="137">"Croassements !”[end]</sn:pointer>
+<sn:pointer id="137">"Croassements ![end]</sn:pointer>
 
-<sn:pointer id="138">“Un monstre est sorti de la porte !”[end]</sn:pointer>
+<sn:pointer id="138">Un monstre est sorti de la porte ![end]</sn:pointer>
 
-<sn:pointer id="139">“Encore trop jeune !”[end]</sn:pointer>
+<sn:pointer id="139">Encore trop jeune ![end]</sn:pointer>
 
-<sn:pointer id="140">“Regarde mon statut !”[end]</sn:pointer>
+<sn:pointer id="140">Regarde mon statut ![end]</sn:pointer>
 
-<sn:pointer id="141">“Faible face à la force.”[end]</sn:pointer>
+<sn:pointer id="141">Faible face à la force.[end]</sn:pointer>
 
-<sn:pointer id="142">“Faible face à la fille aux lunettes.”[end]</sn:pointer>
+<sn:pointer id="142">Faible face à la fille aux lunettes.[end]</sn:pointer>
 
-<sn:pointer id="143">Rubicante: “C’est une défaite pour moi ici, mais…”[end]</sn:pointer>
+<sn:pointer id="143">Rubicante: C'est une défaite pour moi ici, mais...[end]</sn:pointer>
 
-<sn:pointer id="144">“Complètement faible.”[end]</sn:pointer>
+<sn:pointer id="144">Complètement faible.[end]</sn:pointer>
 
-<sn:pointer id="145">“Ce n’était pas censé se passer ainsi…”[end]</sn:pointer>
+<sn:pointer id="145">Ce n'était pas censé se passer ainsi...[end]</sn:pointer>
 
-<sn:pointer id="146">“Comment oses-tu me frapper, moi, dans cet état !?”[end]</sn:pointer>
+<sn:pointer id="146">Comment oses-tu me frapper, moi, dans cet état !?[end]</sn:pointer>
 
-<sn:pointer id="147">“Oh non, pardonne-moi !”[end]</sn:pointer>
+<sn:pointer id="147">Oh non, pardonne-moi ![end]</sn:pointer>
 
-<sn:pointer id="148">“Vas-y, Cecil !”[end]</sn:pointer>
+<sn:pointer id="148">Vas-y, Cecil ![end]</sn:pointer>
 
-<sn:pointer id="149">“Maître Zemus… le rapport…”[end]</sn:pointer>
+<sn:pointer id="149">Maître Zemus... le rapport...[end]</sn:pointer>
 
-<sn:pointer id="150">“Tu veux entendre mon violon (morceau) préféré ?”[end]</sn:pointer>
+<sn:pointer id="150">Tu veux entendre mon violon (morceau) préféré ?[end]</sn:pointer>
 
-<sn:pointer id="151">“Je n’ai pas envie d’écouter…”[end]</sn:pointer>
+<sn:pointer id="151">Je n'ai pas envie d'écouter...[end]</sn:pointer>
 
-<sn:pointer id="152">“Ah, je vois…”[end]</sn:pointer>
+<sn:pointer id="152">Ah, je vois...[end]</sn:pointer>
 
-<sn:pointer id="153">“Dansons ensemble !”[end]</sn:pointer>
+<sn:pointer id="153">Dansons ensemble ![end]</sn:pointer>
 
-<sn:pointer id="154">Gilbert: “Tout le monde ! Courage !”[end]</sn:pointer>
+<sn:pointer id="154">Gilbert: Tout le monde ! Courage ![end]</sn:pointer>
 
-<sn:pointer id="155">Tella: “Si tu persévères, tu réussiras. Crois en toi !”[end]</sn:pointer>
+<sn:pointer id="155">Tella: Si tu persévères, tu réussiras. Crois en toi ![end]</sn:pointer>
 
-<sn:pointer id="156">“La force des souhaits des deux personnes a été accordée !”[end]</sn:pointer>
+<sn:pointer id="156">La force des souhaits des deux personnes a été accordée ![end]</sn:pointer>
 
-<sn:pointer id="157">Palom: “Grand frère !”[end]</sn:pointer>
+<sn:pointer id="157">Palom: Grand frère ![end]</sn:pointer>
 
-<sn:pointer id="158">Porom: “Nous allons t’envoyer notre magie !”[end]</sn:pointer>
+<sn:pointer id="158">Porom: Nous allons t'envoyer notre magie ![end]</sn:pointer>
 
-<sn:pointer id="159">“La force de la gentillesse des deux a été accordée !”[end]</sn:pointer>
+<sn:pointer id="159">La force de la gentillesse des deux a été accordée ![end]</sn:pointer>
 
-<sn:pointer id="160">Yang: “Concentre ton esprit !”[end]</sn:pointer>
+<sn:pointer id="160">Yang: Concentre ton esprit ![end]</sn:pointer>
 
-<sn:pointer id="161">Cid: “Tu dois absolument revenir !”[end]</sn:pointer>
+<sn:pointer id="161">Cid: Tu dois absolument revenir ![end]</sn:pointer>
 
-<sn:pointer id="162">“La force des prières des deux a été accordée !”[end]</sn:pointer>
+<sn:pointer id="162">La force des prières des deux a été accordée ![end]</sn:pointer>
 
-<sn:pointer id="163">FuSoYa: “Ô lune, accorde-nous ta lumière !”[end]</sn:pointer>
+<sn:pointer id="163">FuSoYa: Ô lune, accorde-nous ta lumière ![end]</sn:pointer>
 
-<sn:pointer id="164">Golbez :“Mon frère !”[end]</sn:pointer>
+<sn:pointer id="164">Golbez :Mon frère ![end]</sn:pointer>
 
-<sn:pointer id="165">“La puissance sacrée que tu as cachée.”[end]</sn:pointer>
+<sn:pointer id="165">La puissance sacrée que tu as cachée.[end]</sn:pointer>
 
-<sn:pointer id="166">“Confie-le au cristal !”[end]</sn:pointer>
+<sn:pointer id="166">Confie-le au cristal ![end]</sn:pointer>
 
-<sn:pointer id="167">“Zeromus ! Montre-nous ta véritable forme !”[end]</sn:pointer>
+<sn:pointer id="167">Zeromus ! Montre-nous ta véritable forme ![end]</sn:pointer>
 
-<sn:pointer id="168">ふたりの こころが せいなるひかりさ あたえた![end]</sn:pointer>
+<sn:pointer id="168">Leur lien a engendré une lumière divine ![end]</sn:pointer>
 
-<sn:pointer id="169">ゼロムス「ガ‥‥グ‥‥グ‥‥ゴ‥‥‥[end]</sn:pointer>
+<sn:pointer id="169">Zeromus: Ga... Gu... Gu... Go...[end]</sn:pointer>
 
-<sn:pointer id="170">「ガスさすって いけるしかばねに なるがいい![end]</sn:pointer>
+<sn:pointer id="170">Que le gaz te transforme en cadavre ambulant ![end]</sn:pointer>
 
-<sn:pointer id="171">「しねっ![end]</sn:pointer>
+<sn:pointer id="171">Meurs ![end]</sn:pointer>
 
-<sn:pointer id="172">ゼロムスの しんのすがたさ てらしだした![end]</sn:pointer>
+<sn:pointer id="172">La vraie forme de Zeromus se révèle ![end]</sn:pointer>
 
-<sn:pointer id="173">「バトルプログラマーさ なぐるとは![end]</sn:pointer>
+<sn:pointer id="173">Vous osez frapper un programmeur de combats ![end]</sn:pointer>
 
-<sn:pointer id="174">「このやろー じばく してやるっ![end]</sn:pointer>
+<sn:pointer id="174">Je vais me faire exploser avec toi salaud ![end]</sn:pointer>
 
-<sn:pointer id="175">「ヒッ ヒッ ひっかかりおったな![end]</sn:pointer>
+<sn:pointer id="175">Ha ha ! Tu es tombé dans le piège ![end]</sn:pointer>
 
-<sn:pointer id="176">「こくりゅうさ きりのちからで けしさるとは‥‥[end]</sn:pointer>
+<sn:pointer id="176">Que le Dragon Noir soit effacé par la brume...[end]</sn:pointer>
 
-<sn:pointer id="177">「おまえたちさ ころして わたしも しのう![end]</sn:pointer>
+<sn:pointer id="177">Je vous tuerai et je mourrai avec vous ![end]</sn:pointer>
 
-<sn:pointer id="178">「このいかづちさ ばいにして かえしてやるわ![end]</sn:pointer>
+<sn:pointer id="178">Je vais transformer cet éclair en poison ![end]</sn:pointer>
 
-<sn:pointer id="179">「なんで おこすんじゃ いいとこじゃったのに[end]</sn:pointer>
+<sn:pointer id="179">Pourquoi tu fais ça ? C'était un bon moment ![end]</sn:pointer>
 
-<sn:pointer id="180">「つづきさ みるとするか‥‥[end]</sn:pointer>
+<sn:pointer id="180">On va voir la suite, alors...[end]</sn:pointer>
 
-<sn:pointer id="181">「さあ だれからいくの?[end]</sn:pointer>
+<sn:pointer id="181">Alors, qui commence ?[end]</sn:pointer>
 
-<sn:pointer id="182">マネージャー「ひろみさん ごしめいです![end]</sn:pointer>
+<sn:pointer id="182">Manager: Hiromi-san, vous êtes appelée ![end]</sn:pointer>
 
-<sn:pointer id="183">「こんど ぱぱになるんだ はァん[end]</sn:pointer>
+<sn:pointer id="183">La prochaine fois, je serai papa. Ahhh.[end]</sn:pointer>
 
-<sn:pointer id="184">「いいだろ[end]</sn:pointer>
+<sn:pointer id="184">C’est bon, non ?[end]</sn:pointer>
 
-<sn:pointer id="185">「じゃあな はァん[end]</sn:pointer>
+<sn:pointer id="185">À plus, alors. Ahhh.[end]</sn:pointer>
 
 </sn:script>

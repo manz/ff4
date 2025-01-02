@@ -1,12 +1,12 @@
 .scope battle_render {
-    buffer_ptr = 0x7fA000
-    buffer_size = 384
+    buffer_ptr = 0x703000
+    buffer_size = 8*128*2
 
-    bits_left_on_tile = 0x81
-    tilemap_offset = 0x82
-    temp = 0x84
-    counter = 0x85
-    current_char = 0x87
+    bits_left_on_tile = 0xA9
+    tilemap_offset = bits_left_on_tile + 2
+    temp =bits_left_on_tile + 4
+    counter =bits_left_on_tile + 6
+    current_char = bits_left_on_tile + 8
 
     font_ptr = assets_menu_font_dat
     length_table_ptr = assets_menu_font_length_table_dat
@@ -39,6 +39,10 @@ _clear_loop:
     plx
     pla
     rts
+
+clear_buffer_far:
+    jsr.w clear_buffer
+    rtl
 
 make_pointers:
 {
@@ -108,7 +112,9 @@ char_line_loop:
 
 _read_8x8_char:
     lda.l font_ptr, x
-
+    xba
+    lda.b #0x00
+    xba
     inx
     xba
     bra _store
@@ -135,9 +141,7 @@ _shift:
     nop
     lda.l 0x004216    ; the result is stored in 0x4216-0x4217
     sep #0x20
-
-_store:
-
+_and_store:
     xba
     phx
     tyx
@@ -149,7 +153,22 @@ _store:
     txy
     plx
     iny
+    bra _next_line
+_store:
 
+    xba
+    phx
+    tyx
+    ;ora.l buffer_ptr, x
+    sta.l buffer_ptr, x
+    xba
+    ;ora.l buffer_ptr + 0x10, x
+    sta.l buffer_ptr + 0x10, x
+    txy
+    plx
+    iny
+
+_next_line:
     dec.b counter
     bne char_line_loop
 
@@ -200,11 +219,14 @@ tilemap_write_no_inc:
 
         phy
         ldy.b tilemap_offset
-        sta (0x34),y
+        sta (0x34), y
+        lda #0xff
+        sta (0x32), y
         iny
         lda 0x36
+        sta (0x32), y
         ora.b #0x01
-        sta (0x34),y
+        sta (0x34), y
         ply
         rts
 
@@ -272,7 +294,7 @@ tilemap_write:
     }
 
 DMA_TRANSFER:
-    dma_transfer_to_vram_call(battle_render.buffer_ptr, 0xb000>>1, 512, 0x1801)
+    dma_transfer_to_vram_call(battle_render.buffer_ptr, 0xb000>>1, battle_render.buffer_size, 0x1801)
     jsr.l 0x03fe03
     rtl
 }
