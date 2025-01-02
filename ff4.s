@@ -1,6 +1,12 @@
 ; ----------------
 ; Final Fantasy IV the new hack.
 ; ----------------
+
+; Feature Flips
+ENABLE_DIALOG_SKIP := 1
+ENABLE_INTRO := 1
+ENABLE_VWF_ATTACK_NAMES := 1
+
 .include 'src/libmz.i'
 .include 'src/system_menus_text.i'
 
@@ -25,17 +31,23 @@ dialog_bank_ptr_base = 0x218000
 ; original PCB: SHVC-1A3B
 ; target PCB: SHVC-1A5B
 
+*=0xFFC0
+	.ascii 'Final Fantasy IV     '
+
 ;FFD5 20H / 30H Map Mode
 *=0xFFD6
     .db 0x02 ; Cartridge Type
     .db 0x0B ; ~ 0BH ROM Size
-    .db 0x05 ; RAM Size
+    .db 0x06 ; RAM Size
 
 
-.if BUILD_INTRO {
+
 ; déroutage pour ajouter le splash screen
 *=0x008031
+.if ENABLE_INTRO {
 	jsr.l start_splash_screen
+} .else {
+	jsr.l clear_ram
 }
 
 ; déroutage pour utiliser la vwf dans les dialogues.
@@ -61,6 +73,20 @@ dialog_bank_ptr_base = 0x218000
     .incbin 'assets/monsters.dat'
 
 *=0x208000
+clear_ram:
+	jsr.l 0x15C9AA
+{
+	lda.b #0x00
+	ldx.w #0x0000
+_loop:
+	sta.l 0x702000, x
+	inx
+	cpx.w #0x2000
+	bne _loop
+}
+	rtl
+
+;
   .include 'src/libmz.s'
   .if BUILD_INTRO {
   	.include 'src/intro.s'
