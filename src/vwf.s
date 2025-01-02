@@ -1,14 +1,41 @@
+.include 'src/definitions.s'
+
+;current_pos = 0x3d
+;current_text_pointer = 0x0772
+; 0x07 used for loop counter
+
 ; ******************
 ; ** Declarations **
 ; ******************
     vram_tile_set_pointer = 0x6800
     vram_tile_map_pointer = 0x2C00
     newline_offset = 4
-    WRAM = 0x702000
-    ram_mirror = WRAM + 0x1000
+    WRAM = field_vwf.tile_buffer
 
     WRAMPTR = 0x2108
 
+vwfinit:
+    JSR.W clr        ; on efface un peu de Wram
+
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
+
+    ; copy the old font tileset
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(0x0AF000,0x6000, 0x800, 0x1801)
+    jsr.w wait_for_vblank
+    dma_transfer_to_vram_call(0x0AF000+0x800,0x6000+0x400, 0x800, 0x1801)
+
+    ; Sets the BG3 vram pointer to 0x6000
+    lda 0x210C
+    and #0xF0
+    clc
+    adc #0x06
+    sta 0x210C
+
+    rtl
 ;** routine principale
 vwfstart:
 
@@ -18,7 +45,7 @@ vwfstart:
     LDA.B #0x01
     STA.W 0x420D
 
-
+    ; $04-$4F
     var_base = 0x00
     CNTR        = var_base
     CURRENT_C   = var_base + 2
@@ -41,19 +68,20 @@ vwfstart:
 
     php
     sep #0x20
-    save_16_bit_var(CNTR, ram_mirror)
-    save_16_bit_var(CURRENT_C, ram_mirror)
-    save_16_bit_var(BITSLEFT, ram_mirror)
-    save_16_bit_var(CNTR2, ram_mirror)
-    save_16_bit_var(temp, ram_mirror)
-;    save_16_bit_var(scroll, ram_mirror)
-;    save_16_bit_var(vsize, ram_mirror)
-    save_16_bit_var(winstate, ram_mirror)
-;    save_16_bit_var(tstart, ram_mirror)
-    save_16_bit_var(nchars, ram_mirror)
-    save_16_bit_var(pixel_c, ram_mirror)
-    save_16_bit_var(oldtilepos, ram_mirror)
-    save_16_bit_var(TILEPOS, ram_mirror)
+    .macro clear_16_bit(var) {
+        stz.b var
+        stz.b var + 1
+    }
+    clear_16_bit(CNTR)
+    clear_16_bit(CURRENT_C)
+    clear_16_bit(BITSLEFT)
+    clear_16_bit(CNTR2)
+    clear_16_bit(temp)
+    clear_16_bit(winstate)
+    clear_16_bit(nchars)
+    clear_16_bit(pixel_c)
+    clear_16_bit(oldtilepos)
+    clear_16_bit(TILEPOS)
     plp
 
 
@@ -63,26 +91,7 @@ vwfstart:
     LDA.B #0x08
     STA.B BITSLEFT
 
-    JSR.W clr        ; on efface un peu de Wram
-
-
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer,0x0690,0x1801)
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(WRAM,vram_tile_set_pointer+0x348,0x0690,0x1801)
-
-    ; copy the old font tileset
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(0x0AF000,0x6000, 0x800, 0x1801)
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(0x0AF000+0x800,0x6000+0x400, 0x800, 0x1801)
-
-    ; Sets the BG3 vram pointer to 0x6000
-    LDA 0x210C
-    AND #0xF0
-    CLC
-    ADC #0x06
-    STA 0x210C
+    jsr.l vwfinit
 
     JSR.W ChargeLettre
     BRA firstrun
@@ -655,32 +664,32 @@ makeptr:
 ;
 ;===================================
 clr:
-    LDX.W #0x0000
-lop:
-    LDA.B #0xFF
-    STA.L WRAM,X
-    INX
+{
+    phx
+    ldx.w #0x0000
+solid_bg_loop:
+    lda.b #0xFF
+    sta.l WRAM,X
+    inx
 
-    LDA.B #0x00
-    STA.L WRAM,X
-    INX
+    lda.b #0x00
+    sta.l WRAM,X
+    inx
+    cpx.w #0x0D10
 
-    CPX.W #0x0D10
+    bne solid_bg_loop
 
-    BNE lop
 
-lop2:
+transparent_bg_loop:
+    lda.b #0x00
+    sta.w WRAM,X
+    inx
+    cpx.w #0x0D20
+    bne transparent_bg_loop
 
-    LDA.B #0x00
-    STA.W WRAM,X
-
-    INX
-
-    CPX.W #0x0D20
-    BNE lop2
-
-    RTS
-
+    plx
+    rts
+}
 ;*****************
 ;** Retour auto **
 ;*****************
@@ -714,11 +723,7 @@ loopchr:
     BEQ chrfound
 
 firstrun2:
-    ;REP #0x20
     TAX
-    ;SEP #0x20
-
-    ;LDA.L assets_font_length_table_dat,X ; on load la largeur de la lettre
     phy
     txy
     lda.b [font_length], y
@@ -755,7 +760,6 @@ retour:
     JMP.W newline
 
     noreturn:
-    ;LDA.W #0x0000
     SEP #0x20
     PLA
     STA.B 0x3F
@@ -765,6 +769,23 @@ retour:
     JMP.W return_a
 
 
+wait_key_up:
+    lda 0x02
+    bne wait_key_up
+    lda 0x03
+    bne wait_key_up
+    rts
+
+wait_key_down:
+{
+    lda 0x02
+    bne exit
+    lda 0x03
+    beq wait_key_down
+exit:
+    rts
+}
+
 ;Wait for joypad 1
 waitpad:
 {
@@ -772,10 +793,13 @@ waitpad:
     LDA.B no_wait_for_action
     BNE nowaitpad
 
-padloop:
-    LDA.W 0x4218
-    BEQ padloop
-    BRA end
+.if ENABLE_DIALOG_SKIP {
+    jsr.w wait_key_up
+}
+    jsr.w wait_key_down
+    bra end
+
+
 
 nowaitpad:
     lda.b #0x20
