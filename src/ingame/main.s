@@ -189,20 +189,20 @@ draw_hp_mp = 0x018a2a
 
 ; save 0x200 more data from field to properly handle render buffer 0x200.
 ; There's a buffer nearby we'll probably use an aditional buffer
-;*=0x14ff90
-;    ldx.w #0x1000 + render.buffer_size
-;*=0x14ffeb
-;    ldx.w #0x1000 + render.buffer_size
-
-; patches the save vram function to save the 0x200 extra vram used by small vwf
-*=0x01873a
- 	jsr.l     vram_copy.save_dialog_vram_far
-	rts
-
-; patches the restore vram function to restore the 0x200 saved to the cartdrige ram
-*=0x01873f
-	phb
-	jsr.l     vram_copy.restore_dialog_gfx_far
+*=0x14ff90
+    ldx.w #0x1000 + render.buffer_size
+*=0x14ffeb
+    ldx.w #0x1000 + render.buffer_size
+;
+;; patches the save vram function to save the 0x200 extra vram used by small vwf
+;*=0x01873a
+; 	jsr.l     vram_copy.save_dialog_vram_far
+;	rts
+;
+;; patches the restore vram function to restore the 0x200 saved to the cartdrige ram
+;*=0x01873f
+;	phb
+;	jsr.l     vram_copy.restore_dialog_gfx_far
 
 
 
