@@ -32,6 +32,7 @@ start_splash_screen:
 
     jsr.w splash_screen_fade_out
 
+    jsr.l clear_ram
     ; runs the original jsl routines
     jsr.l 0x15C8DF
     jsr.l 0x15C9AA

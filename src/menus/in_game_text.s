@@ -59,7 +59,7 @@ time:
 .scope spells {
     white:
         .dw 0x00EE
-        .text 'Sorts'
+        .text 'Magie'
         .db 0
     black:
         .dw 0x016E

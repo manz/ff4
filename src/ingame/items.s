@@ -20,6 +20,15 @@
     lda.l addr, x
 
 
+*=0x01a7da
+    ; In the original code the item description is rendered multiple times (once per tick ?)
+    ; rendering the variable width font that often cause noticeable slowdowns, we are trying to render the text only
+    ; when the description should change. Because the draw window clears the tilemap the check must happen before it.
+    jmp.w check_if_description_was_rendered
+    nop
+    _back:
+
+
 ; Hook in the display_item_description function, draw the window and render the string
 *=0x01a808
     lda.b #assets_item_descriptions_dat>>16
@@ -89,13 +98,28 @@ __delta_r = 2
 
 *=0x01ff40
 draw_window = 0x0180d9
+check_if_description_was_rendered:
+    pha
+
+    cmp.l render.last_drawn_text_ptr
+    bne _continue
+    pla
+    rts
+    _continue:
+    sta.l render.last_drawn_text_ptr
+
+    pla
+
+    pha
+    ldy.w #0xdcd6
+    jmp _back
 
 draw_vwf_message:
     jsr.l items_description.draw_trampoline
     rts
 draw_window_and_vwf_message:
     jsr.w draw_window
-    ; quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
+    ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
     pha
     rep #0x20
     tya

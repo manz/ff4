@@ -51,9 +51,6 @@ draw:
     plx
     sep #0x20
 
-;    cpy.b render.last_drawn_text_ptr
-;    beq _already_drawn
-;    sty.b render.last_drawn_text_ptr
 
 draw_string:
     jsr.w render.init
@@ -77,7 +74,6 @@ _char_loop:
 _char_loop_exit:
     jsr.w _transfer_item_description
     jsr.w render.deinit
-_already_drawn:
     plx
     pld
     plb

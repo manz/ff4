@@ -113,11 +113,17 @@ init:
     pla
     rts
 
+init_battle_far:
+    jsr.l 0x13ff12 ; play song
+    jsr.w init
+    jsr.w battle_render.clear_buffer
+    rtl
+
 increment:
     pha
     lda.l allocated_tile_id
     inc
-   ; and #0x1f
+    and #0xff
     sta.l allocated_tile_id
     pla
     rts
@@ -131,17 +137,18 @@ get:
 ; variables
 
 __var_base = 0x00
-bits_left_on_tile = __var_base + 3
+bits_left_on_tile = __var_base + 0x10
 temp = bits_left_on_tile + 1
 counter = temp + 1
 current_char = counter + 2
 
 tilemap_offset = 0x1d
 
-last_drawn_text_ptr = 0xfe
-
-buffer_ptr = 0x7fA000
+buffer_ptr = 0x703000
 buffer_size = 0x200
+
+last_drawn_text_ptr = buffer_ptr + buffer_size + 2
+
 font_ptr = assets_menu_font_dat
 length_table_ptr = assets_menu_font_length_table_dat
 
