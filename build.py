@@ -2,6 +2,7 @@
 # coding:utf-8
 import os
 import struct
+from pathlib import Path
 from typing import Callable
 from xml.etree import ElementTree
 
