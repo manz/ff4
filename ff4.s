@@ -167,9 +167,9 @@ length_table:
 	.incbin 'assets/battle_text.dat'
 
 .if ENABLE_INTRO {
-    .incbin 'assets/logo.map'
-    .incbin 'assets/logo.col'
-    .incbin 'assets/logo.set'
+    .incbin 'assets/intro.map'
+    .incbin 'assets/intro.col'
+    .incbin 'assets/intro.set'
 }
 
 
