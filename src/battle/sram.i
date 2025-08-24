@@ -1,4 +1,4 @@
-sram_base = 0x702000
+sram_base = 0x707000
 .macro long_sram_store(src) {
     phy
     phx
