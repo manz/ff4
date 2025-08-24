@@ -4,8 +4,8 @@
 
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
-    temp =bits_left_on_tile + 4
-    counter =bits_left_on_tile + 6
+    temp = bits_left_on_tile + 4
+    counter = bits_left_on_tile + 6
     current_char = bits_left_on_tile + 8
 
     font_ptr = assets_menu_font_dat
@@ -27,14 +27,15 @@ init:
 clear_buffer:
     pha
     phx
-    ldx.w #buffer_size
+    ldx.w #0
 _clear_loop:
     lda.b #0xFF
     sta.l buffer_ptr, x
     lda.b #0x00
     sta.l buffer_ptr + 1, x
-    dex
-    dex
+    inx
+    inx
+    cpx.w #buffer_size + 2
     bne _clear_loop
     plx
     pla
@@ -215,20 +216,20 @@ coupe:
 }
 
 tilemap_write_no_inc:
-        lda.l render_allocator.allocated_tile_id
+    lda.l render_allocator.allocated_tile_id
 
-        phy
-        ldy.b tilemap_offset
-        sta (0x34), y
-        lda #0xff
-        sta (0x32), y
-        iny
-        lda 0x36
-        sta (0x32), y
-        ora.b #0x01
-        sta (0x34), y
-        ply
-        rts
+    phy
+    ldy.b tilemap_offset
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda 0x36
+    sta (0x32), y
+    ora.b #0x01
+    sta (0x34), y
+    ply
+    rts
 
 
 tilemap_write:

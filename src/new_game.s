@@ -18,11 +18,11 @@
 *=0x01dfdc
     menu_window(23,0,7,8)
 
-;LoadTimeWindow:
+; LoadTimeWindow:
 *=0x01dfe0
     menu_window(23,16,7,5)
 
-;LoadGilWindow:
+; LoadGilWindow:
 *=0x01dfe4
     menu_window(23,23,7,3)
 

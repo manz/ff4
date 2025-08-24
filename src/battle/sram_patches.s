@@ -1,27 +1,27 @@
 ; inventory buffer
-*=0x02991E
-    jsr.l copy_battle_char
-    nop
-
-    nop
-    nop
-    nop
-
-    nop
-    nop
-
-
-; inventory buffer
-*=0x029932
-    jsr.l copy_battle_char
-    nop
-
-    nop
-    nop
-    nop
-
-    nop
-    nop
+;*=0x02991E
+;    jsr.l copy_battle_char
+;    nop
+;
+;    nop
+;    nop
+;    nop
+;
+;    nop
+;    nop
+;
+;
+;; inventory buffer
+;*=0x029932
+;    jsr.l copy_battle_char
+;    nop
+;
+;    nop
+;    nop
+;    nop
+;
+;    nop
+;    nop
 
 
 ; patch normal display_char to include 7FFFFF based switch
@@ -36,8 +36,13 @@
 
 ; enclose jsr build_tileset_function
 ; with 7FFFFF switch in the items related stuff.
-*=0x02A06C
-    jsr.w sram_draw_text
+;*=0x02A06C
+;   jsr.w sram_draw_text
+
+; magic should be drawn to sram
+;*=0x02A128
+;   jsr.w sram_draw_text
+
 
 ; patches show attack window
 *=0x02c99c + 4
@@ -51,17 +56,17 @@
 ;; render attack names
 ;*=0x029d63
 ;    jsr.w msg_window_draw_text_trampoline
-;
+
 ;; snatch play sound call to init the battle buffer
 ;*=0x038229
 ;    jsr.l render_allocator.init_battle_far
 
 *=0x02FFC2
-sram_draw_text:
-    jsr.l battle_flags.set_sram_copy
-    jsr 0xA455
-    jsr.l battle_flags.clear_sram_copy
-    rts
+;sram_draw_text:
+;    jsr.l battle_flags.set_sram_copy
+;    jsr 0xA455
+;    jsr.l battle_flags.clear_sram_copy
+;    rts
 msg_window_draw_text_trampoline:
     jsr.l messages_vwf.init
     jsr 0xA455

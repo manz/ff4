@@ -1,5 +1,5 @@
-command_length = 11
-
+command_length = 10
+command_buffer_ptr = 0x97a6  + 0x601 ; old spell lists buffers
 ; move command cursor on the moved window
 *=0x2b990
     lda.b #0x18
@@ -35,7 +35,7 @@ command_length = 11
 *=0x16FE54
     .db command_length * 2
     .db 0x0a
-    .dw 0x8CB2    ; read address
+    .dw command_buffer_ptr    ; read address
     .dw 0xC1F4 - 4    ; write address
 }
 
@@ -43,17 +43,18 @@ command_length = 11
 ; ram position of the prebuilt battle windows
 *=0x16FEAD
 battle_data_size = command_length * 4 * 5
-.dw 0x8CB2
-.dw 0x8CB2 + battle_data_size
-.dw 0x8CB2 + battle_data_size * 2
-.dw 0x8CB2 + battle_data_size * 3
-.dw 0x8CB2 + battle_data_size * 4
+.dw command_buffer_ptr
+.dw command_buffer_ptr + battle_data_size
+.dw command_buffer_ptr + battle_data_size * 2
+.dw command_buffer_ptr + battle_data_size * 3
+.dw command_buffer_ptr + battle_data_size * 4
 
 *=0x02999F
      ldx.w #battle_data_size
 
- ; move items ram location
-*=0x029FBB
-    battle_items_position = 0x2E00
-    adc.w #battle_items_position
+; Command window
+*=0x16fe5a + 6 * 2
+    .db 0x04, 0x00 ,command_length + 2, 0x0d
 }
+
+

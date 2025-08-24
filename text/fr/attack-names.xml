@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS" padding=" ">
 <sn:fixed>MgcArrow</sn:fixed>
 <sn:fixed>Heal    </sn:fixed>
 <sn:fixed>Basuna  </sn:fixed>

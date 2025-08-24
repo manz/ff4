@@ -1,4 +1,4 @@
-VARS_BUFFER = 0x702F02
+VARS_BUFFER = 0x710000
 
 .macro initialize(var) {
     lda.b var
@@ -28,7 +28,7 @@ VARS_BUFFER = 0x702F02
 }
 
 .scope vram_copy {
-buffer = 0x703200
+buffer = 0x704000
 save_dialog_vram_far:
     jsr.l 0x14fd0f ; original save
     jsr.l wait_for_vblank_long
@@ -112,13 +112,13 @@ init:
     sta.l allocated_tile_id
     pla
     rts
-
+.if BATTLE_ENABLED {
 init_battle_far:
     jsr.l 0x13ff12 ; play song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl
-
+}
 increment:
     pha
     lda.l allocated_tile_id
@@ -145,7 +145,7 @@ current_char = counter + 2
 tilemap_offset = 0x1d
 
 buffer_ptr = 0x703000
-buffer_size = 0x200
+buffer_size = 0x300
 
 last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 
@@ -168,14 +168,15 @@ _brk_init_bits:
     pha
     lda #0x00
     phx
-    ldx.w #buffer_size
+    ldx.w #0
 _clear_loop:
     lda.b #0xFF
     sta.l buffer_ptr, x
     lda.b #0x00
     sta.l buffer_ptr + 1, x
-    dex
-    dex
+    inx
+    inx
+    cpx.w #buffer_size + 2
     bne _clear_loop
     plx
     pla
