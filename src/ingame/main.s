@@ -186,23 +186,53 @@ draw_hp_mp = 0x018a2a
     sep #0x20
     lda.b #assets_magic_dat >> 16
 
+; Copy of save and restore vram routines from menu, save 0x1300 instead of 0x1000 and store it to the sram
+{
+*=0x14ff62
+	sram_buffer = 0x705000
+	save_size = 0x1300
+	phb
+	tdc
+	pha
+	plb
+	lda #0x80
+	sta 0x2100       ; screen off
+	sta 0x88
+	lda #0x80
+	sta 0x2115
+	ldx #0x2000      ; ppu 0x2000
+	stx 0x2116
+	ldx 0x2139       ; read "dummy" value
+	lda #0x81        ; single address, auto-increment
+	sta 0x4300
+	lda #0x39        ; source: 0x2139 (vram data read)
+	sta 0x4301
+	ldx.w #sram_buffer & 0xffff      ; destination: 0x7ee600
+	stx 0x4302
+	lda.b #sram_buffer >> 16
+	sta 0x4304
+	ldx.w #save_size      ; size: 0x1000
+	stx 0x4305
+	lda #0x01
+	sta 0x420b
+	plb
+	rtl
 
-; save 0x200 more data from field to properly handle render buffer 0x200.
-; There's a buffer nearby we'll probably use an aditional buffer
-*=0x14ff90
-    ldx.w #0x1000 + render.buffer_size
-*=0x14ffeb
-    ldx.w #0x1000 + render.buffer_size
-;
-;; patches the save vram function to save the 0x200 extra vram used by small vwf
-;*=0x01873a
-; 	jsr.l     vram_copy.save_dialog_vram_far
-;	rts
-;
-;; patches the restore vram function to restore the 0x200 saved to the cartdrige ram
-;*=0x01873f
-;	phb
-;	jsr.l     vram_copy.restore_dialog_gfx_far
+*=0x14ffd6
+;RestoreDlgGfx_ext:
+	lda #0x00
+	pha
+	plb
+	ldx #0x2000
+	stx 0x011d
+	ldx.w #sram_buffer & 0xffff
+	stx 0x011f
+	lda.b #sram_buffer >> 16
+	sta 0x0121
+	ldx.w #save_size
+	stx 0x0122
+	rtl
+}
 
 
 
