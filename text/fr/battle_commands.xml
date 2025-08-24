@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="11" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixedlist length="10" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:fixed>Attaquer</sn:fixed>
     <sn:fixed>Objets</sn:fixed>
-    <sn:fixed>Sorts Blancs</sn:fixed>
-    <sn:fixed>Sorts Noirs</sn:fixed>
+    <sn:fixed>Magie</sn:fixed>
+    <sn:fixed>Rituel</sn:fixed>
     <sn:fixed>Invoquer</sn:fixed>
     <sn:fixed>Obscurité</sn:fixed>
-    <sn:fixed>Saut</sn:fixed>
+    <sn:fixed>Sauter</sn:fixed>
     <sn:fixed>Souvenir</sn:fixed>
     <sn:fixed>Chanter</sn:fixed>
     <sn:fixed>Cacher</sn:fixed>
-    <sn:fixed>Medecine</sn:fixed>
+    <sn:fixed>Potion</sn:fixed>
     <sn:fixed>Prière</sn:fixed>
-    <sn:fixed>Viser</sn:fixed>
-    <sn:fixed>Build Up</sn:fixed>
+    <sn:fixed>Cibler</sn:fixed>
+    <sn:fixed>Stocker</sn:fixed>
     <sn:fixed>Kick</sn:fixed>
-    <sn:fixed>Endure</sn:fixed>
-    <sn:fixed>Double Magie</sn:fixed>
-    <sn:fixed>Strengthen</sn:fixed>
-    <sn:fixed>Pleurnicher</sn:fixed>
-    <sn:fixed>Couvrir</sn:fixed>
-    <sn:fixed>Peep</sn:fixed>
-    <sn:fixed>Choc Mental</sn:fixed>
-    <sn:fixed>Dart</sn:fixed>
-    <sn:fixed>Sneak</sn:fixed>
+    <sn:fixed>Endurance</sn:fixed>
+    <sn:fixed>Duo</sn:fixed>
+    <sn:fixed>Bravade</sn:fixed>
+    <sn:fixed>Mensonge</sn:fixed>
+    <sn:fixed>Protéger</sn:fixed>
+    <sn:fixed>Analyser</sn:fixed>
+    <sn:fixed>Aéronef</sn:fixed>
+    <sn:fixed>Lancer</sn:fixed>
+    <sn:fixed>Voler</sn:fixed>
     <sn:fixed>Ninjutsu</sn:fixed>
-    <sn:fixed>Choc Mental</sn:fixed>
-    <sn:fixed>Change Row</sn:fixed>
-    <sn:fixed>Defend</sn:fixed>
-    <sn:fixed>Show</sn:fixed>
-    <sn:fixed>Cover Off</sn:fixed>
+    <sn:fixed>Regen</sn:fixed>
+    <sn:fixed>Changer</sn:fixed>
+    <sn:fixed>Défense</sn:fixed>
+    <sn:fixed>Apparaître</sn:fixed>
+    <sn:fixed>Déprotéger</sn:fixed>
 </sn:fixedlist>
