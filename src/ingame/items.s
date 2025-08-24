@@ -16,7 +16,7 @@
     ldx.w #assets_item_descriptions_dat & 0xffff
 
 *=0x01a7fc
-    addr = ((assets_item_descriptions_dat >> 16) << 16)
+    addr = (assets_item_descriptions_dat & 0xff0000)
     lda.l addr, x
 
 
