@@ -6,18 +6,25 @@
 ENABLE_DIALOG_SKIP := 1
 ENABLE_INTRO := 1
 ENABLE_VWF_ATTACK_NAMES := 1
+BATTLE_ENABLED := 1
+MAGIC_ENABLED := 1
+
+; Debug flags
+TRIGGER_ENDING_CUTSCENE := 0
 
 .include 'src/libmz.i'
 .include 'src/system_menus_text.i'
 
 .include 'src/minimal_vwf_patches.s'
-
+.if BATTLE_ENABLED {
 .include 'src/battle/graphics_patches.s'
-.include 'src/battle/magic_patches.s'
-.include 'src/battle/commands_patches.s'
+.if MAGIC_ENABLED {
+    .include 'src/battle/magic/patches.s'
+    .include 'src/battle/commands_patches.s'
+}
 .include 'src/battle/message_patches.s'
 .include 'src/battle/sram_patches.s'
-
+}
 .include 'src/places_names.s'
 .include 'src/new_game.s'
 .include 'src/credits.s'
@@ -84,7 +91,7 @@ clear_ram:
 _loop:
 	sta.l 0x702000, x
 	inx
-	cpx.w #0x2000
+	cpx.w #0x4000
 	bne _loop
 }
 	rtl
@@ -97,10 +104,14 @@ _loop:
   .include 'src/vwf.s'
   .include 'src/small_vwf/init.s'
 
+.if BATTLE_ENABLED {
   .include 'src/battle/sram.s'
   .include 'src/battle/message.s'
   .include 'src/battle/graphics.s'
-
+.if MAGIC_ENABLED {
+  .include 'src/battle/magic/reloc.s'
+}
+}
   .include 'src/dialog.s'
   .include 'src/places_names_window.s'
   ; system menu text routines
@@ -157,7 +168,6 @@ length_table:
   .pointer assets_bold_font_length_table_dat
   .incbin 'assets/credits_text.bin'
 
-; Splash screen assets
 *=0x298000
 	.incbin 'assets/battle_messages.ptr'
 	.incbin 'assets/battle_messages.dat'
@@ -166,14 +176,19 @@ length_table:
 	.incbin 'assets/battle_text.ptr'
 	.incbin 'assets/battle_text.dat'
 
+*=0x2B8000
+; Splash screen assets
 .if ENABLE_INTRO {
     .incbin 'assets/intro.map'
     .incbin 'assets/intro.col'
     .incbin 'assets/intro.set'
 }
 
-
-
-
+.if TRIGGER_ENDING_CUTSCENE {
+; all effects are the Ending cutscene
+*=0xc436
+	lda #0x39
+	nop
+}
 
 
