@@ -9,7 +9,7 @@
 ; ******************
     vram_tile_set_pointer = 0x6800
     vram_tile_map_pointer = 0x2C00
-    newline_offset = 4
+    newline_offset = 0
     WRAM = field_vwf.tile_buffer
 
     WRAMPTR = 0x2108
@@ -322,7 +322,7 @@ newline:
     STZ.B pixel_c+1
 
     REP #0x20
-    LDA.W #newline_offset
+    LDA.W #8-newline_offset
     SEP #0x20
 
     STA.B BITSLEFT
