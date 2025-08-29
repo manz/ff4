@@ -17,6 +17,7 @@ from script.pointers import (
     Pointer,
 )
 
+from metrics import TextMetrics
 from utils.font import convert_font_to_1bpp, convert_font_to_2bpp
 from utils.smallvwf import generate_8x8_vwf_asset
 
@@ -40,11 +41,12 @@ def read_fixed_from_xml(input_file, table, formatter=None):
             formatted_text = formatter(text) if formatter else text
             pointer.value = table.to_bytes(formatted_text) if text else b""
             max_length = max(max_length, len(pointer.value))
-            if len(pointer.value) < length:
-                pad_length = length - len(pointer.value)
-                pointer.value += table.to_bytes(padding) * pad_length
-            elif len(pointer.value) > length:
-                pointer.value = pointer.value[:length]
+            if formatter is None:
+                if len(pointer.value) < length:
+                    pad_length = length - len(pointer.value)
+                    pointer.value += table.to_bytes(padding) * pad_length
+                elif len(pointer.value) > length:
+                    pointer.value = pointer.value[:length]
 
             pointer_table.append(pointer)
             i += 1
@@ -135,6 +137,23 @@ def build_fixed_asset(table, input_file, binary_text_file):
     pointers = read_fixed_from_xml(input_file, table)
     write_pointers_value_as_binary(pointers, binary_text_file)
 
+def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file):
+    pointers = read_fixed_from_xml(input_file, table, formatter=lambda t: t.strip() + "[end]")
+
+    metrics = TextMetrics(table, [Path("./assets/menu_font_length_table.dat").read_bytes()])
+    max_length = 0
+    max_ptr = None
+    for i, pointer in enumerate(pointers):
+        ptr_len = metrics.measure_bytes(pointer.value)
+        if ptr_len > max_length:
+            max_ptr = (i, pointer)
+            max_length = ptr_len
+    text = table.to_text(max_ptr[1].value)
+    write_pointers_value_as_binary(pointers, binary_text_file)
+
+    write_pointers_addresses_as_binary(
+        pointers, lambda x: struct.pack("<H", x), pointers_file
+    )
 
 def build_null_terminated(table, input_file, binary_text_file, pointers_file=None):
     pointers = read_stringarray_from_xml(input_file, table)
@@ -189,6 +208,7 @@ assets_builder = {
     "script": build_text_asset,
     "pointed_16bits_lowrom": build_pointed_16bits_lowrom,
     "fixed": build_fixed_asset,
+    "fixed_to_ptr": build_fixed_to_ptr_asset,
     "nullterminated": build_null_terminated,
     "vwf-font": build_vwf_font_asset,
     "vwf-font-2bpp": build_vwf_font_asset_2bpp,
@@ -310,10 +330,11 @@ if __name__ == "__main__":
             "assets/battle_commands.dat",
         ),
         (
-            "fixed",
+            "fixed_to_ptr",
             menu_table,
             os.path.join(text_root, "attack-names.xml"),
-            "assets/attack-names.dat",
+            "assets/attack_names.dat",
+            "assets/attack_names.ptr"
         ),
         (
             "nullterminated",
