@@ -1,9 +1,14 @@
+.include 'src/ingame/macros.i'
 {
 *=0x01DB61
     .dw 0x0000, 0x1A16 ; fenètre principale
     .dw 0x05EE, 0x0307 ; fenètre Gils
     .dw 0x04EE, 0x0207 ; fenetre temps
     .dw 0x002E, 0x1107 ; fenètre menu principal
+
+
+*=0x01dd51
+    menu_window(0,8,30,17)
 
 *=0x01892E
     load_system_menu_text_pointer(in_game_menu.menu)
@@ -160,7 +165,7 @@ draw_hp_mp = 0x018a2a
 
 ; length of spells names
 *=0x01B345
-    lda.b #0x07
+    lda.b #0x08
 
 ; compute spell pointer
 ;01b319 rep #0x20
@@ -175,16 +180,26 @@ draw_hp_mp = 0x018a2a
 
 *=0x01b319
     rep #0x20
+    pha
     asl
     asl
     asl
+    adc 1, s
     nop
     nop
-    nop
-    adc.w #assets_magic_dat
+   ; nop
+;    adc.w #assets_magic_dat
     tay
+    pla
     sep #0x20
     lda.b #assets_magic_dat >> 16
+
+; instead of adding asset_magic_dat to Y move it to the lda to save 3 bytes
+*=0x1b32b
+    lda.w assets_magic_dat, y
+
+*=0x1b349
+    lda.w assets_magic_dat, y
 
 ; Copy of save and restore vram routines from menu, save 0x1300 instead of 0x1000 and store it to the sram
 {
