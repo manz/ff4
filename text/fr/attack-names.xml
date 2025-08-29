@@ -1,106 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS" padding=" ">
-<sn:fixed>MgcArrow</sn:fixed>
-<sn:fixed>Heal    </sn:fixed>
-<sn:fixed>Basuna  </sn:fixed>
-<sn:fixed>Poisuna </sn:fixed>
-<sn:fixed>Dagger  </sn:fixed>
-<sn:fixed>Punch   </sn:fixed>
-<sn:fixed>Destruct</sn:fixed>
-<sn:fixed>StonBeak</sn:fixed>
-<sn:fixed>MindBlst</sn:fixed>
-<sn:fixed>Kick    </sn:fixed>
-<sn:fixed>SnowStrm</sn:fixed>
-<sn:fixed>Judgment</sn:fixed>
-<sn:fixed>Hellfire</sn:fixed>
-<sn:fixed>Anger   </sn:fixed>
-<sn:fixed>MistBrth</sn:fixed>
-<sn:fixed>Whisper </sn:fixed>
-<sn:fixed>IronSwrd</sn:fixed>
-<sn:fixed>Tsunami </sn:fixed>
-<sn:fixed>Ashura  </sn:fixed>
-<sn:fixed>Ashura  </sn:fixed>
-<sn:fixed>Ashura  </sn:fixed>
-<sn:fixed>M. Flare</sn:fixed>
-<sn:fixed>W. Meteo</sn:fixed>
+<sn:fixedlist length="19" xmlns:sn="http://snes.ninja/ScriptNS" padding=" ">
+<sn:fixed>Flèche Magique</sn:fixed>
+<sn:fixed>Soin</sn:fixed>
+<sn:fixed>Basuna</sn:fixed>
+<sn:fixed>Antidote</sn:fixed>
+<sn:fixed>Dague</sn:fixed>
+<sn:fixed>Coup de Poing</sn:fixed>
+<sn:fixed>Destruction</sn:fixed>
+<sn:fixed>Bec de Pierre</sn:fixed>
+<sn:fixed>Explosion Mentale</sn:fixed>
+<sn:fixed>Coup de Pied</sn:fixed>
+<sn:fixed>Tempête de Neige</sn:fixed>
+<sn:fixed>Jugement</sn:fixed>
+<sn:fixed>Feu Infernal</sn:fixed>
+<sn:fixed>Colère</sn:fixed>
+<sn:fixed>Souffle Brumeux</sn:fixed>
+<sn:fixed>Murmure</sn:fixed>
+<sn:fixed>Épée de Fer</sn:fixed>
+<sn:fixed>Tsunami</sn:fixed>
+<sn:fixed>Ashura</sn:fixed>
+<sn:fixed>Ashura</sn:fixed>
+<sn:fixed>Ashura</sn:fixed>
+<sn:fixed>Méga Brasier</sn:fixed>
+<sn:fixed>Météore Blanc</sn:fixed>
 <sn:fixed>Monst015</sn:fixed>
 <sn:fixed>Monst016</sn:fixed>
-<sn:fixed>Glance  </sn:fixed>
-<sn:fixed>Blaster </sn:fixed>
-<sn:fixed>Slap    </sn:fixed>
-<sn:fixed>ColdSnap</sn:fixed>
-<sn:fixed>Pupil   </sn:fixed>
-<sn:fixed>Lure    </sn:fixed>
-<sn:fixed>Tongue  </sn:fixed>
-<sn:fixed>Curse   </sn:fixed>
-<sn:fixed>Fingrtip</sn:fixed>
-<sn:fixed>Death   </sn:fixed>
-<sn:fixed>Beak    </sn:fixed>
-<sn:fixed>StonGaze</sn:fixed>
-<sn:fixed>MindBlst</sn:fixed>
-<sn:fixed>Embrace </sn:fixed>
-<sn:fixed>BadBreth</sn:fixed>
-<sn:fixed>Whisper </sn:fixed>
-<sn:fixed>Wreathe </sn:fixed>
-<sn:fixed>Wall    </sn:fixed>
-<sn:fixed>Strain  </sn:fixed>
-<sn:fixed>ColdMist</sn:fixed>
-<sn:fixed>Explode </sn:fixed>
-<sn:fixed>CursSong</sn:fixed>
-<sn:fixed>CursAura</sn:fixed>
-<sn:fixed>SleepGas</sn:fixed>
-<sn:fixed>PoisnGas</sn:fixed>
-<sn:fixed>Laser   </sn:fixed>
-<sn:fixed>DeathRev</sn:fixed>
-<sn:fixed>Bl. Fang</sn:fixed>
-<sn:fixed>Bl. Hole</sn:fixed>
-<sn:fixed>DethSong</sn:fixed>
-<sn:fixed>Sector 9</sn:fixed>
-<sn:fixed>Maelstrm</sn:fixed>
-<sn:fixed>ElecWall</sn:fixed>
-<sn:fixed>ChnExpld</sn:fixed>
-<sn:fixed>Hatching</sn:fixed>
-<sn:fixed>Heal    </sn:fixed>
-<sn:fixed>Suction </sn:fixed>
-<sn:fixed>Medic   </sn:fixed>
+<sn:fixed>Regard</sn:fixed>
+<sn:fixed>Destructeur</sn:fixed>
+<sn:fixed>Gifle</sn:fixed>
+<sn:fixed>Gel Soudain</sn:fixed>
+<sn:fixed>Pupille</sn:fixed>
+<sn:fixed>Appât</sn:fixed>
+<sn:fixed>Langue</sn:fixed>
+<sn:fixed>Malédiction</sn:fixed>
+<sn:fixed>Bout des Doigts</sn:fixed>
+<sn:fixed>Mort</sn:fixed>
+<sn:fixed>Bec</sn:fixed>
+<sn:fixed>Regard Pétrifiant</sn:fixed>
+<sn:fixed>Explosion Mentale</sn:fixed>
+<sn:fixed>Étreinte</sn:fixed>
+<sn:fixed>Mauvaise Haleine</sn:fixed>
+<sn:fixed>Murmure</sn:fixed>
+<sn:fixed>Couronne</sn:fixed>
+<sn:fixed>Mur</sn:fixed>
+<sn:fixed>Tension</sn:fixed>
+<sn:fixed>Brume Glacée</sn:fixed>
+<sn:fixed>Explosion</sn:fixed>
+<sn:fixed>Chant Maudit</sn:fixed>
+<sn:fixed>Aura Maudite</sn:fixed>
+<sn:fixed>Gaz Soporifique</sn:fixed>
+<sn:fixed>Gaz Toxique</sn:fixed>
+<sn:fixed>Laser</sn:fixed>
+<sn:fixed>Revanche de la Mort</sn:fixed>
+<sn:fixed>Croc Noir</sn:fixed>
+<sn:fixed>Trou Noir</sn:fixed>
+<sn:fixed>Chant de Mort</sn:fixed>
+<sn:fixed>Secteur 9</sn:fixed>
+<sn:fixed>Maelström</sn:fixed>
+<sn:fixed>Mur Électrique</sn:fixed>
+<sn:fixed>Explosion en Chaîne</sn:fixed>
+<sn:fixed>Éclosion</sn:fixed>
+<sn:fixed>Soin</sn:fixed>
+<sn:fixed>Aspiration</sn:fixed>
+<sn:fixed>Médecin</sn:fixed>
 <sn:fixed>Big Bang</sn:fixed>
-<sn:fixed>BlodSuck</sn:fixed>
-<sn:fixed>Digest  </sn:fixed>
-<sn:fixed>Pollen  </sn:fixed>
-<sn:fixed>CrashDwn</sn:fixed>
-<sn:fixed>Alarm   </sn:fixed>
-<sn:fixed>Summon  </sn:fixed>
-<sn:fixed>DummyMgc</sn:fixed>
-<sn:fixed>DeathRev</sn:fixed>
-<sn:fixed>Target  </sn:fixed>
-<sn:fixed>Nuke    </sn:fixed>
-<sn:fixed>Retreat </sn:fixed>
-<sn:fixed>CrsDispl</sn:fixed>
-<sn:fixed>Beam    </sn:fixed>
-<sn:fixed>Num. 199</sn:fixed>
-<sn:fixed>Flame   </sn:fixed>
-<sn:fixed>Blaze   </sn:fixed>
-<sn:fixed>LitFlash</sn:fixed>
-<sn:fixed>Thunder </sn:fixed>
-<sn:fixed>D.Breath</sn:fixed>
-<sn:fixed>Big Wave</sn:fixed>
-<sn:fixed>SnowStrm</sn:fixed>
-<sn:fixed>Tsunami </sn:fixed>
-<sn:fixed>Twister </sn:fixed>
-<sn:fixed>Laser   </sn:fixed>
-<sn:fixed>Destruct</sn:fixed>
-<sn:fixed>Quake   </sn:fixed>
-<sn:fixed>FlmThrwr</sn:fixed>
-<sn:fixed>Heater  </sn:fixed>
-<sn:fixed>FlameDgn</sn:fixed>
-<sn:fixed>IronSwrd</sn:fixed>
-<sn:fixed>M. Flare</sn:fixed>
-<sn:fixed>Needle  </sn:fixed>
-<sn:fixed>Counter </sn:fixed>
+<sn:fixed>Suceur de Sang</sn:fixed>
+<sn:fixed>Digestion</sn:fixed>
+<sn:fixed>Pollen</sn:fixed>
+<sn:fixed>Effondrement</sn:fixed>
+<sn:fixed>Alarme</sn:fixed>
+<sn:fixed>Invocation</sn:fixed>
+<sn:fixed>Magie Factice</sn:fixed>
+<sn:fixed>Revanche de la Mort</sn:fixed>
+<sn:fixed>Cible</sn:fixed>
+<sn:fixed>Nucléaire</sn:fixed>
+<sn:fixed>Retraite</sn:fixed>
+<sn:fixed>Déplacement Maudit</sn:fixed>
+<sn:fixed>Rayon</sn:fixed>
+<sn:fixed>Numéro 199</sn:fixed>
+<sn:fixed>Flamme</sn:fixed>
+<sn:fixed>Brasier</sn:fixed>
+<sn:fixed>Éclair</sn:fixed>
+<sn:fixed>Tonnerre</sn:fixed>
+<sn:fixed>Souffle du Dragon</sn:fixed>
+<sn:fixed>Grande Vague</sn:fixed>
+<sn:fixed>Tempête de Neige</sn:fixed>
+<sn:fixed>Tsunami</sn:fixed>
+<sn:fixed>Tornade</sn:fixed>
+<sn:fixed>Laser</sn:fixed>
+<sn:fixed>Destruction</sn:fixed>
+<sn:fixed>Séisme</sn:fixed>
+<sn:fixed>Lance-Flammes</sn:fixed>
+<sn:fixed>Chauffage</sn:fixed>
+<sn:fixed>Dragon de Flamme</sn:fixed>
+<sn:fixed>Épée de Fer</sn:fixed>
+<sn:fixed>Méga Brasier</sn:fixed>
+<sn:fixed>Aiguille</sn:fixed>
+<sn:fixed>Contre-Attaque</sn:fixed>
 <sn:fixed>Monst000</sn:fixed>
 <sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Regen   </sn:fixed>
-<sn:fixed>Reraise </sn:fixed>
+<sn:fixed>Régénération</sn:fixed>
+<sn:fixed>Résurrection</sn:fixed>
 <sn:fixed>Monst000</sn:fixed>
 <sn:fixed>Monst000</sn:fixed>
 <sn:fixed>Monst000</sn:fixed>

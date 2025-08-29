@@ -66,6 +66,47 @@ draw_letter_far:
 *=0x02cbe6
     cpy.w #battle_magic_length + 1
 
+*=0x02cba2
+    sec
+    sbc     #0x48
+
+    rep #0x20
+    and.w #0x00ff
+    asl
+    tax
+    ; force the longest one.
+    ; ldx.w #51* 2
+    lda.l assets_attack_names_ptr, x
+    tax
+    sep #0x20
+
+    tdc
+    tay
+loop:
+    lda.l assets_attack_names_dat, x
+    sta 0x74fd, y
+    beq exit
+    iny
+    inx
+    bra loop
+    exit:
+    jmp.w 0xbca2  ; display monster? attack name window
+__eof:
+.debug '{__eof}'
+
+; attack window position
+*=0x029369
+    ldx.w #0x0011
+
+; attack window size
+*=0x02936f
+    ldx.w #0x040e
+
+*=0x029382
+    ldx.w #0xdb50 - 4 - 2
+
+
+
 ; cursor and scrolling
 
 ; patches the spell menu vram transfer
