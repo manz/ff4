@@ -166,9 +166,9 @@ _nxt9:
     STZ.B winstate
     jmp.w main
 _nxtFB:
-;    CMP #0xFC
-;    BNE _nxtFC
-;    JMP.W suit3
+    CMP #0xFC
+    BNE _nxtFC
+    JMP.W suit3
 _nxtFC:
     cmp #0xFE
     bne _nxtFE
