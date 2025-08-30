@@ -2,6 +2,9 @@ name: Nightly Release
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
 jobs:
   nightly:
     runs-on: ubuntu-latest
