@@ -91,8 +91,6 @@ loop:
     bra loop
     exit:
     jmp.w 0xbca2  ; display monster? attack name window
-__eof:
-.debug '{__eof}'
 
 ; attack window position
 *=0x029369
