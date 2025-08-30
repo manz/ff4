@@ -4,8 +4,7 @@ MagicListPtrs:
 
 
 
-battle_magic_length = 8
-
+battle_magic_length = 9
 ; [ draw spell list directly to transfer buffer ]
 destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer
@@ -15,6 +14,8 @@ DrawMagicListDirect:
 spell_id = 0x03
 spell_enabled_flag = 0x02
 current_row_offset = 0x08
+spell_counter = 0x06
+current_spell_index = 0x0a
 
         lda     0x00         ; character slot
         asl
@@ -29,9 +30,9 @@ current_row_offset = 0x08
 
         sep #0x20
         lda     #0x18        ; 24 spells total (12 rows x 2 columns)
-        sta     0x06         ; spell counter
+        sta.b     spell_counter         ; spell counter
         lda     #0x00        ; current spell index (0-23)
-        sta     0x0a
+        sta.b     current_spell_index
 spell_loop:
         phx
         pha
@@ -51,7 +52,7 @@ spell_loop:
 
 
         ; Fast column selection using precomputed addresses
-        lda     0x0a         ; spell index
+        lda.b     current_spell_index         ; spell index
         and     #0x01        ; check if odd
         beq     left_column
         
@@ -92,9 +93,19 @@ set_second_addr:
 
         rep #0x20
         and.w     #0x007f        ; clear disabled bit
-        asl                 ; spell ID * 8 (8 bytes per name)
-        asl
-        asl
+        sep #0x20
+        sta.l 0x004202
+        lda.b #battle_magic_length
+        sta.l 0x004203
+        NOP
+        NOP
+        NOP
+        NOP
+        rep #0x20
+        lda.l 0x004216
+   ;     asl                 ; spell ID * 8 (8 bytes per name)
+   ;     asl
+   ;     asl
         tax
         sep #0x20
         
@@ -106,10 +117,9 @@ letter_loop:
         inx
         dec     0x02
         bne     letter_loop
-        lda.b     #battle_magic_length          ; 8 characters to write
 
-        lda #0x0a
-        sta     0x02
+        lda #0x08
+       sta     0x02
 clear_loop:
         lda.b #0xff
         jsr.l draw_letter_far
@@ -125,7 +135,7 @@ next_spell:
         sta     0x00
         
         ; Increment row offset after right column (odd spell index)
-        lda     0x0a         ; current spell index
+        lda.b     current_spell_index         ; current spell index
         and.w   #0x0001      ; check if odd (right column)
         beq     same_row
         
@@ -138,7 +148,7 @@ next_spell:
 same_row:
         sep #0x20
         inc     0x0a         ; next spell index
-        dec     0x06         ; decrement spell counter
+        dec.b     spell_counter         ; decrement spell counter
         beq exit
         jmp.w spell_loop
 exit:

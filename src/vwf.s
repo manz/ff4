@@ -146,7 +146,6 @@ _nxt5:
     BNE _nxt6
     JMP.W _code05
 _nxt6:
-    ; it might lack 06 and 07 text opcodes
 
     cmp #0x06
     bne _nxt7
@@ -177,13 +176,12 @@ _nxtFC:
     jsr.w setup_font
     jmp.w main
 _nxtFE:
-    CMP #0xFF
-    BNE _nxtFF
-    JMP.W retour_auto
+;    CMP #0xFF
+;    BNE _nxtFF
+;    JMP.W retour_auto
 
 
 _nxtFF:
-
     ; on fabrique le pointeur de font et le pointeur vers la wram
     ;retour auto a ajouter ici
 
