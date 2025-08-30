@@ -53,7 +53,7 @@ jobs:
           🔗 **Download:** [Click here to go to the build page](${runUrl})
 
           The artifact will be available for 30 days.
-          *Last updated: ${{ github.sha }}*`;
+          *Last updated: ${{ github.event.pull_request.head.sha }}*`;
 
           // Find existing comment
           const comments = await github.rest.issues.listComments({
