@@ -75,6 +75,8 @@ _LoopBk2:
     PLA
     CMP #0x04
     BEQ _LoopBk2
+    CMP #0xfe
+    beq _LoopBk2
     DEY
     BNE _LoopBk2
     INX

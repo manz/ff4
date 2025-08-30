@@ -1,5 +1,14 @@
 .include 'src/ingame/macros.i'
 
+; Columns offsets
+*=0x1efebd
+first_column := 0x0248 - 4
+    .dw first_column + 10 * 2 * 2, first_column + 10 * 2, first_column
+
+; columns cursor postion
+*=0x01b211
+    .db   0x0, 10 * 8, 10 * 8 * 2
+
 ; White spells
 *=0x01AFA2
     load_system_menu_text_pointer(spells.white)
