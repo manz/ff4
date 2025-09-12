@@ -33,7 +33,11 @@
 
 ; Moves the classes on the next line
 *=0x018C1A
-   adc.w #0x0040
+   adc.w #0x004e
+
+; disable class name
+*=0x018b30
+    rts
 
 ;*=0x0188d0
 ;    ldx.w #0x02CE
@@ -99,7 +103,7 @@ draw_hp_mp = 0x018a2a
     sta.w 2+level_offset, x
     lda #0x57 ; V
     sta.w 4+level_offset, x
-    lda #0xFF ; V
+    lda #0xFF
     sta.w 6+level_offset, x
     nop
 
@@ -117,9 +121,9 @@ draw_hp_mp = 0x018a2a
 
 ; Moves the level down in the digest
 *=0x0189FA
-    sta.w 0x0016,X
+    sta.w 0x0016, x
     xba
-    sta.w 0x0018,X
+    sta.w 0x0018, x
 
 ;; Move character name.
 *=0x0183D5
