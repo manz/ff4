@@ -146,9 +146,8 @@ loop:
 
 ; magic list cursor x position
 *=0x16FC56
-    .db 2
-    .db 0x3C + 14
-    .db 0x74
+    .db 8
+    .db 0x3C + 8 * 3 + 4
 
 ; up and down should only inc /dec once ?
 *=0x02B764
