@@ -9,6 +9,14 @@
   menu_window(23,9,7,11)
 
 ; message window
+*=0x01deb2
+  menu_window(8,0,20,2)
+
+; shop title
+*=0x01deae
+  menu_window(0,0,8,2)
+
+; actions window
 *=0x01deaa
   menu_window(1,4,20,3)
 
@@ -98,3 +106,24 @@ _quantity_10_position = 0x019a + 12
     .db   0x18+8,0x38+8
     .db   0x00+8,0x0c+8
     .db   0x00+8,0x2c+8
+
+*=0x01debe
+shop_title_ptr:
+    .dw shops.weapons_title - 0x8000
+    .dw shops.armor_title - 0x8000
+    .dw shops.items_title - 0x8000
+
+*=0x01c336
+        lda.b     #0
+        xba
+        lda     0x1a01
+        asl
+        tax
+        rep #0x20
+        lda.l shop_title_ptr, x
+        tay
+        sep #0x20
+        nop
+        nop
+        nop
+        ldx.w #0x0042
