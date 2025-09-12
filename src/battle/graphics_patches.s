@@ -58,3 +58,40 @@
     sta 0xba94,y
     dec
     sta 0xba96,y
+
+; skip the dakuten line of the Hands text to display a single 10char line instead of two 5 chars line
+*=0x0297c6
+    _skip_dakuten_line = 0x0297d7
+    bra _skip_dakuten_line
+
+*=0x0297e6
+    cpy.w #0x0040 + 0xa * 2
+
+; Hands text
+*=0x16fed5
+{
+.table 'text/ff4_menus.tbl'
+hand_text:
+    .text 'Droite    '
+    .text 'Gauche    '
+    .text 'Droite    '
+    .text 'Principale'
+    .text 'Principale'
+    .text 'Gauche    '
+    .text 'Principale'
+    .text 'Principale'
+}
+
+*=0x02A51C
+    lda.l assets_battle_statuses_dat, x
+    sta.b 0x00
+    lda.l assets_battle_statuses_dat + 1, x
+    sta.b 0x01
+    lda.b #assets_battle_statuses_dat >> 16
+
+*=0x02A32A
+    lda.l assets_battle_statuses_dat, x
+    sta.b 0x00
+    lda.l assets_battle_statuses_dat + 1, x
+    sta.b 0x01
+    lda.b #assets_battle_statuses_dat >> 16
