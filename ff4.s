@@ -116,6 +116,7 @@ _loop:
   .include 'src/places_names_window.s'
   ; system menu text routines
   .include 'src/system_menus_text.s'
+  .include 'src/dakuten.s'
 
   ; menu text scopes
   .include 'src/menus/start_screen_text.s'

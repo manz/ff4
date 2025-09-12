@@ -28,8 +28,14 @@ first_column := 0x0248 - 4
     load_system_menu_text_pointer(spells.kokan)
 
 *=0x01b0ec
-    ldx.w #0x020A + 0x40
+    ldx.w #0x020A
     load_system_menu_text_pointer(spells.mp_needed)
+    jsr.w copy_text_with_dakuten
+
+*=0x01ff80
+copy_text_with_dakuten:
+    jsr.l copy_text_with_dakuten_far
+    rts
 
 ; Grisement des types sorts : 'Blancs' 'Noirs' etc ...
 *=0x01B419

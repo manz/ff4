@@ -54,22 +54,13 @@ load_next_char:
     lda.l assets_classes_dat, x
     beq end
     ; dakuten
-	nop
-	nop
-	nop
-    ;jsr.w 0x8E32
-	nop
-	nop
-	nop
-   ; sta.w 0x0000, y
-    ;xba
+    jsr.w 0x8E32
+    sta.w 0x0000, y
+    xba
     sta.w 0x0040, y
     iny
     lda.b 0x34
-	nop
-	nop
-	nop
-    ;sta.w 0x0000, y
+    sta.w 0x0000, y
     sta.w 0x0040, y
     inx
     iny
@@ -248,6 +239,42 @@ draw_hp_mp = 0x018a2a
 	stx 0x0122
 	rtl
 }
+*=0x018E32
+jsr.l lookup_dakuten
+rts
+
+*=0x00b670
+jsr.l lookup_dakuten
+xba
+rts
+
+;*=0x00b66e
+;jsr.l lookup_dakuten
+;rts
+
+;                     --------sub start--------
+;018E32  DA             PHX
+;018E33  C9 42          CMP #$42
+;018E35  B0 15          BCS $018E4C
+;018E37  38             SEC
+;018E38  E9 0F          SBC #$0F
+;018E3A  0A             ASL
+;018E3B  EB             XBA
+;018E3C  A9 00          LDA #$00
+;018E3E  EB             XBA
+;018E3F  AA             TAX
+;018E40  BF 1F FE 1E    LDA $1EFE1F,X
+;018E44  EB             XBA
+;018E45  BF 1E FE 1E    LDA $1EFE1E,X
+;018E49  EB             XBA
+;018E4A  FA             PLX
+;018E4B  60             RTS
+;                     ----------------
+;018E4C  EB             XBA
+;018E4D  A9 FF          LDA #$FF
+;018E4F  FA             PLX
+;018E50  60             RTS
+;                     ----------------
 
 
 
