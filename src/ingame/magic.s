@@ -58,7 +58,7 @@ first_column := 0x0248 - 4
 
 ; [use spell] Magic name window.
 *=0x01dd75
-    menu_window(0, 0, 8, 7)
+    menu_window(0, 0, 9, 7)
 
 ; [use spell] Use spell on whom window.
 *=0x01dd71

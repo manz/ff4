@@ -8,7 +8,7 @@
 
 
 *=0x01dd51
-    menu_window(0,8,30,17)
+    menu_window(1,8,29,17)
 
 *=0x01892E
     load_system_menu_text_pointer(in_game_menu.menu)

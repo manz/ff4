@@ -170,3 +170,16 @@ loop:
     ;dec 0x63
     nop
     nop
+
+; display magic name in battle messages.
+*=0x02A567
+    lda #9
+
+*=0x02A573
+    lda.l assets_magic_dat, x
+
+*=0x02A57E
+    lda.l assets_magic_dat + 1, x
+
+*=0x02A57A
+    lda #9 - 1
