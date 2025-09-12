@@ -56,6 +56,16 @@
 *=0x02BCB2
     ldy.w #0x6400 + 0x800
 
+; 029429  A0 39 5F       LDY #$5F39
+; MP cost transfer destination
+ *=0x029429
+    ldy.w #0x5f39 + 0x800
+
+; kick animation
+; 02/C6A8: A0 40 61     LDY #$6140
+*=0x02c6a8
+    ldy.w #0x6140 + 0x800
+
 ; bg1 move
 ;02/91FE: A0 00 58     LDY #$5800
 *=0x0291FE

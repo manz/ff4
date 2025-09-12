@@ -94,14 +94,14 @@ loop:
 
 ; attack window position
 *=0x029369
-    ldx.w #0x0011
+    ldx.w #0x0009
 
 ; attack window size
 *=0x02936f
     ldx.w #0x040e
 
 *=0x029382
-    ldx.w #0xdb50 - 4 - 2
+    ldx.w #0xdb50 - 4 - 2 - 16
 
 
 
