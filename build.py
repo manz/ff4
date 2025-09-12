@@ -19,6 +19,7 @@ from script.pointers import (
 )
 
 from metrics import TextMetrics
+from utils.dakutens import generate_dakutens
 from utils.font import convert_font_to_2bpp
 from utils.font_converter import FontConverter
 from utils.smallvwf import generate_8x8_vwf_asset
@@ -487,6 +488,9 @@ if __name__ == "__main__":
 
     generate_8x8_vwf_asset(small_text, "vwf_precomp", 0x90)
     menu_vwf_table = Table("text/vwf_precomp.tbl")
+
+    with open("assets/dakuten.bin", "wb") as fd:
+        fd.write(generate_dakutens(menu_table))
 
     if not os.path.exists("build"):
         os.mkdir("build")

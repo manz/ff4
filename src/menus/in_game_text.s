@@ -370,3 +370,30 @@ key_items_left_warning:
    .text 'objets importants.'
    .db 0
 }
+
+
+
+copy_text_with_dakuten_far:
+{
+        phb
+        phk
+        plb
+        rep #0x20
+        txa
+        clc
+        adc     0x29
+        tax
+        sep #0x20
+_loop:  lda.w     0x0000,y
+        beq     _exit
+        jsr.l lookup_dakuten
+        sta     0x7e0000,x
+        xba
+        sta 0x7e0040,x
+        inx
+        inx
+        iny
+        bra     _loop
+_exit:  plb
+        rtl
+}
