@@ -1,22 +1,27 @@
+
+dialog_ptr=0x20
+
+
+
 PointeurBank1de1:
     REP #0x20
     LDA.L assets_bank1_1_ptr,X
-    STA.B 0x3D
+    STA.B dialog_ptr
     LDA.W #0x0000
     SEP #0x20
     LDA.L assets_bank1_1_ptr + 2,X
-    STA.B 0x3F
+    STA.B dialog_ptr + 2
     LDA.B #0x01
     RTL
 ; the bank 1 of 1 is only 0x100 pointers long and not 0x200 as the text dump suggests.
 PointeurBank1de2:
     REP #0x20
     LDA.L assets_bank1_1_ptr + 0x300, X
-    STA.B 0x3D
+    STA.B dialog_ptr
     LDA.W #0x0000
     SEP #0x20
     LDA.L assets_bank1_1_ptr + 0x300 + 2,X
-    STA.B 0x3F
+    STA.B dialog_ptr + 2
     LDA #0x01
     RTL
 
@@ -24,41 +29,41 @@ PointeurBank1de2:
 PointeurBank3:
     REP #0x20
     LDA.L dialog_bank_ptr_base + 0x600,X
-    STA.B 0x3D
+    STA.B dialog_ptr
     LDA.W #0x0000
     SEP #0x20
     LDA.L dialog_bank_ptr_base + 0x600 + 2,X
-    STA.B 0x3F
+    STA.B dialog_ptr + 2
     LDA #0x02
     RTL
 
 CalculePositionTb:
     LDA.B 0xB2
-    STA.B 0x3D
-    STZ.B 0x3E
+    STA.B dialog_ptr
+    STZ.B dialog_ptr + 1
     REP #0x20
-    LDA.B 0x3D
+    LDA.B dialog_ptr
     CLC
     ASL
-    ADC.B 0x3D
+    ADC.B dialog_ptr
     TAX
     SEP #0x20
     RTL
 PointeurBank2:
 {
     REP #0x20
-    LDA.B 0x3D
+    LDA.B dialog_ptr
     ASL
     CLC
-    ADC.B 0x3D
+    ADC.B dialog_ptr
     TAX
     LDA.L assets_bank2_ptr,X
-    STA.B 0x3D
+    STA.B dialog_ptr
     LDA.W #0x0000
     SEP #0x20
     LDA.L assets_bank2_ptr + 2,X
-    STA.B 0x3F
-    LDX.B 0x3D
+    STA.B dialog_ptr + 2
+    LDX.B dialog_ptr
     LDA.B 0xB2
     BEQ _FinBk2
     TAY
@@ -85,24 +90,24 @@ _FinBk2:
     STZ.B 0xDD
     RTL
     ChargeLettreDecBk2:
-    LDX.B 0x3D
+    LDX.B dialog_ptr
     DEX
     BMI _OkBk2
-    DEC.B 0x3F
+    DEC.B dialog_ptr + 2
     LDX.W #0xFFFF
     BRA _OkBk2
     ChargeLettreIncBk2:
-    LDX.B 0x3D
+    LDX.B dialog_ptr
     INX
     BMI _OkBk2
-    INC.B 0x3F
+    INC.B dialog_ptr + 2
     LDX.W #0x8000
 _OkBk2:
-    STX.B 0x3D
+    STX.B dialog_ptr
     ChargeLettreBk2:
-    LDX.B 0x3D
+    LDX.B dialog_ptr
     PHB
-    LDA.B 0x3F
+    LDA.B dialog_ptr + 2
     PHA
     PLB
     LDA.W 0x0000,X
@@ -118,7 +123,7 @@ incpointer:
     LDX.W 0x0772
     INX
     BNE no_overflow
-    INC.B 0x3F
+    INC.B dialog_ptr + 2
     LDX.W #0x8000
     no_overflow:
     STX.W 0x0772
@@ -135,23 +140,33 @@ ChargeLettreInc:
     INX
     CPX.W #0x0000
     BNE no_overflow
-    INC.B 0x3F
+    INC.B dialog_ptr + 2
     LDX.W #0x8000
     no_overflow:
     STX.W 0x0772
 }
 ChargeLettre:
+
     LDX.W 0x0772
     PHB
-    LDA.B 0x3F
+    LDA.B dialog_ptr + 2
     PHA
     PLB
     LDA.B #0x00
     XBA
     LDA.B #0x00
-    LDA.W 0x0000,X
-    STA.B CURRENT_C
+    rep #0x20
+
+    .if 1 {
+        LDA.W 0x0000,X
+        STA.B CURRENT_C
+    } else {
+        STZ.B CURRENT_C
+    }
+
+    sep #0x20
     PLB
     PHA
     PLA
+
     RTS

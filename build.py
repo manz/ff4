@@ -18,7 +18,8 @@ from script.pointers import (
 )
 
 from metrics import TextMetrics
-from utils.font import convert_font_to_1bpp, convert_font_to_2bpp
+from utils.font import convert_font_to_2bpp
+from utils.font_converter import FontConverter
 from utils.smallvwf import generate_8x8_vwf_asset
 
 logger = logging.getLogger(__name__)
@@ -198,8 +199,54 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
     len_table[0xFE] = 2
     len_table[0xA0] = len_table[0xA0] - 1
 
+    kerning_table_path = Path(len_table_file)
+    kerning_table_path = kerning_table_path.with_stem(kerning_table_path.stem.replace("length", "kerning"))
+
+    # Generate test pairs (common kerning candidates)
+    known_pairs_to_kern = []
+
+    # Uppercase + lowercase (classic kerning pairs)
+    letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
+    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï"]
+
+    for letter in letters:
+        for vowel in vowels:
+            known_pairs_to_kern.append(letter + vowel)
+
+    # Lowercase + descender
+    for vowel in vowels + ["n"]:
+        known_pairs_to_kern.append(vowel + "j")
+        known_pairs_to_kern.append(vowel + "g")
+        known_pairs_to_kern.append(vowel + "y")
+        known_pairs_to_kern.append(vowel + "t")
+        known_pairs_to_kern.append(vowel + "f")
+
+    # Common letter combinations that might benefit
+    common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
+    known_pairs_to_kern.extend(common_pairs)
+
+    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs...")
+    # known_pairs_to_kern = ["Ta"]
+    # Find pairs that benefit from kerning
+    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+
+    def add_custom_kernings(text: str, advance) -> None:
+        chars = table.to_bytes(text)
+
+        kerning_pairs[(chars[0], chars[1])] = advance
+
+    add_custom_kernings("tt", 2)
+
+    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+
+
     with open(data_file, "wb") as fd:
         fd.write(data)
+        count = len(kerning_pairs)
+        fd.write(struct.pack("<H", count))
+        for (char1, char2), advance in kerning_pairs.items():
+            fd.write(struct.pack("BBB", char1, char2, abs(advance)))
+
     with open(len_table_file, "wb") as fd:
         fd.write(bytes(len_table.values()))
 
@@ -276,6 +323,7 @@ if __name__ == "__main__":
             "assets/font.dat",
             "assets/font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -284,6 +332,7 @@ if __name__ == "__main__":
             "assets/bold_font.dat",
             "assets/bold_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -292,6 +341,7 @@ if __name__ == "__main__":
             "assets/wicked_font.dat",
             "assets/wicked_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -300,6 +350,7 @@ if __name__ == "__main__":
             "assets/book_font.dat",
             "assets/book_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font-2bpp",

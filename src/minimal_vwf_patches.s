@@ -6,7 +6,7 @@
      jsr.l CalculePositionTb
      jsr.l PointeurBank1de1
      sta 0xDD
-     ldx 0x3D
+     ldx.b dialog_ptr
      stx 0x0772
      rts
 
@@ -14,7 +14,7 @@
      jsr.l CalculePositionTb
      jsr.l PointeurBank1de2
      sta 0xDD
-     ldx 0x3D
+     ldx.b dialog_ptr
      stx 0x0772
      rts
 
@@ -22,15 +22,15 @@
      jsr.l CalculePositionTb
      jsr.l PointeurBank3
      sta 0xDD
-     ldx 0x3D
+     ldx.b dialog_ptr
      stx 0x0772
      rts
 
  *=0x00B3BB
      lda 0x1702
-     sta 0x3D
+     sta.b dialog_ptr
      lda 0x1701
-     sta 0x3E
+     sta.b dialog_ptr + 1
      jsr.l PointeurBank2
      rts
 

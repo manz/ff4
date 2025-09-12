@@ -46,7 +46,6 @@ window_palette:
 ; ******************
     vram_tile_set_pointer = 0x6800
     vram_tile_map_pointer = 0x2C00
-    newline_offset = 0
     WRAM = field_vwf.tile_buffer
 
     WRAMPTR = 0x2108
@@ -75,7 +74,6 @@ vwfinit:
     rtl
 ;** routine principale
 vwfstart:
-
     SEP #0x20
     REP #0x10
 
@@ -83,21 +81,14 @@ vwfstart:
     STA.W 0x420D
 
     ; $04-$4F
-    var_base = 0x00
+    var_base = 0x0
     CNTR        = var_base
     CURRENT_C   = var_base + 2
     BITSLEFT    = var_base + 4
-    CNTR2       = var_base + 6
-    temp        = var_base + 8
-    font_addr   = var_base + 10 ; 11 12
-;    scroll      = var_base + 10
-;    vsize       = var_base + 12
-    font_length  = var_base + 13 ; 14 15
-    winstate     = var_base + 16
-    nchars       = var_base + 18
-    pixel_c      = var_base + 20
-    oldtilepos   = var_base + 22
-    TILEPOS      = var_base + 24
+    font_addr   = var_base + 6 ; 7 8
+    nchars       = var_base + 9
+    oldtilepos   = var_base + 11
+    TILEPOS      = var_base + 13
     no_wait_for_action = 0xcb
 
     lda #0
@@ -112,18 +103,9 @@ vwfstart:
     clear_16_bit(CNTR)
     clear_16_bit(CURRENT_C)
     clear_16_bit(BITSLEFT)
-    clear_16_bit(CNTR2)
-    clear_16_bit(temp)
-    clear_16_bit(winstate)
-    clear_16_bit(nchars)
-    clear_16_bit(pixel_c)
     clear_16_bit(oldtilepos)
     clear_16_bit(TILEPOS)
     plp
-
-
-    LDA.B #0x01
-    STA.B winstate
 
     LDA.B #0x08
     STA.B BITSLEFT
@@ -140,8 +122,10 @@ firstrun:
     JMP.W parse
     BRA main
 fin:
-    lda #0x01
-    sta 0xDE
+; this fixes a subtle issue where NPCs sprites positions and their collision table would be corrupted
+    xba
+    lda.b #0
+    xba
     rtl
 
 ;******************
@@ -153,6 +137,8 @@ parse:
     ; Message Break
     CMP #0x00
     BNE _nxt1
+    lda #0x01
+    sta 0xDE
     JMP.W fin
 
 _nxt1:
@@ -178,30 +164,29 @@ _nxt4:
     JMP.W display_character_name
 _nxt5:
 
-    ; Delay avant de fermer ?
+    ; wait
     CMP #0x05
     BNE _nxt6
     JMP.W _code05
 _nxt6:
-
+    ; Close window after dialog end
     cmp #0x06
     bne _nxt7
-
-    _nxt7:
+    lda #0x02
+    sta 0xde
+    jmp.w fin
+; Display item
+_nxt7:
     cmp #0x07
     bne _nxt8
     jmp.w _code07
 
-    _nxt8:
+; display gils count
+_nxt8:
     CMP #0x08
-    BNE _nxt9
+    BNE _nxtFB
     JMP.W _code08
 
-_nxt9:
-    CMP #0xFB
-    BNE _nxtFB
-    STZ.B winstate
-    jmp.w main
 _nxtFB:
     CMP #0xFC
     BNE _nxtFC
@@ -213,16 +198,7 @@ _nxtFC:
     jsr.w setup_font
     jmp.w main
 _nxtFE:
-;    CMP #0xFF
-;    BNE _nxtFF
-;    JMP.W retour_auto
 
-
-_nxtFF:
-    ; on fabrique le pointeur de font et le pointeur vers la wram
-    ;retour auto a ajouter ici
-
-return_a:
     JSR.W makeptr
     JSR.W ShiftNew
     JSR.W wdisplay
@@ -264,6 +240,8 @@ _loop_B5C3:
     JMP.W _loop_B5C3
 
 _loop_B5D2:
+    lda #0x00
+    xba
     LDA.B 0x36,X
         ; Old code
         ;00B5D4 STA 0x0774,Y
@@ -288,26 +266,11 @@ _loop_B5D2:
 
     JMP.W main
 
-;================================
-;Nouveau Cadre
-;================================
-
-;nouveau_cadre:
-;    dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
-;    STZ.B TILEPOS
-;    JSR.W incpointer
-;    RTL
-
-
 ;****************
 ;** printfname **
 ;****************
 display_character_name:
 {
-;    pha
-;    lda.b #3
-;    jsr.w setup_font
-;    pla
     JSR.W ChargeLettreInc
     ASL
     STA.B 0x30
@@ -322,6 +285,8 @@ display_character_name:
 
 next:
     LDX.B 0x30
+    lda #0x00
+    xba
     LDA 0x1500,X
     STA.B CURRENT_C
     CMP #0xFF
@@ -343,21 +308,14 @@ suite:
     BEQ exit
     JMP.W next
 exit:
-;    pha
-;    lda.b #0
-;    jsr.w setup_font
-;    pla
     JMP.W main
 }
 ;********************
 ;** Nouvelle ligne **
 ;********************
 newline:
-    STZ.B pixel_c
-    STZ.B pixel_c+1
-
     REP #0x20
-    LDA.W #8-newline_offset
+    LDA.W #8
     SEP #0x20
 
     STA.B BITSLEFT
@@ -393,10 +351,6 @@ suit3:
 
     STZ.B CURRENT_C
     STZ.B TILEPOS
-    STZ.B CNTR2
-    STZ.B temp
-    STZ.B pixel_c
-    STZ.B pixel_c+1
 
     LDA.B #0x08
     STA.B BITSLEFT
@@ -423,18 +377,25 @@ musique:
 
 _code05:
     JSR.W ChargeLettreInc
-    STZ.b temp+1
+    xba
+    lda #0x00
+    xba
     ASL
-    ROL.b temp+1
     ASL
-    ROL.b temp+1
     ASL
-    ROL.b temp+1
-    STA.b temp
-    LDX.b temp
+    tax
     STX 0x08F4
     LDX 0x0000
     STX 0x08F6
+    {
+       ldx     0x08f4
+       beq    skip
+loop:  cpx     0x08f6
+
+       bne     loop
+skip:  ldx.w     #0x0000
+       stx     0x08f4
+    }
     JMP.W main
 
 
@@ -459,12 +420,13 @@ _code07:
 
     rep #0x20
     and.w #0x00FF
-    sta.b temp
+    pha
     asl
     asl
     asl
-    adc.b temp
+    adc 0x01, s
     tax
+    pla
     sep #0x20
 
     ; skip first char (usually a space or a symbol.)
@@ -473,6 +435,8 @@ _code07:
 
 loop:
     pha
+    lda.b #0x00
+    xba
     lda 0x0F8000, x
     cmp #0xFF
     beq cleanup
@@ -501,15 +465,9 @@ ShiftNew:
     STA.B CNTR
     SEP #0x20
 
-    PHB
-    LDA.B #0x7E
-    PHA
-    PLB
-
 Boucle2:
     REP #0x20
     LDA.W #0x0000
-    STZ.B CNTR2
     SEP #0x20
     PHX
     LDA.B BITSLEFT
@@ -553,54 +511,103 @@ _shift:
     SEP #0x20
 
 _store:
-    INY
+
+; ff
+; notre bidule
+; 0b11111111 A
+; 0b00000001 B
+; roll B and B xor A ?
+; 0b11 = white
+; 0b10 = black
+; 0b01 = window background
+; 0b00 = transparent
+TEXT_SHADOW :=1
+
     XBA
     PHX
     TYX
-    ORA.L WRAM,x
-    STA.L WRAM,x
-    XBA
-    STA.L WRAM+0x20,x
+
+
+    pha
+    ORA.L WRAM, x
+    STA.L WRAM, x
+    pla
+
+    pha
+    ORA.L WRAM + 1, x
+    STA.L WRAM + 1, x
+    pla
+
+.if TEXT_SHADOW {
+    pha
+    eor.l WRAM + 3, x
+    sta.l WRAM + 3, x
+    pla
+    pha
+    eor.l WRAM + 2, x
+    sta.l WRAM + 2, x
+    pla
+}
+    xba
+
+    pha
+    ORA.L WRAM + 0x20, x
+    STA.L WRAM + 0x20, x
+    pla
+
+    pha
+    ORA.L WRAM + 0x20 + 1, x
+    STA.L WRAM + 0x20 + 1, x
+    pla
+
+.if TEXT_SHADOW {
+    pha
+    eor.l WRAM + 3 + 0x20, x
+    sta.l WRAM + 3 + 0x20, x
+    pla
+
+    pha
+    eor.l WRAM + 2 + 0x20, x
+    sta.l WRAM + 2 + 0x20, x
+    pla
+
+}
     TXY
     PLX
-    INY
+
+    iny
+    iny
 
     DEC.B CNTR
-    BNE Boucle2
-
-    PLB
-    PHA
-    PLA
+    BEQ _exit
+    jmp.w Boucle2
+    _exit:
 
     REP #0x20
-    STZ.B temp
-    LDA.W #0x0000
-    LDX.W #0x0000
-    SEP #0x20
+    lda.b CURRENT_C
+.if 0 {
+    jsr.w GetKerningAdjustmentLinearSearch
+    pha
+} else {
+    lda.w #0x0000
+    pha
+}
 
-    LDA.B CURRENT_C
-    TAX
-
-;    LDA.L assets_font_length_table_dat,X
     txy
-    lda.b [font_length], y
+    lda.b [font_addr], y
     tyx
-    STA.B temp
 
-    REP #0x20
-    CLC
 
-    ADC.B pixel_c
-    INC
-    CLC
-    STA.B pixel_c
-    LDA.W #0x0000
     SEP #0x20
+    pha
 
     LDA.B BITSLEFT
 
     CLC
-    SBC.B temp
+    SBC.B 0x01, s
+
+    clc
+    adc.b 0x02, s
 
 loopdec:
     CMP #0x00
@@ -608,6 +615,9 @@ loopdec:
     BEQ coupe
 
     STA.B BITSLEFT
+    pla
+    pla
+    pla
     RTS
 
 coupe:
@@ -634,24 +644,21 @@ setup_font:
     phx
     pha
     asl
-    sta.b temp
-    pla
     clc
-    adc.b temp
+    adc 0x01, s
+    xba
+    lda #0
+    xba
     tax
+    pla
 
     rep #0x20
     lda.l font_table, x
     sta.b font_addr
-    lda.l length_table,x
-    sta.b font_length
     sep #0x20
 
     lda.l font_table+2, x
     sta.b font_addr+2
-    lda.l length_table+2,x
-    sta.b font_length+2
-
     plx
     rts
 }
@@ -670,11 +677,14 @@ makeptr:
     LDA #0x00
     XBA
     REP #0x20
+    pha
     ASL
     ASL
     ASL
     ASL
+    adc.b 0x01,s
     TAX
+    pla
     LDA.W #0x0000
     SEP #0x20
 
@@ -703,7 +713,7 @@ clr:
     phx
     ldx.w #0x0000
 solid_bg_loop:
-    lda.b #0xFF
+    lda.b #0xff
     sta.l WRAM,X
     inx
 
@@ -717,7 +727,7 @@ solid_bg_loop:
 
 transparent_bg_loop:
     lda.b #0x00
-    sta.w WRAM,X
+    sta.l WRAM,X
     inx
     cpx.w #0x0D20
     bne transparent_bg_loop
@@ -725,84 +735,6 @@ transparent_bg_loop:
     plx
     rts
 }
-;*****************
-;** Retour auto **
-;*****************
-;on cherche l'espace suivant
-retour_auto:
-
-    PHX
-    LDX.W #0x0000
-    LDY.W 0x0772    ;on sauve la position de lecture dans Y
-    STZ.B temp
-    STZ.B temp+1
-    LDA.B 0x3F
-    ;LDA.B CURRENT_C
-    PHA
-    BRA firstrun2
-loopchr:
-    JSR.W ChargeLettreInc
-
-    CMP #0x04
-    bne normal_char
-    lda #6 * 8
-    bra add_accumulator_value_to_temp
-    normal_char:
-;règles de césure
-    BEQ chrfound    ;Message Break \n<end>\n\n
-    CMP #0xFF    ;espace
-    BEQ chrfound
-    CMP #0xFC    ;<new>
-    BEQ chrfound
-    CMP #0x01    ;\n
-    BEQ chrfound
-
-firstrun2:
-    TAX
-    phy
-    txy
-    lda.b [font_length], y
-    tyx
-    ply
-    INC
-
-add_accumulator_value_to_temp:
-    REP #0x20
-    CLC
-    ADC.B temp
-    STA.B temp
-    SEP #0x20
-
-    ;else
-    BRA loopchr
-
-    chrfound:
-
-    REP #0x20
-    LDA.W #0x0000
-    LDA.B pixel_c
-    CLC
-    ADC.B temp
-
-    CMP.W #0x00CD-newline_offset    ;largeur max en pixel
-    BMI noreturn
-retour:
-    SEP #0x20
-    PLA
-    STA.B 0x3F
-    STY.W 0x0772    ; restoration de la position du texte
-    PLX
-    JMP.W newline
-
-    noreturn:
-    SEP #0x20
-    PLA
-    STA.B 0x3F
-    STY.W 0x0772    ; restauration de la position du texte
-    JSR.W ChargeLettre ; ça evite a certains caractères de passer à la trappe
-    PLX
-    JMP.W return_a
-
 
 wait_key_up:
     lda 0x02
@@ -855,7 +787,7 @@ end:
 }
 
 wdisplay:
-;wait for vblank to transfer
+    ; wait for vblank to transfer
     jsr.w wait_for_vblank
 
     sep #0x20

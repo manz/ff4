@@ -148,13 +148,9 @@ _loop:
   .incbin 'assets/menu_font.dat'
   .incbin 'assets/menu_font_length_table.dat'
   .incbin 'assets/font.dat'
-  .incbin 'assets/font_length_table.dat'
   .incbin 'assets/wicked_font.dat'
-  .incbin 'assets/wicked_font_length_table.dat'
   .incbin 'assets/book_font.dat'
-  .incbin 'assets/book_font_length_table.dat'
   .incbin 'assets/bold_font.dat'
-  .incbin 'assets/bold_font_length_table.dat'
   .incbin 'assets/battle_commands.dat'
 
 font_table:
@@ -162,11 +158,6 @@ font_table:
   .pointer assets_wicked_font_dat
   .pointer assets_book_font_dat
   .pointer assets_bold_font_dat
-length_table:
-  .pointer assets_font_length_table_dat
-  .pointer assets_wicked_font_length_table_dat
-  .pointer assets_book_font_length_table_dat
-  .pointer assets_bold_font_length_table_dat
   .incbin 'assets/credits_text.bin'
 
 *=0x298000
