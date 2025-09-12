@@ -30,7 +30,6 @@ first_column := 0x0248 - 4
 *=0x01b0ec
     ldx.w #0x020A
     ldy.w #spells.mp_needed & 0xffff
-.debug 'This was lost in the commit edition ...'
     jsr.w copy_text_with_dakuten
 
 *=0x01ff80
