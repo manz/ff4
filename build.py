@@ -209,8 +209,17 @@ def build_vwf_font_asset_2bpp(
         fd.write(bytes(len_table.values()))
 
 
-def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height):
-    len_table, data = convert_font_to_1bpp(font_file, has_grid)
+def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height, table):
+
+
+    converter = FontConverter(font_file, has_grid, char_height=char_height,  )
+
+    len_table, data = converter.convert_to_1bpp(width_overrides={
+        0xff: 3 if Path(data_file).stem == "font" else 5,
+        0xfd: 1,
+        0xFE: 2,
+        0xA0: -1
+    })
 
     # Espace
     len_table[0xFF] = 3
@@ -270,6 +279,7 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
 
     with open(len_table_file, "wb") as fd:
         fd.write(bytes(len_table.values()))
+
 
 
 assets_builder = {
