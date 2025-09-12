@@ -122,3 +122,24 @@ end_of_animation:
     .text 'n'
     .db 0x20
 }
+
+
+; Palette changes for allowing shadows
+*=0x15c229
+    ; 15/C229: BF D0 87 0D  LDA $0D87D0,X   ; window palette
+    lda.l window_palette, x
+*=0x15c236
+    jsr.l update_palette
+    nop
+    nop
+
+; Update secondary palette window background
+
+*=0x00823B
+    jsr.l update_palette
+    nop
+    nop
+
+;AE AA 16       LDX $16AA
+;00823E  8E DD 0C       STX $0CDD
+;008241  20 13 8A       JSR $8A13
