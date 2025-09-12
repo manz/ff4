@@ -139,3 +139,48 @@ draw_vwf_message_pos:
     jsr.l items_description.draw_trampoline_pos
     rts
 
+
+; choice window
+*=0x01db40
+    load_system_menu_text_pointer(treasure.choice_window)
+
+; label window
+*=0x01db46
+    load_system_menu_text_pointer(treasure.header_window)
+
+*=0x01d83d
+    load_system_menu_text_pointer(treasure.take_all)
+
+
+*=0x01db2e
+    load_system_menu_text_pointer(treasure.key_items_left_warning)
+
+*=0x01d95b
+    load_system_menu_text_pointer(treasure.exchange)
+
+*=0x1d88b
+    lda.b #0x48 - 8
+*=0x1d88f
+    lda.b #0xb8 - 8
+
+;01D887  A5 60          LDA $60
+;01D889  D0 04          BNE $01D88F
+;01D88B  A9 48          LDA #$48
+;01D88D  80 02          BRA $01D891
+;01D88F  A9 B8          LDA #$B8
+;01D891  85 45          STA $45
+;01D893  A9 0E          LDA #$0E
+;01D895  85 46          STA $46
+;01D897  4C 81 82       JMP $8281
+
+*=0x01D814
+  load_system_menu_text_pointer(treasure.items_window)
+
+*=0x1d792
+treasure_menu_entry:
+
+; Test Overrides:
+; would be nice to automate that
+; open menu, set PC to 01d792
+; starts the menu
+; set 0xee to 0x1804 (Key item baron key.)
