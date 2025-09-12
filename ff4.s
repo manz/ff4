@@ -172,7 +172,7 @@ font_table:
 	.incbin 'assets/battle_text.ptr'
 	.incbin 'assets/battle_text.dat'
 
-*=0x2B8000
+*=0x318000
 ; Splash screen assets
 .if ENABLE_INTRO {
     .incbin 'assets/intro.map'
