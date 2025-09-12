@@ -118,5 +118,10 @@ nop
 nop
 
 *=0x01b4b3
-load_system_menu_text_pointer(use_spell.mp_cost)
+    load_system_menu_text_pointer(use_spell.mp_cost)
+
+; moves the magic target cursor X 8 pixels
+*=0x01B5FF
+    lda #0x40 + 8
+
 
