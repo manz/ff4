@@ -75,6 +75,7 @@ copy_text_with_dakuten:
     ldx.w #0x0042
 
 ; move character blocks one tile back
+.if 0 {
 *=0x01b4c5
     ldx.w #0x02e0 - 2
 *=0x01b4ce
@@ -85,7 +86,6 @@ copy_text_with_dakuten:
     ldx.w #0x01a0 - 2
 *=0x01b4e9
     ldx.w #0x0420 - 2
-
 ; moves character portrait 8 pixels back
 *=0x1efea9
 delta = 8
@@ -99,7 +99,7 @@ delta = 8
 .db 0x60 - delta,0xb8
 .db 0x58 - delta,0x40
 .db 0x58 - delta,0x90  ; 2 front/3 back
-
+}
 ; do not display on whom window
 *=0x01b498
 nop
