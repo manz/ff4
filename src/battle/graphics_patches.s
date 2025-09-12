@@ -7,7 +7,7 @@
     ; chars to copy from the font to the 4bpp tileset in battle
     .table 'text/ff4_menus.tbl'
 
-    .db 0x76,0x78
+    .db 0x76,0x77
     .text '/'
     .text 'GRadeginqrsu'
     .db 0x8c, 0x90, 0x7f
