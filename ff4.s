@@ -144,7 +144,10 @@ _loop:
 *=0x25A000
   .incbin 'assets/bank2.dat'
 
-*=0x27A000
+*=0x27B000
+  .incbin 'assets/battle_statuses.dat'
+
+*=0x288000
   .incbin 'assets/menu_font.dat'
   .incbin 'assets/menu_font_length_table.dat'
   .incbin 'assets/font.dat'

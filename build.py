@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import io
 import logging
 import os
 import struct
@@ -164,6 +165,26 @@ def build_null_terminated(table, input_file, binary_text_file, pointers_file=Non
             pointers, lambda v: struct.pack("<H", v), pointers_file
         )
 
+def build_null_terminated_with_base(table: Table, input_file: str, binary_file:str,  base: int) -> None:
+    pointers = read_stringarray_from_xml(input_file, table)
+
+    pointers_bytes = io.BytesIO()
+    text_bytes = io.BytesIO()
+
+    current_position = low_rom_bus.get_address(base) + 64
+    for pointer in pointers:
+        value = pointer.get_value()
+
+        pointers_bytes.write(struct.pack("<H", current_position.logical_value & 0xffff))
+
+        text_bytes.write(value)
+        current_position += len(value)
+
+    with open(binary_file, "wb") as fd:
+        fd.write(pointers_bytes.getbuffer())
+        fd.write(text_bytes.getbuffer())
+
+
 
 def build_text_assets(banks):
     for bank in banks:
@@ -257,6 +278,7 @@ assets_builder = {
     "fixed": build_fixed_asset,
     "fixed_to_ptr": build_fixed_to_ptr_asset,
     "nullterminated": build_null_terminated,
+    "nullterminated_with_base": build_null_terminated_with_base,
     "vwf-font": build_vwf_font_asset,
     "vwf-font-2bpp": build_vwf_font_asset_2bpp,
 }
@@ -405,6 +427,14 @@ if __name__ == "__main__":
             os.path.join(text_root, "characters_classes.xml"),
             "assets/classes.dat",
             "assets/classes.ptr",
+        ),
+
+        (
+            "nullterminated_with_base",
+            menu_table,
+            os.path.join(text_root, "battle_statuses.xml"),
+            "assets/battle_statuses.dat",
+            0x27b000
         ),
     ]
 
