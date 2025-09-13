@@ -121,6 +121,53 @@ _read_8x8_char:
     bra _store
 
 _shift:
+DONT_USE_PPU_MULTIPLICATION = 1 ; PPU multiplication is being used by the NMI which wrecks char lines once in e while
+.if DONT_USE_PPU_MULTIPLICATION {
+    phx
+    lda.l font_ptr, x
+    xba
+    lda #0x00
+    xba
+
+    ; make jump_table_pointer
+    pha
+    lda.b bits_left_on_tile
+    asl
+    tax
+    pla
+
+    rep #0x20
+    jmp.w (_mul_table, x)
+_mul_table:
+    .dw _mul_0
+    .dw _mul_1
+    .dw _mul_2
+    .dw _mul_3
+    .dw _mul_4
+    .dw _mul_5
+    .dw _mul_6
+    .dw _mul_7
+    .dw _mul_8
+
+_mul_8:
+_mul_7:
+    asl ; 1
+_mul_6:
+    asl ; 2
+_mul_5:
+    asl ; 3
+_mul_4:
+    asl ; 4
+_mul_3:
+    asl ; 5
+_mul_2:
+    asl ; 6
+_mul_1:
+    asl ; 7
+_mul_0:
+    sep #0x20
+    plx
+} else {
     ; expects bitsleft in A
     phx
     tax
@@ -142,6 +189,7 @@ _shift:
     nop
     lda.l 0x004216    ; the result is stored in 0x4216-0x4217
     sep #0x20
+}
 _and_store:
     xba
     phx
@@ -160,10 +208,10 @@ _store:
     xba
     phx
     tyx
-    ;ora.l buffer_ptr, x
+    ora.l buffer_ptr, x
     sta.l buffer_ptr, x
     xba
-    ;ora.l buffer_ptr + 0x10, x
+    ora.l buffer_ptr + 0x10, x
     sta.l buffer_ptr + 0x10, x
     txy
     plx
