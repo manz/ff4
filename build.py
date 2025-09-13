@@ -143,7 +143,7 @@ def build_fixed_asset(table, input_file, binary_text_file):
 def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file):
     pointers = read_fixed_from_xml(input_file, table, formatter=lambda t: t.strip() + "[end]")
 
-    metrics = TextMetrics(table, [Path("./assets/menu_font_length_table.dat").read_bytes()])
+    metrics = TextMetrics(table, ["./assets/menu_font.dat"], char_height=8)
     max_length = 0
     max_ptr = None
     for i, pointer in enumerate(pointers):
@@ -195,19 +195,38 @@ def build_text_assets(banks):
 def build_vwf_font_asset_2bpp(
     font_file, has_grid, data_file, len_table_file, char_height
 ):
-    len_table, data = convert_font_to_2bpp(font_file, has_grid, char_height)
+    # Use the FontConverter approach but for 2bpp
+    converter = FontConverter(font_file, has_grid, char_height=char_height)
+    
+    len_table, font_data = converter.convert_to_2bpp()
 
-    # Espace
-    len_table[0xFF] = 3
-    # Espace fine
-    len_table[0xFD] = 1
-    # Espace insécable
-    len_table[0xFE] = 2
+    # Apply width overrides
+    len_table[0xff] = 3  # Space
+    len_table[0xfd] = 1  # Thin space
+    len_table[0xfe] = 2  # Non-breaking space
+
+    # Create interleaved format: char_data, char_width, char_data, char_width, ...
+    output_data = bytearray()
+
+    for char_index in range(256):
+        # Add character bitmap data
+        char_start = char_index * char_height * 2
+        char_end = char_start + char_height * 2
+        char_data = font_data[char_start:char_end]
+        
+        # Pad if necessary
+        # while len(char_data) < char_height:
+        #     char_data += b'\x00'
+            
+        output_data.extend(char_data)
+        
+        # Add width data
+        width = len_table.get(char_index, 0)  # Default width 0
+        output_data.append(width)
 
     with open(data_file, "wb") as fd:
-        fd.write(data)
-    with open(len_table_file, "wb") as fd:
-        fd.write(bytes(len_table.values()))
+        fd.write(output_data)
+
 
 
 def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height, table):
@@ -230,15 +249,12 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
     len_table[0xFE] = 2
     len_table[0xA0] = len_table[0xA0] - 1
 
-    kerning_table_path = Path(len_table_file)
-    kerning_table_path = kerning_table_path.with_stem(kerning_table_path.stem.replace("length", "kerning"))
-
     # Generate test pairs (common kerning candidates)
     known_pairs_to_kern = []
 
     # Uppercase + lowercase (classic kerning pairs)
     letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
-    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï"]
+    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï", "r"]
 
     for letter in letters:
         for vowel in vowels:
@@ -273,14 +289,12 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
 
     with open(data_file, "wb") as fd:
         fd.write(data)
+        
+        # Write kerning data immediately after character data
         count = len(kerning_pairs)
         fd.write(struct.pack("<H", count))
         for (char1, char2), advance in kerning_pairs.items():
             fd.write(struct.pack("BBB", char1, char2, abs(advance)))
-
-    with open(len_table_file, "wb") as fd:
-        fd.write(bytes(len_table.values()))
-
 
 
 assets_builder = {
