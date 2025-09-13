@@ -9,7 +9,6 @@
     current_char = bits_left_on_tile + 8
 
     font_ptr = assets_menu_font_dat
-    length_table_ptr = assets_menu_font_length_table_dat
 
 init:
     jsr.w clear_buffer
@@ -56,11 +55,14 @@ make_pointers:
     lda.b #0x00
     xba
     rep #0x20
+    pha
     asl
     asl
     asl
     asl
+    adc 1,s
     tax
+    pla
     lda.w #0x0000
     sep #0x20
 
@@ -121,8 +123,7 @@ _read_8x8_char:
     bra _store
 
 _shift:
-DONT_USE_PPU_MULTIPLICATION = 1 ; PPU multiplication is being used by the NMI which wrecks char lines once in e while
-.if DONT_USE_PPU_MULTIPLICATION {
+    ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
     lda.l font_ptr, x
     xba
@@ -167,29 +168,8 @@ _mul_1:
 _mul_0:
     sep #0x20
     plx
-} else {
-    ; expects bitsleft in A
-    phx
-    tax
-    lda.l vwf_shift_table, x
-    sta.l 0x004202
-
-
-    plx
-    lda.l font_ptr, x
-
     inx
 
-    sta.l 0x004203        ; MULTIPLICAND
-
-    rep #0x20
-    nop
-    nop
-    nop
-    nop
-    lda.l 0x004216    ; the result is stored in 0x4216-0x4217
-    sep #0x20
-}
 _and_store:
     xba
     phx
@@ -224,14 +204,11 @@ _next_line:
     rep #0x20
     stz.b temp
     lda.w #0x0000
-    ldx.w #0x0000
     sep #0x20
 
-    lda.b current_char
-    tax
 
 brk_bits_left:
-    lda.l length_table_ptr, x
+    lda.l font_ptr, x
 
     sta.b temp
 

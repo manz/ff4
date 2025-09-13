@@ -150,7 +150,6 @@ buffer_size = 0x300
 last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 
 font_ptr = assets_menu_font_dat
-length_table_ptr = assets_menu_font_length_table_dat
 
 init:
 ; Initialize the renderer
@@ -204,11 +203,15 @@ make_pointers:
     lda.b #0x00
     xba
     rep #0x20
+    pha
     asl
     asl
     asl
     asl
+    clc
+    adc 1, s
     tax
+    pla
     lda.w #0x0000
     sep #0x20
 
@@ -298,14 +301,11 @@ _store:
     rep #0x20
     stz.b temp
     lda.w #0x0000
-    ldx.w #0x0000
     sep #0x20
 
-    lda.b current_char
-    tax
 
 brk_bits_left:
-    lda.l length_table_ptr, x
+    lda.l font_ptr, x
 
     sta.b temp
 
