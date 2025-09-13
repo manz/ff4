@@ -123,7 +123,7 @@ Pourquoi avez-vous besoin de ces
 cristaux?[new]
 Était-ce parce que les Mythidiens
 représentaient une menace?
-Alors pourquoi n'ont-ils pas résisté?[new]
+Alors pourquoi n'ont-ils pas résisté?
 Nous ne comprenons pas pourquoi des
 innocents ont dû périr.[end]"""
     )
@@ -172,7 +172,7 @@ actuellement.[new]
 Je recherchais la légendaire magie
 scellée, Météor...
 Et j'ai senti une forte aura émise de
-cette montagne.[new]
+cette montagne.
 Serait-ce possible, après toutes ces
 années de recherches..?[end]"""
     )
@@ -218,7 +218,7 @@ Pourquoi avez-vous besoin de ces
 cristaux?[new]
 Était-ce parce que les Mythidiens
 représentaient une menace?
-Alors pourquoi n'ont-ils pas résisté?[new]
+Alors pourquoi n'ont-ils pas résisté?
 Nous ne comprenons pas pourquoi des
 innocents ont dû périr.[end]"""
 

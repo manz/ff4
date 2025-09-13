@@ -249,8 +249,8 @@ class DialogParser:
                         else:
                             # Would exceed limit - flush accumulated with [new] at end, then start new
                             if accumulated_sentences:
-                                # Don't add [new] if next token is [end]
-                                add_new = not self._is_next_token_end(tokens, i)
+                                # Always add [new] for overflow (readability)
+                                add_new = True
                                 result.extend(
                                     self._flush_pre_wrapped_sentences(
                                         accumulated_sentences, add_new=add_new
@@ -297,8 +297,8 @@ class DialogParser:
                         else:
                             # Would exceed limit - flush accumulated with [new] at end, then start new
                             if accumulated_sentences:
-                                # Don't add [new] if next token is [end]
-                                add_new = not self._is_next_token_end(tokens, i)
+                                # Always add [new] for overflow (readability)
+                                add_new = True
                                 result.extend(
                                     self._flush_pre_wrapped_sentences(
                                         accumulated_sentences, add_new=add_new
@@ -324,7 +324,7 @@ class DialogParser:
             elif token.type == "GUILLEMET_SPEECH":
                 # Flush any accumulated sentences first
                 if accumulated_sentences:
-                    # Don't add [new] if next token is [end]
+                    # Always add [new] unless immediately followed by [end]
                     add_new = not self._is_next_token_end(tokens, i)
                     result.extend(
                         self._flush_pre_wrapped_sentences(
