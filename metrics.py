@@ -1,11 +1,21 @@
 from script import Table
+from pathlib import Path
+import struct
 
 
 class TextMetrics:
-    def __init__(self, table: Table, length_tables: list[bytes]):
+    def __init__(self, table: Table, font_files: list[str], char_height: int = 16):
         self.table = table
-        # self.length_table = length_table
-        self.length_tables = length_tables
+        self.font_files = font_files
+        self.char_height = char_height
+        
+        # Load new interleaved format
+        self.length_tables = []
+        self.kerning_tables = []
+        for font_file in font_files:
+            length_table, kerning_table = self._load_interleaved_font(font_file, char_height)
+            self.length_tables.append(length_table)
+            self.kerning_tables.append(kerning_table)
 
     def measure_bytes(self, binary: bytes) -> int:
         size = 0
@@ -113,3 +123,51 @@ class TextMetrics:
                 break
 
         return lines_count + 1
+
+    def _load_interleaved_font(self, font_file: str, char_height: int = 16) -> tuple[bytes, dict]:
+        """Load font data in the new interleaved format with kerning after character data."""
+        try:
+            with open(font_file, 'rb') as f:
+                font_data = f.read()
+        except FileNotFoundError:
+            # Return empty tables if font file doesn't exist
+            return bytes(256), {}
+        
+        # Extract character width data from interleaved format
+        length_table = bytearray(256)
+        bytes_per_char = char_height + 1
+        
+        for char_index in range(256):
+            data_offset = char_index * bytes_per_char
+            width_offset = data_offset + char_height
+            
+            if width_offset < len(font_data):
+                length_table[char_index] = font_data[width_offset]
+            else:
+                length_table[char_index] = 8  # Default width
+        
+        kerning_table = {}
+        kerning_offset = 256 * (char_height + 1)
+        
+        if len(font_data) > kerning_offset + 2:
+            # Check if there's actually kerning data at this offset
+            # Read potential kerning count and validate it's reasonable
+            try:
+                kerning_count = struct.unpack("<H", font_data[kerning_offset:kerning_offset + 2])[0]
+                # Sanity check: kerning count should be reasonable (< 10000)
+                if 0 < kerning_count < 10000:
+                    data_start = kerning_offset + 2
+                    
+                    # Read kerning pairs: char1, char2, kerning_value
+                    for i in range(kerning_count):
+                        entry_offset = data_start + (i * 3)
+                        if entry_offset + 3 <= len(font_data):
+                            char1, char2, kerning = struct.unpack("BBB", font_data[entry_offset:entry_offset + 3])
+                            kerning_table[(char1, char2)] = kerning
+                        else:
+                            break
+            except (struct.error, IndexError):
+                # Invalid data at 0x1000, no kerning
+                pass
+        
+        return bytes(length_table), kerning_table

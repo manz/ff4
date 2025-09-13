@@ -87,7 +87,10 @@ def test_formatting_speech_without_the_character_visible() -> None:
             """«Je suis votre guide pour l'enfer...» «Je suis l'un des quatre Empereurs de seigneur Golbeze... Scarmiglione de la Terre... Il est temps que dînent mes précieux morts-vivants!» Cecil: Comment!?[end]"""
         )
         == """«Je suis votre guide pour l'enfer...»[new]
-«Je suis l'un des quatre Empereurs de seigneur Golbeze... Scarmiglione de la Terre... Il est temps que dînent mes précieux morts-vivants!»[new]
+«Je suis l'un des quatre Empereurs de
+seigneur Golbez... Scarmiglione de la
+Terre... Il est temps que dînent mes
+précieux morts-vivants!»[new]
 [bold]Cecil[normal]: Comment!?[end]"""
     )
 
@@ -269,7 +272,8 @@ def test_mixed_offscreen_and_character_dialog() -> None:
     ) == (
         "«Vous êtes de Baron, hein...»[new]\n"
         "[bold]Caïn[normal]: Qui est là?[music][0x2d][new]\n"
-        "«Partez maintenant et il ne vous fait aucun mal...»[new]\n"
+        "«Partez maintenant et il ne vous fait\n"
+        "aucun mal...»[new]\n"
         "[bold]Caïn[normal]: Montre-toi![new]\n"
         "«Vous voulez vraiment continuer?»[end]"
     )
