@@ -585,7 +585,7 @@ TEXT_SHADOW :=1
 
     REP #0x20
     lda.b CURRENT_C
-.if 0 {
+.if ENABLE_KERNING {
     jsr.w GetKerningAdjustmentLinearSearch
     pha
 } else {
