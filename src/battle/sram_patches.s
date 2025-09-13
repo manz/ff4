@@ -22,7 +22,10 @@
 ;
 ;    nop
 ;    nop
-
+; disable dakuten check ?
+*=0x02A497
+cmp #0xA0
+bcs 0x02A4AC
 
 ; patch normal display_char to include 7FFFFF based switch
 *=0x02A49B

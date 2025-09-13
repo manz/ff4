@@ -8,7 +8,7 @@ battle_magic_length = 9
 ; [ draw spell list directly to transfer buffer ]
 destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer
-right_column_base = destination_buffer + 18
+right_column_base = destination_buffer + 18 + 2
 DrawMagicListDirect:
 {
 spell_id = 0x03

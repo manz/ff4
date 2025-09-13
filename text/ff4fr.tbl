@@ -4,6 +4,7 @@
 02:1=[space]
 03:1=[music]
 05:1=[delay]
+06=[close_window]
 07=[item]
 fe0207fe00=[item]
 08=[gils]
@@ -126,7 +127,6 @@ fe03=[bold]
 9E=Î
 9F=Ç
 A0A1=œ
-FB=[nowindow]
 FC=[new]\n
 FD=°
 FF= 

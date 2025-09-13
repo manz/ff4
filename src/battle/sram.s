@@ -43,6 +43,7 @@ put_char:
 
 put_char_with_dakuten:
     phx
+.if 0 {
     sec
     sbc #0xF
     asl
@@ -51,6 +52,14 @@ put_char_with_dakuten:
     sta (0x32), y
     lda.l BATTLE_DAKUTEN_TABLE + 1, x
     sta (0x34), y
+} else {
+    jsr.l lookup_dakuten
+    sta (0x32), y
+    xba
+    sta (0x34), y
+    lda #0x00
+    xba
+}
     iny
     lda 0x36
     sta (0x32), y

@@ -1,4 +1,41 @@
 .include 'src/definitions.s'
+.include 'src/kerning.s'
+
+
+
+update_palette:
+ldx.w 0x16AA
+stx.w 0x0CDD
+stx.w 0x0CE5
+rtl
+
+window_palette:
+.if 1 {
+    ; Menu color palette I probably need to add one color
+    ; Palette 1, normal text
+    .db 0x00, 0x00
+    .db 0x00, 0x40
+    .db 0xCE, 0x39
+    .db 0xFF, 0x7F
+
+    ; Palette 2, greyed out text patched replaced the grey with black
+    .db 0x00, 0x00
+    .db 0x00, 0x40
+    .db 0x00, 0x00
+    .db 0xff, 0x7f
+
+    ; Palette  3, yellow
+    .db 0x00, 0x00
+    .db 0x00, 0x40
+    .db 0x80, 0x02
+    .db 0x7F, 0x03
+
+    ; Palette 4, red
+    .db 0x00, 0x00
+    .db 0x00, 0x40
+    .db 0xFF, 0x40
+    .db 0x7F, 0x2E
+}
 
 ;current_pos = 0x3d
 ;current_text_pointer = 0x0772
@@ -9,7 +46,6 @@
 ; ******************
     vram_tile_set_pointer = 0x6800
     vram_tile_map_pointer = 0x2C00
-    newline_offset = 0
     WRAM = field_vwf.tile_buffer
 
     WRAMPTR = 0x2108
@@ -38,7 +74,6 @@ vwfinit:
     rtl
 ;** routine principale
 vwfstart:
-
     SEP #0x20
     REP #0x10
 
@@ -46,21 +81,14 @@ vwfstart:
     STA.W 0x420D
 
     ; $04-$4F
-    var_base = 0x00
+    var_base = 0x0
     CNTR        = var_base
     CURRENT_C   = var_base + 2
     BITSLEFT    = var_base + 4
-    CNTR2       = var_base + 6
-    temp        = var_base + 8
-    font_addr   = var_base + 10 ; 11 12
-;    scroll      = var_base + 10
-;    vsize       = var_base + 12
-    font_length  = var_base + 13 ; 14 15
-    winstate     = var_base + 16
-    nchars       = var_base + 18
-    pixel_c      = var_base + 20
-    oldtilepos   = var_base + 22
-    TILEPOS      = var_base + 24
+    font_addr   = var_base + 6 ; 7 8
+    nchars       = var_base + 9
+    oldtilepos   = var_base + 11
+    TILEPOS      = var_base + 13
     no_wait_for_action = 0xcb
 
     lda #0
@@ -75,18 +103,9 @@ vwfstart:
     clear_16_bit(CNTR)
     clear_16_bit(CURRENT_C)
     clear_16_bit(BITSLEFT)
-    clear_16_bit(CNTR2)
-    clear_16_bit(temp)
-    clear_16_bit(winstate)
-    clear_16_bit(nchars)
-    clear_16_bit(pixel_c)
     clear_16_bit(oldtilepos)
     clear_16_bit(TILEPOS)
     plp
-
-
-    LDA.B #0x01
-    STA.B winstate
 
     LDA.B #0x08
     STA.B BITSLEFT
@@ -103,8 +122,10 @@ firstrun:
     JMP.W parse
     BRA main
 fin:
-    lda #0x01
-    sta 0xDE
+; this fixes a subtle issue where NPCs sprites positions and their collision table would be corrupted
+    xba
+    lda.b #0
+    xba
     rtl
 
 ;******************
@@ -116,6 +137,8 @@ parse:
     ; Message Break
     CMP #0x00
     BNE _nxt1
+    lda #0x01
+    sta 0xDE
     JMP.W fin
 
 _nxt1:
@@ -141,30 +164,29 @@ _nxt4:
     JMP.W display_character_name
 _nxt5:
 
-    ; Delay avant de fermer ?
+    ; wait
     CMP #0x05
     BNE _nxt6
     JMP.W _code05
 _nxt6:
-
+    ; Close window after dialog end
     cmp #0x06
     bne _nxt7
-
-    _nxt7:
+    lda #0x02
+    sta 0xde
+    jmp.w fin
+; Display item
+_nxt7:
     cmp #0x07
     bne _nxt8
     jmp.w _code07
 
-    _nxt8:
+; display gils count
+_nxt8:
     CMP #0x08
-    BNE _nxt9
+    BNE _nxtFB
     JMP.W _code08
 
-_nxt9:
-    CMP #0xFB
-    BNE _nxtFB
-    STZ.B winstate
-    jmp.w main
 _nxtFB:
     CMP #0xFC
     BNE _nxtFC
@@ -176,16 +198,7 @@ _nxtFC:
     jsr.w setup_font
     jmp.w main
 _nxtFE:
-;    CMP #0xFF
-;    BNE _nxtFF
-;    JMP.W retour_auto
 
-
-_nxtFF:
-    ; on fabrique le pointeur de font et le pointeur vers la wram
-    ;retour auto a ajouter ici
-
-return_a:
     JSR.W makeptr
     JSR.W ShiftNew
     JSR.W wdisplay
@@ -227,6 +240,8 @@ _loop_B5C3:
     JMP.W _loop_B5C3
 
 _loop_B5D2:
+    lda #0x00
+    xba
     LDA.B 0x36,X
         ; Old code
         ;00B5D4 STA 0x0774,Y
@@ -251,26 +266,11 @@ _loop_B5D2:
 
     JMP.W main
 
-;================================
-;Nouveau Cadre
-;================================
-
-;nouveau_cadre:
-;    dma_transfer_to_vram_call(winmap, vram_tile_map_pointer, 0x2C0, 0x1801)
-;    STZ.B TILEPOS
-;    JSR.W incpointer
-;    RTL
-
-
 ;****************
 ;** printfname **
 ;****************
 display_character_name:
 {
-;    pha
-;    lda.b #3
-;    jsr.w setup_font
-;    pla
     JSR.W ChargeLettreInc
     ASL
     STA.B 0x30
@@ -285,6 +285,8 @@ display_character_name:
 
 next:
     LDX.B 0x30
+    lda #0x00
+    xba
     LDA 0x1500,X
     STA.B CURRENT_C
     CMP #0xFF
@@ -306,21 +308,14 @@ suite:
     BEQ exit
     JMP.W next
 exit:
-;    pha
-;    lda.b #0
-;    jsr.w setup_font
-;    pla
     JMP.W main
 }
 ;********************
 ;** Nouvelle ligne **
 ;********************
 newline:
-    STZ.B pixel_c
-    STZ.B pixel_c+1
-
     REP #0x20
-    LDA.W #8-newline_offset
+    LDA.W #8
     SEP #0x20
 
     STA.B BITSLEFT
@@ -356,10 +351,6 @@ suit3:
 
     STZ.B CURRENT_C
     STZ.B TILEPOS
-    STZ.B CNTR2
-    STZ.B temp
-    STZ.B pixel_c
-    STZ.B pixel_c+1
 
     LDA.B #0x08
     STA.B BITSLEFT
@@ -386,18 +377,25 @@ musique:
 
 _code05:
     JSR.W ChargeLettreInc
-    STZ.b temp+1
+    xba
+    lda #0x00
+    xba
     ASL
-    ROL.b temp+1
     ASL
-    ROL.b temp+1
     ASL
-    ROL.b temp+1
-    STA.b temp
-    LDX.b temp
+    tax
     STX 0x08F4
     LDX 0x0000
     STX 0x08F6
+    {
+       ldx     0x08f4
+       beq    skip
+loop:  cpx     0x08f6
+
+       bne     loop
+skip:  ldx.w     #0x0000
+       stx     0x08f4
+    }
     JMP.W main
 
 
@@ -422,12 +420,13 @@ _code07:
 
     rep #0x20
     and.w #0x00FF
-    sta.b temp
+    pha
     asl
     asl
     asl
-    adc.b temp
+    adc 0x01, s
     tax
+    pla
     sep #0x20
 
     ; skip first char (usually a space or a symbol.)
@@ -436,6 +435,8 @@ _code07:
 
 loop:
     pha
+    lda.b #0x00
+    xba
     lda 0x0F8000, x
     cmp #0xFF
     beq cleanup
@@ -464,15 +465,9 @@ ShiftNew:
     STA.B CNTR
     SEP #0x20
 
-    PHB
-    LDA.B #0x7E
-    PHA
-    PLB
-
 Boucle2:
     REP #0x20
     LDA.W #0x0000
-    STZ.B CNTR2
     SEP #0x20
     PHX
     LDA.B BITSLEFT
@@ -516,54 +511,103 @@ _shift:
     SEP #0x20
 
 _store:
-    INY
+
+; ff
+; notre bidule
+; 0b11111111 A
+; 0b00000001 B
+; roll B and B xor A ?
+; 0b11 = white
+; 0b10 = black
+; 0b01 = window background
+; 0b00 = transparent
+TEXT_SHADOW :=1
+
     XBA
     PHX
     TYX
-    ORA.L WRAM,x
-    STA.L WRAM,x
-    XBA
-    STA.L WRAM+0x20,x
+
+
+    pha
+    ORA.L WRAM, x
+    STA.L WRAM, x
+    pla
+
+    pha
+    ORA.L WRAM + 1, x
+    STA.L WRAM + 1, x
+    pla
+
+.if TEXT_SHADOW {
+    pha
+    eor.l WRAM + 3, x
+    sta.l WRAM + 3, x
+    pla
+    pha
+    eor.l WRAM + 2, x
+    sta.l WRAM + 2, x
+    pla
+}
+    xba
+
+    pha
+    ORA.L WRAM + 0x20, x
+    STA.L WRAM + 0x20, x
+    pla
+
+    pha
+    ORA.L WRAM + 0x20 + 1, x
+    STA.L WRAM + 0x20 + 1, x
+    pla
+
+.if TEXT_SHADOW {
+    pha
+    eor.l WRAM + 3 + 0x20, x
+    sta.l WRAM + 3 + 0x20, x
+    pla
+
+    pha
+    eor.l WRAM + 2 + 0x20, x
+    sta.l WRAM + 2 + 0x20, x
+    pla
+
+}
     TXY
     PLX
-    INY
+
+    iny
+    iny
 
     DEC.B CNTR
-    BNE Boucle2
-
-    PLB
-    PHA
-    PLA
+    BEQ _exit
+    jmp.w Boucle2
+    _exit:
 
     REP #0x20
-    STZ.B temp
-    LDA.W #0x0000
-    LDX.W #0x0000
-    SEP #0x20
+    lda.b CURRENT_C
+.if 0 {
+    jsr.w GetKerningAdjustmentLinearSearch
+    pha
+} else {
+    lda.w #0x0000
+    pha
+}
 
-    LDA.B CURRENT_C
-    TAX
-
-;    LDA.L assets_font_length_table_dat,X
     txy
-    lda.b [font_length], y
+    lda.b [font_addr], y
     tyx
-    STA.B temp
 
-    REP #0x20
-    CLC
 
-    ADC.B pixel_c
-    INC
-    CLC
-    STA.B pixel_c
-    LDA.W #0x0000
     SEP #0x20
+    pha
 
     LDA.B BITSLEFT
 
     CLC
-    SBC.B temp
+    SBC.B 0x01, s
+
+    clc
+    adc.b 0x02, s
 
 loopdec:
     CMP #0x00
@@ -571,6 +615,9 @@ loopdec:
     BEQ coupe
 
     STA.B BITSLEFT
+    pla
+    pla
+    pla
     RTS
 
 coupe:
@@ -597,24 +644,21 @@ setup_font:
     phx
     pha
     asl
-    sta.b temp
-    pla
     clc
-    adc.b temp
+    adc 0x01, s
+    xba
+    lda #0
+    xba
     tax
+    pla
 
     rep #0x20
     lda.l font_table, x
     sta.b font_addr
-    lda.l length_table,x
-    sta.b font_length
     sep #0x20
 
     lda.l font_table+2, x
     sta.b font_addr+2
-    lda.l length_table+2,x
-    sta.b font_length+2
-
     plx
     rts
 }
@@ -633,11 +677,14 @@ makeptr:
     LDA #0x00
     XBA
     REP #0x20
+    pha
     ASL
     ASL
     ASL
     ASL
+    adc.b 0x01,s
     TAX
+    pla
     LDA.W #0x0000
     SEP #0x20
 
@@ -666,7 +713,7 @@ clr:
     phx
     ldx.w #0x0000
 solid_bg_loop:
-    lda.b #0xFF
+    lda.b #0xff
     sta.l WRAM,X
     inx
 
@@ -680,7 +727,7 @@ solid_bg_loop:
 
 transparent_bg_loop:
     lda.b #0x00
-    sta.w WRAM,X
+    sta.l WRAM,X
     inx
     cpx.w #0x0D20
     bne transparent_bg_loop
@@ -688,84 +735,6 @@ transparent_bg_loop:
     plx
     rts
 }
-;*****************
-;** Retour auto **
-;*****************
-;on cherche l'espace suivant
-retour_auto:
-
-    PHX
-    LDX.W #0x0000
-    LDY.W 0x0772    ;on sauve la position de lecture dans Y
-    STZ.B temp
-    STZ.B temp+1
-    LDA.B 0x3F
-    ;LDA.B CURRENT_C
-    PHA
-    BRA firstrun2
-loopchr:
-    JSR.W ChargeLettreInc
-
-    CMP #0x04
-    bne normal_char
-    lda #6 * 8
-    bra add_accumulator_value_to_temp
-    normal_char:
-;règles de césure
-    BEQ chrfound    ;Message Break \n<end>\n\n
-    CMP #0xFF    ;espace
-    BEQ chrfound
-    CMP #0xFC    ;<new>
-    BEQ chrfound
-    CMP #0x01    ;\n
-    BEQ chrfound
-
-firstrun2:
-    TAX
-    phy
-    txy
-    lda.b [font_length], y
-    tyx
-    ply
-    INC
-
-add_accumulator_value_to_temp:
-    REP #0x20
-    CLC
-    ADC.B temp
-    STA.B temp
-    SEP #0x20
-
-    ;else
-    BRA loopchr
-
-    chrfound:
-
-    REP #0x20
-    LDA.W #0x0000
-    LDA.B pixel_c
-    CLC
-    ADC.B temp
-
-    CMP.W #0x00CD-newline_offset    ;largeur max en pixel
-    BMI noreturn
-retour:
-    SEP #0x20
-    PLA
-    STA.B 0x3F
-    STY.W 0x0772    ; restoration de la position du texte
-    PLX
-    JMP.W newline
-
-    noreturn:
-    SEP #0x20
-    PLA
-    STA.B 0x3F
-    STY.W 0x0772    ; restauration de la position du texte
-    JSR.W ChargeLettre ; ça evite a certains caractères de passer à la trappe
-    PLX
-    JMP.W return_a
-
 
 wait_key_up:
     lda 0x02
@@ -818,7 +787,7 @@ end:
 }
 
 wdisplay:
-;wait for vblank to transfer
+    ; wait for vblank to transfer
     jsr.w wait_for_vblank
 
     sep #0x20
@@ -892,6 +861,16 @@ window:
 
 
 winmap:
+.if TEXT_SHADOW {
+.dw 0x2000,0x2000,0x2019,0x2500,0x2502,0x2504,0x2506,0x2508,0x250A,0x250C,0x250E,0x2510,0x2512,0x2514,0x2516,0x2518,0x251A,0x251C,0x251E,0x2520,0x2522,0x2524,0x2526,0x2528,0x252A,0x252C,0x252E,0x2530,0x2532,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x2501,0x2503,0x2505,0x2507,0x2509,0x250B,0x250D,0x250F,0x2511,0x2513,0x2515,0x2517,0x2519,0x251B,0x251D,0x251F,0x2521,0x2523,0x2525,0x2527,0x2529,0x252B,0x252D,0x252F,0x2531,0x2533,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x2534,0x2536,0x2538,0x253A,0x253C,0x253E,0x2540,0x2542,0x2544,0x2546,0x2548,0x254A,0x254C,0x254E,0x2550,0x2552,0x2554,0x2556,0x2558,0x255A,0x255C,0x255E,0x2560,0x2562,0x2564,0x2566,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x2535,0x2537,0x2539,0x253B,0x253D,0x253F,0x2541,0x2543,0x2545,0x2547,0x2549,0x254B,0x254D,0x254F,0x2551,0x2553,0x2555,0x2557,0x2559,0x255B,0x255D,0x255F,0x2561,0x2563,0x2565,0x2567,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x2568,0x256A,0x256C,0x256E,0x2570,0x2572,0x2574,0x2576,0x2578,0x257A,0x257C,0x257E,0x2580,0x2582,0x2584,0x2586,0x2588,0x258A,0x258C,0x258E,0x2590,0x2592,0x2594,0x2596,0x2598,0x259A,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x2569,0x256B,0x256D,0x256F,0x2571,0x2573,0x2575,0x2577,0x2579,0x257B,0x257D,0x257F,0x2581,0x2583,0x2585,0x2587,0x2589,0x258B,0x258D,0x258F,0x2591,0x2593,0x2595,0x2597,0x2599,0x259B,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x259C,0x259E,0x25A0,0x25A2,0x25A4,0x25A6,0x25A8,0x25AA,0x25AC,0x25AE,0x25B0,0x25B2,0x25B4,0x25B6,0x25B8,0x25BA,0x25BC,0x25BE,0x25C0,0x25C2,0x25C4,0x25C6,0x25C8,0x25CA,0x25CC,0x25CE,0x201A,0x2000,0x2000
+.dw 0x2000,0x2000,0x2019,0x259D,0x259F,0x25A1,0x25A3,0x25A5,0x25A7,0x25A9,0x25AB,0x25AD,0x25AF,0x25B1,0x25B3,0x25B5,0x25B7,0x25B9,0x25BB,0x25BD,0x25BF,0x25C1,0x25C3,0x25C5,0x25C7,0x25C9,0x25CB,0x25CD,0x25CF,0x201A,0x2000,0x2000
+} else {
 .dw 0x2000,0x2000,0x2019,0x2100,0x2102,0x2104,0x2106,0x2108,0x210A,0x210C,0x210E,0x2110,0x2112,0x2114,0x2116,0x2118,0x211A,0x211C,0x211E,0x2120,0x2122,0x2124,0x2126,0x2128,0x212A,0x212C,0x212E,0x2130,0x2132,0x201A,0x2000,0x2000
 .dw 0x2000,0x2000,0x2019,0x2101,0x2103,0x2105,0x2107,0x2109,0x210B,0x210D,0x210F,0x2111,0x2113,0x2115,0x2117,0x2119,0x211B,0x211D,0x211F,0x2121,0x2123,0x2125,0x2127,0x2129,0x212B,0x212D,0x212F,0x2131,0x2133,0x201A,0x2000,0x2000
 .dw 0x2000,0x2000,0x2019,0x2134,0x2136,0x2138,0x213A,0x213C,0x213E,0x2140,0x2142,0x2144,0x2146,0x2148,0x214A,0x214C,0x214E,0x2150,0x2152,0x2154,0x2156,0x2158,0x215A,0x215C,0x215E,0x2160,0x2162,0x2164,0x2166,0x201A,0x2000,0x2000
@@ -900,6 +879,7 @@ winmap:
 .dw 0x2000,0x2000,0x2019,0x2169,0x216B,0x216D,0x216F,0x2171,0x2173,0x2175,0x2177,0x2179,0x217B,0x217D,0x217F,0x2181,0x2183,0x2185,0x2187,0x2189,0x218B,0x218D,0x218F,0x2191,0x2193,0x2195,0x2197,0x2199,0x219B,0x201A,0x2000,0x2000
 .dw 0x2000,0x2000,0x2019,0x219C,0x219E,0x21A0,0x21A2,0x21A4,0x21A6,0x21A8,0x21AA,0x21AC,0x21AE,0x21B0,0x21B2,0x21B4,0x21B6,0x21B8,0x21BA,0x21BC,0x21BE,0x21C0,0x21C2,0x21C4,0x21C6,0x21C8,0x21CA,0x21CC,0x21CE,0x201A,0x2000,0x2000
 .dw 0x2000,0x2000,0x2019,0x219D,0x219F,0x21A1,0x21A3,0x21A5,0x21A7,0x21A9,0x21AB,0x21AD,0x21AF,0x21B1,0x21B3,0x21B5,0x21B7,0x21B9,0x21BB,0x21BD,0x21BF,0x21C1,0x21C3,0x21C5,0x21C7,0x21C9,0x21CB,0x21CD,0x21CF,0x201A,0x2000,0x2000
+}
 endwinmap:
 
 intromap:

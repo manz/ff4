@@ -94,14 +94,14 @@ loop:
 
 ; attack window position
 *=0x029369
-    ldx.w #0x0011
+    ldx.w #0x0009
 
 ; attack window size
 *=0x02936f
     ldx.w #0x040e
 
 *=0x029382
-    ldx.w #0xdb50 - 4 - 2
+    ldx.w #0xdb50 - 4 - 2 - 16
 
 
 
@@ -146,9 +146,8 @@ loop:
 
 ; magic list cursor x position
 *=0x16FC56
-    .db 2
-    .db 0x3C + 14
-    .db 0x74
+    .db 8
+    .db 0x3C + 8 * 3 + 4
 
 ; up and down should only inc /dec once ?
 *=0x02B764
@@ -170,3 +169,16 @@ loop:
     ;dec 0x63
     nop
     nop
+
+; display magic name in battle messages.
+*=0x02A567
+    lda #9
+
+*=0x02A573
+    lda.l assets_magic_dat, x
+
+*=0x02A57E
+    lda.l assets_magic_dat + 1, x
+
+*=0x02A57A
+    lda #9 - 1

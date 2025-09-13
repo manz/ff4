@@ -26,4 +26,16 @@ quantity:
     .dw 0x0146 + 14 * 2
     .text '1'
     .db 0
+
+weapons_title:
+.text 'Armes'
+.db 0
+
+armor_title:
+.text 'Armures'
+.db 0
+
+items_title:
+.text 'Objets'
+.db 0
 }

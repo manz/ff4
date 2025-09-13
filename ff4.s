@@ -116,6 +116,7 @@ _loop:
   .include 'src/places_names_window.s'
   ; system menu text routines
   .include 'src/system_menus_text.s'
+  .include 'src/dakuten.s'
 
   ; menu text scopes
   .include 'src/menus/start_screen_text.s'
@@ -144,17 +145,16 @@ _loop:
 *=0x25A000
   .incbin 'assets/bank2.dat'
 
-*=0x27A000
+*=0x27B000
+  .incbin 'assets/battle_statuses.dat'
+
+*=0x288000
   .incbin 'assets/menu_font.dat'
   .incbin 'assets/menu_font_length_table.dat'
   .incbin 'assets/font.dat'
-  .incbin 'assets/font_length_table.dat'
   .incbin 'assets/wicked_font.dat'
-  .incbin 'assets/wicked_font_length_table.dat'
   .incbin 'assets/book_font.dat'
-  .incbin 'assets/book_font_length_table.dat'
   .incbin 'assets/bold_font.dat'
-  .incbin 'assets/bold_font_length_table.dat'
   .incbin 'assets/battle_commands.dat'
 
 font_table:
@@ -162,11 +162,6 @@ font_table:
   .pointer assets_wicked_font_dat
   .pointer assets_book_font_dat
   .pointer assets_bold_font_dat
-length_table:
-  .pointer assets_font_length_table_dat
-  .pointer assets_wicked_font_length_table_dat
-  .pointer assets_book_font_length_table_dat
-  .pointer assets_bold_font_length_table_dat
   .incbin 'assets/credits_text.bin'
 
 *=0x298000
@@ -177,7 +172,7 @@ length_table:
 	.incbin 'assets/battle_text.ptr'
 	.incbin 'assets/battle_text.dat'
 
-*=0x2B8000
+*=0x318000
 ; Splash screen assets
 .if ENABLE_INTRO {
     .incbin 'assets/intro.map'

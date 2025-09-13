@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import io
 import logging
 import os
 import struct
@@ -18,7 +19,9 @@ from script.pointers import (
 )
 
 from metrics import TextMetrics
-from utils.font import convert_font_to_1bpp, convert_font_to_2bpp
+from utils.dakutens import generate_dakutens
+from utils.font import convert_font_to_2bpp
+from utils.font_converter import FontConverter
 from utils.smallvwf import generate_8x8_vwf_asset
 
 logger = logging.getLogger(__name__)
@@ -163,6 +166,26 @@ def build_null_terminated(table, input_file, binary_text_file, pointers_file=Non
             pointers, lambda v: struct.pack("<H", v), pointers_file
         )
 
+def build_null_terminated_with_base(table: Table, input_file: str, binary_file:str,  base: int) -> None:
+    pointers = read_stringarray_from_xml(input_file, table)
+
+    pointers_bytes = io.BytesIO()
+    text_bytes = io.BytesIO()
+
+    current_position = low_rom_bus.get_address(base) + 64
+    for pointer in pointers:
+        value = pointer.get_value()
+
+        pointers_bytes.write(struct.pack("<H", current_position.logical_value & 0xffff))
+
+        text_bytes.write(value)
+        current_position += len(value)
+
+    with open(binary_file, "wb") as fd:
+        fd.write(pointers_bytes.getbuffer())
+        fd.write(text_bytes.getbuffer())
+
+
 
 def build_text_assets(banks):
     for bank in banks:
@@ -187,8 +210,17 @@ def build_vwf_font_asset_2bpp(
         fd.write(bytes(len_table.values()))
 
 
-def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height):
-    len_table, data = convert_font_to_1bpp(font_file, has_grid)
+def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height, table):
+
+
+    converter = FontConverter(font_file, has_grid, char_height=char_height,  )
+
+    len_table, data = converter.convert_to_1bpp(width_overrides={
+        0xff: 3 if Path(data_file).stem == "font" else 5,
+        0xfd: 1,
+        0xFE: 2,
+        0xA0: -1
+    })
 
     # Espace
     len_table[0xFF] = 3
@@ -198,10 +230,57 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
     len_table[0xFE] = 2
     len_table[0xA0] = len_table[0xA0] - 1
 
+    kerning_table_path = Path(len_table_file)
+    kerning_table_path = kerning_table_path.with_stem(kerning_table_path.stem.replace("length", "kerning"))
+
+    # Generate test pairs (common kerning candidates)
+    known_pairs_to_kern = []
+
+    # Uppercase + lowercase (classic kerning pairs)
+    letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
+    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï"]
+
+    for letter in letters:
+        for vowel in vowels:
+            known_pairs_to_kern.append(letter + vowel)
+
+    # Lowercase + descender
+    for vowel in vowels + ["n"]:
+        known_pairs_to_kern.append(vowel + "j")
+        known_pairs_to_kern.append(vowel + "g")
+        known_pairs_to_kern.append(vowel + "y")
+        known_pairs_to_kern.append(vowel + "t")
+        known_pairs_to_kern.append(vowel + "f")
+
+    # Common letter combinations that might benefit
+    common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
+    known_pairs_to_kern.extend(common_pairs)
+
+    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs...")
+    # known_pairs_to_kern = ["Ta"]
+    # Find pairs that benefit from kerning
+    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+
+    def add_custom_kernings(text: str, advance) -> None:
+        chars = table.to_bytes(text)
+
+        kerning_pairs[(chars[0], chars[1])] = advance
+
+    add_custom_kernings("tt", 2)
+
+    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+
+
     with open(data_file, "wb") as fd:
         fd.write(data)
+        count = len(kerning_pairs)
+        fd.write(struct.pack("<H", count))
+        for (char1, char2), advance in kerning_pairs.items():
+            fd.write(struct.pack("BBB", char1, char2, abs(advance)))
+
     with open(len_table_file, "wb") as fd:
         fd.write(bytes(len_table.values()))
+
 
 
 assets_builder = {
@@ -210,6 +289,7 @@ assets_builder = {
     "fixed": build_fixed_asset,
     "fixed_to_ptr": build_fixed_to_ptr_asset,
     "nullterminated": build_null_terminated,
+    "nullterminated_with_base": build_null_terminated_with_base,
     "vwf-font": build_vwf_font_asset,
     "vwf-font-2bpp": build_vwf_font_asset_2bpp,
 }
@@ -276,6 +356,7 @@ if __name__ == "__main__":
             "assets/font.dat",
             "assets/font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -284,6 +365,7 @@ if __name__ == "__main__":
             "assets/bold_font.dat",
             "assets/bold_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -292,6 +374,7 @@ if __name__ == "__main__":
             "assets/wicked_font.dat",
             "assets/wicked_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font",
@@ -300,6 +383,7 @@ if __name__ == "__main__":
             "assets/book_font.dat",
             "assets/book_font_length_table.dat",
             16,
+            dialog_table
         ),
         (
             "vwf-font-2bpp",
@@ -355,6 +439,14 @@ if __name__ == "__main__":
             "assets/classes.dat",
             "assets/classes.ptr",
         ),
+
+        (
+            "nullterminated_with_base",
+            menu_table,
+            os.path.join(text_root, "battle_statuses.xml"),
+            "assets/battle_statuses.dat",
+            0x27b000
+        ),
     ]
 
     build_assets(assets_list)
@@ -396,6 +488,9 @@ if __name__ == "__main__":
 
     generate_8x8_vwf_asset(small_text, "vwf_precomp", 0x90)
     menu_vwf_table = Table("text/vwf_precomp.tbl")
+
+    with open("assets/dakuten.bin", "wb") as fd:
+        fd.write(generate_dakutens(menu_table))
 
     if not os.path.exists("build"):
         os.mkdir("build")

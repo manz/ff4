@@ -334,3 +334,66 @@ mp_cost:
 ; .text 'Sur qui ?'
 ; .db 0
 }
+
+.scope treasure {
+; patch them in place
+choice_window:
+    menu_window(8,0,22,2)
+
+items_window:
+    menu_window(0,3,30,10)
+
+header_window:
+    menu_window(0,0,6,2)
+    move_to(1,1)
+    .text 'Butin'
+    .db 1
+exit:
+   move_to(24,1)
+   .text 'Quitter'
+   .db 1
+take_all:
+    move_to(10, 1)
+    .text 'Tout prendre'
+    .db 0
+exchange:
+    move_to(10, 1)
+    .text 'Échanger    '
+    .db 0
+
+key_items_left_warning:
+   menu_window(5,10, 19, 4)
+   move_to(6,11)
+   .text '  Il reste des    '
+   .db 1
+   move_to(6,13)
+   .text 'objets importants.'
+   .db 0
+}
+
+
+
+copy_text_with_dakuten_far:
+{
+        phb
+        phk
+        plb
+        rep #0x20
+        txa
+        clc
+        adc     0x29
+        tax
+        sep #0x20
+_loop:  lda.w     0x0000,y
+        beq     _exit
+        jsr.l lookup_dakuten
+        sta     0x7e0000,x
+        xba
+        sta 0x7e0040,x
+        inx
+        inx
+        iny
+        bra     _loop
+_exit:  plb
+        rtl
+}
