@@ -150,7 +150,6 @@ _loop:
 
 *=0x288000
   .incbin 'assets/menu_font.dat'
-  .incbin 'assets/menu_font_length_table.dat'
   .incbin 'assets/font.dat'
   .incbin 'assets/wicked_font.dat'
   .incbin 'assets/book_font.dat'
