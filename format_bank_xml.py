@@ -187,7 +187,51 @@ class DialogParser:
             self.text_metrics = text_metrics
 
     def parse(self, tokens):
-        """Parse tokens into dialog segments with intelligent grouping."""
+        """Parse tokens and inject WINDOW_BREAK tokens for guillemet speech transitions."""
+        # First pass: inject WINDOW_BREAK tokens for guillemet transitions
+        enhanced_tokens = self._inject_window_breaks(tokens)
+        
+        # Second pass: process the enhanced tokens for dialog formatting
+        return self._format_dialog(enhanced_tokens)
+    
+    def _inject_window_breaks(self, tokens):
+        """Inject WINDOW_BREAK tokens where guillemet speeches should create new windows."""
+        enhanced_tokens = []
+        
+        for i, token in enumerate(tokens):
+            # Add the current token
+            enhanced_tokens.append(token)
+            
+            # Check if we need to add WINDOW_BREAK after this token
+            if token.type == "GUILLEMET_SPEECH":
+                # Add WINDOW_BREAK after guillemet speech if there's a next dialog token
+                # and it's not immediately followed by END or CLOSE_WINDOW
+                if (i + 1 < len(tokens) and 
+                    tokens[i + 1].type in ["CHARACTER", "GUILLEMET_SPEECH", "SENTENCE"] and
+                    tokens[i + 1].type not in ["END", "CLOSE_WINDOW"]):
+                    enhanced_tokens.append(Token("WINDOW_BREAK", "[window_break]"))
+            
+            elif token.type == "SENTENCE" and i > 0:
+                # Add WINDOW_BREAK after character speech if followed by guillemet
+                # First, find if we're in a character context by looking backwards
+                in_character_context = False
+                for j in range(i - 1, -1, -1):
+                    if tokens[j].type == "CHARACTER":
+                        in_character_context = True
+                        break
+                    elif tokens[j].type in ["GUILLEMET_SPEECH", "END", "CLOSE_WINDOW"]:
+                        break
+                
+                if in_character_context:
+                    # Look ahead to see if followed by guillemet speech
+                    if (i + 1 < len(tokens) and 
+                        tokens[i + 1].type == "GUILLEMET_SPEECH"):
+                        enhanced_tokens.append(Token("WINDOW_BREAK", "[window_break]"))
+        
+        return enhanced_tokens
+    
+    def _format_dialog(self, tokens):
+        """Format dialog tokens into final output, handling WINDOW_BREAK tokens."""
         result = []
         current_character = None
         accumulated_sentences = []
@@ -198,7 +242,17 @@ class DialogParser:
         while i < len(tokens):
             token = tokens[i]
 
-            if token.type == "CHARACTER":
+            if token.type == "WINDOW_BREAK":
+                # Flush accumulated sentences with [new] and reset state
+                if accumulated_sentences:
+                    result.extend(self._flush_pre_wrapped_sentences(accumulated_sentences, add_new=True))
+                    accumulated_sentences = []
+                    accumulated_text = ""
+                    accumulated_lines = 0
+                current_character = None
+                i += 1
+
+            elif token.type == "CHARACTER":
                 # Character change - process any accumulated sentences first
                 if accumulated_sentences:
                     # Always add [new] when character changes (except for the very first character)
@@ -324,13 +378,7 @@ class DialogParser:
             elif token.type == "GUILLEMET_SPEECH":
                 # Flush any accumulated sentences first
                 if accumulated_sentences:
-                    # Always add [new] unless immediately followed by [end]
-                    add_new = not self._is_next_token_end(tokens, i)
-                    result.extend(
-                        self._flush_pre_wrapped_sentences(
-                            accumulated_sentences, add_new=add_new
-                        )
-                    )
+                    result.extend(self._flush_pre_wrapped_sentences(accumulated_sentences))
                     accumulated_sentences = []
                     accumulated_text = ""
                     accumulated_lines = 0
@@ -338,15 +386,14 @@ class DialogParser:
                 # Apply word wrapping to guillemet speech
                 wrapped_guillemet = self.text_metrics.word_warp(token.value, WINDOW_WIDTH)
 
-                # Check if this guillemet is followed immediately by [end] or [close_window]
-                is_followed_by_end = (i + 1 < len(tokens) and 
-                                     tokens[i + 1].type in ["END", "CLOSE_WINDOW"])
+                # Check if next token is WINDOW_BREAK to determine if we need [new]
+                next_is_window_break = (i + 1 < len(tokens) and 
+                                      tokens[i + 1].type == "WINDOW_BREAK")
 
-                # Add guillemet speech as separate dialog box
-                if is_followed_by_end:
-                    result.append(wrapped_guillemet)  # Don't add [new] if followed by [end] or [close_window]
-                else:
+                if next_is_window_break:
                     result.append(wrapped_guillemet + "[new]")
+                else:
+                    result.append(wrapped_guillemet)
 
                 current_character = None  # Reset character context
                 i += 1
