@@ -143,3 +143,7 @@ end_of_animation:
 ;AE AA 16       LDX $16AA
 ;00823E  8E DD 0C       STX $0CDD
 ;008241  20 13 8A       JSR $8A13
+
+; update the text palette used in the intro
+*=0x8ff04
+    .dw 0x0463
