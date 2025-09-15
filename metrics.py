@@ -21,17 +21,35 @@ class TextMetrics:
         size = 0
         k = 0
         current_font_index = 0
+        prev_char = None
+        
         while k < len(binary):
             char = binary[k]
             match char:
                 case 0xfe:
                     k += 1
                     current_font_index = binary[k]
+                    prev_char = None  # Reset previous char on font change
                 case 0x4:
                     k += 1
                     size += 6 * 8
+                    prev_char = None  # Reset previous char after special sequence
                 case _:
-                    size += self.length_tables[current_font_index][char] + 1
+                    # Add character width
+                    char_width = self.length_tables[current_font_index][char]
+                    size += char_width
+                    
+                    # Add spacing (default 1 pixel, adjusted by kerning)
+                    spacing = 1
+                    if prev_char is not None:
+                        # Check for kerning adjustment
+                        kerning_pair = (prev_char, char)
+                        if kerning_pair in self.kerning_tables[current_font_index]:
+                            kerning_value = self.kerning_tables[current_font_index][kerning_pair]
+                            spacing = kerning_value + 1  # Kerning + 1 = actual spacing
+                    
+                    size += spacing
+                    prev_char = char
 
             k += 1
 
@@ -162,8 +180,10 @@ class TextMetrics:
                     for i in range(kerning_count):
                         entry_offset = data_start + (i * 3)
                         if entry_offset + 3 <= len(font_data):
-                            char1, char2, kerning = struct.unpack("BBB", font_data[entry_offset:entry_offset + 3])
-                            kerning_table[(char1, char2)] = kerning
+                            char1, char2, kerning_abs = struct.unpack("BBB", font_data[entry_offset:entry_offset + 3])
+                            # Convert unsigned kerning value back to signed (stored as abs value)
+                            kerning_value = -kerning_abs if kerning_abs > 0 else 0
+                            kerning_table[(char1, char2)] = kerning_value
                         else:
                             break
             except (struct.error, IndexError):
