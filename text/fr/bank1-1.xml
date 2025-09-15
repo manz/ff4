@@ -96,20 +96,19 @@ approchons de Baron![new]
 préoccupé...[new]
 [bold]Soldat[normal]: Même sur ordre de Sa
 Majesté...[new]
-[bold]Soldat[normal]: Arracher le cristal à un
-peuple innocent...
+[bold]Soldat[normal]: Arracher le cristal à un peuple
+innocent...
 C'est...[end]</sn:pointer>
 
 <sn:pointer id="33">[bold]Soldat[normal]: Mais, Capitaine![new]
 [bold]Soldat[normal]: Piller une cité de magiciens qui
 n'opposent aucune résistance![new]
 [bold]Cecil[normal]: Écoutez bien, vous tous!
-Le cristal est absolument nécessaire à
-la prospérité de notre royaume de
-Baron.[new]
+Le cristal est absolument nécessaire à la
+prospérité de notre royaume de Baron.[new]
 Sa Majesté a jugé que les habitants de
-Mythidia en savaient trop sur les
-secrets du cristal.[new]
+Mythidia en savaient trop sur les secrets
+du cristal.[new]
 Nous sommes l'escadron des Ailes
 Rouges de Baron, et les ordres de Sa
 Majesté sont absolus![new]
@@ -145,8 +144,7 @@ Par ici, Cecil, sa Majesté attend.[end]</sn:pointer>
 
 <sn:pointer id="39">...[end]</sn:pointer>
 
-<sn:pointer id="40">[bold]Beigan[normal]: Messire Cecil, attendez
-ici.[end]</sn:pointer>
+<sn:pointer id="40">[bold]Beigan[normal]: Messire Cecil, attendez ici.[end]</sn:pointer>
 
 <sn:pointer id="41">[bold]Beigan[normal]: Majesté!
 Je redoute que Cecil n'ait
@@ -192,16 +190,16 @@ représentaient une menace?
 Alors pourquoi n'ont-ils pas résisté?[new]
 Nous ne comprenons pas pourquoi des
 innocents ont dû périr.[new]
-Certains se sont même interrogés sur
-le caractère... véritablement... honorable
-de vos actions...[new]
+Certains se sont même interrogés sur le
+caractère... véritablement... honorable de
+vos actions...[new]
 [bold]Roi Baron[normal]: Tu oserais donc douter de
 ton propre roi, Cecil?![new]
 [bold]Cecil[normal]: !!
 Non, Sire!
 Ce n'était nullement mon intention!![new]
-[bold]Roi Baron[normal]: Croyais-tu que j'ignorais
-tes véritables sentiments?!
+[bold]Roi Baron[normal]: Croyais-tu que j'ignorais tes
+véritables sentiments?!
 Dire que je t'ai recueilli et élevé comme
 mon propre fils![new]
 Et maintenant, toi aussi, tu ne peux me
@@ -231,8 +229,8 @@ dans tout ça, Caïn.[new]
 [bold]Caïn[normal]: Ne t'en fais pas.[new]
 Une fois que tu auras éliminé ces
 Chimères, le Roi te pardonnera sûrement
-et tu seras réintégré comme
-commandant des Ailes Rouges.[new]
+et tu seras réintégré comme commandant
+des Ailes Rouges.[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Caïn[normal]: Tu as eu une longue journée.
 Laisse-moi m'occuper des préparatifs et
@@ -276,8 +274,8 @@ Il a péri quand j'étais encore enfant...
 Il y a des moments où j'espère qu'il
 m'observe...
 J'espère qu'il serait fier de moi...[new]
-J'ai souvent ces moments... ...moments
-de réflexion silencieuse où je peux sentir
+J'ai souvent ces moments... ...moments de
+réflexion silencieuse où je peux sentir
 son esprit en moi qui me guide...[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Caïn[normal]: Pardonne-moi d'avoir divagué
@@ -311,8 +309,8 @@ appartements ce soir...[new]
 
 <sn:pointer id="59">[bold]Cecil[normal]: Pourquoi le roi agit-il de la
 sorte?
-Il était réputé comme chevalier pour
-son courage et sa bonté.[new]
+Il était réputé comme chevalier pour son
+courage et sa bonté.[new]
 Caïn et moi étions orphelins, mais il
 nous a élevés comme ses propres fils.
 Mais maintenant...
@@ -335,17 +333,17 @@ Ce n'est rien...[end]</sn:pointer>
 Regarde-moi plutôt.[end]</sn:pointer>
 
 <sn:pointer id="62">[bold]Cecil[normal]: À Mythidia...
-J'ai ôté la vie à des innocents et
-dérobé leur cristal sacré... mais pour
-quelle raison?![new]
+J'ai ôté la vie à des innocents et dérobé
+leur cristal sacré... mais pour quelle
+raison?![new]
 Mon cur s'est assombri tout autant que
 cette armure maudite![end]</sn:pointer>
 
 <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'est pas comme cela.[end]</sn:pointer>
 
 <sn:pointer id="64">[bold]Cecil[normal]: Je ne suis rien qu'un
-chevalier noir docile, tout juste un
-pantin du roi.[end]</sn:pointer>
+chevalier noir docile, tout juste un pantin
+du roi.[end]</sn:pointer>
 
 <sn:pointer id="65">[bold]Rosa[normal]: Le Cecil des Ailes
 Rouges n'aurait jamais pleurniché comme
@@ -405,8 +403,8 @@ Si les soldats nous entendent, on aura
 des ennuis.[new]
 Il y a une chambre tranquille à
 l'auberge.
-Allons-y! [0xfa]Le Moine Yang a rejoint
-le groupe![music][0x29][delay][0x28][end]</sn:pointer>
+Allons-y! [0xfa]Le Moine Yang a rejoint le
+groupe![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="76">[bold]Yang[normal]: Et qui est ce monsieur?[new]
 [bold]Cecil[normal]: Tellah, le sage.
@@ -440,7 +438,7 @@ envoyé ici..![new]
 
 <sn:pointer id="81">[bold]Cecil[normal]: POURQUOI?!
 Roi Baron!!
-NON!!
+NON!![new]
 «Ouiiiiin! Ouiiiiin...!!»[end]</sn:pointer>
 
 <sn:pointer id="82">[bold]Cecil[normal]: Qui c'est?[end]</sn:pointer>
@@ -479,16 +477,16 @@ exécuté pour trahison![new]
 [bold]Cecil[normal]: Mais ce n'est qu'une enfant![new]
 [bold]Caïn[normal]: ...Tu veux dire qu'on devrait
 braver le Roi?[new]
-[bold]Cecil[normal]: Si le roi attend de nous
-qu'on assassine des gens comme ça...
+[bold]Cecil[normal]: Si le roi attend de nous qu'on
+assassine des gens comme ça...
 Je n'ai aucune intention de le suivre![new]
 Je renonce à toute loyauté envers le
 roi, les Ailes Rouges, et Baron!!![end]</sn:pointer>
 
 <sn:pointer id="88">[bold]Caïn[normal]: Je me doutais que tu allais
 dire ça.
-Je ne vais pas te laisser affronter le
-roi tout seul.[new]
+Je ne vais pas te laisser affronter le roi
+tout seul.[new]
 [bold]Cecil[normal]: Caïn?[new]
 [bold]Caïn[normal]: Peu importe ce que je dois
 au roi, en tant que chevalier dragon...
@@ -562,8 +560,8 @@ t'avons trouvé!![new]
 [bold]Cecil[normal]: Attendez!
 Le roi de Baron a...[new]
 [bold]Général[normal]: Ordres du roi.
-Si tu nous livres la survivante de Mist,
-il pardonnera ta traîtrise.[new]
+Si tu nous livres la survivante de Mist, il
+pardonnera ta traîtrise.[new]
 Il a été jugé dangereux que le peuple
 de Mist puisse seulement exister![new]
 [bold]Cecil[normal]: Quoi!?
@@ -611,8 +609,8 @@ C'est sûrement Golbez qui influence
 le roi pour réunir les quatre cristaux.[new]
 Le cristal de l'eau de Mythidia...
 Le cristal du feu de Damcyan...
-Le cristal du vent de Fabul... et le
-cristal de la terre de Troia.[end]</sn:pointer>
+Le cristal du vent de Fabul... et le cristal
+de la terre de Troia.[end]</sn:pointer>
 
 <sn:pointer id="105">[bold]Edward[normal]: Il a déjà pris le cristal du
 feu...[new]
@@ -646,8 +644,8 @@ sort du[new]
 [bold]Rydia[normal]: ! ...Hmm...non, je peux pas...[end]</sn:pointer>
 
 <sn:pointer id="108">[bold]Rosa[normal]: Si tu es une invocatrice, tu
-devrais pouvoir lancer des sorts
-basiques de magie noire tels que[new]
+devrais pouvoir lancer des sorts basiques
+de magie noire tels que[new]
 «Feu»[new]
 ... -keuf-[end]</sn:pointer>
 
@@ -671,8 +669,7 @@ Tu m'aimais.[new]
 À présent, donne cet amour aux gens
 de la Terre.[end]</sn:pointer>
 
-<sn:pointer id="113">[bold]Edward[normal]: Oui, Anna, je me
-battrai...
+<sn:pointer id="113">[bold]Edward[normal]: Oui, Anna, je me battrai...
 Mais le courage...
 Que dois-je faire, Anna?[end]</sn:pointer>
 
@@ -686,8 +683,7 @@ potentiel.
 Elle pourrait devenir une sorcière très
 douée... ...[new]
 Un visage si paisible...
-Comme Anna quand elle était
-petite.[new]
+Comme Anna quand elle était petite.[new]
 [bold]Cecil[normal]: Anna est...[new]
 [bold]Tellah[normal]: Ma fille unique.
 Elle s'est sauvée à Damcyan avec un
@@ -782,21 +778,20 @@ sort que Damcyan?![end]</sn:pointer>
 
 <sn:pointer id="126">[bold]Yang[normal]: Eh bien, Cecil![end]</sn:pointer>
 
-<sn:pointer id="127">[bold]Yang[normal]: Ces gens sont des maîtres
-au combat!
+<sn:pointer id="127">[bold]Yang[normal]: Ces gens sont des maîtres au
+combat!
 Laissez-les se battre avec moi sur le
 front!![new]
 [bold]Roi Fabul[normal]: Puisque tu insistes, je laisse
 tout entre tes mains, Yang![new]
 Mesdemoiselles, puisque vous utilisez la
-magie blanche, fournirez-vous
-l'assistance médicale?[new]
+magie blanche, fournirez-vous l'assistance
+médicale?[new]
 [bold]Rosa[normal]: D'accord.[new]
 [bold]Roi Fabul[normal]: Yang, je compte sur toi![new]
 [bold]Yang[normal]: À vos ordres![end]</sn:pointer>
 
-<sn:pointer id="128">[bold]Rosa[normal]: Fais attention à toi,
-Cecil.[new]
+<sn:pointer id="128">[bold]Rosa[normal]: Fais attention à toi, Cecil.[new]
 [bold]Cecil[normal]: Toi aussi...
 Rydia!
 Prends soin de Rosa![end]</sn:pointer>
@@ -872,8 +867,7 @@ te trouble?»[end]</sn:pointer>
 Désolé que nous venions juste de nous
 rencontrer, mais voici mes salutations![new]
 [bold]Edward[normal]: Cecil![new]
-[bold]Yang[normal]: Je ne vous laisserai pas
-faire![end]</sn:pointer>
+[bold]Yang[normal]: Je ne vous laisserai pas faire![end]</sn:pointer>
 
 <sn:pointer id="146">[bold]Golbez[normal]: Je n'ai que faire de ces
 vermines![end]</sn:pointer>
@@ -940,10 +934,9 @@ Tu es venu à son secours, il t'en
 allouera sûrement un.[new]
 [bold]Cecil[normal]: Merci.[end]</sn:pointer>
 
-<sn:pointer id="159">[bold]Yang[normal]: Qui était ce chevalier
-dragon?[new]
-[bold]Cecil[normal]: Il s'appelle Caïn et
-c'est... c'était... mon meilleur ami.
+<sn:pointer id="159">[bold]Yang[normal]: Qui était ce chevalier dragon?[new]
+[bold]Cecil[normal]: Il s'appelle Caïn et c'est...
+c'était... mon meilleur ami.
 Nous nous étions juré de fuir de Baron
 ensemble.[new]
 [bold]Yang[normal]: Je vois...[new]
@@ -1017,10 +1010,9 @@ devenir un problème.
 Il faut s'occuper de lui avant qu'il n'en
 devienne un.[new]
 C'est un chevalier noir, il devrait donc
-être impuissant contre nos morts
-vivants.[new]
-Mais il gravit en ce moment la
-Montagne de l'Épreuve.[new]
+être impuissant contre nos morts vivants.
+Mais il gravit en ce moment la Montagne
+de l'Épreuve.[new]
 [bold]Scarmiglione[normal]: Il veut... donc devenir...
 -hiss-... paladin?[new]
 [bold]Golbez[normal]: Bien évidemment, ta mission
@@ -1150,10 +1142,9 @@ grandir...»[new]
 
 <sn:pointer id="201">«Laisse ton passé sanglant derrière toi...
 Purifie ton âme avec la lumière sacrée!
-Tu dois le faire! Pour recevoir cette
-force sacrée, combats et détruis ton
-double obscur en tant que chevalier
-noir!»[end]</sn:pointer>
+Tu dois le faire! Pour recevoir cette force
+sacrée, combats et détruis ton double
+obscur en tant que chevalier noir!»[end]</sn:pointer>
 
 <sn:pointer id="202">[bold]Tellah[normal]: Deux Cecil?[new]
 [bold]Palom[normal]: Que se passe-t-il?[new]
@@ -1247,9 +1238,8 @@ en danger![end]</sn:pointer>
 [bold]Edward[normal]: ...Ne vous inquiétez pas...
 Juste jusqu'à ma harpe là-bas...
 Ooh![new]
-«Dans votre état, vous ne devriez
-même pas marcher! Ne vous surmenez
-pas!»[new]
+«Dans votre état, vous ne devriez même
+pas marcher! Ne vous surmenez pas!»[new]
 [bold]Edward[normal]: Ça ne fait rien...
 Je suis le seul... qui puisse sauver...
 Cecil et les autres![end]</sn:pointer>
@@ -1264,8 +1254,8 @@ QUEL EST CE BRUIT DÉSAGRÉABLE?
 ARG...ARK, HIC![end]</sn:pointer>
 
 <sn:pointer id="223">[bold]Edward[normal]: Maintenant, Cecil!
-Tant que je joue, il ne peut contrôler
-la gravité!
+Tant que je joue, il ne peut contrôler la
+gravité!
 Votre épée![new]
 Équipez-vous de votre épée![end]</sn:pointer>
 
@@ -1314,8 +1304,7 @@ homme courageux![new]
 [bold]Edward[normal]: Anna... j'ai l'impression de
 commencer à comprendre...[end]</sn:pointer>
 
-<sn:pointer id="229">[bold]Caïn[normal]: Où est le Cristal de la
-Terre?[end]</sn:pointer>
+<sn:pointer id="229">[bold]Caïn[normal]: Où est le Cristal de la Terre?[end]</sn:pointer>
 
 <sn:pointer id="230">[bold]Cecil[normal]: Caïn![new]
 [bold]Cid[normal]: Où te caches-tu?[new]
@@ -1328,8 +1317,7 @@ personne.[new]
 ayez tenu votre promesse...[new]
 [bold]Tellah[normal]: Montre-toi![new]
 [bold]Golbez[normal]: Je comprends votre
-impatience, mais j'aimerais vous
-remercier.[new]
+impatience, mais j'aimerais vous remercier.[new]
 [bold]Yang[normal]: Nous remercier?[new]
 [bold]Golbez[normal]: Je suis avec votre chère
 Rosa au sommet de cette Tour de
@@ -1339,8 +1327,8 @@ la vie de Rosa contre le cristal.[new]
 [bold]Cecil[normal]: Golbez, tu n'es qu'un
 salaud![new]
 [bold]Golbez[normal]: Si vous ne venez pas
-rapidement, je ne peux garantir la vie
-de votre précieuse Rosa...[music][0x19] Alors,
+rapidement, je ne peux garantir la vie de
+votre précieuse Rosa...[music][0x19] Alors,
 montez![end]</sn:pointer>
 
 <sn:pointer id="232">«Bienvenue dans la tour de Zot!»[end]</sn:pointer>
@@ -1358,8 +1346,7 @@ Barbariccia, l'Impératrice de l'air!»[new]
 adieu! Vous n'atteindrez pas Rosa!»[end]</sn:pointer>
 
 <sn:pointer id="235">«Impossible!»[new]
-«Vous avez déjoué notre attaque
-delta...»[new]
+«Vous avez déjoué notre attaque delta...»[new]
 «Grande sœur! Non...»[end]</sn:pointer>
 
 <sn:pointer id="236">[bold]Golbez[normal]: Bien joué, messieurs.[new]
@@ -1399,8 +1386,7 @@ Peu importe, tu ne me servais plus à
 rien.
 Cette dette, je la rembourserai![end]</sn:pointer>
 
-<sn:pointer id="241">[bold]Cecil[normal]: Tu n'iras nulle part,
-Golbez![end]</sn:pointer>
+<sn:pointer id="241">[bold]Cecil[normal]: Tu n'iras nulle part, Golbez![end]</sn:pointer>
 
 <sn:pointer id="242">[bold]Golbez[normal]: Guh...
 Ne me sous-estimez pas![end]</sn:pointer>
@@ -1425,8 +1411,8 @@ Mais Tellah![end]</sn:pointer>
 <sn:pointer id="245">[bold]Tellah[normal]: Je n'ai pas pu le tuer...[new]
 [bold]Cid[normal]: Ne parle pas![new]
 [bold]Tellah[normal]: C'est peut-être... la
-rétribution pour avoir combattu...
-consumé par la haine...
+rétribution pour avoir combattu... consumé
+par la haine...
 La vengeance d'Anna... je vous en...[end]</sn:pointer>
 
 <sn:pointer id="246">[bold]Cecil[normal]: Tellah![new]
@@ -1531,8 +1517,8 @@ chose.[end]</sn:pointer>
 Cela signifie qu'il possède maintenant
 tous les cristaux.[new]
 [bold]Caïn[normal]: Non, il n'en a que quatre![new]
-[bold]Rosa[normal]: Quatre ne font pas le
-compte total...?[new]
+[bold]Rosa[normal]: Quatre ne font pas le compte
+total...?[new]
 [bold]Cid[normal]: Alors cette rumeur est vraie![new]
 [bold]Rosa[normal]: Ce ne peut pas être...[new]
 [bold]Caïn[normal]: Si... les Cristaux d'Obscurité![end]</sn:pointer>
@@ -1545,8 +1531,8 @@ l'autre côté..?[new]
 [bold]Caïn[normal]: En effet.
 Donc, ça veut dire que Golbez n'a
 que la moitié des cristaux![new]
-[bold]Cid[normal]: Alors les cristaux
-d'Obscurité, c'est pas une rumeur...
+[bold]Cid[normal]: Alors les cristaux d'Obscurité,
+c'est pas une rumeur...
 Et la question inévitable...
 Où sont-ils?[new]
 [bold]Caïn[normal]: Golbez le sait.[new]
@@ -1577,8 +1563,7 @@ passage vers le monde souterrain.[new]
 bien être?[new]
 [bold]Caïn[normal]: Je ne sais pas...[end]</sn:pointer>
 
-<sn:pointer id="268">[bold]Cecil[normal]: La Pierre de Magma
-rougeoie![end]</sn:pointer>
+<sn:pointer id="268">[bold]Cecil[normal]: La Pierre de Magma rougeoie![end]</sn:pointer>
 
 <sn:pointer id="269">[bold]Cecil[normal]: Qu'est-ce que c'est!?[new]
 [bold]Caïn[normal]: Les Ailes Rouges![end]</sn:pointer>
@@ -1600,8 +1585,8 @@ mais ils vous ont abattus.[new]
 En fait, on était nous-mêmes prêts à
 vous tirer dessus.[new]
 [bold]Caïn[normal]: Les cristaux sont à l'abri?[new]
-[bold]Giotto[normal]: Hélas, ils ont déjà pris deux
-des quatre cristaux.[new]
+[bold]Giotto[normal]: Hélas, ils ont déjà pris deux des
+quatre cristaux.[new]
 [bold]Yang[normal]: Nous arrivons tard...[new]
 [bold]Giotto[normal]: Mais le cristal de ce château
 est, lui, toujours en sécurité.
@@ -1609,8 +1594,8 @@ On a pu faire battre en retraite ces...
 heu... trucs volants avec nos chars nains.[new]
 [bold]Rosa[normal]: Alors c'étaient vos chars qui
 combattaient les aéronefs.[new]
-[bold]Giotto[normal]: Oh, comme ça vous appelez
-ces choses aéronefs...
+[bold]Giotto[normal]: Oh, comme ça vous appelez ces
+choses aéronefs...
 Wow, le monde du dessus a des trucs
 de ce genre![new]
 Nous sommes fiers de nos chars, mais
@@ -1628,7 +1613,7 @@ On ne va pas en tirer grand chose.[end]</sn:pointer>
 <sn:pointer id="274">[bold]Cecil[normal]: Il n'y a personne, ici.[new]
 [bold]Yang[normal]: J'ai senti une présence ici![end]</sn:pointer>
 
-<sn:pointer id="275">[bold]Caïn[normal]: Ça ne veut pas s'ouvrir!
+<sn:pointer id="275">[bold]Caïn[normal]: Ça ne veut pas s'ouvrir![new]
 «Yo-ho-ho-ho-!»[end]</sn:pointer>
 
 <sn:pointer id="276">«Nous sommes les joyeuses Calcabrina!
@@ -1638,7 +1623,7 @@ naïvement! On va vous battre et offrir
 vos têtes au seigneur Golbez en
 cadeau! Kya-ho-ho-ho!»[end]</sn:pointer>
 
-<sn:pointer id="277">[bold]Cecil[normal]: Quoi!?
+<sn:pointer id="277">[bold]Cecil[normal]: Quoi!?[new]
 «Cela faisait longtemps...»[end]</sn:pointer>
 
 <sn:pointer id="278">[bold]Cecil[normal]: Golbez..![new]
@@ -1651,16 +1636,15 @@ vous dire pourquoi je rassemble les
 cristaux.[new]
 Lumière et ténèbres réunies... 8
 cristaux...
-C'est la clé pour faire revivre la Tour
-de Babel, le chemin scellé vers la Lune.[new]
+C'est la clé pour faire revivre la Tour de
+Babel, le chemin scellé vers la Lune.[new]
 On dit qu'il y a sur la Lune un pouvoir
 qui dépasse notre imagination.
-Avec ce cristal, j'en ai maintenant
-sept...[new]
-Il n'en reste plus qu'un.
+Avec ce cristal, j'en ai maintenant sept...
+Il n'en reste plus qu'un.[new]
 C'est aussi grâce à vous.
 Je me dois de vous remercier pour cela.
-Prenez ceci![new]
+Prenez ceci!
 C'est mon dernier cadeau![end]</sn:pointer>
 
 <sn:pointer id="279">[bold]Cecil[normal]: On l'a vaincu!
@@ -1711,13 +1695,12 @@ Rydia a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
 <sn:pointer id="284">[bold]Edge[normal]: Ouais!
 On va tous y aller et rentrer dans leur
 base![new]
-[bold]Rydia[normal]: Ça c'est bien trouvé! [0xfa]Le
-ninja Edge a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+[bold]Rydia[normal]: Ça c'est bien trouvé! [0xfa]Le ninja
+Edge a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="285">[bold]Cid[normal]: Maintenant, vous pourrez
 voler sans vous soucier de la lave![new]
-[bold]Rosa[normal]: Tu nous as sauvés,
-Cid.[new]
+[bold]Rosa[normal]: Tu nous as sauvés, Cid.[new]
 [bold]Cid[normal]: ...[new]
 [bold]Caïn[normal]: Cid![music][0x2a][delay][0x28][end]</sn:pointer>
 
@@ -1757,8 +1740,8 @@ Prends les commandes, Cecil![end]</sn:pointer>
 [bold]Cecil[normal]: Où vas-tu?![end]</sn:pointer>
 
 <sn:pointer id="293">[bold]Cid[normal]: Quand l'Entreprise arrivera à
-la surface, je scellerai le trou avec
-cette bombe![end]</sn:pointer>
+la surface, je scellerai le trou avec cette
+bombe![end]</sn:pointer>
 
 <sn:pointer id="294">[bold]Cid[normal]: Golbez!
 L'ingénieur aéronautique Cid va
@@ -1785,18 +1768,17 @@ Pendant que tu pilotes l'Entreprise,
 presse le bouton d'action au-dessus de
 l'aéroglisseur![new]
 Maintenant tu peux aller à la grotte
-d'Eblana près de la Tour de Babel![new]
+d'Eblana près de la Tour de Babel!
 Dépose l'aéroglisseur dans les eaux peu
-profondes du continent et monte à
-bord![end]</sn:pointer>
+profondes du continent et monte à bord![end]</sn:pointer>
 
 <sn:pointer id="299">[bold]Cecil[normal]: Pour être franc, Cid
-est...
+est...[new]
 «Trop énergique et embêtant, pas vrai?
-Soyez assurés que ce n'est pas
-quelqu'un qui mourrait facilement! Bon,
-on a des montagnes de travail qui nous
-attendent! Bon courage!»[end]</sn:pointer>
+Soyez assurés que ce n'est pas quelqu'un
+qui mourrait facilement! Bon, on a des
+montagnes de travail qui nous attendent!
+Bon courage!»[end]</sn:pointer>
 
 <sn:pointer id="300">[bold]Homme[normal]: Je t'ai enfin trouvé, Rubicante!
 J'attendais ce jour depuis longtemps![new]
@@ -1841,8 +1823,7 @@ Tout le monde... tout le monde![new]
 puissant des Quatre Élémentaux.
 On ne sait même pas si on a une
 chance![new]
-Mais nous devons récupérer les
-cristaux![new]
+Mais nous devons récupérer les cristaux![new]
 [bold]Edge[normal]: ...Une si jolie fille qui pleure...
 je n'ai pas le choix...
 Bon, unissons nos forces![new]
@@ -1894,8 +1875,8 @@ Oh, Dieu, TU PAIERAS POUR ÇA!!![new]
 [bold]Rubicante[normal]: Lugeie a transformé tes
 parents en monstres de lui-même.
 Je m'excuse profondément pour cela.[new]
-Crois-moi, je ne ferais jamais une
-chose comme cela.
+Crois-moi, je ne ferais jamais une chose
+comme cela.
 Je ne suis pas comme les autres.
 Je veux combattre à armes égales.[new]
 [bold]Edge[normal]: Ferme-la!
@@ -1910,7 +1891,7 @@ Vous êtes condamnés à rester
 éternellement faibles.[new]
 «Humain»[new]
 ...c'est ça?
-Je vais te montrer cette chose[new]
+Je vais te montrer cette chose
 «humaine»[new]
 ... ...qu'est la rage![music][0xb] [0xfa]La rage a révélé les
 pouvoirs cachés de Edge! [0xfa]Edge
@@ -1925,12 +1906,11 @@ soigner!
 Combattez de toutes vos forces![end]</sn:pointer>
 
 <sn:pointer id="312">[bold]Rubicante[normal]: Oh... je vois...
-Individuellement, les humains sont
-faibles, mais ensemble... ils sont puissants![new]
-À présent, je comprends mieux
-comment vous avez battu le seigneur
-Golbez...
-Je vous salue, braves guerriers![new]
+Individuellement, les humains sont faibles,
+mais ensemble... ils sont puissants![new]
+À présent, je comprends mieux comment
+vous avez battu le seigneur Golbez...
+Je vous salue, braves guerriers!
 Adieu...[end]</sn:pointer>
 
 <sn:pointer id="313">Jeune maître![end]</sn:pointer>
@@ -2050,8 +2030,8 @@ vôtre![new]
 Elle implique toutes les créatures
 vivantes, tous les esprits qui vivent sur
 Terre...[new]
-Tout le monde doit se battre pour
-mère Nature![end]</sn:pointer>
+Tout le monde doit se battre pour mère
+Nature![end]</sn:pointer>
 
 <sn:pointer id="330">[bold]Rydia[normal]: Aaaaaah![new]
 [bold]Cecil[normal]: La tour de Babel!?[end]</sn:pointer>
@@ -2103,8 +2083,7 @@ Que va-tu répondre?
 Veux-tu te mesurer à moi?[end]</sn:pointer>
 
 <sn:pointer id="339">«Reviens à moi... Caïn...
-Rapporte-moi le cristal et reviens à
-moi...»[new]
+Rapporte-moi le cristal et reviens à moi...»[new]
 [bold]Cecil[normal]: Golbez![end]</sn:pointer>
 
 <sn:pointer id="340">[bold]Cecil[normal]: Ooh! [0xfa]Caïn a volé le
@@ -2157,9 +2136,9 @@ Au seigneur Golbez![end]</sn:pointer>
 <sn:pointer id="348">[bold]Edge[normal]: Merde...
 Bon sang![end]</sn:pointer>
 
-<sn:pointer id="349">[bold]Rubicante[normal]: Tu es effectivement
-assez fort pour avoir confiance... mais tu
-ne peux pas encore m'égaler.
+<sn:pointer id="349">[bold]Rubicante[normal]: Tu es effectivement assez
+fort pour avoir confiance... mais tu ne
+peux pas encore m'égaler.
 Va perfectionner tes talents![new]
 Je serai ton adversaire quand tu veux![end]</sn:pointer>
 
@@ -2209,8 +2188,8 @@ Luca![end]</sn:pointer>
 [bold]Cid[normal]: ...Il semblerait que ce ne soit
 plus mon tour d'intervenir... et avec ce
 corps...[new]
-Tout ce que je peux faire, c'est
-bricoler des aéronefs...[end]</sn:pointer>
+Tout ce que je peux faire, c'est bricoler
+des aéronefs...[end]</sn:pointer>
 
 <sn:pointer id="359">[bold]Edge[normal]: Pfff...
 Vieil homme, je te salue![new]
@@ -2230,12 +2209,12 @@ occuper d'un vieux comme moi![new]
 [bold]Cecil[normal]: Merci...
 Cid![end]</sn:pointer>
 
-<sn:pointer id="362">[0xfa]Née de la bouche d'un dragon,
-[0xfa]s'élevant dans les cieux [0xfa]avec Lumière et
+<sn:pointer id="362">[0xfa]Née de la bouche d'un dragon, [0xfa]s'élevant
+dans les cieux [0xfa]avec Lumière et
 Obscurité, [0xfa]une promesse endormie
 [0xfa]s'éveillera. [0xfa]Voilée [0xfa]par la lumière [0xfa]de
-l'éternité, [0xfa]La Terre Mère sera bénie
-[0xfa]avec clémence et salut.[end]</sn:pointer>
+l'éternité, [0xfa]La Terre Mère sera bénie [0xfa]avec
+clémence et salut.[end]</sn:pointer>
 
 <sn:pointer id="363">[bold]Palom[normal]: Ce vieux a appris Météor![new]
 [bold]Ancien[normal]: Météor...!
@@ -2396,8 +2375,7 @@ Babel![end]</sn:pointer>
 
 <sn:pointer id="379">«Je vais m'en occuper!»[end]</sn:pointer>
 
-<sn:pointer id="380">[bold]Cecil[normal]: ...Cette lumière m'a appelé
-fils.
+<sn:pointer id="380">[bold]Cecil[normal]: ...Cette lumière m'a appelé fils.
 Qu'était cette lumière?[new]
 [bold]Ancien[normal]: Je ne sais pas ce qu'était la
 lumière sur la Montagne de l'Épreuve, ni
@@ -2413,8 +2391,7 @@ proue du Faucon pour percer la roche
 qui bloque le passage vers la surface![new]
 [bold]Rosa[normal]: Tes blessures vont mieux?[new]
 [bold]Cid[normal]: Ce n'est pas le moment de
-s'inquiéter des blessures d'un vieil
-homme![new]
+s'inquiéter des blessures d'un vieil homme![new]
 [bold]Edge[normal]: Tu peux vraiment le faire?[new]
 [bold]Cid[normal]: Pour l'ingénieur aéronautique
 Cid, le mot[new]
@@ -2434,9 +2411,9 @@ Un pouvoir si magnifique![end]</sn:pointer>
 <sn:pointer id="383">Vous avez fait de Léviathan votre allié.
 Mais cela aurait pu se faire sans le
 pouvoir de la Lumière.[new]
-Le jugement final pour savoir si la
-vraie Lumière réside en vous... sera
-rendu par le Dieu des Bêtes Fantômes...
+Le jugement final pour savoir si la vraie
+Lumière réside en vous... sera rendu par
+le Dieu des Bêtes Fantômes...
 Bahamut![end]</sn:pointer>
 
 <sn:pointer id="384">[0xfa]Rydia a appris Bahamut![music][0x29][delay][0x28][end]</sn:pointer>
@@ -2501,8 +2478,8 @@ Je ne sais pas si c'est un présage...[new]
 <sn:pointer id="395">[bold]Soldat[normal]: Oui, mon capitaine![new]
 [bold]Soldat[normal]: Il y a de plus en plus de
 monstres ces derniers temps...[new]
-[bold]Soldat[normal]: Mais il y en a vraiment trop,
-à présent...[new]
+[bold]Soldat[normal]: Mais il y en a vraiment trop, à
+présent...[new]
 [bold]Cecil[normal]: Est-ce qu'il se passerait...
 quelque chose?[end]</sn:pointer>
 
@@ -2512,7 +2489,7 @@ quelque chose?[end]</sn:pointer>
 [bold]Caïn[normal]: Qui est là?[music][0x2d][new]
 «Partez maintenant et il ne vous fait
 aucun mal...»[new]
-[bold]Caïn[normal]: Montre-toi!
+[bold]Caïn[normal]: Montre-toi![new]
 «Vous voulez vraiment continuer?»[end]</sn:pointer>
 
 <sn:pointer id="398">[bold]Edward[normal]: Cecil...
@@ -2523,8 +2500,8 @@ Mais il est tard.
 On part demain matin.[new]
 Pour le moment, on va se coucher.[new]
 [bold]Rosa[normal]: Cecil...
-Merci. [0xfa]Le mage blanc Rosa a
-rejoint l'équipe![end]</sn:pointer>
+Merci. [0xfa]Le mage blanc Rosa a rejoint
+l'équipe![end]</sn:pointer>
 
 <sn:pointer id="399">[bold]Rosa[normal]: Je vais bien.
 Et je suis un mage blanc.
@@ -2549,8 +2526,8 @@ homme, Cecil![new]
 [bold]Caïn[normal]: Tue-moi si tu peux![end]</sn:pointer>
 
 <sn:pointer id="404">[bold]Yang[normal]: Cecil!
-Maintenant, c'est à nous de nous
-battre pour toi.[new]
+Maintenant, c'est à nous de nous battre
+pour toi.[new]
 Nous devons discuter d'un plan
 d'attaque, mais tout d'abord il faut nous
 reposer.[new]
@@ -2562,8 +2539,8 @@ reposer.[new]
 
 <sn:pointer id="407">Veux-tu me voir danser?[end]</sn:pointer>
 
-<sn:pointer id="408">Tu es horrible, te moquer de moi
-comme ça?![end]</sn:pointer>
+<sn:pointer id="408">Tu es horrible, te moquer de moi comme
+ça?![end]</sn:pointer>
 
 <sn:pointer id="409">Oui![delay][0x5][close_window][end]</sn:pointer>
 
@@ -2700,8 +2677,7 @@ Rosa, t'en fais pas![end]</sn:pointer>
 Où est Rosa?[new]
 [bold]Cecil[normal]: Il s'agit d'un échange avec le
 cristal de la Terre de Troia...
-Mais le cristal a été volé par l'Elfe
-Noir...[end]</sn:pointer>
+Mais le cristal a été volé par l'Elfe Noir...[end]</sn:pointer>
 
 <sn:pointer id="445">[bold]Edward[normal]: Cecil, prenez ça...[new]
 [bold]Cecil[normal]: C'est quoi?[new]
@@ -2800,30 +2776,30 @@ reçurent l'ordre [0xfa]de se rendre à Mist, [0xfa]un
 village provincial situé [0xfa]par-delà les
 montagnes [0xfa]dans une vallée recouverte
 [0xfa]par un épais brouillard... [0xfa]Les aéronefs...
-[0xfa]Le vol fut longtemps [0xfa]un rêve
-inaccessible [0xfa]de l'humanité. [0xfa]Ces vaisseaux
-donnèrent [0xfa]aux hommes le pouvoir [0xfa]de
-s'élever dans les cieux. [0xfa]Très vite, [0xfa]comme
-toute création [0xfa]humaine, il devint un [0xfa]outil
-de la cupidité. [0xfa]Le pays de Baron devint
-[0xfa]la plus forte puissance [0xfa]militaire au
-monde [0xfa]par leurs aéronefs, [0xfa]les Ailes
-Rouges... [0xfa]Mais pourquoi un pays aussi
-[0xfa]puissant recherche-t-il [0xfa]les cristaux?
-[0xfa]Quel pouvoir recèlent-ils? [0xfa]Pourquoi
-l'humanité [0xfa]corrompt-elle chaque
-[0xfa]réalisation de ses rêves? [0xfa]Et pourquoi les
-monstres [0xfa]se font-ils toujours plus
-nombreux, [0xfa]même en plein jour? [0xfa]Les
-cristaux luisaient [0xfa]silencieusement...[end]</sn:pointer>
+[0xfa]Le vol fut longtemps [0xfa]un rêve inaccessible
+[0xfa]de l'humanité. [0xfa]Ces vaisseaux donnèrent
+[0xfa]aux hommes le pouvoir [0xfa]de s'élever dans
+les cieux. [0xfa]Très vite, [0xfa]comme toute
+création [0xfa]humaine, il devint un [0xfa]outil de la
+cupidité. [0xfa]Le pays de Baron devint [0xfa]la plus
+forte puissance [0xfa]militaire au monde [0xfa]par
+leurs aéronefs, [0xfa]les Ailes Rouges... [0xfa]Mais
+pourquoi un pays aussi [0xfa]puissant
+recherche-t-il [0xfa]les cristaux? [0xfa]Quel pouvoir
+recèlent-ils? [0xfa]Pourquoi l'humanité
+[0xfa]corrompt-elle chaque [0xfa]réalisation de ses
+rêves? [0xfa]Et pourquoi les monstres [0xfa]se
+font-ils toujours plus nombreux, [0xfa]même en
+plein jour? [0xfa]Les cristaux luisaient
+[0xfa]silencieusement...[end]</sn:pointer>
 
 <sn:pointer id="465">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
 
 <sn:pointer id="466">[bold]Giotto[normal]: Que vous faut-il pour vos
 réparations?[new]
 [bold]Cid[normal]: Je peux faire quelques
-réparations provisoires avec les
-matériaux disponibles ici...[new]
+réparations provisoires avec les matériaux
+disponibles ici...[new]
 Mais le corps de l'aéronef ne résistera
 pas aux flammes de votre monde.
 Je dois retourner à la surface et
@@ -2845,8 +2821,8 @@ Tu nous as dit de l'aider![new]
 [bold]Porom[normal]: S'il vous plaît, laissez-nous
 aussi y aller...[new]
 [bold]Ancien[normal]: Bien...
-La Montagne de l'Épreuve t'a accepté
-et tu en es revenu vivant.[new]
+La Montagne de l'Épreuve t'a accepté et
+tu en es revenu vivant.[new]
 Tu dois avoir une destinée bien plus
 importante que je ne peux l'entrevoir...
 Je voudrais bien vous accompagner,
@@ -2891,8 +2867,7 @@ Je voulais voir vos enfants, Rosa...
 Cecil...[new]
 Mais Yang va être seul, ça ne va
 pas...
-Allez à Baron et parlez à mes
-apprentis![end]</sn:pointer>
+Allez à Baron et parlez à mes apprentis![end]</sn:pointer>
 
 <sn:pointer id="479">[bold]Cecil[normal]: Cid![new]
 [bold]Rydia[normal]: Grand-père![end]</sn:pointer>
@@ -2951,8 +2926,8 @@ prince Edward a rejoint le groupe![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="491">[bold]Tellah[normal]: Il est en bas![end]</sn:pointer>
 
-<sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort
-pour entrer![end]</sn:pointer>
+<sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort pour
+entrer![end]</sn:pointer>
 
 <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
 
@@ -3021,8 +2996,8 @@ On est touché!
 On va s'écraser!
 Accrochez-vous![end]</sn:pointer>
 
-<sn:pointer id="506">«Mort à ceux qui convoitent cette
-Lance Sacrée!»[end]</sn:pointer>
+<sn:pointer id="506">«Mort à ceux qui convoitent cette Lance
+Sacrée!»[end]</sn:pointer>
 
 <sn:pointer id="507">«Tu n'obtiendras jamais la sainte
 protection de ces Rubans!»[end]</sn:pointer>
@@ -3031,15 +3006,15 @@ protection de ces Rubans!»[end]</sn:pointer>
 cette épée. Il ne doit pas être libéré!»[end]</sn:pointer>
 
 <sn:pointer id="509">[bold]Dr Lugeie[normal]: Ha Ha Ha!
-Je me suis toujours demandé ce
-qu'était la mort...
+Je me suis toujours demandé ce qu'était
+la mort...
 Soyez maudits, robots et humains![new]
 L'au-delà est l'ultime expérience...
 Vous croyez avoir gagné?
 Cette tour relie les deux mondes, celui
 du dessus et celui du dessous...[new]
-Les cristaux y ont déjà été amenés
-par Rubicante!
+Les cristaux y ont déjà été amenés par
+Rubicante!
 Hahahahaha![new]
 Et je vais anéantir les nains avec mon
 super canon!
@@ -3051,8 +3026,8 @@ katana! En enfer...!»[end]</sn:pointer>
 <sn:pointer id="511">[bold]Yang[normal]: Ça veut donc dire qu'ils vont
 essayer de voler le cristal de l'air![new]
 [bold]Edward[normal]: Sûrement.
-Damcyan a déjà été attaqué et le
-cristal volé.[new]
+Damcyan a déjà été attaqué et le cristal
+volé.[new]
 [bold]Yang[normal]: !...Bon sang!
 Et nos forces principales qui ont été
 anéanties![new]
