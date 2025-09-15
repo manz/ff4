@@ -45,6 +45,11 @@ saves:
     .text 'Sauvegardes'
     .db 0
 
+save_completed:
+    move_to(8, 11)
+    .text 'Sauvegarde terminée'
+    .db 0
+
 did_not_save:
     move_to(1, 1)
     .text 'Annulation ' ; extra space at the end to clear the previous title.

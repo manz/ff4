@@ -43,6 +43,11 @@
 *=0x019826
     load_system_menu_text_pointer(newgame.load_this_save)
 
+; for save menu we use the same string.
+*=0x01981E
+    load_system_menu_text_pointer(newgame.load_this_save)
+
+
 *=0x01982C
     load_system_menu_text_pointer(newgame.yes_no)
 
@@ -63,12 +68,16 @@
 *=0x019AC5
     load_system_menu_text_pointer(newgame.empty_save)
 
-
 *=0x01cbad
     load_system_menu_text_pointer(newgame.saves)
 
+*=0x01e050
+  menu_window(7,10,19,2)
+
+
+*=0x1cc0d
+    load_system_menu_text_pointer(newgame.save_completed)
+
 *=0x1cc12
     load_system_menu_text_pointer(newgame.did_not_save)
-
-
 }
