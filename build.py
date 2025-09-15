@@ -40,7 +40,6 @@ def read_fixed_from_xml(input_file, table, formatter=None):
         for child in root:
             text = child.text
             pointer = Pointer(i)
-            print(f"{hex(i)}: {text}")
             formatted_text = formatter(text) if formatter else text
             pointer.value = table.to_bytes(formatted_text) if text else b""
             max_length = max(max_length, len(pointer.value))
@@ -53,7 +52,6 @@ def read_fixed_from_xml(input_file, table, formatter=None):
 
             pointer_table.append(pointer)
             i += 1
-        print(f"max {max_length}")
     return pointer_table
 
 
@@ -254,7 +252,7 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
 
     # Uppercase + lowercase (classic kerning pairs)
     letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
-    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï", "r"]
+    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï", "î" "r"]
 
     for letter in letters:
         for vowel in vowels:
@@ -268,23 +266,25 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
         known_pairs_to_kern.append(vowel + "t")
         known_pairs_to_kern.append(vowel + "f")
 
+
     # Common letter combinations that might benefit
     common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
     known_pairs_to_kern.extend(common_pairs)
+    known_pairs_to_kern.extend(["ît", "aî", "va", "ïe", "în", "bî", "îm"
+                                                                    ""])
 
-    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs...")
+    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs in {Path(font_file).stem}...")
     # known_pairs_to_kern = ["Ta"]
     # Find pairs that benefit from kerning
     kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
 
-    def add_custom_kernings(text: str, advance) -> None:
+    def add_custom_kernings(text: str, advance: int) -> None:
         chars = table.to_bytes(text)
 
         kerning_pairs[(chars[0], chars[1])] = advance
 
     add_custom_kernings("tt", 2)
 
-    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
 
 
     with open(data_file, "wb") as fd:
