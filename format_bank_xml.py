@@ -171,12 +171,12 @@ class DialogParser:
             try:
                 table = Table("text/ff4fr.tbl")
                 
-                # Use new interleaved format
+                # Use new interleaved format with correct font order
                 font_files = [
-                    "assets/font.dat",
-                    "assets/wicked_font.dat", 
-                    "assets/bold_font.dat",
-                    "assets/book_font.dat"
+                    "assets/font.dat",        # Index 0: [normal] (fe 00)
+                    "assets/wicked_font.dat", # Index 1: [wicked] (fe 01) 
+                    "assets/book_font.dat",   # Index 2: [book/force_book] (fe 02)
+                    "assets/bold_font.dat"    # Index 3: [bold] (fe 03)
                 ]
                 
                 self.text_metrics = TextMetrics(table, font_files, char_height=16)
@@ -185,6 +185,13 @@ class DialogParser:
                 self.text_metrics = None
         else:
             self.text_metrics = text_metrics
+        
+        # Initialize font state tracking
+        self.reset_font_context()
+    
+    def reset_font_context(self):
+        """Reset font context to default state for processing a new pointer."""
+        self.current_font_index = 0  # Track current font index (0=normal, 1=wicked, 2=book, 3=bold)
 
     def parse(self, tokens):
         """Parse tokens and inject WINDOW_BREAK tokens for guillemet speech transitions."""
@@ -280,8 +287,8 @@ class DialogParser:
                     )
 
                     # Apply word wrapping to this sentence immediately
-                    wrapped_sentence = self.text_metrics.word_warp(
-                        sentence, WINDOW_WIDTH
+                    wrapped_sentence, self.current_font_index = self.text_metrics.word_warp(
+                        sentence, WINDOW_WIDTH, self.current_font_index
                     )
 
                     # Check if adding this wrapped sentence would exceed 4-line limit
@@ -325,12 +332,12 @@ class DialogParser:
                             wrapped_sentence
                         )
                 else:
-                    # Narrative sentence
+                    # Narrative sentence - use current font context
                     sentence = token.value
 
-                    # Apply word wrapping to narrative sentences too
-                    wrapped_sentence = self.text_metrics.word_warp(
-                        sentence, WINDOW_WIDTH
+                    # Apply word wrapping with current font context
+                    wrapped_sentence, self.current_font_index = self.text_metrics.word_warp(
+                        sentence, WINDOW_WIDTH, self.current_font_index
                     )
 
                     # Apply same intelligent grouping for narrative using wrapped sentences
@@ -384,7 +391,7 @@ class DialogParser:
                     accumulated_lines = 0
 
                 # Apply word wrapping to guillemet speech
-                wrapped_guillemet = self.text_metrics.word_warp(token.value, WINDOW_WIDTH)
+                wrapped_guillemet, self.current_font_index = self.text_metrics.word_warp(token.value, WINDOW_WIDTH, self.current_font_index)
 
                 # Check if next token is WINDOW_BREAK to determine if we need [new]
                 next_is_window_break = (i + 1 < len(tokens) and 
