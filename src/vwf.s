@@ -137,6 +137,9 @@ parse:
     BNE _nxt1
     lda #0x01
     sta 0xDE
+    lda #0x08
+    jsr.w draw_arrow
+
     JMP.W fin
 
 _nxt1:
@@ -346,19 +349,45 @@ suit2:
     BRA end
 
 suit3:
+; that's where new ends up
+
+
+    LDA.B #0x08
+    jsr.w draw_arrow
+    sta.b BITSLEFT
 
     STZ.B CURRENT_C
     STZ.B TILEPOS
-
-    LDA.B #0x08
-    STA.B BITSLEFT
-
     JSR.W clr
     JSR.W waitpad
     JSR.W wdisplay
 end:
 
     JMP.W main
+
+draw_arrow:
+    pha
+    lda #0x08
+    STA.B BITSLEFT
+    lda #0x4E + 24
+    sta.b oldtilepos
+
+    lda #0x4E + 25
+    sta.b TILEPOS
+
+
+    lda #0xa2 ; down arrow
+    sta.b CURRENT_C
+
+    ldx.w #0xa2 * 17
+    ldy.w #0xcc0
+    jsr.w makeptr
+    jsr.w ShiftNew
+    jsr.w wdisplay
+
+    pla
+    rts
+
 
 ;*************
 ;** Musique **
