@@ -5,3 +5,5 @@
 .include 'src/ingame/magic.s'
 .include 'src/ingame/shop.s'
 .include 'src/ingame/equip.s'
+.include 'src/ingame/free_space.s'
+.include 'src/ingame/windows.s'

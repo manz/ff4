@@ -1,11 +1,18 @@
 .include 'src/ingame/macros.i'
+
+
 {
 *=0x01DB61
-    .dw 0x0000, 0x1A16 ; fenètre principale
-    .dw 0x05EE, 0x0307 ; fenètre Gils
-    .dw 0x04EE, 0x0207 ; fenetre temps
-    .dw 0x002E, 0x1107 ; fenètre menu principal
-
+.scope _main_menu {
+characters_window:
+    menu_window(0, 0, 22, 26)
+gil_window:
+    menu_window(22, 23, 8, 3)
+time_window:
+    menu_window(23, 19, 7, 2)
+menu:
+    menu_window(23, 0, 7, 17)
+}
 
 *=0x01dd51
     menu_window(1,8,29,17)

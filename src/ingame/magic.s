@@ -32,10 +32,6 @@ first_column := 0x0248 - 4
     ldy.w #spells.mp_needed & 0xffff
     jsr.w copy_text_with_dakuten
 
-*=0x01ff80
-copy_text_with_dakuten:
-    jsr.l copy_text_with_dakuten_far
-    rts
 
 ; Grisement des types sorts : 'Blancs' 'Noirs' etc ...
 *=0x01B419
