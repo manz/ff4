@@ -59,38 +59,58 @@ class TextMetrics:
         binary_line = self.table.to_bytes(line)
         return self.measure_bytes(binary_line)
 
-    def word_warp(self, line: str, max_pixel_width: int) -> str:
+    def word_warp(self, line: str, max_pixel_width: int, start_font_index: int = 0) -> tuple[str, int]:
         breaking_chars = b"\xff"
 
         binary_line = self.table.to_bytes(line)
         binary_breaked_line = b""
         current_line_pixel_width = 0
         index = 0
+        current_font_index = start_font_index  # Start with provided font index
+        prev_char = None  # Reset previous character for each new string
 
-        space_width = self.measure_string(" ") + 1
+        # Calculate space width with current font context
+        space_char = 0xff  # Space character
+        space_width = self.length_tables[current_font_index][space_char] + 1
         while index < len(binary_line):
             next_break_point = binary_line.find(breaking_chars, index)
 
             if next_break_point != -1:
                 next_word = binary_line[index:next_break_point]
-                next_word_pixel_length = self.measure_bytes(next_word)
+                # Measure word with current font context
+                next_word_pixel_length = self._measure_bytes_with_context(
+                    next_word, current_font_index, prev_char
+                )
+                
                 if current_line_pixel_width + next_word_pixel_length >= max_pixel_width:
                     current_line_pixel_width = next_word_pixel_length
                     binary_breaked_line += b"\x01"
-
+                    prev_char = None  # Reset after line break
                 else:
                     if current_line_pixel_width > 0:
                         binary_breaked_line += b"\xff"
 
                     current_line_pixel_width += next_word_pixel_length + space_width
+                    prev_char = 0xff  # Space character
+                
                 binary_breaked_line += next_word
+                
+                # Update font context and prev_char after processing word
+                current_font_index, prev_char = self._update_context_after_bytes(
+                    next_word, current_font_index, prev_char
+                )
+                
+                # Recalculate space width for new font context
+                space_width = self.length_tables[current_font_index][space_char] + 1
 
                 index = next_break_point + 1
             else:
                 # No more break points, process remaining text
                 remaining_word = binary_line[index:]
                 if remaining_word:
-                    remaining_word_pixel_length = self.measure_bytes(remaining_word)
+                    remaining_word_pixel_length = self._measure_bytes_with_context(
+                        remaining_word, current_font_index, prev_char
+                    )
                     if index > 0:
                         if (
                                 current_line_pixel_width + remaining_word_pixel_length
@@ -101,9 +121,76 @@ class TextMetrics:
                             binary_breaked_line += b"\xff"
                     binary_breaked_line += remaining_word
 
+                # Update font context after processing remaining word
+                current_font_index, prev_char = self._update_context_after_bytes(
+                    remaining_word, current_font_index, prev_char
+                )
                 break
 
-        return self.table.to_text(binary_breaked_line)
+        return self.table.to_text(binary_breaked_line), current_font_index
+
+    def _measure_bytes_with_context(self, binary: bytes, font_index: int, prev_char: int = None) -> int:
+        """Measure bytes with given font context and previous character."""
+        size = 0
+        k = 0
+        current_font_index = font_index
+        
+        while k < len(binary):
+            char = binary[k]
+            match char:
+                case 0xfe:
+                    k += 1
+                    current_font_index = binary[k]
+                    prev_char = None  # Reset previous char on font change
+                case 0x4:
+                    k += 1
+                    size += 6 * 8
+                    prev_char = None  # Reset previous char after special sequence
+                case 0x8:
+                    size = 4 * 8      # Assume 4 full chars for gils count.
+                    prev_char = None
+                case _:
+                    # Add character width
+                    char_width = self.length_tables[current_font_index][char]
+                    size += char_width
+                    
+                    # Add spacing (default 1 pixel, adjusted by kerning)
+                    spacing = 1
+                    if prev_char is not None:
+                        # Check for kerning adjustment
+                        kerning_pair = (prev_char, char)
+                        if kerning_pair in self.kerning_tables[current_font_index]:
+                            kerning_value = self.kerning_tables[current_font_index][kerning_pair]
+                            spacing = kerning_value + 1  # Kerning + 1 = actual spacing
+                    
+                    size += spacing
+                    prev_char = char
+
+            k += 1
+
+        return size
+
+    def _update_context_after_bytes(self, binary: bytes, font_index: int, prev_char: int = None) -> tuple[int, int]:
+        """Update font context and prev_char after processing bytes."""
+        k = 0
+        current_font_index = font_index
+        
+        while k < len(binary):
+            char = binary[k]
+            match char:
+                case 0xfe:
+                    k += 1
+                    current_font_index = binary[k]
+                    prev_char = None
+                case 0x4:
+                    k += 1
+                    prev_char = None
+                case _:
+                    prev_char = char
+
+            k += 1
+
+        return current_font_index, prev_char
 
     def measure_line_count(self, line: str, max_pixel_width: int) -> int:
         breaking_chars = b"\xff"
@@ -112,27 +199,47 @@ class TextMetrics:
         lines_count = 0
         current_line_pixel_width = 0
         index = 0
-        space_width = self.measure_string(" ") + 1
+        current_font_index = 0  # Always start with normal font (index 0)
+        space_char = 0xff  # Space character 
+        space_width = self.length_tables[current_font_index][space_char] + 1
 
+        prev_char = None
+        
         while index < len(binary_line):
             next_break_point = binary_line.find(breaking_chars, index)
 
             if next_break_point != -1:
                 next_word = binary_line[index:next_break_point]
 
-                next_word_pixel_length = self.measure_bytes(next_word)
+                # Measure word with current font context
+                next_word_pixel_length = self._measure_bytes_with_context(
+                    next_word, current_font_index, prev_char
+                )
+                
                 if current_line_pixel_width + next_word_pixel_length >= max_pixel_width:
                     current_line_pixel_width = next_word_pixel_length
                     lines_count += 1
+                    prev_char = None  # Reset after line break
                 else:
                     current_line_pixel_width += next_word_pixel_length + space_width
+                    prev_char = 0xff  # Space character
+                
+                # Update font context after processing word
+                current_font_index, prev_char = self._update_context_after_bytes(
+                    next_word, current_font_index, prev_char
+                )
+                
+                # Recalculate space width for new font context
+                space_width = self.length_tables[current_font_index][space_char] + 1
 
                 index = next_break_point + 1
             else:
                 # No more break points, process remaining text
                 remaining_word = binary_line[index:]
                 if remaining_word:
-                    remaining_word_pixel_length = self.measure_bytes(remaining_word)
+                    remaining_word_pixel_length = self._measure_bytes_with_context(
+                        remaining_word, current_font_index, prev_char
+                    )
                     if (
                             current_line_pixel_width + remaining_word_pixel_length
                             >= max_pixel_width
@@ -181,7 +288,8 @@ class TextMetrics:
                         entry_offset = data_start + (i * 3)
                         if entry_offset + 3 <= len(font_data):
                             char1, char2, kerning_abs = struct.unpack("BBB", font_data[entry_offset:entry_offset + 3])
-                            # Convert unsigned kerning value back to signed (stored as abs value)
+                            # Kerning values are stored as abs() of the actual kerning in the file
+                            # Convert back to negative (kerning is always negative for tighter spacing)
                             kerning_value = -kerning_abs if kerning_abs > 0 else 0
                             kerning_table[(char1, char2)] = kerning_value
                         else:
