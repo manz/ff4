@@ -207,7 +207,6 @@ make_pointers:
     asl
     asl
     asl
-    asl
     clc
     adc 1, s
     tax
@@ -237,7 +236,7 @@ display_char:
     jsr.w make_pointers
 
     rep #0x20
-    lda.w #0x0010
+    lda.w #0x0008
     sta.b counter
     sep #0x20
 
@@ -286,15 +285,15 @@ _store:
     xba
     phx
     tyx
-    ora.l buffer_ptr, x
-    sta.l buffer_ptr, x
+    ora.l buffer_ptr + 1, x
+    sta.l buffer_ptr + 1, x
     xba
-    ora.l buffer_ptr + 0x10, x
-    sta.l buffer_ptr + 0x10, x
+    ora.l buffer_ptr + 0x10 + 1, x
+    sta.l buffer_ptr + 0x10 + 1, x
     txy
     plx
     iny
-
+    iny
     dec.b counter
     bne char_line_loop
 

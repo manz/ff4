@@ -228,24 +228,23 @@ def build_vwf_font_asset_2bpp(
 
 
 def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height, table):
+    converter = FontConverter(font_file, has_grid, char_height=char_height)
 
+    data_path = Path(data_file)
 
-    converter = FontConverter(font_file, has_grid, char_height=char_height,  )
-
-    len_table, data = converter.convert_to_1bpp(width_overrides={
-        0xff: 3 if Path(data_file).stem == "font" else 5,
+    if data_path.stem == "menu_font":
+        overrides = {
+            0xff: 3
+        }
+    else:
+        overrides = {
+        0xff: 3 if data_path.stem == "font" else 5,
         0xfd: 1,
         0xFE: 2,
         0xA0: -1
-    })
+    }
 
-    # Espace
-    len_table[0xFF] = 3
-    # Espace fine
-    len_table[0xFD] = 1
-    # Espace insécable
-    len_table[0xFE] = 2
-    len_table[0xA0] = len_table[0xA0] - 1
+    len_table, data = converter.convert_to_1bpp(width_overrides=overrides)
 
     # Generate test pairs (common kerning candidates)
     known_pairs_to_kern = []
@@ -270,21 +269,22 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
     # Common letter combinations that might benefit
     common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
     known_pairs_to_kern.extend(common_pairs)
-    known_pairs_to_kern.extend(["ît", "aî", "va", "ïe", "în", "bî", "îm"
-                                                                    ""])
+    known_pairs_to_kern.extend(["ît", "aî", "va", "ïe", "în", "bî", "îm"])
 
-    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs in {Path(font_file).stem}...")
-    # known_pairs_to_kern = ["Ta"]
-    # Find pairs that benefit from kerning
-    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+    if data_path.stem != "menu_font":
+        print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs in {Path(font_file).stem}...")
+        # known_pairs_to_kern = ["Ta"]
+        # Find pairs that benefit from kerning
+        kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
 
-    def add_custom_kernings(text: str, advance: int) -> None:
-        chars = table.to_bytes(text)
+        def add_custom_kernings(text: str, advance: int) -> None:
+            chars = table.to_bytes(text)
 
-        kerning_pairs[(chars[0], chars[1])] = advance
+            kerning_pairs[(chars[0], chars[1])] = advance
 
-    add_custom_kernings("tt", 2)
-
+        add_custom_kernings("tt", 2)
+    else:
+        kerning_pairs = {}
 
 
     with open(data_file, "wb") as fd:
@@ -296,6 +296,8 @@ def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_he
         for (char1, char2), advance in kerning_pairs.items():
             fd.write(struct.pack("BBB", char1, char2, abs(advance)))
 
+        fd.write(struct.pack("B", char_height))
+
 
 assets_builder = {
     "script": build_text_asset,
@@ -305,7 +307,6 @@ assets_builder = {
     "nullterminated": build_null_terminated,
     "nullterminated_with_base": build_null_terminated_with_base,
     "vwf-font": build_vwf_font_asset,
-    "vwf-font-2bpp": build_vwf_font_asset_2bpp,
 }
 
 
@@ -400,12 +401,13 @@ if __name__ == "__main__":
             dialog_table
         ),
         (
-            "vwf-font-2bpp",
-            "fonts/8x8vwf2p.png",
-            True,
+            "vwf-font",
+            "fonts/8x8vwf.png",
+            False,
             "assets/menu_font.dat",
             "assets/menu_font_length_table.dat",
             8,
+            menu_table
         ),
         ("fixed", menu_table, os.path.join(text_root, "items.xml"), "assets/items.dat"),
         ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "assets/magic.dat"),
