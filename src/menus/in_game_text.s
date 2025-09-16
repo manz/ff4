@@ -1,6 +1,9 @@
 .include 'src/ingame/macros.i'
 
 .scope in_game_menu {
+cant_fight:
+    .text 'KO'
+    .db 0
 menu:
     ; window
     .dw 0x002E, 0x1107

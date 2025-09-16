@@ -131,6 +131,17 @@ draw_hp_mp = 0x018a2a
 	xba
 	sta.w 0x0040, y
 
+; translate can't fight text
+
+*=0x018B2A
+    load_system_menu_text_pointer(in_game_menu.cant_fight)
+
+; grey out more tiles for the first line in char block
+*=0x018C30
+    lda #15
+
+
+
 ;*=0x018b6b
 ;  lda     #0x42
 
@@ -280,37 +291,3 @@ rts
 ;018E50  60             RTS
 ;                     ----------------
 
-
-
-.if 0 {
-    ; Menu color palette I probably need to add one color
-    ; Palette 1, normal text
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0xCE, 0x39
-    .db 0xFF, 0x7F
-
-    ; Palette 2, greyed out text
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x08, 0x21
-    .db 0xEF, 0x3D
-
-    ; Palette  3, yellow
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x80, 0x02
-    .db 0x7F, 0x03
-
-    ; Palette 4, red
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0xFF, 0x40
-    .db 0x7F, 0x2E
-
-    ; New Palette extra black to make shadows we'll probably add
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x00, 0x00
-    .db 0xFF, 0x7F
-}
