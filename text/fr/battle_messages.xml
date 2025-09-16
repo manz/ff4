@@ -2,7 +2,7 @@
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
 <sn:pointer id="0">Le dragon a changé de forme en brouillard ![end]</sn:pointer>
 
-<sn:pointer id="1">Il reprend sa forme ! C'est le moment d’attaquer ![end]</sn:pointer>
+<sn:pointer id="1">Il reprend sa forme ! C'est le moment d'attaquer ![end]</sn:pointer>
 
 <sn:pointer id="2">Le brouillard annule toutes les attaques ![end]</sn:pointer>
 
@@ -368,7 +368,7 @@
 
 <sn:pointer id="183">La prochaine fois, je serai papa. Ahhh.[end]</sn:pointer>
 
-<sn:pointer id="184">C’est bon, non ?[end]</sn:pointer>
+<sn:pointer id="184">C'est bon, non ?[end]</sn:pointer>
 
 <sn:pointer id="185">À plus, alors. Ahhh.[end]</sn:pointer>
 

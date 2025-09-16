@@ -5,10 +5,10 @@
     <sn:pointer id="2">Attaque préventive ![end]</sn:pointer>
     <sn:pointer id="3">Attaque surprise ![end]</sn:pointer>
     <sn:pointer id="4">Attaque par-derrière ![end]</sn:pointer>
-    <sn:pointer id="5">Il s’est enfui[end]</sn:pointer>
+    <sn:pointer id="5">Il s'est enfui[end]</sn:pointer>
     <sn:pointer id="6">Victoire en combat ![end]</sn:pointer>
     <sn:pointer id="7">Je me souviens ![end]</sn:pointer>
-    <sn:pointer id="8">Non, ce n’est pas ça[end]</sn:pointer>
+    <sn:pointer id="8">Non, ce n'est pas ça[end]</sn:pointer>
     <sn:pointer id="9">Hélas, je ne me souviens de rien[end]</sn:pointer>
     <sn:pointer id="10">Je ne peux pas parler[end]</sn:pointer>
     <sn:pointer id="11">Chanson des grenouilles[end]</sn:pointer>
@@ -16,7 +16,7 @@
     <sn:pointer id="13">Chanson de séduction[end]</sn:pointer>
     <sn:pointer id="14">Chanson du silence[end]</sn:pointer>
     <sn:pointer id="15">Pas assez de potions.[end]</sn:pointer>
-    <sn:pointer id="16">La prière n’a pas atteint le ciel[end]</sn:pointer>
+    <sn:pointer id="16">La prière n'a pas atteint le ciel[end]</sn:pointer>
     <sn:pointer id="17">La synchronisation est perturbée[end]</sn:pointer>
     <sn:pointer id="18">Magie augmentée ![end]</sn:pointer>
     <sn:pointer id="19">Monstre paniqué[end]</sn:pointer>
@@ -56,6 +56,6 @@
     <sn:pointer id="53">Dégâts de poison[end]</sn:pointer>
     <sn:pointer id="54">PV régénérés[end]</sn:pointer>
     <sn:pointer id="55">[0x6]0 Gils tombés![end]</sn:pointer>
-    <sn:pointer id="56">“Peu à peu, l’énergie s’est épuisée et la force a disparu.[end]</sn:pointer>
-    <sn:pointer id="57">Force concentrée, puissance d’attaque doublée ![end]</sn:pointer>
+    <sn:pointer id="56">“Peu à peu, l'énergie s'est épuisée et la force a disparu.[end]</sn:pointer>
+    <sn:pointer id="57">Force concentrée, puissance d'attaque doublée ![end]</sn:pointer>
 </sn:script>
