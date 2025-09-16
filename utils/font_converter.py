@@ -303,7 +303,7 @@ class FontConverter:
         
         return best_kerning
 
-    def render_kerned_string(self, text_bytes: bytes, default_kerning: int = 1) -> np.ndarray:
+    def render_kerned_string(self, text_bytes: bytes, default_kerning: int = 1, external_kerning_table: dict = None, external_width_table: bytes = None) -> np.ndarray:
         """
         Render a string with optimal kerning between character pairs.
         
@@ -322,12 +322,19 @@ class FontConverter:
         
         self._load_image()
         
-        # Get all character data and compute widths
+        # Get all character data and determine widths
         chars = []
         char_widths = []
         for char_index in text_bytes:
             char_data = self.get_char(char_index)
-            actual_width = self.get_max_width(char_data)
+            
+            if external_width_table is not None:
+                # Use width from external table (file-based)
+                actual_width = external_width_table[char_index]
+            else:
+                # Compute width from PNG (autohint)
+                actual_width = self.get_max_width(char_data)
+            
             chars.append(char_data[:, :actual_width])
             char_widths.append(actual_width)
         
@@ -342,7 +349,17 @@ class FontConverter:
         for i in range(len(text_bytes) - 1):
             char1_index = text_bytes[i]
             char2_index = text_bytes[i + 1]
-            kerning = self.compute_kerning(char1_index, char2_index, default_kerning) + 1
+            
+            if external_kerning_table and (char1_index, char2_index) in external_kerning_table:
+                # Use external kerning table value (already includes the +1)
+                kerning = external_kerning_table[(char1_index, char2_index)] + 1
+            elif external_kerning_table is not None:
+                # External kerning table provided but no entry for this pair - use default spacing
+                kerning = default_kerning
+            else:
+                # No external kerning table - use auto-generated kerning
+                kerning = self.compute_kerning(char1_index, char2_index, default_kerning) + 1
+            
             kerning_values.append(kerning)
             total_width += kerning + char_widths[i + 1]
         
