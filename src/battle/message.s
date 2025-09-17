@@ -6,11 +6,14 @@
     tilemap_offset = bits_left_on_tile + 2
     temp = bits_left_on_tile + 4
     counter = bits_left_on_tile + 6
-    current_char = bits_left_on_tile + 8
-
+    prev_char =  bits_left_on_tile + 8
+    current_char = prev_char + 1
     font_ptr = assets_menu_font_dat
 
 init:
+.if ENABLE_KERNING_MENU {
+    stz.b prev_char
+}
     jsr.w clear_buffer
     pha
     lda.b #0x08
@@ -45,7 +48,6 @@ clear_buffer_far:
     rtl
 
 make_pointers:
-{
     pha
 
     ldx.w #0x0000
@@ -62,12 +64,13 @@ make_pointers:
     adc 1,s
     tax
     pla
-    lda.w #0x0000
+    ;lda.w #0x0000
     sep #0x20
-
+_refresh_destination_pointer:
     lda.l render_allocator.allocated_tile_id
 
     rep #0x20
+    and.w #0x00ff
     asl
     asl
     asl
@@ -97,6 +100,12 @@ _display_char:
 
     jsr.w make_pointers
 
+    ; vwf8_lookup_kerning there:
+.if ENABLE_KERNING_MENU {
+    pha
+    jsr.w _adjust_bits_left_for_kerning
+    pla
+}
     rep #0x20
     lda.w #0x0008
     sta.b counter
@@ -226,6 +235,118 @@ coupe:
     jsr.w tilemap_write
     bra loopdec
 }
+.if ENABLE_KERNING_MENU {
+_adjust_bits_left_for_kerning:
+{
+
+    lda.b bits_left_on_tile
+    cmp #8
+    beq _overflow
+
+    sta.b temp
+
+    jsr.w get_kerning_adjustment_linear_search
+    bcc _adjustment
+    bra _end
+_adjustment:
+    pha
+    lda.b temp
+    clc
+    adc 1,s
+    sta.b temp
+.if 0 {
+    bpl _no_adjustment
+
+    and.b #0x80
+    sta.b bits_left_on_tile
+    sta.b temp
+    lda.l render_allocator.allocated_tile_id
+    dec
+    sta.l render_allocator.allocated_tile_id
+    jsr.w _refresh_destination_pointer
+}
+_no_adjustment:
+
+    pla
+_end:
+    lda.b temp
+    sta.b bits_left_on_tile
+
+_overflow:
+    pha
+    lda.b current_char
+    sta.b prev_char
+    pla
+    rts
+}
+
+get_kerning_adjustment_linear_search:
+{
+    phx
+    phy
+    rep #0x20
+    jsr.w _get_kerning_adjustment_linear_search
+    sep #0x20
+    ply
+    plx
+    rts
+}
+
+_get_kerning_adjustment_linear_search:
+{
+    phb
+    pea.w font_table >> 16
+    plb
+
+kerning_table_offset = 256 * 9
+    ldy.w #kerning_table_offset
+    lda.w font_ptr & 0xffff, y
+    beq not_found
+    dec
+    tax
+    lda.w #0x0000
+
+_loop:
+    txa
+    pha
+    asl
+    clc
+    adc 0x01, s
+    clc
+    adc.w #kerning_table_offset + 2
+
+    tay
+    pla
+
+    lda.w font_ptr & 0xffff, y ; Load 16-bit char pair
+    cmp.b prev_char
+    beq found_pair               ; Found exact match!
+
+    txa
+    dec
+    tax
+
+    bne _loop
+
+not_found:
+    lda.w #0x0000
+    sec
+    plb
+    plb
+    rts
+
+found_pair:
+    iny
+    iny
+    lda.w font_ptr, y
+    and.w #0x00FF
+    clc
+    plb
+    plb
+    rts
+}
+}
+
 
 tilemap_write_no_inc:
     lda.l render_allocator.allocated_tile_id

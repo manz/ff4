@@ -140,7 +140,8 @@ __var_base = 0x00
 bits_left_on_tile = __var_base + 0x10
 temp = bits_left_on_tile + 1
 counter = temp + 1
-current_char = counter + 2
+prev_char = counter + 2
+current_char = prev_char + 1
 
 tilemap_offset = 0x1d
 
@@ -155,6 +156,9 @@ init:
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables
+.if ENABLE_KERNING_MENU {
+    stz.b prev_char
+}
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
     pha
@@ -244,7 +248,9 @@ char_line_loop:
     rep #0x20
     lda.w #0x0000
     sep #0x20
-
+.if ENABLE_KERNING_MENU {
+    jsr.w _adjust_bits_left_for_kerning
+}
     lda.b bits_left_on_tile
 
     cmp #0x08
@@ -347,6 +353,115 @@ coupe:
     sep #0x20
 }
 
+.if ENABLE_KERNING_MENU {
+_adjust_bits_left_for_kerning:
+{
+
+    lda.b bits_left_on_tile
+    cmp #8
+    beq _overflow
+    sta.b temp
+
+    jsr.w get_kerning_adjustment_linear_search
+    bcc _adjustment
+    bra _end
+_adjustment:
+    pha
+    lda.b temp
+    clc
+    adc 1,s
+    sta.b temp
+.if 0 {
+    bpl _no_adjustment
+
+    and.b #0x80
+    sta.b bits_left_on_tile
+    sta.b temp
+    lda.l render_allocator.allocated_tile_id
+    dec
+    sta.l render_allocator.allocated_tile_id
+    jsr.w _refresh_destination_pointer
+}
+_no_adjustment:
+
+    pla
+_end:
+    lda.b temp
+    sta.b bits_left_on_tile
+_overflow:
+    pha
+    lda.b current_char
+    sta.b prev_char
+    pla
+    rts
+}
+
+get_kerning_adjustment_linear_search:
+{
+    phx
+    phy
+    rep #0x20
+    jsr.w _get_kerning_adjustment_linear_search
+    sep #0x20
+    ply
+    plx
+    rts
+}
+
+_get_kerning_adjustment_linear_search:
+{
+    phb
+    pea.w font_table >> 16
+    plb
+
+kerning_table_offset = 256 * 9
+    ldy.w #kerning_table_offset
+    lda.w font_ptr & 0xffff, y
+    beq not_found
+    dec
+    tax
+    lda.w #0x0000
+
+_loop:
+    txa
+    pha
+    asl
+    clc
+    adc 0x01, s
+    clc
+    adc.w #kerning_table_offset + 2
+
+    tay
+    pla
+
+    lda.w font_ptr & 0xffff, y ; Load 16-bit char pair
+    cmp.b prev_char
+    beq found_pair               ; Found exact match!
+
+    txa
+    dec
+    tax
+
+    bne _loop
+
+not_found:
+    lda.w #0x0000
+    sec
+    plb
+    plb
+    rts
+
+found_pair:
+    iny
+    iny
+    lda.w font_ptr, y
+    and.w #0x00FF
+    clc
+    plb
+    plb
+    rts
+}
+}
 tilemap_write_no_inc:
     _base_addr = 0x7e0000
     lda.l render_allocator.allocated_tile_id
