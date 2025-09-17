@@ -256,7 +256,7 @@ Il n'accomplirait rien qui ne soit
 honorable...[new]
 [bold]Cecil[normal]: Caïn, j'envie ta foi en Sa
 Majesté.
-Il a évoqué ton père...
+Il a évoqué ton père...[new]
 Il possédait la même loyauté indéfectible...[new]
 [bold]Caïn[normal]: Mon père...Mon père était aussi
 un chevalier dragon.
@@ -392,8 +392,8 @@ Edward... je ne sais pas...[new]
 <sn:pointer id="75">[bold]Yang[normal]: Où sommes-nous?[new]
 [bold]Cecil[normal]: À Baron.
 Si les soldats nous entendent, on aura
-des ennuis.
-Il y a une chambre tranquille à l'auberge.[new]
+des ennuis.[new]
+Il y a une chambre tranquille à l'auberge.
 Allons-y! [0xfa]Le Moine Yang a rejoint le
 groupe![music][0x29][delay][0x28][end]</sn:pointer>
 
@@ -724,7 +724,7 @@ aéronefs...[end]</sn:pointer>
 <sn:pointer id="123">[bold]Roi Fabul[normal]: Yang, tu es de retour!
 Cette expression sur ton visage...[new]
 [bold]Yang[normal]: Oui!
-Mais plus important, Roi Fabul!
+Mais plus important, Roi Fabul![new]
 Un homme nommé Golbez mobilise les
 forces de Baron afin de voler notre cristal![new]
 [bold]Roi Fabul[normal]: Quoi!?
@@ -1517,7 +1517,7 @@ Terre, mot à mot, le monde souterrain.[new]
 [bold]Cid[normal]: Mais comment on va bien
 pouvoir y aller?
 En creusant un trou, ou quoi?[new]
-[bold]Caïn[normal]: Je n'en sais rien...
+[bold]Caïn[normal]: Je n'en sais rien...[new]
 En tout cas, Golbez a dit qu'une fois
 les cristaux de la face et de l'arrière
 réunis, le chemin vers la Lune s'ouvrirait.[new]
@@ -1563,7 +1563,7 @@ vous tirer dessus.[new]
 quatre cristaux.[new]
 [bold]Yang[normal]: Nous arrivons tard...[new]
 [bold]Giotto[normal]: Mais le cristal de ce château est,
-lui, toujours en sécurité.
+lui, toujours en sécurité.[new]
 On a pu faire battre en retraite ces...
 heu... trucs volants avec nos chars nains.[new]
 [bold]Rosa[normal]: Alors c'étaient vos chars qui
@@ -1593,9 +1593,9 @@ On ne va pas en tirer grand chose.[end]</sn:pointer>
 <sn:pointer id="276">«Nous sommes les joyeuses Calcabrina!
 Poupées effrayantes mais mignonnes!
 Bandes d'idiots! Vous venez ici si
-naïvement! On va vous battre et offrir
-vos têtes au seigneur Golbez en
-cadeau! Kya-ho-ho-ho!»[end]</sn:pointer>
+naïvement! On va vous battre et offrir vos
+têtes au seigneur Golbez en cadeau!
+Kya-ho-ho-ho!»[end]</sn:pointer>
 
 <sn:pointer id="277">[bold]Cecil[normal]: Quoi!?[new]
 «Cela faisait longtemps...»[end]</sn:pointer>
@@ -1607,16 +1607,16 @@ Mais celui qui utilisait Météore n'est plus
 de ce monde maintenant.[new]
 En remerciement de l'autre fois, je vais
 vous dire pourquoi je rassemble les
-cristaux.
-Lumière et ténèbres réunies... 8 cristaux...[new]
+cristaux.[new]
+Lumière et ténèbres réunies... 8 cristaux...
 C'est la clé pour faire revivre la Tour de
-Babel, le chemin scellé vers la Lune.
+Babel, le chemin scellé vers la Lune.[new]
 On dit qu'il y a sur la Lune un pouvoir qui
-dépasse notre imagination.[new]
+dépasse notre imagination.
 Avec ce cristal, j'en ai maintenant sept...
-Il n'en reste plus qu'un.
+Il n'en reste plus qu'un.[new]
 C'est aussi grâce à vous.
-Je me dois de vous remercier pour cela.[new]
+Je me dois de vous remercier pour cela.
 Prenez ceci!
 C'est mon dernier cadeau![end]</sn:pointer>
 
@@ -1791,7 +1791,7 @@ Tout le monde... tout le monde![new]
 
 <sn:pointer id="303">[bold]Cecil[normal]: ...L'adversaire est le plus
 puissant des Quatre Élémentaux.
-On ne sait même pas si on a une chance!
+On ne sait même pas si on a une chance![new]
 Mais nous devons récupérer les cristaux![new]
 [bold]Edge[normal]: ...Une si jolie fille qui pleure... je
 n'ai pas le choix...
@@ -2451,7 +2451,7 @@ quelque chose?[end]</sn:pointer>
 «Partez maintenant et il ne vous fait
 aucun mal...»[new]
 [bold]Caïn[normal]: Montre-toi![new]
-«Vous voulez vraiment continuer?»[end]</sn:pointer>
+«Vous voulez vraiment continuer?»[close_window][end]</sn:pointer>
 
 <sn:pointer id="398">[bold]Edward[normal]: Cecil...
 Rosa veut être avec vous.[new]
@@ -2601,7 +2601,7 @@ Qui es-tu?[end]</sn:pointer>
 [bold]Porom[normal]: Il attaque![end]</sn:pointer>
 
 <sn:pointer id="436">[bold]Tellah[normal]: !?
-Mé... ...téor?
+Mé... ...téor?[new]
 Cette lumière m'a donné l'ultime magie
 noire, Météor! [0xfa]Tellah apprend Météor![music][0x29][delay][0x28][end]</sn:pointer>
 

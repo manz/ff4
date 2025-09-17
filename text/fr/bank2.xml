@@ -530,7 +530,7 @@ c'est pourquoi nos soirées sont chaudes...
 si tu vois ce que je veux dire.[end]
 Bien!
 Aujourd'hui, J'ai eu un rencard au
-comptoir!
+comptoir![new]
 Demain, c'est au-dessus que ça se passe![end]
 Salut, chéri! -clin d'il[end]
 Je suis content d'avoir vécu si longtemps!
@@ -733,7 +733,7 @@ chasser les Chimères?
 Les villageois sont pertutbés...
 Et je parle même pas de moi...[new]
 Enfin, de toute façon, sois prudent, reçu?
-Je rentre à la maison.
+Je rentre à la maison.[new]
 J'ai pas mal bossé ces derniers temps... et
 ma fille me pique des crises à cause de ça![end]
 As-tu vu notre patron Cid dans le
@@ -859,9 +859,8 @@ quand vous serez partis![end]
 Tu n'arrives pas à dormir?[end]
 [bold]Cecil[normal]: C'est là!?[new]
 [bold]Cid[normal]: Ouaip, juste sous leur nez![end]
-va Aïe abîme paraît Si tu évaluais ta vie,
-tu ne devrais pas commencer à te faire
-des idées.[end]
+Si tu évaluais ta vie, tu ne devrais pas
+commencer à te faire des idées.[end]
 Même si j'avais réalisé que le roi avait
 changé, je n'ai rien dit, pour me
 protéger...[end]</sn:pointer>
@@ -1260,7 +1259,7 @@ Oh, ces oignons...
 Ils me piquent tellement les yeux...[end]
 [bold]Yang[normal]: Il ne devrait pas être dans un
 état pareil!
-S'il te plaît...
+S'il te plaît...[new]
 Donne-lui un bon coup de ça sur la tête![end]
 [bold]Yang[normal]: Obtenu la Poêle à frire de
 l'Amour![end]
@@ -1374,7 +1373,7 @@ incroyable.[end]
 Le cristal de la terre?
 Il a été volé par l'Elfe Noir.[end]
 Le pouvoir du cristal varie suivant qui le
-possède!
+possède![new]
 Si une personne maléfique l'avait, cela
 pourrait avoir de terribles répercussions![end]
 Si la rumeur disant qu'il y a plus de
@@ -1500,12 +1499,12 @@ Si tu déplaces le curseur vers la gauche
 pendant un combat, tu peux inverser les
 rangs avant et arrière.[new]
 Si tu appuies sur droite, tu vas rester en
-garde!
+garde![new]
 Aussi, si tu veux utiliser une arme en
 tant qu'objet dans un combat, sélectionne
 «Objet»[new]
 et déplace le curseur tout en haut pour
-sélectionner ton arme!
+sélectionner ton arme![new]
 Utilise ça pour changer d'arme ou refaire
 le plein de flèches, et la victoire est à toi![end]
 Tu dois prendre rapidement des décisions
