@@ -13,6 +13,7 @@ from script import Table
 from metrics import TextMetrics
 
 WINDOW_WIDTH = 208
+FOURTH_LINE_WIDTH = 200  # Fourth line is 8 pixels shorter
 
 
 class Token:
@@ -249,7 +250,6 @@ class DialogParser:
         current_character = None
         accumulated_sentences = []
         accumulated_text = ""
-        accumulated_lines = 0
 
         i = 0
         while i < len(tokens):
@@ -265,7 +265,6 @@ class DialogParser:
                     )
                     accumulated_sentences = []
                     accumulated_text = ""
-                    accumulated_lines = 0
                 current_character = None
                 i += 1
 
@@ -309,15 +308,10 @@ class DialogParser:
                             wrapped_sentence
                         ]
                         combined_wrapped_text = "\n".join(all_wrapped_sentences)
-                        lines_needed = self._measure_lines_wrapped(
-                            combined_wrapped_text
-                        )
-
-                        if lines_needed <= 4:
+                        if self._fits_in_dialog_window(combined_wrapped_text):
                             # Fits in current dialog box
                             accumulated_sentences.append(wrapped_sentence)
                             accumulated_text = combined_wrapped_text
-                            accumulated_lines = lines_needed
                         else:
                             # Would exceed limit - flush accumulated with [new] at end, then start new
                             if accumulated_sentences:
@@ -332,16 +326,10 @@ class DialogParser:
                             # Start new accumulation with this wrapped sentence
                             accumulated_sentences = [wrapped_sentence]
                             accumulated_text = wrapped_sentence
-                            accumulated_lines = self._measure_lines_wrapped(
-                                wrapped_sentence
-                            )
                     else:
                         # First sentence for this character
                         accumulated_sentences.append(wrapped_sentence)
                         accumulated_text = wrapped_sentence
-                        accumulated_lines = self._measure_lines_wrapped(
-                            wrapped_sentence
-                        )
                 else:
                     # Narrative sentence - use current font context
                     sentence = token.value
@@ -360,14 +348,9 @@ class DialogParser:
                             wrapped_sentence
                         ]
                         combined_wrapped_text = "\n".join(all_wrapped_sentences)
-                        lines_needed = self._measure_lines_wrapped(
-                            combined_wrapped_text
-                        )
-
-                        if lines_needed <= 4:
+                        if self._fits_in_dialog_window(combined_wrapped_text):
                             accumulated_sentences.append(wrapped_sentence)
                             accumulated_text = combined_wrapped_text
-                            accumulated_lines = lines_needed
                         else:
                             # Would exceed limit - flush accumulated with [new] at end, then start new
                             if accumulated_sentences:
@@ -382,16 +365,10 @@ class DialogParser:
                             # Start new accumulation with this wrapped sentence
                             accumulated_sentences = [wrapped_sentence]
                             accumulated_text = wrapped_sentence
-                            accumulated_lines = self._measure_lines_wrapped(
-                                wrapped_sentence
-                            )
                     else:
                         # First narrative sentence
                         accumulated_sentences.append(wrapped_sentence)
                         accumulated_text = wrapped_sentence
-                        accumulated_lines = self._measure_lines_wrapped(
-                            wrapped_sentence
-                        )
 
                 i += 1
 
@@ -445,7 +422,6 @@ class DialogParser:
                 current_character = None
                 accumulated_sentences = []
                 accumulated_text = ""
-                accumulated_lines = 0
                 i += 1
 
             elif token.type == "CLOSE_WINDOW":
@@ -469,7 +445,6 @@ class DialogParser:
                 current_character = None
                 accumulated_sentences = []
                 accumulated_text = ""
-                accumulated_lines = 0
                 i += 1
 
             else:
