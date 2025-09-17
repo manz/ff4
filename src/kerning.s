@@ -15,10 +15,12 @@ _GetKerningAdjustmentLinearSearch:
 {
     ldy.w #0x1100
     lda.b [font_addr], y   ; right = NumKerningPairs
+    beq NotFound
+    dec
     tax
     lda.w #0x0000
 _loop:
-
+    txa
     pha
     asl
     clc
@@ -37,8 +39,9 @@ _loop:
     dec
     tax
 
-    bne _loop
+    bpl _loop
 
+NotFound:
     lda.w #0x0000
     sec
     rts
