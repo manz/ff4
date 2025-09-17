@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
     <sn:string>Ne peut pas être utilisé depuis ce menu.</sn:string>
-    <sn:string>Restaure des HP.</sn:string>
-    <sn:string>Restaure des MP.</sn:string>
-    <sn:string>Restaure complètement les HP/MP.</sn:string>
+    <sn:string>Restaure des PV.</sn:string>
+    <sn:string>Restaure des PM.</sn:string>
+    <sn:string>Restaure complètement les PV/PM.</sn:string>
     <sn:string>Guérit l'incapacité de combattre.</sn:string>
     <sn:string>Guérit la pétrification.</sn:string>
     <sn:string>Guérit le statut de grenouille.</sn:string>
@@ -14,7 +14,7 @@
     <sn:string>Neutralise le poison.</sn:string>
     <sn:string>Enlève la malédiction.</sn:string>
     <sn:string>Guérit divers états.</sn:string>
-    <sn:string>Régénère 1000 HP et 100 MP à l'équipe[0x01][0xd4][0x00]et guérit des altérations d'état.</sn:string>
+    <sn:string>Régénère 1000 PV et 100 PM à l'équipe[0x01][0xd4][0x00]et guérit des altérations d'état.</sn:string>
     <sn:string>Revient à l'étape précédente.</sn:string>
     <sn:string>Téléporte à la surface.</sn:string>
     <sn:string>Affichez la carte de la région.</sn:string>
