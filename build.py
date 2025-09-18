@@ -536,11 +536,6 @@ if __name__ == "__main__":
             k += 2
         translated_gfx.write_bytes(output_buffer)
 
-    small_text = ["Niveau", "Gils"]
-
-    generate_8x8_vwf_asset(small_text, "vwf_precomp", 0x90)
-    menu_vwf_table = Table("text/vwf_precomp.tbl")
-
     with open("assets/dakuten.bin", "wb") as fd:
         fd.write(generate_dakutens(menu_table))
 
