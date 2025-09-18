@@ -48,6 +48,7 @@ clear_buffer_far:
     rtl
 
 make_pointers:
+{
     pha
 
     ldx.w #0x0000
@@ -235,6 +236,7 @@ coupe:
     jsr.w tilemap_write
     bra loopdec
 }
+
 .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
 {
