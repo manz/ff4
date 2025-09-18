@@ -1,8 +1,4 @@
 
-dialog_ptr=0x20
-
-
-
 PointeurBank1de1:
     REP #0x20
     LDA.L assets_bank1_1_ptr,X

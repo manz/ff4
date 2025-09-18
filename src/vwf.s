@@ -146,6 +146,8 @@ vwfstart:
     nchars       = var_base + 9
     oldtilepos   = var_base + 11
     TILEPOS      = var_base + 13
+    dialog_ptr   = 0x20
+
     no_wait_for_action = 0xcb
 
     lda #0
@@ -333,27 +335,29 @@ _loop_B5D2:
 ;****************
 display_character_name:
 {
+
     JSR.W ChargeLettreInc
+    xba
+    lda #0x00
+    xba
+
     ASL
-    STA.B 0x30
+    pha
     ASL
     CLC
-    ADC 0x30
-    STA.B 0x30
-    STZ.B 0x31
-    LDX.B 0x30
+    ADC 1, s
+    tax
+    pla
 
     LDY.W #0x0000
-
 next:
-    LDX.B 0x30
     lda #0x00
     xba
     LDA 0x1500,X
     STA.B CURRENT_C
     CMP #0xFF
     BEQ exit
-    INX
+
     PHX
     PHY
     JSR.W makeptr
@@ -363,7 +367,7 @@ next:
     PLX
 
 suite:
-    INC.B 0x30
+    inx
 
     INY
     CPY.W #0x0006
