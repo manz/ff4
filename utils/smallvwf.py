@@ -12,11 +12,11 @@ from utils.font import get_char, get_max_width, write_as_2bpp
 def text_to_char(text):
     data = []
     for char in text:
-        if 'A' <= char <= 'Z':
-            data.append(ord(char) - ord('A') + 0x42)
-        elif 'a' <= char <= 'z':
-            data.append(ord(char) - ord('a') + 0x42 + ord('Z') - ord('A') + 1)
-        elif char == ' ':
+        if "A" <= char <= "Z":
+            data.append(ord(char) - ord("A") + 0x42)
+        elif "a" <= char <= "z":
+            data.append(ord(char) - ord("a") + 0x42 + ord("Z") - ord("A") + 1)
+        elif char == " ":
             data.append(0xFF)
     return data
 
@@ -35,7 +35,7 @@ def build_text_image(font_file, text_data):
             width = 2
         else:
             width = get_max_width(current_char)
-        culled_char = current_char[0:8, 0:width + 1]
+        culled_char = current_char[0:8, 0 : width + 1]
         # print(culled_char)
         if buffer is not None:
             buffer = np.concatenate((buffer, culled_char), 1)
@@ -48,37 +48,37 @@ def build_text_image(font_file, text_data):
 
 
 classes = [
-    'Chevalier noir     ',
-    'Chevalier dragon   ',
-    'Invokeur        ',
-    'Sage            ',
-    'Menestrel       ',
-    'Sorcier Blanc   ',
-    'Moine            ',
-    'Sorcier Noir   ',
-    'Sorcier Blanc   ',
-    'Paladin         ',
-    'Ingenieur        ',
-    'Invoker        ',
-    'Ninja           ',
-    'Selenite        '
+    "Chevalier noir     ",
+    "Chevalier dragon   ",
+    "Invokeur        ",
+    "Sage            ",
+    "Menestrel       ",
+    "Sorcier Blanc   ",
+    "Moine            ",
+    "Sorcier Noir   ",
+    "Sorcier Blanc   ",
+    "Paladin         ",
+    "Ingenieur        ",
+    "Invoker        ",
+    "Ninja           ",
+    "Selenite        ",
 ]
 
 character_name = [
-    'Cecil ',
-    'Cain  ',
-    'Rydia ',
-    'Tella ',
-    'Gilbert',
-    'Rosa  ',
-    'Yang  ',
-    'Palom ',
-    'Porom ',
-    'Cid   ',
-    'Edge  ',
-    'FuSoYa',
-    'Golbez',
-    'Anna  '
+    "Cecil ",
+    "Cain  ",
+    "Rydia ",
+    "Tella ",
+    "Gilbert",
+    "Rosa  ",
+    "Yang  ",
+    "Palom ",
+    "Porom ",
+    "Cid   ",
+    "Edge  ",
+    "FuSoYa",
+    "Golbez",
+    "Anna  ",
 ]
 
 menu_items = [
@@ -91,20 +91,20 @@ menu_items = [
     # 'Options',
     # 'Sauver',
     # 'Petit Meteore',
-    'Chevalier noir',
-    'Chevalier dragon',
-    'Invokeur',
-    'Sage',
-    'Menestrel',
-    'Sorcier Blanc',
-    'Moine',
-    'Sorcier Noir',
-    'Sorcier Blanc',
-    'Paladin',
-    'Ingenieur',
-    'Invoker',
-    'Ninja',
-    'Selenite'
+    "Chevalier noir",
+    "Chevalier dragon",
+    "Invokeur",
+    "Sage",
+    "Menestrel",
+    "Sorcier Blanc",
+    "Moine",
+    "Sorcier Noir",
+    "Sorcier Blanc",
+    "Paladin",
+    "Ingenieur",
+    "Invoker",
+    "Ninja",
+    "Selenite",
 ]
 
 
@@ -119,6 +119,7 @@ menu_items = [
 # setup DMA transfer
 # know the tile_id and tile_count ?
 # ring buffer ?
+
 
 class VwfAsset:
     def __init__(self, font_file: str, table: Table) -> None:
@@ -137,7 +138,7 @@ class VwfAsset:
         else:
             width = get_max_width(current_char)
 
-        return current_char[0:8, 0:width + 1]
+        return current_char[0:8, 0 : width + 1]
 
     def render_string(self, string: str) -> np.ndarray | None:
         buffer: np.ndarray | None = None
@@ -168,46 +169,54 @@ class VwfAsset:
 
         for string, rendered_string in self.rendered_strings.items():
             serialized_string = write_as_2bpp(rendered_string)
-            pointers.append((len(data) + data_origin, len(serialized_string), len(serialized_string) // 16))
+            pointers.append(
+                (
+                    len(data) + data_origin,
+                    len(serialized_string),
+                    len(serialized_string) // 16,
+                )
+            )
             data += serialized_string
 
         pointer_data = bytearray()
 
         for pointer in pointers:
-            pointer_data += struct.pack(">HBB", pointer[0] & 0xffff, pointer[1], pointer[2])
-
+            pointer_data += struct.pack(
+                ">HBB", pointer[0] & 0xFFFF, pointer[1], pointer[2]
+            )
 
         return pointer_data + data
-
-
-
-
 
 
 def generate_8x8_vwf_asset(string_list, prefix, table_start, max_tile_length=None):
     k = 0
     current_id = table_start
 
-    with open('assets/%s.bin' % prefix, 'wb') as output:
-        with open('assets/%s.len' % prefix, 'wb') as length_table:
-            with open('text/%s.tbl' % prefix, 'wt', encoding='utf-8') as table:
+    with open("assets/%s.bin" % prefix, "wb") as output:
+        with open("assets/%s.len" % prefix, "wb") as length_table:
+            with open("text/%s.tbl" % prefix, "wt", encoding="utf-8") as table:
                 if max_tile_length:
-                    line_length = (max_tile_length * 2 * 8)
+                    line_length = max_tile_length * 2 * 8
                 for string in string_list:
                     if max_tile_length:
                         output.seek(k * line_length)
-                    data = build_text_image('fonts/8x8vwf2p.png', string.strip())
+                    data = build_text_image("fonts/8x8vwf.png", string.strip())
                     data_2bpp = write_as_2bpp(data)
                     output.write(data_2bpp)
-                    length_table.write(struct.pack('<H', len(data_2bpp)))
+                    length_table.write(struct.pack("<H", len(data_2bpp)))
                     tile_count = int(len(data_2bpp) / 2 / 8)
-                    print('tile_count', tile_count)
-                    table_entry_id = bytearray(range(current_id, current_id + tile_count))
-                    print('kiki', binascii.hexlify(table_entry_id))
-                    table.write('%s=%s\n' % (binascii.hexlify(table_entry_id).decode('ascii'), string))
+                    print("tile_count", tile_count)
+                    table_entry_id = bytearray(
+                        range(current_id, current_id + tile_count)
+                    )
+                    print("kiki", binascii.hexlify(table_entry_id))
+                    table.write(
+                        "%s=%s\n"
+                        % (binascii.hexlify(table_entry_id).decode("ascii"), string)
+                    )
                     current_id += tile_count
                     k += 1
 
 
-if __name__ == '__main__':
-    generate_8x8_vwf_asset(['Niveau', 'Gils'], 'niveau', 0xF0)
+if __name__ == "__main__":
+    generate_8x8_vwf_asset(["Niveau", "Gils"], "niveau", 0xF0)
