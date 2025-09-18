@@ -417,7 +417,7 @@ suit3:
 ; that's where new ends up
 
 .if ENABLE_BUTTON_DISPLAY {
-    lda #0xa2 ; down arrow
+    lda #0xa4 ;always use the button
     sta.b CURRENT_C
     jsr.w draw_ending_symbol
 }
