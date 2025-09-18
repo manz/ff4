@@ -1,6 +1,10 @@
 .include 'src/definitions.s'
 .include 'src/kerning.s'
 
+wait_for_action_button:
+    jsr.w waitpad
+    rtl
+
 .if ENABLE_BUTTON_DISPLAY {
 get_action_button_id:
     lda.w 0x16A9
@@ -134,7 +138,7 @@ vwfstart:
     STA.W 0x420D
 
     ; $04-$4F
-    var_base = 0x0
+    var_base = 0x23
     CNTR        = var_base
     CURRENT_C   = var_base + 2
     BITSLEFT    = var_base + 4
@@ -823,18 +827,19 @@ transparent_bg_loop:
 }
 
 wait_key_up:
-    lda 0x02
+    lda.l 0x000602
     bne wait_key_up
-    lda 0x03
+    lda.l 0x000603
     bne wait_key_up
     rts
 
 wait_key_down:
 {
-    lda 0x02
+    ACTION_BUTTON := 0x80
+    lda.l 0x000602
+    bit #ACTION_BUTTON ; Action button
     bne exit
-    lda 0x03
-    beq wait_key_down
+    bra wait_key_down
 exit:
     rts
 }

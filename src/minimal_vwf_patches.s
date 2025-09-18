@@ -147,3 +147,8 @@ end_of_animation:
 ; update the text palette used in the intro
 *=0x8ff04
     .dw 0x0463
+
+
+*=0x00B361
+    jsr.l wait_for_action_button
+    nop
