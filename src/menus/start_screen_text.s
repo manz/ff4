@@ -6,6 +6,13 @@ new_game:
     .text 'Nouvelle partie'
     .db 0
 
+.if DEBUG {
+build_number:
+    VERSION := 'v1.0.0a0'
+    .text '${BUILD_DATE} ${VERSION}'
+    .db 0
+}
+
 time_load_save:
     .dw 0x046E + 2
     .text 'Temps'

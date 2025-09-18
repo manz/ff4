@@ -41,13 +41,15 @@ draw_vwf_message_pos:
     jsr.l items_description.draw_trampoline_pos
     rts
 
+.if 0 {
 transform_window_trampoline:
     jmp.l transform_window_far
+}
 
 copy_text_with_dakuten:
     jsr.l copy_text_with_dakuten_far
     rts
-
+.if DEBUG {
 display_build_number:
 {
     jsr.w 0x8301 ; draw text at position.
@@ -57,6 +59,7 @@ display_build_number:
     ldx.w #left * 2 + top * 64
     jsr.w 0x8798 ; copy text at position.
     rts
+}
 }
 {
     END_OF_FREE_SPACE:
