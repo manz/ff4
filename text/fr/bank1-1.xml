@@ -2445,8 +2445,7 @@ quelque chose?[end]</sn:pointer>
 
 <sn:pointer id="396">[bold]Cecil[normal]: Préparez-vous au combat![end]</sn:pointer>
 
-<sn:pointer id="397">[force_wicked]
-«Vous êtes de Baron, hein...»[new]
+<sn:pointer id="397">«Vous êtes de Baron, hein...»[new]
 [bold]Caïn[normal]: Qui est là?[music][0x2d][new]
 «Partez maintenant et il ne vous fait
 aucun mal...»[new]
