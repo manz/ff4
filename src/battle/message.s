@@ -255,6 +255,13 @@ _adjustment:
     lda.b temp
     clc
     adc 1,s
+    cmp #0x8
+    bcs _no_overflow
+    pla
+    lda #0x08
+    pha
+    bra _no_adjustment
+_no_overflow:
     sta.b temp
 .if 0 {
     bpl _no_adjustment
