@@ -7,7 +7,7 @@ wait_for_action_button:
 
 .if ENABLE_BUTTON_DISPLAY {
 get_action_button_id:
-    lda.w 0x16A9
+    lda.l 0x0016A9
     bne custom_mapping
     lda.b #0x00
     xba
@@ -16,9 +16,45 @@ get_action_button_id:
 custom_mapping:
     lda.b #0x00
     xba
-    lda 0x1A37 ; action button id location
+    lda.l 0x001A37 ; action button id location
     rts
 }
+
+.macro make_color(r, g, b) {
+    red := (r >> 3) & 0b11111
+    blue := (b >> 3) & 0xb11111
+    green := (g >> 3) & 0xb11111
+
+    .dw (blue << 10) + (green << 5) + red
+}
+
+.macro hex_color(color) {
+    make_color(color & 0xff, (color >> 8) & 0xff, (color >> 16))
+}
+
+
+button_colors:
+; 0
+; A Button
+    make_color(0xeb, 0x1a, 0x1d)
+    make_color(120, 10, 12)
+; 1
+; B Button
+    make_color(0xfe, 0xce, 0x15)
+    make_color(136, 108, 0)
+; 2
+; X Button
+    make_color(0x07, 0x49, 0xb4)
+    make_color(0, 53, 144)
+; 3
+; Y Button
+    make_color(0x00, 0x8d, 0x45)
+    make_color(0, 70, 34)
+; 4
+; Select Buttons
+    .dw 0b0011110111101111
+    .dw 0b0001110011100111
+
 
 
 update_palette:
@@ -27,9 +63,10 @@ update_palette:
     stx.w 0x0CE5
 .if ENABLE_BUTTON_DISPLAY {
     stx.w 0x0CED
+    ; black for the shadow but it could be a darker version of the color
     ldx.w #0x0000
     stx.w 0x0CEF
-
+pha
     jsr.w get_action_button_id
 
     cmp #0x04
@@ -37,34 +74,18 @@ update_palette:
     ldx.w #5
 _proceed:
     asl
+    asl
     tax
-    bra select_color
-    ldx.w #0x0000
-select_color:
-    jmp.w (color_table, x)
 
-    color_table:
-        .dw A_button
-        .dw B_button
-        .dw X_button
-        .dw Y_button
-        .dw white_color
-    A_button:
-        ldx.w #0x10DD
-        bra _store_color
-    B_button:
-        ldx.w #0x1BFF
-        bra _store_color
-    X_button:
-        ldx.w #0x5CC4
-        bra _store_color
-    Y_button:
-        ldx.w #0x0ACA
-        bra _store_color
-    white_color:
-        ldx.w #0x7fff
-    _store_color:
-    stx.w 0x0CF1
+    rep #0x20
+    lda.l button_colors, x ; color
+    sta.w 0x0CF1
+    lda.l button_colors + 2, x ; shadow color
+    sta.w 0x0CEF
+    sep #0x20
+    lda #0x00
+    xba
+pla
 }
     rtl
 
@@ -120,6 +141,7 @@ vwfinit:
     dma_transfer_to_vram_call(0x0AF000,0x6000, 0x800, 0x1801)
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(0x0AF000+0x800,0x6000+0x400, 0x800, 0x1801)
+    jsr.w wait_for_vblank
 
     ; Sets the BG3 vram pointer to 0x6000
     lda 0x210C
@@ -143,9 +165,8 @@ vwfstart:
     CURRENT_C   = var_base + 2
     BITSLEFT    = var_base + 4
     font_addr   = var_base + 6 ; 7 8
-    nchars       = var_base + 9
-    oldtilepos   = var_base + 11
-    TILEPOS      = var_base + 13
+    oldtilepos   = var_base + 9
+    TILEPOS      = var_base + 11
     dialog_ptr   = 0x20
 
     no_wait_for_action = 0xcb
@@ -199,9 +220,7 @@ parse:
     lda #0x01
     sta 0xDE
 .if ENABLE_BUTTON_DISPLAY {
-    lda #0xa4
-    sta.b CURRENT_C
-    jsr.w draw_ending_symbol
+    jsr.w draw_button
 }
     JMP.W fin
 
@@ -417,9 +436,7 @@ suit3:
 ; that's where new ends up
 
 .if ENABLE_BUTTON_DISPLAY {
-    lda #0xa4 ;always use the button
-    sta.b CURRENT_C
-    jsr.w draw_ending_symbol
+   jsr.w draw_button
 }
     LDA.B #0x08
     sta.b BITSLEFT
@@ -432,6 +449,22 @@ suit3:
 end:
 
     JMP.W main
+
+draw_button:
+{
+    jsr.w get_action_button_id
+    cmp #4 ; select
+    bne _normal_button
+    lda #0xa5
+    bra _store
+_normal_button:
+    lda #0xa4
+_store:
+    sta.b CURRENT_C
+    jsr.w draw_ending_symbol
+
+    rts
+}
 
 draw_ending_symbol:
     pha
