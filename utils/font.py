@@ -24,13 +24,13 @@ def get_char(image: np.ndarray, char, has_grid, char_width, char_height) -> np.n
         x_offset = column * char_width
         y_offset = line * char_height
 
-    return image[y_offset:y_offset + char_height, x_offset:x_offset + char_width]
+    return image[y_offset : y_offset + char_height, x_offset : x_offset + char_width]
 
 
 def char_as_1bbp(char):
     binary_data = []
     for byte in char:
-        byte_value = int(''.join(byte.astype(str)).ljust(8, '0'), 2)
+        byte_value = int("".join(byte.astype(str)).ljust(8, "0"), 2)
         binary_data.append(byte_value)
     return bytes(binary_data)
 
@@ -38,7 +38,7 @@ def char_as_1bbp(char):
 def get_max_width(char: np.ndarray) -> int:
     max_width = 0
     for byte in char:
-        trimmed = np.trim_zeros(byte, 'b')
+        trimmed = np.trim_zeros(byte, "b")
         max_width = max(len(trimmed), max_width)
 
     return max_width
@@ -51,7 +51,7 @@ def convert_font_to_1bpp(font_file, has_grid=True, char_height=16):
 
     char = get_char(image, 0x00, has_grid, 8, char_height)
 
-    data = b''
+    data = b""
     char_index = 1
     while len(char) > 0:
         data += char_as_1bbp(char)
@@ -64,6 +64,7 @@ def convert_font_to_1bpp(font_file, has_grid=True, char_height=16):
 
     return len_table, data
 
+
 def convert_font_to_2bpp(font_file, has_grid=True, char_height=16):
     image = np.array(Image.open(font_file))
 
@@ -71,7 +72,7 @@ def convert_font_to_2bpp(font_file, has_grid=True, char_height=16):
 
     char = get_char(image, 0x00, has_grid, 8, char_height)
 
-    data = b''
+    data = b""
     char_index = 1
     while len(char) > 0:
         data += write_as_2bpp(char)
@@ -106,20 +107,20 @@ def remove_grid(font_file):
     im = Image.fromarray(np.uint8(font * 255))
     # output = io.BytesIO()
 
-    im.save('/tmp/font.png', format='PNG')
+    im.save("/tmp/font.png", format="PNG")
 
 
-if __name__ == '__main__':
-    remove_grid('/Users/emmanuel/PycharmProjects/ff4/fonts/wicked_vwf.png')
+if __name__ == "__main__":
+    remove_grid("/Users/emmanuel/PycharmProjects/ff4/fonts/wicked_vwf.png")
 
 
 def write_as_2bpp(data: np.ndarray) -> bytearray:
     binary_data = bytearray()
     for y_value in range(0, len(data[0]), 8):
-        char = data[0:8, y_value:y_value + 8]
+        char = data[0:8, y_value : y_value + 8]
 
         for byte in char:
-            byte_value = int(''.join(byte.astype(str)).ljust(8, '0'), 2)
+            byte_value = int("".join(byte.astype(str)).ljust(8, "0"), 2)
             binary_data.append(0xFF)
             binary_data.append(byte_value)
 

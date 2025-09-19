@@ -505,7 +505,7 @@ if __name__ == "__main__":
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")
-    del menu_table.lookup[".."]
+    # del menu_table.lookup[".."]
     credits_text = credits_file.read_text()
 
     credits_lines = credits_text.split("\n")
