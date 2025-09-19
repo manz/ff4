@@ -10,7 +10,7 @@ gil_window:
     menu_window(22, 23, 8, 3)
 time_window:
     menu_window(23, 19, 7, 2)
-menu:
+menu: ; ptr 0xdb6d
     menu_window(23, 0, 7, 17)
 }
 

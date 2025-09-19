@@ -41,6 +41,16 @@
 *=0x01dd69
   menu_window(23,2,7,7)
 
+; controls the amount of scroll to apply to bg4 to move the magic window kind window
+*=0x01af90
+; 01/AF90: A9 34        LDA #$34
+; 01/AF92: 85 AD        STA $AD
+    lda #0x68
+
+; scroll out of the same window.
+*=0x01b072
+    lda #0x68
+
 ; status
 *=0x01de01
   menu_window(0,1,29,24)

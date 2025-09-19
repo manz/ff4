@@ -36,7 +36,7 @@ first_column := 0x0248 - 4
 ; Grisement des types sorts : 'Blancs' 'Noirs' etc ...
 *=0x01B419
     ldy.w #0x0007
-    sta.w 0xC5FF,x
+    sta.w 0xC5FF + 2,x
 
 ; Spells type cursor offset
 *=0x01B0CE
@@ -58,9 +58,6 @@ first_column := 0x0248 - 4
 *=0x01dd6d
     menu_window(8, 0, 22, 26)
 
-; [use spell] Magic name window.
-*=0x01dd75
-    menu_window(0, 0, 9, 7)
 
 ; [use spell] Use spell on whom window.
 *=0x01dd71
