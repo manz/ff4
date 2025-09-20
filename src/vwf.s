@@ -159,7 +159,7 @@ vwfstart:
     LDA.B #0x01
     STA.W 0x420D
 
-    ; $04-$4F
+    ; 0x04-0x4F
     var_base = 0x23
     CNTR        = var_base
     CURRENT_C   = var_base + 2
@@ -1028,7 +1028,53 @@ endintromap:
 
 
 
+gils_window_size := 10
+gils_window_tilemap_1:
+    .dw 0, 0
+    .db 0x16,0x20
+    fill_value(0x2017, gils_window_size - 2)
+    .db 0x18,0x20
 
+gils_window_tilemap_2:
+    .dw 0, 0
+
+    .db 0x19,0x20
+    fill_value(0x20ff, gils_window_size - 2)
+    .db 0x1a,0x20
+
+gils_window_tilemap_3:
+    .dw 0, 0
+
+    .db 0x19,0x20
+    fill_value(0x20ff, gils_window_size - 2)
+    .db 0x1a,0x20
+
+gils_window_tilemap_4:
+    .dw 0, 0
+
+    .db 0x19,0x20
+    fill_value(0x20ff, gils_window_size - 2)
+    .db 0x1a,0x20
+
+    fill_value(0x0000, 0x16)
+
+    .db 0x19,0x20
+   fill_value(0x20ff, gils_window_size - 2 - 4)
+    .text 'G'
+    .db 0x20
+    .text 'i'
+    .db 0x20
+    .text 'l'
+    .db 0x20
+    .text 's'
+    .db 0x20
+
+    .db 0x1a,0x20  ; "gil"
+    fill_value(0x0000, 0x16)
+    .db 0x1b,0x20
+    fill_value(0x201c, gils_window_size - 2)
+    .db 0x1d,0x20
+gils_window_tilemap_4_end:
 
 
 

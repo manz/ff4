@@ -130,3 +130,8 @@ return_addr:
     rep #0x20
 }
 
+.macro fill_value(value, count) {
+    .for k := 0, count {
+        .dw value
+    }
+}
