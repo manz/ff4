@@ -176,8 +176,9 @@ end_of_animation:
     .dw 0x0463
 
 
-*=0x00B361
+*=0x00B363
     jsr.l wait_for_action_button
+    nop
     nop
 
 ; Make gils window bigger
