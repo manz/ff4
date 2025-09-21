@@ -2,9 +2,15 @@
 draw_window = 0x0180d9
 check_if_description_was_rendered:
     pha
+    lda.l 0x004218
+    ora.l 0x004219
+    bne _not_still
+    pla
+    pha
 
     cmp.l render.last_drawn_text_ptr
     bne _continue
+_not_still:
     pla
     rts
     _continue:
@@ -20,6 +26,7 @@ draw_vwf_message:
     jsr.l items_description.draw_trampoline
     rts
 draw_window_and_vwf_message:
+
     jsr.w draw_window
     ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
     pha
