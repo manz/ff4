@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>Gobelin</sn:fixed>
+<sn:fixed>Basilic</sn:fixed>
+<sn:fixed>Aigle plongeur</sn:fixed>
+<sn:fixed>Orbe flottant</sn:fixed>
+<sn:fixed>Insectus</sn:fixed>
+<sn:fixed>Chauve-visage</sn:fixed>
+<sn:fixed>Yeux des bois</sn:fixed>
+<sn:fixed>Rat-épée</sn:fixed>
+<sn:fixed>Mini-magicien</sn:fixed>
+<sn:fixed>Sahuagin désert</sn:fixed>
+<sn:fixed>Œil volant</sn:fixed>
+<sn:fixed>Jambe-main</sn:fixed>
+<sn:fixed>Ver des sables</sn:fixed>
+<sn:fixed>Gigantoad</sn:fixed>
+<sn:fixed>Coquille à crocs</sn:fixed>
+<sn:fixed>Zombie</sn:fixed>
+<sn:fixed>Tue-mouches</sn:fixed>
+<sn:fixed>Fleur de sang</sn:fixed>
+<sn:fixed>Crapaud organique</sn:fixed>
+<sn:fixed>Guimauve rouge</sn:fixed>
+<sn:fixed>Gelée jaune</sn:fixed>
+<sn:fixed>Sahuagin</sn:fixed>
+<sn:fixed>Lacey</sn:fixed>
+<sn:fixed>Chrysalide</sn:fixed>
+<sn:fixed>Gobelin casqué</sn:fixed>
+<sn:fixed>Lézard noir</sn:fixed>
+<sn:fixed>Tortue d'adamant</sn:fixed>
+<sn:fixed>Domo Boy</sn:fixed>
+<sn:fixed>Bavarois violet</sn:fixed>
+<sn:fixed>Soldat de Baron</sn:fixed>
+<sn:fixed>Général</sn:fixed>
+<sn:fixed>Gatling</sn:fixed>
+<sn:fixed>Petit tueur</sn:fixed>
+<sn:fixed>Belle de mort</sn:fixed>
+<sn:fixed>Esprit</sn:fixed>
+<sn:fixed>Squelette</sn:fixed>
+<sn:fixed>Cocatrice</sn:fixed>
+<sn:fixed>Gargouille</sn:fixed>
+<sn:fixed>Bébé Rudra</sn:fixed>
+<sn:fixed>Belphegor</sn:fixed>
+<sn:fixed>Zu</sn:fixed>
+<sn:fixed>Shiva</sn:fixed>
+<sn:fixed>Alligator</sn:fixed>
+<sn:fixed>Éclabousseur</sn:fixed>
+<sn:fixed>Marine de Baron</sn:fixed>
+<sn:fixed>Capitaine</sn:fixed>
+<sn:fixed>Âme</sn:fixed>
+<sn:fixed>Os sanglant</sn:fixed>
+<sn:fixed>Goule</sn:fixed>
+<sn:fixed>Jarre-crâne</sn:fixed>
+<sn:fixed>Revenant</sn:fixed>
+<sn:fixed>Dame Dracula</sn:fixed>
+<sn:fixed>Ahriman</sn:fixed>
+<sn:fixed>Dragon squelette</sn:fixed>
+<sn:fixed>Poisson-éclair</sn:fixed>
+<sn:fixed>Gigantogator</sn:fixed>
+<sn:fixed>Hydre</sn:fixed>
+<sn:fixed>Ver d'inondation</sn:fixed>
+<sn:fixed>Élite de Baron</sn:fixed>
+<sn:fixed>Lamia</sn:fixed>
+<sn:fixed>Aiguille infernale</sn:fixed>
+<sn:fixed>Serpent jumeau</sn:fixed>
+<sn:fixed>Esprit de foudre</sn:fixed>
+<sn:fixed>Flagelleur mental</sn:fixed>
+<sn:fixed>Naga</sn:fixed>
+<sn:fixed>Ogre</sn:fixed>
+<sn:fixed>Cait Sith</sn:fixed>
+<sn:fixed>Chevalier noir</sn:fixed>
+<sn:fixed>Chevalier centaure</sn:fixed>
+<sn:fixed>Demoiselle vampire</sn:fixed>
+<sn:fixed>Marionnettiste</sn:fixed>
+<sn:fixed>Marionnette</sn:fixed>
+<sn:fixed>Aile funeste</sn:fixed>
+<sn:fixed>Filet de mort</sn:fixed>
+<sn:fixed>Marid</sn:fixed>
+<sn:fixed>Chevalier diable</sn:fixed>
+<sn:fixed>Mammouth blindé</sn:fixed>
+<sn:fixed>Dame gardienne</sn:fixed>
+<sn:fixed>Chevalier spectral</sn:fixed>
+<sn:fixed>Naga raja</sn:fixed>
+<sn:fixed>Méduse</sn:fixed>
+<sn:fixed>Zombie saurus</sn:fixed>
+<sn:fixed>Tortue de magma</sn:fixed>
+<sn:fixed>Diablotin</sn:fixed>
+<sn:fixed>Cauchemar</sn:fixed>
+<sn:fixed>Bombe</sn:fixed>
+<sn:fixed>Mini-bombe</sn:fixed>
+<sn:fixed>Chimère</sn:fixed>
+<sn:fixed>Tortue des enfers</sn:fixed>
+<sn:fixed>Robe de fer</sn:fixed>
+<sn:fixed>Chien de feu</sn:fixed>
+<sn:fixed>Gorgone</sn:fixed>
+<sn:fixed>Golem de pierre</sn:fixed>
+<sn:fixed>Lilith</sn:fixed>
+<sn:fixed>Mère lamia</sn:fixed>
+<sn:fixed>Crapaud servile</sn:fixed>
+<sn:fixed>Taupes</sn:fixed>
+<sn:fixed>Rudra</sn:fixed>
+<sn:fixed>Sorcier</sn:fixed>
+<sn:fixed>Ogre berserker</sn:fixed>
+<sn:fixed>Pot fraudeur</sn:fixed>
+<sn:fixed>Chauve-sang</sn:fixed>
+<sn:fixed>Alchimiste</sn:fixed>
+<sn:fixed>Chevalier de feu</sn:fixed>
+<sn:fixed>Canon mécanique</sn:fixed>
+<sn:fixed>Bombe soignante</sn:fixed>
+<sn:fixed>Grenade noire</sn:fixed>
+<sn:fixed>Fléau</sn:fixed>
+<sn:fixed>Bras ultime</sn:fixed>
+<sn:fixed>Coeurl</sn:fixed>
+<sn:fixed>Dragon mécanique</sn:fixed>
+<sn:fixed>Alraune</sn:fixed>
+<sn:fixed>Praticien</sn:fixed>
+<sn:fixed>Grands-fonds</sn:fixed>
+<sn:fixed>Ver des abysses</sn:fixed>
+<sn:fixed>Rouge sanglant</sn:fixed>
+<sn:fixed>Demoiselle leader</sn:fixed>
+<sn:fixed>Lézard glacial</sn:fixed>
+<sn:fixed>Batteur infernal</sn:fixed>
+<sn:fixed>Tête démoniaque</sn:fixed>
+<sn:fixed>Bête des vents</sn:fixed>
+<sn:fixed>Invocateur</sn:fixed>
+<sn:fixed>Dame sorcière</sn:fixed>
+<sn:fixed>Porte d'assaut</sn:fixed>
+<sn:fixed>Sorcière crapaud</sn:fixed>
+<sn:fixed>Mammon</sn:fixed>
+<sn:fixed>Cerveau chimère</sn:fixed>
+<sn:fixed>Virus lunaire</sn:fixed>
+<sn:fixed>Souffle de Zemus</sn:fixed>
+<sn:fixed>Mousse blanche</sn:fixed>
+<sn:fixed>Flan noir</sn:fixed>
+<sn:fixed>Esprit de Zemus</sn:fixed>
+<sn:fixed>Golem de mithril</sn:fixed>
+<sn:fixed>Dragon vert</sn:fixed>
+<sn:fixed>Princesse flan</sn:fixed>
+<sn:fixed>Yeux</sn:fixed>
+<sn:fixed>Soldat mécanique</sn:fixed>
+<sn:fixed>Soldat géant</sn:fixed>
+<sn:fixed>Déesse de la lune</sn:fixed>
+<sn:fixed>Morbol</sn:fixed>
+<sn:fixed>Dragon d'argent</sn:fixed>
+<sn:fixed>Dragon jaune</sn:fixed>
+<sn:fixed>Satan junior</sn:fixed>
+<sn:fixed>Eucaryote</sn:fixed>
+<sn:fixed>Phase</sn:fixed>
+<sn:fixed>Soldat de fer</sn:fixed>
+<sn:fixed>Soldat démoniaque</sn:fixed>
+<sn:fixed>Golem d'acier</sn:fixed>
+<sn:fixed>Ahriman</sn:fixed>
+<sn:fixed>Lunasaurus</sn:fixed>
+<sn:fixed>Chercheur</sn:fixed>
+<sn:fixed>Nécromancien</sn:fixed>
+<sn:fixed>Bahamut noir</sn:fixed>
+<sn:fixed>Procaryote</sn:fixed>
+<sn:fixed>Tiamat</sn:fixed>
+<sn:fixed>Dragon bleu</sn:fixed>
+<sn:fixed>Dragon d'or</sn:fixed>
+<sn:fixed>Dragon de foudre</sn:fixed>
+<sn:fixed>Dragon blanc</sn:fixed>
+<sn:fixed>Dragon rouge</sn:fixed>
+<sn:fixed>Béhémoth</sn:fixed>
+<sn:fixed>Dragon de brume</sn:fixed>
+<sn:fixed>Octomammoth</sn:fixed>
+<sn:fixed>Fourmilion</sn:fixed>
+<sn:fixed>Mère bombe</sn:fixed>
+<sn:fixed>Scarmiglione</sn:fixed>
+<sn:fixed>Scarmiglione</sn:fixed>
+<sn:fixed>Baigan</sn:fixed>
+<sn:fixed>   Bras droit</sn:fixed>
+<sn:fixed>   Bras gauche</sn:fixed>
+<sn:fixed>Cagnazzo</sn:fixed>
+<sn:fixed>Elfe noir</sn:fixed>
+<sn:fixed>Elfe noir</sn:fixed>
+<sn:fixed>Dog</sn:fixed>
+<sn:fixed>Mag</sn:fixed>
+<sn:fixed>Rag</sn:fixed>
+<sn:fixed>Golbez</sn:fixed>
+<sn:fixed>Barbariccia</sn:fixed>
+<sn:fixed>Calco</sn:fixed>
+<sn:fixed>Calcabrina</sn:fixed>
+<sn:fixed>Golbez</sn:fixed>
+<sn:fixed>Dragon noir</sn:fixed>
+<sn:fixed>Docteur</sn:fixed>
+<sn:fixed>Barnabas</sn:fixed>
+<sn:fixed>Dr. Lugae</sn:fixed>
+<sn:fixed>Roi d'Eblan</sn:fixed>
+<sn:fixed>Reine d'Eblan</sn:fixed>
+<sn:fixed>Rubicante</sn:fixed>
+<sn:fixed>Odin</sn:fixed>
+<sn:fixed>Léviathan</sn:fixed>
+<sn:fixed>Bahamut</sn:fixed>
+<sn:fixed>Mur des démons</sn:fixed>
+<sn:fixed>Asura</sn:fixed>
+<sn:fixed>Quatre archifiends</sn:fixed>
+<sn:fixed>Quatre archifiends</sn:fixed>
+<sn:fixed>Dragon noir</sn:fixed>
+<sn:fixed>Sahuagin</sn:fixed>
+<sn:fixed>Sys. de contrôle</sn:fixed>
+<sn:fixed>Sys. de défense</sn:fixed>
+<sn:fixed>Zemus</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Chevalier dragon</sn:fixed>
+<sn:fixed>Barde lunaire</sn:fixed>
+<sn:fixed>Moine</sn:fixed>
+<sn:fixed>Chevalier noir</sn:fixed>
+<sn:fixed>Petite fille</sn:fixed>
+<sn:fixed>Titan</sn:fixed>
+<sn:fixed>Orbe flottant</sn:fixed>
+<sn:fixed>Zu</sn:fixed>
+<sn:fixed>Brina</sn:fixed>
+<sn:fixed>Skulnant</sn:fixed>
+<sn:fixed>Mecha fusionné</sn:fixed>
+<sn:fixed>Système d'attaque</sn:fixed>
+<sn:fixed>Monstre 214</sn:fixed>
+<sn:fixed>Higuchi Katsuhisa</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Itou Hiroyuki</sn:fixed>
+<sn:fixed>Matsui Akihiko</sn:fixed>
+<sn:fixed>Aoki Kazuhiko</sn:fixed>
+<sn:fixed>Nakada Hiromi</sn:fixed>
+<sn:fixed>Yoshii Kiyoshi</sn:fixed>
+<sn:fixed>Takahashi Tetsuya</sn:fixed>
+<sn:fixed>Mistéleg</sn:fixed>
+</sn:fixedlist>
