@@ -129,16 +129,11 @@ _loop:
   .include 'src/system_menus_text.s'
   .include 'src/dakuten.s'
 
-  .if 1 {
   ; menu text scopes
   .include 'src/menus/start_screen_text.s'
   .include 'src/menus/tools_shop_text.s'
   .include 'src/menus/in_game_text.s'
-} else {
- .include 'src/menus/start_screen_text_en.s'
-  .include 'src/menus/tools_shop_text_en.s'
-  .include 'src/menus/in_game_text_en.s'
-}
+
   .incbin 'assets/attack_names.ptr'
   .incbin 'assets/attack_names.dat'
   .incbin 'assets/monsters_long.ptr'
