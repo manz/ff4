@@ -237,8 +237,8 @@ config:
 
 
 controls:
-    .dw 0x0092
-    .text 'Personaliser'
+    move_to(5, 1)
+    .text 'Contrôles Personalisés'
     .db 0x01
 
     .dw 0x0204

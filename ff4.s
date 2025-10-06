@@ -1,7 +1,7 @@
 ; ----------------
 ; Final Fantasy IV the new hack.
 ; ----------------
-
+DEBUG := 1
 ; Feature Flips
 ENABLE_DIALOG_SKIP := 1
 ENABLE_INTRO := 1
@@ -11,7 +11,9 @@ MAGIC_ENABLED := 1
 ENABLE_KERNING := 1
 ENABLE_KERNING_MENU := 0
 ENABLE_BUTTON_DISPLAY := 1
-
+BATTLE_CMD_VWF := 1
+BATTLE_NAMES_VWF := 1
+BATTLE_MONSTERS_VWF := 1
 ; Debug flags
 TRIGGER_ENDING_CUTSCENE := 0
 
@@ -27,7 +29,12 @@ TRIGGER_ENDING_CUTSCENE := 0
 }
 .include 'src/battle/message_patches.s'
 .include 'src/battle/sram_patches.s'
+
+.if BATTLE_MONSTERS_VWF {
+    .include 'src/battle/monsters_patches.s'
 }
+}
+
 .include 'src/places_names.s'
 .include 'src/new_game.s'
 .include 'src/credits.s'
@@ -48,7 +55,7 @@ dialog_bank_ptr_base = 0x218000
 *=0xFFD6
     .db 0x02 ; Cartridge Type
     .db 0x0B ; ~ 0BH ROM Size
-    .db 0x06 ; RAM Size
+    .db 0x07 ; RAM Size
 
 
 
@@ -94,12 +101,11 @@ clear_ram:
 _loop:
 	sta.l 0x702000, x
 	inx
-	cpx.w #0x4000
+	cpx.w #0x5000
 	bne _loop
 }
 	rtl
 
-;
   .include 'src/libmz.s'
   .if ENABLE_INTRO {
   	.include 'src/intro.s'
@@ -111,9 +117,11 @@ _loop:
   .include 'src/battle/sram.s'
   .include 'src/battle/message.s'
   .include 'src/battle/graphics.s'
+  .include 'src/battle/monsters_reloc.s'
 .if MAGIC_ENABLED {
   .include 'src/battle/magic/reloc.s'
 }
+  .include 'src/battle/commands_reloc.s'
 }
   .include 'src/dialog.s'
   .include 'src/places_names_window.s'
@@ -121,13 +129,22 @@ _loop:
   .include 'src/system_menus_text.s'
   .include 'src/dakuten.s'
 
+  .if 1 {
   ; menu text scopes
   .include 'src/menus/start_screen_text.s'
   .include 'src/menus/tools_shop_text.s'
   .include 'src/menus/in_game_text.s'
-
+} else {
+ .include 'src/menus/start_screen_text_en.s'
+  .include 'src/menus/tools_shop_text_en.s'
+  .include 'src/menus/in_game_text_en.s'
+}
   .incbin 'assets/attack_names.ptr'
   .incbin 'assets/attack_names.dat'
+  .incbin 'assets/monsters_long.ptr'
+  .incbin 'assets/monsters_long.dat'
+  .incbin 'assets/battle_commands_nul.ptr'
+  .incbin 'assets/battle_commands_nul.dat'
   .incbin 'assets/magic.dat'
   .incbin 'assets/places_names.dat'
   .incbin 'assets/classes.ptr'
@@ -188,5 +205,4 @@ font_table:
 	lda #0x39
 	nop
 }
-
-
+;end

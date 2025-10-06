@@ -20,15 +20,11 @@
 
 *=0x01D1A4
     load_system_menu_text_pointer(options.config)
-    ;jsr.w draw_window_and_vwf_message
-
 
 ; move controls title window
 *=0x01E204
-    .db 0x50
-    .db 0x00
-    .db 0x0B
-    .db 0x02
+   menu_window(4, 0, 22, 2)
+
 
 *=0x01D487
     ldy.w #0xE204

@@ -135,3 +135,6 @@ return_addr:
         .dw value
     }
 }
+.macro zero(count) {
+    fill_value(0, count)
+}

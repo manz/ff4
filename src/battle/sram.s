@@ -123,4 +123,35 @@ battle_flags_jump_table:
 sink:
     rtl
 
+clear_names_window_buffer:
+    phx
+    phy
+    rep #0x20
+    ldy.w #0
+    ldx.w 0xef52
+    _clear_name_loop:
+    lda.w #0x00ff
+    sta.l 0x7e0000, x
+    sta.l 0x7e0002, x
+    sta.l 0x7e0004, x
+    sta.l 0x7e0006, x
+    sta.l 0x7e0008, x
+    sta.l 0x7e000a, x
 
+    txa
+    clc
+    adc.w #6 *2
+    tax
+    iny
+    tya
+    cmp.w # 5 *2
+
+    bne _clear_name_loop
+
+
+    sep #0x20
+    ply
+    plx
+    tdc
+    sta 0x74FC, y
+    rtl

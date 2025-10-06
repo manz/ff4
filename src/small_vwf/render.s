@@ -106,6 +106,12 @@ _transfer_to_vram:
 
 .scope render_allocator {
 allocated_tile_id = 0x702F00
+
+; tile_id in A
+init_with_tile_id:
+    sta.l allocated_tile_id
+    rts
+
 init:
     pha
     lda.b #0x00
@@ -136,7 +142,7 @@ get:
 .scope render {
 ; variables
 
-__var_base = 0x00
+__var_base = 0x63
 bits_left_on_tile = __var_base + 0x10
 temp = bits_left_on_tile + 1
 counter = temp + 1
@@ -264,6 +270,59 @@ _read_8x8_char:
     bra _store
 
 _shift:
+    ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
+    phx
+    lda.l font_ptr, x
+   ; bne _really_shift
+   ; inx
+   ; xba
+   ; bra _skip_empty_pixel_line
+_really_shift:
+    xba
+    lda #0x00
+    xba
+
+    ; make jump_table_pointer
+    pha
+    lda.b bits_left_on_tile
+    asl
+    tax
+    pla
+
+    rep #0x20
+    jmp.w (_mul_table, x)
+_mul_table:
+    .dw _mul_0
+    .dw _mul_1
+    .dw _mul_2
+    .dw _mul_3
+    .dw _mul_4
+    .dw _mul_5
+    .dw _mul_6
+    .dw _mul_7
+    .dw _mul_8
+
+_mul_8:
+_mul_7:
+    asl ; 1
+_mul_6:
+    asl ; 2
+_mul_5:
+    asl ; 3
+_mul_4:
+    asl ; 4
+_mul_3:
+    asl ; 5
+_mul_2:
+    asl ; 6
+_mul_1:
+    asl ; 7
+_mul_0:
+    sep #0x20
+    plx
+    inx
+.if 0 {
+_shift:
     ; expects bitsleft in A
     phx
     tax
@@ -273,7 +332,11 @@ _shift:
 
     plx
     lda.l font_ptr, x
-
+    bne _really_shift
+    inx
+    xba
+    bra _skip_empty_pixel_line
+_really_shift:
     inx
 
     sta.l 0x004203        ; MULTIPLICAND
@@ -285,7 +348,7 @@ _shift:
     nop
     lda.l 0x004216    ; the result is stored in 0x4216-0x4217
     sep #0x20
-
+}
 _store:
 
     xba
@@ -298,6 +361,7 @@ _store:
     sta.l buffer_ptr + 0x10 + 1, x
     txy
     plx
+_skip_empty_pixel_line:
     iny
     iny
     dec.b counter

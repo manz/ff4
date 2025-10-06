@@ -1,47 +1,60 @@
-command_length = 10
 command_buffer_ptr = 0x97a6  + 0x601 ; old spell lists buffers
-; move command cursor on the moved window
-*=0x2b990
-    lda.b #0x18
-{
-*=0x029CD6
-    lda.b #command_length
+.if BATTLE_CMD_VWF {
+    command_length = 6
+    ; Command window
+    *=0x16fe5a + 6 * 2
+        .db 0x05, 0x00 ,command_length + 2, 0x0d
 
-*=0x029D15
-    lda.b #command_length
+    *=0x2b990
+        lda.b #0x18 +8
+} else {
+    command_length = 10
 
-*=0x029D42
-    cpy.w #command_length + 2
+    ; move command cursor on the moved window
+    *=0x2b990
+        lda.b #0x18
+    *=0x029CD6
+        lda.b #command_length
 
-*=0x029D5A
-    cpy.w #command_length + 2
+    *=0x029D15
+        lda.b #command_length
 
-*=0x029D39
-    lda.l assets_battle_commands_dat, x
+    *=0x029D42
+        cpy.w #command_length + 2
 
-*=0x029CE0
-    lda.b #command_length * 4
+    *=0x029D5A
+        cpy.w #command_length + 2
 
-; patches source & length of battle commands used in display attack window.
-*=0x02cb49
-    lda.b #command_length
+    *=0x029D39
+        lda.l assets_battle_commands_dat, x
 
-*=0x02cb54
-    lda.l assets_battle_commands_dat, x
+    *=0x029CE0
+        lda.b #command_length * 4
 
-*=0x02cb5d
-    cpy.w #command_length
+    ; patches source & length of battle commands used in display attack window.
+    *=0x02cb49
+        lda.b #command_length
 
-*=0x16FE54
-    .db command_length * 2
-    .db 0x0a
-    .dw command_buffer_ptr    ; read address
-    .dw 0xC1F4 - 4    ; write address
+    ; attack window kick for example ends up there
+    *=0x02cb54
+        lda.l assets_battle_commands_dat, x
+
+    *=0x02cb5d
+        cpy.w #command_length
+
+    ; Command window
+    *=0x16fe5a + 6 * 2
+        .db 0x04, 0x00 ,command_length + 2, 0x0d
+
+
 }
+
+
 
 {
 ; ram position of the prebuilt battle windows
 *=0x16FEAD
+CmdTextBufPtrs:
 battle_data_size = command_length * 4 * 5
 .dw command_buffer_ptr
 .dw command_buffer_ptr + battle_data_size
@@ -49,12 +62,20 @@ battle_data_size = command_length * 4 * 5
 .dw command_buffer_ptr + battle_data_size * 3
 .dw command_buffer_ptr + battle_data_size * 4
 
+*=0x16FE54
+    .db command_length * 2
+    .db 0x0a
+    .dw command_buffer_ptr    ; read address
+.if BATTLE_CMD_VWF {
+    .dw 0xC1F4 - 2 ; write address
+} else {
+   .dw 0xC1F4 - 4 ; write address
+}
+
 *=0x02999F
      ldx.w #battle_data_size
 
-; Command window
-*=0x16fe5a + 6 * 2
-    .db 0x04, 0x00 ,command_length + 2, 0x0d
 }
+
 
 

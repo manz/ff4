@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import io
 import logging
+import math
 import os
 import struct
 from pathlib import Path
@@ -139,7 +140,7 @@ def build_fixed_asset(table, input_file, binary_text_file):
     write_pointers_value_as_binary(pointers, binary_text_file)
 
 
-def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file):
+def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file, buffer_width=None):
     pointers = read_fixed_from_xml(
         input_file, table, formatter=lambda t: t.strip() + "[end]"
     )
@@ -152,7 +153,13 @@ def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file)
         if ptr_len > max_length:
             max_ptr = (i, pointer)
             max_length = ptr_len
+
+        if buffer_width and ptr_len > buffer_width:
+            text = table.to_text(pointer.value)
+            print(f"{text} is too long ({ptr_len}px , {math.ceil(ptr_len / 8)} tiles)")
+
     text = table.to_text(max_ptr[1].value)
+    print(f"{text} is the largest ({max_length}px ({math.ceil(max_length/8)})")
     write_pointers_value_as_binary(pointers, binary_text_file)
 
     write_pointers_addresses_as_binary(
@@ -293,6 +300,9 @@ def build_vwf_font_asset(
         add_custom_kernings("tt", 2)
     else:
         known_pairs_to_kern = [
+            "Ya",
+            "Pa",
+            "Po"
             "Fa",
             "Fe",
             "Fo",
@@ -302,6 +312,7 @@ def build_vwf_font_asset(
             "To",
             "Tu",
             "Tr",
+            "Ts",
             "ra",
             "re",
             "ro",
@@ -469,9 +480,24 @@ if __name__ == "__main__":
         (
             "fixed_to_ptr",
             menu_table,
+            os.path.join(text_root, "battle_commands.xml"),
+            "assets/battle_commands_nul.dat",
+            "assets/battle_commands_nul.ptr",
+        ),
+        (
+            "fixed_to_ptr",
+            menu_table,
             os.path.join(text_root, "attack-names.xml"),
             "assets/attack_names.dat",
             "assets/attack_names.ptr",
+        ),
+        (
+            "fixed_to_ptr",
+            menu_table,
+            os.path.join(text_root, "monsters_long.xml"),
+            "assets/monsters_long.dat",
+            "assets/monsters_long.ptr",
+            80
         ),
         (
             "nullterminated",

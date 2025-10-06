@@ -876,6 +876,7 @@ wait_key_down:
     lda.l 0x000602
     bit #ACTION_BUTTON ; Action button
     bne exit
+    wai
     bra wait_key_down
 exit:
     rts
@@ -897,7 +898,7 @@ waitpad:
 
 
 nowaitpad:
-    lda.b #0x20
+    lda.b #0x30
 {
     loop:
     jsr.w wait_for_vblank
@@ -983,6 +984,10 @@ window:
     CMP #0xFF
     BEQ no_char_wait
     WAI            ;wait for interrupts
+    lda.b no_wait_for_action ; add extra wait when in "story telling".
+    beq no_char_wait
+    jsr.w wait_for_vblank
+    jsr.w wait_for_vblank
     no_char_wait:
 }
     RTS

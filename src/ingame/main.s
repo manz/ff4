@@ -83,7 +83,7 @@ end:
 
 *=0x0189b9
 ; Level offset
-    adc.w #0x0044
+    adc.w #0x0044 - 2
 
 *=0x018a03
 draw_hp_mp = 0x018a2a
