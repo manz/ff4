@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
     <sn:string>Ne peut pas être utilisé depuis ce menu.</sn:string>
     <sn:string>Restaure des PV.</sn:string>

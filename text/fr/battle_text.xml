@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">Aucun effet[end]</sn:pointer>
     <sn:pointer id="1">PM insuffisants[end]</sn:pointer>

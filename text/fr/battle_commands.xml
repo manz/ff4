@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="10" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="10" padding=" ">
     <sn:fixed>Attaquer</sn:fixed>
     <sn:fixed>Objets</sn:fixed>
     <sn:fixed>Magie</sn:fixed>
