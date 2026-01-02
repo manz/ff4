@@ -40,6 +40,10 @@
 *=0x01962E
     load_system_menu_text_pointer(newgame.new_game)
 
+.if DEBUG {
+    jsr.w display_build_number
+}
+
 *=0x019826
     load_system_menu_text_pointer(newgame.load_this_save)
 

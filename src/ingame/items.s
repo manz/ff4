@@ -63,7 +63,9 @@
 
 ; moves the right item column one tile to the right
 *=0x01a227
-    adc.w #0x001c + 4
+    adc.w #0x001c + 2
+*=0x01a1c4
+    adc.w #0x0002
 
 *=0x1efd7d
 __delta_l = 0

@@ -549,23 +549,24 @@ _code07:
     rep #0x20
     and.w #0x00FF
     pha
+    clc
+    adc 0x01, s   ; x2
+    adc 0x01, s   ; x3
     asl
-    asl
-    asl
-    adc 0x01, s
+    asl           ; x12
     tax
     pla
     sep #0x20
 
     ; skip first char (usually a space or a symbol.)
     inx
-    lda #0x09
+    lda #0x0b     ; 11 characters
 
 loop:
     pha
     lda.b #0x00
     xba
-    lda 0x0F8000, x
+    lda.l assets_items_dat, x
     cmp #0xFF
     beq cleanup
     vwf_putchar()
@@ -614,6 +615,60 @@ Boucle2:
     BRA _store
 
 _shift:
+.if 1 {
+
+    plx
+    phy
+    txy
+    lda.b [font_addr], y
+    tyx
+    ply
+
+    xba
+    lda #0x00
+    xba
+
+    ; make jump_table_pointer
+    phx
+    pha
+    lda.b BITSLEFT
+    asl
+    tax
+    pla
+
+    rep #0x20
+    jmp.w (_mul_table, x)
+_mul_table:
+    .dw _mul_0
+    .dw _mul_1
+    .dw _mul_2
+    .dw _mul_3
+    .dw _mul_4
+    .dw _mul_5
+    .dw _mul_6
+    .dw _mul_7
+    .dw _mul_8
+
+_mul_8:
+_mul_7:
+    asl ; 1
+_mul_6:
+    asl ; 2
+_mul_5:
+    asl ; 3
+_mul_4:
+    asl ; 4
+_mul_3:
+    asl ; 5
+_mul_2:
+    asl ; 6
+_mul_1:
+    asl ; 7
+_mul_0:
+    plx
+    sep #0x20
+    inx
+} else {
     TAX            ; using math multiplication
     LDA.L vwf_shift_table,X
     STA.L 0x004202        ; MULTPILIER
@@ -637,6 +692,7 @@ _shift:
     NOP
     LDA.L 0x004216    ; the result is stored in 0x4216-0x4217
     SEP #0x20
+}
 
 _store:
 
@@ -1080,6 +1136,5 @@ gils_window_tilemap_4:
     fill_value(0x201c, gils_window_size - 2)
     .db 0x1d,0x20
 gils_window_tilemap_4_end:
-
 
 

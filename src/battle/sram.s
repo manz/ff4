@@ -3,13 +3,7 @@
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
 .scope battle_flags {
-    set_sram_copy:
-        battle_flags_set(0x01)
-        rtl
-
-    clear_sram_copy:
-        battle_flags_clear(0x01)
-        rtl
+    ; NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used
 
     set_vwf_render:
         battle_flags_set(0x02)
@@ -69,55 +63,27 @@ put_char_with_dakuten:
     rtl
 }
 
-.scope sram {
-put_char:
-    phx
-    long_sram_store(0x34)
-    lda #0xFF
-    long_sram_store(0x32)
-    iny
-    lda 0x36
-    long_sram_store(0x32)
-    long_sram_store(0x34)
-    iny
-    plx
-    rtl
-
-put_char_with_dakuten:
-    phx
-    sec
-    sbc #0x0F
-    asl
-    tax
-    lda.l BATTLE_DAKUTEN_TABLE, x
-    long_sram_store(0x32)
-    lda.l BATTLE_DAKUTEN_TABLE + 1, x
-    long_sram_store(0x34)
-    iny
-    lda 0x36
-    long_sram_store(0x32)
-    long_sram_store(0x34)
-    iny
-    plx
-    rtl
-}
+; NOTE: sram scope removed - SRAM mode no longer used
+; .scope sram { put_char, put_char_with_dakuten }
 
 battle_display_char:
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
-    .dw wram.put_char
-    .dw sram.put_char
-    .dw messages_vwf.put_fixed_char_dakuten_far
+    .dw wram.put_char                           ; index 0 (flags = 0)
+    .dw wram.put_char                           ; index 2 (flags = 1) - fallback to WRAM
+    .dw messages_vwf.put_fixed_char_dakuten_far ; index 4 (flags = 2)
+    .dw messages_vwf.put_fixed_char_dakuten_far ; index 6 (flags = 3) - fallback
 }
 
 battle_display_dakuten_char:
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
-    .dw wram.put_char_with_dakuten
-    .dw sram.put_char_with_dakuten
-    .dw messages_vwf.put_fixed_char_no_dakuten_far
+    .dw wram.put_char_with_dakuten                  ; index 0 (flags = 0)
+    .dw wram.put_char_with_dakuten                  ; index 2 (flags = 1) - fallback to WRAM
+    .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 4 (flags = 2)
+    .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 6 (flags = 3) - fallback
 }
 
 sink:

@@ -1,63 +1,62 @@
-; do not initalize the magic text buffers
-*=0x029A69
-; 029A69  20 70 A0   JSR $A070
+*=0x029A69                              ; do not initalize the magic text buffers
+    ; 029A69  20 70 A0   JSR $A070
     nop
     nop
     nop
 
-; Black magic
-*=0x029834
+*=0x029834                              ; Black magic
     ldx.w #24 * 4
 
-; summon
-*=0x02982F
+*=0x02982F                              ; summon
     ldx.w #24 * 4 * 2
 
-; patches the transfer size
-*=0x16fe1c
-    .dw 0x600 ; 0x400
+*=0x16fe1c                              ; patches the transfer size
+    .dw 0x600                           ; 0x400
 
 *=0x029839
+
 transfer_white_magic:
-    ldx.w #0x0000  ; white magic
+    ldx.w #0x0000                       ; white magic
     phx
     stx 0x06
     lda 0x1822
     sta 0x00
     jsr.l DrawMagicListDirect
-    lda #0x02    ; spell list
+    lda #0x02                           ; spell list
     ldy.w #0x0002
-    jsr.w 0x9738; LoadMenuTfrData
+    jsr.w 0x9738                        ; LoadMenuTfrData
     lda #0x01
-    sta 0x1825   ; 1 transfer
-    sta 0x1824   ; enable menu tilemap vram transfer
+    sta 0x1825                          ; 1 transfer
+    sta 0x1824                          ; enable menu tilemap vram transfer
     plx
     rts
 
 *=0x029ead
+
 DrawMagicList:
-    lda 0x00         ; character slot
+    lda 0x00                            ; character slot
     asl
     tax
     rep #0x20
-    lda.l MagicListPtrs,x   ; pointers to spell lists
+    lda.l MagicListPtrs, x              ; pointers to spell lists
     clc
-    adc 0x06         ; add magic type offset
-    sta  0x00
+    adc 0x06                            ; add magic type offset
+    sta 0x00
     tdc
     sep #0x20
     rts
+
 draw_letter_far:
     pha
     tdc
     sta.l 0x7FFFFF
     pla
-    jsr.w 0xa497 ; Original DrawLetter
+    jsr.w 0xa497                        ; Original DrawLetter
     rtl
 
-; attack name window
-; patches for display attack name
-*=0x02cbcc
+    ; attack name window
+
+*=0x02cbcc                              ; patches for display attack name
     lda.b #battle_magic_length
 
 *=0x02cbdd
@@ -68,7 +67,7 @@ draw_letter_far:
 
 *=0x02cba2
     sec
-    sbc     #0x48
+    sbc #0x48
 
     rep #0x20
     and.w #0x00ff
@@ -82,6 +81,7 @@ draw_letter_far:
 
     tdc
     tay
+
 loop:
     lda.l assets_attack_names_dat, x
     sta 0x74fd, y
@@ -89,14 +89,17 @@ loop:
     iny
     inx
     bra loop
-    exit:
-    jmp.w 0xbca2  ; display monster? attack name window
 
-; attack window position
+exit:
+    jmp.w 0xbca2                        ; display monster? attack name window
+
+    ; attack window position
+
 *=0x029369
     ldx.w #0x0009
 
-; attack window size
+    ; attack window size
+
 *=0x02936f
     ldx.w #0x040e
 
@@ -104,29 +107,20 @@ loop:
     ldx.w #0xdb50 - 4 - 2 - 16
 
 
+    ; cursor and scrolling
 
-; cursor and scrolling
+*=0x16fe1c                              ; patches the spell menu vram transfer
+    ;destination_buffer
+    .dw 0x600                           ; 0x400
 
-; patches the spell menu vram transfer
-;destination_buffer
-*=0x16fe1c
-    .dw 0x600 ; 0x400
-
-;@fe0c:  .word   $bea6,$7020,$0280       ; 0: main window (10 rows)
-;       .word   $c1e6,$71c0,$0280       ; 1: battle command window (10 rows)
-;       .word   $c526,$7420,$0400       ; 2: spell list (16 rows)
-
-; number of lines to scroll ?
-*=0x02B72B
+*=0x02B72B                              ; number of lines to scroll ?
     cmp #11
 
-; items per line for cursor dpad right
-*=0x02B781
+*=0x02B781                              ; items per line for cursor dpad right
     cmp #1
 
 
-; dpad up
-*=0x02B712
+*=0x02B712                              ; dpad up
     nop
     nop
 
@@ -134,9 +128,8 @@ loop:
     nop
     nop
 
-; dpad down
-*=0x02B751
-;    INC     D,$63
+*=0x02B751                              ; dpad down
+    ;    INC     D,$63
     nop
     nop
 
@@ -144,13 +137,11 @@ loop:
     nop
     nop
 
-; magic list cursor x position
-*=0x16FC56
-    .db 8
-    .db 0x3C + 8 * 3 + 4
+*=0x16FC56                              ; magic list cursor x position
+    .db 8 - 8
+    .db 0x3C + 8 * 3 + 4 - 8
 
-; up and down should only inc /dec once ?
-*=0x02B764
+*=0x02B764                              ; up and down should only inc /dec once ?
     inc 0x5F
     ;inc 0x5F
     nop
@@ -170,8 +161,7 @@ loop:
     nop
     nop
 
-; display magic name in battle messages.
-*=0x02A567
+*=0x02A567                              ; display magic name in battle messages.
     lda #9
 
 *=0x02A573

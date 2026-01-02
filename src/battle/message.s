@@ -141,12 +141,15 @@ _not_found:
     current_char = prev_char + 1
     font_ptr = assets_menu_font_dat
 init_monsters:
+"""Initialize the renderer targeting the monsters region."""
     lda.b #region_size
     bra __init
 init_names:
+"""Initialize the renderer targeting the name region."""
     lda.b #region_size * 2
     bra __init
 init_commands_list:
+"""Initialize the renderer targeting the commands list region."""
     lda.b #region_size * 3
 __init:
     sta.l pending_transfer_mask

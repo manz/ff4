@@ -156,8 +156,14 @@ msg_monster_window_trampoline:
     jsr.l messages_vwf.init_monsters
     bra _draw_text_battle
 msg_names_window_trampoline:
-    jsr.l messages_vwf.init_names
-    bra _draw_text_battle
+    ; Skip names rendering if inventory is active (bit 2 of $4A)
+    lda     0x4A
+    and     #0x04
+    bne     _skip_names
+    jsr.l   messages_vwf.init_names
+    bra     _draw_text_battle
+_skip_names:
+    rts
 msg_window_draw_text_trampoline:
     jsr.l messages_vwf.init
 _draw_text_battle:

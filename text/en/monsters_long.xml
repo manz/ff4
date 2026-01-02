@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>Goblin</sn:fixed>
+<sn:fixed>Basilisk</sn:fixed>
+<sn:fixed>Dive Eagle</sn:fixed>
+<sn:fixed>Float Eye Ball</sn:fixed>
+<sn:fixed>Insectus</sn:fixed>
+<sn:fixed>Face Bat</sn:fixed>
+<sn:fixed>Wood Eyes</sn:fixed>
+<sn:fixed>Sword Rat</sn:fixed>
+<sn:fixed>Mini Magician</sn:fixed>
+<sn:fixed>Desert Sahagin</sn:fixed>
+<sn:fixed>Flying Eye</sn:fixed>
+<sn:fixed>Hand Leg</sn:fixed>
+<sn:fixed>Sand Worm</sn:fixed>
+<sn:fixed>Gigantoad</sn:fixed>
+<sn:fixed>Fang Shell</sn:fixed>
+<sn:fixed>Zombie</sn:fixed>
+<sn:fixed>Fly Killer</sn:fixed>
+<sn:fixed>Blood Flower</sn:fixed>
+<sn:fixed>Organi Toad</sn:fixed>
+<sn:fixed>Red Marshmallow</sn:fixed>
+<sn:fixed>Yellow Jelly</sn:fixed>
+<sn:fixed>Sahagin</sn:fixed>
+<sn:fixed>Lacey</sn:fixed>
+<sn:fixed>Chrysalis</sn:fixed>
+<sn:fixed>Goblin Cap</sn:fixed>
+<sn:fixed>Black Lizard</sn:fixed>
+<sn:fixed>Adamantoise</sn:fixed>
+<sn:fixed>Domoboy</sn:fixed>
+<sn:fixed>Purple Bavarois</sn:fixed>
+<sn:fixed>Baron Soldier</sn:fixed>
+<sn:fixed>General</sn:fixed>
+<sn:fixed>Gatling Gun</sn:fixed>
+<sn:fixed>Lil\' Murderer</sn:fixed>
+<sn:fixed>Death Beauty</sn:fixed>
+<sn:fixed>Spirit</sn:fixed>
+<sn:fixed>Skeleton</sn:fixed>
+<sn:fixed>Cockatrice</sn:fixed>
+<sn:fixed>Gargoyle</sn:fixed>
+<sn:fixed>Ludran Baby</sn:fixed>
+<sn:fixed>Belphegor</sn:fixed>
+<sn:fixed>Zu</sn:fixed>
+<sn:fixed>Sea Nuts</sn:fixed>
+<sn:fixed>Alligator</sn:fixed>
+<sn:fixed>Splasher</sn:fixed>
+<sn:fixed>Baron Marine</sn:fixed>
+<sn:fixed>Captain</sn:fixed>
+<sn:fixed>Soul</sn:fixed>
+<sn:fixed>Bloody Bone</sn:fixed>
+<sn:fixed>Ghoul</sn:fixed>
+<sn:fixed>Skull Jar</sn:fixed>
+<sn:fixed>Revenant</sn:fixed>
+<sn:fixed>Dracula Lady</sn:fixed>
+<sn:fixed>Aerapatra</sn:fixed>
+<sn:fixed>Skull Dragon</sn:fixed>
+<sn:fixed>Thunder Fish</sn:fixed>
+<sn:fixed>Giga Gator</sn:fixed>
+<sn:fixed>Hydra</sn:fixed>
+<sn:fixed>Flood Worm</sn:fixed>
+<sn:fixed>Baron Elite</sn:fixed>
+<sn:fixed>Lamia</sn:fixed>
+<sn:fixed>Hell Needle</sn:fixed>
+<sn:fixed>Twin Snake</sn:fixed>
+<sn:fixed>Thunder Spirit</sn:fixed>
+<sn:fixed>Mind Flayer</sn:fixed>
+<sn:fixed>Naga</sn:fixed>
+<sn:fixed>Ogre</sn:fixed>
+<sn:fixed>Cait Sith</sn:fixed>
+<sn:fixed>Black Knight</sn:fixed>
+<sn:fixed>Centauro Knight</sn:fixed>
+<sn:fixed>Miss Vampire</sn:fixed>
+<sn:fixed>Marionator</sn:fixed>
+<sn:fixed>Marion</sn:fixed>
+<sn:fixed>Gloom Wing</sn:fixed>
+<sn:fixed>Death Puppet</sn:fixed>
+<sn:fixed>Marid</sn:fixed>
+<sn:fixed>Satanite</sn:fixed>
+<sn:fixed>Armed Mammal</sn:fixed>
+<sn:fixed>Lady Guarder</sn:fixed>
+<sn:fixed>Ghost Knight</sn:fixed>
+<sn:fixed>Naga Raja</sn:fixed>
+<sn:fixed>Medusa</sn:fixed>
+<sn:fixed>Saurus Zombie</sn:fixed>
+<sn:fixed>Magmantortoise</sn:fixed>
+<sn:fixed>Imp</sn:fixed>
+<sn:fixed>Dream Evil</sn:fixed>
+<sn:fixed>Bomb</sn:fixed>
+<sn:fixed>Tiny Bomb</sn:fixed>
+<sn:fixed>Chimera</sn:fixed>
+<sn:fixed>Hell Turtle</sn:fixed>
+<sn:fixed>Iron Dress</sn:fixed>
+<sn:fixed>Flame Dog</sn:fixed>
+<sn:fixed>Gorgon</sn:fixed>
+<sn:fixed>Stone Golem</sn:fixed>
+<sn:fixed>Lilith</sn:fixed>
+<sn:fixed>Mother Lamia</sn:fixed>
+<sn:fixed>Toady Toad</sn:fixed>
+<sn:fixed>Mors</sn:fixed>
+<sn:fixed>Rudra</sn:fixed>
+<sn:fixed>Sorcerer</sn:fixed>
+<sn:fixed>Berserker Ogre</sn:fixed>
+<sn:fixed>Fraud Puppet</sn:fixed>
+<sn:fixed>Bloody Bat</sn:fixed>
+<sn:fixed>Alcheny</sn:fixed>
+<sn:fixed>Flame Knight</sn:fixed>
+<sn:fixed>Machine Cannon</sn:fixed>
+<sn:fixed>Remedy Bomb</sn:fixed>
+<sn:fixed>Dark Grenade</sn:fixed>
+<sn:fixed>Plague</sn:fixed>
+<sn:fixed>Last Arm</sn:fixed>
+<sn:fixed>Coeurl</sn:fixed>
+<sn:fixed>Machine Dragon</sn:fixed>
+<sn:fixed>Arachne</sn:fixed>
+<sn:fixed>Practy</sn:fixed>
+<sn:fixed>Undergrounder</sn:fixed>
+<sn:fixed>Abyss Worm</sn:fixed>
+<sn:fixed>Bloody Red</sn:fixed>
+<sn:fixed>Misleader</sn:fixed>
+<sn:fixed>Blizzard Lizard</sn:fixed>
+<sn:fixed>Hell Flapper</sn:fixed>
+<sn:fixed>Evil Head</sn:fixed>
+<sn:fixed>Freeze Beast</sn:fixed>
+<sn:fixed>Summoner</sn:fixed>
+<sn:fixed>Sorceress Lady</sn:fixed>
+<sn:fixed>Assault Door</sn:fixed>
+<sn:fixed>Toady Witch</sn:fixed>
+<sn:fixed>Mammon</sn:fixed>
+<sn:fixed>Chimera Brain</sn:fixed>
+<sn:fixed>Luna Virus</sn:fixed>
+<sn:fixed>Zeromus's Breath</sn:fixed>
+<sn:fixed>White Mousse</sn:fixed>
+<sn:fixed>Black Pudding</sn:fixed>
+<sn:fixed>Zeromus's Mind</sn:fixed>
+<sn:fixed>Mithril Golem</sn:fixed>
+<sn:fixed>Green Dragon</sn:fixed>
+<sn:fixed>Pudding Princess</sn:fixed>
+<sn:fixed>Eyes</sn:fixed>
+<sn:fixed>Machine Soldier</sn:fixed>
+<sn:fixed>Giant Soldier</sn:fixed>
+<sn:fixed>Moon Goddess</sn:fixed>
+<sn:fixed>Malboro</sn:fixed>
+<sn:fixed>Silver Dragon</sn:fixed>
+<sn:fixed>Yellow Dragon</sn:fixed>
+<sn:fixed>Satan Junior</sn:fixed>
+<sn:fixed>Eukaryote</sn:fixed>
+<sn:fixed>Phase</sn:fixed>
+<sn:fixed>Iron Soldier</sn:fixed>
+<sn:fixed>Demon Soldier</sn:fixed>
+<sn:fixed>Steel Golem</sn:fixed>
+<sn:fixed>Ahriman</sn:fixed>
+<sn:fixed>Lunasaurus</sn:fixed>
+<sn:fixed>Searcher</sn:fixed>
+<sn:fixed>Dark Mage</sn:fixed>
+<sn:fixed>Dark Bahamut</sn:fixed>
+<sn:fixed>Prokaryote</sn:fixed>
+<sn:fixed>Tidarian</sn:fixed>
+<sn:fixed>Blue Dragon</sn:fixed>
+<sn:fixed>Gold Dragon</sn:fixed>
+<sn:fixed>Thunder Dragon</sn:fixed>
+<sn:fixed>White Dragon</sn:fixed>
+<sn:fixed>Red Dragon</sn:fixed>
+<sn:fixed>Behemoth</sn:fixed>
+<sn:fixed>Mist Dragon</sn:fixed>
+<sn:fixed>Octomammoth</sn:fixed>
+<sn:fixed>Antlion</sn:fixed>
+<sn:fixed>Mom Bomb</sn:fixed>
+<sn:fixed>Scarmiglione</sn:fixed>
+<sn:fixed>Scarmiglione</sn:fixed>
+<sn:fixed>Baigan</sn:fixed>
+<sn:fixed>Right Arm</sn:fixed>
+<sn:fixed>Left Arm</sn:fixed>
+<sn:fixed>Cagnazzo</sn:fixed>
+<sn:fixed>Dark Elf</sn:fixed>
+<sn:fixed>Dark Elf</sn:fixed>
+<sn:fixed>Dog</sn:fixed>
+<sn:fixed>Mag</sn:fixed>
+<sn:fixed>Lag</sn:fixed>
+<sn:fixed>Golbez</sn:fixed>
+<sn:fixed>Barbariccia</sn:fixed>
+<sn:fixed>Calco</sn:fixed>
+<sn:fixed>Calcabrina</sn:fixed>
+<sn:fixed>Golbez</sn:fixed>
+<sn:fixed>Black Dragon</sn:fixed>
+<sn:fixed>Dr. Lugae</sn:fixed>
+<sn:fixed>Barnabas</sn:fixed>
+<sn:fixed>Balnab</sn:fixed>
+<sn:fixed>King of Eblan</sn:fixed>
+<sn:fixed>Queen of Eblan</sn:fixed>
+<sn:fixed>Rubicante</sn:fixed>
+<sn:fixed>Odin</sn:fixed>
+<sn:fixed>Leviathan</sn:fixed>
+<sn:fixed>Bahamut</sn:fixed>
+<sn:fixed>Demon Wall</sn:fixed>
+<sn:fixed>Asura</sn:fixed>
+<sn:fixed>Four Elemental Lords</sn:fixed>
+<sn:fixed>Four Elemental Lords</sn:fixed>
+<sn:fixed>Dark Dragon</sn:fixed>
+<sn:fixed>Sahagin</sn:fixed>
+<sn:fixed>Control System</sn:fixed>
+<sn:fixed>Defense System</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Dragoon</sn:fixed>
+<sn:fixed>Bard</sn:fixed>
+<sn:fixed>Monk</sn:fixed>
+<sn:fixed>Dark Knight</sn:fixed>
+<sn:fixed>Girl</sn:fixed>
+<sn:fixed>Titan</sn:fixed>
+<sn:fixed>Float Eye Ball</sn:fixed>
+<sn:fixed>Zu</sn:fixed>
+<sn:fixed>Brina</sn:fixed>
+<sn:fixed>Skull Nant</sn:fixed>
+<sn:fixed>Combined Mech</sn:fixed>
+<sn:fixed>Attack System</sn:fixed>
+<sn:fixed>Monster 214</sn:fixed>
+<sn:fixed>Katsuhisa Higuchi</sn:fixed>
+<sn:fixed>Zeromus</sn:fixed>
+<sn:fixed>Hiroyuki Ito</sn:fixed>
+<sn:fixed>Akihiko Matsui</sn:fixed>
+<sn:fixed>Kazuhiko Aoki</sn:fixed>
+<sn:fixed>Hiromi Nakada</sn:fixed>
+<sn:fixed>Kiyoshi Yoshii</sn:fixed>
+<sn:fixed>Tetsuya Takahashi</sn:fixed>
+<sn:fixed>Mystery Egg</sn:fixed>
+</sn:fixedlist>
+
+
+
+

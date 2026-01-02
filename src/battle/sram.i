@@ -27,8 +27,8 @@ BATTLE_FLAGS = 0x704F00
 }
 
 .macro battle_flags_clear(value) {
-    lda.b #value
-    eor.l BATTLE_FLAGS
+    lda.l BATTLE_FLAGS
+    and.b #(~value & 0xFF)
     sta.l BATTLE_FLAGS
 }
 

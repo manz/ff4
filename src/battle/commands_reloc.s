@@ -1,13 +1,19 @@
 Mult8_far := 0x2855c
 
 draw_command_list_for_character:
-lda  0x1822                   ; selected character slot
+    ; Skip command rendering if inventory is active (bit 2 of $4A)
+    ; This prevents format buffer ($74FD) conflicts with inventory code
+    lda.l   0x7E004A
+    and     #0x04
+    bne     _skip_commands
 
-sta 0x1816
-phx
-jsr.w _draw_command_list_for_character
-plx
-rtl
+    lda     0x1822              ; selected character slot
+    sta     0x1816
+    phx
+    jsr.w   _draw_command_list_for_character
+    plx
+_skip_commands:
+    rtl
 _draw_command_list_for_character:
 {
     stz.w 0x1817
