@@ -1814,11 +1814,28 @@ HDMA_TABLE_SIZE     := 0x0140       ; 320 bytes = 80 entries (5 visible slots ×
 SCROLL_WRAP         := 96           ; 6 slots × 16 pixels (tilemap buffer size)
 
 UpdateListScrollHDMA_Wrapped:
-    ; Use scroll values AS-IS (same as original game)
-    ; No offset conversion - content is already at the right place for scroll 371+
+    ; FF6-STYLE ROLLING BUFFER:
+    ; Wrap scroll within 96-pixel range (6 slots) starting at 371
+    ; Formula: wrapped = ((scroll - 371) % 96) + 371
+    ; Range: 371 to 466
     sei                             ; Disable interrupts during HDMA table update
     rep     #0x30                   ; 16-bit A AND X/Y
     txa                             ; X = EF65 (scroll value passed in)
+
+    ; Wrap scroll to 6-slot range
+    sec
+    sbc.w   #OUR_BASE_SCROLL        ; A = scroll - 371 (offset from base)
+
+_wrap_loop:
+    cmp.w   #SCROLL_WRAP            ; Compare with 96
+    bcc     _wrap_done              ; If < 96, done
+    sec
+    sbc.w   #SCROLL_WRAP            ; A = A - 96
+    bra     _wrap_loop
+
+_wrap_done:
+    clc
+    adc.w   #OUR_BASE_SCROLL        ; A = (offset % 96) + 371
 
     ldx.w   #0x0000                 ; Table index
     ldy.w   #0x000C                 ; Scanlines per row group (12)
@@ -1829,9 +1846,15 @@ _hdma_loop:
     dey
     bne     _hdma_skip_add
 
-    ; Every 12 scanlines, add 4 pixels (same as original game)
+    ; Every 12 scanlines, add 4 pixels and wrap if needed
     clc
     adc.w   #0x0004
+    ; Wrap if >= 371 + 96 = 467
+    cmp.w   #OUR_BASE_SCROLL + SCROLL_WRAP
+    bcc     _no_wrap_in_loop
+    sec
+    sbc.w   #SCROLL_WRAP            ; Wrap back by 96
+_no_wrap_in_loop:
     ldy.w   #0x000C                 ; Reset scanline counter
 
 _hdma_skip_add:
