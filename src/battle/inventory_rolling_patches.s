@@ -142,9 +142,10 @@ Return_To_Bank02:
     jmp.w   WrapAndClear_Trampoline
     nop
 
-; Animation loop DECrement path ($02A872-$02A878) - 7 bytes
-; Original: LDX $EF71 / DEX / STX $EF71
-; NOP these out - our scroll hooks handle the single EF71 update
+; Animation loop DECrement path ($02A872-$02A87B) - 10 bytes
+; Original: LDX $EF71 / DEX / STX $EF71 / JMP CheckListCursorVisible
+; NOP the LDX/DEX/STX, replace JMP with RTS (skips CheckListCursorVisible)
+; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 *=0x02A872
 _nop_patch_dec:
     nop
@@ -154,14 +155,18 @@ _nop_patch_dec:
     nop
     nop
     nop
+    rts             ; Skip CheckListCursorVisible (was JMP $A82D)
+    nop             ; Fill remaining 2 bytes of JMP
+    nop
 
 *=0x02A8AA
     jmp.w   WrapAndClear_Trampoline
     nop
 
-; Animation loop INCrement path ($02A8AE-$02A8B4) - 7 bytes
-; Original: LDX $EF71 / INX / STX $EF71
-; NOP these out - our scroll hooks handle the single EF71 update
+; Animation loop INCrement path ($02A8AE-$02A8B7) - 10 bytes
+; Original: LDX $EF71 / INX / STX $EF71 / JMP CheckListCursorVisible
+; NOP the LDX/INX/STX, replace JMP with RTS (skips CheckListCursorVisible)
+; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 *=0x02A8AE
 _nop_patch_inc:
     nop
@@ -170,6 +175,9 @@ _nop_patch_inc:
     nop
     nop
     nop
+    nop
+    rts             ; Skip CheckListCursorVisible (was JMP $A82D)
+    nop             ; Fill remaining 2 bytes of JMP
     nop
 
 ; Scroll hooks - use JMP.L to bank $20 functions

@@ -25,8 +25,10 @@ TOTAL_ROWS              := 48       ; One item per row now
 TEXT_BYTES_PER_ITEM     := 60       ; 30 tiles x 2 bytes (dakuten + main rows)
 TILEMAP_BYTES_PER_ROW   := 128      ; 2 tilemap rows x 64 bytes ($80)
 
-; Memory addresses
-text_buffer_base        := 0x8EA6   ; Text buffer (formatted tiles)
+; Memory addresses - using freed spell list buffers
+; Spell list buffers freed by magic direct rendering: $97A6, $9E66, $A526, $ABE6, $B2A6
+text_buffer_base        := 0x97A6   ; Ring buffer (6 slots × 60 = 360 bytes, uses freed spell buffer 1)
+inv_format_buffer       := 0x9E66   ; Format buffer for DrawText (uses freed spell buffer 2)
 tilemap_buffer_base     := 0xC4E6   ; Tilemap buffer
 tilemap_content_offset  := 0x44     ; Offset to content area ($C52A - $C4E6)
 
@@ -95,6 +97,8 @@ InitInventoryTextBuf_Rolling:
     ; At init time, always start at row 0 (top of inventory)
     ; NOTE: EF65 and EF67 are initialized by ResetListScrollHDMA when inventory opens
     stz.w   0xEF71                  ; Game's row index = 0
+    stz.w   0xEF86                  ; Scroll offset = 0 (top item visible)
+    stz.b   0x60                    ; Cursor row = 0 (top visible row)
     stz.w   rolling_top_row
     stz.w   rolling_buffer_pos
     ; Note: Game's $4A flag (bit 2) already indicates inventory is active
@@ -171,7 +175,7 @@ _RenderInventoryItem:
     sep     #0x20
 
     ; Set up format buffer pointer
-    ldx.w   #0x74FD
+    ldx.w   #inv_format_buffer
     stx.w   0xEF50
 
     ; Set tile count for DrawText
@@ -227,26 +231,26 @@ _not_disabled:
 
     ; Format code: change tile flags
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x01                    ; Symbol palette
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Format code: set tile (symbol)
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.l   assets_items_dat,x      ; Item symbol
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Format code: change tile flags (for name)
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x00                    ; Name palette
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Copy 11 character item name
@@ -255,7 +259,7 @@ _not_disabled:
 _name_copy_loop:
     inx
     lda.l   assets_items_dat,x
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     dec.b   0x00
     bne     _name_copy_loop
@@ -267,7 +271,7 @@ _name_copy_loop:
     ; Empty slot - just finish with line break
     pla                             ; Discard quantity
     lda     #0x05                   ; Line break
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x03
     bra     _finish_format
@@ -275,7 +279,7 @@ _name_copy_loop:
 _has_item:
     ; Add colon and quantity
     lda     #0xC8                   ; Colon character ":"
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     pla                             ; Get quantity
@@ -285,25 +289,25 @@ _has_item:
 
     ; Add tens digit
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180E                  ; Tens digit
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Add ones digit
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180F                  ; Ones digit
 
 _finish_format:
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Terminator
     lda     #0x00
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
 
     ; Call DrawText to render formatted text to text buffer
     jsr.l   DrawText_Rolling_Trampoline
@@ -344,7 +348,7 @@ _RenderInventoryItemCircular:
     sep     #0x20
 
     ; Set up format buffer pointer
-    ldx.w   #0x74FD
+    ldx.w   #inv_format_buffer
     stx.w   0xEF50
 
     ; Set tile count for DrawText
@@ -394,26 +398,26 @@ _circ_not_disabled:
 
     ; Tile flags for symbol
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x01
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Symbol tile
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.l   assets_items_dat,x
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; Tile flags for name
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x00
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     ; 11-char name
@@ -422,7 +426,7 @@ _circ_not_disabled:
 _circ_name_loop:
     inx
     lda.l   assets_items_dat,x
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     dec.b   0x00
     bne     _circ_name_loop
@@ -433,14 +437,14 @@ _circ_name_loop:
 
     pla
     lda     #0x05
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x03
     bra     _circ_finish
 
 _circ_has_item:
     lda     #0xC8                   ; Colon
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     pla
@@ -449,23 +453,23 @@ _circ_has_item:
     jsr.l   NormalizeNum_Trampoline
 
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180F
 
 _circ_finish:
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     lda     #0x00
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
 
     jsr.l   DrawText_Rolling_Trampoline
 
@@ -838,7 +842,7 @@ _RenderItemToCircularSlot:
     sep     #0x20
 
     ; Set up format buffer pointer
-    ldx.w   #0x74FD
+    ldx.w   #inv_format_buffer
     stx.w   0xEF50
     lda     #15
     sta.w   0xEF54
@@ -883,22 +887,22 @@ _slot_not_disabled:
     ; Build format string
     ldy.w   #0x0000
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x01
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.l   assets_items_dat,x
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x0E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.b   0x00
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
 
     lda     #11
@@ -906,7 +910,7 @@ _slot_not_disabled:
 _slot_name_loop:
     inx
     lda.l   assets_items_dat,x
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     dec.b   0x00
     bne     _slot_name_loop
@@ -915,35 +919,35 @@ _slot_name_loop:
     bne     _slot_has_item
     pla
     lda     #0x05
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x03
     bra     _slot_finish
 
 _slot_has_item:
     lda     #0xC8
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     pla
     tax
     jsr.l   HexToDec_Trampoline
     jsr.l   NormalizeNum_Trampoline
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180E
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x03
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda.w   0x180F
 
 _slot_finish:
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
     iny
     lda     #0x00
-    sta.w   0x74FD,y
+    sta.w   inv_format_buffer,y
 
     jsr.l   DrawText_Rolling_Trampoline
 
@@ -1726,6 +1730,10 @@ _sd_pos_ok:
     sta.w   rolling_buffer_pos
 
 _sd_abort:
+    ; Ensure cursor 1 stays visible during scroll animation
+    stz.w   0xEF69                  ; Clear hide cursor 1 flag
+    stz.w   0xEF6E                  ; Clear alternate hide cursor 1 flag
+
     plb                             ; Restore data bank
     .db     0x58                    ; cli - re-enable interrupts
     jmp.l   Return_To_Bank02
@@ -1794,6 +1802,10 @@ _su_pos_ok:
     sta.w   0x1820
 
 _su_abort:
+    ; Ensure cursor 1 stays visible during scroll animation
+    stz.w   0xEF69                  ; Clear hide cursor 1 flag
+    stz.w   0xEF6E                  ; Clear alternate hide cursor 1 flag
+
     plb                             ; Restore data bank
     .db 0x58                        ; cli - re-enable interrupts
     jmp.l   Return_To_Bank02
@@ -1810,72 +1822,195 @@ _su_abort:
 ; Output: HDMA table at $7F74 filled with wrapped scroll values
 
 HDMA_TABLE          := 0x7E7F74     ; Full 24-bit address: bank $7E, offset $7F74 (V scroll entries)
-HDMA_TABLE_SIZE     := 0x0140       ; 320 bytes = 80 entries (5 visible slots × 16 scanlines)
-SCROLL_WRAP         := 96           ; 6 slots × 16 pixels (tilemap buffer size)
+HDMA_TABLE_SIZE     := 0x00F0       ; 240 bytes (same as HDMA_Y_SIZE)
+SCROLL_WRAP         := 0x0060       ; 96 = 6 slots × 16 pixels (tilemap buffer size)
+SCROLL_WRAP_LIMIT   := 0x01D3       ; 467 = 371 + 96 (wrap when >= this value)
+OUR_BASE_SCROLL     := 0x0173       ; 371 - same as original game
 
 UpdateListScrollHDMA_Wrapped:
-    ; FF6-STYLE ROLLING BUFFER:
-    ; Wrap scroll within 96-pixel range (6 slots) starting at 371
-    ; Formula: wrapped = ((scroll - 371) % 96) + 371
-    ; Range: 371 to 466
-    sei                             ; Disable interrupts during HDMA table update
-    rep     #0x30                   ; 16-bit A AND X/Y
-    txa                             ; X = EF65 (scroll value passed in)
+    ; Check if we're in inventory mode (bit 2 of $4A)
+    ; If not, use original behavior for other windows
+    lda.b   0x4A
+    and     #0x04
+    bne     _use_circular_buffer
 
-    ; Wrap scroll to 6-slot range
-    sec
-    sbc.w   #OUR_BASE_SCROLL        ; A = scroll - 371 (offset from base)
-
-_wrap_loop:
-    cmp.w   #SCROLL_WRAP            ; Compare with 96
-    bcc     _wrap_done              ; If < 96, done
-    sec
-    sbc.w   #SCROLL_WRAP            ; A = A - 96
-    bra     _wrap_loop
-
-_wrap_done:
-    clc
-    adc.w   #OUR_BASE_SCROLL        ; A = (offset % 96) + 371
-
+    ; Original behavior for non-inventory windows
+    ; Input: X = scroll offset, Y = scanlines per row (12)
+    rep     #0x20                   ; 16-bit A
+    txa                             ; A = scroll offset
     ldx.w   #0x0000                 ; Table index
-    ldy.w   #0x000C                 ; Scanlines per row group (12)
-
-_hdma_loop:
-    sta.l   HDMA_TABLE,x            ; Store scroll value
-
+_orig_loop:
+    sta.w   0x7F74,x                ; Store scroll value
     dey
-    bne     _hdma_skip_add
-
-    ; Every 12 scanlines, add 4 pixels and wrap if needed
+    bne     _orig_skip_add
     clc
-    adc.w   #0x0004
-    ; Wrap if >= 371 + 96 = 467
-    cmp.w   #OUR_BASE_SCROLL + SCROLL_WRAP
-    bcc     _no_wrap_in_loop
-    sec
-    sbc.w   #SCROLL_WRAP            ; Wrap back by 96
-_no_wrap_in_loop:
+    adc.w   #0x0004                 ; Add 4 every 12 scanlines
     ldy.w   #0x000C                 ; Reset scanline counter
+_orig_skip_add:
+    inx
+    inx
+    inx
+    inx
+    cpx.w   #0x00F0                 ; 240 bytes
+    bne     _orig_loop
+    .db     0x7B                    ; TDC (clear A)
+    sep     #0x20                   ; 8-bit A
+    jmp.l   Return_To_Bank02        ; Return via bank $02 trampoline
 
-_hdma_skip_add:
-    inx
-    inx
-    inx
-    inx                             ; X += 4 (next entry)
-    cpx.w   #HDMA_TABLE_SIZE
-    bne     _hdma_loop
+_use_circular_buffer:
+    ; FF6-STYLE CIRCULAR BUFFER HDMA
+    ;
+    ; Key insight from FF6's LoadItemBG1VScrollHDMATbl:
+    ;   - At screen scanline S with scroll V, displayed VRAM row = V + S
+    ;   - To show VRAM slot N at screen row R (scanline R*12):
+    ;     scroll + R*12 = N*16, therefore scroll = N*16 - R*12
+    ;
+    ; Algorithm for each visible row (0-4):
+    ;   vram_slot = (rolling_buffer_pos + row) % 6
+    ;   scroll = BASE + (vram_slot * 16) - (row * 12)
+    ;
+    ; This ensures proper alignment AND seamless wraparound.
+    ;
+    sei                             ; Disable interrupts during HDMA table update
 
-    tdc                             ; Clear A
-    sep     #0x20                   ; 8-bit A only (game expects 16-bit X/Y)
+    ; CRITICAL: Save direct page variables that the caller depends on
+    lda.b   0x00
+    pha
+    lda.b   0x01
+    pha
+    lda.b   0x02
+    pha
+    lda.b   0x03
+    pha
+    lda.b   0x04
+    pha
+    lda.b   0x05
+    pha
+
+    rep     #0x30                   ; 16-bit A, X, Y
+
+    ldx.w   #0x0000                 ; HDMA table index
+    stz.b   0x02                    ; Row counter (clears $02 and $03 in 16-bit mode)
+
+_row_loop:
+    ; Calculate vram_slot = (rolling_buffer_pos + row) % 6
+    lda.w   rolling_buffer_pos
+    and.w   #0x00FF
+    clc
+    adc.b   0x02                    ; + row number
+_mod6:
+    cmp.w   #BUFFER_SLOTS           ; >= 6?
+    bcc     _mod6_done
+    sec
+    sbc.w   #BUFFER_SLOTS
+    bra     _mod6
+_mod6_done:
+    ; A = vram_slot (0-5)
+
+    ; Calculate vram_slot * 16
+    asl
+    asl
+    asl
+    asl                             ; A = vram_slot * 16
+    sta.b   0x00                    ; Save vram_offset
+
+    ; Calculate row * 12 = row * 8 + row * 4
+    ; Use Y register for temp to avoid clobbering direct page
+    lda.b   0x02                    ; row (only low byte matters, high is 0)
+    and.w   #0x00FF                 ; Ensure only low byte
+    asl
+    asl
+    asl                             ; row * 8
+    tay                             ; Y = row * 8
+    lda.b   0x02
+    and.w   #0x00FF
+    asl
+    asl                             ; row * 4
+    sta.b   0x04                    ; Use $04 for temp (not overlapping)
+    tya                             ; A = row * 8
+    clc
+    adc.b   0x04                    ; row * 8 + row * 4 = row * 12
+    ; A = scanline_offset (row * 12)
+
+    ; scroll = BASE + vram_offset - scanline_offset
+    ; eor.w   #0xFFFF                 ; Negate: -scanline_offset
+    ; a816 does not support yet the w for eor.
+    .db 0x49
+    .dw 0xffff
+
+    inc
+    clc
+    adc.b   0x00                    ; + vram_offset
+    clc
+    adc.w   #OUR_BASE_SCROLL        ; + BASE
+    sta.b   0x00                    ; $00 = scroll value for this row
+
+    ; Store same scroll value for all 12 scanlines of this row
+    ldy.w   #0x000C                 ; 12 scanlines
+_scanline_loop:
+    lda.b   0x00
+    sta.l   HDMA_TABLE,x
+    inx
+    inx
+    inx
+    inx                             ; X += 4 (next HDMA entry)
+    dey
+    bne     _scanline_loop
+
+    ; Next row
+    inc.b   0x02
+    lda.b   0x02
+    cmp.w   #VISIBLE_ROWS           ; 5 rows total
+    bne     _row_loop
+
+    ; CRITICAL: Restore direct page variables before returning
+    sep     #0x20                   ; 8-bit A for PLA
+    pla
+    sta.b   0x05
+    pla
+    sta.b   0x04
+    pla
+    sta.b   0x03
+    pla
+    sta.b   0x02
+    pla
+    sta.b   0x01
+    pla
+    sta.b   0x00
+
+    ; Check if scroll animation is active before forcing cursor position
+    ; Only force during animation ($1820 = 2 or 3), otherwise let normal code handle it
+    lda.l   0x7E1820                ; Animation type
+    beq     _cursor_skip_force      ; If 0, no animation - skip forcing
+
+    ; Animation is active - ensure cursor stays visible
+    ; Must use long addressing since data bank may be $02 (ROM), not $7E (WRAM)
+    pha                             ; Save animation type
+    lda     #0x00
+    sta.l   0x7EEF69                ; Clear hide cursor 1 flag
+    sta.l   0x7EEF6E                ; Clear alternate hide cursor 1 flag
+
+    ; X position is always $0C for single-column mode
+    lda     #0x0C
+    sta.l   0x7EEF6B                ; Set cursor 1 X position
+
+    ; Set Y based on animation direction
+    ; Scroll down ($1820=2): cursor at bottom row, Y = $CC
+    ; Scroll up ($1820=3): cursor at top row, Y = $9C
+    pla                             ; Restore animation type
+    cmp     #0x02                   ; Scroll down?
+    bne     _cursor_scroll_up
+    lda     #0xCC                   ; Bottom row Y position
+    bra     _cursor_set_y
+_cursor_scroll_up:
+    lda     #0x9C                   ; Top row Y position
+_cursor_set_y:
+    sta.l   0x7EEF6D                ; Set cursor 1 Y position
+
+_cursor_skip_force:
+
     .db     0x58                    ; CLI
     jmp.l   Return_To_Bank02
-
-; ============================================================================
-; Coordinate conversion constant
-; ============================================================================
-; Game scroll 371 should display our slot 0 at pixel 132
-; Offset = 371 - 132 = 239
-OUR_BASE_SCROLL     := 0x0173       ; 371 - same as original game
 
 ; HDMA table addresses - Y scroll portion only!
 ; Original ResetListScrollHDMA writes to $81F4 (Y scroll in swap table)
@@ -1894,38 +2029,84 @@ HDMA_Y_SIZE     := 0x00F0       ; 240 bytes (same as original)
 ; Only difference from original: uses 132-based values instead of 371-based.
 
 ResetListScrollHDMA_Rolling:
-    ; Set game variables (game code expects these)
+    ; Check if we're in inventory mode (bit 2 of $4A)
+    lda.b   0x4A
+    and     #0x04
+    bne     _reset_use_circular
+
+    ; Original behavior for non-inventory windows
+    ldx.w   #0x0173             ; 371 - base scroll
+    stx.w   0xEF65
+    ldy.w   #0x000C             ; 12 scanlines
+    sty.w   0xEF67
+    rep     #0x20               ; 16-bit A
+    txa                         ; A = 371
+    ldx.w   #0x0000
+_reset_orig_loop:
+    sta.w   0x81F4,x            ; Swap table only (like original)
+    dey
+    bne     _reset_orig_skip
+    clc
+    adc.w   #0x0004             ; Add 4 every 12 scanlines
+    ldy.w   #0x000C
+_reset_orig_skip:
+    inx
+    inx
+    inx
+    inx
+    cpx.w   #0x00F0
+    bne     _reset_orig_loop
+    .db     0x7B                ; TDC
+    sep     #0x20
+    rtl
+
+_reset_use_circular:
+    ; Circular buffer setup for inventory
     ldx.w   #0x0173             ; 371 - game's expected base scroll
     stx.w   0xEF65
-    ldy.w   #0x000C             ; 12 scanlines per group
+    ldy.w   #0x000C             ; 12 scanlines per item row
     sty.w   0xEF67
 
-    ; Fill Y scroll in both tables with our converted values
-    rep     #0x30               ; 16-bit A and X/Y
-    lda.w   #OUR_BASE_SCROLL    ; Start at 132 (not 371)
-    ldx.w   #0x0000
-    ldy.w   #0x000C
+    ; Re-initialize circular buffer contents when inventory (re)opens
+    ; This ensures VRAM has correct items even after closing/reopening
+    jsr.w   InitInventoryTextBuf_Rolling
 
-_reset_hdma_loop:
-    ; Store to Y scroll portion of BOTH tables
+    ; rolling_buffer_pos is now set by InitInventoryTextBuf_Rolling
+
+    ; Fill Y scroll in both tables using circular buffer formula
+    stz.b   0x02                ; Row counter low byte (8-bit mode)
+    stz.b   0x03                ; Row counter high byte
+    rep     #0x30               ; 16-bit A and X/Y
+    ldx.w   #0x0000             ; HDMA table index
+
+_reset_row_loop:
+    ; At init: vram_slot = row, so scroll = BASE + row * 4
+    lda.b   0x02                ; row
+    and.w   #0x00FF
+    asl
+    asl                         ; row * 4
+    clc
+    adc.w   #OUR_BASE_SCROLL    ; + BASE
+    sta.b   0x00                ; Save scroll value
+
+    ; Store same value for all 12 scanlines of this row
+    ldy.w   #0x000C             ; 12 scanlines
+_reset_scanline_loop:
+    lda.b   0x00
     sta.l   HDMA_SWAP_Y,x       ; $81F4 + X
     sta.l   HDMA_ACTIVE_Y,x     ; $7F74 + X
-
-    dey
-    bne     _reset_hdma_skip
-
-    ; Every 12 entries, add 4 pixels (same as original)
-    clc
-    adc.w   #0x0004
-    ldy.w   #0x000C
-
-_reset_hdma_skip:
     inx
     inx
     inx
     inx                         ; X += 4
-    cpx.w   #HDMA_Y_SIZE        ; 240 bytes (same as original)
-    bne     _reset_hdma_loop
+    dey
+    bne     _reset_scanline_loop
+
+    ; Next row
+    inc.b   0x02
+    lda.b   0x02
+    cmp.w   #VISIBLE_ROWS       ; 5 rows
+    bne     _reset_row_loop
 
     sep     #0x20               ; 8-bit A (game expects this)
     rtl

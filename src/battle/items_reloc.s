@@ -8,26 +8,27 @@
 ; ============================================================================
 
 ; ============================================================================
-; TEXT BUFFER ($8EA6)
+; TEXT BUFFER ($8EA6) - RING BUFFER
 ; ============================================================================
 ;
 ; The text buffer holds formatted tile data for inventory items.
-; DrawText writes here, then TfrInventoryList copies to tilemap buffer.
+; With the circular/ring buffer, we only need 6 slots (5 visible + 1 pre-render).
 ;
 ; Original layout: 48 items × 48 bytes = 2304 bytes ($8EA6-$97A5)
-; Expanded layout: 48 items × 60 bytes = 2880 bytes ($8EA6-$99E5)
+; Ring buffer layout: 6 slots × 60 bytes = 360 bytes ($8EA6-$900D)
 ;
-; Per-item layout (60 bytes = 30 tiles × 2 bytes per tile):
+; Per-slot layout (60 bytes = 30 tiles × 2 bytes per tile):
 ;   Bytes  0-29: Tilemap row 1 (dakuten/attribute row)
 ;   Bytes 30-59: Tilemap row 2 (main character row)
 ;
 ; Tile layout per row (15 tiles):
 ;   [symbol:1][name:11][colon:1][tens:1][ones:1] = 15 tiles
 
-item_buffer_base        := 0x8EA6   ; Text buffer base address
-item_buffer_stride      := 60      ; Bytes per item (was 48)
-item_row_stride         := 120     ; Bytes per row (2 items × 60)
-item_line2_offset       := 30      ; Offset to second tilemap row within item
+item_buffer_base        := 0x97A6   ; Ring buffer in freed spell list buffer 1
+item_buffer_stride      := 60      ; Bytes per slot (was 48)
+item_buffer_slots       := 6       ; Ring buffer slots (5 visible + 1 pre-render)
+item_buffer_size        := 360     ; Total buffer size (6 × 60)
+item_line2_offset       := 30      ; Offset to second tilemap row within slot
 
 ; ============================================================================
 ; TILEMAP BUFFER ($C4E6)

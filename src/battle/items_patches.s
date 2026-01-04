@@ -221,7 +221,7 @@
 ; --- Hand cursor X positions ---
 ; Original: 16/FC59: 0x0C, 0x7C (left=12px, right=124px)
 *=0x16FC59
-    .db 0x00, 0x7c - 4          ; left column 8px earlier (was 0x0c)
+    .db 0x0C, 0x7C              ; Keep original positions (left=12px, right=124px)
 
 ; --- Arrow sprite positions (X, Y, tile, attr) ---
 ; Original: 16/FC3C
@@ -240,6 +240,31 @@
 *=0x02B541
     .db 0x80, 0x36              ; bra $B579 (skip left/right handlers)
     nop                         ; Fill remaining bytes
+    nop
+
+; Single-column item index: change $63 by 1 per row instead of 2
+; In 2-column mode, each row has 2 items, so up/down changes $63 by 2.
+; In single-column mode, each row has 1 item, so change by 1.
+; NOP the second INC/DEC $63 in each up/down handler.
+
+; UP button - scroll case: $02B500-B503 has DEC $63 / DEC $63
+*=0x02B502
+    nop                         ; NOP second DEC $63
+    nop
+
+; UP button - non-scroll case: $02B508-B50B has DEC $63 / DEC $63
+*=0x02B50A
+    nop                         ; NOP second DEC $63
+    nop
+
+; DOWN button - scroll case: $02B530-B533 has INC $63 / INC $63
+*=0x02B532
+    nop                         ; NOP second INC $63
+    nop
+
+; DOWN button - non-scroll case: $02B538-B53B has INC $63 / INC $63
+*=0x02B53A
+    nop                         ; NOP second INC $63
     nop
 }
 
