@@ -15,17 +15,22 @@
 ; ============================================================================
 
 ; Layout (single column)
-MENU_VISIBLE_ITEMS      := 11       ; Visible items at once
-MENU_BUFFER_SLOTS       := 12       ; 12 slots (11 visible + 1 pre-render)
+MENU_VISIBLE_ITEMS      := 10       ; Visible items at once
+MENU_BUFFER_SLOTS       := 11       ; 11 slots (10 visible + 1 pre-render)
 MENU_TOTAL_ITEMS        := 48       ; Total inventory items
-MENU_SCROLL_LIMIT       := 37       ; 48 - 11 = max scroll position
+MENU_SCROLL_LIMIT       := 38       ; 48 - 10 = max scroll position
 
 ; Pixels per item row
 MENU_PIXELS_PER_ROW     := 16       ; Pixels per item slot (2 tilemap rows × 8)
 
 ; Scroll constants
-MENU_SCROLL_WRAP        := 192      ; 12 slots × 16 pixels = 192
+MENU_SCROLL_WRAP        := 176      ; 11 slots × 16 pixels = 176
 ; MENU_BASE_SCROLL is read from $93 (BG1VOFS shadow) at runtime
+
+; Screen layout - item list position
+; The item list doesn't start at scanline 0; there's a window border above it
+MENU_ITEM_LIST_Y_START  := 48       ; Scanline where item list begins (after border)
+MENU_ITEM_LIST_HEIGHT   := 160      ; 10 items × 16 pixels = 160 scanlines
 
 ; ============================================================================
 ; RAM VARIABLES
@@ -44,6 +49,7 @@ menu_scroll_state       := 0x1BB0   ; 0=idle, 1=scrolling
 menu_scroll_remaining   := 0x1BB1   ; Pixels remaining (16 down to 0)
 menu_scroll_direction   := 0x1BB2   ; +2=down, -2=up (signed)
 menu_transfer_pending   := 0x1BB3   ; Flag for NMI DMA transfer
+menu_scroll_anim_offset := 0x1BB4   ; Current animation pixel offset (16-bit, signed)
 
 ; Scroll State Constants
 SCROLL_STATE_IDLE       := 0
@@ -52,18 +58,24 @@ SCROLL_PIXELS_PER_FRAME := 2
 SCROLL_TOTAL_PIXELS     := 16
 
 ; ============================================================================
-; HDMA Configuration
+; HDMA Configuration (Direct Mode like FF6)
 ; ============================================================================
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
-; HDMA table needs 480 bytes (240 scanlines × 2 bytes per entry)
-; Using SRAM at bank $70 in gap between tile_ring ($703FF5) and BATTLE_FLAGS ($704F00)
-; Layout: $704000-$70400F = indirect table (16 bytes)
-;         $704010-$7041F0 = scroll data (480 bytes)
+; Direct mode: table contains count + 2 data bytes per entry
+; Using WRAM at $7E9800 (free area in menu RAM)
+;
+; Table format: count_byte, lo_byte, hi_byte (3 bytes per entry)
+; Layout:
+;   Entry 0: 48 scanlines (border) at BASE scroll
+;   Entries 1-10: 16 scanlines each (10 item rows) with calculated scroll
+;   Entry 11: 32 scanlines (below items) at BASE scroll
+;   Entry 12: $00 (end marker)
+;
+; Total table size: ~36 bytes + end marker
 
-MENU_HDMA_INDIRECT      := 0x4000       ; Indirect table (16 bytes at $704000)
-MENU_HDMA_DATA          := 0x4010       ; SRAM offset for scroll data (480 bytes, ends at $41F0)
-MENU_HDMA_TABLE         := 0x704010     ; Full 24-bit address for scroll data
-MENU_HDMA_BANK          := 0x70         ; Using bank $70 (SRAM)
+MENU_HDMA_TABLE_ADDR    := 0x9800       ; WRAM offset for HDMA table
+MENU_HDMA_TABLE         := 0x7E9800     ; Full 24-bit address
+MENU_HDMA_BANK          := 0x7E         ; Using WRAM bank
 
 ; HDMA registers for channel 5
 HDMA5_CTRL              := 0x4350       ; DMA control
@@ -85,65 +97,32 @@ HDMAEN                  := 0x420C       ; HDMA enable register
 ; Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
 ; Called when entering the item menu
 ;
-; HDMA mode: $42 = write 2 bytes, indirect mode
+; HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
 ; Register: $210E (BG1VOFS)
-; Table format at MENU_HDMA_INDIRECT:
-;   $F0, lo, hi  = 240 lines from pointer lo/hi
-;   $00          = end
-; Data at pointer: 2-byte scroll values (lo, hi) for each line
+; Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 
 InitMenuInventoryHDMA:
     php
     sep     #0x20                   ; 8-bit A
 
-    ; First, initialize the HDMA data table
+    ; Build the HDMA data table in WRAM
     jsr.w   InitMenuHDMATable
 
-    ; Set up HDMA indirect table at $704000
-    ; Format: count, ptr_lo, ptr_hi, ... $00
-    ; Count byte: bit 7=1 means repeat (same data for each line)
-    ; For 240 unique values, we need bit 7=0, but max count is 127
-    ; So we use two entries: 127 lines + 113 lines = 240 total
-    sep     #0x20                   ; 8-bit A
-
-    ; Entry 1: 127 lines from $704010
-    lda     #0x7F                   ; 127 lines (bit 7 clear = non-repeat)
-    sta.l   0x704000
-    lda     #0x10                   ; Low byte of $4010
-    sta.l   0x704001
-    lda     #0x40                   ; High byte of $4010
-    sta.l   0x704002
-
-    ; Entry 2: 113 lines from $704010 + (127*2) = $7040FE
-    lda     #0x71                   ; 113 lines (127+113=240)
-    sta.l   0x704003
-    lda     #0xFE                   ; Low byte of $40FE (127*2 = 254 = $FE)
-    sta.l   0x704004
-    lda     #0x40                   ; High byte of $40FE
-    sta.l   0x704005
-
-    ; End marker
-    lda     #0x00
-    sta.l   0x704006
-
-    ; Configure HDMA channel 5
+    ; Configure HDMA channel 5 for DIRECT mode
     ; Must use long addressing - DB may be $7E but registers are at $00:43xx
-    lda     #0x42                   ; Mode: indirect, 2 bytes to PPU
+    lda     #0x02                   ; Mode: DIRECT, write 2 bytes to same PPU reg
     sta.l   HDMA5_CTRL              ; $004350
 
     lda     #0x0E                   ; BG1VOFS register ($210E)
     sta.l   HDMA5_DEST              ; $004351
 
-    ; Source = indirect table at $704000
+    ; Source = HDMA table in WRAM at $7E9800
     rep     #0x20                   ; 16-bit A
-    lda.w   #MENU_HDMA_INDIRECT     ; $4000
+    lda.w   #MENU_HDMA_TABLE_ADDR   ; $9800
     sta.l   HDMA5_SRC_LO            ; $004352-$004353
     sep     #0x20                   ; 8-bit A
-    lda     #MENU_HDMA_BANK         ; $70
+    lda     #MENU_HDMA_BANK         ; $7E
     sta.l   HDMA5_SRC_BANK          ; $004354
-
-    ; Indirect bank = $70 (where scroll data lives)
-    sta.l   HDMA5_IND_BANK          ; $004357
 
     ; HDMA channel 5 is now enabled via shadow variable (menu_hdma_enable)
     ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
@@ -167,86 +146,96 @@ DisableMenuInventoryHDMA:
 ; ============================================================================
 ; InitMenuHDMATable
 ; ============================================================================
-; Initializes the HDMA data table with base scroll values
-; Creates per-scanline Y scroll values for 11 visible item rows
+; Builds direct mode HDMA table in WRAM at $7E9800
+; Format: count, lo, hi per entry, $00 to end
+; Initial state: all rows at BASE scroll (no circular buffer offset)
 
 InitMenuHDMATable:
     php
     rep     #0x30                   ; 16-bit A, X, Y
+    pha                             ; Save A
+    phx                             ; Save X
+    phy                             ; Save Y
 
-    ; DEBUG: Fill table with obviously wrong value to test if HDMA works
-    ; If HDMA is working, we'd see items WAY shifted
-    ; Set HDMA_DEBUG to 0 for normal operation
-    HDMA_DEBUG := 0
-    .if HDMA_DEBUG {
+    ; Save DP bytes we'll use as scratch
+    lda.b   0x40
+    pha                             ; Save $40-$41
+
+    ; X = table write offset
     ldx.w   #0x0000
-    lda.w   #0x0080                 ; Very obviously wrong scroll (128 pixels)
-_debug_fill:
+
+    ; Entry 0: Border area - 48 scanlines at BASE scroll
+    sep     #0x20                   ; 8-bit A for count byte
+    lda     #48                     ; 48 scanlines
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    rep     #0x20                   ; 16-bit A for value
+    lda.w   menu_rolling_base_scroll
     sta.l   MENU_HDMA_TABLE,x
     inx
     inx
-    cpx.w   #0x01E0                 ; 480 bytes
-    bcc     _debug_fill
-    plp
-    rts
-    }
 
-    ; Fill table with initial scroll values
-    ; At init, buffer_pos = 0, so slot 0 shows row 0
-    ; Each visible row gets 16 scanlines (2 tilemap rows × 8 pixels)
-    ; But we only need 12 scanlines per item row for menu spacing
+    ; Entries 1-10: Item rows - 16 scanlines each at BASE scroll (initial)
+    ; For init, all rows use BASE (no circular buffer offset yet)
+    lda.w   #0x0000
+    sta.b   0x40                    ; Row counter
 
-    ldx.w   #0x0000                 ; Table offset
-    ldy.w   #0x0000                 ; Row counter
-
-_init_hdma_row_loop:
-    ; Calculate scroll for this row
-    ; At init, all rows show sequential items, so scroll = BASE for all
-    ; (No circular wrapping needed at init since items are linear)
-    lda.w   menu_rolling_base_scroll  ; Use saved base scroll from $93
-    sta.b   0x40                    ; Save scroll value (use $40, not $00)
-
-    ; Store for 16 scanlines per row (item height)
-    pha
-    lda.w   #0x0010                 ; 16 scanlines
-    sta.b   0x44                    ; Use $44, not $04
-_init_hdma_scanline:
-    lda.b   0x40
-    sta.l   MENU_HDMA_TABLE,x       ; Long address to SRAM bank $70
+_init_item_rows:
+    sep     #0x20                   ; 8-bit A for count
+    lda     #16                     ; 16 scanlines per item row
+    sta.l   MENU_HDMA_TABLE,x
     inx
-    inx                             ; 2 bytes per entry
-    dec.b   0x44
-    bne     _init_hdma_scanline
+    rep     #0x20                   ; 16-bit A for value
+    lda.w   menu_rolling_base_scroll
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    inx
+
+    inc.b   0x40
+    lda.b   0x40
+    cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
+    bcc     _init_item_rows
+
+    ; Entry 11: Below items - 32 scanlines at BASE scroll
+    ; (48 + 160 = 208, remaining = 240 - 208 = 32)
+    sep     #0x20
+    lda     #32                     ; 32 scanlines
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    rep     #0x20
+    lda.w   menu_rolling_base_scroll
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    inx
+
+    ; End marker
+    sep     #0x20
+    lda     #0x00
+    sta.l   MENU_HDMA_TABLE,x
+
+    ; Restore DP bytes
+    rep     #0x20
     pla
+    sta.b   0x40                    ; Restore $40-$41
 
-    ; Next row
-    iny
-    cpy.w   #MENU_VISIBLE_ITEMS     ; 11 rows
-    bcc     _init_hdma_row_loop
-
-    ; Fill remaining scanlines with last value
-    lda.b   0x40
-_init_hdma_fill:
-    cpx.w   #0x01E0                 ; 240 entries × 2 bytes = 480
-    bcs     _init_hdma_done
-    sta.l   MENU_HDMA_TABLE,x       ; Long address to SRAM bank $70
-    inx
-    inx
-    bra     _init_hdma_fill
-
-_init_hdma_done:
+    ; Restore registers
+    ply
+    plx
+    pla
     plp
     rts
 
 ; ============================================================================
 ; UpdateMenuScrollHDMA
 ; ============================================================================
-; Called during menu scroll animation to build HDMA table
-; Creates the circular buffer effect by varying scroll values per scanline.
+; Rebuilds the direct mode HDMA table for current scroll state.
+; Creates the circular buffer effect by varying scroll values per row.
 ;
 ; For each visible row, calculates:
-;   vram_slot = (buffer_pos + row) mod 6
-;   scroll = BASE + (vram_slot * 16) - (row * 12)
+;   vram_slot = (buffer_pos + row) mod MENU_BUFFER_SLOTS
+;   scroll = BASE + (vram_slot * 16) - (row * 16) + anim_offset
+;
+; Direct mode table format: count, lo, hi per entry
 
 UpdateMenuScrollHDMA:
     ; Save processor status and registers
@@ -262,23 +251,37 @@ UpdateMenuScrollHDMA:
     lda.b   0x42
     pha                             ; Save $42-$43
 
-    ldx.w   #0x0000                 ; HDMA table index (byte offset)
-    stz.b   0x42                    ; Row counter
+    ; X = table write offset
+    ldx.w   #0x0000
 
-_menu_hdma_row_loop:
+    ; Entry 0: Border area - 48 scanlines at BASE scroll (unchanged)
+    sep     #0x20                   ; 8-bit A for count byte
+    lda     #48
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    rep     #0x20                   ; 16-bit A for value
+    lda.w   menu_rolling_base_scroll
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    inx
+
+    ; Entries 1-10: Item rows with circular buffer scroll values
+    stz.b   0x42                    ; Row counter (0-9)
+
+_update_hdma_row_loop:
     ; Calculate vram_slot = (buffer_pos + row) % MENU_BUFFER_SLOTS
     lda.w   menu_rolling_buffer_pos
     and.w   #0x00FF
     clc
     adc.b   0x42                    ; + row number
-_menu_hdma_mod12:
-    cmp.w   #MENU_BUFFER_SLOTS      ; >= 12?
-    bcc     _menu_hdma_mod12_done
+_update_hdma_mod:
+    cmp.w   #MENU_BUFFER_SLOTS      ; >= 11?
+    bcc     _update_hdma_mod_done
     sec
     sbc.w   #MENU_BUFFER_SLOTS
-    bra     _menu_hdma_mod12
-_menu_hdma_mod12_done:
-    ; A = vram_slot (0-11)
+    bra     _update_hdma_mod
+_update_hdma_mod_done:
+    ; A = vram_slot (0-10)
 
     ; Calculate vram_slot * 16 (pixels per slot in VRAM)
     asl
@@ -293,52 +296,55 @@ _menu_hdma_mod12_done:
     asl
     asl
     asl
-    asl                             ; row * 16
-    ; A = scanline_offset
+    asl                             ; row * 16 = scanline_offset
 
-    ; scroll = BASE + vram_offset - scanline_offset
-    ;eor.w   #0xFFFF                 ; negate (two's complement step 1)
-    .db 0x49
-    .dw 0xffff
-    inc                             ; negate (two's complement step 2)
+    ; scroll = BASE + vram_offset - scanline_offset + anim_offset
+    ; Negate scanline_offset: EOR #$FFFF, INC
+    eor.w   #0xFFFF
+    inc                             ; A = -scanline_offset
     clc
     adc.b   0x40                    ; + vram_offset
     clc
-    adc.w   menu_rolling_base_scroll ; + BASE (from saved $93)
+    adc.w   menu_rolling_base_scroll ; + BASE
+    clc
+    adc.w   menu_scroll_anim_offset ; + animation offset
     sta.b   0x40                    ; scroll value for this row
 
-    ; Store for 16 scanlines (item height = 2 tilemap rows × 8 pixels)
-    ldy.w   #0x0010                 ; 16 scanlines
-_menu_hdma_scanline_loop:
-    lda.b   0x40
-    sta.l   MENU_HDMA_TABLE,x       ; Long address to SRAM bank $70
+    ; Write entry: count=16, value=scroll
+    sep     #0x20                   ; 8-bit for count
+    lda     #16                     ; 16 scanlines per item row
+    sta.l   MENU_HDMA_TABLE,x
     inx
-    inx                             ; X += 2 (2 bytes per scanline)
-    dey
-    bne     _menu_hdma_scanline_loop
+    rep     #0x20                   ; 16-bit for value
+    lda.b   0x40
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    inx
 
     ; Next row
     inc.b   0x42
     lda.b   0x42
-    cmp.w   #MENU_VISIBLE_ITEMS     ; 11 rows
-    beq     _menu_hdma_row_done
-    jmp     _menu_hdma_row_loop
+    cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
+    bcc     _update_hdma_row_loop
 
-_menu_hdma_row_done:
-    ; Fill remaining scanlines with last scroll value
-    lda.b   0x40
-_menu_hdma_fill_end:
-    cpx.w   #0x01E0                 ; 240 × 2 = 480 bytes
-    bcs     _menu_hdma_fill_done
-    sta.l   MENU_HDMA_TABLE,x       ; Long address to SRAM bank $70
+    ; Entry 11: Below items - 32 scanlines at BASE scroll
+    sep     #0x20
+    lda     #32
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    rep     #0x20
+    lda.w   menu_rolling_base_scroll
+    sta.l   MENU_HDMA_TABLE,x
     inx
     inx
-    bra     _menu_hdma_fill_end
-_menu_hdma_fill_done:
-    ; HDMA is now enabled via shadow variable in NMI hook
-    ; No need to write HDMAEN directly here
+
+    ; End marker
+    sep     #0x20
+    lda     #0x00
+    sta.l   MENU_HDMA_TABLE,x
 
     ; Restore DP bytes (reverse order)
+    rep     #0x20
     pla
     sta.b   0x42                    ; Restore $42-$43
     pla
@@ -359,6 +365,11 @@ _menu_hdma_fill_done:
 
 InitMenuRollingBuffer:
     php                             ; Save processor state at entry
+    pha                             ; Save A
+
+    ; Save DP byte we'll use as scratch
+    lda.b   0x46
+    pha                             ; Save $46
 
     ; Initialize buffer state (stz works in any mode)
     stz.w   menu_rolling_top_row
@@ -377,7 +388,7 @@ InitMenuRollingBuffer:
     ; Render initial 12 slots (items 0-11) to buffer
     sep     #0x20                   ; 8-bit A - CRITICAL!
     lda     #0x00
-    sta.b   0x46                    ; Loop counter (use $46, avoid low DP)
+    sta.b   0x46                    ; Loop counter
 
 _menu_init_row_loop:
     lda.b   0x46
@@ -392,6 +403,11 @@ _menu_init_row_loop:
     cmp     #MENU_BUFFER_SLOTS
     bne     _menu_init_row_loop
 
+    ; Restore DP byte
+    pla
+    sta.b   0x46                    ; Restore $46
+
+    pla                             ; Restore A
     plp                             ; Restore original processor state
     rts
 
@@ -688,6 +704,11 @@ _start_down_buf_ok:
     lda     #SCROLL_PIXELS_PER_FRAME
     sta.w   menu_scroll_direction   ; +2 for down
 
+    ; Initialize animation offset to 0
+    rep     #0x20
+    stz.w   menu_scroll_anim_offset
+    sep     #0x20
+
     ; Request DMA transfer for the new row
     lda     #0x01
     sta.w   menu_transfer_pending
@@ -737,6 +758,11 @@ _start_up_wrap_done:
     lda     #0xFE                   ; -2 (two's complement) for up
     sta.w   menu_scroll_direction
 
+    ; Initialize animation offset to 0
+    rep     #0x20
+    stz.w   menu_scroll_anim_offset
+    sep     #0x20
+
     ; Request DMA transfer
     lda     #0x01
     sta.w   menu_transfer_pending
@@ -751,34 +777,34 @@ _start_up_wrap_done:
 ; UpdateScrollFrame
 ; ============================================================================
 ; Called each frame during scroll animation.
-; Updates $93 (BG1VOFS shadow), HDMA table, and cursor sprite position.
+; Updates animation offset, HDMA table, and cursor sprite position.
+; NOTE: Does NOT modify $93 - all scrolling is handled via HDMA.
 
 UpdateScrollFrame:
     php
 
-    ; Update $93 scroll value (16-bit operation)
+    ; Update animation offset (NOT $93 - HDMA handles all scroll)
+    ; Offset increases each frame based on direction
     rep     #0x20                   ; 16-bit A
-    lda.b   0x93                    ; BG1VOFS shadow (D=$0100, so $0193)
-    clc
-    ; Add direction (sign-extended from 8-bit)
+    lda.w   menu_scroll_anim_offset
     sep     #0x20
     lda.w   menu_scroll_direction
     bpl     _scroll_frame_positive
-    ; Negative direction (scrolling up)
+    ; Negative direction (scrolling up) - decrease offset
     rep     #0x20
-    lda.b   0x93
+    lda.w   menu_scroll_anim_offset
     sec
     sbc.w   #SCROLL_PIXELS_PER_FRAME
-    sta.b   0x93
+    sta.w   menu_scroll_anim_offset
     bra     _scroll_frame_update_cursor
 
 _scroll_frame_positive:
-    ; Positive direction (scrolling down)
+    ; Positive direction (scrolling down) - increase offset
     rep     #0x20
-    lda.b   0x93
+    lda.w   menu_scroll_anim_offset
     clc
     adc.w   #SCROLL_PIXELS_PER_FRAME
-    sta.b   0x93
+    sta.w   menu_scroll_anim_offset
 
 _scroll_frame_update_cursor:
     sep     #0x20                   ; 8-bit A
@@ -825,10 +851,18 @@ _scroll_frame_no_cursor:
 
 FinishScroll:
     php
-    sep     #0x20                   ; 8-bit A
 
     ; Reset scroll state to idle
+    sep     #0x20
     stz.w   menu_scroll_state
+
+    ; Reset animation offset
+    rep     #0x20
+    stz.w   menu_scroll_anim_offset
+    sep     #0x20
+
+    ; Update HDMA table with final positions (offset = 0)
+    jsr.w   UpdateMenuScrollHDMA
 
     ; Call original post-scroll cleanup routines
     jsr.w   0xA105                  ; DrawItemCursors
@@ -853,6 +887,8 @@ MenuEntryHook_Impl:
     stz.w   menu_scroll_remaining
     stz.w   menu_scroll_direction
     stz.w   menu_transfer_pending
+    stz.w   menu_scroll_anim_offset     ; Clear low byte
+    stz.w   menu_scroll_anim_offset + 1 ; Clear high byte
     jsr.w   InitMenuRollingBuffer
     rtl
 

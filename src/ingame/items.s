@@ -45,9 +45,9 @@
     jsr.w draw_vwf_message_pos_with_bank
 
 
-; inventory window
+; inventory window (22 rows tall for 10 visible items + borders)
 *=0x01dcce
-    menu_window(0,0,30,48)
+    menu_window(0,0,30,24)
 
 ;
 *=0x01dcd6
