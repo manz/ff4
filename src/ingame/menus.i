@@ -1,5 +1,8 @@
 .include 'src/ingame/main.s'
 .include 'src/ingame/items.s'
+.include 'src/ingame/inventory_rolling.s'
+.include 'src/ingame/inventory_single_column.s'
+.include 'src/ingame/inventory_rolling_patches.s'
 .include 'src/ingame/options.s'
 .include 'src/ingame/status.s'
 .include 'src/ingame/magic.s'

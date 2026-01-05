@@ -140,3 +140,21 @@ treasure_menu_entry:
 ; open menu, set PC to 01d792
 ; starts the menu
 ; set 0xee to 0x1804 (Key item baron key.)
+
+; ============================================================================
+; Single-column patches (moved here to test if they apply)
+; ============================================================================
+; Scroll limit: 48 items - 10 visible = 38 max scroll position
+; CMP opcode at $A076, operand at $A077
+*=0x01A077
+    .db     38                      ; 38 = new scroll limit
+
+; Visible items count - handled in inventory_single_column.s
+
+; Disable left button (AND #$00 instead of AND #$02)
+*=0x019FF4
+    and     #0x00
+
+; Disable right button (AND #$00 instead of AND #$01)
+*=0x01A005
+    and     #0x00

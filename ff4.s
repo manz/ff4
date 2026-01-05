@@ -18,6 +18,9 @@ INVENTORY_ROLLING_BUFFER := 1   ; Enable rolling buffer optimization (WIP)
 ; Debug flags
 TRIGGER_ENDING_CUTSCENE := 0
 
+; Forward declaration - ConditionalBG1VOFS is at start of relocated region ($208000)
+ConditionalBG1VOFS := 0x208000
+
 .include "src/libmz.i"
 .include "src/system_menus_text.i"
 
@@ -104,6 +107,27 @@ dialog_bank_ptr_base = 0x218000
 .incbin "assets/monsters.dat"
 
 *=0x208000
+"""Relocated Region"""
+
+; Conditional BG1VOFS write for HDMA inventory scrolling
+; Called from UpdateScrollRegs at $14FF2D via JSL
+; Skips BG1VOFS write when menu HDMA is active
+; Address is defined as constant ConditionalBG1VOFS := $208000
+.if INVENTORY_ROLLING_BUFFER {
+    ; Check if menu HDMA is enabled (use long addressing, DB may be $00)
+    .db 0xAF                        ; LDA.L opcode
+    .dw menu_hdma_enable            ; $1BAE
+    .db 0x7E                        ; Bank $7E
+    bne     _cond_skip_bg1vofs
+    ; HDMA not active - do original BG1VOFS writes
+    ; Menu context: D=$0100, so $93 reads from $0193
+    lda.b   0x93
+    sta.w   0x210E
+    lda.b   0x94
+    sta.w   0x210E
+_cond_skip_bg1vofs:
+    rtl
+}
 
 clear_ram:
     jsr.l 0x15C9AA
@@ -167,9 +191,6 @@ MultiplyItemIndex12:
     asl                 ; x12
     tax
     rtl
-
-
-
 
 ; binary text assets
 .incbin "assets/attack_names.ptr"
