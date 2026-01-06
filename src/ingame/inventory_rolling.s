@@ -196,14 +196,16 @@ _init_item_rows:
     cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
     bcc     _init_item_rows
 
-    ; Entry 11: Below items - 32 scanlines at BASE scroll
-    ; (48 + 160 = 208, remaining = 240 - 208 = 32)
+    ; Entry 11: Below items - 32 scanlines at BASE + 184
+    ; Lock to show area after the 11 item slots (11 * 16 + 8 = 184)
     sep     #0x20
     lda     #32                     ; 32 scanlines
     sta.l   MENU_HDMA_TABLE,x
     inx
     rep     #0x20
     lda.w   menu_rolling_base_scroll
+    clc
+    adc.w   #184                    ; Lock at base + 184
     sta.l   MENU_HDMA_TABLE,x
     inx
     inx
@@ -327,13 +329,15 @@ _update_hdma_mod_done:
     cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
     bcc     _update_hdma_row_loop
 
-    ; Entry 11: Below items - 32 scanlines at BASE scroll
+    ; Entry 11: Below items - 32 scanlines at BASE + 184
     sep     #0x20
     lda     #32
     sta.l   MENU_HDMA_TABLE,x
     inx
     rep     #0x20
     lda.w   menu_rolling_base_scroll
+    clc
+    adc.w   #184                    ; Lock at base + 184
     sta.l   MENU_HDMA_TABLE,x
     inx
     inx
@@ -400,7 +404,7 @@ _menu_init_row_loop:
 
     inc.b   0x46
     lda.b   0x46
-    cmp     #MENU_BUFFER_SLOTS
+    cmp     #11                     ; Render 11 items (0-10) explicitly
     bne     _menu_init_row_loop
 
     ; Restore DP byte
@@ -529,6 +533,8 @@ MenuRenderItemToSlot:
     sep     #0x20                   ; 8-bit A
     lda.b   0x5d
     pha
+    lda.b   0xDB                    ; Save tile attribute byte
+    pha
 
     ; Set $29 = $B600 for BG1 tilemap buffer
     rep     #0x20
@@ -546,21 +552,27 @@ MenuRenderItemToSlot:
     adc     #0x00                   ; Add carry
     sta.b   0x5b
 
+    ; Determine item palette (enabled=0x00, disabled=0x04) via game's check
+    ; Load item ID from ($5A) and call palette determination at $A25D
+    stz.b   0x34                    ; Clear $34 (no priority for BG1 items)
+    lda.b   (0x5A)                  ; Load item ID
+    jsr.w   0xA25D                  ; Sets $DB based on item usability
+
     ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
     lda.w   menu_rolling_slot_index
     sta.b   0x5d
 
-    ; Calculate Y = slot_index * 128 + 66
+    ; Calculate Y = slot_index * 128 + 70
     ; Y is the tilemap offset for this slot
     ; +64 for window border (1 tile row = 32 tiles × 2 bytes)
-    ; +2 for left margin
+    ; +6 for left margin (3 tiles)
     rep     #0x20                   ; 16-bit A
     lda.w   menu_rolling_slot_index
     and.w   #0x00FF                 ; Clear high byte
     xba                             ; Swap bytes: A = slot * 256
     lsr                             ; A = slot * 128
     clc
-    adc.w   #0x0042                 ; + 66 (64 border + 2 margin)
+    adc.w   #0x0046                 ; + 70 (64 border + 6 margin)
     tay                             ; Y = tilemap offset
     sep     #0x20                   ; 8-bit A
 
@@ -568,7 +580,9 @@ MenuRenderItemToSlot:
     ; Expects: Y = tilemap offset, ($5A) = item pointer, ($29) = tilemap base
     jsr.w   0xA1ED
 
-    ; Restore direct page variables and registers
+    ; Restore direct page variables and registers (reverse order)
+    pla
+    sta.b   0xDB                    ; Restore tile attribute byte
     pla
     sta.b   0x5d
     rep     #0x20
@@ -674,21 +688,10 @@ StartScrollDown:
     ; Lazy init HDMA if needed
     jsr.w   EnsureHDMAInitialized
 
-    ; Pre-render the edge item (same as MenuScrollDownPrepare)
-    ; Calculate new bottom item = scroll_pos + VISIBLE_ITEMS
-    lda.w   0x1B1A                  ; Current scroll position (already incremented)
-    clc
-    adc     #MENU_VISIBLE_ITEMS - 1 ; -1 because 1B1A already incremented
-    sta.w   menu_rolling_edge_row
+    ; DON'T pre-render here - the slot coming into view is already pre-rendered
+    ; from init or previous scroll. We'll pre-render the NEXT item in FinishScroll.
 
-    ; The slot scrolling OFF the top will be reused for new bottom item
-    lda.w   menu_rolling_buffer_pos
-    sta.w   menu_rolling_slot_index
-
-    ; Render item to the slot that's scrolling off
-    jsr.w   MenuRenderItemToSlot
-
-    ; Advance buffer position
+    ; Advance buffer position FIRST
     inc.w   menu_rolling_buffer_pos
     lda.w   menu_rolling_buffer_pos
     cmp     #MENU_BUFFER_SLOTS
@@ -704,9 +707,11 @@ _start_down_buf_ok:
     lda     #SCROLL_PIXELS_PER_FRAME
     sta.w   menu_scroll_direction   ; +2 for down
 
-    ; Initialize animation offset to 0
+    ; Initialize animation offset to -16 (compensate for buffer_pos already incremented)
+    ; Animation goes from -16 towards 0 (adding +2 each frame)
     rep     #0x20
-    stz.w   menu_scroll_anim_offset
+    lda.w   #0xFFF0                 ; -16 in two's complement
+    sta.w   menu_scroll_anim_offset
     sep     #0x20
 
     ; Request DMA transfer for the new row
@@ -732,7 +737,10 @@ StartScrollUp:
     ; Lazy init HDMA if needed
     jsr.w   EnsureHDMAInitialized
 
-    ; Decrement buffer position first
+    ; DON'T pre-render here - the slot coming into view is already pre-rendered
+    ; from previous scroll. We'll pre-render the NEXT item in FinishScroll.
+
+    ; Decrement buffer position FIRST
     lda.w   menu_rolling_buffer_pos
     beq     _start_up_wrap
     dec
@@ -741,14 +749,6 @@ _start_up_wrap:
     lda     #MENU_BUFFER_SLOTS - 1
 _start_up_wrap_done:
     sta.w   menu_rolling_buffer_pos
-    sta.w   menu_rolling_slot_index
-
-    ; Calculate new top item = scroll_pos (already decremented by trigger)
-    lda.w   0x1B1A
-    sta.w   menu_rolling_edge_row
-
-    ; Render item to the new top slot
-    jsr.w   MenuRenderItemToSlot
 
     ; Set up scroll state machine
     lda     #SCROLL_STATE_SCROLLING
@@ -758,9 +758,11 @@ _start_up_wrap_done:
     lda     #0xFE                   ; -2 (two's complement) for up
     sta.w   menu_scroll_direction
 
-    ; Initialize animation offset to 0
+    ; Initialize animation offset to +16 (compensate for buffer_pos already decremented)
+    ; Animation goes from +16 towards 0 (subtracting 2 each frame)
     rep     #0x20
-    stz.w   menu_scroll_anim_offset
+    lda.w   #0x0010                 ; +16
+    sta.w   menu_scroll_anim_offset
     sep     #0x20
 
     ; Request DMA transfer
@@ -851,9 +853,65 @@ _scroll_frame_no_cursor:
 
 FinishScroll:
     php
-
-    ; Reset scroll state to idle
     sep     #0x20
+
+    ; Check scroll direction to know which item to pre-render
+    lda.w   menu_scroll_direction
+    bmi     _finish_scroll_was_up
+
+    ; === Scrolled DOWN - pre-render for NEXT scroll down ===
+    ; The slot that went off-screen (above) will appear at bottom on next scroll
+    ; Slot = (buffer_pos - 1 + BUFFER_SLOTS) % BUFFER_SLOTS
+    lda.w   menu_rolling_buffer_pos
+    beq     _finish_down_wrap
+    dec
+    bra     _finish_down_slot_ok
+_finish_down_wrap:
+    lda     #MENU_BUFFER_SLOTS - 1
+_finish_down_slot_ok:
+    sta.w   menu_rolling_slot_index
+
+    ; Item = scroll_pos + VISIBLE_ITEMS
+    lda.w   0x1B1A                  ; Current scroll position
+    clc
+    adc     #MENU_VISIBLE_ITEMS
+    cmp     #MENU_TOTAL_ITEMS       ; Don't render past end
+    bcs     _finish_skip_render
+    sta.w   menu_rolling_edge_row
+    jsr.w   MenuRenderItemToSlot
+    ; Request DMA transfer to VRAM
+    lda     #0x01
+    sta.w   menu_transfer_pending
+    bra     _finish_skip_render
+
+_finish_scroll_was_up:
+    ; === Scrolled UP - pre-render for NEXT scroll up ===
+    ; The slot that went off-screen (below) will appear at top on next scroll
+    ; Slot = (buffer_pos + VISIBLE_ITEMS) % BUFFER_SLOTS
+    lda.w   menu_rolling_buffer_pos
+    clc
+    adc     #MENU_VISIBLE_ITEMS
+_finish_up_mod:
+    cmp     #MENU_BUFFER_SLOTS
+    bcc     _finish_up_slot_ok
+    sec
+    sbc     #MENU_BUFFER_SLOTS
+    bra     _finish_up_mod
+_finish_up_slot_ok:
+    sta.w   menu_rolling_slot_index
+
+    ; Item = scroll_pos - 1 (only if scroll_pos > 0)
+    lda.w   0x1B1A
+    beq     _finish_skip_render     ; At top, no need to pre-render
+    dec
+    sta.w   menu_rolling_edge_row
+    jsr.w   MenuRenderItemToSlot
+    ; Request DMA transfer to VRAM
+    lda     #0x01
+    sta.w   menu_transfer_pending
+
+_finish_skip_render:
+    ; Reset scroll state to idle
     stz.w   menu_scroll_state
 
     ; Reset animation offset
@@ -866,7 +924,7 @@ FinishScroll:
 
     ; Call original post-scroll cleanup routines
     jsr.w   0xA105                  ; DrawItemCursors
-    jsr.w   0x82A5                  ; UpdateCtrlAfterScroll (was incorrectly $A134)
+    jsr.w   0x82A5                  ; UpdateCtrlAfterScroll
 
     plp
     rts

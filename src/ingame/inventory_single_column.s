@@ -40,7 +40,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original: lda #$30 at A17D-A17E (a9 30)
 ; Just patch the operand byte at A17E, not the full instruction
 *=0x01A17E
-    .db     VISIBLE_ITEMS           ; Change operand from $30 to $0A
+    .db     VISIBLE_ITEMS + 1       ; Draw 11 items (10 visible + 1 pre-render slot)
 
 ; ============================================================================
 ; DrawItemSlot - Single Column Version

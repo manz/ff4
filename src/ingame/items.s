@@ -47,7 +47,7 @@
 
 ; inventory window (22 rows tall for 10 visible items + borders)
 *=0x01dcce
-    menu_window(0,0,30,24)
+    menu_window(0,0,30,22)
 
 ;
 *=0x01dcd6
@@ -65,7 +65,7 @@
 *=0x01a227
     adc.w #0x001c + 2
 *=0x01a1c4
-    adc.w #0x0002
+    adc.w #0x0006                   ; +2 tiles to the right
 
 *=0x1efd7d
 __delta_l = 0
