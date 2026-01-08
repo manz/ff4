@@ -47,7 +47,7 @@
 
 ; inventory window (22 rows tall for 10 visible items + borders)
 *=0x01dcce
-    menu_window(0,0,30,22)
+    menu_window(0,0,30,23)
 
 ;
 *=0x01dcd6
@@ -158,3 +158,8 @@ treasure_menu_entry:
 ; Disable right button (AND #$00 instead of AND #$01)
 *=0x01A005
     and     #0x00
+
+; Hook swap redraw to reset rolling buffer
+*=0x01A401
+    jmp.w   SwapRedrawTrampoline    ; Replace JSR $A172
+

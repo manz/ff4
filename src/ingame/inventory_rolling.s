@@ -50,11 +50,12 @@ menu_scroll_remaining   := 0x1BB1   ; Pixels remaining (16 down to 0)
 menu_scroll_direction   := 0x1BB2   ; +2=down, -2=up (signed)
 menu_transfer_pending   := 0x1BB3   ; Flag for NMI DMA transfer
 menu_scroll_anim_offset := 0x1BB4   ; Current animation pixel offset (16-bit, signed)
+menu_hdma_copy_pending  := 0x1BB6   ; Flag: shadow table needs copying to active (set by game, cleared by NMI)
 
 ; Scroll State Constants
 SCROLL_STATE_IDLE       := 0
 SCROLL_STATE_SCROLLING  := 1
-SCROLL_PIXELS_PER_FRAME := 2
+SCROLL_PIXELS_PER_FRAME := 8        ; 8 pixels/frame = 2 frames per scroll
 SCROLL_TOTAL_PIXELS     := 16
 
 ; ============================================================================
@@ -73,8 +74,11 @@ SCROLL_TOTAL_PIXELS     := 16
 ;
 ; Total table size: ~36 bytes + end marker
 
-MENU_HDMA_TABLE_ADDR    := 0x9800       ; WRAM offset for HDMA table
+MENU_HDMA_TABLE_ADDR    := 0x9800       ; WRAM offset for HDMA table (active - read by HDMA)
 MENU_HDMA_TABLE         := 0x7E9800     ; Full 24-bit address
+MENU_HDMA_SHADOW_ADDR   := 0x9840       ; WRAM offset for shadow table (written by game logic)
+MENU_HDMA_SHADOW        := 0x7E9840     ; Full 24-bit address
+MENU_HDMA_TABLE_SIZE    := 40           ; Max table size in bytes (13 entries × 3 bytes + padding)
 MENU_HDMA_BANK          := 0x7E         ; Using WRAM bank
 
 ; HDMA registers for channel 5
@@ -106,7 +110,9 @@ InitMenuInventoryHDMA:
     sep     #0x20                   ; 8-bit A
 
     ; Build the HDMA data table in WRAM
-    jsr.w   InitMenuHDMATable
+    ; Use UpdateMenuScrollHDMA directly - InitMenuHDMATable is redundant
+    ; since UpdateMenuScrollHDMA is called immediately after anyway
+    jsr.w   UpdateMenuScrollHDMA
 
     ; Configure HDMA channel 5 for DIRECT mode
     ; Must use long addressing - DB may be $7E but registers are at $00:43xx
@@ -193,19 +199,20 @@ _init_item_rows:
 
     inc.b   0x40
     lda.b   0x40
-    cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
+
+    cmp.w   #1     ; 10 rows
     bcc     _init_item_rows
 
-    ; Entry 11: Below items - 32 scanlines at BASE + 184
-    ; Lock to show area after the 11 item slots (11 * 16 + 8 = 184)
+    ; Entry 11: Below items - 16 scanlines at BASE + 16
+    ; Lock to show the bottom window border area
     sep     #0x20
-    lda     #32                     ; 32 scanlines
+    lda     #16                     ; 16 scanlines
     sta.l   MENU_HDMA_TABLE,x
     inx
     rep     #0x20
     lda.w   menu_rolling_base_scroll
     clc
-    adc.w   #184                    ; Lock at base + 184
+    adc.w   #16                     ; Lock at base + 16
     sta.l   MENU_HDMA_TABLE,x
     inx
     inx
@@ -230,8 +237,8 @@ _init_item_rows:
 ; ============================================================================
 ; UpdateMenuScrollHDMA
 ; ============================================================================
-; Rebuilds the direct mode HDMA table for current scroll state.
-; Creates the circular buffer effect by varying scroll values per row.
+; Rebuilds the HDMA table in the SHADOW buffer for current scroll state.
+; The NMI handler copies shadow -> active during vblank for flicker-free updates.
 ;
 ; For each visible row, calculates:
 ;   vram_slot = (buffer_pos + row) mod MENU_BUFFER_SLOTS
@@ -249,9 +256,9 @@ UpdateMenuScrollHDMA:
 
     ; Save DP bytes we'll use as scratch (16-bit mode writes 2 bytes each)
     lda.b   0x40
-    pha                             ; Save $40-$41
+    pha                             ; Save $40-$41 (scroll value / vram_offset)
     lda.b   0x42
-    pha                             ; Save $42-$43
+    pha                             ; Save $42-$43 (row counter)
 
     ; X = table write offset
     ldx.w   #0x0000
@@ -259,11 +266,11 @@ UpdateMenuScrollHDMA:
     ; Entry 0: Border area - 48 scanlines at BASE scroll (unchanged)
     sep     #0x20                   ; 8-bit A for count byte
     lda     #48
-    sta.l   MENU_HDMA_TABLE,x
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     rep     #0x20                   ; 16-bit A for value
     lda.w   menu_rolling_base_scroll
-    sta.l   MENU_HDMA_TABLE,x
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     inx
 
@@ -308,44 +315,63 @@ _update_hdma_mod_done:
     adc.b   0x40                    ; + vram_offset
     clc
     adc.w   menu_rolling_base_scroll ; + BASE
+    ; DISABLED: Animation offset causes seam flicker at buffer wrap-around.
+    ; When vram_slot=0 (seam row), scroll goes negative and lands in border
+    ; zone [176-255], showing window border instead of item content.
+    ; With 11 slots (176 pixels) in a 256-pixel tilemap, the math doesn't
+    ; wrap cleanly like FF6's power-of-2 approach. Disabling gives instant
+    ; scroll instead of smooth animation, but eliminates the visual glitch.
+    ; TODO: Fix by clamping seam scroll or using content duplication.
+.if 0 {
     clc
     adc.w   menu_scroll_anim_offset ; + animation offset
+}
     sta.b   0x40                    ; scroll value for this row
 
+_write_normal_entry:
     ; Write entry: count=16, value=scroll
     sep     #0x20                   ; 8-bit for count
     lda     #16                     ; 16 scanlines per item row
-    sta.l   MENU_HDMA_TABLE,x
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     rep     #0x20                   ; 16-bit for value
     lda.b   0x40
-    sta.l   MENU_HDMA_TABLE,x
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     inx
 
+_row_done:
     ; Next row
+    rep     #0x20                   ; Ensure 16-bit for comparison
     inc.b   0x42
     lda.b   0x42
     cmp.w   #MENU_VISIBLE_ITEMS     ; 10 rows
-    bcc     _update_hdma_row_loop
+    bcs     _row_loop_done          ; >= 10, exit loop
+    jmp.w   _update_hdma_row_loop
+_row_loop_done:
 
-    ; Entry 11: Below items - 32 scanlines at BASE + 184
+    ; Entry 11: Below items - 16 scanlines at BASE + 16
+    ; Lock to show the bottom window border area
     sep     #0x20
-    lda     #32
-    sta.l   MENU_HDMA_TABLE,x
+    lda     #16
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     rep     #0x20
     lda.w   menu_rolling_base_scroll
     clc
-    adc.w   #184                    ; Lock at base + 184
-    sta.l   MENU_HDMA_TABLE,x
+    adc.w   #16                    ; Lock at base + 16
+    sta.l   MENU_HDMA_SHADOW,x
     inx
     inx
 
     ; End marker
     sep     #0x20
     lda     #0x00
-    sta.l   MENU_HDMA_TABLE,x
+    sta.l   MENU_HDMA_SHADOW,x
+
+    ; Signal NMI to copy shadow -> active table
+    lda     #0x01
+    sta.w   menu_hdma_copy_pending
 
     ; Restore DP bytes (reverse order)
     rep     #0x20
@@ -370,6 +396,10 @@ _update_hdma_mod_done:
 InitMenuRollingBuffer:
     php                             ; Save processor state at entry
     pha                             ; Save A
+
+    ; Draw the inventory window frame (what original DrawInventoryList does first)
+    ldy     #0xDCCE                 ; InventoryWindow data pointer
+    jsr.w   0x80D9                  ; DrawWindow
 
     ; Save DP byte we'll use as scratch
     lda.b   0x46
@@ -552,6 +582,16 @@ MenuRenderItemToSlot:
     adc     #0x00                   ; Add carry
     sta.b   0x5b
 
+    ; Load item count from ($5A)+1 into $5C
+    ; Use long addressing to read directly from WRAM
+    rep     #0x20                   ; 16-bit A
+    lda.b   0x5a                    ; Get pointer value ($1440 + item*2)
+    inc                             ; Point to count byte (+1)
+    tax                             ; X = address of count
+    sep     #0x20                   ; 8-bit A
+    lda.l   0x7E0000,x              ; Load count from WRAM
+    sta.b   0x5C                    ; Store in $5C (0 is fine - DrawItemSlot handles it)
+
     ; Determine item palette (enabled=0x00, disabled=0x04) via game's check
     ; Load item ID from ($5A) and call palette determination at $A25D
     stz.b   0x34                    ; Clear $34 (no priority for BG1 items)
@@ -688,16 +728,34 @@ StartScrollDown:
     ; Lazy init HDMA if needed
     jsr.w   EnsureHDMAInitialized
 
-    ; DON'T pre-render here - the slot coming into view is already pre-rendered
-    ; from init or previous scroll. We'll pre-render the NEXT item in FinishScroll.
-
     ; Advance buffer position FIRST
     inc.w   menu_rolling_buffer_pos
     lda.w   menu_rolling_buffer_pos
     cmp     #MENU_BUFFER_SLOTS
     bcc     _start_down_buf_ok
     stz.w   menu_rolling_buffer_pos
+    lda     #0x00                   ; A = 0 after wrap
 _start_down_buf_ok:
+
+    ; Pre-render the item that's about to appear at bottom
+    ; Bottom slot = (buffer_pos + VISIBLE_ITEMS - 1) % BUFFER_SLOTS
+    clc
+    adc     #MENU_VISIBLE_ITEMS - 1 ; A has buffer_pos
+_start_down_mod:
+    cmp     #MENU_BUFFER_SLOTS
+    bcc     _start_down_mod_done
+    sec
+    sbc     #MENU_BUFFER_SLOTS
+    bra     _start_down_mod
+_start_down_mod_done:
+    sta.w   menu_rolling_slot_index
+
+    ; Item = scroll_pos + VISIBLE_ITEMS - 1 (scroll_pos already incremented)
+    lda.w   0x1B1A
+    clc
+    adc     #MENU_VISIBLE_ITEMS - 1
+    sta.w   menu_rolling_edge_row
+    jsr.w   MenuRenderItemToSlot
 
     ; Set up scroll state machine
     lda     #SCROLL_STATE_SCROLLING
@@ -737,9 +795,6 @@ StartScrollUp:
     ; Lazy init HDMA if needed
     jsr.w   EnsureHDMAInitialized
 
-    ; DON'T pre-render here - the slot coming into view is already pre-rendered
-    ; from previous scroll. We'll pre-render the NEXT item in FinishScroll.
-
     ; Decrement buffer position FIRST
     lda.w   menu_rolling_buffer_pos
     beq     _start_up_wrap
@@ -749,6 +804,13 @@ _start_up_wrap:
     lda     #MENU_BUFFER_SLOTS - 1
 _start_up_wrap_done:
     sta.w   menu_rolling_buffer_pos
+    sta.w   menu_rolling_slot_index ; Render to this slot
+
+    ; Pre-render the item that's about to appear at top
+    ; scroll_pos was already decremented by trigger, so it IS the top item
+    lda.w   0x1B1A                  ; scroll_pos (already decremented)
+    sta.w   menu_rolling_edge_row
+    jsr.w   MenuRenderItemToSlot
 
     ; Set up scroll state machine
     lda     #SCROLL_STATE_SCROLLING
@@ -945,9 +1007,10 @@ MenuEntryHook_Impl:
     stz.w   menu_scroll_remaining
     stz.w   menu_scroll_direction
     stz.w   menu_transfer_pending
+    stz.w   menu_hdma_copy_pending      ; Clear HDMA copy flag
     stz.w   menu_scroll_anim_offset     ; Clear low byte
     stz.w   menu_scroll_anim_offset + 1 ; Clear high byte
-    jsr.w   InitMenuRollingBuffer
+    ; InitMenuRollingBuffer is called later via patched JSR at $9F7B
     rtl
 
 MenuExitHook_Impl:
@@ -958,11 +1021,90 @@ MenuExitHook_Impl:
     jsr.w   0x8D6A
     rtl
 
+; ============================================================================
+; SwapRedrawHook_Impl
+; ============================================================================
+; Called after item swap to redraw visible items correctly.
+; Must render to the correct circular buffer slots based on current buffer_pos.
+; Does NOT reset buffer_pos - we stay at the current scroll position.
+SwapRedrawHook_Impl:
+    ; Save DP byte for loop counter
+    lda.b   0x46
+    pha
+
+    ; Re-render all visible items to correct circular buffer slots
+    ; Item index = scroll_pos + row, Slot = (buffer_pos + row) % BUFFER_SLOTS
+    lda     #0x00
+    sta.b   0x46                    ; Row counter (0-10)
+
+_swap_redraw_loop:
+    ; Calculate item index = scroll_pos + row
+    lda.w   0x1B1A                  ; Scroll position
+    clc
+    adc.b   0x46                    ; + row
+    sta.w   menu_rolling_edge_row
+
+    ; Calculate slot = (buffer_pos + row) % BUFFER_SLOTS
+    lda.w   menu_rolling_buffer_pos
+    clc
+    adc.b   0x46                    ; + row
+_swap_redraw_mod:
+    cmp     #MENU_BUFFER_SLOTS
+    bcc     _swap_redraw_mod_done
+    sec
+    sbc     #MENU_BUFFER_SLOTS
+    bra     _swap_redraw_mod
+_swap_redraw_mod_done:
+    sta.w   menu_rolling_slot_index
+
+    ; Render item to the correct slot
+    jsr.w   MenuRenderItemToSlot
+
+    ; Next row
+    inc.b   0x46
+    lda.b   0x46
+    cmp     #MENU_BUFFER_SLOTS      ; Render all 11 slots
+    bne     _swap_redraw_loop
+
+    ; Restore DP byte
+    pla
+    sta.b   0x46
+
+    ; Request DMA transfer
+    lda     #0x01
+    sta.w   menu_transfer_pending
+
+    rtl
+
 NmiDmaTransferCheck_Impl:
+    php
+    sep     #0x20                   ; 8-bit A
+
+    ; === HDMA table copy: shadow -> active ===
+    ; This happens during vblank BEFORE HDMA starts reading for the next frame
+    lda.w   menu_hdma_copy_pending
+    beq     _nmi_hdma_copy_done
+    stz.w   menu_hdma_copy_pending
+
+    ; Copy 40 bytes from shadow ($9840) to active ($9800) using CPU
+    ; Fast enough during vblank, and simpler than DMA setup
+    rep     #0x30                   ; 16-bit A, X, Y
+    ldx.w   #0x0000
+_nmi_hdma_copy_loop:
+    lda.l   MENU_HDMA_SHADOW,x
+    sta.l   MENU_HDMA_TABLE,x
+    inx
+    inx
+    cpx.w   #MENU_HDMA_TABLE_SIZE
+    bcc     _nmi_hdma_copy_loop
+    sep     #0x20                   ; Back to 8-bit A
+
+_nmi_hdma_copy_done:
+    ; === Tilemap DMA transfer ===
     lda.w   menu_transfer_pending
     beq     _nmi_done
     stz.w   menu_transfer_pending
-    php
+
     sep     #0x20
     lda     #0x01
     sta.w   0x4300
@@ -982,8 +1124,58 @@ NmiDmaTransferCheck_Impl:
     sep     #0x20
     lda     #0x01
     sta.w   0x420B
-    plp
+
 _nmi_done:
+    plp
     rtl
+
+; ============================================================================
+; CheckAndClearCount
+; ============================================================================
+; Called from DrawItemSlot to check item ID and handle count display.
+; - If item ID is 0: writes $FF tiles to clear count, skips to RTS
+; - If item ID is $FE: skips to RTS (no clearing needed)
+; - Otherwise: returns normally to draw count
+;
+; Input: $5a = pointer to item data, Y = tilemap offset, $29 = tilemap ptr
+; Modifies: A, return address on stack if skipping
+CheckAndClearCount:
+    lda     (0x5a)              ; Load item ID
+    beq     _clear_count        ; If 0, clear and skip
+    cmp     #0xFE               ; Check for special item $FE
+    bne     _normal_return      ; If not $FE, return normally to draw count
+    ; Item is $FE - skip count but don't clear
+    bra     _skip_to_rts
+
+_clear_count:
+    ; Write $FF (blank tiles) to count area: colon + 2 digits = 3 tiles
+    lda     #0xFF               ; Blank tile
+    sta     (0x29),y            ; Colon position
+    iny
+    lda.b   0xdb                ; Attribute byte
+    sta     (0x29),y
+    iny
+    lda     #0xFF
+    sta     (0x29),y            ; First digit position
+    iny
+    lda.b   0xdb
+    sta     (0x29),y
+    iny
+    lda     #0xFF
+    sta     (0x29),y            ; Second digit position
+    iny
+    lda.b   0xdb
+    sta     (0x29),y
+
+_skip_to_rts:
+    ; Modify return address to skip to DrawItemSlot's RTS at $A222
+    pla                         ; Pop low byte of return address
+    pla                         ; Pop high byte of return address
+    lda     #0xA2               ; Push high byte first
+    pha                         ; (RTS expects high byte deeper in stack)
+    lda     #0x21               ; Push low byte: $A222 - 1 = $A221
+    pha
+_normal_return:
+    rts
 
 }

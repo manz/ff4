@@ -169,33 +169,6 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
     nop
 
 ; ============================================================================
-; Helper: AdjustInventoryPointer
-; ============================================================================
-; Adjusts $5a to point to the first visible item based on scroll position
-; Also initializes $5d and $5e
-; Placed in bank $01 free space
-
-*=0x01FEC0
-AdjustInventoryPointer:
-    ; Initialize counters
-    stz.b   0x5d
-    stz.b   0x5e
-
-    ; Calculate offset: scroll_pos * 2
-    lda.w   0x1B1A                  ; Scroll position (0-38)
-    asl                             ; x2 (2 bytes per item)
-
-    ; Add to pointer
-    clc
-    adc.b   0x5a                    ; $5a already has $1440
-    sta.b   0x5a
-    lda     #0x00
-    adc.b   0x5b
-    sta.b   0x5b
-
-    rts
-
-; ============================================================================
 ; Cursor Y Limit for Scroll Down
 ; ============================================================================
 ; Original at $01A071: cmp #$09 for 10 visible rows
@@ -218,13 +191,32 @@ AdjustInventoryPointer:
 ;
 ; Patch: Always store 0 for X position
 
-*=0x01A2D1
-    lda     #0x00                   ; Always 0 for single column
-    ; Original: lda $1b22
+; $1B25 stores absolute position (scroll + cursor) - keep original storage
+; Just patch $A2CD to store 0 for X position
+*=0x01A2CD
+    lda     #0x00                   ; Always 0 for single column X (was LDA $1B22)
+    nop                             ; Pad to 3 bytes
 
 ; ============================================================================
 ; Item Index Calculation for Selection
 ; ============================================================================
+; Original two-column: ((Y + scroll) * 2 + X) * 2 = item_index * 2
+; Single column: (Y + scroll) * 2
+; Need to remove one ASL at each calculation
+
+; First item (current cursor) at $A398
+*=0x01A398
+    nop                             ; Remove first ASL (was: ASL / ADC $1B22 / ASL)
+
+; Second item (swap target) at $A3A6
+; $1B25 already has absolute position, just remove first ASL
+*=0x01A3A6
+    nop                             ; Remove first ASL (was: ASL / ADC $1B24 / ASL)
+
+; Another second item calculation at $A320
+; $1B25 already has absolute position, just remove first ASL
+*=0x01A320
+    nop                             ; Remove first ASL
 ; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
 ; For single column: (scroll_pos + cursor_y) * 2
 ;
