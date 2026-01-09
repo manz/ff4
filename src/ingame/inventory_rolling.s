@@ -553,12 +553,20 @@ MenuRenderItemToSlot:
     pha
     plb
 
+    ; Set 16-bit A and X/Y for consistent register handling
+    rep     #0x30                   ; 16-bit A and X/Y
+
     ; Save registers and key direct page variables
-    rep     #0x20                   ; 16-bit A for pushing
     pha
+    phx                             ; Save X (16-bit)
+    phy                             ; Save Y (16-bit)
     lda.b   0x5a
     pha
     lda.b   0x29                    ; Save tilemap buffer pointer
+    pha
+    lda.b   0x45                    ; Save $45-$46 (used by game routines)
+    pha
+    lda.b   0x33                    ; Save $33-$34 (used for tile attributes)
     pha
     sep     #0x20                   ; 8-bit A
     lda.b   0x5d
@@ -567,10 +575,10 @@ MenuRenderItemToSlot:
     pha
 
     ; Set $29 = $B600 for BG1 tilemap buffer
-    rep     #0x20
+    rep     #0x20                   ; 16-bit A (X/Y still 16-bit)
     lda.w   #0xB600
     sta.b   0x29
-    sep     #0x20
+    sep     #0x20                   ; 8-bit A
 
     ; Calculate item data pointer: $1440 + (edge_row * 2)
     lda.w   menu_rolling_edge_row
@@ -582,21 +590,24 @@ MenuRenderItemToSlot:
     adc     #0x00                   ; Add carry
     sta.b   0x5b
 
-    ; Load item count from ($5A)+1 into $5C
+    ; Load item ID and count from ($5A)
     ; Use long addressing to read directly from WRAM
-    rep     #0x20                   ; 16-bit A
+    rep     #0x20                   ; 16-bit A (X/Y already 16-bit from entry)
     lda.b   0x5a                    ; Get pointer value ($1440 + item*2)
-    inc                             ; Point to count byte (+1)
-    tax                             ; X = address of count
+    tax                             ; X = address of item data (16-bit)
     sep     #0x20                   ; 8-bit A
+    lda.l   0x7E0000,x              ; Load item ID from WRAM
+    pha                             ; Save item ID for CheckCanUseItem
+    inx
     lda.l   0x7E0000,x              ; Load count from WRAM
-    sta.b   0x5C                    ; Store in $5C (0 is fine - DrawItemSlot handles it)
+    sta.b   0x5C                    ; Store in $5C
 
-    ; Determine item palette (enabled=0x00, disabled=0x04) via game's check
-    ; Load item ID from ($5A) and call palette determination at $A25D
-    stz.b   0x34                    ; Clear $34 (no priority for BG1 items)
-    lda.b   (0x5A)                  ; Load item ID
-    jsr.w   0xA25D                  ; Sets $DB based on item usability
+    ; Call CheckCanUseItem to set palette in $DB
+    ; Input: A = item ID
+    ; Output: $DB = $00 (usable) or $04 (not usable)
+    stz.b   0x34                    ; Clear $34 (no priority/flip bits)
+    pla                             ; Restore item ID
+    jsr.w   0xA25D                  ; CheckCanUseItem - sets $DB
 
     ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
     lda.w   menu_rolling_slot_index
@@ -606,32 +617,51 @@ MenuRenderItemToSlot:
     ; Y is the tilemap offset for this slot
     ; +64 for window border (1 tile row = 32 tiles × 2 bytes)
     ; +6 for left margin (3 tiles)
-    rep     #0x20                   ; 16-bit A
+    rep     #0x20                   ; 16-bit A (X/Y already 16-bit)
     lda.w   menu_rolling_slot_index
     and.w   #0x00FF                 ; Clear high byte
     xba                             ; Swap bytes: A = slot * 256
     lsr                             ; A = slot * 128
     clc
     adc.w   #0x0046                 ; + 70 (64 border + 6 margin)
-    tay                             ; Y = tilemap offset
+    tay                             ; Y = tilemap offset (16-bit transfer)
     sep     #0x20                   ; 8-bit A
+
+    ; Check for trash can item ($FF) - needs special 2x2 tile graphic
+    lda     (0x5a)                  ; Load item ID
+    cmp     #0xFF
+    bne     _not_trash_item
+    jsr.w   DrawTrashSingleColumn   ; Draw trash icon
+    bra     _skip_draw_item_slot
+
+_not_trash_item:
+    ; Clear the 2x2 trash can area first (in case we scrolled from trash position)
+    jsr.w   ClearTrashArea
 
     ; Call DrawItemSlot inner at $A1ED
     ; Expects: Y = tilemap offset, ($5A) = item pointer, ($29) = tilemap base
     jsr.w   0xA1ED
+
+_skip_draw_item_slot:
 
     ; Restore direct page variables and registers (reverse order)
     pla
     sta.b   0xDB                    ; Restore tile attribute byte
     pla
     sta.b   0x5d
-    rep     #0x20
+    rep     #0x20                   ; 16-bit A
+    pla
+    sta.b   0x33                    ; Restore $33-$34 (tile attributes)
+    pla
+    sta.b   0x45                    ; Restore $45-$46 (used by game routines)
     pla
     sta.b   0x29                    ; Restore tilemap buffer pointer
     pla
     sta.b   0x5a
-    pla
-    sep     #0x20
+    rep     #0x10                   ; 16-bit X/Y for pop (match push)
+    ply                             ; Restore Y (16-bit)
+    plx                             ; Restore X (16-bit)
+    pla                             ; Restore A (16-bit - still in 16-bit A from above)
 
     plb
     plp
@@ -1010,6 +1040,9 @@ MenuEntryHook_Impl:
     stz.w   menu_hdma_copy_pending      ; Clear HDMA copy flag
     stz.w   menu_scroll_anim_offset     ; Clear low byte
     stz.w   menu_scroll_anim_offset + 1 ; Clear high byte
+    ; Initialize cursor column to 0 for single-column mode
+    ; This ensures $1b22 is always 0 even if it had a value from previous menu
+    stz.w   0x1B22                      ; cursor_x = 0
     ; InitMenuRollingBuffer is called later via patched JSR at $9F7B
     rtl
 
@@ -1028,6 +1061,22 @@ MenuExitHook_Impl:
 ; Must render to the correct circular buffer slots based on current buffer_pos.
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 SwapRedrawHook_Impl:
+    php
+    sep     #0x20                   ; 8-bit A
+
+    ; CRITICAL: Ensure HDMA is initialized before using scroll values
+    ; If swap happens before any scrolling, base_scroll would be 0xFFFF
+    jsr.w   EnsureHDMAInitialized
+
+    ; CRITICAL: Reset scroll state to prevent re-rendering after swap
+    ; If scroll was in progress, FinishScroll would re-render items
+    stz.w   menu_scroll_state
+    stz.w   menu_scroll_remaining
+
+    ; Ensure animation offset is zero (prevent visual shift)
+    stz.w   menu_scroll_anim_offset
+    stz.w   menu_scroll_anim_offset + 1
+
     ; Save DP byte for loop counter
     lda.b   0x46
     pha
@@ -1038,13 +1087,8 @@ SwapRedrawHook_Impl:
     sta.b   0x46                    ; Row counter (0-10)
 
 _swap_redraw_loop:
-    ; Calculate item index = scroll_pos + row
-    lda.w   0x1B1A                  ; Scroll position
-    clc
-    adc.b   0x46                    ; + row
-    sta.w   menu_rolling_edge_row
-
-    ; Calculate slot = (buffer_pos + row) % BUFFER_SLOTS
+    ; Calculate slot = (buffer_pos + row) % BUFFER_SLOTS first
+    ; We need slot_index for both rendering and clearing
     lda.w   menu_rolling_buffer_pos
     clc
     adc.b   0x46                    ; + row
@@ -1057,9 +1101,25 @@ _swap_redraw_mod:
 _swap_redraw_mod_done:
     sta.w   menu_rolling_slot_index
 
+    ; Calculate item index = scroll_pos + row
+    lda.w   0x1B1A                  ; Scroll position
+    clc
+    adc.b   0x46                    ; + row
+    cmp     #MENU_TOTAL_ITEMS       ; Check bounds (< 48)
+    bcs     _swap_redraw_clear      ; Clear slot if out of range
+    sta.w   menu_rolling_edge_row
+
     ; Render item to the correct slot
     jsr.w   MenuRenderItemToSlot
+    bra     _swap_redraw_next
 
+_swap_redraw_clear:
+    ; Item index is out of bounds - clear this slot
+    ; Set edge_row to point to an empty item (use item 0 which should be empty at end)
+    ; Actually, render a blank slot by setting item pointer to empty data
+    jsr.w   ClearInventorySlot
+
+_swap_redraw_next:
     ; Next row
     inc.b   0x46
     lda.b   0x46
@@ -1074,7 +1134,206 @@ _swap_redraw_mod_done:
     lda     #0x01
     sta.w   menu_transfer_pending
 
+    ; Rebuild HDMA table to ensure consistency
+    ; (Even though buffer_pos didn't change, this ensures the table is correct)
+    jsr.w   UpdateMenuScrollHDMA
+
+    plp
     rtl
+
+; ============================================================================
+; ClearInventorySlot
+; ============================================================================
+; Clears a single inventory slot in the tilemap buffer.
+; Input: menu_rolling_slot_index = slot to clear (0-10)
+; Used when item index is out of bounds (>= 48)
+ClearInventorySlot:
+    php
+    phb
+
+    ; Set data bank to $7E for WRAM access
+    lda     #0x7E
+    pha
+    plb
+
+    ; Save registers - use 16-bit mode for consistent push/pop
+    rep     #0x30                   ; 16-bit A and X/Y
+    pha
+    phx
+    phy
+    lda.b   0x29
+    pha
+
+    ; Set $29 = $B600 for BG1 tilemap buffer
+    lda.w   #0xB600
+    sta.b   0x29
+
+    ; Calculate Y = slot_index * 128 + 70
+    lda.w   menu_rolling_slot_index
+    and.w   #0x00FF
+    xba                             ; A = slot * 256
+    lsr                             ; A = slot * 128
+    clc
+    adc.w   #0x0046                 ; + 70 (64 border + 6 margin)
+    tay                             ; Y = tilemap offset (16-bit)
+    sep     #0x20                   ; 8-bit A for tile writes (X/Y stay 16-bit)
+
+    ; Clear the item name area (12 tiles = 24 bytes)
+    ; Use $FF as blank tile
+    ; Note: X is 16-bit but we only use low byte; loop works correctly
+    ldx.w   #12                     ; 12 tiles for item name + quantity (force 16-bit immediate)
+_clear_slot_loop:
+    lda     #0xFF                   ; Blank tile
+    sta     (0x29),y
+    iny
+    lda     #0x04                   ; Palette 4 (matches normal items)
+    sta     (0x29),y
+    iny
+    dex
+    bne     _clear_slot_loop
+
+    ; Restore registers - must match push mode
+    rep     #0x20                   ; 16-bit A for pop (X/Y already 16-bit)
+    pla
+    sta.b   0x29
+    ply
+    plx
+    pla
+
+    plb
+    plp
+    rts
+
+; ============================================================================
+; ClearTrashArea
+; ============================================================================
+; Clears the 2x2 trash can area with blank tiles ($FF).
+; Called before drawing normal items to remove any leftover trash icon.
+; Input: Y = tilemap offset
+;        ($29) = tilemap base
+;
+ClearTrashArea:
+    phy                             ; Save Y
+    ; First row: 2 tiles
+    lda     #0xFF
+    sta     (0x29),y
+    iny
+    lda     #0x00
+    sta     (0x29),y
+    iny
+    lda     #0xFF
+    sta     (0x29),y
+    iny
+    lda     #0x00
+    sta     (0x29),y
+
+    ; Second row: Y + 64 from start
+    ply                             ; Restore original Y
+    phy                             ; Save again
+    rep     #0x20
+    tya
+    clc
+    adc.w   #64
+    tay
+    sep     #0x20
+
+    lda     #0xFF
+    sta     (0x29),y
+    iny
+    lda     #0x00
+    sta     (0x29),y
+    iny
+    lda     #0xFF
+    sta     (0x29),y
+    iny
+    lda     #0x00
+    sta     (0x29),y
+
+    ply                             ; Restore Y
+    rts
+
+; ============================================================================
+; DrawTrashSingleColumn
+; ============================================================================
+; Draws the trash can 2x2 tile graphic for single-column inventory.
+; Input: Y = tilemap offset (from slot calculation)
+;        ($29) = tilemap base ($B600)
+;        menu_rolling_slot_index = current slot
+; Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
+;
+; Tilemap format: [tile_number, attributes] pairs
+; Each row is 64 bytes (32 tiles × 2 bytes)
+;
+DrawTrashSingleColumn:
+    ; Y points to start of item slot area
+    ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
+
+    ; Save starting Y for second row calculation
+    rep     #0x20                   ; 16-bit for push
+    phy                             ; Save starting Y
+    sep     #0x20                   ; 8-bit A
+
+    ; First row: tiles $04, $05
+    lda     #0x04                   ; Tile $04 (top-left of trash can)
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute: palette 0, no flip
+    sta     (0x29),y
+    iny
+    lda     #0x05                   ; Tile $05 (top-right)
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute
+    sta     (0x29),y
+    iny
+
+    ; Clear remaining 13 tiles on first row (10 name + colon + 2 digits)
+    ldx.w   #13
+_clear_row1:
+    lda     #0xFF                   ; Blank tile
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute
+    sta     (0x29),y
+    iny
+    dex
+    bne     _clear_row1
+
+    ; Restore starting Y and add 64 for second row
+    rep     #0x20                   ; 16-bit A
+    pla                             ; Get starting Y
+    clc
+    adc.w   #64                     ; +64 bytes = next tilemap row
+    tay
+    sep     #0x20                   ; 8-bit A
+
+    ; Second row: tiles $06, $07
+    lda     #0x06                   ; Tile $06 (bottom-left)
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute
+    sta     (0x29),y
+    iny
+    lda     #0x07                   ; Tile $07 (bottom-right)
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute
+    sta     (0x29),y
+    iny
+
+    ; Clear remaining 13 tiles on second row (10 name + colon + 2 digits)
+    ldx.w   #13
+_clear_row2:
+    lda     #0xFF                   ; Blank tile
+    sta     (0x29),y
+    iny
+    lda     #0x00                   ; Attribute
+    sta     (0x29),y
+    iny
+    dex
+    bne     _clear_row2
+
+    rts
 
 NmiDmaTransferCheck_Impl:
     php
@@ -1177,5 +1436,64 @@ _skip_to_rts:
     pha
 _normal_return:
     rts
+
+; ============================================================================
+; CircularSlotCalc
+; ============================================================================
+; Calculate tilemap Y offset using circular buffer position.
+; Called from patched code at $A1BA via CircularSlotCalc_ext.
+;
+; Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
+; Output: Y = tilemap offset for circular buffer slot
+; Preserves: 16-bit A mode on exit
+;
+CircularSlotCalc:
+    sep     #0x20                   ; 8-bit A
+    ; Check if circular buffer mode is active (HDMA enabled)
+    lda.l   0x7E0000 + menu_hdma_enable
+    beq     _circ_slot_original     ; Not active, use original calculation
+
+    ; Circular buffer Y calculation
+    ; NOTE: Game increments $5D by 2 for each row (0, 2, 4, 6, 8, 10, 12, 14, 16, 18)
+    ; We must divide by 2 first to get the visual slot (0-9)
+    lda.b   0x5d                    ; Load slot counter (0, 2, 4...)
+    lsr                             ; Divide by 2 to get visual slot (0-9)
+    clc
+    adc.l   0x7E0000 + menu_rolling_buffer_pos ; Add buffer_pos
+_circ_slot_mod:
+    cmp     #MENU_BUFFER_SLOTS      ; >= 11?
+    bcc     _circ_slot_done
+    sec
+    sbc     #MENU_BUFFER_SLOTS      ; Subtract 11 to wrap
+    bra     _circ_slot_mod
+_circ_slot_done:
+    ; A = circular slot (0-10)
+    rep     #0x20                   ; 16-bit A
+    and.w   #0x00FF                 ; Clear high byte (force 16-bit immediate)
+    xba                             ; A = slot * 256
+    lsr                             ; A = slot * 128
+    clc
+    adc.w   #0x0006                 ; + 6 (margin only, $29 already includes border)
+    tay                             ; Y = tilemap offset
+    rts
+
+_circ_slot_original:
+    ; Original game calculation: Y = ($5D / 2) * 128 + 4
+    lda.b   0x5d
+    lsr                             ; /2
+    rep     #0x20                   ; 16-bit A
+    and.w   #0x00FF                 ; Clear high byte (force 16-bit immediate)
+    xba                             ; *256
+    lsr                             ; *128
+    clc
+    adc.w   #0x0004                 ; +4
+    tay
+    rts
+
+; --- CircularSlotCalc_ext ---
+; Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA
+CircularSlotCalc_ext:
+    jsr.w   CircularSlotCalc
+    rtl
 
 }

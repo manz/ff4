@@ -205,18 +205,25 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Need to remove one ASL at each calculation
 
 ; First item (current cursor) at $A398
+; Original: ASL / ADC $1B22 / ASL -> ((val*2)+col)*2
+; New: CLC / ADC $1B22 / ASL -> (val+col)*2
+; MUST use CLC because the previous CMP leaves carry set!
 *=0x01A398
-    nop                             ; Remove first ASL (was: ASL / ADC $1B22 / ASL)
+    clc                             ; Clear carry (was ASL which also clears carry)
 
 ; Second item (swap target) at $A3A6
-; $1B25 already has absolute position, just remove first ASL
+; $1B25 already has absolute position
+; Original: ASL / ADC $1B24 / ASL -> ((val*2)+col)*2
+; New: CLC / ADC $1B24 / ASL -> (val+col)*2
 *=0x01A3A6
-    nop                             ; Remove first ASL (was: ASL / ADC $1B24 / ASL)
+    clc                             ; Clear carry (was ASL which also clears carry)
 
 ; Another second item calculation at $A320
-; $1B25 already has absolute position, just remove first ASL
+; Used when selecting same item twice to use it
+; CRITICAL: CMP $1B24 at $A318 sets carry if $1B22 >= $1B24 (always true when both are 0)
+; Original ASL would clear carry, but NOP leaves carry SET, causing ADC to add +1!
 *=0x01A320
-    nop                             ; Remove first ASL
+    clc                             ; Clear carry (was ASL which also clears carry)
 ; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
 ; For single column: (scroll_pos + cursor_y) * 2
 ;
@@ -241,3 +248,28 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ;
 ; For single column, $1b24=0, so this simplifies to: $1b25 * 2
 ; No patch needed if $1b24 is always 0
+
+; ============================================================================
+; DrawItemDesc - Single Column Fix
+; ============================================================================
+; Original at $01A7C8 uses two-column calculation (ABSOLUTE addressing):
+;   $A7C8: LDA.W $1B23   (AD 23 1B) - cursor_y
+;   $A7CB: CLC           (18)
+;   $A7CC: ADC.W $1B1A   (6D 1A 1B) - + scroll_pos
+;   $A7CF: ASL           (0A)       - * 2 (for two columns per row) <-- PATCH HERE
+;   $A7D0: ADC.W $1B22   (6D 22 1B) - + column
+;   $A7D3: ASL           (0A)       - * 2 (for 2 bytes per item)
+;
+; For single column: remove first ASL at $A7CF
+; This matches the patches at $A398, $A3A6, $A320
+
+*=0x01A7CF
+    nop                             ; Remove first ASL for single column
+
+; ============================================================================
+; Initialize $1B22 (cursor column) to 0 on menu entry
+; ============================================================================
+; Ensure $1b22 starts at 0 even if it had a value from a previous menu.
+; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
+; We already have AdjustInventoryPointer at $A181, so add $1b22 init there.
+; Actually, we'll add it to the MenuEntryHook_Impl in inventory_rolling.s

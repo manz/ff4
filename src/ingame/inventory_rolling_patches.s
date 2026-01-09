@@ -65,6 +65,16 @@
     nop
 
 ; ============================================================================
+; Refresh inventory after SelectItem2 (swap OR use)
+; ============================================================================
+; After SelectItem2 completes (swap or use item), we need to refresh the
+; display. For swaps, SwapRedrawHook_Impl already handled it. For item use,
+; we need to refresh the current slot to show updated quantity.
+; Call our refresh hook instead of the original DrawInventoryList.
+*=0x01A0D2
+    jsr.w   ItemUseRefreshHook
+
+; ============================================================================
 ; DrawItemSlot Column Check Patch - Force single column mode
 ; ============================================================================
 *=0x01A1F0
@@ -87,5 +97,25 @@
     nop                                  ; 1 byte - padding
     nop                                  ; 1 byte - padding
     nop                                  ; 1 byte - padding
+
+; ============================================================================
+; Patch $A1BA: Replace sequential Y calculation with circular buffer version
+; ============================================================================
+; Original code at $A1BA-$A1C7 (14 bytes):
+;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
+; Replace with JSL to CircularSlotCalc_ext trampoline + NOPs
+;
+*=0x01A1BA
+    jsr.l   CircularSlotCalc_ext        ; 4 bytes
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
 }

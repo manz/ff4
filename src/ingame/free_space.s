@@ -81,7 +81,8 @@ display_build_number:
 
 SwapRedrawTrampoline:
     jsr.l   SwapRedrawHook_Impl
-    jmp.w   0xA404
+    jsr.w   0xA2D9                  ; Clear second cursor (from original $A404)
+    jmp.w   0xA40A                  ; Skip $84BA (game's sequential redraw), go to RTS
 
 ; --- MainLoopScrollCheck ---
 ; Called from $019FF2 via jmp.w
@@ -161,6 +162,13 @@ AdjustInventoryPointer:
     lda     #0x00
     adc.b   0x5b
     sta.b   0x5b
+    rts
+
+; --- ItemUseRefreshHook ---
+; Called after SelectItem2 to refresh display after item use
+; Re-renders all visible slots to show updated quantity or empty slot
+ItemUseRefreshHook:
+    jsr.l   SwapRedrawHook_Impl
     rts
 
 }
