@@ -112,6 +112,10 @@ WrapAndClear_Trampoline:
     ; updated with the next item in the list.
     jsr.l   PostScrollDown_Render   ; Post-render if scroll down
 
+    ; Check cursor 2 visibility for swap mode
+    ; If first selected item scrolled out of view, hide cursor 2
+    jsr.l   CheckCursor2Visibility_Rolling
+
     ; Clear animation state
     stz.w   0x1820
     rts

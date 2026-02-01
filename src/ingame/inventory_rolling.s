@@ -1335,58 +1335,8 @@ _clear_row2:
 
     rts
 
-NmiDmaTransferCheck_Impl:
-    php
-    sep     #0x20                   ; 8-bit A
-
-    ; === HDMA table copy: shadow -> active ===
-    ; This happens during vblank BEFORE HDMA starts reading for the next frame
-    lda.w   menu_hdma_copy_pending
-    beq     _nmi_hdma_copy_done
-    stz.w   menu_hdma_copy_pending
-
-    ; Copy 40 bytes from shadow ($9840) to active ($9800) using CPU
-    ; Fast enough during vblank, and simpler than DMA setup
-    rep     #0x30                   ; 16-bit A, X, Y
-    ldx.w   #0x0000
-_nmi_hdma_copy_loop:
-    lda.l   MENU_HDMA_SHADOW,x
-    sta.l   MENU_HDMA_TABLE,x
-    inx
-    inx
-    cpx.w   #MENU_HDMA_TABLE_SIZE
-    bcc     _nmi_hdma_copy_loop
-    sep     #0x20                   ; Back to 8-bit A
-
-_nmi_hdma_copy_done:
-    ; === Tilemap DMA transfer ===
-    lda.w   menu_transfer_pending
-    beq     _nmi_done
-    stz.w   menu_transfer_pending
-
-    sep     #0x20
-    lda     #0x01
-    sta.w   0x4300
-    lda     #0x18
-    sta.w   0x4301
-    rep     #0x20
-    lda.w   #0xB600
-    sta.w   0x4302
-    sep     #0x20
-    lda     #0x7E
-    sta.w   0x4304
-    rep     #0x20
-    lda.w   #0x0800
-    sta.w   0x4305
-    lda.w   #0x6000
-    sta.w   0x2116
-    sep     #0x20
-    lda     #0x01
-    sta.w   0x420B
-
-_nmi_done:
-    plp
-    rtl
+; NmiDmaTransferCheck_Impl moved to bank $20 (battle/inventory_rolling.s)
+; as FieldMenu_NmiDmaTransferCheck_Impl to save space in bank $01
 
 ; ============================================================================
 ; CheckAndClearCount

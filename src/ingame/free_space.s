@@ -93,6 +93,7 @@ MainLoopScrollCheck:
     lda.w   menu_scroll_remaining
     bne     _main_loop_skip_input
     jsr.w   FinishScroll
+    jmp.w   _main_loop_skip_input   ; Skip input on the frame scroll finishes
 _main_loop_do_input:
     lda.b   0x01
     and     #0x80
@@ -135,7 +136,7 @@ MenuExitHook:
 
 ; --- NmiDmaTransferCheck ---
 NmiDmaTransferCheck:
-    jsr.l   NmiDmaTransferCheck_Impl
+    jsr.l   FieldMenu_NmiDmaTransferCheck_Impl  ; In bank $20 (battle/inventory_rolling.s)
     rts
 
 ; --- HdmaEnableHook ---
