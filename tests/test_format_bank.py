@@ -46,8 +46,8 @@ Cecil: Is something...
         == """[bold]Soldier[normal]: Yes sir![new]
 [bold]Soldier[normal]: The monsters have been
 increasing lately though...[new]
-[bold]Soldier[normal]: There's just too many of
-them nowadays.[new]
+[bold]Soldier[normal]: There's just too many of them
+nowadays.[new]
 [bold]Cecil[normal]: Is something... happening?[end]"""
     )
 
@@ -123,7 +123,7 @@ Pourquoi avez-vous besoin de ces
 cristaux?[new]
 Était-ce parce que les Mythidiens
 représentaient une menace?
-Alors pourquoi n'ont-ils pas résisté?
+Alors pourquoi n'ont-ils pas résisté?[new]
 Nous ne comprenons pas pourquoi des
 innocents ont dû périr.[end]"""
     )
@@ -137,14 +137,14 @@ def test_changing_character_should_introduce_a_new_tag() -> None:
         "[bold]Soldat[normal]: Piller une cité de magiciens qui\n"
         "n'opposent aucune résistance![new]\n"
         "[bold]Cecil[normal]: Écoutez bien, vous tous!\n"
-        "Le cristal est absolument nécessaire à\n"
-        "la prospérité de notre royaume de Baron.[new]\n"
+        "Le cristal est absolument nécessaire à la\n"
+        "prospérité de notre royaume de Baron.[new]\n"
         "Sa Majesté a jugé que les habitants de\n"
         "Mythidia en savaient trop sur les secrets\n"
         "du cristal.[new]\n"
-        "Nous sommes l'escadron des Ailes\n"
-        "Rouges de Baron, et les ordres de Sa\n"
-        "Majesté sont absolus![new]\n"
+        "Nous sommes l'escadron des Ailes Rouges\n"
+        "de Baron, et les ordres de Sa Majesté\n"
+        "sont absolus![new]\n"
         "[bold]Soldat[normal]: Capitaine...[end]"
     )
 
@@ -153,8 +153,7 @@ def test_changing_character_should_introduce_a_new_tag() -> None:
 Cecil: Je suis désolé, Caïn... Caïn: Pourquoi t'excuses-tu encore? Je t'ai défendu de mon plein gré!![end]""")
         == """[bold]Caïn[normal]: Qu'est-ce qu'il y a?[new]
 [bold]Cecil[normal]: Je suis désolé, Caïn...[new]
-[bold]Caïn[normal]: Pourquoi t'excuses-tu
-encore?
+[bold]Caïn[normal]: Pourquoi t'excuses-tu encore?
 Je t'ai défendu de mon plein gré!![end]"""
     )
 
@@ -171,8 +170,8 @@ avec la magie dont je dispose
 actuellement.[new]
 Je recherchais la légendaire magie
 scellée, Météor...
-Et j'ai senti une forte aura émise de
-cette montagne.
+Et j'ai senti une forte aura émise de cette
+montagne.[new]
 Serait-ce possible, après toutes ces
 années de recherches..?[end]"""
     )
@@ -184,8 +183,8 @@ def test_abbreviation_handling() -> None:
         process_dialogue(
             """Cecil: Bonjour M. Rosa, comment allez-vous? Nous devons partir maintenant.[end]"""
         )
-        == """[bold]Cecil[normal]: Bonjour M. Rosa,
-comment allez-vous?
+        == """[bold]Cecil[normal]: Bonjour M. Rosa, comment
+allez-vous?
 Nous devons partir maintenant.[end]"""
     )
 
@@ -195,9 +194,8 @@ def test_bank2_variants_end_should_clear_the_state() -> None:
         process_dialogue("""Si le capitaine des chevaliers dragons Caïn et Cecil font équipe, cette bague est sûre d'arriver à bon port![end]M.Caïn est intouchable![end]
 On dit beaucoup de choses sur sa majesté, mais si elle entendait ça...[end]""")
         == """Si le capitaine des chevaliers dragons
-Caïn et Cecil font équipe,
-cette bague est sûre d'arriver à bon
-port![end]
+Caïn et Cecil font équipe, cette
+bague est sûre d'arriver à bon port![end]
 M.Caïn est intouchable![end]
 On dit beaucoup de choses sur sa
 majesté, mais si elle entendait ça...[end]"""
@@ -218,7 +216,7 @@ Pourquoi avez-vous besoin de ces
 cristaux?[new]
 Était-ce parce que les Mythidiens
 représentaient une menace?
-Alors pourquoi n'ont-ils pas résisté?
+Alors pourquoi n'ont-ils pas résisté?[new]
 Nous ne comprenons pas pourquoi des
 innocents ont dû périr.[end]"""
 
@@ -264,6 +262,17 @@ T[end]
 Le trésor de Baron est entreposé ici!
 C'est interdit![end]"""
     )
+
+
+def test_pointer_7_bonne_nuit_no_new_before_delay() -> None:
+    """bank1-1 #7: «...» speech followed by [delay]...[close_window][end]
+    must not get a spurious [new] inserted before the [delay] — it produces
+    a blank window flash in-game."""
+    text = "«Bonne nuit...»[delay][0x5][close_window][end]"
+    result = process_dialogue(text)
+    assert "[new][delay]" not in result
+    assert "[new]\n[delay]" not in result
+    assert result == "«Bonne nuit...»[delay][0x5][close_window][end]"
 
 
 def test_mixed_offscreen_and_character_dialog() -> None:
