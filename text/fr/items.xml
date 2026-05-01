@@ -1,259 +1,259 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="12" padding=" ">
     <sn:fixed></sn:fixed>
-    <sn:fixed>[0x29]FireClaw</sn:fixed>
-    <sn:fixed>[0x29]IceClaw</sn:fixed>
-    <sn:fixed>[0x29]Thunder</sn:fixed>
-    <sn:fixed>[0x29]Fairy</sn:fixed>
-    <sn:fixed>[0x29]HellClaw</sn:fixed>
-    <sn:fixed>[0x29]CatClaw</sn:fixed>
-    <sn:fixed>[0x2a]Rod</sn:fixed>
-    <sn:fixed>[0x2a]IceRod</sn:fixed>
-    <sn:fixed>[0x2a]FlameRod</sn:fixed>
-    <sn:fixed>[0x2a]Thunder</sn:fixed>
-    <sn:fixed>[0x2a]Change</sn:fixed>
-    <sn:fixed>[0x2a]Fairy</sn:fixed>
-    <sn:fixed>[0x2a]Stardust</sn:fixed>
+    <sn:fixed>[0x29]Feu</sn:fixed>
+    <sn:fixed>[0x29]Glace</sn:fixed>
+    <sn:fixed>[0x29]Foudre</sn:fixed>
+    <sn:fixed>[0x29]Fée</sn:fixed>
+    <sn:fixed>[0x29]Enfers</sn:fixed>
+    <sn:fixed>[0x29]Chat</sn:fixed>
+    <sn:fixed>[0x2a]Baguette</sn:fixed>
+    <sn:fixed>[0x2a]Glace</sn:fixed>
+    <sn:fixed>[0x2a]Feu</sn:fixed>
+    <sn:fixed>[0x2a]Foudre</sn:fixed>
+    <sn:fixed>[0x2a]Transform.</sn:fixed>
+    <sn:fixed>[0x2a]Fée</sn:fixed>
+    <sn:fixed>[0x2a]Poussière</sn:fixed>
     <sn:fixed>[0x2a]Lilith</sn:fixed>
-    <sn:fixed>[0x2b]Staff</sn:fixed>
-    <sn:fixed>[0x2b]Healing</sn:fixed>
+    <sn:fixed>[0x2b]Canne</sn:fixed>
+    <sn:fixed>[0x2b]Soin</sn:fixed>
     <sn:fixed>[0x2b]Mithril</sn:fixed>
-    <sn:fixed>[0x2b]Power</sn:fixed>
-    <sn:fixed>[0x2b]Energy</sn:fixed>
+    <sn:fixed>[0x2b]Pouvoir</sn:fixed>
+    <sn:fixed>[0x2b]Énergie</sn:fixed>
     <sn:fixed>[0x2b]Sage</sn:fixed>
     <sn:fixed>[0x2b]Silence</sn:fixed>
-    <sn:fixed>[0x2c]Black</sn:fixed>
-    <sn:fixed>[0x2c]Shadow</sn:fixed>
-    <sn:fixed>[0x2c]Death</sn:fixed>
-    <sn:fixed>[0x2e]Legend</sn:fixed>
-    <sn:fixed>[0x2e]Light</sn:fixed>
-    <sn:fixed>[0x2e]Excalbur</sn:fixed>
-    <sn:fixed>[0x2d]Flame</sn:fixed>
-    <sn:fixed>[0x2d]IceBrand</sn:fixed>
-    <sn:fixed>[0x2d]Defender</sn:fixed>
-    <sn:fixed>[0x2d]Blood</sn:fixed>
-    <sn:fixed>[0x2d]Ancient</sn:fixed>
-    <sn:fixed>[0x2d]Slumber</sn:fixed>
-    <sn:fixed>[0x2d]Medusa</sn:fixed>
-    <sn:fixed>[0x2f]Spear</sn:fixed>
-    <sn:fixed>[0x2f]Wind</sn:fixed>
-    <sn:fixed>[0x2f]Flame</sn:fixed>
-    <sn:fixed>[0x2f]Blizzard</sn:fixed>
+    <sn:fixed>[0x2c]Noire</sn:fixed>
+    <sn:fixed>[0x2c]Ombre</sn:fixed>
+    <sn:fixed>[0x2c]Mort</sn:fixed>
+    <sn:fixed>[0x2e]Légendaire</sn:fixed>
+    <sn:fixed>[0x2e]Lumière</sn:fixed>
+    <sn:fixed>[0x2e]Excalibur</sn:fixed>
+    <sn:fixed>[0x2d]Flamme</sn:fixed>
+    <sn:fixed>[0x2d]Glace</sn:fixed>
+    <sn:fixed>[0x2d]Défenseur</sn:fixed>
+    <sn:fixed>[0x2d]Sang</sn:fixed>
+    <sn:fixed>[0x2d]Ancienne</sn:fixed>
+    <sn:fixed>[0x2d]Sommeil</sn:fixed>
+    <sn:fixed>[0x2d]Meduse</sn:fixed>
+    <sn:fixed>[0x2f]Lance</sn:fixed>
+    <sn:fixed>[0x2f]Vent</sn:fixed>
+    <sn:fixed>[0x2f]Feu</sn:fixed>
+    <sn:fixed>[0x2f]Glace</sn:fixed>
     <sn:fixed>[0x2f]Dragon</sn:fixed>
-    <sn:fixed>[0x2f]Holy</sn:fixed>
-    <sn:fixed>[0x2f]Blood</sn:fixed>
+    <sn:fixed>[0x2f]Sacrée</sn:fixed>
+    <sn:fixed>[0x2f]Sang</sn:fixed>
     <sn:fixed>[0x2f]Gungnir</sn:fixed>
     <sn:fixed>[0x31]Kunai</sn:fixed>
     <sn:fixed>[0x31]Ashura</sn:fixed>
     <sn:fixed>[0x31]Kotetsu</sn:fixed>
-    <sn:fixed>[0x31]Kikuichi</sn:fixed>
+    <sn:fixed>[0x31]Kikuichimnj</sn:fixed>
     <sn:fixed>[0x31]Murasame</sn:fixed>
     <sn:fixed>[0x31]Masamune</sn:fixed>
     <sn:fixed>[0x30]Assassin</sn:fixed>
-    <sn:fixed>[0x30]MageMash</sn:fixed>
-    <sn:fixed>[0x3a]Whip</sn:fixed>
-    <sn:fixed>[0x3a]Chain</sn:fixed>
-    <sn:fixed>[0x3a]Electric</sn:fixed>
-    <sn:fixed>[0x3a]FireBute</sn:fixed>
+    <sn:fixed>[0x30]Tueur Mage</sn:fixed>
+    <sn:fixed>[0x3a]Fouet</sn:fixed>
+    <sn:fixed>[0x3a]Chaine</sn:fixed>
+    <sn:fixed>[0x3a]Electrique</sn:fixed>
+    <sn:fixed>[0x3a]Feu</sn:fixed>
     <sn:fixed>[0x3a]Dragon</sn:fixed>
-    <sn:fixed>[0x34]HandAxe</sn:fixed>
-    <sn:fixed>[0x34]Dwarf</sn:fixed>
-    <sn:fixed>[0x34]OgreKill</sn:fixed>
+    <sn:fixed>[0x34]Hachette</sn:fixed>
+    <sn:fixed>[0x34]Nains</sn:fixed>
+    <sn:fixed>[0x34]Tueur Ogre</sn:fixed>
     <sn:fixed>[0x30]Mithril</sn:fixed>
-    <sn:fixed>[0x30]Dancing</sn:fixed>
+    <sn:fixed>[0x30]Dansante</sn:fixed>
     <sn:fixed>[0x2d]Mithril</sn:fixed>
-    <sn:fixed>[0x30]Cleaver</sn:fixed>
+    <sn:fixed>[0x30]Couperet</sn:fixed>
     <sn:fixed>[0x2e]Ragnarok</sn:fixed>
     <sn:fixed>[0x32]Shuriken</sn:fixed>
-    <sn:fixed>[0x32]HellWind</sn:fixed>
-    <sn:fixed>[0x33]Boomrang</sn:fixed>
+    <sn:fixed>[0x32]Vent Infrnl</sn:fixed>
+    <sn:fixed>[0x33]Boomerang</sn:fixed>
     <sn:fixed>[0x33]Engetsu</sn:fixed>
-    <sn:fixed>[0x36]Dreamer</sn:fixed>
+    <sn:fixed>[0x36]Reve</sn:fixed>
     <sn:fixed>[0x36]Lamia</sn:fixed>
-    <sn:fixed> Spare</sn:fixed>
+    <sn:fixed> Libre</sn:fixed>
     <sn:fixed>[0x34]Poison</sn:fixed>
-    <sn:fixed>[0x34]RuneAxe</sn:fixed>
+    <sn:fixed>[0x34]Runique</sn:fixed>
     <sn:fixed>[0x35]Mithril</sn:fixed>
-    <sn:fixed>[0x35]Earth</sn:fixed>
-    <sn:fixed>[0x35]Mallet</sn:fixed>
-    <sn:fixed>[0x2d]Avenger</sn:fixed>
-    <sn:fixed>[0x37]Bow</sn:fixed>
-    <sn:fixed>[0x37]CrossBow</sn:fixed>
-    <sn:fixed>[0x37]GreatBow</sn:fixed>
-    <sn:fixed>[0x37]Killer</sn:fixed>
-    <sn:fixed>[0x37]ElvenBow</sn:fixed>
+    <sn:fixed>[0x35]Terre</sn:fixed>
+    <sn:fixed>[0x35]Maillet</sn:fixed>
+    <sn:fixed>[0x2d]Vengeresse</sn:fixed>
+    <sn:fixed>[0x37]Arc</sn:fixed>
+    <sn:fixed>[0x37]Arbalete</sn:fixed>
+    <sn:fixed>[0x37]Grand Arc</sn:fixed>
+    <sn:fixed>[0x37]Tueur</sn:fixed>
+    <sn:fixed>[0x37]Elfique</sn:fixed>
     <sn:fixed>[0x37]Yoichi</sn:fixed>
     <sn:fixed>[0x37]Artemis</sn:fixed>
-    <sn:fixed>[0x38]Iron</sn:fixed>
-    <sn:fixed>[0x38]Holy</sn:fixed>
-    <sn:fixed>[0x38]Flame</sn:fixed>
-    <sn:fixed>[0x38]Ice</sn:fixed>
-    <sn:fixed>[0x38]Lit</sn:fixed>
-    <sn:fixed>[0x38]Darkness</sn:fixed>
+    <sn:fixed>[0x38]Fer</sn:fixed>
+    <sn:fixed>[0x38]Sacree</sn:fixed>
+    <sn:fixed>[0x38]Flamme</sn:fixed>
+    <sn:fixed>[0x38]Glace</sn:fixed>
+    <sn:fixed>[0x38]Foudre</sn:fixed>
+    <sn:fixed>[0x38]Ténèbres</sn:fixed>
     <sn:fixed>[0x38]Poison</sn:fixed>
-    <sn:fixed>[0x38]Mute</sn:fixed>
-    <sn:fixed>[0x38]Angel</sn:fixed>
+    <sn:fixed>[0x38]Silence</sn:fixed>
+    <sn:fixed>[0x38]Ange</sn:fixed>
     <sn:fixed>[0x38]Yoichi</sn:fixed>
-    <sn:fixed>[0x38]Medusa</sn:fixed>
+    <sn:fixed>[0x38]Méduse</sn:fixed>
     <sn:fixed>[0x38]Artemis</sn:fixed>
     <sn:fixed></sn:fixed>
-    <sn:fixed>[0x3b]Iron</sn:fixed>
-    <sn:fixed>[0x3b]Black</sn:fixed>
-    <sn:fixed>[0x3b]Demon</sn:fixed>
-    <sn:fixed>[0x3b]Light</sn:fixed>
+    <sn:fixed>[0x3b]Fer</sn:fixed>
+    <sn:fixed>[0x3b]Noir</sn:fixed>
+    <sn:fixed>[0x3b]Demoniaque</sn:fixed>
+    <sn:fixed>[0x3b]Lumiere</sn:fixed>
     <sn:fixed>[0x3b]Mithril</sn:fixed>
-    <sn:fixed>[0x3b]Flame</sn:fixed>
-    <sn:fixed>[0x3b]Ice</sn:fixed>
-    <sn:fixed>[0x3b]Diamond</sn:fixed>
-    <sn:fixed>[0x3b]Aegis</sn:fixed>
+    <sn:fixed>[0x3b]Flamme</sn:fixed>
+    <sn:fixed>[0x3b]Glace</sn:fixed>
+    <sn:fixed>[0x3b]Diamant</sn:fixed>
+    <sn:fixed>[0x3b]Egide</sn:fixed>
     <sn:fixed>[0x3b]Genji</sn:fixed>
     <sn:fixed>[0x3b]Dragon</sn:fixed>
-    <sn:fixed>[0x3b]Crystal</sn:fixed>
-    <sn:fixed>[0x3c]Iron</sn:fixed>
-    <sn:fixed>[0x3c]Black</sn:fixed>
-    <sn:fixed>[0x3c]Hades</sn:fixed>
-    <sn:fixed>[0x3c]Demon</sn:fixed>
-    <sn:fixed>[0x3c]Light</sn:fixed>
+    <sn:fixed>[0x3b]Cristal</sn:fixed>
+    <sn:fixed>[0x3c]Fer</sn:fixed>
+    <sn:fixed>[0x3c]Noir</sn:fixed>
+    <sn:fixed>[0x3c]Hadès</sn:fixed>
+    <sn:fixed>[0x3c]Demoniaque</sn:fixed>
+    <sn:fixed>[0x3c]Lumière</sn:fixed>
     <sn:fixed>[0x3c]Mithril</sn:fixed>
-    <sn:fixed>[0x3c]Diamond</sn:fixed>
+    <sn:fixed>[0x3c]Diamant</sn:fixed>
     <sn:fixed>[0x3c]Genji</sn:fixed>
     <sn:fixed>[0x3c]Dragon</sn:fixed>
-    <sn:fixed>[0x3c]Crystal</sn:fixed>
-    <sn:fixed>[0x3c]Leather</sn:fixed>
-    <sn:fixed>[0x3c]Feather</sn:fixed>
-    <sn:fixed>[0x3c]Triangle</sn:fixed>
-    <sn:fixed>[0x3c]Priest</sn:fixed>
-    <sn:fixed>[0x3c]GoldBand</sn:fixed>
-    <sn:fixed>[0x3c]Ribbon</sn:fixed>
-    <sn:fixed>[0x3c]Bandanna</sn:fixed>
-    <sn:fixed>[0x3c]Gr[0xc1]Beret</sn:fixed>
-    <sn:fixed>[0x3c]DarkHood</sn:fixed>
-    <sn:fixed>[0x3c]Glass</sn:fixed>
-    <sn:fixed>[0x3d]Iron</sn:fixed>
-    <sn:fixed>[0x3d]Black</sn:fixed>
+    <sn:fixed>[0x3c]Cristal</sn:fixed>
+    <sn:fixed>[0x3c]Cuir</sn:fixed>
+    <sn:fixed>[0x3c]Plume</sn:fixed>
+    <sn:fixed>[0x3c]Tricorne</sn:fixed>
+    <sn:fixed>[0x3c]Prêtre</sn:fixed>
+    <sn:fixed>[0x3c]Bandeau Or</sn:fixed>
+    <sn:fixed>[0x3c]Ruban</sn:fixed>
+    <sn:fixed>[0x3c]Bandana</sn:fixed>
+    <sn:fixed>[0x3c]Béret Vert</sn:fixed>
+    <sn:fixed>[0x3c]Capuche Nbr</sn:fixed>
+    <sn:fixed>[0x3c]Verre</sn:fixed>
+    <sn:fixed>[0x3d]Fer</sn:fixed>
+    <sn:fixed>[0x3d]Noire</sn:fixed>
     <sn:fixed>[0x3d]Hades</sn:fixed>
-    <sn:fixed>[0x3d]Demon</sn:fixed>
-    <sn:fixed>[0x3d]Knight</sn:fixed>
+    <sn:fixed>[0x3d]Démoniaque</sn:fixed>
+    <sn:fixed>[0x3d]Chevalier</sn:fixed>
     <sn:fixed>[0x3d]Mithril</sn:fixed>
-    <sn:fixed>[0x3d]Flame</sn:fixed>
-    <sn:fixed>[0x3d]Ice</sn:fixed>
-    <sn:fixed>[0x3d]Diamond</sn:fixed>
+    <sn:fixed>[0x3d]Flamme</sn:fixed>
+    <sn:fixed>[0x3d]Glace</sn:fixed>
+    <sn:fixed>[0x3d]Diamant</sn:fixed>
     <sn:fixed>[0x3d]Genji</sn:fixed>
     <sn:fixed>[0x3d]Dragon</sn:fixed>
-    <sn:fixed>[0x3d]Crystal</sn:fixed>
-    <sn:fixed>[0xcd]Cloth</sn:fixed>
-    <sn:fixed>[0xcd]Leather</sn:fixed>
-    <sn:fixed>[0xcd]Gaea</sn:fixed>
-    <sn:fixed>[0xcd]Priest</sn:fixed>
-    <sn:fixed>[0xcd]Black</sn:fixed>
-    <sn:fixed>[0xcd]Light</sn:fixed>
-    <sn:fixed>[0xcd]White</sn:fixed>
-    <sn:fixed>[0xcd]Power</sn:fixed>
-    <sn:fixed>[0xcd]Minerva</sn:fixed>
-    <sn:fixed>[0xcd]Convict</sn:fixed>
-    <sn:fixed>[0xcd]Poet</sn:fixed>
-    <sn:fixed>[0xcd]Kenpou</sn:fixed>
-    <sn:fixed>[0xcd]Bl[0xc1]Belt</sn:fixed>
-    <sn:fixed>[0x3d]Adamant</sn:fixed>
-    <sn:fixed>[0xcd]DarkGear</sn:fixed>
-    <sn:fixed>[0x3e]Iron</sn:fixed>
-    <sn:fixed>[0x3e]Black</sn:fixed>
+    <sn:fixed>[0x3d]Cristal</sn:fixed>
+    <sn:fixed>[0x3d]Tissu</sn:fixed>
+    <sn:fixed>[0x3d]Cuir</sn:fixed>
+    <sn:fixed>[0x3d]Gaia</sn:fixed>
+    <sn:fixed>[0x3d]Prêtre</sn:fixed>
+    <sn:fixed>[0x3d]Noire</sn:fixed>
+    <sn:fixed>[0x3d]Lumiere</sn:fixed>
+    <sn:fixed>[0x3d]Blanche</sn:fixed>
+    <sn:fixed>[0x3d]Pouvoir</sn:fixed>
+    <sn:fixed>[0x3d]Minerva</sn:fixed>
+    <sn:fixed>[0x3d]Bagnard</sn:fixed>
+    <sn:fixed>[0x3d]Poete</sn:fixed>
+    <sn:fixed>[0x3d]Kenpou</sn:fixed>
+    <sn:fixed>[0x3d]Ceint. Noir</sn:fixed>
+    <sn:fixed>[0x3d]Adamantine</sn:fixed>
+    <sn:fixed>[0x3d]Ombres</sn:fixed>
+    <sn:fixed>[0x3e]Fer</sn:fixed>
+    <sn:fixed>[0x3e]Noir</sn:fixed>
     <sn:fixed>[0x3e]Hades</sn:fixed>
-    <sn:fixed>[0x3e]Demon</sn:fixed>
-    <sn:fixed>[0x3e]Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Démoniaque</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet</sn:fixed>
     <sn:fixed>[0x3e]Mithril</sn:fixed>
-    <sn:fixed>[0x3e]Diamond</sn:fixed>
-    <sn:fixed>[0x3e]Giant</sn:fixed>
+    <sn:fixed>[0x3e]Diamant</sn:fixed>
+    <sn:fixed>[0x3e]Géant</sn:fixed>
     <sn:fixed>[0x3e]Genji</sn:fixed>
     <sn:fixed>[0x3e]Dragon</sn:fixed>
-    <sn:fixed>[0x3e]Crystal</sn:fixed>
-    <sn:fixed>[0xce]IronRing</sn:fixed>
-    <sn:fixed>[0xce]RubyRing</sn:fixed>
-    <sn:fixed>[0xce]Silver</sn:fixed>
-    <sn:fixed>[0xce]Power</sn:fixed>
-    <sn:fixed>[0xce]Rune</sn:fixed>
-    <sn:fixed>[0xce]Crystal</sn:fixed>
-    <sn:fixed>[0xce]Diamond</sn:fixed>
-    <sn:fixed>[0xce]Defense</sn:fixed>
-    <sn:fixed>[0xce]Cursed</sn:fixed>
-    <sn:fixed>[0xea]Fragment</sn:fixed>
-    <sn:fixed>[0xea]RightArm</sn:fixed>
-    <sn:fixed>[0xeb]S[0xc1]Pole</sn:fixed>
-    <sn:fixed>[0xeb]N[0xc1]Pole</sn:fixed>
-    <sn:fixed> ZeusRage</sn:fixed>
-    <sn:fixed> GodsRage</sn:fixed>
-    <sn:fixed> Stardust</sn:fixed>
-    <sn:fixed> L[0x37][0x39]hKiss</sn:fixed>
-    <sn:fixed> VampFang</sn:fixed>
-    <sn:fixed>[0xcc]Bacchus</sn:fixed>
-    <sn:fixed>[0xec]Hermes</sn:fixed>
-    <sn:fixed>[0xe8]Copper</sn:fixed>
-    <sn:fixed>[0xe8]Silver</sn:fixed>
-    <sn:fixed>[0xe8]Golden</sn:fixed>
-    <sn:fixed> SpidrWeb</sn:fixed>
-    <sn:fixed>[0x23]ScapeDo[0x38]</sn:fixed>
-    <sn:fixed> Red[0xc2]Fang</sn:fixed>
-    <sn:fixed> Wh[0xc1]Fang</sn:fixed>
-    <sn:fixed> BlueFang</sn:fixed>
-    <sn:fixed>[0xed]Light</sn:fixed>
-    <sn:fixed>[0xea]Spirit</sn:fixed>
-    <sn:fixed>[0xed]Moon</sn:fixed>
-    <sn:fixed> S[0x37]encBe[0x38]</sn:fixed>
-    <sn:fixed> EarthDrm</sn:fixed>
-    <sn:fixed>[0xcf]Crystal</sn:fixed>
-    <sn:fixed> Whisker</sn:fixed>
-    <sn:fixed>[0xef]Knowlege</sn:fixed>
-    <sn:fixed>[0xef]Monsters</sn:fixed>
-    <sn:fixed> AlmClock</sn:fixed>
-    <sn:fixed>[0xf0]Unicorn</sn:fixed>
-    <sn:fixed>[0xcc]Potion</sn:fixed>
-    <sn:fixed>[0xcc]HiPotion</sn:fixed>
-    <sn:fixed>[0xcc]X[0xc2]Potion</sn:fixed>
-    <sn:fixed>[0xcc]Ether</sn:fixed>
-    <sn:fixed>[0xcc]EtherDry</sn:fixed>
-    <sn:fixed>[0xcc]Elixir</sn:fixed>
-    <sn:fixed> FenixDwn</sn:fixed>
-    <sn:fixed> Gold[0xc2]Pin</sn:fixed>
-    <sn:fixed> MaidKiss</sn:fixed>
-    <sn:fixed>[0x39]Lucky</sn:fixed>
-    <sn:fixed> DietFood</sn:fixed>
-    <sn:fixed> EchoHerb</sn:fixed>
-    <sn:fixed>[0xcc]EyeDrop</sn:fixed>
-    <sn:fixed>[0xcc]Antidote</sn:fixed>
-    <sn:fixed> Cross</sn:fixed>
-    <sn:fixed>[0xcc]Medicine</sn:fixed>
-    <sn:fixed> Alarm</sn:fixed>
-    <sn:fixed>[0xf1]Golden</sn:fixed>
-    <sn:fixed>[0xf1]Silver</sn:fixed>
-    <sn:fixed> SomaDrop</sn:fixed>
-    <sn:fixed>[0xcb]Tente</sn:fixed>
-    <sn:fixed>[0xcb]Cottage</sn:fixed>
-    <sn:fixed>[0xef]Playboy</sn:fixed>
-    <sn:fixed> ExitDoor</sn:fixed>
-    <sn:fixed> DwfBread</sn:fixed>
-    <sn:fixed>◉Goblin</sn:fixed>
-    <sn:fixed>◉Bomb</sn:fixed>
-    <sn:fixed>◉Cocktric</sn:fixed>
-    <sn:fixed>◉MindFlay</sn:fixed>
-    <sn:fixed> Veggie</sn:fixed>
-    <sn:fixed> Pass</sn:fixed>
+    <sn:fixed>[0x3e]Cristal</sn:fixed>
+    <sn:fixed>[0x3e]Fer</sn:fixed>
+    <sn:fixed>[0x3e]Rubis</sn:fixed>
+    <sn:fixed>[0x3e]Argent</sn:fixed>
+    <sn:fixed>[0x3e]Force</sn:fixed>
+    <sn:fixed>[0x3e]Runique</sn:fixed>
+    <sn:fixed>[0x3e]Cristal</sn:fixed>
+    <sn:fixed>[0x3e]Diamant</sn:fixed>
+    <sn:fixed>[0x3e]Défense</sn:fixed>
+    <sn:fixed>[0x3e]Maudit</sn:fixed>
+    <sn:fixed>[0xff]Fragment</sn:fixed>
+    <sn:fixed>[0xff]Bras Droit</sn:fixed>
+    <sn:fixed>[0xff]Pole Sud</sn:fixed>
+    <sn:fixed>[0xff]Pole Nord</sn:fixed>
+    <sn:fixed> Rage Zeus</sn:fixed>
+    <sn:fixed> Rage Dieux</sn:fixed>
+    <sn:fixed> Pouss.Etoile</sn:fixed>
+    <sn:fixed> Bais.Lilith</sn:fixed>
+    <sn:fixed> CrocVampire</sn:fixed>
+    <sn:fixed>[0xff]Vin Bacchus</sn:fixed>
+    <sn:fixed>[0xff]Sand.Hermes</sn:fixed>
+    <sn:fixed>[0xff]Cuivre</sn:fixed>
+    <sn:fixed>[0xff]Argent</sn:fixed>
+    <sn:fixed>[0xff]Or</sn:fixed>
+    <sn:fixed> ToileAraign</sn:fixed>
+    <sn:fixed>[0xff]Bouc Emiss.</sn:fixed>
+    <sn:fixed> Croc Rouge</sn:fixed>
+    <sn:fixed> Croc Blanc</sn:fixed>
+    <sn:fixed> Croc Bleu</sn:fixed>
+    <sn:fixed>[0xff]Lumiere</sn:fixed>
+    <sn:fixed>[0xff]Esprit</sn:fixed>
+    <sn:fixed>[0xff]Lune</sn:fixed>
+    <sn:fixed> Cloch. Sil.</sn:fixed>
+    <sn:fixed> Tamb. Terre</sn:fixed>
+    <sn:fixed>[0xff]Cristal</sn:fixed>
+    <sn:fixed> Moustache</sn:fixed>
+    <sn:fixed>[0xff]Savoir</sn:fixed>
+    <sn:fixed>[0xff]Monstres</sn:fixed>
+    <sn:fixed> Reveil</sn:fixed>
+    <sn:fixed>[0xff]Licorne</sn:fixed>
+    <sn:fixed>[0xff]Potion</sn:fixed>
+    <sn:fixed>[0xff]SuperPotion</sn:fixed>
+    <sn:fixed>[0xff]HyperPotion</sn:fixed>
+    <sn:fixed>[0xff]Ether</sn:fixed>
+    <sn:fixed>[0xff]Super Ether</sn:fixed>
+    <sn:fixed>[0xff]Elixir</sn:fixed>
+    <sn:fixed> PlumePhenix</sn:fixed>
+    <sn:fixed> Aiguille Or</sn:fixed>
+    <sn:fixed> Baiser fée</sn:fixed>
+    <sn:fixed>[0xff]MalusChance</sn:fixed>
+    <sn:fixed> Herbe Diete</sn:fixed>
+    <sn:fixed> Herbe Echo</sn:fixed>
+    <sn:fixed>[0xff]Collyre</sn:fixed>
+    <sn:fixed>[0xff]Antidote</sn:fixed>
+    <sn:fixed> Croix</sn:fixed>
+    <sn:fixed>[0xff]Remède</sn:fixed>
+    <sn:fixed> Alarme</sn:fixed>
+    <sn:fixed>[0xff]Or</sn:fixed>
+    <sn:fixed>[0xff]Argent</sn:fixed>
+    <sn:fixed> Goutte Soma</sn:fixed>
+    <sn:fixed>[0xff]Tente</sn:fixed>
+    <sn:fixed>[0xff]Chalet</sn:fixed>
+    <sn:fixed>[0xff]RevueCoquin</sn:fixed>
+    <sn:fixed> PorteSortie</sn:fixed>
+    <sn:fixed> Pain Nain</sn:fixed>
+    <sn:fixed>[0x41]Gobelin</sn:fixed>
+    <sn:fixed>[0x41]Bombe</sn:fixed>
+    <sn:fixed>[0x41]Cocatrix</sn:fixed>
+    <sn:fixed>[0x41]Flagelleur</sn:fixed>
+    <sn:fixed> Legume</sn:fixed>
+    <sn:fixed> LaissezPass</sn:fixed>
     <sn:fixed> Flute</sn:fixed>
-    <sn:fixed>[0xce]BombRing</sn:fixed>
-    <sn:fixed>[0xd1]Baron</sn:fixed>
-    <sn:fixed> DesrtL[0x39]e</sn:fixed>
-    <sn:fixed>[0xcf]Earth</sn:fixed>
-    <sn:fixed>[0x21]Magma</sn:fixed>
-    <sn:fixed>[0xd1]Luka</sn:fixed>
-    <sn:fixed>[0x36]Echoer</sn:fixed>
-    <sn:fixed>[0xcf]Darkness</sn:fixed>
-    <sn:fixed> RatTail</sn:fixed>
-    <sn:fixed> Adamant</sn:fixed>
-    <sn:fixed> FryinPan</sn:fixed>
-    <sn:fixed> PinkTail</sn:fixed>
-    <sn:fixed>[0xd1]Lugeie</sn:fixed>
-    <sn:fixed> DkMatter</sn:fixed>
-    <sn:fixed> Scn[0xc1]0015</sn:fixed>
-    <sn:fixed> Scn[0xc1]0016</sn:fixed>
-    <sn:fixed>[0xc2]Sort[0xc2]</sn:fixed>
-    <sn:fixed> TrashCan</sn:fixed>
+    <sn:fixed>[0xff]Bombe</sn:fixed>
+    <sn:fixed>[0xff]Baron</sn:fixed>
+    <sn:fixed> Lum. Desert</sn:fixed>
+    <sn:fixed>[0xff]Terre</sn:fixed>
+    <sn:fixed>[0xff]PierreMagma</sn:fixed>
+    <sn:fixed>[0xff]Luca</sn:fixed>
+    <sn:fixed>[0xff]Echoeur</sn:fixed>
+    <sn:fixed>[0xff]Ténèbres</sn:fixed>
+    <sn:fixed> Queue Rat</sn:fixed>
+    <sn:fixed> Adamantine</sn:fixed>
+    <sn:fixed> Poele</sn:fixed>
+    <sn:fixed> Queue Rose</sn:fixed>
+    <sn:fixed>[0xff]Lugae</sn:fixed>
+    <sn:fixed> Mat. Sombre</sn:fixed>
+    <sn:fixed> Scene 0015</sn:fixed>
+    <sn:fixed> Scene 0016</sn:fixed>
+    <sn:fixed> --Trier--</sn:fixed>
+    <sn:fixed> Poubelle</sn:fixed>
 </sn:fixedlist>

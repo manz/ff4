@@ -7,8 +7,7 @@
     <sn:pointer id="4">[0xfa]Le coffre est vide.[end]</sn:pointer>
     <sn:pointer id="5">[0xfa]La porte est verrouillée.[end]</sn:pointer>
     <sn:pointer id="6">[0xfa]La porte est ouverte.[end]</sn:pointer>
-    <sn:pointer id="7">«Bonne nuit...»[new]
-[delay][0x5][close_window][end]</sn:pointer>
+    <sn:pointer id="7">«Bonne nuit...»[delay][0x5][close_window][end]</sn:pointer>
     <sn:pointer id="8">Bon, en route![end]</sn:pointer>
     <sn:pointer id="9">[0xfa]PV et état restaurés![end]</sn:pointer>
     <sn:pointer id="10">[0xfa]PV et PM restaurés![end]</sn:pointer>
@@ -20,7 +19,7 @@ FuSoYa![end]</sn:pointer>
 [bold]Rosa[normal]: Les poupées![end]</sn:pointer>
     <sn:pointer id="15">[0xfa]Il y a comme une odeur de chocobo...[end]</sn:pointer>
     <sn:pointer id="16">[0xfa]Trouvé un chocobo blanc![end]</sn:pointer>
-    <sn:pointer id="17">Venez au Gros Chocobo![end]</sn:pointer>
+    <sn:pointer id="17">Place au Gros Chocobo![end]</sn:pointer>
     <sn:pointer id="18">[bold]Tellah[normal]: Anna... tu es encore en
 vie...[new]
 [bold]Anna[normal]: Père... il...
@@ -60,7 +59,7 @@ Allez-vous rester?[close_window][end]</sn:pointer>
     <sn:pointer id="30">...[end]</sn:pointer>
     <sn:pointer id="31">[bold]Soldat[normal]: Capitaine Cecil, nous
 approchons de Baron![new]
-[bold]Cecil[normal]: Bien[delay][0x3].[delay][0x3].[delay][0x3].[end]</sn:pointer>
+[bold]Cecil[normal]: Soit[delay][0x3].[delay][0x3].[delay][0x3].[end]</sn:pointer>
     <sn:pointer id="32">[bold]Soldat[normal]: Le capitaine semble également
 préoccupé...[new]
 [bold]Soldat[normal]: Même sur ordre de Sa Majesté...[new]
@@ -130,7 +129,7 @@ Oh, comme il brille... comme il est
 éblouissant!
 Tu peux disposer, Cecil![end]</sn:pointer>
     <sn:pointer id="46">[bold]Cecil[normal]: ...[end]</sn:pointer>
-    <sn:pointer id="47">[bold]Cecil[normal]: Majesté...[end]</sn:pointer>
+    <sn:pointer id="47">[bold]Cecil[normal]: Majesté![end]</sn:pointer>
     <sn:pointer id="48">[bold]Roi Baron[normal]: H... hein!?[new]
 [bold]Beigan[normal]: Qu... quoi?[end]</sn:pointer>
     <sn:pointer id="49">[bold]Cecil[normal]: Votre Majesté, nous ne
@@ -273,7 +272,7 @@ leur cristal sacré... mais pour quelle
 raison?![new]
 Mon cœur s'est assombri tout autant que
 cette armure maudite![end]</sn:pointer>
-    <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'est pas comme cela.[end]</sn:pointer>
+    <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'es pas comme cela.[end]</sn:pointer>
     <sn:pointer id="64">[bold]Cecil[normal]: Je ne suis rien qu'un chevalier
 noir docile, tout juste un pantin du roi.[end]</sn:pointer>
     <sn:pointer id="65">[bold]Rosa[normal]: Le Cecil des Ailes Rouges
@@ -311,7 +310,7 @@ alors...[new]
 [bold]Tellah[normal]: Apparemment, Baron se
 servait de vous pendant votre amnésie.[new]
 [bold]Yang[normal]: B...Baron?
-Je vous suis reconnaissant...[end]</sn:pointer>
+Quelle honte...[end]</sn:pointer>
     <sn:pointer id="74">[bold]Yang[normal]: Rydia a été avalée par
 Léviathan.
 Edward... je ne sais pas...[new]
@@ -652,7 +651,7 @@ Rydia!
 Prends soin de Rosa![end]</sn:pointer>
     <sn:pointer id="129">«Ils arrivent!»[new]
 [bold]Yang[normal]: À l'attaque![end]</sn:pointer>
-    <sn:pointer id="130">«C'est les Ailes Rouges!»[end]</sn:pointer>
+    <sn:pointer id="130">«Ce sont les Ailes Rouges!»[end]</sn:pointer>
     <sn:pointer id="131">[bold]Cecil[normal]: Nous n'arriverons qu'à nous
 faire tuer, comme ça![new]
 [bold]Yang[normal]: Retraite!
@@ -810,15 +809,12 @@ un problème.
 Il faut s'occuper de lui avant qu'il n'en
 devienne un.[new]
 C'est un chevalier noir, il devrait donc
-être impuissant contre nos morts-vivants.
+être impuissant contre tes morts-vivants.
 Mais il gravit en ce moment la Montagne
 de l'Épreuve.[new]
 [bold]Scarmiglione[normal]: Il veut... donc devenir...
 -hiss-... paladin?[new]
-[bold]Golbez[normal]: Bien évidemment, ta mission
-est de[new]
-«régler la question»[new]
-avant.
+[bold]Golbez[normal]: Bien évidemment, ta mission est de l'éliminer avant.
 [bold]Scarmiglione[normal]: N'aie crainte.
 Tu pourras apprécier sa mort, seigneur
 Golbez.[new]
@@ -1182,7 +1178,7 @@ Cet endroit est dangereux![music][0x0][end]</sn:pointer>
     <sn:pointer id="256">[bold]Namingway[normal]: Oh, bonjour!
 Vous voulez changer de nom?[close_window][end]</sn:pointer>
     <sn:pointer id="257">[bold]Namingway[normal]: Très bien.
-Si vous jamais vous avez besoin de mes
+Si jamais vous avez besoin de mes
 services, revenez donc me voir.[end]</sn:pointer>
     <sn:pointer id="258">[bold]Cecil[normal]: Allons-y, Caïn![end]</sn:pointer>
     <sn:pointer id="259">«Infliger des blessures à seigneur
@@ -1854,7 +1850,7 @@ Paladin Cecil ![new]
     <sn:pointer id="364">[bold]Luca[normal]: Père, qu'y a-t-il?[new]
 [bold]Giotto[normal]: Apporte-moi ton collier.[new]
 [bold]Luca[normal]: Celui-ci?[new]
-[bold]Autant te le dire[normal]: ce collier est la clé
+[bold]Giotto[normal]: Ce collier est la clé
 qui ouvre l'entrée de la grotte scellée!
 Sans cela, la grotte n'accepte personne![new]
 Il faut absolument protéger le dernier
@@ -1902,7 +1898,7 @@ Venez m'aider![end]</sn:pointer>
 Je suis redevenu normal![end]</sn:pointer>
     <sn:pointer id="371">[bold]Caïn[normal]: Maintenant, nous avons tous
 les Cristaux!
-Le chemin vers le Lune va s'ouvrir![new]
+Le chemin vers la Lune va s'ouvrir![new]
 [bold]Edge[normal]: Stop!
 Mais merde![end]</sn:pointer>
     <sn:pointer id="372">[bold]Cecil[normal]: Caïn...[new]

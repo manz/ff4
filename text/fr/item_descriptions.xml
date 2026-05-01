@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
-    <sn:string>Ne peut pas être utilisé depuis ce menu.</sn:string>
-    <sn:string>Restaure des PV.</sn:string>
-    <sn:string>Restaure des PM.</sn:string>
-    <sn:string>Restaure complètement les PV/PM.</sn:string>
-    <sn:string>Guérit l'incapacité de combattre.</sn:string>
-    <sn:string>Guérit la pétrification.</sn:string>
-    <sn:string>Guérit le statut de grenouille.</sn:string>
-    <sn:string>Guérit le statut de nain.</sn:string>
-    <sn:string>Guérit le statut de cochon.</sn:string>
-    <sn:string>Guérit le silence.</sn:string>
-    <sn:string>Guérit la cécité.</sn:string>
+    <sn:string>Inutilisable depuis ce menu.</sn:string>
+    <sn:string>Récupère des PV.</sn:string>
+    <sn:string>Récupère des PM.</sn:string>
+    <sn:string>Récupère tous les PV et PM.</sn:string>
+    <sn:string>Ranime un allié K.O.</sn:string>
+    <sn:string>Annule la pétrification.</sn:string>
+    <sn:string>Annule l'état Crapaud.</sn:string>
+    <sn:string>Annule l'état Mini.</sn:string>
+    <sn:string>Annule l'état Porcelet.</sn:string>
+    <sn:string>Annule le silence.</sn:string>
+    <sn:string>Annule la cécité.</sn:string>
     <sn:string>Neutralise le poison.</sn:string>
-    <sn:string>Enlève la malédiction.</sn:string>
-    <sn:string>Guérit divers états.</sn:string>
-    <sn:string>Régénère 1000 PV et 100 PM à l'équipe[0x01][0xd4][0x00]et guérit des altérations d'état.</sn:string>
-    <sn:string>Revient à l'étape précédente.</sn:string>
-    <sn:string>Téléporte à la surface.</sn:string>
-    <sn:string>Affichez la carte de la région.</sn:string>
-    <sn:string>Lévitera temporairement.</sn:string>
+    <sn:string>Lève la malédiction.</sn:string>
+    <sn:string>Soigne plusieurs altérations.</sn:string>
+    <sn:string>Récupère PV et PM de l'équipe[0x01][0xd4][0x00]et soigne les altérations.</sn:string>
+    <sn:string>Retourne à l'endroit précédent.</sn:string>
+    <sn:string>Téléporte en surface.</sn:string>
+    <sn:string>Affiche la carte des environs.</sn:string>
+    <sn:string>Permet de flotter dans les airs.</sn:string>
     <sn:string>Livre favori!</sn:string>
-    <sn:string>C'est de la magie d'invocation.</sn:string>
-    <sn:string>Transforme en nain ou rétablit.</sn:string>
-    <sn:string>Transforme en grenouille ou rétablit.</sn:string>
-    <sn:string>Transforme en cochon ou rétablit.</sn:string>
-    <sn:string>C'est une boisson mystique.</sn:string>
-    <sn:string>C'est une pomme dorée.</sn:string>
-    <sn:string>C'est une pomme argentée.</sn:string>
-    <sn:string>Cela attire des monstres.</sn:string>
+    <sn:string>Magie d'invocation.</sn:string>
+    <sn:string>Inflige Mini ou annule l'effet.</sn:string>
+    <sn:string>Inflige Crapaud ou annule l'effet.</sn:string>
+    <sn:string>Inflige Porcelet ou annule l'effet.</sn:string>
+    <sn:string>Boisson mystique.</sn:string>
+    <sn:string>Pomme dorée.</sn:string>
+    <sn:string>Pomme argentée.</sn:string>
+    <sn:string>Attire les monstres.</sn:string>
     <sn:string>Test</sn:string>
     <sn:string>Test</sn:string>
     <sn:string>Test</sn:string>
