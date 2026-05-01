@@ -575,16 +575,3 @@ if __name__ == "__main__":
         os.mkdir("build")
 
     build_patch("ff4.s", "build/ff4.ips", lang)
-
-    # Create patched test ROM by copying base ROM and applying IPS patch
-    from pyips import apply_ips
-    import shutil
-
-    base_rom = "build/ff4.sfc"
-    test_rom = "build/ff4_tests.sfc"
-    ips_patch = "build/ff4.ips"
-
-    if os.path.exists(base_rom) and os.path.exists(ips_patch):
-        shutil.copy(base_rom, test_rom)
-        apply_ips(test_rom, ips_patch, test_rom)
-        print(f"Created patched test ROM: {test_rom}")
