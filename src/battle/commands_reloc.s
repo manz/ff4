@@ -1,4 +1,17 @@
+.extern messages_vwf
+.extern messages_vwf.init_commands_list
+.extern _draw_text_battle_far
+.extern assets_battle_commands_nul_ptr
+.extern assets_battle_commands_nul_dat
+.extern command_buffer_ptr
+
 Mult8_far := 0x2855c
+
+.if BATTLE_CMD_VWF {
+    command_length = 6
+} else {
+    command_length = 10
+}
 
 draw_command_list_for_character:
     ; Skip command rendering if inventory is active (bit 2 of $4A)

@@ -1,3 +1,5 @@
+.extern defend_row
+
 ; MISS sprite graphics
 
 *=0x0cfc60

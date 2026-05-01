@@ -1,3 +1,12 @@
+.extern InitInventoryTextBuf_Rolling
+.extern TfrInventoryList_Rolling
+.extern ScrollListDown_Hook
+.extern ScrollListUp_Hook
+.extern UpdateListScrollHDMA_Wrapped
+.extern ResetListScrollHDMA_Rolling
+.extern PostScrollDown_Render
+.extern CheckCursor2Visibility_Rolling
+
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)
 ; ============================================================================

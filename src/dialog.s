@@ -1,3 +1,10 @@
+; Include shared VWF variable definitions
+.include 'src/vwf.i'
+
+; External symbols - these are defined in the main file or assets
+.extern assets_bank1_1_ptr
+.extern assets_bank2_ptr
+.extern dialog_bank_ptr_base
 
 PointeurBank1de1:
     """Gets a 24bits pointer for bank 1-1"""
@@ -77,11 +84,11 @@ PointeurBank2:
     tay
 
     _LoopBk2:
-    jsr.w ChargeLettreIncBk2
+    jsr.w _ChargeLettreIncBk2
     bne _LoopBk2
-    jsr.w ChargeLettreDecBk2
+    jsr.w _ChargeLettreDecBk2
     pha
-    jsr.w ChargeLettreIncBk2
+    jsr.w _ChargeLettreIncBk2
     pla
     cmp #0x03
     beq _LoopBk2
@@ -100,7 +107,7 @@ PointeurBank2:
     stz.b 0xDD
     rtl
 
-    ChargeLettreDecBk2:
+    _ChargeLettreDecBk2:
     ldx.b dialog_ptr
     dex
     bmi _OkBk2
@@ -108,7 +115,7 @@ PointeurBank2:
     ldx.w #0xFFFF
     bra _OkBk2
 
-    ChargeLettreIncBk2:
+    _ChargeLettreIncBk2:
     ldx.b dialog_ptr
     inx
     bmi _OkBk2
@@ -118,7 +125,7 @@ PointeurBank2:
     _OkBk2:
     stx.b dialog_ptr
 
-    ChargeLettreBk2:
+    _ChargeLettreBk2:
     ldx.b dialog_ptr
     phb
     lda.b dialog_ptr + 2
@@ -132,16 +139,16 @@ PointeurBank2:
 }
 
 
-incpointer:
+_incpointer:
 {
     phx
     ldx.w 0x0772
     inx
-    bne no_overflow
+    bne _no_overflow
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    no_overflow:
+    _no_overflow:
     stx.w 0x0772
     plx
     rts
@@ -154,11 +161,11 @@ ChargeLettreInc:
     ldx.w 0x0772
     inx
     cpx.w #0x0000
-    bne no_overflow
+    bne _no_overflow
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    no_overflow:
+    _no_overflow:
     stx.w 0x0772
 }
 

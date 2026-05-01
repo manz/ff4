@@ -1,4 +1,5 @@
 .include 'src/ingame/macros.i'
+.table 'text/ff4_menus.tbl'
 
 .scope newgame {
 new_game:

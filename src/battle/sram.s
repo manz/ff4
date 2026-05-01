@@ -1,5 +1,26 @@
 .include 'src/battle/sram.i'
 
+.extern lookup_dakuten
+.extern render_allocator
+.extern render_allocator.init_with_tile_id
+.extern render_allocator.init
+.extern render_allocator.allocated_tile_id
+.extern render_allocator.increment
+.extern render
+.extern render.tilemap_offset
+.extern battle_render
+.extern battle_render.display_char
+.extern battle_render.init
+.extern battle_render.init_commands_list
+.extern battle_render.init_monsters
+.extern battle_render.init_names
+.extern battle_render.pending_transfer_mask
+.extern battle_render.buffer_ptr
+.extern battle_render.bits_left_on_tile
+.extern battle_render.clear_buffer
+.extern assets_menu_font_dat
+.extern font_table
+
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
 .scope battle_flags {
@@ -121,3 +142,5 @@ clear_names_window_buffer:
     tdc
     sta 0x74FC, y
     rtl
+
+.include 'src/battle/message.s'

@@ -1,31 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://snes.ninja/ScriptNS" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="script" type="scriptType"/>
-  <xs:complexType name="pointerType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="id" use="required"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="scriptType">
-    <xs:sequence>
-      <xs:element type="pointerType" name="pointer" maxOccurs="unbounded" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="fixedlist" type="fixedlistType"/>
-  <xs:complexType name="fixedlistType">
-    <xs:sequence>
-      <xs:element type="xs:string" name="fixed" maxOccurs="unbounded" minOccurs="0"/>
-    </xs:sequence>
-    <xs:attribute type="xs:positiveInteger" name="length"/>
-    <xs:attribute type="xs:string" name="padding"/>
-  </xs:complexType>
-  <xs:element name="stringarray" type="stringarrayType"/>
-  <xs:complexType name="stringarrayType">
-    <xs:sequence>
-      <xs:element type="xs:string" name="string" maxOccurs="unbounded" minOccurs="0"/>
-    </xs:sequence>
-    <xs:attribute type="xs:string" name="eos"/>
-  </xs:complexType>
+<xs:schema targetNamespace="http://snes.ninja/ScriptNS" attributeFormDefault="unqualified"
+           elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="script" type="scriptType"/>
+
+    <xs:complexType name="pointerType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="id" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="scriptType">
+        <xs:sequence>
+            <xs:element type="pointerType" name="pointer" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="fixedlist" type="fixedlistType"/>
+    <xs:complexType name="fixedlistType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="fixed" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:positiveInteger" name="length"/>
+        <xs:attribute type="xs:string" name="padding"/>
+    </xs:complexType>
+
+    <xs:element name="stringarray" type="stringarrayType"/>
+    <xs:complexType name="stringarrayType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="string" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="eos"/>
+    </xs:complexType>
+
+    <xs:complexType name="stringarrayWithIDType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="index" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+
+    <xs:element name="areas" type="areasType"/>
+    <xs:complexType name="areasType">
+        <xs:sequence>
+            <xs:element type="stringarrayType" name="area" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="id"/>
+    </xs:complexType>
+
 </xs:schema>

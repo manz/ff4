@@ -1,22 +1,6 @@
 ; ----------------
 ; Final Fantasy IV the new hack.
 ; ----------------
-DEBUG := 1
-; Feature Flips
-ENABLE_DIALOG_SKIP := 1
-ENABLE_INTRO := 1
-ENABLE_VWF_ATTACK_NAMES := 1
-BATTLE_ENABLED := 1
-MAGIC_ENABLED := 1
-ENABLE_KERNING := 1
-ENABLE_KERNING_MENU := 0
-ENABLE_BUTTON_DISPLAY := 1
-BATTLE_CMD_VWF := 1
-BATTLE_NAMES_VWF := 1
-BATTLE_MONSTERS_VWF := 1
-INVENTORY_ROLLING_BUFFER := 1   ; Enable rolling buffer optimization (WIP)
-; Debug flags
-TRIGGER_ENDING_CUTSCENE := 0
 
 ; Forward declaration - ConditionalBG1VOFS is at start of relocated region ($208000)
 ConditionalBG1VOFS := 0x208000
@@ -145,38 +129,39 @@ clear_ram:
 
 rtl
 
-.include "src/libmz.s"
+.import "libmz"
+.import "dialog"
+.import "kerning"
 .if ENABLE_INTRO {
-    .include "src/intro.s"
+    .import "intro"
 }
-.include "src/vwf.s"
-.include "src/small_vwf/init.s"
+.import "vwf"
+.import "small_vwf/init"
 
 .if BATTLE_ENABLED {
-    .include "src/battle/sram.s"
-    .include "src/battle/message.s"
-    .include "src/battle/graphics.s"
-    .include "src/battle/monsters_reloc.s"
+    .import "battle/sram"
+    .import "battle/graphics"
+    .import "battle/monsters_reloc"
     .if MAGIC_ENABLED {
-    .include "src/battle/magic/reloc.s"
+    .import "battle/magic_reloc"
     }
-    .include "src/battle/commands_reloc.s"
-    .include "src/battle/items_reloc.s"
-    .include "src/battle/math_reloc.s"
+    .import "battle/commands_reloc"
+    .import "battle/items_reloc"
+    .import "battle/math_reloc"
     .if INVENTORY_ROLLING_BUFFER {
-    .include "src/battle/inventory_rolling.s"
+    .import "battle/inventory_rolling"
     }
 }
-.include "src/dialog.s"
-.include "src/places_names_window.s"
+; dialog.s is now imported as a module (see .import "dialog" above)
+.import "places_names_window"
 ; system menu text routines
-.include "src/system_menus_text.s"
-.include "src/dakuten.s"
+.import "system_menus_text"
+.import "dakuten"
 
 ; menu text scopes
-.include "src/menus/start_screen_text.s"
-.include "src/menus/tools_shop_text.s"
-.include "src/menus/in_game_text.s"
+.import "menus/start_screen_text"
+.import "menus/tools_shop_text"
+.import "menus/in_game_text"
 
 ; Relocated multiply-by-12 for item name offset
 ; Called from $019023 via JSL
@@ -272,6 +257,19 @@ font_table:
     *=0xc436
     lda #0x39
     nop
+}
+
+.if DEBUG_SHOW_ITEM_WINDOW {
+    ; Hijack ExecEvent to always run F7 (select item) with Baron Key
+    ; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
+    *=0x00E1EB
+    lda #0xD1
+    sta 0x09d6
+    lda #0xFF
+    sta 0x09d7
+    ldx #0x0000
+    stx 0xb3
+    jmp.w 0xED96
 }
 ;end
 

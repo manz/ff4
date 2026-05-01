@@ -1,3 +1,27 @@
+; ----------------------------------------------------------------
+; Module: intro
+; Splash-screen routine. Imported by ff4.s at boot time.
+; ----------------------------------------------------------------
+
+.include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
+
+; libmz routines
+.extern initialize_snes
+.extern wait_for_vblank
+.extern enable_gamepad
+.extern disable_gamepad
+.extern clear_ram
+.extern dma_transfer_to_vram
+.extern dma_transfer_to_palette
+
+; intro asset blobs (defined in ff4.s, *=0x318000)
+.extern assets_intro_map
+.extern assets_intro_map__size
+.extern assets_intro_col
+.extern assets_intro_col__size
+.extern assets_intro_set
+.extern assets_intro_set__size
+
 start_splash_screen:
 ; initialise SNES
     jsr.w initialize_snes
