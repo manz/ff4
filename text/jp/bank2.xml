@@ -1,0 +1,3740 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:areas xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:area id="0">
+<sn:string index="0">あかいつばさの Cecil!
+ミストのたになら ほくせいのどうくつさ
+ぬけたところです゜[end]</sn:string>
+<sn:string index="1">おうは ますますきびしくなられた!
+しかし さからっては Cidのように‥[end]</sn:string>
+<sn:string index="2">Cecilさま!
+おうの かたきさ![end]</sn:string>
+<sn:string index="3">へいしに あんこくけんさ
+おしえるなぞ!
+おうは なにさ かんがえておるのじゃ![end]</sn:string>
+<sn:string index="4">おうが こんなに われわれさ
+くるしめるなぞ!
+ひとがかわったとしか おもえんわ![end]</sn:string>
+<sn:string index="5">あんた あの あんこくきしじゃったか!
+りっぱになって![end]</sn:string>
+<sn:string index="6">ミストに てさだしては きっと なにかが
+おこりますよ![end]</sn:string>
+<sn:string index="7">よそからきた モンクそうに このえへいさ
+したがわせ なにやら さぐらせているようです゜
+たしか やどのほうに‥[end]</sn:string>
+<sn:string index="8">おうは まものにすりかわられていたとか゜
+おうには こうけいしゃも いないし‥[end]</sn:string>
+<sn:string index="9">わー あんこくきしだ コワイよお!
+でも ちょっと カッコいいかな゜[end]</sn:string>
+<sn:string index="10">あの あんこくきしのひと ホントに
+しんじゃったのかなあ゜
+ぼく すきだったんだよ゜[end]</sn:string>
+<sn:string index="11">やっぱり Cecilさまだったんだね!
+Golbezなんて やっつけちゃってよ![end]</sn:string>
+<sn:string index="12">まちの にしの たてものの とびら?
+ありゃ おしろにつうじる ちかすいろじゃ゜
+いまは ふうさされとるがの゜[end]</sn:string>
+<sn:string index="13">バロンはじまっていらい こんなじたいは
+はじめてじゃ おうが いないなど‥[end]</sn:string>
+<sn:string index="14">あんこくきし!
+わたし おうさまの わるくちなんて‥
+そうだ いいもの みせてあげるから!
+ネッ?[end]</sn:string>
+<sn:string index="15">さいきん おうさまが きびしくて
+おどれないのよ゜
+ざんねん?[end]</sn:string>
+<sn:string index="16">あなた あの あんこくきしだったのね!
+こんな すてきなひとだったなんて!
+さ いっしょに おどりましょ![end]</sn:string>
+</sn:area>
+
+<sn:area id="1">
+<sn:string index="0">げんいんふめいの おおかじで おんなこどもや
+てだれの しょうかんしは
+みな しんでしまった゜[end]</sn:string>
+<sn:string index="1">ミストの しょうかんしの れきしも
+これまでか‥[end]</sn:string>
+<sn:string index="2">バロンの ちかには いちげきひっさつの
+げんじゅうの たましいが ねむっていると
+いううわさだ゜[end]</sn:string>
+<sn:string index="3">わしら しょうかんしが よびだす げんじゅうは
+げんかいから あらわれる゜
+げんかいは ちていふかくに そんざいする
+らしいんじゃ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="2">
+<sn:string index="0">ここは ダムシアンさばくの
+オアシスのまち カイ◉さ゜[end]</sn:string>
+<sn:string index="1">なんでも バロンからきた
+きれーな ねーちゃんが たおれてて
+だれかのいえに かつぎこまれたらしーぜ゜[end]</sn:string>
+<sn:string index="2">Annaは あいするひとができたの゜
+でも Tellaさまが
+ゆるさなかったばかりに
+このカイ◉さ とびだして‥[end]</sn:string>
+<sn:string index="3">ダムシアンのおどりこに しがんにきたのに
+ちかすいみゃくは まもので いっぱいで‥
+みてくれる?
+わたしの シンクロナイズド![end]</sn:string>
+<sn:string index="4">ちかすいみゃくなら ほくとうだよ゜
+でも さいきん はっぴきの すいじゃが
+でるんだって![end]</sn:string>
+<sn:string index="5">きたにある しろが さばくいったいさ
+おさめている ダムシアン゜
+おうじさまは じょせいのように うつくしい
+おすがたと おこえさ しておられるそうだ゜[end]</sn:string>
+<sn:string index="6">ちいさな こさ つれて あるくなら
+こうれつに してあげたほうが いいわよ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="3">
+<sn:string index="0">おまえ あのときの!
+ええい こうしてやる!
+
+
+トード![end]</sn:string>
+<sn:string index="1">おまえが パラディンに?
+なれるもんか![end]</sn:string>
+<sn:string index="2">D[end]</sn:string>
+<sn:string index="3">パラディンに なれるものが いたなんて‥[end]</sn:string>
+<sn:string index="4">あなたたちの せいで わたしたちが どれだけ
+くるしんだか‥[end]</sn:string>
+<sn:string index="5">あら Palom Porom゜
+しれんのやまなら ひがしよ゜[end]</sn:string>
+<sn:string index="6">あなたも くるしんでいたのですね゜
+わたしも あなたのために いのりましょう゜[end]</sn:string>
+<sn:string index="7">おまえに はなすことなど なにもない![end]</sn:string>
+<sn:string index="8">しれんのやまは てごわい アンデッドの すだ゜
+あんこくけんなんか つうようするもんか![end]</sn:string>
+<sn:string index="9">おまえが パラディンに!?[end]</sn:string>
+<sn:string index="10">ひとが ひとさ きずつける‥
+かなしいことです゜[end]</sn:string>
+<sn:string index="11">しれんに たえ そのすがたと けつべつ
+するのです゜[end]</sn:string>
+<sn:string index="12">パラディンのせいしんさ わすれないでください゜[end]</sn:string>
+<sn:string index="13">きさま よく ここに これるな![end]</sn:string>
+<sn:string index="14">しれんのやまには おおくのものが
+いどんだが だれひとり かえってこなかった゜[end]</sn:string>
+<sn:string index="15">おれは ゆるしたわけじゃないからな![end]</sn:string>
+<sn:string index="16">ヒエー!
+
+
+
+バロンの‥
+
+
+
+あんこくきしだー![end]</sn:string>
+<sn:string index="17">ヒエー!
+
+
+
+あんたが パラディンに なるって?
+
+
+
+じょうだんじゃないだろね![end]</sn:string>
+<sn:string index="18">ヒエー!
+
+
+
+そのすがたは!
+
+
+
+パラディン?
+
+
+
+ヒェー おどろいた![end]</sn:string>
+<sn:string index="19">D[end]</sn:string>
+<sn:string index="20">ここは バロンにつうじる デビルロード゜
+あんなことが にどとおきないよう
+ふういんされています゜[end]</sn:string>
+<sn:string index="21">デビルロードとは じげんのみち゜
+ここさとおるには かなりの せいめいりょくが
+ぎせいとされるため あくまのみち デビルロードとなづけられました゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="4">
+<sn:string index="0">で でけー!
+あんたら もしかして きょじんか?[end]</sn:string>
+<sn:string index="1">きみは にんげんだね゜
+ふみつぶさんよう きさつけてくれたまえ゜[end]</sn:string>
+<sn:string index="2">そんだけ おおきいと しょくひも
+たいへんだろう゜
+やっぱ アリのステーキとか たべるのかい?[end]</sn:string>
+<sn:string index="3">ぼくらが ミスリルぎんさ とってきて
+カエルくんが せいせいして
+こびとくんが かこうするんだ゜
+にんげんようの ぶきなんかも つくってるよ![end]</sn:string>
+<sn:string index="4">ミスリルのやまは はるかきた゜
+あんたらの あしなら あっというまでも
+ぼくらにゃ ながたびなんだよ![end]</sn:string>
+<sn:string index="5">べいべー![end]</sn:string>
+<sn:string index="6">いえー![end]</sn:string>
+<sn:string index="7">イカしたダンス みせるぜ!
+
+
+
+かもん ぶらざー![end]</sn:string>
+<sn:string index="8">ういあー ミスリルブラザーズ!
+
+
+
+れっつ だんす![end]</sn:string>
+<sn:string index="9">せんきゅー![end]</sn:string>
+</sn:area>
+
+<sn:area id="5">
+<sn:string index="0">キャッキャッ!
+あら いっしょに およぐ?[end]</sn:string>
+<sn:string index="1">もりとみずのみやこ トロイアへ ようこそ![end]</sn:string>
+<sn:string index="2">そんなのきて およぐと サビちゃうわよ![end]</sn:string>
+<sn:string index="3">ギクリ!
+
+
+
+な なんじゃ おどかしおって!
+ええい むこうに いかんか![end]</sn:string>
+<sn:string index="4">うちの じいさん どこいっちゃったのかねえ゜[end]</sn:string>
+<sn:string index="5">ひそひそうって しってる?
+こえさとおくにとばせる ふしぎなくさなんだって![end]</sn:string>
+<sn:string index="6">‥
+
+
+
+うるさいわねえ゜
+にっこうよく してるんだから゜[end]</sn:string>
+<sn:string index="7">ほうせきさ とりに ほくとうのしまの どうくつにきんこさもってったら くっついちまって
+とれやしねえ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="6">
+<sn:string index="0">ここは ドワーフの ちさひくもののむら゜
+アガルト゜[end]</sn:string>
+<sn:string index="1">このむらの いいつたえによれば すべての
+ものには うらとおもてが そんざいする゜
+そう このせかいにも‥[end]</sn:string>
+<sn:string index="2">ドワーフのしそんだからかな?
+ぼくが チビなのは゜
+オーガのしそんだったら よかったのに゜[end]</sn:string>
+<sn:string index="3">え? わしらの ごせんぞ?
+どうやって きたか?
+それはのお‥
+
+はて‥わすれてしまったかのお゜[end]</sn:string>
+<sn:string index="4">わたしらは たいようのめぐみなしでは
+いきてゆけません゜
+しかし ごせんぞは ちがったとか゜[end]</sn:string>
+<sn:string index="5">あたし ちからもちよ!
+おじいちゃんの おじいちゃんの ずうっと
+おじいちゃんは もっとちからもちだったって![end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">ここには ふるくからつたわる いどが
+まつってあるんです゜
+そのふかさは はかりしれないとか゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="7">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="8">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="9">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="10">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="11">
+<sn:string index="0">おにいちゃん なんで そんなかっこう
+してるの?
+もしかして わるいひと?[end]</sn:string>
+<sn:string index="1">おとうさんが おきゃくさんが こないって゜
+さかばも こわい へいたいさんが くるし
+‥[end]</sn:string>
+<sn:string index="2">おどりこ ぼしゅう!
+かわいくって おどりのうまいこ もとむ!
+バロン やどやない さかばマスター[end]</sn:string>
+<sn:string index="3">これは おしろの あんこくきしさま゜
+おかね? めっそうもない あなたからは
+とれませんよ![end]</sn:string>
+<sn:string index="4">Cidが しろに とらわれているって
+はなしだ!
+なんでも さいしんえいの ひくうていさ
+どこかに かくしたらしい゜[end]</sn:string>
+<sn:string index="5">Cecilさん のむかい?
+なに オゴリだ!
+ゆっくり してってくれ![end]</sn:string>
+<sn:string index="6">あ あかいつばさの Cecilさま!
+わたしは なにも してませんわ゜
+ぜいきんも おさめているし‥[end]</sn:string>
+<sn:string index="7">しろの へいしたちが この さかばで やりたい
+ほうだい![end]</sn:string>
+<sn:string index="8">まちにも やっと かっきがもどってきました!
+さ しごとしごと![end]</sn:string>
+<sn:string index="9">あのときの おにいちゃんだったのね!
+あたし いまの かっこうのほうが にあってると
+おもうわ゜[end]</sn:string>
+<sn:string index="10">D[end]</sn:string>
+<sn:string index="11">あんたら つよいねえ!
+このえへいさ のしちまうなんざ゜
+きにいった! とまってきな![end]</sn:string>
+<sn:string index="12">おい さけは まだか?
+
+
+
+なんだ きさま?[end]</sn:string>
+</sn:area>
+
+<sn:area id="12">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="13">
+<sn:string index="0">Cid「グガー グガー!
+ できた しんがたエンジンじゃ!
+ フガ フガ‥[end]</sn:string>
+<sn:string index="1">おとうさんったら また てつやで!
+いつまでも わかい つもりなんだから‥
+Cecilさまからも いってください゜
+まちのみんなは おうさまや へいしのことさ
+わるくいいますけど あなたのような
+いいひとも いっぱいいるのに‥
+おとうさんなんか そのことで しょっちゅう
+まちの ひとと もめてるんです゜[end]</sn:string>
+<sn:string index="2">ふりょくと そのげんり゜[end]</sn:string>
+<sn:string index="3">ぞうせんぎじゅつの れきし゜[end]</sn:string>
+<sn:string index="4">せかいの とり だいずかん゜[end]</sn:string>
+<sn:string index="5">Cecilさま!?
+いきておられたんですね!
+おとうさんが ずっと おしろから
+かえってこないんです゜[end]</sn:string>
+<sn:string index="6">おとうさん!
+もう としなんだから むちゃしないでよ!
+みなさん ちちさ おねがいしますね゜[end]</sn:string>
+<sn:string index="7">ちちさ よろしく おねがいしますわ゜
+また ひくうていさ いじってるんでしょう?[end]</sn:string>
+<sn:string index="8">グガー グガー‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="14">
+<sn:string index="0">Rosaのはは「さいきんの おうさまの
+ やりかたといったら‥
+ あんたらも よそで ひどいことさ
+ してるっていうじゃない゜
+ おねがいだから Rosaさ へんなことに
+ まきこまないでおくれ゜[end]</sn:string>
+<sn:string index="1">Rosaのはは「あんたさ おって
+ Rosaは とびだしていったんだよ!
+ あのこは いま どこに いるんだい?[end]</sn:string>
+<sn:string index="2">Rosaのはは「Rosa!
+ ぶじだったのね!
+Rosa「‥ごめんなさい゜
+
+Rosaのはは「もう どこにも
+ いっちゃいけないよ!
+ おまえさ しろまどうしなんかに すべきじゃ
+ なかったんだ゜
+Rosa「ちがうわ おかあさん!
+ わたしは よかったと おもうわ゜
+ せんしの Cecilの
+ ちからに なれる しろまどうしで!
+ おかあさんだって むかしは
+ おとうさんと ともに たたかった
+ しろまどうしじゃない!
+Rosaのはは「Rosa‥
+ そうね‥しんだ あのひとも りっぱな
+ ナイトだった゜
+ Cecil このこさ おねがいね゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="15">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="16">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">D[end]</sn:string>
+<sn:string index="3">D[end]</sn:string>
+<sn:string index="4">けんじゃのTellaさまと むすめの
+Annaは おやひとり こひとりで
+なかがよかったが
+Annaが いえでさしてしまってな‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="17">
+<sn:string index="0">やあ ぼくは たびのがくしゃ゜
+ダムシアンの ひがしの ファブールへ
+けんきゅうに いきたいんだが
+ちかすいみゃくに へんなじいさんがいて
+とおしてくれないんだ゜[end]</sn:string>
+<sn:string index="1">あら めずらしい゜
+さいきん ふえた まもののせいで おきゃくも
+めっきりですの゜[end]</sn:string>
+<sn:string index="2">さばくで かわききった のどに!
+カイ◉とくせい ビール![end]</sn:string>
+<sn:string index="3">ダムシアンの ひがしにある アントリオンの
+どうくつには おうぞくしか いけねーらしい゜
+おれたちでも いけりゃ いいしょうばいに
+なんだけどなー゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="18">
+<sn:string index="0">バロンからきた むすめさんが
+むらのまえで たおれてたんです゜
+かわいそうに こうねつびょうに やられて
+うわごとで Cecil Cecilと
+くりかえすだけで‥[end]</sn:string>
+<sn:string index="1">あんたが むすめさんが うわごとで いってた
+Cecilさんかい゜
+だいじにしておやり゜[end]</sn:string>
+<sn:string index="2">こうねつびょうさ なおすには まぼろしの
+ほうせき さばくのひかりが ひつようなんじゃが
+アントリオンという まものがすむ どうくつに
+あるんじゃ‥[end]</sn:string>
+<sn:string index="3">さばくの こうねつびょうには‥
+さばくのひかりが とっこうやく‥[end]</sn:string>
+<sn:string index="4">Rosa「‥[music][0x13]
+
+
+
+ ううん‥
+
+
+
+ Cecil‥
+
+
+
+ しなないで Cecil![end]</sn:string>
+<sn:string index="5">げんきになって よかったの゜
+みじかいあいだだが むすめのようなきがしてな゜
+また たちよってくだされ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="19">
+<sn:string index="0">こんどは なんのようだ![end]</sn:string>
+<sn:string index="1">しれんのやま? いくだけ むださ![end]</sn:string>
+<sn:string index="2">クリスタルと なかまさうばった
+バロンさ ゆるすな![end]</sn:string>
+<sn:string index="3">まさか おまえが‥[end]</sn:string>
+<sn:string index="4">なかまさ! なかまさ かえして![end]</sn:string>
+<sn:string index="5">Palom Porom!
+このひとさ しんようしちゃ ダメよ![end]</sn:string>
+<sn:string index="6">なんて まばゆい‥
+これが パラディン![end]</sn:string>
+<sn:string index="7">るせー ヒック!
+あんこくきしなんざ こわかねーや![end]</sn:string>
+<sn:string index="8">おまえが パラディン?
+ヘヘ! わらわせるなってんだ![end]</sn:string>
+<sn:string index="9">あら! ホンマもんの パラディンかい?[end]</sn:string>
+<sn:string index="10">ながたびで おつかれでしょう゜
+これさ おのみになって![end]</sn:string>
+<sn:string index="11">あんたが パラディンに?
+だったら おれでも なれそうだ![end]</sn:string>
+<sn:string index="12">なんてことだ! あんた ホントに![end]</sn:string>
+<sn:string index="13">かかか かんべんしてください![end]</sn:string>
+<sn:string index="14">かかか かんべん‥
+へ? しれんのやまに のぼられる?[end]</sn:string>
+<sn:string index="15">いや なんとも りっぱな おすがた![end]</sn:string>
+<sn:string index="16">『ぐふ![end]</sn:string>
+<sn:string index="17">ほんのちょっと どくさ もらせてもらったぜ!
+なかまの うらみだ![end]</sn:string>
+</sn:area>
+
+<sn:area id="20">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="21">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="22">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">ひ つち みず かぜ‥すべての みなもと゜[end]</sn:string>
+<sn:string index="3">くろまほう たいぜん‥[end]</sn:string>
+<sn:string index="4">はじめての ケアル゜[end]</sn:string>
+<sn:string index="5">D[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">ちょうろうは すべてさ おゆるしに
+なられます゜
+でも わたしは あなたたちさ ゆるすきには‥[end]</sn:string>
+<sn:string index="8">パラディンに なれたなら しんじることに
+いたします゜[end]</sn:string>
+<sn:string index="9">わたしたちも あなたさ しんじてみます![end]</sn:string>
+<sn:string index="10">ここは いのりのやかた゜
+ちょうろうが おはなしさ きいてくださる
+そうです゜[end]</sn:string>
+<sn:string index="11">ためしてくるのです゜
+あなたが ひかりさ うけいれられるかどうか゜[end]</sn:string>
+<sn:string index="12">ほんのわずかだった あなたの かがやきが
+いまは こんなに![end]</sn:string>
+<sn:string index="13">あしき こころは いったい どこから
+うまれでるのでしょう゜
+だれしも はじめは むくなあかごなのに‥[end]</sn:string>
+<sn:string index="14">パラディンとは せいなるきし゜
+あんこくきしの たいきょくさ なすもの゜[end]</sn:string>
+<sn:string index="15">そのすがた まさにパラディン!
+‥これも さだめだったのかもしれません゜[end]</sn:string>
+<sn:string index="16">おんなのこ「なにか?
+ちょうろう「Palomは どうした?
+おんなのこ「Palomったら また![end]</sn:string>
+<sn:string index="17">おとこのこ「おめーが あのときの バロンの
+ やつか゜
+ じーさんの めいれいだから しかたなく
+ てさかしてやるんだから ありがたくおもえよ![end]</sn:string>
+<sn:string index="18">Porom「Cecilさんと
+ おっしゃいましたね゜
+ よろしくおねがいしますわ゜[end]</sn:string>
+<sn:string index="19">Porom「ほら Palomも![end]</sn:string>
+<sn:string index="20">Palom「よろしくな あんちゃん![end]</sn:string>
+<sn:string index="21">くろまどうし Palom
+しろまどうし Poromが なかまになった![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="22">ちょうろう「たびだつのじゃ しれんのやまへ!
+ Palom Porom! たのんだぞ![end]</sn:string>
+</sn:area>
+
+<sn:area id="23">
+<sn:string index="0">うんめいは そなたらに ゆだねられている゜
+ワシにできることは いのることだけじゃ‥
+
+
+Palom Porom゜
+Cecilどのの あしさ ひっぱらぬようにな゜[end]</sn:string>
+<sn:string index="1">Palom Poromが‥!
+
+
+
+そうか‥あのふたりは さいごに このワシさ
+こえてくれたか‥[end]</sn:string>
+<sn:string index="2">ちょうろうは あのときいらい
+このいのりのとうで いのっておられます゜[end]</sn:string>
+<sn:string index="3">わたしたちも いのります゜
+すべての いきとし いけるものの ために‥[end]</sn:string>
+<sn:string index="4">Tellaまでも!?
+あれほど にくしみで たたかうなと いっておったのに‥
+
+ばかものが‥[end]</sn:string>
+<sn:string index="5">わたしたちは いのりつづけています![end]</sn:string>
+<sn:string index="6">つきへ いそいでください![end]</sn:string>
+<sn:string index="7">ちょうろう「まどうせんは つきよりのふね!
+ ミシディアの きろくによれば
+ つうじょうひこうの スイッチとは べつに
+ ひしょうのクリスタルなるものがあり
+ かたりかければ つきとの ゆききが
+ できるそうじゃ!
+
+
+『やってみます![end]</sn:string>
+</sn:area>
+
+<sn:area id="24">
+<sn:string index="0">ここは くうきも たべものも おいしいし
+なんたって おんなが おおいのが きらく
+よね![end]</sn:string>
+<sn:string index="1">やった!
+きょうは カウンターに すわれたぜ![end]</sn:string>
+<sn:string index="2">あーら ぼく!
+ちょっと かわいいじゃない![end]</sn:string>
+<sn:string index="3">ながいきは するもんじゃの!
+わしゃ てんごくより こっちが いいわい![end]</sn:string>
+<sn:string index="4">おぬしらは わたしが おあいていたそう゜
+
+
+
+なんじゃ そのかおは![end]</sn:string>
+<sn:string index="5">ママー!
+
+
+
+すきだー!
+
+
+
+げッ!
+
+
+
+おとこじゃねーか![end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">いつみても ここの ねーちゃんは
+さいこうだぜ![end]</sn:string>
+<sn:string index="8">あら おにいさん゜
+どうぞ ごひいきにね![end]</sn:string>
+<sn:string index="9">ウソさつけ!
+とっとと かえんな![end]</sn:string>
+</sn:area>
+
+<sn:area id="25">
+<sn:string index="0">こんどは けがわが ほしいわあ゜[end]</sn:string>
+<sn:string index="1">おきゃくさん おかねは だいじょぶかい?
+こっからさきは たかいよ゜[end]</sn:string>
+<sn:string index="2">このおじいさん むかしの ぶゆうでんばかりで
+もう うんざり![end]</sn:string>
+<sn:string index="3">そのときじゃ!
+ワシが ゴブリンに クリティカルヒットじゃ![end]</sn:string>
+<sn:string index="4">ここは かいいんせいだよ゜
+さ でてった でてった゜[end]</sn:string>
+<sn:string index="5">くそー あのジジイ!
+ぼくの ジェニファーに![end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">よっしゃよっしゃ!
+なんでも こうたるさかいにな![end]</sn:string>
+<sn:string index="8">おりょうり はこんでこなくちゃ![end]</sn:string>
+</sn:area>
+
+<sn:area id="26">
+<sn:string index="0">キャ!
+
+
+
+がくやに はいってこないでよ![end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">いらっしゃいませ゜
+まもなく ショータイムでございます゜[end]</sn:string>
+<sn:string index="3">まっぴるまから あんたも すきじゃの![end]</sn:string>
+</sn:area>
+
+<sn:area id="27">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="28">
+<sn:string index="0">ゆたかなみどりと みずのおかげで ここじゃ
+しんせんなやさいが いっぱいとれる゜
+おかげで チョコボの しいくも さかんなんだ゜[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">チョコボの せいたい‥[end]</sn:string>
+<sn:string index="3">あなたにも かえる チョコボ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="29">
+<sn:string index="0">めずらしいだろ? くろチョコボってんだ゜
+こいつらは ひとになれたせいか とべなく
+なっちまったけど きたの チョコボのむらにいる
+やせいの くろチョコボなら こうどは
+ひくいが そらもとぶぜ!
+ただし もりにしか おりれないけどな゜[end]</sn:string>
+<sn:string index="1">くろチョコボは たびのかえりみちさ おぼえてて
+じぶんで もどってくれるの゜
+でも きしょうがあらいから 1おうふくで
+にげちゃうけどね゜[end]</sn:string>
+<sn:string index="2">しんしゅのチョコボ はっけんさる!
+くろチョコボと めいめい!
+
+[space][0x8]トロイアしんぶん[end]</sn:string>
+<sn:string index="3">キューン キューン゜[end]</sn:string>
+<sn:string index="4">D[end]</sn:string>
+<sn:string index="5">チョコボって かわいいんだけど
+ちょっと くさいのよね![end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">D[end]</sn:string>
+<sn:string index="8">D[end]</sn:string>
+<sn:string index="9">D[end]</sn:string>
+<sn:string index="10">D[end]</sn:string>
+<sn:string index="11">ぼくも くろチョコボで とびたいよお゜
+でも ぼくが ちかづくと おこるんだ゜
+あいが たりないのかなあ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="30">
+<sn:string index="0">ここは コリオてんもんだい゜
+せかいで ゆいいつの ぼうえんきょうが
+あるんですよ゜
+さいきん つきのようすが へんで
+かんそくに いそがしいんです゜[end]</sn:string>
+<sn:string index="1">うちのひとったら かんそくに ねっちゅう
+すると のまずくわずなんだから![end]</sn:string>
+<sn:string index="2">よぞらの ロマンチシズム゜[end]</sn:string>
+<sn:string index="3">せいざのなまえ その‥ゆらい゜[end]</sn:string>
+<sn:string index="4">つきの みちかけと‥じんるいのれきし゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="31">
+<sn:string index="0">わたしは コリオ゜
+ここで つきさかんそくしとる゜
+ふたつの つき‥
+いっぽうは いきものも おらん つきだが
+もういっぽうは どうも せいぶつが いるらしい
+こんせきが ある゜
+その つきが さいきん あかく なってきた‥
+まるで ちのいろの ようにな゜
+ただならぬ ことが おきなければ
+よいのだが゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="32">
+<sn:string index="0">こないだ きたの かこうに あかいものが
+すいこまれていくのさ みたんだ![end]</sn:string>
+<sn:string index="1">そとじゃ いくさが ひろがってるらしいけど
+ここは いたって へいわなむら゜
+でも ときどき じしんが おこるの゜[end]</sn:string>
+<sn:string index="2">うちのばーちゃんは むらいちばんの ながいき゜
+なんでも しってんだ![end]</sn:string>
+<sn:string index="3">ごせんぞは きたのやまの さんちょうの
+おおあなから やってきたらしいが‥
+いまは あなが ふさがっとるし だいいち
+そらでも とべなくてはのう゜[end]</sn:string>
+<sn:string index="4">ふるくからの いいつたえじゃ‥
+われらが たいようのいしさ こきょうに
+かえすとき こきょうへの みちのりは
+ひらかれん‥[end]</sn:string>
+<sn:string index="5">やみなくしては ひかりもまたなし゜
+ひるがあるから よるがある゜
+すべては しぜんの せつりなり!
+
+ゴセンゾってひとが いってたんだって![end]</sn:string>
+<sn:string index="6">ふしぎなおどりさ みせましょうか?
+うらのだいちにつたわる おどりなんですって゜
+いくわよ![end]</sn:string>
+<sn:string index="7">ごせんぞは うらのだいちから
+きなすったそうじゃ゜
+うらのだいちにも たいようはある゜
+マグマというなの たいようが‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="33">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="34">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="35">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="36">
+<sn:string index="0">いじょうありません![end]</sn:string>
+<sn:string index="1">へいかが ばけものだっとは‥[end]</sn:string>
+<sn:string index="2">ちかごろ しろのふんいきが
+よどんで かんじるんですが‥[end]</sn:string>
+<sn:string index="3">われわれも あやつられていたのかも
+しれません゜[end]</sn:string>
+<sn:string index="4">みょうちょう ごしゅったつでしょう゜
+きょうは もう おやすみください゜[end]</sn:string>
+<sn:string index="5">ミストのむらに ボムのゆびわさ
+とどけるまで しろには いれるなとの
+へいかの ごめいれいです![end]</sn:string>
+<sn:string index="6">なんだ きさま?
+つうこうきょかさ えているのか?[end]</sn:string>
+<sn:string index="7">じき よるです゜
+でられないほうが よろしいかと゜[end]</sn:string>
+<sn:string index="8">げんじゅうは あらゆる こうげきさ
+うけつけないときが あるとか゜[end]</sn:string>
+<sn:string index="9">おまえ どっかで みたことあるような‥[end]</sn:string>
+<sn:string index="10">このとうは たちいりきんしです゜[end]</sn:string>
+<sn:string index="11">Cid「もどったかー Cecil![end]</sn:string>
+<sn:string index="12">Cid「Rosaが しんぱい
+ しとったぞ!
+ Rosaさ なかせたら
+ このワシが ゆるさんからな!
+ ところで ワシの かわいい ひくうていは
+ ぶじか?
+ おまえのぶかは あらっぽくて いかん゜
+ なんじゃ うかないかおして!
+『じつは Cid‥
+
+
+
+Cid「なんじゃと?
+ げんじゅうの とうばつに?
+ おまえいがいに あかいつばささ しきれる
+ ヤツが おるか!
+ まったく へいかは どうされたんじゃ゜
+ しんがたの ひくうていさ つくれと
+ おっしゃるが‥
+ ワシは ひくうていさ ひとごろしの
+ どうぐになぞ したくないんじゃ!
+ まちのものも ふしぎがっとる‥
+
+
+ ともかく きさつけてな!
+ げんじゅうなぞ おまえの あんこくけんで
+ いちげきじゃ!
+ ワシは いえに かえる゜
+ さいきん かえっとらんので むすめが
+ うるさくてな![end]</sn:string>
+<sn:string index="13">Cidおやかたさ みませんでしたか?
+ひくうていの せいびさ わたしらに まかせて
+なにやら かんがえごと してるんですよ゜[end]</sn:string>
+<sn:string index="14">おやかた! Cecilさんも![end]</sn:string>
+<sn:string index="15">おやかたは あいかわらずなんでしょうね![end]</sn:string>
+<sn:string index="16">あーあ きょうも てつやか゜
+
+
+
+お おやかたには ないしょですよ!
+し しごとは たのしーなーっと![end]</sn:string>
+<sn:string index="17">お おやかたの ゆうれいだー!
+
+
+
+え ホンモノ? しごと しごと![end]</sn:string>
+<sn:string index="18">ぼくも おやかたなみの うでまえに
+なってきたでしょ?
+
+
+お おやかたには ないしょですよ![end]</sn:string>
+</sn:area>
+
+<sn:area id="37">
+<sn:string index="0">おうじ‥Gilbertおうじは
+ごぶじか‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="38">
+<sn:string index="0">Yangさま! もどられましたか゜
+へいかが おまちです゜[end]</sn:string>
+<sn:string index="1">いま でられては きけんです!
+とりあえず おやすみに なったほうが‥[end]</sn:string>
+<sn:string index="2">しろのまもりは われわれが なんとか
+かためます゜[end]</sn:string>
+<sn:string index="3">これは Cecilどの![end]</sn:string>
+</sn:area>
+
+<sn:area id="39">
+<sn:string index="0">カエルは いいな‥[end]</sn:string>
+<sn:string index="1">ようこそ トロイアじょうへ![end]</sn:string>
+<sn:string index="2">ケロ ケロ![end]</sn:string>
+<sn:string index="3">たびのおかたですね゜
+ゆっくりしてってください゜[end]</sn:string>
+<sn:string index="4">グエ グエ![end]</sn:string>
+<sn:string index="5">クリスタルのことで?
+ならば じょうないの しんかんさまたちに
+あわれるがよい゜[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">しんかんさまは かみにつかえる げんしゅくな
+おかた゜
+くれぐれも しつれいのないようにな゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="40">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="41">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="42">
+<sn:string index="0">このへやの たからさ げんじゅうとうばつに
+もっていってよいとのことです゜
+かべにあるスイッチさ おせば とびらが
+あきます゜[end]</sn:string>
+<sn:string index="1">なき へいかのこえが ちかから
+ひびいてくるんです゜
+まさか‥のろい?[end]</sn:string>
+<sn:string index="2">ミシディアから クリスタルさ もってきた
+そうですね![end]</sn:string>
+<sn:string index="3">Golbezひきいる へいしたちは
+すべて ひとではなかった‥[end]</sn:string>
+<sn:string index="4">‥!?
+
+
+
+ね ねてなんかいませんよ![end]</sn:string>
+<sn:string index="5">へいかは まものに‥おいたわしや゜[end]</sn:string>
+<sn:string index="6">Cain「いくか Cecil゜
+『あてにしてるぜ Cain゜
+Cain「フッ まかせておけ゜[end]</sn:string>
+<sn:string index="7">「Cecilどの![end]</sn:string>
+<sn:string index="8">『どうした?
+Palom「におうんだ゜
+Porom「まものの においですわ![end]</sn:string>
+<sn:string index="9">ベイガン「なに どこだ?[end]</sn:string>
+<sn:string index="10">Palom「あまいぜ あんちゃん!
+『ベイガンまでも‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="43">
+<sn:string index="0">さいきんの へいかからは
+いようなふんいきさ かんじるのですが‥[end]</sn:string>
+<sn:string index="1">Cecilさま!
+おうのざに ついてください![end]</sn:string>
+<sn:string index="2">ベイガンのやろう どうもきにいらねえ![end]</sn:string>
+<sn:string index="3">へいかなきあとも バロンはふめつです!
+しかし あかいつばさなしでは‥[end]</sn:string>
+<sn:string index="4">わたしは へいかさ しんじてます![end]</sn:string>
+<sn:string index="5">Cecilさま へいかの むねんさ![end]</sn:string>
+<sn:string index="6">ミストのたには バロンより ほくせい゜
+いつも ふかいきりが たちこめてるそうです゜[end]</sn:string>
+<sn:string index="7">われらが りゅうきしの ほこりにかけて
+しろさ まもります![end]</sn:string>
+<sn:string index="8">わが りゅうきしたいの Cainさんと
+あかいつばさの Cecilさんが くめば
+コワイもんなしでしょう![end]</sn:string>
+<sn:string index="9">Cainさんに あわせるかおが
+ないですよ゜[end]</sn:string>
+<sn:string index="10">へいかについて いろいろ いわれていますが
+へいかのみみにでも はいったら‥[end]</sn:string>
+<sn:string index="11">るすは おまかせさ![end]</sn:string>
+<sn:string index="12">Cain「どうした ねむれんのか?[end]</sn:string>
+<sn:string index="13">『こんなところに?
+Cid「とうだい もとくらしってやつじゃ![end]</sn:string>
+<sn:string index="14">いのちが おしければ へんなことは
+おかんがえに ならないことです゜[end]</sn:string>
+<sn:string index="15">へいかの へんぼうに きづいていながら
+いのちが おしいばかりに‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="44">
+<sn:string index="0">バロンおう「Cecil ぶじであったか!
+ ずいぶん たくましく なったな゜
+『へいか‥
+
+バロンおう「そのすがたは パラディン゜
+ そうか パラディンになったか゜
+ だがな いかんぞ パラディンは゜
+『へいか‥いや バロン![end]</sn:string>
+<sn:string index="1">「このー にせバロンおうめがあ![end]</sn:string>
+<sn:string index="2">Cid「よくも あんなカビくさいところに
+ とじこめおって! ブチのめしたるわい!
+ あ あら?[end]</sn:string>
+<sn:string index="3">『Cid!
+Cid「Cecilかあ!
+ いきとったんか!
+ しんぱい かけおって この‥!
+『すまない゜
+Cid「Rosaは どうした!?
+ おまえはいきとると とびだして
+ いったが‥
+『Golbezに とらわれてしまって‥
+Cid「おまえがついていながら なんという
+ ざまじゃ!
+ しかし あのGolbez‥
+ ワシの ひくうていたちさ ひどいことに
+ つかうばかりか Rosaまで![end]</sn:string>
+<sn:string index="4">Tella「そのむすめが あぶないのじゃ゜
+ はやく ひくうていとやらに
+ あんないしてもらおう![end]</sn:string>
+<sn:string index="5">Cid「なんじゃ このジジイは?
+Tella「おぬしに いわれたくはない!
+Cid「ワシャ まだ わかいわ![end]</sn:string>
+<sn:string index="6">Porom「まあまあ‥
+ Cidさまですわね゜
+ こちらは Tellaさま゜
+ いだいな けんじゃさまですわ゜[end]</sn:string>
+<sn:string index="7">Porom「こちらが ファブールの
+ モンクそうちょう Yangさま゜
+ わたしは ミシディアの まどうしみならい
+ Poromですわ゜[end]</sn:string>
+<sn:string index="8">Palom「ヘン ジジイどうしが!
+Porom「あのくちのわるいのが ふたごの
+ Palomですの゜
+Palom「ヘッ いいこぶりやがって![end]</sn:string>
+<sn:string index="9">Yang「おはつに おめにかかります゜
+ ここはきけんゆえ いそぎませんと゜
+Cid「れいぎさ しっとるの おぬし![end]</sn:string>
+<sn:string index="10">『Cid しんがたひくうていは いったい
+ どこに?
+Cid「フフフ‥[end]</sn:string>
+<sn:string index="11">にどと まものに しろは わたしません![end]</sn:string>
+<sn:string index="12">Cid「だーれも わからんところじゃ!
+ ちょっとばかり さいくしておいたんじゃ![end]</sn:string>
+<sn:string index="13">Tella「じかんがないと いっておろうに!
+ Rosaの いのちが かかっとるんじゃ![end]</sn:string>
+<sn:string index="14">Cid「いちいち うるさいジジイじゃの!
+ わかっとるわい!
+ さ こっちじゃ![end]</sn:string>
+<sn:string index="15">バロンおう「いかにも! Golbez4てんのう
+ みずのカイナッツォ![end]</sn:string>
+<sn:string index="16">ボムのゆびわさ てにいれた゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="45">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="46">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">D[end]</sn:string>
+<sn:string index="3">D[end]</sn:string>
+<sn:string index="4">D[end]</sn:string>
+<sn:string index="5">D[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">D[end]</sn:string>
+<sn:string index="8">D[end]</sn:string>
+<sn:string index="9">D[end]</sn:string>
+<sn:string index="10">ここは だいだいバロンに つたわる
+ほうもつが あんちされていて
+たちいりは きんじられています゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="47">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="48">
+<sn:string index="0">ミシディアで はんこうした まどうしたちは
+このちかろうに いれておきました゜
+ろうやごしならば はなすことができます゜[end]</sn:string>
+<sn:string index="1">このろうさ もう つかうことがないと
+いいんですが゜[end]</sn:string>
+<sn:string index="2">きさま あの あんこくきし!
+こんなことが ゆるされると おもうか!?[end]</sn:string>
+<sn:string index="3">わたしたちは どうなろうと かまいません゜
+しかし クリスタルだけは ミシディアに![end]</sn:string>
+<sn:string index="4">おまえら なにも わかっちゃいないんだ!
+クリスタルは ただの ほうせきなんかじゃない![end]</sn:string>
+</sn:area>
+
+<sn:area id="49">
+<sn:string index="0">いてー!
+そこは まものにやられた きずが![end]</sn:string>
+<sn:string index="1">た たいちょう?
+りっぱに なられて![end]</sn:string>
+<sn:string index="2">たいちょう‥[end]</sn:string>
+<sn:string index="3">いきておられたんですね![end]</sn:string>
+<sn:string index="4">ミシディアでのことは のみまくって
+わすれます‥[end]</sn:string>
+<sn:string index="5">へいかなきあと バロンさ つがれるのは
+あなたいがいにありません![end]</sn:string>
+<sn:string index="6">なんと あとあじのわるい にんむなんでしょう
+‥[end]</sn:string>
+<sn:string index="7">あかいつばさは‥Golbezに うばわれて
+しまいました![end]</sn:string>
+<sn:string index="8">「あかいつばさ」も おちたもんですよ![end]</sn:string>
+<sn:string index="9">くそ! ひくうていさえ ありゃあ![end]</sn:string>
+</sn:area>
+
+<sn:area id="50">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="51">
+<sn:string index="0">ベッドの シーツは とりかえておきました゜
+みょうちょう しゅっぱつ なさるとか‥
+こんやは ゆっくり おやすみください゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="52">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="53">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="54">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="55">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="56">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="57">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="58">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="59">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="60">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="61">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="62">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="63">
+<sn:string index="0">ク クリスタルさ うばわれた‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="64">
+<sn:string index="0">うえの‥かいふくのツボまで‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="65">
+<sn:string index="0">Tella「あれは‥
+ おおーッ Annaー![end]</sn:string>
+<sn:string index="1">Tella「きさま あのときの
+ ぎんゆうしじん!
+ きさまのせいで Annaは!
+ぎんゆうしじん「!?[end]</sn:string>
+<sn:string index="2">Gilbert「さばくのひかりは ひがしの
+ どうくつにすむ アントリオンが さんらんの
+ ときにだす ぶんぴつぶつから できる゜
+ どうくつには あさせさ わたらなければ
+ いけない゜
+ ダムシアンにある ホバーせんなら あさせも
+ こえられる゜
+ カイ◉にも あさせさこえて ゆけるはずだ゜[end]</sn:string>
+<sn:string index="3">いきのこったのは わしらだけじゃ゜
+カイ◉にでも ひなんするかの゜
+ホバーせんがあれば にしのかいがんの
+あさせさ とおってゆけるはずじゃが‥[end]</sn:string>
+<sn:string index="4">ファブールへでも ひなんするしかないかの゜
+じゃが ファブールへぬける ホブスのやまは
+ふきつける かんぷうのせいで
+あついこおりに おおわれとる゜[end]</sn:string>
+<sn:string index="5">Tella「‥その Golbezとは
+ いったい なにものなんだ!
+
+
+Gilbert「さいきん バロンに やってきて
+ あかいつばささ ひきい クリスタルさ
+ あつめているとしか‥
+Tella「なさけない!
+ ないても Annaは いきかえらん!
+ バロンの Golbez‥!
+ わたしが Annaのかたきさ
+ とってくる![end]</sn:string>
+<sn:string index="6">『Tella ひとりでは‥![end]</sn:string>
+<sn:string index="7">Tella「たすけなぞ いらん!
+ Golbezは わたしひとりで
+ やる![end]</sn:string>
+<sn:string index="8">Tellaと わかれた゜[end]</sn:string>
+<sn:string index="9">Gilbert「ア Annaァ‥シクシク‥[end]</sn:string>
+<sn:string index="10">Rydia「よわむし![end]</sn:string>
+<sn:string index="11">Rydia「おにいちゃんは おとこでしょ!
+ おとなでしょ!
+ なのに‥!
+ あたしだって‥
+『Rydia‥[end]</sn:string>
+<sn:string index="12">Gilbert「そうさ‥きみの いうとおり
+ ぼくは よわむしさ!
+ だから ずっとこうして Annaの
+ そばにいるんだ!
+ もう なにもかも どうでもいいんだ![end]</sn:string>
+<sn:string index="13">『かなしいのは きみだけじゃないんだぞ!
+ そんなことさしていても Annaもよろこびは
+ しない!
+ それに いまのぼくらには きみのたすけが
+ ひつようなんだ!
+
+
+
+Gilbert「ぼくが きみたちさ たすける?
+
+
+
+『ぼくは Cecil゜
+ カイ◉で こうねつびょうに たおれている
+ なかまさ たすけるため さばくのひかりが
+ どうしても ひつようなんだ゜
+ それには‥きみのたすけがいる!
+Gilbert「ぼくが たすける‥
+『そうだ゜
+ Rosaのために‥たのむ![end]</sn:string>
+<sn:string index="14">Gilbert「Rosaというひとは
+ きみの だいじなひとらしいね‥
+ あいするひとさ‥うしなってはいけない゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="66">
+<sn:string index="0">‥めが みえん!
+おまえは なかまか?
+ここの たからさ ヤツらの てには
+わたさんでくれ‥たのむ![end]</sn:string>
+</sn:area>
+
+<sn:area id="67">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="68">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="69">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="70">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="71">
+<sn:string index="0">しゅりょくぶたいが ぜんめつ?
+まさか![end]</sn:string>
+<sn:string index="1">われわれが いたらないばかりに‥[end]</sn:string>
+<sn:string index="2">ふなのりのあいだで みょうなうわさが
+ながれています゜
+うみがみさまの いかりにふれるとか‥[end]</sn:string>
+<sn:string index="3">ごぶじでしたか![end]</sn:string>
+</sn:area>
+
+<sn:area id="72">
+<sn:string index="0">もどられましたか Yangさま![end]</sn:string>
+<sn:string index="1">Cecilどのたちも おつかれでしょう゜
+やどにでも いって おやすみください゜[end]</sn:string>
+<sn:string index="2">ふねさ だされるそうですが
+さいきん げんいんふめいの なんぱが
+あいついでいます゜
+おきさつけて![end]</sn:string>
+<sn:string index="3">おお ごぶじで![end]</sn:string>
+</sn:area>
+
+<sn:area id="73">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">D[end]</sn:string>
+<sn:string index="3">へいかは しゅうげきで ふしょうされ
+しんしつに ふせってしまわれた゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="74">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="75">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="76">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="77">
+<sn:string index="0">ホブスで きしゅうさ うけたそうですね!
+おけがは?[end]</sn:string>
+<sn:string index="1">ひくうていが いっせきでも あれば
+たいこうしゅだんも あるだろうに![end]</sn:string>
+<sn:string index="2">ねてませんよ゜
+めいそうちゅうです![end]</sn:string>
+<sn:string index="3">みなさん おきさつけて![end]</sn:string>
+</sn:area>
+
+<sn:area id="78">
+<sn:string index="0">Yangさま しゅぎょうから おかえりで?[end]</sn:string>
+<sn:string index="1">いや すごい こうげきだったね゜[end]</sn:string>
+<sn:string index="2">しろのなかなら なにが おきても
+へっちゃらよ!
+モンクさまたちも いるし゜[end]</sn:string>
+<sn:string index="3">このファブールは まちが しろのなかで
+よかったわ゜
+おもてだったら いまごろは‥[end]</sn:string>
+<sn:string index="4">Yangさま!
+はやく わるいヤツらさ とくいの
+けりで ブチのめしちゃってよ![end]</sn:string>
+<sn:string index="5">アチョー!
+
+
+
+ぼくも はやく しゅぎょうしたいな![end]</sn:string>
+</sn:area>
+
+<sn:area id="79">
+<sn:string index="0">ファブールおう「なんということだ‥
+ だが たいせいさ たてなおし
+ まもりさ かためんと いかん!
+ わたしのことは しんぱいいらん゜
+ そなたらも とりあえず やすむがよい゜[end]</sn:string>
+<sn:string index="1">ファブールおう「‥そうか あいわかった゜
+ Yangよ゜
+ おぬしも どうこうし ちからさかすがよい゜
+ Cecilどのには かんしゃの
+ ことばもない゜
+ Rosaどのまで うばわれて
+ しまうとは‥
+ すぐさま ふねさよういさせよう゜
+ Cecilどの゜
+ このけんさ もっていくがよい゜
+ これは そのむかし ファブールにきた
+ あんこくきしの もっていたものじゃ゜
+ なに ファブールのため たたかってくれた
+ せめてもの れいだ゜
+ だが あんこくけんは しょせん
+ くらやみのけん‥
+ しんのあくには つうようせんはずだ゜
+ かならずや Golbezさ たおしてくれ゜[end]</sn:string>
+<sn:string index="2">ファブールおう「すべてのクリスタルが ヤツの
+ てにわたれば せかいは かつてない ききに
+ さらされるじゃろう゜
+ たのんだぞ![end]</sn:string>
+<sn:string index="3">ここは へいかの しんしつじゃ![end]</sn:string>
+<sn:string index="4">へいかも なうての モンクだったんじゃ゜
+なんのしんぱいも いらんわ![end]</sn:string>
+<sn:string index="5">ファブールおう「じゅんびが できしだい
+ ひがしの さんばしに ゆかれるがよい゜
+ ふねが よういされておるはず゜[end]</sn:string>
+<sn:string index="6">『おうさまの ベッドで ねちゃおっと![end]</sn:string>
+<sn:string index="7">デスブリンガーさ てにいれた![end]</sn:string>
+</sn:area>
+
+<sn:area id="80">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="81">
+<sn:string index="0">ここは きゅうじょたいの かんごしつです゜[end]</sn:string>
+<sn:string index="1">わたしにも Rosaさまほどの まりょくが
+あれば‥[end]</sn:string>
+<sn:string index="2">ヤツさ‥Golbezさ‥![end]</sn:string>
+<sn:string index="3">バロンの へいりょくに まものまで
+くわわっては‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="82">
+<sn:string index="0">おんな「あら おかえり!
+Yang「わたしの つまだ゜
+ こちらは Cecilどの゜
+ あぶないところさ たすけていただいた゜
+Yangのおくさん「そいつは どうもね!
+ ところで あんた こんなとこで あぶら
+ うってて いいのかい?[end]</sn:string>
+<sn:string index="1">Yangのおくさん「あんた
+ ぶじだったんだね!
+Yang「みなさんのおかげで わたしも
+ ファブールも たすかったのだ゜
+Yangのおくさん「うちのが せわ
+ かけたね゜ ありがとうよ!
+Yang「おまえこそ けがは ないのか?
+
+Yangのおくさん「あたりまえさね゜
+ あんたの つまだよ!
+ バロンへいが きたけど フライパンで
+ ぶんなぐってやったよ゜[end]</sn:string>
+<sn:string index="2">こんなとこで あぶらうってないで!
+わるいヤツさ しっかり たおしてから
+かえってきな![end]</sn:string>
+<sn:string index="3">うちのひとが? なにいってんだい!
+あのひとは そんなんじゃ しにゃあ
+しないよ! あのひとは‥[end]</sn:string>
+<sn:string index="4">まったく そんなとこで あぶらうって‥
+あら めにゴミが はいっちゃったよ゜[end]</sn:string>
+<sn:string index="5">しかし なさけないね!
+こいつで ガツンと カツさいれてきな![end]</sn:string>
+<sn:string index="6">あいのフライパンさ てにいれた![end]</sn:string>
+<sn:string index="7">え? あのひとが ちていに?[end]</sn:string>
+<sn:string index="8">あら わざわざ すまないね゜
+こんなモンしかないけど なんかの
+やくにたつだろ゜[end]</sn:string>
+<sn:string index="9">ほうちょうさ てにいれた![end]</sn:string>
+<sn:string index="10">あたしなら しんぱい いらないよ!
+はやくなおして たたかいなって
+あのひとに いっておやり![end]</sn:string>
+</sn:area>
+
+<sn:area id="83">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="84">
+<sn:string index="0">Tella「よし ここで やすんでゆこう゜[end]</sn:string>
+<sn:string index="1">Tella「このまほうじんの うえならば
+ けっかいが はられていて まものが
+ はいってこれんのじゃ゜
+ テントや コテージで やすんだり
+ セーブしたりもできる゜
+ ヤツとの たたかいに そなえ
+ わたしのテントで たいせいさ
+ たてなおすとしよう![end]</sn:string>
+</sn:area>
+
+<sn:area id="85">
+<sn:string index="0">おどりさ おどれ?
+ぶれいな! わたしは このえへいだ![end]</sn:string>
+<sn:string index="1">バロンが ふおんなうごきさ してるらしいが
+ここにも おそってはこないだろうな゜[end]</sn:string>
+<sn:string index="2">これは レオタードのようだが われわれの
+せんとうふく!
+うごきやすいし なにしろ ファッショナブル
+だろう?[end]</sn:string>
+<sn:string index="3">このトロイアは おんなたちの てによって
+まもられている゜
+われらへいしたちも じつは みんな おんなさ゜[end]</sn:string>
+<sn:string index="4">おばあさんではないわ!
+これでも だいじんじゃぞ!
+しんかんさまたちは おくに おわせられる゜[end]</sn:string>
+<sn:string index="5">ダムシアンの いきのこりが ながれついて
+いるらしい゜
+ほんにんは おうじと なのっているらしいが
+‥[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">トロイアは いくさに
+まきこまれたことがない゜
+もし いくさになれば わたしたちが
+どこまで くにさ まもれるやら‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="86">
+<sn:string index="0">しんかんさまたちは 8にんしまい゜
+だいだい クリスタルに つかえられている゜[end]</sn:string>
+<sn:string index="1">クリスタルが なくなっちゃうと
+あれた だいちに もどっちゃうわ![end]</sn:string>
+<sn:string index="2">やばんなおとこが くにさ おさめるより
+はるかにいい゜[end]</sn:string>
+<sn:string index="3">なにか じじょうが あるようですね゜
+つちのクリスタルは やくそくどおり
+おかしいたします゜[end]</sn:string>
+<sn:string index="4">つちのクリスタルが?
+なんということでしょう![end]</sn:string>
+<sn:string index="5">ダークエルフは きんぞくせいの ぶきに よわい゜そのじゃくてんさ おぎなうため どうくつさ
+じりょくで おおっているんです゜[end]</sn:string>
+<sn:string index="6">クリスタルは おかしいたそう゜
+くれぐれも ようじんしてな![end]</sn:string>
+<sn:string index="7">よりによって じゃあくなものが
+クリスタルさ そろえるとは![end]</sn:string>
+<sn:string index="8">ダークエルフなら ほくとうのしまの
+どうくつに すんでるよ![end]</sn:string>
+<sn:string index="9">なんだ いまのこえは![end]</sn:string>
+<sn:string index="10">クリスタルが うばわれたあ?
+はやく とりもどしてよ![end]</sn:string>
+<sn:string index="11">クリスタルさ とりかえせたら
+かすことさ やくそくしましょう゜
+ひとまず ここに おもちください゜[end]</sn:string>
+<sn:string index="12">なにか じじょうが ありそうですね゜
+ちかのたからさ つかってください゜[end]</sn:string>
+<sn:string index="13">トロイアの そんしつよりも
+すべてのクリスタルが そのGolbezに
+わたったことのほうが じゅうだいです![end]</sn:string>
+<sn:string index="14">ほくとうのどうくつの なかでは
+きんぞくせいの ぶきやぼうぐさ
+みにつけてると うごきが
+にぶってしまうの![end]</sn:string>
+<sn:string index="15">せっかく もどってきたのに!
+しかたありません゜
+かすだけですよ![end]</sn:string>
+<sn:string index="16">こんなことに ならないように クリスタルは
+あちこちに わかれていたのに゜[end]</sn:string>
+<sn:string index="17">つちのクリスタルは さしあげることは
+できないが とりかえしてきてくれるのなら
+かすことぐらいは できるじゃろう゜[end]</sn:string>
+<sn:string index="18">いまのこえは いったい?[end]</sn:string>
+<sn:string index="19">クリスタルさ そろえしものは おそるべき
+ちからさ えるといわれておる゜[end]</sn:string>
+<sn:string index="20">つちのクリスタル?
+それが ダークエルフに ぬすまれてしまって
+よわっているんだ゜[end]</sn:string>
+<sn:string index="21">クリスタルは もつものによって そのちからさ
+かえます!
+じゃあくなものが もてば おそろしいものに![end]</sn:string>
+<sn:string index="22">クリスタルは 4ついじょうあるという
+うわさが ほんとうならば まだ のぞみは
+あるわよ゜[end]</sn:string>
+<sn:string index="23">このトロイアは われわれ 8にんのしんかんが
+おさめています゜
+つちのクリスタルの めぐみさ さずかっていた
+のですが‥[end]</sn:string>
+<sn:string index="24">いったい なにが おこったの!?[end]</sn:string>
+<sn:string index="25">たいへーん!
+トロイアだけじゃなく せかいが あぶないわ![end]</sn:string>
+<sn:string index="26">しんかん「それは![end]</sn:string>
+<sn:string index="27">「まさしく つちのクリスタル!
+「とりもどしてくれたのね!
+「やったー![end]</sn:string>
+<sn:string index="28">「クリスタルさ てにいれたようだな゜[end]</sn:string>
+<sn:string index="29">Cid「この こえは!
+『Cain![music][0x16]
+
+
+Cain「おもてにでて
+ ひくうていに のれ‥
+ Rosaの いばしょまで
+ つれていってやろう゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="87">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="88">
+<sn:string index="0">Gilbertさまは ぜったいあんせいのみ゜
+わたし? かんごふです゜
+せんせいは そっち゜[end]</sn:string>
+<sn:string index="1">いま むりささせては なりません゜
+もともと じょうぶでないうえに だいぶ
+すいじゃくされています゜[end]</sn:string>
+<sn:string index="2">Gilbert「Cecil‥Rosaさ
+ かならず![end]</sn:string>
+<sn:string index="3">びょうにんが ふせっています゜
+おしずかに![end]</sn:string>
+<sn:string index="4">ぼくのぶんも‥たのむよ゜[end]</sn:string>
+<sn:string index="5">Tellaさんが!?
+なんで‥
+ぼくの まわりのひとは みんな‥[end]</sn:string>
+<sn:string index="6">Yangまで‥
+ぼくが‥もっと つよければ‥[end]</sn:string>
+<sn:string index="7">そうか Yangは ぶじか‥
+おくさんに しらせてあげたかい‥?[end]</sn:string>
+<sn:string index="8">Gilbertの たてごとだ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="89">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="90">
+<sn:string index="0">ここは ちかろうだったが
+いまでは ほうもつこになっている゜[end]</sn:string>
+<sn:string index="1">うそさ もうせ!
+ちゃんと わかるぞ![end]</sn:string>
+<sn:string index="2">ならば ほうもつさ もってゆかれよ゜[end]</sn:string>
+<sn:string index="3">よくのない やつらだ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="91">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="92">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="93">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="94">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="95">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="96">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="97">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="98">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="99">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="100">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="101">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="102">
+<sn:string index="0">はやく じっせんに やくだつよう けんきゅうの
+さいちゅうです゜[end]</sn:string>
+<sn:string index="1">へいかが まものだったことさ みやぶれぬとは
+まだまだ しゅぎょうが たりん゜[end]</sn:string>
+<sn:string index="2">ファイア ブリザド サンダーの きほんまほう
+だけでは てに おえない まものもいる゜
+より きょうりょくな まほうが かつては
+あったらしいのだが‥[end]</sn:string>
+<sn:string index="3">やはり いにしえのまほう メテオは
+そんざいしましたか![end]</sn:string>
+<sn:string index="4">スリプル!
+
+
+
+あれ?
+
+
+
+ねむくない?
+
+
+
+おかしいなあ゜[end]</sn:string>
+<sn:string index="5">◉ーキー!
+
+
+
+あ!
+
+
+
+いけない![end]</sn:string>
+<sn:string index="6">すみません ミニマムでした![end]</sn:string>
+</sn:area>
+
+<sn:area id="103">
+<sn:string index="0">Rosaは あなたのちからに
+なりたいといって しろまどうしの みちさ
+えらんだのよ゜
+あまり Rosaに しんぱいかけないでね![end]</sn:string>
+<sn:string index="1">いまは なきへいかが やすらかに おねむり
+くださることさ いのるばかりです゜[end]</sn:string>
+<sn:string index="2">しょほの しろまほうさ けんきゅうしている
+ところです゜
+しろまほう さんだん かつよう
+ケアル ケアルラ ケアルダ![end]</sn:string>
+<sn:string index="3">まものが へいかに すりかわって
+いたなんて‥[end]</sn:string>
+<sn:string index="4">さいきんの へいかは いぜんにも まして
+せいめいりょくが みなぎられている゜
+しかし どこか‥[end]</sn:string>
+<sn:string index="5">わたしたちも しろまほうで へいしたちさ
+たすけます![end]</sn:string>
+</sn:area>
+
+<sn:area id="104">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="105">
+<sn:string index="0">たいりょくの ないものは ならびかえで
+こうれつに さげること!
+
+
+せんとうちゅうも コマンドさ えらぶとき
+ひだりさ おせば ぜんれつ こうれつの
+チェンジ゜
+みぎさ おせば ぼうぎょが できるぞ!
+また せんとうちゅう アイテムとしても
+つかえる ぶきは 「アイテム」で
+アイテムらんさ ひらき うえまで カーソルさ
+もっていき そうびしなおして つかうのだ!
+ぶきさ もちかえるときや やの ほじゅうなども
+これで オーケーだ![end]</sn:string>
+<sn:string index="1">せんとうでは すばやいけつだんが ひつよう!
+じしんのないものは バトルスピードさ
+さげることじゃ!
+じしんのあるものは メニューの コンフィグで
+バトルモードさ アクティブにすれば
+まほうや アイテムさ えらんでいるあいだも
+まものが こうげきしてきて スリルまんてんの
+たたかいが できるぞ![end]</sn:string>
+<sn:string index="2">どうくつないに セーブかのうな ばしょがある゜
+うまく りようすること![end]</sn:string>
+<sn:string index="3">もちきれなくなった にもつは チョコボのもりの
+でぶチョコボに あずける!
+チョコボくさかったら ギサールのやさいだ![end]</sn:string>
+<sn:string index="4">そこにいるおかたは おやくしょづとめの
+ネミングウェイさん゜
+なまえさ かえたくなったら かれに
+たのむこと![end]</sn:string>
+<sn:string index="5">むちゃな せんとうは いのちとり!
+まずいと おもったら まよわず
+LRボタンさ どうじに おして にげること!
+
+また まほうのなかには ぜんいんに かけられる
+ものもある゜
+せんとうでは ひだりで てき ぜんたいに
+みぎで なかまぜんいんに かけられる!
+メニューで つかうときも さゆうさ おせば
+なかまぜんいんに かけられるぞ![end]</sn:string>
+</sn:area>
+
+<sn:area id="106">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="107">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="108">
+<sn:string index="0">「ひきかえしなさい‥
+
+
+
+『なにものだ![end]</sn:string>
+<sn:string index="1">「すぐに たちさるのです‥
+
+
+
+Cain「この こえの ぬしが
+ げんじゅうなのか?[end]</sn:string>
+<sn:string index="2">『このボムのゆびわさ ミストのむらまで
+ とどけなくては ならないんだ!
+
+
+「ならば‥しかた ありません!
+
+
+
+Cain「きりが あつまる‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="109">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="110">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="111">
+<sn:string index="0">ろうじん「なんじゃ おぬしは?
+ ここからさきは まものの そうくつじゃ゜
+ おぬしのような わかぞうには
+ きけんすぎる!
+ カイ◉にでも もどるんじゃな![end]</sn:string>
+</sn:area>
+
+<sn:area id="112">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="113">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="114">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="115">
+<sn:string index="0">Tella「ここから いったん
+ ちじょうにでれる゜
+ ヤツは このさきの たきのしたにおる!
+ ねんのため ちじょうで テントでも
+ はったほうが よいじゃろう![end]</sn:string>
+</sn:area>
+
+<sn:area id="116">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="117">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="118">
+<sn:string index="0">Tella「くるぞ![end]</sn:string>
+<sn:string index="1">Tella「こやつが オクトマンモスじゃ![end]</sn:string>
+<sn:string index="2">Tella「これで ダムシアンに ゆける!
+ この たきのおくから
+ おもてに でられるはずじゃ![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="119">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="120">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="121">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="122">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="123">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="124">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="125">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="126">
+<sn:string index="0">あついこおりで とざされている゜[end]</sn:string>
+<sn:string index="1">Rosa「Rydia゜
+ ファイアさ となえてみて゜
+Rydia「‥[end]</sn:string>
+<sn:string index="2">Rydia「‥いや゜
+Rosa「?
+Rydia「ほのおは いや!
+
+『そうか‥
+ あのボムのゆびわの ほのおで ミストは‥[end]</sn:string>
+<sn:string index="3">Rosa「いーい? Rydia゜
+ このこおりさ とかすちからが あるのは いま
+ あなたしか いないの゜
+Rydia「‥
+Rosa「わたしたちが ここで
+ こおりさとかし ファブールへいかなければ
+ もっとたくさんの ひとたちが
+ おそろしいめに あうことになるの‥
+ おねがい‥ゆうきさだして!
+Gilbert「ゆうき‥
+
+
+Rosa「Rydia おねがい!
+Gilbert「たのむよ Rydia!
+『‥
+
+Rydia「‥
+
+
+
+ ‥
+
+
+
+ ‥[end]</sn:string>
+<sn:string index="4">Rydia「ファイア![end]</sn:string>
+<sn:string index="5">Rydiaが ファイアさ おぼえた![delay][0x28][end]</sn:string>
+<sn:string index="6">Gilbert「すごいよ Rydia!
+Rydia「エヘ‥
+Rosa「ありがとう Rydia!
+
+『Rydia‥[end]</sn:string>
+<sn:string index="7">Gilbert「Rydia?
+Rosa「あなたなら かならず できるわ![end]</sn:string>
+</sn:area>
+
+<sn:area id="127">
+<sn:string index="0">Gilbert「あの いふくは
+ ファブールの モンクそう![end]</sn:string>
+<sn:string index="1">Gilbert「あいつは てごわい!
+Rydia「たすけよう![end]</sn:string>
+<sn:string index="2">モンクそう「あぶないところさ かたじけない゜
+ わたしは ファブールの モンクそうちょう
+ Yang゜
+ このホブスのやまで しゅぎょうちゅう
+ まもののむれに おそわれ
+ わたしさのこし ぜんめつしてしまった゜
+ あれほどの てだれのものたちが‥
+
+『ぼくらも ファブールへむかっている
+ とちゅうなのです゜
+Rosa「Golbezという おとこが
+ バロンさ りようし クリスタルさ‥[end]</sn:string>
+<sn:string index="3">モンクそう「はッ![end]</sn:string>
+<sn:string index="4">『あれは?[end]</sn:string>
+<sn:string index="5">Rosa「おそらく さっきのまものたちも
+ Golbezに つかわされたはず゜[end]</sn:string>
+<sn:string index="6">Yang「われらさ けして ファブールさ
+ むぼうびにするため!?
+『とすれば てうすになった ファブールへ
+ もうすでに むかっているはず!
+ ぼくらもてつだいます!
+ はやく ファブールへ![end]</sn:string>
+<sn:string index="7">Yang「しかし そなたたちまで
+ まきこんでは‥
+『これは ぼくらのたたかいでもあるんです!
+Gilbert「ぼくは ダムシアンの
+ おうじです゜
+『ぼくと Rosaは バロンにいました゜
+ このこも‥
+ バロンおうに だまされて ぼくが‥
+Rydia「‥[end]</sn:string>
+<sn:string index="8">Yang「みな わけありか‥
+ かたじけない! すけだち ねがえるか?
+『もちろんだ! さあ ファブールへ!
+
+Yang「ファブールは ひがしのやまさ
+ こえたところ゜
+ さあ いそぎましょう![end]</sn:string>
+<sn:string index="9">モンクそう Yangが なかまになった![delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="128">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="129">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="130">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="131">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="132">
+<sn:string index="0">すさまじいほのおで とざされている![end]</sn:string>
+</sn:area>
+
+<sn:area id="133">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="134">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="135">
+<sn:string index="0">「フシュルルル‥
+
+
+
+Porom「Palom!
+ なんか いったでしょ!
+Palom「いってねーよ![end]</sn:string>
+<sn:string index="1">「フシュルルル‥
+
+
+
+Porom「ほら また!
+Palom「ちがうったら![end]</sn:string>
+</sn:area>
+
+<sn:area id="136">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="137">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="138">
+<sn:string index="0">「クカカカ‥
+
+
+
+ この おれさ たおすとはなあ゜
+ だが おれは さびしがりやでな゜
+ クカカカ‥ししてなお すさまじい
+ この みずのカイナッツォの おそろしさ
+ とくと あじわいながら しねえ!
+ さきに じごくで まってるぞお!
+ ヘエッヘッヘッ![end]</sn:string>
+<sn:string index="1">Tella「かべが![end]</sn:string>
+<sn:string index="2">Cid「あかない![music][0x23]
+Tella「こっちもじゃ![end]</sn:string>
+<sn:string index="3">『Palom! Porom![end]</sn:string>
+<sn:string index="4">Palom「あんちゃん ありがとよ!
+Porom「おにいさまが できたみたいで
+ とっても うれしかったですわ!
+Tella「おまえたち なにさ!
+Palom「あんたらさ ここで
+ ころさせやしない!
+Porom「Tellaさま!
+ Cecilさんさ おねがいしますわ![end]</sn:string>
+<sn:string index="5">Palom「いくぞ Porom!
+Porom「うんッ![end]</sn:string>
+<sn:string index="6">『やめろー!
+
+
+
+Palom Porom「ブレイク![end]</sn:string>
+<sn:string index="7">『Palom‥
+
+
+
+ Poromーー!![music][0x2a][delay][0x28][end]</sn:string>
+<sn:string index="8">ふたりのいしにより せきかしているので
+こうかがない‥[end]</sn:string>
+<sn:string index="9">Yang「こんな おさなごが‥![end]</sn:string>
+<sn:string index="10">Cid「とむらいがっせんじゃ!
+ エンタープライズさ だすぞ!![end]</sn:string>
+<sn:string index="11">Tella「はやまりおって‥!
+ まっておれ!
+
+
+ エスナ![end]</sn:string>
+<sn:string index="12">へいかは ごりっぷくです゜
+ミストへ ボムのゆびわさ とどけるまでは
+あいたくないと もうしております゜[end]</sn:string>
+<sn:string index="13">Tella「ばかものが!
+ しぬのは このおいぼれでよかったろうに![end]</sn:string>
+</sn:area>
+
+<sn:area id="139">
+<sn:string index="0">『そこなしのように ふかそうだ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="140">
+<sn:string index="0">Cid「なんちゅう じりょくじゃ!
+ こりゃ きんぞくせいの ぶきぼうぐさ
+ そうびしとったら みうごきとれんぞ!
+
+Yang「わたしの つめならば
+ へいきなようです゜
+Tella「あんずるな!
+ わたしの まほうがついておる![end]</sn:string>
+</sn:area>
+
+<sn:area id="141">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="142">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="143">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="144">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="145">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="146">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="147">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="148">
+<sn:string index="0">『けんさえ つかえれば‥![end]</sn:string>
+<sn:string index="1">『わかった‥Gilbert![end]</sn:string>
+<sn:string index="2">ダークエルフのまりょくで
+ふういんされている゜[end]</sn:string>
+<sn:string index="3">ガゴゴ‥ヨクモ!
+オマエタチ コロス‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="149">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="150">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="151">
+<sn:string index="0">ここは ミシディアへとつうじる デビルロード゜
+かつては これさりようし ぼうえきなどが
+さかんでしたが ミシディアがわが ふういん
+してしまったらしく いまでは つかえません゜
+このちかは トレーニングルームです゜[end]</sn:string>
+<sn:string index="1">ミシディアがわの ふういんが
+とかれたのですね![end]</sn:string>
+<sn:string index="2">ミシディアがわより ふういんされていて
+つかうことができない゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="152">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="153">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="154">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="155">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="156">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="157">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="158">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="159">
+<sn:string index="0">Golbez「カイナッツォまでも やられたか゜
+ だいぶ うでさ あげたようだな‥[end]</sn:string>
+<sn:string index="1">Cain「のこり1つの
+ クリスタルですが‥
+Golbez「わかっている‥しかし
+ あそこは すこしばかり やっかいだ゜
+Cain「Cecilに とってこさせては
+ いかがでしょう?
+Golbez「ヤツに‥か?[end]</sn:string>
+<sn:string index="2">Cain「こちらには
+ この Rosaがいます゜
+ クリスタルと ひきかえに‥
+ ということでは いかがでしょう゜[end]</sn:string>
+<sn:string index="3">Golbez「なるほど‥それはいい゜
+ ヤツさ しまつするのも
+ そのときというわけか‥
+
+Cain「では わたしが
+ つたえてまいりましょう゜[end]</sn:string>
+<sn:string index="4">Rosa「Cain![end]</sn:string>
+<sn:string index="5">Cain「Cecilなんぞより
+ おれのほうが うえだということさ
+ おしえてやろう゜[end]</sn:string>
+<sn:string index="6">『あといっぽ おくれていたら このギロチンが
+ Rosaさ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="160">
+<sn:string index="0">うちのおとうさんは ここで へんなこうせきさ
+みつけたの゜
+しゅみは どうぶつのシッ◉あつめ゜[end]</sn:string>
+<sn:string index="1">なんだ あっちへいけ!
+しっぽさ もってんなら はなしはべつだがな゜[end]</sn:string>
+<sn:string index="2">こ これは さがしもとめてた ネズミのしっぽ!
+よし このきんぞくさ すこしだけやろう!
+
+
+アダマンタイトさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="3">ここ‥これは でんせつの ピンクのしっぽ!
+よし こいつもあげちゃおう!
+
+
+アダマンアーマーさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="161">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="162">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="163">
+<sn:string index="0">FuSoYa「ヤツのくちに ちかづくのだ!
+Cid「だれじゃ?
+『つきのたみ FuSoYa゜
+Cid「つきのたみー?
+FuSoYa「できるか?
+Cid「ワシさ だれだと
+ おもっとるんじゃ!
+ ひくうていの Cidじゃぞ!
+ まかしとかんかい![end]</sn:string>
+<sn:string index="1">FuSoYa「いまだ!
+Cid「みんな つかまっとれ![end]</sn:string>
+</sn:area>
+
+<sn:area id="164">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="165">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="166">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="167">
+<sn:string index="0">『どうやって しんにゅうするんだ?
+
+
+
+Edge「ヘヘ!
+ カベぬけのじゅつだ![end]</sn:string>
+<sn:string index="1">Edge「あらよっと![end]</sn:string>
+</sn:area>
+
+<sn:area id="168">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="169">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="170">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="171">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="172">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="173">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="174">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="175">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="176">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="177">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="178">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="179">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="180">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="181">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="182">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="183">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="184">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="185">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="186">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="187">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="188">
+<sn:string index="0">「まちかねたぞ![end]</sn:string>
+<sn:string index="1">「きょじんは とまらぬ![end]</sn:string>
+<sn:string index="2">「クカカ‥おまえたちは![end]</sn:string>
+<sn:string index="3">「ここで しかばねとなる‥![end]</sn:string>
+<sn:string index="4">『4てんのう!
+
+
+
+スカルミリョーネ「ゼムスさまより‥
+カイナッツォ「さずかった いのちで!
+バルバリシア「おまえたちさ ころす!
+
+ルビカンテ「また たたかえるとはな!
+ だが まえのたたかいで
+ おまえたちに おしえられた゜
+ ちからさ あわせるということさな‥
+ さあ かいふくしてやろう![end]</sn:string>
+<sn:string index="5">ルビカンテ「もてるちからの すべてで
+ かかってこい![end]</sn:string>
+<sn:string index="6">スカルミリョーネ「ゼムスさまあ![end]</sn:string>
+<sn:string index="7">カイナッツォ「いまいちど![end]</sn:string>
+<sn:string index="8">バルバリシア「またも やぶれるとは![end]</sn:string>
+<sn:string index="9">ルビカンテ「‥われわれの かんぱいだ![end]</sn:string>
+</sn:area>
+
+<sn:area id="189">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="190">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="191">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="192">
+<sn:string index="0">『みんな ぶじか?[end]</sn:string>
+</sn:area>
+
+<sn:area id="193">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="194">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="195">
+<sn:string index="0">Yang「こんなところに あったとは‥
+Tella「すごい!
+Cid「またせたの エンタープライズ!
+ いくぞい![end]</sn:string>
+<sn:string index="1">『これは![end]</sn:string>
+</sn:area>
+
+<sn:area id="196">
+<sn:string index="0">『Cain![end]</sn:string>
+<sn:string index="1">Cain「いきていたか Cecil゜[end]</sn:string>
+<sn:string index="2">Cid「Cain どういうつもりじゃ![end]</sn:string>
+<sn:string index="3">『Rosaは‥ぶじだろうな゜
+Cain「フッ やはり しんぱいか?
+ Rosaの いのちがおしければ
+ トロイアの つちのクリスタルと
+ ひきかえだ゜
+『なに?[end]</sn:string>
+<sn:string index="4">Tella「ひきょうなてさ!
+Cain「てにいれたら また
+ れんらくにくる‥
+ いいか かならずだ!
+ Rosaの みさ あんじるならな゜
+Yang「きさま‥![end]</sn:string>
+<sn:string index="5">『めささませ Cain![end]</sn:string>
+<sn:string index="6">Cain「はなすことは それだけだ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="197">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="198">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="199">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="200">
+<sn:string index="0">なにやつ!
+
+
+
+なんだ にんげんか![end]</sn:string>
+<sn:string index="1">ここには いきのびた ものたちが
+にげこんでいる゜[end]</sn:string>
+<sn:string index="2">ここは ルビカンテの ほんきょ
+バブイルのとうにつうじる ぬけみちです゜[end]</sn:string>
+<sn:string index="3">しろさ おわれ
+いまや このちが われらのち゜[end]</sn:string>
+<sn:string index="4">われわれは ほこりたかき エブラーナのたみ![end]</sn:string>
+<sn:string index="5">わかさまが ようすさ みにゆかれましたが
+かえりが おそすぎる‥[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">しょくりょうも のこりすくない゜
+いつまで もつのやら‥[end]</sn:string>
+<sn:string index="8">わかさまの にんじゅつのさえ
+とくと みせてやってください![end]</sn:string>
+<sn:string index="9">わかさまが もどるまで ここで
+もちこたえます![end]</sn:string>
+</sn:area>
+
+<sn:area id="201">
+<sn:string index="0">わかさまが おひとりで![end]</sn:string>
+<sn:string index="1">わかさまは あつくなると みさかいが‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="202">
+<sn:string index="0">わかさまさ とめて‥[end]</sn:string>
+<sn:string index="1">わかさまが ルビカンテさ‥[end]</sn:string>
+<sn:string index="2">ごぶじでしたか わか!
+いま ちかづいては きけんです![end]</sn:string>
+</sn:area>
+
+<sn:area id="203">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="204">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="205">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="206">
+<sn:string index="0">わかさまならば きっと てきさ
+うってくださる![end]</sn:string>
+<sn:string index="1">わかさまが るすだったばかりに おうと
+おうひが‥[end]</sn:string>
+<sn:string index="2">おかあさんは ぼくがまもる!
+おなかに おとうとか いもうとが いるんだ![end]</sn:string>
+<sn:string index="3">にんじゅつさ ほこる エブラーナが
+こうも かんたんに やぶれるとは‥[end]</sn:string>
+<sn:string index="4">エブラーナの にんじゃのちも これで
+おわりかのお‥[end]</sn:string>
+<sn:string index="5">わしは エブラーナの かろうじゃ゜
+わかは くちはわるいが おやさしい おかた゜
+おうと おうひの かたきうちに
+バブイルのとうへ のりこもうと ぬけみちさ
+ほっておる゜
+しかし どうしたことか すがたが みえん゜
+よもや また ムチャなことさ‥[end]</sn:string>
+<sn:string index="6">あなた しっかり![end]</sn:string>
+<sn:string index="7">あのような まものが いったいどこから?[end]</sn:string>
+<sn:string index="8">このこったら‥[end]</sn:string>
+<sn:string index="9">わかさまが わるものさ やっつけてくれるって
+いってたもの!
+すぐ おしろに かえれるわよね?[end]</sn:string>
+<sn:string index="10">ここは このじいが あずかります!
+くれぐれも ごようじんくだされ!
+わかまで いなくなったら エブラーナは‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="207">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="208">
+<sn:string index="0">Cid「さっそく おでましじゃな!
+ エンタープライズの いりょく
+ とくと みせてやるわ![end]</sn:string>
+<sn:string index="1">『まて!
+Yang「あれは‥
+Tella「しろはた?[end]</sn:string>
+<sn:string index="2">Yang「Cecilどの‥
+Cid「Cainのヤツ‥![end]</sn:string>
+<sn:string index="3">『トロイアに いこう‥
+ Cid かじさ ほくせいへ‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="209">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="210">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="211">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="212">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="213">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="214">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="215">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="216">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="217">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="218">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="219">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="220">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="221">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="222">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="223">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="224">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="225">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="226">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="227">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="228">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="229">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="230">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">D[end]</sn:string>
+<sn:string index="2">D[end]</sn:string>
+<sn:string index="3">D[end]</sn:string>
+<sn:string index="4">D[end]</sn:string>
+<sn:string index="5">D[end]</sn:string>
+<sn:string index="6">D[end]</sn:string>
+<sn:string index="7">ここにうっている しなは
+きさまのような あんこくきしには
+さわることも おそれおおいものだ゜[end]</sn:string>
+<sn:string index="8">ぶじにかえってこれたら ここのぶきが
+つかえるが‥まず ムリだろ゜[end]</sn:string>
+<sn:string index="9">あんたには つかえないって‥パラディン?
+あんたが‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="231">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="232">
+<sn:string index="0">わたしが むらいちばんの きりょうよし!
+ちっちゃくて わからない?
+よーく めさこらしてみてよ![end]</sn:string>
+<sn:string index="1">いやいや びじんのむすめさ もつと なにかと
+くろうが たえませんわ![end]</sn:string>
+</sn:area>
+
+<sn:area id="233">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="234">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="235">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="236">
+<sn:string index="0">D[end]</sn:string>
+<sn:string index="1">とおでさするなら ◉ーション どくけし
+テントさ おわすれなく![end]</sn:string>
+</sn:area>
+
+<sn:area id="237">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="238">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="239">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="240">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="241">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="242">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="243">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="244">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="245">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="246">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="247">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="248">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="249">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="250">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="251">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="252">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="253">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="254">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="255">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="256">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="257">
+<sn:string index="0">あんれま おめたち どこからきた?[end]</sn:string>
+<sn:string index="1">ラリホー? うんにゃ ここじゃ ハイホー![end]</sn:string>
+<sn:string index="2">ハイホー! ちかごろ おしろのほうが
+さわがしいけど なんか あったー?[end]</sn:string>
+<sn:string index="3">ちじょうから きたー?
+あれま ほんとに ちじょうって あったんだ![end]</sn:string>
+<sn:string index="4">しってっか?
+ほくせいの しまの どうくつが
+げんかいに つうじてるらしーべ゜
+おっかねーな![end]</sn:string>
+<sn:string index="5">ちじょうじゃ うみが あおいってーから
+きみわりーね![end]</sn:string>
+</sn:area>
+
+<sn:area id="258">
+<sn:string index="0">ここは せかいいちの かじや
+ククロししょうの いえラリ゜[end]</sn:string>
+<sn:string index="1">ししょうは すっかり やるきさなくして
+ねてばかりラリ゜[end]</sn:string>
+<sn:string index="2">ししょう いきいきしてるラリ![end]</sn:string>
+<sn:string index="3">オレも ししょうにまけない かじやに
+なるー![end]</sn:string>
+<sn:string index="4">そんなに すぐ できるか!
+せっかちじゃな![end]</sn:string>
+<sn:string index="5">できとるぞ!
+そのなも せいけん エクスカリバーじゃ!
+こころして つかえ!
+
+エクスカリバーさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="6">おかげで やるきが とりもどせたわ゜[end]</sn:string>
+<sn:string index="7">ししょう こんなものまで つくったラリ![end]</sn:string>
+</sn:area>
+
+<sn:area id="259">
+<sn:string index="0">けんなぞ もう うたんぞ!
+
+
+
+でんせつの こうせき アダマンタイトも
+みつからんし‥[end]</sn:string>
+<sn:string index="1">これが アダマンタイト!
+
+
+
+よし おれいに そなたの その ふるびたつるぎさうまれかわらせてやろう![end]</sn:string>
+<sn:string index="2">でんせつのつるぎさ てわたした゜[end]</sn:string>
+<sn:string index="3">ZZZ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="260">
+<sn:string index="0">ほくせいの すみっこにゃ シルフって
+ようせいのすんでる どうくつがあるっぺ![end]</sn:string>
+<sn:string index="1">シルフたち こわがり!
+オラたち やさしいのに![end]</sn:string>
+</sn:area>
+
+<sn:area id="261">
+<sn:string index="0">おきゃくさんかい? めずらしーっぺ![end]</sn:string>
+</sn:area>
+
+<sn:area id="262">
+<sn:string index="0">こっただとこまで よくきたな!
+なんでも もってけ ほれ![end]</sn:string>
+<sn:string index="1">のうふさ やっとりまス゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="263">
+<sn:string index="0">ラリホー![end]</sn:string>
+<sn:string index="1">ここは ジオットおうが おさめる
+ドワーフのしろ![end]</sn:string>
+<sn:string index="2">Golbez わるいやつー!
+でも あんたら そうじゃないみたい![end]</sn:string>
+<sn:string index="3">ジオットおうに あうといいー![end]</sn:string>
+<sn:string index="4">いじょう なしー![end]</sn:string>
+<sn:string index="5">こっちも だいじょうぶー![end]</sn:string>
+<sn:string index="6">Golbez ひきあげたー![end]</sn:string>
+<sn:string index="7">ちじょうには わるいやつ いっぱいかー?[end]</sn:string>
+</sn:area>
+
+<sn:area id="264">
+<sn:string index="0">ラリホーは ドワーフのあいことばー![end]</sn:string>
+<sn:string index="1">ごいっしょにー!
+
+
+
+せーのー!
+
+
+
+ラリホー![end]</sn:string>
+<sn:string index="2">ラリホー! ぶじでよかったー゜[end]</sn:string>
+<sn:string index="3">ジオットおうが おまちかねー![end]</sn:string>
+<sn:string index="4">あたしら きゅうじょたいー!
+こうみえても おんなのこー![end]</sn:string>
+<sn:string index="5">こないだ ちじょうへの あなが くずれて
+たいへんだったー!
+そんとき へんなおっさん たすけたー!
+いま きゅうごしつで ねてるー![end]</sn:string>
+<sn:string index="6">わたし ルカ!
+あたしの おにんぎょうたちが
+いなくなっちゃったの゜
+あなたたち しらない?[end]</sn:string>
+</sn:area>
+
+<sn:area id="265">
+<sn:string index="0">せんしゃたいは ドワーフのしゅせんりょく!
+かんたんには やられないー![end]</sn:string>
+<sn:string index="1">おうは なき おうひのぶんも ルカひめさ
+かわいがってるー![end]</sn:string>
+<sn:string index="2">ラリホー! おぼえたー?[end]</sn:string>
+<sn:string index="3">ちていも なれると いいとこー!
+よかったら ずっといてくださいラリ![end]</sn:string>
+<sn:string index="4">『すみません クリスタルは Golbezの
+ てに‥
+
+
+ジオット「やむさえん゜
+ こうなっては さいごのクリスタルさ
+ ししゅするしか あるまい゜
+
+Rosa「さいごのクリスタルは どこに
+ あるのでしょう?
+
+
+ジオット「なんせいにある ふういんの
+ どうくつじゃ゜
+ Golbezが むかったが あわてるでない゜
+ ふういんさとくカギが なければ
+ あのどうくつに はいることはできん゜
+ そこでじゃ おぬしらに たのみがある!
+
+
+『クリスタルが うばわれたのも
+ ぼくらのせきにんです!
+ なにか ちからになれるなら‥
+
+ジオット「Golbezが ふういんのどうくつに
+ むかっている いまがチャンスじゃ゜
+ バブイルのとうに せんにゅうし 7つの
+ クリスタルさ うばいかえしてもらえぬか?
+Cain「バブイルのとうに?
+Yang「てきのほんきょに せんにゅう
+ しろと おっしゃるか!?
+
+ジオット「しんぱいは いらん!
+ われらのせんしゃたいが てきさ ひきつける!
+ そのすきに おぬしらに クリスタルさ
+ だっかんしてほしい!
+ Golbezのいない いましかない![end]</sn:string>
+<sn:string index="5">Cain「どうする?
+Rydia「てきの きちなんでしょう?
+Rosa「たしかに きけんね゜
+
+Yang「しかし こけつに いらずんば
+ こじさ えず‥
+Cain「Golbezのいない いましか
+ チャンスは あるまい゜
+『よし‥[end]</sn:string>
+<sn:string index="6">『やってみます![end]</sn:string>
+<sn:string index="7">ジオットおう「たのむぞ!
+ このしろのちかに ぬけみちへの
+ いりぐちがある!
+ したくが できしだい ゆくがよい!
+ ごぶうんさ いのっておるぞ![end]</sn:string>
+<sn:string index="8">わたしの おにんぎょうさ そんなことに
+つかうなんて ゆるせないわ![end]</sn:string>
+<sn:string index="9">ジオット「われわれは てきのしゅりょくさ
+ くいとめる!
+ そなたらは なんせいの ふういんのどうくつへ![end]</sn:string>
+<sn:string index="10">ジオット「ミシディアへ ゆくのだ!
+ すべては おぬしらに かかっとる![end]</sn:string>
+<sn:string index="11">そのくびかざりは なき ははうえの
+かたみとか゜[end]</sn:string>
+<sn:string index="12">ふういんのどうくつの ちかくにも
+ドワーフのすむ トメラたいりく あるー!
+でも いまはようがんで いききできないー![end]</sn:string>
+<sn:string index="13">そらが とべれば ふういんのどうくつ
+いけるはずー!
+でも ドワーフ とべないー!
+あんたら たよりー![end]</sn:string>
+<sn:string index="14">この ちていの どこかに げんかいに つうじる
+どうくつ あるって うわさー![end]</sn:string>
+<sn:string index="15">ようがんのうえ とべないー?
+あの ひくうていの おっさん いれば
+かいぞう できないかー?[end]</sn:string>
+<sn:string index="16">また あそびに きてね゜
+やくそくよ![end]</sn:string>
+</sn:area>
+
+<sn:area id="266">
+<sn:string index="0">でぶチョコボ? ぶれいものー!
+ここでは かみのとりー![end]</sn:string>
+<sn:string index="1">ここには なんでも あずかってくれる
+すばらしい おかたが あらわれるー![end]</sn:string>
+<sn:string index="2">このカベは だーれも とおさないー!
+でも おうのゆるし あれば べつー![end]</sn:string>
+<sn:string index="3">おうの ゆるし あるー?
+なら とおすー![end]</sn:string>
+</sn:area>
+
+<sn:area id="267">
+<sn:string index="0">ラリホー![end]</sn:string>
+<sn:string index="1">きいつけてー![end]</sn:string>
+<sn:string index="2">バブイルのとうには おっそろしく
+おっきな ほうだいがあるー![end]</sn:string>
+<sn:string index="3">ちていの まものも きょうてきー!
+ゆだん するなー![end]</sn:string>
+</sn:area>
+
+<sn:area id="268">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="269">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="270">
+<sn:string index="0">ドワーフのぶき おもいー!
+にんげんに あつかえるかなー?[end]</sn:string>
+<sn:string index="1">ドワーフのぼうぐ かたいー!
+にんげんが きて うごけるかなー?[end]</sn:string>
+</sn:area>
+
+<sn:area id="271">
+<sn:string index="0">おれ ゆうかん!
+でも あんたら もっと ゆうかん![end]</sn:string>
+<sn:string index="1">ぶじに かえってこいー![end]</sn:string>
+<sn:string index="2">ムチャせず あぶなくなったら
+ひきかえせー![end]</sn:string>
+<sn:string index="3">バブイルには Golbezいなくても
+さいきょうの 4てんのう
+ひのルビカンテが いるー![end]</sn:string>
+<sn:string index="4">せんしゃたいが きょだいほう ひきつけるー!
+そのすきに せんにゅうするラリ![end]</sn:string>
+<sn:string index="5">ここのツボ いのちのツボー!
+このみず のんでけー![end]</sn:string>
+</sn:area>
+
+<sn:area id="272">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="273">
+<sn:string index="0">ドワーフのアイテム ふしぎー!
+にんげんが つかいこなせるかなー?[end]</sn:string>
+</sn:area>
+
+<sn:area id="274">
+<sn:string index="0">ここは きゅうごしつー![end]</sn:string>
+<sn:string index="1">ドワーフ からだ がんじょー!
+でも たまに ケガするー![end]</sn:string>
+<sn:string index="2">あのおっさん おっさんのくせに やたら
+げんきー![end]</sn:string>
+<sn:string index="3">あのおっさん くいしんぼ!
+まずい いいながら よくたべるー![end]</sn:string>
+<sn:string index="4">ねてれば なおるラリ![end]</sn:string>
+<sn:string index="5">グーグー゜[end]</sn:string>
+<sn:string index="6">あのおっさん あんなことできる
+からだじゃなかったー![end]</sn:string>
+<sn:string index="7">あのおっさん らんぼーだけど いいヤツー![end]</sn:string>
+<sn:string index="8">グガー グガー‥[end]</sn:string>
+<sn:string index="9">あの おっさん すごいー!
+ホントに ドリルつけたー![end]</sn:string>
+<sn:string index="10">ちじょうのヤツも なかなか やるー![end]</sn:string>
+<sn:string index="11">Cid「ひくうていさ ワシだと
+ おもって がんばるんじゃぞ‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="275">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="276">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="277">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="278">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="279">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="280">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="281">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="282">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="283">
+<sn:string index="0">おまえらも Golbezと たたかってるー?
+ここのたから もってって がんばれー![end]</sn:string>
+<sn:string index="1">ジオットおうから ゆるしでてるー!
+ここのたから だいじにつかえー![end]</sn:string>
+</sn:area>
+
+<sn:area id="284">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="285">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="286">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="287">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="288">
+<sn:string index="0">ウィー!
+みんな いくさだとかで ちっとも のまないー!
+オレ いくさより さけ だいじー!
+
+おどっちゃうラリー![end]</sn:string>
+<sn:string index="1">うげー!
+
+
+
+ますます まわってきたー!
+これが ほんとの よっぱラリー![end]</sn:string>
+</sn:area>
+
+<sn:area id="289">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="290">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="291">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="292">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="293">
+<sn:string index="0">こわれてしまって あかない‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="294">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="295">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="296">
+<sn:string index="0">はかせ「ルビカンテさま おきさつけて‥
+ルビカンテ「あんずるな゜
+ にんじゅつとやらさ つかう
+ エブラーナの しろは すでに おちた゜
+ るすは あずけたぞ゜[end]</sn:string>
+<sn:string index="1">はかせ「ヒャヒャヒャ! Golbezさまも
+ ルビカンテも おらん!
+ ワシが さいこうせきにんしゃだ!
+Rydia「へんな おじいさん゜[end]</sn:string>
+<sn:string index="2">はかせ「そこに おるのは
+ だれだあ?[end]</sn:string>
+<sn:string index="3">Cain「フッ゜ ルビカンテはいまい!
+ おまえに おれたちが
+ たおせるかな?[end]</sn:string>
+<sn:string index="4">はかせ「キーッ バカにするでないわ!
+ 4てんのうには くわわれなかった
+ とはいえ Golbezさまの
+ ブレインといわれる このルゲイエ!
+ このバブイルのとうは ワシの
+ メンツにかけて まもるわ!
+
+
+Cain「わらわせるな![end]</sn:string>
+<sn:string index="5">ルゲイエはかせ「うぬぬ!
+ このルゲイエの うみだした
+ さいあいのむすこが きさまらの
+ くびさ いただいてやるわあ![end]</sn:string>
+<sn:string index="6">Rydia「ドワーフさんたちが
+ やられちゃう![end]</sn:string>
+<sn:string index="7">Yang「きょだいほうとやらさ![end]</sn:string>
+<sn:string index="8">Cain「はかいせんと![end]</sn:string>
+<sn:string index="9">ルゲイエ「おのれ よくも!
+ ワシの ほんとうのコワささ
+ おもいしれえ![end]</sn:string>
+<sn:string index="10">Rosa「しいッ![end]</sn:string>
+<sn:string index="11">『しまった!
+
+
+
+はかせ「きさま Cecil!
+ いつのまに![end]</sn:string>
+<sn:string index="12">『ワープそうちのようだが ぼくたちには
+ つかえないようだ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="297">
+<sn:string index="0">ディレクター さかぐち ひろのぶ
+「しよか‥[end]</sn:string>
+<sn:string index="1">マップデザイン まつむら やすし
+「えるちょ ないとちゃん なおし ほしやさん
+ くわはらかちょう ひさしぶり! どうしたの?
+ ‥あれ? ひとちがいだ!? ヒヤー‥[end]</sn:string>
+<sn:string index="2">グラフィック ほしの まさのり
+「みんながたたかっている まものは
+ ボクがかいたんだよー゜
+ きにいった まものがあったら おしえてね゜[end]</sn:string>
+<sn:string index="3">オイラは ドットやの タカだ゜
+でんせつのスーパードットやろうさ めざしている゜たぶん このゲームが おわるころには
+スーパードットやろうに なっているだろう゜[end]</sn:string>
+<sn:string index="4">グラフィック たなか りょうこ
+「わたしの さいごのさくひんとなりました゜
+ よろしくね゜[end]</sn:string>
+<sn:string index="5">グラフィック なかだ ひろみ
+ ‥といったわけで のこされた わたしは
+ FFチームただひとりの ジョセイになって
+ しまいました゜
+ はげましのおたより くださいね![end]</sn:string>
+<sn:string index="6">メニュープログラム あだち けいたろう
+「へへっ らくしょーらくしょー![end]</sn:string>
+<sn:string index="7">しんじん えんどう としお
+「かたが こったヨー゜
+ めが いたいヨー゜
+ みみが いたいヨー゜[end]</sn:string>
+<sn:string index="8">しんじん たなか しんいち
+「つぎの さくひんからは プログラムさ
+ くむんだ゜ みなさん よろしく゜
+ ‥はやく じぶんのつくえが ほしいなァ゜[end]</sn:string>
+<sn:string index="9">しんじん どばし いくや
+「おねがいだー みのがしてくれえ゜
+ オレは なんにも ぬすんじゃいない゜[end]</sn:string>
+<sn:string index="10">しんじん こいずみ きょうぢ
+「フッ‥ゴールデンウィークなんて
+ はじめから なかったとおもえば きらくさ゜
+ そーですよね さかぐちさあん゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="298">
+<sn:string index="0">サウンドプログラム あかお みのる
+「ふうッ‥
+ さァって なにしようかなァ゜
+ やはりワクワクするには アレがいちばんかな!?[end]</sn:string>
+<sn:string index="1">サウンドエフェクト うえだ あきら
+「アキ ヤマさん タケモッチ シンくん
+ カズくん ほかのみなさん みんなみてるかな?
+ おとさ いくつかつくったんだ゜ またきてね![end]</sn:string>
+<sn:string index="2">ミュージックコン◉ーズ うえまつ のぶお
+「ンッ! そなたよくみると なかなかの
+ おんがくてきししつさ ひめておる゜
+ わしがなんばんとらいの くーらりねっとさ
+ おしえてしんぜようか?[end]</sn:string>
+<sn:string index="3">サウンドエフェクト いとう けんじ
+「FF クリアしたら
+ せいけんでんせつも よろしくね![end]</sn:string>
+</sn:area>
+
+<sn:area id="299">
+<sn:string index="0">アップまで ゲームきんし![end]</sn:string>
+<sn:string index="1">Rosaに Rydiaってのか゜
+なかなか イイおんなじゃねえか゜
+オレが ちからになるぜ!
+
+ゲームしょくにん
+ときた たかしが なかまになった![music][0x29][delay][0x28]
+
+
+たのむ‥つれてってくれ!
+ここは もうイヤだー![music][0x2][end]</sn:string>
+<sn:string index="2">メインプログラム なりた けん
+「もうイベントは ついかしないでくれー!
+
+
+ もうバグは みつけないでくれー!
+
+
+
+ ちくしょー だいがく やめてやる![end]</sn:string>
+<sn:string index="3">フニ フニ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="300">
+<sn:string index="0">FuSoYa「いまのうちに ないぶに はいる![end]</sn:string>
+<sn:string index="1">『Cid たのむ![end]</sn:string>
+</sn:area>
+
+<sn:area id="301">
+<sn:string index="0">「ワハハ しね ドワーフどもめ![end]</sn:string>
+<sn:string index="1">『そこまでだ![end]</sn:string>
+<sn:string index="2">「きさまら!
+「どうして ここへ!?
+「かかれ![end]</sn:string>
+<sn:string index="3">「クソー こうしてやる![end]</sn:string>
+<sn:string index="4">「これで だれにも きょだいほうは
+ とめられんぞ![end]</sn:string>
+<sn:string index="5">『しまった!
+Cain「なんてことさ![end]</sn:string>
+<sn:string index="6">『Yang!
+Rosa「なにさ!?[end]</sn:string>
+<sn:string index="7">Yang「ここは わたしがひきうける!
+ みんなは はやく だっしゅつさ!
+Rydia「いやー!
+『ぼうはつするぞ Yang!
+Yang「‥ごめん![end]</sn:string>
+</sn:area>
+
+<sn:area id="302">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="303">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="304">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="305">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="306">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="307">
+<sn:string index="0">これが そなたらの うんめいだったのかも
+しれん‥
+ふたたび ゆくのじゃ つきへ![end]</sn:string>
+<sn:string index="1">オイラたちも いきたいけど‥
+ざんねんながら ハズレみてーだ!
+たのむぜ あんちゃん![end]</sn:string>
+<sn:string index="2">すっかり りっぱなパラディンに
+なられましたね!
+あのとき わたしたちが したこと
+まちがっていませんでしたわ![end]</sn:string>
+<sn:string index="3">このだいちの せいあるもの
+すべての めいうんは
+おぬしらに ゆだねられておる![end]</sn:string>
+<sn:string index="4">ぼくと‥Tellaさんのぶんも
+たたかってきてくれ![end]</sn:string>
+<sn:string index="5">そなたたちが たちむかうべき さだめであった
+ようだ゜
+ごぶうんさ いのっている![end]</sn:string>
+<sn:string index="6">なんで ワシさ つれてかんのじゃ!
+まったく‥
+いいな! いきてかえるのじゃぞ![end]</sn:string>
+<sn:string index="7">Cecilさん ぶじに もどってください![end]</sn:string>
+<sn:string index="8">Cecilさんがいないと
+おやかたも きげんが わるいですからね![end]</sn:string>
+<sn:string index="9">Gilbertさまは いつも
+あなたがたのことさ きにかけていたんです゜[end]</sn:string>
+<sn:string index="10">まさか こんなことになるなんて
+ゆめにも おもいませんでしたわ゜[end]</sn:string>
+<sn:string index="11">はやくもどって また おしろに
+ちていに きてね![end]</sn:string>
+</sn:area>
+
+<sn:area id="308">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="309">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="310">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="311">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="312">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="313">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="314">
+<sn:string index="0">Rydia もどってきたんだね![end]</sn:string>
+<sn:string index="1">Rydiaいがいの にんげんは
+あんたらが はじめてだ゜[end]</sn:string>
+<sn:string index="2">ここは げんかい゜
+げんじゅうたちのすむ せかい゜[end]</sn:string>
+<sn:string index="3">げんじゅうおうは げんかいの おくふかくに
+いらっしゃる゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="315">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="316">
+<sn:string index="0">ひさしぶりだな Rydia![end]</sn:string>
+<sn:string index="1">この げんかいは じょおう アスラ
+そして げんじゅうおうが おさめている゜[end]</sn:string>
+<sn:string index="2">ちがうせかいじゃ なかまが わるさしてるって
+いうじゃねえか![end]</sn:string>
+<sn:string index="3">アスラさまさ たおさなきゃ
+げんじゅうおうには はなしも
+きいてもらえないって いうぜ![end]</sn:string>
+<sn:string index="4">よお Rydia!
+なんだ?
+オイラが しゃべっちゃ へんか?[end]</sn:string>
+<sn:string index="5">ここは げんかい としょかん゜
+あらゆるちしきの ほうこさ![end]</sn:string>
+<sn:string index="6">Rydia!
+よかった かえってきたんだね![end]</sn:string>
+<sn:string index="7">あら Rydia!
+そっちのかたたちは おともだち?[end]</sn:string>
+</sn:area>
+
+<sn:area id="317">
+<sn:string index="0">Rydia!
+もう どこにも いかないでおくれよ![end]</sn:string>
+</sn:area>
+
+<sn:area id="318">
+<sn:string index="0">しーッ!
+としょかんは しずかに![end]</sn:string>
+<sn:string index="1">うーん このほんは かんどうするなあ゜[end]</sn:string>
+<sn:string index="2">だいちさゆるがすきょじん タイタン‥
+そのちからは ちさひきさき
+ほとんどのものは そのじわれに
+のみこまれるだろう゜[end]</sn:string>
+<sn:string index="3">ほのおのまじん イフリート‥
+そのかえんは すべてさやきつくすとさえ
+いわれている゜[end]</sn:string>
+<sn:string index="4">いまだ だれもしらない しょうかんまほうも
+そんざいするという‥[end]</sn:string>
+<sn:string index="5">おんこうなろうじん ラムウ‥
+だが そのいかりは あんうんさよび
+いかづちによって いましめられる゜[end]</sn:string>
+<sn:string index="6">こおりの じょおう シヴァ‥
+かのじょさ おこらせたものは
+しんぞうさえも いてつくことだろう゜[end]</sn:string>
+<sn:string index="7">チョコボ‥
+にげあしと あいきょうなら いちばんである゜[end]</sn:string>
+<sn:string index="8">しょうかんまほう‥
+げんじゅうさよびだす まほう゜
+そのちからさ もつものは
+いまや ごくわずかとなった゜[end]</sn:string>
+<sn:string index="9">げんかいは にんげんかいより はるかに
+ふるいれきしさ もつ‥[end]</sn:string>
+<sn:string index="10">にんげんかいへとつながる どうくつ‥
+つよき せいしんと からださ もつもののみ
+ゆききできる‥[end]</sn:string>
+<sn:string index="11">げんじゅうとは まぼろしのけもの‥
+そのすがたは あしきものには おそろしく
+ただしきものには かみのごとく みえる‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="319">
+<sn:string index="0">にんげんかいにも ぶんがくは あるのかね?[end]</sn:string>
+<sn:string index="1">ここには えいえんに よみきれないほど
+ほんがあるから たいくつしないよ゜[end]</sn:string>
+<sn:string index="2">ライブラすらも つうじぬ まものたちも
+かいじゅうずかんに よって その すじょうさ
+あきらかに されるであろう‥[end]</sn:string>
+<sn:string index="3">げんじゅう まもの にんげん‥
+どこからきて どこへゆくのか‥
+えいえんのなぞである゜[end]</sn:string>
+<sn:string index="4">そのむかし つきより おおいなるくじらが
+このちに おりたった‥
+いまは りゅうのなかで ふかきねむりに
+ついている゜[end]</sn:string>
+<sn:string index="5">げんじゅうおうさ こえるもの‥
+げんじゅうたちさ つくられた げんじゅうしんは
+かなたから われわれさ みまもっているという゜
+いまだ はいぼくさしらない
+げんじゅうしんに うちかつもの‥
+それは げんじゅうしんの ちからさ
+はねかえすことが できるもののみであろう゜[end]</sn:string>
+<sn:string index="6">ふたつのつき‥
+たいこのそらには そのつきは
+たったひとつだったという゜[end]</sn:string>
+<sn:string index="7">げんかいの じょおう アスラ‥
+げんじゅうおうの つまにして
+げんじゅうおうへの かんもんでもある゜
+かのじょのちからさ うまく りようし
+うちかったもののみが げんじゅうおうの
+すがたさ みられることだろう‥[end]</sn:string>
+<sn:string index="8">げんじゅうおう‥
+きたのうみより あらわれ
+おおうなばらの ぬしといわれる
+むてきさ ほこる げんかいの あるじ゜[end]</sn:string>
+<sn:string index="9">いちげきひっさつの ざんてつけんさ ほこる
+オーディン‥
+かつて やぶれたことは そのけんに
+いかづちが おちたときのみ゜[end]</sn:string>
+<sn:string index="10">かぼそく やさしいもの シルフ‥
+ちからさあわせたとき そのちからは
+はっきされる゜[end]</sn:string>
+<sn:string index="11">げんじゅうかいの おきて‥
+つよさとは ただしきこころ゜
+そのつよささ みきわめずして
+そのちから よういに あたえるべからず゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="320">
+<sn:string index="0">ここは げんじゅうおうと おうひの おへや゜[end]</sn:string>
+<sn:string index="1">げんじゅうおうに はなすには
+アスラおうひの おゆるしさ
+いただかなければ なりません゜[end]</sn:string>
+<sn:string index="2">Rydia‥
+つよくて やさしい よいともだちさ
+もちましたね゜
+いつでも わたしさよびなさい‥[end]</sn:string>
+<sn:string index="3">たしかに ひかりのちから!
+この げんじゅうおう リヴァイアサンの
+ちからさ かそう![end]</sn:string>
+<sn:string index="4">げんじゅうおう?
+いやいや ワシャ ただのジジイですじゃ![end]</sn:string>
+<sn:string index="5">ならば ためしてみましょう![end]</sn:string>
+<sn:string index="6">ざんねんですが それでは ちからさ かすわけに
+ゆきません゜[end]</sn:string>
+<sn:string index="7">じしんが ついたら いつでも あいてに
+なるぞ![end]</sn:string>
+</sn:area>
+
+<sn:area id="321">
+<sn:string index="0">にんげんに ここのぶきさ
+つかいこなせるかな?[end]</sn:string>
+<sn:string index="1">だれかとおもったら Rydiaか![end]</sn:string>
+</sn:area>
+
+<sn:area id="322">
+<sn:string index="0">あまり にんげんさ つれてくるなよ
+Rydia゜[end]</sn:string>
+<sn:string index="1">おれたちは しずかに くらしていたいんだ゜[end]</sn:string>
+</sn:area>
+
+<sn:area id="323">
+<sn:string index="0">チョコボ シヴァ ラムウ‥
+みな このげんかいの じゅうにんさ゜[end]</sn:string>
+<sn:string index="1">イフリートのヤツ あいかわらず
+もえてんだろな゜[end]</sn:string>
+<sn:string index="2">タイタンなんざ レビテトさえ かけとけば
+ただの でくのぼうさ![end]</sn:string>
+</sn:area>
+
+<sn:area id="324">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="325">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="326">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="327">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="328">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="329">
+<sn:string index="0">Yang「かたじけない‥
+ わたしのぶんも‥![end]</sn:string>
+<sn:string index="1">キャ! にんげんだわ![end]</sn:string>
+<sn:string index="2">Yangのことなら まかせて![end]</sn:string>
+<sn:string index="3">なにしにきたの でてって![end]</sn:string>
+<sn:string index="4">Yangさ つれてかないで![end]</sn:string>
+<sn:string index="5">Yangは わたさないわ![end]</sn:string>
+<sn:string index="6">にんげんて らんぼうね![end]</sn:string>
+<sn:string index="7">この あなの いりぐちで たおれてたの゜
+でも それっきり めささまさないの゜
+ずっと かんびょうしてるのに‥
+わたしたちの あいじゃ だめなのかしら‥[end]</sn:string>
+<sn:string index="8">Yangが しんだら どうするの![end]</sn:string>
+<sn:string index="9">Yang「ム‥
+
+
+
+ うーん‥もう しゅぎょうのじかんか?
+ もうしばらく ねかせて‥[end]</sn:string>
+<sn:string index="10">Yang「はッ!
+ Cecilどの?
+『Yang!
+Rydia「よかった!
+Yang「シルフたちが しにかけていた
+ わたしさ すくってくれた゜
+Rosa「おかげで あの
+ きょだいほうは はかいされたわ゜
+ Yang「わたしも いこう‥
+シルフ「だめ ねてなくちゃ![end]</sn:string>
+<sn:string index="11">Yang「せかいが
+ かかっているんだ!
+ ねているわけには‥
+Edge「ケガにんの でるまくじゃねーぜ゜[end]</sn:string>
+<sn:string index="12">Yang「そなたは?
+Edge「オレは エブラーナの
+ Edge!
+ あんたいじょうに うではたつさ!
+Yang「エブラーナ! にんじゃか‥
+ わたしも‥!
+シルフ「むちゃしないで!
+ わたしたちも ちからさかすから![end]</sn:string>
+<sn:string index="13">Yang「?
+シルフ「このひとは しょうかんしでしょ゜
+ しょうかんしなら わたしたちさ
+ よびだせるわ!
+ わたしたちも たたかいます!
+ Yangの かわりに!
+Rydia「よろしくね シルフさん!
+
+Rydiaが シルフさ おぼえた![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="14">シルフ「あ! やめ‥[end]</sn:string>
+<sn:string index="15">Yangは すっかり げんきになったわ![end]</sn:string>
+<sn:string index="16">Yangが いないのは さびしいけど‥[end]</sn:string>
+<sn:string index="17">おくさんが いるんじゃ しかたないわね゜[end]</sn:string>
+<sn:string index="18">Yangに よろしくね![end]</sn:string>
+</sn:area>
+
+<sn:area id="330">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="331">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="332">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="333">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="334">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="335">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="336">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="337">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="338">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="339">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="340">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="341">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="342">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="343">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="344">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="345">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="346">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="347">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="348">
+<sn:string index="0">げんじゅうしんさまに なんのようだ![end]</sn:string>
+<sn:string index="1">あら?
+あなた はんぶんだけ‥[end]</sn:string>
+<sn:string index="2">バハムートさまが みとめたのは おまえたちが
+はじめてだ![end]</sn:string>
+<sn:string index="3">あなたは おおきなうんめいさ
+せおっておいでのようね゜[end]</sn:string>
+<sn:string index="4">げんじゅうおうに みとめられていませんね‥
+おひきとりください゜[end]</sn:string>
+<sn:string index="5">あなたたちの ちからと せいしん
+たしかに うけとめた゜
+Rydiaよ あなたが わたしさ
+ひつようとしたとき となえるのです゜
+バハムートと‥![end]</sn:string>
+</sn:area>
+
+<sn:area id="349">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="350">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="351">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="352">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="353">
+<sn:string index="0">われわれは つきのクリスタル゜[end]</sn:string>
+<sn:string index="1">あおきほしに おかれた 8つのクリスタルとの
+バランスで このつきは いじされている゜[end]</sn:string>
+<sn:string index="2">つきのたみたちは このだいちのなかで
+ふかいねむりに ついている゜
+FuSoYaは ばんにんとして
+ねむっている つきのたみさ みまもっています゜[end]</sn:string>
+<sn:string index="3">おそろしい おとこ ゼムス゜
+だいちのおくに ふうじこめられても
+あしきせいしんさ ぞうだいさせています゜[end]</sn:string>
+<sn:string index="4">われら 8つのクリスタルが ゼムスさ
+ふうじこめている゜[end]</sn:string>
+<sn:string index="5">ゼムスは Golbezさつかい
+あおきほしのクリスタルさ あつめ
+バブイルのとうで そのエネルギーさ
+ぞうだいさせました゜[end]</sn:string>
+<sn:string index="6">ゼムスは うちがわから けっかいさはり
+ちゅうしんかくへの みちさ
+ふういんしています゜[end]</sn:string>
+<sn:string index="7">われわれの ちゅうしんに いちするフロアから
+ゼムスのいる ちゅうしんかくに
+ゆけるのですが‥[end]</sn:string>
+<sn:string index="8">バブイルのとうが はかいされ
+ゼムスのふういんが とけました゜
+これで ゼムスのもとまで ゆけるはずです゜[end]</sn:string>
+<sn:string index="9">この したには かつて つきのたみさ
+おびやかした きょうだいな ちからさもつ
+ぶきなども ゼムスとともに
+ふういんしてあります゜[end]</sn:string>
+<sn:string index="10">さきほど FuSoYaと クルーヤのむすこが
+なかに はいってゆきましたが‥
+もう ずいぶん たっています゜[end]</sn:string>
+<sn:string index="11">われわれは うちがわからの
+ゼムスのしねんはさ ちゅうわするのが
+せいいっぱいです゜[end]</sn:string>
+<sn:string index="12">ゼムスと われわれの しねんはの あいだは
+ものすごい エネルギーに みちています゜[end]</sn:string>
+<sn:string index="13">いくら FuSoYaといえど しねんさ
+ぞうだいさせた ゼムスに
+かてるかどうか‥[end]</sn:string>
+<sn:string index="14">つきの ちゅうしんかくさ
+めざすのです![end]</sn:string>
+<sn:string index="15">あなたたちさ ちゅうしんかくへ つうじる
+みちに みちびきましょう![end]</sn:string>
+</sn:area>
+
+<sn:area id="354">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="355">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="356">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="357">
+<sn:string index="0">なまえの へんこう?
+なんのことで ございましょう?[end]</sn:string>
+<sn:string index="1">フン フフーン![end]</sn:string>
+<sn:string index="2">わたしらは ハミングウェイいちぞく゜[end]</sn:string>
+<sn:string index="3">そういえば むかし ふねさ はつめいして
+あおきほしへ おりていった なかまが
+いたけど‥
+
+あだなさ つけるのが うまかったなあ‥[end]</sn:string>
+</sn:area>
+
+<sn:area id="358">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="359">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="360">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="361">
+<sn:string index="0">ムラサメさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="362">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="363">
+<sn:string index="0">ラグナロクさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="364">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="365">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="366">
+<sn:string index="0">マサムネさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="1">この ようとう マサムネが
+きさまたち あおきほしの たみなどに
+あつかえると おもってか![end]</sn:string>
+</sn:area>
+
+<sn:area id="367">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="368">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="369">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="370">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="371">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="372">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="373">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="374">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="375">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="376">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="377">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="378">
+<sn:string index="0">ホーリーランスさ てにいれた![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="379">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="380">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="381">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="382">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="383">
+<sn:string index="0">T</sn:string>
+</sn:area>
+
+</sn:areas>

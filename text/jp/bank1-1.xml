@@ -1,0 +1,3137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:pointer id="0">もちものが いっぱいです゜[end]</sn:pointer>
+
+<sn:pointer id="1">たからばこには
+[0x7]が はいっていた![end]</sn:pointer>
+
+<sn:pointer id="2">たからばこから [0x8]ギル
+てにいれた![end]</sn:pointer>
+
+<sn:pointer id="3">たからばこに まものが![end]</sn:pointer>
+
+<sn:pointer id="4">なにも はいっていない゜[end]</sn:pointer>
+
+<sn:pointer id="5">カギが かかっている゜[end]</sn:pointer>
+
+<sn:pointer id="6">カギさ あけた![end]</sn:pointer>
+
+<sn:pointer id="7">『おやすみ‥[delay][0x5][0x6][end]</sn:pointer>
+
+<sn:pointer id="8">『よーし しゅっぱつだ![end]</sn:pointer>
+
+<sn:pointer id="9">HP ステータスが かいふくした![end]</sn:pointer>
+
+<sn:pointer id="10">HP MPが かいふくした![end]</sn:pointer>
+
+<sn:pointer id="11">チョコボ みーっけ![end]</sn:pointer>
+
+<sn:pointer id="12">『Golbez! FuSoYa![end]</sn:pointer>
+
+<sn:pointer id="13">くろチョコボ みーっけ![end]</sn:pointer>
+
+<sn:pointer id="14">『?
+
+
+
+Rosa「にんぎょうが![end]</sn:pointer>
+
+<sn:pointer id="15">なんだか チョコボくさいぞ‥[end]</sn:pointer>
+
+<sn:pointer id="16">しろチョコボ みーっけ![end]</sn:pointer>
+
+<sn:pointer id="17">でぶチョコボ とうじょう![end]</sn:pointer>
+
+<sn:pointer id="18">Tella「Anna いきていてくれたか‥
+Anna「おとうさん‥かれ‥Gilbertは
+ この ダムシアンの おうじ‥
+ みぶんさかくすため‥ぎんゆうしじんとして
+ カイ◉に きたの‥
+ ごめんなさい‥おとうさん
+ かってにとびだしたりして‥
+ わたし Gilbertさあいしているの‥
+ でも だいすきなおとうさんに‥
+ ゆるしてもらわなくちゃって‥カイ◉に
+ もどろうとしたとき‥
+
+Gilbert「Golbezとなのるものが ひきいる
+ バロンの あかいつばさが‥
+『Golbezとは いったい なにものなんだ?
+
+Gilbert「わかりません‥くろい いような
+ かっちゅうに みさつつんでいて‥
+ ひととは おもえぬ つよさで‥
+『なぜ あかいつばさが!?
+Gilbert「やつらは クリスタルさ
+ うばうと ひさはなち‥
+ ちちも ははもやられ‥Annaも‥
+ ぼくさ かばって ゆみに‥[end]</sn:pointer>
+
+<sn:pointer id="19">あちちっ![end]</sn:pointer>
+
+<sn:pointer id="20">なにも おこらなかった゜[end]</sn:pointer>
+
+<sn:pointer id="21">MPが かいふくした![end]</sn:pointer>
+
+<sn:pointer id="22">[0x7]さ みつけた![end]</sn:pointer>
+
+<sn:pointer id="23">[0x8]ギル さみつけた![end]</sn:pointer>
+
+<sn:pointer id="24">みえないちからで ふういんされている゜[end]</sn:pointer>
+
+<sn:pointer id="25">おきゃくさん おかねが たりませんよ゜[end]</sn:pointer>
+
+<sn:pointer id="26">いらっしゃいませ゜
+いっぱく [0x8]ギルですが
+おとまりに なられますか?[0x6][end]</sn:pointer>
+
+<sn:pointer id="27">また おこしください゜[end]</sn:pointer>
+
+<sn:pointer id="28">『げッ![end]</sn:pointer>
+
+<sn:pointer id="29">われわれも あやつられていたのかも
+しれません‥[end]</sn:pointer>
+
+<sn:pointer id="30">‥[end]</sn:pointer>
+
+<sn:pointer id="31">へいし「Cecilたいちょう!
+ まもなく バロンにつきます!
+
+
+『ああ‥[end]</sn:pointer>
+
+<sn:pointer id="32">へいし「やはり たいちょうも‥
+へいし「いくら めいれいとはいえ‥
+へいし「つみもないひとから クリスタルさ
+ ‥[end]</sn:pointer>
+
+<sn:pointer id="33">へいし「しかし たいちょう!
+へいし「むていこうな まどうしたちから
+ りゃくだつするなんて!
+
+『いいか みんな!
+ クリスタルは わが バロンこくの
+ はんえいのため どうしても ひつようだ゜
+ ミシディアの ものたちは クリスタルの
+ ひみつさ しりすぎているとの へいかの
+ ごはんだんだ゜
+ われわれは バロンこく ひくうていだん
+ バロンの あかいつばさだ!
+ へいかのめいれいは ぜったいなのだ‥
+
+
+
+へいし「たいちょう‥[end]</sn:pointer>
+
+<sn:pointer id="34">へいし「たいちょう まものが![end]</sn:pointer>
+
+<sn:pointer id="35">へいし「ぐわっ!
+『だいじょうぶか?
+
+
+へいし「まだ きます!
+『くそッ![end]</sn:pointer>
+
+<sn:pointer id="36">ここよりさきは わがち ゼムスゾーン‥
+わたしの しもべから のがれることは
+ぜったいに できぬ‥!
+わたしのもとに たどりつく まえに
+やみへと きえさるがよい‥
+
+
+
+フハハハハハ‥[end]</sn:pointer>
+
+<sn:pointer id="37">へいし「バロンに とうちゃくしました!
+『よし ちゃくりくだ゜[end]</sn:pointer>
+
+<sn:pointer id="38">ベイガン「おお クリスタルさ てにいれた
+ のですね゜
+『‥しかし ミシディアの ひとびとは
+ まるで むていこうだった‥
+ベイガン「なにさおっしゃるのです゜
+ さあ へいかが おまちです゜[end]</sn:pointer>
+
+<sn:pointer id="39">D[end]</sn:pointer>
+
+<sn:pointer id="40">ベイガン「Cecilどの
+ しばし おまちください゜[end]</sn:pointer>
+
+<sn:pointer id="41">ベイガン「へいか‥
+ おそれながら Cecilのやつめが
+ へいかに ふしんさ いだいているようすです゜
+バロンおう「まことか!
+ さすがは このえへいちょう゜
+ よく しらせてくれた!
+ だが クリスタルさえ てにはいれば よい゜
+ Cecilさ よんでまいれ゜
+ベイガン「は゜[end]</sn:pointer>
+
+<sn:pointer id="42">ベイガン「Cecilどの
+ へいかが およびです゜
+ どうぞ゜[end]</sn:pointer>
+
+<sn:pointer id="43">バロンおう「Cecil ごくろうであった゜
+ で クリスタルは?
+
+
+『はっ こちらに゜[end]</sn:pointer>
+
+<sn:pointer id="44">みずのクリスタルさ てわたした゜[end]</sn:pointer>
+
+<sn:pointer id="45">ベイガン「ほんものの ようです゜
+バロンおう「そうか! おお なんと まばゆい!
+ さがってよいぞ Cecil![end]</sn:pointer>
+
+<sn:pointer id="46">『‥[end]</sn:pointer>
+
+<sn:pointer id="47">『へいか![end]</sn:pointer>
+
+<sn:pointer id="48">バロンおう「な なんじゃ!
+ベイガン「な なんです![end]</sn:pointer>
+
+<sn:pointer id="49">『へいかは いったい どういうおつもりです?
+ みな へいかに ふしんさ いだいております!
+バロンおう「おまえさ はじめとしてか?
+『! けして そのような‥
+バロンおう「わたしが なにもしらぬとでも
+ おもっているか!
+ おまえほどのものが わたしさ しんらい
+ してくれぬとはな‥
+ ざんねんだが これいじょう おまえに
+ あかいつばささ まかせては おけん!
+ いまより ひくうていぶたいちょうの
+ にんさ とく![end]</sn:pointer>
+
+<sn:pointer id="50">バロンおう「かわって げんじゅう とうばつの
+ にんに つけい!
+ ミストのたにふきんに まぼろしの まもの
+ げんじゅうが しゅつぼつするそうだ゜
+ そのまものさたおし ミストのむらへ
+ このボムのゆびわさ とどけるのだ゜
+ しゅっぱつは あすのあさだ![end]</sn:pointer>
+
+<sn:pointer id="51">Cain「おまちください![end]</sn:pointer>
+
+<sn:pointer id="52">Cain「Cecilは そんな‥[end]</sn:pointer>
+
+<sn:pointer id="53">バロンおう「Cain゜
+ こやつのことが しんぱいなら おまえも
+ Cecilとともに ゆけ!
+『へいか!
+バロンおう「もう はなすことはない!
+ そのゆびわさもち さがるがよい![end]</sn:pointer>
+
+<sn:pointer id="54">『すまないCain おまえまで‥
+Cain「その げんじゅうとやらさ たおせば
+ へいかも ゆるしてくださる゜
+ また あかいつばさに もどれるさ゜
+『‥
+Cain「きにするな゜
+ じゅんびは おれにまかせて
+ こんやは ゆっくりやすめ゜[end]</sn:pointer>
+
+<sn:pointer id="55">Cain「どうした?
+『すまなかった Cain‥
+Cain「まだ そんなことさ いってるのか゜
+ おまえらしくもない゜
+『ぼくは へいかの めいれいで
+ あんこくけんさ きわめた゜
+ でも それは バロンさまもるためで
+ つみもない ひとびとから りゃくだつさ
+ するためでは なかったはずだ゜
+Cain「そんなに じぶんさせめるな゜
+ へいかにも おかんがえが あってのことだ゜
+『Cain おまえが うらやましいよ゜
+Cain「おれのちちも
+ りゅうきしだった゜
+ あんこくけんさ きわめれば かいきゅうも
+ あがるだろうが おれには こっちのほうが
+ しょうにあう゜
+ それに りゅうきしで いれば おさないころ
+ しにわかれた ちちさ いつでも かんじられる
+ きがしてな‥
+『‥
+Cain「フッ らしくないはなしさ
+ してしまったな゜
+ ともかく かんがえすぎるな゜
+ おまえがそんなじゃ はりあいがない゜
+ げんじゅうさ たおすのは おれだぞ゜
+『ぼくも まけはしない!
+Cain「あすは はやい゜ はやくやすめ゜[end]</sn:pointer>
+
+<sn:pointer id="56">Rosa「Cecil![end]</sn:pointer>
+
+<sn:pointer id="57">Rosa「よかった ぶじだったのね゜
+ あまり きゅうな にんむだったので
+ しんぱいしたわ゜
+
+『ぶじさ ぼくらは‥
+ むていこうな まどうし あいてに
+ きずなど おいはしない‥[end]</sn:pointer>
+
+<sn:pointer id="58">Rosa「あとで あなたのへやに
+ いくわ‥
+
+
+『ああ‥[end]</sn:pointer>
+
+<sn:pointer id="59">『へいかは‥どうされたのだ?
+ いぜんは ナイトとしても なさはせ
+ やさしく つよいおかただった゜
+ みなしごの ぼくや Cainさ じぶんの
+ こどものように そだててくれた゜
+ ミシディアのクリスタル‥
+ むていこうな むらびとから うばってまで
+ てにいれねば ならぬほどの
+ ものなのか‥
+ めいれいとはいえ あんなことは![end]</sn:pointer>
+
+<sn:pointer id="60">Rosa「なにがあったの?
+ きゅうに ミシディアへいったかと
+ おもえば げんじゅうとうばつに
+ いくなんて‥
+ それに もどってきてから へんよ゜
+『いや なんでもない‥[end]</sn:pointer>
+
+<sn:pointer id="61">Rosa「だったら こっちさ むいて゜[end]</sn:pointer>
+
+<sn:pointer id="62">『ぼくは ミシディアで‥
+ つみもない ひとびとから クリスタルさ!
+ この あんこくきしの すがた どうよう
+ ぼくの こころも‥![end]</sn:pointer>
+
+<sn:pointer id="63">Rosa「‥あなたは そんなひとじゃないわ゜[end]</sn:pointer>
+
+<sn:pointer id="64">『ぼくは へいかには さからえない
+ おくびょうな あんこくきしさ‥[end]</sn:pointer>
+
+<sn:pointer id="65">Rosa「あかいつばさの Cecilは
+ そんな よわねは はかないはずよ!
+ わたしのすきな Cecilは‥[end]</sn:pointer>
+
+<sn:pointer id="66">Rosa「あすは ミストへ ゆくんでしょ゜
+ あなたに もしものことがあったら
+ わたし‥[end]</sn:pointer>
+
+<sn:pointer id="67">『しんぱい いらないさ゜
+ Cainも いっしょだ‥[end]</sn:pointer>
+
+<sn:pointer id="68">『もうおそい‥きみも やすむんだ゜[end]</sn:pointer>
+
+<sn:pointer id="69">Rosa「きさつけてね‥![end]</sn:pointer>
+
+<sn:pointer id="70">『ありがとう Rosa‥
+ だが ぼくは あんこくきし゜
+ きみとは‥[end]</sn:pointer>
+
+<sn:pointer id="71">『Yangじゃないか ぶじだったのか!
+Yang「おまえは!
+
+
+『パラディンに なったから わからないのか゜
+ ぼくだ Cecilだ!
+Yang「Cecil さがしたぞ!
+ バロンおうに さからう いぬめ!
+ かかれ!
+このえへい「はッ![end]</sn:pointer>
+
+<sn:pointer id="72">『Yang わからないのか!?
+Yang「わかるとも このおたずねものが![end]</sn:pointer>
+
+<sn:pointer id="73">Yang「Cecilどの!
+ わたしは リヴァイアサンに‥
+Tella「どうやら
+ きおくそうしつのところさ
+ バロンに りようされていたらしいのう゜
+Yang「‥かたじけない゜[end]</sn:pointer>
+
+<sn:pointer id="74">Yang「Rydiaは リヴァイアサンに
+ のみこまれてしまった゜
+ Gilbertは‥わからない‥
+『そうか‥[end]</sn:pointer>
+
+<sn:pointer id="75">Yang「ここは?
+『バロンだ゜
+ へいしに きかれると まずい゜
+ へやで さくさねろう!
+モンクそう Yangが なかまになった!
+[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="76">Yang「こちらの ごじんは?
+『けんじゃの Tellaだ゜
+ Gilbertの‥
+Tella「わたしのむすめは いのちさかけて
+ あのおとこさ あいしおった‥
+Yang「そうですか‥
+ わたしは ファブールの モンクそうちょう
+ Yang゜[end]</sn:pointer>
+
+<sn:pointer id="77">Porom「Palom!
+Yang「めんぼくない‥
+『ともかく Cidさ きゅうしゅつ
+ せねば‥
+Tella「じゃが たやすくは
+ はいりこめんじゃろう‥[end]</sn:pointer>
+
+<sn:pointer id="78">『これは バロンのカギだ!
+ そうか!
+ Yangに このえへいさ
+ したがわせていたから‥
+ なんとかなりそうだ!
+
+
+
+バロンのカギさ てにいれた![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="79">『ゆびわがひかる‥!?[end]</sn:pointer>
+
+<sn:pointer id="80">Cain「これは!
+『このために ぼくらは ここまで‥
+
+
+Cain「このむらさ やきはらうため‥[end]</sn:pointer>
+
+<sn:pointer id="81">『なぜだあッ! バロンおうーッ!
+
+
+
+「エーン エーン‥[end]</sn:pointer>
+
+<sn:pointer id="82">『あれは?[end]</sn:pointer>
+
+<sn:pointer id="83">おんなのこ「おかあさんの ドラゴンが
+ しんじゃったから‥おかあさんも‥
+ エッエッ‥[end]</sn:pointer>
+
+<sn:pointer id="84">『!
+Cain「そういえば きいたことがある゜
+ まものさよびだす ちからさもつもの‥
+ たしか しょうかんし!
+『まさか ぼくたちが あのドラゴンさ
+ たおしたから このこの ははおやも‥[end]</sn:pointer>
+
+<sn:pointer id="85">おんなのこ「じゃあ おにいちゃんたちが
+ おかあさんの ドラゴンさ!
+『まさか‥きみのかあさんさ
+ ころしてしまうことに なるとは‥[end]</sn:pointer>
+
+<sn:pointer id="86">Cain「どうやら へいかは このむらの
+ しょうかんしさ ぜんめつさせるため
+ おれたちさ ここまで‥
+『なんてことだ‥
+Cain「‥かわいそうだが このこも
+ やらねば ならんようだな゜[end]</sn:pointer>
+
+<sn:pointer id="87">『Cain!
+Cain「やらねば おれたちが やられる!
+『こどもだぞ!
+Cain「へいかに さからえるか?
+『こんな さつりくさ くりかえしてまで
+ へいかに したがうきは ないッ![end]</sn:pointer>
+
+<sn:pointer id="88">Cain「フッ そういうと おもったぜ゜
+ ひとりで バロンさ ぬけるなんて
+ させやしないぜ゜
+『Cain?
+Cain「いくら へいかに
+ おんがあるとはいえ りゅうきしのなに
+ はじるまねさ できるわけなかろう゜
+『じゃあ Cain おまえも‥
+Cain「だが バロンは せかいいちの
+ ぐんじこく゜
+ おれたちふたりが いきがったところで
+ どうにもなるまい゜
+ ほかのくにに しらせ えんごさ
+ もとめんとな゜
+ Rosaも すくいださんと!
+『ありがとう Cain゜
+Cain「べつに おまえのためじゃないさ゜
+『?[end]</sn:pointer>
+
+<sn:pointer id="89">Cain「それより ここはあぶない゜
+ はやく むらさ でないと゜
+ あのこは どうする?
+『ぼくらが つれていくしかあるまい![end]</sn:pointer>
+
+<sn:pointer id="90">『さあ ここは きけんだ゜
+ ぼくらと いっしょに‥
+おんなのこ「いや![end]</sn:pointer>
+
+<sn:pointer id="91">Cain「やむさえん むりやりでも!
+おんなのこ「ちかよらないで![end]</sn:pointer>
+
+<sn:pointer id="92">『まってくれ![end]</sn:pointer>
+
+<sn:pointer id="93">おんなのこ「もう いやあ!
+ みんな! みんな だいっきらい![end]</sn:pointer>
+
+<sn:pointer id="94">『よかった このこは ぶじか‥
+
+
+
+ !![end]</sn:pointer>
+
+<sn:pointer id="95">『いつまでも ここには いられない‥
+ このこさ つれて にげないと‥
+ Cain‥いきていてくれ![end]</sn:pointer>
+
+<sn:pointer id="96">『このこさ やすませないと‥[end]</sn:pointer>
+
+<sn:pointer id="97">「いらっしゃいませ゜
+ おや おじょうちゃんの かおいろが わるい゜
+ ささ はやく へやへ!
+ おだいは いいから どうぞ!
+『すまない゜[end]</sn:pointer>
+
+<sn:pointer id="98">『きがついたね゜
+おんなのこ「‥
+
+
+『‥まだ なまえさ きいてなかったな゜
+おんなのこ「‥
+
+
+『‥きみの かあさんは ぼくが ころしたも
+ どうぜん‥ゆるしてくれるわけは ない‥
+ ただ きみさ まもらせてくれないか‥
+
+おんなのこ「‥[end]</sn:pointer>
+
+<sn:pointer id="99">ジェネラル「みつけたぞ Cecil!
+おんなのこ「!
+『まってくれ! バロンおうは‥
+
+ジェネラル「そのおうの ごめいれいだ゜
+ ミストのいきのこりの そのこどもさ
+ ひきわたせば ゆるしてくださるそうだ゜
+ ミストのものは きけんなそんざい
+ らしいのでな!
+『なんだって!?
+おんなのこ「!
+ジェネラル「さあ そのむすめさ わたせ!
+『ことわる![end]</sn:pointer>
+
+<sn:pointer id="100">おんなのこ「ごめんなさい あたしのせいで‥
+『あやまるのは ぼくの ほうだ゜
+ それも あやまって すむような
+ ことじゃない‥
+おんなのこ「でも まもってくれた‥
+『‥[end]</sn:pointer>
+
+<sn:pointer id="101">おんなのこ「あたし‥Rydia‥
+
+
+
+『ありがとう‥Rydia゜
+
+
+
+しょうかんし Rydiaが なかまになった![end]</sn:pointer>
+
+<sn:pointer id="102">Rosaさ さばくのひかりで てらした![end]</sn:pointer>
+
+<sn:pointer id="103">Rosa「ううん‥[end]</sn:pointer>
+
+<sn:pointer id="104">Rosa「Cecil!
+ いきていたのね! よかった‥
+
+
+『むちゃだよ きみは‥[music][0x13]
+Rosa「ミストのじしんで あなたは
+ しんだときいて‥でも しんじられなくて‥
+
+『すまない‥
+ それより Golbezとは いったい?
+
+
+Rosa「あなたにかわって あかいつばささ
+ しきさせるため バロンおうが よんだの゜
+ かれがきてから おうは ますます おかしく
+ なって‥きっと Golbezが おうさ
+ あやつり クリスタルさ あつめてるんだわ゜
+ あなたが とってきた ミシディアの
+ みずのクリスタル゜
+ ダムシアンの ひのクリスタル゜
+ ファブールの かぜのクリスタル゜
+ それに トロイアの つちのクリスタル‥[end]</sn:pointer>
+
+<sn:pointer id="105">Gilbert「ひのクリスタルは すでに
+ かれの てのなかです‥
+『かれは Gilbert゜
+ ダムシアンのおうじだ゜
+ かれのおかげで きみさ なおすことが
+ できたんだ゜
+ このこは ミストの‥Rydiaだ゜
+Rydia「だいじょうぶ?
+Rosa「ありがとう Rydia
+ Gilbert゜
+ ダムシアンが すでに おそわれたとしたら
+ つぎは ファブール! こうしては!
+ ゴホ ゴホッ![end]</sn:pointer>
+
+<sn:pointer id="106">『Rosa むりさするな゜
+ ファブールへは ぼくらがいく!
+Gilbert「でも ファブールへいく
+ ホブスのやまは あつい こおりで‥[end]</sn:pointer>
+
+<sn:pointer id="107">Rosa「‥Rydia あなた
+ ファイアさ つかえる?
+Rydia「!
+ ‥ううん つかえない‥[end]</sn:pointer>
+
+<sn:pointer id="108">Rosa「しょうかんしの あなたが
+ くろまほうの しょほともいえる ファイアさ
+ つかえないはずは‥
+ うッ‥ゴホッ![end]</sn:pointer>
+
+<sn:pointer id="109">『Rosa! やはり きみは
+ まっていなきゃ ダメだ![end]</sn:pointer>
+
+<sn:pointer id="110">Gilbert「やはり さみしいよ Anna‥[end]</sn:pointer>
+
+<sn:pointer id="111">Gilbert「Anna!
+Anna「Gilbert わたしは そろそろ
+ いかなければ‥
+ おおきな たましいと ひとつに
+ なるために‥
+Gilbert「Anna! いっちゃ いやだ![end]</sn:pointer>
+
+<sn:pointer id="112">Anna「Gilbert ゆうきさだして!
+ Golbezに クリスタルさ わたしては
+ いけない‥
+ あなたは わたしさ あいしてくれたわ゜
+ こんどは そのあいさ すべてのひとに‥[end]</sn:pointer>
+
+<sn:pointer id="113">Gilbert「Anna たたかうよ!
+ でも ゆうきといっても‥
+ Anna ぼくは どうしたらいいんだ‥[end]</sn:pointer>
+
+<sn:pointer id="114">Tella「もう ねてしまったか゜
+ よほど つかれておったんじゃろ゜
+ このこは たしか‥
+『ミストの‥しょうかんしです゜
+Tella「よい ししつさ ひめておる゜
+ しゅぎょうさ つめば ほかの まほうも
+ つかいこなせるじゃろう゜
+ しかし かわいい ねがおじゃ‥
+ おさないころの Annaのようじゃ゜
+『そのひとは あなたの‥
+
+
+Tella「ただひとりの むすめじゃ゜
+ ぎんゆうしじんと ダムシアンへ かけおち
+ してしまってな‥
+ わたしが ゆるさなかったばかりに‥[end]</sn:pointer>
+
+<sn:pointer id="115">Tella「おぬしらは なぜ ダムシアンに?
+『ぼくのなかまが カイ◉で こうねつびょうに
+ かかっているんです゜
+
+Tella「さばくのひかりか‥
+ あれがないと わたしでも どうにもならん゜
+ おぬしたちも いそぎか‥
+『どうくつの まものとは いったい?
+Tella「きょだいな やっつの
+ あしさもつ おそろしい ヤツじゃ゜
+ Annaと おぬしのなかまのためにも
+ まず ヤツさ たおさねばな!
+ ダムシアンのほうに かんじられる
+ ふきつな けはいが わたしの
+ きのせいならば いいのだが‥[end]</sn:pointer>
+
+<sn:pointer id="116">Cid「なーに すぐもどるわい!
+ パワーアップして かえってくるから
+ いいこで まっとるんじゃぞ![end]</sn:pointer>
+
+<sn:pointer id="117">Rosa「きさつけて‥
+Cid「ほっほ Rosa!
+ ワシに ほれるなよ![end]</sn:pointer>
+
+<sn:pointer id="118">『ジオットおう゜ このしろのクリスタルは
+ いったい どこに?
+ジオット「なにさかくそう このぎょくざの
+ うらの かくしべやじゃ!
+ これならば わたしの めのくろいうちは
+ あんぜんというワケじゃ![end]</sn:pointer>
+
+<sn:pointer id="119">Yang「![end]</sn:pointer>
+
+<sn:pointer id="120">『どうした Yang?
+Yang「だれか ぬすみぎきしている!
+ジオット「なにやつ!?[end]</sn:pointer>
+
+<sn:pointer id="121">ジオット「とびらさ あけい!
+ドワーフ「ラリ![end]</sn:pointer>
+
+<sn:pointer id="122">ひくうていから おそろしいほどの
+ばくげきが‥[end]</sn:pointer>
+
+<sn:pointer id="123">ファブールおう「Yangよ もどったか゜
+Yang「はっ゜
+ それよりも ファブールおう゜
+ Golbezなるものが バロンさうごかし
+ クリスタルさ うばいにきます!
+ファブールおう「まことか!
+Yang「このかたたちは それさしらせに
+ きてくれたのです゜
+ファブールおう「そのほうたちは なにものじゃ?[end]</sn:pointer>
+
+<sn:pointer id="124">『じかんが ありません゜
+ はやく まもりさ かためないと!
+ファブールおう「しかし そのすがたは バロンの
+ あんこくきし゜
+ しんじて よいものかどうか‥
+Yang「おうよ!
+ しんらいできる かたたちです!
+ わたしが おそわれていたところさ
+ すけだちして‥
+『いっこくさ あらそいます!
+Rosa「いそいでください![end]</sn:pointer>
+
+<sn:pointer id="125">Gilbert「おひさしぶりです゜
+ ファブールおう゜
+ファブールおう「これは Gilbertおうじ!
+Gilbert「ダムシアンもおそわれ
+ クリスタルさ うばわれたのです!
+ ちちも ははも‥
+ こいびとも うしないました‥!
+ このファブールさ ダムシアンの にのまいに
+ される おつもりですか![end]</sn:pointer>
+
+<sn:pointer id="126">Yang「では Cecilどの![end]</sn:pointer>
+
+<sn:pointer id="127">Yang「このかたたちは すばらしいうでさ
+ おもちです!
+ わたしとともに さいぜんせんに ついて
+ いただきます!
+ファブールおう「おぬしが そこまでいうのなら
+ そなたらに かけてみよう!
+ むすめたちは きゅうごのにんに ついて
+ もらおう゜
+Rosa「わかりました゜
+ファブールおう「たのむぞ!
+Yang「はッ![end]</sn:pointer>
+
+<sn:pointer id="128">Rosa「きさ つけてね‥
+『きみも‥
+ Rydia! Rosaさ たのむ![end]</sn:pointer>
+
+<sn:pointer id="129">「きました!
+Yang「むかえうてい![end]</sn:pointer>
+
+<sn:pointer id="130">「あかいつばさだーー![end]</sn:pointer>
+
+<sn:pointer id="131">『このままじゃ やられるだけだ!
+Yang「ひとまず じょうないまで
+ こうたいする![end]</sn:pointer>
+
+<sn:pointer id="132">Yang「すまない!
+ かちめのない たたかいに!
+
+
+『いったはずだ゜
+ ぼくたちの たたかいでもあると!
+ それに まけと きまったわけじゃない!
+
+Gilbert「く くる![end]</sn:pointer>
+
+<sn:pointer id="133">Yang「くッ! さがるぞ![end]</sn:pointer>
+
+<sn:pointer id="134">『このうえは おうのまじゃ‥!?
+Yang「ごしんぱい めさるな゜
+ おうや おんなこどもは あんぜんなところに
+ ひなんしている!
+ われわれが てきさひきつけ‥[end]</sn:pointer>
+
+<sn:pointer id="135">Yang「たたく![end]</sn:pointer>
+
+<sn:pointer id="136">Gilbert「ここは もうだめだ!
+Yang「くそう![end]</sn:pointer>
+
+<sn:pointer id="137">Yang「カギさかけた!
+ ここで ふせがねば!
+『クリスタルは?!
+Yang「このうえ![end]</sn:pointer>
+
+<sn:pointer id="138">Yang「なにさする!
+Gilbert「にんげんじゃ‥ない![end]</sn:pointer>
+
+<sn:pointer id="139">Yang「きりがない!
+ やむさえん!
+ クリスタルルームまで さがろう![end]</sn:pointer>
+
+<sn:pointer id="140">Cain「ひさしぶりだな゜
+
+
+
+『Cain! ぶじだったのか![end]</sn:pointer>
+
+<sn:pointer id="141">『まさか おまえも Golbezに!
+Cain「いま らくにしてやろう!
+
+
+Yang「そうはさせん![end]</sn:pointer>
+
+<sn:pointer id="142">「やめてーッ![end]</sn:pointer>
+
+<sn:pointer id="143">Cain「Rosa!
+Rosa「Cain あなたまで!
+
+
+Cain「う‥ううッ!
+ おれさ‥みるな![end]</sn:pointer>
+
+<sn:pointer id="144">「なにさ ちまよっているのだ
+ Cain‥[end]</sn:pointer>
+
+<sn:pointer id="145">Gilbert「Golbez!
+『きさまが Golbez‥!
+Golbez「おまえが Cecilか゜
+ あえたばかりで ざんねんだが
+ これが わたしの あいさつだ!
+Gilbert「Cecil!
+Yang「させるものか![end]</sn:pointer>
+
+<sn:pointer id="146">Golbez「むしケラに ようはない![end]</sn:pointer>
+
+<sn:pointer id="147">Golbez「Cain‥
+ あそびは そのへんにして
+ クリスタルさ てにいれるのだ゜
+Cain「はッ![end]</sn:pointer>
+
+<sn:pointer id="148">Rosa「やめて Cain!
+Cain「!
+『さがるんだ Rosa‥!
+
+Golbez「ほう そんなに このおんなが
+ だいじか゜
+ ならば このおんなは あずかっていこう゜
+ おまえとは ぜひ また あいたい゜
+ その やくそくの あかしとしてな゜
+ ゆくぞ Cain![end]</sn:pointer>
+
+<sn:pointer id="149">Cain「いのちびろいしたな゜
+ Cecil![end]</sn:pointer>
+
+<sn:pointer id="150">『ま‥て![end]</sn:pointer>
+
+<sn:pointer id="151">『くッ‥[end]</sn:pointer>
+
+<sn:pointer id="152">Rydia「ケアル![end]</sn:pointer>
+
+<sn:pointer id="153">Rydia「だいじょうぶ?
+Gilbert「ありがとう Rydia゜
+ でも Rosaが さらわれて
+ しまった‥
+Yang「クリスタルも まもれなかった‥
+『Rosa‥[end]</sn:pointer>
+
+<sn:pointer id="154">Rydia「しっかりしてよ みんな!
+ Rosaは きっと ぶじよ゜
+ クリスタルだって とりかえせば
+ いいじゃない![end]</sn:pointer>
+
+<sn:pointer id="155">Gilbert「‥そうだね![end]</sn:pointer>
+
+<sn:pointer id="156">「Yangさま おつかれでしょう゜
+ ゆっくり おやすみください゜[end]</sn:pointer>
+
+<sn:pointer id="157">Gilbert「Rosaさ たすけなければ!
+
+
+
+『Golbezに たいこうするには ひくうていが
+ ひつようだ‥
+ しかし ひくうていは バロンでしか
+ つくれない‥
+Yang「バロンに しんにゅうできる
+ ほうほうは ないものかな゜[end]</sn:pointer>
+
+<sn:pointer id="158">『バロンは あかいつばさが しゅりょくのため
+ ひかくてき かいへいぶたいが てうすだ゜
+ しんにゅう するなら うみから‥!
+Rydia「だったら ふねがいるわ゜
+Yang「ならば さっそく みょうちょう
+ おうに たのみ ふねさだしてもらおう゜
+ そなたたちには せわになった゜
+ おうも きょうりょくは おしまぬはず゜
+『たのむ‥[end]</sn:pointer>
+
+<sn:pointer id="159">Yang「‥あのりゅうきしは いったい?
+『Cainといって ぼくの‥
+ しんゆうだった‥
+ ともに バロンさぬけようと ちかったのに‥
+Yang「そうであったか‥
+Gilbert「‥ともかく きょうは ゆっくり
+ やすもう‥
+
+『‥[end]</sn:pointer>
+
+<sn:pointer id="160">Yangのおくさん「あんた!
+ きいつけて しっかり たたかってきな!
+Yang「うむ!
+
+Yangのおくさん「Cecilさんたちも
+ しっかりね!
+『はい![end]</sn:pointer>
+
+<sn:pointer id="161">せんちょう「あんたが Cecilか!
+ かつやくは きーてるぜ!
+ なーに ゆっくりしててくれ゜
+ バロンなんざ あっというまに ついちまわあ!
+ よーし さっそく しゅっこうだ![end]</sn:pointer>
+
+<sn:pointer id="162">せんちょう「ヤロウども イカリさあげろー!
+ふなのりたち「ヒャッホー![end]</sn:pointer>
+
+<sn:pointer id="163">Yang「で バロンに ついたら
+ どうされる おつもりで?[end]</sn:pointer>
+
+<sn:pointer id="164">『なんだ?[end]</sn:pointer>
+
+<sn:pointer id="165">ふなのり「まさか![end]</sn:pointer>
+
+<sn:pointer id="166">せんちょう「てめーら オロオロすんじゃねえ!
+ なんとか やりすごさんかい![end]</sn:pointer>
+
+<sn:pointer id="167">Rydia「キャアー![end]</sn:pointer>
+
+<sn:pointer id="168">Yang「Rydia![end]</sn:pointer>
+
+<sn:pointer id="169">『Rydia! Yang![end]</sn:pointer>
+
+<sn:pointer id="170">『‥
+
+
+
+ う‥
+
+
+
+ うう‥[end]</sn:pointer>
+
+<sn:pointer id="171">『ここは?[end]</sn:pointer>
+
+<sn:pointer id="172">『Rydia![end]</sn:pointer>
+
+<sn:pointer id="173">『Gilbert![end]</sn:pointer>
+
+<sn:pointer id="174">『Yang![end]</sn:pointer>
+
+<sn:pointer id="175">『ひとり‥か゜[end]</sn:pointer>
+
+<sn:pointer id="176">Porom「Palom でばんよ![end]</sn:pointer>
+
+<sn:pointer id="177">Palom「ブリザドおッ![end]</sn:pointer>
+
+<sn:pointer id="178">Palom「ざっと こんなもんさ![end]</sn:pointer>
+
+<sn:pointer id="179">Golbez「いでよ スカルミリョーネ![end]</sn:pointer>
+
+<sn:pointer id="180">スカルミリョーネ「つちの スカルミリョーネ
+ こちらに‥
+
+
+Golbez「あの Cecilとかいうもの
+ あなどれん゜
+ いまのうち てさ うっておいたほうが
+ よさそうだ゜
+ さいわい やつは あんこくきし゜
+ おまえのひきいる アンデッドたちには
+ そのけんも にぶろうというもの゜
+ だが やつは しれんのやまさ のぼっている゜
+スカルミリョーネ「では パラディンに‥?
+Golbez「そうなるまえに しまつするのが
+ おまえのやくめ゜
+
+スカルミリョーネ「‥ごしんぱい むよう゜
+ Golbezさまは ゆっくり ここで
+ ごらんください‥
+Golbez「では ゆくがよい!
+スカルミリョーネ「は‥[end]</sn:pointer>
+
+<sn:pointer id="181">Golbez「おもしろくなってきたな゜
+ Cain゜[end]</sn:pointer>
+
+<sn:pointer id="182">Cain「は‥
+ しかし Cecilのちから あなどっては‥[end]</sn:pointer>
+
+<sn:pointer id="183">Cain「ヤツとは このCainが![end]</sn:pointer>
+
+<sn:pointer id="184">Golbez「このあいだのような しったいさ
+ みせておいて なにさいう!
+ おまえは Rosaの みはりさ
+ しておればよい![end]</sn:pointer>
+
+<sn:pointer id="185">Tella「おぬしも やはりメテオさ
+ もとめて‥
+『メテオ?
+Porom「メテオさ しってるって
+ いうことは‥
+Palom「じいちゃん!
+ あの Tellaか?[end]</sn:pointer>
+
+<sn:pointer id="186">Porom「Tellaさまと おっしゃい!
+ しつれいな![end]</sn:pointer>
+
+<sn:pointer id="187">Porom「おめにかかれて こうえいですわ゜
+ わたしたち ミシディアちょうろうの
+ おいいつけで‥
+Palom「Cecilの みは‥[end]</sn:pointer>
+
+<sn:pointer id="188">◉カッ![delay][0x8][0x6][end]</sn:pointer>
+
+<sn:pointer id="189">Porom「ウフフッ! Cecilさんさ
+ この しれんのやまへ ごあんないしてます
+ Poromといいます゜
+Palom「オイラは Palomだ!
+ そっかー じいちゃんが ミシディアでも
+ ゆうめいな Tellaか![end]</sn:pointer>
+
+<sn:pointer id="190">Tella「ミシディアの こどもたちか゜
+ Gilbertや Rydiaは
+ どうした?
+
+『バロンへむかうとちゅう リヴァイアサンに
+ おそわれて‥
+Tella「‥しにおったか!
+
+『ええ‥
+ Rosaも Golbezのてに‥[end]</sn:pointer>
+
+<sn:pointer id="191">Palom「きっと こいびとだぜ![end]</sn:pointer>
+
+<sn:pointer id="192">Porom「シッ!
+
+
+
+『でも あなたは Golbezのもとに
+ むかったはずでは?[end]</sn:pointer>
+
+<sn:pointer id="193">Tella「ヤツほどのものさ たおすには
+ てもちの まほうだけでは むりじゃ゜
+ ふういんされし でんせつのまほう メテオさ
+ さがしていたんじゃが このやまに つよい
+ れいきさ かんじてな!
+ もしやここに メテオが‥
+
+
+Porom「あの まほうは きけんです!
+ Tellaさまは おとしさ めされて‥
+Tella 「たしかに おいぼれてはおる!
+ しかしな! わたしの いのちに かえても
+ ヤツは‥Golbezは
+ わたしが たおさねばならんのじゃ!
+『‥[end]</sn:pointer>
+
+<sn:pointer id="194">Palom「ケッ! これだから おとなは
+ めんどくさいんだよ゜[end]</sn:pointer>
+
+<sn:pointer id="195">Palom「Golbezって だれかな?
+Porom「あんた なんにもしらないのね!
+ バロンさうごかしてる ヤツよ![end]</sn:pointer>
+
+<sn:pointer id="196">「フシュルルル‥
+
+
+
+Tella「じゃあくな けはいが!?
+「うれしい‥うれしいぞ‥
+ おまえらさ ほうむることができて‥
+
+『なにものだ!?[end]</sn:pointer>
+
+<sn:pointer id="197">「われは‥しの みずさきあんないにん‥
+ Golbezさまの 4てんのう‥
+ つちの スカルミリョーネ‥
+ わたしの かわいい アンデッドたちの‥
+ エサのじかんだ‥![end]</sn:pointer>
+
+<sn:pointer id="198">「フシュルルル‥よくぞ わたしさ
+ ころしてくれた゜
+ しして なお おそろしい
+ つちのスカルミリョーネの つよさ‥
+ ゆっくり あじわいながら しねえ![end]</sn:pointer>
+
+<sn:pointer id="199">スカルミリョーネ「おのれ‥このわたしが
+ きさまらごときに‥![end]</sn:pointer>
+
+<sn:pointer id="200">「おまえの くるのさ まっていた‥
+ いま‥わたしにとって かなしいことが
+ おきている゜
+ これから おまえに わたしのちからさ
+ さずけよう‥
+ このちからさ おまえに あたえることで
+ わたしは さらなるかなしみに つつまれる゜
+ ‥しかし そうするいがいに
+ すべは のこされていない゜[end]</sn:pointer>
+
+<sn:pointer id="201">「さあ ちぬられた かこと けつべつするのだ゜
+ いままでの じぶんさ こくふくしなければ
+ せいなるちからも おまえさ うけいれない゜
+ うちかつのだ‥
+ あんこくきしの じぶんじしんに![end]</sn:pointer>
+
+<sn:pointer id="202">Tella「Cecilが ふたり?
+Palom「どーなってんだ!?
+Porom「Cecilさん![end]</sn:pointer>
+
+<sn:pointer id="203">『てさだすな!
+ これは ぼくじしんとの たたかいだ!
+ いままでの あやまちさ つぐなうためにも
+ こいつさ! あんこくきしさ たおす![end]</sn:pointer>
+
+<sn:pointer id="204">「よくやった‥
+ これから わたしの いしきさ ひかりの
+ ちからにかえて おまえに たくそう゜
+ うけとるがよい‥わたしの‥
+ さいごの ひかりさ!
+ わがむすこよ‥
+ Golbezさ‥とめるのだ!
+
+『ま まってください![end]</sn:pointer>
+
+<sn:pointer id="205">Cecilが パラディンになった![delay][0x50][end]</sn:pointer>
+
+<sn:pointer id="206">Porom「だいじょうぶ?
+Palom「あんた やっぱり‥
+
+
+Porom「シイッ!
+
+
+
+『なんだ このかんかくは‥ふしぎに
+ なつかしい‥
+ あのこえは いったい‥
+
+Tella「お‥おお!
+
+
+
+Porom「Tellaさま?[end]</sn:pointer>
+
+<sn:pointer id="207">Tella「おもいだしてきた‥
+ じゅもんの かずかずさ!
+
+
+Tellaが わすれていたまほう すべてさ
+おもいだした![end]</sn:pointer>
+
+<sn:pointer id="208">Porom「さすがは Tellaさまね゜
+Palom「おい Porom‥[end]</sn:pointer>
+
+<sn:pointer id="209">Porom「Cecilさん‥
+Palom「じつは オイラたち‥[end]</sn:pointer>
+
+<sn:pointer id="210">Tella「よおし!
+ じゅんびばんたん ととのった!
+ ゆくぞ Golbezの もとに!![end]</sn:pointer>
+
+<sn:pointer id="211">Tella「なにさしておる Cecil
+ さあ ゆくぞ!
+
+
+『ああ‥[end]</sn:pointer>
+
+<sn:pointer id="212">『Gilbert![end]</sn:pointer>
+
+<sn:pointer id="213">Gilbert「Cecilか‥
+ ぶじだったんだね゜
+ ぼくも‥たたかうよ‥
+
+Tella「そんなからだで なにが できる!
+ おとなしく ねておれ!
+
+
+Gilbert「Tellaさん‥
+ いきていてくれたんですね゜
+ すみません‥ぼくが Annaさ ころしたも
+ どうぜんです‥
+Tella「‥
+Gilbert「ほんとうに‥うう‥[end]</sn:pointer>
+
+<sn:pointer id="214">Yang「Gilbertどの
+ いまは ようじょうせねば‥[end]</sn:pointer>
+
+<sn:pointer id="215">Gilbert「Yang‥
+ きみも ぶじだったのか゜
+ じゃあ Rydiaも‥?
+Yang「めんぼくない‥[end]</sn:pointer>
+
+<sn:pointer id="216">Gilbert「そうか‥かわいそうに‥
+ みんなが たたかっているときに
+ ぼくは なさけないよ‥[end]</sn:pointer>
+
+<sn:pointer id="217">Gilbert「あなたが Cid?
+ じゃあ うまく ひくうていさ‥
+ !![end]</sn:pointer>
+
+<sn:pointer id="218">Gilbert「ダークエルフ‥[end]</sn:pointer>
+
+<sn:pointer id="219">ダークエルフ「オマエタチ ヨクココマデコレタ!
+ ダガ タドリツクコトハ デキテモ
+ ツチノクリスタルハ オマエタチノテニ
+ モドラナイ゜
+ ソンナソウビデ コノワタシノ マリョクニ
+ カテルトオモウカ?
+
+
+Yang「Cecilどの!
+Tella「ここは わたしらに
+ まかせておけい![end]</sn:pointer>
+
+<sn:pointer id="220">Gilbert「Cecilたちが‥あぶない![end]</sn:pointer>
+
+<sn:pointer id="221">「まだ うごけるからだでは
+ ありません!
+「どこへ いこうというのです!
+Gilbert「‥しんぱい いらない゜
+ すぐそこの たてごとまで‥うッ!
+「あなたは まだ あるくことさえ
+ ままならぬはず! むりさしては!
+Gilbert「かまわないさ‥
+ Cecilたちさ すくえるのは
+ ぼくしか‥いない![end]</sn:pointer>
+
+<sn:pointer id="222">ひそひそうから Gilbertのたてごとが
+きこえてきた!
+
+
+Yang「おお‥
+Tella「このあたたかい ねいろは‥
+『Gilbertの たてごとだ!
+
+ダークエルフ「ナンダ! コノ フカイナ
+ オトハ! グ‥ゲゲゲ![end]</sn:pointer>
+
+<sn:pointer id="223">Gilbert「いまだ Cecil!
+ このねいろが ながれているあいだは
+ ヤツも じりょくさあやつることは
+ できないはずだ!
+ けんさ! けんさ そうびするんだ‥![end]</sn:pointer>
+
+<sn:pointer id="224">ダークエルフ「クク‥ナゼ アノオトガ
+ ココマデ!
+ クリスタルサエ アレバ‥エイエンノ
+ イノチガ‥
+ グガゲゴ![end]</sn:pointer>
+
+<sn:pointer id="225">『やったぞ Gilbert![end]</sn:pointer>
+
+<sn:pointer id="226">Gilbert「やったようだね‥
+『Gilbert! きみのおかげだ゜
+Gilbert「そんなこと‥
+Cid「でも なぜ きゃつは あのうたで?[end]</sn:pointer>
+
+<sn:pointer id="227">Gilbert「いぜん ぎんゆうしじんとして
+ ほうろうしていたころ‥
+ あしき ようせいさ いましめる
+ うたというのさ きいたことがあって‥
+ それで もしやとおもって‥
+Yang「おかげで たすかりもうした゜
+Gilbert「そんな‥ぼくなんか‥
+ うッ‥![end]</sn:pointer>
+
+<sn:pointer id="228">Gilbert「Tellaさん‥
+Tella「Annaも しあわせじゃった゜
+ おぬしのような ゆうかんなものに
+ あいされたのだからな‥
+Gilbert「Tellaさん‥
+Tella「いまは そのみさ
+ なおすことだけさ かんがえるのだ゜
+ Annaの かたきは わたしの
+ メテオで かならず とってみせる!
+ Gilbert‥おぬしのぶんもな゜
+Gilbert「‥ありがとうございます゜
+『Gilbert きみは‥
+ ゆうきある おとこだ‥!
+Gilbert「Anna‥なんとなく
+ わかったきがするよ‥[end]</sn:pointer>
+
+<sn:pointer id="229">Cain「つちのクリスタルは?[end]</sn:pointer>
+
+<sn:pointer id="230">『Cain!
+Cid「どこへ かくれおった!
+
+
+Cain「そう あわてるな‥
+ Golbezさまから ひとこと おれいが
+ いいたいそうだ゜
+Tella「Golbez![end]</sn:pointer>
+
+<sn:pointer id="231">Golbez「やくそくさ まもってもらって
+ うれしいかぎりだ‥
+
+
+Tella「すがたさ みせい!
+Golbez「はやるきもちも わかるが
+ わたしのれいさ うけとってほしい゜
+Yang「れい?
+Golbez「わたしは きみのいとしい
+ Rosaと いっしょに この
+ ゾットのとうの さいじょうかいにいる゜
+ ここまで たどりつければ
+ Rosaのいのちと クリスタルさ
+ こうかんしてやろう゜
+『Golbez きさま!
+
+Golbez「はやく こなければ
+ きみの だいじなRosaのいのちの
+ ほしょうは できん‥
+[music][0x19]
+ さあ のぼってこい![end]</sn:pointer>
+
+<sn:pointer id="232">「ようこそ ゾットのとうへ![end]</sn:pointer>
+
+<sn:pointer id="233">「おはつに おめにかかる![end]</sn:pointer>
+
+<sn:pointer id="234">「わたしたちは このとうさ つかさどる
+ 4てんのう かぜのバルバリシアさまの
+ かたうで!
+
+「メーガスさんしまいの ドグ!
+「おなじく マグ!
+「わたしは ラグ!
+
+「ざんねんだが ここまで゜
+「クリスタルは わたしらが いただく゜
+「われら しまいの デルタアタックで
+ Rosaと おわかれさ![end]</sn:pointer>
+
+<sn:pointer id="235">「ばかな!
+「デルタアタックが やぶれるとは‥
+「あねじゃー![end]</sn:pointer>
+
+<sn:pointer id="236">Golbez「ごくろう しょくん‥
+Tella「Golbez!
+『Rosaは どこだ!?
+Golbez「クリスタルが さきだ゜
+『Rosaは ぶじなんだろうな?
+Golbez「むろん ぶじだ゜
+ さあ クリスタルさ もらおう゜[end]</sn:pointer>
+
+<sn:pointer id="237">つちのクリスタルさ てわたした!
+
+
+
+『Rosaさ かえせ!
+
+
+
+Golbez「Rosa? なんのことだ?
+『なに!?
+Cid「はなしが ちがうぞい!
+Tella「どこまでも きたないヤツ!
+Golbez「おいぼれに ようはない゜
+Tella「きさまになくても わたしに
+ あるッ![end]</sn:pointer>
+
+<sn:pointer id="238">Golbez「メテオさ つかうとは‥
+ ぐぶッ!
+『Tella![end]</sn:pointer>
+
+<sn:pointer id="239">Golbez「だが‥クリスタルは
+ いただいた‥
+ ひくぞ Cain![end]</sn:pointer>
+
+<sn:pointer id="240">Cain「‥
+Golbez「いまのメテオで じゅつが
+ とけたか!
+ まあよい きさまは ようずみだ゜
+ このかりは かならずかえす![end]</sn:pointer>
+
+<sn:pointer id="241">『のがすか Golbez![end]</sn:pointer>
+
+<sn:pointer id="242">Golbez「ぐ‥なめるな![end]</sn:pointer>
+
+<sn:pointer id="243">『ぐうッ‥
+ なぜ‥とどめさ ささない‥
+
+
+Golbez「おまえは‥
+『?
+
+
+Golbez「おまえは いったい‥
+ ぐ‥ぐぐ!
+『‥?
+
+Golbez「こ‥このしょうぶ
+ ひとまず あずけるぞ‥![end]</sn:pointer>
+
+<sn:pointer id="244">Yang「Cecilどの!
+Cid「だいじょうぶか!?
+『あ ああ‥
+ さすがに メテオが きいたらしい‥
+ それより Tella![end]</sn:pointer>
+
+<sn:pointer id="245">Tella「たおせなんだか‥
+Cid「しゃべっちゃ いかん!
+
+
+Tella「これも‥
+ にくしみに とらわれて たたかった
+ むくいかもしれん‥
+ Annaの かたきさ‥
+ たの‥![end]</sn:pointer>
+
+<sn:pointer id="246">『Tella!
+
+
+
+Yang「!
+
+
+
+Tella「‥[end]</sn:pointer>
+
+<sn:pointer id="247">『Cain‥!
+
+
+
+ Cain![end]</sn:pointer>
+
+<sn:pointer id="248">『!
+
+
+
+ Rosaは!?[end]</sn:pointer>
+
+<sn:pointer id="249">Rosa「Cecil![end]</sn:pointer>
+
+<sn:pointer id="250">『Rosa‥
+
+
+
+Rosa「わたし あなたが きてくれると
+ しんじていたわ‥[music][0x13][end]</sn:pointer>
+
+<sn:pointer id="251">『きみが いなくなって わかったよ‥
+ ぼくは きみさ‥
+Rosa「Cecil‥
+
+Cain「‥
+
+
+
+Cid「やれやれ おあついこっちゃ![end]</sn:pointer>
+
+<sn:pointer id="252">Rosa「Cain!?
+『しょうきに もどったんだ‥
+
+
+Cain「ゆるしてくれ Rosa‥
+ あやつられていたばかりじゃない!
+ おれは きみに そばに‥
+ いてほしかったんだ![end]</sn:pointer>
+
+<sn:pointer id="253">Rosa「Cain‥
+
+
+
+Cain「‥
+
+
+
+『‥
+
+
+
+Rosa「いっしょに たたかいましょう゜
+ Cain‥[end]</sn:pointer>
+
+<sn:pointer id="254">Cain「すまない!
+ ゆるしてくれ Rosa! Cecil!
+『‥[end]</sn:pointer>
+
+<sn:pointer id="255">Cid「ええい! ごちゃごちゃやっとる
+ ばあいじゃなかろーが!
+ ここは きけんじゃぞ![music][0x0][end]</sn:pointer>
+
+<sn:pointer id="256">ネミングウェイ「おや これは゜
+ おなまえの ごへんこうで
+ ございますか?[0x6][end]</sn:pointer>
+
+<sn:pointer id="257">ネミングウェイ「さようですか゜
+ おなまえさ かえたくなったら また
+ おこしください゜[end]</sn:pointer>
+
+<sn:pointer id="258">『いくぞ Cain![end]</sn:pointer>
+
+<sn:pointer id="259">「Golbezさまに てきずさ おわせるとは
+ おまえたちさ みくびっていたようね!
+
+
+Cain「Golbez4てんのう
+ かぜの バルバリシアだ![end]</sn:pointer>
+
+<sn:pointer id="260">バルバリシア「Cain゜
+ おまえも ねがえったようね゜
+ それだけの ちからさもちながら!
+
+Cain「ねがえったのではなく
+ しょうきに もどったと
+ いってもらおうか バルバリシア!
+
+バルバリシア「なれなれしく よぶでない!
+ こんなことなら おまえも Rosaも
+ けしておくべきだったわね゜
+ だが メテオの つかいても もう いまい゜
+ みんな そろったところで なかよく
+ ほうむりさってやろう!
+
+
+Cain「フッ くうちゅうせんは
+ おまえだけの ものじゃない![end]</sn:pointer>
+
+<sn:pointer id="261">バルバリシア「Cain きさま‥!
+ このわたしさ たおしても‥
+ さいごの 4てんのうが いる!
+ この ゾットのとう もろとも‥
+ きえさるが いい!![end]</sn:pointer>
+
+<sn:pointer id="262">『く くずれる!
+Cain「くそッ!
+Cid「ヒャアア![end]</sn:pointer>
+
+<sn:pointer id="263">『ここは‥[end]</sn:pointer>
+
+<sn:pointer id="264">Rosa「バロンの あなたの へやよ゜
+Cid「ニセもんの おうも たおしたし
+ もう あんしんじゃろ!
+
+Cain「Cecil‥
+ はなしておかねば ならぬことが‥[end]</sn:pointer>
+
+<sn:pointer id="265">Cid「なんじゃ?
+Cain「クリスタルのことだ‥
+
+
+『トロイアから かりてきた つちのクリスタルも
+ うばわれてしまった‥
+ これで ヤツの てに すべてのクリスタルが
+ そろったことになる゜
+Cain「いや クリスタルは
+ まだ 4つしか そろっていない!
+Rosa「4つで ぜんぶじゃあ‥
+
+Cid「うわさに きいたことがあるぞい!
+Rosa「まさか‥
+
+
+Cain「そう‥やみのクリスタルだ![music][0x2d][end]</sn:pointer>
+
+<sn:pointer id="266">Cid「この せかいの
+ 4つのクリスタルは いわば
+ おもてのクリスタル‥
+Yang「うらのクリスタルが‥
+『その やみのクリスタルか!
+Cain「そうだ゜
+ だから Golbezのてに わたった
+ クリスタルは まだ はんぶんに すぎん!
+Cid「しかし やみのクリスタルの
+ うわさは きいたことがあるが
+ どこにあるかは‥
+
+Cain「だが Golbezは
+ さがしあてた゜
+『いそがなければ! いったいどこに?
+
+Cain「もじどおりの
+ おもてと うら‥ちていだ!
+Yang 「ちてい!?
+Cid「あなでもほらなきゃ ゆけん!
+Cain「ともかく ヤツは
+ おもてと うら‥つまり ひかりと やみの
+ クリスタルさ すべてそろえたとき
+ つきへのみちが ひらかれると いっていた‥
+『つきへのみち?
+Cain「よくは わからんが‥
+ そのカギが これらしい゜
+ おまえに わたしておこう゜[end]</sn:pointer>
+
+<sn:pointer id="267">マグマのいしさ てにいれた゜
+
+
+
+『これは?
+Cain「こいつさ どこかで かかげると
+ ちていへの みちが ひらけるらしい‥
+Yang「どこか?
+Rosa「いったい どこに?
+Cain「わからん‥[end]</sn:pointer>
+
+<sn:pointer id="268">『マグマのいしが あかく‥![end]</sn:pointer>
+
+<sn:pointer id="269">『あれは!?
+Cain「あかいつばさ![end]</sn:pointer>
+
+<sn:pointer id="270">Cid「いたいか? エンタープライズ!
+ しんぼうしてくれい!
+『おちる![end]</sn:pointer>
+
+<sn:pointer id="271">ドワーフおう「ごぶじだったか゜
+『あなたは?
+ドワーフおう「わたしは この ちていせかいさ
+ おさめる ドワーフおう ジオット゜
+『やみのクリスタルは!?
+ジオット「やはり そのことで きなすったか゜
+ ヤツらのなかまにしては ほうげきさ
+ うけておった゜
+ われわれも あやうく うちおとすところ
+ じゃった゜
+Cain「ちていの クリスタルは
+ まだ ぶじなのか?
+ジオット「ざんねんじゃが 4つのうち 2つは
+ ヤツらのてに わたってしまった゜
+Yang「やはり まにあわなんだか‥
+
+ジオット「しかし このしろのクリスタルは
+ まだ ぶじじゃ゜
+ ドワーフせんしゃたいが なんとか
+ おいかえした゜
+Rosa「さっき ひくうていと
+ たたかっていた せんしゃですね゜
+ジオット「ほう あれは ひくうていともうすか゜
+ うえのせかいには あのようなものが
+ あるとは‥
+ じまんの せんしゃたいも そらから
+ こうげきされては ちと くるしい‥
+ そうじゃ そなたたちの ひくうていと
+ やらで えんごしてはくれぬか?
+Cid「それが さっきの ほうげきと
+ ふじちゃくのせいで ちいとばかり
+ いかれちまったんですわい゜[end]</sn:pointer>
+
+<sn:pointer id="272">『Cid![end]</sn:pointer>
+
+<sn:pointer id="273">Cidと わかれた゜[end]</sn:pointer>
+
+<sn:pointer id="274">『だれも いないぞ゜
+Yang「このさきに けはいさ
+ かんじた![end]</sn:pointer>
+
+<sn:pointer id="275">Cain「あかない!
+
+
+
+「キャーホッホッホッ゜[end]</sn:pointer>
+
+<sn:pointer id="276">「ぼくらは ようきなカルコブリーナ!
+「こわくて かわいい にんぎょうさ!
+「ばーかめ!
+「のこのこ やってくるからさ!
+「キミらさ たおして Golbezさまの
+「てみやげに させてもらうよ!
+「キャーホッホッー![end]</sn:pointer>
+
+<sn:pointer id="277">『なに!?
+
+
+
+「ひさしぶりだな‥[end]</sn:pointer>
+
+<sn:pointer id="278">『Golbez‥!
+Golbez「せんじつは せわになった゜
+ だが あのメテオの つかいても もう
+ いまい゜
+ あのときの れいに わたしが なぜ
+ クリスタルさ あつめるか おしえてやろう゜
+ ひかりと やみ あわせて
+ 8つの クリスタル‥
+ それは ふういんされし つきへのみち
+ バブイルのとうさ ふっかつさせる
+ カギなのだ゜
+ つきには われわれの じんちさこえた
+ ちからが あるという゜
+ このクリスタルで 7つめ‥
+ のこすところ あと1つとなったわけだ゜
+ これも きみたちのおかげだ゜
+ このれいも しなければ しつれいだな゜
+ うけとれい! これが わたしからの
+ さいごのおくりものだ![end]</sn:pointer>
+
+<sn:pointer id="279">『たおした‥!
+ Golbezさ たおしたぞ![end]</sn:pointer>
+
+<sn:pointer id="280">Rosa「Rydia あなたのおかげよ!
+『でも そのすがたは?
+Rydia「リヴァイアサンに のみこまれて
+ げんかいに つれていかれたの゜
+『げんかい?
+Rydia「げんじゅうたちが すむ
+ せかいよ゜
+ そこで げんじゅうたちが ともだちに
+ なってくれたの゜
+ しろまほうは つかえなくなったけど
+ そのぶん しょうかんと くろまほうの うでは
+ あがったわ!
+ でも げんかいは こことは じかんのながれが
+ ちがって‥
+
+
+Rosa「それで おとなに?
+Cain「Cecil このこは?
+『ミストのむらの Rydiaだ゜
+Cain「あの こども!?
+Yang「これは おどろいた‥
+『でも なぜ ぼくたちさ‥
+ ぼくは きみのかあさんさ‥
+
+Rydia「いわないで!
+ げんかいの じょおうさまに いわれたの゜
+ いま もっと おおきなうんめいが
+ うごいているって‥
+ あたしたちが たちむかわなくちゃ
+ いけないって‥
+『Rydia‥!
+
+しょうかんし Rydiaが なかまになった!
+[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="281">「わたしは‥しなぬ![end]</sn:pointer>
+
+<sn:pointer id="282">『しまった クリスタルさ![end]</sn:pointer>
+
+<sn:pointer id="283">しんかんさまの おゆるしが あるのか?[end]</sn:pointer>
+
+<sn:pointer id="284">Edge「おっしゃ!
+ それじゃ なかよく のりこむとしよーぜ!
+
+
+Rydia「ちょうし いいの!
+
+
+
+にんじゃ Edgeが なかまになった![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="285">Cid「これで ようがんだろうと
+ なんだろうと きにせず とべるぞい!
+Rosa「たすかったわ Cid゜
+
+Cid「‥
+
+
+
+Cain「Cid![music][0x2a][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="286">ふういんさとく あかしさ かかげよ‥
+さすれば くらき すいしょうへの みちは
+ひらかれん‥[end]</sn:pointer>
+
+<sn:pointer id="287">「なかなか たのしませてくれる‥[end]</sn:pointer>
+
+<sn:pointer id="288">『Golbez!
+
+
+
+Golbez「おにの いぬまに いのちの
+ せんたくか?
+ あそびは これまで‥
+ そろそろ おわかれさ いおう゜
+ さらばだ‥![end]</sn:pointer>
+
+<sn:pointer id="289">「ギリギリ セーフじゃったの!
+Rosa「Cid![end]</sn:pointer>
+
+<sn:pointer id="290">Cid「? Yangは どうした?
+Rosa「それが‥
+『きょだいほうさ くいとめて‥
+Cid「そうか‥ Yang‥
+Rydia「グスッ‥
+Cid「そのねえちゃんは?
+『ミストの いきのこり‥
+ Rydiaだ゜[end]</sn:pointer>
+
+<sn:pointer id="291">Cid「エンジンがもたん!
+ かわれい Cecil![end]</sn:pointer>
+
+<sn:pointer id="292">Rosa「Cid!
+『どこへ![end]</sn:pointer>
+
+<sn:pointer id="293">Cid「エンタープライズが
+ ちじょうに でたところで このばくだんで
+ あなさふさぎ くいとめる![end]</sn:pointer>
+
+<sn:pointer id="294">Cid「Golbez!
+ ひくうていぎし Cid
+ いっせいちだいの みせばじゃあッ![end]</sn:pointer>
+
+<sn:pointer id="295">Cid「いいな!
+ バロンじょうへ いそげ![end]</sn:pointer>
+
+<sn:pointer id="296">Rosa「Cid!
+Rydia「なんで みんな‥
+Cain「どいつも しにいそぎやがって![end]</sn:pointer>
+
+<sn:pointer id="297">Cecilさん!
+おやかたに たのまれていたんです!
+このフックさ つくって エンタープライズに
+とりつけるようにと!
+なーに あっというまですよ![end]</sn:pointer>
+
+<sn:pointer id="298">「これで ホバーせんさ ひきあげて
+ いどうできます!
+
+
+「エンタープライズに のったままで
+ ホバーせんにかさなり けっていボタンで
+ がったい ぶんりが できます!
+
+「これで バブイルのとうのある
+ エブラーナのどうくつにも ゆけます!
+「たいりくのあさせに ホバーせんさおろし
+ のりかえてゆくのです![end]</sn:pointer>
+
+<sn:pointer id="299">『じつは Cidは‥
+
+
+
+「げんきすぎて おこまりでしょう?
+「ころしたって しぬようなひとじゃ
+ ないですからねえ!
+「それじゃ ぼくたちは しごとが
+ やまづみなんで! がんばってください![end]</sn:pointer>
+
+<sn:pointer id="300">おとこ「やっと あえたな ルビカンテ!
+ きょうというひさ まってたぜえ!
+
+
+ルビカンテ「ほう どこかで あったかな?
+
+
+
+おとこ「オレが エブラーナおうじ!
+ Edgeさまよ!
+
+
+ルビカンテ「エブラーナ? なんのことかな゜
+Edge「てめえの むねに きいてみやがれ![end]</sn:pointer>
+
+<sn:pointer id="301">『だいじょうぶか!?
+Edge「な なさけねえ‥このオレが‥
+ まけるなんざ!
+
+Rydia「わたしたちも ルビカンテのもつ
+ クリスタルさ おってるの゜
+Edge「てさだすな!
+ ヤツは‥オレが‥このてで ブッたおす!
+Cain「あいては 4てんのうだぜ゜
+ おうじさま゜
+『ヤツのつよささ あじわったろう!
+
+Edge「ヘッ‥オレさ ただの
+ あまちゃんおうじと おもうなよ゜
+ エブラーナおうぞくは だいだい にんじゃの
+ おうぎさ うけついでんだ‥!
+ おめーらより いちまいもにまいも‥
+ うわてだ‥ぜ!
+
+
+Rydia「いいかげんにしてえ!
+ もうこれいじょう しんじゃうのは
+ いやよお![end]</sn:pointer>
+
+<sn:pointer id="302">Rydia「Tellaのおじいちゃんも
+ Yangも‥
+ Cidのおじちゃんも!
+ みんな‥みんな!
+Edge「お おい‥[end]</sn:pointer>
+
+<sn:pointer id="303">『‥あいては 4てんのう さいきょうだ゜
+ かちめが あるかどうかも わからない!
+ だが ぼくたちは ヤツらから クリスタルさ
+ とりもどさなくては ならない!
+Edge「‥こんな きれーな
+ ねえちゃんに なかれたんじゃ
+ しょうがねえ‥
+ ここは いっぱつ‥てさくもうじゃねーか゜
+Cain「まったく こんな
+ からだで くちのへらない おうじさまだ゜
+ みるに たえん゜
+ おい Rosa゜[end]</sn:pointer>
+
+<sn:pointer id="304">Cid「ちッ! おってきおった![end]</sn:pointer>
+
+<sn:pointer id="305">エブラーナおう「Edge‥
+Edge「おやじ! おふくろ![end]</sn:pointer>
+
+<sn:pointer id="306">エブラーナおうひ「よかった‥おまえも
+ ぶじだったのね‥
+Edge「おふくろも!
+
+エブラーナおうひ「Edge‥おまえも
+ いらっしゃい‥
+エブラーナおう「わたしたちと いっしょに‥
+Edge「どこへ?
+おうひ「じごくにさあ![music][0x1f]
+
+
+
+『あぶない![end]</sn:pointer>
+
+<sn:pointer id="307">シルフ「あなたは しょうかんしね゜
+ しょうかんしなら わたしたちさ
+ よびだせるわ!
+ わたしたちも たたかいます!
+ にんげんの やさしさと つよささ
+ おしえてくれた Yangのかわりに!
+Rydia「よろしくね シルフさん!
+
+Rydiaが シルフさ おぼえた![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="308">Edge「うおおおおおお!
+
+
+
+Rosa「ひどい‥![end]</sn:pointer>
+
+<sn:pointer id="309">ルビカンテ「ルゲイエのヤツめ
+ かってなマネさ しおって‥‥![end]</sn:pointer>
+
+<sn:pointer id="310">Edge「ルビカンテ!
+ てめえだけは ゆるさねえ!
+ ゆるさねえぞー!!
+
+ルビカンテ「おうと おうひさ まものに
+ したのは ルゲイエのヤツが かってに
+ したこと‥
+ その ひれいは わびよう‥
+ わたしは ほかのヤツらと ちがって
+ せいせいどうとうと たたかいたいのだ゜
+
+
+ Edge「ゴチャゴチャ
+ いってんじゃねえ!!
+
+
+ルビカンテ「わたしは おまえのように
+ ゆうきあるものは すきだ゜
+ ‥しかし そういった かんじょうに
+ ふりまわされる にんげんでは
+ かんぜんなつよさは てにはいらん゜
+ えいえんにな‥
+
+
+Edge「その にんげんの!
+ いかりってモンさ‥
+
+
+ みせてやるぜえ![music][0xb]
+
+
+
+いかりが Edgeの ねむっていたちからさ
+ひきおこした!
+
+
+Edgeが
+すいとん らいじんさ おぼえた!
+
+
+ルビカンテ「ほう‥いかりというものは
+ にんげんさ つよくするか゜
+ だが わたしの ほのおのマントは
+ れいきすら うけつけぬぞ![end]</sn:pointer>
+
+<sn:pointer id="311">ルビカンテ「さあ かいふくしてやろう!
+ ぜんりょくで かかってくるがいい![end]</sn:pointer>
+
+<sn:pointer id="312">ルビカンテ「そうか‥そのてが あったか‥
+ よわいものでも‥ちからさ あわせるという
+ てが‥
+ みごとだ!
+ Golbezさまも てさ やかれたわけだ゜
+ おまえたちは りっぱな‥せんしだった!
+ さら‥ばだ![end]</sn:pointer>
+
+<sn:pointer id="313">「わかー![end]</sn:pointer>
+
+<sn:pointer id="314">Edge「じい! みんなも!
+じい「わしらも たたかいますじゃ!
+ ルビカンテは いずこに!?[end]</sn:pointer>
+
+<sn:pointer id="315">Edge「もう すんだぜ!
+じい「おお さすがは わか!
+Edge「こいつらの おかげさ!
+じい「そなたたちが![end]</sn:pointer>
+
+<sn:pointer id="316">Edge「しかし Golbezってのは?
+Cain「クリスタルさあつめ つきへ
+ ゆこうとたくらむ ルビカンテさ
+ あやつるものだ!
+Edge「あの おつきさんか?
+ なんでまた?
+『つきには せかいさ はめつさせるほどの
+ ものが あるというんだ゜
+Rydia「わたしたち それさとめるの!
+Edge「Golbezか!
+ すべては そいつの‥ゆるせねえ!
+
+じい「わかには しろのさいけんが![end]</sn:pointer>
+
+<sn:pointer id="317">Edge「エブラーナだけじゃねえ!
+ せかいが あぶねーんだ!
+ オレも そのGolbezとかいう
+ ヤツさ このてで ブチのめすぜ!
+じい「くれぐれも おきさつけて‥!
+Edge「わかってるって!
+ さあ こっからさきは オレにまかせな!
+
+じい「わかりもうした! るすはおまかせさ!
+ みなさん わかさ おたのもうします!
+ みなのしゅう! かえるぞ![end]</sn:pointer>
+
+<sn:pointer id="318">みなのしゅう「わかさま ごぶうんさ!
+Edge「あいよー![end]</sn:pointer>
+
+<sn:pointer id="319">Edge「いってー‥!
+Cain「どうやら ちていのほうまで
+ おとされたらしいな‥[end]</sn:pointer>
+
+<sn:pointer id="320">Tella「いかにも Tellaじゃ!
+ しんぱいになって ダムシアンにむかう
+ とちゅうなんじゃが このさきの
+ ちかのみずうみにおる きょだいな
+ まものに てこずっとる゜
+ とてつもないちからさ もったヤツじゃ!
+ わたしのまほうだけでは たおせん!
+ おぬしの あんこくけんとならば!
+ !? なんと!
+ そのこは しょうかんしか゜
+ かなりのししつさ もっておる゜
+
+『ダムシアンへは ぼくらも いかなくては
+ ならないんです!
+
+
+Tella「ならば きまりじゃ!
+ いっこくも はやく ダムシアンへ![end]</sn:pointer>
+
+<sn:pointer id="321">『おとしあな!?[delay][0xc][0x6][end]</sn:pointer>
+
+<sn:pointer id="322">Cain「‥[end]</sn:pointer>
+
+<sn:pointer id="323">『てきの しんがたひくうてい?
+Edge「こいつで だっしゅつしよーぜ!
+Rydia「でも てきの ひくうていだよ!
+Edge「いーんだよ!
+ オレたちが つかったほうが こいつに
+ とってもな![end]</sn:pointer>
+
+<sn:pointer id="324">Rosa「わなじゃないかしら‥
+Edge「しんぱい いらねーって!
+ オレは きにいったぜ゜
+ よっしゃ なづけて ファルコンてのは
+ どーだ?
+Rydia「まったく!
+『いそごう だっしゅつだ!
+Edge「ファルコン はっしん![end]</sn:pointer>
+
+<sn:pointer id="325">Cid「なんじゃー メシか!?
+ まったく ここのりょうりは
+ ワシのくちに‥
+
+『Cid![end]</sn:pointer>
+
+<sn:pointer id="326">Rosa「ぶじだったのね!
+Cain「あれだけ カッコつけといて‥
+Cid「ワハハ‥!
+Edge「なんだ このじじい?[end]</sn:pointer>
+
+<sn:pointer id="327">ドワーフ「おっさん ねてなきゃダメー!
+ドワーフ「ケガなおるまで まつー![end]</sn:pointer>
+
+<sn:pointer id="328">Rosa「しんぱい なさそうね゜
+『ああ![end]</sn:pointer>
+
+<sn:pointer id="329">Palom「ひさしぶりだな!
+ あんちゃん!
+Porom「ちょうろうに
+ たすけていただきましたの!
+ちょうろう「そなたたちだけではない!
+ このだいちに いきとしいけるもの
+ すべての いのちのたたかいじゃ![end]</sn:pointer>
+
+<sn:pointer id="330">Rydia「キャアッ!
+
+
+
+『バブイルのとうが!?[end]</sn:pointer>
+
+<sn:pointer id="331">FuSoYa「おそかったか![end]</sn:pointer>
+
+<sn:pointer id="332">Edge「なにッ!?
+FuSoYa「バブイルのきょじんが
+ たんじょうする![end]</sn:pointer>
+
+<sn:pointer id="333">Edge「Cecil![end]</sn:pointer>
+
+<sn:pointer id="334">FuSoYa「さあ まいろう゜[end]</sn:pointer>
+
+<sn:pointer id="335">Rydia「げんかいから くるとき
+ ここさ とおったわ!
+ そうだ リヴァイアサンたちにも
+ ちからさ かしてもらおうよ![end]</sn:pointer>
+
+<sn:pointer id="336">Rydia「ここが わたしのすんでたとこ!
+ なにかつかえるもの あるかしら?[end]</sn:pointer>
+
+<sn:pointer id="337">Rydia「じょおうさま!
+アスラ「ひさしぶりですね Rydia‥
+
+
+Rydia「あなたたちの ちからがいるの!
+アスラ「てさかしましょう‥
+ といいたいところですが おまえたちの
+ ちからさ みきわめねばなりません゜
+ それが げんじゅうかいの おきて゜
+ わたしに いどむ ゆうきと
+ わたしさ たおすちからさ もっていますか?[end]</sn:pointer>
+
+<sn:pointer id="338">Rydiaよ‥
+アスラまで たおしたのは
+おまえたちが はじめてじゃ゜
+じゃあくなちからに たいこうするには
+つよいちからだけでは かてん゜
+そのちからさ ただしいほうこうに
+みちびける よりつよい せいしんが
+ひつようじゃ゜
+いにしえより たたかいによって
+そのせいしんさ みきわめてきた‥
+どうじゃ ワシと いっせん まじえてみるか?[end]</sn:pointer>
+
+<sn:pointer id="339">「Cain‥
+ かえってこい Cain‥
+ そのクリスタルさ もち わたしのもとへ‥
+
+『Golbez![end]</sn:pointer>
+
+<sn:pointer id="340">『うッ!
+
+
+
+やみのクリスタルさ うばわれた![music][0x1f][delay][0x1d][end]</sn:pointer>
+
+<sn:pointer id="341">Edge「てめー!
+Rosa「Cain なにさ!?
+
+
+Golbez「わたしのじゅつさ あなどって
+ もらっては こまる゜
+ このときさ まっていたのだ!
+ これで バブイルのとうは かんせいする!
+ つきへ ゆけるのだ!
+ くるのだ Cain!
+
+
+『Cain! めささませ!
+Cain「‥
+Rosa「Cain![end]</sn:pointer>
+
+<sn:pointer id="342">ちょうろう「まっておったぞ!
+ いのりのとうへ まいられい![end]</sn:pointer>
+
+<sn:pointer id="343">ちょうろう「いのるのじゃ みなのもの!
+ でんせつが しんのひかりとなる
+ ときは いまさおいて ほかにない![end]</sn:pointer>
+
+<sn:pointer id="344">ちょうろう「おお‥
+
+
+
+ みなのもの!
+
+
+
+ われらのいのり‥
+
+
+
+ つうじたぞ![end]</sn:pointer>
+
+<sn:pointer id="345">ちょうろう「あれこそ まさしく‥
+
+
+
+ おおいなる まばゆき ふね‥
+
+
+
+ まどうせん‥![music][0xe][end]</sn:pointer>
+
+<sn:pointer id="346">ちょうろう「いのりのさなか あたたかい
+ こえが きこえた゜
+ そのこえは こういっていた゜
+ つきに まいれと‥
+ つきで そなたらさ まっている
+ ものがいる!
+
+
+『でも どうやって!?[end]</sn:pointer>
+
+<sn:pointer id="347">「よくも やったな!
+「いたいよー!
+「でも このばしょは ほうこくずみ!
+「かたきは うってもらうよ!
+「Golbezさまー![end]</sn:pointer>
+
+<sn:pointer id="348">Edge「ち‥きしょう![end]</sn:pointer>
+
+<sn:pointer id="349">ルビカンテ「たしかに じしんさ もてるほどの
+ つよさだ‥
+ しかし このわたしには まだ およばぬ゜
+ うでさ みがいてこい!
+ いつでも あいてになるぞ![end]</sn:pointer>
+
+<sn:pointer id="350">Edge「まち‥やが‥れ‥![end]</sn:pointer>
+
+<sn:pointer id="351">Cid「グガー グガー‥
+Rydia「よっぽど つかれてたのね゜
+Rosa「ムリさするから‥
+
+『ありがとう‥Cid![end]</sn:pointer>
+
+<sn:pointer id="352">Rosa「ケアルラ![end]</sn:pointer>
+
+<sn:pointer id="353">Edge「サンキュー ねえちゃん!
+ あんたも かわいいぜ![end]</sn:pointer>
+
+<sn:pointer id="354">Edge「よっしゃ!
+ Golbezさ ブッたおしにいくか!
+Rydia「クリスタルさ とりもどすの!
+Edge「わかってるって!
+ さ いこーぜ![end]</sn:pointer>
+
+<sn:pointer id="355">Edge「‥
+
+
+
+ おやじ‥
+
+
+
+ おふくろ‥
+
+
+
+ かたきは うったぜ‥![end]</sn:pointer>
+
+<sn:pointer id="356">ジオット「おお まちわびたぞ![end]</sn:pointer>
+
+<sn:pointer id="357">ジオット「で クリスタルの だっかんは?
+『じつは‥
+
+
+ジオット「そうか‥
+ Golbezは さいごのクリスタルさ
+ てにいれんがため ふういんのどうくつさ
+ ごういんに あけようとしておる!
+ こうなっては じかんのもんだいだ゜
+ そこで おぬしらに さきに クリスタルさ
+ とってきてほしいのじゃ゜
+ ルカよ![end]</sn:pointer>
+
+<sn:pointer id="358">『Cid‥
+Rosa「ムチャするから‥
+
+
+Cid「‥どうやら ワシなんかの
+ でるまくじゃなくなってきたの‥
+ おまけに このからだじゃ゜
+ ワシにできるのは ひくうていさ いじる
+ ことくらいじゃ‥[end]</sn:pointer>
+
+<sn:pointer id="359">Edge「まったく‥
+ じーさん あんたにゃ まけたぜ!
+Rydia「はやく よくなって‥[end]</sn:pointer>
+
+<sn:pointer id="360">Cid「Cecilと‥
+ Rosaさ たのむぞ‥!
+Edge「わかってるって!
+ あんたは ここで ゆっくりまってな![end]</sn:pointer>
+
+<sn:pointer id="361">Cid「Cecil‥!
+ きさつけるんじゃぞ‥!
+Rosa「Cidも‥
+
+Cid「さ ゆけ‥
+ こんなジジイに かまっとるヒマないはずじゃ!
+『ありがとう‥Cid![end]</sn:pointer>
+
+<sn:pointer id="362">[space][0x4]りゅうのくちより うまれしもの
+[space][0x6]てんたかく まいあがり
+[space][0x6]やみとひかりさ かかげ
+ ねむりのちに さらなるやくそくさ もたらさん゜[space][0x3]つきは はてしなき ひかりにつつまれ
+[space][0x3]ははなるだいちに おおいなる めぐみと
+[space][0x7]じひさ あたえん゜[end]</sn:pointer>
+
+<sn:pointer id="363">Palom「このじいちゃん メテオさ
+ てにいれたんだぜ!
+
+
+ちょうろう「メテオ‥!
+ あのまほうの ふういんが とかれるほどの
+ ことが おきているというのか‥!
+
+Tella「そのようじゃ゜
+ これで Annaのかたきさ うつ!
+ちょうろう「Annaが?
+
+Tella「Golbezに やられたのじゃ!
+ ヤツだけは わたしが メテオで
+ たおす!
+
+ちょうろう「Tellaよ゜
+ にくしみで たたかっては みさ ほろぼす!
+ まして いまのおぬしでは メテオは
+ きけんすぎる!
+Tella「たとえ わがみが ほろぼうと!
+ ヤツだけは ゆるせんのじゃ!!
+
+
+ちょうろう「そういうとおもったぞ゜
+ むかしのまんまじゃな゜
+Tella「おぬしもな‥
+
+ちょうろう「じゃが Cecilどのも
+ パラディンとなった゜
+ ふたりの ちからさ あわせれば‥!
+
+『しかし Golbezに たちむかうには
+ バロンに もどり ひくうていさ‥
+
+
+ちょうろう「わかった‥
+ デビルロードの ふういんさ とこう!
+ パラディンとなった そなたなら デビルロードさ ゆききできるはずじゃ!
+ ゆくがよい バロンへ!
+ ワシは いのりのとうに はいり そなたたちの
+ ために いのりつづけるとしよう‥
+ たのむぞ‥!
+ パラディン Cecilどの!
+
+
+
+『はい![end]</sn:pointer>
+
+<sn:pointer id="364">ルカ「ちちうえ なにか?
+ジオット「くびかざりさ ここへ゜
+ルカ「これですか?
+ジオット「なにさかくそう このくびかざりこそ
+ ふういんのどうくつの いりぐちさあける
+ カギなのじゃ!
+ これが なければ どうくつは なにものも
+ うけいれぬ!
+ なんとしても さいごのクリスタルは
+ まもらねばならん![end]</sn:pointer>
+
+<sn:pointer id="365">『やってみます![end]</sn:pointer>
+
+<sn:pointer id="366">Cid「じじいじゃと!? ぶれいものが!
+Edge「ぶれいなのは じじいのほうだ!
+Cid「だれじゃ このなまいきなヤツは?
+
+Edge「ヘッヘ! オレさまが
+ エブラーナおうじ Edgeさまよ!
+ よろしくな じじい!
+
+Cain「くちはわるいが たしかに
+ おうじさまらしい゜
+Edge「おまけに ハンサム!
+ うでも たつと![end]</sn:pointer>
+
+<sn:pointer id="367">Rydia「おじちゃんは ケガしてんだから
+ あんまり おこらせないの!
+Cid「なんじゃ? Rydiaの
+ しりに しかれとんのか?
+Edge「る るせー![end]</sn:pointer>
+
+<sn:pointer id="368">Cid「それより Cecil゜
+ Golbezは!?
+『4てんのうは たおしたが クリスタルは
+ さいごの ひとつさのこして すべて‥
+Rosa「さいごのクリスタルさ とりに
+ いきたいのだけど エンタープライズは
+ ちじょう゜
+Cain「てきからうばった ひくうていでは
+ ようがんのうえさ ひこうできん゜
+Cid「フフ!
+ ワシのでばんのようじゃの!
+ ワシがいないと なんにも できんのか
+ まったく‥[music][0x24][end]</sn:pointer>
+
+<sn:pointer id="369">Cid「おまえらだって
+ おっさんじゃろが!
+ ゆうちょうなこと いっとれんわ!
+ おまえらも てつだわんかい![end]</sn:pointer>
+
+<sn:pointer id="370">『Cain!
+Rosa「しっかりして!
+
+
+Cain「だいじょうぶだ‥
+
+
+
+ おれは しょうきに もどった![end]</sn:pointer>
+
+<sn:pointer id="371">Cain「これで すべてのクリスタルが
+ そろった!
+ つきへの みちがひらかれる!
+
+Edge「まちやがれ!![end]</sn:pointer>
+
+<sn:pointer id="372">『Cain‥
+Edge「なんてこった![end]</sn:pointer>
+
+<sn:pointer id="373">『とびらが おそってくる![end]</sn:pointer>
+
+<sn:pointer id="374">『かべが!
+Rydia「うごきだす!
+
+
+Cain「さすが ふういんの どうくつ
+ クリスタルさ とったあとも あんしんは
+ できんというわけか!
+
+Edge「なら ブッこわすまでよ![end]</sn:pointer>
+
+<sn:pointer id="375">Rydia「やったー!
+Edge「おととい きやがれってんだ![end]</sn:pointer>
+
+<sn:pointer id="376">Golbez「ハーッハッハッハッハ‥![end]</sn:pointer>
+
+<sn:pointer id="377">ジオット「おお! よくぞもどった!
+ さあ さいごのクリスタルさ‥[end]</sn:pointer>
+
+<sn:pointer id="378">『じつは‥
+
+
+
+ジオット「なんと! そろってしまったか!
+ もはや うつてはない‥
+ あの まどうせんの でんせつが ほんとうでも
+ ないかぎり‥
+『まどうせん!?[music][0x0]
+
+
+
+ジオット「はるかむかしに あったとされる
+ きょだいな ふねじゃ゜
+ こんな でんせつが ある゜
+ りゅうのくちより うまれしもの‥
+『それは ミシディアの!
+ジオット「ごぞんじか? ミシディアさ!
+『ちじょうの まどうしの さとです!
+
+ジオット「なんと!
+ ミシディアは じつざいしたか!
+『ちょうろうは いのりのしんでんに はいられ
+ いのりつづけています゜
+ジオット「もしや そのおかたは‥
+『?
+
+
+ジオット「まどうせんさ ふっかつさせるつもりか? いや! そう しんじるしか みちはない!
+ ミシディアだ! ミシディアに いそぐのだ!
+
+Rosa「でも ちじょうへの つうろは
+ ふさがっています!
+
+
+Edge「バブイルのとうも クリスタルが
+ ぜんぶ そろっちまって ちかづけやしねー![end]</sn:pointer>
+
+<sn:pointer id="379">「ワシが なんとかしよう![end]</sn:pointer>
+
+<sn:pointer id="380">『‥あのひかりは ぼくさ むすこと
+ いいました゜
+ あのひかりは いったいなんなのですか?
+
+ちょうろう「しれんのやまの ひかりが
+ なにか‥
+ このでんせつが なにさ いみするかは
+ ワシにも わからん‥
+ ただ われわれ ミシディアのたみは この
+ いいつたえのために いのれと だいだい
+ いわれておる゜
+ そして せいなるかがやきさ もつものさ
+ しんぜよと‥
+ やはり そなたが そのものなのかもしれん![end]</sn:pointer>
+
+<sn:pointer id="381">Cid「ファルコンの せんしゅに
+ ドリルさつけ ちじょうへの あなさ
+ ふさいでいるいわさ ほりながら すすむんじゃ!
+Rosa「きずは もういいの?
+Cid「こんな おいぼれの ケガさ
+ しんぱいしてるときじゃなかろう!
+Edge「ほんとに できんのか?
+Cid「ひくうていの Cidに
+ ふかのうの もじは ないわ![end]</sn:pointer>
+
+<sn:pointer id="382">Palom「くさいんだよ!
+Porom「おしばいするなら もうすこし
+ うまく やっていただきたいものね゜
+『きみも Golbezに!
+ベイガン「やめていただきたいですな
+ そんないいかたは‥
+ あのかたは すばらしいものさ
+ わたしに くださったのですよ゜
+ こんなに すてきなちからさねッ![end]</sn:pointer>
+
+<sn:pointer id="383">リヴァイアサンさ みかたに つけたか゜
+だが そこまでは ひかりのちから
+なくしても できること゜
+まことのひかりが そなたらに やどっているか
+さいごのしんぱんは この げんじゅうしん‥
+
+
+
+バハムートがくだす![end]</sn:pointer>
+
+<sn:pointer id="384">Rydiaが バハムートさ おぼえた![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="385">ベイガン「ごぶじでしたか!
+『ベイガン! まさか きみも‥
+
+
+ベイガン「わたくしが どうしました?
+『Golbezに あやつられて‥
+
+
+ベイガン「まさか゜ わたくしとて このえへいさ
+ おさめるみ゜
+ バロンへの ちゅうせいは だれにも
+ まげられません!
+『Cidが とらえられているときいたが?
+ベイガン「わたくしども のこった このえへいで
+ かれさ たすけにきたのですが いきのこったのは この わたしだけ゜
+『そうか゜
+ いっしょに いこう!
+ きみが いてくれれば こころづよい!
+ベイガン「はッ!
+このえへいちょう ベイガンが なかまになった!
+[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="386">Cid「よっしゃ!
+ さっそく かいぞうじゃあ![end]</sn:pointer>
+
+<sn:pointer id="387">『ドキドキ してきた‥![end]</sn:pointer>
+
+<sn:pointer id="388">ちょうろう「さあ まちの みぎにある
+ デビルロードで バロンへむかうのじゃ!
+ わたしは このうえの いのりのとうで
+ そなたらの‥いや
+ すべての せいあるもののため
+ いのりつづけよう!
+ たのんだぞ‥![end]</sn:pointer>
+
+<sn:pointer id="389">Palom「ヒャッホー そうこなくちゃ!
+Porom「はしゃいでないで いくわよ![end]</sn:pointer>
+
+<sn:pointer id="390">Gilbert「ここが アントリオンの
+ さんらんちだ゜[end]</sn:pointer>
+
+<sn:pointer id="391">Rydia「キャー!
+Gilbert「だいじょうぶ゜
+ アントリオンは おとなしいんだ゜
+ にんげんには きがいさくわえない゜
+ ぼくがとってこよう゜[end]</sn:pointer>
+
+<sn:pointer id="392">『いくぞ Rydia![end]</sn:pointer>
+
+<sn:pointer id="393">さばくのひかりさ てにいれた゜[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="394">Gilbert「そんな ばかな!
+ なぜ アントリオンが‥
+
+
+『さいきん まもののかずが ふえた゜
+ いままで おとなしかった けものたちまで
+ おそってくる゜
+ やはり なにかのまえぶれ‥
+Rydia「はやくRosaに!
+『ああ いこう![end]</sn:pointer>
+
+<sn:pointer id="395">へいし「はい!
+へいし「しかし ちかごろ まもののかずが‥
+へいし「たしかに あまりに おおすぎる゜
+
+『なにかが‥おころうと しているのか?[end]</sn:pointer>
+
+<sn:pointer id="396">『そういん せんとうはいび![end]</sn:pointer>
+
+<sn:pointer id="397">「バロンの ものですね‥
+
+
+
+Cain「だれだ![music][0x2d]
+
+
+
+「ここで ひきかえせば きがいは くわえません゜ そっこく ひきかえすのです゜
+
+
+Cain「すがたさ みせないか!
+
+
+
+「ひきかえすきは ないのですね‥?[end]</sn:pointer>
+
+<sn:pointer id="398">Gilbert「Cecil‥
+ Rosaは きみといっしょに
+ いたいんだよ゜
+
+『‥わかった Rosa‥
+ いっしょに いこう゜
+ もうよるだ‥あすのあさ たとう゜
+ とにかく こんやは ゆっくりおやすみ゜
+Rosa「Cecil‥
+ わかったわ゜
+
+
+しろまどうし Rosaが なかまになった![end]</sn:pointer>
+
+<sn:pointer id="399">Rosa「わたしなら だいじょうぶ゜
+ それに わたしも しろまどうし゜
+ あしでまといには ならないはずよ‥!
+『‥[end]</sn:pointer>
+
+<sn:pointer id="400">『Rosa![end]</sn:pointer>
+
+<sn:pointer id="401">Gilbert「うわあ![end]</sn:pointer>
+
+<sn:pointer id="402">『Gilbert![end]</sn:pointer>
+
+<sn:pointer id="403">Cain「ああ゜
+『いっしょに たたかってくれ!
+Cain「むろん そのつもりだ゜
+ だが Cecil たたかうのは
+ おまえとだ!
+『Cain!?
+
+
+Cain「いっきうちだ Cecil!
+『やめろ!
+
+
+Cain「ゆくぞ![end]</sn:pointer>
+
+<sn:pointer id="404">Yang「Cecilどの!
+ こんどは われわれが ちからになるばん゜
+ からださ いやし きゅうしゅつほうさ
+ かんがえましょう゜
+『ありがとう‥[end]</sn:pointer>
+
+<sn:pointer id="405">バシッ![end]</sn:pointer>
+
+<sn:pointer id="406">『やめるんだ![end]</sn:pointer>
+
+<sn:pointer id="407">わたしの おどり みたい?[end]</sn:pointer>
+
+<sn:pointer id="408">ひどいひと‥からかうなんて![end]</sn:pointer>
+
+<sn:pointer id="409">はッ![delay][0x5][0x6][end]</sn:pointer>
+
+<sn:pointer id="410">ファブールおう「すまぬ! まことじゃったか゜
+ だが しゅりょくの モンクたいもなしに‥
+ そなたらも ちからさ かしてはくれぬか?[end]</sn:pointer>
+
+<sn:pointer id="411">ファブールおう「むりじいは できんしな゜
+ こまったのう‥[end]</sn:pointer>
+
+<sn:pointer id="412">Yang「では るすさ たのむ!
+Yangのおくさん「まかしときな![end]</sn:pointer>
+
+<sn:pointer id="413">『まず ひくうていぎしの Cidに あおう゜
+ かれなら ひくうていに せいつう
+ しているし ちからになってくれるはずだ゜
+Yang「その ごじんが ぶじだとよいが゜
+Gilbert「‥[end]</sn:pointer>
+
+<sn:pointer id="414">Rydia「さむいの? ふるえてるよ゜
+Gilbert「いや なんでも ないんだ‥[end]</sn:pointer>
+
+<sn:pointer id="415">ふなのり「ホントに いたのか![end]</sn:pointer>
+
+<sn:pointer id="416">ふなのり「おおうなばらの ぬし![end]</sn:pointer>
+
+<sn:pointer id="417">ふなのり「あいつが‥[end]</sn:pointer>
+
+<sn:pointer id="418">せんちょう「リヴァイアサンだーッ![end]</sn:pointer>
+
+<sn:pointer id="419">みてみて! わたしのダンス![end]</sn:pointer>
+
+<sn:pointer id="420">『なんだか ねむくなってきた‥[end]</sn:pointer>
+
+<sn:pointer id="421">ファファファ‥しゅぎょうが たりんの゜[end]</sn:pointer>
+
+<sn:pointer id="422">Palom「いわれなくたって わかってるよ![end]</sn:pointer>
+
+<sn:pointer id="423">Porom「Palom!
+ おごりたかぶっては いけないと
+ ちょうろうが おっしゃってるでしょ![end]</sn:pointer>
+
+<sn:pointer id="424">Porom「では まいりましょ
+ Cecilさん![end]</sn:pointer>
+
+<sn:pointer id="425">Golbez「かつての ともさ うやまうきもちも
+ わかるが‥
+ だからこそ スカルミリョーネさ さしむけた゜
+ やつも 4てんのうの ひとり゜
+ たのしませてくれるはず゜
+ なあ Rosaよ![end]</sn:pointer>
+
+<sn:pointer id="426">Cain「は‥!
+
+
+
+Rosa「Cecil きさつけて‥![end]</sn:pointer>
+
+<sn:pointer id="427">『Tella![end]</sn:pointer>
+
+<sn:pointer id="428">Tella「Cecil![end]</sn:pointer>
+
+<sn:pointer id="429">Porom「こどもは だまってなさい!
+
+
+
+Tella「Cecil おぬしは?
+『ぼくは パラディンになるためです゜
+ あんこくけんでは Golbezさたおすことは
+ できないらしいし‥ぼくも このいまわしい
+ あんこくけんから はなれたいんです‥![end]</sn:pointer>
+
+<sn:pointer id="430">Tella「そう しょあくの こんげんじゃ![end]</sn:pointer>
+
+<sn:pointer id="431">Tella「しかし‥パラディンか゜
+ わたしの にらんだとおり このやまには
+ なにか かくされているのじゃな!
+ ともに ゆくとするか゜
+ ‥まっておれ Golbez!
+
+
+
+けんじゃ Tellaが なかまになった![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="432">スカルミリョーネ「グ‥パァー![end]</sn:pointer>
+
+<sn:pointer id="433">「わが むすこよ‥
+
+
+
+『むすこ!? あなたは?[end]</sn:pointer>
+
+<sn:pointer id="434">Tella「Cecil![end]</sn:pointer>
+
+<sn:pointer id="435">Palom「あんちゃん!
+Porom「あぶない![end]</sn:pointer>
+
+<sn:pointer id="436">Tella「!?
+
+
+
+ メ‥
+
+
+
+ テオ?
+
+
+
+ あのひかりが さずけてくれたというのか!
+ ふういんされし さいきょうの くろまほう
+ メテオさ!
+
+Tellaが メテオさ おぼえた![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="437">Palom「あ! ちょっと![end]</sn:pointer>
+
+<sn:pointer id="438">Porom「まいりましょ
+ Cecilさん!
+『あ ああ![end]</sn:pointer>
+
+<sn:pointer id="439">『Rydiaと Gilbertは!?[end]</sn:pointer>
+
+<sn:pointer id="440">Yang「ん? これは![end]</sn:pointer>
+
+<sn:pointer id="441">へいし「われわれ あかいつばさは
+ ほこりたかき ひくうていだん!
+ かよわいものから りゃくだつなど![end]</sn:pointer>
+
+<sn:pointer id="442">つちのクリスタルさ てにいれた![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="443">Cid「だいじょぶじゃ!
+ このCidと エンタープライズが
+ ついとる!
+ きけば Cecilや
+ Rosaが せわになったそうじゃ゜
+ ワシに まかしとくんじゃな![end]</sn:pointer>
+
+<sn:pointer id="444">Gilbert「Cecil! Rosaは?
+『このトロイアの つちのクリスタルと
+ ひきかえということに なってしまった‥
+ だが クリスタルは ダークエルフに‥[end]</sn:pointer>
+
+<sn:pointer id="445">Gilbert「Cecil これさ
+ もっていってくれ‥
+『これは?
+
+Gilbert「ぼくの かわりさ‥
+ もっていってくれ‥[end]</sn:pointer>
+
+<sn:pointer id="446">ひそひそうさ てにいれた゜[end]</sn:pointer>
+
+<sn:pointer id="447">『ここにある! Rosaは どこだ!?
+Cain「フッ あわてるな゜
+ おれの ひくうていに ついてこい゜[end]</sn:pointer>
+
+<sn:pointer id="448">『これだ![end]</sn:pointer>
+
+<sn:pointer id="449">Tella「おもいしれ‥!
+ Annaのいたみさ!![end]</sn:pointer>
+
+<sn:pointer id="450">
+[space][0x6]いっぽう そのころ‥[end]</sn:pointer>
+
+<sn:pointer id="451">Golbez「‥!?[end]</sn:pointer>
+
+<sn:pointer id="452">Cid「めさ あけんかい!
+ このクソじじい!!
+Tella「‥
+Yang「Tellaどの‥
+Cid「むすめさんと‥
+ やすらかに くらすんじゃぞ‥[end]</sn:pointer>
+
+<sn:pointer id="453">Cain「‥Cecil!
+ す すまん‥
+ おれは なんということさ‥
+『あやつられていたんだ‥しかたないさ゜
+Cain「しかし‥いしきは あったのだ゜
+ おれは Rosaさ‥[end]</sn:pointer>
+
+<sn:pointer id="454">Cain「このうえだ じかんがない![end]</sn:pointer>
+
+<sn:pointer id="455">『Tella‥
+ Annaのかたきは‥
+
+
+ ぼくらが うつ![end]</sn:pointer>
+
+<sn:pointer id="456">Cain「Cecil‥
+
+
+
+『りゅうきしである きみのちからが いる!
+ ともに Golbezと たたかってくれるな?
+Cain「‥すまん Cecil‥
+ Rosa‥![end]</sn:pointer>
+
+<sn:pointer id="457">しろまどうし Rosaと
+りゅうきし Cainが なかまになった![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="458">「ほっほっほほほ‥[end]</sn:pointer>
+
+<sn:pointer id="459">Rosa「わたしに つかまって![end]</sn:pointer>
+
+<sn:pointer id="460">Cid「なに かんがえこんどる?
+ エンタープライズが あろう!
+ このせかいなんぞ アッというまに
+ ひとまわりじゃわい![end]</sn:pointer>
+
+<sn:pointer id="461">『でも あれは ゾットのとうに‥
+Cid「ナメるんじゃないわい!
+ さいしんがたと いったろが!
+ えんかくそうじゅうで ちゃあんと
+ バロンに もどっとるわい!
+Yang「ならば きまりですな゜
+Rosa「Cid たよりにしてるわ!
+Cid「そうじゃろ? な!
+ そうときまったら しゅっぱつは
+ あすのあさじゃ!
+ ちていの いりぐちさ めざし ひとねむりじゃ![end]</sn:pointer>
+
+<sn:pointer id="462">『しかし‥なぜあのとき Golbezは
+ ぼくに とどめさ
+ ささなかったのだろう‥[end]</sn:pointer>
+
+<sn:pointer id="463">Rosa「どうしたの?[end]</sn:pointer>
+
+<sn:pointer id="464">
+
+
+
+
+
+
+
+
+[space][0x3]かくして バロンこく ひくうていだん
+[space][0x2]「あかいつばさ」の ぶたいちょうであった
+[space][0x6]あんこくきし Cecilは
+[space][0x6]そのざさ はくだつされ
+[space][0x2]りゅうきしぶたいちょう Cainとともに
+[space][0x3]へんきょうのむら ミストさ めざし
+[space][0x3]きりふかく たちこめる たにへと
+[space][0x3]バロンじょうさ あとにした‥
+
+
+
+[space][0x5]ひとびとの ゆめであった
+[space][0x4]あまかけるふね ひくうてい‥
+[space][0x2]だが そのひくうていの きどうりょくは
+[space][0x6]ゆめの じつげんばかりか
+[space][0x2]よくぼうさみたす しゅだんにまでなりえた゜
+
+
+
+[space][0x3]ひくうていだん 「あかいつばさ」により
+さいきょうの ぐんじこっかとなった バロンこく゜ なぜ そのきょうだいなちからさもつ バロンが
+[space][0x5]クリスタルさ もとめたのか‥
+そしてなぜ あまたの まものが はくじつのもとに[space][0x3]そのすがたさ あらわしはじめたのか‥
+
+
+
+
+
+
+[space][0x5]クリスタルは ただ しずかに
+[space][0x5]そのひかりさ たたえていた‥
+
+
+
+
+[end]</sn:pointer>
+
+<sn:pointer id="465">『Rosa![end]</sn:pointer>
+
+<sn:pointer id="466">ジオット「しゅうりに ひつようなものなら
+ ようい させるが?
+Cid「おうきゅうしょちくらいは
+ できるじゃろうが ちていの ようがんの
+ ねつには せんたいが もたん゜
+ ちじょうに もどり ミスリルで そうこうさ
+ ほどこさんとな!
+ よっしゃ ひとっぱしり いってくるかの![end]</sn:pointer>
+
+<sn:pointer id="467">やみのクリスタルさ てにいれた![music][0x29][delay][0x24][end]</sn:pointer>
+
+<sn:pointer id="468">『しかし‥
+
+
+
+Palom「オイラたちのちから
+ しってるだろ!
+Porom「そういうことですわ!
+
+Tella「あんずるな゜
+ わたしも ついておる!
+『わかった‥たよりにしてるよ![end]</sn:pointer>
+
+<sn:pointer id="469">Palom「おわってなんかいないよ!
+ ちょうろうは こいつのちからに
+ なれっていったじゃないか!
+Porom「おゆるしさ!
+ちょうろう「おまえたち‥
+ しれんのやまが おまえたちさうけいれたと
+ いうことは おまえたちの うんめいでも
+ あるのかもしれんな‥
+ ワシは ミシディアさ はなれることは
+ できん゜
+ Cecilどの Tella‥
+ ふたりさ たのむぞ![end]</sn:pointer>
+
+<sn:pointer id="470">ちょうろう「Palom! Porom!
+ おぬしらの やくめは おわったのじゃぞ![end]</sn:pointer>
+
+<sn:pointer id="471">
+[space][0x8]その よる‥[end]</sn:pointer>
+
+<sn:pointer id="472">ここは だいじなへやー!
+はいっちゃダメー![end]</sn:pointer>
+
+<sn:pointer id="473">Porom「しれんのやまで おあいしたのです゜[end]</sn:pointer>
+
+<sn:pointer id="474">Rosa「Rydia‥
+Rydia「グスッ‥[end]</sn:pointer>
+
+<sn:pointer id="475">Tella「あとは いっこくもはやく
+ Golbezさ たおすことじゃ!
+ちょうろう「おお Tella!
+Tella「ひさしぶりじゃな゜[end]</sn:pointer>
+
+<sn:pointer id="476">Cain「ふりきれんのか!?
+
+
+
+Cid「こっちのほうが せいのうは
+ うえのはずじゃが‥!
+ ヤツらも あかいつばささ かいぞう
+ したらしいの![end]</sn:pointer>
+
+<sn:pointer id="477">Rydia「おいつかれちゃう!
+Cid「ふんばれ エンタープライズ![end]</sn:pointer>
+
+<sn:pointer id="478">Rosa「Cid あなたまで!
+Cid「フフ‥
+ Rosaと Cecilの こが
+ みたかったが‥Yangが
+ さびしがるといかん゜
+ おまえたちは バロンじょうに むかい
+ ワシの でしたちに あえ![end]</sn:pointer>
+
+<sn:pointer id="479">『Cid!
+Rydia「おじいちゃん![end]</sn:pointer>
+
+<sn:pointer id="480">Cid「せめて おじちゃんと よべ![end]</sn:pointer>
+
+<sn:pointer id="481">『バロンへ‥むかう![end]</sn:pointer>
+
+<sn:pointer id="482">『Yang!
+
+
+
+Yang「つまに つたえてくれ‥
+ わたしのぶんも いきろと!
+
+
+Cain「あけるんだ Yang!
+Rydia「Yang!
+Rosa「おねがい!
+ ばかなまねは しないで!
+『Yang!
+Yang「たのしい たびであった!
+
+
+『あけろ Yang!
+
+
+
+Yang「うおおおー![end]</sn:pointer>
+
+<sn:pointer id="483">Porom「ごらんのとおりですわ!
+Palom「まさかとは おもったけどな!
+『なんのことです?
+
+ちょうろう「わるいとはおもったが このふたりに
+ そなたのみはりさ めいじたのじゃ゜
+ もっとも そのひつようもなかったようじゃな゜
+ ごくろうじゃった Palom
+ Porom![end]</sn:pointer>
+
+<sn:pointer id="484">Rydiaが アスラさ おぼえた!
+[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="485">Rydiaが リヴァイアサンさ おぼえた!
+[music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="486">ちょうろう「おお そのすがたは![end]</sn:pointer>
+
+<sn:pointer id="487">Gilbert「Anna!
+Tella「Anna! Annaーッ![delay][0x2b][end]</sn:pointer>
+
+<sn:pointer id="488">Tella「そんなにまで こやつのことさ‥
+Anna「おとうさん‥わたしさ ゆるして‥
+ Gilbert‥あい‥してる![end]</sn:pointer>
+
+<sn:pointer id="489">Gilbert「さよなら‥Anna![end]</sn:pointer>
+
+<sn:pointer id="490">Gilbert「さあ いそごう!
+
+
+
+おうぞく Gilbertが なかまになった![music][0x29][delay][0x28][end]</sn:pointer>
+
+<sn:pointer id="491">Tella「ヤツは このしたじゃ![end]</sn:pointer>
+
+<sn:pointer id="492">『ながれが きゅうで はいっていけない![end]</sn:pointer>
+
+<sn:pointer id="493">おきゃくさま かいいんしょうは おもちで?[end]</sn:pointer>
+
+<sn:pointer id="494">では ごゆっくり おたのしみください゜[end]</sn:pointer>
+
+<sn:pointer id="495">『Yangーー![music][0x2a][delay][0x30][end]</sn:pointer>
+
+<sn:pointer id="496">おうぎのしょさ みつけた![end]</sn:pointer>
+
+<sn:pointer id="497">エッチなほんさ みつけた![delay][0x30][end]</sn:pointer>
+
+<sn:pointer id="498">バロンおう「バロン?
+ クカカカカ‥だれだ そいつは?
+ おお そうか おもいだした゜
+ たしか このくには わたさんなどと
+ いっていた おろかな にんげんか゜
+ そいつに なりすましていたんだっけなあ
+ おれは‥ヒャアッヒャッヒャッ!
+『きさま へいかさ!
+バロンおう「あいたいか? おうに あいたいか?
+ おれは スカルミリョーネのように
+ ぶざまなことは せんぞお゜
+ なにしろ あいつは 4てんのうに
+ なれたのが ふしぎなくらい
+ よわっちいヤツだったからなあ゜
+ グヘヘヘヘ!
+『ということは きさまも![end]</sn:pointer>
+
+<sn:pointer id="499">Golbez「Cecil‥![end]</sn:pointer>
+
+<sn:pointer id="500">ろうじん「ヌッ おぬし!
+ よくみれば あんこくけんの つかいてじゃな!
+ たのむ てさかしてくれ!
+『どうしたんです?
+ろうじん「むすめの Annaが
+ ぎんゆうしじんに だまされ
+ ダムシアンに いってしまったのじゃ!
+ ダムシアンに ふきつな けはいが
+ たちこめておる!
+
+
+
+『では あなたが けんじゃ Tella![end]</sn:pointer>
+
+<sn:pointer id="501">Golbez「はい゜[end]</sn:pointer>
+
+<sn:pointer id="502">じい「わか![delay][0x10][end]</sn:pointer>
+
+<sn:pointer id="503">Yangのおくさん「あんただって![delay][0xa][end]</sn:pointer>
+
+<sn:pointer id="504">ルカのくびかざりさ うけとった![end]</sn:pointer>
+
+<sn:pointer id="505">Yang「ひとあし おそかったか!
+『たたかっているのは‥?
+Cid「ええい! きょうこうとっぱする!
+ しっかり つかまっとれい![end]</sn:pointer>
+
+<sn:pointer id="506">せいなるちからさ ひめし この やりさ
+もとめるものは ほろびるがよい![end]</sn:pointer>
+
+<sn:pointer id="507">せいなるちからに まもられし リボンさ
+きさまらの てには わたすわけには ゆかん‥[end]</sn:pointer>
+
+<sn:pointer id="508">ゼムスさまの いみきらう この けんのちから‥かいほうするわけには ゆかぬ‥![end]</sn:pointer>
+
+<sn:pointer id="509">ルゲイエはかせ「ヒャヒャヒャ‥
+ このバブイルのとうは だいちさ つらぬき
+ ちじょうと ちていさ むすんでおる‥
+ クリスタルは すでに ルビカンテが
+ ちじょうへ うつした!
+ ドワーフは ワシのつくった きょだいほうで
+ ぜんめつじゃ‥ヒャヒャヒャーッ![end]</sn:pointer>
+
+<sn:pointer id="510">この かたなさ てにするまえに ゆくがよい!
+じごくへ‥![end]</sn:pointer>
+
+<sn:pointer id="511">Yang「ということは ファブールの
+ かぜのクリスタルも!
+Gilbert「ええ‥ダムシアンの
+ クリスタルは すでに うばわれてしまいました゜『つぎは ファブールが ねらわれているんです゜
+Yang「!‥なんということだ゜
+ しゅりょくのモンクたいは ぜんめつ゜
+ しろに いるのは まだ しゅぎょうも あさい
+ ものばかり゜
+ いま せめこまれては ひとたまりも!</sn:pointer>
+
+</sn:script>

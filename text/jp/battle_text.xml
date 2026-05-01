@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:pointer id="0">こうかが なかった[end]</sn:pointer>
+
+<sn:pointer id="1">MPが たりない[end]</sn:pointer>
+
+<sn:pointer id="2">せんせいこうげきの チャンス![end]</sn:pointer>
+
+<sn:pointer id="3">ふいうちだ![end]</sn:pointer>
+
+<sn:pointer id="4">バックアタックだ![end]</sn:pointer>
+
+<sn:pointer id="5">にげだした[end]</sn:pointer>
+
+<sn:pointer id="6">たたかいに かった![end]</sn:pointer>
+
+<sn:pointer id="7">おもいだした![end]</sn:pointer>
+
+<sn:pointer id="8">ちがう これじゃない[end]</sn:pointer>
+
+<sn:pointer id="9">むー なにもおもいだせん[end]</sn:pointer>
+
+<sn:pointer id="10">こえが でない[end]</sn:pointer>
+
+<sn:pointer id="11">かえるのうた[end]</sn:pointer>
+
+<sn:pointer id="12">こもりうた[end]</sn:pointer>
+
+<sn:pointer id="13">ゆうわくのうた[end]</sn:pointer>
+
+<sn:pointer id="14">ちんもくのうた[end]</sn:pointer>
+
+<sn:pointer id="15">くすりが たりない[end]</sn:pointer>
+
+<sn:pointer id="16">いのりは てんに とどかなかった[end]</sn:pointer>
+
+<sn:pointer id="17">シンクロが みだれた[end]</sn:pointer>
+
+<sn:pointer id="18">まほうのちから アップ![end]</sn:pointer>
+
+<sn:pointer id="19">まものさ あわてさせた[end]</sn:pointer>
+
+<sn:pointer id="20">じゃくてんは とくにない[end]</sn:pointer>
+
+<sn:pointer id="21">ほのおに よわい[end]</sn:pointer>
+
+<sn:pointer id="22">れいきに よわい[end]</sn:pointer>
+
+<sn:pointer id="23">いかづちに よわい[end]</sn:pointer>
+
+<sn:pointer id="24">やみのちからに よわい[end]</sn:pointer>
+
+<sn:pointer id="25">せいなるちからに よわい[end]</sn:pointer>
+
+<sn:pointer id="26">とびどうぐに よわい[end]</sn:pointer>
+
+<sn:pointer id="27">ぬすみそこなった[end]</sn:pointer>
+
+<sn:pointer id="28">モンスターにみつかった[end]</sn:pointer>
+
+<sn:pointer id="29">[0x6]3さ ぬすんだ[end]</sn:pointer>
+
+<sn:pointer id="30">[0x6]0/[0x6]1[end]</sn:pointer>
+
+<sn:pointer id="31">[0x6]0 ギルてにいれた[end]</sn:pointer>
+
+<sn:pointer id="32">[0x6]1 のけいけんちさえた[end]</sn:pointer>
+
+<sn:pointer id="33">[0x6]2は レベルがあがった[end]</sn:pointer>
+
+<sn:pointer id="34">にげられない![end]</sn:pointer>
+
+<sn:pointer id="35">[0x6]4さ おぼえた![end]</sn:pointer>
+
+<sn:pointer id="36">パーティは ぜんめつした‥‥[end]</sn:pointer>
+
+<sn:pointer id="37">せんとうふのうに おちいった![end]</sn:pointer>
+
+<sn:pointer id="38">いしに なった![end]</sn:pointer>
+
+<sn:pointer id="39">かえるに なった![end]</sn:pointer>
+
+<sn:pointer id="40">こびとに なった![end]</sn:pointer>
+
+<sn:pointer id="41">ブタに なった![end]</sn:pointer>
+
+<sn:pointer id="42">ちんもく した![end]</sn:pointer>
+
+<sn:pointer id="43">くらやみに おおわれた![end]</sn:pointer>
+
+<sn:pointer id="44">どくさ うけた![end]</sn:pointer>
+
+<sn:pointer id="45">のろいに かかった![end]</sn:pointer>
+
+<sn:pointer id="46">だみー[end]</sn:pointer>
+
+<sn:pointer id="47">まひ した![end]</sn:pointer>
+
+<sn:pointer id="48">ねむりに おちた![end]</sn:pointer>
+
+<sn:pointer id="49">こんらん した![end]</sn:pointer>
+
+<sn:pointer id="50">きょうせんしと かした![end]</sn:pointer>
+
+<sn:pointer id="51">だんだん いしに なっていく!?[end]</sn:pointer>
+
+<sn:pointer id="52">だんだん いしに なっていく!?[end]</sn:pointer>
+
+<sn:pointer id="53">どくのダメージ[end]</sn:pointer>
+
+<sn:pointer id="54">HPが じょじょに かいふく[end]</sn:pointer>
+
+<sn:pointer id="55">[0x6]0ギル おっことした![end]</sn:pointer>
+
+<sn:pointer id="56">じょじょに たいりょくさうばわれ ちからつきた[end]</sn:pointer>
+
+<sn:pointer id="57">ちからさためて こうげきりょく 2ばい![end]</sn:pointer>
+
+</sn:script>

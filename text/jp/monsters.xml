@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="8" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>ゴブリン    </sn:fixed>
+<sn:fixed>バジリスク   </sn:fixed>
+<sn:fixed>ダイブイーグル </sn:fixed>
+<sn:fixed>フロータイボール</sn:fixed>
+<sn:fixed>インセクタス  </sn:fixed>
+<sn:fixed>フェイスバット </sn:fixed>
+<sn:fixed>ウッドアイズ  </sn:fixed>
+<sn:fixed>ソードラット  </sn:fixed>
+<sn:fixed>ミニマジシャン </sn:fixed>
+<sn:fixed>デザートサハギン</sn:fixed>
+<sn:fixed>フライングアイ </sn:fixed>
+<sn:fixed>ハンドレッグ  </sn:fixed>
+<sn:fixed>サンドウォーム </sn:fixed>
+<sn:fixed>ギガントード  </sn:fixed>
+<sn:fixed>ファングシェル </sn:fixed>
+<sn:fixed>ゾンビー    </sn:fixed>
+<sn:fixed>フライキラー  </sn:fixed>
+<sn:fixed>ブラッドフラワ </sn:fixed>
+<sn:fixed>オーガニトード </sn:fixed>
+<sn:fixed>レッドマシュマロ</sn:fixed>
+<sn:fixed>イエローゼリー </sn:fixed>
+<sn:fixed>サハギン    </sn:fixed>
+<sn:fixed>レーシイ    </sn:fixed>
+<sn:fixed>クリセイルス  </sn:fixed>
+<sn:fixed>ゴブリンキャップ</sn:fixed>
+<sn:fixed>くろとかげ   </sn:fixed>
+<sn:fixed>アダマンタイマイ</sn:fixed>
+<sn:fixed>ドモボーイ   </sn:fixed>
+<sn:fixed>パープルババロア</sn:fixed>
+<sn:fixed>バロンへい   </sn:fixed>
+<sn:fixed>ジェネラル   </sn:fixed>
+<sn:fixed>ガトリンガ   </sn:fixed>
+<sn:fixed>リルマーダー  </sn:fixed>
+<sn:fixed>デスビューティ </sn:fixed>
+<sn:fixed>スピリット   </sn:fixed>
+<sn:fixed>スケルトン   </sn:fixed>
+<sn:fixed>コカトリス   </sn:fixed>
+<sn:fixed>ガーゴイル   </sn:fixed>
+<sn:fixed>ルドランベビー </sn:fixed>
+<sn:fixed>ベルフェゴール </sn:fixed>
+<sn:fixed>ズー      </sn:fixed>
+<sn:fixed>シー◉ッツ   </sn:fixed>
+<sn:fixed>アリゲイター  </sn:fixed>
+<sn:fixed>スプラッシャー </sn:fixed>
+<sn:fixed>バロンかいへい </sn:fixed>
+<sn:fixed>キャプテン   </sn:fixed>
+<sn:fixed>ソウル     </sn:fixed>
+<sn:fixed>ブラッディボーン</sn:fixed>
+<sn:fixed>グール     </sn:fixed>
+<sn:fixed>スカルジャー  </sn:fixed>
+<sn:fixed>レブナント   </sn:fixed>
+<sn:fixed>ドラキュレディ </sn:fixed>
+<sn:fixed>エーラパトラ  </sn:fixed>
+<sn:fixed>スカルドラゴン </sn:fixed>
+<sn:fixed>らいぎょ    </sn:fixed>
+<sn:fixed>ギガースゲイター</sn:fixed>
+<sn:fixed>ヒュドラ    </sn:fixed>
+<sn:fixed>フラッドウォーム</sn:fixed>
+<sn:fixed>バロンこのえへい</sn:fixed>
+<sn:fixed>ラミア     </sn:fixed>
+<sn:fixed>ヘルニードル  </sn:fixed>
+<sn:fixed>ツインスネーク </sn:fixed>
+<sn:fixed>らいせい    </sn:fixed>
+<sn:fixed>マインドフレア </sn:fixed>
+<sn:fixed>ナーガ     </sn:fixed>
+<sn:fixed>オーガ     </sn:fixed>
+<sn:fixed>ケットシー   </sn:fixed>
+<sn:fixed>ブラックナイト </sn:fixed>
+<sn:fixed>ケンタウロナイト</sn:fixed>
+<sn:fixed>ミスバンパイア </sn:fixed>
+<sn:fixed>マリオネイター </sn:fixed>
+<sn:fixed>マリオン    </sn:fixed>
+<sn:fixed>グルームウイング</sn:fixed>
+<sn:fixed>デスタネット  </sn:fixed>
+<sn:fixed>マリード    </sn:fixed>
+<sn:fixed>サタナイト   </sn:fixed>
+<sn:fixed>アームドママル </sn:fixed>
+<sn:fixed>レディガーダー </sn:fixed>
+<sn:fixed>れいきし    </sn:fixed>
+<sn:fixed>ナーガラージャ </sn:fixed>
+<sn:fixed>メデューサ   </sn:fixed>
+<sn:fixed>サウルスゾンビー</sn:fixed>
+<sn:fixed>マグマントータス</sn:fixed>
+<sn:fixed>インプ     </sn:fixed>
+<sn:fixed>ドリームエビル </sn:fixed>
+<sn:fixed>ボム      </sn:fixed>
+<sn:fixed>◎イニーボム  </sn:fixed>
+<sn:fixed>キマイラ    </sn:fixed>
+<sn:fixed>ヘルタートル  </sn:fixed>
+<sn:fixed>アイアンドレス </sn:fixed>
+<sn:fixed>フレイムドッグ </sn:fixed>
+<sn:fixed>ゴルゴーン   </sn:fixed>
+<sn:fixed>ストーンゴーレム</sn:fixed>
+<sn:fixed>リリス     </sn:fixed>
+<sn:fixed>マザーラミア  </sn:fixed>
+<sn:fixed>トーディトード </sn:fixed>
+<sn:fixed>モルズ     </sn:fixed>
+<sn:fixed>ルドラ     </sn:fixed>
+<sn:fixed>ソーサラー   </sn:fixed>
+<sn:fixed>バーサオーガ  </sn:fixed>
+<sn:fixed>フラウドパ◎ット</sn:fixed>
+<sn:fixed>ブラッディバット</sn:fixed>
+<sn:fixed>アルケニー   </sn:fixed>
+<sn:fixed>フレイムナイト </sn:fixed>
+<sn:fixed>きかいほう   </sn:fixed>
+<sn:fixed>レメディボム  </sn:fixed>
+<sn:fixed>ダークグラネイド</sn:fixed>
+<sn:fixed>プレイグ    </sn:fixed>
+<sn:fixed>ラストアーム  </sn:fixed>
+<sn:fixed>クアール    </sn:fixed>
+<sn:fixed>きかいりゅう  </sn:fixed>
+<sn:fixed>アラウネ    </sn:fixed>
+<sn:fixed>プラクティ   </sn:fixed>
+<sn:fixed>アンダグランダ </sn:fixed>
+<sn:fixed>アビスウォーム </sn:fixed>
+<sn:fixed>ブラッディレッド</sn:fixed>
+<sn:fixed>ミスリーダ   </sn:fixed>
+<sn:fixed>ブリズリザード </sn:fixed>
+<sn:fixed>ヘルフラッパー </sn:fixed>
+<sn:fixed>エビルヘッド  </sn:fixed>
+<sn:fixed>ブリーズビースト</sn:fixed>
+<sn:fixed>しょうかんし  </sn:fixed>
+<sn:fixed>ソーサルレディ </sn:fixed>
+<sn:fixed>アサルトドアー </sn:fixed>
+<sn:fixed>トーディウィッチ</sn:fixed>
+<sn:fixed>マモン     </sn:fixed>
+<sn:fixed>キマイラブレイン</sn:fixed>
+<sn:fixed>ルナウィルス  </sn:fixed>
+<sn:fixed>ゼムスブレス  </sn:fixed>
+<sn:fixed>ホワイトムース </sn:fixed>
+<sn:fixed>ブラックプリン </sn:fixed>
+<sn:fixed>ゼムスマインド </sn:fixed>
+<sn:fixed>ミスリルゴーレム</sn:fixed>
+<sn:fixed>グリーンドラゴン</sn:fixed>
+<sn:fixed>プリンプリンセス</sn:fixed>
+<sn:fixed>アイズ     </sn:fixed>
+<sn:fixed>きかいへい   </sn:fixed>
+<sn:fixed>きょじんへい  </sn:fixed>
+<sn:fixed>つきのめがみ  </sn:fixed>
+<sn:fixed>モルボル    </sn:fixed>
+<sn:fixed>ぎんりゅう   </sn:fixed>
+<sn:fixed>イエロードラゴン</sn:fixed>
+<sn:fixed>サタナジュニア </sn:fixed>
+<sn:fixed>ユカリョーテ  </sn:fixed>
+<sn:fixed>フェイズ    </sn:fixed>
+<sn:fixed>てっきへい   </sn:fixed>
+<sn:fixed>まじんへい   </sn:fixed>
+<sn:fixed>ステイルゴーレム</sn:fixed>
+<sn:fixed>アーリマン   </sn:fixed>
+<sn:fixed>ルナザウルス  </sn:fixed>
+<sn:fixed>サーチャー   </sn:fixed>
+<sn:fixed>あんこくまどうし</sn:fixed>
+<sn:fixed>ダークバハムート</sn:fixed>
+<sn:fixed>プロカリョーテ </sn:fixed>
+<sn:fixed>タイダリアサン </sn:fixed>
+<sn:fixed>ブルードラゴン </sn:fixed>
+<sn:fixed>きんりゅう   </sn:fixed>
+<sn:fixed>らいりゅう   </sn:fixed>
+<sn:fixed>はくりゅう   </sn:fixed>
+<sn:fixed>レッドドラゴン </sn:fixed>
+<sn:fixed>ベヒーモス   </sn:fixed>
+<sn:fixed>ミストドラゴン </sn:fixed>
+<sn:fixed>オクトマンモス </sn:fixed>
+<sn:fixed>アントリオン  </sn:fixed>
+<sn:fixed>マザーボム   </sn:fixed>
+<sn:fixed>スカルミリョーネ</sn:fixed>
+<sn:fixed>スカルミリョーネ</sn:fixed>
+<sn:fixed>ベイガン    </sn:fixed>
+<sn:fixed>   みぎうで </sn:fixed>
+<sn:fixed>   ひだりうで</sn:fixed>
+<sn:fixed>カイナッツォ  </sn:fixed>
+<sn:fixed>ダークエルフ  </sn:fixed>
+<sn:fixed>ダークエルフ  </sn:fixed>
+<sn:fixed>ドグ      </sn:fixed>
+<sn:fixed>マグ      </sn:fixed>
+<sn:fixed>ラグ      </sn:fixed>
+<sn:fixed>ゴルベーザ   </sn:fixed>
+<sn:fixed>バルバリシア  </sn:fixed>
+<sn:fixed>カルコ     </sn:fixed>
+<sn:fixed>カルコブリーナ </sn:fixed>
+<sn:fixed>ゴルベーザ   </sn:fixed>
+<sn:fixed>こくりゅう   </sn:fixed>
+<sn:fixed>はかせ     </sn:fixed>
+<sn:fixed>バルナバ    </sn:fixed>
+<sn:fixed>ルゲイエ    </sn:fixed>
+<sn:fixed>エブラーナおう </sn:fixed>
+<sn:fixed>エブラーナおうひ</sn:fixed>
+<sn:fixed>ルビカンテ   </sn:fixed>
+<sn:fixed>オーディン   </sn:fixed>
+<sn:fixed>リヴァイアサン </sn:fixed>
+<sn:fixed>バハムート   </sn:fixed>
+<sn:fixed>デモンズウォール</sn:fixed>
+<sn:fixed>アスラ     </sn:fixed>
+<sn:fixed>してんのう   </sn:fixed>
+<sn:fixed>してんのう   </sn:fixed>
+<sn:fixed>ダークドラゴン </sn:fixed>
+<sn:fixed>サハギン    </sn:fixed>
+<sn:fixed>せいぎょシステム</sn:fixed>
+<sn:fixed>ぼうえいシステム</sn:fixed>
+<sn:fixed>ゼムス     </sn:fixed>
+<sn:fixed>ゼロムス    </sn:fixed>
+<sn:fixed>ゼロムス    </sn:fixed>
+<sn:fixed>りゅうきし   </sn:fixed>
+<sn:fixed>ぎんゆうしじん </sn:fixed>
+<sn:fixed>モンクそう   </sn:fixed>
+<sn:fixed>あんこくきし  </sn:fixed>
+<sn:fixed>おんなのこ   </sn:fixed>
+<sn:fixed>タイタン    </sn:fixed>
+<sn:fixed>フロータイボール</sn:fixed>
+<sn:fixed>ズー      </sn:fixed>
+<sn:fixed>ブリーナ    </sn:fixed>
+<sn:fixed>スカルナント  </sn:fixed>
+<sn:fixed>がったいメカ  </sn:fixed>
+<sn:fixed>げいげきシステム</sn:fixed>
+<sn:fixed>モンスター214</sn:fixed>
+<sn:fixed>ひぐち かつひさ</sn:fixed>
+<sn:fixed>ゼロムス    </sn:fixed>
+<sn:fixed>いとう ひろゆき</sn:fixed>
+<sn:fixed>まつい あきひこ</sn:fixed>
+<sn:fixed>あおき かずひこ</sn:fixed>
+<sn:fixed>なかだ ひろみ </sn:fixed>
+<sn:fixed>よしい きよし </sn:fixed>
+<sn:fixed>たかはし てつや</sn:fixed>
+<sn:fixed>ミステレグ   </sn:fixed>
+</sn:fixedlist>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:pointer id="0">ドラゴンは きりに すがたさ かえた![end]</sn:pointer>
+
+<sn:pointer id="1">もとに もどる! いまがこうげきの チャンス![end]</sn:pointer>
+
+<sn:pointer id="2">きりは すべての こうげきさ むこうにする[end]</sn:pointer>
+
+<sn:pointer id="3">こうげきすれば ドラゴンのブレスに やられる![end]</sn:pointer>
+
+<sn:pointer id="4">じったいさ あらわしたときが たおすチャンス![end]</sn:pointer>
+
+<sn:pointer id="5">「さらば[end]</sn:pointer>
+
+<sn:pointer id="6">「ううっ! からだが くずれていくううっ!![end]</sn:pointer>
+
+<sn:pointer id="7">「わしの かわいい こどもたちよ[end]</sn:pointer>
+
+<sn:pointer id="8">  ‥‥しんにゅうしゃ かくにんちゅう‥‥[end]</sn:pointer>
+
+<sn:pointer id="9">「オロカナ ソロソロ コチラカラ イクゾ![end]</sn:pointer>
+
+<sn:pointer id="10">Yang「だめだ‥‥ かちめがない‥‥[end]</sn:pointer>
+
+<sn:pointer id="11">『けんさえ つかえれば‥‥[end]</sn:pointer>
+
+<sn:pointer id="12">Tella「くっそー‥‥[end]</sn:pointer>
+
+<sn:pointer id="13">「ナラバ スガタ カエルシカ ナイ![end]</sn:pointer>
+
+<sn:pointer id="14">『めささませ! Yang![end]</sn:pointer>
+
+<sn:pointer id="15">「しねえっ!![end]</sn:pointer>
+
+<sn:pointer id="16">『Cecilだ! わからないのか![end]</sn:pointer>
+
+<sn:pointer id="17">「うりゃうりゃー![end]</sn:pointer>
+
+<sn:pointer id="18">「うっ‥‥[end]</sn:pointer>
+
+<sn:pointer id="19">おんなのこ「もう いやーーーーっ!![end]</sn:pointer>
+
+<sn:pointer id="20">「しょうたいさ みたものは いかしておけぬ[end]</sn:pointer>
+
+<sn:pointer id="21">アンナ「おねがいっ! ふたりとも やめてっ![end]</sn:pointer>
+
+<sn:pointer id="22">Tella「きさま よくも むすめさ‥‥[end]</sn:pointer>
+
+<sn:pointer id="23">ぎんゆうしじん「ちがいます![end]</sn:pointer>
+
+<sn:pointer id="24">Tella「なにが ちがうと いうのだ![end]</sn:pointer>
+
+<sn:pointer id="25">ぎんゆうしじん「はなしさ きいてください![end]</sn:pointer>
+
+<sn:pointer id="26">Tella「えーい だまれえ![end]</sn:pointer>
+
+<sn:pointer id="27">ぎんゆうしじん「おねがいです![end]</sn:pointer>
+
+<sn:pointer id="28">Tella「このいたみ アンナのいたみ‥‥[end]</sn:pointer>
+
+<sn:pointer id="29">ぎんゆうしじん「アンナとは‥‥[end]</sn:pointer>
+
+<sn:pointer id="30">「もし おまえが ほんとうの パラディンなら[end]</sn:pointer>
+
+<sn:pointer id="31">「けんさ おさめ たえるのだ![end]</sn:pointer>
+
+<sn:pointer id="32">「せいぎよりも ただしいことよりも[end]</sn:pointer>
+
+<sn:pointer id="33">「だいじな ことがある[end]</sn:pointer>
+
+<sn:pointer id="34">「いつか わかるときがくる[end]</sn:pointer>
+
+<sn:pointer id="35">「がけから つきおとして くれるわっ![end]</sn:pointer>
+
+<sn:pointer id="36">Tella「メテオさ つかうときが きたか‥‥[end]</sn:pointer>
+
+<sn:pointer id="37">『やめろっ! そんなことさしたら‥‥[end]</sn:pointer>
+
+<sn:pointer id="38">Yang「むちゃな そなたのほうが もたぬ![end]</sn:pointer>
+
+<sn:pointer id="39">Tella「このいのち すべてさMPにかえて[end]</sn:pointer>
+
+<sn:pointer id="40">「きさまさ‥‥ たおすっ!![end]</sn:pointer>
+
+<sn:pointer id="41">ゴルベーザ「うっ ばっばかな メテオさ‥‥![end]</sn:pointer>
+
+<sn:pointer id="42">ゴルベーザ「しょせん おいぼれのおまえに[end]</sn:pointer>
+
+<sn:pointer id="43">「わたしさたおす ちからは ないはず![end]</sn:pointer>
+
+<sn:pointer id="44">「オロカモノ![end]</sn:pointer>
+
+<sn:pointer id="45">マグ「いまよ ラグ! わたしに まほうさっ![end]</sn:pointer>
+
+<sn:pointer id="46">「だめだ しょうめんからは かぜで みえない![end]</sn:pointer>
+
+<sn:pointer id="47">「ジャンプで たたくしかない![end]</sn:pointer>
+
+<sn:pointer id="48">おう「おまえらもか そんなに しにたいのなら[end]</sn:pointer>
+
+<sn:pointer id="49">「まとめて じごくのすなに してやろう![end]</sn:pointer>
+
+<sn:pointer id="50">Edge「どうしちまったんだい!?[end]</sn:pointer>
+
+<sn:pointer id="51">「おやじっ! おふくろっ![end]</sn:pointer>
+
+<sn:pointer id="52">Edge「オレだよっ なあっ‥‥[end]</sn:pointer>
+
+<sn:pointer id="53">おうと おうひは りょうしんさ とりもどした![end]</sn:pointer>
+
+<sn:pointer id="54">おう「Edgeか‥‥ わしの はなしさきけ[end]</sn:pointer>
+
+<sn:pointer id="55">「われわれは もう ひとではない‥‥[end]</sn:pointer>
+
+<sn:pointer id="56">「いきていては いけない そんざいなのだ[end]</sn:pointer>
+
+<sn:pointer id="57">おうひ「あなたに のこすものがなくて‥‥[end]</sn:pointer>
+
+<sn:pointer id="58">『なぜだっ! Cainっ![end]</sn:pointer>
+
+<sn:pointer id="59">「もんどう むよう![end]</sn:pointer>
+
+<sn:pointer id="60">『いったい なにが あったんだ!?[end]</sn:pointer>
+
+<sn:pointer id="61">「うるさい だまれっ![end]</sn:pointer>
+
+<sn:pointer id="62">「Cecil! とどめだっ[end]</sn:pointer>
+
+<sn:pointer id="63">ば く は つ  するーーー![end]</sn:pointer>
+
+<sn:pointer id="64">アンナ「ゆうきさ だすのよっ![end]</sn:pointer>
+
+<sn:pointer id="65">「ア アンナっ![end]</sn:pointer>
+
+<sn:pointer id="66">「あなたは あなたがおもってるほど よわくないわ[end]</sn:pointer>
+
+<sn:pointer id="67">「じぶんさ しんじるのよ![end]</sn:pointer>
+
+<sn:pointer id="68">「やってみるよ アンナ![end]</sn:pointer>
+
+<sn:pointer id="69">「うっ ぐぺぺぺぺーっ![end]</sn:pointer>
+
+<sn:pointer id="70">つなみのための みずさ あつめはじめた![end]</sn:pointer>
+
+<sn:pointer id="71">とじこもって ぼうぎょたいせい![end]</sn:pointer>
+
+<sn:pointer id="72">Tella「さすが あんこくの つかいて![end]</sn:pointer>
+
+<sn:pointer id="73">「うごきが にぶりおったわい![end]</sn:pointer>
+
+<sn:pointer id="74">ゴルベーザ「はっはっはっ[end]</sn:pointer>
+
+<sn:pointer id="75">「これが おまえたちのちからか‥‥[end]</sn:pointer>
+
+<sn:pointer id="76">「しばらくおとなしく していてもらおう![end]</sn:pointer>
+
+<sn:pointer id="77">「うごけぬからだに のこされたひとみで[end]</sn:pointer>
+
+<sn:pointer id="78">「しんのきょうふさ あじわうがいい![end]</sn:pointer>
+
+<sn:pointer id="79">「まいれ こくりゅう![end]</sn:pointer>
+
+<sn:pointer id="80">ゴルベーザ「Cecil つぎは おまえだ![end]</sn:pointer>
+
+<sn:pointer id="81">キャプテン「とつげーきっ![end]</sn:pointer>
+
+<sn:pointer id="82">ジェネラル「かかれっ![end]</sn:pointer>
+
+<sn:pointer id="83">ゴルベーザ「ド ドラゴン‥‥[end]</sn:pointer>
+
+<sn:pointer id="84">????「だいじょうぶ もう うごけるわ![end]</sn:pointer>
+
+<sn:pointer id="85">『そのこえは‥‥[end]</sn:pointer>
+
+<sn:pointer id="86">「わたしが ま け る と は‥‥[end]</sn:pointer>
+
+<sn:pointer id="87">はかせ「ゆけ!バルナバ こてんぱんにするのだ[end]</sn:pointer>
+
+<sn:pointer id="88">バルナバ「ウガー![end]</sn:pointer>
+
+<sn:pointer id="89">はかせ「いてっ わしさ なぐってどうする[end]</sn:pointer>
+
+<sn:pointer id="90">「あっちだ あっち わかったな![end]</sn:pointer>
+
+<sn:pointer id="91">はかせ「よし おまえのパワーさ みせてやれ![end]</sn:pointer>
+
+<sn:pointer id="92">はかせ「よくも かわいい バルナバさ‥![end]</sn:pointer>
+
+<sn:pointer id="93">はかせ「こうなれば わしが みずから[end]</sn:pointer>
+
+<sn:pointer id="94">バルナバさ そうじゅうじゃっ![end]</sn:pointer>
+
+<sn:pointer id="95">はかせ「あぶらが きれては いかんいかん![end]</sn:pointer>
+
+<sn:pointer id="96">バルナバ「ア‥ブ‥ラ‥ク‥レ‥[end]</sn:pointer>
+
+<sn:pointer id="97">「ほんとうの きょうふさ みせてやる![end]</sn:pointer>
+
+<sn:pointer id="98">「へんしーーーん![end]</sn:pointer>
+
+<sn:pointer id="99">はかせ「およ なんじゃ このボタンは‥ ◉チッ[end]</sn:pointer>
+
+<sn:pointer id="100">ドグ「あねじゃっ いくわよ![end]</sn:pointer>
+
+<sn:pointer id="101">ラグ「マグねえさん はねかえしてっ![end]</sn:pointer>
+
+<sn:pointer id="102">メーガス3しまい「デルタアターック!![end]</sn:pointer>
+
+<sn:pointer id="103">「しぬぞ[end]</sn:pointer>
+
+<sn:pointer id="104">でんりゅうが オーディンさ つらぬいた![end]</sn:pointer>
+
+<sn:pointer id="105">ルビカンテ「なんだ そのあわれな じゅつは‥‥[end]</sn:pointer>
+
+<sn:pointer id="106">「いつのひか かならず よみがえる[end]</sn:pointer>
+
+<sn:pointer id="107">「ほのおは こうして つかうものだ![end]</sn:pointer>
+
+<sn:pointer id="108">Edge「‥‥[end]</sn:pointer>
+
+<sn:pointer id="109">おう「この いしきのあるうちに[end]</sn:pointer>
+
+<sn:pointer id="110">「われわれは ここささらねば ならん‥‥[end]</sn:pointer>
+
+<sn:pointer id="111">「あとさ たのんだぞ Edge[end]</sn:pointer>
+
+<sn:pointer id="112">Edge「いやだっ! いっちゃいやだっ![end]</sn:pointer>
+
+<sn:pointer id="113">おうひ「さよなら Edge[end]</sn:pointer>
+
+<sn:pointer id="114">Edge「まってっ! おふくろっ![end]</sn:pointer>
+
+<sn:pointer id="115">「いやだー ー ー[end]</sn:pointer>
+
+<sn:pointer id="116">サンダーぞくせいが バリアさ うちくだいた![end]</sn:pointer>
+
+<sn:pointer id="117">すべての まほうこうかが うちけされた![end]</sn:pointer>
+
+<sn:pointer id="118">「へたくそっ![end]</sn:pointer>
+
+<sn:pointer id="119">は[end]</sn:pointer>
+
+<sn:pointer id="120">           5[end]</sn:pointer>
+
+<sn:pointer id="121">           4[end]</sn:pointer>
+
+<sn:pointer id="122">           3[end]</sn:pointer>
+
+<sn:pointer id="123">           2[end]</sn:pointer>
+
+<sn:pointer id="124">           1[end]</sn:pointer>
+
+<sn:pointer id="125">にんぎょうが がったいする![end]</sn:pointer>
+
+<sn:pointer id="126">がったいパワーが きれた![end]</sn:pointer>
+
+<sn:pointer id="127">FuSoYa「もうひといきじゃ パワーさメテオに[end]</sn:pointer>
+
+<sn:pointer id="128">ゴルベーザ「いいですとも![end]</sn:pointer>
+
+<sn:pointer id="129">ゼムス「つかうがいい すべてのちからさ[end]</sn:pointer>
+
+<sn:pointer id="130">ゼムス「この からだ ほろびても‥‥[end]</sn:pointer>
+
+<sn:pointer id="131">「たましいは‥‥ ふ‥‥め‥‥つ‥‥ [end]</sn:pointer>
+
+<sn:pointer id="132">FuSoYa「だめじゃ やつにメテオは きかぬ![end]</sn:pointer>
+
+<sn:pointer id="133">「ゴルベーザ! クリスタルさ つかうときじゃっ![end]</sn:pointer>
+
+<sn:pointer id="134">ゼロムス「あんこくのみちさ あゆんだ おまえが[end]</sn:pointer>
+
+<sn:pointer id="135">「クリスタルさ つかおうが かがやきはもどらぬ[end]</sn:pointer>
+
+<sn:pointer id="136">「ただ あんこくに かいきする のみだ![end]</sn:pointer>
+
+<sn:pointer id="137">「ゲコゲコ おなき![end]</sn:pointer>
+
+<sn:pointer id="138">ドアから モンスターがとびだした![end]</sn:pointer>
+
+<sn:pointer id="139">「まだまだ あおいっ![end]</sn:pointer>
+
+<sn:pointer id="140">「おれの ステータスさみなよ[end]</sn:pointer>
+
+<sn:pointer id="141">てつやに よわい[end]</sn:pointer>
+
+<sn:pointer id="142">めがねの おんなのこに よわい[end]</sn:pointer>
+
+<sn:pointer id="143">ルビカンテ「ここは わたしのまけだ だが[end]</sn:pointer>
+
+<sn:pointer id="144">さっぱり よわい[end]</sn:pointer>
+
+<sn:pointer id="145">「こんなはずじゃ‥‥[end]</sn:pointer>
+
+<sn:pointer id="146">「こんなぼくさ なぐるなんて!?[end]</sn:pointer>
+
+<sn:pointer id="147">「うわー ゆるしてーっ![end]</sn:pointer>
+
+<sn:pointer id="148">「ゆけ! Cecilよ![end]</sn:pointer>
+
+<sn:pointer id="149">ゼムスさま‥‥ほうこく‥‥[end]</sn:pointer>
+
+<sn:pointer id="150">「おれの とくいなバイオリン ききたい?[end]</sn:pointer>
+
+<sn:pointer id="151">「ききたくない‥‥[end]</sn:pointer>
+
+<sn:pointer id="152">「あっそう‥‥[end]</sn:pointer>
+
+<sn:pointer id="153">「わたしたちと いっしょに おどりましょっ![end]</sn:pointer>
+
+<sn:pointer id="154">Gilbert「みんな! ゆうきさ![end]</sn:pointer>
+
+<sn:pointer id="155">Tella「なせばなる じぶんさ しんじろ![end]</sn:pointer>
+
+<sn:pointer id="156">ふたりの ねがいが たえるちからさ あたえた![end]</sn:pointer>
+
+<sn:pointer id="157">Palom「あんちゃん![end]</sn:pointer>
+
+<sn:pointer id="158">Porom「わたしたちの まりょくさおくるわ![end]</sn:pointer>
+
+<sn:pointer id="159">ふたりの やさしさが いきるちからさ あたえた![end]</sn:pointer>
+
+<sn:pointer id="160">Yang「せいしんさ しゅうちゅう させろ![end]</sn:pointer>
+
+<sn:pointer id="161">Cid「かならず かえって くるのじゃぞ![end]</sn:pointer>
+
+<sn:pointer id="162">ふたりの いのりが たえるちからさ あたえた![end]</sn:pointer>
+
+<sn:pointer id="163">FuSoYa「つきよ ひかりさ あたえたまえ![end]</sn:pointer>
+
+<sn:pointer id="164">ゴルベーザ「わが おとうとよ![end]</sn:pointer>
+
+<sn:pointer id="165">「おまえに ひめられた せいなるちからさ[end]</sn:pointer>
+
+<sn:pointer id="166">「クリスタルに たくすのだ![end]</sn:pointer>
+
+<sn:pointer id="167">「ゼロムス! しょうたいさ みせるがいい![end]</sn:pointer>
+
+<sn:pointer id="168">ふたりの こころが せいなるひかりさ あたえた![end]</sn:pointer>
+
+<sn:pointer id="169">ゼロムス「ガ‥‥グ‥‥グ‥‥ゴ‥‥‥[end]</sn:pointer>
+
+<sn:pointer id="170">「ガスさすって いけるしかばねに なるがいい![end]</sn:pointer>
+
+<sn:pointer id="171">「しねっ![end]</sn:pointer>
+
+<sn:pointer id="172">ゼロムスの しんのすがたさ てらしだした![end]</sn:pointer>
+
+<sn:pointer id="173">「バトルプログラマーさ なぐるとは![end]</sn:pointer>
+
+<sn:pointer id="174">「このやろー じばく してやるっ![end]</sn:pointer>
+
+<sn:pointer id="175">「ヒッ ヒッ ひっかかりおったな![end]</sn:pointer>
+
+<sn:pointer id="176">「こくりゅうさ きりのちからで けしさるとは‥‥[end]</sn:pointer>
+
+<sn:pointer id="177">「おまえたちさ ころして わたしも しのう![end]</sn:pointer>
+
+<sn:pointer id="178">「このいかづちさ ばいにして かえしてやるわ![end]</sn:pointer>
+
+<sn:pointer id="179">「なんで おこすんじゃ いいとこじゃったのに[end]</sn:pointer>
+
+<sn:pointer id="180">「つづきさ みるとするか‥‥[end]</sn:pointer>
+
+<sn:pointer id="181">「さあ だれからいくの?[end]</sn:pointer>
+
+<sn:pointer id="182">マネージャー「ひろみさん ごしめいです![end]</sn:pointer>
+
+<sn:pointer id="183">「こんど ぱぱになるんだ はァん[end]</sn:pointer>
+
+<sn:pointer id="184">「いいだろ[end]</sn:pointer>
+
+<sn:pointer id="185">「じゃあな はァん[end]</sn:pointer>
+
+</sn:script>

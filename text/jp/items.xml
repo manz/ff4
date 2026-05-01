@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="9" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>[0xFF]        </sn:fixed>
+<sn:fixed>[0x29]ほのおのつめ  </sn:fixed>
+<sn:fixed>[0x29]こおりのつめ  </sn:fixed>
+<sn:fixed>[0x29]いかづちのつめ </sn:fixed>
+<sn:fixed>[0x29]ようせいのつめ </sn:fixed>
+<sn:fixed>[0x29]じごくのつめ  </sn:fixed>
+<sn:fixed>[0x29]ねこのつめ   </sn:fixed>
+<sn:fixed>[0x2A]ロッド     </sn:fixed>
+<sn:fixed>[0x2A]アイスロッド  </sn:fixed>
+<sn:fixed>[0x2A]フレイムロッド </sn:fixed>
+<sn:fixed>[0x2A]サンダーロッド </sn:fixed>
+<sn:fixed>[0x2A]へんげのロッド </sn:fixed>
+<sn:fixed>[0x2A]ようせいのロッド</sn:fixed>
+<sn:fixed>[0x2A]ほしくずのロッド</sn:fixed>
+<sn:fixed>[0x2A]リリスのロッド </sn:fixed>
+<sn:fixed>[0x2B]つえ      </sn:fixed>
+<sn:fixed>[0x2B]いやしのつえ  </sn:fixed>
+<sn:fixed>[0x2B]ミスリルのつえ </sn:fixed>
+<sn:fixed>[0x2B]ちからのつえ  </sn:fixed>
+<sn:fixed>[0x2B]はどうのつえ  </sn:fixed>
+<sn:fixed>[0x2B]けんじゃのつえ </sn:fixed>
+<sn:fixed>[0x2B]ルーンのつえ  </sn:fixed>
+<sn:fixed>[0x2C]あんこくのつるぎ</sn:fixed>
+<sn:fixed>[0x2C]シャドーブレイド</sn:fixed>
+<sn:fixed>[0x2C]デスブリンガー </sn:fixed>
+<sn:fixed>[0x2E]でんせつのつるぎ</sn:fixed>
+<sn:fixed>[0x2E]ひかりのつるぎ </sn:fixed>
+<sn:fixed>[0x2E]エクスカリバー </sn:fixed>
+<sn:fixed>[0x2D]フレイムソード </sn:fixed>
+<sn:fixed>[0x2D]アイスブランド </sn:fixed>
+<sn:fixed>[0x2D]ディフェンダー </sn:fixed>
+<sn:fixed>[0x2D]ブラッドソード </sn:fixed>
+<sn:fixed>[0x2D]こだいのつるぎ </sn:fixed>
+<sn:fixed>[0x2D]ねむりのけん  </sn:fixed>
+<sn:fixed>[0x2D]ブレイクブレイド</sn:fixed>
+<sn:fixed>[0x2F]スピア     </sn:fixed>
+<sn:fixed>[0x2F]ウインドスピア </sn:fixed>
+<sn:fixed>[0x2F]ほのおのやり  </sn:fixed>
+<sn:fixed>[0x2F]こおりのやり  </sn:fixed>
+<sn:fixed>[0x2F]ひりゅうのやり </sn:fixed>
+<sn:fixed>[0x2F]ホーリーランス </sn:fixed>
+<sn:fixed>[0x2F]ブラッドランス </sn:fixed>
+<sn:fixed>[0x2F]グングニル   </sn:fixed>
+<sn:fixed>[0x31]くない     </sn:fixed>
+<sn:fixed>[0x31]あしゅら    </sn:fixed>
+<sn:fixed>[0x31]こてつ     </sn:fixed>
+<sn:fixed>[0x31]きくいちもんじ </sn:fixed>
+<sn:fixed>[0x31]ムラサメ    </sn:fixed>
+<sn:fixed>[0x31]マサムネ    </sn:fixed>
+<sn:fixed>[0x30]アサシンダガー </sn:fixed>
+<sn:fixed>[0x30]メイジマッシャー</sn:fixed>
+<sn:fixed>[0x3A]むち      </sn:fixed>
+<sn:fixed>[0x3A]チェンウィップ </sn:fixed>
+<sn:fixed>[0x3A]でんげきむち  </sn:fixed>
+<sn:fixed>[0x3A]ファイアビュート</sn:fixed>
+<sn:fixed>[0x3A]りゅうのひげ  </sn:fixed>
+<sn:fixed>[0x34]ハンドアクス  </sn:fixed>
+<sn:fixed>[0x34]ドワーフのおの </sn:fixed>
+<sn:fixed>[0x34]オーガキラー  </sn:fixed>
+<sn:fixed>[0x30]ミスリルナイフ </sn:fixed>
+<sn:fixed>[0x30]ダンシングダガー</sn:fixed>
+<sn:fixed>[0x2D]ミスリルソード </sn:fixed>
+<sn:fixed>[0x30]ほうちょう   </sn:fixed>
+<sn:fixed>[0x2E]ラグナロク   </sn:fixed>
+<sn:fixed>[0x32]しゅりけん   </sn:fixed>
+<sn:fixed>[0x32]ふうましゅりけん</sn:fixed>
+<sn:fixed>[0x33]ブーメラン   </sn:fixed>
+<sn:fixed>[0x33]えんげつりん  </sn:fixed>
+<sn:fixed>[0x36]ゆめのたてごと </sn:fixed>
+<sn:fixed>[0x36]ラミアのたてごと</sn:fixed>
+<sn:fixed>[0xFF]よび      </sn:fixed>
+<sn:fixed>[0x34]◉イズンアクス </sn:fixed>
+<sn:fixed>[0x34]ルーンアクス  </sn:fixed>
+<sn:fixed>[0x35]ミスリルハンマー</sn:fixed>
+<sn:fixed>[0x35]だいちのハンマー</sn:fixed>
+<sn:fixed>[0x35]きづち     </sn:fixed>
+<sn:fixed>[0x2D]アヴェンジャー </sn:fixed>
+<sn:fixed>[0x37]ゆみ      </sn:fixed>
+<sn:fixed>[0x37]クロスボウ   </sn:fixed>
+<sn:fixed>[0x37]グレートボウ  </sn:fixed>
+<sn:fixed>[0x37]キラーボウ   </sn:fixed>
+<sn:fixed>[0x37]エルフィンボウ </sn:fixed>
+<sn:fixed>[0x37]よいちのゆみ  </sn:fixed>
+<sn:fixed>[0x37]アルテミスのゆみ</sn:fixed>
+<sn:fixed>[0x38]てつのや    </sn:fixed>
+<sn:fixed>[0x38]せいなるや   </sn:fixed>
+<sn:fixed>[0x38]ほのおのや   </sn:fixed>
+<sn:fixed>[0x38]こおりのや   </sn:fixed>
+<sn:fixed>[0x38]いかづちのや  </sn:fixed>
+<sn:fixed>[0x38]くらやみのや  </sn:fixed>
+<sn:fixed>[0x38]どくや     </sn:fixed>
+<sn:fixed>[0x38]くちふうじのや </sn:fixed>
+<sn:fixed>[0x38]てんしのや   </sn:fixed>
+<sn:fixed>[0x38]よいちのや   </sn:fixed>
+<sn:fixed>[0x38]メデューサのや </sn:fixed>
+<sn:fixed>[0x38]アルテミスのや </sn:fixed>
+<sn:fixed>[0xFF]        </sn:fixed>
+<sn:fixed>[0x3B]アイアンシールド</sn:fixed>
+<sn:fixed>[0x3B]あんこくのたて </sn:fixed>
+<sn:fixed>[0x3B]デモンズシールド</sn:fixed>
+<sn:fixed>[0x3B]ひかりのたて  </sn:fixed>
+<sn:fixed>[0x3B]ミスリルシールド</sn:fixed>
+<sn:fixed>[0x3B]フレイムシールド</sn:fixed>
+<sn:fixed>[0x3B]アイスシールド </sn:fixed>
+<sn:fixed>[0x3B]ダイヤシールド </sn:fixed>
+<sn:fixed>[0x3B]イージスのたて </sn:fixed>
+<sn:fixed>[0x3B]げんじのたて  </sn:fixed>
+<sn:fixed>[0x3B]ドラゴンシールド</sn:fixed>
+<sn:fixed>[0x3B]クリスタルのたて</sn:fixed>
+<sn:fixed>[0x3C]アイアンヘルム </sn:fixed>
+<sn:fixed>[0x3C]あんこくのかぶと</sn:fixed>
+<sn:fixed>[0x3C]ハデスのかぶと </sn:fixed>
+<sn:fixed>[0x3C]デモンズヘルム </sn:fixed>
+<sn:fixed>[0x3C]ひかりのかぶと </sn:fixed>
+<sn:fixed>[0x3C]ミスリルヘルム </sn:fixed>
+<sn:fixed>[0x3C]ダイヤのかぶと </sn:fixed>
+<sn:fixed>[0x3C]げんじのかぶと </sn:fixed>
+<sn:fixed>[0x3C]ドラゴンヘルム </sn:fixed>
+<sn:fixed>[0x3C]クリスタルヘルム</sn:fixed>
+<sn:fixed>[0x3C]かわのぼうし  </sn:fixed>
+<sn:fixed>[0x3C]はねつきぼうし </sn:fixed>
+<sn:fixed>[0x3C]さんかくぼうし </sn:fixed>
+<sn:fixed>[0x3C]しさいのぼうし </sn:fixed>
+<sn:fixed>[0x3C]きんのかみかざり</sn:fixed>
+<sn:fixed>[0x3C]リボン     </sn:fixed>
+<sn:fixed>[0x3C]ねじりはちまき </sn:fixed>
+<sn:fixed>[0x3C]グリーンベレー </sn:fixed>
+<sn:fixed>[0x3C]くろずきん   </sn:fixed>
+<sn:fixed>[0x3C]ガラスのマスク </sn:fixed>
+<sn:fixed>[0x3D]アイアンアーマー</sn:fixed>
+<sn:fixed>[0x3D]あんこくのよろい</sn:fixed>
+<sn:fixed>[0x3D]ハデスのよろい </sn:fixed>
+<sn:fixed>[0x3D]デモンズアーマー</sn:fixed>
+<sn:fixed>[0x3D]ナイトのよろい </sn:fixed>
+<sn:fixed>[0x3D]ミスリルアーマー</sn:fixed>
+<sn:fixed>[0x3D]フレイムメイル </sn:fixed>
+<sn:fixed>[0x3D]アイスアーマー </sn:fixed>
+<sn:fixed>[0x3D]ダイヤアーマー </sn:fixed>
+<sn:fixed>[0x3D]げんじのよろい </sn:fixed>
+<sn:fixed>[0x3D]ドラゴンメイル </sn:fixed>
+<sn:fixed>[0x3D]クリスタルメイル</sn:fixed>
+<sn:fixed>[0x3D]ふく      </sn:fixed>
+<sn:fixed>[0x3D]かわのふく   </sn:fixed>
+<sn:fixed>[0x3D]だいちのころも </sn:fixed>
+<sn:fixed>[0x3D]しさいのローブ </sn:fixed>
+<sn:fixed>[0x3D]くろのローブ  </sn:fixed>
+<sn:fixed>[0x3D]ひかりのローブ </sn:fixed>
+<sn:fixed>[0x3D]しろのローブ  </sn:fixed>
+<sn:fixed>[0x3D]ちからだすき  </sn:fixed>
+<sn:fixed>[0x3D]ミネルバビスチェ</sn:fixed>
+<sn:fixed>[0x3D]しゅうじんのふく</sn:fixed>
+<sn:fixed>[0x3D]しじんのふく  </sn:fixed>
+<sn:fixed>[0x3D]けんぽうぎ   </sn:fixed>
+<sn:fixed>[0x3D]くろおびどうぎ </sn:fixed>
+<sn:fixed>[0x3D]アダマンアーマー</sn:fixed>
+<sn:fixed>[0x3D]くろしょうぞく </sn:fixed>
+<sn:fixed>[0x3E]てつのこて   </sn:fixed>
+<sn:fixed>[0x3E]あんこくのこて </sn:fixed>
+<sn:fixed>[0x3E]ハデスのこて  </sn:fixed>
+<sn:fixed>[0x3E]あくまのこて  </sn:fixed>
+<sn:fixed>[0x3E]ガントレット  </sn:fixed>
+<sn:fixed>[0x3E]ミスリルのこて </sn:fixed>
+<sn:fixed>[0x3E]ダイヤのこて  </sn:fixed>
+<sn:fixed>[0x3E]きょじんのこて </sn:fixed>
+<sn:fixed>[0x3E]げんじのこて  </sn:fixed>
+<sn:fixed>[0x3E]ドラゴンのこて </sn:fixed>
+<sn:fixed>[0x3E]クリスタルのこて</sn:fixed>
+<sn:fixed>[0x3E]てつのうでわ  </sn:fixed>
+<sn:fixed>[0x3E]ルビーのゆびわ </sn:fixed>
+<sn:fixed>[0x3E]ぎんのうでわ  </sn:fixed>
+<sn:fixed>[0x3E]パワーリスト  </sn:fixed>
+<sn:fixed>[0x3E]ルーンのうでわ </sn:fixed>
+<sn:fixed>[0x3E]クリスタルリング</sn:fixed>
+<sn:fixed>[0x3E]ダイヤのうでわ </sn:fixed>
+<sn:fixed>[0x3E]まもりのゆびわ </sn:fixed>
+<sn:fixed>[0x3E]のろいのゆびわ </sn:fixed>
+<sn:fixed>[0xFF]ボムのかけら  </sn:fixed>
+<sn:fixed>[0xFF]ボムのみぎうで </sn:fixed>
+<sn:fixed>[0xFF]なんきょくのかぜ</sn:fixed>
+<sn:fixed>[0xFF]ほっきょくのかぜ</sn:fixed>
+<sn:fixed>[0xFF]ゼウスのいかり </sn:fixed>
+<sn:fixed>[0xFF]かみがみのいかり</sn:fixed>
+<sn:fixed>[0xFF]ほしのすな   </sn:fixed>
+<sn:fixed>[0xFF]リリスのくちづけ</sn:fixed>
+<sn:fixed>[0xFF]バンパイアのきば</sn:fixed>
+<sn:fixed>[0xFF]バッカスのさけ </sn:fixed>
+<sn:fixed>[0xFF]エルメスのくつ </sn:fixed>
+<sn:fixed>[0xFF]どうのすなどけい</sn:fixed>
+<sn:fixed>[0xFF]ぎんのすなどけい</sn:fixed>
+<sn:fixed>[0xFF]きんのすなどけい</sn:fixed>
+<sn:fixed>[0xFF]くものいと   </sn:fixed>
+<sn:fixed>[0xFF]スケープドール </sn:fixed>
+<sn:fixed>[0xFF]あかいきば   </sn:fixed>
+<sn:fixed>[0xFF]しろいきば   </sn:fixed>
+<sn:fixed>[0xFF]あおいきば   </sn:fixed>
+<sn:fixed>[0xFF]ひかりのカーテン</sn:fixed>
+<sn:fixed>[0xFF]ボムのたましい </sn:fixed>
+<sn:fixed>[0xFF]つきのカーテン </sn:fixed>
+<sn:fixed>[0xFF]せいじゃくのかね</sn:fixed>
+<sn:fixed>[0xFF]だいちのドラム </sn:fixed>
+<sn:fixed>[0xFF]クリスタル   </sn:fixed>
+<sn:fixed>[0xFF]クアールのひげ </sn:fixed>
+<sn:fixed>[0xFF]おうぎのしょ  </sn:fixed>
+<sn:fixed>[0xFF]かいじゅうずかん</sn:fixed>
+<sn:fixed>[0xFF]めざましどけい </sn:fixed>
+<sn:fixed>[0xFF]ユニコーンのつの</sn:fixed>
+<sn:fixed>[0xFF]◉ーション   </sn:fixed>
+<sn:fixed>[0xFF]ハイ◉ーション </sn:fixed>
+<sn:fixed>[0xFF]エクス◉ーション</sn:fixed>
+<sn:fixed>[0xFF]エーテル    </sn:fixed>
+<sn:fixed>[0xFF]エーテルドライ </sn:fixed>
+<sn:fixed>[0xFF]エリクサー   </sn:fixed>
+<sn:fixed>[0xFF]フェニックスのお</sn:fixed>
+<sn:fixed>[0xFF]きんのはり   </sn:fixed>
+<sn:fixed>[0xFF]おとめのキッス </sn:fixed>
+<sn:fixed>[0xFF]うちでのこづち </sn:fixed>
+<sn:fixed>[0xFF]ダイエットフード</sn:fixed>
+<sn:fixed>[0xFF]やまびこそう  </sn:fixed>
+<sn:fixed>[0xFF]めぐすり    </sn:fixed>
+<sn:fixed>[0xFF]どくけし    </sn:fixed>
+<sn:fixed>[0xFF]じゅうじか   </sn:fixed>
+<sn:fixed>[0xFF]ばんのうやく  </sn:fixed>
+<sn:fixed>[0xFF]アラーム    </sn:fixed>
+<sn:fixed>[0xFF]きんのリンゴ  </sn:fixed>
+<sn:fixed>[0xFF]ぎんのリンゴ  </sn:fixed>
+<sn:fixed>[0xFF]ソーマのしずく </sn:fixed>
+<sn:fixed>[0xFF]テント     </sn:fixed>
+<sn:fixed>[0xFF]コテージ    </sn:fixed>
+<sn:fixed>[0xFF]エッチなほん  </sn:fixed>
+<sn:fixed>[0xFF]ひじょうぐち  </sn:fixed>
+<sn:fixed>[0xFF]こびとのパン  </sn:fixed>
+<sn:fixed>[0x41]ゴブリン    </sn:fixed>
+<sn:fixed>[0x41]ボム      </sn:fixed>
+<sn:fixed>[0x41]コカトリス   </sn:fixed>
+<sn:fixed>[0x41]マインドフレア </sn:fixed>
+<sn:fixed>[0xFF]ギサールのやさい</sn:fixed>
+<sn:fixed>[0xFF]かいいんしょう </sn:fixed>
+<sn:fixed>[0xFF]ギサールのふえ </sn:fixed>
+<sn:fixed>[0xFF]ボムのゆびわ  </sn:fixed>
+<sn:fixed>[0xFF]バロンのカギ  </sn:fixed>
+<sn:fixed>[0xFF]さばくのひかり </sn:fixed>
+<sn:fixed>[0xFF]つちのクリスタル</sn:fixed>
+<sn:fixed>[0xFF]マグマのいし  </sn:fixed>
+<sn:fixed>[0xFF]ルカのくびかざり</sn:fixed>
+<sn:fixed>[0xFF]ひそひそう   </sn:fixed>
+<sn:fixed>[0xFF]やみのクリスタル</sn:fixed>
+<sn:fixed>[0xFF]ネズミのしっぽ </sn:fixed>
+<sn:fixed>[0xFF]アダマンタイト </sn:fixed>
+<sn:fixed>[0xFF]あいのフライパン</sn:fixed>
+<sn:fixed>[0xFF]ピンクのしっぽ </sn:fixed>
+<sn:fixed>[0xFF]ルゲイエのカギ </sn:fixed>
+<sn:fixed>[0xFF]ダークマター  </sn:fixed>
+<sn:fixed>[0xFF]シナリオ0015</sn:fixed>
+<sn:fixed>[0xFF]シナリオ0016</sn:fixed>
+<sn:fixed>[0xFF]ーせいとんー  </sn:fixed>
+<sn:fixed>[0xFF]ゴミばこ    </sn:fixed>
+</sn:fixedlist>

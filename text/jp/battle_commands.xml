@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="5" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>たたかう </sn:fixed>
+<sn:fixed>アイテム </sn:fixed>
+<sn:fixed>しろまほう</sn:fixed>
+<sn:fixed>くろまほう</sn:fixed>
+<sn:fixed>しょうかん</sn:fixed>
+<sn:fixed>あんこく </sn:fixed>
+<sn:fixed>ジャンプ </sn:fixed>
+<sn:fixed>おもいだす</sn:fixed>
+<sn:fixed>うたう  </sn:fixed>
+<sn:fixed>かくれる </sn:fixed>
+<sn:fixed>くすり  </sn:fixed>
+<sn:fixed>いのり  </sn:fixed>
+<sn:fixed>ねらう  </sn:fixed>
+<sn:fixed>ためる  </sn:fixed>
+<sn:fixed>けり   </sn:fixed>
+<sn:fixed>がまん  </sn:fixed>
+<sn:fixed>ふたりがけ</sn:fixed>
+<sn:fixed>つよがる </sn:fixed>
+<sn:fixed>うそなき </sn:fixed>
+<sn:fixed>かばう  </sn:fixed>
+<sn:fixed>しらべる </sn:fixed>
+<sn:fixed>ひくうてい</sn:fixed>
+<sn:fixed>なげる  </sn:fixed>
+<sn:fixed>ぬすむ  </sn:fixed>
+<sn:fixed>にんじゅつ</sn:fixed>
+<sn:fixed>せいしんは</sn:fixed>
+<sn:fixed>チェンジ </sn:fixed>
+<sn:fixed>ぼうぎょ </sn:fixed>
+<sn:fixed>あらわれる</sn:fixed>
+<sn:fixed>かばわない</sn:fixed>
+<sn:fixed>     </sn:fixed>
+<sn:fixed>     </sn:fixed>
+</sn:fixedlist>

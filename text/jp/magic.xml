@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:fixedlist length="6" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixed>[0xFF]     </sn:fixed>
+<sn:fixed>[0x40]ホールド </sn:fixed>
+<sn:fixed>[0x40]サイレス </sn:fixed>
+<sn:fixed>[0x40]コンフュ </sn:fixed>
+<sn:fixed>[0x40]ブリンク </sn:fixed>
+<sn:fixed>[0x40]プロテス </sn:fixed>
+<sn:fixed>[0x40]シェル  </sn:fixed>
+<sn:fixed>[0x40]スロウ  </sn:fixed>
+<sn:fixed>[0x40]ヘイスト </sn:fixed>
+<sn:fixed>[0x40]バーサク </sn:fixed>
+<sn:fixed>[0x40]リフレク </sn:fixed>
+<sn:fixed>[0x40]ホーリー </sn:fixed>
+<sn:fixed>[0x40]ディス◎ル</sn:fixed>
+<sn:fixed>[0x40]ライブラ </sn:fixed>
+<sn:fixed>[0x40]ケアル  </sn:fixed>
+<sn:fixed>[0x40]ケアルラ </sn:fixed>
+<sn:fixed>[0x40]ケアルダ </sn:fixed>
+<sn:fixed>[0x40]ケアルガ </sn:fixed>
+<sn:fixed>[0x40]エスナ  </sn:fixed>
+<sn:fixed>[0x40]レイズ  </sn:fixed>
+<sn:fixed>[0x40]アレイズ </sn:fixed>
+<sn:fixed>[0x40]ミニマム </sn:fixed>
+<sn:fixed>[0x40]テレ◉  </sn:fixed>
+<sn:fixed>[0x40]サイトロ </sn:fixed>
+<sn:fixed>[0x40]レビテト </sn:fixed>
+<sn:fixed>[0x3F]トード  </sn:fixed>
+<sn:fixed>[0x3F]◉ーキー </sn:fixed>
+<sn:fixed>[0x3F]デジョン </sn:fixed>
+<sn:fixed>[0x3F]◉イズン </sn:fixed>
+<sn:fixed>[0x3F]ファイア </sn:fixed>
+<sn:fixed>[0x3F]ファイラ </sn:fixed>
+<sn:fixed>[0x3F]ファイガ </sn:fixed>
+<sn:fixed>[0x3F]ブリザド </sn:fixed>
+<sn:fixed>[0x3F]ブリザラ </sn:fixed>
+<sn:fixed>[0x3F]ブリザガ </sn:fixed>
+<sn:fixed>[0x3F]サンダー </sn:fixed>
+<sn:fixed>[0x3F]サンダラ </sn:fixed>
+<sn:fixed>[0x3F]サンダガ </sn:fixed>
+<sn:fixed>[0x3F]バイオ  </sn:fixed>
+<sn:fixed>[0x3F]トルネド </sn:fixed>
+<sn:fixed>[0x3F]クエイク </sn:fixed>
+<sn:fixed>[0x3F]スリプル </sn:fixed>
+<sn:fixed>[0x3F]ブレイク </sn:fixed>
+<sn:fixed>[0x3F]デス   </sn:fixed>
+<sn:fixed>[0x3F]ストップ </sn:fixed>
+<sn:fixed>[0x3F]ドレイン </sn:fixed>
+<sn:fixed>[0x3F]アスピル </sn:fixed>
+<sn:fixed>[0x3F]メテオ  </sn:fixed>
+<sn:fixed>[0x3F]フレア  </sn:fixed>
+<sn:fixed>[0x41]ゴブリン </sn:fixed>
+<sn:fixed>[0x41]ボム   </sn:fixed>
+<sn:fixed>[0x41]コカトリス</sn:fixed>
+<sn:fixed>[0x41]マインドF</sn:fixed>
+<sn:fixed>[0x41]チョコボ </sn:fixed>
+<sn:fixed>[0x41]シヴァ  </sn:fixed>
+<sn:fixed>[0x41]ラムウ  </sn:fixed>
+<sn:fixed>[0x41]イフリート</sn:fixed>
+<sn:fixed>[0x41]タイタン </sn:fixed>
+<sn:fixed>[0x41]ドラゴン </sn:fixed>
+<sn:fixed>[0x41]シルフ  </sn:fixed>
+<sn:fixed>[0x41]オーディン</sn:fixed>
+<sn:fixed>[0x41]リヴァイア</sn:fixed>
+<sn:fixed>[0x41]アスラ  </sn:fixed>
+<sn:fixed>[0x41]バハムート</sn:fixed>
+<sn:fixed>[0xFF]プチメテオ</sn:fixed>
+<sn:fixed>[0xFF]プチフレア</sn:fixed>
+<sn:fixed>[0xFF]かとん  </sn:fixed>
+<sn:fixed>[0xFF]すいとん </sn:fixed>
+<sn:fixed>[0xFF]らいじん </sn:fixed>
+<sn:fixed>[0xFF]けむりだま</sn:fixed>
+<sn:fixed>[0xFF]かげしばり</sn:fixed>
+<sn:fixed>[0xFF]ぶんしん </sn:fixed>
+</sn:fixedlist>
