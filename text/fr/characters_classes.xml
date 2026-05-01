@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
     <sn:string>Chevalier noir</sn:string>
     <sn:string>Chevalier dragon</sn:string>
     <sn:string>Invocateur</sn:string>

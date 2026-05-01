@@ -1,172 +1,186 @@
 
-dialog_ptr=0x20
-
-
-
 PointeurBank1de1:
-    REP #0x20
-    LDA.L assets_bank1_1_ptr,X
-    STA.B dialog_ptr
-    LDA.W #0x0000
-    SEP #0x20
-    LDA.L assets_bank1_1_ptr + 2,X
-    STA.B dialog_ptr + 2
-    LDA.B #0x01
-    RTL
-; the bank 1 of 1 is only 0x100 pointers long and not 0x200 as the text dump suggests.
+    """Gets a 24bits pointer for bank 1-1"""
+    rep #0x20
+    lda.l assets_bank1_1_ptr, x
+    sta.b dialog_ptr
+    lda.w #0x0000
+    sep #0x20
+    lda.l assets_bank1_1_ptr + 2, x
+    sta.b dialog_ptr + 2
+    lda.b #0x01
+    rtl
+
 PointeurBank1de2:
-    REP #0x20
-    LDA.L assets_bank1_1_ptr + 0x300, X
-    STA.B dialog_ptr
-    LDA.W #0x0000
-    SEP #0x20
-    LDA.L assets_bank1_1_ptr + 0x300 + 2,X
-    STA.B dialog_ptr + 2
-    LDA #0x01
-    RTL
+    """
+    Gets a 24bits pointer from bank 1-2
+
+    > Note: the bank 1 of 1 is only 0x100 pointers long and not 0x200 as the text dump suggests.
+    """
+    rep #0x20
+    lda.l assets_bank1_1_ptr + 0x300, x
+    sta.b dialog_ptr
+    lda.w #0x0000
+    sep #0x20
+    lda.l assets_bank1_1_ptr + 0x300 + 2, x
+    sta.b dialog_ptr + 2
+    lda #0x01
+    rtl
 
 ; genuinely false
+
 PointeurBank3:
-    REP #0x20
-    LDA.L dialog_bank_ptr_base + 0x600,X
-    STA.B dialog_ptr
-    LDA.W #0x0000
-    SEP #0x20
-    LDA.L dialog_bank_ptr_base + 0x600 + 2,X
-    STA.B dialog_ptr + 2
-    LDA #0x02
-    RTL
+    """
+    Computes a ptr Npc dialogs, organized per room, then a linear
+    lookup inside the room to find the start of the string.
+    """
+    rep #0x20
+    lda.l dialog_bank_ptr_base + 0x600, x
+    sta.b dialog_ptr
+    lda.w #0x0000
+    sep #0x20
+    lda.l dialog_bank_ptr_base + 0x600 + 2, x
+    sta.b dialog_ptr + 2
+    lda #0x02
+    rtl
 
 CalculePositionTb:
-    LDA.B 0xB2
-    STA.B dialog_ptr
-    STZ.B dialog_ptr + 1
-    REP #0x20
-    LDA.B dialog_ptr
-    CLC
-    ASL
-    ADC.B dialog_ptr
-    TAX
-    SEP #0x20
-    RTL
+    lda.b 0xB2
+    sta.b dialog_ptr
+    stz.b dialog_ptr + 1
+    rep #0x20
+    lda.b dialog_ptr
+    clc
+    asl
+    adc.b dialog_ptr
+    tax
+    sep #0x20
+    rtl
+
 PointeurBank2:
 {
-    REP #0x20
-    LDA.B dialog_ptr
-    ASL
-    CLC
-    ADC.B dialog_ptr
-    TAX
-    LDA.L assets_bank2_ptr,X
-    STA.B dialog_ptr
-    LDA.W #0x0000
-    SEP #0x20
-    LDA.L assets_bank2_ptr + 2,X
-    STA.B dialog_ptr + 2
-    LDX.B dialog_ptr
-    LDA.B 0xB2
-    BEQ _FinBk2
-    TAY
-_LoopBk2:
-    JSR.W ChargeLettreIncBk2
-    BNE _LoopBk2
-    JSR.W ChargeLettreDecBk2
-    PHA
-    JSR.W ChargeLettreIncBk2
-    PLA
-    CMP #0x03
-    BEQ _LoopBk2
-    PHA
-    PLA
-    CMP #0x04
-    BEQ _LoopBk2
-    CMP #0xfe
+    rep #0x20
+    lda.b dialog_ptr
+    asl
+    clc
+    adc.b dialog_ptr
+    tax
+    lda.l assets_bank2_ptr, x
+    sta.b dialog_ptr
+    lda.w #0x0000
+    sep #0x20
+    lda.l assets_bank2_ptr + 2, x
+    sta.b dialog_ptr + 2
+    ldx.b dialog_ptr
+    lda.b 0xB2
+    beq _FinBk2
+    tay
+
+    _LoopBk2:
+    jsr.w ChargeLettreIncBk2
+    bne _LoopBk2
+    jsr.w ChargeLettreDecBk2
+    pha
+    jsr.w ChargeLettreIncBk2
+    pla
+    cmp #0x03
     beq _LoopBk2
-    DEY
-    BNE _LoopBk2
-    INX
-_FinBk2:
-    STX.W 0x0772
-    STZ.B 0xDD
-    RTL
+    pha
+    pla
+    cmp #0x04
+    beq _LoopBk2
+    cmp #0xfe
+    beq _LoopBk2
+    dey
+    bne _LoopBk2
+    inx
+
+    _FinBk2:
+    stx.w 0x0772
+    stz.b 0xDD
+    rtl
+
     ChargeLettreDecBk2:
-    LDX.B dialog_ptr
-    DEX
-    BMI _OkBk2
-    DEC.B dialog_ptr + 2
-    LDX.W #0xFFFF
-    BRA _OkBk2
+    ldx.b dialog_ptr
+    dex
+    bmi _OkBk2
+    dec.b dialog_ptr + 2
+    ldx.w #0xFFFF
+    bra _OkBk2
+
     ChargeLettreIncBk2:
-    LDX.B dialog_ptr
-    INX
-    BMI _OkBk2
-    INC.B dialog_ptr + 2
-    LDX.W #0x8000
-_OkBk2:
-    STX.B dialog_ptr
+    ldx.b dialog_ptr
+    inx
+    bmi _OkBk2
+    inc.b dialog_ptr + 2
+    ldx.w #0x8000
+
+    _OkBk2:
+    stx.b dialog_ptr
+
     ChargeLettreBk2:
-    LDX.B dialog_ptr
-    PHB
-    LDA.B dialog_ptr + 2
-    PHA
-    PLB
-    LDA.W 0x0000,X
-    PLB
-    PHA
-    PLA
-    RTS
+    ldx.b dialog_ptr
+    phb
+    lda.b dialog_ptr + 2
+    pha
+    plb
+    lda.w 0x0000, x
+    plb
+    pha
+    pla
+    rts
 }
+
 
 incpointer:
 {
-    PHX
-    LDX.W 0x0772
-    INX
-    BNE no_overflow
-    INC.B dialog_ptr + 2
-    LDX.W #0x8000
+    phx
+    ldx.w 0x0772
+    inx
+    bne no_overflow
+    inc.b dialog_ptr + 2
+    ldx.w #0x8000
+
     no_overflow:
-    STX.W 0x0772
-    PLX
-    RTS
+    stx.w 0x0772
+    plx
+    rts
 }
 
-;=====================================================================
-; Fonction de lecture de caractère
-;=====================================================================
+
 ChargeLettreInc:
+    """Read character from dialog, increment the pointer."""
 {
-    LDX.W 0x0772
-    INX
-    CPX.W #0x0000
-    BNE no_overflow
-    INC.B dialog_ptr + 2
-    LDX.W #0x8000
+    ldx.w 0x0772
+    inx
+    cpx.w #0x0000
+    bne no_overflow
+    inc.b dialog_ptr + 2
+    ldx.w #0x8000
+
     no_overflow:
-    STX.W 0x0772
+    stx.w 0x0772
 }
+
+
 ChargeLettre:
-
-    LDX.W 0x0772
-    PHB
-    LDA.B dialog_ptr + 2
-    PHA
-    PLB
-    LDA.B #0x00
-    XBA
-    LDA.B #0x00
+    """Peek a character from the dialog."""
+    ldx.w 0x0772
+    phb
+    lda.b dialog_ptr + 2
+    pha
+    plb
+    lda.b #0x00
+    xba
+    lda.b #0x00
     rep #0x20
-
-    .if 1 {
-        LDA.W 0x0000,X
-        STA.B CURRENT_C
-    } else {
-        STZ.B CURRENT_C
-    }
+    lda.w 0x0000, x
+    sta.b CURRENT_C
 
     sep #0x20
-    PLB
-    PHA
-    PLA
+    plb
+    pha
+    pla
 
-    RTS
+    rts
+

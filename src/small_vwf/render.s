@@ -106,6 +106,12 @@ _transfer_to_vram:
 
 .scope render_allocator {
 allocated_tile_id = 0x702F00
+
+; tile_id in A
+init_with_tile_id:
+    sta.l allocated_tile_id
+    rts
+
 init:
     pha
     lda.b #0x00
@@ -136,11 +142,12 @@ get:
 .scope render {
 ; variables
 
-__var_base = 0x00
+__var_base = 0x63
 bits_left_on_tile = __var_base + 0x10
 temp = bits_left_on_tile + 1
 counter = temp + 1
-current_char = counter + 2
+prev_char = counter + 2
+current_char = prev_char + 1
 
 tilemap_offset = 0x1d
 
@@ -150,12 +157,14 @@ buffer_size = 0x300
 last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 
 font_ptr = assets_menu_font_dat
-length_table_ptr = assets_menu_font_length_table_dat
 
 init:
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables
+.if ENABLE_KERNING_MENU {
+    stz.b prev_char
+}
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
     pha
@@ -204,11 +213,14 @@ make_pointers:
     lda.b #0x00
     xba
     rep #0x20
+    pha
     asl
     asl
     asl
-    asl
+    clc
+    adc 1, s
     tax
+    pla
     lda.w #0x0000
     sep #0x20
 
@@ -234,7 +246,7 @@ display_char:
     jsr.w make_pointers
 
     rep #0x20
-    lda.w #0x0010
+    lda.w #0x0008
     sta.b counter
     sep #0x20
 
@@ -242,7 +254,9 @@ char_line_loop:
     rep #0x20
     lda.w #0x0000
     sep #0x20
-
+.if ENABLE_KERNING_MENU {
+    jsr.w _adjust_bits_left_for_kerning
+}
     lda.b bits_left_on_tile
 
     cmp #0x08
@@ -256,6 +270,59 @@ _read_8x8_char:
     bra _store
 
 _shift:
+    ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
+    phx
+    lda.l font_ptr, x
+   ; bne _really_shift
+   ; inx
+   ; xba
+   ; bra _skip_empty_pixel_line
+_really_shift:
+    xba
+    lda #0x00
+    xba
+
+    ; make jump_table_pointer
+    pha
+    lda.b bits_left_on_tile
+    asl
+    tax
+    pla
+
+    rep #0x20
+    jmp.w (_mul_table, x)
+_mul_table:
+    .dw _mul_0
+    .dw _mul_1
+    .dw _mul_2
+    .dw _mul_3
+    .dw _mul_4
+    .dw _mul_5
+    .dw _mul_6
+    .dw _mul_7
+    .dw _mul_8
+
+_mul_8:
+_mul_7:
+    asl ; 1
+_mul_6:
+    asl ; 2
+_mul_5:
+    asl ; 3
+_mul_4:
+    asl ; 4
+_mul_3:
+    asl ; 5
+_mul_2:
+    asl ; 6
+_mul_1:
+    asl ; 7
+_mul_0:
+    sep #0x20
+    plx
+    inx
+.if 0 {
+_shift:
     ; expects bitsleft in A
     phx
     tax
@@ -265,7 +332,11 @@ _shift:
 
     plx
     lda.l font_ptr, x
-
+    bne _really_shift
+    inx
+    xba
+    bra _skip_empty_pixel_line
+_really_shift:
     inx
 
     sta.l 0x004203        ; MULTIPLICAND
@@ -277,35 +348,33 @@ _shift:
     nop
     lda.l 0x004216    ; the result is stored in 0x4216-0x4217
     sep #0x20
-
+}
 _store:
 
     xba
     phx
     tyx
-    ora.l buffer_ptr, x
-    sta.l buffer_ptr, x
+    ora.l buffer_ptr + 1, x
+    sta.l buffer_ptr + 1, x
     xba
-    ora.l buffer_ptr + 0x10, x
-    sta.l buffer_ptr + 0x10, x
+    ora.l buffer_ptr + 0x10 + 1, x
+    sta.l buffer_ptr + 0x10 + 1, x
     txy
     plx
+_skip_empty_pixel_line:
     iny
-
+    iny
     dec.b counter
     bne char_line_loop
 
     rep #0x20
     stz.b temp
     lda.w #0x0000
-    ldx.w #0x0000
     sep #0x20
 
-    lda.b current_char
-    tax
 
 brk_bits_left:
-    lda.l length_table_ptr, x
+    lda.l font_ptr, x
 
     sta.b temp
 
@@ -348,6 +417,115 @@ coupe:
     sep #0x20
 }
 
+.if ENABLE_KERNING_MENU {
+_adjust_bits_left_for_kerning:
+{
+
+    lda.b bits_left_on_tile
+    cmp #8
+    beq _overflow
+    sta.b temp
+
+    jsr.w get_kerning_adjustment_linear_search
+    bcc _adjustment
+    bra _end
+_adjustment:
+    pha
+    lda.b temp
+    clc
+    adc 1,s
+    sta.b temp
+.if 0 {
+    bpl _no_adjustment
+
+    and.b #0x80
+    sta.b bits_left_on_tile
+    sta.b temp
+    lda.l render_allocator.allocated_tile_id
+    dec
+    sta.l render_allocator.allocated_tile_id
+    jsr.w _refresh_destination_pointer
+}
+_no_adjustment:
+
+    pla
+_end:
+    lda.b temp
+    sta.b bits_left_on_tile
+_overflow:
+    pha
+    lda.b current_char
+    sta.b prev_char
+    pla
+    rts
+}
+
+get_kerning_adjustment_linear_search:
+{
+    phx
+    phy
+    rep #0x20
+    jsr.w _get_kerning_adjustment_linear_search
+    sep #0x20
+    ply
+    plx
+    rts
+}
+
+_get_kerning_adjustment_linear_search:
+{
+    phb
+    pea.w font_table >> 16
+    plb
+
+kerning_table_offset = 256 * 9
+    ldy.w #kerning_table_offset
+    lda.w font_ptr & 0xffff, y
+    beq not_found
+    dec
+    tax
+    lda.w #0x0000
+
+_loop:
+    txa
+    pha
+    asl
+    clc
+    adc 0x01, s
+    clc
+    adc.w #kerning_table_offset + 2
+
+    tay
+    pla
+
+    lda.w font_ptr & 0xffff, y ; Load 16-bit char pair
+    cmp.b prev_char
+    beq found_pair               ; Found exact match!
+
+    txa
+    dec
+    tax
+
+    bne _loop
+
+not_found:
+    lda.w #0x0000
+    sec
+    plb
+    plb
+    rts
+
+found_pair:
+    iny
+    iny
+    lda.w font_ptr, y
+    and.w #0x00FF
+    clc
+    plb
+    plb
+    rts
+}
+}
 tilemap_write_no_inc:
     _base_addr = 0x7e0000
     lda.l render_allocator.allocated_tile_id

@@ -1,133 +1,107 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-<sn:pointer id="0">Une force mystérieuse entoure ce lieu.
-Tu peux utiliser une tente ou une
-cabine, et sauvegarder.[end]</sn:pointer>
-
-<sn:pointer id="1">[bold]Golbez[normal]: C'est terminé...[new]
+    <sn:pointer id="0">Une force mystérieuse entoure ce lieu.
+Tu peux utiliser une tente ou une cabine,
+et sauvegarder.[end]</sn:pointer>
+    <sn:pointer id="1">[bold]Golbez[normal]: C'est terminé...[new]
 [bold]FuSoYa[normal]: Quelle tragédie...
-Il avait de si fantastiques pouvoirs, mais
-il était rongé par le mal...[new]
+Il avait de si fantastiques pouvoirs, mais il
+était rongé par le mal...[new]
 [bold]Edge[normal]: Yahoo!![end]</sn:pointer>
-
-<sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous êtes venus![end]</sn:pointer>
-
-<sn:pointer id="3">[bold]Rydia[normal]: Nous ne sommes pas arrivés...[new]
+    <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous êtes venus![end]</sn:pointer>
+    <sn:pointer id="3">[bold]Rydia[normal]: Nous ne sommes pas arrivés...[new]
 [bold]Edge[normal]: MERDE!!!
 NON, NON, NON, NON, NON, NON!![end]</sn:pointer>
-
-<sn:pointer id="4">[bold]Rydia[normal]: Nous ne... nous ne pouvons...
+    <sn:pointer id="4">[bold]Rydia[normal]: Nous ne... nous ne pouvons...
 rien faire?[new]
 [bold]Cecil[normal]: Qu'est-ce que c'est!?[end]</sn:pointer>
-
-<sn:pointer id="5">[bold]Cid[normal]: Tant que je serai là, vous
+    <sn:pointer id="5">[bold]Cid[normal]: Tant que je serai là, vous
 n'aurez rien à craindre!
 Plein gaz, les gars!![end]</sn:pointer>
-
-<sn:pointer id="6">[bold]Edward[normal]: Cecil!
-Je vais vous montrer le courage que
-vous m'avez enseigné![end]</sn:pointer>
-
-<sn:pointer id="7">[bold]Edge[normal]: Et me voici, gonflé à bloc
-pour combattre ce salaud!
-Ah, bon... il ne faut pas transpirer
-devant les dames.[new]
+    <sn:pointer id="6">[bold]Edward[normal]: Cecil!
+Je vais vous montrer le courage que vous
+m'avez enseigné![end]</sn:pointer>
+    <sn:pointer id="7">[bold]Edge[normal]: Et me voici, gonflé à bloc pour
+combattre ce salaud!
+Ah, bon... il ne faut pas transpirer devant
+les dames.[new]
 [bold]Golbez[normal]: Cecil...[end]</sn:pointer>
-
-<sn:pointer id="8">[bold]Giotto[normal]: Feu à volonté, force des chars
+    <sn:pointer id="8">[bold]Giotto[normal]: Feu à volonté, force des chars
 des Nains!
 Le sous-sol va aussi se battre pour la
 Terre Mère![end]</sn:pointer>
-
-<sn:pointer id="9">[bold]Yang[normal]: Je ne peux pas me reposer
+    <sn:pointer id="9">[bold]Yang[normal]: Je ne peux pas me reposer
 tant que le monde est en danger![end]</sn:pointer>
-
-<sn:pointer id="10">[bold]Cecil[normal]: Regardez...!![new]
-[bold]Rosa[normal]: Le géant....
+    <sn:pointer id="10">[bold]Cecil[normal]: Regardez...!![new]
+[bold]Rosa[normal]: Le géant...
 Il est confus![end]</sn:pointer>
-
-<sn:pointer id="11">[bold]Edge[normal]: Oh, je vois!
+    <sn:pointer id="11">[bold]Edge[normal]: Oh, je vois!
 Un travail d'intérieur![end]</sn:pointer>
-
-<sn:pointer id="12">[bold]Palom[normal]: Hé bien, au fond, c'est un
+    <sn:pointer id="12">[bold]Palom[normal]: Hé bien, au fond, c'est un
 échange.[new]
-[bold]Porom[normal]: Je suis désolée que nous
-vous ayons trompé.
+[bold]Porom[normal]: Je suis désolée que nous vous
+ayons trompé.
 Mais nous n'avions pas le choix.[new]
 [bold]Cecil[normal]: Je comprends.
 Vu mon passé, c'était prévisible.[new]
-[bold]Ancien[normal]: Mais tu as purgé la noirceur
-de ton âme... et reçu la lumière sacrée. !?
+[bold]Ancien[normal]: Mais tu as purgé la noirceur de
+ton âme... et reçu la lumière sacrée... !?
 Ce n'est pas possible..!
 Cette épée?![new]
-[bold]Cecil[normal]: La lumière de la montagne
-me l'a donnée...[new]
+[bold]Cecil[normal]: La lumière de la montagne me
+l'a donnée...[new]
 [bold]Ancien[normal]: Ères de prophéties, prières,
-croyance... et maintenant..!
+croyance... et maintenant... !
 Regarde!
 Inscrite sur la lame![new]
 C'est...!!
-La légende de Mythidia![new]
-[bold]Cecil[normal]: Légende?[end]</sn:pointer>
-
-<sn:pointer id="13">[bold]Edge[normal]: Comme si j'allais te croire!
+La légende de Mythidia ![new]
+[bold]Cecil[normal]: Légende ?[end]</sn:pointer>
+    <sn:pointer id="13">[bold]Edge[normal]: Comme si j'allais te croire!
 Et si tu redevenais mauvais?[end]</sn:pointer>
-
-<sn:pointer id="14">[bold]Caïn[normal]: ...Si c'était le cas, n'hésite
-pas...
+    <sn:pointer id="14">[bold]Caïn[normal]: ...Si c'était le cas, n'hésite pas...
 Tue-moi![end]</sn:pointer>
-
-<sn:pointer id="15">[bold]Caïn[normal]: ...Moi aussi, je viens.
+    <sn:pointer id="15">[bold]Caïn[normal]: ...Moi aussi, je viens.
 J'ai un compte à régler avec ce Zémus![end]</sn:pointer>
-
-<sn:pointer id="16">[bold]Caïn[normal]: Rosa...[new]
+    <sn:pointer id="16">[bold]Caïn[normal]: Rosa...[new]
 [bold]Rosa[normal]: Ce n'est pas la faute de
 Caïn!
 Golbez... était sous le contrôle de
 Zémus...[new]
 [bold]Caïn[normal]: Golbez?!
 Quoi?![end]</sn:pointer>
-
-<sn:pointer id="17">[bold]Edge[normal]: Rien à foutre!
+    <sn:pointer id="17">[bold]Edge[normal]: Rien à foutre!
 C'est de ta faute à toi, si le Géant s'est
 ramené, déjà![end]</sn:pointer>
-
-<sn:pointer id="18">[bold]Caïn[normal]: Économise ta salive pour plus
+    <sn:pointer id="18">[bold]Caïn[normal]: Économise ta salive pour plus
 tard!
 On va mourir si on ne se magne pas![end]</sn:pointer>
-
-<sn:pointer id="19">[bold]Rosa[normal]: Vite![end]</sn:pointer>
-
-<sn:pointer id="20">Toi!!![end]</sn:pointer>
-
-<sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cur du géant, le
+    <sn:pointer id="19">[bold]Rosa[normal]: Vite![end]</sn:pointer>
+    <sn:pointer id="20">Toi!!![end]</sn:pointer>
+    <sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cur du géant, le
 système de contrôle![new]
-[bold]Edge[normal]: La vache, c'est ÉNORME![new]
+[bold]Edge[normal]: La vache, c'est [wicked]Énorme[normal]![new]
 [bold]FuSoYa[normal]: Avant d'attaquer le système
 de contrôle, nous devons détruire le
 système de défense, sinon, il se réparera
 tout seul![end]</sn:pointer>
-
-<sn:pointer id="22">[bold]Cecil[normal]: On a réussi![new]
+    <sn:pointer id="22">[bold]Cecil[normal]: On a réussi![new]
 [bold]Edge[normal]: Il est arrêté![end]</sn:pointer>
-
-<sn:pointer id="23">[bold]Golbez[normal]: Vous avez arrêté le géant!
+    <sn:pointer id="23">[bold]Golbez[normal]: Vous avez arrêté le géant!
 Vous allez PAYER de vos vies pour ça![new]
 [bold]FuSoYa[normal]: Toi!![end]</sn:pointer>
-
-<sn:pointer id="24">[bold]Golbez[normal]: Mais..!?
+    <sn:pointer id="24">[bold]Golbez[normal]: Mais..!?
 Mais qui es-tu!?[new]
 [bold]FuSoYa[normal]: Toi!
 Ne sais-tu donc même pas qui tu es!?[new]
 [bold]Golbez[normal]: Non, arrête!![new]
 [bold]FuSoYa[normal]: Ouvre les yeux![end]</sn:pointer>
-
-<sn:pointer id="25">[bold]Golbez[normal]: ....Non...
+    <sn:pointer id="25">[bold]Golbez[normal]: ....Non...
 Qu'est-ce que j'ai fait?...
-Seigneur... qu'est-ce que j'ai fait?
-...J'étais rempli de tant de haine....[new]
-[bold]FuSoYa[normal]: ...Tu as recouvré tes sens.
-...Ton père...Dis-moi le nom de ton père![new]
+Seigneur... qu'est-ce que j'ai fait? ...J'étais
+rempli de tant de haine....[new]
+[bold]FuSoYa[normal]: ...Tu as recouvré tes sens. ...Ton
+père...Dis-moi le nom de ton père![new]
 [bold]Golbez[normal]: Mon père...
 KluYa...[new]
 [bold]Cecil[normal]: QUOI!?[new]
@@ -137,11 +111,10 @@ frère de....[new]
 [bold]Cecil[normal]: Golbez est mon...[new]
 [bold]FuSoYa[normal]: Tu étais contrôlé par Zémus...
 Ceux de sang lunien sont sensibles aux
-pouvoirs psychiques, et donc plus faciles
-à contrôler...[new]
+pouvoirs psychiques, et donc plus faciles à
+contrôler...[new]
 Tu étais son pantin contre ton gré...[end]</sn:pointer>
-
-<sn:pointer id="26">[bold]Edge[normal]: Qu'est-ce que![new]
+    <sn:pointer id="26">[bold]Edge[normal]: Qu'est-ce que![new]
 [bold]Cecil[normal]: Je... combattais mon propre
 frère... ...[new]
 [bold]Golbez[normal]: Tu es mon....[new]
@@ -155,20 +128,14 @@ pesées...
 Tu as renoncé au mal, alors j'ai été jugé
 ouvert à...[new]
 Zémus!!![end]</sn:pointer>
-
-<sn:pointer id="27">[bold]Cecil[normal]: Où vas-tu!?[new]
+    <sn:pointer id="27">[bold]Cecil[normal]: Où vas-tu!?[new]
 [bold]Golbez[normal]: Je vais régler tout cela
 moi-même![end]</sn:pointer>
-
-<sn:pointer id="28">[bold]FuSoYa[normal]: Attends![end]</sn:pointer>
-
-<sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est aussi de notre
-race!
+    <sn:pointer id="28">[bold]FuSoYa[normal]: Attends![end]</sn:pointer>
+    <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est aussi de notre race!
 Je vais venir avec toi...!![end]</sn:pointer>
-
-<sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil....[end]</sn:pointer>
-
-<sn:pointer id="31">[bold]Edge[normal]: Cecil!
+    <sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil....[end]</sn:pointer>
+    <sn:pointer id="31">[bold]Edge[normal]: Cecil!
 Allez!
 Il va se faire tuer![new]
 [bold]Rosa[normal]: Il court droit à sa perte![new]
@@ -177,60 +144,51 @@ Il va se faire tuer![new]
 [bold]Cecil[normal]: ...Frère...[new]
 [bold]Rydia[normal]: Cours après lui![new]
 [bold]Cecil[normal]: ....[end]</sn:pointer>
-
-<sn:pointer id="32">[bold]Edge[normal]: Bordel de merde!
+    <sn:pointer id="32">[bold]Edge[normal]: Bordel de merde!
 C'est mauvais, ça![new]
 [bold]Rydia[normal]: Nous devons sortir de là![new]
 [bold]Rosa[normal]: Cecil![new]
 [bold]Cecil[normal]: .....[end]</sn:pointer>
-
-<sn:pointer id="33">[bold]Edge[normal]: Mais qu'est-ce que tu fous!?[new]
+    <sn:pointer id="33">[bold]Edge[normal]: Mais qu'est-ce que tu fous!?[new]
 [bold]Rydia[normal]: Comment on va sortir d'ici!?[new]
 «Par ici!»[end]</sn:pointer>
-
-<sn:pointer id="34">[bold]Rosa[normal]: Caïn![new]
+    <sn:pointer id="34">[bold]Rosa[normal]: Caïn![new]
 [bold]Edge[normal]: On marche pas, cette fois![end]</sn:pointer>
-
-<sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin repris le contrôle
-de moi-même.
+    <sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin repris le contrôle de
+moi-même.
 Mon esprit restait prisonnier de mes
 mauvaises actions...[new]
 Je ne peux pas vous demander de me
 pardonner, mais...[end]</sn:pointer>
-
-<sn:pointer id="36">[bold]Rosa[normal]: Arrête avec ça![end]</sn:pointer>
-
-<sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
+    <sn:pointer id="36">[bold]Rosa[normal]: Arrête avec ça![end]</sn:pointer>
+    <sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
 Cecil...[new]
 [bold]Cecil[normal]: ...[new]
-[bold]Rosa[normal]: Golbez et Cecil ont
-du sang des Luniens, une race évoluée
-qui hiberne sur la lune.[new]
+[bold]Rosa[normal]: Golbez et Cecil ont du
+sang des Luniens, une race évoluée qui
+hiberne sur la lune.[new]
 Un Lunien, Zémus, voulait asservir la
 Terre, alors il a utilisé Golbez pour
 rassembler les cristaux.[new]
-Par ailleurs, un autre Lunien, FuSoYa,
-a désenvoûté Golbez...[new]
+Par ailleurs, un autre Sélénite, FuSoYa, a
+désenvoûté Golbez...[new]
 [bold]Rydia[normal]: Et alors Golbez a
 accompagné FuSoYa sur la lune pour
 anéantir Zémus.[new]
 [bold]Caïn[normal]: Golbez est.... le frère de
 Cecil..?[end]</sn:pointer>
-
-<sn:pointer id="38">[bold]Edge[normal]: Ah, croyez-moi, je vais aussi
-y aller!
+    <sn:pointer id="38">[bold]Edge[normal]: Ah, croyez-moi, je vais aussi y
+aller!
 Entre Zémus et vous, au moins, je suis
 sûr d'avoir de l'action![new]
-En plus, je ne vais pas rester à
-regarder Zémus jouer avec la vie des
-gens comme ça![new]
+En plus, je ne vais pas rester à regarder
+Zémus jouer avec la vie des gens comme
+ça![new]
 [bold]Caïn[normal]: Edge...[new]
 [bold]Cecil[normal]: Allons-y...[end]</sn:pointer>
-
-<sn:pointer id="39">[bold]Cecil[normal]: ...Je viens aussi...[new]
+    <sn:pointer id="39">[bold]Cecil[normal]: ...Je viens aussi...[new]
 [bold]Rosa[normal]: Cecil...[end]</sn:pointer>
-
-<sn:pointer id="40">[bold]Edge[normal]: À présent Rydia, c'est là
+    <sn:pointer id="40">[bold]Edge[normal]: À présent Rydia, c'est là
 que tu descends.
 Laisse-nous les méchants.
 Reste ici et sois une gentille petite fille![new]
@@ -241,20 +199,16 @@ Laisse-moi te dire ce que je ferais à un
 porc qui me parlerait comme ça.
 Je mettrais fin à sa période de fertilité
 vite fait bien fait.[end]</sn:pointer>
-
-<sn:pointer id="41">[bold]Cecil[normal]: Allons-y!
+    <sn:pointer id="41">[bold]Cecil[normal]: Allons-y!
 Caïn!
 Edge![end]</sn:pointer>
-
-<sn:pointer id="42">[bold]Edge[normal]: Rydia...
+    <sn:pointer id="42">[bold]Edge[normal]: Rydia...
 C'était plutôt en dessous de la ceinture.
 Je t'en veux pas d'être chienne avec
 moi...[new]
 Bon sang, tu vas me manquer.[end]</sn:pointer>
-
-<sn:pointer id="43">[bold]Cecil[normal]: Allons-y![end]</sn:pointer>
-
-<sn:pointer id="44">[bold]Rosa[normal]: ....[new]
+    <sn:pointer id="43">[bold]Cecil[normal]: Allons-y![end]</sn:pointer>
+    <sn:pointer id="44">[bold]Rosa[normal]: ....[new]
 [bold]Cecil[normal]: Écarte-toi de mon chemin...[new]
 [bold]Rosa[normal]: Non!
 Tant que tu ne me prends pas avec toi,
@@ -262,9 +216,9 @@ je ne bouge pas d'un pouce.[new]
 [bold]Cecil[normal]: Quoi!!
 Rosa!
 C'est dangereux, là dehors![new]
-[bold]Rosa[normal]: Tant que je suis auprès de
-toi, quoi qu'il arrive...[music][0x13] ... non, tant que je
-suis avec toi, je me fiche bien du danger![new]
+[bold]Rosa[normal]: Tant que je suis auprès de toi,
+quoi qu'il arrive...[music][0x13] ... non, tant que je suis
+avec toi, je me fiche bien du danger![new]
 [bold]Cecil[normal]: Rosa...[new]
 [bold]Caïn[normal]: ....Allez, Cecil...[new]
 [bold]Edge[normal]: Ouais, laisse-la venir!
@@ -274,8 +228,7 @@ une maigre et puis une de rien...[new]
 [bold]Cecil[normal]: Très bien, Rosa...
 Je vais...
 Je vais te protéger![end]</sn:pointer>
-
-<sn:pointer id="45">[bold]Edge[normal]: Rydia!!
+    <sn:pointer id="45">[bold]Edge[normal]: Rydia!!
 Tu es là![new]
 [bold]Rydia[normal]: Comme je l'ai dit, c'est le
 combat de tous, pas rien le tien.
@@ -285,8 +238,7 @@ Très bien...
 Allons-y![new]
 Nous allons combattre... pour tout le
 monde![end]</sn:pointer>
-
-<sn:pointer id="46">[bold]Cecil[normal]: Rosa et Rydia, vous
+    <sn:pointer id="46">[bold]Cecil[normal]: Rosa et Rydia, vous
 restez ici.
 Nous trois, on va continuer.[new]
 Cette fois, il n'y a aucune garantie de
@@ -295,36 +247,27 @@ survie pour nous...[new]
 [bold]Rydia[normal]: Tu plaisantes!?[new]
 [bold]Cecil[normal]: Allez, descendez du vaisseau
 céleste![end]</sn:pointer>
-
-<sn:pointer id="47">Ça a marché![end]</sn:pointer>
-
-<sn:pointer id="48">[bold]Caïn[normal]: Rosa![end]</sn:pointer>
-
-<sn:pointer id="49">[bold]Cecil[normal]: ...[end]</sn:pointer>
-
-<sn:pointer id="50">[bold]Rosa[normal]: Cecil...[end]</sn:pointer>
-
-<sn:pointer id="51">Je suis.... le mal absolu...
+    <sn:pointer id="47">Ça a marché![end]</sn:pointer>
+    <sn:pointer id="48">[bold]Caïn[normal]: Rosa![end]</sn:pointer>
+    <sn:pointer id="49">[bold]Cecil[normal]: ...[end]</sn:pointer>
+    <sn:pointer id="50">[bold]Rosa[normal]: Cecil...[end]</sn:pointer>
+    <sn:pointer id="51">Je suis.... le mal absolu...
 Augmenté par la haine de Zémus...[end]</sn:pointer>
-
-<sn:pointer id="52">[bold]Cecil[normal]: Golbez...!![end]</sn:pointer>
-
-<sn:pointer id="53">[bold]Cecil[normal]: Zéromus....![new]
+    <sn:pointer id="52">[bold]Cecil[normal]: Golbez...!![end]</sn:pointer>
+    <sn:pointer id="53">[bold]Cecil[normal]: Zéromus....![new]
 [bold]Zéromus[normal]: Je... ...vais...vous...détruire...!!![end]</sn:pointer>
-
-<sn:pointer id="54">«....Je.... ne... périrai pas... ....Tant que...le... mal.... ...hantera...le... cur...des...hommes... Urgh...Gyaa... Gyaaaaaaaaammmmmmm!!!!»[end]</sn:pointer>
-
-<sn:pointer id="55">[bold]FuSoYa[normal]: Incroyable![end]</sn:pointer>
-
-<sn:pointer id="56">[bold]FuSoYa[normal]: Dire que vous aviez autant
-de puissance....
+    <sn:pointer id="54">«....Je.... ne... périrai pas... ....Tant que...le...
+mal.... ...hantera...le... cur...des...hommes...
+Urgh...Gyaa... Gyaaaaaaaaammmmmmm!!!!»[end]</sn:pointer>
+    <sn:pointer id="55">[bold]FuSoYa[normal]: Incroyable![end]</sn:pointer>
+    <sn:pointer id="56">[bold]FuSoYa[normal]: Dire que vous aviez autant de
+puissance....
 La Planète Bleue a tant évolué pendant
 que nous dormions?[new]
 [bold]Edge[normal]: Ha!
-Si on écoute Rydia, je pourrais
-être le chaînon manquant...[end]</sn:pointer>
-
-<sn:pointer id="57">[bold]Ancien[normal]: Toi!
+Si on écoute Rydia, je pourrais être
+le chaînon manquant...[end]</sn:pointer>
+    <sn:pointer id="57">[bold]Ancien[normal]: Toi!
 C'est toi, le chevalier noir!
 Qu'es-tu venu détruire, cette fois?[new]
 [bold]Cecil[normal]: Mon nom est Cecil, et
@@ -335,8 +278,8 @@ Je ne pouvais me résoudre à désobéir
 aux ordres du Roi.
 Maintenant, je viens rechercher le
 pardon.[new]
-[bold]Ancien[normal]: Même si tu t'excuses, cela ne
-va pas ramener les gens que tu as
+[bold]Ancien[normal]: Même si tu t'excuses, cela ne va
+pas ramener les gens que tu as
 assassinés.[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Ancien[normal]: Toutefois...
@@ -344,14 +287,13 @@ Je sens une pâle lueur en toi qui n'était
 pas là avant.[new]
 Cela vaudrait peut-être la peine
 d'écouter ce que tu as à dire.[new]
-[bold]Cecil[normal]: Je combats Golbez,
-l'homme qui contrôle Baron.[new]
+[bold]Cecil[normal]: Je combats Golbez, l'homme
+qui contrôle Baron.[new]
 Quand mes amis et moi-même essayions
 d'empêcher le vol du cristal du vent... il a
 enlevé l'une des nôtres.[new]
 Nous étions partis la sauver, mais
-Léviathan nous a attaqués, et
-maintenant...[new]
+Léviathan nous a attaqués, et maintenant...[new]
 [bold]Ancien[normal]: ...Tu as perdu tes amis...
 Il semble que le destin ait choisi de te
 faire subir cette épreuve.
@@ -360,8 +302,8 @@ Tu cherches à détruire une immense
 noirceur... mais tant que tu te fieras à la
 lame noire, tu ne pourras pas vaincre le
 mal véritable.[new]
-Ton âme est entachée par la noirceur
-de tes actions...
+Ton âme est entachée par la noirceur de
+tes actions...
 Le mal est comme un cancer.[new]
 Il se répand, consumant entièrement
 l'âme.
@@ -370,20 +312,18 @@ l'homme que tu poursuis...[new]
 Si tu souhaites changer ta pâle lueur en
 lumière rayonnante, alors va sur la
 montagne de l'Épreuve à l'est.[new]
-[bold]Cecil[normal]: Mais je dois sauver mon
-amie![new]
-[bold]Ancien[normal]: Si tu chéris vraiment cette
-amie, tu devras endurer cette épreuve...
-et être baigné dans la lumière purifiante
-de la rédemption au sommet...[new]
+[bold]Cecil[normal]: Mais je dois sauver mon amie![new]
+[bold]Ancien[normal]: Si tu chéris vraiment cette amie,
+tu devras endurer cette épreuve... et être
+baigné dans la lumière purifiante de la
+rédemption au sommet...[new]
 Tu dois renoncer à ta lame moire et
 recevoir le pouvoir du chevalier sacré... le
 paladin!
 Sois averti, néanmoins.[new]
 Nombreux sont ceux qui ont tenté de
 devenir paladin.[new]
-[bold]Cecil[normal]: Ils ont essayé et ont
-échoué?[new]
+[bold]Cecil[normal]: Ils ont essayé et ont échoué?[new]
 [bold]Ancien[normal]: Oh, non.
 Ils ont essayé et sont morts...
 Mais tu sembles porter une grande
@@ -395,23 +335,19 @@ peu d'effet sur les monstres du mont.
 Je vais envoyer des magiciens avec toi.
 Palom![new]
 Porom![end]</sn:pointer>
-
-<sn:pointer id="58">«Bienvenue!»[end]</sn:pointer>
-
-<sn:pointer id="59">[bold]Cecil[normal]: Qui es-tu...?[new]
-[bold]Vieil Homme[normal]: Je suis FuSoYa,
-gardien du peuple endormi de la Lune,
-les Luniens.[new]
+    <sn:pointer id="58">«Bienvenue!»[end]</sn:pointer>
+    <sn:pointer id="59">[bold]Cecil[normal]: Qui es-tu...?[new]
+[bold]Vieil Homme[normal]: Je suis FuSoYa, gardien
+du peuple endormi de la Lune, les Luniens.[new]
 [bold]Rosa[normal]: Luniens?[new]
 [bold]FuSoYa[normal]: En effet.
 Il y a très longtemps...[new]
 Nous sommes le peuple d'une planète
-jadis détruite, située entre la quatrième
-et la cinquième planète du système
-solaire.[new]
+jadis détruite, située entre la quatrième et
+la cinquième planète du système solaire.[new]
 Pendant les derniers jours de notre
-monde, nous construisîmes un vaisseau
-et voyageâmes vers la Planète Bleue...[new]
+monde, nous construisîmes un vaisseau et
+voyageâmes vers la Planète Bleue...[new]
 Le voyage fut long... il nous fallut
 hiberner pour survivre.[new]
 [bold]Cecil[normal]: La Planète Bleue...?[new]
@@ -421,22 +357,20 @@ Mais les créatures de votre planète
 étaient encore en pleine évolution...[new]
 Alors nous créâmes une autre lune et
 continuâmes à dormir...[end]</sn:pointer>
-
-<sn:pointer id="60">[bold]Edge[normal]: Une autre lune?[new]
-[bold]FuSoYa[normal]: Mais l'un des nôtres refusa
-de dormir...[new]
+    <sn:pointer id="60">[bold]Edge[normal]: Une autre lune?[new]
+[bold]FuSoYa[normal]: Mais l'un des nôtres refusa de
+dormir...[new]
 Il voulait purger votre planète de tout
-être vivant pour pouvoir nous y
-installer.[new]
+être vivant pour pouvoir nous y installer.[new]
 [bold]Rydia[normal]: Quelle horreur...![new]
 [bold]FuSoYa[normal]: ...Il était un brillant mais
 impatient homme.
-Nous tentâmes de le raisonner, mais il
-ne voulut pas nous écouter.[new]
+Nous tentâmes de le raisonner, mais il ne
+voulut pas nous écouter.[new]
 Au lieu de cela, il devint amer et
 rancunier...[new]
-Il créa la Tour de Bab-Ilu afin de donner
-à l'humanité l'outil pour se détruire
+Il créa la Tour de Bab-Ilu afin de donner à
+l'humanité l'outil pour se détruire
 d'elle-même.[new]
 C'est alors que je forçai cet homme à
 dormir, mais son esprit était toujours
@@ -448,13 +382,11 @@ vivante...[new]
 Depuis qu'il est scellé au-dessous, il
 utilise ses pouvoirs pour contrôler ceux
 dont l'âme est noire...[end]</sn:pointer>
-
-<sn:pointer id="61">[bold]Cecil[normal]: Alors Golbez n'est rien
+    <sn:pointer id="61">[bold]Cecil[normal]: Alors Golbez n'est rien
 qu'un pantin?![new]
 [bold]Edge[normal]: Qui est ce type!?[new]
 [bold]FuSoYa[normal]: Son nom est Zémus...!
-Les cristaux sont notre source
-d'énergie.[new]
+Les cristaux sont notre source d'énergie.[new]
 Zémus, ce sachant, usa de la puissance
 des cristaux pour mettre en marche
 l'ascenseur dimensionnel de la tour de
@@ -465,24 +397,23 @@ l'humanité... le géant de Bab-Ilu![new]
 [bold]Rosa[normal]: Le[new]
 «chemin vers la Lune»[new]
 ... c'est ça...?
-[bold]FuSoYa[normal]: Mais le reste des nôtres
-n'est pas comme ça...[new]
-Nous voulions attendre que les gens de
-la Planète Bleue fussent suffisamment
+[bold]FuSoYa[normal]: Mais le reste des nôtres n'est
+pas comme ça...[new]
+Nous voulions attendre que les gens de la
+Planète Bleue fussent suffisamment
 avancés... pour pouvoir parler avec nous,
 partager nos espoirs, nos craintes, nos
 expériences, et nos destins.[new]
 Ensemble, nos peuples unis eussent tant
 pu faire...
 Nous... rêvions de ce jour...[new]
-[bold]Cecil[normal]: Et le vaisseau céleste qui
-nous a amenés ici?[new]
+[bold]Cecil[normal]: Et le vaisseau céleste qui nous
+a amenés ici?[new]
 [bold]FuSoYa[normal]: Il n'y a pas si longtemps, mon
-frère cadet, KluYa, le construisit et
-partit sur la Planète Bleue.[new]
-KlûYa était passionné par votre monde
-et souvent parlait d'aider votre
-évolution...[new]
+frère cadet, KluYa, le construisit et partit
+sur la Planète Bleue.[new]
+KlûYa était passionné par votre monde et
+souvent parlait d'aider votre évolution...[new]
 Il bâtit la Route du Démon, et donna à
 votre peuple la technologie pour
 construire des aéronefs.[new]
@@ -493,10 +424,8 @@ Toutefois, KluYa tomba amoureux d'une
 femme de la Planète Bleue.
 Elle lui donna deux enfants.
 L'un d'eux était... ...toi, Cecil.[end]</sn:pointer>
-
-<sn:pointer id="62">[bold]Apprentis[normal]: Oui, m'sieur![end]</sn:pointer>
-
-<sn:pointer id="63">[bold]Cecil[normal]: !!
+    <sn:pointer id="62">[bold]Apprentis[normal]: Oui, m'sieur![end]</sn:pointer>
+    <sn:pointer id="63">[bold]Cecil[normal]: !!
 Moi...?
 Alors, la voix que j'ai entendue sur la
 Montagne de l'Épreuve, c'était...[new]
@@ -504,70 +433,58 @@ Montagne de l'Épreuve, c'était...[new]
 C'était l'esprit de KluYa...
 Je vois, à présent... tu ressembles
 tellement à KluYa... quand il était jeune...[new]
-[bold]Cecil[normal]: Cette voix, c'était... mon
-père...![new]
+[bold]Cecil[normal]: Cette voix, c'était... mon père...![new]
 [bold]FuSoYa[normal]: KluYa t'a donné sa puissance
 pour combattre Zémus...
 Nous devons l'arrêter![new]
-Pour les gens de la Lune et de la
-Planète Bleue!
+Pour les gens de la Lune et de la Planète
+Bleue!
 Hâtons-nous vers la tour de Bab-Ilu![new]
 [bold]Edge[normal]: La tour de Bab-Ilu!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
-
-<sn:pointer id="64">[bold]FuSoYa[normal]: J'ai des pouvoirs qui peuvent
+    <sn:pointer id="64">[bold]FuSoYa[normal]: J'ai des pouvoirs qui peuvent
 neutraliser la barrière!
 Nous ne pouvons laisser le géant de
 Bab-Ilu être lâché sur la Planète Bleue![new]
 Je viens avec vous!
 FuSoYa le Lunien a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
-
-<sn:pointer id="65">[bold]Caïn[normal]: Mais ces derniers mots de
+    <sn:pointer id="65">[bold]Caïn[normal]: Mais ces derniers mots de
 Zéromus...[end]</sn:pointer>
-
-<sn:pointer id="66">[bold]Rosa[normal]: Tant qu'il y aura des curs
+    <sn:pointer id="66">[bold]Rosa[normal]: Tant qu'il y aura des curs
 maléfiques...[new]
-[bold]FuSoYa[normal]: Chacun porte tant le bien
-que le mal en son cur... exactement
-comme il y a des cristaux de Lumière et
-d'Obscurité...[new]
+[bold]FuSoYa[normal]: Chacun porte tant le bien que
+le mal en son cur... exactement comme il y
+a des cristaux de Lumière et d'Obscurité...[new]
 Le mal jamais ne disparaîtra... mais tant
 que les humains continueront de se
 soutenir, chérissant les idéaux de vertu,
 de confiance, et d'honneur, jamais il ne
 triomphera.[new]
 [bold]Edge[normal]: Prêche toujours, mon frère!
-J'en fais mon devoir personnel, d'être
-un monument de vertu![end]</sn:pointer>
-
-<sn:pointer id="67">[bold]Rydia[normal]: Monument de vertu!
+J'en fais mon devoir personnel, d'être un
+monument de vertu![end]</sn:pointer>
+    <sn:pointer id="67">[bold]Rydia[normal]: Monument de vertu!
 Mais de quoi tu parles!?[new]
 C'est presque un miracle que quelqu'un
 comme toi n'ait pas été possédé par
 Zémus![end]</sn:pointer>
-
-<sn:pointer id="68">Le sage Tellah a rejoint l'équipe![delay][0x28][close_window][end]</sn:pointer>
-
-<sn:pointer id="69">Attends!![end]</sn:pointer>
-
-<sn:pointer id="70">[bold]Edge[normal]: Ce joli minois, méchant?
+    <sn:pointer id="68">Le sage Tellah a rejoint l'équipe![delay][0x28][close_window][end]</sn:pointer>
+    <sn:pointer id="69">Attends!![end]</sn:pointer>
+    <sn:pointer id="70">[bold]Edge[normal]: Ce joli minois, méchant?
 Ce serait un terrible gâchis![new]
 [bold]FuSoYa[normal]: Enfin, la Planète Bleue sera
 vivable, avec vous deux sur la place...
 À présent, je dois retourner à mon
 sommeil.[new]
 Qu'allez-vous faire?[end]</sn:pointer>
-
-<sn:pointer id="71">[bold]Cecil[normal]: Nous allons retourner sur
+    <sn:pointer id="71">[bold]Cecil[normal]: Nous allons retourner sur
 notre monde.[new]
 [bold]Rosa[normal]: Tout le monde nous attend![end]</sn:pointer>
-
-<sn:pointer id="72">[bold]FuSoYa[normal]: Je vois.
+    <sn:pointer id="72">[bold]FuSoYa[normal]: Je vois.
 Vous avez des amis merveilleux.
 Je serai impatient de rencontrer à
 nouveau votre peuple.[end]</sn:pointer>
-
-<sn:pointer id="73">[bold]Golbez[normal]: Pourrais-je...
+    <sn:pointer id="73">[bold]Golbez[normal]: Pourrais-je...
 Pourrais-je partir avec toi?[new]
 [bold]FuSoYa[normal]: Toi?[new]
 [bold]Golbez[normal]: Oui...
@@ -580,8 +497,7 @@ Tu as aussi du sang lunien dans les
 veines...
 Mais ce sera un long sommeil.[new]
 [bold]Golbez[normal]: Je le sais.[end]</sn:pointer>
-
-<sn:pointer id="74">[bold]Golbez[normal]: Mon frère...[new]
+    <sn:pointer id="74">[bold]Golbez[normal]: Mon frère...[new]
 [bold]Cecil[normal]: ....[new]
 [bold]Golbez[normal]: ....Je vois... je ne mérite pas
 d'être appelé ton frère....
@@ -589,91 +505,72 @@ Je t'ai causé...tant de souffrances...
 Qui plus est...[new]
 J'ai été arrogant...
 impitoyable,...rancunier...
-Maintenant, je suis devant toi un
-homme... brisé... vaincu...et repentant.[new]
+Maintenant, je suis devant toi un homme...
+brisé... vaincu...et repentant.[new]
 Peut-être... pourrai-je soulager dans le
 sommeil le tourment de mon âme...[end]</sn:pointer>
-
-<sn:pointer id="75">[bold]FuSoYa[normal]: Il nous faut à présent partir...
-Je prie pour la paix sur la Planète
-Bleue.[end]</sn:pointer>
-
-<sn:pointer id="76">[bold]Rosa[normal]: Cecil...[new]
+    <sn:pointer id="75">[bold]FuSoYa[normal]: Il nous faut à présent partir...
+Je prie pour la paix sur la Planète Bleue.[end]</sn:pointer>
+    <sn:pointer id="76">[bold]Rosa[normal]: Cecil...[new]
 [bold]Caïn[normal]: Cecil, pardonne-lui
 comme tu m'as pardonné...[new]
 [bold]Rydia[normal]: C'est ton frère![end]</sn:pointer>
-
-<sn:pointer id="77">[bold]Golbez[normal]: ...Adieu.[end]</sn:pointer>
-
-<sn:pointer id="78">[bold]Cecil[normal]: ...
+    <sn:pointer id="77">[bold]Golbez[normal]: ...Adieu.[end]</sn:pointer>
+    <sn:pointer id="78">[bold]Cecil[normal]: ...
 Adieu... ...mon frère![end]</sn:pointer>
-
-<sn:pointer id="79">[bold]Golbez[normal]: ...Merci...[end]</sn:pointer>
-
-<sn:pointer id="80">[bold]Ancien[normal]: Bien!
+    <sn:pointer id="79">[bold]Golbez[normal]: ...Merci...[end]</sn:pointer>
+    <sn:pointer id="80">[bold]Ancien[normal]: Bien!
 Le sujet de la leçon d'aujourd'hui est la
-Transfiguration et la Téléportation. [delay][0x18]
-As-tu exercé ton sort[new]
+Transfiguration et la Téléportation. [delay][0x18] As-tu
+exercé ton sort[new]
 «Issue»[new]
 ?
 [bold]Porom[normal]: Oui, monsieur.[delay][0x18][new]
-[bold]Ancien[normal]: Et ton sort Zone X,
-Palom...?
+[bold]Ancien[normal]: Et ton sort Zone X, Palom...?
 Palom?[new]
 [bold]Porom[normal]: Pas encore!![delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="81">[bold]Palom[normal]: Et alors, j'ai tué d'une seule
+    <sn:pointer id="81">[bold]Palom[normal]: Et alors, j'ai tué d'une seule
 main les hordes déferlantes de morts-
 vivants du mont de l'Épreuve.[new]
-Comme tu peux l'imaginer,[delay][0x18] j'étais
-fatigué, mais pas de repos pour les
-braves![new]
+Comme tu peux l'imaginer,[delay][0x18] j'étais fatigué,
+mais pas de repos pour les braves!
 Cecil avait besoin que je lance mon
 puissant sort[new]
 «Gel»[new]
-... [delay][0x18] Il a dit que j'étais bien plus
-héroïque que lui...[new]
-Ah, je peux lire au fond de tes yeux
-que tu le penses aussi... [delay][0x18] Qu'est-ce que
-tu dirais de trouver un coin plus
-tranquille où je pourrais te montrer
-quelque chose, hem... de tout aussi...
-impressionnant...?[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="82">[bold]Palom[normal]: Ouyouyouille![new]
+... [delay][0x18] Il a dit que j'étais bien plus héroïque
+que lui...[new]
+Ah, je peux lire au fond de tes yeux que
+tu le penses aussi... [delay][0x18] Qu'est-ce que tu
+dirais de trouver un coin plus tranquille où
+je pourrais te montrer quelque chose,
+hem... de tout aussi... impressionnant...?[delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="82">[bold]Palom[normal]: Ouyouyouille![new]
 [bold]Porom[normal]: Espèce de petit pervers![new]
-[bold]Palom[normal]: J'allais juste lui[delay][0x18] montrer
-mon... heu...
+[bold]Palom[normal]: J'allais juste lui[delay][0x18] montrer mon...
+heu...
 Bâton de Feu![new]
 [bold]Porom[normal]: Ouais, je parie...
-Notre ancien est vraiment furieux
-après toi!
+Notre ancien est vraiment furieux après
+toi!
 Allez![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="83">[bold]Ancien[normal]: Combien de fois devrai-je te
-dire de ne pas sécher les leçons? [delay][0x18]
-Qu'est-ce qu'il faut que je fasse pour
-venir à bout d'un précoce monsieur
-je-sais-tout?[new]
+    <sn:pointer id="83">[bold]Ancien[normal]: Combien de fois devrai-je te dire
+de ne pas sécher les leçons? [delay][0x18] Qu'est-ce
+qu'il faut que je fasse pour venir à bout
+d'un précoce monsieur je-sais-tout?[new]
 Peut-être que de recopier des sorts va
 t'aider à voir l'importance des leçons! [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="84">[bold]Palom[normal]: Ho là là!
+    <sn:pointer id="84">[bold]Palom[normal]: Ho là là!
 Ça va prendre des siècles! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="85">[bold]Porom[normal]: Tu l'as bien cherché![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="86">[bold]Chambellan[normal]: ...En, outre, vous
-manquez de discipline pour être un
-dirigeant efficace... [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="87">[bold]Edge[normal]: Assez!
+    <sn:pointer id="85">[bold]Porom[normal]: Tu l'as bien cherché![delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="86">[bold]Chambellan[normal]: ...En, outre, vous manquez
+de discipline pour être un dirigeant
+efficace... [delay][0x18][close_window][end]</sn:pointer>
+    <sn:pointer id="87">[bold]Edge[normal]: Assez!
 Je te demande quelques suggestions
 pour que je m'améliore... [delay][0x18] et tu me sors
 une un roman gigantesque! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="88">[bold]Chambellan[normal]: Je n'ai même pas
-encore commencé.
+    <sn:pointer id="88">[bold]Chambellan[normal]: Je n'ai même pas encore
+commencé.
 Ensuite, vos compagnes laissent quelque
 peu à désirer... [delay][0x18][new]
 [bold]Edge[normal]: Qu'est-ce qu'elles ont qui ne
@@ -682,53 +579,45 @@ Il se trouve que j'aime les femmes... [delay][0x18][new]
 [bold]Chambellan[normal]: Ce n'est pas ce que je
 voulais dire. vous vous cognez[new]
 «accidentellement»[new]
-dans chaque jolie fille que vous voyez,
-et vous êtes pris[delay][0x18] de convulsions quand il
-y en a une qui se penche pour ramasser
+dans chaque jolie fille que vous voyez, et
+vous êtes pris[delay][0x18] de convulsions quand il y
+en a une qui se penche pour ramasser
 quelque chose.
 [bold]Edge[normal]: Bon, bon!
 Je vais me ranger! [delay][0x18][new]
 [bold]Chambellan[normal]: S'il vous plaît, faites-le,
 pour changer! [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="89">[bold]Edge[normal]: Mais Rydia...
+    <sn:pointer id="89">[bold]Edge[normal]: Mais Rydia...
 Beauté, intelligence, et une langue
-acérée... [delay][0x18] Maintenant, il y a une femme
-qui peut me faire me ranger![new]
+acérée... [delay][0x18] Maintenant, il y a une femme qui
+peut me faire me ranger![new]
 Bon sang, ce que j'ai besoin d'elle... [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="90">[bold]Léviathan[normal]: C'est une fille incroyable![new]
-[bold]Asura[normal]: Je n'aurais jamais cru qu'elle
-irait si loin... [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="91">[bold]Rydia[normal]: N'est-ce pas vrai...
+    <sn:pointer id="90">[bold]Léviathan[normal]: C'est une fille incroyable![new]
+[bold]Asura[normal]: Je n'aurais jamais cru qu'elle irait
+si loin... [delay][0x18][close_window][end]</sn:pointer>
+    <sn:pointer id="91">[bold]Rydia[normal]: N'est-ce pas vrai...
 Cecil![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="92">[bold]Enfant Monstre[normal]: Hé, Rydia.
-Comment ça se fait que j'aie des crocs
-et pas toi?
+    <sn:pointer id="92">[bold]Enfant Monstre[normal]: Hé, Rydia.
+Comment ça se fait que j'aie des crocs et
+pas toi?
 J'aimerais être comme toi.[delay][0x8][close_window][end]</sn:pointer>
-
-<sn:pointer id="93">[bold]Rydia[normal]: De quoi parles-tu?
+    <sn:pointer id="93">[bold]Rydia[normal]: De quoi parles-tu?
 Humains et Chimères ont la même
 capacité[delay][0x18] d'aimer et de prêter attention
 aux autres.[new]
 Alors, tu vois, nous ne sommes pas si
 différents. [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="94">[bold]Asura[normal]: Notre monde va être
-intéressant dorénavant, tu ne crois pas?[new]
-[bold]Léviathan[normal]: Oui![delay][0x10] Elle a même rendu
-une ancienne entité comme moi excitée
-par l'avenir!
+    <sn:pointer id="94">[bold]Asura[normal]: Notre monde va être intéressant
+dorénavant, tu ne crois pas?[new]
+[bold]Léviathan[normal]: Oui![delay][0x10] Elle a même rendu une
+ancienne entité comme moi excitée par
+l'avenir!
 Quelle adorable jeune femme! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="95">[bold]Rydia[normal]: La beauté intérieure est la
+    <sn:pointer id="95">[bold]Rydia[normal]: La beauté intérieure est la
 plus importante, pourtant...[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="96">Prince![delay][0x8][close_window][end]</sn:pointer>
-
-<sn:pointer id="97">«Chante-nous une autre chanson sur le paladin!»[new]
+    <sn:pointer id="96">Prince![delay][0x8][close_window][end]</sn:pointer>
+    <sn:pointer id="97">«Chante-nous une autre chanson sur le
+paladin!»[new]
 [delay][0xc]
 [bold]Edward[normal]: Pas tant que vous n'avez pas
 fini le travail d'aujourd'hui.
@@ -741,41 +630,36 @@ pour nous.[new]
 Il nous a débarrassés de ces monstres
 effrayants. [delay][0x11] Mais il y a des choses pires
 que les monstres.[new]
-Nous ne voulons pas que nos mamans
-et papas tombent malades et meurent. [delay][0x11]
-Voilà pourquoi nous devons reconstruire
-notre château.[new]
-Et nous avons besoin de l'aide de tout
-le monde aide, même vous, petits
-enfants. [delay][0x11] Dites-vous... qu'après avoir fini
-votre travail, je vais vous chanter une
-chanson super-spéciale! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="98">«D'accord! Souviens-toi, tu as promis!»[new]
+Nous ne voulons pas que nos mamans et
+papas tombent malades et meurent. [delay][0x11] Voilà
+pourquoi nous devons reconstruire notre
+château.[new]
+Et nous avons besoin de l'aide de tout le
+monde aide, même vous, petits enfants. [delay][0x11]
+Dites-vous... qu'après avoir fini votre
+travail, je vais vous chanter une chanson
+super-spéciale! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="98">«D'accord! Souviens-toi, tu as promis!»[new]
 [delay][0x8][close_window][end]</sn:pointer>
-
-<sn:pointer id="99">[bold]Edward[normal]: Regarde-moi de là-haut,
+    <sn:pointer id="99">[bold]Edward[normal]: Regarde-moi de là-haut,
 Anna.[new]
 J'ai toujours le peuple de Damcyan à
 m'occuper... [delay][0x18] Je ne peux que prier pour
 que toi et ton père souriiez sur nous...[delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="100">[bold]Femme de Yang[normal]: Chéri....[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="101">[bold]Yang[normal]: Tu es une reine, maintenant!
+    <sn:pointer id="100">[bold]Femme de Yang[normal]: Chéri....[delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="101">[bold]Yang[normal]: Tu es une reine, maintenant!
 Arrête de m'appeler[new]
 «chéri»[new]
 !!
-Ça ne sied pas à une femme de ton
-rang. [delay][0x18]
+Ça ne sied pas à une femme de ton rang.
+[delay][0x18]
 [bold]Femme de Yang[normal]: J'ai horreur de
 toutes ces formalités royales!
 Cette royauté est nouvelle pour moi. [delay][0x18][new]
 [bold]Yang[normal]: Tu fais une excellente reine!
 Ah!
 C'est l'heure de l'entraînement! [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="102">[bold]Ancien Roi[normal]: Je sais ce que tu penses.
+    <sn:pointer id="102">[bold]Ancien Roi[normal]: Je sais ce que tu penses.
 [delay][0x8] Tu es embêté par la pompe et les
 grandeurs de la[delay][0xd] noblesse.
 Écoute ces paroles d'expérience.[new]
@@ -783,28 +667,23 @@ La royauté n'est rien de plus que le
 cadeau à quelqu'un de la capacité de
 gouverner et de l'amour pour les[delay][0xd]
 compatriotes...[new]
-Je suis certain que tu vas rendre à
-Fabul sa gloire passée! [delay][0xd][close_window][end]</sn:pointer>
-
-<sn:pointer id="103">Lali-Ho![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="104">[bold]Giotto[normal]: Bien!
-Mettons-nous au travail et restaurons
-ce château! [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="105">«Majesté! Nous n'avons pas assez de matières premières pour ça, Lali!»[new]
+Je suis certain que tu vas rendre à Fabul
+sa gloire passée! [delay][0xd][close_window][end]</sn:pointer>
+    <sn:pointer id="103">Lali-Ho![delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="104">[bold]Giotto[normal]: Bien!
+Mettons-nous au travail et restaurons ce
+château! [delay][0x18][close_window][end]</sn:pointer>
+    <sn:pointer id="105">«Majesté! Nous n'avons pas assez de
+matières premières pour ça, Lali!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="106">[bold]Giotto[normal]: Les chars!
+    <sn:pointer id="106">[bold]Giotto[normal]: Les chars!
 Démantelez les chars!
 On n'en a plus besoin!
 Il n'y aura plus jamais de guerres! [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="107">[bold]Luca[normal]: Père!
+    <sn:pointer id="107">[bold]Luca[normal]: Père!
 As-tu eu des nouvelles de Cecil ou
 d'un des autres? [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="108">[bold]Giotto[normal]: Merci de me le rappeler!
+    <sn:pointer id="108">[bold]Giotto[normal]: Merci de me le rappeler!
 Un messager de Baron est arrivé avec
 ces salutations! [0xf3][delay][0x18] M. Cecil monte sur
 le trône, et prend Rosa pour Reine![new]
@@ -812,14 +691,11 @@ le trône, et prend Rosa pour Reine![new]
 [bold]Giotto[normal]: Nous avons été invités à leur
 couronnement![new]
 [bold]Luca[normal]: Super![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="109">«Votre Altesse! Cessez de pinailler!»[new]
+    <sn:pointer id="109">«Votre Altesse! Cessez de pinailler!»[new]
 [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="110">[bold]Giotto[normal]: Bordel, je vous ai déjà dit de
+    <sn:pointer id="110">[bold]Giotto[normal]: Bordel, je vous ai déjà dit de
 détruire les chars! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="111">[bold]Caïn[normal]: Cecil...
+    <sn:pointer id="111">[bold]Caïn[normal]: Cecil...
 Rosa...
 Pardonnez-moi... encore une fois...[new]
 Je ne peux pas assister...[delay][0x18] Mes actions
@@ -831,387 +707,239 @@ tester...[new]
 Si je surpasse mon père en tant que
 chevalier dragon, son esprit pourrait me
 pardonner..[delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="112">«Ah!»[new]
+    <sn:pointer id="112">«Ah!»[new]
 [delay][0xa][close_window][end]</sn:pointer>
-
-<sn:pointer id="113">[bold]Colliro[normal]: Qu'est-ce qui ne va pas?! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="114">«C'est terrible! La lune est en train de...!»[new]
+    <sn:pointer id="113">[bold]Colliro[normal]: Qu'est-ce qui ne va pas?! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="114">«C'est terrible! La lune est en train de...!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="115">[bold]Cecil[normal]: ...!![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="116">[bold]Rosa[normal]: Qu'est-ce qui ne va pas,
+    <sn:pointer id="115">[bold]Cecil[normal]: ...!![delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="116">[bold]Rosa[normal]: Qu'est-ce qui ne va pas,
 Cecil? [delay][0x10][new]
 [bold]Cecil[normal]: Rien...
 J'ai cru... avoir entendu... la voix de mon
 frère...[new]
 [bold]Rosa[normal]: Oh...[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="117">Tu as obtenu le cristal![end]</sn:pointer>
-
-<sn:pointer id="118">[bold]Cecil[normal]: Je ne fais que m'imaginer des
+    <sn:pointer id="117">Tu as obtenu le cristal![end]</sn:pointer>
+    <sn:pointer id="118">[bold]Cecil[normal]: Je ne fais que m'imaginer des
 choses.
 Probablement...[delay][0x20][close_window][end]</sn:pointer>
-
-<sn:pointer id="119">[bold]Cid[normal]: Qu'est-ce qui...
+    <sn:pointer id="119">[bold]Cid[normal]: Qu'est-ce qui...
 Vous êtes ENCORE là, tous les deux!? [delay][0x18]
-C'est une belle journée, et tout le
-monde arrive![new]
+C'est une belle journée, et tout le monde
+arrive![new]
 Alors dépêchez-vous![new]
 [bold]Rosa[normal]: J'en suis désolée.[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="120">[bold]Cid[normal]: Pffff!
+    <sn:pointer id="120">[bold]Cid[normal]: Pffff!
 Vous pourrez vous tripoter jusqu'à plus
 soif plus tard!
 Maintenant, allez, Rosa![delay][0x20] ...[new]
 Non, non, je veux dire Majesté! [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="121">[bold]Rosa[normal]: Non, appelle-moi juste
+    <sn:pointer id="121">[bold]Rosa[normal]: Non, appelle-moi juste
 Rosa. [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="122">[bold]Cid[normal]: Vraiment!?
+    <sn:pointer id="122">[bold]Cid[normal]: Vraiment!?
 Hé bien donc, Rosa!
 Toutes les jeunes filles sont prêtes! [delay][0x30]
 C'est toi qui mènes le spectacle.[new]
 Allez, allez!
 On se dépêche![new]
 [bold]Rosa[normal]: J'arrive![delay][0x20][close_window][end]</sn:pointer>
-
-<sn:pointer id="123">[bold]Golbez[normal]: Cecil...
+    <sn:pointer id="123">[bold]Golbez[normal]: Cecil...
 Prends...Prends ceci!
 Utilise...le![end]</sn:pointer>
-
-<sn:pointer id="124">[bold]Rosa[normal]: Ça faisait tellement longtemps
-que nous n'avions pas vu tout le monde.
-[delay][0x18] Ils devraient arriver à partir de
+    <sn:pointer id="124">[bold]Rosa[normal]: Ça faisait tellement longtemps
+que nous n'avions pas vu tout le monde. [delay][0x18]
+Ils devraient arriver à partir de
 maintenant![new]
 Cecil, dépêche-toi, toi aussi![new]
 [bold]Cecil[normal]: J'arrive, Rosa.[delay][0x18][close_window][end]</sn:pointer>
-
-<sn:pointer id="125">[bold]Cecil[normal]: Je l'ai entendue... j'en suis
-sûr...
+    <sn:pointer id="125">[bold]Cecil[normal]: Je l'ai entendue... j'en suis sûr...
 La voix de mon frère... [delay][0x20] Il a dit...
 Au revoir... [delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="126">[bold]Edward[normal]: Anna...[delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="127">[bold]Yang[normal]: Allons-y![delay][0x10][close_window][end]</sn:pointer>
-
-<sn:pointer id="128">«Mon nom est Zéromus... je suis...haine!!!»[new]
+    <sn:pointer id="126">[bold]Edward[normal]: Anna...[delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="127">[bold]Yang[normal]: Allons-y![delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="128">«Mon nom est Zéromus... je suis...haine!!!»[new]
 [music][0xb][end]</sn:pointer>
-
-<sn:pointer id="129">[bold]FuSoYa[normal]: ....Zémus?!
+    <sn:pointer id="129">[bold]FuSoYa[normal]: ....Zémus?!
 La mort n'a fait que décupler sa haine![end]</sn:pointer>
-
-<sn:pointer id="130">[bold]Golbez[normal]: Zémus...
+    <sn:pointer id="130">[bold]Golbez[normal]: Zémus...
 Non, Zéromus!
 Ta fin te viendra de mes propres mains![end]</sn:pointer>
-
-<sn:pointer id="131">[bold]FuSoYa[normal]: Disparais, Zéromus![end]</sn:pointer>
-
-<sn:pointer id="132">[bold]Zéromus[normal]: ...Souffrez!
+    <sn:pointer id="131">[bold]FuSoYa[normal]: Disparais, Zéromus![end]</sn:pointer>
+    <sn:pointer id="132">[bold]Zéromus[normal]: ...Souffrez!
 Périssez!
 Jusqu'à ce que tout soit détruit...
 Ma haine continuera...[new]
 Maintenant...Venez... ...dans mes ténèbres
 éternelles...[end]</sn:pointer>
-
-<sn:pointer id="133">[bold]Porom[normal]: Oh non!
+    <sn:pointer id="133">[bold]Porom[normal]: Oh non!
 Ils vont...[end]</sn:pointer>
-
-<sn:pointer id="134">[bold]Palom[normal]: Ils vont mourir![end]</sn:pointer>
-
-<sn:pointer id="135">[bold]Ancien[normal]: Écoutez, tout le monde![end]</sn:pointer>
-
-<sn:pointer id="136">[bold]Ancien[normal]: Il est temps pour nous de
-prier pour eux... ...non, nous devons prier
-pour la Terre![end]</sn:pointer>
-
-<sn:pointer id="137">[bold]Ancien[normal]: Palom, Porom!
-Nous devons envoyer les prières de
-tout le monde à Cecil![end]</sn:pointer>
-
-<sn:pointer id="138">[bold]Yang[normal]: M. Cecil...![end]</sn:pointer>
-
-<sn:pointer id="139">[bold]Edward[normal]: Montrez-nous le vrai
-courage![end]</sn:pointer>
-
-<sn:pointer id="140">[bold]Cid[normal]: On t'attend tous!![end]</sn:pointer>
-
-<sn:pointer id="141">[bold]Giotto[normal]: La Terre!
+    <sn:pointer id="134">[bold]Palom[normal]: Ils vont mourir![end]</sn:pointer>
+    <sn:pointer id="135">[bold]Ancien[normal]: Écoutez, tout le monde![end]</sn:pointer>
+    <sn:pointer id="136">[bold]Ancien[normal]: Il est temps pour nous de prier
+pour eux... ...non, nous devons prier pour
+la Terre![end]</sn:pointer>
+    <sn:pointer id="137">[bold]Ancien[normal]: Palom, Porom!
+Nous devons envoyer les prières de tout
+le monde à Cecil![end]</sn:pointer>
+    <sn:pointer id="138">[bold]Yang[normal]: M. Cecil...![end]</sn:pointer>
+    <sn:pointer id="139">[bold]Edward[normal]: Montrez-nous le vrai courage![end]</sn:pointer>
+    <sn:pointer id="140">[bold]Cid[normal]: On t'attend tous!![end]</sn:pointer>
+    <sn:pointer id="141">[bold]Giotto[normal]: La Terre!
 Combattez pour la Terre![end]</sn:pointer>
-
-<sn:pointer id="142">[bold]Luca[normal]: Faites-lui front![end]</sn:pointer>
-
-<sn:pointer id="143">«Nous prions aussi pour vous!»[end]</sn:pointer>
-
-<sn:pointer id="144">«Revenez vivants!»[end]</sn:pointer>
-
-<sn:pointer id="145">[bold]Ancien[normal]: Lune..!
+    <sn:pointer id="142">[bold]Luca[normal]: Faites-lui front![end]</sn:pointer>
+    <sn:pointer id="143">«Nous prions aussi pour vous!»[end]</sn:pointer>
+    <sn:pointer id="144">«Revenez vivants!»[end]</sn:pointer>
+    <sn:pointer id="145">[bold]Ancien[normal]: Lune..!
 Reçois nos prières..!![end]</sn:pointer>
-
-<sn:pointer id="146">[bold]Palom[normal]: Tiens bon, mon pote![end]</sn:pointer>
-
-<sn:pointer id="147">[bold]Cecil[normal]: Ces deux-là!?[new]
+    <sn:pointer id="146">[bold]Palom[normal]: Tiens bon, mon pote![end]</sn:pointer>
+    <sn:pointer id="147">[bold]Cecil[normal]: Ces deux-là!?[new]
 [bold]Ancien[normal]: En effet.
 Ces deux-là sont les magiciens jumeaux,
 Palom et Porom.[new]
 Ils sont jeunes et encore en formation,
-mais ils possèdent un talent très
-précoce...[new]
+mais ils possèdent un talent très précoce...[new]
 [bold]Palom[normal]: Attention les yeux!
 Je vais t'aider, alors sois reconnaissant![new]
 [bold]Ancien[normal]: Palom!
-Qu'est-ce que je t'ai dit sur
-l'arrogance?[end]</sn:pointer>
-
-<sn:pointer id="148">[bold]Caïn[normal]: Cecil...[end]</sn:pointer>
-
-<sn:pointer id="149">[bold]Porom[normal]: M. Cecil...
+Qu'est-ce que je t'ai dit sur l'arrogance?[end]</sn:pointer>
+    <sn:pointer id="148">[bold]Caïn[normal]: Cecil...[end]</sn:pointer>
+    <sn:pointer id="149">[bold]Porom[normal]: M. Cecil...
 Tout le monde...![end]</sn:pointer>
-
-<sn:pointer id="150">[bold]Cecil[normal]: Rosa...[music][0x13][end]</sn:pointer>
-
-<sn:pointer id="151">[bold]Edward[normal]: ...[end]</sn:pointer>
-
-<sn:pointer id="152">«Cecil...»[new]
+    <sn:pointer id="150">[bold]Cecil[normal]: Rosa...[music][0x13][end]</sn:pointer>
+    <sn:pointer id="151">[bold]Edward[normal]: ...[end]</sn:pointer>
+    <sn:pointer id="152">«Cecil...»[new]
 [bold]Cecil[normal]: Majesté!?[end]</sn:pointer>
-
-<sn:pointer id="153">[bold]Roi Baron[normal]: Va dans le monde des
+    <sn:pointer id="153">[bold]Roi Baron[normal]: Va dans le monde des
 Chimères... et reviens ici...[new]
 [bold]Cecil[normal]: Majesté![end]</sn:pointer>
-
-<sn:pointer id="154">[bold]Roi Baron[normal]: Tu es venu...[end]</sn:pointer>
-
-<sn:pointer id="155">[bold]Cecil[normal]: Majesté...[new]
+    <sn:pointer id="154">[bold]Roi Baron[normal]: Tu es venu...[end]</sn:pointer>
+    <sn:pointer id="155">[bold]Cecil[normal]: Majesté...[new]
 [bold]Roi Baron[normal]: Le regard dans tes yeux est
 un regard de tristesse, Cecil...[new]
 Oui, c'est vraiment moi, j'ai... j'ai été
-assassiné, mais je suis devenu l'âme
-d'une Chimère...[new]
+assassiné, mais je suis devenu l'âme d'une
+Chimère...[new]
 L'Invocatrice de Mist pourrait appeler
 mon nom, mais vous devez être testés...[end]</sn:pointer>
-
-<sn:pointer id="156">[bold]Roi Baron[normal]: Vous êtes devenus forts...
+    <sn:pointer id="156">[bold]Roi Baron[normal]: Vous êtes devenus forts...
 Combattez pour Baron... non, combattez
 pour le monde![new]
 Je combattrai à vos côtés en tant
 qu'Odin![new]
 [bold]Cecil[normal]: Majesté!
 Rydia a appris Odin![music][0x29][delay][0x28][end]</sn:pointer>
-
-<sn:pointer id="157">[bold]Cecil[normal]: Caïn?[end]</sn:pointer>
-
-<sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
-
-<sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
+    <sn:pointer id="157">[bold]Cecil[normal]: Caïn?[end]</sn:pointer>
+    <sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
+    <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
 Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
-
-<sn:pointer id="160">[bold]Tellah[normal]: J'obtiendrai vengeance![end]</sn:pointer>
-
-<sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir....
+    <sn:pointer id="160">[bold]Tellah[normal]: J'obtiendrai vengeance![end]</sn:pointer>
+    <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir....
 Golbez...![end]</sn:pointer>
-
-<sn:pointer id="162">[bold]Rosa[normal]: Issue![end]</sn:pointer>
-
-<sn:pointer id="163">[bold]Cecil[normal]: Non, ce n'est rien...
+    <sn:pointer id="162">[bold]Rosa[normal]: Issue![end]</sn:pointer>
+    <sn:pointer id="163">[bold]Cecil[normal]: Non, ce n'est rien...
 Allons dormir...[end]</sn:pointer>
-
-<sn:pointer id="164">[bold]Cecil[normal]: Est-ce que tout le monde va
+    <sn:pointer id="164">[bold]Cecil[normal]: Est-ce que tout le monde va
 bien?[new]
 [bold]Cid[normal]: Oui...
 Mais l'Entreprise est salement touchée.
 Essayer de voler serait risqué.[new]
 [bold]Cecil[normal]: Bon, qu'allons-nous faire?
 Descendons.[end]</sn:pointer>
-
-<sn:pointer id="165">[bold]Palom[normal]: Je suis le Génie Mythidien
+    <sn:pointer id="165">[bold]Palom[normal]: Je suis le Génie Mythidien
 Palom![end]</sn:pointer>
-
-<sn:pointer id="166">[bold]Porom[normal]: Veuillez pardonner son
+    <sn:pointer id="166">[bold]Porom[normal]: Veuillez pardonner son
 insolence.[new]
-[bold]Palom[normal]: Je vois pourquoi vous êtes
-les amis de Cecil.
+[bold]Palom[normal]: Je vois pourquoi vous êtes les
+amis de Cecil.
 Vous étiez tous les deux les pantins de
 Baron.[end]</sn:pointer>
-
-<sn:pointer id="167">T[end]</sn:pointer>
-
-<sn:pointer id="168">T[end]</sn:pointer>
-
-<sn:pointer id="169">T[end]</sn:pointer>
-
-<sn:pointer id="170">T[end]</sn:pointer>
-
-<sn:pointer id="171">T[end]</sn:pointer>
-
-<sn:pointer id="172">T[end]</sn:pointer>
-
-<sn:pointer id="173">T[end]</sn:pointer>
-
-<sn:pointer id="174">T[end]</sn:pointer>
-
-<sn:pointer id="175">T[end]</sn:pointer>
-
-<sn:pointer id="176">T[end]</sn:pointer>
-
-<sn:pointer id="177">T[end]</sn:pointer>
-
-<sn:pointer id="178">T[end]</sn:pointer>
-
-<sn:pointer id="179">T[end]</sn:pointer>
-
-<sn:pointer id="180">T[end]</sn:pointer>
-
-<sn:pointer id="181">T[end]</sn:pointer>
-
-<sn:pointer id="182">T[end]</sn:pointer>
-
-<sn:pointer id="183">T[end]</sn:pointer>
-
-<sn:pointer id="184">T[end]</sn:pointer>
-
-<sn:pointer id="185">T[end]</sn:pointer>
-
-<sn:pointer id="186">T[end]</sn:pointer>
-
-<sn:pointer id="187">T[end]</sn:pointer>
-
-<sn:pointer id="188">T[end]</sn:pointer>
-
-<sn:pointer id="189">T[end]</sn:pointer>
-
-<sn:pointer id="190">T[end]</sn:pointer>
-
-<sn:pointer id="191">T[end]</sn:pointer>
-
-<sn:pointer id="192">T[end]</sn:pointer>
-
-<sn:pointer id="193">T[end]</sn:pointer>
-
-<sn:pointer id="194">T[end]</sn:pointer>
-
-<sn:pointer id="195">T[end]</sn:pointer>
-
-<sn:pointer id="196">T[end]</sn:pointer>
-
-<sn:pointer id="197">T[end]</sn:pointer>
-
-<sn:pointer id="198">T[end]</sn:pointer>
-
-<sn:pointer id="199">T[end]</sn:pointer>
-
-<sn:pointer id="200">T[end]</sn:pointer>
-
-<sn:pointer id="201">T[end]</sn:pointer>
-
-<sn:pointer id="202">T[end]</sn:pointer>
-
-<sn:pointer id="203">T[end]</sn:pointer>
-
-<sn:pointer id="204">T[end]</sn:pointer>
-
-<sn:pointer id="205">T[end]</sn:pointer>
-
-<sn:pointer id="206">T[end]</sn:pointer>
-
-<sn:pointer id="207">T[end]</sn:pointer>
-
-<sn:pointer id="208">T[end]</sn:pointer>
-
-<sn:pointer id="209">T[end]</sn:pointer>
-
-<sn:pointer id="210">T[end]</sn:pointer>
-
-<sn:pointer id="211">T[end]</sn:pointer>
-
-<sn:pointer id="212">T[end]</sn:pointer>
-
-<sn:pointer id="213">T[end]</sn:pointer>
-
-<sn:pointer id="214">T[end]</sn:pointer>
-
-<sn:pointer id="215">T[end]</sn:pointer>
-
-<sn:pointer id="216">T[end]</sn:pointer>
-
-<sn:pointer id="217">T[end]</sn:pointer>
-
-<sn:pointer id="218">T[end]</sn:pointer>
-
-<sn:pointer id="219">T[end]</sn:pointer>
-
-<sn:pointer id="220">T[end]</sn:pointer>
-
-<sn:pointer id="221">T[end]</sn:pointer>
-
-<sn:pointer id="222">T[end]</sn:pointer>
-
-<sn:pointer id="223">T[end]</sn:pointer>
-
-<sn:pointer id="224">T[end]</sn:pointer>
-
-<sn:pointer id="225">T[end]</sn:pointer>
-
-<sn:pointer id="226">T[end]</sn:pointer>
-
-<sn:pointer id="227">T[end]</sn:pointer>
-
-<sn:pointer id="228">T[end]</sn:pointer>
-
-<sn:pointer id="229">T[end]</sn:pointer>
-
-<sn:pointer id="230">T[end]</sn:pointer>
-
-<sn:pointer id="231">T[end]</sn:pointer>
-
-<sn:pointer id="232">T[end]</sn:pointer>
-
-<sn:pointer id="233">T[end]</sn:pointer>
-
-<sn:pointer id="234">T[end]</sn:pointer>
-
-<sn:pointer id="235">T[end]</sn:pointer>
-
-<sn:pointer id="236">UT[end]</sn:pointer>
-
-<sn:pointer id="237">T[end]</sn:pointer>
-
-<sn:pointer id="238">T[end]</sn:pointer>
-
-<sn:pointer id="239">T[end]</sn:pointer>
-
-<sn:pointer id="240">T[end]</sn:pointer>
-
-<sn:pointer id="241">T[end]</sn:pointer>
-
-<sn:pointer id="242">T[end]</sn:pointer>
-
-<sn:pointer id="243">T[end]</sn:pointer>
-
-<sn:pointer id="244">T[end]</sn:pointer>
-
-<sn:pointer id="245">T[end]</sn:pointer>
-
-<sn:pointer id="246">T[end]</sn:pointer>
-
-<sn:pointer id="247">T[end]</sn:pointer>
-
-<sn:pointer id="248">T[end]</sn:pointer>
-
-<sn:pointer id="249">T[end]</sn:pointer>
-
-<sn:pointer id="250">T[end]</sn:pointer>
-
-<sn:pointer id="251">T[end]</sn:pointer>
-
-<sn:pointer id="252">T[end]</sn:pointer>
-
-<sn:pointer id="253">T[end]</sn:pointer>
-
-<sn:pointer id="254">T[end]</sn:pointer>
-
-<sn:pointer id="255">T[end]</sn:pointer>
- </sn:script>
+    <sn:pointer id="167">T[end]</sn:pointer>
+    <sn:pointer id="168">T[end]</sn:pointer>
+    <sn:pointer id="169">T[end]</sn:pointer>
+    <sn:pointer id="170">T[end]</sn:pointer>
+    <sn:pointer id="171">T[end]</sn:pointer>
+    <sn:pointer id="172">T[end]</sn:pointer>
+    <sn:pointer id="173">T[end]</sn:pointer>
+    <sn:pointer id="174">T[end]</sn:pointer>
+    <sn:pointer id="175">T[end]</sn:pointer>
+    <sn:pointer id="176">T[end]</sn:pointer>
+    <sn:pointer id="177">T[end]</sn:pointer>
+    <sn:pointer id="178">T[end]</sn:pointer>
+    <sn:pointer id="179">T[end]</sn:pointer>
+    <sn:pointer id="180">T[end]</sn:pointer>
+    <sn:pointer id="181">T[end]</sn:pointer>
+    <sn:pointer id="182">T[end]</sn:pointer>
+    <sn:pointer id="183">T[end]</sn:pointer>
+    <sn:pointer id="184">T[end]</sn:pointer>
+    <sn:pointer id="185">T[end]</sn:pointer>
+    <sn:pointer id="186">T[end]</sn:pointer>
+    <sn:pointer id="187">T[end]</sn:pointer>
+    <sn:pointer id="188">T[end]</sn:pointer>
+    <sn:pointer id="189">T[end]</sn:pointer>
+    <sn:pointer id="190">T[end]</sn:pointer>
+    <sn:pointer id="191">T[end]</sn:pointer>
+    <sn:pointer id="192">T[end]</sn:pointer>
+    <sn:pointer id="193">T[end]</sn:pointer>
+    <sn:pointer id="194">T[end]</sn:pointer>
+    <sn:pointer id="195">T[end]</sn:pointer>
+    <sn:pointer id="196">T[end]</sn:pointer>
+    <sn:pointer id="197">T[end]</sn:pointer>
+    <sn:pointer id="198">T[end]</sn:pointer>
+    <sn:pointer id="199">T[end]</sn:pointer>
+    <sn:pointer id="200">T[end]</sn:pointer>
+    <sn:pointer id="201">T[end]</sn:pointer>
+    <sn:pointer id="202">T[end]</sn:pointer>
+    <sn:pointer id="203">T[end]</sn:pointer>
+    <sn:pointer id="204">T[end]</sn:pointer>
+    <sn:pointer id="205">T[end]</sn:pointer>
+    <sn:pointer id="206">T[end]</sn:pointer>
+    <sn:pointer id="207">T[end]</sn:pointer>
+    <sn:pointer id="208">T[end]</sn:pointer>
+    <sn:pointer id="209">T[end]</sn:pointer>
+    <sn:pointer id="210">T[end]</sn:pointer>
+    <sn:pointer id="211">T[end]</sn:pointer>
+    <sn:pointer id="212">T[end]</sn:pointer>
+    <sn:pointer id="213">T[end]</sn:pointer>
+    <sn:pointer id="214">T[end]</sn:pointer>
+    <sn:pointer id="215">T[end]</sn:pointer>
+    <sn:pointer id="216">T[end]</sn:pointer>
+    <sn:pointer id="217">T[end]</sn:pointer>
+    <sn:pointer id="218">T[end]</sn:pointer>
+    <sn:pointer id="219">T[end]</sn:pointer>
+    <sn:pointer id="220">T[end]</sn:pointer>
+    <sn:pointer id="221">T[end]</sn:pointer>
+    <sn:pointer id="222">T[end]</sn:pointer>
+    <sn:pointer id="223">T[end]</sn:pointer>
+    <sn:pointer id="224">T[end]</sn:pointer>
+    <sn:pointer id="225">T[end]</sn:pointer>
+    <sn:pointer id="226">T[end]</sn:pointer>
+    <sn:pointer id="227">T[end]</sn:pointer>
+    <sn:pointer id="228">T[end]</sn:pointer>
+    <sn:pointer id="229">T[end]</sn:pointer>
+    <sn:pointer id="230">T[end]</sn:pointer>
+    <sn:pointer id="231">T[end]</sn:pointer>
+    <sn:pointer id="232">T[end]</sn:pointer>
+    <sn:pointer id="233">T[end]</sn:pointer>
+    <sn:pointer id="234">T[end]</sn:pointer>
+    <sn:pointer id="235">T[end]</sn:pointer>
+    <sn:pointer id="236">UT[end]</sn:pointer>
+    <sn:pointer id="237">T[end]</sn:pointer>
+    <sn:pointer id="238">T[end]</sn:pointer>
+    <sn:pointer id="239">T[end]</sn:pointer>
+    <sn:pointer id="240">T[end]</sn:pointer>
+    <sn:pointer id="241">T[end]</sn:pointer>
+    <sn:pointer id="242">T[end]</sn:pointer>
+    <sn:pointer id="243">T[end]</sn:pointer>
+    <sn:pointer id="244">T[end]</sn:pointer>
+    <sn:pointer id="245">T[end]</sn:pointer>
+    <sn:pointer id="246">T[end]</sn:pointer>
+    <sn:pointer id="247">T[end]</sn:pointer>
+    <sn:pointer id="248">T[end]</sn:pointer>
+    <sn:pointer id="249">T[end]</sn:pointer>
+    <sn:pointer id="250">T[end]</sn:pointer>
+    <sn:pointer id="251">T[end]</sn:pointer>
+    <sn:pointer id="252">T[end]</sn:pointer>
+    <sn:pointer id="253">T[end]</sn:pointer>
+    <sn:pointer id="254">T[end]</sn:pointer>
+    <sn:pointer id="255">T[end]</sn:pointer>
+</sn:script>

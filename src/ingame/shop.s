@@ -45,6 +45,19 @@
 *=0x01C568
      load_system_menu_text_pointer(shops.gils + 2)
 
+*=0x01c74e
+    load_system_menu_text_pointer(shops.thank_you_window)
+
+*=0x01c962
+    load_system_menu_text_pointer(shops.sell_window)
+
+*=0x01c41e
+    load_system_menu_text_pointer(shops.inventory_full)
+
+*=0x01c700
+    load_system_menu_text_pointer(shops.not_enough_gils)
+
+
 ; Buy menu
 ; quantity hand pointer position "10"
 *=0x01cb12

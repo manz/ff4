@@ -6,13 +6,12 @@ Script to format bank*.xml files while preserving original XML formatting.
 import xml.etree.ElementTree as ET
 import sys
 import os
-import glob
 import re
-from pathlib import Path
 from script import Table
 from metrics import TextMetrics
 
 WINDOW_WIDTH = 208
+FOURTH_LINE_WIDTH = 200  # Fourth line is 8 pixels shorter
 
 
 class Token:
@@ -30,6 +29,7 @@ class DialogLexer:
         self.character_pattern = re.compile(r"(\w+(?:\s+\w+)*):")
         self.guillemet_pattern = re.compile(r"«([^»]*)»")
         self.end_pattern = re.compile(r"\[end\]")
+        self.close_window_pattern = re.compile(r"\[close_window\]")
 
     def tokenize(self, text):
         tokens = []
@@ -52,6 +52,13 @@ class DialogLexer:
             if end_match:
                 tokens.append(Token("END", "[end]", i))
                 i = end_match.end()
+                continue
+
+            # Check for [close_window] marker
+            close_window_match = self.close_window_pattern.match(text, i)
+            if close_window_match:
+                tokens.append(Token("CLOSE_WINDOW", "[close_window]", i))
+                i = close_window_match.end()
                 continue
 
             # Check for guillemet speech
@@ -78,9 +85,12 @@ class DialogLexer:
             sentence = ""
 
             while i < len(text):
-                # Check if we hit [end] at current position (only [end], not other control codes)
-                if text[i: i + 5] == "[end]" and sentence.strip():
+                # Check if we hit [end] or [close_window] at current position
+                if text[i : i + 5] == "[end]" and sentence.strip():
                     # We found [end] and we already have some sentence content
+                    break
+                if text[i : i + 14] == "[close_window]" and sentence.strip():
+                    # We found [close_window] and we already have some sentence content
                     break
 
                 # Check if we hit a guillemet at current position
@@ -108,7 +118,11 @@ class DialogLexer:
                     # Look ahead to see if this ends the sentence
                     if i >= len(text):  # End of text
                         break
-                    elif text[i: i + 5] == "[end]":  # Followed by [end] (special case)
+                    elif text[i : i + 5] == "[end]":  # Followed by [end] (special case)
+                        break
+                    elif (
+                        text[i : i + 14] == "[close_window]"
+                    ):  # Followed by [close_window] (special case)
                         break
                     elif i < len(text) and text[i] == "[":
                         # Check if this is followed by a control code (not [end])
@@ -116,15 +130,15 @@ class DialogLexer:
                         # Find the closing bracket
                         bracket_end = text.find("]", i)
                         if bracket_end != -1:
-                            control_code = text[i: bracket_end + 1]
-                            if control_code != "[end]":
+                            control_code = text[i : bracket_end + 1]
+                            if control_code not in ["[end]", "[close_window]"]:
                                 # This is a control code, include it in the sentence but don't consume following spaces
-                                sentence += text[i: bracket_end + 1]
+                                sentence += text[i : bracket_end + 1]
                                 i = bracket_end + 1
                                 # Don't consume the space - let the main loop handle it
                                 continue
                             else:
-                                # This is [end], break here
+                                # This is [end] or [close_window], break here
                                 break
                     elif i < len(text) and text[i].isspace():
                         # Check if next non-space character is uppercase or special pattern
@@ -133,10 +147,11 @@ class DialogLexer:
                             j += 1
                         if j < len(text):
                             if (
-                                    text[j].isupper()
-                                    or text[j: j + 1] == "«"
-                                    or self.character_pattern.match(text, j)
-                                    or text[j: j + 5] == "[end]"
+                                text[j].isupper()
+                                or text[j : j + 1] == "«"
+                                or self.character_pattern.match(text, j)
+                                or text[j : j + 5] == "[end]"
+                                or text[j : j + 14] == "[close_window]"
                             ):
                                 break
                     else:
@@ -155,152 +170,109 @@ class DialogParser:
         # Initialize TextMetrics if not provided
         if text_metrics is None:
             try:
-                normal_length_table = Path("assets/font_length_table.dat").read_bytes()
-                bold_length_table = Path("assets/bold_font_length_table.dat").read_bytes()
-                book_length_table = Path("assets/book_font_length_table.dat").read_bytes()
-                wicked_length_table = Path("assets/wicked_font_length_table.dat").read_bytes()
                 table = Table("text/ff4fr.tbl")
-                self.text_metrics = TextMetrics(table, [normal_length_table, wicked_length_table, bold_length_table,
-                                                        book_length_table])
+
+                # Use new interleaved format with correct font order
+                font_files = [
+                    "assets/font.dat",  # Index 0: [normal] (fe 00)
+                    "assets/wicked_font.dat",  # Index 1: [wicked] (fe 01)
+                    "assets/book_font.dat",  # Index 2: [book/force_book] (fe 02)
+                    "assets/bold_font.dat",  # Index 3: [bold] (fe 03)
+                ]
+
+                self.text_metrics = TextMetrics(table, font_files, char_height=16)
             except (FileNotFoundError, Exception):
                 # Fallback to None if metrics can't be loaded (for testing)
                 self.text_metrics = None
         else:
             self.text_metrics = text_metrics
 
+        # Initialize font state tracking
+        self.reset_font_context()
+
+    def reset_font_context(self):
+        """Reset font context to default state for processing a new pointer."""
+        self.current_font_index = (
+            0  # Track current font index (0=normal, 1=wicked, 2=book, 3=bold)
+        )
+
     def parse(self, tokens):
-        """Parse tokens into dialog segments with intelligent grouping."""
+        """Parse tokens and inject WINDOW_BREAK tokens for guillemet speech transitions."""
+        # First pass: inject WINDOW_BREAK tokens for guillemet transitions
+        enhanced_tokens = self._inject_window_breaks(tokens)
+
+        # Second pass: process the enhanced tokens for dialog formatting
+        return self._format_dialog(enhanced_tokens)
+
+    @staticmethod
+    def _is_control_only(text):
+        """True if SENTENCE value contains only control codes (e.g. [delay][0x5])."""
+        return not re.sub(r"\[[^\]]*\]", "", text).strip()
+
+    def _inject_window_breaks(self, tokens):
+        """Inject WINDOW_BREAK tokens where guillemet speeches should create new windows."""
+        enhanced_tokens = []
+        in_character_context = False
+
+        for i, token in enumerate(tokens):
+            enhanced_tokens.append(token)
+
+            if token.type == "CHARACTER":
+                in_character_context = True
+            elif token.type in ("GUILLEMET_SPEECH", "END", "CLOSE_WINDOW"):
+                in_character_context = False
+
+            next_token = tokens[i + 1] if i + 1 < len(tokens) else None
+            next_type = next_token.type if next_token else None
+
+            # Skip break when next SENTENCE is only control codes (e.g. [delay]):
+            # no visible text means no need for a fresh window.
+            next_is_visible_sentence = (
+                next_type == "SENTENCE" and not self._is_control_only(next_token.value)
+            )
+
+            if token.type == "GUILLEMET_SPEECH" and (
+                next_type in ("CHARACTER", "GUILLEMET_SPEECH")
+                or next_is_visible_sentence
+            ):
+                enhanced_tokens.append(Token("WINDOW_BREAK", "[window_break]"))
+            elif (
+                token.type == "SENTENCE"
+                and in_character_context
+                and next_type == "GUILLEMET_SPEECH"
+            ):
+                enhanced_tokens.append(Token("WINDOW_BREAK", "[window_break]"))
+
+        return enhanced_tokens
+
+    def _wrap(self, sentence):
+        wrapped, self.current_font_index = self.text_metrics.word_warp(
+            sentence, WINDOW_WIDTH, self.current_font_index
+        )
+        return wrapped
+
+    def _accumulate(self, wrapped_sentence, accumulated, result):
+        """Append wrapped sentence to accumulated; flush with [new] if overflow."""
+        if not accumulated:
+            accumulated.append(wrapped_sentence)
+            return accumulated
+
+        combined = "\n".join(accumulated + [wrapped_sentence])
+        if self._fits_in_dialog_window(combined):
+            accumulated.append(wrapped_sentence)
+            return accumulated
+
+        result.extend(self._flush_pre_wrapped_sentences(accumulated, add_new=True))
+        return [wrapped_sentence]
+
+    def _format_dialog(self, tokens):
+        """Format dialog tokens into final output, handling WINDOW_BREAK tokens."""
         result = []
         current_character = None
         accumulated_sentences = []
-        accumulated_text = ""
-        accumulated_lines = 0
 
-        i = 0
-        while i < len(tokens):
-            token = tokens[i]
-
-            if token.type == "CHARACTER":
-                # Character change - process any accumulated sentences first
-                if accumulated_sentences:
-                    # Always add [new] when character changes (except for the very first character)
-                    add_new = current_character is not None
-                    result.extend(
-                        self._flush_pre_wrapped_sentences(
-                            accumulated_sentences, add_new=add_new
-                        )
-                    )
-                    accumulated_sentences = []
-                    accumulated_text = ""
-                    accumulated_lines = 0
-
-                current_character = "[bold]" + token.value + "[normal]"
-                i += 1
-
-            elif token.type == "SENTENCE":
-                if current_character:
-                    # Character speech sentence
-                    is_first_sentence = not accumulated_sentences
-                    sentence = (
-                        f"{current_character}: {token.value}"
-                        if is_first_sentence
-                        else token.value
-                    )
-
-                    # Apply word wrapping to this sentence immediately
-                    wrapped_sentence = self.text_metrics.word_warp(
-                        sentence, WINDOW_WIDTH
-                    )
-
-                    # Check if adding this wrapped sentence would exceed 4-line limit
-                    if accumulated_sentences:
-                        # Calculate total lines for all accumulated sentences plus this new one
-                        all_wrapped_sentences = accumulated_sentences + [
-                            wrapped_sentence
-                        ]
-                        combined_wrapped_text = "\n".join(all_wrapped_sentences)
-                        lines_needed = self._measure_lines_wrapped(
-                            combined_wrapped_text
-                        )
-
-                        if lines_needed <= 4:
-                            # Fits in current dialog box
-                            accumulated_sentences.append(wrapped_sentence)
-                            accumulated_text = combined_wrapped_text
-                            accumulated_lines = lines_needed
-                        else:
-                            # Would exceed limit - flush accumulated with [new] at end, then start new
-                            if accumulated_sentences:
-                                result.extend(
-                                    self._flush_pre_wrapped_sentences(
-                                        accumulated_sentences, add_new=True
-                                    )
-                                )
-
-                            # Start new accumulation with this wrapped sentence
-                            accumulated_sentences = [wrapped_sentence]
-                            accumulated_text = wrapped_sentence
-                            accumulated_lines = self._measure_lines_wrapped(
-                                wrapped_sentence
-                            )
-                    else:
-                        # First sentence for this character
-                        accumulated_sentences.append(wrapped_sentence)
-                        accumulated_text = wrapped_sentence
-                        accumulated_lines = self._measure_lines_wrapped(
-                            wrapped_sentence
-                        )
-                else:
-                    # Narrative sentence
-                    sentence = token.value
-
-                    # Apply word wrapping to narrative sentences too
-                    wrapped_sentence = self.text_metrics.word_warp(
-                        sentence, WINDOW_WIDTH
-                    )
-
-                    # Apply same intelligent grouping for narrative using wrapped sentences
-                    if accumulated_sentences:
-                        # Calculate total lines for all accumulated sentences plus this new one
-                        all_wrapped_sentences = accumulated_sentences + [
-                            wrapped_sentence
-                        ]
-                        combined_wrapped_text = "\n".join(all_wrapped_sentences)
-                        lines_needed = self._measure_lines_wrapped(
-                            combined_wrapped_text
-                        )
-
-                        if lines_needed <= 4:
-                            accumulated_sentences.append(wrapped_sentence)
-                            accumulated_text = combined_wrapped_text
-                            accumulated_lines = lines_needed
-                        else:
-                            # Would exceed limit - flush accumulated with [new] at end, then start new
-                            if accumulated_sentences:
-                                result.extend(
-                                    self._flush_pre_wrapped_sentences(
-                                        accumulated_sentences, add_new=True
-                                    )
-                                )
-
-                            # Start new accumulation with this wrapped sentence
-                            accumulated_sentences = [wrapped_sentence]
-                            accumulated_text = wrapped_sentence
-                            accumulated_lines = self._measure_lines_wrapped(
-                                wrapped_sentence
-                            )
-                    else:
-                        # First narrative sentence
-                        accumulated_sentences.append(wrapped_sentence)
-                        accumulated_text = wrapped_sentence
-                        accumulated_lines = self._measure_lines_wrapped(
-                            wrapped_sentence
-                        )
-
-                i += 1
-
-            elif token.type == "GUILLEMET_SPEECH":
-                # Flush any accumulated sentences first
+        for i, token in enumerate(tokens):
+            if token.type == "WINDOW_BREAK":
                 if accumulated_sentences:
                     result.extend(
                         self._flush_pre_wrapped_sentences(
@@ -308,49 +280,70 @@ class DialogParser:
                         )
                     )
                     accumulated_sentences = []
-                    accumulated_text = ""
-                    accumulated_lines = 0
+                current_character = None
 
-                # Check if this guillemet is followed immediately by [end]
-                is_followed_by_end = i + 1 < len(tokens) and tokens[i + 1].type == "END"
-
-                # Add guillemet speech as separate dialog box
-                if is_followed_by_end:
-                    result.append(token.value)  # Don't add [new] if followed by [end]
-                else:
-                    result.append(token.value + "[new]")
-
-                current_character = None  # Reset character context
-                i += 1
-
-            elif token.type == "END":
-                # End marker - flush accumulated and add end marker, then reset state
+            elif token.type == "CHARACTER":
                 if accumulated_sentences:
-                    # Add [end] to the last accumulated sentence
-                    last_sentence = accumulated_sentences[-1]
-                    accumulated_sentences[-1] = last_sentence + "[end]"
+                    add_new = current_character is not None
+                    result.extend(
+                        self._flush_pre_wrapped_sentences(
+                            accumulated_sentences, add_new=add_new
+                        )
+                    )
+                    accumulated_sentences = []
+                current_character = "[bold]" + token.value + "[normal]"
+
+            elif token.type == "SENTENCE":
+                # Control-only sentences ([delay][0x5] etc.) carry no visible text;
+                # glue them to the previous output instead of starting a new window.
+                if (
+                    self._is_control_only(token.value)
+                    and not accumulated_sentences
+                    and result
+                ):
+                    result[-1] += token.value
+                else:
+                    if current_character and not accumulated_sentences:
+                        sentence = f"{current_character}: {token.value}"
+                    else:
+                        sentence = token.value
+                    wrapped = self._wrap(sentence)
+                    accumulated_sentences = self._accumulate(
+                        wrapped, accumulated_sentences, result
+                    )
+
+            elif token.type == "GUILLEMET_SPEECH":
+                if accumulated_sentences:
                     result.extend(
                         self._flush_pre_wrapped_sentences(accumulated_sentences)
                     )
-                    accumulated_sentences = []  # Clear to prevent double processing
-                elif result:
-                    # No accumulated sentences, but we have previous results - append [end] to the last result
-                    result[-1] = result[-1] + "[end]"
-                else:
-                    # No accumulated sentences and no previous results - this is a standalone [end]
-                    result.append("[end]")
+                    accumulated_sentences = []
 
-                # Reset all state after [end]
+                wrapped_guillemet = self._wrap(token.value)
+                next_is_window_break = (
+                    i + 1 < len(tokens) and tokens[i + 1].type == "WINDOW_BREAK"
+                )
+                result.append(
+                    wrapped_guillemet + "[new]"
+                    if next_is_window_break
+                    else wrapped_guillemet
+                )
                 current_character = None
-                accumulated_sentences = []
-                accumulated_text = ""
-                accumulated_lines = 0
-                i += 1
 
-            else:
-                i += 1
+            elif token.type in ("END", "CLOSE_WINDOW"):
+                marker = "[end]" if token.type == "END" else "[close_window]"
+                if accumulated_sentences:
+                    accumulated_sentences[-1] += marker
+                    result.extend(
+                        self._flush_pre_wrapped_sentences(accumulated_sentences)
+                    )
+                    accumulated_sentences = []
+                elif result:
+                    result[-1] += marker
+                else:
+                    result.append(marker)
+                current_character = None
 
-        # Flush any remaining accumulated sentences
         if accumulated_sentences:
             result.extend(self._flush_pre_wrapped_sentences(accumulated_sentences))
 
@@ -362,21 +355,36 @@ class DialogParser:
             return 0
         return wrapped_text.count("\n") + 1
 
+    def _fits_in_dialog_window(self, wrapped_text):
+        """Check if the wrapped text fits in a dialog window considering the fourth line is 8 pixels shorter."""
+        if not wrapped_text:
+            return True
+
+        lines = wrapped_text.split("\n")
+        num_lines = len(lines)
+
+        # More than 4 lines never fits
+        if num_lines > 4:
+            return False
+
+        # If we have exactly 4 lines, check if the fourth line fits in the reduced width
+        if num_lines == 4:
+            fourth_line = lines[3]
+            # Measure the fourth line width using current font context
+            fourth_line_width = self.text_metrics.measure_string(fourth_line)
+            if fourth_line_width > FOURTH_LINE_WIDTH:
+                return False
+
+        # 3 or fewer lines, or 4 lines where the fourth line fits
+        return True
+
     def _flush_pre_wrapped_sentences(self, wrapped_sentences, add_new=False):
         """Flush pre-wrapped sentences without re-wrapping them."""
         if not wrapped_sentences:
             return []
-
-        # Combine pre-wrapped sentences
-        if len(wrapped_sentences) == 1:
-            text = wrapped_sentences[0]
-        else:
-            # Join wrapped sentences with newlines
-            text = "\n".join(wrapped_sentences)
-
+        text = "\n".join(wrapped_sentences)
         if add_new:
             text += "[new]"
-
         return [text]
 
 
@@ -386,8 +394,6 @@ def process_dialogue(text):
         return text
 
     # Strip existing [new] tokens to ensure idempotency, preserving sentence boundaries
-    import re
-
     # Replace [new]\n with just \n to preserve line breaks
     clean_text = text.replace("[new]\n", "\n")
     clean_text = clean_text.replace("[bold]", "")
@@ -438,9 +444,7 @@ def format_bank_xml(file_path):
                 min_id = min(pointer_ids)
                 if min_id == 1:
                     # Convert to zero-based indexing
-                    print(
-                        f"Converting pointer IDs to zero-based indexing (subtracting 1)"
-                    )
+                    print("Converting pointer IDs to zero-based indexing (subtracting 1)")
                     for pointer in pointers:
                         try:
                             current_id = int(pointer.get("id"))

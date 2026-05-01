@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
     <sn:string>Rez-de-chaussé</sn:string>
     <sn:string>1er Étage</sn:string>
     <sn:string>2eme Étage</sn:string>
@@ -47,8 +47,8 @@
     <sn:string>Underground Waterfall</sn:string>
     <sn:string>Château de Damcyan</sn:string>
     <sn:string>Donjon de Damcyan</sn:string>
-    <sn:string>Sous-sol de l’Antlion - Étage 1</sn:string>
-    <sn:string>Nid de l’Antlion</sn:string>
+    <sn:string>Sous-sol de l'Antlion - Étage 1</sn:string>
+    <sn:string>Nid de l'Antlion</sn:string>
     <sn:string>Mont Hobs - Ouest</sn:string>
     <sn:string>Summit</sn:string>
     <sn:string>Fabul</sn:string>
@@ -68,12 +68,12 @@
     <sn:string>Village de Toroia</sn:string>
     <sn:string>Salle de Développement</sn:string>
     <sn:string>Ferme de Chocobos Noirs</sn:string>
-    <sn:string>Village d’Agalt</sn:string>
+    <sn:string>Village d'Agalt</sn:string>
     <sn:string>Tour des Étoiles</sn:string>
     <sn:string>Observatoire</sn:string>
     <sn:string>Grotte du Pouvoir</sn:string>
-    <sn:string>Château d’Eblana</sn:string>
-    <sn:string>Grotte d’Eblana</sn:string>
+    <sn:string>Château d'Eblana</sn:string>
+    <sn:string>Grotte d'Eblana</sn:string>
     <sn:string>Tour de Babil - Niveau 1</sn:string>
     <sn:string>Tour de Zott</sn:string>
     <sn:string>Bouche du Géant</sn:string>
@@ -117,8 +117,8 @@
     <sn:string>Cou du Géant</sn:string>
     <sn:string>Poitrine du Géant</sn:string>
     <sn:string>Estomac du Géant</sn:string>
-    <sn:string>Passage à l’intérieur du Géant</sn:string>
-    <sn:string>À l’intérieur du Géant</sn:string>
+    <sn:string>Passage à l'intérieur du Géant</sn:string>
+    <sn:string>À l'intérieur du Géant</sn:string>
     <sn:string>Poumon du Géant</sn:string>
     <sn:string>Système de Contrôle</sn:string>
     <sn:string>Grotte des Sélénites</sn:string>

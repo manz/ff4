@@ -1,11 +1,18 @@
 .include 'src/ingame/macros.i'
+
+
 {
 *=0x01DB61
-    .dw 0x0000, 0x1A16 ; fenètre principale
-    .dw 0x05EE, 0x0307 ; fenètre Gils
-    .dw 0x04EE, 0x0207 ; fenetre temps
-    .dw 0x002E, 0x1107 ; fenètre menu principal
-
+.scope _main_menu {
+characters_window:
+    menu_window(0, 0, 22, 26)
+gil_window:
+    menu_window(22, 23, 8, 3)
+time_window:
+    menu_window(23, 19, 7, 2)
+menu: ; ptr 0xdb6d
+    menu_window(23, 0, 7, 17)
+}
 
 *=0x01dd51
     menu_window(1,8,29,17)
@@ -76,7 +83,7 @@ end:
 
 *=0x0189b9
 ; Level offset
-    adc.w #0x0044
+    adc.w #0x0044 - 2
 
 *=0x018a03
 draw_hp_mp = 0x018a2a
@@ -130,6 +137,17 @@ draw_hp_mp = 0x018a2a
 	sta.w 0x0000, y
 	xba
 	sta.w 0x0040, y
+
+; translate can't fight text
+
+*=0x018B2A
+    load_system_menu_text_pointer(in_game_menu.cant_fight)
+
+; grey out more tiles for the first line in char block
+*=0x018C30
+    lda #15
+
+
 
 ;*=0x018b6b
 ;  lda     #0x42
@@ -280,37 +298,3 @@ rts
 ;018E50  60             RTS
 ;                     ----------------
 
-
-
-.if 0 {
-    ; Menu color palette I probably need to add one color
-    ; Palette 1, normal text
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0xCE, 0x39
-    .db 0xFF, 0x7F
-
-    ; Palette 2, greyed out text
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x08, 0x21
-    .db 0xEF, 0x3D
-
-    ; Palette  3, yellow
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x80, 0x02
-    .db 0x7F, 0x03
-
-    ; Palette 4, red
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0xFF, 0x40
-    .db 0x7F, 0x2E
-
-    ; New Palette extra black to make shadows we'll probably add
-    .db 0x00, 0x00
-    .db 0x00, 0x40
-    .db 0x00, 0x00
-    .db 0xFF, 0x7F
-}

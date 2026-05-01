@@ -1,7 +1,8 @@
 battle_magic_length = 8
 
-; where originaly it was 3. clear related
 *=0x02984D
+"""where originaly it was 3. clear related"""
+
     ldx.w #0x0018
 
 ; used for the copy for the dakuten offset

@@ -13,4 +13,8 @@
     move_to(left + 1, top + 1)
 }
 
-
+.macro transform_window(from, to) {
+    ldy.w #from & 0xffff
+    ldx.w #to & 0xffff
+    jmp.w transform_window_trampoline
+}

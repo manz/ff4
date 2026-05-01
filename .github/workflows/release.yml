@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install Requirements
+      if: steps.cache-requirements.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt
+    - name: Build patch
+      run: ./build.py
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/ff4.ips
+        generate_release_notes: true

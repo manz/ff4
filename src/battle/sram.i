@@ -19,7 +19,7 @@ sram_base = 0x707000
     ply
 }
 
-BATTLE_FLAGS = 0x7FFFFF
+BATTLE_FLAGS = 0x704F00
 .macro battle_flags_set(value) {
     lda.b #value
     ora.l BATTLE_FLAGS
@@ -27,8 +27,8 @@ BATTLE_FLAGS = 0x7FFFFF
 }
 
 .macro battle_flags_clear(value) {
-    lda.b #value
-    eor.l BATTLE_FLAGS
+    lda.l BATTLE_FLAGS
+    and.b #(~value & 0xFF)
     sta.l BATTLE_FLAGS
 }
 
@@ -42,7 +42,10 @@ BATTLE_FLAGS = 0x7FFFFF
 .macro battle_flag_switch(jump_table) {
     pha
     phx
+    lda #0
+    xba
     lda.l BATTLE_FLAGS
+
     asl
     tax
     lda.l jump_table, x

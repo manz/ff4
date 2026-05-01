@@ -111,7 +111,9 @@ _reset_render:
 
 
 _transfer_item_description:
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(render.buffer_ptr, 0x5000>>1, render.buffer_size, 0x1801)
+  jsr.w wait_for_vblank
+  ; we could reduce the transfer size to the size of the string
+  dma_transfer_to_vram_call(render.buffer_ptr, 0x5000>>1, render.buffer_size, 0x1801)
+  ; use of the menu engine built in dma transfer in NMI
     rts
 }

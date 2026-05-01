@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="9" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:fixed/>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="9" padding=" ">
+    <sn:fixed></sn:fixed>
     <sn:fixed>Bloquer</sn:fixed>
     <sn:fixed>Silence</sn:fixed>
     <sn:fixed>Confusion</sn:fixed>

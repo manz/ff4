@@ -1,3 +1,9 @@
 build/**
 *.smc
 oldies
+
+# Generated build assets (keep intro source files)
+assets/*
+!assets/intro.col
+!assets/intro.map
+!assets/intro.set

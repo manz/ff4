@@ -1,9 +1,12 @@
 .include 'src/ingame/macros.i'
 
 .scope in_game_menu {
+cant_fight:
+    .text 'KO'
+    .db 0
 menu:
     ; window
-    .dw 0x002E, 0x1107
+    menu_window(23, 0, 7, 17)
     ; position
     .dw 0x0070
     .text 'Objets'
@@ -40,12 +43,10 @@ time:
 }
 
 .scope items_menu {
+    items_menu_right:
+        menu_window(22, 0, 7, 3)
     item:
-        .db 2
-        .db 0
-        .db 7
-        .db 3
-
+        menu_window(0, 0, 7, 3)
         .dw 0x0044
         .text 'Objets'
         .db 0
@@ -58,23 +59,23 @@ time:
 
 .scope spells {
     white:
-        .dw 0x00EE
+        move_to(24, 3)
         .text 'Magie'
         .db 0
     black:
-        .dw 0x016E
+        move_to(24, 5)
         .text 'Rituel'
         .db 0
     summon:
-        .dw 0x01EE
+        move_to(24, 7)
         .text 'Chimere'
         .db 0
     ninja:
-        .dw 0x016E
+        move_to(24, 5)
         .text 'Ninja '
         .db 0
     kokan:
-        .dw 0x0054
+        move_to(24, 3)
         .text 'Echange'
         .db 0
     mp_needed:
@@ -236,8 +237,8 @@ config:
 
 
 controls:
-    .dw 0x0092
-    .text 'Personaliser'
+    move_to(5, 1)
+    .text 'Contrôles Personalisés'
     .db 0x01
 
     .dw 0x0204

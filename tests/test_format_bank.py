@@ -1,11 +1,6 @@
 from format_bank_xml import process_dialogue
 
 
-def test_split_sentences() -> None:
-    # This test is no longer needed since we use lexer/parser approach
-    pass
-
-
 def test_format() -> None:
     """Test that a [new]\n tag is inserted between character speches,
     \n should be inserted after a punctuation if it's not the end of the speach
@@ -22,11 +17,11 @@ Golbeze: Cecil...[end]""")
 
     assert (
         formatted
-        == """Edge: And here I am all pumped up
+        == """[bold]Edge[normal]: And here I am all pumped up
 to fight that bastard!
 Ah, well... can't be breaking a sweat in
 front of the ladies.[new]
-Golbeze: Cecil...[end]"""
+[bold]Golbez[normal]: Cecil...[end]"""
     )
 
 
@@ -48,12 +43,12 @@ Cecil: Is something...
 
     assert (
         formatted
-        == """Soldier: Yes sir![new]
-Soldier: The monsters have been
+        == """[bold]Soldier[normal]: Yes sir![new]
+[bold]Soldier[normal]: The monsters have been
 increasing lately though...[new]
-Soldier: There's just too many of them
+[bold]Soldier[normal]: There's just too many of them
 nowadays.[new]
-Cecil: Is something... happening?[end]"""
+[bold]Cecil[normal]: Is something... happening?[end]"""
     )
 
 
@@ -66,19 +61,19 @@ Soldier: There's more of them!Cecil: Damn![end]""")
 
     assert (
         formatted
-        == """Soldier: Agh![new]
-Cecil: Are you all right?[new]
-Soldier: There's more of them![new]
-Cecil: Damn![end]"""
+        == """[bold]Soldier[normal]: Agh![new]
+[bold]Cecil[normal]: Are you all right?[new]
+[bold]Soldier[normal]: There's more of them![new]
+[bold]Cecil[normal]: Damn![end]"""
     )
 
 
 def test_formatting_idempotency() -> None:
-    first_formatting = process_dialogue("""Soldier: Agh![new]
-Cecil: Are you all right?[new]
-Soldier: There's more[new]
+    first_formatting = process_dialogue("""[bold]Soldier[normal]: Agh![new]
+[bold]Cecil[normal]: Are you all right?[new]
+[bold]Soldier[normal]: There's more[new]
 of them![new]
-Cecil: Damn![end]""")
+[bold]Cecil[normal]: Damn![end]""")
 
     second_formatting = process_dialogue(first_formatting)
 
@@ -92,8 +87,11 @@ def test_formatting_speech_without_the_character_visible() -> None:
             """«Je suis votre guide pour l'enfer...» «Je suis l'un des quatre Empereurs de seigneur Golbeze... Scarmiglione de la Terre... Il est temps que dînent mes précieux morts-vivants!» Cecil: Comment!?[end]"""
         )
         == """«Je suis votre guide pour l'enfer...»[new]
-«Je suis l'un des quatre Empereurs de seigneur Golbeze... Scarmiglione de la Terre... Il est temps que dînent mes précieux morts-vivants!»[new]
-Cecil: Comment!?[end]"""
+«Je suis l'un des quatre Empereurs de
+seigneur Golbez... Scarmiglione de la
+Terre... Il est temps que dînent mes
+précieux morts-vivants!»[new]
+[bold]Cecil[normal]: Comment!?[end]"""
     )
 
 
@@ -119,7 +117,7 @@ def test_character_speech_sentences_not_fitting_the_current_window_should_be_mov
         process_dialogue(
             """Cecil: Votre Majesté, nous ne comprenons pas vos intentions. Pourquoi avez-vous besoin de ces cristaux? Était-ce parce que les Mythidiens représentaient une menace? Alors pourquoi n'ont-ils pas résisté? Nous ne comprenons pas pourquoi des innocents ont dû périr.[end]"""
         )
-        == """Cecil: Votre Majesté, nous ne
+        == """[bold]Cecil[normal]: Votre Majesté, nous ne
 comprenons pas vos intentions.
 Pourquoi avez-vous besoin de ces
 cristaux?[new]
@@ -135,27 +133,27 @@ def test_changing_character_should_introduce_a_new_tag() -> None:
     assert process_dialogue(
         """Soldat: Mais, Capitaine! Soldat: Piller une cité de magiciens qui n'opposent aucune résistance! Cecil: Écoutez bien, vous tous! Le cristal est absolument nécessaire à la prospérité de notre royaume de Baron. Sa Majesté a jugé que les habitants de Mythidia en savaient trop sur les secrets du cristal. Nous sommes l'escadron des Ailes Rouges de Baron, et les ordres de Sa Majesté sont absolus! Soldat: Capitaine...[end]"""
     ) == (
-        "Soldat: Mais, Capitaine![new]\n"
-        "Soldat: Piller une cité de magiciens qui\n"
+        "[bold]Soldat[normal]: Mais, Capitaine![new]\n"
+        "[bold]Soldat[normal]: Piller une cité de magiciens qui\n"
         "n'opposent aucune résistance![new]\n"
-        "Cecil: Écoutez bien, vous tous!\n"
-        "Le cristal est absolument nécessaire à\n"
-        "la prospérité de notre royaume de Baron.[new]\n"
+        "[bold]Cecil[normal]: Écoutez bien, vous tous!\n"
+        "Le cristal est absolument nécessaire à la\n"
+        "prospérité de notre royaume de Baron.[new]\n"
         "Sa Majesté a jugé que les habitants de\n"
         "Mythidia en savaient trop sur les secrets\n"
         "du cristal.[new]\n"
-        "Nous sommes l'escadron des Ailes\n"
-        "Rouges de Baron, et les ordres de Sa\n"
-        "Majesté sont absolus![new]\n"
-        "Soldat: Capitaine...[end]"
+        "Nous sommes l'escadron des Ailes Rouges\n"
+        "de Baron, et les ordres de Sa Majesté\n"
+        "sont absolus![new]\n"
+        "[bold]Soldat[normal]: Capitaine...[end]"
     )
 
     assert (
         process_dialogue("""Caïn: Qu'est-ce qu'il y a?
 Cecil: Je suis désolé, Caïn... Caïn: Pourquoi t'excuses-tu encore? Je t'ai défendu de mon plein gré!![end]""")
-        == """Caïn: Qu'est-ce qu'il y a?[new]
-Cecil: Je suis désolé, Caïn...[new]
-Caïn: Pourquoi t'excuses-tu encore?
+        == """[bold]Caïn[normal]: Qu'est-ce qu'il y a?[new]
+[bold]Cecil[normal]: Je suis désolé, Caïn...[new]
+[bold]Caïn[normal]: Pourquoi t'excuses-tu encore?
 Je t'ai défendu de mon plein gré!![end]"""
     )
 
@@ -166,14 +164,14 @@ def test_long_sentence_splitting_within_character_speech() -> None:
         process_dialogue(
             """Tellah: Je ne suis pas en mesure de vaincre quelqu'un d'aussi puissant que lui avec la magie dont je dispose actuellement. Je recherchais la légendaire magie scellée, Météor... Et j'ai senti une forte aura émise de cette montagne. Serait-ce possible, après toutes ces années de recherches..?[end]"""
         )
-        == """Tellah: Je ne suis pas en mesure de
+        == """[bold]Tellah[normal]: Je ne suis pas en mesure de
 vaincre quelqu'un d'aussi puissant que lui
 avec la magie dont je dispose
 actuellement.[new]
 Je recherchais la légendaire magie
 scellée, Météor...
-Et j'ai senti une forte aura émise de
-cette montagne.[new]
+Et j'ai senti une forte aura émise de cette
+montagne.[new]
 Serait-ce possible, après toutes ces
 années de recherches..?[end]"""
     )
@@ -185,8 +183,8 @@ def test_abbreviation_handling() -> None:
         process_dialogue(
             """Cecil: Bonjour M. Rosa, comment allez-vous? Nous devons partir maintenant.[end]"""
         )
-        == """Cecil: Bonjour M. Rosa,
-comment allez-vous?
+        == """[bold]Cecil[normal]: Bonjour M. Rosa, comment
+allez-vous?
 Nous devons partir maintenant.[end]"""
     )
 
@@ -212,7 +210,7 @@ Pourquoi avez-vous besoin de ces cristaux?
 Alors pourquoi n'ont-ils pas résisté?
 Nous ne comprenons pas pourquoi des innocents ont dû périr.[end]"""
 
-    expected = """Cecil: Votre Majesté, nous ne
+    expected = """[bold]Cecil[normal]: Votre Majesté, nous ne
 comprenons pas vos intentions.
 Pourquoi avez-vous besoin de ces
 cristaux?[new]
@@ -235,10 +233,10 @@ def test_break_line_should_not_introduce_spaces() -> None:
         process_dialogue(
             """Yang: Il est trop tard! Cecil: Mais qui est en train de combattre les Ailes Rouges? Cid: Malheur! On est touché! On va s'écraser! Accrochez-vous![end]"""
         )
-        == """Yang: Il est trop tard![new]
-Cecil: Mais qui est en train de
+        == """[bold]Yang[normal]: Il est trop tard![new]
+[bold]Cecil[normal]: Mais qui est en train de
 combattre les Ailes Rouges?[new]
-Cid: Malheur!
+[bold]Cid[normal]: Malheur!
 On est touché!
 On va s'écraser!
 Accrochez-vous![end]"""
@@ -251,9 +249,30 @@ def test_bank_2_thingie() -> None:
     processed = process_dialogue(text)
     assert (
         processed
-        == """T[end]T[end]T[end]T[end]T[end]T[end]T[end]T[end]T[end]T[end]Le trésor de Baron est entreposé ici!
+        == """T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+T[end]
+Le trésor de Baron est entreposé ici!
 C'est interdit![end]"""
     )
+
+
+def test_pointer_7_bonne_nuit_no_new_before_delay() -> None:
+    """bank1-1 #7: «...» speech followed by [delay]...[close_window][end]
+    must not get a spurious [new] inserted before the [delay] — it produces
+    a blank window flash in-game."""
+    text = "«Bonne nuit...»[delay][0x5][close_window][end]"
+    result = process_dialogue(text)
+    assert "[new][delay]" not in result
+    assert "[new]\n[delay]" not in result
+    assert result == "«Bonne nuit...»[delay][0x5][close_window][end]"
 
 
 def test_mixed_offscreen_and_character_dialog() -> None:
@@ -261,8 +280,9 @@ def test_mixed_offscreen_and_character_dialog() -> None:
         "«Vous êtes de Baron, hein...» Caïn: Qui est là?[music][0x2d] «Partez maintenant et il ne vous fait aucun mal...» Caïn: Montre-toi! «Vous voulez vraiment continuer?»[end]"
     ) == (
         "«Vous êtes de Baron, hein...»[new]\n"
-        "Caïn: Qui est là?[music][0x2d][new]\n"
-        "«Partez maintenant et il ne vous fait aucun mal...»[new]\n"
-        "Caïn: Montre-toi![new]\n"
+        "[bold]Caïn[normal]: Qui est là?[music][0x2d][new]\n"
+        "«Partez maintenant et il ne vous fait\n"
+        "aucun mal...»[new]\n"
+        "[bold]Caïn[normal]: Montre-toi![new]\n"
         "«Vous voulez vraiment continuer?»[end]"
     )

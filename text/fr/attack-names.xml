@@ -1,187 +1,187 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="19" xmlns:sn="http://snes.ninja/ScriptNS" padding=" ">
-<sn:fixed>Flèche Magique</sn:fixed>
-<sn:fixed>Soin</sn:fixed>
-<sn:fixed>Basuna</sn:fixed>
-<sn:fixed>Antidote</sn:fixed>
-<sn:fixed>Dague</sn:fixed>
-<sn:fixed>Coup de Poing</sn:fixed>
-<sn:fixed>Destruction</sn:fixed>
-<sn:fixed>Bec de Pierre</sn:fixed>
-<sn:fixed>Explosion Mentale</sn:fixed>
-<sn:fixed>Coup de Pied</sn:fixed>
-<sn:fixed>Tempête de Neige</sn:fixed>
-<sn:fixed>Jugement</sn:fixed>
-<sn:fixed>Feu Infernal</sn:fixed>
-<sn:fixed>Colère</sn:fixed>
-<sn:fixed>Souffle Brumeux</sn:fixed>
-<sn:fixed>Murmure</sn:fixed>
-<sn:fixed>Épée de Fer</sn:fixed>
-<sn:fixed>Tsunami</sn:fixed>
-<sn:fixed>Ashura</sn:fixed>
-<sn:fixed>Ashura</sn:fixed>
-<sn:fixed>Ashura</sn:fixed>
-<sn:fixed>Méga Brasier</sn:fixed>
-<sn:fixed>Météore Blanc</sn:fixed>
-<sn:fixed>Monst015</sn:fixed>
-<sn:fixed>Monst016</sn:fixed>
-<sn:fixed>Regard</sn:fixed>
-<sn:fixed>Destructeur</sn:fixed>
-<sn:fixed>Gifle</sn:fixed>
-<sn:fixed>Gel Soudain</sn:fixed>
-<sn:fixed>Pupille</sn:fixed>
-<sn:fixed>Appât</sn:fixed>
-<sn:fixed>Langue</sn:fixed>
-<sn:fixed>Malédiction</sn:fixed>
-<sn:fixed>Bout des Doigts</sn:fixed>
-<sn:fixed>Mort</sn:fixed>
-<sn:fixed>Bec</sn:fixed>
-<sn:fixed>Regard Pétrifiant</sn:fixed>
-<sn:fixed>Explosion Mentale</sn:fixed>
-<sn:fixed>Étreinte</sn:fixed>
-<sn:fixed>Mauvaise Haleine</sn:fixed>
-<sn:fixed>Murmure</sn:fixed>
-<sn:fixed>Couronne</sn:fixed>
-<sn:fixed>Mur</sn:fixed>
-<sn:fixed>Tension</sn:fixed>
-<sn:fixed>Brume Glacée</sn:fixed>
-<sn:fixed>Explosion</sn:fixed>
-<sn:fixed>Chant Maudit</sn:fixed>
-<sn:fixed>Aura Maudite</sn:fixed>
-<sn:fixed>Gaz Soporifique</sn:fixed>
-<sn:fixed>Gaz Toxique</sn:fixed>
-<sn:fixed>Laser</sn:fixed>
-<sn:fixed>Revanche de la Mort</sn:fixed>
-<sn:fixed>Croc Noir</sn:fixed>
-<sn:fixed>Trou Noir</sn:fixed>
-<sn:fixed>Chant de Mort</sn:fixed>
-<sn:fixed>Secteur 9</sn:fixed>
-<sn:fixed>Maelström</sn:fixed>
-<sn:fixed>Mur Électrique</sn:fixed>
-<sn:fixed>Explosion en Chaîne</sn:fixed>
-<sn:fixed>Éclosion</sn:fixed>
-<sn:fixed>Soin</sn:fixed>
-<sn:fixed>Aspiration</sn:fixed>
-<sn:fixed>Médecin</sn:fixed>
-<sn:fixed>Big Bang</sn:fixed>
-<sn:fixed>Suceur de Sang</sn:fixed>
-<sn:fixed>Digestion</sn:fixed>
-<sn:fixed>Pollen</sn:fixed>
-<sn:fixed>Effondrement</sn:fixed>
-<sn:fixed>Alarme</sn:fixed>
-<sn:fixed>Invocation</sn:fixed>
-<sn:fixed>Magie Factice</sn:fixed>
-<sn:fixed>Revanche de la Mort</sn:fixed>
-<sn:fixed>Cible</sn:fixed>
-<sn:fixed>Nucléaire</sn:fixed>
-<sn:fixed>Retraite</sn:fixed>
-<sn:fixed>Déplacement Maudit</sn:fixed>
-<sn:fixed>Rayon</sn:fixed>
-<sn:fixed>Numéro 199</sn:fixed>
-<sn:fixed>Flamme</sn:fixed>
-<sn:fixed>Brasier</sn:fixed>
-<sn:fixed>Éclair</sn:fixed>
-<sn:fixed>Tonnerre</sn:fixed>
-<sn:fixed>Souffle du Dragon</sn:fixed>
-<sn:fixed>Grande Vague</sn:fixed>
-<sn:fixed>Tempête de Neige</sn:fixed>
-<sn:fixed>Tsunami</sn:fixed>
-<sn:fixed>Tornade</sn:fixed>
-<sn:fixed>Laser</sn:fixed>
-<sn:fixed>Destruction</sn:fixed>
-<sn:fixed>Séisme</sn:fixed>
-<sn:fixed>Lance-Flammes</sn:fixed>
-<sn:fixed>Chauffage</sn:fixed>
-<sn:fixed>Dragon de Flamme</sn:fixed>
-<sn:fixed>Épée de Fer</sn:fixed>
-<sn:fixed>Méga Brasier</sn:fixed>
-<sn:fixed>Aiguille</sn:fixed>
-<sn:fixed>Contre-Attaque</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Régénération</sn:fixed>
-<sn:fixed>Résurrection</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
-<sn:fixed>Monst000</sn:fixed>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="19" padding=" ">
+    <sn:fixed>Flèche Magique</sn:fixed>
+    <sn:fixed>Soin</sn:fixed>
+    <sn:fixed>Basuna</sn:fixed>
+    <sn:fixed>Antidote</sn:fixed>
+    <sn:fixed>Dague</sn:fixed>
+    <sn:fixed>Coup de Poing</sn:fixed>
+    <sn:fixed>Destruction</sn:fixed>
+    <sn:fixed>Bec de Pierre</sn:fixed>
+    <sn:fixed>Explosion Mentale</sn:fixed>
+    <sn:fixed>Coup de Pied</sn:fixed>
+    <sn:fixed>Tempête de Neige</sn:fixed>
+    <sn:fixed>Jugement</sn:fixed>
+    <sn:fixed>Feu Infernal</sn:fixed>
+    <sn:fixed>Colère</sn:fixed>
+    <sn:fixed>Souffle Brumeux</sn:fixed>
+    <sn:fixed>Murmure</sn:fixed>
+    <sn:fixed>Épée de Fer</sn:fixed>
+    <sn:fixed>Tsunami</sn:fixed>
+    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>Méga Brasier</sn:fixed>
+    <sn:fixed>Météore Blanc</sn:fixed>
+    <sn:fixed>Monst015</sn:fixed>
+    <sn:fixed>Monst016</sn:fixed>
+    <sn:fixed>Regard</sn:fixed>
+    <sn:fixed>Destructeur</sn:fixed>
+    <sn:fixed>Gifle</sn:fixed>
+    <sn:fixed>Gel Soudain</sn:fixed>
+    <sn:fixed>Pupille</sn:fixed>
+    <sn:fixed>Appât</sn:fixed>
+    <sn:fixed>Langue</sn:fixed>
+    <sn:fixed>Malédiction</sn:fixed>
+    <sn:fixed>Bout des Doigts</sn:fixed>
+    <sn:fixed>Mort</sn:fixed>
+    <sn:fixed>Bec</sn:fixed>
+    <sn:fixed>Regard Pétrifiant</sn:fixed>
+    <sn:fixed>Explosion Mentale</sn:fixed>
+    <sn:fixed>Étreinte</sn:fixed>
+    <sn:fixed>Mauvaise Haleine</sn:fixed>
+    <sn:fixed>Murmure</sn:fixed>
+    <sn:fixed>Couronne</sn:fixed>
+    <sn:fixed>Mur</sn:fixed>
+    <sn:fixed>Tension</sn:fixed>
+    <sn:fixed>Brume Glacée</sn:fixed>
+    <sn:fixed>Explosion</sn:fixed>
+    <sn:fixed>Chant Maudit</sn:fixed>
+    <sn:fixed>Aura Maudite</sn:fixed>
+    <sn:fixed>Gaz Soporifique</sn:fixed>
+    <sn:fixed>Gaz Toxique</sn:fixed>
+    <sn:fixed>Laser</sn:fixed>
+    <sn:fixed>Revanche de la Mort</sn:fixed>
+    <sn:fixed>Croc Noir</sn:fixed>
+    <sn:fixed>Trou Noir</sn:fixed>
+    <sn:fixed>Chant de Mort</sn:fixed>
+    <sn:fixed>Secteur 9</sn:fixed>
+    <sn:fixed>Maelström</sn:fixed>
+    <sn:fixed>Mur Électrique</sn:fixed>
+    <sn:fixed>Explosion en Chaîne</sn:fixed>
+    <sn:fixed>Éclosion</sn:fixed>
+    <sn:fixed>Soin</sn:fixed>
+    <sn:fixed>Aspiration</sn:fixed>
+    <sn:fixed>Médecin</sn:fixed>
+    <sn:fixed>Big Bang</sn:fixed>
+    <sn:fixed>Suceur de Sang</sn:fixed>
+    <sn:fixed>Digestion</sn:fixed>
+    <sn:fixed>Pollen</sn:fixed>
+    <sn:fixed>Effondrement</sn:fixed>
+    <sn:fixed>Alarme</sn:fixed>
+    <sn:fixed>Invocation</sn:fixed>
+    <sn:fixed>Magie Factice</sn:fixed>
+    <sn:fixed>Revanche de la Mort</sn:fixed>
+    <sn:fixed>Cible</sn:fixed>
+    <sn:fixed>Nucléaire</sn:fixed>
+    <sn:fixed>Retraite</sn:fixed>
+    <sn:fixed>Déplacement Maudit</sn:fixed>
+    <sn:fixed>Rayon</sn:fixed>
+    <sn:fixed>Numéro 199</sn:fixed>
+    <sn:fixed>Flamme</sn:fixed>
+    <sn:fixed>Brasier</sn:fixed>
+    <sn:fixed>Eclair</sn:fixed>
+    <sn:fixed>Tonnerre</sn:fixed>
+    <sn:fixed>Souffle du Dragon</sn:fixed>
+    <sn:fixed>Grande Vague</sn:fixed>
+    <sn:fixed>Tempête de Neige</sn:fixed>
+    <sn:fixed>Tsunami</sn:fixed>
+    <sn:fixed>Tornade</sn:fixed>
+    <sn:fixed>Laser</sn:fixed>
+    <sn:fixed>Destruction</sn:fixed>
+    <sn:fixed>Séisme</sn:fixed>
+    <sn:fixed>Lance-Flammes</sn:fixed>
+    <sn:fixed>Chauffage</sn:fixed>
+    <sn:fixed>Dragon de Flamme</sn:fixed>
+    <sn:fixed>Épée de Fer</sn:fixed>
+    <sn:fixed>Méga Brasier</sn:fixed>
+    <sn:fixed>Aiguille</sn:fixed>
+    <sn:fixed>Contre-Attaque</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Régénération</sn:fixed>
+    <sn:fixed>Résurrection</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
 </sn:fixedlist>

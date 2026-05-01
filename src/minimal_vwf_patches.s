@@ -87,42 +87,69 @@ end_of_animation:
 
 {
 ; Oui
-*=0x14F66C
     .table 'text/ff4_menus.tbl'
-    .text ' '
-    .db 0x20
-    .text ' '
-    .db 0x20
-    .text ' '
-    .db 0x20
+*=0x14F656
+   .dw 0x2016
+    fill_value(0x2017, 5)
+    .dw 0x2018
+    .dw 0x0000
 
-*=0x14F67C
+*=0x14F666
+    .dw 0x2019
+    fill_value(0x20ff, 5)
+    .dw 0x201a
+    .dw 0x0000
+    .dw 0x0000
+
+*=0x14f676
+    .dw 0x2019
+    .dw 0x2014
     .text 'O'
     .db 0x20
     .text 'u'
     .db 0x20
     .text 'i'
     .db 0x20
-
+    .dw 0x20ff
+    .dw 0x201a
+    .dw 0x0000
 ; Non
-*=0x14F68C
-    .text ' '
-    .db 0x20
-    .text ' '
-    .db 0x20
-    .text ' '
-    .db 0x20
+*=0x14F686
+    .dw 0x2019
+    fill_value(0x20ff, 5)
+    .dw 0x201a
+    .dw 0x0000
+    .dw 0x0000
 
 
-*=0x14F69C
+*=0x14F696
+    .dw 0x2019
+    .dw 0x20ff
     .text 'N'
     .db 0x20
     .text 'o'
     .db 0x20
     .text 'n'
     .db 0x20
+    .dw 0x20ff
+    .dw 0x201a
+    .dw 0x0000
+*=0x14F6A6
+   .dw 0x201b
+    fill_value(0x201c, 5)
+    .dw 0x201d
+    .dw 0x0000
+    fill_value(0x0000, 8)
+
+
 }
 
+; yes/no cursor positions
+; 0x28c4 0x2904
+*=0x00ae38
+    ldx.w #0x28c4 - 1
+*=0x00ae51
+    ldx.w #0x2904 - 1
 
 ; Palette changes for allowing shadows
 *=0x15c229
@@ -143,3 +170,51 @@ end_of_animation:
 ;AE AA 16       LDX $16AA
 ;00823E  8E DD 0C       STX $0CDD
 ;008241  20 13 8A       JSR $8A13
+
+; update the text palette used in the intro
+*=0x8ff04
+    .dw 0x0463
+
+
+*=0x00B363
+    jsr.l wait_for_action_button
+    nop
+    nop
+
+; Make gils window bigger
+gils_line_size = 0x18
+*=0x00ad28
+    lda.b # gils_window_tilemap_1 >> 16
+;00/AD26: A9 14        LDA #$14
+
+*=0x00ad2d
+    ldx.w #gils_window_tilemap_1 & 0xffff
+
+*=0x00ad4b
+    ldx.w #gils_window_tilemap_2 & 0xffff
+
+
+*=0x00ad39
+    ldx.w #gils_line_size
+
+*=0x00ad63
+    ldx.w #gils_window_tilemap_3
+*=0x00ad69
+    ldx.w #gils_line_size
+
+*=0x00ad51
+    ldx.w #gils_line_size
+
+*=0x00ad7b
+    ldx.w #gils_window_tilemap_4 & 0xffff
+
+*=0x00ad81
+    ldx.w #(gils_window_tilemap_4_end - gils_window_tilemap_4) & 0xffff
+
+; clear up longer gils window
+*=0x00addd
+    ldx.w #0x100 + 0x80
+
+; gils value vram position
+*=0x00ad8a
+    ldx.w #0x28d3 + 2

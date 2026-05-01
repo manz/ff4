@@ -1,8 +1,10 @@
 .incbin 'assets/dakuten.bin'
 
-; A 8bit: current char
-; A 16bits: the resolved char
 lookup_dakuten:
+"""
+input: A 8bit: current char
+output: A 16bits: the resolved char
+"""
 {
     php
     sep #0x20

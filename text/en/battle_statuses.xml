@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sn:stringarray eos="0x00" xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:string>KO</sn:string>
+<sn:string>Stone</sn:string>
+<sn:string>Toad</sn:string>
+<sn:string>Mini</sn:string>
+<sn:string>Pig</sn:string>
+<sn:string>Silence</sn:string>
+<sn:string>Darkness</sn:string>
+<sn:string>Poison</sn:string>
+<sn:string>Cursed</sn:string>
+<sn:string>Float</sn:string>
+<sn:string>Paralyze</sn:string>
+<sn:string>Sleep</sn:string>
+<sn:string>Confusion</sn:string>
+<sn:string>Berserk</sn:string>
+<sn:string>Petrify</sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string>Stop</sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string>Doom</sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string>Reflect</sn:string>
+<sn:string>Wall</sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+<sn:string></sn:string>
+</sn:stringarray>

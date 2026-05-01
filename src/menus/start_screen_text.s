@@ -6,6 +6,13 @@ new_game:
     .text 'Nouvelle partie'
     .db 0
 
+.if DEBUG {
+build_number:
+    VERSION := 'v1.0.0a0'
+    .text '${BUILD_DATE} ${VERSION}'
+    .db 0
+}
+
 time_load_save:
     .dw 0x046E + 2
     .text 'Temps'
@@ -43,6 +50,11 @@ empty_save:
 saves:
     move_to(1, 1)
     .text 'Sauvegardes'
+    .db 0
+
+save_completed:
+    move_to(8, 11)
+    .text 'Sauvegarde terminée'
     .db 0
 
 did_not_save:

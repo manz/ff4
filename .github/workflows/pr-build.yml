@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     
     steps:
     - uses: actions/checkout@v4
@@ -25,10 +25,23 @@ jobs:
           
     - name: Install Requirements
       run: pip install -r requirements.txt
-      
+
+    - name: Install Test Requirements
+      run: pip install pytest
+
+    - name: Decrypt base ROM
+      env:
+        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
+      run: |
+        mkdir -p build
+        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
+
     - name: Build patch
       run: ./build.py
-      
+
+    - name: Run tests
+      run: pytest
+
     - name: Upload IPS artifact
       uses: actions/upload-artifact@v4
       with:

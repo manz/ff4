@@ -45,9 +45,9 @@
     jsr.w draw_vwf_message_pos_with_bank
 
 
-; inventory window
+; inventory window (22 rows tall for 10 visible items + borders)
 *=0x01dcce
-    menu_window(0,0,30,48)
+    menu_window(0,0,30,23)
 
 ;
 *=0x01dcd6
@@ -63,7 +63,9 @@
 
 ; moves the right item column one tile to the right
 *=0x01a227
-    adc.w #0x001c + 4
+    adc.w #0x001c + 2
+*=0x01a1c4
+    adc.w #0x0006                   ; +2 tiles to the right
 
 *=0x1efd7d
 __delta_l = 0
@@ -93,52 +95,6 @@ __delta_r = 2
 *=0x01aed6
         ldy.w #messages.cant_use_magic - 0x8000
         jsr.w draw_window_and_vwf_message
-
-; free space at the end of the bank
-
-*=0x01ff40
-draw_window = 0x0180d9
-check_if_description_was_rendered:
-    pha
-
-    cmp.l render.last_drawn_text_ptr
-    bne _continue
-    pla
-    rts
-    _continue:
-    sta.l render.last_drawn_text_ptr
-
-    pla
-
-    pha
-    ldy.w #0xdcd6
-    jmp _back
-
-draw_vwf_message:
-    jsr.l items_description.draw_trampoline
-    rts
-draw_window_and_vwf_message:
-    jsr.w draw_window
-    ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
-    pha
-    rep #0x20
-    tya
-    adc.w #0x8000
-    tay
-    sep #0x20
-    pla
-
-    iny
-    iny
-    iny
-    iny
-draw_vwf_message_pos_with_bank:
-    lda.b #messages.use_on_whom >> 16
-
-draw_vwf_message_pos:
-    jsr.l items_description.draw_trampoline_pos
-    rts
-
 
 ; choice window
 *=0x01db40
@@ -184,3 +140,26 @@ treasure_menu_entry:
 ; open menu, set PC to 01d792
 ; starts the menu
 ; set 0xee to 0x1804 (Key item baron key.)
+
+; ============================================================================
+; Single-column patches (moved here to test if they apply)
+; ============================================================================
+; Scroll limit: 48 items - 10 visible = 38 max scroll position
+; CMP opcode at $A076, operand at $A077
+*=0x01A077
+    .db     38                      ; 38 = new scroll limit
+
+; Visible items count - handled in inventory_single_column.s
+
+; Disable left button (AND #$00 instead of AND #$02)
+*=0x019FF4
+    and     #0x00
+
+; Disable right button (AND #$00 instead of AND #$01)
+*=0x01A005
+    and     #0x00
+
+; Hook swap redraw to reset rolling buffer
+*=0x01A401
+    jmp.w   SwapRedrawTrampoline    ; Replace JSR $A172
+

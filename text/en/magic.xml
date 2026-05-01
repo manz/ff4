@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="8" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:fixedlist length="9" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:fixed/>
-    <sn:fixed>Hold</sn:fixed>
+    <sn:fixed>Block</sn:fixed>
     <sn:fixed>Silence</sn:fixed>
     <sn:fixed>Confuse</sn:fixed>
     <sn:fixed>Blink</sn:fixed>
@@ -11,7 +11,7 @@
     <sn:fixed>Haste</sn:fixed>
     <sn:fixed>Berserk</sn:fixed>
     <sn:fixed>Reflect</sn:fixed>
-    <sn:fixed>Holy</sn:fixed>
+    <sn:fixed>Wall</sn:fixed>
     <sn:fixed>Dispel</sn:fixed>
     <sn:fixed>Libra</sn:fixed>
     <sn:fixed>Cure</sn:fixed>
@@ -21,13 +21,13 @@
     <sn:fixed>Esuna</sn:fixed>
     <sn:fixed>Life</sn:fixed>
     <sn:fixed>Life 2</sn:fixed>
-    <sn:fixed>Minimum</sn:fixed>
-    <sn:fixed>Teleport</sn:fixed>
+    <sn:fixed>Mini</sn:fixed>
+    <sn:fixed>Warp</sn:fixed>
     <sn:fixed>Sight</sn:fixed>
-    <sn:fixed>Levitate</sn:fixed>
+    <sn:fixed>Float</sn:fixed>
     <sn:fixed>Toad</sn:fixed>
-    <sn:fixed>Piggy</sn:fixed>
-    <sn:fixed>Dejon</sn:fixed>
+    <sn:fixed>Pig</sn:fixed>
+    <sn:fixed>Warp</sn:fixed>
     <sn:fixed>Poison</sn:fixed>
     <sn:fixed>Fire</sn:fixed>
     <sn:fixed>Fire 2</sn:fixed>
@@ -35,23 +35,23 @@
     <sn:fixed>Ice</sn:fixed>
     <sn:fixed>Ice 2</sn:fixed>
     <sn:fixed>Ice 3</sn:fixed>
-    <sn:fixed>Bolt</sn:fixed>
-    <sn:fixed>Bolt 2</sn:fixed>
-    <sn:fixed>Bolt 3</sn:fixed>
+    <sn:fixed>Lit</sn:fixed>
+    <sn:fixed>Lit 2</sn:fixed>
+    <sn:fixed>Lit 3</sn:fixed>
     <sn:fixed>Bio</sn:fixed>
     <sn:fixed>Tornado</sn:fixed>
     <sn:fixed>Quake</sn:fixed>
     <sn:fixed>Sleep</sn:fixed>
-    <sn:fixed>Break</sn:fixed>
+    <sn:fixed>Petrify</sn:fixed>
     <sn:fixed>Death</sn:fixed>
     <sn:fixed>Stop</sn:fixed>
     <sn:fixed>Drain</sn:fixed>
     <sn:fixed>Osmose</sn:fixed>
-    <sn:fixed>Meteo</sn:fixed>
+    <sn:fixed>Meteor</sn:fixed>
     <sn:fixed>Flare</sn:fixed>
     <sn:fixed>Goblin</sn:fixed>
     <sn:fixed>Bomb</sn:fixed>
-    <sn:fixed>Cocktric</sn:fixed>
+    <sn:fixed>Cockatrice</sn:fixed>
     <sn:fixed>Flayer</sn:fixed>
     <sn:fixed>Chocobo</sn:fixed>
     <sn:fixed>Shiva</sn:fixed>
@@ -61,14 +61,14 @@
     <sn:fixed>Mist</sn:fixed>
     <sn:fixed>Sylph</sn:fixed>
     <sn:fixed>Odin</sn:fixed>
-    <sn:fixed>Levithan</sn:fixed>
-    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>Leviathan</sn:fixed>
+    <sn:fixed>Asura</sn:fixed>
     <sn:fixed>Bahamut</sn:fixed>
-    <sn:fixed>Lt-Meteo</sn:fixed>
-    <sn:fixed>Lt-Flare</sn:fixed>
-    <sn:fixed>Katon</sn:fixed>
-    <sn:fixed>Suiton</sn:fixed>
-    <sn:fixed>Raijin</sn:fixed>
+    <sn:fixed>W.Meteor</sn:fixed>
+    <sn:fixed>W.Flare</sn:fixed>
+    <sn:fixed>Flame</sn:fixed>
+    <sn:fixed>Flood</sn:fixed>
+    <sn:fixed>Blitz</sn:fixed>
     <sn:fixed>Smoke</sn:fixed>
     <sn:fixed>Needles</sn:fixed>
     <sn:fixed>Image</sn:fixed>

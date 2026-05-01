@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<sn:fixedlist length="6" padding=" " xmlns:sn="http://snes.ninja/ScriptNS">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="6" padding=" ">
     <sn:fixed>Cecil</sn:fixed>
     <sn:fixed>Cain</sn:fixed>
     <sn:fixed>Rydia</sn:fixed>

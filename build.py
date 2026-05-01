@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import io
 import logging
+import math
 import os
 import struct
 from pathlib import Path
@@ -40,7 +41,6 @@ def read_fixed_from_xml(input_file, table, formatter=None):
         for child in root:
             text = child.text
             pointer = Pointer(i)
-            print(f"{hex(i)}: {text}")
             formatted_text = formatter(text) if formatter else text
             pointer.value = table.to_bytes(formatted_text) if text else b""
             max_length = max(max_length, len(pointer.value))
@@ -53,7 +53,6 @@ def read_fixed_from_xml(input_file, table, formatter=None):
 
             pointer_table.append(pointer)
             i += 1
-        print(f"max {max_length}")
     return pointer_table
 
 
@@ -140,10 +139,13 @@ def build_fixed_asset(table, input_file, binary_text_file):
     pointers = read_fixed_from_xml(input_file, table)
     write_pointers_value_as_binary(pointers, binary_text_file)
 
-def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file):
-    pointers = read_fixed_from_xml(input_file, table, formatter=lambda t: t.strip() + "[end]")
 
-    metrics = TextMetrics(table, [Path("./assets/menu_font_length_table.dat").read_bytes()])
+def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file, buffer_width=None):
+    pointers = read_fixed_from_xml(
+        input_file, table, formatter=lambda t: t.strip() + "[end]"
+    )
+
+    metrics = TextMetrics(table, ["./assets/menu_font.dat"], char_height=8)
     max_length = 0
     max_ptr = None
     for i, pointer in enumerate(pointers):
@@ -151,12 +153,19 @@ def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file)
         if ptr_len > max_length:
             max_ptr = (i, pointer)
             max_length = ptr_len
+
+        if buffer_width and ptr_len > buffer_width:
+            text = table.to_text(pointer.value)
+            print(f"{text} is too long ({ptr_len}px , {math.ceil(ptr_len / 8)} tiles)")
+
     text = table.to_text(max_ptr[1].value)
+    print(f"{text} is the largest ({max_length}px ({math.ceil(max_length/8)})")
     write_pointers_value_as_binary(pointers, binary_text_file)
 
     write_pointers_addresses_as_binary(
         pointers, lambda x: struct.pack("<H", x), pointers_file
     )
+
 
 def build_null_terminated(table, input_file, binary_text_file, pointers_file=None):
     pointers = read_stringarray_from_xml(input_file, table)
@@ -166,7 +175,10 @@ def build_null_terminated(table, input_file, binary_text_file, pointers_file=Non
             pointers, lambda v: struct.pack("<H", v), pointers_file
         )
 
-def build_null_terminated_with_base(table: Table, input_file: str, binary_file:str,  base: int) -> None:
+
+def build_null_terminated_with_base(
+    table: Table, input_file: str, binary_file: str, base: int
+) -> None:
     pointers = read_stringarray_from_xml(input_file, table)
 
     pointers_bytes = io.BytesIO()
@@ -176,7 +188,7 @@ def build_null_terminated_with_base(table: Table, input_file: str, binary_file:s
     for pointer in pointers:
         value = pointer.get_value()
 
-        pointers_bytes.write(struct.pack("<H", current_position.logical_value & 0xffff))
+        pointers_bytes.write(struct.pack("<H", current_position.logical_value & 0xFFFF))
 
         text_bytes.write(value)
         current_position += len(value)
@@ -184,7 +196,6 @@ def build_null_terminated_with_base(table: Table, input_file: str, binary_file:s
     with open(binary_file, "wb") as fd:
         fd.write(pointers_bytes.getbuffer())
         fd.write(text_bytes.getbuffer())
-
 
 
 def build_text_assets(banks):
@@ -195,92 +206,151 @@ def build_text_assets(banks):
 def build_vwf_font_asset_2bpp(
     font_file, has_grid, data_file, len_table_file, char_height
 ):
-    len_table, data = convert_font_to_2bpp(font_file, has_grid, char_height)
+    # Use the FontConverter approach but for 2bpp
+    converter = FontConverter(font_file, has_grid, char_height=char_height)
 
-    # Espace
-    len_table[0xFF] = 3
-    # Espace fine
-    len_table[0xFD] = 1
-    # Espace insécable
-    len_table[0xFE] = 2
+    len_table, font_data = converter.convert_to_2bpp()
+
+    # Apply width overrides
+    len_table[0xFF] = 3  # Space
+    len_table[0xFD] = 1  # Thin space
+    len_table[0xFE] = 2  # Non-breaking space
+
+    # Create interleaved format: char_data, char_width, char_data, char_width, ...
+    output_data = bytearray()
+
+    for char_index in range(256):
+        # Add character bitmap data
+        char_start = char_index * char_height * 2
+        char_end = char_start + char_height * 2
+        char_data = font_data[char_start:char_end]
+
+        # Pad if necessary
+        # while len(char_data) < char_height:
+        #     char_data += b'\x00'
+
+        output_data.extend(char_data)
+
+        # Add width data
+        width = len_table.get(char_index, 0)  # Default width 0
+        output_data.append(width)
 
     with open(data_file, "wb") as fd:
-        fd.write(data)
-    with open(len_table_file, "wb") as fd:
-        fd.write(bytes(len_table.values()))
+        fd.write(output_data)
 
 
-def build_vwf_font_asset(font_file, has_grid, data_file, len_table_file, char_height, table):
+def build_vwf_font_asset(
+    font_file, has_grid, data_file, len_table_file, char_height, table
+):
+    converter = FontConverter(font_file, has_grid, char_height=char_height)
 
+    data_path = Path(data_file)
 
-    converter = FontConverter(font_file, has_grid, char_height=char_height,  )
+    if data_path.stem == "menu_font":
+        overrides = {0xFF: 3}
+    else:
+        overrides = {
+            0xFF: 3 if data_path.stem == "font" else 5,
+            0xFD: 1,
+            0xFE: 2,
+            0xA0: -1,
+        }
 
-    len_table, data = converter.convert_to_1bpp(width_overrides={
-        0xff: 3 if Path(data_file).stem == "font" else 5,
-        0xfd: 1,
-        0xFE: 2,
-        0xA0: -1
-    })
-
-    # Espace
-    len_table[0xFF] = 3
-    # Espace fine
-    len_table[0xFD] = 1
-    # Espace insécable
-    len_table[0xFE] = 2
-    len_table[0xA0] = len_table[0xA0] - 1
-
-    kerning_table_path = Path(len_table_file)
-    kerning_table_path = kerning_table_path.with_stem(kerning_table_path.stem.replace("length", "kerning"))
+    len_table, data = converter.convert_to_1bpp(width_overrides=overrides)
 
     # Generate test pairs (common kerning candidates)
     known_pairs_to_kern = []
 
     # Uppercase + lowercase (classic kerning pairs)
     letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
-    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï"]
+    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï", "îr"]
 
-    for letter in letters:
-        for vowel in vowels:
-            known_pairs_to_kern.append(letter + vowel)
+    if data_path.stem != "menu_font":
+        for letter in letters:
+            for vowel in vowels:
+                known_pairs_to_kern.append(letter + vowel)
 
-    # Lowercase + descender
-    for vowel in vowels + ["n"]:
-        known_pairs_to_kern.append(vowel + "j")
-        known_pairs_to_kern.append(vowel + "g")
-        known_pairs_to_kern.append(vowel + "y")
-        known_pairs_to_kern.append(vowel + "t")
-        known_pairs_to_kern.append(vowel + "f")
+        # Lowercase + descender
+        for vowel in vowels + ["n"]:
+            known_pairs_to_kern.append(vowel + "j")
+            known_pairs_to_kern.append(vowel + "g")
+            known_pairs_to_kern.append(vowel + "y")
+            known_pairs_to_kern.append(vowel + "t")
+            known_pairs_to_kern.append(vowel + "f")
 
-    # Common letter combinations that might benefit
-    common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
-    known_pairs_to_kern.extend(common_pairs)
+        # Common letter combinations that might benefit
+        common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
+        known_pairs_to_kern.extend(common_pairs)
+        known_pairs_to_kern.extend(
+            ["ît", "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï", "ïm"]
+        )
 
-    print(f"Testing {len(known_pairs_to_kern)} potential kerning pairs...")
-    # known_pairs_to_kern = ["Ta"]
-    # Find pairs that benefit from kerning
-    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
+        print(
+            f"Testing {len(known_pairs_to_kern)} potential kerning pairs in {Path(font_file).stem}..."
+        )
+        # known_pairs_to_kern = ["Ta"]
+        # Find pairs that benefit from kerning
+        kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
 
-    def add_custom_kernings(text: str, advance) -> None:
-        chars = table.to_bytes(text)
+        def add_custom_kernings(text: str, advance: int) -> None:
+            chars = table.to_bytes(text)
 
-        kerning_pairs[(chars[0], chars[1])] = advance
+            kerning_pairs[(chars[0], chars[1])] = advance
 
-    add_custom_kernings("tt", 2)
-
-    kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
-
+        add_custom_kernings("tt", 2)
+    else:
+        known_pairs_to_kern = [
+            "Ya",
+            "Pa",
+            "Po"
+            "Fa",
+            "Fe",
+            "Fo",
+            "Fu",
+            "Ta",
+            "Te",
+            "To",
+            "Tu",
+            "Tr",
+            "Ts",
+            "ra",
+            "re",
+            "ro",
+            "Aï",
+            "ïe",
+            "aî",
+            "ît",
+            "pa",
+            "at",
+            "ta",
+            "te",
+            "nt",
+            "fa",
+            "fe",
+            "fo",
+            "fu",
+            "fi",
+            "st",
+            "va",
+        ]
+        kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
 
     with open(data_file, "wb") as fd:
         fd.write(data)
-        count = len(kerning_pairs)
+
+        # Write kerning data immediately after character data.
+        # Entries are read on the SNES as u16 LE: key = char1 | (char2 << 8).
+        # Binary search assumes ascending order on that exact value.
+        sorted_pairs = sorted(
+            kerning_pairs.items(),
+            key=lambda pair: pair[0][0] | (pair[0][1] << 8),
+        )
+        count = len(sorted_pairs)
         fd.write(struct.pack("<H", count))
-        for (char1, char2), advance in kerning_pairs.items():
+        for (char1, char2), advance in sorted_pairs:
             fd.write(struct.pack("BBB", char1, char2, abs(advance)))
 
-    with open(len_table_file, "wb") as fd:
-        fd.write(bytes(len_table.values()))
-
+        fd.write(struct.pack("B", char_height))
 
 
 assets_builder = {
@@ -291,7 +361,6 @@ assets_builder = {
     "nullterminated": build_null_terminated,
     "nullterminated_with_base": build_null_terminated_with_base,
     "vwf-font": build_vwf_font_asset,
-    "vwf-font-2bpp": build_vwf_font_asset_2bpp,
 }
 
 
@@ -356,7 +425,7 @@ if __name__ == "__main__":
             "assets/font.dat",
             "assets/font_length_table.dat",
             16,
-            dialog_table
+            dialog_table,
         ),
         (
             "vwf-font",
@@ -365,7 +434,7 @@ if __name__ == "__main__":
             "assets/bold_font.dat",
             "assets/bold_font_length_table.dat",
             16,
-            dialog_table
+            dialog_table,
         ),
         (
             "vwf-font",
@@ -374,7 +443,7 @@ if __name__ == "__main__":
             "assets/wicked_font.dat",
             "assets/wicked_font_length_table.dat",
             16,
-            dialog_table
+            dialog_table,
         ),
         (
             "vwf-font",
@@ -383,15 +452,16 @@ if __name__ == "__main__":
             "assets/book_font.dat",
             "assets/book_font_length_table.dat",
             16,
-            dialog_table
+            dialog_table,
         ),
         (
-            "vwf-font-2bpp",
-            "fonts/8x8vwf2p.png",
-            True,
+            "vwf-font",
+            "fonts/8x8vwf.png",
+            False,
             "assets/menu_font.dat",
             "assets/menu_font_length_table.dat",
             8,
+            menu_table,
         ),
         ("fixed", menu_table, os.path.join(text_root, "items.xml"), "assets/items.dat"),
         ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "assets/magic.dat"),
@@ -416,9 +486,24 @@ if __name__ == "__main__":
         (
             "fixed_to_ptr",
             menu_table,
+            os.path.join(text_root, "battle_commands.xml"),
+            "assets/battle_commands_nul.dat",
+            "assets/battle_commands_nul.ptr",
+        ),
+        (
+            "fixed_to_ptr",
+            menu_table,
             os.path.join(text_root, "attack-names.xml"),
             "assets/attack_names.dat",
-            "assets/attack_names.ptr"
+            "assets/attack_names.ptr",
+        ),
+        (
+            "fixed_to_ptr",
+            menu_table,
+            os.path.join(text_root, "monsters_long.xml"),
+            "assets/monsters_long.dat",
+            "assets/monsters_long.ptr",
+            80
         ),
         (
             "nullterminated",
@@ -439,13 +524,12 @@ if __name__ == "__main__":
             "assets/classes.dat",
             "assets/classes.ptr",
         ),
-
         (
             "nullterminated_with_base",
             menu_table,
             os.path.join(text_root, "battle_statuses.xml"),
             "assets/battle_statuses.dat",
-            0x27b000
+            0x27B000,
         ),
     ]
 
@@ -453,7 +537,7 @@ if __name__ == "__main__":
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")
-    del menu_table.lookup[".."]
+    # del menu_table.lookup[".."]
     credits_text = credits_file.read_text()
 
     credits_lines = credits_text.split("\n")
@@ -483,11 +567,6 @@ if __name__ == "__main__":
             output_buffer += bytes([the_end_gfx[k] | the_end_gfx[k + 1] << 4])
             k += 2
         translated_gfx.write_bytes(output_buffer)
-
-    small_text = ["Niveau", "Gils"]
-
-    generate_8x8_vwf_asset(small_text, "vwf_precomp", 0x90)
-    menu_vwf_table = Table("text/vwf_precomp.tbl")
 
     with open("assets/dakuten.bin", "wb") as fd:
         fd.write(generate_dakutens(menu_table))

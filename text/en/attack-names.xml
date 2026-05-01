@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="19" padding=" ">
+    <sn:fixed>Magic Arrow</sn:fixed>
+    <sn:fixed>Cure</sn:fixed>
+    <sn:fixed>Basuna</sn:fixed>
+    <sn:fixed>Antidote</sn:fixed>
+    <sn:fixed>Dagger</sn:fixed>
+    <sn:fixed>Punch</sn:fixed>
+    <sn:fixed>Crush</sn:fixed>
+    <sn:fixed>Stone Beak</sn:fixed>
+    <sn:fixed>Mind Blast</sn:fixed>
+    <sn:fixed>Kick</sn:fixed>
+    <sn:fixed>Blizzard</sn:fixed>
+    <sn:fixed>Judgment</sn:fixed>
+    <sn:fixed>Hellfire</sn:fixed>
+    <sn:fixed>Rage</sn:fixed>
+    <sn:fixed>Mist Breath</sn:fixed>
+    <sn:fixed>Whisper</sn:fixed>
+    <sn:fixed>Iron Sword</sn:fixed>
+    <sn:fixed>Tsunami</sn:fixed>
+    <sn:fixed>Asura</sn:fixed>
+    <sn:fixed>Asura</sn:fixed>
+    <sn:fixed>Asura</sn:fixed>
+    <sn:fixed>Mega Flare</sn:fixed>
+    <sn:fixed>White Meteor</sn:fixed>
+    <sn:fixed>Monst015</sn:fixed>
+    <sn:fixed>Monst016</sn:fixed>
+    <sn:fixed>Glare</sn:fixed>
+    <sn:fixed>Crush</sn:fixed>
+    <sn:fixed>Slap</sn:fixed>
+    <sn:fixed>Sudden Freeze</sn:fixed>
+    <sn:fixed>Pupil</sn:fixed>
+    <sn:fixed>Lure</sn:fixed>
+    <sn:fixed>Tongue</sn:fixed>
+    <sn:fixed>Curse</sn:fixed>
+    <sn:fixed>Fingertip</sn:fixed>
+    <sn:fixed>Death</sn:fixed>
+    <sn:fixed>Beak</sn:fixed>
+    <sn:fixed>Petrifying Gaze</sn:fixed>
+    <sn:fixed>Mind Blast</sn:fixed>
+    <sn:fixed>Embrace</sn:fixed>
+    <sn:fixed>Bad Breath</sn:fixed>
+    <sn:fixed>Whisper</sn:fixed>
+    <sn:fixed>Crown</sn:fixed>
+    <sn:fixed>Wall</sn:fixed>
+    <sn:fixed>Tension</sn:fixed>
+    <sn:fixed>Ice Mist</sn:fixed>
+    <sn:fixed>Explode</sn:fixed>
+    <sn:fixed>Cursed Song</sn:fixed>
+    <sn:fixed>Cursed Aura</sn:fixed>
+    <sn:fixed>Sleep Gas</sn:fixed>
+    <sn:fixed>Poison Gas</sn:fixed>
+    <sn:fixed>Laser</sn:fixed>
+    <sn:fixed>Death's Revenge</sn:fixed>
+    <sn:fixed>Black Fang</sn:fixed>
+    <sn:fixed>Black Hole</sn:fixed>
+    <sn:fixed>Death Song</sn:fixed>
+    <sn:fixed>Sector 9</sn:fixed>
+    <sn:fixed>Maelstrom</sn:fixed>
+    <sn:fixed>Electric Wall</sn:fixed>
+    <sn:fixed>Chain Explosion</sn:fixed>
+    <sn:fixed>Hatch</sn:fixed>
+    <sn:fixed>Cure</sn:fixed>
+    <sn:fixed>Drain</sn:fixed>
+    <sn:fixed>Doctor</sn:fixed>
+    <sn:fixed>Big Bang</sn:fixed>
+    <sn:fixed>Bloodsucker</sn:fixed>
+    <sn:fixed>Digest</sn:fixed>
+    <sn:fixed>Pollen</sn:fixed>
+    <sn:fixed>Cave In</sn:fixed>
+    <sn:fixed>Alarm</sn:fixed>
+    <sn:fixed>Summon</sn:fixed>
+    <sn:fixed>Dummy Magic</sn:fixed>
+    <sn:fixed>Death's Revenge</sn:fixed>
+    <sn:fixed>Target</sn:fixed>
+    <sn:fixed>Nuclear</sn:fixed>
+    <sn:fixed>Retreat</sn:fixed>
+    <sn:fixed>Cursed Move</sn:fixed>
+    <sn:fixed>Ray</sn:fixed>
+    <sn:fixed>Number 199</sn:fixed>
+    <sn:fixed>Fire</sn:fixed>
+    <sn:fixed>Blaze</sn:fixed>
+    <sn:fixed>Bolt</sn:fixed>
+    <sn:fixed>Thunder</sn:fixed>
+    <sn:fixed>Dragon's Breath</sn:fixed>
+    <sn:fixed>Tidal Wave</sn:fixed>
+    <sn:fixed>Blizzard</sn:fixed>
+    <sn:fixed>Tsunami</sn:fixed>
+    <sn:fixed>Tornado</sn:fixed>
+    <sn:fixed>Laser</sn:fixed>
+    <sn:fixed>Crush</sn:fixed>
+    <sn:fixed>Quake</sn:fixed>
+    <sn:fixed>Flamethrower</sn:fixed>
+    <sn:fixed>Heating</sn:fixed>
+    <sn:fixed>Flame Dragon</sn:fixed>
+    <sn:fixed>Iron Sword</sn:fixed>
+    <sn:fixed>Mega Flare</sn:fixed>
+    <sn:fixed>Needle</sn:fixed>
+    <sn:fixed>Counter</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Regen</sn:fixed>
+    <sn:fixed>Revive</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+    <sn:fixed>Monst000</sn:fixed>
+</sn:fixedlist>
