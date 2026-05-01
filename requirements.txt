@@ -1,4 +1,4 @@
-a816==1.1.0a2
+a816==1.1.0a3
 kintsuki==0.0.0a2
 pillow
 numpy
