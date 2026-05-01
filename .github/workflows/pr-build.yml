@@ -25,10 +25,16 @@ jobs:
           
     - name: Install Requirements
       run: pip install -r requirements.txt
-      
+
+    - name: Install Test Requirements
+      run: pip install pytest
+
     - name: Build patch
       run: ./build.py
-      
+
+    - name: Run tests
+      run: pytest
+
     - name: Upload IPS artifact
       uses: actions/upload-artifact@v4
       with:
