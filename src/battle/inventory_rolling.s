@@ -1,3 +1,11 @@
+.extern assets_items_dat
+.extern Mult8_Trampoline
+.extern LoadMenuTfrData_Trampoline
+.extern HexToDec_Trampoline
+.extern NormalizeNum_Trampoline
+.extern DrawText_Rolling_Trampoline
+.extern Return_To_Bank02
+
 ; ============================================================================
 ; Rolling Buffer Implementation for Battle Inventory (Single Column)
 ; ============================================================================

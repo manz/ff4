@@ -1,3 +1,4 @@
+.include 'src/vwf.i'
 
 ; Long-form (RTL) wrapper for cross-bank callers and Python tests.
 ; Same calling convention as the RTS entry: A in/out, trashes A.
@@ -16,7 +17,7 @@ _GetKerningAdjustmentLinearSearch:
 {
     ldy.w #0x1100
     lda.b [font_addr], y   ; right = NumKerningPairs
-    beq NotFound
+    beq _NotFound
     dec
     tax
     lda.w #0x0000
@@ -34,7 +35,7 @@ _loop:
 
     lda.b [font_addr], y ; Load 16-bit char pair
     cmp.b CURRENT_C
-    beq FoundPair               ; Found exact match!
+    beq _FoundPair               ; Found exact match!
 
     txa
     dec
@@ -42,12 +43,12 @@ _loop:
 
     bpl _loop
 
-NotFound:
+_NotFound:
     lda.w #0x0000
     sec
     rts
 
-FoundPair:
+_FoundPair:
     iny
     iny
     lda.b [font_addr], y

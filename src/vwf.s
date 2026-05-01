@@ -1,4 +1,11 @@
 .include 'src/definitions.s'
+.include 'src/libmz.i'
+.table 'text/ff4_menus.tbl'
+.import "libmz"
+.import "dialog"
+.extern assets_items_dat
+.extern assets_font_dat
+.extern font_table
 .include 'src/kerning.s'
 
 wait_for_action_button:

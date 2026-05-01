@@ -4,10 +4,13 @@ import logging
 import math
 import os
 import struct
+import sys
 from pathlib import Path
 from typing import Callable
 from xml.etree import ElementTree
 
+from a816.linker import Linker
+from a816.object_file import ObjectFile
 from a816.program import Program
 from a816.symbols import low_rom_bus
 from script import Table
@@ -83,16 +86,25 @@ def assets_need_refresh(source, destination):
 
 
 def build_patch(input, output, lang):
-    ff4_asm = Program()
-    ff4_asm.resolver.current_scope.add_symbol("LANG", lang)
+    from a816.module_builder import build_with_imports_direct
 
-    exit_code = ff4_asm.assemble_as_patch(input, output)
+    result = build_with_imports_direct(
+        main_source=Path(input),
+        output_file=Path(output),
+        output_format="ips",
+        module_paths=[Path("build/obj"), Path("src")],
+        output_dir=Path("build/obj"),
+        symbols={"LANG": lang},
+        include_paths=[Path("src")],
+        prelude_file=Path("config.i"),
+    )
 
-    if exit_code != 0:
+    if result.exit_code != 0:
         logger.error("Build failed.")
-        return exit_code
+        return result.exit_code
 
-    ff4_asm.exports_symbol_file("./build/ff4.sym")
+    if result.program is not None:
+        result.program.exports_symbol_file("./build/ff4.sym")
 
 
 def word_low_rom_pointer(base: int) -> Callable[[int], bytes]:
@@ -574,4 +586,6 @@ if __name__ == "__main__":
     if not os.path.exists("build"):
         os.mkdir("build")
 
-    build_patch("ff4.s", "build/ff4.ips", lang)
+    exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
+    if exit_code:
+        sys.exit(exit_code)

@@ -156,7 +156,7 @@ buffer_size = 0x300
 
 last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 
-font_ptr = assets_menu_font_dat
+;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
 
 init:
 ; Initialize the renderer
@@ -263,7 +263,7 @@ char_line_loop:
     bne _shift
 
 _read_8x8_char:
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
 
     inx
     xba
@@ -272,7 +272,7 @@ _read_8x8_char:
 _shift:
     ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
    ; bne _really_shift
    ; inx
    ; xba
@@ -331,7 +331,7 @@ _shift:
 
 
     plx
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
     bne _really_shift
     inx
     xba
@@ -374,7 +374,7 @@ _skip_empty_pixel_line:
 
 
 brk_bits_left:
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
 
     sta.b temp
 
@@ -480,7 +480,7 @@ _get_kerning_adjustment_linear_search:
 
 kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
-    lda.w font_ptr & 0xffff, y
+    lda.w assets_menu_font_dat, y
     beq not_found
     dec
     tax
@@ -498,7 +498,7 @@ _loop:
     tay
     pla
 
-    lda.w font_ptr & 0xffff, y ; Load 16-bit char pair
+    lda.w assets_menu_font_dat, y ; Load 16-bit char pair
     cmp.b prev_char
     beq found_pair               ; Found exact match!
 
@@ -518,7 +518,7 @@ not_found:
 found_pair:
     iny
     iny
-    lda.w font_ptr, y
+    lda.w assets_menu_font_dat, y
     and.w #0x00FF
     clc
     plb

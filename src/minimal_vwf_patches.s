@@ -2,6 +2,10 @@
 ; Les Fonctions de chargement de pointeur de dialogue
 ;=====================================================================
 
+.include 'src/vwf.i'
+.import "dialog"
+.import "vwf"
+
 *=0x00B404
      jsr.l CalculePositionTb
      jsr.l PointeurBank1de1

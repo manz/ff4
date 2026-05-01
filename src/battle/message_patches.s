@@ -1,3 +1,5 @@
+.extern messages_vwf
+
 .scope message_patches {
  ; pointers to battle dialog
 *=0x02c909

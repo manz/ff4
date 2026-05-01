@@ -1,3 +1,6 @@
+.extern DrawMagicListDirect
+.extern MagicListPtrs
+
 *=0x029A69                              ; do not initalize the magic text buffers
     ; 029A69  20 70 A0   JSR $A070
     nop

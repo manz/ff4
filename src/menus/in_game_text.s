@@ -1,4 +1,6 @@
 .include 'src/ingame/macros.i'
+.table 'text/ff4_menus.tbl'
+.extern lookup_dakuten
 
 .scope in_game_menu {
 cant_fight:

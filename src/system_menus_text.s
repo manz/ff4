@@ -1,3 +1,5 @@
+.extern assets_classes_ptr
+
 .macro bank_switch() {
     cpy.w #0x8000
     bmi moved_text

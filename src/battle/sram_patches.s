@@ -1,3 +1,10 @@
+.extern draw_command_list_for_character
+.extern battle_display_char
+.extern battle_display_dakuten_char
+.extern clear_names_window_buffer
+.extern battle_render
+.extern messages_vwf
+
 ; inventory buffer
 ;*=0x02991E
 ;    jsr.l copy_battle_char

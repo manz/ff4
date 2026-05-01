@@ -1,3 +1,7 @@
+.extern load_monster_pointer
+.extern initialize_monster_slot
+.extern tab_escape_code
+
 ; transform the monster names loading routine from fixed size to pointed.
 
 *=0x02a7d7

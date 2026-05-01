@@ -1,3 +1,5 @@
+.extern assets_monsters_long_ptr
+
 load_monster_pointer:
     rep #0x20
     ;lda.w #127 - 3

@@ -139,7 +139,7 @@ _not_found:
     counter = bits_left_on_tile + 6
     prev_char =  bits_left_on_tile + 8
     current_char = prev_char + 1
-    font_ptr = assets_menu_font_dat
+    ;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
     lda.b #region_size
@@ -288,7 +288,7 @@ char_line_loop:
     bne _shift
 
 _read_8x8_char:
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
     xba
     lda.b #0x00
     xba
@@ -299,7 +299,7 @@ _read_8x8_char:
 _shift:
     ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
     xba
     lda #0x00
     xba
@@ -370,7 +370,7 @@ _next_line:
 
 
 brk_bits_left:
-    lda.l font_ptr, x
+    lda.l assets_menu_font_dat, x
 
     sta.b temp
 
@@ -464,7 +464,7 @@ _get_kerning_adjustment_binary_search:
 
     kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
-    lda.w font_ptr & 0xffff, y
+    lda.w assets_menu_font_dat, y
     beq not_found
     dec
 
@@ -502,7 +502,7 @@ _binary_loop:
 
     ; Load char pair at this position
     pha                         ; Save mid again
-    lda.w font_ptr & 0xffff, y  ; Load 16-bit char pair
+    lda.w assets_menu_font_dat, y  ; Load 16-bit char pair
 
     ; Compare with target
     cmp 0x03, s                 ; Compare with target_char
@@ -528,7 +528,7 @@ found_pair_cleanup:
     ; Calculate adjustment offset: Y + 2 (skip char pair)
     iny
     iny
-    lda.w font_ptr, y           ; Load adjustment value (8-bit) - matches original
+    lda.w assets_menu_font_dat, y           ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff              ; Ensure high byte is clear
 
     ; Clean up stack
@@ -571,7 +571,7 @@ _get_kerning_adjustment_linear_search:
 
     kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
-    lda.w font_ptr & 0xffff, y
+    lda.w assets_menu_font_dat, y
     beq not_found
     dec
     tax
@@ -589,7 +589,7 @@ _loop:
     tay
     pla
 
-    lda.w font_ptr & 0xffff, y ; Load 16-bit char pair
+    lda.w assets_menu_font_dat, y ; Load 16-bit char pair
     cmp.b prev_char
     beq found_pair               ; Found exact match!
 
@@ -609,7 +609,7 @@ not_found:
 found_pair:
     iny
     iny
-    lda.w font_ptr, y
+    lda.w assets_menu_font_dat, y
     and.w #0x00FF
     clc
     plb
