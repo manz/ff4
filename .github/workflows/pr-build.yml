@@ -29,6 +29,13 @@ jobs:
     - name: Install Test Requirements
       run: pip install pytest
 
+    - name: Decrypt base ROM
+      env:
+        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
+      run: |
+        mkdir -p build
+        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
+
     - name: Build patch
       run: ./build.py
 
