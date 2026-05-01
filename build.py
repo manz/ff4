@@ -4,6 +4,7 @@ import logging
 import math
 import os
 import struct
+import sys
 from pathlib import Path
 from typing import Callable
 from xml.etree import ElementTree
@@ -585,4 +586,6 @@ if __name__ == "__main__":
     if not os.path.exists("build"):
         os.mkdir("build")
 
-    build_patch("ff4.s", "build/ff4.ips", lang)
+    exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
+    if exit_code:
+        sys.exit(exit_code)
