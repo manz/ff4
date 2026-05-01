@@ -4,15 +4,8 @@
 ; ----------------------------------------------------------------
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
-
-; libmz routines
-.extern initialize_snes
-.extern wait_for_vblank
-.extern enable_gamepad
-.extern disable_gamepad
+.import "libmz"
 .extern clear_ram
-.extern dma_transfer_to_vram
-.extern dma_transfer_to_palette
 
 ; intro asset blobs (defined in ff4.s, *=0x318000)
 .extern assets_intro_map

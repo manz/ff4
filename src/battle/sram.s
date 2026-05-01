@@ -1,14 +1,12 @@
 .include 'src/battle/sram.i'
 
-.extern lookup_dakuten
-.extern render_allocator
+.import "dakuten"
+.import "small_vwf/init"
 .extern render_allocator.init_with_tile_id
 .extern render_allocator.init
 .extern render_allocator.allocated_tile_id
 .extern render_allocator.increment
-.extern render
 .extern render.tilemap_offset
-.extern battle_render
 .extern battle_render.display_char
 .extern battle_render.init
 .extern battle_render.init_commands_list

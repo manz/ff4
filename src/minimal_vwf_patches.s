@@ -2,27 +2,9 @@
 ; Les Fonctions de chargement de pointeur de dialogue
 ;=====================================================================
 
-; Include shared VWF variable definitions
 .include 'src/vwf.i'
-
-; External symbols from dialog module
-.extern CalculePositionTb
-.extern PointeurBank1de1
-.extern PointeurBank1de2
-.extern PointeurBank2
-.extern PointeurBank3
-
-; External symbols from vwf module
-.extern vwfstart
-.extern vwfinit
-.extern wait_for_action_button
-.extern update_palette
-.extern window_palette
-.extern gils_window_tilemap_1
-.extern gils_window_tilemap_2
-.extern gils_window_tilemap_3
-.extern gils_window_tilemap_4
-.extern gils_window_tilemap_4_end
+.import "dialog"
+.import "vwf"
 
 *=0x00B404
      jsr.l CalculePositionTb
