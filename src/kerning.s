@@ -1,13 +1,15 @@
 
-; trashes A
+; Long-form (RTL) wrapper for cross-bank callers and Python tests.
+; Same calling convention as the RTS entry: A in/out, trashes A.
+GetKerningAdjustmentLinearSearch_Ext:
+    jsr.w GetKerningAdjustmentLinearSearch
+    rtl
+
+; trashes A, Y, flags. Preserves X (only register the caller relies on).
 GetKerningAdjustmentLinearSearch:
-    php
     phx
-    phy
     jsr.w _GetKerningAdjustmentLinearSearch
-    ply
     plx
-    plp
     rts
 
 _GetKerningAdjustmentLinearSearch:
@@ -54,15 +56,16 @@ FoundPair:
     rts
 }
 
-; trashes A
+; Long-form (RTL) wrapper for cross-bank callers and Python tests.
+GetKerningAdjustmentBinarySearch_Ext:
+    jsr.w GetKerningAdjustmentBinarySearch
+    rtl
+
+; trashes A, Y, flags. Preserves X (only register the caller relies on).
 GetKerningAdjustmentBinarySearch:
-    php
     phx
-    phy
     jsr.w _GetKerningAdjustmentBinarySearch
-    ply
     plx
-    plp
     rts
 
 _GetKerningAdjustmentBinarySearch:
@@ -79,22 +82,22 @@ _GetKerningAdjustmentBinarySearch:
     pea.w 0x0000           ; reserve mid slot (top)
 
 _loop:
-    lda 0x0004, s          ; high
-    cmp 0x0002, s          ; compare against low
+    lda 0x0005, s          ; high
+    cmp 0x0003, s          ; compare against low
     bcc _not_found         ; high < low -> no match
 
-    lda 0x0004, s
+    lda 0x0005, s
     sec
-    sbc 0x0002, s
+    sbc 0x0003, s
     lsr
     clc
-    adc 0x0002, s
-    sta 0x0000, s          ; mid
+    adc 0x0003, s
+    sta 0x0001, s          ; mid
 
-    lda 0x0000, s
+    lda 0x0001, s
     asl
     clc
-    adc 0x0000, s           ; mid * 3
+    adc 0x0001, s           ; mid * 3
     clc
     adc.w #0x1102
     tay
@@ -105,17 +108,17 @@ _loop:
     bcc _search_upper       ; table key < target -> raise low
 
 _search_lower:
-    lda 0x0000, s           ; mid - 1 becomes new high
+    lda 0x0001, s           ; mid - 1 becomes new high
     sec
     sbc.w #0x0001
-    sta 0x0004, s
+    sta 0x0005, s
     bra _loop
 
 _search_upper:
-    lda 0x0000, s           ; mid + 1 becomes new low
+    lda 0x0001, s           ; mid + 1 becomes new low
     clc
     adc.w #0x0001
-    sta 0x0002, s
+    sta 0x0003, s
     bra _loop
 
 _not_found:
@@ -132,9 +135,9 @@ _found:
     iny
     lda.b [font_addr], y
     and.w #0x00FF
-    pla                     ; drop mid
-    pla                     ; drop low
-    pla                     ; drop high
+    ply                     ; drop mid  (PLY/X preserve A)
+    ply                     ; drop low
+    ply                     ; drop high
     clc
     rts
 }

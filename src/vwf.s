@@ -767,8 +767,8 @@ TEXT_SHADOW :=1
     _exit:
 
     REP #0x20
-    lda.b CURRENT_C
 .if ENABLE_KERNING {
+    ; Routine reads the pair from CURRENT_C (DP), no need to load A.
     jsr.w GetKerningAdjustmentLinearSearch
     pha
 } else {
@@ -820,6 +820,11 @@ vwf_shift_table:
 .db 0b01000000                ;6
 .db 0b10000000                ;7
 .db 0b10000000                ;8
+
+; Long-form (RTL) wrapper for cross-bank callers and Python tests.
+setup_font_Ext:
+    jsr.w setup_font
+    rtl
 
 setup_font:
 ; A: font index

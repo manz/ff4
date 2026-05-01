@@ -338,13 +338,16 @@ def build_vwf_font_asset(
     with open(data_file, "wb") as fd:
         fd.write(data)
 
-        # Write kerning data immediately after character data
+        # Write kerning data immediately after character data.
+        # Entries are read on the SNES as u16 LE: key = char1 | (char2 << 8).
+        # Binary search assumes ascending order on that exact value.
         sorted_pairs = sorted(
-            kerning_pairs.items(), key=lambda pair: (pair[0][0] << 8) | pair[0][1]
+            kerning_pairs.items(),
+            key=lambda pair: pair[0][0] | (pair[0][1] << 8),
         )
         count = len(sorted_pairs)
         fd.write(struct.pack("<H", count))
-        for (char1, char2), advance in kerning_pairs.items():
+        for (char1, char2), advance in sorted_pairs:
             fd.write(struct.pack("BBB", char1, char2, abs(advance)))
 
         fd.write(struct.pack("B", char_height))
