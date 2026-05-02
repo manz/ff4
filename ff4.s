@@ -54,6 +54,16 @@ dialog_bank_ptr_base = 0x218000
     .db 0x0B                            ; ~ 0BH ROM Size
     .db 0x07                            ; RAM Size
 
+*=0x00FFE0
+    """JML trampoline in vector-table padding; native/emu BRK vectors point here."""
+    jmp.l brk_handler
+
+*=0x00FFE6
+    .dw 0xFFE0
+
+*=0x00FFFE
+    .dw 0xFFE0
+
 
 *=0x008031
     """déroutage pour ajouter le splash screen"""
@@ -69,26 +79,6 @@ dialog_bank_ptr_base = 0x218000
     """déroutage pour utiliser la vwf dans les dialogues."""
     jsr.l vwfstart
     rts
-
-*=0x0AF000
-.incbin "fonts/8x8.bin"                 ; *=0x0AFF00-0x10 * 10
-
-;*=0x0AF900
-;	.incbin 'assets/vwf_precomp.bin'
-
-
-*=0x0FA710
-    """Patch des noms des personages"""
-.incbin "assets/characters_names.dat"   ; *=0x0F8AB0
-;	.incbin 'assets/attack-names.dat'
-
-;*=0x0f8000
-
-;.incbin "assets/items.dat"
-
-*=0x0E9800
-
-.incbin "assets/monsters.dat"
 
 *=0x208000
 """Relocated Region"""
@@ -162,6 +152,7 @@ rtl
 .import "menus/start_screen_text"
 .import "menus/tools_shop_text"
 .import "menus/in_game_text"
+.import "assets"
 
 ; Relocated multiply-by-12 for item name offset
 ; Called from $019023 via JSL
@@ -176,6 +167,26 @@ MultiplyItemIndex12:
     asl                 ; x12
     tax
     rtl
+
+brk_handler:
+    """
+    BRK trap: mask interrupts, disable NMI, capture P/PC/PB into $7E0005-08
+    then STP so kintsuki halts. CPU pushes (low->high addr): P, PC.lo,
+    PC.hi, PB. Pulled in reverse. Pushed PC = BRK+2.
+    """
+    sei
+    sep #0x20
+    lda #0x00
+    sta.l 0x004200
+    pla
+    sta.l 0x7E0005
+    rep #0x20
+    pla
+    sta.l 0x7E0006
+    sep #0x20
+    pla
+    sta.l 0x7E0008
+    stp
 
 ; binary text assets
 .incbin "assets/attack_names.ptr"
@@ -192,65 +203,6 @@ MultiplyItemIndex12:
 .incbin "assets/items.dat"
 .incbin "assets/item_descriptions.dat"
 
-*=0x218000
-.incbin "assets/bank1_1.ptr"
-.incbin "assets/bank1_2.ptr"
-
-.incbin "assets/bank2.ptr"
-
-*=0x228000
-
-.incbin "assets/bank1_1.dat"
-
-*=0x24A000
-
-.incbin "assets/bank1_2.dat"
-
-*=0x25A000
-
-.incbin "assets/bank2.dat"
-
-*=0x27B000
-
-.incbin "assets/battle_statuses.dat"
-
-*=0x288000
-.incbin "assets/menu_font.dat"
-.incbin "assets/font.dat"
-.incbin "assets/wicked_font.dat"
-
-.incbin "assets/book_font.dat"
-
-.incbin "assets/bold_font.dat"
-
-.incbin "assets/battle_commands.dat"
-
-font_table:
-    .pointer assets_font_dat
-    .pointer assets_wicked_font_dat
-    .pointer assets_book_font_dat
-    .pointer assets_bold_font_dat
-
-
-.incbin "assets/credits_text.bin"
-
-*=0x298000
-.incbin "assets/battle_messages.ptr"
-
-.incbin "assets/battle_messages.dat"
-
-*=0x299900
-.incbin "assets/battle_text.ptr"
-
-.incbin "assets/battle_text.dat"
-
-*=0x318000
-    """Splash screen assets"""
-.if ENABLE_INTRO {
-    .incbin "assets/intro.map"
-    .incbin "assets/intro.col"
-    .incbin "assets/intro.set"
-}
 
 .if TRIGGER_ENDING_CUTSCENE {
     ; all effects are the Ending cutscene
