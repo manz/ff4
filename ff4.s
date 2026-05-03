@@ -206,6 +206,9 @@ brk_handler:
     .include "src/ingame/inventory_rolling.s"
 
 }
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/treasure_rolling.s"
+}
 ; binary text assets
 .incbin "assets/attack_names.ptr"
 .incbin "assets/attack_names.dat"
