@@ -6,7 +6,7 @@
 ConditionalBG1VOFS := 0x208000
 
 .include "src/libmz.i"
-.include "src/system_menus_text.i"
+.include "src/menus/system_menus_text.i"
 
 .include "src/minimal_vwf_patches.s"
 .if BATTLE_ENABLED {
@@ -157,7 +157,7 @@ rtl
 ; dialog.s is now imported as a module (see .import "dialog" above)
 .import "ingame/places_names_window"
 ; system menu text routines
-.import "system_menus_text"
+.import "menus/system_menus_text"
 .import "dakuten"
 
 ; menu text scopes
