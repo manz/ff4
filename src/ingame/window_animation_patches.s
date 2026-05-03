@@ -1,10 +1,10 @@
 /* Final Fantasy IV Instant Window Patch
    Targets Bank 0x01 based on the menu.asm disassembly labels. */
 
-/* --- OpenWindow Override (@83E3) ---
+/* --- open_window Override (@83E3) ---
    Replaces the 25-frame vertical wipe loop with a single DMA. */
 *= 0x0183E3
-OpenWindow:
+open_window:
     sep #0x20           ; 8-bit A (shorta)
     lda #0x7E           ; Source RAM bank for tilemap buffers
     sta 0x21
@@ -21,10 +21,10 @@ OpenWindow:
     jsr.w TfrVRAM       ; Perform instant DMA
     rts
 
-/* --- CloseWindow Override (@8417) ---
+/* --- close_window Override (@8417) ---
    Clears the VRAM area instantly by pointing to the empty part of the buffer. */
 *= 0x018417
-CloseWindow:
+close_window:
     sep #0x20
     lda #0x7E
     sta 0x21
@@ -43,10 +43,10 @@ CloseWindow:
     jsr.w TfrVRAM       ; Perform instant DMA
     rts
 
-/* --- TransformWindow Override (@84D0) ---
+/* --- transform_window Override (@84D0) ---
    Skips the coordinate growth loop and jumps directly to final dimensions. */
 *= 0x0184D0
-TransformWindow:
+transform_window:
     phb : phk : plb     ; Setup Bank Registry for local access
     sep #0x20
     /* Snap current coordinates ($63-$66) to target coordinates ($67-$6A) instantly */

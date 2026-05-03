@@ -199,11 +199,11 @@ vwfstart:
 
     jsr.l vwfinit
 
-    JSR.W ChargeLettre
+    JSR.W load_letter
     BRA firstrun
 
 main:
-    JSR.W ChargeLettreInc
+    JSR.W load_letter_inc
 
 firstrun:
     JMP.W parse
@@ -274,23 +274,23 @@ _nxt7:
 ; display gils count
 _nxt8:
     CMP #0x08
-    BNE _nxtFB
+    BNE _nxt_fb
     JMP.W _code08
 
-_nxtFB:
+_nxt_fb:
     CMP #0xFC
-    BNE _nxtFC
+    BNE _nxt_fc
     JMP.W suit3
-_nxtFC:
+_nxt_fc:
     cmp #0xFE
-    bne _nxtFE
-    jsr.w ChargeLettreInc
+    bne _nxt_fe
+    jsr.w load_letter_inc
     jsr.w setup_font
     jmp.w main
-_nxtFE:
+_nxt_fe:
 
     JSR.W makeptr
-    JSR.W ShiftNew
+    JSR.W shift_new
     JSR.W wdisplay
 
     JMP.W main
@@ -300,7 +300,7 @@ _nxtFE:
 ;** Space **
 ;***********
 space:
-    JSR.W ChargeLettreInc
+    JSR.W load_letter_inc
     CLC
     ADC.B TILEPOS
     JMP.W main
@@ -320,16 +320,16 @@ _code08:
 
     LDX.W #0x0000
 
-_loop_B5C3:
+_loop_b5c3:
     LDA.B 0x36,X
     CMP #0x80
-    BNE _loop_B5D2
+    BNE _loop_b5d2
     INX
     CPX.W #0x0005
-    BEQ _loop_B5D2
-    JMP.W _loop_B5C3
+    BEQ _loop_b5d2
+    JMP.W _loop_b5c3
 
-_loop_B5D2:
+_loop_b5d2:
     lda #0x00
     xba
     LDA.B 0x36,X
@@ -344,7 +344,7 @@ _loop_B5D2:
     STA.B CURRENT_C            ;appel de la vwf
 
     JSR.W makeptr
-    JSR.W ShiftNew
+    JSR.W shift_new
     JSR.W wdisplay
 
     PLY
@@ -352,7 +352,7 @@ _loop_B5D2:
 
     INX
     CPX.W #0x0006
-    BNE _loop_B5D2
+    BNE _loop_b5d2
 
     JMP.W main
 
@@ -362,7 +362,7 @@ _loop_B5D2:
 display_character_name:
 {
 
-    JSR.W ChargeLettreInc
+    JSR.W load_letter_inc
     xba
     lda #0x00
     xba
@@ -387,7 +387,7 @@ next:
     PHX
     PHY
     JSR.W makeptr
-    JSR.W ShiftNew
+    JSR.W shift_new
     JSR.W wdisplay
     PLY
     PLX
@@ -490,7 +490,7 @@ draw_ending_symbol:
     ldx.w #0xa2 * 17
     ldy.w #0xcc0
     jsr.w makeptr
-    jsr.w ShiftNew
+    jsr.w shift_new
     jsr.w wdisplay
 
     pla
@@ -502,7 +502,7 @@ draw_ending_symbol:
 ;*************
 
 musique:
-    JSR.W ChargeLettreInc
+    JSR.W load_letter_inc
     STA 0x1E01
     LDA.B #0x01
     STA 0x1E00
@@ -511,7 +511,7 @@ musique:
     JMP.W main
 
 _code05:
-    JSR.W ChargeLettreInc
+    JSR.W load_letter_inc
     xba
     lda #0x00
     xba
@@ -541,7 +541,7 @@ skip:  ldx.w     #0x0000
     sta.b CURRENT_C
 
     jsr.w makeptr
-    jsr.w ShiftNew
+    jsr.w shift_new
     jsr.w wdisplay
 
     ply
@@ -595,13 +595,13 @@ end:
 ;** Shift Routine **
 ;*******************
 
-ShiftNew:
+shift_new:
     REP #0x20
     LDA.W #0x0010
     STA.B CNTR
     SEP #0x20
 
-Boucle2:
+boucle2:
     REP #0x20
     LDA.W #0x0000
     SEP #0x20
@@ -770,13 +770,13 @@ TEXT_SHADOW :=1
 
     DEC.B CNTR
     BEQ _exit
-    jmp.w Boucle2
+    jmp.w boucle2
     _exit:
 
     REP #0x20
 .if ENABLE_KERNING {
     ; Routine reads the pair from CURRENT_C (DP), no need to load A.
-    jsr.w GetKerningAdjustmentBinarySearch
+    jsr.w dialog_get_kerning_adjustment_binary_search
     pha
 } else {
     lda.w #0x0000
@@ -829,7 +829,7 @@ vwf_shift_table:
 .db 0b10000000                ;8
 
 ; Long-form (RTL) wrapper for cross-bank callers and Python tests.
-setup_font_Ext:
+setup_font_ext:
     jsr.w setup_font
     rtl
 

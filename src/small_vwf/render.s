@@ -622,11 +622,11 @@ get_kerning_adjustment:
     rts
 }
 
-SmallVwfKerningLinear_Ext:
+small_vwf_kerning_linear_ext:
     jsr.w get_kerning_adjustment_linear_search
     rtl
 
-SmallVwfKerningBinary_Ext:
+small_vwf_kerning_binary_ext:
     jsr.w get_kerning_adjustment
     rtl
 }

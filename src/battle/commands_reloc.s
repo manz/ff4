@@ -52,7 +52,7 @@ _draw_command_list_for_character:
 
     ;rep #0x20
     ;ldx.w #command_buffer_ptr - 10
-    ;lda.l     0x16fead,x ;CmdTextBufPtrs,x
+    ;lda.l     0x16fead,x ;cmd_text_buf_ptrs,x
     ;stx     0xef52 ; destination ptr ?
 
 _loop:

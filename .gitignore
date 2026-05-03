@@ -7,3 +7,5 @@ assets/*
 !assets/intro.col
 !assets/intro.map
 !assets/intro.set
+
+.DS_Store

@@ -2,22 +2,22 @@
 
 ; Long-form (RTL) wrapper for cross-bank callers and Python tests.
 ; Same calling convention as the RTS entry: A in/out, trashes A.
-GetKerningAdjustmentLinearSearch_Ext:
-    jsr.w GetKerningAdjustmentLinearSearch
+dialog_get_kerning_adjustment_linear_search_ext:
+    jsr.w dialog_get_kerning_adjustment_linear_search
     rtl
 
 ; trashes A, Y, flags. Preserves X (only register the caller relies on).
-GetKerningAdjustmentLinearSearch:
+dialog_get_kerning_adjustment_linear_search:
     phx
-    jsr.w _GetKerningAdjustmentLinearSearch
+    jsr.w _dialog_get_kerning_adjustment_linear_search
     plx
     rts
 
-_GetKerningAdjustmentLinearSearch:
+_dialog_get_kerning_adjustment_linear_search:
 {
     ldy.w #0x1100
     lda.b [font_addr], y   ; right = NumKerningPairs
-    beq _NotFound
+    beq _not_found
     dec
     tax
     lda.w #0x0000
@@ -35,7 +35,7 @@ _loop:
 
     lda.b [font_addr], y ; Load 16-bit char pair
     cmp.b CURRENT_C
-    beq _FoundPair               ; Found exact match!
+    beq _found_pair               ; Found exact match!
 
     txa
     dec
@@ -43,12 +43,12 @@ _loop:
 
     bpl _loop
 
-_NotFound:
+_not_found:
     lda.w #0x0000
     sec
     rts
 
-_FoundPair:
+_found_pair:
     iny
     iny
     lda.b [font_addr], y
@@ -58,18 +58,18 @@ _FoundPair:
 }
 
 ; Long-form (RTL) wrapper for cross-bank callers and Python tests.
-GetKerningAdjustmentBinarySearch_Ext:
-    jsr.w GetKerningAdjustmentBinarySearch
+dialog_get_kerning_adjustment_binary_search_ext:
+    jsr.w dialog_get_kerning_adjustment_binary_search
     rtl
 
 ; trashes A, Y, flags. Preserves X (only register the caller relies on).
-GetKerningAdjustmentBinarySearch:
+dialog_get_kerning_adjustment_binary_search:
     phx
-    jsr.w _GetKerningAdjustmentBinarySearch
+    jsr.w _dialog_get_kerning_adjustment_binary_search
     plx
     rts
 
-_GetKerningAdjustmentBinarySearch:
+_dialog_get_kerning_adjustment_binary_search:
 {
     ldy.w #0x1100
     lda.b [font_addr], y   ; NumKerningPairs (16-bit)

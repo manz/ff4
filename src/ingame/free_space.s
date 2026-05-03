@@ -79,14 +79,14 @@ display_build_number:
 ; ============================================================================
 .if INVENTORY_ROLLING_BUFFER {
 
-SwapRedrawTrampoline:
+swap_redraw_trampoline:
     jsr.l   SwapRedrawHook_Impl
     jsr.w   0xA2D9                  ; Clear second cursor (from original $A404)
     jmp.w   0xA40A                  ; Skip $84BA (game's sequential redraw), go to RTS
 
-; --- MainLoopScrollCheck ---
+; --- main_loop_scroll_check ---
 ; Called from $019FF2 via jmp.w
-MainLoopScrollCheck:
+main_loop_scroll_check:
     lda.w   menu_scroll_state
     beq     _main_loop_do_input
     jsr.w   UpdateScrollFrame
@@ -104,8 +104,8 @@ _left_not_pressed:
 _main_loop_skip_input:
     jmp.w   0xA0FF
 
-; --- ScrollDownTrigger ---
-ScrollDownTrigger:
+; --- scroll_down_trigger ---
+scroll_down_trigger:
     cmp     #MENU_SCROLL_LIMIT
     beq     _scroll_down_at_max
     inc
@@ -114,8 +114,8 @@ ScrollDownTrigger:
 _scroll_down_at_max:
     rts
 
-; --- ScrollUpTrigger ---
-ScrollUpTrigger:
+; --- scroll_up_trigger ---
+scroll_up_trigger:
     lda.w   0x1B1A
     beq     _scroll_up_at_top
     dec
@@ -124,35 +124,35 @@ ScrollUpTrigger:
 _scroll_up_at_top:
     rts
 
-; --- MenuEntryHook ---
-MenuEntryHook:
+; --- menu_entry_hook ---
+menu_entry_hook:
     jsr.l   MenuEntryHook_Impl
     rts
 
-; --- MenuExitHook ---
-MenuExitHook:
+; --- menu_exit_hook ---
+menu_exit_hook:
     jsr.l   MenuExitHook_Impl
     rts
 
-; --- NmiDmaTransferCheck ---
-NmiDmaTransferCheck:
-    jsr.l   FieldMenu_NmiDmaTransferCheck_Impl  ; In bank $20 (battle/inventory_rolling.s)
+; --- nmi_dma_transfer_check ---
+nmi_dma_transfer_check:
+    jsr.l   field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
     rts
 
-; --- HdmaEnableHook ---
+; --- hdma_enable_hook ---
 ; Called during NMI before HDMA enable
 ; Must copy shadow -> active HDMA table BEFORE enabling HDMA
-HdmaEnableHook:
-    jsr.w   NmiDmaTransferCheck     ; Copy shadow table to active (if pending)
+hdma_enable_hook:
+    jsr.w   nmi_dma_transfer_check     ; Copy shadow table to active (if pending)
     .db 0xAF                        ; LDA.L opcode
     .dw menu_hdma_enable            ; $1BAE
     .db 0x7E                        ; Bank $7E
     sta.w   0x420C
     rts
 
-; --- AdjustInventoryPointer ---
+; --- adjust_inventory_pointer ---
 ; Adjusts $5a to point to the first visible item based on scroll position
-AdjustInventoryPointer:
+adjust_inventory_pointer:
     stz.b   0x5d
     stz.b   0x5e
     lda.w   0x1B1A
@@ -165,10 +165,10 @@ AdjustInventoryPointer:
     sta.b   0x5b
     rts
 
-; --- ItemUseRefreshHook ---
+; --- item_use_refresh_hook ---
 ; Called after SelectItem2 to refresh display after item use
 ; Re-renders all visible slots to show updated quantity or empty slot
-ItemUseRefreshHook:
+item_use_refresh_hook:
     jsr.l   SwapRedrawHook_Impl
     rts
 

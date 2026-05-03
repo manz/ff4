@@ -162,5 +162,5 @@ treasure_menu_entry:
 
 ; Hook swap redraw to reset rolling buffer
 *=0x01A401
-    jmp.w   SwapRedrawTrampoline    ; Replace JSR $A172
+    jmp.w   swap_redraw_trampoline    ; Replace JSR $A172
 }
