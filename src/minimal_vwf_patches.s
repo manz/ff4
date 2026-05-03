@@ -38,13 +38,13 @@
     jsr.l get_bank2_pointer
     rts
 
-    ; nukes the first call of display_script because the text
-    ; has to be rendered before animating the window display
+; nukes the first call of display_script because the text
+; has to be rendered before animating the window display
 
 *=0x00B32C
     jsr.w first_window
 
-    ; Replace the display_script function by the vwfed one.
+; Replace the display_script function by the vwfed one.
 
 *=0x00B463
     jsr.l vwfstart
@@ -70,7 +70,7 @@ wait_for_open_animation:
     cmp #0x08
     bne animation_wait_route
 
-    ; restore tileset position
+; restore tileset position
     lda 0x210C
     and #0xF0
     clc
@@ -79,7 +79,7 @@ wait_for_open_animation:
 
     jmp.w end_of_animation
 
-    ; do not scroll between text blocks
+; do not scroll between text blocks
 
 *=0x00B370
     lda #0x00
@@ -90,11 +90,13 @@ wait_for_open_animation:
     jmp.w animation_wait_route
 
 end_of_animation:
-    jmp.w 0xB369                        ; skip_wait_for_action_button
+    jmp.w 0xB369  ; skip_wait_for_action_button
 
 
 {
-    ; Oui
+; Oui
+
+
     .table "text/ff4_menus.tbl"
     *=0x14F656
     .dw 0x2016
@@ -119,7 +121,7 @@ end_of_animation:
     .dw 0x20ff
     .dw 0x201a
     .dw 0x0000
-    ; Non
+; Non
     *=0x14F686
     .dw 0x2019
     fill_value(0x20ff, 5)
@@ -156,7 +158,7 @@ end_of_animation:
 *=0x00ae51
     ldx.w #0x2904 - 1
 
-    ; Palette changes for allowing shadows
+; Palette changes for allowing shadows
 
 *=0x15c229
     ; 15/C229: BF D0 87 0D  LDA $0D87D0,X   ; window palette
@@ -167,18 +169,18 @@ end_of_animation:
     nop
     nop
 
-    ; Update secondary palette window background
+; Update secondary palette window background
 
 *=0x00823B
     jsr.l update_palette
     nop
     nop
 
-    ;AE AA 16       LDX $16AA
-    ;00823E  8E DD 0C       STX $0CDD
-    ;008241  20 13 8A       JSR $8A13
+;AE AA 16       LDX $16AA
+;00823E  8E DD 0C       STX $0CDD
+;008241  20 13 8A       JSR $8A13
 
-    ; update the text palette used in the intro
+; update the text palette used in the intro
 
 *=0x8ff04
     .dw 0x0463
@@ -189,7 +191,7 @@ end_of_animation:
     nop
     nop
 
-    ; Make gils window bigger
+; Make gils window bigger
     gils_line_size = 0x18
 
 *=0x00ad28
@@ -221,13 +223,12 @@ end_of_animation:
 *=0x00ad81
     ldx.w #( gils_window_tilemap_4_end - gils_window_tilemap_4 ) & 0xffff
 
-    ; clear up longer gils window
+; clear up longer gils window
 
 *=0x00addd
     ldx.w #0x100 + 0x80
 
-    ; gils value vram position
+; gils value vram position
 
 *=0x00ad8a
     ldx.w #0x28d3 + 2
-

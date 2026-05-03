@@ -6,15 +6,15 @@
 var_base = 0x23
 
 ; VWF state variables
-CNTR        = var_base          ; Counter for shift routine
-CURRENT_C   = var_base + 2      ; Current character code (16-bit)
-BITSLEFT    = var_base + 4      ; Remaining bits in current tile
-font_addr   = var_base + 6      ; Font data pointer (24-bit: +6, +7, +8)
-oldtilepos  = var_base + 9      ; Previous tile position
-TILEPOS     = var_base + 11     ; Current tile position
+CNTR = var_base  ; Counter for shift routine
+CURRENT_C = var_base + 2  ; Current character code (16-bit)
+BITSLEFT = var_base + 4  ; Remaining bits in current tile
+font_addr = var_base + 6  ; Font data pointer (24-bit: +6, +7, +8)
+oldtilepos = var_base + 9  ; Previous tile position
+TILEPOS = var_base + 11  ; Current tile position
 
 ; Dialog pointer (used by dialog.s)
-dialog_ptr  = 0x20              ; 24-bit pointer to dialog text
+dialog_ptr = 0x20  ; 24-bit pointer to dialog text
 
 ; Control flag
-no_wait_for_action = 0xcb       ; If non-zero, skip action button wait
+no_wait_for_action = 0xcb  ; If non-zero, skip action button wait

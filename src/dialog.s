@@ -5,7 +5,7 @@
 .extern dialog_bank_ptr_base
 
 get_bank1_1_pointer:
-    """Get a 24-bit dialog pointer for bank 1-1."""
+"""Get a 24-bit dialog pointer for bank 1-1."""
     rep #0x20
     lda.l assets_bank1_1_ptr, x
     sta.b dialog_ptr
@@ -17,12 +17,11 @@ get_bank1_1_pointer:
     rtl
 
 get_bank1_2_pointer:
+"""
+Get a 24-bit dialog pointer for bank 1-2.
 
-    """
-    Get a 24-bit dialog pointer for bank 1-2.
-
-    > Note: bank 1-1 is only 0x100 pointers long, not 0x200 as the text dump suggests.
-    """
+> Note: bank 1-1 is only 0x100 pointers long, not 0x200 as the text dump suggests.
+"""
     rep #0x20
     lda.l assets_bank1_1_ptr + 0x300, x
     sta.b dialog_ptr
@@ -34,12 +33,11 @@ get_bank1_2_pointer:
     rtl
 
 get_bank3_pointer:
+"""
+Compute pointer for NPC dialogs.
 
-    """
-    Compute pointer for NPC dialogs.
-
-    Organized per room                  ; a linear lookup inside the room finds the start of the string.
-    """
+Organized per room  ; a linear lookup inside the room finds the start of the string.
+"""
     rep #0x20
     lda.l dialog_bank_ptr_base + 0x600, x
     sta.b dialog_ptr
@@ -51,7 +49,7 @@ get_bank3_pointer:
     rtl
 
 compute_dialog_text_offset:
-    """Compute index into dialog pointer table from current text id ($B2)."""
+"""Compute index into dialog pointer table from current text id ($B2)."""
     lda.b 0xB2
     sta.b dialog_ptr
     stz.b dialog_ptr + 1
@@ -65,12 +63,11 @@ compute_dialog_text_offset:
     rtl
 
 get_bank2_pointer:
+"""
+Get a 24-bit dialog pointer for bank 2.
 
-    """
-    Get a 24-bit dialog pointer for bank 2.
-
-    Walks the string character-by-character to handle variable-length encoding.
-    """
+Walks the string character-by-character to handle variable-length encoding.
+"""
 {
     rep #0x20
     lda.b dialog_ptr
@@ -89,7 +86,7 @@ get_bank2_pointer:
     beq _end
     tay
 
-    _loop:
+_loop:
     jsr.w _load_letter_inc
     bne _loop
     jsr.w _load_letter_dec
@@ -108,12 +105,12 @@ get_bank2_pointer:
     bne _loop
     inx
 
-    _end:
+_end:
     stx.w 0x0772
     stz.b 0xDD
     rtl
 
-    _load_letter_dec:
+_load_letter_dec:
     ldx.b dialog_ptr
     dex
     bmi _ok
@@ -121,17 +118,17 @@ get_bank2_pointer:
     ldx.w #0xFFFF
     bra _ok
 
-    _load_letter_inc:
+_load_letter_inc:
     ldx.b dialog_ptr
     inx
     bmi _ok
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    _ok:
+_ok:
     stx.b dialog_ptr
 
-    _load_letter:
+_load_letter:
     ldx.b dialog_ptr
     phb
     lda.b dialog_ptr + 2
@@ -154,7 +151,7 @@ _incpointer:
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    _no_overflow:
+_no_overflow:
     stx.w 0x0772
     plx
     rts
@@ -162,7 +159,7 @@ _incpointer:
 
 
 load_letter_inc:
-    """Advance dialog cursor by one character."""
+"""Advance dialog cursor by one character."""
 {
     ldx.w 0x0772
     inx
@@ -171,13 +168,13 @@ load_letter_inc:
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    _no_overflow:
+_no_overflow:
     stx.w 0x0772
 }
 
 
 load_letter:
-    """Peek the current character from the dialog stream into CURRENT_C."""
+"""Peek the current character from the dialog stream into CURRENT_C."""
     ldx.w 0x0772
     phb
     lda.b dialog_ptr + 2
@@ -196,4 +193,3 @@ load_letter:
     pla
 
     rts
-

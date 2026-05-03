@@ -1,270 +1,215 @@
-.include 'src/ingame/macros.i'
+.include "src/ingame/macros.i"
 
 .scope in_game_menu {
 cant_fight:
-    .text 'KO'
+    .text "KO"
     .db 0
 menu:
-    ; window
+; window
     .dw 0x002E, 0x1107
-    ; position
+; position
     .dw 0x0070
-    .text 'Items'
+    .text "Items"
     .db 0x01
     .dw 0x00F0
-    .text 'Magic'
+    .text "Magic"
     .db 0x01
     .dw 0x0170
-    .text 'Equip'
+    .text "Equip"
     .db 0x01
     .dw 0x01F0
-    .text 'Status'
+    .text "Status"
     .db 0x01
     .dw 0x0270
-    .text 'Placer'
+    .text "Placer"
     .db 0x01
     .dw 0x02F0
-    .text 'Changer'
+    .text "Changer"
     .db 0x01
     .dw 0x0370
-    .text 'Options'
+    .text "Options"
     .db 0x01
     .dw 0x03F0
-    .text 'Save'
+    .text "Save"
     .db 0
-
 gils:
-    .text 'Gils'
+    .text "Gils"
     .db 0
-
 time:
-    .text 'Time'
+    .text "Time"
     .db 0
 }
 
 .scope items_menu {
-    item:
-        .db 2
-        .db 0
-        .db 7
-        .db 3
-
-        .dw 0x0044
-        .text 'Items'
-        .db 0
-    notuse:
-        .dw 0x0052
-        .text 'Cannot be used.'
-        .db 0
-
+item:
+    .db 2
+    .db 0
+    .db 7
+    .db 3
+    .dw 0x0044
+    .text "Items"
+    .db 0
+notuse:
+    .dw 0x0052
+    .text "Cannot be used."
+    .db 0
 }
 
+
 .scope spells {
-    white:
-        .dw 0x00EE
-        .text 'Magic'
-        .db 0
-    black:
-        .dw 0x016E
-        .text 'Ritual'
-        .db 0
-    summon:
-        .dw 0x01EE
-        .text 'Chimere'
-        .db 0
-    ninja:
-        .dw 0x016E
-        .text 'Ninja '
-        .db 0
-    kokan:
-        .dw 0x0054
-        .text 'Echange'
-        .db 0
-    mp_needed:
-        .text 'MP Cost'
-        .db 0
+white:
+    .dw 0x00EE
+    .text "Magic"
+    .db 0
+black:
+    .dw 0x016E
+    .text "Ritual"
+    .db 0
+summon:
+    .dw 0x01EE
+    .text "Chimere"
+    .db 0
+ninja:
+    .dw 0x016E
+    .text "Ninja "
+    .db 0
+kokan:
+    .dw 0x0054
+    .text "Echange"
+    .db 0
+mp_needed:
+    .text "MP Cost"
+    .db 0
 }
 
 .scope status {
 status:
     .dw 0x01F0
-    .text 'Status'
+    .text "Status"
     .db 0
-
 exp_for_next_level:
     .dw 0x0260
-    .text 'Next level'
+    .text "Next level"
     .db 0
-
 char_stats:
     .dw 0x0114 - 0x80
-    .text 'Level'
-
+    .text "Level"
     .db 1
     .dw 0x01A0
-    .text 'Experience'
+    .text "Experience"
     .db 1
-
     .dw 0x0206
-    .text 'HP'
+    .text "HP"
     .db 1
-
     .dw 0x0286
-    .text 'MP'
+    .text "MP"
     .db 1
-
     .dw 0x0344
-    .text 'Talents'
+    .text "Talents"
     .db 1
-
     .dw 0x03C2
-    .text 'Vigueur'
+    .text "Vigueur"
     .db 1
-
     .dw 0x0442
-    .text 'Agility'
+    .text "Agility"
     .db 1
-
     .dw 0x04C2
-    .text 'Speed'
+    .text "Speed"
     .db 1
-
     .dw 0x0542
-    .text 'Spirit'
+    .text "Spirit"
     .db 1
-
     .dw 0x05C2
-    .text 'Will'
+    .text "Will"
     .db 1
-
 ;att/def/mag:
-
     .dw 0x035A
-    .text 'Attack'
+    .text "Attack"
     .db 1
-
     .dw 0x03DA
-    .text 'Attack%'
+    .text "Attack%"
     .db 1
-
     .dw 0x045A
-    .text 'Defense'
+    .text "Defense"
     .db 1
-
     .dw 0x04DA
-    .text 'Defense%'
+    .text "Defense%"
     .db 1
-
     .dw 0x055A
-    .text 'Mag Def'
+    .text "Mag Def"
     .db 1
-
     .dw 0x05DA
-    .text 'Mag Def%'
+    .text "Mag Def%"
     .db 0
 }
 
 .scope options {
 title:
     .dw 0x0096
-    .text 'Options'
+    .text "Options"
     .db 0
-
 config:
     .dw 0x0102, 0x141C
-
     .dw 0x0144
-    .text 'Battle Mode'
-
+    .text "Battle Mode"
     .db 0x01
     .dw 0x015E
-
-    .text 'Active Pause'
-
+    .text "Active Pause"
     .db 0x01
     .dw 0x01C4
-
-    .text 'Vit. Combat'
-
+    .text "Vit. Combat"
     .db 0x01
     .dw 0x021E
-
-    .text 'Slow   Fast'
-
+    .text "Slow   Fast"
     .db 0x01
     .dw 0x0244
-
-    .text 'Text Speed'
-
+    .text "Text Speed"
     .db 0x01
     .dw 0x02C4
-
-    .text 'Audio'
-
+    .text "Audio"
     .db 0x01
     .dw 0x02DE
-
-    .text 'Stereo Mono'
-
+    .text "Stereo Mono"
     .db 0x01
     .dw 0x0344
-
-    .text 'Controls'
-
+    .text "Controls"
     .db 0x01
     .dw 0x035E
-
-    .text 'Normal Custom'
-
+    .text "Normal Custom"
     .db 0x01
     .dw 0x03DE
-
-    .text 'Seul   Multiple'
-
+    .text "Seul   Multiple"
     .db 0x01
     .dw 0x0444
-
-    .text 'Cursor'
-
+    .text "Cursor"
     .db 0x01
     .dw 0x045E
-
-    .text 'Reset  Mémoire'
-
+    .text "Reset  Mémoire"
     .db 0x01
     .dw 0x04C4
-
-    .text 'Color'
+    .text "Color"
     .db 0
-
-
 controls:
     .dw 0x0092
-    .text 'Personaliser'
+    .text "Personaliser"
     .db 0x01
-
     .dw 0x0204
-    .text 'Action'
+    .text "Action"
     .db 0x01
-
     .dw 0x0284
-    .text 'Annuler'
+    .text "Annuler"
     .db 0x01
-
     .dw 0x0304
-    .text 'Menu'
+    .text "Menu"
     .db 0x01
-
     .dw 0x0384
-    .text 'Left Button'
+    .text "Left Button"
     .db 0x01
-
     .dw 0x0404
-    .text 'Start'
+    .text "Start"
     .db 1
-
     .dw 0x0484
-    .text 'Fin'
+    .text "Fin"
     .db 0
 }
 
@@ -273,65 +218,64 @@ menu:
     _text_y = 1
     menu_window(0, 0, 30, 11)
     move_to(13, 0 + _text_y)
-    .text 'R. Hand'
+    .text "R. Hand"
     .db 0x01
     move_to(13, 2 + _text_y)
-    .text 'L. Hand'
+    .text "L. Hand"
     .db 0x01
     move_to(13, 4 + _text_y)
-    .text 'Head'
+    .text "Head"
     .db 0x01
     move_to(13, 6 + _text_y)
-    .text 'Body'
+    .text "Body"
     .db 0x01
     move_to(13, 8 + _text_y)
-    .text 'Hands'
+    .text "Hands"
     .db 0
-
-
 }
+
+
 .scope dextrality {
 hands:
 string_0:
 ; ぶきよう
-    .text 'String 0'
+    .text "String 0"
     .db 0
 string_1:
 ; ひだりきき
-    .text 'Left handed'
+    .text "Left handed"
     .db 0
 string_2:
 ; みぎきき
-    .text 'Right Handed'
+    .text "Right Handed"
     .db 0
 string_3:
 ; りょうきき
-    .text 'Ambidextrous'
+    .text "Ambidextrous"
     .db 0
 }
 
 .scope messages {
 use_on_whom:
     move_to(10, 1)
-    .text 'Utiliser sur qui ?'
+    .text "Utiliser sur qui ?"
     .db 0
 cantuse:
     move_to(10, 1)
-    .text 'Cet objet ne peut être utilisé ici.'
+    .text "Cet objet ne peut être utilisé ici."
     .db 0
 cant_use_magic:
     menu_window_move_text(7, 12, 14, 1)
-    .text 'Ne peut utiliser la magie'
+    .text "Ne peut utiliser la magie"
     .db 0
 }
 
 
-
 .scope use_spell {
 mp_cost:
- move_to(1, 4)
- .text 'Requis'
- .db 0
+    move_to(1, 4)
+    .text "Requis"
+    .db 0
 ; use_on_whom:
 ; move_to(1, 10)
 ; .text 'Sur qui ?'
@@ -340,62 +284,60 @@ mp_cost:
 .scope treasure {
 ; patch them in place
 choice_window:
-    menu_window(8,0,22,2)
-
+    menu_window(8, 0, 22, 2)
 items_window:
-    menu_window(0,3,30,10)
-
+    menu_window(0, 3, 30, 10)
 header_window:
-    menu_window(0,0,6,2)
-    move_to(1,1)
-    .text 'Butin'
+    menu_window(0, 0, 6, 2)
+    move_to(1, 1)
+    .text "Butin"
     .db 1
 exit:
-   move_to(24,1)
-   .text 'Quitter'
-   .db 1
+    move_to(24, 1)
+    .text "Quitter"
+    .db 1
 take_all:
     move_to(10, 1)
-    .text 'Tout prendre'
+    .text "Tout prendre"
     .db 0
 exchange:
     move_to(10, 1)
-    .text 'Échanger    '
+    .text "Échanger    "
     .db 0
-
 key_items_left_warning:
-   menu_window(5,10, 19, 4)
-   move_to(6,11)
-   .text '  Il reste des    '
-   .db 1
-   move_to(6,13)
-   .text 'objets importants.'
-   .db 0
+    menu_window(5, 10, 19, 4)
+    move_to(6, 11)
+    .text "  Il reste des    "
+    .db 1
+    move_to(6, 13)
+    .text "objets importants."
+    .db 0
 }
-
 
 
 copy_text_with_dakuten_far:
 {
-        phb
-        phk
-        plb
-        rep #0x20
-        txa
-        clc
-        adc     0x29
-        tax
-        sep #0x20
-_loop:  lda.w     0x0000,y
-        beq     _exit
-        jsr.l lookup_dakuten
-        sta     0x7e0000,x
-        xba
-        sta 0x7e0040,x
-        inx
-        inx
-        iny
-        bra     _loop
-_exit:  plb
-        rtl
+    phb
+    phk
+    plb
+    rep #0x20
+    txa
+    clc
+    adc 0x29
+    tax
+    sep #0x20
+_loop:
+    lda.w 0x0000, y
+    beq _exit
+    jsr.l lookup_dakuten
+    sta 0x7e0000, x
+    xba
+    sta 0x7e0040, x
+    inx
+    inx
+    iny
+    bra _loop
+_exit:
+    plb
+    rtl
 }

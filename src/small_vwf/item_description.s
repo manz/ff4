@@ -2,22 +2,20 @@
 draw_trampoline:
     jsr.w draw
     rtl
-
 draw_trampoline_pos:
     jsr.w draw_pos
     rtl
-
 draw_pos:
     phb
     phd
     phx
-    ldx     #0x0100
+    ldx #0x0100
     phx
     pld
     phk
     plb
     rep #0x20
-    lda.w 0x0000,y
+    lda.w 0x0000, y
     clc
     adc 0x29
     sta.b render.tilemap_offset
@@ -26,12 +24,10 @@ draw_pos:
     iny
     iny
     bra draw_string
-
 draw:
 ; +x: destination offset
 ; +y: source address
 ;  a: source bank
-
     phb
     phd
     phx
@@ -50,11 +46,8 @@ draw:
     sta.b render.tilemap_offset
     plx
     sep #0x20
-
-
 draw_string:
     jsr.w render.init
-
 _char_loop:
     lda.w 0x0000, y
     beq _char_loop_exit
@@ -68,9 +61,7 @@ _char_loop:
     jsr.w render.display_char
     ply
     plx
-
     bra _char_loop
-
 _char_loop_exit:
     jsr.w _transfer_item_description
     jsr.w render.deinit
@@ -78,7 +69,6 @@ _char_loop_exit:
     pld
     plb
     rts
-
 _move_to:
     rep #0x20
     lda.w 0x0000, y
@@ -100,20 +90,15 @@ _newline:
     adc 0x29
     sta.b render.tilemap_offset
     sep #0x20
-
 _reset_render:
     lda #0x08
     sta.b render.bits_left_on_tile
-
     jsr.w render_allocator.increment
     bra _char_loop
-
-
-
 _transfer_item_description:
-  jsr.w wait_for_vblank
-  ; we could reduce the transfer size to the size of the string
-  dma_transfer_to_vram_call(render.buffer_ptr, 0x5000>>1, render.buffer_size, 0x1801)
-  ; use of the menu engine built in dma transfer in NMI
+    jsr.w wait_for_vblank
+; we could reduce the transfer size to the size of the string
+    dma_transfer_to_vram_call(render.buffer_ptr, 0x5000 >> 1, render.buffer_size, 0x1801)
+; use of the menu engine built in dma transfer in NMI
     rts
 }

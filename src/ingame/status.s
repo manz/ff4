@@ -12,7 +12,7 @@
     load_system_menu_text_pointer(status.char_stats)
 
 *=0x01A9CA
-    ldy.w     #0x15C - 0x80
+    ldy.w #0x15C - 0x80
 
 *=0x1aab3
     jsr.l load_dextrelity_pointer

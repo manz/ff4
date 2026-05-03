@@ -10,47 +10,47 @@
 ; ============================================================================
 
 .if INVENTORY_ROLLING_BUFFER {
-    ; ============================================================================
-    ; MAIN LOOP HOOK - Process scroll animation frames
-    ; ============================================================================
-    ; Hook at $019FF2 - the start of the input processing loop in SelectItem.
+; ============================================================================
+; MAIN LOOP HOOK - Process scroll animation frames
+; ============================================================================
+; Hook at $019FF2 - the start of the input processing loop in SelectItem.
     *=0x019FF2
     jmp.w main_loop_scroll_check
-    ; 3 bytes - replaces LDA $01
+; 3 bytes - replaces LDA $01
     *=0x019FF5
     nop
     nop
     nop
-    ; ============================================================================
-    ; SCROLL DOWN - Replace blocking loop with state machine
-    ; ============================================================================
+; ============================================================================
+; SCROLL DOWN - Replace blocking loop with state machine
+; ============================================================================
     *=0x01A076
     jsr.w scroll_down_trigger
     jmp.w 0xA0BC
-    ; Skip to after scroll block (A button check)
-    ; ============================================================================
-    ; SCROLL UP - Replace blocking loop with state machine
-    ; ============================================================================
+; Skip to after scroll block (A button check)
+; ============================================================================
+; SCROLL UP - Replace blocking loop with state machine
+; ============================================================================
     *=0x01A01F
     jsr.w scroll_up_trigger
     jmp.w 0xA066
-    ; Skip to after scroll block (down button check)
-    ; ============================================================================
-    ; Menu Entry/Exit Hooks
-    ; ============================================================================
+; Skip to after scroll block (down button check)
+; ============================================================================
+; Menu Entry/Exit Hooks
+; ============================================================================
     *=0x019F27
     jsr.w menu_entry_hook
     *=0x019F87
     jsr.w menu_exit_hook
-    ; ============================================================================
-    ; NMI HDMA Hook
-    ; ============================================================================
+; ============================================================================
+; NMI HDMA Hook
+; ============================================================================
     *=0x018081
     jsr.w hdma_enable_hook
     nop
-    ; ============================================================================
-    ; UpdateScrollRegs BG1VOFS Hook - Skip when menu HDMA is active
-    ; ============================================================================
+; ============================================================================
+; UpdateScrollRegs BG1VOFS Hook - Skip when menu HDMA is active
+; ============================================================================
     *=0x14FF2D
     jsr.l ConditionalBG1VOFS
     nop
@@ -59,53 +59,53 @@
     nop
     nop
     nop
-    ; ============================================================================
-    ; Refresh inventory after SelectItem2 (swap OR use)
-    ; ============================================================================
-    ; After SelectItem2 completes (swap or use item), we need to refresh the
-    ; display. For swaps, SwapRedrawHook_Impl already handled it. For item use,
-    ; we need to refresh the current slot to show updated quantity.
-    ; Call our refresh hook instead of the original DrawInventoryList.
+; ============================================================================
+; Refresh inventory after SelectItem2 (swap OR use)
+; ============================================================================
+; After SelectItem2 completes (swap or use item), we need to refresh the
+; display. For swaps, SwapRedrawHook_Impl already handled it. For item use,
+; we need to refresh the current slot to show updated quantity.
+; Call our refresh hook instead of the original DrawInventoryList.
     *=0x01A0D2
     jsr.w item_use_refresh_hook
-    ; ============================================================================
-    ; DrawItemSlot Column Check Patch - Force single column mode
-    ; ============================================================================
+; ============================================================================
+; DrawItemSlot Column Check Patch - Force single column mode
+; ============================================================================
     *=0x01A1F0
     .db 0x00
-    ; Change operand from $01 to $00
-    ; ============================================================================
-    ; Replace DrawInventoryList with our rolling buffer init
-    ; ============================================================================
+; Change operand from $01 to $00
+; ============================================================================
+; Replace DrawInventoryList with our rolling buffer init
+; ============================================================================
     *=0x019F7B
     jsr.w init_menu_rolling_buffer
-    ; Replace JSR DrawInventoryList
-    ; ============================================================================
-    ; DrawItemSlot - Clear count display for item ID 0 (empty slot)
-    ; ============================================================================
-    ; Original code at $A202: lda ($5a); cmp #$fe; beq @a222
-    ; We replace with JSR that handles clearing for empty slots
-    ; Original bytes: B2 5A C9 FE F0 1A (6 bytes at $A202-$A207)
+; Replace JSR DrawInventoryList
+; ============================================================================
+; DrawItemSlot - Clear count display for item ID 0 (empty slot)
+; ============================================================================
+; Original code at $A202: lda ($5a); cmp #$fe; beq @a222
+; We replace with JSR that handles clearing for empty slots
+; Original bytes: B2 5A C9 FE F0 1A (6 bytes at $A202-$A207)
     *=0x01A202
     jsr.w check_and_clear_count
-    ; 3 bytes - checks item, clears if empty
+; 3 bytes - checks item, clears if empty
     nop
-    ; 1 byte - padding
+; 1 byte - padding
     nop
-    ; 1 byte - padding
+; 1 byte - padding
     nop
-    ; 1 byte - padding
-    ; ============================================================================
-    ; Patch $A1BA: Replace sequential Y calculation with circular buffer version
-    ; ============================================================================
+; 1 byte - padding
+; ============================================================================
+; Patch $A1BA: Replace sequential Y calculation with circular buffer version
+; ============================================================================
 
-    ; Original code at $A1BA-$A1C7 (14 bytes):
-    ;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
-    ; Replace with JSL to CircularSlotCalc_ext trampoline + NOPs
-    ;
+; Original code at $A1BA-$A1C7 (14 bytes):
+;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
+; Replace with JSL to CircularSlotCalc_ext trampoline + NOPs
+;
     *=0x01A1BA
     jsr.l circular_slot_calc_ext
-    ; 4 bytes
+; 4 bytes
     nop
     nop
     nop
@@ -117,5 +117,3 @@
     nop
     nop
 }
-
-

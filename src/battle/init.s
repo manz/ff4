@@ -1,2 +1,2 @@
-.include './src/battle/message.s'
-.include './src/battle/sram.s'
+.include "./src/battle/message.s"
+.include "./src/battle/sram.s"

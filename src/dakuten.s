@@ -1,4 +1,6 @@
-.incbin 'assets/dakuten.bin'
+
+
+.incbin "assets/dakuten.bin"
 
 lookup_dakuten:
 """
@@ -26,11 +28,11 @@ output: A 16bits: the resolved char
     sep #0x20
     plx
     bra _exit
-    _char_out_of_range:
+_char_out_of_range:
     xba
     lda #0xff
 
-    _exit:
+_exit:
     plp
     rtl
 }

@@ -1,270 +1,216 @@
-.include 'src/ingame/macros.i'
-.table 'text/ff4_menus.tbl'
+.include "src/ingame/macros.i"
+.table "text/ff4_menus.tbl"
 .extern lookup_dakuten
 
 .scope in_game_menu {
 cant_fight:
-    .text 'KO'
+    .text "KO"
     .db 0
 menu:
-    ; window
+; window
     menu_window(23, 0, 7, 17)
-    ; position
+; position
     .dw 0x0070
-    .text 'Objets'
+    .text "Objets"
     .db 0x01
     .dw 0x00F0
-    .text 'Magie'
+    .text "Magie"
     .db 0x01
     .dw 0x0170
-    .text 'Equiper'
+    .text "Equiper"
     .db 0x01
     .dw 0x01F0
-    .text 'Statut'
+    .text "Statut"
     .db 0x01
     .dw 0x0270
-    .text 'Placer'
+    .text "Placer"
     .db 0x01
     .dw 0x02F0
-    .text 'Changer'
+    .text "Changer"
     .db 0x01
     .dw 0x0370
-    .text 'Options'
+    .text "Options"
     .db 0x01
     .dw 0x03F0
-    .text 'Sauver'
+    .text "Sauver"
     .db 0
-
 gils:
-    .text 'Gils'
+    .text "Gils"
     .db 0
-
 time:
-    .text 'Temps'
+    .text "Temps"
     .db 0
 }
 
 .scope items_menu {
-    items_menu_right:
-        menu_window(22, 0, 7, 3)
-    item:
-        menu_window(0, 0, 7, 3)
-        .dw 0x0044
-        .text 'Objets'
-        .db 0
-    notuse:
-        .dw 0x0052
-        .text 'Impossible à utiliser.'
-        .db 0
-
+items_menu_right:
+    menu_window(22, 0, 7, 3)
+item:
+    menu_window(0, 0, 7, 3)
+    .dw 0x0044
+    .text "Objets"
+    .db 0
+notuse:
+    .dw 0x0052
+    .text "Impossible à utiliser."
+    .db 0
 }
 
+
 .scope spells {
-    white:
-        move_to(24, 3)
-        .text 'Magie'
-        .db 0
-    black:
-        move_to(24, 5)
-        .text 'Rituel'
-        .db 0
-    summon:
-        move_to(24, 7)
-        .text 'Chimere'
-        .db 0
-    ninja:
-        move_to(24, 5)
-        .text 'Ninja '
-        .db 0
-    kokan:
-        move_to(24, 3)
-        .text 'Echange'
-        .db 0
-    mp_needed:
-        .text 'Coût PM'
-        .db 0
+white:
+    move_to(24, 3)
+    .text "Magie"
+    .db 0
+black:
+    move_to(24, 5)
+    .text "Rituel"
+    .db 0
+summon:
+    move_to(24, 7)
+    .text "Chimere"
+    .db 0
+ninja:
+    move_to(24, 5)
+    .text "Ninja "
+    .db 0
+kokan:
+    move_to(24, 3)
+    .text "Echange"
+    .db 0
+mp_needed:
+    .text "Coût PM"
+    .db 0
 }
 
 .scope status {
 status:
     .dw 0x01F0
-    .text 'Statut'
+    .text "Statut"
     .db 0
-
 exp_for_next_level:
     .dw 0x0260
-    .text 'Niveau suivant'
+    .text "Niveau suivant"
     .db 0
-
 char_stats:
     .dw 0x0114 - 0x80
-    .text 'Niveau'
-
+    .text "Niveau"
     .db 1
     .dw 0x01A0
-    .text 'Expérience'
+    .text "Expérience"
     .db 1
-
     .dw 0x0206
-    .text 'PV'
+    .text "PV"
     .db 1
-
     .dw 0x0286
-    .text 'PM'
+    .text "PM"
     .db 1
-
     .dw 0x0344
-    .text 'Talents'
+    .text "Talents"
     .db 1
-
     .dw 0x03C2
-    .text 'Vigueur'
+    .text "Vigueur"
     .db 1
-
     .dw 0x0442
-    .text 'Agilité'
+    .text "Agilité"
     .db 1
-
     .dw 0x04C2
-    .text 'Vitesse'
+    .text "Vitesse"
     .db 1
-
     .dw 0x0542
-    .text 'Esprit'
+    .text "Esprit"
     .db 1
-
     .dw 0x05C2
-    .text 'Volonté'
+    .text "Volonté"
     .db 1
-
 ;att/def/mag:
-
     .dw 0x035A
-    .text 'Attaque'
+    .text "Attaque"
     .db 1
-
     .dw 0x03DA
-    .text 'Attaque%'
+    .text "Attaque%"
     .db 1
-
     .dw 0x045A
-    .text 'Défense'
+    .text "Défense"
     .db 1
-
     .dw 0x04DA
-    .text 'Défense%'
+    .text "Défense%"
     .db 1
-
     .dw 0x055A
-    .text 'Déf Mag'
+    .text "Déf Mag"
     .db 1
-
     .dw 0x05DA
-    .text 'Déf Mag%'
+    .text "Déf Mag%"
     .db 0
 }
 
 .scope options {
 title:
     .dw 0x0096
-    .text 'Options'
+    .text "Options"
     .db 0
-
 config:
     .dw 0x0102, 0x141C
-
     .dw 0x0144
-    .text 'Mode Combat'
-
+    .text "Mode Combat"
     .db 0x01
     .dw 0x015E
-
-    .text 'Actif  Pause'
-
+    .text "Actif  Pause"
     .db 0x01
     .dw 0x01C4
-
-    .text 'Vit. Combat'
-
+    .text "Vit. Combat"
     .db 0x01
     .dw 0x021E
-
-    .text 'Vite   Lent'
-
+    .text "Vite   Lent"
     .db 0x01
     .dw 0x0244
-
-    .text 'Vit. Texte'
-
+    .text "Vit. Texte"
     .db 0x01
     .dw 0x02C4
-
-    .text 'Audio'
-
+    .text "Audio"
     .db 0x01
     .dw 0x02DE
-
-    .text 'Stéréo Mono'
-
+    .text "Stéréo Mono"
     .db 0x01
     .dw 0x0344
-
-    .text 'Contrôle'
-
+    .text "Contrôle"
     .db 0x01
     .dw 0x035E
-
-    .text 'Normal Perso.'
-
+    .text "Normal Perso."
     .db 0x01
     .dw 0x03DE
-
-    .text 'Seul   Multiple'
-
+    .text "Seul   Multiple"
     .db 0x01
     .dw 0x0444
-
-    .text 'Curseur'
-
+    .text "Curseur"
     .db 0x01
     .dw 0x045E
-
-    .text 'Reset  Mémoire'
-
+    .text "Reset  Mémoire"
     .db 0x01
     .dw 0x04C4
-
-    .text 'Couleur'
+    .text "Couleur"
     .db 0
-
-
 controls:
     move_to(5, 1)
-    .text 'Contrôles Personalisés'
+    .text "Contrôles Personalisés"
     .db 0x01
-
     .dw 0x0204
-    .text 'Action'
+    .text "Action"
     .db 0x01
-
     .dw 0x0284
-    .text 'Annuler'
+    .text "Annuler"
     .db 0x01
-
     .dw 0x0304
-    .text 'Menu'
+    .text "Menu"
     .db 0x01
-
     .dw 0x0384
-    .text 'Left Button'
+    .text "Left Button"
     .db 0x01
-
     .dw 0x0404
-    .text 'Start'
+    .text "Start"
     .db 1
-
     .dw 0x0484
-    .text 'Fin'
+    .text "Fin"
     .db 0
 }
 
@@ -273,65 +219,64 @@ menu:
     _text_y = 1
     menu_window(0, 0, 30, 11)
     move_to(13, 0 + _text_y)
-    .text 'M. Droite'
+    .text "M. Droite"
     .db 0x01
     move_to(13, 2 + _text_y)
-    .text 'M. Gauche'
+    .text "M. Gauche"
     .db 0x01
     move_to(13, 4 + _text_y)
-    .text 'Tête'
+    .text "Tête"
     .db 0x01
     move_to(13, 6 + _text_y)
-    .text 'Corps'
+    .text "Corps"
     .db 0x01
     move_to(13, 8 + _text_y)
-    .text 'Mains'
+    .text "Mains"
     .db 0
-
-
 }
+
+
 .scope dextrality {
 hands:
 string_0:
 ; ぶきよう
-    .text 'String 0'
+    .text "String 0"
     .db 0
 string_1:
 ; ひだりきき
-    .text 'Gaucher'
+    .text "Gaucher"
     .db 0
 string_2:
 ; みぎきき
-    .text 'Droiter'
+    .text "Droiter"
     .db 0
 string_3:
 ; りょうきき
-    .text 'Ambidextre'
+    .text "Ambidextre"
     .db 0
 }
 
 .scope messages {
 use_on_whom:
     move_to(10, 1)
-    .text 'Utiliser sur qui ?'
+    .text "Utiliser sur qui ?"
     .db 0
 cantuse:
     move_to(10, 1)
-    .text 'Cet objet ne peut être utilisé ici.'
+    .text "Cet objet ne peut être utilisé ici."
     .db 0
 cant_use_magic:
     menu_window_move_text(7, 12, 14, 1)
-    .text 'Ne peut utiliser la magie'
+    .text "Ne peut utiliser la magie"
     .db 0
 }
 
 
-
 .scope use_spell {
 mp_cost:
- move_to(1, 4)
- .text 'Requis'
- .db 0
+    move_to(1, 4)
+    .text "Requis"
+    .db 0
 ; use_on_whom:
 ; move_to(1, 10)
 ; .text 'Sur qui ?'
@@ -341,62 +286,60 @@ mp_cost:
 .scope treasure {
 ; patch them in place
 choice_window:
-    menu_window(8,0,22,2)
-
+    menu_window(8, 0, 22, 2)
 items_window:
-    menu_window(0,3,30,10)
-
+    menu_window(0, 3, 30, 10)
 header_window:
-    menu_window(0,0,6,2)
-    move_to(1,1)
-    .text 'Butin'
+    menu_window(0, 0, 6, 2)
+    move_to(1, 1)
+    .text "Butin"
     .db 1
 exit:
-   move_to(24,1)
-   .text 'Quitter'
-   .db 1
+    move_to(24, 1)
+    .text "Quitter"
+    .db 1
 take_all:
     move_to(10, 1)
-    .text 'Tout prendre'
+    .text "Tout prendre"
     .db 0
 exchange:
     move_to(10, 1)
-    .text 'Échanger    '
+    .text "Échanger    "
     .db 0
-
 key_items_left_warning:
-   menu_window(5,10, 19, 4)
-   move_to(6,11)
-   .text '  Il reste des    '
-   .db 1
-   move_to(6,13)
-   .text 'objets importants.'
-   .db 0
+    menu_window(5, 10, 19, 4)
+    move_to(6, 11)
+    .text "  Il reste des    "
+    .db 1
+    move_to(6, 13)
+    .text "objets importants."
+    .db 0
 }
-
 
 
 copy_text_with_dakuten_far:
 {
-        phb
-        phk
-        plb
-        rep #0x20
-        txa
-        clc
-        adc     0x29
-        tax
-        sep #0x20
-_loop:  lda.w     0x0000,y
-        beq     _exit
-        jsr.l lookup_dakuten
-        sta     0x7e0000,x
-        xba
-        sta 0x7e0040,x
-        inx
-        inx
-        iny
-        bra     _loop
-_exit:  plb
-        rtl
+    phb
+    phk
+    plb
+    rep #0x20
+    txa
+    clc
+    adc 0x29
+    tax
+    sep #0x20
+_loop:
+    lda.w 0x0000, y
+    beq _exit
+    jsr.l lookup_dakuten
+    sta 0x7e0000, x
+    xba
+    sta 0x7e0040, x
+    inx
+    inx
+    iny
+    bra _loop
+_exit:
+    plb
+    rtl
 }

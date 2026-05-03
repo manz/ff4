@@ -1,8 +1,9 @@
 ; ============================================================================
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
+
 *=0x01ff35
-draw_window = 0x0180d9
+    draw_window = 0x0180d9
 
 check_if_description_was_rendered:
     pha
@@ -14,10 +15,12 @@ check_if_description_was_rendered:
 
     cmp.l render.last_drawn_text_ptr
     bne _continue
+
 _not_still:
     pla
     rts
-    _continue:
+
+_continue:
     sta.l render.last_drawn_text_ptr
 
     pla
@@ -29,6 +32,7 @@ _not_still:
 draw_vwf_message:
     jsr.l items_description.draw_trampoline
     rts
+
 draw_window_and_vwf_message:
 
     jsr.w draw_window
@@ -45,6 +49,7 @@ draw_window_and_vwf_message:
     iny
     iny
     iny
+
 draw_vwf_message_pos_with_bank:
     lda.b #messages.use_on_whom >> 16
 
@@ -63,119 +68,117 @@ copy_text_with_dakuten:
 
 .if DEBUG {
 display_build_number:
-{
-    jsr.w 0x8301 ; draw text at position.
+    {
+    jsr.w 0x8301  ; draw text at position.
     load_system_menu_text_pointer(newgame.build_number)
     left = 1
     top = 27
     ldx.w #left * 2 + top * 64
-    jsr.w 0x8798 ; copy text at position.
+    jsr.w 0x8798  ; copy text at position.
     rts
-}
+    }
 }
 
 ; ============================================================================
 ; Inventory Rolling Buffer Trampolines and Handlers
 ; ============================================================================
 .if INVENTORY_ROLLING_BUFFER {
-
 swap_redraw_trampoline:
-    jsr.l   SwapRedrawHook_Impl
-    jsr.w   0xA2D9                  ; Clear second cursor (from original $A404)
-    jmp.w   0xA40A                  ; Skip $84BA (game's sequential redraw), go to RTS
+    jsr.l SwapRedrawHook_Impl
+    jsr.w 0xA2D9  ; Clear second cursor (from original $A404)
+    jmp.w 0xA40A  ; Skip $84BA (game's sequential redraw), go to RTS
 
 ; --- main_loop_scroll_check ---
 ; Called from $019FF2 via jmp.w
 main_loop_scroll_check:
-    lda.w   menu_scroll_state
-    beq     _main_loop_do_input
-    jsr.w   UpdateScrollFrame
-    lda.w   menu_scroll_remaining
-    bne     _main_loop_skip_input
-    jsr.w   FinishScroll
-    jmp.w   _main_loop_skip_input   ; Skip input on the frame scroll finishes
+    lda.w menu_scroll_state
+    beq _main_loop_do_input
+    jsr.w UpdateScrollFrame
+    lda.w menu_scroll_remaining
+    bne _main_loop_skip_input
+    jsr.w FinishScroll
+    jmp.w _main_loop_skip_input  ; Skip input on the frame scroll finishes
 _main_loop_do_input:
-    lda.b   0x01
-    and     #0x80
-    beq     _left_not_pressed
-    jmp.w   0x9FF8
+    lda.b 0x01
+    and #0x80
+    beq _left_not_pressed
+    jmp.w 0x9FF8
 _left_not_pressed:
-    jmp.w   0xA003
+    jmp.w 0xA003
 _main_loop_skip_input:
-    jmp.w   0xA0FF
+    jmp.w 0xA0FF
 
 ; --- scroll_down_trigger ---
 scroll_down_trigger:
-    cmp     #MENU_SCROLL_LIMIT
-    beq     _scroll_down_at_max
+    cmp #MENU_SCROLL_LIMIT
+    beq _scroll_down_at_max
     inc
-    sta.w   0x1B1A
-    jsr.w   StartScrollDown
+    sta.w 0x1B1A
+    jsr.w StartScrollDown
 _scroll_down_at_max:
     rts
 
 ; --- scroll_up_trigger ---
 scroll_up_trigger:
-    lda.w   0x1B1A
-    beq     _scroll_up_at_top
+    lda.w 0x1B1A
+    beq _scroll_up_at_top
     dec
-    sta.w   0x1B1A
-    jsr.w   StartScrollUp
+    sta.w 0x1B1A
+    jsr.w StartScrollUp
 _scroll_up_at_top:
     rts
 
 ; --- menu_entry_hook ---
 menu_entry_hook:
-    jsr.l   MenuEntryHook_Impl
+    jsr.l MenuEntryHook_Impl
     rts
 
 ; --- menu_exit_hook ---
 menu_exit_hook:
-    jsr.l   MenuExitHook_Impl
+    jsr.l MenuExitHook_Impl
     rts
 
 ; --- nmi_dma_transfer_check ---
 nmi_dma_transfer_check:
-    jsr.l   field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
+    jsr.l field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
     rts
 
 ; --- hdma_enable_hook ---
 ; Called during NMI before HDMA enable
 ; Must copy shadow -> active HDMA table BEFORE enabling HDMA
 hdma_enable_hook:
-    jsr.w   nmi_dma_transfer_check     ; Copy shadow table to active (if pending)
-    .db 0xAF                        ; LDA.L opcode
-    .dw menu_hdma_enable            ; $1BAE
-    .db 0x7E                        ; Bank $7E
-    sta.w   0x420C
+    jsr.w nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
+    .db 0xAF  ; LDA.L opcode
+    .dw menu_hdma_enable  ; $1BAE
+    .db 0x7E  ; Bank $7E
+    sta.w 0x420C
     rts
 
 ; --- adjust_inventory_pointer ---
 ; Adjusts $5a to point to the first visible item based on scroll position
 adjust_inventory_pointer:
-    stz.b   0x5d
-    stz.b   0x5e
-    lda.w   0x1B1A
+    stz.b 0x5d
+    stz.b 0x5e
+    lda.w 0x1B1A
     asl
     clc
-    adc.b   0x5a
-    sta.b   0x5a
-    lda     #0x00
-    adc.b   0x5b
-    sta.b   0x5b
+    adc.b 0x5a
+    sta.b 0x5a
+    lda #0x00
+    adc.b 0x5b
+    sta.b 0x5b
     rts
 
 ; --- item_use_refresh_hook ---
 ; Called after SelectItem2 to refresh display after item use
 ; Re-renders all visible slots to show updated quantity or empty slot
 item_use_refresh_hook:
-    jsr.l   SwapRedrawHook_Impl
+    jsr.l SwapRedrawHook_Impl
     rts
-
 }
 
 
-    END_OF_FREE_SPACE:
-    .if END_OF_FREE_SPACE > 0x01ffff {
-        .debug 'Error: (Bank 0x01): End of free space was reached !'
-    }
+END_OF_FREE_SPACE:
+.if END_OF_FREE_SPACE > 0x01ffff {
+    .debug 'Error: (Bank 0x01): End of free space was reached !'
+}

@@ -3,10 +3,10 @@
 .macro bank_switch() {
     cpy.w #0x8000
     bmi moved_text
-    lda.b #0x01 ; this assumes we shoud load data from bank 1
+    lda.b #0x01
+; this assumes we shoud load data from bank 1
     pha
     bra jump_to_original
-
 moved_text:
     pha
     rep #0x20
@@ -15,8 +15,8 @@ moved_text:
     tay
     sep #0x20
     pla
-    phk ; this assumes that the text lives in the same bank as this routine.
-
+    phk
+; this assumes that the text lives in the same bank as this routine.
 jump_to_original:
     plb
 }
@@ -29,7 +29,6 @@ jump_to_original:
 
 display_text_in_menus:
 {
-
     phb
     phd
     phx
@@ -75,12 +74,12 @@ display_time:
 
 disable_save:
     lda.b #0x24
-    sta 0xCA31    ;S
-    sta 0xCA33    ;a
-    sta 0xCA35    ;u
-    sta 0xCA37    ;v
-    sta 0xCA39    ;e
-    sta 0xCA3B    ;r
+    sta 0xCA31  ; S
+    sta 0xCA33  ; a
+    sta 0xCA35  ; u
+    sta 0xCA37  ; v
+    sta 0xCA39  ; e
+    sta 0xCA3B  ; r
     jmp.l 0x018947
 
 load_classes_pointer:

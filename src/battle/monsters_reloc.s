@@ -24,7 +24,7 @@ tab_escape_code:
 
 initialize_monster_slot_near:
 
-    ; clear monster slot with spaces
+; clear monster slot with spaces
     lda #11
     sta 0x00
 

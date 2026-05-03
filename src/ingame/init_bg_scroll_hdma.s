@@ -1,222 +1,242 @@
 init_bg_scroll_hdma:
 """Init BG Scroll HDMA — relocated from $01:EBD2."""
-TDC
-TAX
+    tdc
+    tax
+
 _ebd4:
-LDA 0x0DFF29,X   ; load bg scroll hdma tables
-STA 0x75FD,X
-INX
-CPX.w #0x0015
-BNE _ebd4
-TDC
-TAX
+    lda 0x0DFF29, x  ; load bg scroll hdma tables
+    sta 0x75FD, x
+    inx
+    cpx.w #0x0015
+    bne _ebd4
+    tdc
+    tax
+
 _EBE3:
-STA 0x7612,X     ; clear hdma data
-INX
-CPX #0x1620
-BNE _EBE3
-TDC
-TAX
-LDA #0xFE
+    sta 0x7612, x  ; clear hdma data
+    inx
+    cpx #0x1620
+    bne _EBE3
+    tdc
+    tax
+    lda #0xFE
+
 _EBF0:
-STA 0x7D14,X     ; bg3 v-scroll
-DEC
-INX
-INX
-INX
-INX
-CPX #0x0380
-BNE _EBF0
-LDX #0x0230
+    sta 0x7D14, x  ; bg3 v-scroll
+    dec
+    inx
+    inx
+    inx
+    inx
+    cpx #0x0380
+    bne _EBF0
+    ldx #0x0230
+
 _EC00:
-LDA 0x7D14,X
-DEC
-STA 0x7994,X     ; bg2 v-scroll
-INX
-INX
-INX
-INX
-CPX #0x0280
-BNE _EC00
-REP #0x20
-TDC
-TAX
-LDA #0x0173
-LDY.w #0x0008
+    lda 0x7D14, x
+    dec
+    sta 0x7994, x  ; bg2 v-scroll
+    inx
+    inx
+    inx
+    inx
+    cpx #0x0280
+    bne _EC00
+    rep #0x20
+    tdc
+    tax
+    lda #0x0173
+    ldy.w #0x0008
+
 _EC1A:
-STA 0x8094,X
-PHA
-CLC
-ADC.w #0x0068
-STA 0x8314,X
-CLC
-ADC.w #0x00F0
-STA 0x8AF4,X
-PLA
-DEY
-BNE _EC37
-CLC
-ADC.w #0x0004
-LDY.w #0x000C
+    sta 0x8094, x
+    pha
+    clc
+    adc.w #0x0068
+    sta 0x8314, x
+    clc
+    adc.w #0x00F0
+    sta 0x8AF4, x
+    pla
+    dey
+    bne _EC37
+    clc
+    adc.w #0x0004
+    ldy.w #0x000C
+
 _EC37:
-CPX #0x0110
-BNE _EC40
-CLC
-ADC.w #0x0004
+    cpx #0x0110
+    bne _EC40
+    clc
+    adc.w #0x0004
+
 _EC40:
-INX
-INX
-INX
-INX
-CPX #0x0130
-BNE _EC1A
-TDC
-TAX
-LDA #0x016F
-LDY.w #0x0008
+    inx
+    inx
+    inx
+    inx
+    cpx #0x0130
+    bne _EC1A
+    tdc
+    tax
+    lda #0x016F
+    ldy.w #0x0008
+
 _EC51:
-INC 0x81D3,X
-STA 0x81D4,X
-DEY
-BNE _EC61
-CLC
-ADC.w #0x0004
-LDY.w #0x000C
+    inc 0x81D3, x
+    sta 0x81D4, x
+    dey
+    bne _EC61
+    clc
+    adc.w #0x0004
+    ldy.w #0x000C
+
 _EC61:
-CPX #0x0110
-BNE _EC6A
-CLC
-ADC #0x0134
+    cpx #0x0110
+    bne _EC6A
+    clc
+    adc #0x0134
+
 _EC6A:
-INX
-INX
-INX
-INX
-CPX #0x0130
-BNE _EC51
-TDC
-TAX
-LDA.w #0x006B
-LDY.w #0x0008
+    inx
+    inx
+    inx
+    inx
+    cpx #0x0130
+    bne _EC51
+    tdc
+    tax
+    lda.w #0x006B
+    ldy.w #0x0008
+
 _EC7B:
-STA 0x8454,X
-DEY
-BNE _EC88
-CLC
-ADC.w #0x0004
-LDY.w #0x000C
+    sta 0x8454, x
+    dey
+    bne _EC88
+    clc
+    adc.w #0x0004
+    ldy.w #0x000C
+
 _EC88:
-CPX.w #0x0088
-BNE _EC91
-CLC
-ADC.w #0x0004
+    cpx.w #0x0088
+    bne _EC91
+    clc
+    adc.w #0x0004
+
 _EC91:
-INX
-INX
-INX
-INX
-CPX.w #0x00A0
-BNE _EC7B
-TDC
-TAX
+    inx
+    inx
+    inx
+    inx
+    cpx.w #0x00A0
+    bne _EC7B
+    tdc
+    tax
+
 _EC9C:
-LDA 0x8072,X
-STA 0x81C2,X
-STA 0x8442,X
-INX
-INX
-CPX.w #0x0010
-BNE _EC9C
-TDC
-TAX
+    lda 0x8072, x
+    sta 0x81C2, x
+    sta 0x8442, x
+    inx
+    inx
+    cpx.w #0x0010
+    bne _EC9C
+    tdc
+    tax
+
 _ECAE:
-LDA #0x0101
-STA 0x84F2,X
-INX
-INX
-INX
-INX
-CPX #0x0100
-BNE _ECAE
-TDC
-TAX
-LDA.w #0x0053
-LDY.w #0x0008
+    lda #0x0101
+    sta 0x84F2, x
+    inx
+    inx
+    inx
+    inx
+    cpx #0x0100
+    bne _ECAE
+    tdc
+    tax
+    lda.w #0x0053
+    ldy.w #0x0008
+
 _ECC5:
-STA 0x85F4,X
-STA 0x8874,X
-PHA
-SEC
-SBC.w #0x000C
-STA 0x8674,X
-STA 0x88F4,X
-SEC
-SBC.w #0x000C
-STA 0x86F4,X
-STA 0x8974,X
-SEC
-SBC.w #0x000C
-STA 0x8774,X
-STA 0x89F4,X
-SEC
-SBC.w #0x000C
-STA 0x87F4,X
-STA 0x8A74,X
-PLA
-DEY
-BNE _ECFC
-CLC
-ADC.w #0x0004
+    sta 0x85F4, x
+    sta 0x8874, x
+    pha
+    sec
+    sbc.w #0x000C
+    sta 0x8674, x
+    sta 0x88F4, x
+    sec
+    sbc.w #0x000C
+    sta 0x86F4, x
+    sta 0x8974, x
+    sec
+    sbc.w #0x000C
+    sta 0x8774, x
+    sta 0x89F4, x
+    sec
+    sbc.w #0x000C
+    sta 0x87F4, x
+    sta 0x8A74, x
+    pla
+    dey
+    bne _ECFC
+    clc
+    adc.w #0x0004
+
 _ECFC:
-PHA
-LDA.w #0x00AC
-STA 0x8872,X
-STA 0x88F2,X
-STA 0x8972,X
-STA 0x89F2,X
-STA 0x8A72,X
-LDA #0x01BC
-STA 0x85F2,X
-STA 0x8672,X
-STA 0x86F2,X
-STA 0x8772,X
-STA 0x87F2,X
-PLA
-INX
-INX
-INX
-INX
-CPX.w #0x0070
-BNE _ECC5
-LDX.w #0x001C
-LDY.w #0x0004
-LDA #0x0134
+    pha
+    lda.w #0x00AC
+    sta 0x8872, x
+    sta 0x88F2, x
+    sta 0x8972, x
+    sta 0x89F2, x
+    sta 0x8A72, x
+    lda #0x01BC
+    sta 0x85F2, x
+    sta 0x8672, x
+    sta 0x86F2, x
+    sta 0x8772, x
+    sta 0x87F2, x
+    pla
+    inx
+    inx
+    inx
+    inx
+    cpx.w #0x0070
+    bne _ECC5
+    ldx.w #0x001C
+    ldy.w #0x0004
+    lda #0x0134
+
 _ED34:
-STA 0x7D14,X
-DEY
-BNE _ED3E
-CLC
-ADC.w #0x0004
+    sta 0x7D14, x
+    dey
+    bne _ED3E
+    clc
+    adc.w #0x0004
+
 _ED3E:
-     INX
-     INX
-     INX
-     INX
-     CPX.w #0x0080
-     BNE _ED34
-     TDC
-     TAX
+    inx
+    inx
+    inx
+    inx
+    cpx.w #0x0080
+    bne _ED34
+    tdc
+    tax
+
 _ED49:
-     LDA #0x0100
-     STA 0x8C32,X
-     LDA #0x0160
-     STA 0x8C34,X
-     INX
-     INX
-     INX
-     INX
-     CPX.w #0x0080
-     BNE _ED49
-     TDC
-     SEP #0x20
-     RTL
+    lda #0x0100
+    sta 0x8C32, x
+    lda #0x0160
+    sta 0x8C34, x
+    inx
+    inx
+    inx
+    inx
+    cpx.w #0x0080
+    bne _ED49
+    tdc
+    sep #0x20
+    rtl

@@ -3,11 +3,15 @@
 ; MISS sprite graphics
 
 *=0x0cfc60
+
+
 .incbin "fonts/miss.bin"
 
 *=0x16fb87
 {
-    ; chars to copy from the font to the 4bpp tileset in battle
+; chars to copy from the font to the 4bpp tileset in battle
+
+
     .table "text/ff4_menus.tbl"
     .db 0x76, 0x77
     .text "/"
@@ -22,8 +26,8 @@
     ; PM Needed
     .db 223, 226, 230, 233, 228, 232, 0xff
 
-    ; Defend / Row window content
-    ; moves the row destination back a few bytes
+; Defend / Row window content
+; moves the row destination back a few bytes
 
 *=0x29a90
     ldx.w #0xd618
@@ -43,11 +47,11 @@
 *=0x029aac
     cpx.w #defend_row.defend_row_length
 
-*=0x02b96a                              ; moves row pointer back 8 pixels.
+*=0x02b96a  ; moves row pointer back 8 pixels.
     lda.b #0x0c
 
 
-*=0x16fe5a + 6 * 8                      ; moves row pointer back 8 pixels.
+*=0x16fe5a + 6 * 8  ; moves row pointer back 8 pixels.
     .db 0x00, 0x09, 0x08, 0x04
 
 
@@ -55,7 +59,7 @@
     ; row window
     .db 0x18, 0x09, 0x08, 0x04
 
-    ; switches around small mp to pm in the MP Needed battle window.
+; switches around small mp to pm in the MP Needed battle window.
 
 *=0x02a1e3
     lda #0xdc
@@ -72,13 +76,12 @@
 *=0x0297e6
     cpy.w #0x0040 + 0xa * 2
 
-    ; Hands text
+; Hands text
 
 *=0x16fed5
 {
     .table "text/ff4_menus.tbl"
-
-    hand_text:
+hand_text:
     .text "Droite    "
     .text "Gauche    "
     .text "Droite    "

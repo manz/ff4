@@ -2,7 +2,6 @@ sram_base = 0x707000
 .macro long_sram_store(src) {
     phy
     phx
-
     php
     rep #0x20
     pha
@@ -14,7 +13,6 @@ sram_base = 0x707000
     sep #0x20
     plp
     sta.l sram_base, x
-
     plx
     ply
 }
@@ -28,7 +26,7 @@ BATTLE_FLAGS = 0x704F00
 
 .macro battle_flags_clear(value) {
     lda.l BATTLE_FLAGS
-    and.b #(~value & 0xFF)
+    and.b #( ~ value & 0xFF )
     sta.l BATTLE_FLAGS
 }
 
@@ -45,7 +43,6 @@ BATTLE_FLAGS = 0x704F00
     lda #0
     xba
     lda.l BATTLE_FLAGS
-
     asl
     tax
     lda.l jump_table, x

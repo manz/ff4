@@ -28,9 +28,10 @@ VARS_BUFFER = 0x710000
 }
 
 .scope vram_copy {
-buffer = 0x704000
+    buffer = 0x704000
 save_dialog_vram_far:
-    jsr.l 0x14fd0f ; original save
+    jsr.l 0x14fd0f
+; original save
     jsr.l wait_for_vblank_long
     phb
     tdc
@@ -69,9 +70,9 @@ restore_dialog_gfx_far:
     stx 0x0122
     jsr.w _transfer_to_vram
     jsr.l wait_for_vblank_long
-    jsr.l 0x14ffd6 ; original restore
+    jsr.l 0x14ffd6
+; original restore
     rtl
-
 ; clone of the original copy to be able to call it from the 0x20 bank.
 _transfer_to_vram:
     phb
@@ -87,10 +88,8 @@ _transfer_to_vram:
     lda #0x01
     sta 0x4300
     rep #0x20
-
     lda #0x2118
     sta 0x4301
-
     lda 0x011f
     sta 0x4302
     lda 0x0121
@@ -105,26 +104,24 @@ _transfer_to_vram:
 }
 
 .scope render_allocator {
-allocated_tile_id = 0x702F00
-
+    allocated_tile_id = 0x702F00
 ; tile_id in A
 init_with_tile_id:
     sta.l allocated_tile_id
     rts
-
 init:
     pha
     lda.b #0x00
     sta.l allocated_tile_id
     pla
     rts
-.if BATTLE_ENABLED {
+    .if BATTLE_ENABLED {
 init_battle_far:
-    jsr.l 0x13ff12 ; play song
+    jsr.l 0x13ff12  ; play song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl
-}
+    }
 increment:
     pha
     lda.l allocated_tile_id
@@ -133,7 +130,6 @@ increment:
     sta.l allocated_tile_id
     pla
     rts
-
 get:
     lda.l allocated_tile_id
     rts
@@ -141,30 +137,24 @@ get:
 
 .scope render {
 ; variables
-
-__var_base = 0x63
-bits_left_on_tile = __var_base + 0x10
-temp = bits_left_on_tile + 1
-counter = temp + 1
-prev_char = counter + 2
-current_char = prev_char + 1
-
-tilemap_offset = 0x1d
-
-buffer_ptr = 0x703000
-buffer_size = 0x300
-
-last_drawn_text_ptr = buffer_ptr + buffer_size + 2
-
+    __var_base = 0x63
+    bits_left_on_tile = __var_base + 0x10
+    temp = bits_left_on_tile + 1
+    counter = temp + 1
+    prev_char = counter + 2
+    current_char = prev_char + 1
+    tilemap_offset = 0x1d
+    buffer_ptr = 0x703000
+    buffer_size = 0x300
+    last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 ;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
-
 init:
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables
-.if ENABLE_KERNING_MENU {
+    .if ENABLE_KERNING_MENU {
     stz.b prev_char
-}
+    }
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
     pha
@@ -189,21 +179,18 @@ _clear_loop:
     bne _clear_loop
     plx
     pla
-
     initialize(counter)
-rts
-
+    rts
 deinit:
-{
+    {
     restore_long(buffer_ptr)
     restore(bits_left_on_tile)
     restore(temp)
     restore(counter)
     rts
-}
-
+    }
 make_pointers:
-{
+    {
     pha
 
     ldx.w #0x0000
@@ -237,10 +224,9 @@ make_pointers:
     sep #0x20
     pla
     rts
-}
-
+    }
 display_char:
-{
+    {
     sta.b current_char
 
     jsr.w make_pointers
@@ -254,9 +240,9 @@ char_line_loop:
     rep #0x20
     lda.w #0x0000
     sep #0x20
-.if ENABLE_KERNING_MENU {
+    .if ENABLE_KERNING_MENU {
     jsr.w _adjust_bits_left_for_kerning
-}
+    }
     lda.b bits_left_on_tile
 
     cmp #0x08
@@ -270,19 +256,19 @@ _read_8x8_char:
     bra _store
 
 _shift:
-    ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
+; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
     lda.l assets_menu_font_dat, x
-   ; bne _really_shift
-   ; inx
-   ; xba
-   ; bra _skip_empty_pixel_line
+; bne _really_shift
+; inx
+; xba
+; bra _skip_empty_pixel_line
 _really_shift:
     xba
     lda #0x00
     xba
 
-    ; make jump_table_pointer
+; make jump_table_pointer
     pha
     lda.b bits_left_on_tile
     asl
@@ -304,26 +290,26 @@ _mul_table:
 
 _mul_8:
 _mul_7:
-    asl ; 1
+    asl  ; 1
 _mul_6:
-    asl ; 2
+    asl  ; 2
 _mul_5:
-    asl ; 3
+    asl  ; 3
 _mul_4:
-    asl ; 4
+    asl  ; 4
 _mul_3:
-    asl ; 5
+    asl  ; 5
 _mul_2:
-    asl ; 6
+    asl  ; 6
 _mul_1:
-    asl ; 7
+    asl  ; 7
 _mul_0:
     sep #0x20
     plx
     inx
-.if 0 {
+    .if 0 {
 _shift:
-    ; expects bitsleft in A
+; expects bitsleft in A
     phx
     tax
     lda.l vwf_shift_table, x
@@ -339,16 +325,16 @@ _shift:
 _really_shift:
     inx
 
-    sta.l 0x004203        ; MULTIPLICAND
+    sta.l 0x004203  ; MULTIPLICAND
 
     rep #0x20
     nop
     nop
     nop
     nop
-    lda.l 0x004216    ; the result is stored in 0x4216-0x4217
+    lda.l 0x004216  ; the result is stored in 0x4216-0x4217
     sep #0x20
-}
+    }
 _store:
 
     xba
@@ -403,24 +389,20 @@ coupe:
     adc.b #0x08
     jsr.w tilemap_write
     bra loopdec
-}
-
-.macro save_a(code) {
+    }
+    .macro save_a(code) {
     pha
-    {{code}}
+    {{ code }}
     pla
-}
-
-.macro with_long_a(code) {
+    }
+    .macro with_long_a(code) {
     rep #0x20
     {{ code }}
     sep #0x20
-}
-
-.if ENABLE_KERNING_MENU {
+    }
+    .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
-{
-
+    {
     lda.b bits_left_on_tile
     cmp #8
     beq _overflow
@@ -433,9 +415,9 @@ _adjustment:
     pha
     lda.b temp
     clc
-    adc 1,s
+    adc 1, s
     sta.b temp
-.if 0 {
+    .if 0 {
     bpl _no_adjustment
 
     and.b #0x80
@@ -445,7 +427,7 @@ _adjustment:
     dec
     sta.l render_allocator.allocated_tile_id
     jsr.w _refresh_destination_pointer
-}
+    }
 _no_adjustment:
 
     pla
@@ -458,10 +440,10 @@ _overflow:
     sta.b prev_char
     pla
     rts
-}
+    }
 
 get_kerning_adjustment_linear_search:
-{
+    {
     phx
     phy
     rep #0x20
@@ -470,15 +452,15 @@ get_kerning_adjustment_linear_search:
     ply
     plx
     rts
-}
+    }
 
 _get_kerning_adjustment_linear_search:
-{
+    {
     phb
     pea.w font_table >> 16
     plb
 
-kerning_table_offset = 256 * 9
+    kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
     lda.w assets_menu_font_dat, y
     beq not_found
@@ -498,9 +480,9 @@ _loop:
     tay
     pla
 
-    lda.w assets_menu_font_dat, y ; Load 16-bit char pair
+    lda.w assets_menu_font_dat, y  ; Load 16-bit char pair
     cmp.b prev_char
-    beq found_pair               ; Found exact match!
+    beq found_pair  ; Found exact match!
 
     txa
     dec
@@ -524,10 +506,10 @@ found_pair:
     plb
     plb
     rts
-}
+    }
 
 _get_kerning_adjustment_binary_search:
-{
+    {
     phb
     pea.w font_table >> 16
     plb
@@ -574,7 +556,7 @@ _search_lower:
     lda 0x0001, s
     sec
     sbc.w #0x0001
-    bcc _not_found_cleanup    ; mid was 0, underflow → not found
+    bcc _not_found_cleanup  ; mid was 0, underflow → not found
     sta 0x0005, s
     bra _loop
 
@@ -608,10 +590,10 @@ _found:
     plb
     plb
     rts
-}
+    }
 
 get_kerning_adjustment:
-{
+    {
     phx
     phy
     rep #0x20
@@ -620,7 +602,7 @@ get_kerning_adjustment:
     ply
     plx
     rts
-}
+    }
 
 small_vwf_kerning_linear_ext:
     jsr.w get_kerning_adjustment_linear_search
@@ -629,30 +611,24 @@ small_vwf_kerning_linear_ext:
 small_vwf_kerning_binary_ext:
     jsr.w get_kerning_adjustment
     rtl
-}
+    }
 tilemap_write_no_inc:
     _base_addr = 0x7e0000
     lda.l render_allocator.allocated_tile_id
-
     ldx.b tilemap_offset
-
-    sta.l _base_addr,x
-    lda.l _base_addr + 1,x
+    sta.l _base_addr, x
+    lda.l _base_addr + 1, x
     ora.b #0x01
-    sta.l _base_addr + 1,x
-
+    sta.l _base_addr + 1, x
     rts
-
 tilemap_write:
     pha
     jsr.w tilemap_write_no_inc
     jsr.w render_allocator.increment
     with_long_a({
-        inc.b tilemap_offset
-        inc.b tilemap_offset
-    })
+inc.b tilemap_offset
+inc.b tilemap_offset}
+)
     pla
     rts
 }
-
-

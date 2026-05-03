@@ -12,9 +12,9 @@
 ; ============================================================================
 ; CONSTANTS
 ; ============================================================================
-VISIBLE_ITEMS           := 10       ; Items visible at once
+VISIBLE_ITEMS := 10  ; Items visible at once
 ;TOTAL_ITEMS             := 48       ; Total inventory items
-SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
+SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
 ; File is being processed - patches below should apply
 
@@ -24,7 +24,9 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original at $01A172 draws 48 items (all items)
 ; New version draws only 10 visible items based on scroll position
 ;
+
 ; Original code:
+
 ;   DrawInventoryList:
 ;   @a172:  ldy     #.loword(InventoryWindow)
 ;           jsr     DrawWindow
@@ -39,8 +41,9 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 
 ; Original: lda #$30 at A17D-A17E (a9 30)
 ; Just patch the operand byte at A17E, not the full instruction
+
 *=0x01A17E
-    .db     VISIBLE_ITEMS + 1       ; Draw 11 items (10 visible + 1 pre-render slot)
+    .db VISIBLE_ITEMS + 1  ; Draw 11 items (10 visible + 1 pre-render slot)
 
 ; ============================================================================
 ; DrawItemSlot - Single Column Version
@@ -48,6 +51,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original checks odd/even item index for left/right column
 ; Single column always uses left column position
 ;
+
 ; Original at $01A1ED:
 ;   @a1ed:  lda     $5d
 ;           and     #$01
@@ -59,11 +63,12 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
     ; Change BNE to BRA skip (effectively disable right-column branch)
     ; Original: AND #$01 / BNE @a223
     ; New: AND #$00 / BNE @a223 (always zero, never branches)
-    and     #0x00
+    and #0x00
 
 ; ============================================================================
 ; Tilemap Y Position - Single Column Fix
 ; ============================================================================
+
 ; Original code at $01A1B9 calculates tilemap Y position:
 ;   LDA $5D    ; item index (0-47)
 ;   LSR        ; divide by 2 (for 2-column: items 0,1→row 0, items 2,3→row 1)
@@ -74,11 +79,12 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; This makes Y = item_index * 128 + 2 instead of (item_index/2) * 128 + 2
 
 *=0x01A1BC
-    nop                         ; Replace LSR with NOP
+    nop  ; Replace LSR with NOP
 
 ; ============================================================================
 ; Scroll Limit Patch
 ; ============================================================================
+
 ; Original scroll down limit check at $01A076:
 ;   @a076:  cmp     #$0e            ; 14 = 24 items - 10 visible
 ;           beq     @a0bc           ; Don't scroll if at limit
@@ -87,9 +93,10 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; New limit for single column: 48 - 10 = 38
 
 *=0x01A077
-    .db     SCROLL_LIMIT            ; 38 instead of 14
+    .db SCROLL_LIMIT  ; 38 instead of 14
 
 ; Also patch the cursor Y limit check
+
 ; Original at $01A071:
 ;   @a06c:  lda     $1b23           ; cursor Y
 ;           cmp     #$09            ; max Y = 9 (for 10 visible rows)
@@ -102,6 +109,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original at $01A105 checks $1b22 (X position) for left/right column
 ; Single column: always use left position
 ;
+
 ; Original:
 ;   @a105:  ...
 ;   @a116:  lda     $1b22                   ; cursor 1 x position
@@ -113,12 +121,12 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Patch: Skip the X position check, always use left column
 
 *=0x01A114
-    lda     #0x00                   ; Always 0 (left column) - replaces LDA $1B22 (3 bytes)
-    nop                             ; Was high byte of $1B22 address
-    nop                             ; Skip BEQ opcode
-    nop                             ; Skip BEQ offset
-    nop                             ; Skip LDA #$6c opcode
-    nop                             ; Skip LDA #$6c operand
+    lda #0x00  ; Always 0 (left column) - replaces LDA $1B22 (3 bytes)
+    nop  ; Was high byte of $1B22 address
+    nop  ; Skip BEQ opcode
+    nop  ; Skip BEQ offset
+    nop  ; Skip LDA #$6c opcode
+    nop  ; Skip LDA #$6c operand
 
 ; ============================================================================
 ; Input Handling - Disable Left/Right Toggle
@@ -126,6 +134,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original at $01A003 and $01A014 handle left/right button presses
 ; to switch columns. We disable this for single column.
 ;
+
 ; Left button handler at @9ff2:
 ;   @9ff2:  lda     $01
 ;           and     #JOY_LEFT
@@ -142,11 +151,11 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 
 *=0x019FF4
     ; Change AND #JOY_LEFT to AND #0x00 (never matches)
-    and     #0x00
+    and #0x00
 
 *=0x01A005
     ; Change AND #JOY_RIGHT to AND #0x00 (never matches)
-    and     #0x00
+    and #0x00
 
 ; ============================================================================
 ; Scroll Position Adjustment for Drawing
@@ -154,6 +163,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; When drawing, need to start from scroll position, not always item 0
 ; This requires adding $1B1A (scroll position) to the item pointer
 ;
+
 ; Original _a181 loop at $01A181:
 ;   _a181:  stz     $5d             ; item counter = 0
 ;           stz     $5e
@@ -165,7 +175,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Add patch to adjust $5a before the loop
 
 *=0x01A181
-    jsr.w   adjust_inventory_pointer
+    jsr.w adjust_inventory_pointer
     nop
 
 ; ============================================================================
@@ -181,6 +191,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; The second cursor also uses $1b24 (X position) and $1b25 (Y position)
 ; For single column, $1b24 should always be 0
 ;
+
 ; When storing first item selection at $01A2C3:
 ;   @a2c3:  lda     $1b1a
 ;           clc
@@ -193,9 +204,10 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 
 ; $1B25 stores absolute position (scroll + cursor) - keep original storage
 ; Just patch $A2CD to store 0 for X position
+
 *=0x01A2CD
-    lda     #0x00                   ; Always 0 for single column X (was LDA $1B22)
-    nop                             ; Pad to 3 bytes
+    lda #0x00  ; Always 0 for single column X (was LDA $1B22)
+    nop  ; Pad to 3 bytes
 
 ; ============================================================================
 ; Item Index Calculation for Selection
@@ -208,25 +220,29 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Original: ASL / ADC $1B22 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B22 / ASL -> (val+col)*2
 ; MUST use CLC because the previous CMP leaves carry set!
+
 *=0x01A398
-    clc                             ; Clear carry (was ASL which also clears carry)
+    clc  ; Clear carry (was ASL which also clears carry)
 
 ; Second item (swap target) at $A3A6
 ; $1B25 already has absolute position
 ; Original: ASL / ADC $1B24 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B24 / ASL -> (val+col)*2
+
 *=0x01A3A6
-    clc                             ; Clear carry (was ASL which also clears carry)
+    clc  ; Clear carry (was ASL which also clears carry)
 
 ; Another second item calculation at $A320
 ; Used when selecting same item twice to use it
 ; CRITICAL: CMP $1B24 at $A318 sets carry if $1B22 >= $1B24 (always true when both are 0)
 ; Original ASL would clear carry, but NOP leaves carry SET, causing ADC to add +1!
+
 *=0x01A320
-    clc                             ; Clear carry (was ASL which also clears carry)
-; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
-; For single column: (scroll_pos + cursor_y) * 2
-;
+    clc  ; Clear carry (was ASL which also clears carry)
+    ; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
+    ; For single column: (scroll_pos + cursor_y) * 2
+    ;
+
 ; At $01A309 (SelectItem2):
 ;   @a309:  lda     $1b23
 ;           clc
@@ -252,6 +268,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; ============================================================================
 ; DrawItemDesc - Single Column Fix
 ; ============================================================================
+
 ; Original at $01A7C8 uses two-column calculation (ABSOLUTE addressing):
 ;   $A7C8: LDA.W $1B23   (AD 23 1B) - cursor_y
 ;   $A7CB: CLC           (18)
@@ -264,7 +281,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; This matches the patches at $A398, $A3A6, $A320
 
 *=0x01A7CF
-    nop                             ; Remove first ASL for single column
+    nop  ; Remove first ASL for single column
 
 ; ============================================================================
 ; Initialize $1B22 (cursor column) to 0 on menu entry

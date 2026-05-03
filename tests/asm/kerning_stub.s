@@ -9,15 +9,15 @@
 
 *=0x7E0000
 
-    ; 8-bit A and X/Y; setup_font and the kerning helpers were written
-    ; against this convention.
+; 8-bit A and X/Y; setup_font and the kerning helpers were written
+; against this convention.
     sep #0x30
 
     lda.b #font_index
     jsr.l setup_font
 
-    ; Match the in-game caller: 16-bit A and X/Y. Pair lives in
-    ; CURRENT_C; the routine indexes [font_addr],y with 16-bit Y.
+; Match the in-game caller: 16-bit A and X/Y. Pair lives in
+; CURRENT_C; the routine indexes [font_addr],y with 16-bit Y.
     rep #0x30
     lda.w #pair
     sta.b CURRENT_C
