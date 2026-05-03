@@ -89,12 +89,6 @@ HDMA5_SRC_HI            := 0x4353       ; Source address high
 HDMA5_SRC_BANK          := 0x4354       ; Source bank
 HDMA5_IND_BANK          := 0x4357       ; Indirect bank
 HDMAEN                  := 0x420C       ; HDMA enable register
-
-; ============================================================================
-; Code placement in bank $01 free space
-; ============================================================================
-*=0x01F800
-
 ; ============================================================================
 ; InitMenuInventoryHDMA
 ; ============================================================================
@@ -388,18 +382,18 @@ _row_loop_done:
     rts
 
 ; ============================================================================
-; InitMenuRollingBuffer
+; InitMenuRollingBuffer_Impl
 ; ============================================================================
 ; Called when inventory menu opens
 ; Initializes the circular buffer state and sets up HDMA
 
-InitMenuRollingBuffer:
+InitMenuRollingBuffer_Impl:
     php                             ; Save processor state at entry
     pha                             ; Save A
 
     ; Draw the inventory window frame (what original DrawInventoryList does first)
     ldy     #0xDCCE                 ; InventoryWindow data pointer
-    jsr.w   0x80D9                  ; DrawWindow
+    jsr.l   DrawWindow_Trampoline        ; bank-$01 trampoline for vanilla DrawWindow @ $80D9
 
     ; Save DP byte we'll use as scratch
     lda.b   0x46
@@ -443,7 +437,7 @@ _menu_init_row_loop:
 
     pla                             ; Restore A
     plp                             ; Restore original processor state
-    rts
+    rtl
 
 ; ============================================================================
 ; MenuScrollDownPrepare
@@ -607,7 +601,7 @@ MenuRenderItemToSlot:
     ; Output: $DB = $00 (usable) or $04 (not usable)
     stz.b   0x34                    ; Clear $34 (no priority/flip bits)
     pla                             ; Restore item ID
-    jsr.w   0xA25D                  ; CheckCanUseItem - sets $DB
+    jsr.l   CheckCanUseItem_Trampoline   ; bank-$01 trampoline for vanilla @ $A25D (sets $DB)
 
     ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
     lda.w   menu_rolling_slot_index
@@ -640,7 +634,7 @@ _not_trash_item:
 
     ; Call DrawItemSlot inner at $A1ED
     ; Expects: Y = tilemap offset, ($5A) = item pointer, ($29) = tilemap base
-    jsr.w   0xA1ED
+    jsr.l   DrawItemSlotInner_Trampoline     ; bank-$01 trampoline for vanilla @ $A1ED
 
 _skip_draw_item_slot:
 
@@ -725,14 +719,14 @@ ScrollStateCheck:
     beq     _scroll_state_idle
 
     ; We're scrolling - process one animation frame
-    jsr.w   UpdateScrollFrame
+    jsr.l   UpdateScrollFrame_Impl
 
     ; Check if scroll finished
     lda.w   menu_scroll_remaining
     bne     _scroll_still_active
 
     ; Scroll finished - clean up and return to idle
-    jsr.w   FinishScroll
+    jsr.l   FinishScroll_Impl
 
 _scroll_state_idle:
     plp
@@ -745,13 +739,13 @@ _scroll_still_active:
     rts
 
 ; ============================================================================
-; StartScrollDown
+; StartScrollDown_Impl
 ; ============================================================================
 ; Initiates a non-blocking scroll down animation.
 ; Called when user presses down and we need to scroll the list.
 ; Sets up state machine and returns immediately (no blocking loop).
 
-StartScrollDown:
+StartScrollDown_Impl:
     php
     sep     #0x20                   ; 8-bit A
 
@@ -810,15 +804,15 @@ _start_down_mod_done:
     jsr.w   UpdateMenuScrollHDMA
 
     plp
-    rts
+    rtl
 
 ; ============================================================================
-; StartScrollUp
+; StartScrollUp_Impl
 ; ============================================================================
 ; Initiates a non-blocking scroll up animation.
 ; Called when user presses up and we need to scroll the list.
 
-StartScrollUp:
+StartScrollUp_Impl:
     php
     sep     #0x20                   ; 8-bit A
 
@@ -865,16 +859,16 @@ _start_up_wrap_done:
     jsr.w   UpdateMenuScrollHDMA
 
     plp
-    rts
+    rtl
 
 ; ============================================================================
-; UpdateScrollFrame
+; UpdateScrollFrame_Impl
 ; ============================================================================
 ; Called each frame during scroll animation.
 ; Updates animation offset, HDMA table, and cursor sprite position.
 ; NOTE: Does NOT modify $93 - all scrolling is handled via HDMA.
 
-UpdateScrollFrame:
+UpdateScrollFrame_Impl:
     php
 
     ; Update animation offset (NOT $93 - HDMA handles all scroll)
@@ -931,19 +925,19 @@ _scroll_frame_no_cursor:
     jsr.w   UpdateMenuScrollHDMA
 
     ; Request vblank operations
-    jsr.w   0x824F                  ; TfrSpritesVblank - transfer sprites
-    jsr.w   0x9420                  ; TfrBG2TilesVblank - transfer description
+    jsr.l   TfrSpritesVblank_Trampoline      ; bank-$01 trampoline for vanilla @ $824F
+    jsr.l   TfrBG2TilesVblank_Trampoline     ; bank-$01 trampoline for vanilla @ $9420
 
     plp
-    rts
+    rtl
 
 ; ============================================================================
-; FinishScroll
+; FinishScroll_Impl
 ; ============================================================================
 ; Called when scroll animation completes.
 ; Resets state machine and calls post-scroll cleanup routines.
 
-FinishScroll:
+FinishScroll_Impl:
     php
     sep     #0x20
 
@@ -1015,11 +1009,11 @@ _finish_skip_render:
     jsr.w   UpdateMenuScrollHDMA
 
     ; Call original post-scroll cleanup routines
-    jsr.w   0xA105                  ; DrawItemCursors
-    jsr.w   0x82A5                  ; UpdateCtrlAfterScroll
+    jsr.l   DrawItemCursors_Trampoline       ; bank-$01 trampoline for vanilla @ $A105
+    jsr.l   UpdateCtrlAfterScroll_Trampoline ; bank-$01 trampoline for vanilla @ $82A5
 
     plp
-    rts
+    rtl
 
 ; ============================================================================
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
@@ -1043,7 +1037,7 @@ MenuEntryHook_Impl:
     ; Initialize cursor column to 0 for single-column mode
     ; This ensures $1b22 is always 0 even if it had a value from previous menu
     stz.w   0x1B22                      ; cursor_x = 0
-    ; InitMenuRollingBuffer is called later via patched JSR at $9F7B
+    ; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
     rtl
 
 MenuExitHook_Impl:
@@ -1051,16 +1045,16 @@ MenuExitHook_Impl:
     sta.l   0x7E1BAE              ; menu_hdma_enable
     stz.w   menu_scroll_state
     jsr.w   DisableMenuInventoryHDMA
-    jsr.w   0x8D6A
+    jsr.l   ResetSprites_Trampoline          ; bank-$01 trampoline for vanilla @ $8D6A
     rtl
 
 ; ============================================================================
-; SwapRedrawHook_Impl
+; SwapRedrawHook_Impl_Body
 ; ============================================================================
 ; Called after item swap to redraw visible items correctly.
 ; Must render to the correct circular buffer slots based on current buffer_pos.
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
-SwapRedrawHook_Impl:
+SwapRedrawHook_Impl_Body:
     php
     sep     #0x20                   ; 8-bit A
 
@@ -1069,7 +1063,7 @@ SwapRedrawHook_Impl:
     jsr.w   EnsureHDMAInitialized
 
     ; CRITICAL: Reset scroll state to prevent re-rendering after swap
-    ; If scroll was in progress, FinishScroll would re-render items
+    ; If scroll was in progress, FinishScroll_Impl would re-render items
     stz.w   menu_scroll_state
     stz.w   menu_scroll_remaining
 
@@ -1339,7 +1333,7 @@ _clear_row2:
 ; as FieldMenu_NmiDmaTransferCheck_Impl to save space in bank $01
 
 ; ============================================================================
-; CheckAndClearCount
+; CheckAndClearCount_Impl
 ; ============================================================================
 ; Called from DrawItemSlot to check item ID and handle count display.
 ; - If item ID is 0: writes $FF tiles to clear count, skips to RTS
@@ -1348,7 +1342,7 @@ _clear_row2:
 ;
 ; Input: $5a = pointer to item data, Y = tilemap offset, $29 = tilemap ptr
 ; Modifies: A, return address on stack if skipping
-CheckAndClearCount:
+CheckAndClearCount_Impl:
     lda     (0x5a)              ; Load item ID
     beq     _clear_count        ; If 0, clear and skip
     cmp     #0xFE               ; Check for special item $FE
@@ -1385,7 +1379,7 @@ _skip_to_rts:
     lda     #0x21               ; Push low byte: $A222 - 1 = $A221
     pha
 _normal_return:
-    rts
+    rtl
 
 ; ============================================================================
 ; CircularSlotCalc
