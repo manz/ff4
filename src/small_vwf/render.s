@@ -426,7 +426,7 @@ _adjust_bits_left_for_kerning:
     beq _overflow
     sta.b temp
 
-    jsr.w get_kerning_adjustment_linear_search
+    jsr.w get_kerning_adjustment
     bcc _adjustment
     bra _end
 _adjustment:
@@ -506,7 +506,7 @@ _loop:
     dec
     tax
 
-    bne _loop
+    bpl _loop
 
 not_found:
     lda.w #0x0000
@@ -525,6 +525,110 @@ found_pair:
     plb
     rts
 }
+
+_get_kerning_adjustment_binary_search:
+{
+    phb
+    pea.w font_table >> 16
+    plb
+
+    kerning_table_offset = 256 * 9
+    ldy.w #kerning_table_offset
+    lda.w assets_menu_font_dat, y
+    beq not_found
+
+    sec
+    sbc.w #0x0001
+    pha
+    lda.w #0x0000
+    pha
+    pea.w 0x0000
+
+_loop:
+    lda 0x0005, s
+    cmp 0x0003, s
+    bcc _not_found_cleanup
+
+    lda 0x0005, s
+    sec
+    sbc 0x0003, s
+    lsr
+    clc
+    adc 0x0003, s
+    sta 0x0001, s
+
+    lda 0x0001, s
+    asl
+    clc
+    adc 0x0001, s
+    clc
+    adc.w #kerning_table_offset + 2
+    tay
+
+    lda.w assets_menu_font_dat, y
+    cmp.b prev_char
+    beq _found
+    bcc _search_upper
+
+_search_lower:
+    lda 0x0001, s
+    sec
+    sbc.w #0x0001
+    bcc _not_found_cleanup    ; mid was 0, underflow → not found
+    sta 0x0005, s
+    bra _loop
+
+_search_upper:
+    lda 0x0001, s
+    clc
+    adc.w #0x0001
+    sta 0x0003, s
+    bra _loop
+
+_not_found_cleanup:
+    pla
+    pla
+    pla
+not_found:
+    lda.w #0x0000
+    sec
+    plb
+    plb
+    rts
+
+_found:
+    iny
+    iny
+    lda.w assets_menu_font_dat, y
+    and.w #0x00FF
+    ply
+    ply
+    ply
+    clc
+    plb
+    plb
+    rts
+}
+
+get_kerning_adjustment:
+{
+    phx
+    phy
+    rep #0x20
+    jsr.w _get_kerning_adjustment_binary_search
+    sep #0x20
+    ply
+    plx
+    rts
+}
+
+SmallVwfKerningLinear_Ext:
+    jsr.w get_kerning_adjustment_linear_search
+    rtl
+
+SmallVwfKerningBinary_Ext:
+    jsr.w get_kerning_adjustment
+    rtl
 }
 tilemap_write_no_inc:
     _base_addr = 0x7e0000

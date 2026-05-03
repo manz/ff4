@@ -409,7 +409,7 @@ _adjust_bits_left_for_kerning:
     lda.b bits_left_on_tile
     sta.b temp
 
-    jsr.w get_kerning_adjustment_linear_search
+    jsr.w get_kerning_adjustment
     bcc _adjustment
     bra _end
 _adjustment:
@@ -478,9 +478,9 @@ _get_kerning_adjustment_binary_search:
 
 _binary_loop:
     ; Check if low > high (search finished)
-    lda 0x03, s                 ; Load low bound
-    cmp 0x05, s                 ; Compare with high bound
-    bcs not_found_cleanup       ; If low >= high, not found
+    lda 0x05, s                 ; Load high bound
+    cmp 0x03, s                 ; Compare with low bound
+    bcc not_found_cleanup       ; If high < low, not found
 
     ; Calculate mid = (low + high) / 2
     lda 0x03, s                 ; Load low
@@ -511,7 +511,9 @@ _binary_loop:
 
     ; Search lower half: high = mid - 1
     pla                         ; Get mid
-    dec                         ; mid - 1
+    sec
+    sbc.w #0x0001               ; mid - 1
+    bcc not_found_cleanup       ; mid was 0, underflow → not found
     sta 0x05, s                 ; Update high bound
     bra _binary_loop
 
@@ -531,10 +533,10 @@ found_pair_cleanup:
     lda.w assets_menu_font_dat, y           ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff              ; Ensure high byte is clear
 
-    ; Clean up stack
-    pla                         ; Remove target_char
-    pla                         ; Remove low bound
-    pla                         ; Remove high bound
+    ; Clean up stack — use ply so A (adjustment) is preserved.
+    ply                         ; Remove target_char
+    ply                         ; Remove low bound
+    ply                         ; Remove high bound
 
     clc                         ; Clear carry (success)
     plb
@@ -597,7 +599,7 @@ _loop:
     dec
     tax
 
-    bne _loop
+    bpl _loop
 
 not_found:
     lda.w #0x0000
@@ -616,6 +618,26 @@ found_pair:
     plb
     rts
 }
+
+get_kerning_adjustment:
+{
+    phx
+    phy
+    rep #0x20
+    jsr.w _get_kerning_adjustment_binary_search
+    sep #0x20
+    ply
+    plx
+    rts
+}
+
+BattleMsgKerningLinear_Ext:
+    jsr.w get_kerning_adjustment_linear_search
+    rtl
+
+BattleMsgKerningBinary_Ext:
+    jsr.w get_kerning_adjustment
+    rtl
 }
 
 

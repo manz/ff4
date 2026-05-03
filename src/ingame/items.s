@@ -141,6 +141,7 @@ treasure_menu_entry:
 ; starts the menu
 ; set 0xee to 0x1804 (Key item baron key.)
 
+.if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Single-column patches (moved here to test if they apply)
 ; ============================================================================
@@ -162,4 +163,4 @@ treasure_menu_entry:
 ; Hook swap redraw to reset rolling buffer
 *=0x01A401
     jmp.w   SwapRedrawTrampoline    ; Replace JSR $A172
-
+}
