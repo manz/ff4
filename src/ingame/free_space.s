@@ -88,9 +88,11 @@ swap_redraw_trampoline:
     jsr.w 0xA2D9  ; Clear second cursor (from original $A404)
     jmp.w 0xA40A  ; Skip $84BA (game's sequential redraw), go to RTS
 
-; --- main_loop_scroll_check ---
-; Called from $019FF2 via jmp.w
 main_loop_scroll_check:
+    """
+    --- main_loop_scroll_check ---
+    Called from $019FF2 via jmp.w
+    """
     lda.w menu_scroll_state
     beq _main_loop_do_input
     jsr.w UpdateScrollFrame
@@ -108,8 +110,8 @@ _left_not_pressed:
 _main_loop_skip_input:
     jmp.w 0xA0FF
 
-; --- scroll_down_trigger ---
 scroll_down_trigger:
+    """--- scroll_down_trigger ---"""
     cmp #MENU_SCROLL_LIMIT
     beq _scroll_down_at_max
     inc
@@ -118,8 +120,8 @@ scroll_down_trigger:
 _scroll_down_at_max:
     rts
 
-; --- scroll_up_trigger ---
 scroll_up_trigger:
+    """--- scroll_up_trigger ---"""
     lda.w 0x1B1A
     beq _scroll_up_at_top
     dec
@@ -128,25 +130,27 @@ scroll_up_trigger:
 _scroll_up_at_top:
     rts
 
-; --- menu_entry_hook ---
 menu_entry_hook:
+    """--- menu_entry_hook ---"""
     jsr.l MenuEntryHook_Impl
     rts
 
-; --- menu_exit_hook ---
 menu_exit_hook:
+    """--- menu_exit_hook ---"""
     jsr.l MenuExitHook_Impl
     rts
 
-; --- nmi_dma_transfer_check ---
 nmi_dma_transfer_check:
+    """--- nmi_dma_transfer_check ---"""
     jsr.l field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
     rts
 
-; --- hdma_enable_hook ---
-; Called during NMI before HDMA enable
-; Must copy shadow -> active HDMA table BEFORE enabling HDMA
 hdma_enable_hook:
+    """
+    --- hdma_enable_hook ---
+    Called during NMI before HDMA enable
+    Must copy shadow -> active HDMA table BEFORE enabling HDMA
+    """
     jsr.w nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
     .db 0xAF  ; LDA.L opcode
     .dw menu_hdma_enable  ; $1BAE
@@ -154,9 +158,11 @@ hdma_enable_hook:
     sta.w 0x420C
     rts
 
-; --- adjust_inventory_pointer ---
-; Adjusts $5a to point to the first visible item based on scroll position
 adjust_inventory_pointer:
+    """
+    --- adjust_inventory_pointer ---
+    Adjusts $5a to point to the first visible item based on scroll position
+    """
     stz.b 0x5d
     stz.b 0x5e
     lda.w 0x1B1A
@@ -169,10 +175,12 @@ adjust_inventory_pointer:
     sta.b 0x5b
     rts
 
-; --- item_use_refresh_hook ---
-; Called after SelectItem2 to refresh display after item use
-; Re-renders all visible slots to show updated quantity or empty slot
 item_use_refresh_hook:
+    """
+    --- item_use_refresh_hook ---
+    Called after SelectItem2 to refresh display after item use
+    Re-renders all visible slots to show updated quantity or empty slot
+    """
     jsr.l SwapRedrawHook_Impl
     rts
 }

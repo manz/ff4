@@ -22,8 +22,8 @@
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
 .scope battle_flags {
-; NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used
 set_vwf_render:
+    """NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used"""
     battle_flags_set(0x02)
     rtl
 clear_vwf_render:

@@ -16,8 +16,8 @@ moved_text:
     sep #0x20
     pla
     phk
-; this assumes that the text lives in the same bank as this routine.
 jump_to_original:
+    """this assumes that the text lives in the same bank as this routine."""
     plb
 }
 

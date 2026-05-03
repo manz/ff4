@@ -282,8 +282,8 @@ mp_cost:
 ; .db 0
 }
 .scope treasure {
-; patch them in place
 choice_window:
+    """patch them in place"""
     menu_window(8, 0, 22, 2)
 items_window:
     menu_window(0, 3, 30, 10)
