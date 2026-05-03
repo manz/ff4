@@ -12,7 +12,7 @@ BATTLE_CMD_VWF := 1
 BATTLE_NAMES_VWF := 1
 BATTLE_MONSTERS_VWF := 1
 INVENTORY_ROLLING_BUFFER := 1
-TREASURE_INVENTORY_ROLLING := 0  ; WIP, treasure rolling-buffer scaffolding only
+TREASURE_INVENTORY_ROLLING := 1  ; WIP, treasure rolling-buffer scaffolding only
 TREASURE_DEBUG_ALWAYS_DROP := 1  ; force every win to drop an item (testing)
 ; Debug flags
 TRIGGER_ENDING_CUTSCENE := 0
