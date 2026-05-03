@@ -776,7 +776,7 @@ TEXT_SHADOW :=1
     REP #0x20
 .if ENABLE_KERNING {
     ; Routine reads the pair from CURRENT_C (DP), no need to load A.
-    jsr.w get_kerning_adjustment_binary_search
+    jsr.w dialog_get_kerning_adjustment_binary_search
     pha
 } else {
     lda.w #0x0000

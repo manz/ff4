@@ -147,7 +147,7 @@ def setup_font(syms):
 
 def test_linear_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
     s = _run_stub(cold_emu, stub_src,
-                  syms["get_kerning_adjustment_linear_search_ext"], 0x575c,
+                  syms["dialog_get_kerning_adjustment_linear_search_ext"], 0x575c,
                   setup_font)
     assert s.stp == 1
     # 'Va' is a known kerning pair; routine must overwrite the input with
@@ -157,7 +157,7 @@ def test_linear_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
 
 def test_binary_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
     s = _run_stub(cold_emu, stub_src,
-                  syms["get_kerning_adjustment_binary_search_ext"], 0x575c,
+                  syms["dialog_get_kerning_adjustment_binary_search_ext"], 0x575c,
                   setup_font)
     assert s.stp == 1
     assert s.a != 0x575C
@@ -183,9 +183,9 @@ def _count_instructions(emu: Emu, stub_src: str, kerning_func: int,
 
 def test_binary_search_is_faster_than_linear(cold_emu, syms, setup_font, stub_src):
     n_linear = _count_instructions(cold_emu, stub_src,
-        syms["get_kerning_adjustment_linear_search_ext"], 0x575c, setup_font)
+        syms["dialog_get_kerning_adjustment_linear_search_ext"], 0x575c, setup_font)
     n_binary = _count_instructions(cold_emu, stub_src,
-        syms["get_kerning_adjustment_binary_search_ext"], 0x575c, setup_font)
+        syms["dialog_get_kerning_adjustment_binary_search_ext"], 0x575c, setup_font)
     assert n_binary > 0 and n_linear > 0
     assert n_binary < n_linear
 
@@ -262,10 +262,10 @@ def test_binary_agrees_with_linear(cold_emu, syms, setup_font, stub_src,
     if label == "no-font":
         pytest.skip(f"{FONT} missing")
     a_lin = _run_stub(cold_emu, stub_src,
-                      syms["get_kerning_adjustment_linear_search_ext"], pair,
+                      syms["dialog_get_kerning_adjustment_linear_search_ext"], pair,
                       setup_font)
     a_bin = _run_stub(cold_emu, stub_src,
-                      syms["get_kerning_adjustment_binary_search_ext"], pair,
+                      syms["dialog_get_kerning_adjustment_binary_search_ext"], pair,
                       setup_font)
     # Mask to low byte: kerning value is signed 8-bit, high byte is junk
     # from the input pair.
@@ -350,8 +350,8 @@ def test_workload_perf_summary(cold_emu, syms, setup_font, stub_src, capsys):
     """Aggregate instruction counts across the full workload."""
     if WORKLOAD and WORKLOAD[0][1] == "no-font":
         pytest.skip(f"{FONT} missing")
-    lin_sym = syms["get_kerning_adjustment_linear_search_ext"]
-    bin_sym = syms["get_kerning_adjustment_binary_search_ext"]
+    lin_sym = syms["dialog_get_kerning_adjustment_linear_search_ext"]
+    bin_sym = syms["dialog_get_kerning_adjustment_binary_search_ext"]
     rows = []
     tot_lin = tot_bin = 0
     for pair, label in WORKLOAD:
