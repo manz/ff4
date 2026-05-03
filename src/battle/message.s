@@ -179,6 +179,7 @@ _internal_init:
     stz.b counter
     rts
 clear_buffer:
+    """Wipe the 16×region_size 4bpp tile buffer for the currently-allocated VWF tile id (sets each plane row to $FF/$00)."""
     pha
     phx
     phy
@@ -245,6 +246,7 @@ _refresh_destination_pointer:
     rts
     }
 display_char:
+    """Render `A` (char) at tilemap offset `Y` into the message VWF buffer; preserves A/X/Y, returns Y = `tilemap_offset`."""
     pha
     phx
     phy
@@ -723,6 +725,7 @@ _wait:
     rts
     }
 DMA_TRANSFER:
+    """Vblank-time DMA flush for the battle-message VWF tile buffer; reads `battle_render.pending_transfer_mask`, transfers the dirty regions to VRAM, and clears the mask bits."""
     pha
     phx
     phy
@@ -788,6 +791,7 @@ _sram_dma_transfer_7:
     plb
     rts
 new_line_escape_code_handler:
+    """Handler for the `\n` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles)."""
 ; we might have something of interest in Y we might know where we are in the previous iteration ?
     pha
 ;jsr.w battle_render.tilemap_write
