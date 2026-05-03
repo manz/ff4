@@ -88,6 +88,15 @@ def assets_need_refresh(source, destination):
 def build_patch(input, output, lang):
     from a816.module_builder import build_with_imports_direct
 
+    obj_dir = Path("build/obj")
+    if obj_dir.exists():
+        for o in obj_dir.glob("*.o"):
+            o.unlink()
+
+    out_path = Path(output)
+    if out_path.exists():
+        out_path.unlink()
+
     result = build_with_imports_direct(
         main_source=Path(input),
         output_file=Path(output),
