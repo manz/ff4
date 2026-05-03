@@ -61,6 +61,14 @@ def _assemble(src: str) -> bytes:
 def test_brk_trap_captures_pc_and_halts(cold_emu, syms):
     stub = _assemble(STUB_PATH.read_text())
     cold_emu.rearm_cpu()
+    # Probe expanded SRAM ($71xxxx) before the run. ares' LoROM-SRAM
+    # board (SHVC-1A3M-10) can leave the bank's mapping lazy on Linux
+    # ARM kintsuki: the first sta.l from the BRK handler silently
+    # no-ops, the read returns the boot-time zero-fill, and the test
+    # sees `captured $000000`. Touching the page first forces ares to
+    # bind the writer.
+    for addr in (0x710100, 0x710101, 0x710102, 0x710103):
+        cold_emu.read(addr)
     cold_emu.write_range(STUB_BASE, stub)
     s = cold_emu.get_state()
     s.pc = STUB_BASE
