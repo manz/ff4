@@ -1,10 +1,10 @@
 .extern assets_items_dat
-.extern Mult8_Trampoline
-.extern LoadMenuTfrData_Trampoline
-.extern HexToDec_Trampoline
-.extern NormalizeNum_Trampoline
-.extern DrawText_Rolling_Trampoline
-.extern Return_To_Bank02
+.extern mult8_trampoline
+.extern load_menu_tfr_data_trampoline
+.extern hex_to_dec_trampoline
+.extern normalize_num_trampoline
+.extern draw_text_rolling_trampoline
+.extern return_to_bank02
 
 ; ============================================================================
 ; Rolling Buffer Implementation for Battle Inventory (Single Column)
@@ -36,7 +36,7 @@ TILEMAP_BYTES_PER_ROW   := 128      ; 2 tilemap rows x 64 bytes ($80)
 ; Memory addresses - using freed spell list buffers
 ; Spell list buffers freed by magic direct rendering: $97A6, $9E66, $A526, $ABE6, $B2A6
 text_buffer_base        := 0x97A6   ; Ring buffer (6 slots × 60 = 360 bytes, uses freed spell buffer 1)
-inv_format_buffer       := 0x9E66   ; Format buffer for DrawText (uses freed spell buffer 2)
+inv_format_buffer       := 0x9E66   ; Format buffer for draw_text (uses freed spell buffer 2)
 tilemap_buffer_base     := 0xC4E6   ; Tilemap buffer
 tilemap_content_offset  := 0x44     ; Offset to content area ($C52A - $C4E6)
 
@@ -85,7 +85,7 @@ vram_slot_table:
 TILEMAP_SLOT_BASE       := tilemap_buffer_base + tilemap_content_offset
 
 ; ============================================================================
-; InitInventoryTextBuf_Rolling
+; init_inventory_text_buf_rolling
 ; ============================================================================
 ; Replacement for $029E9C - renders only 5 visible rows
 ; Called when inventory window opens
@@ -94,7 +94,7 @@ TILEMAP_SLOT_BASE       := tilemap_buffer_base + tilemap_content_offset
 ; Output: Text buffer populated with 5 visible items
 ; Clobbers: A, X, Y, $00-$06, $26-$2A
 
-InitInventoryTextBuf_Rolling:
+init_inventory_text_buf_rolling:
     ; Set data bank to $7E for WRAM access
     phb
     lda     #0x7E
@@ -127,7 +127,7 @@ _init_row_loop:
     pha
 
     ; Render item to circular slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Restore slot index
     pla
@@ -142,7 +142,7 @@ _init_row_loop:
     ; Queue VRAM transfer for initial render
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -151,7 +151,7 @@ _init_row_loop:
     rtl
 
 ; ============================================================================
-; _RenderInventoryItem
+; _render_inventory_item
 ; ============================================================================
 ; Renders a single inventory item to text buffer
 ;
@@ -159,7 +159,7 @@ _init_row_loop:
 ; Output: Item rendered to text buffer
 ; Clobbers: A, X, Y, $00-$02, $26-$2A
 
-_RenderInventoryItem:
+_render_inventory_item:
     ; Set data bank to $7E for WRAM access
     phb
     lda     #0x7E
@@ -172,13 +172,13 @@ _RenderInventoryItem:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
     clc
     adc     #text_buffer_base
-    sta.w   0xEF52                  ; DrawText output destination
+    sta.w   0xEF52                  ; draw_text output destination
     tdc
     sep     #0x20
 
@@ -186,7 +186,7 @@ _RenderInventoryItem:
     ldx.w   #inv_format_buffer
     stx.w   0xEF50
 
-    ; Set tile count for DrawText
+    ; Set tile count for draw_text
     lda     #15                     ; 15 tiles per line
     sta.w   0xEF54
 
@@ -292,8 +292,8 @@ _has_item:
 
     pla                             ; Get quantity
     tax
-    jsr.l   HexToDec_Trampoline     ; Convert to decimal
-    jsr.l   NormalizeNum_Trampoline ; Format digits
+    jsr.l   hex_to_dec_trampoline     ; Convert to decimal
+    jsr.l   normalize_num_trampoline ; Format digits
 
     ; Add tens digit
     lda     #0x03
@@ -317,14 +317,14 @@ _finish_format:
     lda     #0x00
     sta.w   inv_format_buffer,y
 
-    ; Call DrawText to render formatted text to text buffer
-    jsr.l   DrawText_Rolling_Trampoline
+    ; Call draw_text to render formatted text to text buffer
+    jsr.l   draw_text_rolling_trampoline
 
     plb                             ; Restore data bank
     rts
 
 ; ============================================================================
-; _RenderInventoryItemCircular
+; _render_inventory_item_circular
 ; ============================================================================
 ; Renders item to circular buffer slot
 ;
@@ -333,7 +333,7 @@ _finish_format:
 ; Output: Item rendered to text buffer at slot position
 ; Clobbers: A, X, Y, $00-$02, $26-$2A
 
-_RenderInventoryItemCircular:
+_render_inventory_item_circular:
     phb
     lda     #0x7E
     pha
@@ -345,13 +345,13 @@ _RenderInventoryItemCircular:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
     clc
     adc     #text_buffer_base
-    sta.w   0xEF52                  ; DrawText output destination
+    sta.w   0xEF52                  ; draw_text output destination
     tdc
     sep     #0x20
 
@@ -359,7 +359,7 @@ _RenderInventoryItemCircular:
     ldx.w   #inv_format_buffer
     stx.w   0xEF50
 
-    ; Set tile count for DrawText
+    ; Set tile count for draw_text
     lda     #15                     ; 15 tiles per line
     sta.w   0xEF54
 
@@ -457,8 +457,8 @@ _circ_has_item:
 
     pla
     tax
-    jsr.l   HexToDec_Trampoline
-    jsr.l   NormalizeNum_Trampoline
+    jsr.l   hex_to_dec_trampoline
+    jsr.l   normalize_num_trampoline
 
     lda     #0x03
     sta.w   inv_format_buffer,y
@@ -479,13 +479,13 @@ _circ_finish:
     lda     #0x00
     sta.w   inv_format_buffer,y
 
-    jsr.l   DrawText_Rolling_Trampoline
+    jsr.l   draw_text_rolling_trampoline
 
     plb
     rts
 
 ; ============================================================================
-; _CopyItemToTilemapCircular
+; _copy_item_to_tilemap_circular
 ; ============================================================================
 ; Copies item from text buffer slot to tilemap slot (circular buffer)
 ;
@@ -493,8 +493,8 @@ _circ_finish:
 ; Output: Item copied to tilemap buffer at slot position
 ; Clobbers: A, X, Y, $00-$06
 
-_CopyItemToTilemapCircular:
-    ; Save DBR - Mult8_Trampoline may change it
+_copy_item_to_tilemap_circular:
+    ; Save DBR - mult8_trampoline may change it
     phb
     lda     #0x7E
     pha
@@ -507,7 +507,7 @@ _CopyItemToTilemapCircular:
     sta.b   0x26
     lda     #TILEMAP_BYTES_PER_ROW
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -521,7 +521,7 @@ _CopyItemToTilemapCircular:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -576,7 +576,7 @@ _circ_clear_row2:
     rts
 
 ; ============================================================================
-; _CopyItemToTilemap
+; _copy_item_to_tilemap
 ; ============================================================================
 ; Copies a single item from text buffer to the correct tilemap position
 ; (Used for initial rendering where slot = item index)
@@ -585,7 +585,7 @@ _circ_clear_row2:
 ; Output: Item copied to tilemap buffer
 ; Clobbers: A, X, Y, $00-$06
 
-_CopyItemToTilemap:
+_copy_item_to_tilemap:
     ; Calculate row index from slot (same as slot for single column)
     lda.w   rolling_slot_index
     sta.b   0x04                    ; Save row index
@@ -595,7 +595,7 @@ _CopyItemToTilemap:
     sta.b   0x26
     lda     #TILEMAP_BYTES_PER_ROW
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     ; Add content offset (left column position)
     rep     #0x20
@@ -610,7 +610,7 @@ _CopyItemToTilemap:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A                    ; Get offset (slot x 60)
@@ -641,7 +641,7 @@ _copy_row2:
     rts
 
 ; ============================================================================
-; RenderBottomEdgeRow
+; render_bottom_edge_row
 ; ============================================================================
 ; Pre-renders the new bottom row BEFORE scroll down animation starts
 ; Uses circular buffer - writes to the slot that's scrolling OUT (top slot)
@@ -649,7 +649,7 @@ _copy_row2:
 ;
 ; Called via JSL from bank 02
 
-RenderBottomEdgeRow:
+render_bottom_edge_row:
     ; Disable interrupts to prevent NMI from corrupting rolling_slot_index
     sei
 
@@ -686,12 +686,12 @@ _bottom_slot_ok:
     sta.w   rolling_slot_index                  ; Slot index (0-5) for buffer positioning
 
     ; Render item data to this circular slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Queue full tilemap transfer (game's VBlank will handle it)
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -711,7 +711,7 @@ _render_bottom_done:
     rts                             ; Called from within bank $20 now
 
 ; ============================================================================
-; RenderTopEdgeRow
+; render_top_edge_row
 ; ============================================================================
 ; Pre-renders the new top row BEFORE scroll up animation starts
 ; Uses circular buffer - writes to the slot that's scrolling OUT (bottom slot)
@@ -719,7 +719,7 @@ _render_bottom_done:
 ;
 ; Called via JSL from bank 02
 
-RenderTopEdgeRow:
+render_top_edge_row:
     ; Disable interrupts to prevent NMI from corrupting rolling_slot_index
     sei
 
@@ -751,12 +751,12 @@ _store_pos_up:
     sta.w   rolling_slot_index                  ; Slot index (0-5) for buffer positioning
 
     ; Render item data to this circular slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Queue full tilemap transfer (game's VBlank will handle it)
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -767,7 +767,7 @@ _render_top_done:
     rts                             ; Called from within bank $20 now
 
 ; ============================================================================
-; _RenderItemToCircularSlot
+; _render_item_to_circular_slot
 ; ============================================================================
 ; Renders item to a circular buffer slot
 ;
@@ -775,13 +775,13 @@ _render_top_done:
 ;        rolling_slot_index = slot index (0-4) for destination
 ; Output: Item rendered to text buffer slot, copied to tilemap slot
 
-_RenderItemToCircularSlot:
+_render_item_to_circular_slot:
     ; Save processor status and disable interrupts
     ; Using PHP/PLP instead of SEI/CLI to handle nested calls correctly
     php
     sei
 
-    ; Save DBR - DrawText may change it and we need it for tilemap copy
+    ; Save DBR - draw_text may change it and we need it for tilemap copy
     phb
 
     ; Save D and set to $0000 for direct page operations
@@ -819,7 +819,7 @@ _RenderItemToCircularSlot:
     pha
     lda.b   0x0B
     pha
-    ; Also save $26-$2B used by Mult8_Trampoline
+    ; Also save $26-$2B used by mult8_trampoline
     lda.b   0x26
     pha
     lda.b   0x27
@@ -839,13 +839,13 @@ _RenderItemToCircularSlot:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM    ; 60 bytes per slot
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
     clc
     adc     #text_buffer_base
-    sta.w   0xEF52                  ; DrawText output destination
+    sta.w   0xEF52                  ; draw_text output destination
     tdc
     sep     #0x20
 
@@ -938,8 +938,8 @@ _slot_has_item:
     iny
     pla
     tax
-    jsr.l   HexToDec_Trampoline
-    jsr.l   NormalizeNum_Trampoline
+    jsr.l   hex_to_dec_trampoline
+    jsr.l   normalize_num_trampoline
     lda     #0x03
     sta.w   inv_format_buffer,y
     iny
@@ -957,11 +957,11 @@ _slot_finish:
     lda     #0x00
     sta.w   inv_format_buffer,y
 
-    jsr.l   DrawText_Rolling_Trampoline
+    jsr.l   draw_text_rolling_trampoline
 
-    ; DrawText fills text buffer - tilemap copy is done separately by:
-    ; - _CopyAllSlotsToTilemap in TfrInventoryList_Rolling (for init)
-    ; - _CopySlotToTilemap in scroll hooks (for scrolling)
+    ; draw_text fills text buffer - tilemap copy is done separately by:
+    ; - _copy_all_slots_to_tilemap in tfr_inventory_list_rolling (for init)
+    ; - _copy_slot_to_tilemap in scroll hooks (for scrolling)
 
     ; CRITICAL: Restore zero page variables from stack (reverse order)
     ; First restore $26-$2B (last pushed)
@@ -1009,7 +1009,7 @@ _slot_finish:
     tcd
     sep     #0x20
 
-    ; Restore DBR (DrawText may have changed it)
+    ; Restore DBR (draw_text may have changed it)
     plb
 
     ; Restore processor status (including interrupt flag)
@@ -1017,7 +1017,7 @@ _slot_finish:
     rts
 
 ; ============================================================================
-; _TransferCircularSlot
+; _transfer_circular_slot
 ; ============================================================================
 ; Transfers a single circular slot to its fixed VRAM address
 ; Uses direct DMA instead of menu transfer system for precise control
@@ -1025,12 +1025,12 @@ _slot_finish:
 ; Input: rolling_slot_index = slot index (0-4)
 ; Output: 128 bytes transferred to VRAM
 
-_TransferCircularSlot:
+_transfer_circular_slot:
     ; Save processor status and disable interrupts
     php
     sei
 
-    ; Save DBR - Mult8_Trampoline may change it
+    ; Save DBR - mult8_trampoline may change it
     phb
     lda     #0x7E
     pha
@@ -1063,7 +1063,7 @@ _TransferCircularSlot:
     pha
     lda.b   0x0B
     pha
-    ; Also save $26-$2B used by Mult8_Trampoline
+    ; Also save $26-$2B used by mult8_trampoline
     lda.b   0x26
     pha
     lda.b   0x27
@@ -1092,7 +1092,7 @@ _TransferCircularSlot:
     sta.b   0x26
     lda     #TILEMAP_BYTES_PER_ROW
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -1105,7 +1105,7 @@ _TransferCircularSlot:
     ; The transfer will include this slot since it's at the right offset
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
 
     lda     #0x01
     sta.w   0x1825
@@ -1159,19 +1159,19 @@ _TransferCircularSlot:
     rts
 
 ; ============================================================================
-; _CopySlotToTilemap
+; _copy_slot_to_tilemap
 ; ============================================================================
 ; Copies a single slot from text buffer to tilemap buffer
 ; Input: rolling_slot_index = slot index (0-5)
 ; Uses $00-$01, $26, $28, $2A, X, Y
 
-_CopySlotToTilemap:
+_copy_slot_to_tilemap:
     ; Save processor status and disable interrupts
     ; Using PHP/PLP instead of SEI/CLI to handle nested calls correctly
     php
     sei
 
-    ; Save DBR - Mult8_Trampoline may change it
+    ; Save DBR - mult8_trampoline may change it
     phb
 
     ; Save and set D to 0 for direct page operations
@@ -1209,7 +1209,7 @@ _CopySlotToTilemap:
     pha
     lda.b   0x0B
     pha
-    ; Also save $26-$2B used by Mult8_Trampoline
+    ; Also save $26-$2B used by mult8_trampoline
     lda.b   0x26
     pha
     lda.b   0x27
@@ -1228,7 +1228,7 @@ _CopySlotToTilemap:
     sta.b   0x26
     lda     #TILEMAP_BYTES_PER_ROW
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -1242,7 +1242,7 @@ _CopySlotToTilemap:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -1323,13 +1323,13 @@ _copy_slot_row2:
     rts
 
 ; ============================================================================
-; _CopyAllSlotsToTilemap
+; _copy_all_slots_to_tilemap
 ; ============================================================================
 ; Copies all 6 slots from text buffer to tilemap buffer
-; Called from TfrInventoryList_Rolling AFTER game clears window buffers
+; Called from tfr_inventory_list_rolling AFTER game clears window buffers
 
-_CopyAllSlotsToTilemap:
-    ; Save DBR - Mult8_Trampoline may change it
+_copy_all_slots_to_tilemap:
+    ; Save DBR - mult8_trampoline may change it
     phb
     lda     #0x7E
     pha
@@ -1345,7 +1345,7 @@ _copy_slots_loop:
     sta.b   0x26
     lda     #TILEMAP_BYTES_PER_ROW  ; 128
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -1359,7 +1359,7 @@ _copy_slots_loop:
     sta.b   0x26
     lda     #TEXT_BYTES_PER_ITEM    ; 60
     sta.b   0x28
-    jsr.l   Mult8_Trampoline
+    jsr.l   mult8_trampoline
 
     rep     #0x20
     lda.b   0x2A
@@ -1397,14 +1397,14 @@ _copy_all_row2:
     rts
 
 ; ============================================================================
-; TfrInventoryList_Rolling
+; tfr_inventory_list_rolling
 ; ============================================================================
 ; Replacement for TfrInventoryList ($0298FA)
 ; Transfers the visible portion of tilemap buffer to VRAM
 ;
 ; Called via JSL from bank 02
 
-TfrInventoryList_Rolling:
+tfr_inventory_list_rolling:
     ; Set data bank to $7E for WRAM access
     phb
     lda     #0x7E
@@ -1415,16 +1415,16 @@ TfrInventoryList_Rolling:
     ; This is necessary because DrawInventoryItemText (called after item swap)
     ; writes to the OLD text buffer at $8EA6, not our buffer at $97A6.
     ; By always re-rendering here, swapped items display correctly.
-    jsr.w   _RefreshVisibleItemsInternal
+    jsr.w   _refresh_visible_items_internal
 
     ; Copy all 6 slots from text buffer to tilemap buffer
     ; This runs AFTER the game's window clearing at $9AF4
-    jsr.w   _CopyAllSlotsToTilemap
+    jsr.w   _copy_all_slots_to_tilemap
 
     ; Queue VRAM transfer (entry 3 covers $7400-$77FF)
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
 
     lda     #0x01
     sta.w   0x1825                  ; 1 transfer only
@@ -1434,13 +1434,13 @@ TfrInventoryList_Rolling:
     rtl
 
 ; ============================================================================
-; _RefreshVisibleItemsInternal
+; _refresh_visible_items_internal
 ; ============================================================================
 ; Re-render all 5 visible items to our rolling buffer slots.
 ; Uses current EF71 as the top item index.
 ; Does NOT queue VRAM transfer (caller handles that).
 
-_RefreshVisibleItemsInternal:
+_refresh_visible_items_internal:
     ; Render 5 visible items to their CORRECT circular buffer slots
     ; The visible slots depend on rolling_buffer_pos due to circular rotation!
     ;
@@ -1477,7 +1477,7 @@ _refresh_slot_ok:
     pha
 
     ; Render item to this slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Restore visible row index
     pla
@@ -1492,15 +1492,15 @@ _refresh_slot_ok:
     rts
 
 ; ============================================================================
-; RefreshVisibleItems - Re-render all visible items after scroll
+; refresh_visible_items - Re-render all visible items after scroll
 ; ============================================================================
 ; Simpler approach: instead of circular buffer tricks, just redraw the 5
 ; visible items to fixed slot positions (0-4) after each scroll.
 ; EF65 is reset to 0 by the caller.
 ;
-; Called via JSL from WrapAndClear_Trampoline
+; Called via JSL from wrap_and_clear_trampoline
 
-RefreshVisibleItems:
+refresh_visible_items:
     phb
     lda     #0x7E
     pha
@@ -1527,7 +1527,7 @@ _refresh_loop:
     pha
 
     ; Render item to this slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Restore slot index
     pla
@@ -1542,7 +1542,7 @@ _refresh_loop:
     ; Queue VRAM transfer
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -1551,14 +1551,14 @@ _refresh_loop:
     rtl
 
 ; ============================================================================
-; PostRenderUp - Called after scroll UP animation completes
+; post_render_up - Called after scroll UP animation completes
 ; ============================================================================
 ; Renders the next item (for potential next scroll UP) to the off-screen slot
 ; Off-screen slot after scroll UP = (pos - 1) mod 6 (above top)
 ;
-; Called via JSL from WrapAndClear_Trampoline
+; Called via JSL from wrap_and_clear_trampoline
 
-PostRenderUp:
+post_render_up:
     phb
     lda     #0x7E
     pha
@@ -1580,12 +1580,12 @@ PostRenderUp:
 _post_up_slot_ok:
     sta.w   rolling_slot_index
 
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Queue VRAM transfer
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -1595,14 +1595,14 @@ _post_up_done:
     rtl
 
 ; ============================================================================
-; PostRenderDown - Called after scroll DOWN animation completes
+; post_render_down - Called after scroll DOWN animation completes
 ; ============================================================================
 ; Renders the previous item (for potential scroll UP back) to the off-screen slot
 ; Off-screen slot after scroll DOWN = (pos + 5) mod 6 (below bottom)
 ;
-; Called via JSL from WrapAndClear_Trampoline
+; Called via JSL from wrap_and_clear_trampoline
 
-PostRenderDown:
+post_render_down:
     phb
     lda     #0x7E
     pha
@@ -1628,12 +1628,12 @@ PostRenderDown:
 _post_down_slot_ok:
     sta.w   rolling_slot_index
 
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
 
     ; Queue VRAM transfer
     lda     #0x03
     ldy.w   #0x0002
-    jsr.l   LoadMenuTfrData_Trampoline
+    jsr.l   load_menu_tfr_data_trampoline
     lda     #0x01
     sta.w   0x1825
     sta.w   0x1824
@@ -1643,46 +1643,46 @@ _post_down_done:
     rtl
 
 ; ============================================================================
-; PostScrollDown_Render
+; post_scroll_down_render
 ; ============================================================================
-; Called via JSL from WrapAndClear_Trampoline after scroll animation completes.
+; Called via JSL from wrap_and_clear_trampoline after scroll animation completes.
 ;
-; For scroll DOWN: Pre-render happened BEFORE animation (in ScrollListDown_Hook)
+; For scroll DOWN: Pre-render happened BEFORE animation (in scroll_list_down_hook)
 ; so the newly visible slot already has correct content.
 ;
 ; We check if it was a scroll DOWN and optionally prepare the NEXT off-screen
 ; slot for future scroll UP operations.
 
-PostScrollDown_Render:
+post_scroll_down_render:
     ; Check if this was a scroll DOWN animation (type 2)
     ; $1820 still contains the animation type at this point
     lda.w   0x1820
     cmp     #0x02
     bne     _psd_done
 
-    ; For scroll DOWN, the pre-render already happened in ScrollListDown_Hook.
+    ; For scroll DOWN, the pre-render already happened in scroll_list_down_hook.
     ; The slot that scrolled into view (at bottom) has correct content.
     ;
     ; Optionally, we could prepare the slot that's now off-screen (at top)
-    ; for a potential scroll UP. But since ScrollListUp_Hook does pre-render,
+    ; for a potential scroll UP. But since scroll_list_up_hook does pre-render,
     ; this isn't strictly necessary.
 
 _psd_done:
     rtl
 
 ; ============================================================================
-; ScrollListDown_Hook
+; scroll_list_down_hook
 ; ============================================================================
 ; Called via JMP.L from $02A8B8
-; Starts scroll animation. Pre-rendering happens AFTER animation in PostScrollDown_Render.
-; Returns via JMP.L to Return_To_Bank02 (which has RTS)
+; Starts scroll animation. Pre-rendering happens AFTER animation in post_scroll_down_render.
+; Returns via JMP.L to return_to_bank02 (which has RTS)
 ;
 ; Original code at $02A8B8:
 ;   ldx $ef71, dex, stx $ef71, lda #$0c, sta $ef64, lda #$02, sta $1820, rts
 
 ;MENU_FLAG_INVENTORY := 0x04         ; Bit 2 of $4A = inventory menu active
 
-ScrollListDown_Hook:
+scroll_list_down_hook:
     ; === GUARD: Only use rolling buffer for inventory menu ===
     ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
     lda.b   0x4A
@@ -1698,7 +1698,7 @@ ScrollListDown_Hook:
     sta.w   0xEF64
     lda     #0x02
     sta.w   0x1820
-    jmp.l   Return_To_Bank02
+    jmp.l   return_to_bank02
 
 _sd_is_inventory:
     ; NOTE: For inventory in single-column mode, we INCREMENT EF71 to show later items
@@ -1748,11 +1748,11 @@ _sd_slot_ok:
     sta.w   rolling_slot_index
 
     ; Render item to the off-screen slot
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
     ; Copy to tilemap buffer
-    jsr.w   _CopySlotToTilemap
+    jsr.w   _copy_slot_to_tilemap
     ; Queue VRAM transfer
-    jsr.w   _TransferCircularSlot
+    jsr.w   _transfer_circular_slot
 
 _sd_skip_prerender:
     ; INCREMENT EF71 to show later items (animation loop is NOPed out)
@@ -1761,7 +1761,7 @@ _sd_skip_prerender:
     sta.w   0xEF71
 
     ; INCREMENT rolling_top_row to track which item is at top of visible area
-    ; This is critical for _RefreshVisibleItemsInternal to work correctly!
+    ; This is critical for _refresh_visible_items_internal to work correctly!
     lda.w   rolling_top_row
     inc
     sta.w   rolling_top_row
@@ -1788,19 +1788,19 @@ _sd_abort:
 
     plb                             ; Restore data bank
     .db     0x58                    ; cli - re-enable interrupts
-    jmp.l   Return_To_Bank02
+    jmp.l   return_to_bank02
 
 ; ============================================================================
-; ScrollListUp_Hook
+; scroll_list_up_hook
 ; ============================================================================
 ; Called via JMP.L from $02A8CA
 ; Pre-renders new top row, then does original scroll setup
-; Returns via JMP.L to Return_To_Bank02 (which has RTS)
+; Returns via JMP.L to return_to_bank02 (which has RTS)
 ;
 ; Original code at $02A8CA:
 ;   ldx $ef71, inx, stx $ef71, lda #$0c, sta $ef64, lda #$03, sta $1820, rts
 
-ScrollListUp_Hook:
+scroll_list_up_hook:
     ; === GUARD: Only use rolling buffer for inventory menu ===
     ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
     lda.b   0x4A
@@ -1816,7 +1816,7 @@ ScrollListUp_Hook:
     sta.w   0xEF64
     lda     #0x03
     sta.w   0x1820
-    jmp.l   Return_To_Bank02
+    jmp.l   return_to_bank02
 
 _su_is_inventory:
     ; NOTE: For inventory in single-column mode, we DECREMENT rolling_top_row to show earlier items
@@ -1855,11 +1855,11 @@ _su_pos_ok:
     sta.w   rolling_edge_row
 
     ; Pre-render to new top slot (currently off-screen, about to scroll in)
-    jsr.w   _RenderItemToCircularSlot
+    jsr.w   _render_item_to_circular_slot
     ; Copy to tilemap buffer
-    jsr.w   _CopySlotToTilemap
+    jsr.w   _copy_slot_to_tilemap
     ; Queue VRAM transfer for this slot
-    jsr.w   _TransferCircularSlot
+    jsr.w   _transfer_circular_slot
 
     ; DECREMENT rolling_top_row to track which item is at top of visible area
     ; This is the authoritative source for which items are visible!
@@ -1880,10 +1880,10 @@ _su_abort:
 
     plb                             ; Restore data bank
     .db 0x58                        ; cli - re-enable interrupts
-    jmp.l   Return_To_Bank02
+    jmp.l   return_to_bank02
 
 ; ============================================================================
-; UpdateListScrollHDMA_Wrapped
+; update_list_scroll_hdma_wrapped
 ; ============================================================================
 ; Replacement for $02A7F1 - builds HDMA table with scroll value WRAPPING
 ; This is the key to the circular buffer - scroll values wrap at 96 pixels
@@ -1899,7 +1899,7 @@ SCROLL_WRAP         := 0x0060       ; 96 = 6 slots × 16 pixels (tilemap buffer 
 SCROLL_WRAP_LIMIT   := 0x01D3       ; 467 = 371 + 96 (wrap when >= this value)
 OUR_BASE_SCROLL     := 0x0173       ; 371 - same as original game
 
-UpdateListScrollHDMA_Wrapped:
+update_list_scroll_hdma_wrapped:
     ; Check if we're in inventory mode (bit 2 of $4A)
     ; If not, use original behavior for other windows
     lda.b   0x4A
@@ -1927,7 +1927,7 @@ _orig_skip_add:
     bne     _orig_loop
     .db     0x7B                    ; TDC (clear A)
     sep     #0x20                   ; 8-bit A
-    jmp.l   Return_To_Bank02        ; Return via bank $02 trampoline
+    jmp.l   return_to_bank02        ; Return via bank $02 trampoline
 
 _use_circular_buffer:
     ; FF6-STYLE CIRCULAR BUFFER HDMA
@@ -2082,7 +2082,7 @@ _cursor_set_y:
 _cursor_skip_force:
 
     .db     0x58                    ; CLI
-    jmp.l   Return_To_Bank02
+    jmp.l   return_to_bank02
 
 ; HDMA table addresses - Y scroll portion only!
 ; Original ResetListScrollHDMA writes to $81F4 (Y scroll in swap table)
@@ -2093,14 +2093,14 @@ HDMA_ACTIVE_Y   := 0x7E7F74     ; Y scroll in active table
 HDMA_Y_SIZE     := 0x00F0       ; 240 bytes (same as original)
 
 ; ============================================================================
-; ResetListScrollHDMA_Rolling
+; reset_list_scroll_hdma_rolling
 ; ============================================================================
 ; Replacement for $02AAB8 - fills Y scroll in BOTH HDMA tables
 ; X scroll values stay as original game initialized them.
 ;
 ; Only difference from original: uses 132-based values instead of 371-based.
 
-ResetListScrollHDMA_Rolling:
+reset_list_scroll_hdma_rolling:
     ; Check if we're in inventory mode (bit 2 of $4A)
     lda.b   0x4A
     and     #0x04
@@ -2151,9 +2151,9 @@ _reset_use_circular:
 
     ; Re-initialize circular buffer contents when inventory (re)opens
     ; This ensures VRAM has correct items even after closing/reopening
-    jsr.l   InitInventoryTextBuf_Rolling
+    jsr.l   init_inventory_text_buf_rolling
 
-    ; rolling_buffer_pos is now set by InitInventoryTextBuf_Rolling
+    ; rolling_buffer_pos is now set by init_inventory_text_buf_rolling
 
     ; Fill Y scroll in both tables using circular buffer formula
     stz.b   0x02                ; Row counter low byte (8-bit mode)
@@ -2203,7 +2203,7 @@ _reset_scanline_loop:
     rtl
 
 ; ============================================================================
-; CheckCursor2Visibility_Rolling
+; check_cursor2_visibility_rolling
 ; ============================================================================
 ; Checks if cursor 2 (the first selected item in swap mode) should be visible.
 ; Called after scroll animation completes.
@@ -2216,13 +2216,13 @@ _reset_scanline_loop:
 ;   - Else:
 ;       Hide cursor 2 ($EF6A = 1)
 ;
-; Called via JSR from WrapAndClear_Trampoline (bank $02)
+; Called via JSR from wrap_and_clear_trampoline (bank $02)
 
 swap_mode_flag          := 0xEF94   ; Non-zero = swap mode active
 first_selected_item     := 0xEF95   ; First selected item index (bit 7 may be set)
 hide_cursor_2           := 0xEF6A   ; Non-zero = hide cursor 2
 
-CheckCursor2Visibility_Rolling:
+check_cursor2_visibility_rolling:
     ; Check if we're in inventory mode (bit 2 of $4A)
     ; If not, don't touch cursor 2 state
     lda.b   0x4A
@@ -2279,8 +2279,8 @@ FIELD_HDMA_TABLE             := 0x7E9800
 FIELD_HDMA_SHADOW            := 0x7E9840
 FIELD_HDMA_TABLE_SIZE        := 40
 
-; Called via JSL from bank $01 NmiDmaTransferCheck
-FieldMenu_NmiDmaTransferCheck_Impl:
+; Called via JSL from bank $01 nmi_dma_transfer_check
+field_menu_nmi_dma_transfer_check_impl:
     php
     sep     #0x20                   ; 8-bit A
 

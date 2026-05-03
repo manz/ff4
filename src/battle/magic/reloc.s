@@ -3,7 +3,7 @@ destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer - 4
 right_column_base = destination_buffer + 18 - 2
 
-DrawMagicListDirect:
+draw_magic_list_direct:
 {
     spell_id = 0x03
     spell_enabled_flag = 0x02
@@ -15,7 +15,7 @@ DrawMagicListDirect:
     asl
     tax
     rep #0x20
-    lda.l MagicListPtrs, x
+    lda.l magic_list_ptrs, x
     ; pointers to spell lists
     clc
     adc 0x06
@@ -161,6 +161,6 @@ DrawMagicListDirect:
     rtl
 }
 
-MagicListPtrs:
+magic_list_ptrs:
     .dw 0x2c7a, 0x2d9a, 0x2eba, 0x2fda, 0x30fa
 

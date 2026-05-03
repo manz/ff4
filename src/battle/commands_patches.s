@@ -54,7 +54,7 @@ command_buffer_ptr = 0x97a6  + 0x601 ; old spell lists buffers
 {
 ; ram position of the prebuilt battle windows
 *=0x16FEAD
-CmdTextBufPtrs:
+cmd_text_buf_ptrs:
 battle_data_size = command_length * 4 * 5
 .dw command_buffer_ptr
 .dw command_buffer_ptr + battle_data_size

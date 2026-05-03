@@ -1,13 +1,11 @@
-; Include shared VWF variable definitions
-.include 'src/vwf.i'
+.include "src/vwf.i"
 
-; External symbols - these are defined in the main file or assets
 .extern assets_bank1_1_ptr
 .extern assets_bank2_ptr
 .extern dialog_bank_ptr_base
 
-PointeurBank1de1:
-    """Gets a 24bits pointer for bank 1-1"""
+get_bank1_1_pointer:
+    """Get a 24-bit dialog pointer for bank 1-1."""
     rep #0x20
     lda.l assets_bank1_1_ptr, x
     sta.b dialog_ptr
@@ -18,11 +16,12 @@ PointeurBank1de1:
     lda.b #0x01
     rtl
 
-PointeurBank1de2:
-    """
-    Gets a 24bits pointer from bank 1-2
+get_bank1_2_pointer:
 
-    > Note: the bank 1 of 1 is only 0x100 pointers long and not 0x200 as the text dump suggests.
+    """
+    Get a 24-bit dialog pointer for bank 1-2.
+
+    > Note: bank 1-1 is only 0x100 pointers long, not 0x200 as the text dump suggests.
     """
     rep #0x20
     lda.l assets_bank1_1_ptr + 0x300, x
@@ -34,12 +33,12 @@ PointeurBank1de2:
     lda #0x01
     rtl
 
-; genuinely false
+get_bank3_pointer:
 
-PointeurBank3:
     """
-    Computes a ptr Npc dialogs, organized per room, then a linear
-    lookup inside the room to find the start of the string.
+    Compute pointer for NPC dialogs.
+
+    Organized per room                  ; a linear lookup inside the room finds the start of the string.
     """
     rep #0x20
     lda.l dialog_bank_ptr_base + 0x600, x
@@ -51,7 +50,8 @@ PointeurBank3:
     lda #0x02
     rtl
 
-CalculePositionTb:
+compute_dialog_text_offset:
+    """Compute index into dialog pointer table from current text id ($B2)."""
     lda.b 0xB2
     sta.b dialog_ptr
     stz.b dialog_ptr + 1
@@ -64,7 +64,13 @@ CalculePositionTb:
     sep #0x20
     rtl
 
-PointeurBank2:
+get_bank2_pointer:
+
+    """
+    Get a 24-bit dialog pointer for bank 2.
+
+    Walks the string character-by-character to handle variable-length encoding.
+    """
 {
     rep #0x20
     lda.b dialog_ptr
@@ -80,52 +86,52 @@ PointeurBank2:
     sta.b dialog_ptr + 2
     ldx.b dialog_ptr
     lda.b 0xB2
-    beq _FinBk2
+    beq _end
     tay
 
-    _LoopBk2:
-    jsr.w _ChargeLettreIncBk2
-    bne _LoopBk2
-    jsr.w _ChargeLettreDecBk2
+    _loop:
+    jsr.w _load_letter_inc
+    bne _loop
+    jsr.w _load_letter_dec
     pha
-    jsr.w _ChargeLettreIncBk2
+    jsr.w _load_letter_inc
     pla
     cmp #0x03
-    beq _LoopBk2
+    beq _loop
     pha
     pla
     cmp #0x04
-    beq _LoopBk2
+    beq _loop
     cmp #0xfe
-    beq _LoopBk2
+    beq _loop
     dey
-    bne _LoopBk2
+    bne _loop
     inx
 
-    _FinBk2:
+    _end:
     stx.w 0x0772
     stz.b 0xDD
     rtl
 
-    _ChargeLettreDecBk2:
+    _load_letter_dec:
     ldx.b dialog_ptr
     dex
-    bmi _OkBk2
+    bmi _ok
     dec.b dialog_ptr + 2
     ldx.w #0xFFFF
-    bra _OkBk2
+    bra _ok
 
-    _ChargeLettreIncBk2:
+    _load_letter_inc:
     ldx.b dialog_ptr
     inx
-    bmi _OkBk2
+    bmi _ok
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
-    _OkBk2:
+    _ok:
     stx.b dialog_ptr
 
-    _ChargeLettreBk2:
+    _load_letter:
     ldx.b dialog_ptr
     phb
     lda.b dialog_ptr + 2
@@ -155,8 +161,8 @@ _incpointer:
 }
 
 
-ChargeLettreInc:
-    """Read character from dialog, increment the pointer."""
+load_letter_inc:
+    """Advance dialog cursor by one character."""
 {
     ldx.w 0x0772
     inx
@@ -170,8 +176,8 @@ ChargeLettreInc:
 }
 
 
-ChargeLettre:
-    """Peek a character from the dialog."""
+load_letter:
+    """Peek the current character from the dialog stream into CURRENT_C."""
     ldx.w 0x0772
     phb
     lda.b dialog_ptr + 2

@@ -1,5 +1,5 @@
-.extern DrawMagicListDirect
-.extern MagicListPtrs
+.extern draw_magic_list_direct
+.extern magic_list_ptrs
 
 *=0x029A69                              ; do not initalize the magic text buffers
     ; 029A69  20 70 A0   JSR $A070
@@ -24,7 +24,7 @@ transfer_white_magic:
     stx 0x06
     lda 0x1822
     sta 0x00
-    jsr.l DrawMagicListDirect
+    jsr.l draw_magic_list_direct
     lda #0x02                           ; spell list
     ldy.w #0x0002
     jsr.w 0x9738                        ; LoadMenuTfrData
@@ -36,12 +36,12 @@ transfer_white_magic:
 
 *=0x029ead
 
-DrawMagicList:
+draw_magic_list:
     lda 0x00                            ; character slot
     asl
     tax
     rep #0x20
-    lda.l MagicListPtrs, x              ; pointers to spell lists
+    lda.l magic_list_ptrs, x              ; pointers to spell lists
     clc
     adc 0x06                            ; add magic type offset
     sta 0x00
@@ -54,7 +54,7 @@ draw_letter_far:
     tdc
     sta.l 0x7FFFFF
     pla
-    jsr.w 0xa497                        ; Original DrawLetter
+    jsr.w 0xa497                        ; Original draw_letter
     rtl
 
     ; attack name window

@@ -631,11 +631,11 @@ get_kerning_adjustment:
     rts
 }
 
-BattleMsgKerningLinear_Ext:
+battle_msg_kerning_linear_ext:
     jsr.w get_kerning_adjustment_linear_search
     rtl
 
-BattleMsgKerningBinary_Ext:
+battle_msg_kerning_binary_ext:
     jsr.w get_kerning_adjustment
     rtl
 }

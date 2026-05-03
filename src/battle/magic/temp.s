@@ -1,13 +1,13 @@
 
 ; [ draw spell list directly to transfer buffer ]
-DrawMagicListDirect:
+draw_magic_list_direct:
 {
 magic_length = 8
     lda     0x00         ; character slot
     asl
     tax
     rep #0x20
-    lda.l     MagicListPtrs,x   ; pointers to spell lists
+    lda.l     magic_list_ptrs,x   ; pointers to spell lists
     clc
     adc     0x06         ; add magic type offset
     sta     0x00

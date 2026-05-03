@@ -165,7 +165,7 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; Add patch to adjust $5a before the loop
 
 *=0x01A181
-    jsr.w   AdjustInventoryPointer
+    jsr.w   adjust_inventory_pointer
     nop
 
 ; ============================================================================
@@ -271,5 +271,5 @@ SCROLL_LIMIT            := 38       ; 48 - 10 = 38 (max scroll position)
 ; ============================================================================
 ; Ensure $1b22 starts at 0 even if it had a value from a previous menu.
 ; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
-; We already have AdjustInventoryPointer at $A181, so add $1b22 init there.
+; We already have adjust_inventory_pointer at $A181, so add $1b22 init there.
 ; Actually, we'll add it to the MenuEntryHook_Impl in inventory_rolling.s

@@ -182,28 +182,28 @@ fsize = 0x900
 *=0x029EC8
                 lda #0x48
                 sta 7
-loc_29ECC:
+loc_29ecc:
                 ldy.w #1
                 lda (0)
-                bmi loc_29EDB
+                bmi loc_29edb
                 lda #0
                 sta 6
                 lda #0
-                bra loc_29EE3
-loc_29EDB:
+                bra loc_29ee3
+loc_29edb:
                 lda #4
                 sta 6
-                bra loc_29EE3
-loc_29EE1:
+                bra loc_29ee3
+loc_29ee1:
                 lda 6
-loc_29EE3:
+loc_29ee3:
 
                 sta (2),Y
                 sta (4),Y
                 iny
                 iny
                 cpy.w #battle_magic_length * 2 + 1 ; len * 2 + 1 : 0x0D
-                bne loc_29EE1
+                bne loc_29ee1
                 rep #0x20 ; ' '
 ;.A16
                 lda 2
@@ -221,7 +221,7 @@ loc_29EE3:
                 sep #0x20
 ;.A8
                 dec 7 ; loop on all magic
-                bne loc_29ECC
+                bne loc_29ecc
                 rts
 
 ; patches for display attack name
