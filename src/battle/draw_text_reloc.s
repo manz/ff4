@@ -149,8 +149,8 @@ _a4ac:
 
 ; ------------------------------------------------------------------------------
 
-; text escape code jump table
 text_cmd_tbl:
+    """text escape code jump table"""
 _a4c8:
     .dw text_cmd_00
     .dw text_cmd_01

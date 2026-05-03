@@ -14,8 +14,8 @@ welcome_and_actions:
     .dw 0x0148 - 4
     .text "Achat Vente Sortir"
     .db 0
-;.text 'かう   うる   でる'
 quantity:
+    """.text 'かう   うる   でる'"""
     .dw 0x0052
     .text "Que désirez vous ?  "
     .db 1

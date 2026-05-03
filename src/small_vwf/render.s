@@ -105,8 +105,8 @@ _transfer_to_vram:
 
 .scope render_allocator {
     allocated_tile_id = 0x702F00
-; tile_id in A
 init_with_tile_id:
+    """tile_id in A"""
     sta.l allocated_tile_id
     rts
 init:
@@ -147,8 +147,8 @@ get:
     buffer_ptr = 0x703000
     buffer_size = 0x300
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
-;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
 init:
+    """font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat"""
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables

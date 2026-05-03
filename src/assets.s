@@ -56,6 +56,7 @@
 .incbin "assets/battle_commands.dat"
 
 font_table:
+    """24-bit pointer table indexed by font id (0=dialog, 1=wicked, 2=book, 3=bold)."""
     .pointer assets_font_dat
     .pointer assets_wicked_font_dat
     .pointer assets_book_font_dat

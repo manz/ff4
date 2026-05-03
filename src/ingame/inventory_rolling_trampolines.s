@@ -9,30 +9,37 @@
     *=0x01EBD2
 
 check_and_clear_count:
+    """Bank-$01 trampoline: bridge to `CheckAndClearCount_Impl` in bank $21."""
     jsr.l CheckAndClearCount_Impl
     rts
 
 init_menu_rolling_buffer:
+    """Bank-$01 trampoline: initialise the rolling-buffer state held in bank $21."""
     jsr.l init_menu_rolling_buffer_impl
     rts
 
 SwapRedrawHook_Impl:
+    """Bank-$01 trampoline into `SwapRedrawHook_Impl_Body` (bank $21)."""
     jsr.l SwapRedrawHook_Impl_Body
     rts
 
 StartScrollDown:
+    """Bank-$01 trampoline: kick off a scroll-down animation."""
     jsr.l start_scroll_down_impl
     rts
 
 StartScrollUp:
+    """Bank-$01 trampoline: kick off a scroll-up animation."""
     jsr.l start_scroll_up_impl
     rts
 
 UpdateScrollFrame:
+    """Bank-$01 trampoline: advance the rolling buffer by one animation frame."""
     jsr.l update_scroll_frame_impl
     rts
 
 FinishScroll:
+    """Bank-$01 trampoline: settle the rolling buffer at the end of a scroll."""
     jsr.l finish_scroll_impl
     rts
 ; --- Bank-$01 vanilla call trampolines ---

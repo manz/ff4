@@ -1,4 +1,5 @@
 wait_for_vblank:
+    """Spin until the next vblank edge: wait for $4212 to go low, then high."""
 {
     pha
 
@@ -14,10 +15,16 @@ _positive:
 }
 
 wait_for_vblank_long:
+    """RTL trampoline around `wait_for_vblank` for cross-bank callers."""
     jsr.w wait_for_vblank
     rtl
 
 dma_transfer_to_vram:
+    """
+    DMA-transfer a block from ROM/RAM into VRAM via channel 7.
+    Stack args (caller pushes in order): source_offset, source_bank,
+    vram_pointer, count, dma_mode. All five args are pulled before RTS.
+    """
 {
 ; on the stack:
 ; return address
@@ -64,6 +71,11 @@ dma_transfer_to_vram:
 
 
 dma_transfer_to_palette:
+    """
+    DMA-transfer a block into CGRAM (palette) via channel 7.
+    Stack args (caller-pushed): source_offset, source_bank, count.
+    All three pulled before RTS.
+    """
 {
 ; on the stack:
 ; return address
@@ -106,6 +118,7 @@ enable_display:
     rts
 
 enable_gamepad:
+    """Enable auto-joypad-read + vblank NMI by writing 1 to $4200."""
     pha
     lda #0x01
     sta 0x4200
@@ -114,11 +127,17 @@ enable_gamepad:
 
 
 disable_gamepad:
+    """Disable auto-joypad-read and all NMI/IRQ sources ($4200 := 0)."""
     stz 0x4200
     rts
 
 
 initialize_snes:
+    """
+    Reset PPU, DMA, and CPU registers to a known idle state at boot.
+    8-bit M/X; clears OBJ/BG registers, neutralises mode-7 matrix to identity,
+    disables NMI/HDMA/joypad, leaves screen forced-blank.
+    """
     sep #0x30  ; make X, Y, A all 8-bits
     lda #0x80  ; screen off, no brightness
     sta 0x2100  ; brightness & screen enable register

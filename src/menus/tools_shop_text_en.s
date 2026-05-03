@@ -13,8 +13,8 @@ welcome_and_actions:
     .dw 0x0148 - 4
     .text "Buy Sell Exit"
     .db 0
-;.text 'かう   うる   でる'
 quantity:
+    """.text 'かう   うる   でる'"""
     .dw 0x0052
     .text "What do you want?   "
     .db 1

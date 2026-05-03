@@ -1,6 +1,7 @@
 .extern assets_monsters_long_ptr
 
 load_monster_pointer:
+    """Resolve a long-form monster name pointer from `assets_monsters_long_ptr[A*2]` and render it into the current slot."""
     rep #0x20
     ;lda.w #127 - 3
     asl
@@ -15,10 +16,12 @@ load_monster_pointer:
     rtl
 
 initialize_monster_slot:
+    """Cross-bank (RTL) entry that clears a monster's display slot to spaces."""
     jsr.w initialize_monster_slot_near
     rtl
 
 tab_escape_code:
+    """Text-stream escape that draws a column of spaces to advance the cursor."""
     jsr.w draw_spaces
     rtl
 
