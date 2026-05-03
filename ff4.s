@@ -6,7 +6,7 @@
 ConditionalBG1VOFS := 0x208000
 
 .include "src/libmz.i"
-.include "src/system_menus_text.i"
+.include "src/menus/system_menus_text.i"
 
 .include "src/minimal_vwf_patches.s"
 .if BATTLE_ENABLED {
@@ -28,9 +28,9 @@ ConditionalBG1VOFS := 0x208000
 }
 
 
-.include "src/places_names.s"
-.include "src/new_game.s"
-.include "src/credits.s"
+.include "src/ingame/places_names.s"
+.include "src/ingame/new_game.s"
+.include "src/ingame/credits.s"
 .include "src/ingame/menus.i"
 ; item name expansion patches
 .include "src/ingame/items_menu.s"
@@ -155,9 +155,9 @@ rtl
     }
 }
 ; dialog.s is now imported as a module (see .import "dialog" above)
-.import "places_names_window"
+.import "ingame/places_names_window"
 ; system menu text routines
-.import "system_menus_text"
+.import "menus/system_menus_text"
 .import "dakuten"
 
 ; menu text scopes
