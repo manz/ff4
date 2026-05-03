@@ -22,8 +22,18 @@ REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
 SYM = REPO / "build/ff4.sym"
 FONT = REPO / "assets/font.dat"
+MENU_FONT = REPO / "assets/menu_font.dat"
 STUB_PATH = Path(__file__).parent / "asm/kerning_stub.s"
-KERNING_OFFSET = 0x1100  # within the font asset
+MENU_STUB_PATH = Path(__file__).parent / "asm/kerning_menu_stub.s"
+# Kerning data lives immediately after the bitmap+width section:
+# offset = 256 * (char_height + 1). Dialog font is 16-tall, menu font 8-tall.
+KERNING_OFFSET = 256 * 17       # within the dialog font asset
+MENU_KERNING_OFFSET = 256 * 9   # within the menu font asset
+
+# Direct-page slots used by each menu-font caller for `prev_char`.
+# Hardcoded because they live inside .scope blocks and aren't exported.
+SMALLVWF_PREV_CHAR = 0x77   # src/small_vwf/render.s: render scope
+BATTLEMSG_PREV_CHAR = 0xB1  # src/battle/message.s
 
 
 def _read_kerning_table() -> list[tuple[int, int]]:
@@ -33,6 +43,17 @@ def _read_kerning_table() -> list[tuple[int, int]]:
     n = struct.unpack_from("<H", data, KERNING_OFFSET)[0]
     return [
         struct.unpack_from("<HB", data, KERNING_OFFSET + 2 + i * 3)
+        for i in range(n)
+    ]
+
+
+def _read_menu_kerning_table() -> list[tuple[int, int]]:
+    """Returns the (key, value) pairs from menu_font.dat[0x900:].
+    Ground truth for the small_vwf and battle message lookups."""
+    data = MENU_FONT.read_bytes()
+    n = struct.unpack_from("<H", data, MENU_KERNING_OFFSET)[0]
+    return [
+        struct.unpack_from("<HB", data, MENU_KERNING_OFFSET + 2 + i * 3)
         for i in range(n)
     ]
 
@@ -171,7 +192,7 @@ def test_binary_search_is_faster_than_linear(cold_emu, syms, setup_font, stub_sr
 
 # -------------------------------------------------- Branch coverage workload
 
-def _pick_workload() -> list[tuple[int, str]]:
+def _pick_workload(table_reader=_read_kerning_table) -> list[tuple[int, str]]:
     """Workload that exercises every branch of both routines.
 
     Linear paths covered:
@@ -184,7 +205,7 @@ def _pick_workload() -> list[tuple[int, str]]:
       - search_lower repeatedly (entry [0])
       - not_found via low > high (unknowns < min and > max)
     """
-    table = _read_kerning_table()
+    table = table_reader()
     keys = [k for k, _ in table]
     sorted_keys = sorted(keys)
     keys_set = set(keys)
@@ -250,6 +271,77 @@ def test_binary_agrees_with_linear(cold_emu, syms, setup_font, stub_src,
     # from the input pair.
     assert (a_lin.a & 0xFF) == (a_bin.a & 0xFF), (
         f"{label} pair=0x{pair:04x}: "
+        f"linear=0x{a_lin.a:04x} binary=0x{a_bin.a:04x}"
+    )
+
+
+# ----------------------------------- Menu-font (small_vwf, battle message)
+
+@pytest.fixture(scope="session")
+def menu_stub_src() -> str:
+    if not MENU_STUB_PATH.exists():
+        pytest.skip(f"menu kerning stub not found at {MENU_STUB_PATH}")
+    return MENU_STUB_PATH.read_text()
+
+
+def _run_menu_stub(emu: Emu, stub_src: str, kerning_func: int, pair: int,
+                   prev_char_slot: int, *, max_frames: int = 30) -> Emu.CpuState:
+    stub = _assemble(
+        stub_src,
+        pair=pair,
+        kerning_func=kerning_func,
+        prev_char=prev_char_slot,
+    )
+    emu.rearm_cpu()
+    emu.write_range(0x7E0000, stub)
+    s = emu.get_state()
+    s.pc = 0x7E0000
+    s.s = 0x1FFF
+    s.e = False
+    s.p = 0
+    s.stp = 0
+    s.wai = 0
+    emu.set_state(s)
+    assert emu.run_until_stp(max_frames=max_frames), "menu stub never halted"
+    return emu.get_state()
+
+
+def _safe_menu_workload() -> list[tuple[int, str]]:
+    try:
+        return _pick_workload(_read_menu_kerning_table)
+    except FileNotFoundError:
+        return [(0, "no-menu-font")]
+
+
+MENU_WORKLOAD = _safe_menu_workload()
+
+MENU_LOOKUPS = [
+    ("small_vwf", "SmallVwfKerningLinear_Ext", "SmallVwfKerningBinary_Ext",
+     SMALLVWF_PREV_CHAR),
+    ("battle_msg", "BattleMsgKerningLinear_Ext", "BattleMsgKerningBinary_Ext",
+     BATTLEMSG_PREV_CHAR),
+]
+
+
+@pytest.mark.parametrize("renderer,lin_name,bin_name,prev_char_slot", MENU_LOOKUPS,
+                         ids=[r[0] for r in MENU_LOOKUPS])
+@pytest.mark.parametrize("pair,label", MENU_WORKLOAD,
+                         ids=[label for _, label in MENU_WORKLOAD])
+def test_menu_binary_agrees_with_linear(cold_emu, syms, menu_stub_src,
+                                        pair, label,
+                                        renderer, lin_name, bin_name,
+                                        prev_char_slot):
+    if label == "no-menu-font":
+        pytest.skip(f"{MENU_FONT} missing")
+    if lin_name not in syms or bin_name not in syms:
+        pytest.skip(f"{renderer} kerning symbols absent — likely "
+                    f"ENABLE_KERNING_MENU=0")
+    a_lin = _run_menu_stub(cold_emu, menu_stub_src,
+                           syms[lin_name], pair, prev_char_slot)
+    a_bin = _run_menu_stub(cold_emu, menu_stub_src,
+                           syms[bin_name], pair, prev_char_slot)
+    assert (a_lin.a & 0xFF) == (a_bin.a & 0xFF), (
+        f"{renderer} {label} pair=0x{pair:04x}: "
         f"linear=0x{a_lin.a:04x} binary=0x{a_bin.a:04x}"
     )
 

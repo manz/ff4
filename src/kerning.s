@@ -112,6 +112,7 @@ _search_lower:
     lda 0x0001, s           ; mid - 1 becomes new high
     sec
     sbc.w #0x0001
+    bcc _not_found          ; mid was 0, underflow → not found
     sta 0x0005, s
     bra _loop
 
