@@ -25,6 +25,9 @@ ConditionalBG1VOFS := 0x208000
     .if INVENTORY_ROLLING_BUFFER {
     .include "src/battle/inventory_rolling_patches.s"
     }
+    .if TREASURE_DEBUG_ALWAYS_DROP {
+    .include "src/battle/debug_always_drop.s"
+    }
 }
 
 
