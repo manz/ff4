@@ -5,6 +5,7 @@
 ; 0x705000 - 0x706300: Vram saved before entering menus.
 ; 0x707000 - 0x709cff: Battle magic buffers
 ; 0x710000 - 0x710100: Vars buffer
+; 0x710100 - 0x710107: BRK trap capture (P, PC.lo, PC.hi, PB)
 .scope field_vwf {
     tile_buffer = 0x702000
 }
