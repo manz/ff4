@@ -1,72 +1,13 @@
 .include "src/vwf.i"
 
-; Long-form (RTL) wrapper for cross-bank callers and Python tests.
-; Same calling convention as the RTS entry: A in/out, trashes A.
-
-dialog_get_kerning_adjustment_linear_search_ext:
-    jsr.w dialog_get_kerning_adjustment_linear_search
-    rtl
-
-; trashes A, Y, flags. Preserves X (only register the caller relies on).
-
-dialog_get_kerning_adjustment_linear_search:
-    phx
-    jsr.w _dialog_get_kerning_adjustment_linear_search
-    plx
-    rts
-
-_dialog_get_kerning_adjustment_linear_search:
-{
-    ldy.w #0x1100
-    lda.b [font_addr], y  ; right = NumKerningPairs
-    beq _not_found
-    dec
-    tax
-    lda.w #0x0000
-_loop:
-    txa
-    pha
-    asl
-    clc
-    adc 0x01, s
-    clc
-    adc.w #0x1102
-
-    tay
-    pla
-
-    lda.b [font_addr], y  ; Load 16-bit char pair
-    cmp.b CURRENT_C
-    beq _found_pair  ; Found exact match!
-
-    txa
-    dec
-    tax
-
-    bpl _loop
-
-_not_found:
-    lda.w #0x0000
-    sec
-    rts
-
-_found_pair:
-    iny
-    iny
-    lda.b [font_addr], y
-    and.w #0x00FF
-    clc
-    rts
-}
-
 dialog_get_kerning_adjustment_binary_search_ext:
-    """Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python tests."""
+"""Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python tests."""
     jsr.w dialog_get_kerning_adjustment_binary_search
     rtl
 
 
 dialog_get_kerning_adjustment_binary_search:
-    """Binary-search the dialog font's kerning table for the pair in DP $25 (CURRENT_C); returns adjustment in A or A=0+sec on miss. Trashes A/Y/flags, preserves X."""
+"""Binary-search the dialog font's kerning table for the pair in DP $25 (CURRENT_C)  ; returns adjustment in A or A=0+sec on miss. Trashes A/Y/flags, preserves X."""
     phx
     jsr.w _dialog_get_kerning_adjustment_binary_search
     plx

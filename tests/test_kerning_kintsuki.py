@@ -16,7 +16,7 @@ import pytest
 
 from a816.program import Program
 from a816.writers import Writer
-from kintsuki import CallbackKind, Emu, SymbolTable
+from kintsuki import Emu, SymbolTable
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
@@ -145,16 +145,6 @@ def setup_font(syms):
     return syms["setup_font_ext"]
 
 
-def test_linear_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
-    s = _run_stub(cold_emu, stub_src,
-                  syms["dialog_get_kerning_adjustment_linear_search_ext"], 0x575c,
-                  setup_font)
-    assert s.stp == 1
-    # 'Va' is a known kerning pair; routine must overwrite the input with
-    # the looked-up adjustment byte.
-    assert s.a != 0x575C
-
-
 def test_binary_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
     s = _run_stub(cold_emu, stub_src,
                   syms["dialog_get_kerning_adjustment_binary_search_ext"], 0x575c,
@@ -163,41 +153,10 @@ def test_binary_search_returns_a_value(cold_emu, syms, setup_font, stub_src):
     assert s.a != 0x575C
 
 
-# ---------------------------------------------------------------- Benchmark
-
-def _count_instructions(emu: Emu, stub_src: str, kerning_func: int,
-                        pair: int, setup_font: int) -> int:
-    """Count instructions executed inside one stub run."""
-    count = [0]
-
-    def tick(_addr, _val):
-        count[0] += 1
-
-    cb = emu.add_exec_callback(0, 0xFFFFFF, tick)
-    try:
-        _run_stub(emu, stub_src, kerning_func, pair, setup_font)
-    finally:
-        emu.remove_callback(CallbackKind.EXEC, cb)
-    return count[0]
-
-
-def test_binary_search_is_faster_than_linear(cold_emu, syms, setup_font, stub_src):
-    n_linear = _count_instructions(cold_emu, stub_src,
-        syms["dialog_get_kerning_adjustment_linear_search_ext"], 0x575c, setup_font)
-    n_binary = _count_instructions(cold_emu, stub_src,
-        syms["dialog_get_kerning_adjustment_binary_search_ext"], 0x575c, setup_font)
-    assert n_binary > 0 and n_linear > 0
-    assert n_binary < n_linear
-
-
 # -------------------------------------------------- Branch coverage workload
 
 def _pick_workload(table_reader=_read_kerning_table) -> list[tuple[int, str]]:
-    """Workload that exercises every branch of both routines.
-
-    Linear paths covered:
-      - found mid-loop (entry [0], [n-1], and a middle entry)
-      - exhausted loop (unknown < min, unknown > max, unknown gap)
+    """Workload that exercises every branch of the binary-search routine.
 
     Binary paths covered:
       - found at first mid (entry near n/2)
@@ -255,23 +214,30 @@ def _safe_workload() -> list[tuple[int, str]]:
 WORKLOAD = _safe_workload()
 
 
+def _expected_adjustment(table: list[tuple[int, int]], pair: int) -> int:
+    """Ground-truth lookup mirroring the SNES routine: 0 if pair absent,
+    abs-value adjustment byte otherwise. The .dat stores `abs(advance)`."""
+    for key, value in table:
+        if key == pair:
+            return value & 0xFF
+    return 0
+
+
 @pytest.mark.parametrize("pair,label", WORKLOAD,
                          ids=[label for _, label in WORKLOAD])
-def test_binary_agrees_with_linear(cold_emu, syms, setup_font, stub_src,
-                                   pair, label):
+def test_binary_matches_python_oracle(cold_emu, syms, setup_font, stub_src,
+                                      pair, label):
     if label == "no-font":
         pytest.skip(f"{FONT} missing")
-    a_lin = _run_stub(cold_emu, stub_src,
-                      syms["dialog_get_kerning_adjustment_linear_search_ext"], pair,
-                      setup_font)
+    expected = _expected_adjustment(_read_kerning_table(), pair)
     a_bin = _run_stub(cold_emu, stub_src,
                       syms["dialog_get_kerning_adjustment_binary_search_ext"], pair,
                       setup_font)
     # Mask to low byte: kerning value is signed 8-bit, high byte is junk
     # from the input pair.
-    assert (a_lin.a & 0xFF) == (a_bin.a & 0xFF), (
+    assert (a_bin.a & 0xFF) == expected, (
         f"{label} pair=0x{pair:04x}: "
-        f"linear=0x{a_lin.a:04x} binary=0x{a_bin.a:04x}"
+        f"binary=0x{a_bin.a:04x} expected=0x{expected:02x}"
     )
 
 
@@ -316,57 +282,27 @@ def _safe_menu_workload() -> list[tuple[int, str]]:
 MENU_WORKLOAD = _safe_menu_workload()
 
 MENU_LOOKUPS = [
-    ("small_vwf", "small_vwf_kerning_linear_ext", "small_vwf_kerning_binary_ext",
-     SMALLVWF_PREV_CHAR),
-    ("battle_msg", "battle_msg_kerning_linear_ext", "battle_msg_kerning_binary_ext",
-     BATTLEMSG_PREV_CHAR),
+    ("small_vwf", "small_vwf_kerning_binary_ext", SMALLVWF_PREV_CHAR),
+    ("battle_msg", "battle_msg_kerning_binary_ext", BATTLEMSG_PREV_CHAR),
 ]
 
 
-@pytest.mark.parametrize("renderer,lin_name,bin_name,prev_char_slot", MENU_LOOKUPS,
+@pytest.mark.parametrize("renderer,bin_name,prev_char_slot", MENU_LOOKUPS,
                          ids=[r[0] for r in MENU_LOOKUPS])
 @pytest.mark.parametrize("pair,label", MENU_WORKLOAD,
                          ids=[label for _, label in MENU_WORKLOAD])
-def test_menu_binary_agrees_with_linear(cold_emu, syms, menu_stub_src,
-                                        pair, label,
-                                        renderer, lin_name, bin_name,
-                                        prev_char_slot):
+def test_menu_binary_matches_python_oracle(cold_emu, syms, menu_stub_src,
+                                           pair, label,
+                                           renderer, bin_name, prev_char_slot):
     if label == "no-menu-font":
         pytest.skip(f"{MENU_FONT} missing")
-    if lin_name not in syms or bin_name not in syms:
+    if bin_name not in syms:
         pytest.skip(f"{renderer} kerning symbols absent — likely "
                     f"ENABLE_KERNING_MENU=0")
-    a_lin = _run_menu_stub(cold_emu, menu_stub_src,
-                           syms[lin_name], pair, prev_char_slot)
+    expected = _expected_adjustment(_read_menu_kerning_table(), pair)
     a_bin = _run_menu_stub(cold_emu, menu_stub_src,
                            syms[bin_name], pair, prev_char_slot)
-    assert (a_lin.a & 0xFF) == (a_bin.a & 0xFF), (
+    assert (a_bin.a & 0xFF) == expected, (
         f"{renderer} {label} pair=0x{pair:04x}: "
-        f"linear=0x{a_lin.a:04x} binary=0x{a_bin.a:04x}"
+        f"binary=0x{a_bin.a:04x} expected=0x{expected:02x}"
     )
-
-
-def test_workload_perf_summary(cold_emu, syms, setup_font, stub_src, capsys):
-    """Aggregate instruction counts across the full workload."""
-    if WORKLOAD and WORKLOAD[0][1] == "no-font":
-        pytest.skip(f"{FONT} missing")
-    lin_sym = syms["dialog_get_kerning_adjustment_linear_search_ext"]
-    bin_sym = syms["dialog_get_kerning_adjustment_binary_search_ext"]
-    rows = []
-    tot_lin = tot_bin = 0
-    for pair, label in WORKLOAD:
-        nl = _count_instructions(cold_emu, stub_src, lin_sym, pair, setup_font)
-        nb = _count_instructions(cold_emu, stub_src, bin_sym, pair, setup_font)
-        tot_lin += nl
-        tot_bin += nb
-        rows.append((label, pair, nl, nb))
-
-    with capsys.disabled():
-        print()
-        print(f"  {'case':<22} {'pair':>6}  {'linear':>7} {'binary':>7}  ratio")
-        for label, pair, nl, nb in rows:
-            print(f"  {label:<22} 0x{pair:04x}  {nl:>7} {nb:>7}  "
-                  f"{nl/nb if nb else float('inf'):>5.2f}x")
-        print(f"  {'TOTAL':<22} {'':>6}  {tot_lin:>7} {tot_bin:>7}  "
-              f"{tot_lin/tot_bin:>5.2f}x")
-    assert tot_lin > 0 and tot_bin > 0

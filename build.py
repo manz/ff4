@@ -112,6 +112,10 @@ def build_patch(input, output, lang):
         logger.error("Build failed.")
         return result.exit_code
 
+    if not out_path.exists():
+        logger.error("Build reported success but %s was not produced.", out_path)
+        return 1
+
     if result.program is not None:
         result.program.exports_symbol_file("./build/ff4.sym")
 

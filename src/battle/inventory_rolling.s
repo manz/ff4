@@ -720,7 +720,7 @@ _store_pos_down:
 
 _render_bottom_done:
     plb  ; Restore data bank
-    .db 0x58  ; cli - re-enable interrupts
+    cli  ; re-enable interrupts
     rts  ; Called from within bank $20 now
 
 ; ============================================================================
@@ -777,7 +777,7 @@ _store_pos_up:
 
 _render_top_done:
     plb  ; Restore data bank
-    .db 0x58  ; cli - re-enable interrupts
+    cli  ; re-enable interrupts
     rts  ; Called from within bank $20 now
 
 ; ============================================================================
@@ -1814,7 +1814,7 @@ _sd_abort:
     stz.w 0xEF6E  ; Clear alternate hide cursor 1 flag
 
     plb  ; Restore data bank
-    .db 0x58  ; cli - re-enable interrupts
+    cli  ; re-enable interrupts
     jmp.l return_to_bank02
 
 ; ============================================================================
@@ -1909,7 +1909,7 @@ _su_abort:
     stz.w 0xEF6E  ; Clear alternate hide cursor 1 flag
 
     plb  ; Restore data bank
-    .db 0x58  ; cli - re-enable interrupts
+    cli  ; re-enable interrupts
     jmp.l return_to_bank02
 
 ; ============================================================================
@@ -2121,7 +2121,7 @@ _cursor_set_y:
 
 _cursor_skip_force:
 
-    .db 0x58  ; CLI
+    cli
     jmp.l return_to_bank02
 
 ; HDMA table addresses - Y scroll portion only!

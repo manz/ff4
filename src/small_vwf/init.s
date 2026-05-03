@@ -1,11 +1,8 @@
 .include "src/vwf.i"
 .include "src/libmz.i"
 
-.extern wait_for_vblank
-.extern wait_for_vblank_long
-.extern dma_transfer_to_vram
-.extern assets_menu_font_dat
-.extern font_table
+.import "assets"
+.import "libmz"
 .if BATTLE_ENABLED {
     .extern battle_render
     .extern battle_render.clear_buffer

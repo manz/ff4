@@ -1,7 +1,6 @@
 .include "src/vwf.i"
 
-.extern assets_bank1_1_ptr
-.extern assets_bank2_ptr
+.import "assets"
 .extern dialog_bank_ptr_base
 
 get_bank1_1_pointer:
