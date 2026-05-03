@@ -148,7 +148,7 @@ get:
     buffer_size = 0x300
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 init:
-    """font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat"""
+    """font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables
@@ -442,72 +442,6 @@ _overflow:
     rts
     }
 
-get_kerning_adjustment_linear_search:
-    {
-    phx
-    phy
-    rep #0x20
-    jsr.w _get_kerning_adjustment_linear_search
-    sep #0x20
-    ply
-    plx
-    rts
-    }
-
-_get_kerning_adjustment_linear_search:
-    {
-    phb
-    pea.w font_table >> 16
-    plb
-
-    kerning_table_offset = 256 * 9
-    ldy.w #kerning_table_offset
-    lda.w assets_menu_font_dat, y
-    beq not_found
-    dec
-    tax
-    lda.w #0x0000
-
-_loop:
-    txa
-    pha
-    asl
-    clc
-    adc 0x01, s
-    clc
-    adc.w #kerning_table_offset + 2
-
-    tay
-    pla
-
-    lda.w assets_menu_font_dat, y  ; Load 16-bit char pair
-    cmp.b prev_char
-    beq found_pair  ; Found exact match!
-
-    txa
-    dec
-    tax
-
-    bpl _loop
-
-not_found:
-    lda.w #0x0000
-    sec
-    plb
-    plb
-    rts
-
-found_pair:
-    iny
-    iny
-    lda.w assets_menu_font_dat, y
-    and.w #0x00FF
-    clc
-    plb
-    plb
-    rts
-    }
-
 _get_kerning_adjustment_binary_search:
     {
     phb
@@ -603,10 +537,6 @@ get_kerning_adjustment:
     plx
     rts
     }
-
-small_vwf_kerning_linear_ext:
-    jsr.w get_kerning_adjustment_linear_search
-    rtl
 
 small_vwf_kerning_binary_ext:
     jsr.w get_kerning_adjustment

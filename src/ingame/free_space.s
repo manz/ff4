@@ -6,7 +6,7 @@
     draw_window = 0x0180d9
 
 check_if_description_was_rendered:
-    """Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the auto-counter ($4218/$4219) is non-zero."""
+"""Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the auto-counter ($4218/$4219) is non-zero."""
     pha
     lda.l 0x004218
     ora.l 0x004219
@@ -31,12 +31,12 @@ _continue:
     jmp _back
 
 draw_vwf_message:
-    """Render the VWF message at the current text pointer via the items_description trampoline."""
+"""Render the VWF message at the current text pointer via the items_description trampoline."""
     jsr.l items_description.draw_trampoline
     rts
 
 draw_window_and_vwf_message:
-    """Open a menu window at the cursor and render its VWF message; advances Y past the window header before delegating to `draw_vwf_message_pos`."""
+"""Open a menu window at the cursor and render its VWF message  ; advances Y past the window header before delegating to `draw_vwf_message_pos`."""
 
     jsr.w draw_window
     ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
@@ -54,7 +54,7 @@ draw_window_and_vwf_message:
     iny
 
 draw_vwf_message_pos_with_bank:
-    """Like `draw_vwf_message_pos` but pre-loads the menu-strings bank into A so the trampoline can pick the right asset bank."""
+"""Like `draw_vwf_message_pos` but pre-loads the menu-strings bank into A so the trampoline can pick the right asset bank."""
     lda.b #messages.use_on_whom >> 16
 
 draw_vwf_message_pos:
@@ -67,7 +67,7 @@ transform_window_trampoline:
 }
 
 copy_text_with_dakuten:
-    """Near-call wrapper around `copy_text_with_dakuten_far` for callers in the same bank."""
+"""Near-call wrapper around `copy_text_with_dakuten_far` for callers in the same bank."""
     jsr.l copy_text_with_dakuten_far
     rts
 
@@ -95,9 +95,9 @@ swap_redraw_trampoline:
     jmp.w 0xA40A  ; Skip $84BA (game's sequential redraw), go to RTS
 
 main_loop_scroll_check:
-    """
-    Called from $019FF2 via jmp.w
-    """
+
+
+    """Called from $019FF2 via jmp.w"""
     lda.w menu_scroll_state
     beq _main_loop_do_input
     jsr.w UpdateScrollFrame
@@ -151,6 +151,8 @@ nmi_dma_transfer_check:
     rts
 
 hdma_enable_hook:
+
+
     """
     Called during NMI before HDMA enable
     Must copy shadow -> active HDMA table BEFORE enabling HDMA
@@ -163,9 +165,9 @@ hdma_enable_hook:
     rts
 
 adjust_inventory_pointer:
-    """
-    Adjusts $5a to point to the first visible item based on scroll position
-    """
+
+
+    """Adjusts $5a to point to the first visible item based on scroll position"""
     stz.b 0x5d
     stz.b 0x5e
     lda.w 0x1B1A
@@ -179,6 +181,8 @@ adjust_inventory_pointer:
     rts
 
 item_use_refresh_hook:
+
+
     """
     Called after SelectItem2 to refresh display after item use
     Re-renders all visible slots to show updated quantity or empty slot

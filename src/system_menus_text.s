@@ -28,7 +28,7 @@ jump_to_original:
 
 
 display_text_in_menus:
-    """Trampoline into the vanilla menu text-display routine at $01:830B, preserving DBR/D/X via stack."""
+"""Trampoline into the vanilla menu text-display routine at $01:830B, preserving DBR/D/X via stack."""
 {
     phb
     phd
@@ -41,7 +41,7 @@ display_text_in_menus:
 }
 
 load_text_with_destination_in_x:
-    """Adjust X by the offset in $29 and trampoline into the vanilla load-text routine at $01:8318."""
+"""Adjust X by the offset in $29 and trampoline into the vanilla load-text routine at $01:8318."""
 
     phb
     phd
@@ -64,20 +64,20 @@ load_text_with_destination_in_x:
 
 
 display_window_with_text:
-    """Trampoline into the vanilla window+text drawer at $01:80DD."""
+"""Trampoline into the vanilla window+text drawer at $01:80DD."""
     phy
     phb
     bank_switch_with_jump(0x0180DD)
 
 display_time:
-    """Trampoline into the vanilla play-time display routine at $01:879D."""
+"""Trampoline into the vanilla play-time display routine at $01:879D."""
     phb
     bank_switch()
     rep #0x20
     jmp.l 0x01879D
 
 disable_save:
-    """Overwrite the 'Sauver' menu label with $24 (space tile) glyphs to grey out the save option, then continue at $01:8947."""
+"""Overwrite the 'Sauver' menu label with $24 (space tile) glyphs to grey out the save option, then continue at $01:8947."""
     lda.b #0x24
     sta 0xCA31  ; S
     sta 0xCA33  ; a
@@ -88,7 +88,7 @@ disable_save:
     jmp.l 0x018947
 
 load_classes_pointer:
-    """Resolve a class-name pointer from `assets_classes_ptr[A*2]` into A (24-bit)."""
+"""Resolve a class-name pointer from `assets_classes_ptr[A*2]` into A (24-bit)."""
     phx
     rep #0x20
 
@@ -103,7 +103,7 @@ load_classes_pointer:
     rtl
 
 load_dextrelity_pointer:
-    """Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9; returns 24-bit pointer in Y."""
+"""Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9  ; returns 24-bit pointer in Y."""
     rep #0x20
     lda (0x60)
     and.w #0x00c0

@@ -5,15 +5,8 @@
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
 .import "libmz"
+.import "assets"
 .extern clear_ram
-
-; intro asset blobs (defined in ff4.s, *=0x318000)
-.extern assets_intro_map
-.extern assets_intro_map__size
-.extern assets_intro_col
-.extern assets_intro_col__size
-.extern assets_intro_set
-.extern assets_intro_set__size
 
 start_splash_screen:
     ; initialise SNES

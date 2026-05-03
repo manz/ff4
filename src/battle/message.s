@@ -246,7 +246,7 @@ _refresh_destination_pointer:
     rts
     }
 display_char:
-    """Render `A` (char) at tilemap offset `Y` into the message VWF buffer; preserves A/X/Y, returns Y = `tilemap_offset`."""
+    """Render `A` (char) at tilemap offset `Y` into the message VWF buffer  ; preserves A/X/Y, returns Y = `tilemap_offset`."""
     pha
     phx
     phy
@@ -438,19 +438,6 @@ _overflow:
     rts
     }
 
-get_kerning_adjustment_linear_search:
-    {
-    phx
-    phy
-    rep #0x20
-;    jsr.w _get_kerning_adjustment_binary_search
-    jsr.w _get_kerning_adjustment_linear_search
-    sep #0x20
-    ply
-    plx
-    rts
-    }
-
 _get_kerning_adjustment_binary_search:
     {
     phb
@@ -560,60 +547,6 @@ found_pair:
     rts
     }
 
-_get_kerning_adjustment_linear_search:
-    {
-    phb
-    pea.w font_table >> 16
-    plb
-
-    kerning_table_offset = 256 * 9
-    ldy.w #kerning_table_offset
-    lda.w assets_menu_font_dat, y
-    beq not_found
-    dec
-    tax
-    lda.w #0x0000
-
-_loop:
-    txa
-    pha
-    asl
-    clc
-    adc 0x01, s
-    clc
-    adc.w #kerning_table_offset + 2
-
-    tay
-    pla
-
-    lda.w assets_menu_font_dat, y  ; Load 16-bit char pair
-    cmp.b prev_char
-    beq found_pair  ; Found exact match!
-
-    txa
-    dec
-    tax
-
-    bpl _loop
-
-not_found:
-    lda.w #0x0000
-    sec
-    plb
-    plb
-    rts
-
-found_pair:
-    iny
-    iny
-    lda.w assets_menu_font_dat, y
-    and.w #0x00FF
-    clc
-    plb
-    plb
-    rts
-    }
-
 get_kerning_adjustment:
     {
     phx
@@ -625,10 +558,6 @@ get_kerning_adjustment:
     plx
     rts
     }
-
-battle_msg_kerning_linear_ext:
-    jsr.w get_kerning_adjustment_linear_search
-    rtl
 
 battle_msg_kerning_binary_ext:
     jsr.w get_kerning_adjustment
@@ -725,7 +654,7 @@ _wait:
     rts
     }
 DMA_TRANSFER:
-    """Vblank-time DMA flush for the battle-message VWF tile buffer; reads `battle_render.pending_transfer_mask`, transfers the dirty regions to VRAM, and clears the mask bits."""
+    """Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render.pending_transfer_mask`, transfers the dirty regions to VRAM, and clears the mask bits."""
     pha
     phx
     phy
@@ -791,7 +720,10 @@ _sram_dma_transfer_7:
     plb
     rts
 new_line_escape_code_handler:
-    """Handler for the `\n` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles)."""
+    """
+    Handler for the `
+    ` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
+    """
 ; we might have something of interest in Y we might know where we are in the previous iteration ?
     pha
 ;jsr.w battle_render.tilemap_write

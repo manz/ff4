@@ -6,10 +6,10 @@ repos:
         description: Verify .s/.i sources match a816-fluff canonical formatting.
         entry: a816-fluff format --check
         language: python
-        additional_dependencies: ["a816==1.1.0a8"]
+        additional_dependencies: ["a816==1.1.0a10"]
         files: \.(s|i)$
-        # window_animation_patches.s uses `:` chained statements which the
-        # current fluff parser rejects.
-        exclude: ^src/ingame/window_animation_patches\.s$
+        # fluff a10 isn't idempotent on these two — running format
+        # twice keeps adding blank lines. Re-include once a816 fixes it.
+        exclude: ^(ff4\.s|src/assets\.s)$
         require_serial: true
         pass_filenames: true

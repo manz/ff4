@@ -39,17 +39,22 @@ jobs:
     - name: Build patch
       run: ./build.py
 
+    - name: Verify IPS produced
+      run: test -s build/ff4.ips
+
     - name: Run tests
       run: pytest
 
     - name: Upload IPS artifact
+      if: success()
       uses: actions/upload-artifact@v7
       with:
         name: ff4-ips-pr-${{ github.event.number }}
         path: build/ff4.ips
         retention-days: 30
-        
+
     - name: Update PR comment with download link
+      if: success()
       uses: actions/github-script@v8
       with:
         script: |
@@ -94,5 +99,25 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: body
+            });
+          }
+
+    - name: Drop stale IPS comment on failure
+      if: failure()
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const commentIdentifier = '<!-- FF4-IPS-BUILD-COMMENT -->';
+          const comments = await github.rest.issues.listComments({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          const stale = comments.data.find(c => c.body.includes(commentIdentifier));
+          if (stale) {
+            await github.rest.issues.deleteComment({
+              comment_id: stale.id,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
             });
           }

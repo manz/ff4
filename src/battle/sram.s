@@ -1,23 +1,8 @@
 .include "src/battle/sram.i"
 
+.import "assets"
 .import "dakuten"
 .import "small_vwf/init"
-.extern render_allocator.init_with_tile_id
-.extern render_allocator.init
-.extern render_allocator.allocated_tile_id
-.extern render_allocator.increment
-.extern render.tilemap_offset
-.extern battle_render.display_char
-.extern battle_render.init
-.extern battle_render.init_commands_list
-.extern battle_render.init_monsters
-.extern battle_render.init_names
-.extern battle_render.pending_transfer_mask
-.extern battle_render.buffer_ptr
-.extern battle_render.bits_left_on_tile
-.extern battle_render.clear_buffer
-.extern assets_menu_font_dat
-.extern font_table
 
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
@@ -83,7 +68,7 @@ put_char_with_dakuten:
 ; .scope sram { put_char, put_char_with_dakuten }
 
 battle_display_char:
-    """Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active battle_flags."""
+"""Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active battle_flags."""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -94,7 +79,7 @@ battle_flags_jump_table:
 }
 
 battle_display_dakuten_char:
-    """Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on battle_flags."""
+"""Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on battle_flags."""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -108,7 +93,7 @@ sink:
     rtl
 
 clear_names_window_buffer:
-    """Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in $EF52."""
+"""Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in $EF52."""
     phx
     phy
     rep #0x20

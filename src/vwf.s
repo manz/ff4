@@ -4,12 +4,11 @@
 .import "libmz"
 .import "dialog"
 .extern assets_items_dat
-.extern assets_font_dat
-.extern font_table
-.include "src/kerning.s"
+.import "assets"
+.import "kerning"
 
 wait_for_action_button:
-    """RTL trampoline that polls the gamepad until any action button is pressed (delegates to vanilla `waitpad`)."""
+"""RTL trampoline that polls the gamepad until any action button is pressed (delegates to vanilla `waitpad`)."""
     jsr.w waitpad
     rtl
 
@@ -64,11 +63,11 @@ button_colors:
 
 
 update_palette:
-    """
-    Refresh menu/dialog palette entries from the configured colour at $16AA.
-    With ENABLE_BUTTON_DISPLAY, also pulls the action-button id and writes
-    the matching colour + shadow pair from `button_colors` into $0CEF/$0CF1.
-    """
+"""
+Refresh menu/dialog palette entries from the configured colour at $16AA.
+With ENABLE_BUTTON_DISPLAY, also pulls the action-button id and writes
+the matching colour + shadow pair from `button_colors` into $0CEF/$0CF1.
+"""
     ldx.w 0x16AA
     stx.w 0x0CDD
     stx.w 0x0CE5
@@ -140,11 +139,11 @@ window_palette:
     WRAMPTR = 0x2108
 
 vwfinit:
-    """
-    One-shot dialog VWF initialisation: clear the WRAM scratch area,
-    DMA the VWF tile buffer + the original font tileset into VRAM,
-    and point BG3 at the new $6000 tile-set base.
-    """
+"""
+One-shot dialog VWF initialisation: clear the WRAM scratch area,
+DMA the VWF tile buffer + the original font tileset into VRAM,
+and point BG3 at the new $6000 tile-set base.
+"""
     jsr.w clr  ; on efface un peu de Wram
 
     jsr.w wait_for_vblank
@@ -170,7 +169,7 @@ vwfinit:
     ;** routine principale
 
 vwfstart:
-    """Main entry for dialog VWF rendering: sets 8-bit A / 16-bit X-Y, enables HDMA, and falls into the parser loop that consumes the dialog text stream."""
+"""Main entry for dialog VWF rendering: sets 8-bit A / 16-bit X-Y, enables HDMA, and falls into the parser loop that consumes the dialog text stream."""
     sep #0x20
     rep #0x10
 
