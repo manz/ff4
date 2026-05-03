@@ -6,7 +6,7 @@ repos:
         description: Verify .s/.i sources match a816-fluff canonical formatting.
         entry: a816-fluff format --check
         language: python
-        additional_dependencies: ["a816==1.1.0a10"]
+        additional_dependencies: ["a816==1.1.0a11"]
         files: \.(s|i)$
         # fluff a10 isn't idempotent on these two — running format
         # twice keeps adding blank lines. Re-include once a816 fixes it.
