@@ -90,7 +90,6 @@ swap_redraw_trampoline:
 
 main_loop_scroll_check:
     """
-    --- main_loop_scroll_check ---
     Called from $019FF2 via jmp.w
     """
     lda.w menu_scroll_state
@@ -147,7 +146,6 @@ nmi_dma_transfer_check:
 
 hdma_enable_hook:
     """
-    --- hdma_enable_hook ---
     Called during NMI before HDMA enable
     Must copy shadow -> active HDMA table BEFORE enabling HDMA
     """
@@ -160,7 +158,6 @@ hdma_enable_hook:
 
 adjust_inventory_pointer:
     """
-    --- adjust_inventory_pointer ---
     Adjusts $5a to point to the first visible item based on scroll position
     """
     stz.b 0x5d
@@ -177,7 +174,6 @@ adjust_inventory_pointer:
 
 item_use_refresh_hook:
     """
-    --- item_use_refresh_hook ---
     Called after SelectItem2 to refresh display after item use
     Re-renders all visible slots to show updated quantity or empty slot
     """

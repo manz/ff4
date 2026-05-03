@@ -705,7 +705,7 @@ init_names:
     rtl
 deinit:
     """
-    deinit the renderer
+    the renderer
     disables messages renderer falling back to fixed mode.
     """
     jsr.l battle_flags.clear_vwf_render
