@@ -9,6 +9,10 @@ sram_size_2kb_blocks:
     .dw 64  ; 0x07 = 128KB = 64 blocks (maximum)
 
 clear_ram:
+    """
+    Wipe the cart's SRAM banks ($70:0000+) at boot, sized via the
+    ROM-header SRAM-size byte at $00:FFD8 (clamped to 7 → 128KB max).
+    """
     jsr.l 0x15C9AA
     lda.b #1
     jsr.w _clear_ram

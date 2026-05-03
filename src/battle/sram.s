@@ -83,6 +83,7 @@ put_char_with_dakuten:
 ; .scope sram { put_char, put_char_with_dakuten }
 
 battle_display_char:
+    """Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active battle_flags."""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -93,6 +94,7 @@ battle_flags_jump_table:
 }
 
 battle_display_dakuten_char:
+    """Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on battle_flags."""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -106,6 +108,7 @@ sink:
     rtl
 
 clear_names_window_buffer:
+    """Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in $EF52."""
     phx
     phy
     rep #0x20

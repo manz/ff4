@@ -6,6 +6,7 @@
     draw_window = 0x0180d9
 
 check_if_description_was_rendered:
+    """Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the auto-counter ($4218/$4219) is non-zero."""
     pha
     lda.l 0x004218
     ora.l 0x004219
@@ -30,10 +31,12 @@ _continue:
     jmp _back
 
 draw_vwf_message:
+    """Render the VWF message at the current text pointer via the items_description trampoline."""
     jsr.l items_description.draw_trampoline
     rts
 
 draw_window_and_vwf_message:
+    """Open a menu window at the cursor and render its VWF message; advances Y past the window header before delegating to `draw_vwf_message_pos`."""
 
     jsr.w draw_window
     ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
@@ -51,6 +54,7 @@ draw_window_and_vwf_message:
     iny
 
 draw_vwf_message_pos_with_bank:
+    """Like `draw_vwf_message_pos` but pre-loads the menu-strings bank into A so the trampoline can pick the right asset bank."""
     lda.b #messages.use_on_whom >> 16
 
 draw_vwf_message_pos:
@@ -63,11 +67,13 @@ transform_window_trampoline:
 }
 
 copy_text_with_dakuten:
+    """Near-call wrapper around `copy_text_with_dakuten_far` for callers in the same bank."""
     jsr.l copy_text_with_dakuten_far
     rts
 
 .if DEBUG {
 display_build_number:
+    """Render the `BUILD_DATE + version` string at column 1, row 27 of the title screen (DEBUG builds only)."""
     {
     jsr.w 0x8301  ; draw text at position.
     load_system_menu_text_pointer(newgame.build_number)
