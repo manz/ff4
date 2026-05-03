@@ -620,7 +620,7 @@ menu_render_item_to_slot:
     xba  ; Swap bytes: A = slot * 256
     lsr  ; A = slot * 128
     clc
-    adc.w #0x0046  ; + 70 (64 border + 6 margin)
+    adc.w #0x0044  ; + 68 (64 border + 4 margin)
     tay  ; Y = tilemap offset (16-bit transfer)
     sep #0x20  ; 8-bit A
 
@@ -1179,8 +1179,8 @@ ClearInventorySlot:
     lsr
 ; A = slot * 128
     clc
-    adc.w #0x0046
-; + 70 (64 border + 6 margin)
+    adc.w #0x0044
+; + 68 (64 border + 4 margin)
     tay
 ; Y = tilemap offset (16-bit)
     sep #0x20
@@ -1410,17 +1410,28 @@ _clear_count:
     sta (0x29), y
 
 _skip_to_rts:
-; Modify return address to skip to DrawItemSlot's RTS at $A222
-    pla
-; Pop low byte of return address
-    pla
-; Pop high byte of return address
-    lda #0xA2
-; Push high byte first
+; Replace the entire DrawItemSlot return chain so we land on the RTS at $01:A222
+; instead of falling back to $A205 (NOPs + colon write).
+;
+; Stack on entry to Impl (pushed by trampoline + caller, top first):
+;   [JSL Impl return: PCL, PCH, PB ($01)]
+;   [JSR check_and_clear_count return: PCL, PCH ($A204)]
+;   [DrawItemSlot caller's return ...]
+;
+; Pop both the JSL Impl return (3 bytes) AND the JSR trampoline return (2 bytes),
+; then push a synthetic return to $01:A222 (RTS) for our RTL.
+    pla  ; PCL of JSL Impl return
+    pla  ; PCH of JSL Impl return
+    pla  ; PB  of JSL Impl return
+    pla  ; PCL of JSR check_and_clear_count return
+    pla  ; PCH of JSR check_and_clear_count return
+; Stack top now = DrawItemSlot's own caller return.
+; Push return for RTL: $01:A221 (so RTL lands PC=$01:A222 = RTS).
+    lda #0x01
     pha
-; (RTS expects high byte deeper in stack)
+    lda #0xA2
+    pha
     lda #0x21
-; Push low byte: $A222 - 1 = $A221
     pha
 
 _normal_return:
@@ -1474,8 +1485,8 @@ _circ_slot_done:
     lsr
 ; A = slot * 128
     clc
-    adc.w #0x0006
-; + 6 (margin only, $29 already includes border)
+    adc.w #0x0004
+; + 4 (margin only, $29 already includes border)
     tay
 ; Y = tilemap offset
     rts

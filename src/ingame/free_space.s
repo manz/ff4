@@ -90,7 +90,7 @@ display_build_number:
 ; ============================================================================
 .if INVENTORY_ROLLING_BUFFER {
 swap_redraw_trampoline:
-    jsr.l SwapRedrawHook_Impl
+    jsr.w SwapRedrawHook_Impl
     jsr.w 0xA2D9  ; Clear second cursor (from original $A404)
     jmp.w 0xA40A  ; Skip $84BA (game's sequential redraw), go to RTS
 
@@ -187,7 +187,7 @@ item_use_refresh_hook:
     Called after SelectItem2 to refresh display after item use
     Re-renders all visible slots to show updated quantity or empty slot
     """
-    jsr.l SwapRedrawHook_Impl
+    jsr.w SwapRedrawHook_Impl
     rts
 }
 
