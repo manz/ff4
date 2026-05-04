@@ -385,7 +385,7 @@ Initializes the circular buffer state and sets up HDMA
     pha  ; Save A
 
 ; Draw the inventory window frame (what original DrawInventoryList does first)
-    ldy #0xDCCE  ; InventoryWindow data pointer
+    ldy #0xE275  ; TreasureItemsWindow data pointer
     jsr.l DrawWindow_Trampoline  ; bank-$01 trampoline for vanilla DrawWindow @ $80D9
 
 ; Save DP byte we'll use as scratch

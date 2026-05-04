@@ -32,8 +32,15 @@
     *=0x01DA86
     .db 0x2B
 
-; TODO: state-machine triggers, init replacement, bank-$01 thunks.
-; Bodies live in src/ingame/treasure_rolling.s.
+; Replace `jsr $01A172` (vanilla DrawInventoryList, 2-col 24-row layout)
+; with the rolling-buffer init at $01D933. The init body draws
+; TreasureItemsWindow + renders the first 6 slots into $7EB600.
+    *=0x01D933
+    jsr.w init_treasure_rolling_buffer
+
+; TODO: state-machine triggers + main-loop hook + entry/exit hooks.
+; Bodies live in src/ingame/treasure_rolling.s + bank-$01 wrappers in
+; src/ingame/inventory_rolling_trampolines.s.
     .if 0 {
     *=0x01DA59
     jsr.w treasure_scroll_up_trigger
@@ -46,8 +53,5 @@
 
     *=0x01D7E0
     jsr.w treasure_menu_entry_hook
-
-    *=0x01D933
-    jsr.w init_treasure_rolling_buffer
     }
 }
