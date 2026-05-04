@@ -384,9 +384,9 @@ Initializes the circular buffer state and sets up HDMA
     php  ; Save processor state at entry
     pha  ; Save A
 
-; Draw the inventory window frame (what original DrawInventoryList does first)
-    ldy #0xE275  ; TreasureItemsWindow data pointer
-    jsr.l DrawWindow_Trampoline  ; bank-$01 trampoline for vanilla DrawWindow @ $80D9
+; Skip DrawWindow — vanilla treasure flow already drew the inventory window
+; before $01:D929 calls us. Drawing a second one (TreasureItemsWindow at
+; $E275) stamps an extra border partway down the existing area.
 
 ; Save DP byte we'll use as scratch
     lda.b 0x46
