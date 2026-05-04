@@ -38,20 +38,47 @@
     *=0x01D933
     jsr.w init_treasure_rolling_buffer
 
-; TODO: state-machine triggers + main-loop hook + entry/exit hooks.
-; Bodies live in src/ingame/treasure_rolling.s + bank-$01 wrappers in
-; src/ingame/inventory_rolling_trampolines.s.
-    .if 0 {
-    *=0x01DA59
+; State-machine triggers replace the blocking 8-frame `dec $9f` loops.
+; Original at $01DA57-$01DA66 (up) is `lda #$08 / rep / dec $9f×2 / sep /
+; jsr $94A1 / dec / bne` — 16 bytes. Replace with our trigger + pad.
+    *=0x01DA57
     jsr.w treasure_scroll_up_trigger
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
-    *=0x01DA8E
+; Same for the down loop at $01DA8C-$01DA9B (16 bytes).
+    *=0x01DA8C
     jsr.w treasure_scroll_down_trigger
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
+; Main loop hook at $01D9EA: per-frame scroll progression + input gate.
     *=0x01D9EA
     jmp.w treasure_main_loop_scroll_check
 
+; Entry hook before vanilla calls $01D7F2 inner init.
     *=0x01D7E0
     jsr.w treasure_menu_entry_hook
-    }
 }
