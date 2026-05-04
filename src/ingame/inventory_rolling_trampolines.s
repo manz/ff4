@@ -122,42 +122,86 @@ TreasureFinishScroll:
     jsr.l treasure_finish_scroll_impl
     rts
 
+; Vanilla treasure already updated $1BB7 before reaching the patch site,
+; so the triggers just kick off the state-machine animation.
+; Force the field-menu HDMA shadow ($1BAE) ON before kicking the state
+; machine so the existing field NMI hook copies the shadow→active table
+; even when the rolling-buffer init at $01:D933 never ran (some treasure
+; flows skip the redraw helper).
+; Vanilla writes $1BB7 each frame DOWN/UP is held — no built-in debounce
+; once the blocking scroll loop is gone. Gate the trigger on
+; `treasure_scroll_state == 0` and undo vanilla's $1BB7 update when an
+; animation is still in flight, so the rolling buffer steps once per
+; press instead of advancing dozens of times per held button.
 treasure_scroll_down_trigger:
-    cmp #TREASURE_SCROLL_LIMIT
-    beq _treasure_down_at_max
-    inc
-    sta.w 0x1BB7
+    lda.w treasure_scroll_state
+    bne _t_down_abort
+    jsr.w treasure_force_hdma_setup
     jsr.w TreasureStartScrollDown
-_treasure_down_at_max:
+    rts
+_t_down_abort:
+    dec.w 0x1BB7
     rts
 
 treasure_scroll_up_trigger:
-    lda.w 0x1BB7
-    beq _treasure_up_at_top
-    dec
-    sta.w 0x1BB7
+    lda.w treasure_scroll_state
+    bne _t_up_abort
+    jsr.w treasure_force_hdma_setup
     jsr.w TreasureStartScrollUp
-_treasure_up_at_top:
+    rts
+_t_up_abort:
+    inc.w 0x1BB7
+    rts
+
+; Reconfigure HDMA channel 5 for BG3 only when we're inside the treasure
+; menu (vanilla sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
+; exit). Field-menu Items uses BG1 and reconfigures channel 5 itself; the
+; key-item submenu (e.g. Baron key) is yet another context to add later.
+treasure_force_hdma_setup:
+    lda.w 0x1BC6
+    bne _t_setup_in_treasure
+    rts
+_t_setup_in_treasure:
+    sep #0x20
+    lda #0x02
+    sta.l 0x004350  ; HDMA5 ctrl: DIRECT mode, 2 bytes / scanline
+    lda #0x12
+    sta.l 0x004351  ; HDMA5 dest: BG3VOFS ($2112)
+    rep #0x20
+    lda.w #0x4700  ; treasure HDMA table in SRAM at $70:4700
+    sta.l 0x004352  ; HDMA5 src lo/hi
+    sep #0x20
+    lda #0x70
+    sta.l 0x004354  ; HDMA5 src bank: SRAM bank $70
+    rep #0x20
+    lda.w #0xFFF8  ; base_scroll = -8 → visible scanline 8 reads tilemap pixel 0
+    sta.w treasure_rolling_base_scroll
+    sep #0x20
+    lda #0x20
+    sta.l 0x7E1BAE  ; menu_hdma_enable shadow → channel 5 on at NMI
     rts
 
 treasure_main_loop_scroll_check:
 
 
     """
-    Hook at $01D9EA. Drives per-frame scroll animation  ; falls back into
-    the vanilla input check at $01DA0B when idle so the existing
-    JOY_UP/JOY_DOWN handlers can fire.
+    Replaces the vanilla `jsr $82C0` at $01:DA08. Drives the scroll
+    state machine each frame  ; while scrolling it zeroes $01 so the
+    downstream `and #JOY_*` input checks all branch out, freezing
+    cursor / button handling until the animation settles. Always ends
+    by calling the original $82C0 so vanilla per-frame work still runs.
     """
     lda.w treasure_scroll_state
-    beq _treasure_main_do_input
+    beq _treasure_main_call_orig
     jsr.w TreasureUpdateScrollFrame
     lda.w treasure_scroll_remaining
-    bne _treasure_main_skip_input
+    bne _treasure_main_block_input
     jsr.w TreasureFinishScroll
-_treasure_main_skip_input:
-    jmp.w 0x01DAA9  ; settled-or-still-animating: skip input this frame
-_treasure_main_do_input:
-    jmp.w 0x01DA0B  ; resume vanilla input loop entry
+_treasure_main_block_input:
+    stz.b 0x01
+_treasure_main_call_orig:
+    jsr.w 0x82C0
+    rts
 
 treasure_menu_entry_hook:
     jsr.l TreasureMenuEntryHook_Impl

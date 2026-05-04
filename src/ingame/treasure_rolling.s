@@ -67,12 +67,13 @@ TREASURE_SCROLL_TOTAL_PIXELS := 16
 ;
 ; Total table size: ~36 bytes + end marker
 
-TREASURE_HDMA_TABLE_ADDR := 0x9800  ; WRAM offset for HDMA table (active - read by HDMA)
-TREASURE_HDMA_TABLE := 0x7E9800  ; Full 24-bit address
-TREASURE_HDMA_SHADOW_ADDR := 0x9840  ; WRAM offset for shadow table (written by game logic)
-TREASURE_HDMA_SHADOW := 0x7E9840  ; Full 24-bit address
-TREASURE_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + padding)
-TREASURE_HDMA_BANK := 0x7E  ; Using WRAM bank
+; Treasure HDMA tables live in expanded SRAM (bank $70 free area at
+; $704700+) so they don't fight whatever vanilla treasure may stash in
+; the $7E:9800 region used by the field-menu rolling buffer.
+TREASURE_HDMA_TABLE_ADDR := 0x4700
+TREASURE_HDMA_TABLE := 0x704700
+TREASURE_HDMA_TABLE_SIZE := 40
+TREASURE_HDMA_BANK := 0x70
 
 ; HDMA registers for channel 5
 TREASURE_HDMA5_CTRL := 0x4350  ; DMA control
@@ -105,7 +106,7 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     lda #0x02  ; Mode: DIRECT, write 2 bytes to same PPU reg
     sta.l TREASURE_HDMA5_CTRL  ; $004350
 
-    lda #0x0E  ; BG1VOFS register ($210E)
+    lda #0x12  ; BG3VOFS register ($2112) — treasure inventory is on BG3
     sta.l TREASURE_HDMA5_DEST  ; $004351
 
 ; Source = HDMA table in WRAM at $7E9800
@@ -247,14 +248,16 @@ Direct mode table format: count, lo, hi per entry
 ; X = table write offset
     ldx.w #0x0000
 
-; Entry 0: Border area - 48 scanlines at BASE scroll (unchanged)
+; Entry 0: Border area — 8 scanlines at BASE scroll. Treasure window
+; sits higher than the field-menu Items list (vanilla geometry), so
+; the border above it is much shorter (8 scanlines, not 48).
     sep #0x20  ; 8-bit A for count byte
-    lda #48
-    sta.l TREASURE_HDMA_SHADOW, x
+    lda #8
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit A for value
     lda.w treasure_rolling_base_scroll
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     inx
 
@@ -319,11 +322,11 @@ _t_write_normal_entry:
     ; Write entry: count=16, value=scroll
     sep #0x20  ; 8-bit for count
     lda #16  ; 16 scanlines per item row
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit for value
     lda.b 0x40
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     inx
 
@@ -342,20 +345,20 @@ _t_row_loop_done:
 ; Lock to show the bottom window border area
     sep #0x20
     lda #16
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20
     lda.w treasure_rolling_base_scroll
     clc
     adc.w #16  ; Lock at base + 16
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
     inx
     inx
 
 ; End marker
     sep #0x20
     lda #0x00
-    sta.l TREASURE_HDMA_SHADOW, x
+    sta.l TREASURE_HDMA_TABLE, x
 
 ; Signal NMI to copy shadow -> active table
     lda #0x01
@@ -392,9 +395,16 @@ Initializes the circular buffer state and sets up HDMA
     lda.b 0x46
     pha  ; Save $46
 
-; Initialize buffer state (stz works in any mode)
+; Initialize buffer + state-machine bytes (stz works in any mode).
     stz.w treasure_rolling_top_row
     stz.w treasure_rolling_buffer_pos
+    stz.w treasure_scroll_state
+    stz.w treasure_scroll_remaining
+    stz.w treasure_scroll_direction
+    stz.w treasure_transfer_pending
+    stz.w treasure_scroll_anim_offset
+    stz.w treasure_scroll_anim_offset + 1
+    stz.w treasure_hdma_copy_pending
 
 ; Mark base scroll as uninitialized (0xFFFF = sentinel)
 ; Will be captured from $93 on first scroll when it's valid
@@ -403,8 +413,12 @@ Initializes the circular buffer state and sets up HDMA
     sta.w treasure_rolling_base_scroll
     sep #0x20
 
-; DON'T set up HDMA here - $93 isn't set yet!
-; HDMA will be initialized on first scroll
+; Capture $93 + enable HDMA shadow now. Treasure's redraw helper at
+; $01:D929 fires after the window+sprites have been drawn, so the
+; vanilla $93 shadow is valid at this point — no need to defer to
+; first scroll like the field-menu init does.
+    sep #0x20
+    jsr.w treasure_ensure_hdma_initialized
 
 ; Render initial 12 slots (items 0-11) to buffer
     sep #0x20  ; 8-bit A - CRITICAL!
@@ -421,7 +435,7 @@ _t_menu_init_row_loop:
 
     inc.b 0x46
     lda.b 0x46
-    cmp #11  ; Render 11 items (0-10) explicitly
+    cmp #TREASURE_BUFFER_SLOTS  ; Render 6 items explicitly (single-col, 5 visible + 1 pre-render)
     bne _t_menu_init_row_loop
 
 ; Restore DP byte
@@ -561,7 +575,7 @@ treasure_render_item_to_slot:
 
 ; Set $29 = $B600 for BG1 tilemap buffer
     rep #0x20  ; 16-bit A (X/Y still 16-bit)
-    lda.w #0xB600
+    lda.w #0xD600  ; BG3 screen buffer (treasure inventory lives on BG3)
     sta.b 0x29
     sep #0x20  ; 8-bit A
 
@@ -665,22 +679,25 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
     cmp.w #0xFFFF
     bne _t_hdma_already_init
 
-; Capture base scroll from $0193 (BG1VOFS shadow, menu uses DP=$0100)
-; Use long addressing to ensure we read from WRAM
-    .db 0xAF  ; LDA.L opcode
-    .db 0x93, 0x01, 0x7E  ; $7E0193
+; Treasure rolling buffer renders slots 0..5 into BG3 tilemap rows 0..11
+; (slot N at rows 2N, 2N+1). To make those rows visible at scanlines 8..87
+; (treasure window: 8-scanline border + 5×16 = 80-scanline list), set
+; BG3VOFS = $FFF8 (-8) so scanline 8 reads pixel-row 0 of our tilemap.
+    lda.w #0xFFF8
     sta.w treasure_rolling_base_scroll
 
 ; Initialize HDMA channel configuration
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
     jsr.w init_treasure_inventory_hdma
 
-; NOW enable HDMA via shadow variable (channel is configured)
-; Force long addressing: STA.L $7E1BAE
-    lda #0x20  ; Channel 5
-    .db 0x8F  ; STA.L opcode
-    .dw treasure_hdma_enable  ; $1BAE
-    .db 0x7E  ; Bank $7E
+; Enable HDMA via the SHARED field-menu shadow at $1BAE. The existing
+; field NMI hook (`field_menu_nmi_dma_transfer_check_impl`) reads this
+; byte and copies the HDMA shadow→active table each frame, driving
+; channel 5 for free. Treasure-only `treasure_hdma_enable` ($1BD6) is
+; kept as a tracking flag but isn't read by the NMI path.
+    lda #0x20  ; Channel 5 enable
+    sta.l 0x7E1BAE  ; menu_hdma_enable (field) — drives NMI HDMA copy
+    sta.w treasure_hdma_enable  ; treasure tracking
     rts
 
 _t_hdma_already_init:
@@ -1148,7 +1165,7 @@ ClearTreasureSlot:
     lda.b 0x29
     pha
 ; Set $29 = $B600 for BG1 tilemap buffer
-    lda.w #0xB600
+    lda.w #0xD600  ; BG3 screen buffer (treasure inventory lives on BG3)
     sta.b 0x29
 ; Calculate Y = slot_index * 128 + 70
     lda.w treasure_rolling_slot_index

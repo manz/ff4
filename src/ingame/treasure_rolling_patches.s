@@ -32,15 +32,14 @@
     *=0x01DA86
     .db 0x2B
 
-; Replace `jsr $01A172` (vanilla DrawInventoryList, 2-col 24-row layout)
-; with the rolling-buffer init at $01D933. The init body draws
-; TreasureItemsWindow + renders the first 6 slots into $7EB600.
+; Replace `jsr $01A172` (vanilla DrawInventoryList) with rolling-buffer
+; init. The init body sets up HDMA via the shared field shadow at
+; $1BAE so the existing field NMI hook drives the channel-5 copy.
     *=0x01D933
     jsr.w init_treasure_rolling_buffer
 
-; State-machine triggers replace the blocking 8-frame `dec $9f` loops.
-; Original at $01DA57-$01DA66 (up) is `lda #$08 / rep / dec $9f×2 / sep /
-; jsr $94A1 / dec / bne` — 16 bytes. Replace with our trigger + pad.
+; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
+; bytes) with our state-machine trigger.
     *=0x01DA57
     jsr.w treasure_scroll_up_trigger
     nop
@@ -57,7 +56,7 @@
     nop
     nop
 
-; Same for the down loop at $01DA8C-$01DA9B (16 bytes).
+; Same for the down-scroll loop at $01:DA8C-$01:DA9B.
     *=0x01DA8C
     jsr.w treasure_scroll_down_trigger
     nop
@@ -74,11 +73,10 @@
     nop
     nop
 
-; Main loop hook at $01D9EA: per-frame scroll progression + input gate.
-    *=0x01D9EA
-    jmp.w treasure_main_loop_scroll_check
-
-; Entry hook before vanilla calls $01D7F2 inner init.
-    *=0x01D7E0
-    jsr.w treasure_menu_entry_hook
+; Main-loop hook replaces `jsr $82C0` at $01:DA08. The hook drives the
+; per-frame scroll animation, freezes input via `stz $01` while
+; animating, and forwards to the original $82C0 so vanilla per-frame
+; work still runs.
+    *=0x01DA08
+    jsr.w treasure_main_loop_scroll_check
 }
