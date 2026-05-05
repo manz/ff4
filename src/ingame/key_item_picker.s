@@ -178,7 +178,7 @@ key_item_render_item_to_slot:
     xba
     lsr
     clc
-    adc.w #0x0044
+    adc.w #0x0444
     tay
     sep #0x20
     jsr.l DrawItemSlotInner_Trampoline
@@ -204,104 +204,21 @@ key_item_render_item_to_slot:
     rts
 
 
-key_item_session:
-"""Picker session entry. Hijacked at $00:AF4D. Init engine + manual BG3 DMA + spin until B."""
-    php
-    sep #0x30
-    jsr.l key_item_init_impl
-    ; manual BG3 buffer -> VRAM xfer via DMA channel 7. Skip vanilla
-    ; TfrBG3TilesVblank because it spins on $4210 expecting a vanilla NMI
-    ; handler we haven't set up.
-    jsr.w _session_dma_bg3
-    ; ensure auto-joypad-read is enabled so $4218/$4219 update each frame
-    sep #0x20
-    lda.l 0x004200
-    pha
-    lda #0x01
-    sta.l 0x004200
-
-_session_wait_b:
-    jsr.w _session_wait_vblank
-    sep #0x20
-    lda.l 0x004219
-    and #0x80
-    beq _session_wait_b
-    pla
-    sta.l 0x004200
-    lda #0xFF
-    sta.l 0x7E08FB
-    lda #0x00
-    sta.l 0x7E1BAE
-    rep #0x20
-    lda.w #0x0000
-    sta.w key_item_rolling
-    sta.w key_item_rolling + 2
-    sta.w key_item_rolling + 4
-    sta.w key_item_rolling + 6
-    sta.w key_item_rolling + 8
-    sta.w key_item_rolling + 10
-    sep #0x20
-    plp
-    rtl
-
-
-_session_wait_vblank:
-"""Spin on $4212.7 (vblank flag, no clear-on-read)."""
-    php
-    sep #0x20
-
-_swv_lo:
-    lda.l 0x004212
-    bmi _swv_lo
-
-_swv_hi:
-    lda.l 0x004212
-    bpl _swv_hi
-    plp
-    rts
-
-
-_session_dma_bg3:
-"""Push 0x800 bytes (32 cols × 32 rows × 2) from $7E:D600 -> VRAM $7000 via DMA channel 7. VRAM addr increment mode = word, dest = $2118/$2119."""
+key_item_render_all:
+"""Replacement for vanilla UpdateItemText. Vanilla just clears $0774 (text-buffer scratch) and walks $0712 to lay out 4x4 grid into the BG3 buffer at $7E:D600. We replace with engine_init_rolling_buffer which renders 6 single-col slots from $0712 into the same buffer. Vanilla NMI's BG3 transfer then pushes them to VRAM as part of the existing item-window flow ($EB=$01 latched by vanilla preamble at $00:AF53)."""
     php
     rep #0x10
     sep #0x20
-    ; force vblank so DMA is safe — set $2100.7
-    lda #0x80
-    sta.l 0x002100
-    ; set VMAIN = increment after high byte
-    lda #0x80
-    sta.l 0x002115
-    ; set VRAM word addr = $3800 (= byte $7000)
-    rep #0x20
-    lda.w #0x3800
-    sta.l 0x002116
-    sep #0x20
-    ; channel 7: mode=01 (2 regs, 1 inc), dest=$2118
-    lda #0x01
-    sta.l 0x004370
-    lda #0x18
-    sta.l 0x004371
-    ; src = $7E:D600
-    rep #0x20
-    lda.w #0xD600
-    sta.l 0x004372
-    sep #0x20
-    lda #0x7E
-    sta.l 0x004374
-    ; size = $0800
-    rep #0x20
-    lda.w #0x0800
-    sta.l 0x004375
-    sep #0x20
-    ; trigger DMA on channel 7 (bit 7)
-    lda #0x80
-    sta.l 0x00420B
-    ; release forced blank
-    lda #0x0F
-    sta.l 0x002100
+    jsr.l key_item_init_impl
+    ; engine's ensure_hdma turned $1BAE bit 4 on; clear so vanilla NMI
+    ; doesn't try to drive HDMA we haven't fully wired (per-scanline
+    ; bands not yet matched to the picker rows).
+    lda #0x00
+    sta.l 0x7E1BAE
+    lda #0x00
+    sta.l 0x00420C
     plp
-    rts
+    rtl
 
 
 ClearKeyItemSlot:
@@ -398,15 +315,38 @@ update_key_item_scroll_hdma:
     engine_update_scroll_hdma(key_item_rolling, KEY_ITEM_HDMA_SHADOW, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_VISIBLE_ITEMS, _key_item_hdma_header, _key_item_hdma_footer, _key_item_hdma_signal)
 
 _key_item_hdma_header:
-"""Picker HDMA header band — dialog frame at BASE scroll. STUB."""
+"""Picker HDMA header — 112 lines at BASE (top half = field map preserved)."""
+    sep #0x20
+    lda #112
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w key_item_rolling_base_scroll
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    inx
     rts
 
 _key_item_hdma_footer:
-"""Picker HDMA footer — locks scanlines past prefetch slot. STUB."""
+"""Picker HDMA footer — 16 lines at BASE+16 to hide prefetch slot."""
+    sep #0x20
+    lda #16
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w key_item_rolling_base_scroll
+    clc
+    adc.w #16
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    inx
     rts
 
 _key_item_hdma_signal:
-"""NMI shadow-copy signal for picker channel. STUB."""
+"""NMI shadow-copy signal — set both picker copy_pending + shared $1BB6 mirror."""
+    sep #0x20
+    lda #0x01
+    sta.w key_item_hdma_copy_pending
     rts
 
 

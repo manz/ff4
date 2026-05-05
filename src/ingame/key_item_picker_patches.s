@@ -30,7 +30,20 @@ Patched:
 """
 
 .if TREASURE_INVENTORY_ROLLING {
-    *=0x00AF4D
-    jsr.l key_item_session
+; Bank-$00 trampoline (placed first so the *=$00AF67 patch can resolve
+; the symbol forward).
+    *=0x00BB40
+key_item_render_trampoline:
+    jsr.l key_item_render_all
     rts
+
+; Replace vanilla `JSR UpdateItemText` at $00:AF67 (3 bytes) with a
+; JSR to the bank-$00 trampoline at $00:BB40. Vanilla preamble
+; (InitItemList + WaitVblankLong) before this call stays; vanilla
+; input loop + IRQ slide animation after this call stays. Render
+; writes into BG3 buffer at $7E:D600 — vanilla NMI ($00:9447 /
+; TfrBG3) transfers to VRAM each vblank since $EB=$01 has been
+; latched at $00:AF53.
+    *=0x00AF67
+    jsr key_item_render_trampoline
 }
