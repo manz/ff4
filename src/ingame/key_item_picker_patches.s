@@ -90,13 +90,14 @@ Patched:
 
 ; Item-text layout post-name: vanilla writes ":" at +8 ($077C), tens
 ; at +9 ($077D), ones at +10 ($077E). Names were 8 chars (slots 0..7).
-; French names are 11 chars (slots 0..10), so push the qty trio out:
+; French names are 11 chars (slots 0..10) + 1 tile spacer = 12, so
+; push the qty trio out by +12 (one full tile beyond the name):
     *=0x00B28E
-    sta 0x077F, y
-    *=0x00B2A4
     sta 0x0780, y
-    *=0x00B2A9
+    *=0x00B2A4
     sta 0x0781, y
+    *=0x00B2A9
+    sta 0x0782, y
 
 ; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
 ; check at $00:AFB0 by replacing the AND mask with $00 — beq always
