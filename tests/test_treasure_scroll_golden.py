@@ -21,6 +21,7 @@ from kintsuki import Button
 
 from _ff4kintsuki import (
     REPO,
+    assert_screenshot_matches_golden,
     capture_treasure_state,
     enter_treasure_picker,
     load_emu_from_kss,
@@ -69,3 +70,19 @@ def test_scroll_matches_golden(picker_emu, steps: int, name: str) -> None:
     for _ in range(steps):
         tap(picker_emu, Button.DOWN)
     _check_or_record(name, capture_treasure_state(picker_emu))
+
+
+@pytest.mark.parametrize("steps,name", [
+    (0, "scroll_0"),
+    (1, "scroll_1"),
+    (3, "scroll_3"),
+    (5, "scroll_5"),
+])
+def test_scroll_screenshot_golden(picker_emu, steps: int, name: str) -> None:
+    """Visual treasure-picker screenshot regression. Catches BG3 layout
+    drift that the byte goldens miss (palette swaps, sprite cursor
+    position, drops-band parallax)."""
+    for _ in range(steps):
+        tap(picker_emu, Button.DOWN)
+    assert_screenshot_matches_golden(picker_emu,
+                                     GOLDENS / f"{name}.png")
