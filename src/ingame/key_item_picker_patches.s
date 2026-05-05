@@ -80,11 +80,20 @@ Patched:
     lda.l assets_items_dat, x
 
 ; Make both column-toggle branches advance Y by 24 (full text-buffer
-; row, 12 chars). $00:B2B6 holds the left-branch `+#$0D`, $00:B2C0
-; holds the right-branch `+#$0B`. Both → `+#$18` so every item lands
-; on its own row regardless of the col-toggle bit.
-    *=0x00B2B6
-    .db 0x18
-    *=0x00B2C0
-    .db 0x18
+; row, 12 chars). Both → `adc #$18` so every item lands on its own
+; row regardless of which column the toggle picks.
+    *=0x00B2B5
+    adc #0x18
+    *=0x00B2BF
+    adc #0x18
+
+; Item-text layout post-name: vanilla writes ":" at +8 ($077C), tens
+; at +9 ($077D), ones at +10 ($077E). Names were 8 chars (slots 0..7).
+; French names are 11 chars (slots 0..10), so push the qty trio out:
+    *=0x00B28E
+    sta 0x077F, y
+    *=0x00B2A4
+    sta 0x0780, y
+    *=0x00B2A9
+    sta 0x0781, y
 }
