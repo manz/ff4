@@ -30,20 +30,39 @@ Patched:
 """
 
 .if TREASURE_INVENTORY_ROLLING {
-; Bank-$00 trampoline (placed first so the *=$00AF67 patch can resolve
-; the symbol forward).
-    *=0x00BB40
-key_item_render_trampoline:
-    jsr.l key_item_render_all
-    rts
+; UpdateItemText at $00:B22B reads scroll pos $BA, multiplies by 4
+; (asl asl) for 2-col x 2-byte stride into $0712. Single-col layout
+; needs stride = 2, so replace the 2nd `asl` at $00:B232 with NOP.
+;
+; Items per page: $07 init at $00:B23C = 8 (4 rows x 2 cols).
+; For single-col we render N rows (visible items in the picker
+; window). Original window is 4 rows; replace #$08 with #$04.
+;
+; Both patches surgical 1-byte: keep vanilla layout, change scroll
+; stride + per-page count so it walks $0712 as single-col.
+; UpdateItemText scroll stride: original `lda $ba / asl asl / tax`
+; means scroll-step indexes 4 bytes (2 cols × 2 bytes). Single-col
+; needs stride 2 (1 col × 2 bytes). NOP the 2nd asl at $00:B23C.
+;
+; Layout still 2-col due to the +#$0D / +#$0B col-toggle at $00:B2B5
+; / $00:B2BF — those would need a wider single-row stride patch
+; (text buffer is 13 chars/half-row × 2 = 26 wide) which is more
+; invasive. Keep 2-col layout for now, single-stride scroll lets
+; us walk the filtered $0712 in step with the engine's worldview.
+    *=0x00B23C
+    nop
 
-; Replace vanilla `JSR UpdateItemText` at $00:AF67 (3 bytes) with a
-; JSR to the bank-$00 trampoline at $00:BB40. Vanilla preamble
-; (InitItemList + WaitVblankLong) before this call stays; vanilla
-; input loop + IRQ slide animation after this call stays. Render
-; writes into BG3 buffer at $7E:D600 — vanilla NMI ($00:9447 /
-; TfrBG3) transfers to VRAM each vblank since $EB=$01 has been
-; latched at $00:AF53.
-    *=0x00AF67
-    jsr key_item_render_trampoline
+; Items per page: original `lda #$08` (4 rows × 2 cols). Single-col
+; 4 rows = 4.
+    *=0x00B246
+    .db 0x04
+
+; Make both column-toggle branches advance Y by 26 (full text-buffer
+; row, 13 chars × 2). $00:B2B6 holds the left-branch `+#$0D`, $00:B2C0
+; holds the right-branch `+#$0B`. Both → `+#$1A` so every item lands
+; on its own row regardless of the col-toggle bit.
+    *=0x00B2B6
+    .db 0x18
+    *=0x00B2C0
+    .db 0x18
 }
