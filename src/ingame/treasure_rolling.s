@@ -262,17 +262,31 @@ Direct mode table format: count, lo, hi per entry
 ; X = table write offset
     ldx.w #0x0000
 
-; Entry 0: header band — 128 scanlines at BASE scroll. Vanilla treasure
-; window border occupies tilemap row 0 (8 px); items start at tilemap
-; row 8. With BASE = $9F = -120 (= +392 mod 512 plane), the window
-; border at tilemap row 0 lands at screen scanline 120; items at tilemap
-; row 8 land at scanline 128. So header covers scanlines 0..127 leaving
-; item bands to start at scanline 128 (= top of slot 0).
-    sep #0x20  ; 8-bit A for count byte
-    lda #128
+; Entry 0: drops band — 120 scanlines at BASE-16 so the Tente /
+; Baguette captions sit two tile rows lower inside the top dialog
+; window. Vanilla used HDMA ch2 to drive that parallax; we masked
+; ch2 to free BG3VOFS for our rolling buffer, so we mimic the
+; -16-px shift here directly.
+    sep #0x20
+    lda #120
     sta.l TREASURE_HDMA_SHADOW, x
     inx
-    rep #0x20  ; 16-bit A for value
+    rep #0x20
+    lda.w treasure_rolling_base_scroll
+    sec
+    sbc.w #16
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    inx
+    ; Entry 0b: inventory window border — 8 scanlines at BASE so the top
+    ; border of the bottom inventory frame still lands at scanlines
+    ; 120..127 with vy = 0..7 = tilemap row 0. Item bands start at
+    ; scanline 128 with their own per-row scrolls.
+    sep #0x20
+    lda #8
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    rep #0x20
     lda.w treasure_rolling_base_scroll
     sta.l TREASURE_HDMA_SHADOW, x
     inx
