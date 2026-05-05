@@ -52,14 +52,36 @@ Patched:
     *=0x00B23C
     nop
 
-; Items per page: original `lda #$08` (4 rows × 2 cols). Single-col
-; 4 rows = 4.
-    *=0x00B246
-    .db 0x04
+; Items per page: original `lda #$08` → 4 (single-col 4 rows).
+    *=0x00B245
+    lda #0x04
 
-; Make both column-toggle branches advance Y by 26 (full text-buffer
-; row, 13 chars × 2). $00:B2B6 holds the left-branch `+#$0D`, $00:B2C0
-; holds the right-branch `+#$0B`. Both → `+#$1A` so every item lands
+; Replace the inline id*9 multiplier at $00:B253-B26C with a
+; jsl multiply_by_12 chain. A is item-id on entry (just loaded via
+; lda $0712,x at $B24B), returns A=id*12. Move into X for the
+; existing inner-loop indexed `lda.l assets_items_dat, x` read.
+; The original block was 26 bytes ($B253..$B26C); replacement uses
+; 9 bytes, padded with NOP to keep downstream instruction
+; addresses ($B26F lda#, $B273 lda.l ...) anchored.
+    *=0x00B253
+    jsr.l multiply_by_12
+    tax
+    inx
+    pad_nop(20)
+
+; Inner-name-write loop count at $00:B26F: original `lda #$08`
+; (8 letters per name). Bump to ITEM_NAME_TEXT_SIZE.
+    *=0x00B26F
+    lda #ITEM_NAME_TEXT_SIZE
+
+; Item-name table source at $00:B273: original `lda.l $0F8000,x`
+; (JP layout). Redirect to French assets_items_dat.
+    *=0x00B273
+    lda.l assets_items_dat, x
+
+; Make both column-toggle branches advance Y by 24 (full text-buffer
+; row, 12 chars). $00:B2B6 holds the left-branch `+#$0D`, $00:B2C0
+; holds the right-branch `+#$0B`. Both → `+#$18` so every item lands
 ; on its own row regardless of the col-toggle bit.
     *=0x00B2B6
     .db 0x18

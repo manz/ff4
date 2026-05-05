@@ -127,3 +127,10 @@ _return_addr:
 .macro zero(count) {
     fill_value(0, count)
 }
+
+.macro pad_nop(count) {
+    """Emit `count` NOP bytes. Used after surgical patches that replace a longer instruction sequence with a shorter one — keeps downstream call-sites and addresses anchored."""
+    .for k := 0, count {
+    nop
+    }
+}
