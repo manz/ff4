@@ -346,8 +346,13 @@ _row_done:
 
 _row_loop_done:
 
-; Entry 11: Below items - 16 scanlines at BASE + 16
-; Lock to show the bottom window border area
+; Footer band — 16 scanlines pointing at the inventory window's bottom
+; border tilemap row. Slot N renders at row 2N+2 (slot 0 at row 2,
+; slot 10 at row 22); the bottom-border tiles `fc fd fd ... fd` live
+; at row 24. With BASE captured from $93 (typically $FFE0 = -32) and
+; footer VOFS=BASE+16=$FFF0, vy at scanline 208 = 192 = row 24 = the
+; bottom border. Hides the slot 10 prefetch row (vy 176-183 = row 22)
+; since HDMA only activates the footer's value at scanline 208+.
     sep #0x20
     lda #16
     sta.l MENU_HDMA_SHADOW, x
@@ -355,7 +360,7 @@ _row_loop_done:
     rep #0x20
     lda.w menu_rolling_base_scroll
     clc
-    adc.w #16  ; Lock at base + 16
+    adc.w #16
     sta.l MENU_HDMA_SHADOW, x
     inx
     inx
@@ -404,15 +409,16 @@ Initializes the circular buffer state and sets up HDMA
     stz.w menu_rolling_top_row
     stz.w menu_rolling_buffer_pos
 
-; Mark base scroll as uninitialized (0xFFFF = sentinel)
-; Will be captured from $93 on first scroll when it's valid
-    rep #0x20  ; 16-bit A
-    lda.w #0xFFFF  ; Sentinel: "not yet captured"
+; Mark base scroll as sentinel + capture immediately. The vanilla menu
+; entry has already written $0193 (BG1VOFS shadow) by the time we get
+; here, so the lazy "wait for first scroll" dance is unnecessary and
+; leaves one frame of vanilla BG1VOFS rendering — which exposes slot
+; 10 below the inventory window border before HDMA takes over.
+    rep #0x20
+    lda.w #0xFFFF
     sta.w menu_rolling_base_scroll
     sep #0x20
-
-; DON'T set up HDMA here - $93 isn't set yet!
-; HDMA will be initialized on first scroll
+    jsr.w ensure_hdma_initialized
 
 ; Render initial 12 slots (items 0-11) to buffer
     sep #0x20  ; 8-bit A - CRITICAL!
@@ -429,8 +435,13 @@ _menu_init_row_loop:
 
     inc.b 0x46
     lda.b 0x46
-    cmp #11  ; Render 11 items (0-10) explicitly
-    bne _menu_init_row_loop
+    cmp #MENU_VISIBLE_ITEMS  ; Render only 10 visible slots; the 11th
+    bne _menu_init_row_loop  ; (prefetch) is filled lazily on first
+    ; scroll. Rendering it at init leaves the
+    ; slot 10 tilemap row populated, and on
+    ; the very first frame BG1VOFS isn't yet
+    ; HDMA-driven, so slot 10 leaks below the
+    ; visible inventory band.
 
 ; Restore DP byte
     pla
@@ -1445,11 +1456,60 @@ circular_slot_calc:
     Called from patched code at $A1BA via CircularSlotCalc_ext.
 
     Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
+    $5A = src pointer ($1440 = inventory, $FF28 = treasure drops)
     Output: Y = tilemap offset for circular buffer slot
     Preserves: 16-bit A mode on exit
     """
     sep #0x20
 ; 8-bit A
+; Drops list at $FF28 reuses _a181 but doesn't have any rolling state.
+; The vanilla 2-col Y calc collides slots after we forced col=0 globally
+; via the `and #$00` patch at DrawItemSlot, so two drops would render at
+; the same scanline. Detect drops via $5B high byte and emit a unique
+; per-slot Y (slot * 64 + 4) instead of any circular math.
+    lda.b 0x5b
+    cmp #0xFF
+    bne _circ_slot_not_drops
+    lda.b 0x5d
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    asl
+    asl  ; * 64. $5D increments by 2 → step = 128 bytes = 2 tilemap rows,
+; matching the 16-px-per-item layout vanilla uses for col-0
+; drops with BG1VOFS=-32 ($93) pushing them down to scanline 32.
+    clc
+    adc.w #0x0044  ; col 2 + 1 tilemap row down (+$40) so the first slot
+; clears the window header before BG1VOFS shifts it.
+    tay
+    rts
+_circ_slot_not_drops:
+; Inventory in treasure context uses treasure_rolling_buffer_pos.
+    lda.l 0x7E0000 + 0x1BD6  ; treasure_hdma_enable
+    beq _circ_check_field
+    lda.b 0x5d
+    lsr
+    clc
+    adc.l 0x7E0000 + 0x1BD1  ; treasure_rolling_buffer_pos
+_t_circ_mod:
+    cmp #6  ; TREASURE_BUFFER_SLOTS
+    bcc _t_circ_done
+    sec
+    sbc #6
+    bra _t_circ_mod
+_t_circ_done:
+    rep #0x20
+    and.w #0x00FF
+    xba
+    lsr
+    clc
+    adc.w #0x0004
+    tay
+    rts
+_circ_check_field:
 ; Check if circular buffer mode is active (HDMA enabled)
     lda.l 0x7E0000 + menu_hdma_enable
     beq _circ_slot_original
