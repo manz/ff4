@@ -44,3 +44,13 @@ def test_a_tap_opens_picker(picker_emu):
     assert any(b != 0 for b in filter_buf), (
         f"$7E:0712 filter buffer still empty after A tap: {filter_buf.hex()}"
     )
+
+
+def test_picker_screenshot_baseline(picker_emu):
+    """Vanilla 4x4 grid picker baseline. Re-record with UPDATE_GOLDENS=1
+    once Phase 5b replaces the grid render with the engine's single-col
+    rolling buffer."""
+    from _ff4kintsuki import assert_screenshot_matches_golden
+    tap(picker_emu, Button.A, gap=30)
+    picker_emu.run_frames(60)
+    assert_screenshot_matches_golden(picker_emu, GOLDENS / "vanilla_open.png")

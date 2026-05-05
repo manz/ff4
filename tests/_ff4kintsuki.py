@@ -29,8 +29,11 @@ BG1_TILEMAP_VRAM_BASE = 0x6000  # drops list
 BG3_TILEMAP_VRAM_BASE = 0x7000  # rolling-buffer inventory
 
 
+SAVESTATES = Path(__file__).parent / "savestates"
+
+
 def kss_path(name: str = "ff4-before-battle-inventory.kss") -> Path:
-    return REPO / name
+    return SAVESTATES / name
 
 
 def load_emu_from_kss(kss: Path | None = None) -> Emu:
@@ -43,7 +46,7 @@ def load_emu_from_kss(kss: Path | None = None) -> Emu:
         pytest.skip(f"ff4.sfc not built at {ROM}")
     kss = kss or kss_path()
     if not kss.exists():
-        pytest.skip(f"{kss.name} missing — drop one at the repo root")
+        pytest.skip(f"{kss.name} missing — drop one at tests/savestates/")
     # Tests want deterministic state — skip the .srm sidecar that
     # `kintsuki_load_rom` would otherwise seed cart SRAM with.
     e = Emu(load_srm_sidecar=False)
