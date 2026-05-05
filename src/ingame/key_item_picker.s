@@ -85,7 +85,7 @@ KEY_ITEM_HDMA4_SRC_BANK := 0x4344
 
 
 key_item_ensure_hdma_initialized:
-"""Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll, then configure HDMA ch4 to drive BG3VOFS from the picker shadow table."""
+"""Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the picker has its own window draw + visible loop wired — leaving ch4 enabled here corrupts the field BG3 layer (Cecil walks on a split screen) since the engine's RTL goes back to the field via EventCmd_f7 without any teardown."""
     rep #0x20
     lda.w key_item_rolling_base_scroll
     cmp.w #0xFFFF
@@ -93,11 +93,6 @@ key_item_ensure_hdma_initialized:
     lda.l 0x7E019F
     sta.w key_item_rolling_base_scroll
     sep #0x20
-    jsr.w _key_item_init_hdma_channel
-    lda #KEY_ITEM_HDMA_CHANNEL_BIT
-    sta.l 0x7E1BAE
-    sta.w key_item_hdma_enable
-    rts
 
 _key_item_hdma_already_init:
     sep #0x20
@@ -124,83 +119,7 @@ _key_item_init_hdma_channel:
 
 
 key_item_render_item_to_slot:
-"""Render one filtered item from $7E:0712 + edge_row * Item.__size into the BG3 tilemap buffer at $7E:D600 + slot_index*128 + 0x44. Mirrors treasure_render_item_to_slot, source swapped to $0712."""
-    php
-    phb
-    lda #0x7E
-    pha
-    plb
-    rep #0x30
-    pha
-    phx
-    phy
-    lda.b 0x5a
-    pha
-    lda.b 0x29
-    pha
-    lda.b 0x45
-    pha
-    lda.b 0x33
-    pha
-    sep #0x20
-    lda.b 0x5d
-    pha
-    lda.b 0xDB
-    pha
-    rep #0x20
-    lda.w #0xD600
-    sta.b 0x29
-    sep #0x20
-    lda.w key_item_rolling_edge_row
-    asl
-    clc
-    adc #0x12
-    sta.b 0x5a
-    lda #0x07
-    adc #0x00
-    sta.b 0x5b
-    rep #0x20
-    lda.b 0x5a
-    tax
-    sep #0x20
-    lda.l 0x7E0000 + Item.id, x
-    pha
-    lda.l 0x7E0000 + Item.qty, x
-    sta.b 0x5C
-    stz.b 0x34
-    pla
-    jsr.l CheckCanUseItem_Trampoline
-    lda.w key_item_rolling_slot_index
-    sta.b 0x5d
-    rep #0x20
-    lda.w key_item_rolling_slot_index
-    and.w #0x00FF
-    xba
-    lsr
-    clc
-    adc.w #0x0044
-    tay
-    sep #0x20
-    jsr.l DrawItemSlotInner_Trampoline
-    pla
-    sta.b 0xDB
-    pla
-    sta.b 0x5d
-    rep #0x20
-    pla
-    sta.b 0x33
-    pla
-    sta.b 0x45
-    pla
-    sta.b 0x29
-    pla
-    sta.b 0x5a
-    rep #0x10
-    ply
-    plx
-    pla
-    plb
-    plp
+"""Render hook STUBBED until picker has its own VRAM region or the BG3 save/restore wrap. The full impl (render to $7E:D600 + slot_index*128 + 0x44 via DrawItemSlotInner) corrupts the field BG3 layer since EventCmd_f7's continuation runs after the engine returns and the field NMI shovels the corrupted buffer into VRAM."""
     rts
 
 
@@ -248,7 +167,49 @@ _clear_key_loop:
     rts
 
 key_item_init_filter:
-"""Filter $1440 -> $0712. Vanilla InitItemList address (claimed $01:B2D3 in ff4decomp notes) doesn't match patched ROM bytes — skip until the real address is empirically located. STUB."""
+"""Filter $1440 -> $0712. Faithful inline port of vanilla InitItemList ($00:B2D5 in actual ROM, off-by-2 from ff4decomp notes). Clears the 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs are key items: [$CE..$E6] u [$EB..$FD]."""
+    php
+    phb
+    sep #0x20
+    rep #0x10
+    lda #0x7E
+    pha
+    plb
+    ldx.w #0x0000
+
+_filter_clear:
+    stz.w 0x0712, x
+    inx
+    cpx.w #0x0060
+    bne _filter_clear
+    ldx.w #0x0000
+    ldy.w #0x0000
+
+_filter_walk:
+    lda.w 0x1440, x
+    cmp #0xCE
+    bcc _filter_next
+    cmp #0xE7
+    bcc _filter_accept
+    cmp #0xEB
+    bcc _filter_next
+    cmp #0xFE
+    bcs _filter_next
+
+_filter_accept:
+    sta.w 0x0712, y
+    lda.w 0x1441, x
+    sta.w 0x0713, y
+    iny
+    iny
+
+_filter_next:
+    inx
+    inx
+    cpx.w #0x0060
+    bne _filter_walk
+    plb
+    plp
     rts
 
 update_key_item_scroll_hdma:
