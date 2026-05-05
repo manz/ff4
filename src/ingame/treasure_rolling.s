@@ -49,7 +49,7 @@ treasure_hdma_copy_pending := 0x1BDE
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
 TREASURE_SCROLL_STATE_SCROLLING := 1
-TREASURE_SCROLL_PIXELS_PER_FRAME := 8  ; 8 pixels/frame = 2 frames per scroll
+TREASURE_SCROLL_PIXELS_PER_FRAME := 16  ; 16 px/frame = 1 frame per scroll
 TREASURE_SCROLL_TOTAL_PIXELS := 16
 
 ; HDMA Configuration (Direct Mode like FF6)
