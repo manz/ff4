@@ -35,14 +35,21 @@ def test_kss_loads(picker_emu):
     assert any(fb), "framebuffer empty after kss load"
 
 
+def _open_picker(emu):
+    """First A tap opens the NPC dialog ; second advances past it and
+    reaches the F7 (item selection) command, which pops the picker."""
+    tap(emu, Button.A, gap=30)
+    tap(emu, Button.A, gap=30)
+    emu.run_frames(60)
+
+
 def test_a_tap_opens_picker(picker_emu):
-    """Tap A; expect the picker filtered buffer at $7E:0712 to populate
-    after InitItemList runs (first non-zero entry inside 60 frames)."""
-    tap(picker_emu, Button.A, gap=30)
-    picker_emu.run_frames(60)
+    """A,A through NPC dialog; expect $7E:0712 filter buffer populated
+    after InitItemList runs."""
+    _open_picker(picker_emu)
     filter_buf = bytes(picker_emu.read(0x7E0712 + i) for i in range(16))
     assert any(b != 0 for b in filter_buf), (
-        f"$7E:0712 filter buffer still empty after A tap: {filter_buf.hex()}"
+        f"$7E:0712 filter buffer still empty after A,A: {filter_buf.hex()}"
     )
 
 
@@ -51,6 +58,5 @@ def test_picker_screenshot_baseline(picker_emu):
     once Phase 5b replaces the grid render with the engine's single-col
     rolling buffer."""
     from _ff4kintsuki import assert_screenshot_matches_golden
-    tap(picker_emu, Button.A, gap=30)
-    picker_emu.run_frames(60)
+    _open_picker(picker_emu)
     assert_screenshot_matches_golden(picker_emu, GOLDENS / "vanilla_open.png")
