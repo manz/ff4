@@ -77,16 +77,174 @@ KEY_ITEM_HDMA_BANK := 0x7E
 KEY_ITEM_FILTER_BUFFER := 0x0712
 
 
+KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
+KEY_ITEM_HDMA4_CTRL := 0x4340
+KEY_ITEM_HDMA4_DEST := 0x4341
+KEY_ITEM_HDMA4_SRC_LO := 0x4342
+KEY_ITEM_HDMA4_SRC_BANK := 0x4344
+
+
 key_item_ensure_hdma_initialized:
-"""Capture $9F + configure HDMA channel for key-item picker. STUB."""
+"""Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll, then configure HDMA ch4 to drive BG3VOFS from the picker shadow table."""
+    rep #0x20
+    lda.w key_item_rolling_base_scroll
+    cmp.w #0xFFFF
+    bne _key_item_hdma_already_init
+    lda.l 0x7E019F
+    sta.w key_item_rolling_base_scroll
+    sep #0x20
+    jsr.w _key_item_init_hdma_channel
+    lda #KEY_ITEM_HDMA_CHANNEL_BIT
+    sta.l 0x7E1BAE
+    sta.w key_item_hdma_enable
     rts
+
+_key_item_hdma_already_init:
+    sep #0x20
+    rts
+
+
+_key_item_init_hdma_channel:
+"""Configure HDMA ch4: DIRECT mode, dest BG3VOFS ($2112), source = picker shadow table at $7E:9900."""
+    php
+    sep #0x20
+    jsr.w update_key_item_scroll_hdma
+    lda #0x02
+    sta.l KEY_ITEM_HDMA4_CTRL
+    lda #0x12
+    sta.l KEY_ITEM_HDMA4_DEST
+    rep #0x20
+    lda.w #KEY_ITEM_HDMA_TABLE_ADDR
+    sta.l KEY_ITEM_HDMA4_SRC_LO
+    sep #0x20
+    lda #KEY_ITEM_HDMA_BANK
+    sta.l KEY_ITEM_HDMA4_SRC_BANK
+    plp
+    rts
+
 
 key_item_render_item_to_slot:
-"""Render filtered item from $7E:0712 + edge_row * Item.__size into BG3 tilemap. STUB."""
+"""Render one filtered item from $7E:0712 + edge_row * Item.__size into the BG3 tilemap buffer at $7E:D600 + slot_index*128 + 0x44. Mirrors treasure_render_item_to_slot, source swapped to $0712."""
+    php
+    phb
+    lda #0x7E
+    pha
+    plb
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x5a
+    pha
+    lda.b 0x29
+    pha
+    lda.b 0x45
+    pha
+    lda.b 0x33
+    pha
+    sep #0x20
+    lda.b 0x5d
+    pha
+    lda.b 0xDB
+    pha
+    rep #0x20
+    lda.w #0xD600
+    sta.b 0x29
+    sep #0x20
+    lda.w key_item_rolling_edge_row
+    asl
+    clc
+    adc #0x12
+    sta.b 0x5a
+    lda #0x07
+    adc #0x00
+    sta.b 0x5b
+    rep #0x20
+    lda.b 0x5a
+    tax
+    sep #0x20
+    lda.l 0x7E0000 + Item.id, x
+    pha
+    lda.l 0x7E0000 + Item.qty, x
+    sta.b 0x5C
+    stz.b 0x34
+    pla
+    jsr.l CheckCanUseItem_Trampoline
+    lda.w key_item_rolling_slot_index
+    sta.b 0x5d
+    rep #0x20
+    lda.w key_item_rolling_slot_index
+    and.w #0x00FF
+    xba
+    lsr
+    clc
+    adc.w #0x0044
+    tay
+    sep #0x20
+    jsr.l DrawItemSlotInner_Trampoline
+    pla
+    sta.b 0xDB
+    pla
+    sta.b 0x5d
+    rep #0x20
+    pla
+    sta.b 0x33
+    pla
+    sta.b 0x45
+    pla
+    sta.b 0x29
+    pla
+    sta.b 0x5a
+    rep #0x10
+    ply
+    plx
+    pla
+    plb
+    plp
     rts
 
+
 ClearKeyItemSlot:
-"""Blank a single key-item tilemap slot. STUB."""
+"""Blank one tilemap row at slot_index in the BG3 buffer."""
+    php
+    phb
+    lda #0x7E
+    pha
+    plb
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x29
+    pha
+    lda.w #0xD600
+    sta.b 0x29
+    lda.w key_item_rolling_slot_index
+    and.w #0x00FF
+    xba
+    lsr
+    clc
+    adc.w #0x0044
+    tay
+    sep #0x20
+    ldx.w #0x0000
+
+_clear_key_loop:
+    lda #0x00
+    sta (0x29), y
+    iny
+    inx
+    cpx.w #0x0040
+    bne _clear_key_loop
+    rep #0x20
+    pla
+    sta.b 0x29
+    rep #0x10
+    ply
+    plx
+    pla
+    plb
+    plp
     rts
 
 key_item_init_filter:
