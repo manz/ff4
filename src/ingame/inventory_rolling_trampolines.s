@@ -91,6 +91,11 @@ UpdateCtrlAfterScroll_Trampoline:
 ; vanilla @ $01:82A5
     rtl
 
+InitItemList_Trampoline:
+    """Bank-$01 trampoline for vanilla InitItemList @ $01:B2D3 (filters $1440 -> $0712 by key-item ID range)."""
+    jsr 0xB2D3
+    rtl
+
 ResetSprites_Trampoline:
     jsr 0x8D6A
 ; vanilla @ $01:8D6A

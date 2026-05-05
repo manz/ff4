@@ -90,7 +90,8 @@ ClearKeyItemSlot:
     rts
 
 key_item_init_filter:
-"""Mirror vanilla InitItemList ($01:B2D3): clear $7E:0712, walk $1440, copy IDs in [$CE..$E6] u [$EB..$FD]. STUB."""
+"""Filter $1440 -> $0712 via vanilla InitItemList ($01:B2D3): clears 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs fall in [$CE..$E6] u [$EB..$FD]."""
+    jsr.l InitItemList_Trampoline
     rts
 
 update_key_item_scroll_hdma:
