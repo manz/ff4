@@ -64,10 +64,11 @@ Patched:
 ; 9 bytes, padded with NOP to keep downstream instruction
 ; addresses ($B26F lda#, $B273 lda.l ...) anchored.
     *=0x00B253
+    rep #0x10
     jsr.l multiply_by_12
     tax
     inx
-    pad_nop(20)
+    pad_nop(18)
 
 ; Inner-name-write loop count at $00:B26F: original `lda #$08`
 ; (8 letters per name). Bump to ITEM_NAME_TEXT_SIZE.
@@ -96,4 +97,13 @@ Patched:
     sta 0x0780, y
     *=0x00B2A9
     sta 0x0781, y
+
+; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
+; check at $00:AFB0 by replacing the AND mask with $00 — beq always
+; taken, right-button branch skipped. Vanilla:
+;   AFB0: A5 03      lda $03
+;   AFB2: 29 01      and #$01     ← JOY_RIGHT mask
+;   AFB4: F0 1A      beq +$1A
+    *=0x00AFB2
+    and #0x00
 }

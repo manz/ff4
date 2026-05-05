@@ -189,7 +189,9 @@ MultiplyItemIndex12:
 
 multiply_by_12:
 """A: thing to multiply returns A*12 in A. Thank you very much ManZ AI is not going to do the patch for you you're still required."""
-    sep #0x20
+    php
+    rep #0x20
+    and.w #0x00FF
     pha
     asl
     clc
@@ -198,6 +200,7 @@ multiply_by_12:
     asl
     sta 0x01, s
     pla
+    plp
     rtl
 
 brk_handler:
@@ -232,20 +235,20 @@ PB. Pulled in reverse. Pushed PC = BRK+2.
 }
 ; binary text assets
 .incbin "assets/attack_names.ptr"
+
 .incbin "assets/attack_names.dat"
-
 .incbin "assets/monsters_long.ptr"
+
+
 .incbin "assets/monsters_long.dat"
-
-
 .incbin "assets/battle_commands_nul.ptr"
 .incbin "assets/battle_commands_nul.dat"
 .incbin "assets/magic.dat"
 .incbin "assets/places_names.dat"
 .incbin "assets/classes.ptr"
 .incbin "assets/classes.dat"
-.incbin "assets/items.dat"
 
+.incbin "assets/items.dat"
 .incbin "assets/item_descriptions.dat"
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
