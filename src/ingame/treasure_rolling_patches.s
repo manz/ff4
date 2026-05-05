@@ -28,15 +28,35 @@
     lda #0x00
     nop
 
+; Single-column swap-offset: vanilla _01daac computes
+;   index = ((($1bb5 + $1bb7) << 1 + $1bb6) << 1
+; for the 2-column inventory ($1bb5 = visible row, $1bb7 = scroll row,
+; $1bb6 = column 0/1). The double-shift assumes 2 cols × 2 bytes/item;
+; with our forced single-column ($1bb6=0) it multiplies by 4 instead of
+; the 2 bytes/item we actually need, so the swap reads/writes
+; even-numbered items only and half the inventory becomes unreachable.
+; NOP the second `asl` at $01DAC2 so the offset becomes
+; ($1bb5 + $1bb7) * 2 = byte index into $1440.
+    *=0x01DAC2
+    nop
+
 ; Extend $1BB7 max from $14 (20) to $2B (43 = 48 - 5).
     *=0x01DA86
     .db 0x2B
 
-; Replace `jsr $01A172` (vanilla DrawInventoryList) with rolling-buffer
-; init. The init body sets up HDMA via the shared field shadow at
-; $1BAE so the existing field NMI hook drives the channel-5 copy.
-    *=0x01D933
+; Replace `jsr $01A172` (vanilla DrawInventoryList) at TWO call sites:
+;   - $01:D81D — treasure menu entry (`_01d7f2` flow), fires once on enter
+;     → full init (zero state, render slots 0..5).
+;   - $01:D933 — `_01d929` redraw helper, fires after every successful
+;     swap. Vanilla rebuilds the whole 48-item list here; we only need
+;     to re-render the 6 buffer slots from the mutated $1440. Crucially
+;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow — otherwise
+;     swapping with an item past visible row 4 snaps the scroll back to
+;     the top because init re-zeroes the rolling state.
+    *=0x01D81D
     jsr.w init_treasure_rolling_buffer
+    *=0x01D933
+    jsr.w treasure_refresh_slots
 
 ; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
 ; bytes) with our state-machine trigger.

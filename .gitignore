@@ -9,3 +9,4 @@ assets/*
 !assets/intro.set
 
 .DS_Store
+*.kss

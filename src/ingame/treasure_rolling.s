@@ -70,10 +70,18 @@ TREASURE_SCROLL_TOTAL_PIXELS := 16
 ; Treasure HDMA tables live in expanded SRAM (bank $70 free area at
 ; $704700+) so they don't fight whatever vanilla treasure may stash in
 ; the $7E:9800 region used by the field-menu rolling buffer.
-TREASURE_HDMA_TABLE_ADDR := 0x4700
-TREASURE_HDMA_TABLE := 0x704700
+; Share field-menu HDMA tables (mutually exclusive on screen).
+; Active (read by HDMA channel 5): $7E:9800
+; Shadow (written by game): $7E:9840
+; NMI hook copies shadow → active during VBlank when `menu_hdma_copy_pending`
+; ($1BB6) is set, gated on `menu_hdma_enable` ($1BAE) being non-zero.
+TREASURE_HDMA_TABLE_ADDR := 0x9800
+TREASURE_HDMA_TABLE := 0x7E9800
+TREASURE_HDMA_SHADOW_ADDR := 0x9840
+TREASURE_HDMA_SHADOW := 0x7E9840
 TREASURE_HDMA_TABLE_SIZE := 40
-TREASURE_HDMA_BANK := 0x70
+TREASURE_HDMA_BANK := 0x7E
+treasure_hdma_copy_pending_shared := 0x1BB6  ; field-menu copy-pending flag
 
 ; HDMA registers for channel 5
 TREASURE_HDMA5_CTRL := 0x4350  ; DMA control
@@ -248,16 +256,19 @@ Direct mode table format: count, lo, hi per entry
 ; X = table write offset
     ldx.w #0x0000
 
-; Entry 0: Border area — 8 scanlines at BASE scroll. Treasure window
-; sits higher than the field-menu Items list (vanilla geometry), so
-; the border above it is much shorter (8 scanlines, not 48).
+; Entry 0: header band — 128 scanlines at BASE scroll. Vanilla treasure
+; window border occupies tilemap row 0 (8 px); items start at tilemap
+; row 8. With BASE = $9F = -120 (= +392 mod 512 plane), the window
+; border at tilemap row 0 lands at screen scanline 120; items at tilemap
+; row 8 land at scanline 128. So header covers scanlines 0..127 leaving
+; item bands to start at scanline 128 (= top of slot 0).
     sep #0x20  ; 8-bit A for count byte
-    lda #8
-    sta.l TREASURE_HDMA_TABLE, x
+    lda #128
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20  ; 16-bit A for value
     lda.w treasure_rolling_base_scroll
-    sta.l TREASURE_HDMA_TABLE, x
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
 
@@ -322,47 +333,53 @@ _t_write_normal_entry:
     ; Write entry: count=16, value=scroll
     sep #0x20  ; 8-bit for count
     lda #16  ; 16 scanlines per item row
-    sta.l TREASURE_HDMA_TABLE, x
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20  ; 16-bit for value
     lda.b 0x40
-    sta.l TREASURE_HDMA_TABLE, x
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
 
 _t_row_done:
     ; Next row
-    rep #0x20  ; Ensure 16-bit for comparison
+    rep #0x20
     inc.b 0x42
     lda.b 0x42
-    cmp.w #TREASURE_VISIBLE_ITEMS  ; 10 rows
-    bcs _t_row_loop_done  ; >= 10, exit loop
+    cmp.w #TREASURE_VISIBLE_ITEMS  ; 5 visible item rows
+    bcs _t_row_loop_done
     jmp.w _t_update_hdma_row_loop
 
 _t_row_loop_done:
 
-; Entry 11: Below items - 16 scanlines at BASE + 16
-; Lock to show the bottom window border area
+; Footer band — 16 scanlines pointing past the slot rows so the
+; prefetch slot stays hidden. With BASE=$FF88 (=-120), scanline 208
+; reads tilemap row 11 with VOFS=BASE+16=$FF98 (=-104) → vy=104 =
+; tilemap row 13 = blank (the rolling buffer only fills rows 1..12).
+; Slot 5 at vy=96..103 stays just above the footer band.
     sep #0x20
     lda #16
-    sta.l TREASURE_HDMA_TABLE, x
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20
     lda.w treasure_rolling_base_scroll
     clc
-    adc.w #16  ; Lock at base + 16
-    sta.l TREASURE_HDMA_TABLE, x
+    adc.w #16  ; BASE+16 → footer scanlines hit blank rows past slot 5
+    sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
 
 ; End marker
     sep #0x20
     lda #0x00
-    sta.l TREASURE_HDMA_TABLE, x
+    sta.l TREASURE_HDMA_SHADOW, x
 
-; Signal NMI to copy shadow -> active table
+; Signal NMI to copy shadow -> active table. NMI reads $1BB6
+; (field-shared copy-pending flag). Vanilla treasure col-toggle at $1BB6
+; is held at 0 by our patches, so reusing it is safe.
     lda #0x01
     sta.w treasure_hdma_copy_pending
+    sta.w treasure_hdma_copy_pending_shared
 
 ; Restore DP bytes (reverse order)
     rep #0x20
@@ -379,6 +396,53 @@ _t_row_loop_done:
     rts
 
 
+; Re-render all BUFFER_SLOTS (6) entries from $1440 using current
+; $1BB7 (scroll_pos) and the existing buffer_pos rotation. Called from
+; the redraw helper at $01:D933 after a swap completes — the swap
+; mutates $1440 in place and vanilla's DrawInventoryList would redraw
+; the whole 48-item list, but we only need to refresh the 5 visible
+; slots + 1 prefetch. Crucially does NOT touch buffer_pos or any of
+; the state-machine bytes, so the cursor/scroll position the user
+; was on before the swap survives.
+
+treasure_refresh_slots_impl:
+    php
+    rep #0x10  ; 16-bit X/Y for treasure_render_item_to_slot
+    sep #0x20  ; 8-bit A
+    lda #0
+    sta.b 0x46  ; loop counter K
+
+_t_refresh_loop:
+    ; item_index = scroll_pos + K
+    lda.w 0x1BB7
+    clc
+    adc.b 0x46
+    sta.w treasure_rolling_edge_row
+    ; slot = (buffer_pos + K) mod BUFFER_SLOTS
+    lda.w treasure_rolling_buffer_pos
+    clc
+    adc.b 0x46
+
+_t_refresh_mod:
+    cmp #TREASURE_BUFFER_SLOTS
+    bcc _t_refresh_mod_done
+    sec
+    sbc #TREASURE_BUFFER_SLOTS
+    bra _t_refresh_mod
+
+_t_refresh_mod_done:
+    sta.w treasure_rolling_slot_index
+    jsr.w treasure_render_item_to_slot
+    inc.b 0x46
+    lda.b 0x46
+    cmp #TREASURE_BUFFER_SLOTS
+    bne _t_refresh_loop
+    ; Push the freshly populated BG3 buffer to VRAM next vblank.
+    lda #1
+    sta.w treasure_transfer_pending
+    plp
+    rtl
+
 init_treasure_rolling_buffer_impl:
 """
 Called when inventory menu opens
@@ -387,13 +451,16 @@ Initializes the circular buffer state and sets up HDMA
     php  ; Save processor state at entry
     pha  ; Save A
 
-; Skip DrawWindow — vanilla treasure flow already drew the inventory window
-; before $01:D929 calls us. Drawing a second one (TreasureItemsWindow at
-; $E275) stamps an extra border partway down the existing area.
-
 ; Save DP byte we'll use as scratch
     lda.b 0x46
     pha  ; Save $46
+
+; Draw the inventory window border (replaces the DrawWindow vanilla
+; DrawInventoryList would have drawn before iterating items).
+    rep #0x10  ; 16-bit X/Y for ldy.w
+    ldy.w #0xDCCE  ; InventoryWindow (def_window 1, 0, 27, 48)
+    jsr.l DrawWindow_Trampoline
+    sep #0x10  ; Back to 8-bit X/Y
 
 ; Initialize buffer + state-machine bytes (stz works in any mode).
     stz.w treasure_rolling_top_row
@@ -679,11 +746,9 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
     cmp.w #0xFFFF
     bne _t_hdma_already_init
 
-; Treasure rolling buffer renders slots 0..5 into BG3 tilemap rows 0..11
-; (slot N at rows 2N, 2N+1). To make those rows visible at scanlines 8..87
-; (treasure window: 8-scanline border + 5×16 = 80-scanline list), set
-; BG3VOFS = $FFF8 (-8) so scanline 8 reads pixel-row 0 of our tilemap.
-    lda.w #0xFFF8
+; Capture vanilla BG3VOFS shadow ($9F). Vanilla treasure menu uses
+; $9F = -120 to position items at screen scanline 120; we mirror that.
+    lda.l 0x7E019F
     sta.w treasure_rolling_base_scroll
 
 ; Initialize HDMA channel configuration

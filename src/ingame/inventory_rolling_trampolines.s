@@ -72,6 +72,15 @@ TfrBG2TilesVblank_Trampoline:
 ; vanilla @ $01:9420
     rtl
 
+TfrBG3TilesVblank_Trampoline:
+    jsr 0x9447
+; vanilla @ $01:9447 — pushes BG3 buffer at $7E:D600 to VRAM $7000
+; over a vblank-bounded chunked DMA. Used by the treasure rolling
+; buffer: render writes go to the BG3 staging area but vanilla's
+; treasure main loop only refreshes BG2/sprites mid-menu, so without
+; this call the rolling-buffer slot updates never make it on screen.
+    rtl
+
 DrawItemCursors_Trampoline:
     jsr 0xA105
 ; vanilla @ $01:A105
@@ -100,6 +109,10 @@ treasure_check_and_clear_count:
 
 init_treasure_rolling_buffer:
     jsr.l init_treasure_rolling_buffer_impl
+    rts
+
+treasure_refresh_slots:
+    jsr.l treasure_refresh_slots_impl
     rts
 
 TreasureSwapRedrawHook_Impl:
@@ -168,17 +181,29 @@ _t_setup_in_treasure:
     lda #0x12
     sta.l 0x004351  ; HDMA5 dest: BG3VOFS ($2112)
     rep #0x20
-    lda.w #0x4700  ; treasure HDMA table in SRAM at $70:4700
+    lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
     sta.l 0x004352  ; HDMA5 src lo/hi
     sep #0x20
-    lda #0x70
-    sta.l 0x004354  ; HDMA5 src bank: SRAM bank $70
+    lda #0x7E
+    sta.l 0x004354  ; HDMA5 src bank
     rep #0x20
-    lda.w #0xFFF8  ; base_scroll = -8 → visible scanline 8 reads tilemap pixel 0
+; Capture vanilla BG3VOFS shadow ($9F) — vanilla treasure draws inventory
+; rows starting at screen scanline ~120 with $9F = -120, which keeps the
+; existing window/dialog tilemap content visible on the header band.
+    lda.l 0x7E019F
     sta.w treasure_rolling_base_scroll
     sep #0x20
-    lda #0x20
-    sta.l 0x7E1BAE  ; menu_hdma_enable shadow → channel 5 on at NMI
+; Vanilla treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2 is
+; an HDMA INDIRECT mode-3 channel that writes 4 bytes per scanline to
+; $2111/$2112 (BG3HOFS+BG3VOFS) for the drops-area parallax effect.
+; That clobbers our ch5 BG3VOFS writes for the rolling buffer because
+; ch2 fires alongside ch5 each scanline transition and the per-scanline
+; repeat (count bit 7 set) keeps writing through the inventory band.
+; Mask bit 2 to disable ch2 only while the rolling buffer is active —
+; treasure exit hook restores vanilla $1BAE so subsequent menus get
+; their channels back.
+    lda #0xA9  ; $AD & ~0x04 = ch7|ch5|ch3|ch0 (ch2 dropped)
+    sta.l 0x7E1BAE
     rts
 
 treasure_main_loop_scroll_check:
@@ -192,11 +217,23 @@ treasure_main_loop_scroll_check:
     by calling the original $82C0 so vanilla per-frame work still runs.
     """
     lda.w treasure_scroll_state
-    beq _treasure_main_call_orig
+    beq _treasure_main_check_xfer
     jsr.w TreasureUpdateScrollFrame
     lda.w treasure_scroll_remaining
     bne _treasure_main_block_input
     jsr.w TreasureFinishScroll
+_treasure_main_check_xfer:
+; Drain treasure_transfer_pending — the rolling buffer renderer writes
+; to the BG3 staging buffer at $7E:D600, but vanilla's treasure main
+; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
+; tilemap to VRAM ourselves whenever a slot was just re-rendered.
+    lda.w treasure_transfer_pending
+    beq _treasure_main_after_xfer
+    jsr.l TfrBG3TilesVblank_Trampoline
+    stz.w treasure_transfer_pending
+_treasure_main_after_xfer:
+    lda.w treasure_scroll_state
+    beq _treasure_main_call_orig
 _treasure_main_block_input:
     stz.b 0x01
 _treasure_main_call_orig:
