@@ -98,7 +98,83 @@ drops_ensure_hdma_initialized:
     rts
 
 drops_render_item_to_slot:
-"""Render one drops item ($7E:FF28 + edge_row * Item.__size) into the BG3 tilemap at slot_index. STUB."""
+"""Render one drops item from $7E:FF28 + edge_row*Item.__size into the BG3 buffer at $7E:D600 + slot_index*128 + 4."""
+    php
+    phb
+    lda #0x7E
+    pha
+    plb
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x5a
+    pha
+    lda.b 0x29
+    pha
+    lda.b 0x45
+    pha
+    lda.b 0x33
+    pha
+    sep #0x20
+    lda.b 0x5d
+    pha
+    lda.b 0xDB
+    pha
+    rep #0x20
+    lda.w #0xA600
+    sta.b 0x29
+    sep #0x20
+    lda.w drops_rolling_edge_row
+    asl
+    clc
+    adc #0x28
+    sta.b 0x5a
+    lda #0xFF
+    adc #0x00
+    sta.b 0x5b
+    rep #0x20
+    lda.b 0x5a
+    tax
+    sep #0x20
+    lda.l 0x7E0000 + Item.id, x
+    pha
+    lda.l 0x7E0000 + Item.qty, x
+    sta.b 0x5C
+    stz.b 0x34
+    pla
+    jsr.l CheckCanUseItem_Trampoline
+    lda.w drops_rolling_slot_index
+    sta.b 0x5d
+    rep #0x20
+    lda.w drops_rolling_slot_index
+    and.w #0x00FF
+    xba
+    lsr
+    clc
+    adc.w #0x0084
+    tay
+    sep #0x20
+    jsr.l DrawItemSlotInner_Trampoline
+    pla
+    sta.b 0xDB
+    pla
+    sta.b 0x5d
+    rep #0x20
+    pla
+    sta.b 0x33
+    pla
+    sta.b 0x45
+    pla
+    sta.b 0x29
+    pla
+    sta.b 0x5a
+    rep #0x10
+    ply
+    plx
+    pla
+    plb
+    plp
     rts
 
 ClearDropsSlot:
@@ -125,8 +201,13 @@ _drops_hdma_signal:
 ; --- Engine instantiations -------------------------------------------------
 
 drops_init_impl:
-"""Init drops rolling buffer (4 visible, 1 prefetch)."""
-    engine_init_rolling_buffer(drops_rolling, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot)
+"""Init drops rolling buffer. Drops sit inside the treasure-menu window the inventory init already drew, so the draw_window hook is a no-op."""
+    engine_init_rolling_buffer(drops_rolling, DROPS_BUFFER_SLOTS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)
+
+
+_drops_draw_window_noop:
+"""Drops live inside the existing treasure-menu window — no frame to draw."""
+    rts
 
 drops_scroll_down_prepare:
 """Drops profile scroll-down pre-render."""

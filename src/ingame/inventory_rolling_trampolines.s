@@ -252,4 +252,14 @@ treasure_menu_entry_hook:
 treasure_menu_exit_hook:
     jsr.l TreasureMenuExitHook_Impl
     rts
+
+drops_init:
+    """Bank-$01 trampoline: kick the drops rolling buffer init (filter+render via engine)."""
+    jsr.l drops_init_impl
+    rts
+
+drops_refresh_slots:
+    """Bank-$01 trampoline: re-render all drops slots (engine refresh path, no scroll-state reset)."""
+    jsr.l drops_refresh_slots_impl
+    rts
 }

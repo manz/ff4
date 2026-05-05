@@ -272,7 +272,16 @@ _menu_hdma_signal:
 
 init_menu_rolling_buffer_impl:
 """Init field rolling buffer (10 visible, lazy 11th slot)."""
-    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, ensure_hdma_initialized, menu_render_item_to_slot)
+    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, menu_render_item_to_slot)
+
+
+_menu_draw_inventory_window:
+"""Field menu draws the InventoryWindow ($DCCE) frame on entry."""
+    rep #0x10
+    ldy.w #0xDCCE
+    jsr.l DrawWindow_Trampoline
+    sep #0x10
+    rts
 
 
 menu_scroll_down_prepare:

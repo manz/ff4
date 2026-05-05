@@ -305,7 +305,16 @@ treasure_refresh_slots_impl:
 
 init_treasure_rolling_buffer_impl:
 """Init treasure rolling buffer (5 visible + prefetch slot 6)."""
-    engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, treasure_render_item_to_slot)
+    engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, treasure_render_item_to_slot)
+
+
+_treasure_draw_inventory_window:
+"""Treasure menu draws the InventoryWindow ($DCCE) frame for the bottom inventory list on entry."""
+    rep #0x10
+    ldy.w #0xDCCE
+    jsr.l DrawWindow_Trampoline
+    sep #0x10
+    rts
 
 
 treasure_scroll_down_prepare:

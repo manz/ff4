@@ -133,13 +133,10 @@ _row_loop_done:
 ; menu uses VISIBLE_ITEMS (skips the prefetch slot to avoid a one-frame
 ; leak below the window border); treasure uses BUFFER_SLOTS (no leak
 ; risk because vanilla redraws over the buffer before HDMA enables).
-.macro engine_init_rolling_buffer(state_base, render_count, ensure_hdma_hook, render_slot_hook) {
+.macro engine_init_rolling_buffer(state_base, render_count, draw_window_hook, ensure_hdma_hook, render_slot_hook) {
     php
     pha
-    rep #0x10
-    ldy.w #0xDCCE
-    jsr.l DrawWindow_Trampoline
-    sep #0x10
+    jsr.w draw_window_hook
     lda.b 0x46
     pha
 ; Zero 12-byte rolling state, then mark base_scroll = $FFFF sentinel

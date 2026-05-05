@@ -58,6 +58,14 @@
     *=0x01D933
     jsr.w treasure_refresh_slots
 
+; Drops list (vanilla calls DrawTreasureList @ $01:A15C at $01:D80E
+; entry + $01:D92D redraw helper). Replace with engine drops profile
+; init/refresh trampolines.
+    *=0x01D80E
+    jsr.w drops_init
+    *=0x01D92D
+    jsr.w drops_refresh_slots
+
 ; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
 ; bytes) with our state-machine trigger.
     *=0x01DA57

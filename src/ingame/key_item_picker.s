@@ -353,7 +353,12 @@ _key_item_hdma_signal:
 key_item_init_impl:
 """Init key-item picker (filter $1440 -> $0712, then engine init)."""
     jsr.w key_item_init_filter
-    engine_init_rolling_buffer(key_item_rolling, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot)
+    engine_init_rolling_buffer(key_item_rolling, KEY_ITEM_BUFFER_SLOTS, _key_item_draw_window, key_item_ensure_hdma_initialized, key_item_render_item_to_slot)
+
+
+_key_item_draw_window:
+"""Picker is invoked from inside vanilla ShowItemWindow which already drew the picker frame via its IRQ slide. No-op."""
+    rts
 
 key_item_scroll_down_prepare:
 """Picker scroll-down pre-render."""
