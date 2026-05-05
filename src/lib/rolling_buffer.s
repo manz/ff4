@@ -219,3 +219,184 @@ _up_wrap_done:
     plp
     rts
 }
+
+
+.macro engine_start_scroll_down(state_base, scroll_pos_addr, visible, buffer_slots, total_pixels, pixels_per_frame, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
+    """Kick off a non-blocking scroll-down animation: advance buffer_pos with wrap, pre-render the new bottom item, configure the scroll state machine (-16 anim offset, +pixels_per_frame direction)."""
+    php
+    sep #0x20
+    jsr.w ensure_hdma_hook
+    inc.w state_base + RollingBufferState.buffer_pos
+    lda.w state_base + RollingBufferState.buffer_pos
+    cmp #buffer_slots
+    bcc _start_dn_buf_ok
+    stz.w state_base + RollingBufferState.buffer_pos
+    lda #0x00
+_start_dn_buf_ok:
+    clc
+    adc #visible - 1
+_start_dn_mod:
+    cmp #buffer_slots
+    bcc _start_dn_mod_done
+    sec
+    sbc #buffer_slots
+    bra _start_dn_mod
+_start_dn_mod_done:
+    sta.w state_base + RollingBufferState.slot_index
+    lda.w scroll_pos_addr
+    clc
+    adc #visible - 1
+    sta.w state_base + RollingBufferState.edge_row
+    jsr.w render_slot_hook
+    lda #0x01
+    sta.w state_base + RollingBufferState.scroll_state
+    lda #total_pixels
+    sta.w state_base + RollingBufferState.scroll_remaining
+    lda #pixels_per_frame
+    sta.w state_base + RollingBufferState.scroll_direction
+    rep #0x20
+    lda.w #0xFFF0
+    sta.w state_base + RollingBufferState.scroll_anim_offset
+    sep #0x20
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+    jsr.w update_hdma_hook
+    plp
+    rtl
+}
+
+
+.macro engine_start_scroll_up(state_base, scroll_pos_addr, buffer_slots, total_pixels, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
+    """Kick off a non-blocking scroll-up animation: walk buffer_pos backwards (wrap to buffer_slots-1), pre-render the new top item, configure the state machine (+16 anim offset, -2 direction)."""
+    php
+    sep #0x20
+    jsr.w ensure_hdma_hook
+    lda.w state_base + RollingBufferState.buffer_pos
+    beq _start_up_wrap
+    dec
+    bra _start_up_wrap_done
+_start_up_wrap:
+    lda #buffer_slots - 1
+_start_up_wrap_done:
+    sta.w state_base + RollingBufferState.buffer_pos
+    sta.w state_base + RollingBufferState.slot_index
+    lda.w scroll_pos_addr
+    sta.w state_base + RollingBufferState.edge_row
+    jsr.w render_slot_hook
+    lda #0x01
+    sta.w state_base + RollingBufferState.scroll_state
+    lda #total_pixels
+    sta.w state_base + RollingBufferState.scroll_remaining
+    lda #0xFE
+    sta.w state_base + RollingBufferState.scroll_direction
+    rep #0x20
+    lda.w #0x0010
+    sta.w state_base + RollingBufferState.scroll_anim_offset
+    sep #0x20
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+    jsr.w update_hdma_hook
+    plp
+    rtl
+}
+
+
+.macro engine_update_scroll_frame(state_base, pixels_per_frame, update_hdma_hook) {
+    """One animation frame: advance scroll_anim_offset by pixels_per_frame towards 0 (sign-aware), nudge cursor sprite at $0311 if 'second item' mode is active, decrement scroll_remaining, refresh HDMA, then push sprites + BG2 to VRAM."""
+    php
+    rep #0x20
+    lda.w state_base + RollingBufferState.scroll_anim_offset
+    sep #0x20
+    lda.w state_base + RollingBufferState.scroll_direction
+    bpl _frame_positive
+    rep #0x20
+    lda.w state_base + RollingBufferState.scroll_anim_offset
+    sec
+    sbc.w #pixels_per_frame
+    sta.w state_base + RollingBufferState.scroll_anim_offset
+    bra _frame_update_cursor
+_frame_positive:
+    rep #0x20
+    lda.w state_base + RollingBufferState.scroll_anim_offset
+    clc
+    adc.w #pixels_per_frame
+    sta.w state_base + RollingBufferState.scroll_anim_offset
+_frame_update_cursor:
+    sep #0x20
+    lda.w 0x1B19
+    beq _frame_no_cursor
+    lda.w state_base + RollingBufferState.scroll_direction
+    bpl _frame_cursor_down
+    inc.w 0x0311
+    inc.w 0x0311
+    bra _frame_no_cursor
+_frame_cursor_down:
+    dec.w 0x0311
+    dec.w 0x0311
+_frame_no_cursor:
+    lda.w state_base + RollingBufferState.scroll_remaining
+    sec
+    sbc #pixels_per_frame
+    sta.w state_base + RollingBufferState.scroll_remaining
+    jsr.w update_hdma_hook
+    jsr.l TfrSpritesVblank_Trampoline
+    jsr.l TfrBG2TilesVblank_Trampoline
+    plp
+    rtl
+}
+
+
+.macro engine_finish_scroll(state_base, scroll_pos_addr, visible, buffer_slots, total_items, render_slot_hook, update_hdma_hook) {
+    """End-of-animation: pre-render the next-scroll-direction edge slot (skip past list ends), reset scroll_state and anim_offset, refresh HDMA, run vanilla cursor + post-scroll cleanup."""
+    php
+    sep #0x20
+    lda.w state_base + RollingBufferState.scroll_direction
+    bmi _finish_was_up
+    lda.w state_base + RollingBufferState.buffer_pos
+    beq _finish_dn_wrap
+    dec
+    bra _finish_dn_slot_ok
+_finish_dn_wrap:
+    lda #buffer_slots - 1
+_finish_dn_slot_ok:
+    sta.w state_base + RollingBufferState.slot_index
+    lda.w scroll_pos_addr
+    clc
+    adc #visible
+    cmp #total_items
+    bcs _finish_skip
+    sta.w state_base + RollingBufferState.edge_row
+    jsr.w render_slot_hook
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+    bra _finish_skip
+_finish_was_up:
+    lda.w state_base + RollingBufferState.buffer_pos
+    clc
+    adc #visible
+_finish_up_mod:
+    cmp #buffer_slots
+    bcc _finish_up_slot_ok
+    sec
+    sbc #buffer_slots
+    bra _finish_up_mod
+_finish_up_slot_ok:
+    sta.w state_base + RollingBufferState.slot_index
+    lda.w scroll_pos_addr
+    beq _finish_skip
+    dec
+    sta.w state_base + RollingBufferState.edge_row
+    jsr.w render_slot_hook
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+_finish_skip:
+    stz.w state_base + RollingBufferState.scroll_state
+    rep #0x20
+    stz.w state_base + RollingBufferState.scroll_anim_offset
+    sep #0x20
+    jsr.w update_hdma_hook
+    jsr.l DrawItemCursors_Trampoline
+    jsr.l UpdateCtrlAfterScroll_Trampoline
+    plp
+    rtl
+}
