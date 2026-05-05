@@ -666,9 +666,9 @@ treasure_render_item_to_slot:
     sta.b 0x29
     sep #0x20  ; 8-bit A
 
-; Calculate item data pointer: $1440 + (edge_row * 2)
+; Calculate item data pointer: $1440 + (edge_row * Item.__size)
     lda.w treasure_rolling_edge_row
-    asl  ; * 2 (2 bytes per item)
+    asl  ; * Item.__size (2 bytes per Item)
     clc
     adc #0x40  ; Low byte of $1440
     sta.b 0x5a
@@ -676,17 +676,15 @@ treasure_render_item_to_slot:
     adc #0x00  ; Add carry
     sta.b 0x5b
 
-; Load item ID and count from ($5A)
-; Use long addressing to read directly from WRAM
-    rep #0x20  ; 16-bit A (X/Y already 16-bit from entry)
-    lda.b 0x5a  ; Get pointer value ($1440 + item*2)
-    tax  ; X = address of item data (16-bit)
-    sep #0x20  ; 8-bit A
-    lda.l 0x7E0000, x  ; Load item ID from WRAM
-    pha  ; Save item ID for CheckCanUseItem
-    inx
-    lda.l 0x7E0000, x  ; Load count from WRAM
-    sta.b 0x5C  ; Store in $5C
+; Load Item.id and Item.qty from ($5A) via long-addressing into WRAM.
+    rep #0x20
+    lda.b 0x5a  ; Pointer value = $1440 + edge_row * Item.__size
+    tax
+    sep #0x20
+    lda.l 0x7E0000 + Item.id, x
+    pha  ; Save Item.id for CheckCanUseItem
+    lda.l 0x7E0000 + Item.qty, x
+    sta.b 0x5C  ; Store qty in $5C
 
 ; Call CheckCanUseItem to set palette in $DB
 ; Input: A = item ID

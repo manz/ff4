@@ -6,6 +6,7 @@
 ConditionalBG1VOFS := 0x208000
 
 .include "src/libmz.i"
+.include "src/items.i"
 .include "src/menus/system_menus_text.i"
 
 .include "src/minimal_vwf_patches.s"
