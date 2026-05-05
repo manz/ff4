@@ -93,6 +93,11 @@ key_item_ensure_hdma_initialized:
     lda.l 0x7E019F
     sta.w key_item_rolling_base_scroll
     sep #0x20
+    jsr.w _key_item_init_hdma_channel
+    lda #KEY_ITEM_HDMA_CHANNEL_BIT
+    sta.l 0x7E1BAE
+    sta.w key_item_hdma_enable
+    rts
 
 _key_item_hdma_already_init:
     sep #0x20
@@ -119,7 +124,183 @@ _key_item_init_hdma_channel:
 
 
 key_item_render_item_to_slot:
-"""Render hook STUBBED until picker has its own VRAM region or the BG3 save/restore wrap. The full impl (render to $7E:D600 + slot_index*128 + 0x44 via DrawItemSlotInner) corrupts the field BG3 layer since EventCmd_f7's continuation runs after the engine returns and the field NMI shovels the corrupted buffer into VRAM."""
+"""Render filtered item from $7E:0712 + edge_row*Item.__size into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
+    php
+    phb
+    lda #0x7E
+    pha
+    plb
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x5a
+    pha
+    lda.b 0x29
+    pha
+    lda.b 0x45
+    pha
+    lda.b 0x33
+    pha
+    sep #0x20
+    lda.b 0x5d
+    pha
+    lda.b 0xDB
+    pha
+    rep #0x20
+    lda.w #0xD600
+    sta.b 0x29
+    sep #0x20
+    lda.w key_item_rolling_edge_row
+    asl
+    clc
+    adc #0x12
+    sta.b 0x5a
+    lda #0x07
+    adc #0x00
+    sta.b 0x5b
+    rep #0x20
+    lda.b 0x5a
+    tax
+    sep #0x20
+    lda.l 0x7E0000 + Item.id, x
+    pha
+    lda.l 0x7E0000 + Item.qty, x
+    sta.b 0x5C
+    stz.b 0x34
+    pla
+    jsr.l CheckCanUseItem_Trampoline
+    lda.w key_item_rolling_slot_index
+    sta.b 0x5d
+    rep #0x20
+    lda.w key_item_rolling_slot_index
+    and.w #0x00FF
+    xba
+    lsr
+    clc
+    adc.w #0x0044
+    tay
+    sep #0x20
+    jsr.l DrawItemSlotInner_Trampoline
+    pla
+    sta.b 0xDB
+    pla
+    sta.b 0x5d
+    rep #0x20
+    pla
+    sta.b 0x33
+    pla
+    sta.b 0x45
+    pla
+    sta.b 0x29
+    pla
+    sta.b 0x5a
+    rep #0x10
+    ply
+    plx
+    pla
+    plb
+    plp
+    rts
+
+
+key_item_session:
+"""Picker session entry. Hijacked at $00:AF4D. Init engine + manual BG3 DMA + spin until B."""
+    php
+    sep #0x30
+    jsr.l key_item_init_impl
+    ; manual BG3 buffer -> VRAM xfer via DMA channel 7. Skip vanilla
+    ; TfrBG3TilesVblank because it spins on $4210 expecting a vanilla NMI
+    ; handler we haven't set up.
+    jsr.w _session_dma_bg3
+    ; ensure auto-joypad-read is enabled so $4218/$4219 update each frame
+    sep #0x20
+    lda.l 0x004200
+    pha
+    lda #0x01
+    sta.l 0x004200
+
+_session_wait_b:
+    jsr.w _session_wait_vblank
+    sep #0x20
+    lda.l 0x004219
+    and #0x80
+    beq _session_wait_b
+    pla
+    sta.l 0x004200
+    lda #0xFF
+    sta.l 0x7E08FB
+    lda #0x00
+    sta.l 0x7E1BAE
+    rep #0x20
+    lda.w #0x0000
+    sta.w key_item_rolling
+    sta.w key_item_rolling + 2
+    sta.w key_item_rolling + 4
+    sta.w key_item_rolling + 6
+    sta.w key_item_rolling + 8
+    sta.w key_item_rolling + 10
+    sep #0x20
+    plp
+    rtl
+
+
+_session_wait_vblank:
+"""Spin on $4212.7 (vblank flag, no clear-on-read)."""
+    php
+    sep #0x20
+
+_swv_lo:
+    lda.l 0x004212
+    bmi _swv_lo
+
+_swv_hi:
+    lda.l 0x004212
+    bpl _swv_hi
+    plp
+    rts
+
+
+_session_dma_bg3:
+"""Push 0x800 bytes (32 cols × 32 rows × 2) from $7E:D600 -> VRAM $7000 via DMA channel 7. VRAM addr increment mode = word, dest = $2118/$2119."""
+    php
+    rep #0x10
+    sep #0x20
+    ; force vblank so DMA is safe — set $2100.7
+    lda #0x80
+    sta.l 0x002100
+    ; set VMAIN = increment after high byte
+    lda #0x80
+    sta.l 0x002115
+    ; set VRAM word addr = $3800 (= byte $7000)
+    rep #0x20
+    lda.w #0x3800
+    sta.l 0x002116
+    sep #0x20
+    ; channel 7: mode=01 (2 regs, 1 inc), dest=$2118
+    lda #0x01
+    sta.l 0x004370
+    lda #0x18
+    sta.l 0x004371
+    ; src = $7E:D600
+    rep #0x20
+    lda.w #0xD600
+    sta.l 0x004372
+    sep #0x20
+    lda #0x7E
+    sta.l 0x004374
+    ; size = $0800
+    rep #0x20
+    lda.w #0x0800
+    sta.l 0x004375
+    sep #0x20
+    ; trigger DMA on channel 7 (bit 7)
+    lda #0x80
+    sta.l 0x00420B
+    ; release forced blank
+    lda #0x0F
+    sta.l 0x002100
+    plp
     rts
 
 

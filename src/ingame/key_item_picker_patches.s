@@ -31,6 +31,6 @@ Patched:
 
 .if TREASURE_INVENTORY_ROLLING {
     *=0x00AF4D
-    jsr.l key_item_init_impl
+    jsr.l key_item_session
     rts
 }
