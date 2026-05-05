@@ -214,6 +214,7 @@ brk_handler:
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/treasure_rolling.s"
     .include "src/ingame/drops_rolling.s"
+    .include "src/ingame/key_item_picker.s"
 }
 ; binary text assets
 .incbin "assets/attack_names.ptr"
