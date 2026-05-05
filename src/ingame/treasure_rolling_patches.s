@@ -99,4 +99,12 @@
 ; work still runs.
     *=0x01DA08
     jsr.w treasure_main_loop_scroll_check
+
+; Treasure menu exit. Vanilla: `stz $1BC6` (3 bytes) clears the in-menu flag.
+; Replace with our exit hook (also 3 bytes), which restores vanilla state and
+; additionally tears down the rolling-buffer state + HDMA ch6 registers so
+; the next menu mode (field, key-item picker, battle) starts from a clean
+; slate. The hook itself re-runs the `stz $1BC6` to preserve vanilla contract.
+    *=0x01D7E6
+    jsr.w treasure_menu_exit_hook
 }

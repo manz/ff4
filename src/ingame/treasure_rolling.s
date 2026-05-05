@@ -1139,13 +1139,30 @@ TreasureMenuEntryHook_Impl:
     rtl
 
 TreasureMenuExitHook_Impl:
+    """Treasure menu teardown: zero HDMA shadow, full 12-byte state, ch6 regs, vanilla $1BC6 flag."""
+    php
+    sep #0x20
     lda #0x00
     sta.l 0x7E1BAE
-; treasure_hdma_enable
-    stz.w treasure_scroll_state
-    jsr.w disable_treasure_inventory_hdma
+; treasure_hdma_enable shadow off
+    sta.l 0x7E1BC6
+; restore vanilla "in treasure menu" flag (was vanilla `stz $1BC6` at $01:D7E6 before the hook patch)
+    sta.l 0x004360
+    sta.l 0x004361
+    sta.l 0x004362
+    sta.l 0x004363
+    sta.l 0x004364
+; HDMA6 ctrl/dest/src cleared
+    rep #0x20
+    lda.w #0x0000
+    sta.w treasure_rolling
+    sta.w treasure_rolling + 2
+    sta.w treasure_rolling + 4
+    sta.w treasure_rolling + 6
+    sta.w treasure_rolling + 8
+    sta.w treasure_rolling + 10
+    plp
     jsr.l ResetSprites_Trampoline
-; bank-$01 trampoline for vanilla @ $8D6A
     rtl
 ; TreasureSwapRedrawHook_Impl_Body
 ; Called after item swap to redraw visible items correctly.

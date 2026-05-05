@@ -1064,13 +1064,28 @@ MenuEntryHook_Impl:
     rtl
 
 MenuExitHook_Impl:
+    """Field menu teardown: zero HDMA shadow, full 12-byte rolling state, ch5 registers."""
+    php
+    sep #0x20
     lda #0x00
     sta.l 0x7E1BAE
-; menu_hdma_enable
-    stz.w menu_scroll_state
-    jsr.w disable_menu_inventory_hdma
+; menu_hdma_enable shadow off so NMI writes 0 to HDMAEN this frame
+    sta.l 0x004350
+    sta.l 0x004351
+    sta.l 0x004352
+    sta.l 0x004353
+    sta.l 0x004354
+; HDMA5 ctrl/dest/src cleared so a stale config can't restart on next mode switch
+    rep #0x20
+    lda.w #0x0000
+    sta.w menu_rolling
+    sta.w menu_rolling + 2
+    sta.w menu_rolling + 4
+    sta.w menu_rolling + 6
+    sta.w menu_rolling + 8
+    sta.w menu_rolling + 10
+    plp
     jsr.l ResetSprites_Trampoline
-; bank-$01 trampoline for vanilla @ $8D6A
     rtl
 ; ============================================================================
 ; SwapRedrawHook_Impl_Body
