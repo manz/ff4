@@ -53,17 +53,17 @@ def test_a_tap_opens_picker(picker_emu):
     )
 
 
-def test_engine_drives_picker(picker_emu):
-    """Engine path runs instead of vanilla 4x4 grid. After A,A the
-    engine's init-loop ends with edge_row=slot_index=BUFFER_SLOTS-1=6
-    and base_scroll captured from $9F (non-zero, non-$FFFF). Vanilla
-    picker doesn't touch $7E:1BF2..$7E:1BF5."""
+def test_picker_single_col_layout(picker_emu):
+    """Single-col patches in $00:B23C..B2C0 force UpdateItemText to
+    write each item on a fresh row (Y stride 24) instead of toggling
+    columns at +13/+11. After A,A the text buffer at $0774 should
+    have items at offsets 0, 24, 48, 72 (4 single-col rows)."""
     _open_picker(picker_emu)
-    edge_row = picker_emu.read(0x7E1BF2)
-    base_scroll = picker_emu.read(0x7E1BF4) | (picker_emu.read(0x7E1BF5) << 8)
-    assert edge_row == 6, f"engine init didn't complete: edge_row={edge_row}"
-    assert base_scroll not in (0x0000, 0xFFFF), (
-        f"base_scroll not captured from $9F: ${base_scroll:04x}"
-    )
+    row0 = picker_emu.read(0x7E0774)
+    row1 = picker_emu.read(0x7E0774 + 0x18)
+    row2 = picker_emu.read(0x7E0774 + 0x30)
+    assert row0 != 0xFF, f"row0 unrendered: ${row0:02x}"
+    assert row1 != 0xFF, f"row1 unrendered: ${row1:02x}"
+    assert row2 != 0xFF, f"row2 unrendered: ${row2:02x}"
 
 
