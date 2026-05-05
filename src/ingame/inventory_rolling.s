@@ -231,131 +231,24 @@ _init_item_rows:
 
 
 update_menu_scroll_hdma:
-"""
-Rebuilds the HDMA table in the SHADOW buffer for current scroll state.
-The NMI handler copies shadow -> active during vblank for flicker-free updates.
+"""Build the field-menu HDMA scroll table via the shared engine."""
+    engine_update_scroll_hdma(menu_rolling, MENU_HDMA_SHADOW, MENU_BUFFER_SLOTS, MENU_VISIBLE_ITEMS, _menu_hdma_header, _menu_hdma_footer, _menu_hdma_signal)
 
-
-For each visible row, calculates:
-vram_slot = (buffer_pos + row) mod MENU_BUFFER_SLOTS
-scroll = BASE + (vram_slot * 16) - (row * 16) + anim_offset
-
-Direct mode table format: count, lo, hi per entry
-"""
-    ; Save processor status and registers
-    php
-    rep #0x30  ; 16-bit A, X, Y
-    pha
-    phx
-    phy
-
-; Save DP bytes we'll use as scratch (16-bit mode writes 2 bytes each)
-    lda.b 0x40
-    pha  ; Save $40-$41 (scroll value / vram_offset)
-    lda.b 0x42
-    pha  ; Save $42-$43 (row counter)
-
-; X = table write offset
-    ldx.w #0x0000
-
-; Entry 0: Border area - 48 scanlines at BASE scroll (unchanged)
-    sep #0x20  ; 8-bit A for count byte
+_menu_hdma_header:
+"""Field profile header: 48-scanline border at BASE scroll (one entry)."""
+    sep #0x20
     lda #48
     sta.l MENU_HDMA_SHADOW, x
     inx
-    rep #0x20  ; 16-bit A for value
+    rep #0x20
     lda.w menu_rolling_base_scroll
     sta.l MENU_HDMA_SHADOW, x
     inx
     inx
+    rts
 
-; Entries 1-10: Item rows with circular buffer scroll values
-    stz.b 0x42  ; Row counter (0-9)
-
-_update_hdma_row_loop:
-    ; Calculate vram_slot = (buffer_pos + row) % MENU_BUFFER_SLOTS
-    lda.w menu_rolling_buffer_pos
-    and.w #0x00FF
-    clc
-    adc.b 0x42  ; + row number
-
-_update_hdma_mod:
-    cmp.w #MENU_BUFFER_SLOTS  ; >= 11?
-    bcc _update_hdma_mod_done
-    sec
-    sbc.w #MENU_BUFFER_SLOTS
-    bra _update_hdma_mod
-
-_update_hdma_mod_done:
-    ; A = vram_slot (0-10)
-
-; Calculate vram_slot * 16 (pixels per slot in VRAM)
-    asl
-    asl
-    asl
-    asl  ; A = vram_slot * 16
-    sta.b 0x40  ; Save vram_offset
-
-; Calculate row * 16 (screen pixels per item row)
-    lda.b 0x42
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl  ; row * 16 = scanline_offset
-
-; scroll = BASE + vram_offset - scanline_offset + anim_offset
-; Negate scanline_offset: EOR #$FFFF, INC
-    eor.w #0xFFFF
-    inc  ; A = -scanline_offset
-    clc
-    adc.b 0x40  ; + vram_offset
-    clc
-    adc.w menu_rolling_base_scroll  ; + BASE
-    ; DISABLED: Animation offset causes seam flicker at buffer wrap-around.
-    ; When vram_slot=0 (seam row), scroll goes negative and lands in border
-    ; zone [176-255], showing window border instead of item content.
-    ; With 11 slots (176 pixels) in a 256-pixel tilemap, the math doesn't
-    ; wrap cleanly like FF6's power-of-2 approach. Disabling gives instant
-    ; scroll instead of smooth animation, but eliminates the visual glitch.
-    ; TODO: Fix by clamping seam scroll or using content duplication.
-.if 0 {
-    clc
-    adc.w menu_scroll_anim_offset
-; + animation offset
-}
-sta.b 0x40  ; scroll value for this row
-
-_write_normal_entry:
-    ; Write entry: count=16, value=scroll
-    sep #0x20  ; 8-bit for count
-    lda #16  ; 16 scanlines per item row
-    sta.l MENU_HDMA_SHADOW, x
-    inx
-    rep #0x20  ; 16-bit for value
-    lda.b 0x40
-    sta.l MENU_HDMA_SHADOW, x
-    inx
-    inx
-
-_row_done:
-    ; Next row
-    rep #0x20  ; Ensure 16-bit for comparison
-    inc.b 0x42
-    lda.b 0x42
-    cmp.w #MENU_VISIBLE_ITEMS  ; 10 rows
-    bcs _row_loop_done  ; >= 10, exit loop
-    jmp.w _update_hdma_row_loop
-
-_row_loop_done:
-
-; Footer band — 16 scanlines pointing at the inventory window's bottom
-; border tilemap row. Slot N renders at row 2N+2 (slot 0 at row 2,
-; slot 10 at row 22); the bottom-border tiles `fc fd fd ... fd` live
-; at row 24. With BASE captured from $93 (typically $FFE0 = -32) and
-; footer VOFS=BASE+16=$FFF0, vy at scanline 208 = 192 = row 24 = the
-; bottom border. Hides the slot 10 prefetch row (vy 176-183 = row 22)
-; since HDMA only activates the footer's value at scanline 208+.
+_menu_hdma_footer:
+"""Field profile footer: 16 scanlines at BASE+16 (locks bottom-border row 24)."""
     sep #0x20
     lda #16
     sta.l MENU_HDMA_SHADOW, x
@@ -367,28 +260,13 @@ _row_loop_done:
     sta.l MENU_HDMA_SHADOW, x
     inx
     inx
+    rts
 
-; End marker
+_menu_hdma_signal:
+"""Field profile NMI signal: set copy-pending shadow flag."""
     sep #0x20
-    lda #0x00
-    sta.l MENU_HDMA_SHADOW, x
-
-; Signal NMI to copy shadow -> active table
     lda #0x01
     sta.w menu_hdma_copy_pending
-
-; Restore DP bytes (reverse order)
-    rep #0x20
-    pla
-    sta.b 0x42  ; Restore $42-$43
-    pla
-    sta.b 0x40  ; Restore $40-$41
-
-; Restore registers (in 16-bit mode to match push)
-    ply
-    plx
-    pla
-    plp  ; Restore original processor status
     rts
 
 

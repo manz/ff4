@@ -1,0 +1,113 @@
+; Shared rolling-buffer engine (single-column profile).
+;
+; Each profile (field-menu items, treasure inventory, treasure drops,
+; key-item picker) instantiates the macros below with its own state RAM
+; base, HDMA shadow buffer, slot/visible counts, and per-profile hooks
+; for the bits that legitimately differ (HDMA header band layout,
+; copy-pending shadow signalling, etc.).
+;
+
+; Conventions:
+;   - Macro-internal labels start with `_` so a816 keeps them scope-local
+;     (PR 38 in a816 1.1.0a12 promotes plain labels through `.scope` and
+;     macro invocations; underscores stay private).
+;   - State RAM access goes through the `RollingBufferState` struct
+;     (defined in src/items.i) so profile state blocks share layout.
+;   - Hooks are passed as label symbols and invoked via `jsr.w` so the
+;     65816 indirection cost is one extra jsr/rts pair per call site.
+
+; Builds the rolling-buffer HDMA scroll table in `hdma_shadow_addr`
+
+; based on `state_base`'s buffer_pos / base_scroll. Profile supplies:
+;   - `header_hook`: writes the "above the item rows" entries (one or
+;     more), advancing X.
+;   - `footer_hook`: writes the "below the item rows" entry/entries.
+;   - `signal_hook`: marks the NMI shadow→active copy pending (some
+;     profiles also mirror to a shared flag).
+;
+; Caller wraps a profile-specific entry-point label around this macro.
+.macro engine_update_scroll_hdma(state_base, hdma_shadow_addr, buffer_slots, visible, header_hook, footer_hook, signal_hook) {
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+; Save DP scratch ($40-$43)
+    lda.b 0x40
+    pha
+    lda.b 0x42
+    pha
+    ldx.w #0x0000
+; Profile-specific top-of-table band(s).
+    jsr.w header_hook
+; Per-row entries: vram_slot = (buffer_pos + row) % buffer_slots
+    stz.b 0x42
+_row_loop:
+    lda.w state_base + RollingBufferState.buffer_pos
+    and.w #0x00FF
+    clc
+    adc.b 0x42
+_mod_loop:
+    cmp.w #buffer_slots
+    bcc _mod_done
+    sec
+    sbc.w #buffer_slots
+    bra _mod_loop
+_mod_done:
+; A = vram_slot (0..buffer_slots-1)
+    asl
+    asl
+    asl
+    asl
+; A = vram_slot * 16
+    sta.b 0x40
+; row * 16 = scanline_offset
+    lda.b 0x42
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+; -scanline_offset
+    eor.w #0xFFFF
+    inc
+    clc
+    adc.b 0x40
+    clc
+    adc.w state_base + RollingBufferState.base_scroll
+    sta.b 0x40
+    sep #0x20
+    lda #16
+    sta.l hdma_shadow_addr, x
+    inx
+    rep #0x20
+    lda.b 0x40
+    sta.l hdma_shadow_addr, x
+    inx
+    inx
+    rep #0x20
+    inc.b 0x42
+    lda.b 0x42
+    cmp.w #visible
+    bcs _row_loop_done
+    jmp.w _row_loop
+_row_loop_done:
+; Profile-specific bottom-of-table band.
+    jsr.w footer_hook
+; End marker
+    sep #0x20
+    lda #0x00
+    sta.l hdma_shadow_addr, x
+; Profile-specific NMI signal (sets copy_pending shadow).
+    jsr.w signal_hook
+    rep #0x20
+    pla
+    sta.b 0x42
+    pla
+    sta.b 0x40
+    ply
+    plx
+    pla
+    plp
+    rts
+}

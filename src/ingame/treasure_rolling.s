@@ -239,38 +239,11 @@ _t_init_item_rows:
 
 
 update_treasure_scroll_hdma:
-"""
-Rebuilds the HDMA table in the SHADOW buffer for current scroll state.
-The NMI handler copies shadow -> active during vblank for flicker-free updates.
+"""Build the treasure-menu HDMA scroll table via the shared engine."""
+    engine_update_scroll_hdma(treasure_rolling, TREASURE_HDMA_SHADOW, TREASURE_BUFFER_SLOTS, TREASURE_VISIBLE_ITEMS, _treasure_hdma_header, _treasure_hdma_footer, _treasure_hdma_signal)
 
-
-For each visible row, calculates:
-vram_slot = (buffer_pos + row) mod TREASURE_BUFFER_SLOTS
-scroll = BASE + (vram_slot * 16) - (row * 16) + anim_offset
-
-Direct mode table format: count, lo, hi per entry
-"""
-    ; Save processor status and registers
-    php
-    rep #0x30  ; 16-bit A, X, Y
-    pha
-    phx
-    phy
-
-; Save DP bytes we'll use as scratch (16-bit mode writes 2 bytes each)
-    lda.b 0x40
-    pha  ; Save $40-$41 (scroll value / vram_offset)
-    lda.b 0x42
-    pha  ; Save $42-$43 (row counter)
-
-; X = table write offset
-    ldx.w #0x0000
-
-; Entry 0: drops band — 120 scanlines at BASE-16 so the Tente /
-; Baguette captions sit two tile rows lower inside the top dialog
-; window. Vanilla used HDMA ch2 to drive that parallax; we masked
-; ch2 to free BG3VOFS for our rolling buffer, so we mimic the
-; -16-px shift here directly.
+_treasure_hdma_header:
+"""Treasure profile header: drops band (120 lines at BASE-16) + inventory border (8 lines at BASE)."""
     sep #0x20
     lda #120
     sta.l TREASURE_HDMA_SHADOW, x
@@ -282,10 +255,6 @@ Direct mode table format: count, lo, hi per entry
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
-    ; Entry 0b: inventory window border — 8 scanlines at BASE so the top
-    ; border of the bottom inventory frame still lands at scanlines
-    ; 120..127 with vy = 0..7 = tilemap row 0. Item bands start at
-    ; scanline 128 with their own per-row scrolls.
     sep #0x20
     lda #8
     sta.l TREASURE_HDMA_SHADOW, x
@@ -295,92 +264,10 @@ Direct mode table format: count, lo, hi per entry
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
+    rts
 
-; Entries 1-10: Item rows with circular buffer scroll values
-    stz.b 0x42  ; Row counter (0-9)
-
-_t_update_hdma_row_loop:
-    ; Calculate vram_slot = (buffer_pos + row) % TREASURE_BUFFER_SLOTS
-    lda.w treasure_rolling_buffer_pos
-    and.w #0x00FF
-    clc
-    adc.b 0x42  ; + row number
-
-_t_update_hdma_mod:
-    cmp.w #TREASURE_BUFFER_SLOTS  ; >= 11?
-    bcc _t_update_hdma_mod_done
-    sec
-    sbc.w #TREASURE_BUFFER_SLOTS
-    bra _t_update_hdma_mod
-
-_t_update_hdma_mod_done:
-    ; A = vram_slot (0-10)
-
-; Calculate vram_slot * 16 (pixels per slot in VRAM)
-    asl
-    asl
-    asl
-    asl  ; A = vram_slot * 16
-    sta.b 0x40  ; Save vram_offset
-
-; Calculate row * 16 (screen pixels per item row)
-    lda.b 0x42
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl  ; row * 16 = scanline_offset
-
-; scroll = BASE + vram_offset - scanline_offset + anim_offset
-; Negate scanline_offset: EOR #$FFFF, INC
-    eor.w #0xFFFF
-    inc  ; A = -scanline_offset
-    clc
-    adc.b 0x40  ; + vram_offset
-    clc
-    adc.w treasure_rolling_base_scroll  ; + BASE
-    ; DISABLED: Animation offset causes seam flicker at buffer wrap-around.
-    ; When vram_slot=0 (seam row), scroll goes negative and lands in border
-    ; zone [176-255], showing window border instead of item content.
-    ; With 11 slots (176 pixels) in a 256-pixel tilemap, the math doesn't
-    ; wrap cleanly like FF6's power-of-2 approach. Disabling gives instant
-    ; scroll instead of smooth animation, but eliminates the visual glitch.
-    ; TODO: Fix by clamping seam scroll or using content duplication.
-.if 0 {
-    clc
-    adc.w treasure_scroll_anim_offset
-; + animation offset
-}
-sta.b 0x40  ; scroll value for this row
-
-_t_write_normal_entry:
-    ; Write entry: count=16, value=scroll
-    sep #0x20  ; 8-bit for count
-    lda #16  ; 16 scanlines per item row
-    sta.l TREASURE_HDMA_SHADOW, x
-    inx
-    rep #0x20  ; 16-bit for value
-    lda.b 0x40
-    sta.l TREASURE_HDMA_SHADOW, x
-    inx
-    inx
-
-_t_row_done:
-    ; Next row
-    rep #0x20
-    inc.b 0x42
-    lda.b 0x42
-    cmp.w #TREASURE_VISIBLE_ITEMS  ; 5 visible item rows
-    bcs _t_row_loop_done
-    jmp.w _t_update_hdma_row_loop
-
-_t_row_loop_done:
-
-; Footer band — 16 scanlines pointing past the slot rows so the
-; prefetch slot stays hidden. With BASE=$FF88 (=-120), scanline 208
-; reads tilemap row 11 with VOFS=BASE+16=$FF98 (=-104) → vy=104 =
-; tilemap row 13 = blank (the rolling buffer only fills rows 1..12).
-; Slot 5 at vy=96..103 stays just above the footer band.
+_treasure_hdma_footer:
+"""Treasure profile footer: 16 scanlines at BASE+16 (hides prefetch slot)."""
     sep #0x20
     lda #16
     sta.l TREASURE_HDMA_SHADOW, x
@@ -388,35 +275,18 @@ _t_row_loop_done:
     rep #0x20
     lda.w treasure_rolling_base_scroll
     clc
-    adc.w #16  ; BASE+16 → footer scanlines hit blank rows past slot 5
+    adc.w #16
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
+    rts
 
-; End marker
+_treasure_hdma_signal:
+"""Treasure profile signal: set both treasure flag and shared $1BB6 mirror."""
     sep #0x20
-    lda #0x00
-    sta.l TREASURE_HDMA_SHADOW, x
-
-; Signal NMI to copy shadow -> active table. NMI reads $1BB6
-; (field-shared copy-pending flag). Vanilla treasure col-toggle at $1BB6
-; is held at 0 by our patches, so reusing it is safe.
     lda #0x01
     sta.w treasure_hdma_copy_pending
     sta.w treasure_hdma_copy_pending_shared
-
-; Restore DP bytes (reverse order)
-    rep #0x20
-    pla
-    sta.b 0x42  ; Restore $42-$43
-    pla
-    sta.b 0x40  ; Restore $40-$41
-
-; Restore registers (in 16-bit mode to match push)
-    ply
-    plx
-    pla
-    plp  ; Restore original processor status
     rts
 
 
