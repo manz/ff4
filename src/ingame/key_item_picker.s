@@ -248,8 +248,7 @@ _clear_key_loop:
     rts
 
 key_item_init_filter:
-"""Filter $1440 -> $0712 via vanilla InitItemList ($01:B2D3): clears 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs fall in [$CE..$E6] u [$EB..$FD]."""
-    jsr.l InitItemList_Trampoline
+"""Filter $1440 -> $0712. Vanilla InitItemList address (claimed $01:B2D3 in ff4decomp notes) doesn't match patched ROM bytes — skip until the real address is empirically located. STUB."""
     rts
 
 update_key_item_scroll_hdma:

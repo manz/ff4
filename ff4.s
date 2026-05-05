@@ -48,6 +48,10 @@ ConditionalBG1VOFS := 0x208000
     .include "src/ingame/inventory_rolling_trampolines.s"
 }
 
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/key_item_picker_patches.s"
+}
+
 
 dialog_bank_ptr_base = 0x218000
 

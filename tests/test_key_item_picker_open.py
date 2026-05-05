@@ -53,3 +53,17 @@ def test_a_tap_opens_picker(picker_emu):
     )
 
 
+def test_engine_drives_picker(picker_emu):
+    """Engine path runs instead of vanilla 4x4 grid. After A,A the
+    engine's init-loop ends with edge_row=slot_index=BUFFER_SLOTS-1=6
+    and base_scroll captured from $9F (non-zero, non-$FFFF). Vanilla
+    picker doesn't touch $7E:1BF2..$7E:1BF5."""
+    _open_picker(picker_emu)
+    edge_row = picker_emu.read(0x7E1BF2)
+    base_scroll = picker_emu.read(0x7E1BF4) | (picker_emu.read(0x7E1BF5) << 8)
+    assert edge_row == 6, f"engine init didn't complete: edge_row={edge_row}"
+    assert base_scroll not in (0x0000, 0xFFFF), (
+        f"base_scroll not captured from $9F: ${base_scroll:04x}"
+    )
+
+
