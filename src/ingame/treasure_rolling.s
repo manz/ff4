@@ -83,13 +83,19 @@ TREASURE_HDMA_TABLE_SIZE := 40
 TREASURE_HDMA_BANK := 0x7E
 treasure_hdma_copy_pending_shared := 0x1BB6  ; field-menu copy-pending flag
 
-; HDMA registers for channel 5
-TREASURE_HDMA5_CTRL := 0x4350  ; DMA control
-TREASURE_HDMA5_DEST := 0x4351  ; PPU register
-TREASURE_HDMA5_SRC_LO := 0x4352  ; Source address low
-TREASURE_HDMA5_SRC_HI := 0x4353  ; Source address high
-TREASURE_HDMA5_SRC_BANK := 0x4354  ; Source bank
-TREASURE_HDMA5_IND_BANK := 0x4357  ; Indirect bank
+; HDMA channel 6 for the treasure rolling buffer. Vanilla treasure
+; enables HDMAEN=$AD (ch7|ch5|ch3|ch2|ch0); ch2 in particular is an
+; INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for the drops-
+; band parallax. Sharing ch5 fought ch2's per-scanline BG3VOFS writes
+; until we masked ch2 entirely, which then dropped the drops parallax
+; effect. Move our writes to ch6 (free in vanilla treasure) so ch2
+; can keep driving its drops-band scroll untouched.
+TREASURE_HDMA6_CTRL := 0x4360
+TREASURE_HDMA6_DEST := 0x4361
+TREASURE_HDMA6_SRC_LO := 0x4362
+TREASURE_HDMA6_SRC_HI := 0x4363
+TREASURE_HDMA6_SRC_BANK := 0x4364
+TREASURE_HDMA6_IND_BANK := 0x4367
 HDMAEN := 0x420C  ; HDMA enable register
 
 init_treasure_inventory_hdma:
@@ -109,21 +115,21 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 ; since UpdateMenuScrollHDMA is called immediately after anyway
     jsr.w update_treasure_scroll_hdma
 
-; Configure HDMA channel 5 for DIRECT mode
+; Configure HDMA channel 6 for DIRECT mode
 ; Must use long addressing - DB may be $7E but registers are at $00:43xx
     lda #0x02  ; Mode: DIRECT, write 2 bytes to same PPU reg
-    sta.l TREASURE_HDMA5_CTRL  ; $004350
+    sta.l TREASURE_HDMA6_CTRL  ; $004360
 
     lda #0x12  ; BG3VOFS register ($2112) — treasure inventory is on BG3
-    sta.l TREASURE_HDMA5_DEST  ; $004351
+    sta.l TREASURE_HDMA6_DEST  ; $004361
 
 ; Source = HDMA table in WRAM at $7E9800
     rep #0x20  ; 16-bit A
     lda.w #TREASURE_HDMA_TABLE_ADDR  ; $9800
-    sta.l TREASURE_HDMA5_SRC_LO  ; $004352-$004353
+    sta.l TREASURE_HDMA6_SRC_LO  ; $004362-$004363
     sep #0x20  ; 8-bit A
     lda #TREASURE_HDMA_BANK  ; $7E
-    sta.l TREASURE_HDMA5_SRC_BANK  ; $004354
+    sta.l TREASURE_HDMA6_SRC_BANK  ; $004364
 
 ; HDMA channel 5 is now enabled via shadow variable (treasure_hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
@@ -757,12 +763,12 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 
 ; Enable HDMA via the SHARED field-menu shadow at $1BAE. The existing
 ; field NMI hook (`field_menu_nmi_dma_transfer_check_impl`) reads this
-; byte and copies the HDMA shadow→active table each frame, driving
-; channel 5 for free. Treasure-only `treasure_hdma_enable` ($1BD6) is
-; kept as a tracking flag but isn't read by the NMI path.
-    lda #0x20  ; Channel 5 enable
-    sta.l 0x7E1BAE  ; menu_hdma_enable (field) — drives NMI HDMA copy
-    sta.w treasure_hdma_enable  ; treasure tracking
+; byte and copies the HDMA shadow→active table each frame.
+; Treasure-only `treasure_hdma_enable` ($1BD6) is kept as a tracking
+; flag but isn't read by the NMI path.
+    lda #0x40  ; Channel 6 enable (treasure rolling buffer)
+    sta.l 0x7E1BAE
+    sta.w treasure_hdma_enable
     rts
 
 _t_hdma_already_init:

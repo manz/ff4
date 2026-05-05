@@ -177,15 +177,15 @@ treasure_force_hdma_setup:
 _t_setup_in_treasure:
     sep #0x20
     lda #0x02
-    sta.l 0x004350  ; HDMA5 ctrl: DIRECT mode, 2 bytes / scanline
+    sta.l 0x004360  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
     lda #0x12
-    sta.l 0x004351  ; HDMA5 dest: BG3VOFS ($2112)
+    sta.l 0x004361  ; HDMA6 dest: BG3VOFS ($2112)
     rep #0x20
     lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
-    sta.l 0x004352  ; HDMA5 src lo/hi
+    sta.l 0x004362  ; HDMA6 src lo/hi
     sep #0x20
     lda #0x7E
-    sta.l 0x004354  ; HDMA5 src bank
+    sta.l 0x004364  ; HDMA6 src bank
     rep #0x20
 ; Capture vanilla BG3VOFS shadow ($9F) — vanilla treasure draws inventory
 ; rows starting at screen scanline ~120 with $9F = -120, which keeps the
@@ -193,16 +193,16 @@ _t_setup_in_treasure:
     lda.l 0x7E019F
     sta.w treasure_rolling_base_scroll
     sep #0x20
-; Vanilla treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2 is
-; an HDMA INDIRECT mode-3 channel that writes 4 bytes per scanline to
-; $2111/$2112 (BG3HOFS+BG3VOFS) for the drops-area parallax effect.
-; That clobbers our ch5 BG3VOFS writes for the rolling buffer because
-; ch2 fires alongside ch5 each scanline transition and the per-scanline
-; repeat (count bit 7 set) keeps writing through the inventory band.
-; Mask bit 2 to disable ch2 only while the rolling buffer is active —
-; treasure exit hook restores vanilla $1BAE so subsequent menus get
-; their channels back.
-    lda #0xA9  ; $AD & ~0x04 = ch7|ch5|ch3|ch0 (ch2 dropped)
+; Vanilla treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
+; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
+; the drops-band parallax. Even with our scroll moved to ch6 (which
+; iterates after ch2 and should "win" the BG3VOFS at scanlines past
+; the drops band), the rolling buffer scroll never takes effect while
+; ch2 is enabled — likely because ch2 keeps reloading entries via its
+; indirect table past scanline 128. Mask ch2 entirely; the drops-band
+; vanilla parallax is purely cosmetic and the drops list still lands
+; at the right scanline without it.
+    lda #0xE9  ; $AD & ~0x04 | $40 = ch7|ch6|ch5|ch3|ch0
     sta.l 0x7E1BAE
     rts
 
