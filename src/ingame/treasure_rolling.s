@@ -343,91 +343,12 @@ init_treasure_rolling_buffer_impl:
 
 
 treasure_scroll_down_prepare:
-"""
-Called before scroll down animation
-Pre-renders the bottom edge item
-"""
-    php
-    sep #0x20  ; 8-bit A - CRITICAL!
-
-; Lazy init: if base_scroll == 0xFFFF, capture $93 and init HDMA
-    jsr.w treasure_ensure_hdma_initialized
-
-; Check if we can scroll (scroll_pos < SCROLL_LIMIT)
-    lda.w 0x1BB7  ; Current scroll position
-    cmp #TREASURE_SCROLL_LIMIT
-    bcs _t_menu_scroll_down_done  ; At bottom
-
-; Calculate new bottom item = scroll_pos + VISIBLE_ITEMS
-    clc
-    adc #TREASURE_VISIBLE_ITEMS
-    sta.w treasure_rolling_edge_row
-
-; The slot scrolling OFF the top (buffer_pos) will be reused for the new bottom item
-; Render to buffer_pos BEFORE incrementing
-    lda.w treasure_rolling_buffer_pos
-    sta.w treasure_rolling_slot_index
-
-; Render item to the slot that's scrolling off
-    jsr.w treasure_render_item_to_slot
-
-; NOW advance buffer position (the slot we just wrote to is now the "bottom")
-    inc.w treasure_rolling_buffer_pos
-    lda.w treasure_rolling_buffer_pos
-    cmp #TREASURE_BUFFER_SLOTS
-    bcc _t_menu_buf_pos_ok
-    stz.w treasure_rolling_buffer_pos
-
-_t_menu_buf_pos_ok:
-
-; Update HDMA table for new buffer position
-    jsr.w update_treasure_scroll_hdma
-
-_t_menu_scroll_down_done:
-    plp
-    rts
-
-; treasure_scroll_up_prepare
-; Called before scroll up animation
-; Pre-renders the top edge item
+"""Treasure profile scroll-down pre-render."""
+    engine_scroll_down_prepare(treasure_rolling, 0x1BB7, TREASURE_SCROLL_LIMIT, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, treasure_render_item_to_slot, update_treasure_scroll_hdma)
 
 treasure_scroll_up_prepare:
-    php
-    sep #0x20  ; 8-bit A - CRITICAL!
-
-; Lazy init: if base_scroll == 0xFFFF, capture $93 and init HDMA
-    jsr.w treasure_ensure_hdma_initialized
-
-; Note: The game already validated we can scroll before calling the hook.
-; The hook already decremented 0x1BB7, so we always need to update buffer_pos.
-
-; Decrement buffer position first
-    lda.w treasure_rolling_buffer_pos
-    beq _t_menu_wrap_up
-    dec
-    bra _t_menu_wrap_up_done
-
-_t_menu_wrap_up:
-    lda #TREASURE_BUFFER_SLOTS - 1
-
-_t_menu_wrap_up_done:
-    sta.w treasure_rolling_buffer_pos
-    sta.w treasure_rolling_slot_index
-
-; Calculate new top item = scroll_pos (already decremented by hook)
-; This is the item that should appear at the top after scrolling
-    lda.w 0x1BB7
-    sta.w treasure_rolling_edge_row
-
-; Render item to the new top slot
-    jsr.w treasure_render_item_to_slot
-
-; Update HDMA table for new buffer position
-    jsr.w update_treasure_scroll_hdma
-
-_t_menu_scroll_up_done:
-    plp
-    rts
+"""Treasure profile scroll-up pre-render."""
+    engine_scroll_up_prepare(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, treasure_render_item_to_slot, update_treasure_scroll_hdma)
 
 ; treasure_render_item_to_slot
 ; Renders an item to a specific circular buffer slot in the tilemap.
