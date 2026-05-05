@@ -569,84 +569,8 @@ MenuExitHook_Impl:
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
 SwapRedrawHook_Impl_Body:
-    php
-    sep #0x20
-; 8-bit A
-; CRITICAL: Ensure HDMA is initialized before using scroll values
-; If swap happens before any scrolling, base_scroll would be 0xFFFF
-    jsr.w ensure_hdma_initialized
-; CRITICAL: Reset scroll state to prevent re-rendering after swap
-; If scroll was in progress, FinishScroll_Impl would re-render items
-    stz.w menu_scroll_state
-    stz.w menu_scroll_remaining
-; Ensure animation offset is zero (prevent visual shift)
-    stz.w menu_scroll_anim_offset
-    stz.w menu_scroll_anim_offset + 1
-; Save DP byte for loop counter
-    lda.b 0x46
-    pha
-; Re-render all visible items to correct circular buffer slots
-; Item index = scroll_pos + row, Slot = (buffer_pos + row) % BUFFER_SLOTS
-    lda #0x00
-    sta.b 0x46
-; Row counter (0-10)
-
-_swap_redraw_loop:
-; Calculate slot = (buffer_pos + row) % BUFFER_SLOTS first
-; We need slot_index for both rendering and clearing
-    lda.w menu_rolling_buffer_pos
-    clc
-    adc.b 0x46
-; + row
-
-_swap_redraw_mod:
-    cmp #MENU_BUFFER_SLOTS
-    bcc _swap_redraw_mod_done
-    sec
-    sbc #MENU_BUFFER_SLOTS
-    bra _swap_redraw_mod
-
-_swap_redraw_mod_done:
-    sta.w menu_rolling_slot_index
-; Calculate item index = scroll_pos + row
-    lda.w 0x1B1A
-; Scroll position
-    clc
-    adc.b 0x46
-; + row
-    cmp #MENU_TOTAL_ITEMS
-; Check bounds (< 48)
-    bcs _swap_redraw_clear
-; Clear slot if out of range
-    sta.w menu_rolling_edge_row
-; Render item to the correct slot
-    jsr.w menu_render_item_to_slot
-    bra _swap_redraw_next
-
-_swap_redraw_clear:
-; Item index is out of bounds - clear this slot
-; Set edge_row to point to an empty item (use item 0 which should be empty at end)
-; Actually, render a blank slot by setting item pointer to empty data
-    jsr.w ClearInventorySlot
-
-_swap_redraw_next:
-; Next row
-    inc.b 0x46
-    lda.b 0x46
-    cmp #MENU_BUFFER_SLOTS
-; Render all 11 slots
-    bne _swap_redraw_loop
-; Restore DP byte
-    pla
-    sta.b 0x46
-; Request DMA transfer
-    lda #0x01
-    sta.w menu_transfer_pending
-; Rebuild HDMA table to ensure consistency
-; (Even though buffer_pos didn't change, this ensures the table is correct)
-    jsr.w update_menu_scroll_hdma
-    plp
-    rtl
+    """Field profile: post-swap re-render of all 11 slots."""
+    engine_swap_redraw(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, ensure_hdma_initialized, menu_render_item_to_slot, ClearInventorySlot, update_menu_scroll_hdma)
 ; ============================================================================
 ; ClearInventorySlot
 ; ============================================================================

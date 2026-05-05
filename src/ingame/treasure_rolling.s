@@ -300,42 +300,8 @@ _treasure_hdma_signal:
 ; was on before the swap survives.
 
 treasure_refresh_slots_impl:
-    php
-    rep #0x10  ; 16-bit X/Y for treasure_render_item_to_slot
-    sep #0x20  ; 8-bit A
-    lda #0
-    sta.b 0x46  ; loop counter K
-
-_t_refresh_loop:
-    ; item_index = scroll_pos + K
-    lda.w 0x1BB7
-    clc
-    adc.b 0x46
-    sta.w treasure_rolling_edge_row
-    ; slot = (buffer_pos + K) mod BUFFER_SLOTS
-    lda.w treasure_rolling_buffer_pos
-    clc
-    adc.b 0x46
-
-_t_refresh_mod:
-    cmp #TREASURE_BUFFER_SLOTS
-    bcc _t_refresh_mod_done
-    sec
-    sbc #TREASURE_BUFFER_SLOTS
-    bra _t_refresh_mod
-
-_t_refresh_mod_done:
-    sta.w treasure_rolling_slot_index
-    jsr.w treasure_render_item_to_slot
-    inc.b 0x46
-    lda.b 0x46
-    cmp #TREASURE_BUFFER_SLOTS
-    bne _t_refresh_loop
-    ; Push the freshly populated BG3 buffer to VRAM next vblank.
-    lda #1
-    sta.w treasure_transfer_pending
-    plp
-    rtl
+"""Treasure profile: re-render all 6 slots without resetting scroll state (vanilla redraw helper at $01:D933)."""
+    engine_refresh_slots(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, treasure_render_item_to_slot)
 
 init_treasure_rolling_buffer_impl:
 """Init treasure rolling buffer (5 visible + prefetch slot 6)."""
@@ -629,84 +595,9 @@ TreasureMenuExitHook_Impl:
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
 TreasureSwapRedrawHook_Impl_Body:
-    php
-    sep #0x20
-; 8-bit A
-; CRITICAL: Ensure HDMA is initialized before using scroll values
-; If swap happens before any scrolling, base_scroll would be 0xFFFF
-    jsr.w treasure_ensure_hdma_initialized
-; CRITICAL: Reset scroll state to prevent re-rendering after swap
-; If scroll was in progress, FinishScroll_Impl would re-render items
-    stz.w treasure_scroll_state
-    stz.w treasure_scroll_remaining
-; Ensure animation offset is zero (prevent visual shift)
-    stz.w treasure_scroll_anim_offset
-    stz.w treasure_scroll_anim_offset + 1
-; Save DP byte for loop counter
-    lda.b 0x46
-    pha
-; Re-render all visible items to correct circular buffer slots
-; Item index = scroll_pos + row, Slot = (buffer_pos + row) % BUFFER_SLOTS
-    lda #0x00
-    sta.b 0x46
-; Row counter (0-10)
+    """Treasure profile: post-swap re-render of all 6 slots."""
+    engine_swap_redraw(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, TREASURE_TOTAL_ITEMS, treasure_ensure_hdma_initialized, treasure_render_item_to_slot, ClearTreasureSlot, update_treasure_scroll_hdma)
 
-_t_swap_redraw_loop:
-; Calculate slot = (buffer_pos + row) % BUFFER_SLOTS first
-; We need slot_index for both rendering and clearing
-    lda.w treasure_rolling_buffer_pos
-    clc
-    adc.b 0x46
-; + row
-
-_t_swap_redraw_mod:
-    cmp #TREASURE_BUFFER_SLOTS
-    bcc _t_swap_redraw_mod_done
-    sec
-    sbc #TREASURE_BUFFER_SLOTS
-    bra _t_swap_redraw_mod
-
-_t_swap_redraw_mod_done:
-    sta.w treasure_rolling_slot_index
-; Calculate item index = scroll_pos + row
-    lda.w 0x1BB7
-; Scroll position
-    clc
-    adc.b 0x46
-; + row
-    cmp #TREASURE_TOTAL_ITEMS
-; Check bounds (< 48)
-    bcs _t_swap_redraw_clear
-; Clear slot if out of range
-    sta.w treasure_rolling_edge_row
-; Render item to the correct slot
-    jsr.w treasure_render_item_to_slot
-    bra _t_swap_redraw_next
-
-_t_swap_redraw_clear:
-; Item index is out of bounds - clear this slot
-; Set edge_row to point to an empty item (use item 0 which should be empty at end)
-; Actually, render a blank slot by setting item pointer to empty data
-    jsr.w ClearTreasureSlot
-
-_t_swap_redraw_next:
-; Next row
-    inc.b 0x46
-    lda.b 0x46
-    cmp #TREASURE_BUFFER_SLOTS
-; Render all 11 slots
-    bne _t_swap_redraw_loop
-; Restore DP byte
-    pla
-    sta.b 0x46
-; Request DMA transfer
-    lda #0x01
-    sta.w treasure_transfer_pending
-; Rebuild HDMA table to ensure consistency
-; (Even though buffer_pos didn't change, this ensures the table is correct)
-    jsr.w update_treasure_scroll_hdma
-    plp
-    rtl
 ; ClearTreasureSlot
 ; Clears a single inventory slot in the tilemap buffer.
 ; Input: treasure_rolling_slot_index = slot to clear (0-10)

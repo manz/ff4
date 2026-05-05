@@ -400,3 +400,88 @@ _finish_skip:
     plp
     rtl
 }
+
+
+.macro engine_swap_redraw(state_base, scroll_pos_addr, buffer_slots, total_items, ensure_hdma_hook, render_slot_hook, clear_slot_hook, update_hdma_hook) {
+    """Re-render all `buffer_slots` slots from the current buffer_pos after an item swap. Out-of-range items (scroll_pos+row >= total_items) are blanked via `clear_slot_hook` so the prefetch row doesn't show stale tiles. Resets scroll state so a mid-animation swap doesn't trigger spurious finish_scroll re-renders."""
+    php
+    sep #0x20
+    jsr.w ensure_hdma_hook
+    stz.w state_base + RollingBufferState.scroll_state
+    stz.w state_base + RollingBufferState.scroll_remaining
+    stz.w state_base + RollingBufferState.scroll_anim_offset
+    stz.w state_base + RollingBufferState.scroll_anim_offset + 1
+    lda.b 0x46
+    pha
+    lda #0x00
+    sta.b 0x46
+_swap_loop:
+    lda.w state_base + RollingBufferState.buffer_pos
+    clc
+    adc.b 0x46
+_swap_mod:
+    cmp #buffer_slots
+    bcc _swap_mod_done
+    sec
+    sbc #buffer_slots
+    bra _swap_mod
+_swap_mod_done:
+    sta.w state_base + RollingBufferState.slot_index
+    lda.w scroll_pos_addr
+    clc
+    adc.b 0x46
+    cmp #total_items
+    bcs _swap_clear
+    sta.w state_base + RollingBufferState.edge_row
+    jsr.w render_slot_hook
+    bra _swap_next
+_swap_clear:
+    jsr.w clear_slot_hook
+_swap_next:
+    inc.b 0x46
+    lda.b 0x46
+    cmp #buffer_slots
+    bne _swap_loop
+    pla
+    sta.b 0x46
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+    jsr.w update_hdma_hook
+    plp
+    rtl
+}
+
+
+.macro engine_refresh_slots(state_base, scroll_pos_addr, buffer_slots, render_slot_hook) {
+    """Re-render all `buffer_slots` from current buffer_pos without resetting scroll state. Used by treasure's vanilla redraw helper (post-swap rebuild path) where the engine itself didn't trigger the redraw."""
+    php
+    rep #0x10
+    sep #0x20
+    lda #0x00
+    sta.b 0x46
+_refresh_loop:
+    lda.w scroll_pos_addr
+    clc
+    adc.b 0x46
+    sta.w state_base + RollingBufferState.edge_row
+    lda.w state_base + RollingBufferState.buffer_pos
+    clc
+    adc.b 0x46
+_refresh_mod:
+    cmp #buffer_slots
+    bcc _refresh_mod_done
+    sec
+    sbc #buffer_slots
+    bra _refresh_mod
+_refresh_mod_done:
+    sta.w state_base + RollingBufferState.slot_index
+    jsr.w render_slot_hook
+    inc.b 0x46
+    lda.b 0x46
+    cmp #buffer_slots
+    bne _refresh_loop
+    lda #0x01
+    sta.w state_base + RollingBufferState.transfer_pending
+    plp
+    rtl
+}
