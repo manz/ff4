@@ -338,74 +338,8 @@ _t_refresh_mod_done:
     rtl
 
 init_treasure_rolling_buffer_impl:
-"""
-Called when inventory menu opens
-Initializes the circular buffer state and sets up HDMA
-"""
-    php  ; Save processor state at entry
-    pha  ; Save A
-
-; Save DP byte we'll use as scratch
-    lda.b 0x46
-    pha  ; Save $46
-
-; Draw the inventory window border (replaces the DrawWindow vanilla
-; DrawInventoryList would have drawn before iterating items).
-    rep #0x10  ; 16-bit X/Y for ldy.w
-    ldy.w #0xDCCE  ; InventoryWindow (def_window 1, 0, 27, 48)
-    jsr.l DrawWindow_Trampoline
-    sep #0x10  ; Back to 8-bit X/Y
-
-; Initialize buffer + state-machine bytes (stz works in any mode).
-    stz.w treasure_rolling_top_row
-    stz.w treasure_rolling_buffer_pos
-    stz.w treasure_scroll_state
-    stz.w treasure_scroll_remaining
-    stz.w treasure_scroll_direction
-    stz.w treasure_transfer_pending
-    stz.w treasure_scroll_anim_offset
-    stz.w treasure_scroll_anim_offset + 1
-    stz.w treasure_hdma_copy_pending
-
-; Mark base scroll as uninitialized (0xFFFF = sentinel)
-; Will be captured from $93 on first scroll when it's valid
-    rep #0x20  ; 16-bit A
-    lda.w #0xFFFF  ; Sentinel: "not yet captured"
-    sta.w treasure_rolling_base_scroll
-    sep #0x20
-
-; Capture $93 + enable HDMA shadow now. Treasure's redraw helper at
-; $01:D929 fires after the window+sprites have been drawn, so the
-; vanilla $93 shadow is valid at this point — no need to defer to
-; first scroll like the field-menu init does.
-    sep #0x20
-    jsr.w treasure_ensure_hdma_initialized
-
-; Render initial 12 slots (items 0-11) to buffer
-    sep #0x20  ; 8-bit A - CRITICAL!
-    lda #0x00
-    sta.b 0x46  ; Loop counter
-
-_t_menu_init_row_loop:
-    lda.b 0x46
-    sta.w treasure_rolling_edge_row
-    sta.w treasure_rolling_slot_index
-
-; Render item to circular buffer slot
-    jsr.w treasure_render_item_to_slot
-
-    inc.b 0x46
-    lda.b 0x46
-    cmp #TREASURE_BUFFER_SLOTS  ; Render 6 items explicitly (single-col, 5 visible + 1 pre-render)
-    bne _t_menu_init_row_loop
-
-; Restore DP byte
-    pla
-    sta.b 0x46  ; Restore $46
-
-    pla  ; Restore A
-    plp  ; Restore original processor state
-    rtl
+"""Init treasure rolling buffer (5 visible + prefetch slot 6)."""
+    engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, treasure_render_item_to_slot)
 
 
 treasure_scroll_down_prepare:

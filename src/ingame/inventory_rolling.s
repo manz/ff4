@@ -271,66 +271,8 @@ _menu_hdma_signal:
 
 
 init_menu_rolling_buffer_impl:
-"""
-Called when inventory menu opens
-Initializes the circular buffer state and sets up HDMA
-"""
-    php  ; Save processor state at entry
-    pha  ; Save A
-
-; Draw the inventory window frame (what original DrawInventoryList does first)
-    ldy #0xDCCE  ; InventoryWindow data pointer
-    jsr.l DrawWindow_Trampoline  ; bank-$01 trampoline for vanilla DrawWindow @ $80D9
-
-; Save DP byte we'll use as scratch
-    lda.b 0x46
-    pha  ; Save $46
-
-; Initialize buffer state (stz works in any mode)
-    stz.w menu_rolling_top_row
-    stz.w menu_rolling_buffer_pos
-
-; Mark base scroll as sentinel + capture immediately. The vanilla menu
-; entry has already written $0193 (BG1VOFS shadow) by the time we get
-; here, so the lazy "wait for first scroll" dance is unnecessary and
-; leaves one frame of vanilla BG1VOFS rendering — which exposes slot
-; 10 below the inventory window border before HDMA takes over.
-    rep #0x20
-    lda.w #0xFFFF
-    sta.w menu_rolling_base_scroll
-    sep #0x20
-    jsr.w ensure_hdma_initialized
-
-; Render initial 12 slots (items 0-11) to buffer
-    sep #0x20  ; 8-bit A - CRITICAL!
-    lda #0x00
-    sta.b 0x46  ; Loop counter
-
-_menu_init_row_loop:
-    lda.b 0x46
-    sta.w menu_rolling_edge_row
-    sta.w menu_rolling_slot_index
-
-; Render item to circular buffer slot
-    jsr.w menu_render_item_to_slot
-
-    inc.b 0x46
-    lda.b 0x46
-    cmp #MENU_VISIBLE_ITEMS  ; Render only 10 visible slots; the 11th
-    bne _menu_init_row_loop  ; (prefetch) is filled lazily on first
-    ; scroll. Rendering it at init leaves the
-    ; slot 10 tilemap row populated, and on
-    ; the very first frame BG1VOFS isn't yet
-    ; HDMA-driven, so slot 10 leaks below the
-    ; visible inventory band.
-
-; Restore DP byte
-    pla
-    sta.b 0x46  ; Restore $46
-
-    pla  ; Restore A
-    plp  ; Restore original processor state
-    rtl
+"""Init field rolling buffer (10 visible, lazy 11th slot)."""
+    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, ensure_hdma_initialized, menu_render_item_to_slot)
 
 
 menu_scroll_down_prepare:
