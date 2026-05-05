@@ -37,20 +37,23 @@ MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 ; ============================================================================
 ; Using menu RAM area (unused bytes)
 
-menu_rolling_top_row := 0x1BA8  ; Top visible item index (0-43)
-menu_rolling_buffer_pos := 0x1BA9  ; Circular buffer position (0-5)
-menu_rolling_edge_row := 0x1BAA  ; Item index to render (0-47)
-menu_rolling_slot_index := 0x1BAB  ; Current slot index (0-5)
-menu_rolling_base_scroll := 0x1BAC  ; Base scroll value (16-bit, from $93 on entry)
-menu_hdma_enable := 0x1BAE  ; HDMA enable shadow (0 or $20 for channel 5)
-
-; State Machine Variables (FF6-style non-blocking scroll)
-menu_scroll_state := 0x1BB0  ; 0=idle, 1=scrolling
-menu_scroll_remaining := 0x1BB1  ; Pixels remaining (16 down to 0)
-menu_scroll_direction := 0x1BB2  ; +2=down, -2=up (signed)
-menu_transfer_pending := 0x1BB3  ; Flag for NMI DMA transfer
-menu_scroll_anim_offset := 0x1BB4  ; Current animation pixel offset (16-bit, signed)
-menu_hdma_copy_pending := 0x1BB6  ; Flag: shadow table needs copying to active (set by game, cleared by NMI)
+; Field rolling-buffer state RAM block (12 bytes from $1BA8). Each
+; named symbol below is just a typed offset into the shared struct
+; — keeps existing call sites working byte-for-byte while making the
+; layout self-documenting (and trivially relocatable later).
+menu_rolling := 0x1BA8
+menu_rolling_top_row := menu_rolling + RollingBufferState.top_row
+menu_rolling_buffer_pos := menu_rolling + RollingBufferState.buffer_pos
+menu_rolling_edge_row := menu_rolling + RollingBufferState.edge_row
+menu_rolling_slot_index := menu_rolling + RollingBufferState.slot_index
+menu_rolling_base_scroll := menu_rolling + RollingBufferState.base_scroll
+menu_hdma_enable := menu_rolling + RollingBufferState.hdma_enable
+menu_scroll_state := menu_rolling + RollingBufferState.scroll_state
+menu_scroll_remaining := menu_rolling + RollingBufferState.scroll_remaining
+menu_scroll_direction := menu_rolling + RollingBufferState.scroll_direction
+menu_transfer_pending := menu_rolling + RollingBufferState.transfer_pending
+menu_scroll_anim_offset := menu_rolling + RollingBufferState.scroll_anim_offset
+menu_hdma_copy_pending := menu_rolling + RollingBufferState.hdma_copy_pending
 
 ; Scroll State Constants
 SCROLL_STATE_IDLE := 0

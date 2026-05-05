@@ -15,3 +15,28 @@
     byte id
     byte qty
 }
+
+
+; Rolling-buffer engine state. Each profile (field menu, treasure
+; inventory, treasure drops, key-item picker) gets its own contiguous
+; 12-byte block at a known WRAM base; routines reference fields via
+; `<base> + RollingBufferState.<field>` instead of hardcoded offsets.
+;
+; Field menu base:    $7E:1BA8
+; Treasure inventory: $7E:1BD0
+; (Drops + key-item bases will be assigned during Phase 4-5.)
+.struct RollingBufferState {
+    byte top_row
+    byte buffer_pos
+    byte edge_row
+    byte slot_index
+    word base_scroll
+    byte hdma_enable
+    byte _pad
+    byte scroll_state
+    byte scroll_remaining
+    byte scroll_direction
+    byte transfer_pending
+    word scroll_anim_offset
+    byte hdma_copy_pending
+}

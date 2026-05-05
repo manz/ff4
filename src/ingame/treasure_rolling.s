@@ -32,19 +32,23 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; $1BA8..$1BB6. Both menus are mutually exclusive on screen so the HDMA
 ; channel + tilemap buffer + shadow table are shared (re-init on entry).
 
-treasure_rolling_top_row := 0x1BD0
-treasure_rolling_buffer_pos := 0x1BD1
-treasure_rolling_edge_row := 0x1BD2
-treasure_rolling_slot_index := 0x1BD3
-treasure_rolling_base_scroll := 0x1BD4  ; 16-bit
-treasure_hdma_enable := 0x1BD6
-
-treasure_scroll_state := 0x1BD8
-treasure_scroll_remaining := 0x1BD9
-treasure_scroll_direction := 0x1BDA
-treasure_transfer_pending := 0x1BDB
-treasure_scroll_anim_offset := 0x1BDC  ; 16-bit
-treasure_hdma_copy_pending := 0x1BDE
+; Treasure rolling-buffer state RAM block (12 bytes from $1BD0). Same
+; struct layout as the field-menu state block — fields resolved via
+; `RollingBufferState` from src/items.i so any layout change applies
+; uniformly across profiles.
+treasure_rolling := 0x1BD0
+treasure_rolling_top_row := treasure_rolling + RollingBufferState.top_row
+treasure_rolling_buffer_pos := treasure_rolling + RollingBufferState.buffer_pos
+treasure_rolling_edge_row := treasure_rolling + RollingBufferState.edge_row
+treasure_rolling_slot_index := treasure_rolling + RollingBufferState.slot_index
+treasure_rolling_base_scroll := treasure_rolling + RollingBufferState.base_scroll
+treasure_hdma_enable := treasure_rolling + RollingBufferState.hdma_enable
+treasure_scroll_state := treasure_rolling + RollingBufferState.scroll_state
+treasure_scroll_remaining := treasure_rolling + RollingBufferState.scroll_remaining
+treasure_scroll_direction := treasure_rolling + RollingBufferState.scroll_direction
+treasure_transfer_pending := treasure_rolling + RollingBufferState.transfer_pending
+treasure_scroll_anim_offset := treasure_rolling + RollingBufferState.scroll_anim_offset
+treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pending
 
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
