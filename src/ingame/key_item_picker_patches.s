@@ -107,4 +107,16 @@ Patched:
 ;   AFB4: F0 1A      beq +$1A
     *=0x00AFB2
     and #0x00
+
+; A-select index calc at $00:AF9C: vanilla
+;   lda $ba / clc / adc $8c / asl / clc / adc $8b / asl / tax
+;   index = (($ba + $8c) * 2 + $8b) * 2  = ($ba+$8c)*4
+; Single col: drop the col mix-in AND the second asl, so
+; index = ($ba + $8c) * 2 (one item = 2 bytes id+qty).
+;   $00:AFA2 clc / adc $8b (3 bytes) → 3 NOPs
+;   $00:AFA5 asl (1 byte) → NOP
+    *=0x00AFA2
+    pad_nop(3)
+    *=0x00AFA5
+    nop
 }
