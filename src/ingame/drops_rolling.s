@@ -1,41 +1,44 @@
-; Treasure-menu drops list rolling buffer (single column, 4 visible).
-;
-; Drops are the 8-item array at $7E:FF28 shown in the upper window of
-; the treasure menu (Tente / Baguette / etc.). Vanilla renders them as
-; a 4-row × 2-col grid via DrawTreasureList ($01:A15C). Item names in
-; French don't fit two columns, so drops moves to a single-column
-; rolling buffer matching the treasure inventory below it — engine
-; configured with 4 visible / 8 total / 5 buffer slots.
-;
-; The drops buffer lives on BG3 alongside the treasure inventory; both
-; share VRAM tilemap $7000 with separate row bands. HDMA channel 4 is
-; free in vanilla treasure (vanilla uses ch7|ch5|ch3|ch2|ch0; ch6 is
-; ours for inventory) so drops drives BG3VOFS through ch4 over its
-; scanline band.
-;
 
-; Wiring (TODO, separate commit):
-;   - Replace `jsr $A15C` at $01:D80E (entry) and $01:D92D (redraw
-;     helper) with `jsr.w drops_init` / `jsr.w drops_refresh_slots`.
-;   - Kill the BG2 window draw at $01:D7FC region (drops window
-;     becomes part of the BG3 single-layer flatten).
-;   - Re-record screenshot goldens once geometry settles.
-;
 
-; State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
-;   $1BE0  top_row
-;   $1BE1  buffer_pos
-;   $1BE2  edge_row
-;   $1BE3  slot_index
-;   $1BE4  base_scroll (word)
-;   $1BE6  hdma_enable
-;   $1BE7  _pad
-;   $1BE8  scroll_state
-;   $1BE9  scroll_remaining
-;   $1BEA  scroll_direction
-;   $1BEB  transfer_pending
-;   $1BEC  scroll_anim_offset (word)
-;   $1BEE  hdma_copy_pending
+"""
+Treasure-menu drops list rolling buffer (single column, 4 visible).
+
+Drops are the 8-item array at $7E:FF28 shown in the upper window of
+the treasure menu (Tente / Baguette / etc.). Vanilla renders them as
+a 4-row x 2-col grid via DrawTreasureList ($01:A15C). Item names in
+French don't fit two columns, so drops moves to a single-column
+rolling buffer matching the treasure inventory below it — engine
+configured with 4 visible / 8 total / 5 buffer slots.
+
+The drops buffer lives on BG3 alongside the treasure inventory  ; both
+share VRAM tilemap $7000 with separate row bands. HDMA channel 4 is
+free in vanilla treasure (vanilla uses ch7|ch5|ch3|ch2|ch0  ; ch6 is
+ours for inventory) so drops drives BG3VOFS through ch4 over its
+scanline band.
+
+Wiring (TODO, separate commit):
+  - Replace `jsr $A15C` at $01:D80E (entry) and $01:D92D (redraw
+    helper) with `jsr.w drops_init` / `jsr.w drops_refresh_slots`.
+  - Kill the BG2 window draw at $01:D7FC region (drops window
+    becomes part of the BG3 single-layer flatten).
+  - Re-record screenshot goldens once geometry settles.
+
+State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
+  $1BE0  top_row
+  $1BE1  buffer_pos
+  $1BE2  edge_row
+  $1BE3  slot_index
+  $1BE4  base_scroll (word)
+  $1BE6  hdma_enable
+  $1BE7  _pad
+  $1BE8  scroll_state
+  $1BE9  scroll_remaining
+  $1BEA  scroll_direction
+  $1BEB  transfer_pending
+  $1BEC  scroll_anim_offset (word)
+  $1BEE  hdma_copy_pending
+"""
+
 
 DROPS_VISIBLE_ITEMS := 4
 DROPS_BUFFER_SLOTS := 5

@@ -1,20 +1,23 @@
-; Shared rolling-buffer engine (single-column profile).
-;
-; Each profile (field-menu items, treasure inventory, treasure drops,
-; key-item picker) instantiates the macros below with its own state RAM
-; base, HDMA shadow buffer, slot/visible counts, and per-profile hooks
-; for the bits that legitimately differ (HDMA header band layout,
-; copy-pending shadow signalling, etc.).
-;
 
-; Conventions:
-;   - Macro-internal labels start with `_` so a816 keeps them scope-local
-;     (PR 38 in a816 1.1.0a12 promotes plain labels through `.scope` and
-;     macro invocations; underscores stay private).
-;   - State RAM access goes through the `RollingBufferState` struct
-;     (defined in src/items.i) so profile state blocks share layout.
-;   - Hooks are passed as label symbols and invoked via `jsr.w` so the
-;     65816 indirection cost is one extra jsr/rts pair per call site.
+
+"""
+Shared rolling-buffer engine (single-column profile).
+
+Each profile (field-menu items, treasure inventory, treasure drops,
+key-item picker) instantiates the macros below with its own state RAM
+base, HDMA shadow buffer, slot/visible counts, and per-profile hooks
+for the bits that legitimately differ (HDMA header band layout,
+copy-pending shadow signalling, etc.).
+
+Conventions:
+  - Macro-internal labels start with `_` so a816 keeps them scope-local
+    (a816 1.1.0a13 promotes plain labels through `.scope` and macro
+    invocations  ; underscores stay private).
+  - State RAM access goes through the `RollingBufferState` struct
+    (defined in src/items.i) so profile state blocks share layout.
+  - Hooks are passed as label symbols and invoked via `jsr.w` so the
+    65816 indirection cost is one extra jsr/rts pair per call site.
+"""
 
 ; Builds the rolling-buffer HDMA scroll table in `hdma_shadow_addr`
 
