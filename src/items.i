@@ -15,6 +15,14 @@ Battle inventory at $321A is a separate 4-byte layout (flags + id +
 qty + spell) and gets its own struct in a follow-up plan.
 """
 
+; Per-item record size in the French-translated assets_items_dat table:
+; 1-byte symbol prefix + 11-byte name = 12 bytes total. Original FF4-J
+; used 9 bytes (1 + 8). Use these constants everywhere a code site
+; walks the item-name table so layouts stay in sync.
+ITEM_NAME_RECORD_SIZE := 0x0C
+ITEM_NAME_TEXT_SIZE := 0x0B
+
+
 .struct Item {
     byte id
     byte qty
