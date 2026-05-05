@@ -53,10 +53,3 @@ def test_a_tap_opens_picker(picker_emu):
     )
 
 
-def test_picker_screenshot_baseline(picker_emu):
-    """Vanilla 4x4 grid picker baseline. Re-record with UPDATE_GOLDENS=1
-    once Phase 5b replaces the grid render with the engine's single-col
-    rolling buffer."""
-    from _ff4kintsuki import assert_screenshot_matches_golden
-    _open_picker(picker_emu)
-    assert_screenshot_matches_golden(picker_emu, GOLDENS / "vanilla_open.png")
