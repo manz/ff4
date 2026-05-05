@@ -49,14 +49,14 @@ _positive:
     lda #0x00
     pha
     plb
-    pea.w return_addr - 1
+    pea.w _return_addr - 1
     pea.w source & 0xFFFF
     pea.w 0x00FF & ( source >> 16 )
     pea.w vramptr
     pea.w count
     pea.w mode
     jmp.w dma_transfer_to_vram
-return_addr:
+_return_addr:
     plb
     plx
     pla
@@ -68,12 +68,12 @@ return_addr:
     php
     pha
     phx
-    pea.w return_addr - 1
+    pea.w _return_addr - 1
     pea.w source & 0xFFFF
     pea.w 0x00FF & ( source >> 16 )
     pea.w count
     jmp.w dma_transfer_to_palette
-return_addr:
+_return_addr:
     plx
     pla
     plp

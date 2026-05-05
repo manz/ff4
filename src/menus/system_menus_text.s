@@ -2,12 +2,12 @@
 
 .macro bank_switch() {
     cpy.w #0x8000
-    bmi moved_text
+    bmi _moved_text
     lda.b #0x01
 ; this assumes we shoud load data from bank 1
     pha
-    bra jump_to_original
-moved_text:
+    bra _jump_to_original
+_moved_text:
     pha
     rep #0x20
     tya
@@ -16,7 +16,7 @@ moved_text:
     sep #0x20
     pla
     phk
-jump_to_original:
+_jump_to_original:
     """this assumes that the text lives in the same bank as this routine."""
     plb
 }
