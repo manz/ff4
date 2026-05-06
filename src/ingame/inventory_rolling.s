@@ -1,6 +1,4 @@
-; ============================================================================
 ; Rolling Buffer Implementation for Main Menu Inventory (Single Column)
-; ============================================================================
 ;
 ; HDMA-based circular buffer scrolling for single-column menu inventory.
 ; Adapts the battle inventory rolling approach for the menu context.
@@ -8,11 +6,8 @@
 ; Layout: Single column, 5 visible items, 48 total items
 ; Uses same HDMA technique as battle inventory for smooth scrolling.
 ;
-; ============================================================================
 
-; ============================================================================
 ; CONSTANTS
-; ============================================================================
 
 ; Layout (single column)
 MENU_VISIBLE_ITEMS := 10  ; Visible items at once
@@ -32,9 +27,7 @@ MENU_SCROLL_WRAP := 176  ; 11 slots × 16 pixels = 176
 MENU_ITEM_LIST_Y_START := 48  ; Scanline where item list begins (after border)
 MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 
-; ============================================================================
 ; RAM VARIABLES
-; ============================================================================
 ; Using menu RAM area (unused bytes)
 
 ; Field rolling-buffer state RAM block (12 bytes from $1BA8). Each
@@ -61,9 +54,7 @@ SCROLL_STATE_SCROLLING := 1
 SCROLL_PIXELS_PER_FRAME := 8  ; 8 pixels/frame = 2 frames per scroll
 SCROLL_TOTAL_PIXELS := 16
 
-; ============================================================================
 ; HDMA Configuration (Direct Mode like FF6)
-; ============================================================================
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
 ; Direct mode: table contains count + 2 data bytes per entry
 ; Using WRAM at $7E9800 (free area in menu RAM)
@@ -133,7 +124,6 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     plp
     rts
 
-
 disable_menu_inventory_hdma:
 """
 Disables HDMA channel 5 when leaving item menu
@@ -144,7 +134,6 @@ The shadow variable is cleared by menu_exit_hook
     ; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
     plp
     rts
-
 
 init_menu_hdma_table:
 """
@@ -229,7 +218,6 @@ _init_item_rows:
     plp
     rts
 
-
 update_menu_scroll_hdma:
 """Build the field-menu HDMA scroll table via the shared engine."""
     engine_update_scroll_hdma(menu_rolling, MENU_HDMA_SHADOW, MENU_BUFFER_SLOTS, MENU_VISIBLE_ITEMS, _menu_hdma_header, _menu_hdma_footer, _menu_hdma_signal)
@@ -269,11 +257,9 @@ _menu_hdma_signal:
     sta.w menu_hdma_copy_pending
     rts
 
-
 init_menu_rolling_buffer_impl:
 """Init field rolling buffer (10 visible, lazy 11th slot)."""
     engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, menu_render_item_to_slot)
-
 
 _menu_draw_inventory_window:
 """Field menu draws the InventoryWindow ($DCCE) frame on entry."""
@@ -283,7 +269,6 @@ _menu_draw_inventory_window:
     sep #0x10
     rts
 
-
 menu_scroll_down_prepare:
 """Field profile scroll-down pre-render."""
     engine_scroll_down_prepare(menu_rolling, 0x1B1A, MENU_SCROLL_LIMIT, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
@@ -292,9 +277,7 @@ menu_scroll_up_prepare:
 """Field profile scroll-up pre-render."""
     engine_scroll_up_prepare(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
 
-; ============================================================================
 ; menu_render_item_to_slot
-; ============================================================================
 ; Renders an item to a specific circular buffer slot in the tilemap.
 ;
 ; Input: menu_rolling_edge_row = item index (0-47) for data lookup
@@ -459,10 +442,7 @@ _hdma_already_init:
     sep #0x20  ; Restore 8-bit mode
     rts
 
-; ============================================================================
 ; STATE MACHINE ROUTINES (FF6-style non-blocking scroll)
-; ============================================================================
-
 
 scroll_state_check:
 """
@@ -499,7 +479,6 @@ _scroll_still_active:
     sec  ; Carry set = skip input
     rts
 
-
 start_scroll_down_impl:
 """Field profile: kick scroll-down state machine."""
     engine_start_scroll_down(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, SCROLL_PIXELS_PER_FRAME, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
@@ -507,7 +486,6 @@ start_scroll_down_impl:
 start_scroll_up_impl:
 """Field profile: kick scroll-up state machine."""
     engine_start_scroll_up(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
-
 
 update_scroll_frame_impl:
 """Field profile: per-frame scroll animation tick."""
@@ -517,11 +495,8 @@ finish_scroll_impl:
 """Field profile: end-of-animation pre-render + cleanup."""
     engine_finish_scroll(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, menu_render_item_to_slot, update_menu_scroll_hdma)
 
-; ============================================================================
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
-; ============================================================================
 ; These routines are called via JSL from bank $01 hooks.
-; ============================================================================
 
 .if INVENTORY_ROLLING_BUFFER {
 MenuEntryHook_Impl:
@@ -570,9 +545,7 @@ MenuExitHook_Impl:
     plp
     jsr.l ResetSprites_Trampoline
     rtl
-; ============================================================================
 ; SwapRedrawHook_Impl_Body
-; ============================================================================
 ; Called after item swap to redraw visible items correctly.
 ; Must render to the correct circular buffer slots based on current buffer_pos.
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
@@ -580,9 +553,7 @@ MenuExitHook_Impl:
 SwapRedrawHook_Impl_Body:
     """Field profile: post-swap re-render of all 11 slots."""
     engine_swap_redraw(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, ensure_hdma_initialized, menu_render_item_to_slot, ClearInventorySlot, update_menu_scroll_hdma)
-; ============================================================================
 ; ClearInventorySlot
-; ============================================================================
 ; Clears a single inventory slot in the tilemap buffer.
 ; Input: menu_rolling_slot_index = slot to clear (0-10)
 ; Used when item index is out of bounds (>= 48)
@@ -647,9 +618,7 @@ _clear_slot_loop:
     plb
     plp
     rts
-; ============================================================================
 ; ClearTrashArea
-; ============================================================================
 ; Clears the 2x2 trash can area with blank tiles ($FF).
 ; Called before drawing normal items to remove any leftover trash icon.
 ; Input: Y = tilemap offset
@@ -795,9 +764,7 @@ _clear_row2:
     rts
 ; NmiDmaTransferCheck_Impl moved to bank $20 (battle/inventory_rolling.s)
 ; as field_menu_nmi_dma_transfer_check_impl to save space in bank $01
-; ============================================================================
 ; CheckAndClearCount_Impl
-; ============================================================================
 ; Called from DrawItemSlot to check item ID and handle count display.
 ; - If item ID is 0: writes $FF tiles to clear count, skips to RTS
 ; - If item ID is $FE: skips to RTS (no clearing needed)

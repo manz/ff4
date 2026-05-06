@@ -141,7 +141,6 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     plp
     rts
 
-
 disable_treasure_inventory_hdma:
 """
 Disables HDMA channel 5 when leaving item menu
@@ -152,7 +151,6 @@ The shadow variable is cleared by menu_exit_hook
     ; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
     plp
     rts
-
 
 init_treasure_hdma_table:
 """
@@ -237,7 +235,6 @@ _t_init_item_rows:
     plp
     rts
 
-
 update_treasure_scroll_hdma:
 """Build the treasure-menu HDMA scroll table via the shared engine."""
     engine_update_scroll_hdma(treasure_rolling, TREASURE_HDMA_SHADOW, TREASURE_BUFFER_SLOTS, TREASURE_VISIBLE_ITEMS, _treasure_hdma_header, _treasure_hdma_footer, _treasure_hdma_signal)
@@ -289,7 +286,6 @@ _treasure_hdma_signal:
     sta.w treasure_hdma_copy_pending_shared
     rts
 
-
 ; Re-render all BUFFER_SLOTS (6) entries from $1440 using current
 ; $1BB7 (scroll_pos) and the existing buffer_pos rotation. Called from
 ; the redraw helper at $01:D933 after a swap completes — the swap
@@ -307,7 +303,6 @@ init_treasure_rolling_buffer_impl:
 """Init treasure rolling buffer (5 visible + prefetch slot 6)."""
     engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, treasure_render_item_to_slot)
 
-
 _treasure_draw_inventory_window:
 """Treasure menu draws the InventoryWindow ($DCCE) frame for the bottom inventory list on entry."""
     rep #0x10
@@ -315,7 +310,6 @@ _treasure_draw_inventory_window:
     jsr.l DrawWindow_Trampoline
     sep #0x10
     rts
-
 
 treasure_scroll_down_prepare:
 """Treasure profile scroll-down pre-render."""
@@ -493,7 +487,6 @@ _t_hdma_already_init:
 
 ; STATE MACHINE ROUTINES (FF6-style non-blocking scroll)
 
-
 treasure_scroll_state_check:
 """
 Called at main loop entry ($019FF2) to handle scroll animation frames.
@@ -528,7 +521,6 @@ _t_scroll_still_active:
     plp
     sec  ; Carry set = skip input
     rts
-
 
 treasure_start_scroll_down_impl:
 """Treasure profile: kick scroll-down state machine."""
