@@ -8,7 +8,7 @@
 ; Original: 02/9E1A: A9 09  LDA #0x09
 
 *=0x029E1A
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- item symbol ---
 ; Original: 02/9E44: BF 00 80 0F  LDA 0x0F8000,X
@@ -20,7 +20,7 @@
 ; Original: 02/9E58: A9 08  LDA #0x08
 
 *=0x029E58
-    lda #0x0b
+    lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name (+1 skip symbol) ---
 ; Original: 02/9E5C: BF 01 80 0F  LDA 0x0F8001,X
@@ -34,7 +34,7 @@
 ; Original: 02/9FEF: A9 09  LDA #0x09
 
 *=0x029FEF
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- item symbol ---
 ; Original: 02/A00C: BF 00 80 0F  LDA 0x0F8000,X
@@ -46,7 +46,7 @@
 ; Original: 02/A020: A9 08  LDA #0x08
 
 *=0x02A020
-    lda #0x0b
+    lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name (+1 skip symbol) ---
 ; Original: 02/A024: BF 01 80 0F  LDA 0x0F8001,X
@@ -60,13 +60,13 @@
 ; Original: 02/A594: A9 09  LDA #0x09
 
 *=0x02A594
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- loop counter ---
 ; Original: 02/A5A1: A9 08  LDA #0x08
 
 *=0x02A5A1
-    lda #0x0b
+    lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name ---
 ; Original: 02/A5A5: BF 00 80 0F  LDA 0x0F8000,X
@@ -80,7 +80,7 @@
 ; Original: 02/CB77: A9 09  LDA #0x09
 
 *=0x02CB77
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- item name ---
 ; Original: 02/CB83: BF 00 80 0F  LDA 0x0F8000,X
@@ -100,19 +100,19 @@
 ; Original: 02/AB47: A9 09  LDA #0x09
 
 *=0x02AB47
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- equipped items width 2 ---
 ; Original: 02/B442: A9 09  LDA #0x09
 
 *=0x02B442
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; --- equipped items width 3 ---
 ; Original: 02/B698: A9 09  LDA #0x09
 
 *=0x02B698
-    lda #0x0c
+    lda #ITEM_NAME_RECORD_SIZE
 
 ; ===== INVENTORY BUFFER STRIDE EXPANSION =====
 ; Expand from 48 bytes/item (12 tiles/row) to 60 bytes/item (15 tiles/row)

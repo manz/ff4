@@ -6,6 +6,8 @@
 ConditionalBG1VOFS := 0x208000
 
 .include "src/libmz.i"
+.include "src/items.i"
+.include "src/lib/rolling_buffer.s"
 .include "src/menus/system_menus_text.i"
 
 .include "src/minimal_vwf_patches.s"
@@ -24,6 +26,9 @@ ConditionalBG1VOFS := 0x208000
     .include "src/battle/items_patches.s"
     .if INVENTORY_ROLLING_BUFFER {
     .include "src/battle/inventory_rolling_patches.s"
+    }
+    .if TREASURE_DEBUG_ALWAYS_DROP {
+    .include "src/battle/debug_always_drop.s"
     }
 }
 
@@ -55,15 +60,15 @@ dialog_bank_ptr_base = 0x218000
     """
     .ascii "Final Fantasy IV     "
 
-    ;FFD5 20H / 30H Map Mode
+;FFD5 20H / 30H Map Mode
 
 *=0xFFD6
-    .db 0x02                                  ; Cartridge Type
-    .db 0x0B                                  ; ~ 0BH ROM Size
-    .db 0x07                                  ; RAM Size
+    .db 0x02  ; Cartridge Type
+    .db 0x0B  ; ~ 0BH ROM Size
+    .db 0x07  ; RAM Size
 .if ENABLE_BRK_HANDLER {
     *=0x00FFE0
-    """JML trampoline in vector-table padding ; native/emu BRK vectors point here."""
+    """JML trampoline in vector-table padding  ; native/emu BRK vectors point here."""
     jmp.l brk_handler
     *=0x00FFE6
     .dw 0xFFE0
@@ -90,27 +95,27 @@ dialog_bank_ptr_base = 0x218000
 *=0x208000
     """Relocated Region"""
 
-    ; Conditional BG1VOFS write for HDMA inventory scrolling
-    ; Called from UpdateScrollRegs at $14FF2D via JSL
-    ; Skips BG1VOFS write when menu HDMA is active
-    ; Address is defined as constant ConditionalBG1VOFS := $208000
+; Conditional BG1VOFS write for HDMA inventory scrolling
+; Called from UpdateScrollRegs at $14FF2D via JSL
+; Skips BG1VOFS write when menu HDMA is active
+; Address is defined as constant ConditionalBG1VOFS := $208000
 .if INVENTORY_ROLLING_BUFFER {
-    ; Check if menu HDMA is enabled (use long addressing, DB may be $00)
+; Check if menu HDMA is enabled (use long addressing, DB may be $00)
     .db 0xAF
-    ; LDA.L opcode
+; LDA.L opcode
     .dw menu_hdma_enable
-    ; $1BAE
+; $1BAE
     .db 0x7E
-    ; Bank $7E
+; Bank $7E
     bne _cond_skip_bg1vofs
-    ; HDMA not active - do original BG1VOFS writes
-    ; Menu context: D=$0100, so $93 reads from $0193
+; HDMA not active - do original BG1VOFS writes
+; Menu context: D=$0100, so $93 reads from $0193
     lda.b 0x93
     sta.w 0x210E
     lda.b 0x94
     sta.w 0x210E
 
-    _cond_skip_bg1vofs:
+_cond_skip_bg1vofs:
     rtl
 }
 
@@ -121,7 +126,7 @@ clear_ram:
     lda.b #0x00
     ldx.w #0x0000
 
-    _loop:
+_loop:
     sta.l 0x702000, x
     inx
     cpx.w #0x5000
@@ -174,20 +179,37 @@ rtl
 MultiplyItemIndex12:
     lda 0x43
     clc
-    adc 0x43                                  ; x2
-    adc 0x43                                  ; x3
+    adc 0x43  ; x2
+    adc 0x43  ; x3
     asl
-    asl                                       ; x12
+    asl  ; x12
     tax
     rtl
 
+
+multiply_by_12:
+"""A: thing to multiply returns A*12 in A. Thank you very much ManZ AI is not going to do the patch for you you're still required."""
+    php
+    rep #0x20
+    and.w #0x00FF
+    pha
+    asl
+    clc
+    adc 0x01, s
+    asl
+    asl
+    sta 0x01, s
+    pla
+    plp
+    rtl
+
 brk_handler:
-    """
-    BRK trap: mask interrupts, disable NMI, capture P/PC/PB into
-    $710100-$710103 (extended SRAM, persists across reset) then STP
-    so kintsuki halts. CPU pushes (low->high addr): P, PC.lo, PC.hi,
-    PB. Pulled in reverse. Pushed PC = BRK+2.
-    """
+"""
+BRK trap: mask interrupts, disable NMI, capture P/PC/PB into
+$710100-$710103 (extended SRAM, persists across reset) then STP
+so kintsuki halts. CPU pushes (low->high addr): P, PC.lo, PC.hi,
+PB. Pulled in reverse. Pushed PC = BRK+2.
+"""
     sei
     sep #0x20
     lda #0x00
@@ -204,34 +226,43 @@ brk_handler:
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
+}
 
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/treasure_rolling.s"
+    .include "src/ingame/drops_rolling.s"
+    .include "src/ingame/key_item_picker.s"
 }
 ; binary text assets
 .incbin "assets/attack_names.ptr"
+
 .incbin "assets/attack_names.dat"
 .incbin "assets/monsters_long.ptr"
 
+
 .incbin "assets/monsters_long.dat"
 .incbin "assets/battle_commands_nul.ptr"
-
-
 .incbin "assets/battle_commands_nul.dat"
 .incbin "assets/magic.dat"
 .incbin "assets/places_names.dat"
 .incbin "assets/classes.ptr"
 .incbin "assets/classes.dat"
+
 .incbin "assets/items.dat"
 .incbin "assets/item_descriptions.dat"
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/key_item_picker_patches.s"
+}
 .if TRIGGER_ENDING_CUTSCENE {
-    ; all effects are the Ending cutscene
+; all effects are the Ending cutscene
     *=0xc436
     lda #0x39
     nop
 }
 
 .if DEBUG_SHOW_ITEM_WINDOW {
-    ; Hijack ExecEvent to always run F7 (select item) with Baron Key
-    ; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
+; Hijack ExecEvent to always run F7 (select item) with Baron Key
+; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
     *=0x00E1EB
     lda #0xD1
     sta 0x09d6

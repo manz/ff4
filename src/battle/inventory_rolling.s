@@ -2334,7 +2334,10 @@ field_menu_nmi_dma_transfer_check_impl:
 ; === GUARD: Only run if menu HDMA is enabled ===
 ; This prevents field menu DMA from corrupting battle VRAM
     lda.l 0x7E0000 + FIELD_menu_hdma_enable
-    beq _field_nmi_done  ; Not in menu inventory mode, skip all
+    bne _field_nmi_active
+    jmp.w _field_nmi_done
+
+_field_nmi_active:
 
 ; === HDMA table copy: shadow -> active ===
     lda.l 0x7E0000 + FIELD_menu_hdma_copy_pending
@@ -2356,9 +2359,9 @@ _field_nmi_hdma_copy_loop:
     sep #0x20  ; Back to 8-bit A
 
 _field_nmi_hdma_copy_done:
-    ; === Tilemap DMA transfer ===
+    ; === Tilemap DMA transfer (field menu = BG1) ===
     lda.l 0x7E0000 + FIELD_menu_transfer_pending
-    beq _field_nmi_done
+    beq _field_nmi_check_treasure
     lda #0x00
     sta.l 0x7E0000 + FIELD_menu_transfer_pending
 
@@ -2381,6 +2384,35 @@ _field_nmi_hdma_copy_done:
     sep #0x20
     lda #0x01
     sta.w 0x420B
+
+_field_nmi_check_treasure:
+.if TREASURE_INVENTORY_ROLLING {
+; === Tilemap DMA transfer (treasure menu = BG3) ===
+    lda.l 0x7E0000 + 0x1BDB  ; treasure_transfer_pending
+    beq _field_nmi_done
+    lda #0x00
+    sta.l 0x7E0000 + 0x1BDB
+
+    sep #0x20
+    lda #0x01
+    sta.w 0x4300
+    lda #0x18
+    sta.w 0x4301
+    rep #0x20
+    lda.w #0xD600  ; BG3 screen buffer source ($7ED600)
+    sta.w 0x4302
+    sep #0x20
+    lda #0x7E
+    sta.w 0x4304
+    rep #0x20
+    lda.w #0x0800  ; 2 KB tilemap
+    sta.w 0x4305
+    lda.w #0x7000  ; BG3 tilemap VRAM target
+    sta.w 0x2116
+    sep #0x20
+    lda #0x01
+    sta.w 0x420B
+}
 
 _field_nmi_done:
     plp

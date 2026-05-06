@@ -1,4 +1,2 @@
-a816==1.1.0a11
-kintsuki==0.0.0a3
-pillow
-numpy
+a816==1.1.0a14
+kintsuki[visual]==0.0.0a6

@@ -171,7 +171,7 @@ adjust_inventory_pointer:
     stz.b 0x5d
     stz.b 0x5e
     lda.w 0x1B1A
-    asl
+    asl  ; scroll_pos * Item.__size = byte offset into $1440
     clc
     adc.b 0x5a
     sta.b 0x5a
