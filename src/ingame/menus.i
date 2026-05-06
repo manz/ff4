@@ -4,6 +4,9 @@
     .include "src/ingame/inventory_single_column.s"
     .include "src/ingame/inventory_rolling_patches.s"
 }
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/treasure_rolling_patches.s"
+}
 .include "src/ingame/options.s"
 .include "src/ingame/status.s"
 .include "src/ingame/magic.s"
