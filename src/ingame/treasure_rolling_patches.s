@@ -110,6 +110,24 @@
     *=0x01DA08
     jsr.w treasure_main_loop_scroll_check
 
+; Same hook at $01:DA9C. The down/up scroll branch ends with
+;   $DA9C jsr $82C0 / ldx $02 / stx $00 / $DAA3 jmp $DA0B
+; which loops back to the input check WITHOUT passing through $DA08.
+; While DOWN/UP is held, control bounces between $DA0B and $DAA3
+; forever, so the $DA08 hook never fires and the scroll animation
+; never ticks. Replacing the second $82C0 with our hook drives the
+; state machine on the held-button inner loop too, matching the
+; field-menu scroll cadence (every frame).
+    *=0x01DA9C
+    jsr.w treasure_main_loop_scroll_check
+
+; Up-scroll branch: same pattern as the down branch, ends with
+;   $DA67 jsr $82C0 / ldx $02 / stx $00 / $DA6E bra $DA0B
+; Tick the state machine here too so held-UP scroll animates at the
+; same cadence as held-DOWN.
+    *=0x01DA67
+    jsr.w treasure_main_loop_scroll_check
+
 ; Treasure menu exit. Vanilla: `stz $1BC6` (3 bytes) clears the in-menu flag.
 ; Replace with our exit hook (also 3 bytes), which restores vanilla state and
 ; additionally tears down the rolling-buffer state + HDMA ch6 registers so
