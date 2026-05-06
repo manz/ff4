@@ -11,3 +11,7 @@ assets/*
 .DS_Store
 *.kss
 !tests/savestates/*.kss
+
+# Pixelmatch test artifacts
+*.actual.png
+*.diff.png
