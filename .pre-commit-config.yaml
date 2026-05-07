@@ -1,10 +1,19 @@
 repos:
   - repo: local
     hooks:
-      - id: a816-fluff
-        name: a816 fluff format check
-        description: Verify .s/.i sources match a816-fluff canonical formatting.
-        entry: a816-fluff format --check
+      - id: a816-format
+        name: a816 format --check
+        description: Verify .s/.i sources match a816 canonical formatting.
+        entry: a816 format --check
+        language: python
+        additional_dependencies: ["a816==1.1.0a14"]
+        files: \.(s|i)$
+        require_serial: true
+        pass_filenames: true
+      - id: a816-check
+        name: a816 check (lint)
+        description: Run a816 fluff lints (DOC*, N*, E*) on .s/.i sources.
+        entry: a816 check
         language: python
         additional_dependencies: ["a816==1.1.0a14"]
         files: \.(s|i)$
