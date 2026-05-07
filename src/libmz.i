@@ -145,3 +145,13 @@ _return_addr:
     nop
     }
 }
+
+.macro raise(code) {
+    """
+    Crude exception. Triggers `BRK #code`, which our `brk_handler`
+    captures into extended SRAM ($710100..$710103) then `STP`s. Use
+    `code` as a per-site signature so the captured P/PC/PB tells you
+    which assertion fired. Pair with a comment naming the invariant.
+    """
+    brk #code
+}
