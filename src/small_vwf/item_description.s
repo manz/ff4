@@ -1,4 +1,6 @@
+"""Small-VWF item-description renderer."""
 .scope items_description {
+    """Small-VWF item-description renderer entry-points."""
 draw_trampoline:
     jsr.w draw
     rtl

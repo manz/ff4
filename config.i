@@ -1,3 +1,5 @@
+"""Config flags preamble"""
+
 DEBUG := 1
 ; Feature Flips
 ENABLE_DIALOG_SKIP := 1

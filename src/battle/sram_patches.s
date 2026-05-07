@@ -1,3 +1,7 @@
+"""
+ROM patches that route every battle-text draw call (commands, monster names, char names, attack names, message
+window) through our messages-VWF init/deinit trampolines.
+"""
 .extern draw_command_list_for_character
 .extern battle_display_char
 .extern battle_display_dakuten_char
@@ -83,7 +87,7 @@
 ; this gets redrawn quite often
 ; char names
     *=0x02A29D
-    jsr.w msg_names_window_trampoline
+    jsr.w _msg_names_window_trampoline
 ; wait frame runs a shite load of updates
     *=0x029486 + 2
     .dw 0x949a  ; noop for char names
@@ -118,7 +122,8 @@
 ;    jsr.l render_allocator.init_battle_far
 
 .if BATTLE_NAMES_VWF + BATTLE_MONSTERS_VWF + BATTLE_CMD_VWF > 0 {
-;patches the newline control code handler to clear bitsleft on the current tile, allowing the monster string to be rendered.
+; patches the newline control code handler to clear bitsleft on the current tile,
+; allowing the monster string to be rendered.
     *=0x02a637
     jsr.l messages_vwf.new_line_escape_code_handler
     rts
@@ -152,21 +157,22 @@
 
 
 *=0x02FFC2
-
 draw_window_render_hook:
-    jsr.w draw_command_list
+"""Battle-command-window render hook: render command list, then load X with original loop count."""
+    jsr.w _draw_command_list
     ldx.w #0x0340
     rts
 
-draw_command_list:
+_draw_command_list:
     jsr.l draw_command_list_for_character
     rts
 
 msg_monster_window_trampoline:
+"""Trampoline patched into the monster-name window draw."""
     jsr.l messages_vwf.init_monsters
     bra _draw_text_battle
 
-msg_names_window_trampoline:
+_msg_names_window_trampoline:
     ; Skip names rendering if inventory is active (bit 2 of $4A)
     lda 0x4A
     and #0x04
@@ -178,6 +184,7 @@ _skip_names:
     rts
 
 msg_window_draw_text_trampoline:
+"""Trampoline patched into the message-window draw."""
     jsr.l messages_vwf.init
 
 _draw_text_battle:
@@ -190,6 +197,7 @@ _draw_text_battle_far:
     rtl
 
 attack_names:
+"""Trampoline for attack-name window: messages-VWF init, attack-name draw, deinit."""
     jsr.l messages_vwf.init
     jsr 0xcb32
     jsr.l messages_vwf.deinit

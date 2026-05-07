@@ -1,3 +1,5 @@
+"""Shared low-level helpers: vblank spinner + DMA transfer routines for VRAM / palette + small bank-trampolines."""
+
 wait_for_vblank:
 """Spin until the next vblank edge: wait for $4212 to go low, then high."""
 {
@@ -110,7 +112,7 @@ All three pulled before RTS.
 }
 
 
-enable_display:
+_enable_display:
     pha
     lda #0x00  ; enable screen, full brightness
     sta 0x2100

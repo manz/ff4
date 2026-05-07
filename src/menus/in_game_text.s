@@ -1,8 +1,10 @@
+"""French translated text data for the in-game menus."""
 .include "src/ingame/macros.i"
 .table "text/ff4_menus.tbl"
 .extern lookup_dakuten
 
 .scope in_game_menu {
+    """Main pause-menu strings."""
 cant_fight:
     .text "KO"
     .db 0
@@ -43,6 +45,7 @@ time:
 }
 
 .scope items_menu {
+    """Items submenu strings."""
 items_menu_right:
     menu_window(22, 0, 7, 3)
 item:
@@ -58,6 +61,7 @@ notuse:
 
 
 .scope spells {
+    """Spell-list headers."""
 white:
     move_to(24, 3)
     .text "Magie"
@@ -84,6 +88,7 @@ mp_needed:
 }
 
 .scope status {
+    """Status screen labels."""
 status:
     .dw 0x01F0
     .text "Statut"
@@ -145,6 +150,7 @@ char_stats:
 }
 
 .scope options {
+    """Options screen text."""
 title:
     .dw 0x0096
     .text "Options"
@@ -215,6 +221,7 @@ controls:
 }
 
 .scope equip {
+    """Equipment menu slot labels."""
 menu:
     _text_y = 1
     menu_window(0, 0, 30, 11)
@@ -237,6 +244,7 @@ menu:
 
 
 .scope dextrality {
+    """Handedness labels."""
 hands:
 string_0:
 ; ぶきよう
@@ -257,6 +265,7 @@ string_3:
 }
 
 .scope messages {
+    """Generic prompt strings."""
 use_on_whom:
     move_to(10, 1)
     .text "Utiliser sur qui ?"
@@ -273,6 +282,7 @@ cant_use_magic:
 
 
 .scope use_spell {
+    """Spell-cast prompt strings."""
 mp_cost:
     move_to(1, 4)
     .text "Requis"
@@ -284,8 +294,9 @@ mp_cost:
 }
 
 .scope treasure {
+    """Treasure-chest UI text + windows."""
 choice_window:
-    """patch them in place"""
+"""patch them in place"""
     menu_window(8, 0, 22, 2)
 items_window:
     menu_window(0, 3, 30, 10)
@@ -318,6 +329,7 @@ key_items_left_warning:
 
 
 copy_text_with_dakuten_far:
+"""Far-callable text copier with dakuten composite lookup."""
 {
     phb
     phk

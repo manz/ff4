@@ -1,33 +1,36 @@
+"""Small (8x8) menu VWF renderer."""
 VARS_BUFFER = 0x710000
 
 .macro initialize(var) {
+    """Mirror a direct-page byte to the global save area."""
     lda.b var
     sta.l VARS_BUFFER + var
 }
 
-.macro initialize_long(var) {
+.macro _initialize_long(var) {
     initialize(var)
     initialize(var + 1)
     initialize(var + 2)
 }
 
 .macro restore(var) {
+    """Pull the previously-saved value back into direct page."""
     lda.b VARS_BUFFER + var
     sta.b var
 }
 
-.macro restore_long(var) {
+.macro _restore_long(var) {
     restore(var)
     restore(var + 1)
     restore(var + 2)
 }
 
-.macro set_var_value(var, value) {
+.macro _set_var_value(var, value) {
     lda.b #value
     sta.b var
 }
 
-.scope vram_copy {
+.scope _vram_copy {
     buffer = 0x704000
 save_dialog_vram_far:
     jsr.l 0x14fd0f
@@ -73,8 +76,8 @@ restore_dialog_gfx_far:
     jsr.l 0x14ffd6
 ; original restore
     rtl
-; clone of the original copy to be able to call it from the 0x20 bank.
 _transfer_to_vram:
+"""clone of the original copy to be able to call it from the 0x20 bank."""
     phb
     tdc
     pha
@@ -104,9 +107,10 @@ _transfer_to_vram:
 }
 
 .scope render_allocator {
+    """Tile-id allocator for the small-VWF."""
     allocated_tile_id = 0x702F00
 init_with_tile_id:
-    """tile_id in A"""
+"""tile_id in A"""
     sta.l allocated_tile_id
     rts
 init:
@@ -136,9 +140,10 @@ get:
 }
 
 .scope render {
+    """Core 8x8 menu-VWF render scope."""
 ; variables
-    __var_base = 0x63
-    bits_left_on_tile = __var_base + 0x10
+    _var_base = 0x63
+    bits_left_on_tile = _var_base + 0x10
     temp = bits_left_on_tile + 1
     counter = temp + 1
     prev_char = counter + 2
@@ -148,7 +153,7 @@ get:
     buffer_size = 0x300
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 init:
-    """font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
+"""font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
 ; Initialize the renderer
 ; clear a chunk of ram
 ; resets variables
@@ -158,7 +163,7 @@ init:
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
     pha
-    set_var_value(bits_left_on_tile, 0x08)
+    _set_var_value(bits_left_on_tile, 0x08)
     lda.b bits_left_on_tile
 _brk_init_bits:
     pla
@@ -183,7 +188,7 @@ _clear_loop:
     rts
 deinit:
     {
-    restore_long(buffer_ptr)
+    _restore_long(buffer_ptr)
     restore(bits_left_on_tile)
     restore(temp)
     restore(counter)
@@ -259,11 +264,15 @@ _shift:
 ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
     lda.l assets_menu_font_dat, x
-; bne _really_shift
-; inx
-; xba
-; bra _skip_empty_pixel_line
 _really_shift:
+
+
+"""
+bne _really_shift
+inx
+xba
+bra _skip_empty_pixel_line
+"""
     xba
     lda #0x00
     xba

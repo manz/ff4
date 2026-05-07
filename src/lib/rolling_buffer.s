@@ -19,17 +19,22 @@ Conventions:
     65816 indirection cost is one extra jsr/rts pair per call site.
 """
 
-; Builds the rolling-buffer HDMA scroll table in `hdma_shadow_addr`
 
-; based on `state_base`'s buffer_pos / base_scroll. Profile supplies:
-;   - `header_hook`: writes the "above the item rows" entries (one or
-;     more), advancing X.
-;   - `footer_hook`: writes the "below the item rows" entry/entries.
-;   - `signal_hook`: marks the NMI shadow→active copy pending (some
-;     profiles also mirror to a shared flag).
-;
-; Caller wraps a profile-specific entry-point label around this macro.
-.macro engine_update_scroll_hdma(state_base, hdma_shadow_addr, buffer_slots, visible, header_hook, footer_hook, signal_hook) {
+.macro engine_update_scroll_hdma(
+    state_base,
+    hdma_shadow_addr,
+    buffer_slots,
+    visible,
+    header_hook,
+    footer_hook,
+    signal_hook,
+) {
+    """
+    Build the rolling-buffer HDMA scroll table in `hdma_shadow_addr`, based on
+    `state_base.buffer_pos` / `base_scroll`. Profile supplies header_hook
+    (above item rows), footer_hook (below item rows), signal_hook (NMI shadow
+    -> active copy pending).
+    """
     php
     rep #0x30
     pha
@@ -116,24 +121,14 @@ _row_loop_done:
 }
 
 
-; Initialise the rolling buffer on menu entry. Zeroes the 12-byte state
-; block, marks base_scroll with the $FFFF sentinel (lazy-capture path),
-; draws the inventory window border, calls the profile's HDMA setup
-; hook, then renders `render_count` slots via the profile's render
-; hook.
-;
-
-; Profile supplies:
-;   - `ensure_hdma_hook`: captures $93 (BG VOFS shadow) and configures
-;     the profile's HDMA channel + shadow on first call.
-;   - `render_slot_hook`: writes one item slot into the BG tilemap
-;     buffer; called with `slot_index` already populated.
-;
-; `render_count` controls how many slots are filled at init. Field
-; menu uses VISIBLE_ITEMS (skips the prefetch slot to avoid a one-frame
-; leak below the window border); treasure uses BUFFER_SLOTS (no leak
-; risk because vanilla redraws over the buffer before HDMA enables).
 .macro engine_init_rolling_buffer(state_base, render_count, draw_window_hook, ensure_hdma_hook, render_slot_hook) {
+    """
+    Initialise the rolling buffer on menu entry: zero the 12-byte state block,
+    mark base_scroll = $FFFF (sentinel), draw the inventory window border,
+    run the profile's `ensure_hdma_hook`, then render `render_count` slots via
+    `render_slot_hook` (each call sees `slot_index` already populated).
+    Field menu uses VISIBLE_ITEMS  ; treasure uses BUFFER_SLOTS.
+    """
     php
     pha
     jsr.w draw_window_hook
@@ -171,8 +166,20 @@ _init_loop:
 }
 
 
-.macro engine_scroll_down_prepare(state_base, scroll_pos_addr, scroll_limit, visible, buffer_slots, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
-    """Pre-render the new bottom item before a scroll-down animation begins. The slot vacated at top (buffer_pos) is reused for the new bottom  ; buffer_pos then advances modulo buffer_slots."""
+.macro engine_scroll_down_prepare(
+    state_base,
+    scroll_pos_addr,
+    scroll_limit,
+    visible,
+    buffer_slots,
+    ensure_hdma_hook,
+    render_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    Pre-render the new bottom item before a scroll-down animation begins. The slot vacated at top (buffer_pos)
+    is reused for the new bottom  ; buffer_pos then advances modulo buffer_slots.
+    """
     php
     sep #0x20
     jsr.w ensure_hdma_hook
@@ -198,8 +205,18 @@ _down_done:
 }
 
 
-.macro engine_scroll_up_prepare(state_base, scroll_pos_addr, buffer_slots, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
-    """Pre-render the new top item after the scroll-up state machine has decremented scroll_pos. buffer_pos walks backwards (with wrap) so the slot leaving the bottom edge is reused for the new top."""
+.macro engine_scroll_up_prepare(
+    state_base,
+    scroll_pos_addr,
+    buffer_slots,
+    ensure_hdma_hook,
+    render_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    Pre-render the new top item after the scroll-up state machine has decremented scroll_pos. buffer_pos walks
+    backwards (with wrap) so the slot leaving the bottom edge is reused for the new top.
+    """
     php
     sep #0x20
     jsr.w ensure_hdma_hook
@@ -221,8 +238,21 @@ _up_wrap_done:
 }
 
 
-.macro engine_start_scroll_down(state_base, scroll_pos_addr, visible, buffer_slots, total_pixels, pixels_per_frame, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
-    """Kick off a non-blocking scroll-down animation: advance buffer_pos with wrap, pre-render the new bottom item, configure the scroll state machine (-16 anim offset, +pixels_per_frame direction)."""
+.macro engine_start_scroll_down(
+    state_base,
+    scroll_pos_addr,
+    visible,
+    buffer_slots,
+    total_pixels,
+    pixels_per_frame,
+    ensure_hdma_hook,
+    render_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    Kick off a non-blocking scroll-down animation: advance buffer_pos with wrap, pre-render the new bottom
+    item, configure the scroll state machine (-16 anim offset, +pixels_per_frame direction).
+    """
     php
     sep #0x20
     jsr.w ensure_hdma_hook
@@ -266,8 +296,19 @@ _start_dn_mod_done:
 }
 
 
-.macro engine_start_scroll_up(state_base, scroll_pos_addr, buffer_slots, total_pixels, ensure_hdma_hook, render_slot_hook, update_hdma_hook) {
-    """Kick off a non-blocking scroll-up animation: walk buffer_pos backwards (wrap to buffer_slots-1), pre-render the new top item, configure the state machine (+16 anim offset, -2 direction)."""
+.macro engine_start_scroll_up(
+    state_base,
+    scroll_pos_addr,
+    buffer_slots,
+    total_pixels,
+    ensure_hdma_hook,
+    render_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    Kick off a non-blocking scroll-up animation: walk buffer_pos backwards (wrap to buffer_slots-1),
+    pre-render the new top item, configure the state machine (+16 anim offset, -2 direction).
+    """
     php
     sep #0x20
     jsr.w ensure_hdma_hook
@@ -302,7 +343,11 @@ _start_up_wrap_done:
 
 
 .macro engine_update_scroll_frame(state_base, pixels_per_frame, update_hdma_hook) {
-    """One animation frame: advance scroll_anim_offset by pixels_per_frame towards 0 (sign-aware), nudge cursor sprite at $0311 if 'second item' mode is active, decrement scroll_remaining, refresh HDMA, then push sprites + BG2 to VRAM."""
+    """
+    One animation frame: advance scroll_anim_offset by pixels_per_frame towards 0 (sign-aware), nudge cursor
+    sprite at $0311 if 'second item' mode is active, decrement scroll_remaining, refresh HDMA, then push
+    sprites + BG2 to VRAM.
+    """
     php
     rep #0x20
     lda.w state_base + RollingBufferState.scroll_anim_offset
@@ -339,15 +384,26 @@ _frame_no_cursor:
     sbc #pixels_per_frame
     sta.w state_base + RollingBufferState.scroll_remaining
     jsr.w update_hdma_hook
-    jsr.l TfrSpritesVblank_Trampoline
-    jsr.l TfrBG2TilesVblank_Trampoline
+    jsr.l tfr_sprites_vblank_trampoline
+    jsr.l tfr_bg2_tiles_vblank_trampoline
     plp
     rtl
 }
 
 
-.macro engine_finish_scroll(state_base, scroll_pos_addr, visible, buffer_slots, total_items, render_slot_hook, update_hdma_hook) {
-    """End-of-animation: pre-render the next-scroll-direction edge slot (skip past list ends), reset scroll_state and anim_offset, refresh HDMA, run vanilla cursor + post-scroll cleanup."""
+.macro engine_finish_scroll(
+    state_base,
+    scroll_pos_addr,
+    visible,
+    buffer_slots,
+    total_items,
+    render_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    End-of-animation: pre-render the next-scroll-direction edge slot (skip past list ends), reset scroll_state
+    and anim_offset, refresh HDMA, run original cursor + post-scroll cleanup.
+    """
     php
     sep #0x20
     lda.w state_base + RollingBufferState.scroll_direction
@@ -395,15 +451,28 @@ _finish_skip:
     stz.w state_base + RollingBufferState.scroll_anim_offset
     sep #0x20
     jsr.w update_hdma_hook
-    jsr.l DrawItemCursors_Trampoline
-    jsr.l UpdateCtrlAfterScroll_Trampoline
+    jsr.l draw_item_cursors_trampoline
+    jsr.l update_ctrl_after_scroll_trampoline
     plp
     rtl
 }
 
 
-.macro engine_swap_redraw(state_base, scroll_pos_addr, buffer_slots, total_items, ensure_hdma_hook, render_slot_hook, clear_slot_hook, update_hdma_hook) {
-    """Re-render all `buffer_slots` slots from the current buffer_pos after an item swap. Out-of-range items (scroll_pos+row >= total_items) are blanked via `clear_slot_hook` so the prefetch row doesn't show stale tiles. Resets scroll state so a mid-animation swap doesn't trigger spurious finish_scroll re-renders."""
+.macro engine_swap_redraw(
+    state_base,
+    scroll_pos_addr,
+    buffer_slots,
+    total_items,
+    ensure_hdma_hook,
+    render_slot_hook,
+    clear_slot_hook,
+    update_hdma_hook,
+) {
+    """
+    Re-render all `buffer_slots` slots from the current buffer_pos after an item swap. Out-of-range items
+    (scroll_pos+row >= total_items) are blanked via `clear_slot_hook` so the prefetch row doesn't show stale
+    tiles. Resets scroll state so a mid-animation swap doesn't trigger spurious finish_scroll re-renders.
+    """
     php
     sep #0x20
     jsr.w ensure_hdma_hook
@@ -453,7 +522,10 @@ _swap_next:
 
 
 .macro engine_refresh_slots(state_base, scroll_pos_addr, buffer_slots, render_slot_hook) {
-    """Re-render all `buffer_slots` from current buffer_pos without resetting scroll state. Used by treasure's vanilla redraw helper (post-swap rebuild path) where the engine itself didn't trigger the redraw."""
+    """
+    Re-render all `buffer_slots` from current buffer_pos without resetting scroll state. Used by treasure's
+    original redraw helper (post-swap rebuild path) where the engine itself didn't trigger the redraw.
+    """
     php
     rep #0x10
     sep #0x20

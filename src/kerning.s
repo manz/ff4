@@ -1,13 +1,23 @@
+"""
+Dialog-VWF kerning helpers: long-form (RTL) wrapper around the binary-search backend used to look up per-pair
+kerning offsets.
+"""
 .include "src/vwf.i"
 
 dialog_get_kerning_adjustment_binary_search_ext:
-"""Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python tests."""
+"""
+Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python
+tests.
+"""
     jsr.w dialog_get_kerning_adjustment_binary_search
     rtl
 
 
 dialog_get_kerning_adjustment_binary_search:
-"""Binary-search the dialog font's kerning table for the pair in DP $25 (CURRENT_C)  ; returns adjustment in A or A=0+sec on miss. Trashes A/Y/flags, preserves X."""
+"""
+Binary-search the dialog font's kerning table for the pair in DP $25 (CURRENT_C)  ; returns adjustment in A or
+A=0+sec on miss. Trashes A/Y/flags, preserves X.
+"""
     phx
     jsr.w _dialog_get_kerning_adjustment_binary_search
     plx

@@ -1,3 +1,7 @@
+"""
+Battle inventory buffer layout: relocated buffer base + size constants for the expanded 12-byte item names
+(was 9-byte in stock FF4).
+"""
 ; ============================================================================
 ; Battle Inventory Buffer Layout
 ; ============================================================================

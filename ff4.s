@@ -1,9 +1,11 @@
-; ----------------
-; Final Fantasy IV the new hack.
-; ----------------
+"""
+----------------
+Final Fantasy IV the new hack.
+----------------
+"""
 
-; Forward declaration - ConditionalBG1VOFS is at start of relocated region ($208000)
-ConditionalBG1VOFS := 0x208000
+; Forward declaration - conditional_bg1_vofs is at start of relocated region ($208000)
+conditional_bg1_vofs := 0x208000
 
 .include "src/libmz.i"
 .include "src/items.i"
@@ -53,11 +55,9 @@ dialog_bank_ptr_base = 0x218000
 
 
 *=0xFFC0
-    """
-    patch snes cartrdige type
-    original PCB: SHVC-1A3B
-    target PCB: SHVC-1A5B
-    """
+    ; patch snes cartridge type
+    ; original PCB: SHVC-1A3B
+    ; target PCB: SHVC-1A5B
     .ascii "Final Fantasy IV     "
 
 ;FFD5 20H / 30H Map Mode
@@ -68,7 +68,7 @@ dialog_bank_ptr_base = 0x218000
     .db 0x07  ; RAM Size
 .if ENABLE_BRK_HANDLER {
     *=0x00FFE0
-    """JML trampoline in vector-table padding  ; native/emu BRK vectors point here."""
+; JML trampoline in vector-table padding  ; native/emu BRK vectors point here.
     jmp.l brk_handler
     *=0x00FFE6
     .dw 0xFFE0
@@ -78,8 +78,7 @@ dialog_bank_ptr_base = 0x218000
 
 
 *=0x008031
-    """déroutage pour ajouter le splash screen"""
-
+    ; déroutage pour ajouter le splash screen
 .if ENABLE_INTRO {
     jsr.l start_splash_screen
 } else {
@@ -88,25 +87,19 @@ dialog_bank_ptr_base = 0x218000
 
 
 *=0x00B463
-    """déroutage pour utiliser la vwf dans les dialogues."""
+    ; déroutage pour utiliser la vwf dans les dialogues.
     jsr.l vwfstart
     rts
 
 *=0x208000
-    """Relocated Region"""
+    ; Relocated Region
 
 ; Conditional BG1VOFS write for HDMA inventory scrolling
 ; Called from UpdateScrollRegs at $14FF2D via JSL
 ; Skips BG1VOFS write when menu HDMA is active
 ; Address is defined as constant ConditionalBG1VOFS := $208000
 .if INVENTORY_ROLLING_BUFFER {
-; Check if menu HDMA is enabled (use long addressing, DB may be $00)
-    .db 0xAF
-; LDA.L opcode
-    .dw menu_hdma_enable
-; $1BAE
-    .db 0x7E
-; Bank $7E
+    lda.l 0x7E0000 + menu_hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
 ; Menu context: D=$0100, so $93 reads from $0193
@@ -121,6 +114,10 @@ _cond_skip_bg1vofs:
 
 
 clear_ram:
+"""
+Clear the dialog VWF tile buffer at $702000-$706FFF (16-bit zeroes) after letting the boot ROM init at
+$15C9AA.
+"""
     jsr.l 0x15C9AA
 {
     lda.b #0x00
@@ -171,12 +168,14 @@ rtl
 .import "menus/in_game_text"
 .import "assets"
 
-; Relocated multiply-by-12 for item name offset
-; Called from $019023 via JSL
-; Input: $43 = item ID (16-bit mode active)
-; Output: X = offset into ItemName table
 
-MultiplyItemIndex12:
+multiply_item_index_12:
+"""
+Relocated multiply-by-12 for item name offset.
+Called from $019023 via JSL.
+Input: $43 = item ID (16-bit mode active).
+Output: X = offset into ItemName table.
+"""
     lda 0x43
     clc
     adc 0x43  ; x2
@@ -188,7 +187,7 @@ MultiplyItemIndex12:
 
 
 multiply_by_12:
-"""A: thing to multiply returns A*12 in A. Thank you very much ManZ AI is not going to do the patch for you you're still required."""
+"""A: value to multiply  ; returns A*12 in A."""
     php
     rep #0x20
     and.w #0x00FF
@@ -202,6 +201,7 @@ multiply_by_12:
     pla
     plp
     rtl
+
 
 brk_handler:
 """
@@ -234,12 +234,11 @@ PB. Pulled in reverse. Pushed PC = BRK+2.
     .include "src/ingame/key_item_picker.s"
 }
 ; binary text assets
-.incbin "assets/attack_names.ptr"
 
+
+.incbin "assets/attack_names.ptr"
 .incbin "assets/attack_names.dat"
 .incbin "assets/monsters_long.ptr"
-
-
 .incbin "assets/monsters_long.dat"
 .incbin "assets/battle_commands_nul.ptr"
 .incbin "assets/battle_commands_nul.dat"
@@ -247,7 +246,6 @@ PB. Pulled in reverse. Pushed PC = BRK+2.
 .incbin "assets/places_names.dat"
 .incbin "assets/classes.ptr"
 .incbin "assets/classes.dat"
-
 .incbin "assets/items.dat"
 .incbin "assets/item_descriptions.dat"
 .if TREASURE_INVENTORY_ROLLING {

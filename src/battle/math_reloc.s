@@ -1,22 +1,22 @@
-; ===========================================================================
-; FF4 Battle Math - Relocated Mult16 Implementation
-; Called from JMP trampoline at $83B9 (in math_patches.s)
-;
-; 16x16 -> 32-bit multiplication using SNES hardware multiplier
-; Input:  $393D (16-bit) * $393F (16-bit)
-; Output: $3941 (low 16-bit), $3943 (high 16-bit)
-; ===========================================================================
+"""
+Relocated 16x16 -> 32 multiply (`_hw_mult16`) using the SNES hardware multiplier,
+plus shorta / shorta0 size-toggle helpers.
+Called from JMP trampoline at $83B9 (in `math_patches.s`).
+Input:  $393D (16-bit) * $393F (16-bit). Output: $3941 (low 16-bit), $3943 (high 16-bit).
+"""
 
 .macro shorta() {
+    """Switch A to 8-bit (`SEP #$20`)."""
     sep #0x20
 }
 
 .macro shorta0() {
+    """Clear A and switch to 8-bit (TDC then `SEP #$20`)."""
     tdc
     shorta()
 }
 
-hw_mult16:
+_hw_mult16:
     php
     rep #0x30  ; 16-bit A, X, Y
     stz 0x3941  ; Clear result low

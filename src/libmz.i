@@ -1,4 +1,8 @@
-.macro wait_for_vblank_inline() {
+"""
+Reusable assembly helpers (`dma_transfer_to_*` macros, `_wait_for_vblank_inline`, save/restore variable
+mirrors, padding macros) shared across the patch sources.
+"""
+.macro _wait_for_vblank_inline() {
     pha
 _negative:
     lda.l 0x004212
@@ -10,7 +14,7 @@ _positive:
 }
 
 
-.macro dma_transfer_to_vram_nofunk(source_address, vram_pointer, count, dma_mode) {
+.macro _dma_transfer_to_vram_nofunk(source_address, vram_pointer, count, dma_mode) {
     channel = 7
     php
     pha
@@ -42,6 +46,7 @@ _positive:
 }
 
 .macro dma_transfer_to_vram_call(source, vramptr, count, mode) {
+    """Call the shared dma_transfer_to_vram helper."""
     php
     pha
     phx
@@ -65,6 +70,7 @@ _return_addr:
 
 
 .macro dma_transfer_to_palette_call(source, count) {
+    """Call the shared dma_transfer_to_palette helper."""
     php
     pha
     phx
@@ -79,18 +85,18 @@ _return_addr:
     plp
 }
 
-.macro save_8_bit_var(var, mirror_addr) {
+.macro _save_8_bit_var(var, mirror_addr) {
     lda.b var
     sta.l mirror_addr + var
     stz.b var
 }
 
-.macro restore_8_bit_var(var, mirror_addr) {
+.macro _restore_8_bit_var(var, mirror_addr) {
     lda.l mirror_addr + var
     sta.b var
 }
 
-.macro save_16_bit_var(var, mirror_addr) {
+.macro _save_16_bit_var(var, mirror_addr) {
 ;    lda.b var
 ;    sta.l mirror_addr + var
 ;    lda.b var + 1
@@ -99,37 +105,42 @@ _return_addr:
     stz.b var + 1
 }
 
-.macro restore_16_bits_var(var, mirror_addr) {
+.macro _restore_16_bits_var(var, mirror_addr) {
     lda.l mirror_addr + var
     sta.b var
     lda.l mirror_addr + var + 1
     sta.b var + 1
 }
 
-.macro set_ax_8bit() {
+.macro _set_ax_8bit() {
     sep #0x30
 }
 
-.macro set_ax_16() {
+.macro _set_ax_16() {
     rep #0x30
 }
 
-.macro set_a_8_x_16() {
+.macro _set_a_8_x_16() {
     sep #0x10
     rep #0x20
 }
 
 .macro fill_value(value, count) {
+    """Emit `count` 16-bit words of `value`."""
     .for k := 0, count {
     .dw value
     }
 }
 .macro zero(count) {
+    """Emit `count` zero-words."""
     fill_value(0, count)
 }
 
 .macro pad_nop(count) {
-    """Emit `count` NOP bytes. Used after surgical patches that replace a longer instruction sequence with a shorter one — keeps downstream call-sites and addresses anchored."""
+    """
+    Emit `count` NOP bytes. Used after surgical patches that replace a longer instruction sequence with a
+    shorter one — keeps downstream call-sites and addresses anchored.
+    """
     .for k := 0, count {
     nop
     }

@@ -1,3 +1,7 @@
+"""
+Shop-screen patches: move the gil window, adjust title positions, hook into the relocated shop text +
+small-VWF item descriptions.
+"""
 .include "src/ingame/macros.i"
 
 ; move gils window
@@ -133,8 +137,7 @@
     .db 0x00 + 8, 0x2c + 8
 
 *=0x01debe
-
-shop_title_ptr:
+_shop_title_ptr:
     .dw shops.weapons_title - 0x8000
     .dw shops.armor_title - 0x8000
     .dw shops.items_title - 0x8000
@@ -146,7 +149,7 @@ shop_title_ptr:
     asl
     tax
     rep #0x20
-    lda.l shop_title_ptr, x
+    lda.l _shop_title_ptr, x
     tay
     sep #0x20
     nop

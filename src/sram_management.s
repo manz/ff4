@@ -1,4 +1,6 @@
-sram_size_2kb_blocks:
+"""SRAM size-class table + RAM clear helper used by the boot path to wipe the work RAM before the title screen."""
+
+_sram_size_2kb_blocks:
     .dw 0  ; 0x00 = 0KB (no SRAM) = 0 blocks
     .dw 1  ; 0x01 = 2KB = 1 block
     .dw 2  ; 0x02 = 4KB = 2 blocks
@@ -32,7 +34,7 @@ _size_ok:
     asl  ; Convert to word offset (multiply by 2)
     tax  ; X = offset into lookup table
 
-    lda.w sram_size_2kb_blocks, x  ; Load number of 2KB blocks
+    lda.w _sram_size_2kb_blocks, x  ; Load number of 2KB blocks
     beq _done  ; If 0 blocks, nothing to clear
     pha  ; Push block count to stack
 

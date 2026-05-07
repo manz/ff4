@@ -1,3 +1,7 @@
+"""
+Place-name window patches: increase the window length to fit French names and re-route the loader through our
+pointer table.
+"""
 {
     place_name_length = 0x1A
     *=0x00B90E

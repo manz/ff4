@@ -1,3 +1,7 @@
+"""
+Boot-time splash-screen routine: imported by `ff4.s`, sets up SNES + graphics mode 3, blits the intro tilemap
+and chains into the title screen.
+"""
 ; ----------------------------------------------------------------
 ; Module: intro
 ; Splash-screen routine. Imported by ff4.s at boot time.
@@ -9,6 +13,7 @@
 .extern clear_ram
 
 start_splash_screen:
+"""Boot-time splash-screen entry point."""
     ; initialise SNES
     jsr.w initialize_snes
 
@@ -35,12 +40,12 @@ start_splash_screen:
 ; copy intro tile set
     dma_transfer_to_vram_call(assets_intro_set, 0x1000, assets_intro_set__size, 0x1801)
 
-    jsr.w splash_screen_fade_in
+    jsr.w _splash_screen_fade_in
 
     lda #0x80
-    jsr.w gamepad_interruptable_loop
+    jsr.w _gamepad_interruptable_loop
 
-    jsr.w splash_screen_fade_out
+    jsr.w _splash_screen_fade_out
 
     jsr.l clear_ram
     ; runs the original jsl routines
@@ -51,7 +56,7 @@ start_splash_screen:
 
 ; TODO: rewrite as HDMA table would make it look less hacky.
 
-splash_screen_fade_out:
+_splash_screen_fade_out:
 {
     stz 0x00
 loop:
@@ -79,7 +84,7 @@ exit:
 }
 
 
-splash_screen_fade_in:
+_splash_screen_fade_in:
 {
     stz 0x00
 loop:
@@ -109,7 +114,7 @@ exit:
 }
 
 
-gamepad_interruptable_loop:
+_gamepad_interruptable_loop:
     ; 8bit A: Number of iterations
 {
     jsr.w enable_gamepad
@@ -118,7 +123,7 @@ gamepad_interruptable_loop:
     ldx 0x4218  ; lecture depuis joystick
     bne exit  ; si on appuye sur quelque chose on sort du delay
     dec
-    bne gamepad_interruptable_loop
+    bne _gamepad_interruptable_loop
 exit:
     jsr.w disable_gamepad
     rts

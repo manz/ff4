@@ -1,3 +1,7 @@
+"""
+Relocated battle-command-list renderer (`draw_command_list_for_character`) plus its private command-build
+loop, called by the patched bank-$02 hook.
+"""
 .extern messages_vwf
 .extern messages_vwf.init_commands_list
 .extern _draw_text_battle_far
@@ -5,7 +9,7 @@
 .extern assets_battle_commands_nul_dat
 .extern command_buffer_ptr
 
-Mult8_far := 0x2855c
+mult8_far := 0x2855c
 
 .if BATTLE_CMD_VWF {
     command_length = 6
@@ -14,6 +18,7 @@ Mult8_far := 0x2855c
 }
 
 draw_command_list_for_character:
+"""Public RTL entry: render the per-character battle command list for the active character."""
     ; Skip command rendering if inventory is active (bit 2 of $4A)
     ; This prevents format buffer ($74FD) conflicts with inventory code
     lda.l 0x7E004A
@@ -32,14 +37,14 @@ _skip_commands:
 _draw_command_list_for_character:
 {
     stz.w 0x1817
-    ldy #0x74FD  ; keep the pointer in Y this will allow to run draw_single_command multiple times
+    ldy #0x74FD  ; keep the pointer in Y this will allow to run _draw_single_command multiple times
 ; to build {tile_flag}cmd1\n{tile_flag}cmd2\n{tile_flag}cmd3\n{tile_flag}cmd4\n{tile_flag}cmd5\0
 ; to issue a single draw text call to the command list region.
     lda 0x1817  ; battle command slot
     sta 0x26
     lda.b #command_length * 2
     sta 0x28
-    jsr.l Mult8_far  ; command_id * (command_length * 2)
+    jsr.l mult8_far  ; command_id * (command_length * 2)
 
 
     lda 0x1817  ; slot ID
@@ -76,7 +81,7 @@ _loop:
     tax
     sep #0x20
 
-    jsr.w draw_single_command
+    jsr.w _draw_single_command
     inc 0x1817
     lda 0x1817
     cmp #5
@@ -121,7 +126,7 @@ _clear_buffer_loop:
     rts
 }
 
-draw_single_command:
+_draw_single_command:
 {
     tdc
     sep #0x20

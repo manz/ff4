@@ -1,27 +1,29 @@
+"""Relocated `InitBGScrollHDMA` (from $01:EBD2): builds the BG2/BG3 V-scroll HDMA tables in WRAM."""
+
 init_bg_scroll_hdma:
 """Init BG Scroll HDMA — relocated from $01:EBD2."""
     tdc
     tax
 
-_ebd4:
+_at_ebd4:
     lda 0x0DFF29, x  ; load bg scroll hdma tables
     sta 0x75FD, x
     inx
     cpx.w #0x0015
-    bne _ebd4
+    bne _at_ebd4
     tdc
     tax
 
-_EBE3:
+_at_ebe3:
     sta 0x7612, x  ; clear hdma data
     inx
     cpx #0x1620
-    bne _EBE3
+    bne _at_ebe3
     tdc
     tax
     lda #0xFE
 
-_EBF0:
+_at_ebf0:
     sta 0x7D14, x  ; bg3 v-scroll
     dec
     inx
@@ -29,10 +31,10 @@ _EBF0:
     inx
     inx
     cpx #0x0380
-    bne _EBF0
+    bne _at_ebf0
     ldx #0x0230
 
-_EC00:
+_at_ec00:
     lda 0x7D14, x
     dec
     sta 0x7994, x  ; bg2 v-scroll
@@ -41,14 +43,14 @@ _EC00:
     inx
     inx
     cpx #0x0280
-    bne _EC00
+    bne _at_ec00
     rep #0x20
     tdc
     tax
     lda #0x0173
     ldy.w #0x0008
 
-_EC1A:
+_at_ec1a:
     sta 0x8094, x
     pha
     clc
@@ -59,92 +61,92 @@ _EC1A:
     sta 0x8AF4, x
     pla
     dey
-    bne _EC37
+    bne _at_ec37
     clc
     adc.w #0x0004
     ldy.w #0x000C
 
-_EC37:
+_at_ec37:
     cpx #0x0110
-    bne _EC40
+    bne _at_ec40
     clc
     adc.w #0x0004
 
-_EC40:
+_at_ec40:
     inx
     inx
     inx
     inx
     cpx #0x0130
-    bne _EC1A
+    bne _at_ec1a
     tdc
     tax
     lda #0x016F
     ldy.w #0x0008
 
-_EC51:
+_at_ec51:
     inc 0x81D3, x
     sta 0x81D4, x
     dey
-    bne _EC61
+    bne _at_ec61
     clc
     adc.w #0x0004
     ldy.w #0x000C
 
-_EC61:
+_at_ec61:
     cpx #0x0110
-    bne _EC6A
+    bne _at_ec6a
     clc
     adc #0x0134
 
-_EC6A:
+_at_ec6a:
     inx
     inx
     inx
     inx
     cpx #0x0130
-    bne _EC51
+    bne _at_ec51
     tdc
     tax
     lda.w #0x006B
     ldy.w #0x0008
 
-_EC7B:
+_at_ec7b:
     sta 0x8454, x
     dey
-    bne _EC88
+    bne _at_ec88
     clc
     adc.w #0x0004
     ldy.w #0x000C
 
-_EC88:
+_at_ec88:
     cpx.w #0x0088
-    bne _EC91
+    bne _at_ec91
     clc
     adc.w #0x0004
 
-_EC91:
+_at_ec91:
     inx
     inx
     inx
     inx
     cpx.w #0x00A0
-    bne _EC7B
+    bne _at_ec7b
     tdc
     tax
 
-_EC9C:
+_at_ec9c:
     lda 0x8072, x
     sta 0x81C2, x
     sta 0x8442, x
     inx
     inx
     cpx.w #0x0010
-    bne _EC9C
+    bne _at_ec9c
     tdc
     tax
 
-_ECAE:
+_at_ecae:
     lda #0x0101
     sta 0x84F2, x
     inx
@@ -152,13 +154,13 @@ _ECAE:
     inx
     inx
     cpx #0x0100
-    bne _ECAE
+    bne _at_ecae
     tdc
     tax
     lda.w #0x0053
     ldy.w #0x0008
 
-_ECC5:
+_at_ecc5:
     sta 0x85F4, x
     sta 0x8874, x
     pha
@@ -180,11 +182,11 @@ _ECC5:
     sta 0x8A74, x
     pla
     dey
-    bne _ECFC
+    bne _at_ecfc
     clc
     adc.w #0x0004
 
-_ECFC:
+_at_ecfc:
     pha
     lda.w #0x00AC
     sta 0x8872, x
@@ -204,29 +206,29 @@ _ECFC:
     inx
     inx
     cpx.w #0x0070
-    bne _ECC5
+    bne _at_ecc5
     ldx.w #0x001C
     ldy.w #0x0004
     lda #0x0134
 
-_ED34:
+_at_ed34:
     sta 0x7D14, x
     dey
-    bne _ED3E
+    bne _at_ed3e
     clc
     adc.w #0x0004
 
-_ED3E:
+_at_ed3e:
     inx
     inx
     inx
     inx
     cpx.w #0x0080
-    bne _ED34
+    bne _at_ed34
     tdc
     tax
 
-_ED49:
+_at_ed49:
     lda #0x0100
     sta 0x8C32, x
     lda #0x0160
@@ -236,7 +238,7 @@ _ED49:
     inx
     inx
     cpx.w #0x0080
-    bne _ED49
+    bne _at_ed49
     tdc
     sep #0x20
     rtl

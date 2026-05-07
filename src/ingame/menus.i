@@ -1,3 +1,7 @@
+"""
+Aggregator header that pulls in every field-menu patch unit  ; controlled by feature flags so unused screens
+are excluded from the build.
+"""
 .include "src/ingame/main.s"
 .include "src/ingame/items.s"
 .if INVENTORY_ROLLING_BUFFER {

@@ -3,9 +3,9 @@
 """
 Key-item picker ROM patches.
 
-Hijack vanilla ShowItemWindow at $00:AF4D (NOT $00:AF4B — the
+Hijack original ShowItemWindow at $00:AF4D (NOT $00:AF4B — the
 ff4decomp notes file is off by 2 bytes  ; the real entry verified via
-EventCmd_f7's `JSR $AF4D` opcode at $00:ED9B-$ED9D in vanilla bytes).
+EventCmd_f7's `JSR $AF4D` opcode at $00:ED9B-$ED9D in original bytes).
 
 EventCmd_f7 ($00:ED96) flow:
   $00:ED98: INX  ; advance script PC
@@ -18,7 +18,7 @@ init_impl ends with RTL (from engine_init_rolling_buffer macro), pops
 24-bit return = $00:AF51, where we stash an RTS to bail back to
 EventCmd_f7's $00:ED9E continuation.
 
-Vanilla bytes at $00:AF4D-$00:AF52:
+Original bytes at $00:AF4D-$00:AF52:
   A5 CC      LDA $CC  ; wait-loop: $CC = player gfx flag
   D0 FC      BNE $AF4D
   A9 01      LDA #$01
@@ -26,7 +26,7 @@ Vanilla bytes at $00:AF4D-$00:AF52:
 Patched:
   22 LL MM HH JSL key_item_init_impl
   60          RTS
-  A9 01       (vanilla LDA #$01 stays — never reached after RTS)
+  A9 01       (original LDA #$01 stays — never reached after RTS)
 """
 
 .if TREASURE_INVENTORY_ROLLING {
@@ -38,7 +38,7 @@ Patched:
 ; For single-col we render N rows (visible items in the picker
 ; window). Original window is 4 rows; replace #$08 with #$04.
 ;
-; Both patches surgical 1-byte: keep vanilla layout, change scroll
+; Both patches surgical 1-byte: keep original layout, change scroll
 ; stride + per-page count so it walks $0712 as single-col.
 ; UpdateItemText scroll stride: original `lda $ba / asl asl / tax`
 ; means scroll-step indexes 4 bytes (2 cols × 2 bytes). Single-col
@@ -88,7 +88,7 @@ Patched:
     *=0x00B2BF
     adc #0x18
 
-; Item-text layout post-name: vanilla writes ":" at +8 ($077C), tens
+; Item-text layout post-name: original writes ":" at +8 ($077C), tens
 ; at +9 ($077D), ones at +10 ($077E). Names were 8 chars (slots 0..7).
 ; French names are 11 chars (slots 0..10) + 1 tile spacer = 12, so
 ; push the qty trio out by +12 (one full tile beyond the name):
@@ -101,14 +101,14 @@ Patched:
 
 ; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
 ; check at $00:AFB0 by replacing the AND mask with $00 — beq always
-; taken, right-button branch skipped. Vanilla:
+; taken, right-button branch skipped. Original:
 ;   AFB0: A5 03      lda $03
 ;   AFB2: 29 01      and #$01     ← JOY_RIGHT mask
 ;   AFB4: F0 1A      beq +$1A
     *=0x00AFB2
     and #0x00
 
-; A-select index calc at $00:AF9C: vanilla
+; A-select index calc at $00:AF9C: original
 ;   lda $ba / clc / adc $8c / asl / clc / adc $8b / asl / tax
 ;   index = (($ba + $8c) * 2 + $8b) * 2  = ($ba+$8c)*4
 ; Single col: drop the col mix-in AND the second asl, so

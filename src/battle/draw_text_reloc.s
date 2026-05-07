@@ -1,39 +1,46 @@
+"""
+Relocated battle text-draw helpers and constants (HexToDec / Mult8 / Div16 trampolines, dakuten + name pointer
+table aliases) consumed by the messages-VWF path.
+"""
 .if 1 {
-    HexToDecVar := 0x2f29c
-    Mult8_far := 0x2855c
-    Div16_far := 0x28527
+    hex_to_dec_var := 0x2f29c
+    mult8_far := 0x2855c
+    div16_far := 0x28527
 
-    DakutenTbl = 0
-    StatusNamePtrs = 0
-    AttackName = 0
-    MagicName = 0
-    ItemName = 0
-    CharNameTbl = 0
-    MonsterName = 0
+    dakuten_tbl = 0
+    status_name_ptrs = 0
+    attack_name = 0
+    magic_name = 0
+    item_name = 0
+    char_name_tbl = 0
+    monster_name = 0
 
-    CmdDataPtrs = 0x16feb7
-    BattleCmdName = 0
+    cmd_data_ptrs = 0x16feb7
+    battle_cmd_name = 0
 
     .macro longa() {
+    """Switch A to 16-bit (`REP #$20`)."""
     rep #0x20
     }
 
     .macro shorta() {
+    """Switch A to 8-bit (`SEP #$20`)."""
     sep #0x20
     }
 
     .macro shorta0() {
+    """Clear A and switch to 8-bit (TDC then `SEP #$20`)."""
     tdc
     shorta()
     }
 
-    .macro asl3() {
+    .macro _asl3() {
     asl
     asl
     asl
     }
 
-    .macro asl7() {
+    .macro _asl7() {
     asl
     asl
     asl
@@ -43,18 +50,18 @@
     asl
     }
 
-    .macro inx5() {
+    .macro _inx5() {
     inx
     inx
     inx
     inx
     inx
     }
-    .macro clr_ax() {
+    .macro _clr_ax() {
     tdc
     tax
     }
-    .macro clr_ay() {
+    .macro _clr_ay() {
     tdc
     tay
     }
@@ -62,6 +69,12 @@
 ; [ draw text ]
 
 draw_text:
+
+
+"""
+Relocated `draw_text` ($02A455): consume the dialog stream and dispatch through the text command + variable
+tables.
+"""
 _a455:
     lda 0xef55
     sta 0x36
@@ -84,12 +97,12 @@ _a478:
     cmp #0x0f
     bcc _a488
     jsr.w draw_letter
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     bra _a478
-; escape codes 0x01-0x0e
 _a488:
-    jsr.w exec_text_cmd
-    jsr.w inc_text_ptr
+"""escape codes 0x01-0x0e"""
+    jsr.w _exec_text_cmd
+    jsr.w _inc_text_ptr
     bra _a478
 _a490:
     rts
@@ -98,7 +111,7 @@ _a490:
 
 ; [ increment text pointer ]
 
-inc_text_ptr:
+_inc_text_ptr:
 _a491:
     ldx.w 0x30
     inx
@@ -110,11 +123,12 @@ _a491:
 ; [ draw text character ]
 
 draw_letter:
+"""Render the letter currently in A through the text-stream blit path."""
 _a497:
     cmp #0x42
-    bcc draw_letter_with_dakuten
+    bcc _draw_letter_with_dakuten
 
-draw_letter_no_dakuten:
+_draw_letter_no_dakuten:
 _a49b:
     phx
     sta (0x34), y
@@ -128,16 +142,16 @@ _a49b:
     plx
     rts
 
-draw_letter_with_dakuten:
+_draw_letter_with_dakuten:
 _a4ac:
     phx
     sec
     sbc #0x0f
     asl
     tax
-    lda.l DakutenTbl, x  ; dakuten
+    lda.l dakuten_tbl, x  ; dakuten
     sta (0x32), y
-    lda.l DakutenTbl + 1, x  ; kana
+    lda.l dakuten_tbl + 1, x  ; kana
     sta (0x34), y
     iny
     lda 0x36  ; tile flags
@@ -150,31 +164,31 @@ _a4ac:
 ; ------------------------------------------------------------------------------
 
 text_cmd_tbl:
-    """text escape code jump table"""
+"""text escape code jump table"""
 _a4c8:
-    .dw text_cmd_00
-    .dw text_cmd_01
-    .dw text_cmd_02
-    .dw text_cmd_03
-    .dw text_cmd_04
-    .dw text_cmd_05
-    .dw text_cmd_06
-    .dw text_cmd_07
-    .dw text_cmd_08
-    .dw text_cmd_09
-    .dw text_cmd_0a
-    .dw text_cmd_0b
-    .dw text_cmd_0c
-    .dw text_cmd_0d
-    .dw text_cmd_0e
+    .dw _text_cmd_00
+    .dw _text_cmd_01
+    .dw _text_cmd_02
+    .dw _text_cmd_03
+    .dw _text_cmd_04
+    .dw _text_cmd_05
+    .dw _text_cmd_06
+    .dw _text_cmd_07
+    .dw _text_cmd_08
+    .dw _text_cmd_09
+    .dw _text_cmd_0a
+    .dw _text_cmd_0b
+    .dw _text_cmd_0c
+    .dw _text_cmd_0d
+    .dw _text_cmd_0e
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x06: variable ]
 
-text_cmd_06:
+_text_cmd_06:
 _a4e6:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     bmi _a4ee
     rts
@@ -182,39 +196,39 @@ _a4ee:
     and #0x7f
     bne _a4f8
     ldx.w #0x0000
-    jmp.w text_var_00
+    jmp.w _text_var_00
 _a4f8:
     cmp #0x01
     bne _a502
     ldx.w #0x0003
-    jmp.w text_var_01
+    jmp.w _text_var_01
 _a502:
     cmp #0x02
     bne _a509
-    jmp.w text_var_02
+    jmp.w _text_var_02
 _a509:
     cmp #0x03
     bne _a510
-    jmp.w text_var_03
+    jmp.w _text_var_03
 _a510:
     cmp #0x04
-    bne text_var_05
-    jmp.w text_var_04
+    bne _text_var_05
+    jmp.w _text_var_04
 
 ; ------------------------------------------------------------------------------
 
 ; [ variable type 5: status name ]
 
-text_var_05:
+_text_var_05:
 _a517:
     lda 0x359a
     asl
     tax
-    lda.l StatusNamePtrs, x
+    lda.l status_name_ptrs, x
     sta 0x00
-    lda.l StatusNamePtrs + 1, x
+    lda.l status_name_ptrs + 1, x
     sta 0x01
-    lda.b #StatusNamePtrs >> 16
+    lda.b #status_name_ptrs >> 16
     sta 0x02
 _a52c:
     lda [0x00]
@@ -231,7 +245,7 @@ _a53a:
 
 ; [ variable type 4: magic name ]
 
-text_var_04:
+_text_var_04:
 _a53b:
     lda 0x359a
     cmp #0x48
@@ -241,12 +255,12 @@ _a53b:
     sta 0x26
     lda #0x08
     sta 0x28
-    jsr.l Mult8_far
+    jsr.l mult8_far
     ldx.w 0x2a
     lda #0x08
     sta 0x00
 _a554:
-    lda.l AttackName, x
+    lda.l attack_name, x
     cmp #0xff
     beq _a564
     jsr.w draw_letter
@@ -259,15 +273,15 @@ _a565:
     sta 0x26
     lda #0x06
     sta 0x28
-    jsr.l Mult8_far
+    jsr.l mult8_far
     ldy.w #0
     ldx.w 0x2a
-    lda.l MagicName, x
-    jsr.w draw_letter_no_dakuten
+    lda.l magic_name, x
+    jsr.w _draw_letter_no_dakuten
     lda #0x05
     sta 0x00
 _a57e:
-    lda.l MagicName + 1, x
+    lda.l magic_name + 1, x
     cmp #0xff
     beq _a58e
     jsr.w draw_letter
@@ -281,20 +295,20 @@ _a58e:
 
 ; [ variable type 3: item name ]
 
-text_var_03:
+_text_var_03:
 _a58f:
     lda 0x359a
     sta 0x26
     lda #0x09
     sta 0x28
-    jsr.l Mult8_far
+    jsr.l mult8_far
     ldy.w #0
     ldx.w 0x2a
     inx
     lda #0x08
     sta 0x00
 _a5a5:
-    lda.l ItemName, x
+    lda.l item_name, x
     cmp #0xff
     beq _a5b5
     jsr.w draw_letter
@@ -308,11 +322,11 @@ _a5b5:
 
 ; [ variable type 2: character name ]
 
-text_var_02:
+_text_var_02:
 _a5b6:
     lda 0x359a
     longa()
-    asl7()
+    _asl7()
 
     tax
     shorta0()
@@ -320,18 +334,18 @@ _a5b6:
     dec
     and #0x3f
     tax
-    lda.l CharNameTbl, x  ; name for each character
+    lda.l char_name_tbl, x  ; name for each character
 
-draw_char_name:
+_draw_char_name:
 _a5d1:
     sta 0x26
     lda #0x06
     sta 0x28
-    jsr.l Mult8_far
+    jsr.l mult8_far
     lda #0x06
     sta 0x00
     ldx.w 0x2a
-    inx5()
+    _inx5()
 _a5e5:
     lda 0x1500, x
     cmp #0xff
@@ -355,8 +369,8 @@ _a5f7:
 
 ; [ variable type 0/1: battle variable ]
 
-text_var_00:
-text_var_01:
+_text_var_00:
+_text_var_01:
 _a603:
     lda 0x359a, x
     sta 0x00
@@ -364,11 +378,11 @@ _a603:
     sta 0x01
     lda 0x359c, x
     sta 0x02
-    jsr.l HexToDecVar
-    jsr.w normalize_var
+    jsr.l hex_to_dec_var
+    jsr.w _normalize_var
 _a619:
     lda 0xf4ad, x
-    jsr.w draw_letter_no_dakuten
+    jsr.w _draw_letter_no_dakuten
     inx
     cpx.w #8
     bne _a619
@@ -378,7 +392,7 @@ _a619:
 
 ; [ text escape code ]
 
-exec_text_cmd:
+_exec_text_cmd:
 _a626:
     asl
     tax
@@ -392,7 +406,7 @@ _a626:
 
 ; [ escape code 0x01: newline ]
 
-text_cmd_01:
+_text_cmd_01:
     jsr.l messages_vwf.new_line_escape_code_handler
     rts
 ;_a637:  lda     0xef54
@@ -406,7 +420,7 @@ text_cmd_01:
 ;        clc
 ;        adc     0x32
 ;        sta     0x34
-;        clr_ay()
+;        _clr_ay()
 ;        shorta()
 ;        rts
 
@@ -414,7 +428,7 @@ text_cmd_01:
 
 ; [ escape code 0x00: string terminator (unused) ]
 
-text_cmd_00:
+_text_cmd_00:
 _a64e:
     rts
 
@@ -422,22 +436,22 @@ _a64e:
 
 ; [ escape code 0x04: character name (by character id) ]
 
-text_cmd_04:
+_text_cmd_04:
 _a64f:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
-    jmp.w draw_char_name
+    jmp.w _draw_char_name
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x02: character name (by slot) ]
 
-text_cmd_02:
+_text_cmd_02:
 _a657:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
 
-draw_char_slot_name:
+_draw_char_slot_name:
 _a65c:
     pha
     tax
@@ -455,19 +469,19 @@ _a668:
 _a672:
     pla
     longa()
-    asl7()
+    _asl7()
     tax
     shorta0()
     lda 0x2000, x
     dec
     and #0x3f
     tax
-    lda.l CharNameTbl, x  ; name for each character
+    lda.l char_name_tbl, x  ; name for each character
     sta 0x26
     lda #0x06
     sta 0x00
     sta 0x28
-    jsr.l Mult8_far
+    jsr.l mult8_far
     ldx.w 0x2a
 _a698:
     lda 0x1500, x
@@ -481,19 +495,19 @@ _a698:
 
 ; [ escape code 0x03: borders and symbols ]
 
-text_cmd_03:
+_text_cmd_03:
 _a6a4:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
-    jmp.w draw_letter_no_dakuten
+    jmp.w _draw_letter_no_dakuten
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x05: tab ]
 
-text_cmd_05:
+_text_cmd_05:
 _a6ac:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     sta 0x00
 _a6b3:
@@ -507,48 +521,48 @@ _a6b3:
 
 ; [ escape code 0x07: character 1 variable ]
 
-text_cmd_07:
+_text_cmd_07:
 _a6bd:
     ldx.w #0x0000
 ;clr_a
     tdc
-    bra draw_char_var
+    bra _draw_char_var
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x08: character 2 variable ]
 
-text_cmd_08:
+_text_cmd_08:
 _a6c3:
     ldx.w #0x0080
     lda #1
-    bra draw_char_var
+    bra _draw_char_var
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x09: character 3 variable ]
 
-text_cmd_09:
+_text_cmd_09:
 _a6ca:
     ldx.w #0x0100
     lda #2
-    bra draw_char_var
+    bra _draw_char_var
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x0a: character 4 variable ]
 
-text_cmd_0a:
+_text_cmd_0a:
 _a6d1:
     ldx.w #0x0180
     lda #3
-    bra draw_char_var
+    bra _draw_char_var
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x0b: character 5 variable ]
 
-text_cmd_0b:
+_text_cmd_0b:
 _a6d8:
     ldx.w #0x0200
     lda #4
@@ -558,16 +572,16 @@ _a6d8:
 
 ; [ draw character variable ]
 
-draw_char_var:
+_draw_char_var:
 _a6dd:
     stx 0x0a
     pha
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     bne _a6eb
 ; 0: character name
     pla
-    jmp.w draw_char_slot_name
+    jmp.w _draw_char_slot_name
 _a6eb:
     tax
     pla
@@ -579,14 +593,14 @@ _a6eb:
     bne _a6fd
     stz 0x02
     lda #0x07
-    jmp.w draw_hp_num
+    jmp.w _draw_hp_num
 ; 2: max hp
 _a6fd:
     cmp #0x02
     bne _a708
     stz 0x02
     lda #0x09
-    jmp.w draw_hp_num
+    jmp.w _draw_hp_num
 ; 3: current mp
 _a708:
     cmp #0x03
@@ -594,7 +608,7 @@ _a708:
     lda #1
     sta 0x02
     lda #0x0b
-    jmp.w draw_mp_num
+    jmp.w _draw_mp_num
 ; 4: max mp
 _a715:
     cmp #0x04
@@ -602,9 +616,9 @@ _a715:
     lda #1
     sta 0x02
     lda #0x0d
-    jmp.w draw_mp_num
-; 5: invalid (infinite loop)
+    jmp.w _draw_mp_num
 _a722:
+"""5: invalid (infinite loop)"""
     jmp.w _a722
 
 ; ------------------------------------------------------------------------------
@@ -613,7 +627,7 @@ _a722:
 
 ; unused
 
-clear_hex_to_dec_buf:
+_clear_hex_to_dec_buf:
 _a725:
     lda #0xff
     sta 0x180c
@@ -628,10 +642,10 @@ _a725:
 
 ; 0x02: number of digits to skip (0 for hp, 1 for mp)
 
-draw_mp_num:
+_draw_mp_num:
 _a734:
     ldx.w 0x0a
-    jsr.w get_stat_num_text
+    jsr.w _get_stat_num_text
     lda 0x02
     tax
 _a73c:
@@ -641,7 +655,7 @@ _a73c:
     clc
     adc #0x6d  ; 0x6d is "0" on bg2
 _a746:
-    jsr.w draw_letter_no_dakuten
+    jsr.w _draw_letter_no_dakuten
     inx
     cpx.w #4
     bne _a73c
@@ -651,15 +665,15 @@ _a746:
 
 ; [ draw hp value ]
 
-draw_hp_num:
+_draw_hp_num:
 _a750:
     ldx.w 0x0a
-    jsr.w get_stat_num_text
+    jsr.w _get_stat_num_text
     lda 0x02
     tax
 _a758:
     lda 0x180c, x
-    jsr.w draw_letter_no_dakuten
+    jsr.w _draw_letter_no_dakuten
     inx
     cpx.w #4
     bne _a758
@@ -669,7 +683,7 @@ _a758:
 
 ; [ convert hp or mp value to text ]
 
-get_stat_num_text:
+_get_stat_num_text:
 _a765:
     longa()
     stx 0x00
@@ -686,9 +700,9 @@ _a765:
 
 ; [ escape code 0x0e: change tile flags ]
 
-text_cmd_0e:
+_text_cmd_0e:
 _a77a:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     sta 0x36
     rts
@@ -697,9 +711,9 @@ _a77a:
 
 ; [ escape code 0x0d: monster count ]
 
-text_cmd_0d:
+_text_cmd_0d:
 _a782:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     tax
     lda 0x29ca, x
@@ -717,18 +731,18 @@ _a7a0:
     jsr.w hex_to_dec
     lda 0x1810
 _a7a6:
-    jmp.w draw_letter_no_dakuten
+    jmp.w _draw_letter_no_dakuten
 _a7a9:
     dec
-    jmp.w draw_letter_no_dakuten
+    jmp.w _draw_letter_no_dakuten
 
 ; ------------------------------------------------------------------------------
 
 ; [ escape code 0x0c: monster name ]
 
-text_cmd_0c:
+_text_cmd_0c:
 _a7ad:
-    jsr.w inc_text_ptr
+    jsr.w _inc_text_ptr
     lda (0x30)
     tax
     lda 0x29ca, x
@@ -742,12 +756,16 @@ _a7bf:
     jsr.l initialize_monster_slot
     rts
 
-;_a7c2:  lda     #0xff
-;        jsr.w draw_letter_no_dakuten
-;        dex
-;        bne     _a7c2
-;        rts
 _a7cb:
+
+
+"""
+_a7c2:  lda     #0xff
+jsr.w _draw_letter_no_dakuten
+dex
+bne     _a7c2
+rts
+"""
     pha
     lda 0x38d0, x
     beq _a7d6
@@ -772,12 +790,12 @@ _end:
     .debug '{_end} < 0x02A7F0 ?'
     }
 ;_a7d7:  longa()
-;        asl3()
+;        _asl3()
 ;        tax
 ;        shorta0()
 ;        lda     #8
 ;        sta     0x00
-;_a7e4:  lda.l MonsterName,x
+;_a7e4:  lda.l monster_name,x
 ;        jsr.w draw_letter
 ;        inx
 ;        dec     0x00
@@ -786,27 +804,28 @@ _end:
 
 ; ------------------------------------------------------------------------------
 
-normalize_var:
-_873b:
+_normalize_var:
+_at_873b:
     ldx.w #0
-_873e:
+_at_873e:
     lda 0xf4ad, x
     cmp #0x80
-    bne _8750
+    bne _at_8750
     lda #0xff
     sta 0xf4ad, x
     inx
     cpx.w #7
-    bne _873e
-_8750:
+    bne _at_873e
+_at_8750:
     rts
 
 hex_to_dec:
-_86bf:
+"""Convert the hex value in A/X to decimal digits in the format buffer."""
+_at_86bf:
     stx 0x26
     ldx.w #10000
     stx 0x28
-    jsr.l Div16_far
+    jsr.l div16_far
     lda 0x2a
     clc
     adc #0x80
@@ -815,7 +834,7 @@ _86bf:
     stx 0x26
     ldx.w #1000
     stx 0x28
-    jsr.l Div16_far
+    jsr.l div16_far
     lda 0x2a
     clc
     adc #0x80
@@ -824,7 +843,7 @@ _86bf:
     stx 0x26
     ldx.w #100
     stx 0x28
-    jsr.l Div16_far
+    jsr.l div16_far
     lda 0x2a
     clc
     adc #0x80
@@ -833,7 +852,7 @@ _86bf:
     stx 0x26
     ldx.w #10
     stx 0x28
-    jsr.l Div16_far
+    jsr.l div16_far
     lda 0x2a
     clc
     adc #0x80
@@ -845,24 +864,25 @@ _86bf:
     rts
 
 normalize_num:
-_8716:
+"""Normalise a number for display (strip leading zeros, etc.)."""
+_at_8716:
     ldx.w #0
-_8719:
+_at_8719:
     lda 0x180d, x  ; shift out the top digit
     sta 0x180c, x
     inx
     cpx.w #5
-    bne _8719
+    bne _at_8719
     ldx.w #0
-_8728:
+_at_8728:
     lda 0x180c, x
     cmp #0x80
-    bne _873a  ; return if digit is not zero
+    bne _at_873a  ; return if digit is not zero
     lda #0xff
     sta 0x180c, x  ; hide digit
     inx
     cpx.w #3  ; don't hide ones digit
-    bne _8728
-_873a:
+    bne _at_8728
+_at_873a:
     rts
 }

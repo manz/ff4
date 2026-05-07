@@ -1,6 +1,11 @@
+"""
+Pinned-address overlay rewiring original battle-message pointer loads ($02C909, $02CC07, ...) to the relocated
+translated-string tables.
+"""
 .extern messages_vwf
 
 .scope message_patches {
+    """Pinned-address overlay scope rewriting original battle-message pointer loads to relocated tables."""
 ; pointers to battle dialog
     *=0x02c909
     lda.l assets_battle_messages_ptr, x
@@ -81,7 +86,7 @@
 ; patch the battle nmi routine to transfer the battle render buffer.
 
 *=0x02836e
-    jsr.l messages_vwf.DMA_TRANSFER
+    jsr.l messages_vwf.dma_transfer
 
 ; make the message window bigger
 

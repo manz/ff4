@@ -1,3 +1,7 @@
+"""
+ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
+calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
+"""
 .extern init_inventory_text_buf_rolling
 .extern tfr_inventory_list_rolling
 .extern scroll_list_down_hook
@@ -48,6 +52,7 @@
 ; These are called via JSL from bank $20, return via RTL
 
 draw_text_rolling_trampoline:
+"""Bank-$02 trampoline: forces VWF battle-flags off for the duration of original draw_text call."""
     ; Save current battle flags to prevent VWF mode interference
     lda.l 0x704F00
     pha
@@ -67,22 +72,26 @@ draw_text_rolling_trampoline:
     rtl
 
 mult8_trampoline:
+"""Bank-$02 RTL trampoline around original Mult8 ($028560)."""
     jsr 0x8560  ; Mult8 at $028560
     rtl
 
 hex_to_dec_trampoline:
+"""Bank-$02 RTL trampoline around original hex_to_dec ($0286BF)."""
     jsr 0x86BF  ; hex_to_dec at $0286BF
     rtl
 
 normalize_num_trampoline:
+"""Bank-$02 RTL trampoline around original normalize_num ($028716)."""
     jsr 0x8716  ; normalize_num at $028716
     rtl
 
 load_menu_tfr_data_trampoline:
+"""Bank-$02 RTL trampoline around original LoadMenuTfrData ($029738)."""
     jsr 0x9738  ; LoadMenuTfrData at $029738
     rtl
 
-update_enabled_items_trampoline:
+_update_enabled_items_trampoline:
     jsr 0x9F0E  ; UpdateEnabledItems at $029F0E
     rtl
 
@@ -91,7 +100,7 @@ update_enabled_items_trampoline:
 ; ============================================================================
 ; Original function was overwritten. This must fit in bank $02 free space.
 
-draw_battle_command_window_relocated:
+_draw_battle_command_window_relocated:
     jsr.w draw_window_render_hook  ; Draw command list + sets LDX #$0340
 
 _dbcw_loop:
@@ -115,6 +124,7 @@ _dbcw_loop:
 ; For scroll up: pre-rendering was already done before animation.
 
 wrap_and_clear_trampoline:
+"""Bank-$02 tail of the scroll animation: post-render and cursor visibility check."""
     ; FF6-style circular scroll - no reset needed!
     ; The wrap function in update_list_scroll_hdma_wrapped handles coordinate conversion.
     ;
@@ -134,6 +144,7 @@ wrap_and_clear_trampoline:
 ; Return point for bank $20 functions that need to RTS to bank $02 callers
 
 return_to_bank02:
+"""Trailing RTS used as a JML target by bank-$20 hooks to return to bank-$02."""
     rts
 
 ; ============================================================================
@@ -144,10 +155,10 @@ return_to_bank02:
 ; Must use JSR (not JSL) since function ends with JMP, not RTL
 
 *=0x0296CB
-    jsr.w draw_battle_command_window_relocated
+    jsr.w _draw_battle_command_window_relocated
 
 *=0x029983
-    jsr.w draw_battle_command_window_relocated
+    jsr.w _draw_battle_command_window_relocated
 
 ; ============================================================================
 ; PATCHES in ascending address order (assembler requires this)
@@ -166,7 +177,6 @@ return_to_bank02:
 ; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 
 *=0x02A872
-
 _nop_patch_dec:
     nop
     nop
@@ -189,7 +199,6 @@ _nop_patch_dec:
 ; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 
 *=0x02A8AE
-
 _nop_patch_inc:
     nop
     nop

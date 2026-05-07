@@ -1,3 +1,7 @@
+"""
+Item-name expansion for the field-menu (mirror of `battle/items_patches.s`): mul-by-9 → mul-by-12 stride
+changes, $0F8000 → `assets_items_dat` pointer remaps.
+"""
 ; Item name expansion for menu system
 ; Patches the multiply-by-9 to multiply-by-12
 ; Also redirects $0F8000 references to assets_items_dat
@@ -15,7 +19,7 @@
 ; New: JSL to relocated routine (4 bytes) + 3 NOPs
 
 *=0x019023
-    jsr.l MultiplyItemIndex12
+    jsr.l multiply_item_index_12
     nop
     nop
     nop
