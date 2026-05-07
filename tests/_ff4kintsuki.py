@@ -32,8 +32,13 @@ def kss_path(name: str = "ff4-before-battle-inventory.kss") -> Path:
     return SAVESTATES / name
 
 
-def load_emu_from_kss(kss: Path | None = None) -> Emu:
-    """Load the patched ROM + a kintsuki savestate, settle for ~1 game-second.
+def load_emu_from_kss(kss: Path | None = None, *, settle_frames: int = 60) -> Emu:
+    """Load the patched ROM + a kintsuki savestate, optionally settle for
+    `settle_frames` (default 60 ≈ 1 game-second).
+
+    Pass `settle_frames=0` to get the emulator paused immediately after
+    `load_state`, which lets a test poke WRAM (e.g. `$7E:FF28` drops)
+    before the game runs any frames against the freshly-restored state.
 
     Skips the test if either artifact is missing — keeps CI happy when
     the kss isn't around (gitignored).
@@ -47,11 +52,15 @@ def load_emu_from_kss(kss: Path | None = None) -> Emu:
     # `kintsuki_load_rom` would otherwise seed cart SRAM with.
     e = Emu(load_srm_sidecar=False)
     e.load_rom(str(ROM))
+    adbg = ROM.parent / "ff4.ips.adbg"
+    if adbg.exists():
+        e.load_adbg(str(adbg))
     blob = kss.read_bytes()
     from kintsuki._native import lib
     buf = (ctypes.c_uint8 * len(blob))(*blob)
     assert lib.kintsuki_load_state(e._handle, buf, len(blob)) == 1
-    e.run_frames(60)
+    if settle_frames:
+        e.run_frames(settle_frames)
     return e
 
 
