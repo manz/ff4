@@ -1,5 +1,9 @@
+"""
+Battle SRAM layout helpers: long SRAM store macro + battle-flags set/clear/test/switch macros over
+`BATTLE_FLAGS` ($704F00).
+"""
 sram_base = 0x707000
-.macro long_sram_store(src) {
+.macro _long_sram_store(src) {
     phy
     phx
     php
@@ -19,18 +23,20 @@ sram_base = 0x707000
 
 BATTLE_FLAGS = 0x704F00
 .macro battle_flags_set(value) {
+    """OR `value` into the battle-flags byte at BATTLE_FLAGS."""
     lda.b #value
     ora.l BATTLE_FLAGS
     sta.l BATTLE_FLAGS
 }
 
 .macro battle_flags_clear(value) {
+    """AND `~value` into the battle-flags byte at BATTLE_FLAGS."""
     lda.l BATTLE_FLAGS
     and.b #( ~ value & 0xFF )
     sta.l BATTLE_FLAGS
 }
 
-.macro battle_flags_test(value) {
+.macro _battle_flags_test(value) {
     pha
     lda.l BATTLE_FLAGS
     and #value
@@ -38,6 +44,7 @@ BATTLE_FLAGS = 0x704F00
 }
 
 .macro battle_flag_switch(jump_table) {
+    """Indirect-jump dispatch on the battle-flags byte."""
     pha
     phx
     lda #0

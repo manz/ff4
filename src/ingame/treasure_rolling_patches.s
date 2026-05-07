@@ -1,7 +1,11 @@
+"""
+ROM patches that wire the treasure inventory rolling buffer in: hooks the treasure menu entry/exit, replaces
+`DrawInventoryList` calls and re-uses HDMA channel 4.
+"""
 ; Treasure inventory rolling-buffer ROM patches.
 ;
 
-; ROM landmarks (vanilla, confirmed via xdds):
+; ROM landmarks (original, confirmed via xdds):
 ;   $01D792 TreasureMenu entry
 ;   $01D929 redraw helper (DrawTreasureList + DrawInventoryList)
 ;   $01D967 exchange-picker top-cursor input loop
@@ -9,7 +13,7 @@
 ;   $01DA22 `lda $01 / and #$01` JOY_RIGHT
 ;   $01DA33 `lda $01 / and #$02` JOY_LEFT
 ;   $01DA59 up-scroll blocking loop (`dec $9f` × 8)
-;   $01DA85 `cmp #$14` scroll-down limit (vanilla 20)
+;   $01DA85 `cmp #$14` scroll-down limit (original 20)
 ;   $01DA8E down-scroll blocking loop (`inc $9f` × 8)
 ;
 ; Flag-gated off until the entry/exit/trigger thunks are wired up.
@@ -28,7 +32,7 @@
     lda #0x00
     nop
 
-; Single-column swap-offset: vanilla _01daac computes
+; Single-column swap-offset: original _01daac computes
 ;   index = ((($1bb5 + $1bb7) << 1 + $1bb6) << 1
 ; for the 2-column inventory ($1bb5 = visible row, $1bb7 = scroll row,
 ; $1bb6 = column 0/1). The double-shift assumes 2 cols × 2 bytes/item;
@@ -44,11 +48,11 @@
     *=0x01DA86
     .db 0x2B
 
-; Replace `jsr $01A172` (vanilla DrawInventoryList) at TWO call sites:
+; Replace `jsr $01A172` (original DrawInventoryList) at TWO call sites:
 ;   - $01:D81D — treasure menu entry (`_01d7f2` flow), fires once on enter
 ;     → full init (zero state, render slots 0..5).
 ;   - $01:D933 — `_01d929` redraw helper, fires after every successful
-;     swap. Vanilla rebuilds the whole 48-item list here; we only need
+;     swap. Original rebuilds the whole 48-item list here; we only need
 ;     to re-render the 6 buffer slots from the mutated $1440. Crucially
 ;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow — otherwise
 ;     swapping with an item past visible row 4 snaps the scroll back to
@@ -105,7 +109,7 @@
 
 ; Main-loop hook replaces `jsr $82C0` at $01:DA08. The hook drives the
 ; per-frame scroll animation, freezes input via `stz $01` while
-; animating, and forwards to the original $82C0 so vanilla per-frame
+; animating, and forwards to the original $82C0 so original per-frame
 ; work still runs.
     *=0x01DA08
     jsr.w treasure_main_loop_scroll_check
@@ -128,11 +132,11 @@
     *=0x01DA67
     jsr.w treasure_main_loop_scroll_check
 
-; Treasure menu exit. Vanilla: `stz $1BC6` (3 bytes) clears the in-menu flag.
-; Replace with our exit hook (also 3 bytes), which restores vanilla state and
+; Treasure menu exit. Original: `stz $1BC6` (3 bytes) clears the in-menu flag.
+; Replace with our exit hook (also 3 bytes), which restores original state and
 ; additionally tears down the rolling-buffer state + HDMA ch6 registers so
 ; the next menu mode (field, key-item picker, battle) starts from a clean
-; slate. The hook itself re-runs the `stz $1BC6` to preserve vanilla contract.
+; slate. The hook itself re-runs the `stz $1BC6` to preserve original contract.
     *=0x01D7E6
     jsr.w treasure_menu_exit_hook
 }

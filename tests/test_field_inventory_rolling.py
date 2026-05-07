@@ -98,7 +98,7 @@ def test_field_scroll_screenshot_golden(field_emu, steps: int, name: str) -> Non
 
 def _swap(emu, src_row: int, dst_row: int) -> None:
     """Field menu swap: A on src item → cursor confirm → DOWN to dst →
-    A to confirm. Vanilla two-A swap pattern."""
+    A to confirm. Original two-A swap pattern."""
     for _ in range(src_row):
         tap(emu, Button.DOWN)
     tap(emu, Button.A)

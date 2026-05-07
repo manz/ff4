@@ -1,7 +1,9 @@
+"""French translated text data for the tools/weapon/armor shop UI."""
 .include "src/ingame/macros.i"
 
 .table "text/ff4_menus.tbl"
 .scope shops {
+    """Shop UI strings."""
 gils:
     move_to(27, 6)
     .text "Gils"
@@ -15,7 +17,7 @@ welcome_and_actions:
     .text "Achat Vente Sortir"
     .db 0
 quantity:
-    """.text 'かう   うる   でる'"""
+""".text 'かう   うる   でる'"""
     .dw 0x0052
     .text "Que désirez vous ?  "
     .db 1

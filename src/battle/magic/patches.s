@@ -1,3 +1,7 @@
+"""
+ROM patches that wire the battle magic system to the relocated `draw_magic_list_direct` renderer + the
+long-form attack-name copier.
+"""
 .extern draw_magic_list_direct
 .extern magic_list_ptrs
 
@@ -17,8 +21,7 @@
     .dw 0x600  ; 0x400
 
 *=0x029839
-
-transfer_white_magic:
+_transfer_white_magic:
     ldx.w #0x0000  ; white magic
     phx
     stx 0x06
@@ -35,8 +38,7 @@ transfer_white_magic:
     rts
 
 *=0x029ead
-
-draw_magic_list:
+_draw_magic_list:
     lda 0x00  ; character slot
     asl
     tax
@@ -50,6 +52,7 @@ draw_magic_list:
     rts
 
 draw_letter_far:
+"""Far-callable wrapper around original draw_letter ($02A497)."""
     pha
     tdc
     sta.l 0x7FFFFF
@@ -86,6 +89,7 @@ draw_letter_far:
     tay
 
 loop:
+"""Inner loop of the attack-name copier: stream attack-name bytes into the format buffer."""
     lda.l assets_attack_names_dat, x
     sta 0x74fd, y
     beq exit
@@ -94,6 +98,7 @@ loop:
     bra loop
 
 exit:
+"""Tail of `loop`: jump to original attack-name window display."""
     jmp.w 0xbca2  ; display monster? attack name window
 
 ; attack window position

@@ -1,3 +1,8 @@
+"""
+Battle SRAM dispatch + per-mode put-char primitives: `battle_flags` toggles, `wram`
+put_char/put_char_with_dakuten, `battle_display_char` jump-table dispatch and the `clear_names_window_buffer`
+helper.
+"""
 .include "src/battle/sram.i"
 
 .import "assets"
@@ -7,8 +12,9 @@
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
 .scope battle_flags {
+    """Battle-flags toggles for switching the message renderer between WRAM tiles and VWF."""
 set_vwf_render:
-    """NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used"""
+"""NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used"""
     battle_flags_set(0x02)
     rtl
 clear_vwf_render:
@@ -17,6 +23,7 @@ clear_vwf_render:
 }
 
 copy_battle_char:
+"""Copy a glyph + its dakuten companion from the SRAM staging area to the destination pair."""
     lda.l sram_base + 0x2E00, x
     sta (0x00), y
     lda.l sram_base + 0x2E00 + 0x30, x
@@ -24,6 +31,7 @@ copy_battle_char:
     rtl
 
 .scope wram {
+    """WRAM-mode put-char primitives used by the original battle text renderer."""
 put_char:
     phx
     sta (0x34), y
@@ -68,7 +76,10 @@ put_char_with_dakuten:
 ; .scope sram { put_char, put_char_with_dakuten }
 
 battle_display_char:
-"""Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active battle_flags."""
+"""
+Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active
+battle_flags.
+"""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -79,7 +90,10 @@ battle_flags_jump_table:
 }
 
 battle_display_dakuten_char:
-"""Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on battle_flags."""
+"""
+Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on
+battle_flags.
+"""
 {
     battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
@@ -89,11 +103,14 @@ battle_flags_jump_table:
     .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 6 (flags = 3) - fallback
 }
 
-sink:
+_sink:
     rtl
 
 clear_names_window_buffer:
-"""Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in $EF52."""
+"""
+Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in
+$EF52.
+"""
     phx
     phy
     rep #0x20

@@ -1,3 +1,7 @@
+"""
+ROM patches wiring the field-menu inventory rolling-buffer engine in (FF6-style non-blocking scroll state
+machine, scroll up/down hooks, redraw and exit-cleanup hooks).
+"""
 ; ============================================================================
 ; Inventory Rolling Buffer Patches for Main Menu
 ; ============================================================================
@@ -52,7 +56,7 @@
 ; UpdateScrollRegs BG1VOFS Hook - Skip when menu HDMA is active
 ; ============================================================================
     *=0x14FF2D
-    jsr.l ConditionalBG1VOFS
+    jsr.l conditional_bg1_vofs
     nop
     nop
     nop
@@ -63,7 +67,7 @@
 ; Refresh inventory after SelectItem2 (swap OR use)
 ; ============================================================================
 ; After SelectItem2 completes (swap or use item), we need to refresh the
-; display. For swaps, SwapRedrawHook_Impl already handled it. For item use,
+; display. For swaps, swap_redraw_hook_impl already handled it. For item use,
 ; we need to refresh the current slot to show updated quantity.
 ; Call our refresh hook instead of the original DrawInventoryList.
     *=0x01A0D2

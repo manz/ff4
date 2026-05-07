@@ -1,3 +1,7 @@
+"""
+Minimal dialog-VWF wiring: pointer-loading helpers + entry hooks called from the existing dialog routines so
+the VWF layer kicks in without rewriting the message window.
+"""
 ;=====================================================================
 ; Les Fonctions de chargement de pointeur de dialogue
 ;=====================================================================
@@ -42,7 +46,7 @@
 ; has to be rendered before animating the window display
 
 *=0x00B32C
-    jsr.w first_window
+    jsr.w _first_window
 
 ; Replace the display_script function by the vwfed one.
 
@@ -50,25 +54,25 @@
     jsr.l vwfstart
     rts
 
-first_window:
+_first_window:
     lda 0x01
     sta 0xDE
     sta 0xED
     jsr.l vwfinit
     rts
 
-animation_wait_route:
+_animation_wait_route:
     wait_for_nmi_end = 0x912F
     jsr.w wait_for_nmi_end
 
-wait_for_open_animation:
+_wait_for_open_animation:
     lda 0x7F
     cmp #0x02
-    bne wait_for_open_animation
+    bne _wait_for_open_animation
     inc 0xDF
     lda 0xDF
     cmp #0x08
-    bne animation_wait_route
+    bne _animation_wait_route
 
 ; restore tileset position
     lda 0x210C
@@ -77,7 +81,7 @@ wait_for_open_animation:
     adc #0x02
     sta 0x210C
 
-    jmp.w end_of_animation
+    jmp.w _end_of_animation
 
 ; do not scroll between text blocks
 
@@ -87,9 +91,9 @@ wait_for_open_animation:
     jmp.w 0xB398
 
 *=0x00B335
-    jmp.w animation_wait_route
+    jmp.w _animation_wait_route
 
-end_of_animation:
+_end_of_animation:
     jmp.w 0xB369  ; skip_wait_for_action_button
 
 

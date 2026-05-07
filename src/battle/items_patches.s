@@ -1,3 +1,7 @@
+"""
+Patches for 12-byte (instead of 9-byte) item names in battle: rewrites every `cpx`/`cmp` boundary check and
+every $0F8000 item-data reference to land on `assets_items_dat`.
+"""
 ; Item name expansion patches for battle graphics
 ; Changes 9-byte items to 12-byte items
 ; Redirects 0x0F8000 references to assets_items_dat

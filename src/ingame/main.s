@@ -1,3 +1,7 @@
+"""
+Top-level field-menu patches (entry point fixups, palette setup, frame timing) that drive the rest of the
+in-game menu wiring.
+"""
 .include "src/ingame/macros.i"
 
 

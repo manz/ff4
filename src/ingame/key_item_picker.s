@@ -4,7 +4,7 @@
 Key-item picker rolling buffer (single column).
 
 Triggered from event scripts via EventCmd_f7 ($00:ED96), which routes
-through ShowItemWindow ($01:B354 in the disassembly). Vanilla renders
+through ShowItemWindow ($01:B354 in the disassembly). Original renders
 the filtered key-item list (`InitItemList`, $01:B2D3) as a 4x4 grid
 on BG3, animated open/close via an IRQ-driven slide. We collapse
 that to a single-column rolling buffer driven by the shared engine.
@@ -18,7 +18,7 @@ is sized for 6 visible / 7 buffer slots / 16 total cap.
 The picker is mutually exclusive with the field menu and the treasure
 menu, so it can reuse HDMA channel 5 (the field-menu BG1 channel)
 once we route it onto BG3 like the other picker profiles. Sliding
-open/close is replaced by the engine's scroll state machine  ; vanilla
+open/close is replaced by the engine's scroll state machine  ; original
 IRQ handler at $01:B0CF can be NOP'd out under TREASURE_INVENTORY_ROLLING.
 
 Wiring (TODO, separate commit):
@@ -85,7 +85,12 @@ KEY_ITEM_HDMA4_SRC_BANK := 0x4344
 
 
 key_item_ensure_hdma_initialized:
-"""Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the picker has its own window draw + visible loop wired — leaving ch4 enabled here corrupts the field BG3 layer (Cecil walks on a split screen) since the engine's RTL goes back to the field via EventCmd_f7 without any teardown."""
+"""
+Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the
+picker has its own window draw + visible loop wired — leaving ch4 enabled here corrupts the field BG3 layer
+(Cecil walks on a split screen) since the engine's RTL goes back to the field via EventCmd_f7 without any
+teardown.
+"""
     rep #0x20
     lda.w key_item_rolling_base_scroll
     cmp.w #0xFFFF
@@ -169,7 +174,7 @@ key_item_render_item_to_slot:
     sta.b 0x5C
     stz.b 0x34
     pla
-    jsr.l CheckCanUseItem_Trampoline
+    jsr.l check_can_use_item_trampoline
     lda.w key_item_rolling_slot_index
     sta.b 0x5d
     rep #0x20
@@ -181,7 +186,7 @@ key_item_render_item_to_slot:
     adc.w #0x0444
     tay
     sep #0x20
-    jsr.l DrawItemSlotInner_Trampoline
+    jsr.l draw_item_slot_inner_trampoline
     pla
     sta.b 0xDB
     pla
@@ -205,12 +210,17 @@ key_item_render_item_to_slot:
 
 
 key_item_render_all:
-"""Replacement for vanilla UpdateItemText. Vanilla just clears $0774 (text-buffer scratch) and walks $0712 to lay out 4x4 grid into the BG3 buffer at $7E:D600. We replace with engine_init_rolling_buffer which renders 6 single-col slots from $0712 into the same buffer. Vanilla NMI's BG3 transfer then pushes them to VRAM as part of the existing item-window flow ($EB=$01 latched by vanilla preamble at $00:AF53)."""
+"""
+Replacement for original UpdateItemText. Original just clears $0774 (text-buffer scratch) and walks $0712 to lay
+out 4x4 grid into the BG3 buffer at $7E:D600. We replace with engine_init_rolling_buffer which renders 6
+single-col slots from $0712 into the same buffer. Original NMI's BG3 transfer then pushes them to VRAM as part
+of the existing item-window flow ($EB=$01 latched by original preamble at $00:AF53).
+"""
     php
     rep #0x10
     sep #0x20
     jsr.l key_item_init_impl
-    ; engine's ensure_hdma turned $1BAE bit 4 on; clear so vanilla NMI
+    ; engine's ensure_hdma turned $1BAE bit 4 on; clear so original NMI
     ; doesn't try to drive HDMA we haven't fully wired (per-scanline
     ; bands not yet matched to the picker rows).
     lda #0x00
@@ -221,7 +231,7 @@ key_item_render_all:
     rtl
 
 
-ClearKeyItemSlot:
+clear_key_item_slot:
 """Blank one tilemap row at slot_index in the BG3 buffer."""
     php
     phb
@@ -265,7 +275,11 @@ _clear_key_loop:
     rts
 
 key_item_init_filter:
-"""Filter $1440 -> $0712. Faithful inline port of vanilla InitItemList ($00:B2D5 in actual ROM, off-by-2 from ff4decomp notes). Clears the 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs are key items: [$CE..$E6] u [$EB..$FD]."""
+"""
+Filter $1440 -> $0712. Faithful inline port of original InitItemList ($00:B2D5 in actual ROM, off-by-2 from
+ff4decomp notes). Clears the 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs
+are key items: [$CE..$E6] u [$EB..$FD].
+"""
     php
     phb
     sep #0x20
@@ -312,7 +326,7 @@ _filter_next:
 
 update_key_item_scroll_hdma:
 """Build the key-item HDMA shadow table via the shared engine."""
-    engine_update_scroll_hdma(key_item_rolling, KEY_ITEM_HDMA_SHADOW, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_VISIBLE_ITEMS, _key_item_hdma_header, _key_item_hdma_footer, _key_item_hdma_signal)
+    engine_update_scroll_hdma(key_item_rolling, KEY_ITEM_HDMA_SHADOW, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_VISIBLE_ITEMS, _key_item_hdma_header, _key_item_hdma_footer, _key_item_hdma_signal)  ; noqa: E501
 
 _key_item_hdma_header:
 """Picker HDMA header — 112 lines at BASE (top half = field map preserved)."""
@@ -353,28 +367,31 @@ _key_item_hdma_signal:
 key_item_init_impl:
 """Init key-item picker (filter $1440 -> $0712, then engine init)."""
     jsr.w key_item_init_filter
-    engine_init_rolling_buffer(key_item_rolling, KEY_ITEM_BUFFER_SLOTS, _key_item_draw_window, key_item_ensure_hdma_initialized, key_item_render_item_to_slot)
+    engine_init_rolling_buffer(key_item_rolling, KEY_ITEM_BUFFER_SLOTS, _key_item_draw_window, key_item_ensure_hdma_initialized, key_item_render_item_to_slot)  ; noqa: E501
 
 
 _key_item_draw_window:
-"""Picker is invoked from inside vanilla ShowItemWindow which already drew the picker frame via its IRQ slide. No-op."""
+"""
+Picker is invoked from inside original ShowItemWindow which already drew the
+picker frame via its IRQ slide. No-op.
+"""
     rts
 
 key_item_scroll_down_prepare:
 """Picker scroll-down pre-render."""
-    engine_scroll_down_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_SCROLL_LIMIT, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)
+    engine_scroll_down_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_SCROLL_LIMIT, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
 
 key_item_scroll_up_prepare:
 """Picker scroll-up pre-render."""
-    engine_scroll_up_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)
+    engine_scroll_up_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
 
 key_item_start_scroll_down_impl:
 """Picker: kick scroll-down state machine."""
-    engine_start_scroll_down(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, KEY_ITEM_SCROLL_PIXELS_PER_FRAME, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)
+    engine_start_scroll_down(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, KEY_ITEM_SCROLL_PIXELS_PER_FRAME, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
 
 key_item_start_scroll_up_impl:
 """Picker: kick scroll-up state machine."""
-    engine_start_scroll_up(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)
+    engine_start_scroll_up(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
 
 key_item_update_scroll_frame_impl:
 """Picker: per-frame scroll animation tick."""
@@ -382,7 +399,7 @@ key_item_update_scroll_frame_impl:
 
 key_item_finish_scroll_impl:
 """Picker: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_TOTAL_ITEMS, key_item_render_item_to_slot, update_key_item_scroll_hdma)
+    engine_finish_scroll(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_TOTAL_ITEMS, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
 
 key_item_refresh_slots_impl:
 """Picker: re-render all slots."""

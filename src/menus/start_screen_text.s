@@ -1,7 +1,9 @@
+"""French translated text data for the start screen / save selection."""
 .include "src/ingame/macros.i"
 
 .table "text/ff4_menus.tbl"
 .scope newgame {
+    """Title-screen + save-slot strings."""
 new_game:
     move_to(1, 1)
     .text "Nouvelle partie"

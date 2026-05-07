@@ -1,3 +1,7 @@
+"""
+Field-menu window-descriptor data (equip / status / options main windows) emitted via the `menu_window` macro
+at fixed bank-$01 addresses.
+"""
 ; equip main window
 
 *=0x01dda9

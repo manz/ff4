@@ -1,3 +1,8 @@
+"""
+In-place patches for the staff credits screen: re-point the credits text loader at our relocated
+`assets_credits_text_bin` block.
+"""
+
 *=0x13d7ef
     ldx.w #assets_credits_text_bin & 0xffff
 

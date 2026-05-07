@@ -1,5 +1,9 @@
+"""
+Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
+dialog-stream consumer).
+"""
 .if 0 {
-    .scope vwf_tile_ring {
+    .scope _vwf_tile_ring {
 ; Ring buffer for VWF tile allocation
 ; Each entry represents 8 consecutive tiles
 ; VWF system computes addresses from tile_id
@@ -16,10 +20,10 @@
 ; Next ID to assign - word
     tile_ring_base_tile = 0x703FF4
 init:
-    """
-    Base tile ID for ring buffer area - byte
-    A: the base tile id
-    """
+"""
+Base tile ID for ring buffer area - byte
+A: the base tile id
+"""
 ; tile_ring_base_tile should be set to your VWF tile area start
 ; With 0x128 dynamic + 0x128 immortal = 0x250 (592) tiles total
 ; But tile IDs are 1 byte (0-255), so max usable is 0xFF
@@ -30,10 +34,10 @@ init:
     stz.w tile_ring_next_id
     rts
 allocate_tiles:
-    """
-    Allocate next 8-tile slot
-    Returns: A = starting tile_id (byte), X = allocation ID (word)
-    """
+"""
+Allocate next 8-tile slot
+Returns: A = starting tile_id (byte), X = allocation ID (word)
+"""
 ; Calculate tile_id: base_tile + (head * TILES_PER_ENTRY)
     lda.w tile_ring_head
 ; Multiply by 8 (shift left 3 times)
@@ -47,10 +51,10 @@ allocate_tiles:
     ldx.w tile_ring_next_id
     rts
 commit_allocation:
-    """
-    Commit the allocation (call after rendering to tiles)
-    X = allocation ID
-    """
+"""
+Commit the allocation (call after rendering to tiles)
+X = allocation ID
+"""
     {
 ; Advance head pointer
     lda.w tile_ring_head
@@ -74,11 +78,11 @@ _next:
     rts
     }
 get_tiles_by_id:
-    """
-    Get tile_id of a specific allocation by ID
-    A = allocation ID (word)
-    Returns: A = starting tile_id (byte), Carry = 0 if found, 1 if expired
-    """
+"""
+Get tile_id of a specific allocation by ID
+A = allocation ID (word)
+Returns: A = starting tile_id (byte), Carry = 0 if found, 1 if expired
+"""
     {
 ; Check if ID is still valid (within current range)
     sec
@@ -127,13 +131,15 @@ _not_found:
     }
 }
 
-; Currently works by region
-; 0x00 -> 0x40 messages tiles
-; 0x40 -> 0x80 monster names
-; 0x80 -> 0xB0 char names
-; 0xB0 -> 0xF0 commands ? this one is untested.
 
 .scope battle_render {
+    """
+    Currently works by region
+    0x00 -> 0x40 messages tiles
+    0x40 -> 0x80 monster names
+    0x80 -> 0xB0 char names
+    0xB0 -> 0xF0 commands ? this one is untested.
+    """
     buffer_ptr = 0x703000
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
@@ -146,17 +152,17 @@ _not_found:
     current_char = prev_char + 1
 ;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
 init_monsters:
-    """Initialize the renderer targeting the monsters region."""
+"""Initialize the renderer targeting the monsters region."""
     lda.b #region_size
-    bra __init
+    bra _init
 init_names:
-    """Initialize the renderer targeting the name region."""
+"""Initialize the renderer targeting the name region."""
     lda.b #region_size * 2
-    bra __init
+    bra _init
 init_commands_list:
-    """Initialize the renderer targeting the commands list region."""
+"""Initialize the renderer targeting the commands list region."""
     lda.b #region_size * 3
-__init:
+_init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
     bra _internal_init
@@ -179,7 +185,10 @@ _internal_init:
     stz.b counter
     rts
 clear_buffer:
-    """Wipe the 16×region_size 4bpp tile buffer for the currently-allocated VWF tile id (sets each plane row to $FF/$00)."""
+"""
+Wipe the 16×region_size 4bpp tile buffer for the currently-allocated VWF tile id (sets each plane row to
+$FF/$00).
+"""
     pha
     phx
     phy
@@ -246,7 +255,10 @@ _refresh_destination_pointer:
     rts
     }
 display_char:
-    """Render `A` (char) at tilemap offset `Y` into the message VWF buffer  ; preserves A/X/Y, returns Y = `tilemap_offset`."""
+"""
+Render `A` (char) at tilemap offset `Y` into the message VWF buffer  ; preserves A/X/Y, returns Y =
+`tilemap_offset`.
+"""
     pha
     phx
     phy
@@ -413,9 +425,9 @@ _adjustment:
     clc
     adc 1, s
     cmp #0x9
-    bcs __overflow
+    bcs _overflow
     bra _no_overflow
-__overflow:
+_overflow:
     pla
     lda #0x08
     sta.b temp
@@ -591,13 +603,14 @@ tilemap_write:
 }
 
 .scope messages_vwf {
+    """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
     dakuten_table = 0x16fa40
 put_fixed_char:
-    """
-    put char
-    write to the tilemap if needed
-    maintain counters
-    """
+"""
+put char
+write to the tilemap if needed
+maintain counters
+"""
     cmp #0x42
     bcc put_fixed_char_dakuten
 put_fixed_char_no_dakuten:
@@ -605,7 +618,7 @@ put_fixed_char_no_dakuten:
 put_fixed_char_dakuten:
     jmp.w battle_render.display_char
 put_fixed_char_far:
-    """far calls for the new implementation"""
+"""far calls for the new implementation"""
     jsr.w put_fixed_char
     rtl
 put_fixed_char_dakuten_far:
@@ -615,10 +628,10 @@ put_fixed_char_no_dakuten_far:
     jsr.w put_fixed_char_no_dakuten
     rtl
 init:
-    """
-    inits the renderer for the messages window
-    flips the flag for enabling the messages renderer.
-    """
+"""
+inits the renderer for the messages window
+flips the flag for enabling the messages renderer.
+"""
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init
     rtl
@@ -635,10 +648,10 @@ init_names:
     jsr.w battle_render.init_names
     rtl
 deinit:
-    """
-    the renderer
-    disables messages renderer falling back to fixed mode.
-    """
+"""
+the renderer
+disables messages renderer falling back to fixed mode.
+"""
     jsr.l battle_flags.clear_vwf_render
 ; vram transfer was moved to a trampoline in the battle nmi.
     lda.l battle_render.pending_transfer_mask
@@ -653,8 +666,11 @@ _wait:
     bne _wait
     rts
     }
-DMA_TRANSFER:
-    """Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render.pending_transfer_mask`, transfers the dirty regions to VRAM, and clears the mask bits."""
+dma_transfer:
+"""
+Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render.pending_transfer_mask`,
+transfers the dirty regions to VRAM, and clears the mask bits.
+"""
     pha
     phx
     phy
@@ -720,10 +736,10 @@ _sram_dma_transfer_7:
     plb
     rts
 new_line_escape_code_handler:
-    """
-    Handler for the `
-    ` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
-    """
+"""
+Handler for the ` ` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset
+bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
+"""
 ; we might have something of interest in Y we might know where we are in the previous iteration ?
     pha
 ;jsr.w battle_render.tilemap_write

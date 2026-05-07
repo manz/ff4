@@ -1,3 +1,7 @@
+"""
+Test stub run from kintsuki Python tests  ; symbols (pair, kerning_func, font_index, setup_font)
+injected from Python before assembly.
+"""
 ; Test stub run from kintsuki Python tests.
 ; Symbols `pair`, `kerning_func`, `font_index`, `setup_font` are injected
 ; into a816's resolver from Python before assembly.
@@ -8,9 +12,8 @@
 .map identifier=2 bank_range=0x7e, 0x7f addr_range=0x0000, 0xffff mask=0x10000 writable=1
 
 *=0x7E0000
-
-; 8-bit A and X/Y; setup_font and the kerning helpers were written
-; against this convention.
+    ; 8-bit A and X/Y; setup_font and the kerning helpers were written
+    ; against this convention.
     sep #0x30
 
     lda.b #font_index

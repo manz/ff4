@@ -1,3 +1,7 @@
+"""
+Dakuten composite-glyph table + `lookup_dakuten` helper that maps a (prev_char, current_char) pair to the
+dakuten/handakuten composite tile pair.
+"""
 
 
 .incbin "assets/dakuten.bin"
@@ -37,7 +41,7 @@ _exit:
     rtl
 }
 
-store_char_with_dakuten:
+_store_char_with_dakuten:
 {
     jsr.l lookup_dakuten
     cmp #0xff

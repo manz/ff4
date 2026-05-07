@@ -1,12 +1,15 @@
+"""
+Instant-window patches: replace the 25-frame open/close/transform animations with single-DMA tilemap swaps so
+menu transitions are immediate.
+"""
 /* Final Fantasy IV Instant Window Patch
    Targets Bank 0x01 based on the menu.asm disassembly labels. */
 
-/* --- open_window Override (@83E3) ---
+/* --- _open_window Override (@83E3) ---
    Replaces the 25-frame vertical wipe loop with a single DMA. */
 
 *=0x0183E3
-
-open_window:
+_open_window:
     sep #0x20  ; 8-bit A (shorta)
     lda #0x7E  ; Source RAM bank for tilemap buffers
     sta 0x21
@@ -27,8 +30,8 @@ open_window:
    Clears the VRAM area instantly by pointing to the empty part of the buffer. */
 
 *=0x018417
-
 close_window:
+"""Override of original close_window: skip per-row wipe, single DMA."""
     sep #0x20
     lda #0x7E
     sta 0x21
@@ -51,8 +54,8 @@ close_window:
    Skips the coordinate growth loop and jumps directly to final dimensions. */
 
 *=0x0184D0
-
 transform_window:
+"""Kick the window-transform animation: pass source/target window addresses."""
     phb
     phk
     plb  ; Setup Bank Registry for local access
@@ -81,7 +84,7 @@ transform_window:
     jsr.w UpdateScrollRegs_far
 
 /* Point the engine's transformation pointers to an RTS to finish the state.
-       Vanilla FF4 uses @858C as the terminal RTS for this routine. */
+       Original FF4 uses @858C as the terminal RTS for this routine. */
     ldx.w #0x858C
     stx.w 0x01CD
     stx.w 0x01D0

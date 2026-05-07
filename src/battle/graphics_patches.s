@@ -1,10 +1,12 @@
+"""
+Battle graphics asset patches: MISS sprite glyphs, defend/row text overrides and other small tile fixups that
+piggyback on `defend_row` data.
+"""
 .extern defend_row
 
 ; MISS sprite graphics
 
 *=0x0cfc60
-
-
 .incbin "fonts/miss.bin"
 
 *=0x16fb87

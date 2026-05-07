@@ -1,3 +1,7 @@
+"""
+Field-menu item screen patches: scroll-region tweaks, layout fixes and entry-point hooks (separate from
+rolling-buffer code which lives in `inventory_rolling.s`).
+"""
 .include "src/ingame/macros.i"
 
 ; during scroll
@@ -79,11 +83,11 @@ _back:
     adc.w #0x0006  ; +2 tiles to the right
 
 *=0x1efd7d
-    __delta_l = 0
-    __delta_r = 2
+    _delta_l = 0
+    _delta_r = 2
 
-    .dw 0x039e - __delta_l, 0x019e - __delta_l, 0x059e - __delta_l, 0x029e - __delta_l, 0x049e - __delta_l
-    .dw 0x0384 - __delta_r, 0x0184 - __delta_r, 0x0584 - __delta_r, 0x0284 - __delta_r, 0x0484 - __delta_r
+    .dw 0x039e - _delta_l, 0x019e - _delta_l, 0x059e - _delta_l, 0x029e - _delta_l, 0x049e - _delta_l
+    .dw 0x0384 - _delta_r, 0x0184 - _delta_r, 0x0584 - _delta_r, 0x0284 - _delta_r, 0x0484 - _delta_r
 
 *=0x01a4f4
     adc.w #0x0082
@@ -147,8 +151,7 @@ _back:
     load_system_menu_text_pointer(treasure.items_window)
 
 *=0x1d792
-
-treasure_menu_entry:
+_treasure_menu_entry:
 
 ; Test Overrides:
 ; would be nice to automate that

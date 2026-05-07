@@ -1,3 +1,7 @@
+"""
+Phase-1 single-column inventory layout patches: collapse the original 2-column items list to one column so the
+rolling buffer can take over rendering.
+"""
 ; ============================================================================
 ; Single Column Inventory Patches for Main Menu
 ; ============================================================================
@@ -289,4 +293,4 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Ensure $1b22 starts at 0 even if it had a value from a previous menu.
 ; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
 ; We already have adjust_inventory_pointer at $A181, so add $1b22 init there.
-; Actually, we'll add it to the MenuEntryHook_Impl in inventory_rolling.s
+; Actually, we'll add it to the menu_entry_hook_impl in inventory_rolling.s

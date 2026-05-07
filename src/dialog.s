@@ -1,3 +1,7 @@
+"""
+Dialog-text plumbing: 24-bit pointer resolver for translated bank 1-1/1-2/2 strings, used by the dialog VWF
+parser to load the next message.
+"""
 .include "src/vwf.i"
 
 .import "assets"

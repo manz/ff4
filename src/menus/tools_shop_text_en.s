@@ -1,6 +1,8 @@
+"""English-language counterpart of `tools_shop_text.s`."""
 .include "src/ingame/macros.i"
 
 .scope shops {
+    """Shop UI strings."""
 gils:
     move_to(27, 6)
     .text "GP"
@@ -14,7 +16,7 @@ welcome_and_actions:
     .text "Buy Sell Exit"
     .db 0
 quantity:
-    """.text 'かう   うる   でる'"""
+""".text 'かう   うる   でる'"""
     .dw 0x0052
     .text "What do you want?   "
     .db 1

@@ -1,6 +1,7 @@
+"""Relocated implementations of the original system-menu text routines."""
 .extern assets_classes_ptr
 
-.macro bank_switch() {
+.macro _bank_switch() {
     cpy.w #0x8000
     bmi _moved_text
     lda.b #0x01
@@ -17,18 +18,18 @@ _moved_text:
     pla
     phk
 _jump_to_original:
-    """this assumes that the text lives in the same bank as this routine."""
+"""this assumes that the text lives in the same bank as this routine."""
     plb
 }
 
-.macro bank_switch_with_jump(jump_to) {
-    bank_switch()
+.macro _bank_switch_with_jump(jump_to) {
+    _bank_switch()
     jmp.l jump_to
 }
 
 
 display_text_in_menus:
-"""Trampoline into the vanilla menu text-display routine at $01:830B, preserving DBR/D/X via stack."""
+"""Trampoline into the original menu text-display routine at $01:830B, preserving DBR/D/X via stack."""
 {
     phb
     phd
@@ -37,11 +38,11 @@ display_text_in_menus:
     phx
     pld
 
-    bank_switch_with_jump(0x01830B)
+    _bank_switch_with_jump(0x01830B)
 }
 
 load_text_with_destination_in_x:
-"""Adjust X by the offset in $29 and trampoline into the vanilla load-text routine at $01:8318."""
+"""Adjust X by the offset in $29 and trampoline into the original load-text routine at $01:8318."""
 
     phb
     phd
@@ -60,24 +61,27 @@ load_text_with_destination_in_x:
     tax
     sep #0x20
 
-    bank_switch_with_jump(0x018318)
+    _bank_switch_with_jump(0x018318)
 
 
 display_window_with_text:
-"""Trampoline into the vanilla window+text drawer at $01:80DD."""
+"""Trampoline into the original window+text drawer at $01:80DD."""
     phy
     phb
-    bank_switch_with_jump(0x0180DD)
+    _bank_switch_with_jump(0x0180DD)
 
 display_time:
-"""Trampoline into the vanilla play-time display routine at $01:879D."""
+"""Trampoline into the original play-time display routine at $01:879D."""
     phb
-    bank_switch()
+    _bank_switch()
     rep #0x20
     jmp.l 0x01879D
 
 disable_save:
-"""Overwrite the 'Sauver' menu label with $24 (space tile) glyphs to grey out the save option, then continue at $01:8947."""
+"""
+Overwrite the 'Sauver' menu label with $24 (space tile) glyphs to grey out the save option, then continue at
+$01:8947.
+"""
     lda.b #0x24
     sta 0xCA31  ; S
     sta 0xCA33  ; a
@@ -103,7 +107,10 @@ load_classes_pointer:
     rtl
 
 load_dextrelity_pointer:
-"""Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9  ; returns 24-bit pointer in Y."""
+"""
+Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9  ; returns
+24-bit pointer in Y.
+"""
     rep #0x20
     lda (0x60)
     and.w #0x00c0

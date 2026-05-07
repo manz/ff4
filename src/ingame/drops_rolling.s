@@ -4,7 +4,7 @@
 Treasure-menu drops list rolling buffer (single column, 4 visible).
 
 Drops are the 8-item array at $7E:FF28 shown in the upper window of
-the treasure menu (Tente / Baguette / etc.). Vanilla renders them as
+the treasure menu (Tente / Baguette / etc.). Original renders them as
 a 4-row x 2-col grid via DrawTreasureList ($01:A15C). Item names in
 French don't fit two columns, so drops moves to a single-column
 rolling buffer matching the treasure inventory below it — engine
@@ -12,7 +12,7 @@ configured with 4 visible / 8 total / 5 buffer slots.
 
 The drops buffer lives on BG3 alongside the treasure inventory  ; both
 share VRAM tilemap $7000 with separate row bands. HDMA channel 4 is
-free in vanilla treasure (vanilla uses ch7|ch5|ch3|ch2|ch0  ; ch6 is
+free in original treasure (original uses ch7|ch5|ch3|ch2|ch0  ; ch6 is
 ours for inventory) so drops drives BG3VOFS through ch4 over its
 scanline band.
 
@@ -63,11 +63,11 @@ drops_hdma_copy_pending := drops_rolling + RollingBufferState.hdma_copy_pending
 
 ; Drops scroll position lives one byte past the state block so it
 ; doesn't collide with the engine's RollingBufferState fields. Other
-; profiles read scroll_pos from a vanilla menu byte ($1B1A field /
-; $1BB7 treasure inventory); drops has no vanilla equivalent.
+; profiles read scroll_pos from a original menu byte ($1B1A field /
+; $1BB7 treasure inventory); drops has no original equivalent.
 drops_scroll_pos := 0x1BEF
 
-; HDMA channel 4 (free in vanilla treasure: enabled mask is $AD =
+; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
 DROPS_HDMA4_CTRL := 0x4340
 DROPS_HDMA4_DEST := 0x4341
@@ -143,7 +143,7 @@ drops_render_item_to_slot:
     sta.b 0x5C
     stz.b 0x34
     pla
-    jsr.l CheckCanUseItem_Trampoline
+    jsr.l check_can_use_item_trampoline
     lda.w drops_rolling_slot_index
     sta.b 0x5d
     rep #0x20
@@ -155,7 +155,7 @@ drops_render_item_to_slot:
     adc.w #0x0084
     tay
     sep #0x20
-    jsr.l DrawItemSlotInner_Trampoline
+    jsr.l draw_item_slot_inner_trampoline
     pla
     sta.b 0xDB
     pla
@@ -177,13 +177,13 @@ drops_render_item_to_slot:
     plp
     rts
 
-ClearDropsSlot:
+clear_drops_slot:
 """Blank a single drops tilemap slot. STUB."""
     rts
 
 update_drops_scroll_hdma:
 """Build the drops HDMA shadow table via the shared engine."""
-    engine_update_scroll_hdma(drops_rolling, DROPS_HDMA_SHADOW, DROPS_BUFFER_SLOTS, DROPS_VISIBLE_ITEMS, _drops_hdma_header, _drops_hdma_footer, _drops_hdma_signal)
+    engine_update_scroll_hdma(drops_rolling, DROPS_HDMA_SHADOW, DROPS_BUFFER_SLOTS, DROPS_VISIBLE_ITEMS, _drops_hdma_header, _drops_hdma_footer, _drops_hdma_signal)  ; noqa: E501
 
 _drops_hdma_header:
 """Drops HDMA header band — top dialog frame at BASE scroll. STUB."""
@@ -201,8 +201,11 @@ _drops_hdma_signal:
 ; --- Engine instantiations -------------------------------------------------
 
 drops_init_impl:
-"""Init drops rolling buffer. Drops sit inside the treasure-menu window the inventory init already drew, so the draw_window hook is a no-op."""
-    engine_init_rolling_buffer(drops_rolling, DROPS_BUFFER_SLOTS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)
+"""
+Init drops rolling buffer. Drops sit inside the treasure-menu window the inventory init already drew, so the
+draw_window hook is a no-op.
+"""
+    engine_init_rolling_buffer(drops_rolling, DROPS_BUFFER_SLOTS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
 
 
 _drops_draw_window_noop:
@@ -211,19 +214,19 @@ _drops_draw_window_noop:
 
 drops_scroll_down_prepare:
 """Drops profile scroll-down pre-render."""
-    engine_scroll_down_prepare(drops_rolling, drops_scroll_pos, DROPS_SCROLL_LIMIT, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)
+    engine_scroll_down_prepare(drops_rolling, drops_scroll_pos, DROPS_SCROLL_LIMIT, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_scroll_up_prepare:
 """Drops profile scroll-up pre-render."""
-    engine_scroll_up_prepare(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)
+    engine_scroll_up_prepare(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_start_scroll_down_impl:
 """Drops profile: kick scroll-down state machine."""
-    engine_start_scroll_down(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, DROPS_SCROLL_PIXELS_PER_FRAME, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)
+    engine_start_scroll_down(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, DROPS_SCROLL_PIXELS_PER_FRAME, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_start_scroll_up_impl:
 """Drops profile: kick scroll-up state machine."""
-    engine_start_scroll_up(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)
+    engine_start_scroll_up(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_update_scroll_frame_impl:
 """Drops profile: per-frame scroll animation tick."""
@@ -231,12 +234,12 @@ drops_update_scroll_frame_impl:
 
 drops_finish_scroll_impl:
 """Drops profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_render_item_to_slot, update_drops_scroll_hdma)
+    engine_finish_scroll(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_refresh_slots_impl:
-"""Drops profile: re-render all 5 slots (vanilla redraw helper path)."""
+"""Drops profile: re-render all 5 slots (original redraw helper path)."""
     engine_refresh_slots(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, drops_render_item_to_slot)
 
 drops_swap_redraw_impl:
 """Drops profile: post-swap re-render."""
-    engine_swap_redraw(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_ensure_hdma_initialized, drops_render_item_to_slot, ClearDropsSlot, update_drops_scroll_hdma)
+    engine_swap_redraw(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_ensure_hdma_initialized, drops_render_item_to_slot, clear_drops_slot, update_drops_scroll_hdma)  ; noqa: E501

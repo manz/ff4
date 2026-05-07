@@ -1,3 +1,4 @@
+"""Options-menu patches: rename palette colours (RGB → RVB), reposition labels and adjust slider offsets."""
 
 ;RGB -> RVB :o)
 

@@ -1,3 +1,7 @@
+"""
+Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-type pointer table
+(`magic_list_ptrs`).
+"""
 .extern assets_magic_dat
 .extern draw_letter_far
 
@@ -7,6 +11,7 @@ left_column_base = destination_buffer - 4
 right_column_base = destination_buffer + 18 - 2
 
 draw_magic_list_direct:
+"""Relocated battle spell-list renderer: walks the per-character spell-list pointer table."""
 {
     spell_id = 0x03
     spell_enabled_flag = 0x02
@@ -165,4 +170,5 @@ exit:
 }
 
 magic_list_ptrs:
+"""Per-magic-type spell-list base pointers (white, black, summon, ninja, kokan)."""
     .dw 0x2c7a, 0x2d9a, 0x2eba, 0x2fda, 0x30fa

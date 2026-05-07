@@ -1,3 +1,4 @@
+"""New-game / save-slot screen patches: text-table rewiring and pointer setup for the relocated start-screen strings."""
 .include "src/ingame/macros.i"
 
 

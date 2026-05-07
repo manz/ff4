@@ -1,3 +1,7 @@
+"""
+Test stub for menu-font kerning lookups (small_vwf, battle message)  ;
+symbols `pair`, `kerning_func`, `prev_char` injected from Python before assembly.
+"""
 ; Test stub for menu-font kerning lookups (small_vwf, battle message).
 ; Symbols `pair`, `kerning_func`, `prev_char` injected from Python.
 ;
@@ -8,7 +12,6 @@
 .map identifier=2 bank_range=0x7e, 0x7f addr_range=0x0000, 0xffff mask=0x10000 writable=1
 
 *=0x7E0000
-
     rep #0x30
     lda.w #pair
     sta.b prev_char

@@ -1,6 +1,8 @@
+"""English-language counterpart of `start_screen_text.s`."""
 .include "src/ingame/macros.i"
 
 .scope newgame {
+    """Title-screen + save-slot strings."""
 new_game:
     move_to(1, 1)
     .text "New Game"

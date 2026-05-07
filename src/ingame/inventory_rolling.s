@@ -1,3 +1,7 @@
+"""
+Field-menu inventory rolling-buffer engine (single column, 5 visible rows + 1 prefetch): adapts the battle
+approach for the main menu items list with HDMA-based circular scrolling.
+"""
 ; Rolling Buffer Implementation for Main Menu Inventory (Single Column)
 ;
 ; HDMA-based circular buffer scrolling for single-column menu inventory.
@@ -220,7 +224,7 @@ _init_item_rows:
 
 update_menu_scroll_hdma:
 """Build the field-menu HDMA scroll table via the shared engine."""
-    engine_update_scroll_hdma(menu_rolling, MENU_HDMA_SHADOW, MENU_BUFFER_SLOTS, MENU_VISIBLE_ITEMS, _menu_hdma_header, _menu_hdma_footer, _menu_hdma_signal)
+    engine_update_scroll_hdma(menu_rolling, MENU_HDMA_SHADOW, MENU_BUFFER_SLOTS, MENU_VISIBLE_ITEMS, _menu_hdma_header, _menu_hdma_footer, _menu_hdma_signal)  ; noqa: E501
 
 _menu_hdma_header:
 """Field profile header: 48-scanline border at BASE scroll (one entry)."""
@@ -259,25 +263,25 @@ _menu_hdma_signal:
 
 init_menu_rolling_buffer_impl:
 """Init field rolling buffer (10 visible, lazy 11th slot)."""
-    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, menu_render_item_to_slot)
+    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
 
 _menu_draw_inventory_window:
 """Field menu draws the InventoryWindow ($DCCE) frame on entry."""
     rep #0x10
     ldy.w #0xDCCE
-    jsr.l DrawWindow_Trampoline
+    jsr.l draw_window_trampoline
     sep #0x10
     rts
 
 menu_scroll_down_prepare:
 """Field profile scroll-down pre-render."""
-    engine_scroll_down_prepare(menu_rolling, 0x1B1A, MENU_SCROLL_LIMIT, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
+    engine_scroll_down_prepare(menu_rolling, 0x1B1A, MENU_SCROLL_LIMIT, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
 menu_scroll_up_prepare:
 """Field profile scroll-up pre-render."""
-    engine_scroll_up_prepare(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
+    engine_scroll_up_prepare(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
-; menu_render_item_to_slot
+; _menu_render_item_to_slot
 ; Renders an item to a specific circular buffer slot in the tilemap.
 ;
 ; Input: menu_rolling_edge_row = item index (0-47) for data lookup
@@ -286,7 +290,7 @@ menu_scroll_up_prepare:
 ; Strategy: Set up $5d = slot_index (for Y position calculation),
 ;           $5a = pointer to item data, then call game's DrawItemSlot.
 
-menu_render_item_to_slot:
+_menu_render_item_to_slot:
     php
     phb
 
@@ -347,7 +351,7 @@ menu_render_item_to_slot:
 ; Output: $DB = $00 (usable) or $04 (not usable)
     stz.b 0x34  ; Clear $34 (no priority/flip bits)
     pla  ; Restore item ID
-    jsr.l CheckCanUseItem_Trampoline  ; bank-$01 trampoline for vanilla @ $A25D (sets $DB)
+    jsr.l check_can_use_item_trampoline  ; bank-$01 trampoline for original @ $A25D (sets $DB)
 
 ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
     lda.w menu_rolling_slot_index
@@ -376,11 +380,11 @@ menu_render_item_to_slot:
 
 _not_trash_item:
     ; Clear the 2x2 trash can area first (in case we scrolled from trash position)
-    jsr.w ClearTrashArea
+    jsr.w _clear_trash_area
 
 ; Call DrawItemSlot inner at $A1ED
 ; Expects: Y = tilemap offset, ($5A) = item pointer, ($29) = tilemap base
-    jsr.l DrawItemSlotInner_Trampoline  ; bank-$01 trampoline for vanilla @ $A1ED
+    jsr.l draw_item_slot_inner_trampoline  ; bank-$01 trampoline for original @ $A1ED
 
 _skip_draw_item_slot:
 
@@ -481,11 +485,11 @@ _scroll_still_active:
 
 start_scroll_down_impl:
 """Field profile: kick scroll-down state machine."""
-    engine_start_scroll_down(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, SCROLL_PIXELS_PER_FRAME, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
+    engine_start_scroll_down(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, SCROLL_PIXELS_PER_FRAME, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
 start_scroll_up_impl:
 """Field profile: kick scroll-up state machine."""
-    engine_start_scroll_up(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, ensure_hdma_initialized, menu_render_item_to_slot, update_menu_scroll_hdma)
+    engine_start_scroll_up(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
 update_scroll_frame_impl:
 """Field profile: per-frame scroll animation tick."""
@@ -493,13 +497,14 @@ update_scroll_frame_impl:
 
 finish_scroll_impl:
 """Field profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, menu_render_item_to_slot, update_menu_scroll_hdma)
+    engine_finish_scroll(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.
 
 .if INVENTORY_ROLLING_BUFFER {
-MenuEntryHook_Impl:
+menu_entry_hook_impl:
+"""Field-menu entry hook: lazy-init HDMA + force shadow flush before first frame."""
     stz.w 0x1B1F
     lda #0x00
     sta.l 0x7E1BAE
@@ -521,8 +526,8 @@ MenuEntryHook_Impl:
 ; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
     rtl
 
-MenuExitHook_Impl:
-    """Field menu teardown: zero HDMA shadow, full 12-byte rolling state, ch5 registers."""
+menu_exit_hook_impl:
+"""Field menu teardown: zero HDMA shadow, full 12-byte rolling state, ch5 registers."""
     php
     sep #0x20
     lda #0x00
@@ -543,22 +548,24 @@ MenuExitHook_Impl:
     sta.w menu_rolling + 8
     sta.w menu_rolling + 10
     plp
-    jsr.l ResetSprites_Trampoline
+    jsr.l reset_sprites_trampoline
     rtl
-; SwapRedrawHook_Impl_Body
+; swap_redraw_hook_impl_body
 ; Called after item swap to redraw visible items correctly.
 ; Must render to the correct circular buffer slots based on current buffer_pos.
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
-SwapRedrawHook_Impl_Body:
-    """Field profile: post-swap re-render of all 11 slots."""
-    engine_swap_redraw(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, ensure_hdma_initialized, menu_render_item_to_slot, ClearInventorySlot, update_menu_scroll_hdma)
-; ClearInventorySlot
+swap_redraw_hook_impl_body:
+"""Field profile: post-swap re-render of all 11 slots."""
+    engine_swap_redraw(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, ensure_hdma_initialized, _menu_render_item_to_slot, _clear_inventory_slot, update_menu_scroll_hdma)  ; noqa: E501
+
+
+; _clear_inventory_slot
 ; Clears a single inventory slot in the tilemap buffer.
 ; Input: menu_rolling_slot_index = slot to clear (0-10)
 ; Used when item index is out of bounds (>= 48)
 
-ClearInventorySlot:
+_clear_inventory_slot:
     php
     phb
 ; Set data bank to $7E for WRAM access
@@ -618,14 +625,14 @@ _clear_slot_loop:
     plb
     plp
     rts
-; ClearTrashArea
+; _clear_trash_area
 ; Clears the 2x2 trash can area with blank tiles ($FF).
 ; Called before drawing normal items to remove any leftover trash icon.
 ; Input: Y = tilemap offset
 ;        ($29) = tilemap base
 ;
 
-ClearTrashArea:
+_clear_trash_area:
     phy
 ; Save Y
 ; First row: 2 tiles
@@ -669,16 +676,16 @@ ClearTrashArea:
 draw_trash_single_column:
 
 
-    """
-    Draws the trash can 2x2 tile graphic for single-column inventory.
-    Input: Y = tilemap offset (from slot calculation)
-    ($29) = tilemap base ($B600)
-    menu_rolling_slot_index = current slot
-    Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
+"""
+Draws the trash can 2x2 tile graphic for single-column inventory.
+Input: Y = tilemap offset (from slot calculation)
+($29) = tilemap base ($B600)
+menu_rolling_slot_index = current slot
+Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
 
-    Tilemap format: [tile_number, attributes] pairs
-    Each row is 64 bytes (32 tiles × 2 bytes)
-    """
+Tilemap format: [tile_number, attributes] pairs
+Each row is 64 bytes (32 tiles × 2 bytes)
+"""
 ; Y points to start of item slot area
 ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
 ; Save starting Y for second row calculation
@@ -764,7 +771,7 @@ _clear_row2:
     rts
 ; NmiDmaTransferCheck_Impl moved to bank $20 (battle/inventory_rolling.s)
 ; as field_menu_nmi_dma_transfer_check_impl to save space in bank $01
-; CheckAndClearCount_Impl
+; check_and_clear_count_impl
 ; Called from DrawItemSlot to check item ID and handle count display.
 ; - If item ID is 0: writes $FF tiles to clear count, skips to RTS
 ; - If item ID is $FE: skips to RTS (no clearing needed)
@@ -773,7 +780,8 @@ _clear_row2:
 ; Input: $5a = pointer to item data, Y = tilemap offset, $29 = tilemap ptr
 ; Modifies: A, return address on stack if skipping
 
-CheckAndClearCount_Impl:
+check_and_clear_count_impl:
+"""Drop the count column for empty/used slots."""
     lda (0x5a)
 ; Load item ID
     beq _clear_count
@@ -841,19 +849,19 @@ _normal_return:
 circular_slot_calc:
 
 
-    """
-    Calculate tilemap Y offset using circular buffer position.
-    Called from patched code at $A1BA via CircularSlotCalc_ext.
+"""
+Calculate tilemap Y offset using circular buffer position.
+Called from patched code at $A1BA via CircularSlotCalc_ext.
 
-    Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
-    $5A = src pointer ($1440 = inventory, $FF28 = treasure drops)
-    Output: Y = tilemap offset for circular buffer slot
-    Preserves: 16-bit A mode on exit
-    """
+Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
+$5A = src pointer ($1440 = inventory, $FF28 = treasure drops)
+Output: Y = tilemap offset for circular buffer slot
+Preserves: 16-bit A mode on exit
+"""
     sep #0x20
 ; 8-bit A
 ; Drops list at $FF28 reuses _a181 but doesn't have any rolling state.
-; The vanilla 2-col Y calc collides slots after we forced col=0 globally
+; The original 2-col Y calc collides slots after we forced col=0 globally
 ; via the `and #$00` patch at DrawItemSlot, so two drops would render at
 ; the same scanline. Detect drops via $5B high byte and emit a unique
 ; per-slot Y (slot * 64 + 4) instead of any circular math.
@@ -869,7 +877,7 @@ circular_slot_calc:
     asl
     asl
     asl  ; * 64. $5D increments by 2 → step = 128 bytes = 2 tilemap rows,
-; matching the 16-px-per-item layout vanilla uses for col-0
+; matching the 16-px-per-item layout original uses for col-0
 ; drops with BG1VOFS=-32 ($93) pushing them down to scanline 32.
     clc
     adc.w #0x0044  ; col 2 + 1 tilemap row down (+$40) so the first slot
@@ -961,7 +969,7 @@ _circ_slot_original:
     rts
 
 circular_slot_calc_ext:
-    """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
+"""Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w circular_slot_calc
     rtl
 }

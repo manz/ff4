@@ -1,3 +1,7 @@
+"""
+Field-menu magic screen patches: column-offset tweaks, per-character spell-list pointer setup and hooks into
+the magic-render path.
+"""
 .include "src/ingame/macros.i"
 
 ; Columns offsets

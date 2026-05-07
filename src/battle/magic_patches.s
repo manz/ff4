@@ -1,7 +1,11 @@
+"""
+In-place patches for the battle magic-list code (slot stride / spell-id width changes, hook into the relocated
+`draw_magic_list_direct` renderer).
+"""
 battle_magic_length = 8
 
 *=0x02984D
-    """where originaly it was 3. clear related"""
+    ; where originally it was 3. clear related
 
     ldx.w #0x0018
 
@@ -191,31 +195,31 @@ battle_magic_length = 8
     lda #0x48
     sta 7
 
-loc_29ecc:
+_loc_29ecc:
     ldy.w #1
     lda (0)
-    bmi loc_29edb
+    bmi _loc_29edb
     lda #0
     sta 6
     lda #0
-    bra loc_29ee3
+    bra _loc_29ee3
 
-loc_29edb:
+_loc_29edb:
     lda #4
     sta 6
-    bra loc_29ee3
+    bra _loc_29ee3
 
-loc_29ee1:
+_loc_29ee1:
     lda 6
 
-loc_29ee3:
+_loc_29ee3:
 
     sta (2), y
     sta (4), y
     iny
     iny
     cpy.w #battle_magic_length * 2 + 1  ; len * 2 + 1 : 0x0D
-    bne loc_29ee1
+    bne _loc_29ee1
     rep #0x20  ; ' '
     ;.A16
     lda 2
@@ -233,7 +237,7 @@ loc_29ee3:
     sep #0x20
     ;.A8
     dec 7  ; loop on all magic
-    bne loc_29ecc
+    bne _loc_29ecc
     rts
 
 ; patches for display attack name
