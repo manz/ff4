@@ -25,10 +25,6 @@ TREASURE_EDGE_ROW = 0x7E1BD2
 TREASURE_SLOT_INDEX = 0x7E1BD3
 TREASURE_BASE_SCROLL = 0x7E1BD4
 
-BG1_TILEMAP_VRAM_BASE = 0x6000  # drops list
-BG3_TILEMAP_VRAM_BASE = 0x7000  # rolling-buffer inventory
-
-
 SAVESTATES = Path(__file__).parent / "savestates"
 
 
@@ -77,19 +73,12 @@ def enter_treasure_picker(emu: Emu, *, settle_frames: int = 300) -> None:
     tap(emu, Button.A, gap=20)   # confirm drop, enter Echange picker
 
 
-def vram_byte(emu: Emu, word_addr: int, hi: bool = False) -> int:
-    from kintsuki._native import lib
-    return lib.kintsuki_vram_read(emu._handle, word_addr * 2 + (1 if hi else 0))
-
-
 def capture_bg3_tilemap(emu: Emu, *, rows: int = 14) -> bytes:
     """Read BG3 tilemap rows 0..rows as char bytes (low half of each tile).
     Strips palette/attr so the snapshot is stable across palette swaps."""
-    out = bytearray()
-    for r in range(rows):
-        for tile in range(32):
-            out.append(vram_byte(emu, BG3_TILEMAP_VRAM_BASE + r * 32 + tile))
-    return bytes(out)
+    from kintsuki.tilemap import read_bg_tilemap
+    tm = read_bg_tilemap(emu, 3)
+    return bytes(tm.cell(r, c).tile & 0xFF for r in range(rows) for c in range(32))
 
 
 def capture_treasure_state(emu: Emu) -> bytes:
@@ -119,11 +108,9 @@ TRASH_ITEM_ID = 0xFF
 def capture_bg1_tilemap(emu: Emu, *, rows: int = 24) -> bytes:
     """Read BG1 tilemap rows 0..rows as char bytes. Field-menu inventory
     lives on BG1 at VRAM word $6000."""
-    out = bytearray()
-    for r in range(rows):
-        for tile in range(32):
-            out.append(vram_byte(emu, BG1_TILEMAP_VRAM_BASE + r * 32 + tile))
-    return bytes(out)
+    from kintsuki.tilemap import read_bg_tilemap
+    tm = read_bg_tilemap(emu, 1)
+    return bytes(tm.cell(r, c).tile & 0xFF for r in range(rows) for c in range(32))
 
 
 def capture_field_state(emu: Emu) -> bytes:
@@ -136,50 +123,19 @@ def capture_field_state(emu: Emu) -> bytes:
     return head + capture_bg1_tilemap(emu)
 
 
-def screenshot_png(emu: Emu, path: Path) -> None:
-    """Write the live framebuffer to `path` as a PNG via the C ABI."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    emu.screenshot(str(path))
-
-
 def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
-                                     *, update: bool = False,
-                                     threshold: float = 0.1,
+                                     *, threshold: float = 0.1,
                                      max_diff_pixels: int = 0) -> None:
-    """Snapshot the framebuffer via the C-side `screenshot` (which goes
-    through `correctedFrame`, so dimensions match the on-disk PNG even
-    when ares' raw fb is doubled-x), then run kintsuki's numba-jitted
-    pixelmatch against `golden_path`. On first run / `UPDATE_GOLDENS=1`
-    records the golden and xfails so it gets committed. On mismatch
-    drops `<name>.actual.png` + `<name>.diff.png` next to the golden."""
+    """Record-or-compare the framebuffer against `golden_path` via
+    `kintsuki.visual.golden` (records + skips on first run, asserts
+    pixel-match thereafter)."""
     import os
-    if update or os.environ.get("UPDATE_GOLDENS") == "1" or not golden_path.exists():
-        golden_path.parent.mkdir(parents=True, exist_ok=True)
-        screenshot_png(emu, golden_path)
-        pytest.xfail(f"recorded {golden_path.name} — verify visually + commit")
-    actual_path = golden_path.with_suffix(".actual.png")
-    screenshot_png(emu, actual_path)
-    try:
-        from kintsuki._vendor.pixelmatch_numba import pixelmatch
-    except ImportError as e:
-        pytest.skip(f"kintsuki[pixelmatch] extras not installed: {e}")
-    from PIL import Image
-    golden_img = Image.open(golden_path).convert("RGBA")
-    actual_img = Image.open(actual_path).convert("RGBA")
-    if golden_img.size != actual_img.size:
-        raise AssertionError(
-            f"size mismatch: golden {golden_img.size} vs actual "
-            f"{actual_img.size}"
-        )
-    n, diff = pixelmatch(golden_img, actual_img, threshold=threshold)
-    if n > max_diff_pixels:
-        diff_path = golden_path.with_suffix(".diff.png")
-        diff.save(diff_path, format="PNG")
-        raise AssertionError(
-            f"{n} diff pixels (threshold={threshold}); "
-            f"actual={actual_path} diff={diff_path}"
-        )
-    actual_path.unlink(missing_ok=True)
+    from kintsuki.visual import golden
+    if os.environ.get("UPDATE_GOLDENS") == "1":
+        golden_path.unlink(missing_ok=True)
+    golden_path.parent.mkdir(parents=True, exist_ok=True)
+    golden(emu, golden_path,
+           threshold=threshold, max_diff_pixels=max_diff_pixels)
 
 
 def assert_bytes_match_golden(snapshot: bytes, golden_path: Path) -> None:
