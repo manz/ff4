@@ -122,9 +122,14 @@ drops_render_item_to_slot:
     lda.b 0xDB
     pha
     rep #0x20
-    ; Pin $29 = $B600 (BG1 staging). SelectBG1 at $01:84A2 sets the same
-    ; value before original DrawTreasureList. Inner reads ($29),y so the
-    ; tilemap base must be live in DP at the time of the indirect.
+    ; Pin $29 = $B600 (BG1 staging). SelectBG1 at $01:84A2 sets the
+    ; same value before original DrawTreasureList. Inner reads ($29),y
+    ; so the tilemap base must be live in DP at the time of the
+    ; indirect. NOTE: post-swap drops band visual refresh is still
+    ; broken — engine writes land here correctly but the visible
+    ; drops band on screen pulls from BG3 VRAM and never reflects
+    ; these writes. Tracked for follow-up; staging path matches
+    ; original DrawTreasureList.
     lda.w #0xB600
     sta.b 0x29
     sep #0x20

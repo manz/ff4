@@ -298,7 +298,7 @@ drops_init:
     rts
 
 drops_refresh_slots:
-"""Bank-$01 trampoline: re-render all drops slots (engine refresh path, no scroll-state reset)."""
+"""Bank-$01 trampoline: re-render all drops slots (engine refresh path)."""
     jsr.l drops_refresh_slots_impl
     rts
 
