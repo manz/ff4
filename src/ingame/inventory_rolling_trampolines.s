@@ -245,20 +245,35 @@ by calling the original $82C0 so original per-frame work still runs.
 
 
     lda.w treasure_scroll_state
-    beq _treasure_main_check_xfer
+    beq _treasure_main_check_drops_tick
     jsr.w _treasure_update_scroll_frame
     lda.w treasure_scroll_remaining
     bne _treasure_main_block_input
     jsr.w _treasure_finish_scroll
+_treasure_main_check_drops_tick:
+; Drops scroll state machine shares the treasure menu's per-frame
+; tick. While drops is animating, zero $01 (input mask) so cursor
+; input is frozen until the scroll lands — same shape as the
+; treasure-inventory branch above.
+    lda.w drops_scroll_state
+    beq _treasure_main_check_xfer
+    jsr.l drops_update_scroll_frame_impl
+    lda.w drops_scroll_remaining
+    bne _treasure_main_block_input
+    jsr.l drops_finish_scroll_impl
 _treasure_main_check_xfer:
 ; Drain treasure_transfer_pending — the rolling buffer renderer writes
 ; to the BG3 staging buffer at $7E:D600, but original's treasure main
 ; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
 ; tilemap to VRAM ourselves whenever a slot was just re-rendered.
+; Drops shares the same BG3 buffer; OR its transfer_pending in so a
+; single DMA drains both render writes per frame.
     lda.w treasure_transfer_pending
+    ora.w drops_transfer_pending
     beq _treasure_main_after_xfer
     jsr.l _tfr_bg3_tiles_vblank_trampoline
     stz.w treasure_transfer_pending
+    stz.w drops_transfer_pending
 _treasure_main_after_xfer:
     lda.w treasure_scroll_state
     beq _treasure_main_call_orig
@@ -285,5 +300,68 @@ drops_init:
 drops_refresh_slots:
 """Bank-$01 trampoline: re-render all drops slots (engine refresh path, no scroll-state reset)."""
     jsr.l drops_refresh_slots_impl
+    rts
+
+drops_down_handler:
+
+
+"""
+Bank-$01 cursor-row store + DOWN-scroll trigger. Called from the
+hijacked clamp site at $01:D9E0 with the candidate cursor row in A
+(= $1BB3 + 1). Stores the row when below the visible cap  ; otherwise
+fires the engine scroll-down state machine so items past row 4
+reveal. Returns with the row stored or an animation kicked.
+"""
+
+
+    cmp #DROPS_VISIBLE_ITEMS
+    bcc _drops_down_store
+    pha
+    lda.l drops_scroll_state
+    bne _drops_down_busy
+; Clamp scroll_pos at TOTAL - VISIBLE (3 for 8-total / 5-visible).
+    lda.l drops_scroll_pos
+    cmp #DROPS_TOTAL_ITEMS - DROPS_VISIBLE_ITEMS
+    bcs _drops_down_busy
+    inc
+    sta.l drops_scroll_pos
+    pla
+    jsr.l drops_start_scroll_down_impl
+    rts
+_drops_down_busy:
+    pla
+    rts
+_drops_down_store:
+    sta.w 0x1BB3
+    rts
+
+drops_up_handler:
+
+
+"""
+Bank-$01 cursor-row store + UP-scroll trigger. Called from the
+hijacked clamp site at $01:D9D1 with the decremented row in A
+(= $1BB3 - 1). Stores the row when non-negative  ; if it underflowed
+(N flag set, row was 0) fires the scroll-up state machine to pull
+a fresh top row down.
+"""
+
+
+    bmi _drops_up_scroll
+    sta.w 0x1BB3
+    rts
+_drops_up_scroll:
+    pha
+    lda.l drops_scroll_state
+    bne _drops_up_busy
+    lda.l drops_scroll_pos
+    beq _drops_up_busy  ; already at top
+    dec
+    sta.l drops_scroll_pos
+    pla
+    jsr.l drops_start_scroll_up_impl
+    rts
+_drops_up_busy:
+    pla
     rts
 }

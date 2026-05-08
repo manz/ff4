@@ -2395,6 +2395,11 @@ _field_nmi_hdma_copy_loop:
 
 _field_nmi_hdma_copy_done:
     ; === Tilemap DMA transfer (field menu = BG1) ===
+    ; Skip when treasure menu owns the screen: $1BB3 is then the
+    ; original drops cursor row, not field_menu_transfer_pending,
+    ; and clearing it would snap the drops cursor back to row 0.
+    lda.l 0x7E1BC6
+    bne _field_nmi_check_treasure
     lda.l 0x7E0000 + field_menu_transfer_pending
     beq _field_nmi_check_treasure
     lda #0x00

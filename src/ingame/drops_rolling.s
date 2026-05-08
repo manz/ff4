@@ -122,7 +122,10 @@ drops_render_item_to_slot:
     lda.b 0xDB
     pha
     rep #0x20
-    lda.w #0xA600
+    ; Pin $29 = $B600 (BG1 staging). SelectBG1 at $01:84A2 sets the same
+    ; value before original DrawTreasureList. Inner reads ($29),y so the
+    ; tilemap base must be live in DP at the time of the indirect.
+    lda.w #0xB600
     sta.b 0x29
     sep #0x20
     lda.w drops_rolling_edge_row
