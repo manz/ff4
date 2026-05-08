@@ -21,7 +21,6 @@ from _ff4kintsuki import (
     DROPS,
     REPO,
     assert_screenshot_matches_golden,
-    enter_treasure_picker,
     load_emu_from_kss,
     tap,
 )
@@ -56,15 +55,19 @@ def _seed_eight_drops(emu) -> None:
 @pytest.fixture
 def drops_emu():
     """KSS at end-of-battle, paused. Seed drops at the JSR-DrawTreasureList
-    callsite, run the engine init, then enter the exchange picker so DOWN
-    drives the drops cursor."""
+    callsite, run the engine init, settle on the treasure menu, then tap
+    DOWN once so the cursor moves from `Tout prendre` onto the drops
+    list — leaving the test free to drive its own DOWN/UP pattern
+    against drops without committing into the exchange picker (which
+    would be an A press)."""
     e = load_emu_from_kss(settle_frames=0)
     drops_init = e.lookup_symbol_addr("drops_init")
     assert drops_init is not None, "drops_init symbol missing in .adbg"
     assert e.run_until(drops_init, max_frames=600), \
         "drops_init never reached during transition"
     _seed_eight_drops(e)
-    enter_treasure_picker(e)
+    e.run_frames(300)        # let menu settle on `Tout prendre / Quitter`
+    tap(e, Button.DOWN)      # cursor now on drops row 0
     yield e
     e.close()
 
