@@ -67,6 +67,20 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     *=0x01D92D
     jsr.w drops_refresh_slots
 
+; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
+; the hand pointer 16 px below the drops band's first slot (legacy
+; 4x2 grid expected items at row 6+ on screen). With drops bumped
+; to start at tilemap row 4 (+0x80 byte stride from baseline), the
+; sprite needs base $08 so cursor row 0 lines up with item 0.
+    *=0x01D96F
+    .db 0x08
+
+; Drops cursor row clamp: original `cmp #$04` at $01D9E1 caps the
+; cursor at 4 visible rows (max row idx = 3). New layout fits 5
+; visible items, so bump to `cmp #$05` (max row idx = 4).
+    *=0x01D9E1
+    .db 0x05
+
 ; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
 ; bytes) with our state-machine trigger.
     *=0x01DA57
