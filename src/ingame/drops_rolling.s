@@ -40,8 +40,8 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 """
 
 
-DROPS_VISIBLE_ITEMS := 4
-DROPS_BUFFER_SLOTS := 5
+DROPS_VISIBLE_ITEMS := 5
+DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
 DROPS_SCROLL_LIMIT := 4
 DROPS_SCROLL_PIXELS_PER_FRAME := 8
@@ -152,7 +152,7 @@ drops_render_item_to_slot:
     xba
     lsr
     clc
-    adc.w #0x0084
+    adc.w #0x0104
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
@@ -205,7 +205,7 @@ drops_init_impl:
 Init drops rolling buffer. Drops sit inside the treasure-menu window the inventory init already drew, so the
 draw_window hook is a no-op.
 """
-    engine_init_rolling_buffer(drops_rolling, DROPS_BUFFER_SLOTS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
+    engine_init_rolling_buffer(drops_rolling, DROPS_VISIBLE_ITEMS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
 
 
 _drops_draw_window_noop:
