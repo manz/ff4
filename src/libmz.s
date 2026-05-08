@@ -1,5 +1,7 @@
 """Shared low-level helpers: vblank spinner + DMA transfer routines for VRAM / palette + small bank-trampolines."""
 
+.include "libmz.i"
+
 wait_for_vblank:
 """Spin until the next vblank edge: wait for $4212 to go low, then high."""
 {

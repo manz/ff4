@@ -172,6 +172,8 @@ hdma_enable_hook:
 Called during NMI before HDMA enable
 Must copy shadow -> active HDMA table BEFORE enabling HDMA
 """
+
+
     jsr.w nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
     .db 0xAF  ; LDA.L opcode
     .dw menu_hdma_enable  ; $1BAE
@@ -202,6 +204,8 @@ item_use_refresh_hook:
 Called after SelectItem2 to refresh display after item use
 Re-renders all visible slots to show updated quantity or empty slot
 """
+
+
     jsr.w swap_redraw_hook_impl
     rts
 }

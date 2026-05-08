@@ -273,6 +273,8 @@ inx
 xba
 bra _skip_empty_pixel_line
 """
+
+
     xba
     lda #0x00
     xba

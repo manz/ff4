@@ -195,6 +195,8 @@ menu (original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
 exit). Field-menu Items uses BG1 and reconfigures channel 5 itself  ; the
 key-item submenu (e.g. Baron key) is yet another context to add later.
 """
+
+
     lda.w 0x1BC6
     bne _t_setup_in_treasure
     rts
@@ -240,6 +242,8 @@ downstream `and #JOY_*` input checks all branch out, freezing
 cursor / button handling until the animation settles. Always ends
 by calling the original $82C0 so original per-frame work still runs.
 """
+
+
     lda.w treasure_scroll_state
     beq _treasure_main_check_xfer
     jsr.w _treasure_update_scroll_frame

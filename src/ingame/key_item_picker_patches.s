@@ -29,6 +29,7 @@ Patched:
   A9 01       (original LDA #$01 stays — never reached after RTS)
 """
 
+
 .if TREASURE_INVENTORY_ROLLING {
 ; UpdateItemText at $00:B22B reads scroll pos $BA, multiplies by 4
 ; (asl asl) for 2-col x 2-byte stride into $0712. Single-col layout

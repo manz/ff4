@@ -98,6 +98,7 @@ HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
 Register: $210E (BG1VOFS)
 Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
+
     php
     sep #0x20  ; 8-bit A
 
@@ -456,6 +457,7 @@ If scrolling is active, processes one frame and skips input handling.
 Returns: Carry clear = process input normally
  Carry set = skip input (still scrolling)
 """
+
     php
     sep #0x20  ; 8-bit A
 
@@ -686,6 +688,8 @@ Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
 Tilemap format: [tile_number, attributes] pairs
 Each row is 64 bytes (32 tiles × 2 bytes)
 """
+
+
 ; Y points to start of item slot area
 ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
 ; Save starting Y for second row calculation
@@ -858,6 +862,8 @@ $5A = src pointer ($1440 = inventory, $FF28 = treasure drops)
 Output: Y = tilemap offset for circular buffer slot
 Preserves: 16-bit A mode on exit
 """
+
+
     sep #0x20
 ; 8-bit A
 ; Drops list at $FF28 reuses _a181 but doesn't have any rolling state.

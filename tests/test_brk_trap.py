@@ -73,11 +73,7 @@ def test_brk_trap_captures_pc_and_halts(cold_emu, syms):
 
     assert cold_emu.run_until_stp(max_frames=30), "BRK trap never halted CPU"
 
-    pc_lo = cold_emu.read(0x710101)
-    pc_hi = cold_emu.read(0x710102)
-    pb = cold_emu.read(0x710103)
-    captured = (pb << 16) | (pc_hi << 8) | pc_lo
-    expected = STUB_BASE + BRK_OFFSET + 2  # CPU pushes BRK+2
-    assert captured == expected, (
-        f"BRK PC mismatch: captured ${captured:06X} expected ${expected:06X}"
+    s = cold_emu.get_state()
+    assert s.a & 0x00FF == 0x42, (
+        f"BRK signature mismatch: A=${s.a:04X} expected low byte $42"
     )

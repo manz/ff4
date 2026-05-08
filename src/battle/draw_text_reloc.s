@@ -75,6 +75,8 @@ draw_text:
 Relocated `draw_text` ($02A455): consume the dialog stream and dispatch through the text command + variable
 tables.
 """
+
+
 _a455:
     lda 0xef55
     sta 0x36
@@ -766,6 +768,8 @@ dex
 bne     _a7c2
 rts
 """
+
+
     pha
     lda 0x38d0, x
     beq _a7d6

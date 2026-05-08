@@ -25,6 +25,7 @@ Get a 24-bit dialog pointer for bank 1-2.
 
 > Note: bank 1-1 is only 0x100 pointers long, not 0x200 as the text dump suggests.
 """
+
     rep #0x20
     lda.l assets_bank1_1_ptr + 0x300, x
     sta.b dialog_ptr
@@ -41,6 +42,7 @@ Compute pointer for NPC dialogs.
 
 Organized per room  ; a linear lookup inside the room finds the start of the string.
 """
+
     rep #0x20
     lda.l dialog_bank_ptr_base + 0x600, x
     sta.b dialog_ptr
@@ -71,6 +73,7 @@ Get a 24-bit dialog pointer for bank 2.
 
 Walks the string character-by-character to handle variable-length encoding.
 """
+
 {
     rep #0x20
     lda.b dialog_ptr

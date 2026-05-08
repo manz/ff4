@@ -11,7 +11,6 @@ conditional_bg1_vofs := 0x208000
 .include "src/items.i"
 .include "src/lib/rolling_buffer.s"
 .include "src/menus/system_menus_text.i"
-
 .include "src/minimal_vwf_patches.s"
 .if BATTLE_ENABLED {
     .include "src/battle/math_patches.s"
@@ -33,7 +32,6 @@ conditional_bg1_vofs := 0x208000
     .include "src/battle/debug_always_drop.s"
     }
 }
-
 
 .include "src/ingame/places_names.s"
 .include "src/ingame/new_game.s"
@@ -205,23 +203,33 @@ multiply_by_12:
 
 brk_handler:
 """
-BRK trap: mask interrupts, disable NMI, capture P/PC/PB into
-$710100-$710103 (extended SRAM, persists across reset) then STP
-so kintsuki halts. CPU pushes (low->high addr): P, PC.lo, PC.hi,
-PB. Pulled in reverse. Pushed PC = BRK+2.
+BRK trap: mask interrupts, disable NMI, fetch the BRK signature byte
+(the imm operand of `brk #$NN`) into A, then STP. Kintsuki halts on
+STP  ; tooling reads the signature via `emu.get_state().a` and the
+crash site via `emu.callstack()`.
+
+CPU push order on BRK: PB, PC.hi, PC.lo, P (PCH/PCL packed as a
+16-bit push by the CPU). Pulled in reverse. Pushed PC = BRK + 2  ;
+signature byte sits at PB:(PC - 1).
 """
+
+
     sei
     sep #0x20
-    lda #0x00
+    lda #0x00  ; disable NMI / auto-joypad
     sta.l 0x004200
-    pla
-    sta.l 0x710100
+    pla  ; A = P (discard)
     rep #0x20
-    pla
-    sta.l 0x710101
+    pla  ; A = pushed PC (= BRK + 2)
+    dec  ; A = BRK + 1 (offset of signature byte)
+    sta.b 0x00  ; DP $00..$01 = low 16 bits of signature addr
     sep #0x20
-    pla
-    sta.l 0x710103
+    pla  ; A = PB
+    sta.b 0x02  ; DP $02 = bank for indirect long
+    rep #0x20
+    and.w #0x00FF  ; clear high byte of A so signature is the only thing left
+    sep #0x20
+    lda [0x00]  ; A = signature byte (BRK's #$NN imm)
     stp
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
