@@ -15,3 +15,8 @@ assets/*
 # Pixelmatch test artifacts
 *.actual.png
 *.diff.png
+
+# Stashed previous goldens from UPDATE_GOLDENS=1 (kept locally for review)
+*.prev.png
+*.prev.bin
+tests/goldens/index.html
