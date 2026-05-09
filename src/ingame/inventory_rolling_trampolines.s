@@ -2,6 +2,8 @@
 Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
 """
+.include "src/ingame/macros.i"
+
 ;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
 ;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
 ;; Each trampoline = jsr.l + rts = 5 bytes.
@@ -364,4 +366,15 @@ _drops_up_scroll:
 _drops_up_busy:
     pla
     rts
+
+; Custom InventoryWindow data for the treasure inventory list. Built
+; via menu_window(left, top, width, height) so the layout matches
+; original window blobs (cursor word + width/height byte pair).
+; DrawWindowTiles emits 1 + height + 1 BG rows. height = 12 →
+; 14 rows total → bottom border at BG row 13, lining up with the
+; rolling-buffer footer scanlines (BASE + 16 = -104 with BASE = -120
+; → screen 208-223 reads BG line 104-119 = rows 13-14).
+treasure_inventory_window:
+"""Bank-$01 window data for the treasure inventory list (5 visible rows, BG3)."""
+    menu_window(0, 0, 30, 12)
 }

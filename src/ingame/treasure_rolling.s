@@ -57,8 +57,10 @@ treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pe
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
 TREASURE_SCROLL_STATE_SCROLLING := 1
-TREASURE_SCROLL_PIXELS_PER_FRAME := 16  ; 16 px/frame = 1 frame per scroll
-TREASURE_SCROLL_TOTAL_PIXELS := 16
+; Held-DOWN cadence shared with field-menu rolling (see
+; src/lib/rolling_buffer.s INVENTORY_SCROLL_*).
+TREASURE_SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
+TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA Configuration (Direct Mode like FF6)
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
@@ -115,6 +117,7 @@ HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
 Register: $210E (BG1VOFS)
 Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
+
 
     php
     sep #0x20  ; 8-bit A
@@ -309,9 +312,9 @@ init_treasure_rolling_buffer_impl:
     engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot)  ; noqa: E501
 
 _treasure_draw_inventory_window:
-"""Treasure menu draws the InventoryWindow ($DCCE) frame for the bottom inventory list on entry."""
+"""Treasure menu draws a 5-row inventory window so the bottom border lands on the rolling-buffer footer scanlines."""
     rep #0x10
-    ldy.w #0xDCCE
+    ldy.w #treasure_inventory_window
     jsr.l draw_window_trampoline
     sep #0x10
     rts
@@ -500,6 +503,7 @@ If scrolling is active, processes one frame and skips input handling.
 Returns: Carry clear = process input normally
  Carry set = skip input (still scrolling)
 """
+
 
     php
     sep #0x20  ; 8-bit A
