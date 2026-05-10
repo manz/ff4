@@ -122,6 +122,15 @@ def capture_bg1_tilemap(emu: Emu, *, rows: int = 24) -> bytes:
     return bytes(tm.cell(r, c).tile & 0xFF for r in range(rows) for c in range(32))
 
 
+def capture_bg4_tilemap(emu: Emu, *, rows: int = 14) -> bytes:
+    """Read BG4 tilemap rows 0..rows as char bytes. Treasure drops list
+    lives on BG4 (alongside TreasureItemsWindow) once the drops rolling
+    buffer is wired."""
+    from kintsuki.tilemap import read_bg_tilemap
+    tm = read_bg_tilemap(emu, 4)
+    return bytes(tm.cell(r, c).tile & 0xFF for r in range(rows) for c in range(32))
+
+
 def capture_field_state(emu: Emu) -> bytes:
     """Snapshot field rolling-buffer state + BG1 tilemap."""
     head = bytes([
@@ -130,6 +139,18 @@ def capture_field_state(emu: Emu) -> bytes:
         emu.read(FIELD_HDMA_ENABLE),
     ])
     return head + capture_bg1_tilemap(emu)
+
+
+def _stash_previous_golden(golden_path: Path) -> None:
+    """When UPDATE_GOLDENS=1 overwrites a golden, rename the previous file
+    to `<name>.prev<ext>` first so the diff is recoverable post-record.
+    Lets reviewers eyeball pre/post even after the new golden has landed.
+    """
+    if not golden_path.exists():
+        return
+    prev = golden_path.with_suffix(f".prev{golden_path.suffix}")
+    prev.unlink(missing_ok=True)
+    golden_path.rename(prev)
 
 
 def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
@@ -141,7 +162,7 @@ def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
     import os
     from kintsuki.visual import golden
     if os.environ.get("UPDATE_GOLDENS") == "1":
-        golden_path.unlink(missing_ok=True)
+        _stash_previous_golden(golden_path)
     golden_path.parent.mkdir(parents=True, exist_ok=True)
     golden(emu, golden_path,
            threshold=threshold, max_diff_pixels=max_diff_pixels)
@@ -151,6 +172,7 @@ def assert_bytes_match_golden(snapshot: bytes, golden_path: Path) -> None:
     """Generic byte-blob golden compare. Records on first run."""
     import os
     if not golden_path.exists() or os.environ.get("UPDATE_GOLDENS") == "1":
+        _stash_previous_golden(golden_path)
         golden_path.parent.mkdir(parents=True, exist_ok=True)
         golden_path.write_bytes(snapshot)
         pytest.xfail(f"recorded {golden_path.name} — verify + commit")

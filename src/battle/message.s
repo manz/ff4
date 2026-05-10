@@ -442,7 +442,7 @@ _end:
     lda.b temp
     sta.b bits_left_on_tile
 
-_overflow:
+_finalize:
     pha
     lda.b current_char
     sta.b prev_char
@@ -561,6 +561,8 @@ found_pair:
 
 get_kerning_adjustment:
     {
+    php
+    rep #0x10
     phx
     phy
     rep #0x20
@@ -568,6 +570,7 @@ get_kerning_adjustment:
     sep #0x20
     ply
     plx
+    plp
     rts
     }
 

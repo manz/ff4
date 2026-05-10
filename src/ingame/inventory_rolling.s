@@ -55,8 +55,9 @@ menu_hdma_copy_pending := menu_rolling + RollingBufferState.hdma_copy_pending
 ; Scroll State Constants
 SCROLL_STATE_IDLE := 0
 SCROLL_STATE_SCROLLING := 1
-SCROLL_PIXELS_PER_FRAME := 8  ; 8 pixels/frame = 2 frames per scroll
-SCROLL_TOTAL_PIXELS := 16
+; Shared held-DOWN cadence (src/lib/rolling_buffer.s).
+SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
+SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA Configuration (Direct Mode like FF6)
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
@@ -98,6 +99,7 @@ HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
 Register: $210E (BG1VOFS)
 Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
+
 
     php
     sep #0x20  ; 8-bit A
@@ -457,6 +459,7 @@ If scrolling is active, processes one frame and skips input handling.
 Returns: Carry clear = process input normally
  Carry set = skip input (still scrolling)
 """
+
 
     php
     sep #0x20  ; 8-bit A

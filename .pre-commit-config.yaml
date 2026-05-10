@@ -5,8 +5,7 @@ repos:
         name: a816 format --check
         description: Verify .s/.i sources match a816 canonical formatting.
         entry: a816 format --check
-        language: python
-        additional_dependencies: ["a816==1.1.0a15"]
+        language: system
         files: \.(s|i)$
         require_serial: true
         pass_filenames: true
@@ -14,8 +13,7 @@ repos:
         name: a816 check (lint)
         description: Run a816 fluff lints (DOC*, N*, E*) on .s/.i sources.
         entry: a816 check
-        language: python
-        additional_dependencies: ["a816==1.1.0a15"]
+        language: system
         files: \.(s|i)$
         require_serial: true
         pass_filenames: true

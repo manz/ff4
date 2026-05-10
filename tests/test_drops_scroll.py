@@ -21,6 +21,7 @@ from _ff4kintsuki import (
     DROPS,
     REPO,
     assert_screenshot_matches_golden,
+    capture_bg4_tilemap,
     load_emu_from_kss,
     tap,
 )
@@ -73,8 +74,12 @@ def drops_emu():
 
 
 def _capture_drops_state(emu) -> bytes:
-    """Snapshot rolling-buffer state bytes used by golden compares."""
-    return bytes([
+    """Snapshot rolling-buffer state bytes + BG4 tilemap for golden
+    compares. Drops items render onto BG4 (alongside TreasureItemsWindow)
+    so the tile data is the canonical visual signal — strips palette/attr
+    so the snapshot stays stable across palette swaps and is more
+    diff-friendly than a full framebuffer screenshot."""
+    head = bytes([
         emu.read(DROPS_SCROLL_POS),
         emu.read(DROPS_BUFFER_POS),
         emu.read(DROPS_EDGE_ROW),
@@ -83,12 +88,17 @@ def _capture_drops_state(emu) -> bytes:
         emu.read(DROPS_BASE_SCROLL + 1),
         emu.read(DROPS_TOP_ROW),
     ])
+    return head + capture_bg4_tilemap(emu)
 
 
 def _check_or_record(name: str, snapshot: bytes) -> None:
     path = GOLDENS / f"{name}.bin"
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists() or os.environ.get("UPDATE_GOLDENS") == "1":
+        if path.exists() and os.environ.get("UPDATE_GOLDENS") == "1":
+            prev = path.with_suffix(".prev.bin")
+            prev.unlink(missing_ok=True)
+            path.rename(prev)
         path.write_bytes(snapshot)
         pytest.xfail(f"recorded golden at {path.relative_to(REPO)} — verify + commit")
     expected = path.read_bytes()
@@ -124,9 +134,12 @@ def test_drops_scroll_state(drops_emu, steps: int, name: str) -> None:
     (5, "scroll_5"),
 ])
 def test_drops_scroll_screenshot(drops_emu, steps: int, name: str) -> None:
-    """Visual drops-band screenshot regression. Catches BG3 layout drift
-    that the byte goldens miss (palette swaps, sprite cursor position,
-    drops/inventory seam)."""
+    """Visual drops-band screenshot regression. Drops live on BG4 since
+    8a7a6d5; full-screen capture is unstable while BG4 layer bleed past
+    the drops band is being worked on, so the byte golden above
+    (`test_drops_scroll_state` with BG4 tilemap appended) is the
+    authoritative regression for now. Keep this test as a placeholder
+    so the screenshot golden file still gets refreshed when re-recording."""
     for _ in range(steps):
         tap(drops_emu, Button.DOWN)
     assert_screenshot_matches_golden(drops_emu, GOLDENS / f"{name}.png")

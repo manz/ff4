@@ -2,6 +2,8 @@
 Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
 """
+.include "src/ingame/macros.i"
+
 ;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
 ;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
 ;; Each trampoline = jsr.l + rts = 5 bytes.
@@ -87,6 +89,24 @@ _tfr_bg3_tiles_vblank_trampoline:
 ; buffer: render writes go to the BG3 staging area but original's
 ; treasure main loop only refreshes BG2/sprites mid-menu, so without
 ; this call the rolling-buffer slot updates never make it on screen.
+    rtl
+
+_tfr_bg4_tiles_vblank_trampoline:
+    jsr 0x943A
+; original @ $01:943A — pushes BG4 buffer at $7E:C600 to VRAM $7800.
+; Used by the drops rolling buffer: drops items render into the BG4
+; frame that already holds TreasureItemsWindow, but the treasure main
+; loop never re-DMAs BG4 mid-menu so swap/scroll updates would stay
+; in WRAM without this call.
+    rtl
+
+_drops_select_bg4_trampoline:
+    jsr 0x8485
+; original SelectClearBG4 at $01:8485 — wipes BG4 staging to blank
+; tiles before falling through to SelectBG4 ($8488). Without the
+; clear, $C600..$CDFF holds whatever the previous menu/screen left
+; there, which gets DMA'd to BG4 VRAM and bleeds across the screen
+; once HDMA enables ch4 for the drops band.
     rtl
 
 draw_item_cursors_trampoline:
@@ -228,7 +248,7 @@ _t_setup_in_treasure:
 ; indirect table past scanline 128. Mask ch2 entirely; the drops-band
 ; original parallax is purely cosmetic and the drops list still lands
 ; at the right scanline without it.
-    lda #0xE9  ; $AD & ~0x04 | $40 = ch7|ch6|ch5|ch3|ch0
+    lda #0xF9  ; $AD & ~0x04 | $40 | $10 = ch7|ch6|ch5|ch4|ch3|ch0 (drops on ch4)
     sta.l 0x7E1BAE
     rts
 
@@ -245,20 +265,39 @@ by calling the original $82C0 so original per-frame work still runs.
 
 
     lda.w treasure_scroll_state
-    beq _treasure_main_check_xfer
+    beq _treasure_main_check_drops_tick
     jsr.w _treasure_update_scroll_frame
     lda.w treasure_scroll_remaining
     bne _treasure_main_block_input
     jsr.w _treasure_finish_scroll
+_treasure_main_check_drops_tick:
+; Drops scroll state machine shares the treasure menu's per-frame
+; tick. While drops is animating, zero $01 (input mask) so cursor
+; input is frozen until the scroll lands — same shape as the
+; treasure-inventory branch above.
+    lda.w drops_scroll_state
+    beq _treasure_main_check_xfer
+    jsr.l drops_update_scroll_frame_impl
+    lda.w drops_scroll_remaining
+    bne _treasure_main_block_input
+    jsr.l drops_finish_scroll_impl
 _treasure_main_check_xfer:
 ; Drain treasure_transfer_pending — the rolling buffer renderer writes
 ; to the BG3 staging buffer at $7E:D600, but original's treasure main
 ; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
 ; tilemap to VRAM ourselves whenever a slot was just re-rendered.
     lda.w treasure_transfer_pending
-    beq _treasure_main_after_xfer
+    beq _treasure_main_after_bg3
     jsr.l _tfr_bg3_tiles_vblank_trampoline
     stz.w treasure_transfer_pending
+_treasure_main_after_bg3:
+; Drain drops_transfer_pending — drops render into BG4 staging at
+; $7E:C600 (alongside TreasureItemsWindow), so push BG4 to VRAM
+; whenever drops re-rendered.
+    lda.w drops_transfer_pending
+    beq _treasure_main_after_xfer
+    jsr.l _tfr_bg4_tiles_vblank_trampoline
+    stz.w drops_transfer_pending
 _treasure_main_after_xfer:
     lda.w treasure_scroll_state
     beq _treasure_main_call_orig
@@ -283,7 +322,98 @@ drops_init:
     rts
 
 drops_refresh_slots:
-"""Bank-$01 trampoline: re-render all drops slots (engine refresh path, no scroll-state reset)."""
+"""Bank-$01 trampoline: re-render all drops slots (engine refresh path)."""
     jsr.l drops_refresh_slots_impl
     rts
+
+drops_down_handler:
+
+
+"""
+Bank-$01 cursor-row store + DOWN-scroll trigger. Called from the
+hijacked clamp site at $01:D9E0 with the candidate cursor row in A
+(= $1BB3 + 1). Stores the row when below the visible cap  ; otherwise
+fires the engine scroll-down state machine so items past row 4
+reveal. Returns with the row stored or an animation kicked.
+"""
+
+
+    cmp #DROPS_VISIBLE_ITEMS
+    bcc _drops_down_store
+    pha
+    lda.l drops_scroll_state
+    bne _drops_down_busy
+; Clamp scroll_pos at TOTAL - VISIBLE (3 for 8-total / 5-visible).
+    lda.l drops_scroll_pos
+    cmp #DROPS_TOTAL_ITEMS - DROPS_VISIBLE_ITEMS
+    bcs _drops_down_busy
+    inc
+    sta.l drops_scroll_pos
+    pla
+    jsr.l drops_start_scroll_down_impl
+    rts
+_drops_down_busy:
+    pla
+    rts
+_drops_down_store:
+    sta.w 0x1BB3
+    rts
+
+drops_up_handler:
+
+
+"""
+Bank-$01 cursor-row store + UP-scroll trigger. Called from the
+hijacked clamp site at $01:D9D1 with the decremented row in A
+(= $1BB3 - 1). Stores the row when non-negative  ; if it underflowed
+(N flag set, row was 0) fires the scroll-up state machine to pull
+a fresh top row down.
+"""
+
+
+    bmi _drops_up_scroll
+    sta.w 0x1BB3
+    rts
+_drops_up_scroll:
+    pha
+    lda.l drops_scroll_state
+    bne _drops_up_busy
+    lda.l drops_scroll_pos
+    beq _drops_up_busy  ; already at top
+    dec
+    sta.l drops_scroll_pos
+    pla
+    jsr.l drops_start_scroll_up_impl
+    rts
+_drops_up_busy:
+    pla
+    rts
+
+; Custom InventoryWindow data for the treasure inventory list. Built
+; via menu_window(left, top, width, height) so the layout matches
+; original window blobs (cursor word + width/height byte pair).
+; DrawWindowTiles emits 1 + height + 1 BG rows. height = 12 →
+; 14 rows total → bottom border at BG row 13, lining up with the
+; rolling-buffer footer scanlines (BASE + 16 = -104 with BASE = -120
+; → screen 208-223 reads BG line 104-119 = rows 13-14).
+treasure_inventory_window:
+"""Bank-$01 window data for the treasure inventory list (5 visible rows, BG3)."""
+    menu_window(0, 0, 30, 12)
+
+; Drops band window anchored at BG (0, 0). HDMA shifts BG4VOFS by
+; -24 so the window appears on screen at y=24 (matching where the
+; original TreasureItemsWindow at $01:E275 lived). Anchoring at the
+; tilemap origin keeps the per-row HDMA offsets consistent with the
+; treasure-inventory layout — same shape, easier math.
+treasure_drops_window:
+"""
+Bank-$01 window data for the treasure drops list (5 visible rows, BG4).
+
+Body height 12 = staging rows 1..12 with bottom border at row 13. Items
+render at staging rows 1,3,5,7,9 and the HDMA footer reads -8 to land
+the bottom border at screen y=112..120 (just below the 5th item).
+"""
+
+
+    menu_window(0, 0, 30, 12)
 }

@@ -57,8 +57,10 @@ treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pe
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
 TREASURE_SCROLL_STATE_SCROLLING := 1
-TREASURE_SCROLL_PIXELS_PER_FRAME := 16  ; 16 px/frame = 1 frame per scroll
-TREASURE_SCROLL_TOTAL_PIXELS := 16
+; Held-DOWN cadence shared with field-menu rolling (see
+; src/lib/rolling_buffer.s INVENTORY_SCROLL_*).
+TREASURE_SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
+TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA Configuration (Direct Mode like FF6)
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
@@ -115,6 +117,7 @@ HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
 Register: $210E (BG1VOFS)
 Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
+
 
     php
     sep #0x20  ; 8-bit A
@@ -246,6 +249,8 @@ update_treasure_scroll_hdma:
 
 _treasure_hdma_header:
 """Treasure profile header: drops band (120 lines at BASE-16) + inventory border (8 lines at BASE)."""
+
+
     sep #0x20
     lda #120
     sta.l TREASURE_HDMA_SHADOW, x
@@ -270,6 +275,8 @@ _treasure_hdma_header:
 
 _treasure_hdma_footer:
 """Treasure profile footer: 16 scanlines at BASE+16 (hides prefetch slot)."""
+
+
     sep #0x20
     lda #16
     sta.l TREASURE_HDMA_SHADOW, x
@@ -309,9 +316,9 @@ init_treasure_rolling_buffer_impl:
     engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot)  ; noqa: E501
 
 _treasure_draw_inventory_window:
-"""Treasure menu draws the InventoryWindow ($DCCE) frame for the bottom inventory list on entry."""
+"""Treasure menu draws a 5-row inventory window so the bottom border lands on the rolling-buffer footer scanlines."""
     rep #0x10
-    ldy.w #0xDCCE
+    ldy.w #treasure_inventory_window
     jsr.l draw_window_trampoline
     sep #0x10
     rts
@@ -400,10 +407,10 @@ _treasure_render_item_to_slot:
     lda.w treasure_rolling_slot_index
     sta.b 0x5d
 
-; Calculate Y = slot_index * 128 + 70
+; Calculate Y = slot_index * 128 + $44
 ; Y is the tilemap offset for this slot
-; +64 for window border (1 tile row = 32 tiles × 2 bytes)
-; +6 for left margin (3 tiles)
+; +64 = 1 BG row (top window border at staging row 0)
+; +4 for left margin (2 tiles)
     rep #0x20  ; 16-bit A (X/Y already 16-bit)
     lda.w treasure_rolling_slot_index
     and.w #0x00FF  ; Clear high byte
@@ -481,7 +488,12 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 ; byte and copies the HDMA shadow→active table each frame.
 ; Treasure-only `treasure_hdma_enable` ($1BD6) is kept as a tracking
 ; flag but isn't read by the NMI path.
-    lda #0x40  ; Channel 6 enable (treasure rolling buffer)
+; OR-in ch6 enable bit ($40) so drops's ch4 bit ($10) — set by
+; drops_ensure_hdma_initialized at menu open — survives. Plain
+; `sta` would clobber the drops enable; same lazy-init order issue
+; as treasure_force_hdma_setup which uses $F9 (= ch7|ch6|ch5|ch4|ch3|ch0).
+    lda.l 0x7E1BAE
+    ora #0x40  ; Channel 6 enable (treasure rolling buffer)
     sta.l 0x7E1BAE
     sta.w treasure_hdma_enable
     rts
@@ -500,6 +512,7 @@ If scrolling is active, processes one frame and skips input handling.
 Returns: Carry clear = process input normally
  Carry set = skip input (still scrolling)
 """
+
 
     php
     sep #0x20  ; 8-bit A

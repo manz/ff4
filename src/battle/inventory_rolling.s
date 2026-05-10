@@ -105,7 +105,7 @@ init_inventory_text_buf_rolling:
 Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the
 in-battle inventory window opens, resetting the rolling-buffer state.
 """
-    ; Set data bank to $7E for WRAM access
+; Set data bank to $7E for WRAM access
     phb
     lda #0x7E
     pha
@@ -1438,7 +1438,7 @@ tfr_inventory_list_rolling:
 Replacement for original `TfrInventoryList` ($0298FA): re-render the visible inventory rows into our buffer and DMA
 the slice to VRAM. Reached via JSL from bank 02.
 """
-    ; Set data bank to $7E for WRAM access
+; Set data bank to $7E for WRAM access
     phb
     lda #0x7E
     pha
@@ -1726,8 +1726,8 @@ scroll_list_down_hook:
 Replacement for the scroll-down stub at `$02A8B8`: kicks off the down-scroll animation, pre-renders the new bottom
 slot for the rolling buffer.
 """
-    ; === GUARD: Only use rolling buffer for inventory menu ===
-    ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
+; === GUARD: Only use rolling buffer for inventory menu ===
+; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
     lda.b 0x4A
     and #0x04
     bne _sd_is_inventory
@@ -1851,8 +1851,8 @@ scroll_list_up_hook:
 Replacement for the scroll-up stub at `$02A8CA`: pre-renders the new top row before kicking off the scroll-up
 animation.
 """
-    ; === GUARD: Only use rolling buffer for inventory menu ===
-    ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
+; === GUARD: Only use rolling buffer for inventory menu ===
+; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
     lda.b 0x4A
     and #0x04
     bne _su_is_inventory
@@ -1956,8 +1956,8 @@ update_list_scroll_hdma_wrapped:
 Replacement for the HDMA-build stub at `$02A7F1`: rebuild the per-scanline V-scroll table for the inventory rolling
 buffer.
 """
-    ; Check if we're in inventory mode (bit 2 of $4A)
-    ; If not, use original behavior for other windows
+; Check if we're in inventory mode (bit 2 of $4A)
+; If not, use original behavior for other windows
     lda.b 0x4A
     and #0x04
     bne _use_circular_buffer
@@ -2300,8 +2300,8 @@ check_cursor2_visibility_rolling:
 Toggle cursor-2 visibility while swap mode is active based on whether the first-selected item is in the visible
 window.
 """
-    ; Check if we're in inventory mode (bit 2 of $4A)
-    ; If not, don't touch cursor 2 state
+; Check if we're in inventory mode (bit 2 of $4A)
+; If not, don't touch cursor 2 state
     lda.b 0x4A
     and #0x04
     beq _cursor2_done
@@ -2356,6 +2356,14 @@ FIELD_HDMA_TABLE := 0x7E9800
 FIELD_HDMA_SHADOW := 0x7E9840
 FIELD_HDMA_TABLE_SIZE := 40
 
+; Drops profile HDMA constants (mirror src/ingame/drops_rolling.s
+; definitions; duplicated here so the NMI handler can reference them
+; without crossing the bank-$01 / bank-$20 import boundary).
+DROPS_HDMA_TABLE := 0x7E9880
+DROPS_HDMA_SHADOW := 0x7E98C0
+DROPS_HDMA_TABLE_SIZE := 40
+drops_hdma_copy_pending := 0x1BEE
+
 ; Called via JSL from bank $01 nmi_dma_transfer_check
 
 field_menu_nmi_dma_transfer_check_impl:
@@ -2394,7 +2402,39 @@ _field_nmi_hdma_copy_loop:
     sep #0x20  ; Back to 8-bit A
 
 _field_nmi_hdma_copy_done:
-    ; === Tilemap DMA transfer (field menu = BG1) ===
+    ; === Drops HDMA table copy: $7E:98C0 shadow -> $7E:9880 active ===
+    ; Drops uses ch4 driving BG4VOFS with its own 64-byte table, so the
+    ; shadow→active copy needs a parallel block keyed off
+    ; drops_hdma_copy_pending. Skip if drops HDMA is disabled in
+    ; $1BAE bit 4.
+    sep #0x20
+    lda.l 0x7E1BAE
+    and #0x10
+    beq _drops_nmi_hdma_copy_done
+    lda.l 0x7E0000 + drops_hdma_copy_pending
+    beq _drops_nmi_hdma_copy_done
+    lda #0x00
+    sta.l 0x7E0000 + drops_hdma_copy_pending
+    rep #0x30
+    ldx.w #0x0000
+
+_drops_nmi_hdma_copy_loop:
+    lda.l DROPS_HDMA_SHADOW, x
+    sta.l DROPS_HDMA_TABLE, x
+    inx
+    inx
+    cpx.w #DROPS_HDMA_TABLE_SIZE
+    bcc _drops_nmi_hdma_copy_loop
+    sep #0x20
+
+_drops_nmi_hdma_copy_done:
+
+; === Tilemap DMA transfer (field menu = BG1) ===
+; Skip when treasure menu owns the screen: $1BB3 is then the
+; original drops cursor row, not field_menu_transfer_pending,
+; and clearing it would snap the drops cursor back to row 0.
+    lda.l 0x7E1BC6
+    bne _field_nmi_check_treasure
     lda.l 0x7E0000 + field_menu_transfer_pending
     beq _field_nmi_check_treasure
     lda #0x00
