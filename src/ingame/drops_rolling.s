@@ -43,7 +43,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 DROPS_VISIBLE_ITEMS := 5
 DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
-DROPS_SCROLL_LIMIT := 4
+DROPS_SCROLL_LIMIT := 3
 DROPS_SCROLL_PIXELS_PER_FRAME := 8
 DROPS_SCROLL_TOTAL_PIXELS := 16
 
@@ -94,7 +94,60 @@ DROPS_SCROLL_STATE_SCROLLING := 1
 ;     drops geometry + tilemap layout work) -----------------------------------
 
 drops_ensure_hdma_initialized:
-"""Capture $9F (BG3VOFS shadow) + configure ch4 on first call. STUB."""
+"""Lazy init: pin BG4VOFS shadow to 0 + configure ch4 driving BG4VOFS on first scroll."""
+    rep #0x20
+    lda.w drops_rolling_base_scroll
+    cmp.w #0xFFFF
+    bne _drops_hdma_already_init
+
+; treasure_drops_window is anchored at BG (0, 0): top border at BG
+; row 0 = BG line 0. The HDMA header band offsets BG4VOFS so the
+; window appears on screen at y=24 (matching where the original
+; TreasureItemsWindow at $01:E275 lived). Items render at staging
+; rows 4,6,8,10 — engine body math uses base_scroll=0 so screen
+; y=32..95 reads exactly those rows.
+    lda.w #0xFFE8
+    ; -24: drops band starts at screen y=24. Items render at staging
+    ; rows 2,4,6,8 (DrawItemName lays glyphs into the row pointed at by
+    ; $1d = $29 + $40, so slot 0 with Y=$44 lands at row 2, not row 1).
+    ; Engine body math `scroll = base + slot*16 - row*16` collapses to
+    ; base for visible row 0..3 with buffer_pos=0; VOFS=-24 maps screen
+    ; y=32..95 to BG lines 8..71. Item 0 at BG row 2 = lines 16..23 lies
+    ; in the upper half of the body row 0 band (y=32..47).
+    sta.w drops_rolling_base_scroll
+
+; Configure HDMA channel 4: DIRECT mode 2 bytes, dest BG4VOFS ($2114),
+; src $7E:9880 (drops active table).
+    sep #0x20
+    lda #0x02
+    sta.l DROPS_HDMA4_CTRL
+    lda #0x14
+    sta.l DROPS_HDMA4_DEST
+    rep #0x20
+    lda.w #DROPS_HDMA_TABLE_ADDR
+    sta.l DROPS_HDMA4_SRC_LO
+    sep #0x20
+    lda #DROPS_HDMA_BANK
+    sta.l DROPS_HDMA4_SRC_BANK
+
+; Enable ch4 (BG4VOFS) only. TM HDMA mask via ch1 disabled — writes
+; to $212C per-scanline blank the screen for reasons not yet
+; understood (probably PPU/HDMA timing quirk in BGMODE 0). For now
+; rely on BG4 staging being zero-filled past the drops content (tile
+; 0 = transparent if CHR slot 0 is blank); residual bleed is the
+; trade-off.
+    lda.l 0x7E1BAE
+    ora #0x10
+    sta.l 0x7E1BAE
+    sta.w drops_hdma_enable
+    ; Build the initial HDMA shadow table + signal the NMI shadow→active
+    ; copy so ch4 has valid scroll values on the very first frame, not
+    ; just after the first scroll-trigger update.
+    jsr.w update_drops_scroll_hdma
+    rts
+
+_drops_hdma_already_init:
+    sep #0x20
     rts
 
 drops_render_item_to_slot:
@@ -122,15 +175,11 @@ drops_render_item_to_slot:
     lda.b 0xDB
     pha
     rep #0x20
-    ; Pin $29 = $B600 (BG1 staging). SelectBG1 at $01:84A2 sets the
-    ; same value before original DrawTreasureList. Inner reads ($29),y
-    ; so the tilemap base must be live in DP at the time of the
-    ; indirect. NOTE: post-swap drops band visual refresh is still
-    ; broken — engine writes land here correctly but the visible
-    ; drops band on screen pulls from BG3 VRAM and never reflects
-    ; these writes. Tracked for follow-up; staging path matches
-    ; original DrawTreasureList.
-    lda.w #0xB600
+    ; Pin $29 = $C600 (BG4 staging). TreasureItemsWindow is already
+    ; drawn on BG4 by original at $01:D817, so rendering drops items
+    ; INTO that same BG4 frame keeps the layout self-contained: one
+    ; window + items on one layer, one DMA path to VRAM.
+    lda.w #0xC600
     sta.b 0x29
     sep #0x20
     lda.w drops_rolling_edge_row
@@ -160,7 +209,7 @@ drops_render_item_to_slot:
     xba
     lsr
     clc
-    adc.w #0x0104
+    adc.w #0x0044
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
@@ -194,15 +243,65 @@ update_drops_scroll_hdma:
     engine_update_scroll_hdma(drops_rolling, DROPS_HDMA_SHADOW, DROPS_BUFFER_SLOTS, DROPS_VISIBLE_ITEMS, _drops_hdma_header, _drops_hdma_footer, _drops_hdma_signal)  ; noqa: E501
 
 _drops_hdma_header:
-"""Drops HDMA header band — top dialog frame at BASE scroll. STUB."""
+"""Header: 32 lines at base (-24) — off-screen 24 lines + 8 lines top border."""
+    sep #0x20
+    lda #32
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w drops_rolling_base_scroll
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    inx
     rts
 
 _drops_hdma_footer:
-"""Drops HDMA footer — locks scanlines past prefetch slot. STUB."""
+"""
+Footer: 25 lines bottom border + 87 lines trail keeping BG4 off content.
+
+Header (32) + body (5 visible × 16 = 80) + footer (25 + 87 = 112) = 224 visible scanlines.
+
+The border zone runs 25 lines (vs the natural 16) to step the trail's starting BG line past
+the bottom-border row. With the border zone @ -8, scanlines y=112..136 read BG rows 13..15
+(border + 2 blank padding rows). The trail @ -24 then starts at y=137, reading BG row 14
+— past the border row 13 — so the border tile doesn't get repeated for several scanlines as
+the trail kicks in.
+
+The +1 odd count (25 vs even) shifts the trail boundary to y=137 instead of y=136. ch6
+(treasure BG3VOFS) has a band boundary at y=136 (border-to-body)  ; the +1 keeps ch4 (drops)
+and ch6 from reloading on the same scanline.
+"""
+
+
+    sep #0x20
+    lda #25
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w #0xFFF8
+    ; -8: bottom border (BG row 13) at screen y=112..137. 25 lines covers BG rows 13..15
+    ; (border + 2 blank padding) so the trail @ -24 starts at y=137 reading BG row 14
+    ; instead of looping back to row 13 — prevents the border tile repeating visually.
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    inx
+    sep #0x20
+    lda #87
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w #0xFFE8
+    ; -24 again: y=137..223 reads BG rows 14..24 (empty padding) so BG4 stays off content.
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    inx
     rts
 
 _drops_hdma_signal:
-"""NMI shadow-copy signal for drops channel. STUB."""
+"""NMI shadow-copy signal for the drops ch4 table."""
+    sep #0x20
+    lda #0x01
+    sta.w drops_hdma_copy_pending
     rts
 
 
@@ -210,14 +309,21 @@ _drops_hdma_signal:
 
 drops_init_impl:
 """
-Init drops rolling buffer. Drops sit inside the treasure-menu window the inventory init already drew, so the
-draw_window hook is a no-op.
+Init drops rolling buffer. Drops render onto BG4 staging ($7E:C600) alongside TreasureItemsWindow
+($01:E275 def_window 1, 3, 27, 10) which the draw_window hook redraws first so the engine can write items into
+the just-drawn frame without the original $01:D817 DrawWindow call clobbering them.
 """
-    engine_init_rolling_buffer(drops_rolling, DROPS_VISIBLE_ITEMS, _drops_draw_window_noop, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
+    engine_init_rolling_buffer(drops_rolling, DROPS_VISIBLE_ITEMS, _drops_draw_window, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
 
 
-_drops_draw_window_noop:
-"""Drops live inside the existing treasure-menu window — no frame to draw."""
+_drops_draw_window:
+"""Pre-render hook: SelectBG4 + DrawWindow(treasure_drops_window) so $29=$C600 is live before items render."""
+    sep #0x20
+    jsr.l _drops_select_bg4_trampoline
+    rep #0x10
+    ldy.w #treasure_drops_window
+    jsr.l draw_window_trampoline
+    sep #0x10
     rts
 
 drops_scroll_down_prepare:

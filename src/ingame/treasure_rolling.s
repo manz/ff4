@@ -249,6 +249,8 @@ update_treasure_scroll_hdma:
 
 _treasure_hdma_header:
 """Treasure profile header: drops band (120 lines at BASE-16) + inventory border (8 lines at BASE)."""
+
+
     sep #0x20
     lda #120
     sta.l TREASURE_HDMA_SHADOW, x
@@ -273,6 +275,8 @@ _treasure_hdma_header:
 
 _treasure_hdma_footer:
 """Treasure profile footer: 16 scanlines at BASE+16 (hides prefetch slot)."""
+
+
     sep #0x20
     lda #16
     sta.l TREASURE_HDMA_SHADOW, x
@@ -403,10 +407,10 @@ _treasure_render_item_to_slot:
     lda.w treasure_rolling_slot_index
     sta.b 0x5d
 
-; Calculate Y = slot_index * 128 + 70
+; Calculate Y = slot_index * 128 + $44
 ; Y is the tilemap offset for this slot
-; +64 for window border (1 tile row = 32 tiles × 2 bytes)
-; +6 for left margin (3 tiles)
+; +64 = 1 BG row (top window border at staging row 0)
+; +4 for left margin (2 tiles)
     rep #0x20  ; 16-bit A (X/Y already 16-bit)
     lda.w treasure_rolling_slot_index
     and.w #0x00FF  ; Clear high byte
@@ -484,7 +488,12 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 ; byte and copies the HDMA shadow→active table each frame.
 ; Treasure-only `treasure_hdma_enable` ($1BD6) is kept as a tracking
 ; flag but isn't read by the NMI path.
-    lda #0x40  ; Channel 6 enable (treasure rolling buffer)
+; OR-in ch6 enable bit ($40) so drops's ch4 bit ($10) — set by
+; drops_ensure_hdma_initialized at menu open — survives. Plain
+; `sta` would clobber the drops enable; same lazy-init order issue
+; as treasure_force_hdma_setup which uses $F9 (= ch7|ch6|ch5|ch4|ch3|ch0).
+    lda.l 0x7E1BAE
+    ora #0x40  ; Channel 6 enable (treasure rolling buffer)
     sta.l 0x7E1BAE
     sta.w treasure_hdma_enable
     rts

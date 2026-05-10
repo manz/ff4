@@ -85,6 +85,25 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     *=0x01D92D
     jsr.w drops_refresh_slots
 
+; drops_init draws TreasureItemsWindow on BG4 itself (via its
+; draw_window_hook) so the engine can render items into the freshly
+; drawn frame. Original still has SelectBG4 + ldy + DrawWindow at
+; $01:D811-$01:D819 (9 bytes) which would draw the same window on
+; top of our items, overwriting them with body fill. NOP the whole
+; block — drops_init has already done both steps. SelectBG3 at
+; $01:D81A still runs and primes $29=$D600 for treasure_init at
+; $01:D81D.
+    *=0x01D811
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+
 ; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
 ; the hand pointer 16 px below the drops band's first slot (legacy
 ; 4x2 grid expected items at row 6+ on screen). With drops bumped
