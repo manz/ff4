@@ -325,43 +325,15 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 *=0x029DD3
     lda #0x0f  ; 15 tiles instead of 12
 
-; --- TfrEquipWindow: row1/row2 offset within buffer ---
-; Original: 02/97F4: BD 30 00  LDA $0030,X (row 2 = row 1 + $30)
+; --- TfrEquipWindow: replace entire body with JSL to relocated routine ---
+; Vanilla body $0297A6..$029824 (126 bytes) hard-coded a side-by-side dual-write
+; pattern. New routine in bank $20 walks label/item per hand row-by-row.
+; Trampoline overwrites the entry; obsolete in-body patches removed.
+    .extern tfr_equip_window_new
 
-*=0x0297F4
-    lda.w 0x003C, x  ; offset 60 instead of 48
-
-; Original: 02/9808: BD 30 00  LDA $0030,X
-
-*=0x029808
-    lda.w 0x003C, x
-
-; --- TfrEquipWindow: left hand start ---
-; Shift 1 tile right so the symbol (first tile) is visible
-; Original: 02/9800: A0 C0 00  LDY #$00C0 (left hand start)
-
-*=0x029800
-    ldy #0x00C2  ; row 3 column 1 (1 tile right)
-
-; --- TfrEquipWindow: item positions and loop counts ---
-; Keep Y at proper row boundaries (64 bytes per row)
-; Expand from 12 tiles (24 bytes) to 15 tiles (30 bytes)
-; Row 2: bytes 128-191 ($80-$BF), Row 3: bytes 192-255 ($C0-$FF)
-
-; Original: 02/97EC: A0 80 00  LDY #$0080 (right hand start)
-
-*=0x0297EC
-    ldy #0x0080  ; row 2 column 0 (unchanged start)
-
-; Original: 02/97FB: C0 98 00  CPY #$0098 (right hand end)
-
-*=0x0297FB
-    cpy #0x009E  ; Y: $80 to $9D = 30 bytes (15 tiles)
-
-; Original: 02/980F: C0 D8 00  CPY #$00D8 (left hand end)
-
-*=0x02980F
-    cpy #0x00E0  ; Y: $C2 to $DF = 30 bytes (15 tiles)
+*=0x0297A6
+    jsr.l tfr_equip_window_new
+    rts
 
 ; --- EquipHandPtrs: item offset within buffer ---
 ; Original: 02/9D67: 00 30 (item 1 at 0, item 2 at 48)
@@ -380,24 +352,6 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
     .dw 0x9A00 + 0x78 * 2  ; char 2 ($9AF0)
     .dw 0x9A00 + 0x78 * 3  ; char 3 ($9B68)
     .dw 0x9A00 + 0x78 * 4  ; char 4 ($9BE0)
-
-; ===== TILEMAP BASE POINTER SHIFT =====
-; Shift content 3 tiles left by adjusting tilemap destination bases
-; Original $D1EC/$D208 places content at column 3; shift to column 0
-;
-; Buffer layout: 64 bytes per row (32 tiles)
-; Original bases: $D1EC = buffer+70 (row 1, col 3), $D208 = buffer+98 (row 1, col 17)
-; New bases: 6 bytes earlier to shift 3 tiles left
-
-; Original: 02/97A6: A2 EC D1  LDX #$D1EC (dakuten tilemap base)
-
-*=0x0297A6
-    ldx #0xD1E8  ; 2 tiles left ($D1EC - 4)
-
-; Original: 02/97AB: A2 08 D2  LDX #$D208 (character tilemap base)
-
-*=0x0297AB
-    ldx #0xD204  ; 2 tiles left ($D208 - 4)
 
 ; ===== EQUIPPED ITEMS WINDOW SIZE =====
 ; Move window to screen edge (x: 1→0) and make 2 tiles wider (width: 30→32)

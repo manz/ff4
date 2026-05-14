@@ -70,15 +70,8 @@ piggyback on `defend_row` data.
     sta 0xba96, y
 
 
-*=0x0297c6
-    ; skip the dakuten line of the Hands text to display a single 10char line instead of two 5 chars line
-    _skip_dakuten_line = 0x0297d7
-    bra _skip_dakuten_line
-
-*=0x0297e6
-    cpy.w #0x0040 + 0xa * 2
-
 ; Hands text
+; (Layout handled by relocated tfr_equip_window_new in src/battle/equip_window.s)
 
 *=0x16fed5
 {

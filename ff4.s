@@ -149,6 +149,7 @@ rtl
     }
     .import "battle/commands_reloc"
     .import "battle/items_reloc"
+    .import "battle/equip_window"
     .import "battle/math_reloc"
     .if INVENTORY_ROLLING_BUFFER {
     .import "battle/inventory_rolling"
