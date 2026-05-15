@@ -8,6 +8,8 @@ loop, called by the patched bank-$02 hook.
 .extern assets_battle_commands_nul_ptr
 .extern assets_battle_commands_nul_dat
 .extern command_buffer_ptr
+.extern battle_menu_dirty
+.extern CMD_DIRTY_BIT
 
 mult8_far := 0x2855c
 
@@ -18,9 +20,15 @@ mult8_far := 0x2855c
 }
 
 draw_command_list_for_character:
-"""Public RTL entry: render the per-character battle command list for the active character."""
-    ; Skip command rendering if inventory is active (bit 2 of $4A)
-    ; This prevents format buffer ($74FD) conflicts with inventory code
+"""
+Public RTL entry: render the per-character battle command list for the active character.
+Dirty-bit gating moved up to the bank-02 thunk
+(`_draw_battle_command_window_relocated`) which clears CMD_DIRTY_BIT
+before calling here  ; gating twice would leave the inner buffer
+filled with $00FF blanks. Inventory-open short-circuit stays.
+"""
+; Skip command rendering if inventory is active (bit 2 of $4A)
+; This prevents format buffer ($74FD) conflicts with inventory code
     lda.l 0x7E004A
     and #0x04
     bne _skip_commands

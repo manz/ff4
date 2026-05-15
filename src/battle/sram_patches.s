@@ -8,6 +8,9 @@ window) through our messages-VWF init/deinit trampolines.
 .extern clear_names_window_buffer
 .extern battle_render
 .extern messages_vwf
+.extern _msg_monster_window_gated
+.extern _msg_names_window_gated
+.extern gated_clear_names_window_buffer
 
 ; inventory buffer
 ;*=0x02991E
@@ -76,7 +79,7 @@ window) through our messages-VWF init/deinit trampolines.
 ;; monster names vwf try but being clear at every monster
 ;; needs a way to have immortal renders and temporary ones (used only for a few instants)
     *=0x02a40d
-    jsr.w msg_monster_window_trampoline
+    jsr.w _msg_monster_window_gated
 
     *=0x029486 + 12
     .dw 0x949a  ; noop for monster names
@@ -87,7 +90,7 @@ window) through our messages-VWF init/deinit trampolines.
 ; this gets redrawn quite often
 ; char names
     *=0x02A29D
-    jsr.w _msg_names_window_trampoline
+    jsr.w _msg_names_window_gated
 ; wait frame runs a shite load of updates
     *=0x029486 + 2
     .dw 0x949a  ; noop for char names
@@ -99,7 +102,7 @@ window) through our messages-VWF init/deinit trampolines.
     .dw 0x949a  ; noop for periodic names update
 
     *=0x02A299
-    jsr.l clear_names_window_buffer
+    jsr.l gated_clear_names_window_buffer
 }
 ; that's battle graphics 0xf that's a wait frame
 ;*=0x028517

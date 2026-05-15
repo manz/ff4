@@ -41,6 +41,28 @@ Set the cmd-window dirty bit. Callable from any bank via JSL/RTL.
     sta.l battle_menu_dirty
     rtl
 
+gate_status_check:
+"""
+Bank-20 body for the DrawStatusText hash gate. XOR of char-slot
+status-1 bytes ($2003+slot*$40). Sets carry on dirty, clears on
+clean. Caller (bank-02 trampoline at $02:97F8) tail-jumps to
+$A2A1 on dirty, rts on clean.
+"""
+    lda.l 0x7E2003
+    eor.l 0x7E2043
+    eor.l 0x7E2083
+    eor.l 0x7E20C3
+    eor.l 0x7E2103
+    cmp.l status_hash
+    beq _gsc_clean
+    sta.l status_hash
+    sec
+    rtl
+
+_gsc_clean:
+    clc
+    rtl
+
 gate_obj_names_check:
 """
 Bank-20 body for the DrawObjNames hash gate. XOR of monster slot

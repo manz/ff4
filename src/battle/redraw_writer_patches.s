@@ -22,6 +22,7 @@ follow-up patches.
 .extern status_hash
 .extern obj_names_hash
 .extern gate_obj_names_check
+.extern gate_status_check
 .extern battle_render.render_skipped
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
@@ -123,21 +124,16 @@ _battle_ext_seed:
 ; seed but state hash != 0 in normal play). Status flicker pulse
 ; freezes when no status changes ; acceptable trade for ~9M cycles.
 
-*=0x029810
+*=0x0297F8
 gate_draw_status_text:
 """
-Hash-gates DrawStatusText. XOR of char-slot status-1 bytes  ;
-tail-jumps to $A2A1 on change, rts on match.
+Bank-02 trampoline  ; JSL's bank-20 hash check, tail-jumps to
+$A2A1 on carry-set (dirty), rts on carry-clear (clean). Lives
+in the slot after `_battle_ext_seed` (ends $97F8).
 """
-    lda.l 0x7E2003
-    eor.l 0x7E2043
-    eor.l 0x7E2083
-    eor.l 0x7E20C3
-    eor.l 0x7E2103
-    cmp.l status_hash
-    beq _gdst_skip
-    sta.l status_hash
-    jmp 0xA2A1  ; tail-call original DrawStatusText
+    jsr.l gate_status_check
+    bcc _gdst_skip
+    jmp 0xA2A1
 
 _gdst_skip:
     rts
