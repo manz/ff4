@@ -105,7 +105,6 @@ dialog_bank_ptr_base = 0x218000
 }
 
 .alloc bank20_main in bank20_reloc {
-
 ; --- Inline reloc helpers ------------------------------------------------
 
 ; Conditional BG1VOFS write for HDMA inventory scrolling.
@@ -113,7 +112,7 @@ dialog_bank_ptr_base = 0x218000
 ; Skips BG1VOFS write when menu HDMA is active.
 ; Address is pinned by `conditional_bg1_vofs := 0x208000` at the top of
 ; this file ; `strategy order` keeps it first in the pool.
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
     lda.l 0x7E0000 + menu_hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
@@ -125,7 +124,7 @@ dialog_bank_ptr_base = 0x218000
 
 _cond_skip_bg1vofs:
     rtl
-}
+    }
 
 
 clear_ram:
@@ -133,6 +132,8 @@ clear_ram:
 Clear the dialog VWF tile buffer at $702000-$706FFF (16-bit zeroes) after letting the boot ROM init at
 $15C9AA.
 """
+
+
     jsr.l 0x15C9AA
     {
     lda.b #0x00
@@ -154,6 +155,8 @@ Called from $019023 via JSL.
 Input: $43 = item ID (16-bit mode active).
 Output: X = offset into ItemName table.
 """
+
+
     lda 0x43
     clc
     adc 0x43  ; x2
@@ -192,6 +195,8 @@ CPU push order on BRK: PB, PC.hi, PC.lo, P (PCH/PCL packed as a
 16-bit push by the CPU). Pulled in reverse. Pushed PC = BRK + 2  ;
 signature byte sits at PB:(PC - 1).
 """
+
+
     sei
     sep #0x20
     lda #0x00  ; disable NMI / auto-joypad
@@ -212,16 +217,16 @@ signature byte sits at PB:(PC - 1).
 
 ; --- Imported modules ---------------------------------------------------
 
-.import "libmz"
-.import "dialog"
-.import "kerning"
-.if ENABLE_INTRO {
+    .import "libmz"
+    .import "dialog"
+    .import "kerning"
+    .if ENABLE_INTRO {
     .import "intro"
-}
-.import "vwf"
-.import "small_vwf/init"
+    }
+    .import "vwf"
+    .import "small_vwf/init"
 
-.if BATTLE_ENABLED {
+    .if BATTLE_ENABLED {
     .import "battle/sram"
     .import "battle/graphics"
     .import "battle/monsters_reloc"
@@ -236,47 +241,50 @@ signature byte sits at PB:(PC - 1).
     .if INVENTORY_ROLLING_BUFFER {
     .import "battle/inventory_rolling"
     }
-}
-.import "ingame/places_names_window"
-.import "menus/system_menus_text"
-.import "dakuten"
-.import "menus/start_screen_text"
-.import "menus/tools_shop_text"
-.import "menus/in_game_text"
-.import "assets"
+    }
+
+    .import "ingame/places_names_window"
+    .import "menus/system_menus_text"
+    .import "dakuten"
+    .import "menus/start_screen_text"
+    .import "menus/tools_shop_text"
+    .import "menus/in_game_text"
+    .import "assets"
 
 ; --- Includes (gated by build flags) ------------------------------------
 
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
-}
+    }
 
-.if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/treasure_rolling.s"
     .include "src/ingame/drops_rolling.s"
     .include "src/ingame/key_item_picker.s"
-}
+    }
 
 ; --- Binary text assets -------------------------------------------------
 
-.incbin "assets/attack_names.ptr"
-.incbin "assets/attack_names.dat"
-.incbin "assets/monsters_long.ptr"
-.incbin "assets/monsters_long.dat"
-.incbin "assets/battle_commands_nul.ptr"
-.incbin "assets/battle_commands_nul.dat"
-.incbin "assets/magic.dat"
-.incbin "assets/places_names.dat"
-.incbin "assets/classes.ptr"
-.incbin "assets/classes.dat"
-.incbin "assets/items.dat"
-.incbin "assets/item_descriptions.dat"
-.if TREASURE_INVENTORY_ROLLING {
+
+    .incbin "assets/attack_names.ptr"
+    .incbin "assets/attack_names.dat"
+    .incbin "assets/monsters_long.ptr"
+    .incbin "assets/monsters_long.dat"
+    .incbin "assets/battle_commands_nul.ptr"
+    .incbin "assets/battle_commands_nul.dat"
+    .incbin "assets/magic.dat"
+    .incbin "assets/places_names.dat"
+    .incbin "assets/classes.ptr"
+    .incbin "assets/classes.dat"
+    .incbin "assets/items.dat"
+    .incbin "assets/item_descriptions.dat"
+    .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
+    }
 }
 
-}  ; end .alloc bank20_main
+; end .alloc bank20_main
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
