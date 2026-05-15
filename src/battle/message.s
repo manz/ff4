@@ -144,6 +144,27 @@ _not_found:
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
     pending_transfer_mask = 0x703c00
+; --- Per-region dirty bits (normal sense: 1 = dirty, 0 = clean) ---
+; Sits next to the DMA queue byte; writers SET bits on state change.
+    region_dirty_bits = 0x703c01
+    REGION_DIRTY_MESSAGES = 0x01
+    REGION_DIRTY_MONSTERS = 0x02
+    REGION_DIRTY_NAMES = 0x04
+    REGION_DIRTY_COMMANDS = 0x08
+; Transient marker: $FF if `init_*_with_gate` short-circuited
+; because the region was clean; $00 if it ran the full init.
+; Used by deinit_with_gate to decide whether to signal DMA, and
+; by the gated trampoline to decide whether to skip DrawText.
+    render_skipped = 0x703c02
+; Per-region tilemap-DMA pending bitmask. Set by `init_*_gated`
+; on the render path  ; consumed by `dma_transfer` in NMI to fire
+; a per-region tilemap DMA (WRAM tilemap -> BG VRAM). Decouples
+; tilemap upload from the vanilla `TfrCmdWindow` / `TfrMainMenu`
+; periodic queue so the tile-data + tilemap transfers stay in
+; sync on the same NMI as the render.
+    tilemap_pending_mask = 0x703c03
+    TILEMAP_PENDING_COMMANDS = 0x01
+    TILEMAP_PENDING_MAIN = 0x02
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
     temp = bits_left_on_tile + 4
@@ -166,6 +187,62 @@ _init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
     bra _internal_init
+; --- Region-gated init variants ---
+; Mirror the public init_X paths but check the matching region-dirty
+; bit in `region_dirty_bits` first. When the bit is CLEAR (= clean), set
+; `render_skipped = $FF` and short-circuit (no clear_buffer, no
+; allocator init, no `_internal_init` setup). The caller (gated
+; trampoline) reads `render_skipped` after the init returns to decide
+; whether to call DrawText. On the dirty path: do the full work and
+; CLEAR the region's bit to mark clean for next frame; `render_skipped`
+; stays at $00 so DrawText runs.
+init_monsters_gated:
+"""Gated init for the monsters region."""
+    lda.l region_dirty_bits
+    bit.b #REGION_DIRTY_MONSTERS
+    beq _gated_skip
+    and.b #( ~ REGION_DIRTY_MONSTERS ) & 0xFF
+    sta.l region_dirty_bits
+    lda.l tilemap_pending_mask
+    ora.b #TILEMAP_PENDING_MAIN
+    sta.l tilemap_pending_mask
+    lda.b #region_size
+    bra _init_continue
+init_names_gated:
+"""Gated init for the names region."""
+    lda.l region_dirty_bits
+    bit.b #REGION_DIRTY_NAMES
+    beq _gated_skip
+    and.b #( ~ REGION_DIRTY_NAMES ) & 0xFF
+    sta.l region_dirty_bits
+    lda.l tilemap_pending_mask
+    ora.b #TILEMAP_PENDING_MAIN
+    sta.l tilemap_pending_mask
+    lda.b #region_size * 2
+    bra _init_continue
+init_commands_list_gated:
+"""Gated init for the commands region."""
+    lda.l region_dirty_bits
+    bit.b #REGION_DIRTY_COMMANDS
+    beq _gated_skip
+    and.b #( ~ REGION_DIRTY_COMMANDS ) & 0xFF
+    sta.l region_dirty_bits
+    lda.l tilemap_pending_mask
+    ora.b #TILEMAP_PENDING_COMMANDS
+    sta.l tilemap_pending_mask
+    lda.b #region_size * 3
+_init_continue:
+    pha
+    lda.b #0x00
+    sta.l render_skipped
+    pla
+    sta.l pending_transfer_mask
+    jsr.w render_allocator.init_with_tile_id
+    bra _internal_init
+_gated_skip:
+    lda.b #0xFF
+    sta.l render_skipped
+    rts
 init:
     pha
     lda #0
@@ -650,6 +727,28 @@ init_names:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_names
     rtl
+init_monsters_gated:
+"""
+Gated counterpart to `init_monsters`. Always flips the VWF flag
+(symmetry preserved with `deinit_gated`)  ; skips clear_buffer +
+allocator setup when the monsters region's clean bit is already
+set. Writes `$FF` to `render_skipped` so the gated trampoline can
+short-circuit DrawText and the matching `deinit_gated` skips the
+DMA signal.
+"""
+    jsr.l battle_flags.set_vwf_render
+    jsr.w battle_render.init_monsters_gated
+    rtl
+init_names_gated:
+"""Gated counterpart to `init_names`."""
+    jsr.l battle_flags.set_vwf_render
+    jsr.w battle_render.init_names_gated
+    rtl
+init_commands_list_gated:
+"""Gated counterpart to `init_commands_list`."""
+    jsr.l battle_flags.set_vwf_render
+    jsr.w battle_render.init_commands_list_gated
+    rtl
 deinit:
 """
 the renderer
@@ -660,6 +759,20 @@ disables messages renderer falling back to fixed mode.
     lda.l battle_render.pending_transfer_mask
     ora #1
     sta.l battle_render.pending_transfer_mask
+    rtl
+deinit_gated:
+"""
+Companion to `init_*_gated`: always flips the flag back, only
+signals DMA (sets bit 0 of pending_transfer_mask) if the matching
+init actually rendered. Reads `render_skipped` to decide.
+"""
+    jsr.l battle_flags.clear_vwf_render
+    lda.l battle_render.render_skipped
+    bne _deinit_gated_done
+    lda.l battle_render.pending_transfer_mask
+    ora #1
+    sta.l battle_render.pending_transfer_mask
+_deinit_gated_done:
     rtl
 _wait_for_vblank:
     {
@@ -673,6 +786,13 @@ dma_transfer:
 """
 Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render.pending_transfer_mask`,
 transfers the dirty regions to VRAM, and clears the mask bits.
+
+Sets forced-blank (`$2100 = $80`) when any DMA work is queued so
+the DMA window extends past actual vblank into the first ~5 lines
+of normal scan  ; restored to `$6cc1` brightness by the vanilla
+INIDISP write at `$02:837F` after the NMI DMA chain. On idle
+frames (nothing queued) forced-blank is NOT set  ; vblank stays
+normal length, no visible black strip.
 """
     pha
     phx
@@ -713,9 +833,61 @@ transfers the dirty regions to VRAM, and clears the mask bits.
     lda #0x00
     sta.l battle_render.pending_transfer_mask
 _no_transfer:
+; --- Per-region tilemap DMA pass ---
+; Reads `tilemap_pending_mask` (set by `init_*_gated` on render paths
+; and by the cmd-window thunk on its dirty render) and fires a WRAM
+; tilemap -> BG VRAM DMA for each pending region. Replaces the
+; vanilla `TfrCmdWindow` / `TfrMainMenu` queue so cmd-window tilemap
+; stays in sync with the tile-data DMA above.
+; Save+restore P and X/Y around the DMA pass: NMI caller may leave
+; M/X flags in any state, and `ldy.w` / `ldx.w` need X-flag = 16
+; to load full word operands.
+    php
+    sep #0x20
+; M = 8-bit (bit instructions use 8-bit immediates)
+    rep #0x10
+; X = 16-bit (ldy.w / ldx.w load full word)
+    lda.l battle_render.tilemap_pending_mask
+    beq _no_tilemap_dma
+    pha
+    bit.b #battle_render.TILEMAP_PENDING_COMMANDS
+    beq _no_cmd_tilemap
+    ldy.w #0x71C0
+; VRAM word addr (battle cmd window)
+    ldx.w #0xC1E6
+; WRAM tilemap src
+    rep #0x20
+    lda.w #0x0280
+    sta.b 0x0e
+    sep #0x20
+    lda #0x7E
+    jsr.w _sram_dma_transfer_7
+_no_cmd_tilemap:
+    pla
+    bit.b #battle_render.TILEMAP_PENDING_MAIN
+    beq _no_main_tilemap
+    ldy.w #0x7020
+; VRAM word addr (main window: names/monsters/hp/status)
+    ldx.w #0xBEA6
+    rep #0x20
+    lda.w #0x0280
+    sta.b 0x0e
+    sep #0x20
+    lda #0x7E
+    jsr.w _sram_dma_transfer_7
+_no_main_tilemap:
+    lda #0x00
+    sta.l battle_render.tilemap_pending_mask
+_no_tilemap_dma:
+    plp
     ply
     plx
     pla
+; Phase-1: NMI-side anim. Trampoline at $02:97EA does
+; `jsr UpdateFlyingHDMA; rtl` so the bank-02 routine ends in rts
+; while our cross-bank JSL gets a matching RTL pop. Float-monster
+; BG1 vscroll table now updates every vblank.
+    jsr.l 0x0297EA
     jsr.l 0x03fe03
     rtl
 _sram_dma_transfer_7:
