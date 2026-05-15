@@ -29,7 +29,7 @@ KSS = kss_path("ff4-battle-ext.kss")
 
 @pytest.fixture
 def battle_emu():
-    emu = load_emu_from_kss(KSS, settle_frames=120)
+    emu = load_emu_from_kss(KSS, settle_frames=600)
     yield emu
     emu.close()
 
@@ -49,7 +49,7 @@ def test_battle_init_no_stp(battle_emu):
 
 
 def test_battle_init_screen_golden(battle_emu):
-    """Pixel-match the framebuffer 120 frames into the battle state.
+    """Pixel-match the framebuffer 600 frames into the battle state.
     Sensitive to any rendering regression that survives the no-STP
     check (garbled tiles, wrong palette, broken text)."""
     assert_screenshot_matches_golden(battle_emu, GOLDENS / "battle_init.png")
