@@ -218,21 +218,24 @@ signature byte sits at PB:(PC - 1).
 
 ; end .alloc bank20_main
 
-; Bank-20 freespace code: modules without their own *= directive plus the
-; per-feature includes and bank-20 incbins. Allocator packs them after
-; bank20_main in the same $208000..$20FFFF pool. assets.s stays outside
-; the pool — it owns its own multi-bank *= placement.
-.alloc bank20_modules in bank20_reloc {
-    .import "libmz"
-    .import "dialog"
-    .import "kerning"
-    .if ENABLE_INTRO {
-    .import "intro"
-    }
-    .import "vwf"
-    .import "small_vwf/init"
+; Resume implicit org for imported modules. The .alloc above consumes
+; $20:8000..$20:8048 (5 inline routines); $20:8100 gives safe margin
+; and matches the legacy `*=0x208000` chain so .import modules without
+; their own `*=` directive land in bank-20 as expected.
 
-    .if BATTLE_ENABLED {
+*=0x208100
+    ; --- Imported modules ---------------------------------------------------
+
+.import "libmz"
+.import "dialog"
+.import "kerning"
+.if ENABLE_INTRO {
+    .import "intro"
+}
+.import "vwf"
+.import "small_vwf/init"
+
+.if BATTLE_ENABLED {
     .import "battle/sram"
     .import "battle/graphics"
     .import "battle/monsters_reloc"
@@ -247,48 +250,46 @@ signature byte sits at PB:(PC - 1).
     .if INVENTORY_ROLLING_BUFFER {
     .import "battle/inventory_rolling"
     }
-    }
+}
 
-    .import "ingame/places_names_window"
-    .import "menus/system_menus_text"
-    .import "dakuten"
-    .import "menus/start_screen_text"
-    .import "menus/tools_shop_text"
-    .import "menus/in_game_text"
+.import "ingame/places_names_window"
+.import "menus/system_menus_text"
+.import "dakuten"
+.import "menus/start_screen_text"
+.import "menus/tools_shop_text"
+.import "menus/in_game_text"
+.import "assets"
 
-    .if INVENTORY_ROLLING_BUFFER {
+; --- Includes (gated by build flags) ------------------------------------
+
+.if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
-    }
+}
 
-    .if TREASURE_INVENTORY_ROLLING {
+.if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/treasure_rolling.s"
     .include "src/ingame/drops_rolling.s"
     .include "src/ingame/key_item_picker.s"
-    }
-
-
-    .incbin "assets/attack_names.ptr"
-    .incbin "assets/attack_names.dat"
-    .incbin "assets/monsters_long.ptr"
-    .incbin "assets/monsters_long.dat"
-    .incbin "assets/battle_commands_nul.ptr"
-    .incbin "assets/battle_commands_nul.dat"
-    .incbin "assets/magic.dat"
-    .incbin "assets/places_names.dat"
-    .incbin "assets/classes.ptr"
-    .incbin "assets/classes.dat"
-    .incbin "assets/items.dat"
-    .incbin "assets/item_descriptions.dat"
-    .if TREASURE_INVENTORY_ROLLING {
-    .include "src/ingame/key_item_picker_patches.s"
-    }
 }
 
-; assets.s carries its own multi-bank *= placements (low-bank patches
-; plus bank-21+ freespace data). Stays top-level — pool/alloc can't wrap
-; a module that writes outside a single contiguous range.
-.import "assets"
+; --- Binary text assets -------------------------------------------------
+
+.incbin "assets/attack_names.ptr"
+.incbin "assets/attack_names.dat"
+.incbin "assets/monsters_long.ptr"
+.incbin "assets/monsters_long.dat"
+.incbin "assets/battle_commands_nul.ptr"
+.incbin "assets/battle_commands_nul.dat"
+.incbin "assets/magic.dat"
+.incbin "assets/places_names.dat"
+.incbin "assets/classes.ptr"
+.incbin "assets/classes.dat"
+.incbin "assets/items.dat"
+.incbin "assets/item_descriptions.dat"
+.if TREASURE_INVENTORY_ROLLING {
+    .include "src/ingame/key_item_picker_patches.s"
+}
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
