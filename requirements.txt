@@ -1,2 +1,2 @@
-a816==1.1.0a17
-kintsuki[visual]==0.0.0a12
+a816==1.1.0a22
+kintsuki[visual]==0.0.0a13
