@@ -218,7 +218,13 @@ signature byte sits at PB:(PC - 1).
 
 ; end .alloc bank20_main
 
-; --- Imported modules (own placement, must stay top-level) --------------
+; Resume implicit org for imported modules. The .alloc above consumes
+; $20:8000..$20:8048 (5 inline routines); $20:8100 gives safe margin
+; and matches the legacy `*=0x208000` chain so .import modules without
+; their own `*=` directive land in bank-20 as expected.
+
+*=0x208100
+    ; --- Imported modules ---------------------------------------------------
 
 .import "libmz"
 .import "dialog"
