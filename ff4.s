@@ -90,14 +90,29 @@ dialog_bank_ptr_base = 0x218000
     jsr.l vwfstart
     rts
 
-*=0x208000
-    ; Relocated Region
+; ============================================================================
+; Bank-20 relocated region.
+;
+; Pool spans $20:8000..$20:FFFF (32 KB). `strategy order` keeps symbols in
+; declaration order so cross-bank `jsr.l` / `jmp.l` callers resolve to
+; stable addresses. Mirrors the bank-01 pool pattern from
+; `src/ingame/inventory_rolling_trampolines.s`.
+; ============================================================================
 
-; Conditional BG1VOFS write for HDMA inventory scrolling
-; Called from UpdateScrollRegs at $14FF2D via JSL
-; Skips BG1VOFS write when menu HDMA is active
-; Address is defined as constant ConditionalBG1VOFS := $208000
-.if INVENTORY_ROLLING_BUFFER {
+.pool bank20_reloc {
+    range 0x208000 0x20FFFF
+    strategy order
+}
+
+.alloc bank20_main in bank20_reloc {
+; --- Inline reloc helpers ------------------------------------------------
+
+; Conditional BG1VOFS write for HDMA inventory scrolling.
+; Called from UpdateScrollRegs at $14FF2D via JSL.
+; Skips BG1VOFS write when menu HDMA is active.
+; Address is pinned by `conditional_bg1_vofs := 0x208000` at the top of
+; this file ; `strategy order` keeps it first in the pool.
+    .if INVENTORY_ROLLING_BUFFER {
     lda.l 0x7E0000 + menu_hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
@@ -109,7 +124,7 @@ dialog_bank_ptr_base = 0x218000
 
 _cond_skip_bg1vofs:
     rtl
-}
+    }
 
 
 clear_ram:
@@ -117,8 +132,10 @@ clear_ram:
 Clear the dialog VWF tile buffer at $702000-$706FFF (16-bit zeroes) after letting the boot ROM init at
 $15C9AA.
 """
+
+
     jsr.l 0x15C9AA
-{
+    {
     lda.b #0x00
     ldx.w #0x0000
 
@@ -127,47 +144,8 @@ _loop:
     inx
     cpx.w #0x5000
     bne _loop
-}
-
-
-rtl
-
-.import "libmz"
-.import "dialog"
-.import "kerning"
-.if ENABLE_INTRO {
-    .import "intro"
-}
-.import "vwf"
-.import "small_vwf/init"
-
-.if BATTLE_ENABLED {
-    .import "battle/sram"
-    .import "battle/graphics"
-    .import "battle/monsters_reloc"
-    .if MAGIC_ENABLED {
-    .import "battle/magic_reloc"
     }
-    .import "battle/redraw_gates"
-    .import "battle/commands_reloc"
-    .import "battle/items_reloc"
-    .import "battle/equip_window"
-    .import "battle/math_reloc"
-    .if INVENTORY_ROLLING_BUFFER {
-    .import "battle/inventory_rolling"
-    }
-}
-; dialog.s is now imported as a module (see .import "dialog" above)
-.import "ingame/places_names_window"
-; system menu text routines
-.import "menus/system_menus_text"
-.import "dakuten"
-
-; menu text scopes
-.import "menus/start_screen_text"
-.import "menus/tools_shop_text"
-.import "menus/in_game_text"
-.import "assets"
+    rtl
 
 
 multiply_item_index_12:
@@ -177,6 +155,8 @@ Called from $019023 via JSL.
 Input: $43 = item ID (16-bit mode active).
 Output: X = offset into ItemName table.
 """
+
+
     lda 0x43
     clc
     adc 0x43  ; x2
@@ -234,6 +214,54 @@ signature byte sits at PB:(PC - 1).
     sep #0x20
     lda [0x00]  ; A = signature byte (BRK's #$NN imm)
     stp
+}
+
+; end .alloc bank20_main
+
+; Resume implicit org for imported modules. The .alloc above consumes
+; $20:8000..$20:8048 (5 inline routines); $20:8100 gives safe margin
+; and matches the legacy `*=0x208000` chain so .import modules without
+; their own `*=` directive land in bank-20 as expected.
+
+*=0x208100
+    ; --- Imported modules ---------------------------------------------------
+
+.import "libmz"
+.import "dialog"
+.import "kerning"
+.if ENABLE_INTRO {
+    .import "intro"
+}
+.import "vwf"
+.import "small_vwf/init"
+
+.if BATTLE_ENABLED {
+    .import "battle/sram"
+    .import "battle/graphics"
+    .import "battle/monsters_reloc"
+    .if MAGIC_ENABLED {
+    .import "battle/magic_reloc"
+    }
+    .import "battle/redraw_gates"
+    .import "battle/commands_reloc"
+    .import "battle/items_reloc"
+    .import "battle/equip_window"
+    .import "battle/math_reloc"
+    .if INVENTORY_ROLLING_BUFFER {
+    .import "battle/inventory_rolling"
+    }
+}
+
+.import "ingame/places_names_window"
+.import "menus/system_menus_text"
+.import "dakuten"
+.import "menus/start_screen_text"
+.import "menus/tools_shop_text"
+.import "menus/in_game_text"
+.import "assets"
+
+; --- Includes (gated by build flags) ------------------------------------
+
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
@@ -244,8 +272,8 @@ signature byte sits at PB:(PC - 1).
     .include "src/ingame/drops_rolling.s"
     .include "src/ingame/key_item_picker.s"
 }
-; binary text assets
 
+; --- Binary text assets -------------------------------------------------
 
 .incbin "assets/attack_names.ptr"
 .incbin "assets/attack_names.dat"
@@ -262,6 +290,7 @@ signature byte sits at PB:(PC - 1).
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
 }
+
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
     *=0xc436
