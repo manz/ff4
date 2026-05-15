@@ -682,6 +682,8 @@ tilemap_write:
     rts
 }
 
+.extern flying_hdma_trampoline
+
 .scope messages_vwf {
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
     dakuten_table = 0x16fa40
@@ -883,11 +885,11 @@ _no_tilemap_dma:
     ply
     plx
     pla
-; Phase-1: NMI-side anim. Trampoline at $02:97EA does
+; Phase-1: NMI-side anim. Bank-02 trampoline does
 ; `jsr UpdateFlyingHDMA; rtl` so the bank-02 routine ends in rts
 ; while our cross-bank JSL gets a matching RTL pop. Float-monster
 ; BG1 vscroll table now updates every vblank.
-    jsr.l 0x0297EA
+    jsr.l flying_hdma_trampoline
     jsr.l 0x03fe03
     rtl
 _sram_dma_transfer_7:
