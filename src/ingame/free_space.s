@@ -6,8 +6,14 @@ relocating other code.
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
 
-*=0x01ff35
-    draw_window = 0x0180d9
+.pool bank01_slack {
+    range 0x01ff35 0x01ffff
+    strategy order
+}
+
+draw_window = 0x0180d9
+
+.alloc bank01_slack_pre_inventory in bank01_slack {
 
 check_if_description_was_rendered:
 """
@@ -99,9 +105,12 @@ display_build_number:
     }
 }
 
+}  ; end .alloc bank01_slack_pre_inventory
+
 ; ============================================================================
 ; Inventory Rolling Buffer Trampolines and Handlers
 ; ============================================================================
+.alloc bank01_slack_inventory in bank01_slack {
 .if INVENTORY_ROLLING_BUFFER {
 swap_redraw_trampoline:
 """JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
@@ -211,7 +220,4 @@ Re-renders all visible slots to show updated quantity or empty slot
 }
 
 
-_end_of_free_space:
-.if _end_of_free_space > 0x01ffff {
-    .debug 'Error: (Bank 0x01): End of free space was reached !'
-}
+}  ; end .alloc bank01_slack_inventory

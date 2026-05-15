@@ -50,6 +50,12 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 ; TRAMPOLINES (Bank $02 free space: $98FF-$9982)
 ; ============================================================================
 ; These are called via JSL from bank $20, return via RTL
+.pool bank02_trampolines {
+    range 0x0298ff 0x029982
+    strategy order
+}
+
+.alloc bank02_trampolines_block in bank02_trampolines {
 
 draw_text_rolling_trampoline:
 """Bank-$02 trampoline: forces VWF battle-flags off for the duration of original draw_text call."""
@@ -146,6 +152,8 @@ wrap_and_clear_trampoline:
 return_to_bank02:
 """Trailing RTS used as a JML target by bank-$20 hooks to return to bank-$02."""
     rts
+
+}  ; end .alloc bank02_trampolines_block
 
 ; ============================================================================
 ; ROM PATCHES
