@@ -29,7 +29,16 @@ KSS = kss_path("ff4-battle-ext.kss")
 
 @pytest.fixture
 def battle_emu():
-    emu = load_emu_from_kss(KSS, settle_frames=600)
+    emu = load_emu_from_kss(KSS, settle_frames=0)
+    # Force every redraw gate dirty before settling so the smoke test
+    # exercises DrawCharNames / DrawMonsterNames / DrawCmdWindow on the
+    # first frame. Without this the slice-2 gates stay clean (the gate
+    # state only re-arms on writer-side state changes like ATB rotation
+    # or HP delta) and the golden captures an empty header strip.
+    emu.write(0x7EEF9A, 0xFF)  # battle_menu_dirty: all chars + cmd + status
+    emu.write(0x7EEF9B, 0xFF)  # battle_monster_dirty: all monster slots
+    emu.write(0x703C01, 0xFF)  # region_dirty_bits: slice-2 queue
+    emu.run_frames(600)
     yield emu
     emu.close()
 
