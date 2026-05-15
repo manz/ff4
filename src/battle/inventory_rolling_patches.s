@@ -10,6 +10,12 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .extern reset_list_scroll_hdma_rolling
 .extern post_scroll_down_render
 .extern check_cursor2_visibility_rolling
+.extern battle_menu_dirty
+.extern CMD_DIRTY_BIT
+.extern battle_render.tilemap_pending_mask
+.extern battle_render.TILEMAP_PENDING_COMMANDS
+.extern battle_menu_dirty
+.extern CMD_DIRTY_BIT
 
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)
@@ -107,6 +113,19 @@ _update_enabled_items_trampoline:
 ; Original function was overwritten. This must fit in bank $02 free space.
 
 _draw_battle_command_window_relocated:
+    ; Thunk-level gate on CMD_DIRTY_BIT. Set TILEMAP_PENDING_COMMANDS
+    ; so the NMI dma_transfer picks up the cmd-window tilemap DMA
+    ; in sync with the tile-data DMA. Skip on clean ; VRAM retains
+    ; last upload and no DMA fires.
+    lda.l battle_menu_dirty
+    bit.b #CMD_DIRTY_BIT
+    beq _dbcw_skip
+    and.b #( ~ CMD_DIRTY_BIT ) & 0xFF
+    sta.l battle_menu_dirty
+    lda.l battle_render.tilemap_pending_mask
+    ora.b #battle_render.TILEMAP_PENDING_COMMANDS
+    sta.l battle_render.tilemap_pending_mask
+
     jsr.w draw_window_render_hook  ; Draw command list + sets LDX #$0340
 
 _dbcw_loop:
@@ -119,7 +138,10 @@ _dbcw_loop:
     jsr 0x9BC7  ; Draw window
     lda #0x03
     ldx.w #0x0064
-    jmp 0x99F1  ; Continue original flow
+    jmp 0x99F1  ; tail-call DrawCmdListText (rts via that function)
+
+_dbcw_skip:
+    rts
 
 ; ============================================================================
 ; WRAP/CLEAR TRAMPOLINE (small, stays in bank $02)

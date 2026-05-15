@@ -1,0 +1,32 @@
+kintsuki: applied IPS /Users/manz/PyCharmProjects/ff4-modules/.claude/worktrees/equip-window-relayout/build/ff4.ips (261682 bytes)
+Window: 96,912,099,733,619 CPU cycles over 60 frames
+Per frame: 1,615,201,662,226 cycles  (NMI deadline ≈ ~357k @ 21.477 MHz / 60 fps)
+Functions profiled: 73
+
+        PC  name                                             calls        incl        excl       avg
+---------------------------------------------------------------------------------------------------------
+$0002E41C  exit+0x185a                                        300     3641660     3047504     10158
+$0002A2A1  draw_letter_far+0x3e1                               13     6661962     2409078    185313
+$0002E24C  exit+0x168a                                         60    10927120     2298942     38315
+$0002DA73  exit+0xeb1                                         300     2151988     2151988      7173
+$0002992B  _draw_battle_command_window_relocated               12     5443200     1658398    138199
+$0002DCED  exit+0x112b                                        300     1016000      919628      3065
+$0002DDDC  exit+0x121a                                        300     3970518      809062      2696
+$00029A05  return_to_bank02+0xb2                               16     1209996      565348     35334
+$0002851E  _end_of_free_space+0x8521                           12     3051332      504336     42028
+$000299D3  return_to_bank02+0x80                               16     2091926      450084     28130
+$000296C8  _end_of_free_space+0x96cb                           11    13262080      434776     39525
+$0002BB0B  _nop_patch_inc+0x125d                             2400      399034      399034       166
+$00029BC7  return_to_bank02+0x274                              12      981980      325516     27126
+$0002DAFE  exit+0xf3c                                         300      305746      305746      1019
+$000285D2  _end_of_free_space+0x85d5                          600      291494      291494       485
+$0002DC52  exit+0x1090                                        300      284228      284228       947
+$0002DDA5  exit+0x11e3                                        300      212734      212734       709
+$0002E03A  exit+0x1478                                        300      206760      206760       689
+$0002852B  _end_of_free_space+0x852e                           20      167730      167730      8386
+$0002BAD2  _nop_patch_inc+0x1224                               60      156800      156800      2613
+$000299DC  return_to_bank02+0x89                                4      157932      155992     38998
+$0002A455  draw_letter_far+0x595                               48     2516724      131256      2734
+$0002BB29  _nop_patch_inc+0x127b                               60      143960      108920      1815
+$00028560  _end_of_free_space+0x8563                          220      104380      104380       474
+$000288FB  _end_of_free_space+0x88fe                           12      276328       89934      7494

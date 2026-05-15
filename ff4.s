@@ -25,6 +25,7 @@ conditional_bg1_vofs := 0x208000
     .include "src/battle/monsters_patches.s"
     }
     .include "src/battle/items_patches.s"
+    .include "src/battle/redraw_writer_patches.s"
     .if INVENTORY_ROLLING_BUFFER {
     .include "src/battle/inventory_rolling_patches.s"
     }
@@ -147,8 +148,10 @@ rtl
     .if MAGIC_ENABLED {
     .import "battle/magic_reloc"
     }
+    .import "battle/redraw_gates"
     .import "battle/commands_reloc"
     .import "battle/items_reloc"
+    .import "battle/equip_window"
     .import "battle/math_reloc"
     .if INVENTORY_ROLLING_BUFFER {
     .import "battle/inventory_rolling"
