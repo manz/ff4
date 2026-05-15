@@ -23,6 +23,7 @@ follow-up patches.
 .extern obj_names_hash
 .extern gate_obj_names_check
 .extern gate_status_check
+.extern walker_rtl
 .extern battle_render.render_skipped
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
@@ -186,6 +187,24 @@ _gdon_skip:
     nop
     nop
     nop
+
+; --- Battle-init highlight stamp ---
+; Reclaim the 3-nop slot at $02:9A69 (previously vanilla `jsr
+; InitMagicListTextBuf` ; we noop'd that in magic/patches.s since
+; our two-column magic display drives its own buffer). Insert
+; `jsr walker_helper` so the active-char palette gets stamped
+; right after UpdateCharNames built $B966 ; subsequent init steps
+; (DrawHPText, DrawMonsterNames, etc.) target different WRAM
+; regions ($B9DE, $BB1E) so the stamp survives.
+
+*=0x029802
+walker_helper:
+"""5-byte bank-02 trampoline: JSL bank-20 walker, RTS to caller."""
+    jsr.l walker_rtl
+    rts
+
+*=0x029A69
+    jsr.w walker_helper
 
 ; --- Phase 5: deduplicate UpdateFlyingHDMA ---
 ; Main-loop `UpdateObjPos` ($02:82B9) calls UpdateFlyingHDMA at

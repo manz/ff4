@@ -41,6 +41,16 @@ Set the cmd-window dirty bit. Callable from any bank via JSL/RTL.
     sta.l battle_menu_dirty
     rtl
 
+walker_rtl:
+"""
+RTL wrapper around `set_active_char_palette` so bank-02 callers
+can JSL into it with matching pop. Reads $1822 into A first so
+caller doesn't have to set it up.
+"""
+    lda.l 0x7E1822
+    jsr.w set_active_char_palette
+    rtl
+
 gate_status_check:
 """
 Bank-20 body for the DrawStatusText hash gate. XOR of char-slot
@@ -183,6 +193,12 @@ A = active slot index (0..4) on entry. M=8, X=8.
     plb
     pla
     sta.l scp_active_slot
+    ; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
+    ; caller's BG / DMA state needs them preserved.
+    rep #0x20
+    lda.b 0x32
+    pha
+    sep #0x20
     ldx.w #0
 
 _scp_slot_loop:
@@ -199,19 +215,24 @@ _scp_is_active:
 
 _scp_have_pal:
     sta.l scp_pal_byte
-    ; base = $B966 + slot * $40
+
+; base = $B966 + slot * 24 (per-slot stride confirmed via trace:
+; $32 mirror at slot*24+0 (6 tiles padding), $34 mirror at
+; slot*24+12 (6 tiles real name content)).
     rep #0x20
     txa
     and.w #0x000F
     asl
     asl
-    asl
-    asl
-    asl
-    asl
+    asl  ; *8
+    pha
+    asl  ; *16
+    clc
+    adc 1, s  ; *16 + *8 = *24
     clc
     adc.w #0xB966
-    sta.b 0x32  ; reuse $32 as scratch ptr for indirect writes
+    sta.b 0x32
+    pla  ; balance stack
     sep #0x20
     ; Patch 6 entries on the ($32) mirror at offsets +1, +3, +5, +7, +9, +B
     ldy.w #1
@@ -229,6 +250,10 @@ _scp_have_pal:
     bra _scp_slot_loop
 
 _scp_done:
+    rep #0x20
+    pla
+    sta.b 0x32
+    sep #0x20
     plb
     plp
     rts
