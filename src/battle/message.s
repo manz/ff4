@@ -878,10 +878,13 @@ here.
     and.w #0x00FF
     sta.b 0x00
 
-; Tile_id base = slot * 9 + 0xC0.
+; Tile_id base = slot * 10 + 0xC0. With 6 slots that's 60 tiles in
+; 0xC0..0xFB, leaving 4 tiles of slack before the 8-bit wrap point.
     asl
     asl
     asl
+    clc
+    adc.b 0x00
     clc
     adc.b 0x00
     clc
