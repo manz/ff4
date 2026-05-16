@@ -1095,6 +1095,9 @@ _di_pal:
     jmp.w _di_loop
 
 _di_done:
+; Clear the VWF battle_flag so later non-inventory renders (monster HP
+; refresh, status text, etc.) go back to the WRAM put_char path.
+    jsr.l battle_flags.clear_vwf_render
     plb
     plp
     rtl
