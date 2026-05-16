@@ -1002,10 +1002,12 @@ Escape codes handled:
     ldx.w 0xEF50
     ldy.w #0x0000
 
-; Auto fixed-vs-VWF routing per char: bytes < 0x42 (symbols / icons /
-; small codes) go through the fixed-width path, bytes >= 0x42
-; (letters and similar printable text) go through the VWF blitter.
-; Escape codes 0x00 / 0x03 / 0x0E are matched before the threshold.
+; Auto fixed-vs-VWF routing per char value:
+;   < 0x42         -> fixed (symbols / icons / small control codes)
+;   0x42..0xBF     -> VWF (letters)
+;   >= 0xC0        -> fixed (colon, space, digits and other tile_id-
+;                    style codes ; don't consume an allocator slot)
+; Escape codes 0x00 / 0x03 / 0x0E still match before the threshold.
 
 _di_loop:
     lda.w 0x0000, x
@@ -1014,8 +1016,12 @@ _di_loop:
     beq _di_fixed
     cmp #0x0E
     beq _di_pal
+    cmp #0x0F
+    beq _di_skip
     cmp #0x42
     bcc _di_fixed_char
+    cmp #0xc0
+    bcs _di_fixed_char
 ; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
 ; advances both source X and dest Y as it allocates).
     inx
@@ -1070,6 +1076,10 @@ _di_done:
     plb
     plp
     rtl
+
+_di_skip:
+    inx
+    bra _di_loop
 
 init_inventory_for_current_slot_local:
 """
