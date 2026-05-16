@@ -191,6 +191,10 @@ init_names:
 init_commands_list:
 """Initialize the renderer targeting the commands list region."""
     lda.b #region_size * 3
+    bra _init
+init_inventory_region:
+"""Initialize the renderer targeting the inventory region (tile_id 0xC0+)."""
+    lda.b #region_size * 4
 _init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
@@ -828,6 +832,16 @@ init_monsters:
 init_names:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_names
+    rtl
+init_inventory:
+"""
+Wrap battle_render.init_inventory_region with set_vwf_render so the
+message renderer routes char dispatch through the VWF put_char path.
+"""
+
+
+    jsr.l battle_flags.set_vwf_render
+    jsr.w battle_render.init_inventory_region
     rtl
 init_monsters_gated:
 """

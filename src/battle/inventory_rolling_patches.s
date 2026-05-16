@@ -16,6 +16,10 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .extern battle_render.TILEMAP_PENDING_COMMANDS
 .extern battle_menu_dirty
 .extern CMD_DIRTY_BIT
+.if BATTLE_ITEMS_VWF {
+    .extern messages_vwf.init_inventory
+    .extern messages_vwf.deinit
+}
 
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)
@@ -62,23 +66,35 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 }
 
 .alloc bank02_trampolines_block in bank02_trampolines {
-
 draw_text_rolling_trampoline:
-"""Bank-$02 trampoline: forces VWF battle-flags off for the duration of original draw_text call."""
-    ; Save current battle flags to prevent VWF mode interference
+"""
+Bank-$02 trampoline around draw_text for inventory rendering. With
+BATTLE_ITEMS_VWF on, sets battle_flags = 0x02 so battle_display_char
+routes the put_char dispatch through messages_vwf.put_fixed_char_*
+for proportional rendering. Wraps the call with init_names / deinit
+so the VWF tile allocator and pending-DMA mask stay in sync.
+"""
+
+
     lda.l 0x704F00
     pha
-    ; Clear battle flags (force WRAM mode for inventory)
-    lda #0x00
+    .if BATTLE_ITEMS_VWF {
+    lda.b #0x02
     sta.l 0x704F00
-
-; Original draw_text call
+    jsr.l messages_vwf.init_inventory
     xba
-    lda #0x00
+    lda.b #0x00
     xba
-    jsr 0xA455  ; draw_text at $02A455
-
-; Restore battle flags
+    jsr 0xA455
+    jsr.l messages_vwf.deinit
+    } else {
+    lda.b #0x00
+    sta.l 0x704F00
+    xba
+    lda.b #0x00
+    xba
+    jsr 0xA455
+    }
     pla
     sta.l 0x704F00
     rtl
@@ -113,10 +129,10 @@ _update_enabled_items_trampoline:
 ; Original function was overwritten. This must fit in bank $02 free space.
 
 _draw_battle_command_window_relocated:
-    ; Thunk-level gate on CMD_DIRTY_BIT. Set TILEMAP_PENDING_COMMANDS
-    ; so the NMI dma_transfer picks up the cmd-window tilemap DMA
-    ; in sync with the tile-data DMA. Skip on clean ; VRAM retains
-    ; last upload and no DMA fires.
+; Thunk-level gate on CMD_DIRTY_BIT. Set TILEMAP_PENDING_COMMANDS
+; so the NMI dma_transfer picks up the cmd-window tilemap DMA
+; in sync with the tile-data DMA. Skip on clean ; VRAM retains
+; last upload and no DMA fires.
     lda.l battle_menu_dirty
     bit.b #CMD_DIRTY_BIT
     beq _dbcw_skip
@@ -153,12 +169,12 @@ _dbcw_skip:
 
 wrap_and_clear_trampoline:
 """Bank-$02 tail of the scroll animation: post-render and cursor visibility check."""
-    ; FF6-style circular scroll - no reset needed!
-    ; The wrap function in update_list_scroll_hdma_wrapped handles coordinate conversion.
-    ;
-    ; After scroll down, we need to post-render the next item to prepare for
-    ; future scrolls. The off-screen slot that just scrolled off should be
-    ; updated with the next item in the list.
+; FF6-style circular scroll - no reset needed!
+; The wrap function in update_list_scroll_hdma_wrapped handles coordinate conversion.
+;
+; After scroll down, we need to post-render the next item to prepare for
+; future scrolls. The off-screen slot that just scrolled off should be
+; updated with the next item in the list.
     jsr.l post_scroll_down_render  ; Post-render if scroll down
 
 ; Check cursor 2 visibility for swap mode
@@ -174,8 +190,9 @@ wrap_and_clear_trampoline:
 return_to_bank02:
 """Trailing RTS used as a JML target by bank-$20 hooks to return to bank-$02."""
     rts
+}
 
-}  ; end .alloc bank02_trampolines_block
+; end .alloc bank02_trampolines_block
 
 ; ============================================================================
 ; ROM PATCHES
