@@ -42,6 +42,10 @@ def main() -> None:
     out.append(dump_region(emu, "vwf gate state", 0x703F00, 0x10))
     # Allocator state
     out.append(dump_region(emu, "allocator", 0x702F00, 0x10))
+    # Format buffer used by inventory render
+    out.append(dump_region(emu, "inv_format_buffer ($7E9E66)", 0x7E9E66, 0x40))
+    # Mode flag DP $37
+    out.append(dump_region(emu, "mode flag $37", 0x7E0030, 0x10))
     OUT.write_text("\n\n".join(out))
     print(f"wrote {OUT} ({OUT.stat().st_size} bytes)")
 

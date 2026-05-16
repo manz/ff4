@@ -262,36 +262,36 @@ _not_disabled:
     tax
     sep #0x20  ; Back to 8-bit
 
-; Build format string in $74FD (protected by inventory-active skip checks)
+; Build format string. Starts in fixed mode ; 0x0F toggles fixed <->
+; VWF so only the name portion routes through the VWF blitter.
     ldy.w #0x0000
 
-; Format code: change tile flags
     lda #0x0E
     sta.w inv_format_buffer, y
     iny
-    lda.b 0x01  ; Symbol palette
+    lda.b 0x01
     sta.w inv_format_buffer, y
     iny
 
-; Format code: set tile (symbol)
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
-    lda.l assets_items_dat, x  ; Item symbol
+    lda.l assets_items_dat, x
     sta.w inv_format_buffer, y
     iny
 
-; Format code: change tile flags (for name)
-    lda #0x0E
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
     sta.w inv_format_buffer, y
     iny
-    lda.b 0x00  ; Name palette
-    sta.w inv_format_buffer, y
-    iny
+}
 
-; Copy 11 character item name
-    lda #11
-    sta.b 0x00  ; Loop counter
+lda #0x0E
+sta.w inv_format_buffer, y
+iny
+lda.b 0x00
+sta.w inv_format_buffer, y
+iny
+
+lda #11
+sta.b 0x00
 
 _name_copy_loop:
     inx
@@ -301,48 +301,42 @@ _name_copy_loop:
     dec.b 0x00
     bne _name_copy_loop
 
-; Handle quantity or empty slot
-    lda.b 0x02  ; Item ID
-    bne _has_item
-
-; Empty slot - just finish with line break
-    pla  ; Discard quantity
-    lda #0x05  ; Line break
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
     sta.w inv_format_buffer, y
     iny
-    lda #0x03
-    bra _finish_format
+}
+
+lda.b 0x02
+bne _has_item
+
+pla
+lda #0x05
+sta.w inv_format_buffer, y
+iny
+lda #0x03
+bra _finish_format
 
 _has_item:
-    ; Add colon and quantity
-    lda #0xC8  ; Colon character ":"
+    lda #0xC8
     sta.w inv_format_buffer, y
     iny
 
-    pla  ; Get quantity
+    pla
     tax
-    jsr.l hex_to_dec_trampoline  ; Convert to decimal
-    jsr.l normalize_num_trampoline  ; Format digits
+    jsr.l hex_to_dec_trampoline
+    jsr.l normalize_num_trampoline
 
-; Add tens digit
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
-    lda.w 0x180E  ; Tens digit
+    lda.w 0x180E
     sta.w inv_format_buffer, y
     iny
 
-; Add ones digit
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
-    lda.w 0x180F  ; Ones digit
+    lda.w 0x180F
 
 _finish_format:
     sta.w inv_format_buffer, y
     iny
 
-; Terminator
     lda #0x00
     sta.w inv_format_buffer, y
 
@@ -940,7 +934,8 @@ _slot_not_disabled:
     tax
     sep #0x20
 
-; Build format string
+; Build format string. Same fixed-default + 0x0F-toggle pattern the
+; other two format builders in this file use.
     ldy.w #0x0000
     lda #0x0E
     sta.w inv_format_buffer, y
@@ -948,21 +943,26 @@ _slot_not_disabled:
     lda.b 0x01
     sta.w inv_format_buffer, y
     iny
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
+
     lda.l assets_items_dat, x
     sta.w inv_format_buffer, y
     iny
-    lda #0x0E
-    sta.w inv_format_buffer, y
-    iny
-    lda.b 0x00
-    sta.w inv_format_buffer, y
-    iny
 
-    lda #11
-    sta.b 0x00
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
+    sta.w inv_format_buffer, y
+    iny
+}
+
+lda #0x0E
+sta.w inv_format_buffer, y
+iny
+lda.b 0x00
+sta.w inv_format_buffer, y
+iny
+
+lda #11
+sta.b 0x00
 
 _slot_name_loop:
     inx
@@ -972,14 +972,20 @@ _slot_name_loop:
     dec.b 0x00
     bne _slot_name_loop
 
-    lda.b 0x02
-    bne _slot_has_item
-    pla
-    lda #0x05
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
     sta.w inv_format_buffer, y
     iny
-    lda #0x03
-    bra _slot_finish
+}
+
+lda.b 0x02
+bne _slot_has_item
+pla
+lda #0x05
+sta.w inv_format_buffer, y
+iny
+lda #0x03
+bra _slot_finish
 
 _slot_has_item:
     lda #0xC8
@@ -989,13 +995,7 @@ _slot_has_item:
     tax
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
     lda.w 0x180E
-    sta.w inv_format_buffer, y
-    iny
-    lda #0x03
     sta.w inv_format_buffer, y
     iny
     lda.w 0x180F
