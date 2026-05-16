@@ -107,16 +107,75 @@ _transfer_to_vram:
 }
 
 .scope render_allocator {
-    """Tile-id allocator for the small-VWF."""
+    """
+    Tile-id allocator for the small-VWF. Stored as a 16-bit word at
+    $702F00..$702F01 so callers can reach the full 10-bit BG3
+    tile_id range (0..0x3FF) instead of being capped at 8 bits.
+    All accessors operate in 16-bit M and write both bytes  ; callers
+    that only need the low byte can still do an 8-bit lda.l at the
+    same address.
+    """
     allocated_tile_id = 0x702F00
+    slot_limit_low = 0x702F02
+"""
+Inventory clamp. When the allocator's low byte reaches this value,
+`increment` freezes it  ; the blitter happily keeps reading the same
+tile_id and overwrites the slot's last tile instead of bleeding into
+the next slot's CHR. Set to 0xFF (no clamp) by every non-inventory
+init. Inventory slot init writes slot_base + K-1 here.
+"""
+
+
 init_with_tile_id:
-"""tile_id in A"""
+"""
+8-bit caller convention: A.lo = tile_id (0..0xFF), M = 8.
+Zero-extends to 16-bit so the high byte at $702F01 is clean.
+tilemap_write_no_inc adds the hardcoded +0x100 bit shift. 16-bit
+callers needing tile_ids outside the 0x100-0x1FF window should use
+init_with_tile_id_wide. Also resets slot_limit_low to 0xFF so the
+clamp is a no-op for non-inventory regions.
+"""
+
+
     sta.l allocated_tile_id
+    pha
+    lda.b #0xFF
+    sta.l slot_limit_low
+    pla
+    php
+    rep #0x20
+    pha
+    lda.l allocated_tile_id
+    and.w #0x00ff
+    sta.l allocated_tile_id
+    pla
+    plp
+    rts
+init_with_tile_id_wide:
+"""
+16-bit caller convention: A = full tile_id (0..0x3FF), M = 16.
+Stores both bytes verbatim. Use this for inventory / future regions
+that go past tile_id 0xFF. Also resets slot_limit_low to 0xFF so the
+clamp is a no-op until the inventory slot init opts in.
+"""
+
+
+    sta.l allocated_tile_id
+    pha
+    sep #0x20
+    lda.b #0xFF
+    sta.l slot_limit_low
+    rep #0x20
+    pla
     rts
 init:
     pha
-    lda.b #0x00
+    rep #0x20
+    lda.w #0x0000
     sta.l allocated_tile_id
+    sep #0x20
+    lda.b #0xFF
+    sta.l slot_limit_low
     pla
     rts
     .if BATTLE_ENABLED {
@@ -127,14 +186,32 @@ init_battle_far:
     rtl
     }
 increment:
+"""
+Advance the 16-bit allocator by 1. Preserves M / A state.
+Clamps the low byte at `slot_limit_low` so an inventory slot whose
+name overflows K tiles keeps overwriting its last tile instead of
+bleeding into the next slot's tile_id range. Non-inventory regions
+set slot_limit_low = 0xFF so the clamp never fires.
+"""
+
+
+    php
+    sep #0x20
     pha
     lda.l allocated_tile_id
+    cmp.l slot_limit_low
+    bcs _inc_clamped
+    rep #0x20
+    lda.l allocated_tile_id
     inc
-    and #0xff
     sta.l allocated_tile_id
+    sep #0x20
+_inc_clamped:
     pla
+    plp
     rts
 get:
+"""Return current 16-bit allocator value in A (caller sets M)."""
     lda.l allocated_tile_id
     rts
 }

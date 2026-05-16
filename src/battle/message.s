@@ -785,15 +785,28 @@ battle_msg_kerning_binary_ext:
     rtl
     }
 tilemap_write_no_inc:
-    lda.l render_allocator.allocated_tile_id
+"""
+Write a 10-bit tile_id reference at tilemap_offset.
+
+Low 8 bits of tile_id go in the entry's low byte  ; bits 8-9 ride
+the entry's high byte alongside the palette / flip / priority bits.
+With the 16-bit allocator, the entry's high byte is just
+(palette | allocator_high_byte) — no hardcoded +0x100 shift, so
+inventory tile_ids past 0xFF reach the upper half of BG3 CHR
+cleanly instead of wrapping back into the messages region.
+"""
+
+
     phy
     ldy.b tilemap_offset
+    lda.l render_allocator.allocated_tile_id
     sta (0x34), y
     lda #0xff
     sta (0x32), y
     iny
     lda 0x36
     sta (0x32), y
+    ora.l render_allocator.allocated_tile_id + 1
     ora.b #0x01
     sta (0x34), y
     ply
@@ -920,6 +933,14 @@ _chr_clear_loop:
     pla
     sta.l battle_render.pending_transfer_mask
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+; Slot owns 10 tile_ids: [slot_base .. slot_base+9]. Set the allocator
+; clamp AFTER init_with_tile_id (which resets slot_limit_low to 0xFF).
+; Overflow freezes at the last tile instead of bleeding into the next
+; slot's CHR / tile_id range.
+    lda.b 0x02
+    clc
+    adc.b #9
+    sta.l render_allocator.slot_limit_low
     .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
     }
@@ -1098,6 +1119,14 @@ _di_done:
 ; Clear the VWF battle_flag so later non-inventory renders (monster HP
 ; refresh, status text, etc.) go back to the WRAM put_char path.
     jsr.l battle_flags.clear_vwf_render
+; Set bit 0 of pending_transfer_mask so the NMI dma_transfer actually
+; fires for this slot's CHR. init_inventory_for_current_slot_local
+; writes slot_base into the mask (low byte = even) so bit 0 stays
+; clear until the render completes ; without this, scroll-edge
+; prerender writes to the $703000 staging buffer never reach VRAM.
+    lda.l battle_render.pending_transfer_mask
+    ora.b #0x01
+    sta.l battle_render.pending_transfer_mask
     plb
     plp
     rtl
@@ -1172,6 +1201,14 @@ _dis_chr_clear:
     pla
     sta.l battle_render.pending_transfer_mask
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+; Slot owns 10 tile_ids: [slot_base .. slot_base+9]. Set the allocator
+; clamp AFTER init_with_tile_id (which resets slot_limit_low to 0xFF).
+; Overflow freezes at the last tile instead of bleeding into the next
+; slot's CHR / tile_id range.
+    lda.b 0x02
+    clc
+    adc.b #9
+    sta.l render_allocator.slot_limit_low
     .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
     }
@@ -1287,11 +1324,13 @@ normal length, no visible black strip.
     ldx.w #0x400
     } else {
     .if BATTLE_ITEMS_VWF {
-; Inventory region (tile_id 0xC0..0xEF) extends past the legacy 0xC00
-; window. Buffer stores 16 bytes per tile, so tile_id 0xEF ends at
-; buffer_ptr + 0xF00. Dest stays at VRAM $B000 ; tail lands at $BF00,
-; inside the BG3 CHR window ($A000..$BFFF).
-    ldx.w #0xf00
+; Inventory region extends past the legacy 0xC00 window. Bump to
+; 0x1000 so the DMA covers the full BG3 CHR upper half ($B000..$BFFF
+; = tile_ids 0x100..0x1FF). Gains 16 tile_ids for the inventory slot
+; budget at zero risk -- the trailing 0x100 bytes were unused.
+; TODO: don't transfer the whole thing every frame ; only dirty
+; regions need flushing.
+    ldx.w #0x1000
     } else {
     ldx.w #0xc00
     }

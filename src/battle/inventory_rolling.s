@@ -59,6 +59,10 @@ rolling_top_row := 0xEF97  ; Top visible row index (0-43)
 rolling_buffer_pos := 0xEF98  ; Circular buffer position (0-4)
 rolling_edge_row := 0xEF99  ; Row index to render (0-47)
 rolling_slot_index := 0xEF82  ; Current slot index for rendering (0-5)
+inventory_needs_full_refresh := 0xEF9D  ; Non-zero = re-render all 5 visible slots this frame.
+; Set on init / item swap. Scroll edges render the
+; new hidden slot directly via _render_*_edge_row and
+; do NOT need a full refresh.
 ; NOTE: Using $EF82 instead of $1817 to avoid conflicts with NMI/battle commands
 
 ; ============================================================================
@@ -120,6 +124,8 @@ in-battle inventory window opens, resetting the rolling-buffer state.
 ; NOTE: EF65 and EF67 are initialized by ResetListScrollHDMA when inventory opens
     stz.w 0xEF71  ; Game's row index = 0
     stz.w 0xEF86  ; Scroll offset = 0 (top item visible)
+    lda #1
+    sta.w inventory_needs_full_refresh  ; First frame after open: paint all visible.
     stz.b 0x60  ; Cursor row = 0 (top visible row)
     stz.w rolling_top_row
     stz.w rolling_buffer_pos
@@ -1010,7 +1016,15 @@ _slot_has_item:
     sta.w inv_format_buffer, y
     iny
     pla
+    ; M=8 pla loads A.lo only; A.hi retains a leaked byte from the
+    ; preceding 16-bit arithmetic. With X=16 the next `tax` would copy
+    ; that garbage into X.hi and hex_to_dec would emit BCD for the
+    ; wider value (qty 1 + leaked $06 -> X=$0601 -> "37"). Zero-extend
+    ; A explicitly before transfer.
+    rep #0x20
+    and.w #0x00ff
     tax
+    sep #0x20
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
     lda.w 0x180E
@@ -1486,11 +1500,17 @@ the slice to VRAM. Reached via JSL from bank 02.
     pha
     plb
 
-; RE-RENDER all visible items to our rolling buffer
-; This is necessary because DrawInventoryItemText (called after item swap)
-; writes to the OLD text buffer at $8EA6, not our buffer at $97A6.
-; By always re-rendering here, swapped items display correctly.
+; RE-RENDER all visible items only when something invalidated them
+; (open / item swap). Scroll-edge hooks paint the new hidden slot
+; before animation, so steady-state scroll requires zero re-render
+; here. The flag was the per-frame full rebuild that was clobbering
+; the pre-rendered hidden slot.
+    lda.w inventory_needs_full_refresh
+    beq _tfr_skip_refresh
     jsr.w _refresh_visible_items_internal
+    stz.w inventory_needs_full_refresh
+
+_tfr_skip_refresh:
 
 ; Copy all 6 slots from text buffer to tilemap buffer
 ; This runs AFTER the game's window clearing at $9AF4
@@ -1966,8 +1986,20 @@ _su_pos_ok:
     sta.w 0xEF64
     lda #0x03  ; Animation 3 (scroll up)
     sta.w 0x1820
+    bra _su_exit
 
 _su_abort:
+    ; Pre-increment EF85, EF86, $63 so the caller's unconditional
+    ; `dec EF86 / dec EF85 / dec $63` at $02:B4FA-B500 lands back on
+    ; the original values when our scroll-up aborts at the top of
+    ; the list. Without this, $63 (cursor item index) underflows
+    ; from 0 to 0xFF and the row 0 cursor item points at junk,
+    ; reproducing the "one extra UP past item 0" visual.
+    inc.w 0xEF85
+    inc.w 0xEF86
+    inc.b 0x63
+
+_su_exit:
     ; Ensure cursor 1 stays visible during scroll animation
     stz.w 0xEF69  ; Clear hide cursor 1 flag
     stz.w 0xEF6E  ; Clear alternate hide cursor 1 flag
