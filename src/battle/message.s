@@ -566,16 +566,6 @@ coupe:
     .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
     {
-; Space ($FF) is never a kerning pair partner ; skip the binary search
-; entirely when either side of the pair is a space. Still falls through
-; to _finalize so prev_char stays in sync for the next call.
-    lda.b prev_char
-    cmp #0xff
-    beq _finalize
-    lda.b current_char
-    cmp #0xff
-    beq _finalize
-
     lda.b bits_left_on_tile
     sta.b temp
 
