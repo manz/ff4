@@ -151,10 +151,12 @@ _not_found:
     buffer_ptr = 0x703000
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
-    pending_transfer_mask = 0x703c00
+; Gate state moved past the inventory tile slice ($703C00..$703EF0)
+; so the rolling pre-render does not stomp these bytes.
+    pending_transfer_mask = 0x703f00
 ; --- Per-region dirty bits (normal sense: 1 = dirty, 0 = clean) ---
 ; Sits next to the DMA queue byte; writers SET bits on state change.
-    region_dirty_bits = 0x703c01
+    region_dirty_bits = 0x703f01
     REGION_DIRTY_MESSAGES = 0x01
     REGION_DIRTY_MONSTERS = 0x02
     REGION_DIRTY_NAMES = 0x04
@@ -163,14 +165,14 @@ _not_found:
 ; because the region was clean; $00 if it ran the full init.
 ; Used by deinit_with_gate to decide whether to signal DMA, and
 ; by the gated trampoline to decide whether to skip DrawText.
-    render_skipped = 0x703c02
+    render_skipped = 0x703f02
 ; Per-region tilemap-DMA pending bitmask. Set by `init_*_gated`
 ; on the render path  ; consumed by `dma_transfer` in NMI to fire
 ; a per-region tilemap DMA (WRAM tilemap -> BG VRAM). Decouples
 ; tilemap upload from the vanilla `TfrCmdWindow` / `TfrMainMenu`
 ; periodic queue so the tile-data + tilemap transfers stay in
 ; sync on the same NMI as the render.
-    tilemap_pending_mask = 0x703c03
+    tilemap_pending_mask = 0x703f03
     TILEMAP_PENDING_COMMANDS = 0x01
     TILEMAP_PENDING_MAIN = 0x02
     bits_left_on_tile = 0xA9

@@ -54,7 +54,7 @@ hi = lo + 0x1000
 def force_redraw(emu):
     emu.write(0x7EEF9A, 0xFF)  # battle_menu_dirty: chars + cmd + status
     emu.write(0x7EEF9B, 0xFF)  # battle_monster_dirty: all monster slots
-    emu.write(0x703C01, 0xFF)  # region_dirty_bits: slice-2 queue
+    emu.write(0x703F01, 0xFF)  # region_dirty_bits: slice-2 queue (moved past inventory tiles)
 
 
 def run():

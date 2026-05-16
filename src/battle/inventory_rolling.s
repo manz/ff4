@@ -12,6 +12,7 @@ runs the field-menu NMI DMA check.
 .extern return_to_bank02
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
+    .extern messages_vwf.deinit
 }
 
 ; ============================================================================
@@ -159,16 +160,22 @@ _init_row_loop:
     cmp #BUFFER_SLOTS  ; 6 slots total
     bne _init_row_loop
 
-; Queue VRAM transfer for initial render
-    lda #0x03
-    ldy.w #0x0002
-    jsr.l load_menu_tfr_data_trampoline
-    lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+.if BATTLE_ITEMS_VWF {
+; End of inventory rolling pass: clear the VWF battle flag and signal
+; DMA so the inventory tile slice flushes to VRAM on the next NMI.
+    jsr.l messages_vwf.deinit
+}
 
-    plb  ; Restore data bank
-    rtl
+; Queue VRAM transfer for initial render
+lda #0x03
+ldy.w #0x0002
+jsr.l load_menu_tfr_data_trampoline
+lda #0x01
+sta.w 0x1825
+sta.w 0x1824
+
+plb  ; Restore data bank
+rtl
 
 ; ============================================================================
 ; _render_inventory_item

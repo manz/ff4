@@ -23,7 +23,7 @@ def slot_pal_bytes(slot):
 def snap(label):
     s1822 = e.read(0x7E1822)
     dirty = e.read(0x7EEF9A)
-    region = e.read(0x703C01)
+    region = e.read(0x703F01)
     pals = [slot_pal_bytes(s) for s in range(5)]
     print(f"[{label:>10}] $1822={s1822:02X} EF9A={dirty:02X} reg_dirty={region:02X}")
     for s, pal in enumerate(pals):
