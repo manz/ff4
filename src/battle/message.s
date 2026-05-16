@@ -193,8 +193,25 @@ init_commands_list:
     lda.b #region_size * 3
     bra _init
 init_inventory_region:
-"""Initialize the renderer targeting the inventory region (tile_id 0xC0+)."""
+"""
+Initialize the renderer targeting the inventory region (tile_id 0xC0+).
+Skips clear_buffer — clearing from tile_id 0xC0 would overrun the shared
+buffer into the state words at $703C00+. The rolling-buffer overwrites
+tile bytes fully each render so the no-clear path is safe.
+"""
+
+
     lda.b #region_size * 4
+    sta.l pending_transfer_mask
+    jsr.w render_allocator.init_with_tile_id
+    .if ENABLE_KERNING_MENU {
+    stz.b prev_char
+    }
+    lda.b #0x08
+    sta.b bits_left_on_tile
+    stz.b temp
+    stz.b counter
+    rts
 _init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
