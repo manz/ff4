@@ -997,21 +997,35 @@ Escape codes handled:
     adc #0x00
     sta.b 0x35
 
+; Pre-clear both row buffers in the slot with space tiles ($FF) +
+; palette so an `0xFC NN` goto can skip ahead without leaving stale
+; tile_ids on the way. 15 tiles per row, 2 bytes per entry = 30 byte
+; pairs per row.
+    ldy.w #0x0000
+_di_clear:
+    lda #0xff
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    cpy.w #30
+    bne _di_clear
+
 ; X = src (format buffer ptr), Y = dest offset (0-relative into the
 ; tilemap buffer pointed to by \$32 / \$34).
     ldx.w 0xEF50
     ldy.w #0x0000
 
-; Explicit-mode control codes drive fixed-vs-VWF routing:
+; Control codes:
 ;   0x00         -> terminate
 ;   0x03 BB      -> fixed tile_id BB at current pos
 ;   0x0E PP      -> set palette / tile-flag byte
-;   0xFC NN      -> pad with space tiles ($FF) until y reaches the
-;                  NN-th tile slot ; resets bits_left_on_tile to 8 so
-;                  the next VWF char starts on a clean tile boundary
-;   0xFD         -> disable VWF (subsequent chars route to the fixed
-;                  tile_id path)
-;   0xFE         -> enable VWF (subsequent chars route to display_char)
+;   0xFC NN      -> goto tile slot NN in the slot tilemap (no fill ;
+;                  init pre-clears the slot to space tiles)
+;   0xFE         -> toggle fixed <-> VWF dispatch for subsequent chars
 ; Default mode at entry = fixed so the leading symbol byte lands as a
 ; literal tile_id without an explicit escape.
     lda.b #0x80
@@ -1026,10 +1040,8 @@ _di_loop:
     beq _di_pal
     cmp #0xFC
     beq _di_pad
-    cmp #0xFD
-    beq _di_vwf_off
     cmp #0xFE
-    beq _di_vwf_on
+    beq _di_vwf_toggle
     bit.b 0x37
     bmi _di_fixed_char
 ; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
@@ -1091,41 +1103,23 @@ _di_skip:
     inx
     jmp.w _di_loop
 
-_di_vwf_on:
+_di_vwf_toggle:
     inx
-    stz.b 0x37
-    jmp.w _di_loop
-
-_di_vwf_off:
-    inx
-    lda.b #0x80
+    lda.b 0x37
+    eor.b #0x80
     sta.b 0x37
     jmp.w _di_loop
 
 _di_pad:
-; 0xFC NN -> pad the slot tilemap with space tiles ($FF) until y
-; reaches the NN-th tile entry. NN is in tile units (one entry = 2
-; bytes), so the comparison uses NN * 2. Also resets bits_left so the
+; 0xFC NN -> goto tile slot NN (jump Y to NN * 2). The slot tilemap is
+; pre-cleared to space tiles in init, so intermediate slots already
+; show as blank without an explicit fill. Also resets bits_left so the
 ; next VWF char starts on a clean tile column.
     inx
     lda.w 0x0000, x
     inx
     asl
-    sta.b 0x38
-_di_pad_loop:
-    cpy.b 0x38
-    bcs _di_pad_done
-    lda #0xff
-    sta (0x34), y
-    lda #0xff
-    sta (0x32), y
-    iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
-    iny
-    bra _di_pad_loop
-_di_pad_done:
+    tay
     lda #0x08
     sta.b battle_render.bits_left_on_tile
     jmp.w _di_loop

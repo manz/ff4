@@ -278,7 +278,7 @@ _not_disabled:
     iny
 
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
     sta.w inv_format_buffer, y
     iny
 }
@@ -302,7 +302,13 @@ _name_copy_loop:
     bne _name_copy_loop
 
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
+    sta.w inv_format_buffer, y
+    iny
+    lda #0xFC
+    sta.w inv_format_buffer, y
+    iny
+    lda #12
     sta.w inv_format_buffer, y
     iny
 }
@@ -445,7 +451,7 @@ _circ_not_disabled:
 
 ; Toggle to VWF for the name
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
     sta.w inv_format_buffer, y
     iny
 }
@@ -472,7 +478,13 @@ _circ_name_loop:
 
 ; Toggle back to fixed for colon + digits
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
+    sta.w inv_format_buffer, y
+    iny
+    lda #0xFC
+    sta.w inv_format_buffer, y
+    iny
+    lda #12
     sta.w inv_format_buffer, y
     iny
 }
@@ -949,7 +961,7 @@ _slot_not_disabled:
     iny
 
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
     sta.w inv_format_buffer, y
     iny
 }
@@ -973,7 +985,13 @@ _slot_name_loop:
     bne _slot_name_loop
 
 .if BATTLE_ITEMS_VWF {
-    lda #0x0F
+    lda #0xFE
+    sta.w inv_format_buffer, y
+    iny
+    lda #0xFC
+    sta.w inv_format_buffer, y
+    iny
+    lda #12
     sta.w inv_format_buffer, y
     iny
 }
