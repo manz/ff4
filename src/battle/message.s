@@ -387,80 +387,63 @@ _display_char:
     jmp.w brk_bits_left
 _not_space:
 
+; Tier-2 hoist: classify bits_left_on_tile once per glyph, dispatch to
+; one of 8 specialized 8-iteration loops (aligned + shift_0..shift_7).
+; Each loop bakes the asl count into its body so the per-row
+; cmp/jmp-table/mul-ladder dance disappears. Loops jump to brk_bits_left
+; on completion.
+;
+; X holds the font pointer at entry. The shift dispatch clobbers X for
+; the indirect jump, so the font pointer is stashed in `temp` first and
+; each shift loop restores X from there on entry. The aligned path
+; keeps X untouched so it bypasses the save / restore.
     rep #0x20
     lda.w #0x0008
     sta.b counter
     sep #0x20
 
-char_line_loop:
+    lda.b bits_left_on_tile
+    cmp #0x08
+    beq _aligned_loop
+
+    phx
+    rep #0x20
+    pla
+    sta.b temp
+    sep #0x20
+
+    lda.b bits_left_on_tile
+    asl
+    pha
+    lda #0x00
+    xba
+    pla
+    tax
+    jmp.w (_shift_dispatch, x)
+
+_shift_dispatch:
+    .dw _shift_loop_0
+    .dw _shift_loop_1
+    .dw _shift_loop_2
+    .dw _shift_loop_3
+    .dw _shift_loop_4
+    .dw _shift_loop_5
+    .dw _shift_loop_6
+    .dw _shift_loop_7
+
+    .macro vwf_row_body(n) {
     rep #0x20
     lda.w #0x0000
     sep #0x20
-
-    lda.b bits_left_on_tile
-
-    cmp #0x08
-    bne _shift
-
-_read_8x8_char:
     lda.l assets_menu_font_dat, x
-    xba
-    lda.b #0x00
-    xba
     inx
-    xba
-    bra _store
-
-_shift:
-; PPU multiplication is being used by the NMI which wrecks char lines once in a while
-    phx
-    lda.l assets_menu_font_dat, x
-    xba
-    lda #0x00
-    xba
-
-; make jump_table_pointer
-    pha
-    lda.b bits_left_on_tile
-    asl
-    tax
-    pla
-
+    .if n > 0 {
     rep #0x20
-    jmp.w (_mul_table, x)
-_mul_table:
-    .dw _mul_0
-    .dw _mul_1
-    .dw _mul_2
-    .dw _mul_3
-    .dw _mul_4
-    .dw _mul_5
-    .dw _mul_6
-    .dw _mul_7
-    .dw _mul_8
-
-_mul_8:
-_mul_7:
-    asl  ; 1
-_mul_6:
-    asl  ; 2
-_mul_5:
-    asl  ; 3
-_mul_4:
-    asl  ; 4
-_mul_3:
-    asl  ; 5
-_mul_2:
-    asl  ; 6
-_mul_1:
-    asl  ; 7
-_mul_0:
+    .for k := 0, n {
+    asl
+    }
     sep #0x20
-    plx
-    inx
-
-_store:
-
+    }
     xba
     phx
     tyx
@@ -473,15 +456,79 @@ _store:
     plx
     iny
     iny
-
-_next_line:
     dec.b counter
-    bne char_line_loop
+    }
 
-    rep #0x20
-    stz.b temp
-    lda.w #0x0000
-    sep #0x20
+_aligned_loop:
+    lda.l assets_menu_font_dat, x
+    inx
+    phx
+    tyx
+    ora.l buffer_ptr + 1, x
+    sta.l buffer_ptr + 1, x
+    txy
+    plx
+    iny
+    iny
+    dec.b counter
+    bne _aligned_loop
+    jmp.w brk_bits_left
+
+_shift_loop_0:
+    ldx.b temp
+_shift_loop_0_body:
+    vwf_row_body(0)
+    bne _shift_loop_0_body
+    jmp.w brk_bits_left
+
+_shift_loop_1:
+    ldx.b temp
+_shift_loop_1_body:
+    vwf_row_body(1)
+    bne _shift_loop_1_body
+    jmp.w brk_bits_left
+
+_shift_loop_2:
+    ldx.b temp
+_shift_loop_2_body:
+    vwf_row_body(2)
+    bne _shift_loop_2_body
+    jmp.w brk_bits_left
+
+_shift_loop_3:
+    ldx.b temp
+_shift_loop_3_body:
+    vwf_row_body(3)
+    bne _shift_loop_3_body
+    jmp.w brk_bits_left
+
+_shift_loop_4:
+    ldx.b temp
+_shift_loop_4_body:
+    vwf_row_body(4)
+    bne _shift_loop_4_body
+    jmp.w brk_bits_left
+
+_shift_loop_5:
+    ldx.b temp
+_shift_loop_5_body:
+    vwf_row_body(5)
+    bne _shift_loop_5_body
+    jmp.w brk_bits_left
+
+_shift_loop_6:
+    ldx.b temp
+_shift_loop_6_body:
+    vwf_row_body(6)
+    bne _shift_loop_6_body
+    jmp.w brk_bits_left
+
+_shift_loop_7:
+    ldx.b temp
+_shift_loop_7_body:
+    vwf_row_body(7)
+    bne _shift_loop_7_body
+    jmp.w brk_bits_left
 
 
 brk_bits_left:
