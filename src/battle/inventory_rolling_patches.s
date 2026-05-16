@@ -19,6 +19,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.init_inventory_for_current_slot
+    .extern messages_vwf.draw_inventory_text
     .extern messages_vwf.deinit
 }
 
@@ -77,14 +78,17 @@ so the VWF tile allocator and pending-DMA mask stay in sync.
 """
 
 
+    .if BATTLE_ITEMS_VWF {
+; Custom draw_inventory_text owns the format walk end-to-end (escape
+; codes 0x00 / 0x03 / 0x0E plus VWF blits for raw chars). No need to
+; toggle battle_flags here ; it manages its own VWF state.
+    jsr.l messages_vwf.draw_inventory_text
+    rtl
+    } else {
     lda.l 0x704F00
     pha
-    .if BATTLE_ITEMS_VWF {
-    jsr.l messages_vwf.init_inventory_for_current_slot
-    } else {
     lda.b #0x00
     sta.l 0x704F00
-    }
     xba
     lda.b #0x00
     xba
@@ -92,6 +96,7 @@ so the VWF tile allocator and pending-DMA mask stay in sync.
     pla
     sta.l 0x704F00
     rtl
+    }
 
 mult8_trampoline:
 """Bank-$02 RTL trampoline around original Mult8 ($028560)."""
