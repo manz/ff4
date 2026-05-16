@@ -455,6 +455,17 @@ _overflow:
 
 _get_kerning_adjustment_binary_search:
     {
+; Space ($FF) never appears in any font's kerning pair table; bail
+; before the bank push so callers skip the binary search entirely.
+    sep #0x20
+    lda.b prev_char
+    cmp #0xff
+    beq _space_skip
+    lda.b current_char
+    cmp #0xff
+    beq _space_skip
+    rep #0x20
+
     phb
     pea.w font_table >> 16
     plb
@@ -523,6 +534,12 @@ not_found:
     plb
     rts
 
+_space_skip:
+    rep #0x20
+    lda.w #0x0000
+    sec
+    rts
+
 _found:
     iny
     iny
@@ -570,6 +587,8 @@ tilemap_write:
 inc.b tilemap_offset
 inc.b tilemap_offset}
 )
+
+
     pla
     rts
 }

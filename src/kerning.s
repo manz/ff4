@@ -25,6 +25,18 @@ A=0+sec on miss. Trashes A/Y/flags, preserves X.
 
 _dialog_get_kerning_adjustment_binary_search:
 {
+; Space ($FF) never appears in any font's kerning pair table; bail
+; before reading the count when either side of the pair is a space.
+; Caller is in 16-bit M.
+    lda.b CURRENT_C
+    and.w #0x00ff
+    cmp.w #0x00ff
+    beq _return_zero
+    lda.b CURRENT_C
+    and.w #0xff00
+    cmp.w #0xff00
+    beq _return_zero
+
     ldy.w #0x1100
     lda.b [font_addr], y  ; NumKerningPairs (16-bit)
     beq _return_zero

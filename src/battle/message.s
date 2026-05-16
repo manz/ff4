@@ -24,6 +24,8 @@ init:
 Base tile ID for ring buffer area - byte
 A: the base tile id
 """
+
+
 ; tile_ring_base_tile should be set to your VWF tile area start
 ; With 0x128 dynamic + 0x128 immortal = 0x250 (592) tiles total
 ; But tile IDs are 1 byte (0-255), so max usable is 0xFF
@@ -38,6 +40,8 @@ allocate_tiles:
 Allocate next 8-tile slot
 Returns: A = starting tile_id (byte), X = allocation ID (word)
 """
+
+
 ; Calculate tile_id: base_tile + (head * TILES_PER_ENTRY)
     lda.w tile_ring_head
 ; Multiply by 8 (shift left 3 times)
@@ -55,6 +59,8 @@ commit_allocation:
 Commit the allocation (call after rendering to tiles)
 X = allocation ID
 """
+
+
     {
 ; Advance head pointer
     lda.w tile_ring_head
@@ -83,6 +89,8 @@ Get tile_id of a specific allocation by ID
 A = allocation ID (word)
 Returns: A = starting tile_id (byte), Carry = 0 if found, 1 if expired
 """
+
+
     {
 ; Check if ID is still valid (within current range)
     sec
@@ -266,6 +274,8 @@ clear_buffer:
 Wipe the 16×region_size 4bpp tile buffer for the currently-allocated VWF tile id (sets each plane row to
 $FF/$00).
 """
+
+
     pha
     phx
     phy
@@ -336,6 +346,8 @@ display_char:
 Render `A` (char) at tilemap offset `Y` into the message VWF buffer  ; preserves A/X/Y, returns Y =
 `tilemap_offset`.
 """
+
+
     pha
     phx
     phy
@@ -358,80 +370,80 @@ _display_char:
     jsr.w _adjust_bits_left_for_kerning
     pla
     }
+
+; Space ($FF) renders blank ; the 8-row loop only OR-stores zeros (no
+; visible effect) and reads 8 glyph bytes plus 8 inx ops we can skip.
+; Bump X past the glyph rows so `brk_bits_left` reads the width byte
+; from the right offset, then jump straight to the width-update tail.
+    lda.b current_char
+    cmp #0xff
+    bne _not_space
+    rep #0x20
+    txa
+    clc
+    adc.w #0x0008
+    tax
+    sep #0x20
+    jmp.w brk_bits_left
+_not_space:
+
+; Tier-2 hoist: classify bits_left_on_tile once per glyph, dispatch to
+; one of 8 specialized 8-iteration loops (aligned + shift_0..shift_7).
+; Each loop bakes the asl count into its body so the per-row
+; cmp/jmp-table/mul-ladder dance disappears. Loops jump to brk_bits_left
+; on completion.
+;
+; X holds the font pointer at entry. The shift dispatch clobbers X for
+; the indirect jump, so the font pointer is stashed in `temp` first and
+; each shift loop restores X from there on entry. The aligned path
+; keeps X untouched so it bypasses the save / restore.
     rep #0x20
     lda.w #0x0008
     sta.b counter
     sep #0x20
 
-char_line_loop:
+    lda.b bits_left_on_tile
+    cmp #0x08
+    beq _aligned_loop
+
+    phx
+    rep #0x20
+    pla
+    sta.b temp
+    sep #0x20
+
+    lda.b bits_left_on_tile
+    asl
+    pha
+    lda #0x00
+    xba
+    pla
+    tax
+    jmp.w (_shift_dispatch, x)
+
+_shift_dispatch:
+    .dw _shift_loop_0
+    .dw _shift_loop_1
+    .dw _shift_loop_2
+    .dw _shift_loop_3
+    .dw _shift_loop_4
+    .dw _shift_loop_5
+    .dw _shift_loop_6
+    .dw _shift_loop_7
+
+    .macro vwf_row_body(n) {
     rep #0x20
     lda.w #0x0000
     sep #0x20
-
-    lda.b bits_left_on_tile
-
-    cmp #0x08
-    bne _shift
-
-_read_8x8_char:
     lda.l assets_menu_font_dat, x
-    xba
-    lda.b #0x00
-    xba
     inx
-    xba
-    bra _store
-
-_shift:
-; PPU multiplication is being used by the NMI which wrecks char lines once in a while
-    phx
-    lda.l assets_menu_font_dat, x
-    xba
-    lda #0x00
-    xba
-
-; make jump_table_pointer
-    pha
-    lda.b bits_left_on_tile
-    asl
-    tax
-    pla
-
+    .if n > 0 {
     rep #0x20
-    jmp.w (_mul_table, x)
-_mul_table:
-    .dw _mul_0
-    .dw _mul_1
-    .dw _mul_2
-    .dw _mul_3
-    .dw _mul_4
-    .dw _mul_5
-    .dw _mul_6
-    .dw _mul_7
-    .dw _mul_8
-
-_mul_8:
-_mul_7:
-    asl  ; 1
-_mul_6:
-    asl  ; 2
-_mul_5:
-    asl  ; 3
-_mul_4:
-    asl  ; 4
-_mul_3:
-    asl  ; 5
-_mul_2:
-    asl  ; 6
-_mul_1:
-    asl  ; 7
-_mul_0:
+    .for k := 0, n {
+    asl
+    }
     sep #0x20
-    plx
-    inx
-
-_store:
-
+    }
     xba
     phx
     tyx
@@ -444,15 +456,79 @@ _store:
     plx
     iny
     iny
-
-_next_line:
     dec.b counter
-    bne char_line_loop
+    }
 
-    rep #0x20
-    stz.b temp
-    lda.w #0x0000
-    sep #0x20
+_aligned_loop:
+    lda.l assets_menu_font_dat, x
+    inx
+    phx
+    tyx
+    ora.l buffer_ptr + 1, x
+    sta.l buffer_ptr + 1, x
+    txy
+    plx
+    iny
+    iny
+    dec.b counter
+    bne _aligned_loop
+    jmp.w brk_bits_left
+
+_shift_loop_0:
+    ldx.b temp
+_shift_loop_0_body:
+    vwf_row_body(0)
+    bne _shift_loop_0_body
+    jmp.w brk_bits_left
+
+_shift_loop_1:
+    ldx.b temp
+_shift_loop_1_body:
+    vwf_row_body(1)
+    bne _shift_loop_1_body
+    jmp.w brk_bits_left
+
+_shift_loop_2:
+    ldx.b temp
+_shift_loop_2_body:
+    vwf_row_body(2)
+    bne _shift_loop_2_body
+    jmp.w brk_bits_left
+
+_shift_loop_3:
+    ldx.b temp
+_shift_loop_3_body:
+    vwf_row_body(3)
+    bne _shift_loop_3_body
+    jmp.w brk_bits_left
+
+_shift_loop_4:
+    ldx.b temp
+_shift_loop_4_body:
+    vwf_row_body(4)
+    bne _shift_loop_4_body
+    jmp.w brk_bits_left
+
+_shift_loop_5:
+    ldx.b temp
+_shift_loop_5_body:
+    vwf_row_body(5)
+    bne _shift_loop_5_body
+    jmp.w brk_bits_left
+
+_shift_loop_6:
+    ldx.b temp
+_shift_loop_6_body:
+    vwf_row_body(6)
+    bne _shift_loop_6_body
+    jmp.w brk_bits_left
+
+_shift_loop_7:
+    ldx.b temp
+_shift_loop_7_body:
+    vwf_row_body(7)
+    bne _shift_loop_7_body
+    jmp.w brk_bits_left
 
 
 brk_bits_left:
@@ -529,6 +605,18 @@ _finalize:
 
 _get_kerning_adjustment_binary_search:
     {
+; Space ($FF) never appears in any font's kerning pair table; bail out
+; before the bank push so external callers (battle_msg_kerning_binary_ext
+; and Python tooling) skip the search too. Caller is in 16-bit M.
+    sep #0x20
+    lda.b prev_char
+    cmp #0xff
+    beq _space_skip
+    lda.b current_char
+    cmp #0xff
+    beq _space_skip
+    rep #0x20
+
     phb
     pea.w font_table >> 16
     plb
@@ -627,6 +715,14 @@ not_found:
     plb
     rts
 
+_space_skip:
+; Space-pair early-out: 8-bit M from the entry check, no bank push or
+; search bounds were pushed yet. Just signal "not found" and return.
+    rep #0x20
+    lda.w #0x0000
+    sec
+    rts
+
 found_pair:
 ; This label kept for compatibility but shouldn't be reached
 ; in binary search version
@@ -693,6 +789,8 @@ put char
 write to the tilemap if needed
 maintain counters
 """
+
+
     cmp #0x42
     bcc put_fixed_char_dakuten
 put_fixed_char_no_dakuten:
@@ -714,6 +812,8 @@ init:
 inits the renderer for the messages window
 flips the flag for enabling the messages renderer.
 """
+
+
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init
     rtl
@@ -738,6 +838,8 @@ set. Writes `$FF` to `render_skipped` so the gated trampoline can
 short-circuit DrawText and the matching `deinit_gated` skips the
 DMA signal.
 """
+
+
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_monsters_gated
     rtl
@@ -756,6 +858,8 @@ deinit:
 the renderer
 disables messages renderer falling back to fixed mode.
 """
+
+
     jsr.l battle_flags.clear_vwf_render
 ; vram transfer was moved to a trampoline in the battle nmi.
     lda.l battle_render.pending_transfer_mask
@@ -768,6 +872,8 @@ Companion to `init_*_gated`: always flips the flag back, only
 signals DMA (sets bit 0 of pending_transfer_mask) if the matching
 init actually rendered. Reads `render_skipped` to decide.
 """
+
+
     jsr.l battle_flags.clear_vwf_render
     lda.l battle_render.render_skipped
     bne _deinit_gated_done
@@ -796,6 +902,8 @@ INIDISP write at `$02:837F` after the NMI DMA chain. On idle
 frames (nothing queued) forced-blank is NOT set  ; vblank stays
 normal length, no visible black strip.
 """
+
+
     pha
     phx
     phy
@@ -917,6 +1025,8 @@ new_line_escape_code_handler:
 Handler for the ` ` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset
 bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
 """
+
+
 ; we might have something of interest in Y we might know where we are in the previous iteration ?
     pha
 ;jsr.w battle_render.tilemap_write

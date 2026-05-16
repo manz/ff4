@@ -19,3 +19,12 @@ repos:
         files: \.(s|i)$
         require_serial: true
         pass_filenames: true
+      - id: pytest
+        name: pytest (full suite, pre-push only)
+        description: Run kintsuki + golden tests before push to catch
+          patch regressions that build + format hooks can't see.
+        entry: pytest -q
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
