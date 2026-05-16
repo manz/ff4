@@ -615,6 +615,18 @@ _finalize:
 
 _get_kerning_adjustment_binary_search:
     {
+; Space ($FF) never appears in any font's kerning pair table; bail out
+; before the bank push so external callers (battle_msg_kerning_binary_ext
+; and Python tooling) skip the search too. Caller is in 16-bit M.
+    sep #0x20
+    lda.b prev_char
+    cmp #0xff
+    beq _space_skip
+    lda.b current_char
+    cmp #0xff
+    beq _space_skip
+    rep #0x20
+
     phb
     pea.w font_table >> 16
     plb
@@ -711,6 +723,14 @@ not_found:
     sec  ; Set carry (not found)
     plb
     plb
+    rts
+
+_space_skip:
+; Space-pair early-out: 8-bit M from the entry check, no bank push or
+; search bounds were pushed yet. Just signal "not found" and return.
+    rep #0x20
+    lda.w #0x0000
+    sec
     rts
 
 found_pair:
