@@ -872,17 +872,45 @@ here.
 
 
     php
+    rep #0x10
     rep #0x20
     lda.l 0x7EEF82
     and.w #0x00FF
     sta.b 0x00
+
+; Tile_id base = slot * 9 + 0xC0.
     asl
     asl
     asl
     clc
     adc.b 0x00
     clc
-    adc.w #0x00C0
+    adc.w #0x00c0
+    sta.b 0x02
+
+; Clear the slot's 9-tile CHR slice at buffer_ptr + tile_id_base * 16
+; (144 bytes = $90). Stale CHR bits from prior renders would otherwise
+; OR into the new render via the VWF blitter's ora-then-store path.
+; Pattern $FF $00 alternates the 2 bitplanes (empty tile in 4bpp).
+    lda.b 0x02
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc.w #battle_render.buffer_ptr & 0xffff
+    tax
+    ldy.w #72
+_chr_clear_loop:
+    lda.w #0x00ff
+    sta.l 0x700000, x
+    inx
+    inx
+    dey
+    bne _chr_clear_loop
+
+; Restore tile_id base into A for the allocator init.
+    lda.b 0x02
     sep #0x20
     pha
     jsr.l battle_flags.set_vwf_render
