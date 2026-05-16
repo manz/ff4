@@ -939,6 +939,207 @@ message renderer routes char dispatch through the VWF put_char path.
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_inventory_region
     rtl
+draw_inventory_text:
+"""
+Custom inventory text renderer that walks a format buffer ourselves
+instead of going through the vanilla draw_text dispatch. Owns the
+escape interpretation end-to-end so we can mix VWF-rendered name
+chars with fixed-width symbol / colon / digit / type tiles without
+toggling battle_flags mid-stream.
+
+Caller setup mirrors the vanilla draw_text contract:
+  $EF50: 16-bit format buffer ptr (source bytes)
+  $EF52: 16-bit destination tilemap-buffer ptr (in bank \$7E)
+  $EF54: line length (tiles per row, currently 15)
+  $EF55: palette
+  $7EEF82: rolling_slot_index (0..5) for VWF allocator base
+
+Escape codes handled:
+  0x00: terminator -> return
+  0x03 BB: emit fixed tile_id BB at the next tilemap slot
+  0x0E PP: set tile-attribute byte to PP for subsequent writes
+  any other byte: VWF blit through battle_render.display_char
+"""
+
+
+    php
+    rep #0x10
+    sep #0x20
+
+; Set DBR to $7E so 16-bit absolute,Y / abs,X writes target WRAM.
+    phb
+    lda.b #0x7E
+    pha
+    plb
+
+; Init VWF state via the slot helper. It resets the allocator to
+; (0xC0 + slot * 10), bits_left_on_tile = 8, etc.
+    jsr.w init_inventory_for_current_slot_local
+
+; Vanilla draw_text prologue: stash src ptr / dest row-1 ptr / dest
+; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
+; relies on these for the indirect ($32),y and ($34),y writes.
+    lda.w 0xef55
+    sta.b 0x36
+    ldx.w 0xef50
+    stx.b 0x30
+    ldx.w 0xef52
+    stx.b 0x32
+; Row 2 ptr = row 1 ptr + (line_length * 2). DON'T modify $ef54 in
+; place ; the caller hands us the live line_length each call, and a
+; persistent asl would double it every render.
+    lda.w 0xef54
+    asl
+    clc
+    adc.b 0x32
+    sta.b 0x34
+    lda.b 0x33
+    adc #0x00
+    sta.b 0x35
+
+; X = src (format buffer ptr), Y = dest offset (0-relative into the
+; tilemap buffer pointed to by \$32 / \$34).
+    ldx.w 0xEF50
+    ldy.w #0x0000
+
+; DP $37 acts as the fixed-vs-VWF mode flag. 0 = VWF (chars route to
+; battle_render.display_char). Non-zero = fixed (chars write directly
+; as tile_ids through the same row1/row2 indirect that _di_fixed uses).
+; Default = fixed so the symbol byte at the start of an inventory row
+; lands as a literal tile_id without an extra escape. The 0x0F escape
+; toggles, so a format like
+;   palette symbol 0x0F vwf_name 0x0F : space digits space ITEM_TYPE
+; alternates: fixed (symbol) -> VWF (name) -> fixed (colon + digits +
+; type) without escaping each byte individually.
+    lda.b #0x80
+    sta.b 0x37
+
+_di_loop:
+    lda.w 0x0000, x
+    beq _di_done
+    cmp #0x03
+    beq _di_fixed
+    cmp #0x0E
+    beq _di_pal
+    cmp #0x0F
+    beq _di_toggle
+    bit.b 0x37
+    bmi _di_fixed_char
+; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
+; advances both source X and dest Y as it allocates).
+    inx
+    sty.b battle_render.tilemap_offset
+    jsr.w battle_render.display_char
+    ldy.b battle_render.tilemap_offset
+    bra _di_loop
+
+_di_fixed_char:
+; Fixed-mode raw char: write current byte as tile_id at (\$34),y. No
+; ora #0x01 on the attr -- the +0x100 high bit is only for VWF tiles
+; in the 0x1xx range, fixed font tiles live in 0x00..0xFF.
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    inx
+    bra _di_loop
+
+_di_toggle:
+    inx
+    lda.b 0x37
+    eor.b #0x80
+    sta.b 0x37
+    bra _di_loop
+
+_di_fixed:
+; 0x03 BB -> write fixed tile_id BB at (\$34),y. Same shape as
+; _di_fixed_char (mirror of wram.put_char), no +0x100 bit set.
+    inx
+    lda.w 0x0000, x
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    inx
+    bra _di_loop
+
+_di_pal:
+; 0x0E PP -> stash PP as the tile flags byte. Vanilla draw_text
+; stores it at $36 ; mirror that so subsequent fixed / VWF writes
+; pick up the right palette.
+    inx
+    lda.w 0x0000, x
+    sta.b 0x36
+    inx
+    bra _di_loop
+
+_di_done:
+    plb
+    plp
+    rtl
+
+init_inventory_for_current_slot_local:
+"""
+Local jsr.w-reachable copy of init_inventory_for_current_slot that
+returns via rts (the public entry returns rtl).
+"""
+
+
+    php
+    rep #0x10
+    rep #0x20
+    lda.l 0x7EEF82
+    and.w #0x00FF
+    sta.b 0x00
+    asl
+    asl
+    asl
+    clc
+    adc.b 0x00
+    clc
+    adc.b 0x00
+    clc
+    adc.w #0x00c0
+    sta.b 0x02
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc.w #battle_render.buffer_ptr & 0xffff
+    tax
+    ldy.w #72
+_dis_chr_clear:
+    lda.w #0x00ff
+    sta.l 0x700000, x
+    inx
+    inx
+    dey
+    bne _dis_chr_clear
+    lda.b 0x02
+    sep #0x20
+    pha
+    jsr.l battle_flags.set_vwf_render
+    pla
+    sta.l battle_render.pending_transfer_mask
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
+    rts
 init_monsters_gated:
 """
 Gated counterpart to `init_monsters`. Always flips the VWF flag

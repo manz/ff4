@@ -431,10 +431,12 @@ _circ_not_disabled:
     tax
     sep #0x20
 
-; Build format string in $74FD (protected by inventory-active skip checks)
+; Build format string. The custom inventory renderer starts in fixed
+; mode and uses 0x0F as a fixed<->VWF toggle so only the name routes
+; through the VWF blitter.
     ldy.w #0x0000
 
-; Tile flags for symbol
+; Tile flags for symbol (fixed mode default)
     lda #0x0E
     sta.w inv_format_buffer, y
     iny
@@ -442,46 +444,44 @@ _circ_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-; Symbol tile
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
+; Symbol tile (raw byte ; default mode is fixed)
     lda.l assets_items_dat, x
     sta.w inv_format_buffer, y
     iny
 
-; Tile flags for name
-    lda #0x0E
+; Toggle to VWF for the name
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
     sta.w inv_format_buffer, y
     iny
-    lda.b 0x00
-    sta.w inv_format_buffer, y
-    iny
+}
 
-; 11-char name
-    lda #11
-    sta.b 0x00
+; Tile flags for name
+lda #0x0E
+sta.w inv_format_buffer, y
+iny
+lda.b 0x00
+sta.w inv_format_buffer, y
+iny
+
+; 11-char name (raw chars dispatched through VWF blitter)
+lda #11
+sta.b 0x00
 
 _circ_name_loop:
     inx
     lda.l assets_items_dat, x
-.if BATTLE_ITEMS_VWF {
-; Space ($FF) inside the name escapes through the fixed-tile path so
-; it does not consume a VWF tile_id slot in the slot's allocator
-; budget.
-    cmp #0xff
-    bne _circ_name_emit
-    pha
-    lda #0x03
     sta.w inv_format_buffer, y
     iny
-    pla
-_circ_name_emit:
+    dec.b 0x00
+    bne _circ_name_loop
+
+; Toggle back to fixed for colon + digits
+.if BATTLE_ITEMS_VWF {
+    lda #0x0F
+    sta.w inv_format_buffer, y
+    iny
 }
-sta.w inv_format_buffer, y
-iny
-dec.b 0x00
-bne _circ_name_loop
 
 ; Quantity handling
 lda.b 0x02
@@ -495,33 +495,20 @@ lda #0x03
 bra _circ_finish
 
 _circ_has_item:
-.if BATTLE_ITEMS_VWF {
-; Escape the colon as a fixed tile (0x03 + tile_id) so it bypasses the
-; VWF blitter and references the menu_font colon tile directly.
-    lda #0x03
+    lda #0xC8
     sta.w inv_format_buffer, y
     iny
-}
-lda #0xC8  ; Colon
-sta.w inv_format_buffer, y
-iny
 
-pla
-tax
-jsr.l hex_to_dec_trampoline
-jsr.l normalize_num_trampoline
+    pla
+    tax
+    jsr.l hex_to_dec_trampoline
+    jsr.l normalize_num_trampoline
 
-lda #0x03
-sta.w inv_format_buffer, y
-iny
-lda.w 0x180E
-sta.w inv_format_buffer, y
-iny
+    lda.w 0x180E
+    sta.w inv_format_buffer, y
+    iny
 
-lda #0x03
-sta.w inv_format_buffer, y
-iny
-lda.w 0x180F
+    lda.w 0x180F
 
 _circ_finish:
     sta.w inv_format_buffer, y
