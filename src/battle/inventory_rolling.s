@@ -10,6 +10,9 @@ runs the field-menu NMI DMA check.
 .extern normalize_num_trampoline
 .extern draw_text_rolling_trampoline
 .extern return_to_bank02
+.if BATTLE_ITEMS_VWF {
+    .extern messages_vwf.init_inventory
+}
 
 ; ============================================================================
 ; Rolling Buffer Implementation for Battle Inventory (Single Column)
@@ -121,10 +124,17 @@ in-battle inventory window opens, resetting the rolling-buffer state.
     stz.w rolling_buffer_pos
     ; Note: Game's $4A flag (bit 2) already indicates inventory is active
 
+.if BATTLE_ITEMS_VWF {
+; Reset the VWF allocator to tile_id 0xC0 once for the whole pass.
+; The 6-slot render loop below increments the allocator naturally so
+; each item owns a distinct tile range (item N at 0xC0 + N * ~9 tiles).
+    jsr.l messages_vwf.init_inventory
+}
+
 ; Render 6 rows to circular slots (5 visible + 1 off-screen)
 ; At init, item index = slot index (both 0-5)
-    lda #0
-    sta.b 0x06  ; Slot index (0-5)
+lda #0
+sta.b 0x06  ; Slot index (0-5)
 
 _init_row_loop:
     ; For init: item index = slot index

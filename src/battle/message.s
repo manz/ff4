@@ -194,10 +194,12 @@ init_commands_list:
     bra _init
 init_inventory_region:
 """
-Initialize the renderer targeting the inventory region (tile_id 0xC0+).
-Skips clear_buffer — clearing from tile_id 0xC0 would overrun the shared
-buffer into the state words at $703C00+. The rolling-buffer overwrites
-tile bytes fully each render so the no-clear path is safe.
+Reset the allocator to the inventory tile_id base (0xC0) once per
+rolling render pass. Subsequent per-item DrawText calls let the
+allocator increment naturally, so each item owns its own tile range
+(item N uses 0xC0 + N * width_in_tiles). Skips clear_buffer for the
+reasons noted on the other inventory entry — tile_id 0xC0+ would
+overrun the shared buffer into the state words at $703C00+.
 """
 
 
