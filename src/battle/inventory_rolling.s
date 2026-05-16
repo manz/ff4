@@ -465,21 +465,34 @@ _circ_not_disabled:
 _circ_name_loop:
     inx
     lda.l assets_items_dat, x
+.if BATTLE_ITEMS_VWF {
+; Space ($FF) inside the name escapes through the fixed-tile path so
+; it does not consume a VWF tile_id slot in the slot's allocator
+; budget.
+    cmp #0xff
+    bne _circ_name_emit
+    pha
+    lda #0x03
     sta.w inv_format_buffer, y
     iny
-    dec.b 0x00
-    bne _circ_name_loop
+    pla
+_circ_name_emit:
+}
+sta.w inv_format_buffer, y
+iny
+dec.b 0x00
+bne _circ_name_loop
 
 ; Quantity handling
-    lda.b 0x02
-    bne _circ_has_item
+lda.b 0x02
+bne _circ_has_item
 
-    pla
-    lda #0x05
-    sta.w inv_format_buffer, y
-    iny
-    lda #0x03
-    bra _circ_finish
+pla
+lda #0x05
+sta.w inv_format_buffer, y
+iny
+lda #0x03
+bra _circ_finish
 
 _circ_has_item:
 .if BATTLE_ITEMS_VWF {
