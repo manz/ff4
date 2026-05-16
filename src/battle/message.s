@@ -1002,17 +1002,10 @@ Escape codes handled:
     ldx.w 0xEF50
     ldy.w #0x0000
 
-; DP $37 acts as the fixed-vs-VWF mode flag. 0 = VWF (chars route to
-; battle_render.display_char). Non-zero = fixed (chars write directly
-; as tile_ids through the same row1/row2 indirect that _di_fixed uses).
-; Default = fixed so the symbol byte at the start of an inventory row
-; lands as a literal tile_id without an extra escape. The 0x0F escape
-; toggles, so a format like
-;   palette symbol 0x0F vwf_name 0x0F : space digits space ITEM_TYPE
-; alternates: fixed (symbol) -> VWF (name) -> fixed (colon + digits +
-; type) without escaping each byte individually.
-    lda.b #0x80
-    sta.b 0x37
+; Auto fixed-vs-VWF routing per char: bytes < 0x42 (symbols / icons /
+; small codes) go through the fixed-width path, bytes >= 0x42
+; (letters and similar printable text) go through the VWF blitter.
+; Escape codes 0x00 / 0x03 / 0x0E are matched before the threshold.
 
 _di_loop:
     lda.w 0x0000, x
@@ -1021,10 +1014,8 @@ _di_loop:
     beq _di_fixed
     cmp #0x0E
     beq _di_pal
-    cmp #0x0F
-    beq _di_toggle
-    bit.b 0x37
-    bmi _di_fixed_char
+    cmp #0x42
+    bcc _di_fixed_char
 ; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
 ; advances both source X and dest Y as it allocates).
     inx
@@ -1048,12 +1039,6 @@ _di_fixed_char:
     inx
     bra _di_loop
 
-_di_toggle:
-    inx
-    lda.b 0x37
-    eor.b #0x80
-    sta.b 0x37
-    bra _di_loop
 
 _di_fixed:
 ; 0x03 BB -> write fixed tile_id BB at (\$34),y. Same shape as
