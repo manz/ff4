@@ -884,7 +884,9 @@ here.
     clc
     adc.w #0x00C0
     sep #0x20
+    pha
     jsr.l battle_flags.set_vwf_render
+    pla
     sta.l battle_render.pending_transfer_mask
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
     .if ENABLE_KERNING_MENU {
