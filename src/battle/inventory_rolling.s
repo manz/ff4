@@ -482,26 +482,33 @@ _circ_name_loop:
     bra _circ_finish
 
 _circ_has_item:
-    lda #0xC8  ; Colon
-    sta.w inv_format_buffer, y
-    iny
-
-    pla
-    tax
-    jsr.l hex_to_dec_trampoline
-    jsr.l normalize_num_trampoline
-
+.if BATTLE_ITEMS_VWF {
+; Escape the colon as a fixed tile (0x03 + tile_id) so it bypasses the
+; VWF blitter and references the menu_font colon tile directly.
     lda #0x03
     sta.w inv_format_buffer, y
     iny
-    lda.w 0x180E
-    sta.w inv_format_buffer, y
-    iny
+}
+lda #0xC8  ; Colon
+sta.w inv_format_buffer, y
+iny
 
-    lda #0x03
-    sta.w inv_format_buffer, y
-    iny
-    lda.w 0x180F
+pla
+tax
+jsr.l hex_to_dec_trampoline
+jsr.l normalize_num_trampoline
+
+lda #0x03
+sta.w inv_format_buffer, y
+iny
+lda.w 0x180E
+sta.w inv_format_buffer, y
+iny
+
+lda #0x03
+sta.w inv_format_buffer, y
+iny
+lda.w 0x180F
 
 _circ_finish:
     sta.w inv_format_buffer, y
