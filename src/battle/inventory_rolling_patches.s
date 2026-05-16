@@ -18,6 +18,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .extern CMD_DIRTY_BIT
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
+    .extern messages_vwf.init_inventory_for_current_slot
     .extern messages_vwf.deinit
 }
 
@@ -79,12 +80,7 @@ so the VWF tile allocator and pending-DMA mask stay in sync.
     lda.l 0x704F00
     pha
     .if BATTLE_ITEMS_VWF {
-; Inventory pass: set VWF flag so battle_display_char routes through
-; messages_vwf put_char ; the allocator was reset to 0xC0 once by the
-; pass entry, and natural increment carries us through each item's
-; tiles. deinit fires once after the pass to flush DMA, not per item.
-    lda.b #0x02
-    sta.l 0x704F00
+    jsr.l messages_vwf.init_inventory_for_current_slot
     } else {
     lda.b #0x00
     sta.l 0x704F00

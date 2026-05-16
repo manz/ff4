@@ -216,6 +216,14 @@ overrun the shared buffer into the state words at $703C00+.
     stz.b temp
     stz.b counter
     rts
+render_allocator_init_with_tile_id_thunk:
+"""
+In-scope thunk so messages_vwf can reach the allocator via jsr.w
+across scope boundaries. A on entry = tile_id base.
+"""
+
+
+    jmp.w render_allocator.init_with_tile_id
 _init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
@@ -853,6 +861,40 @@ init_monsters:
 init_names:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_names
+    rtl
+init_inventory_for_current_slot:
+"""
+Compute tile_id base from the live rolling_slot_index (0..5),
+allocate 9 tile_ids per slot starting at 0xC0, and reset allocator
+state. Saves the bank-02 trampoline ~20 bytes by keeping the math
+here.
+"""
+
+
+    php
+    rep #0x20
+    lda.l 0x7EEF82
+    and.w #0x00FF
+    sta.b 0x00
+    asl
+    asl
+    asl
+    clc
+    adc.b 0x00
+    clc
+    adc.w #0x00C0
+    sep #0x20
+    jsr.l battle_flags.set_vwf_render
+    sta.l battle_render.pending_transfer_mask
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
     rtl
 init_inventory:
 """
