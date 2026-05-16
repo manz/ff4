@@ -965,7 +965,15 @@ normal length, no visible black strip.
     .if SMART {
     ldx.w #0x400
     } else {
+    .if BATTLE_ITEMS_VWF {
+; Inventory region (tile_id 0xC0..0xEF) extends past the legacy 0xC00
+; window. Buffer stores 16 bytes per tile, so tile_id 0xEF ends at
+; buffer_ptr + 0xF00. Dest stays at VRAM $B000 ; tail lands at $BF00,
+; inside the BG3 CHR window ($A000..$BFFF).
+    ldx.w #0xf00
+    } else {
     ldx.w #0xc00
+    }
     }
     stx 0x0e
     plx
