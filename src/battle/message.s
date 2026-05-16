@@ -1002,12 +1002,20 @@ Escape codes handled:
     ldx.w 0xEF50
     ldy.w #0x0000
 
-; Auto fixed-vs-VWF routing per char value:
-;   < 0x42         -> fixed (symbols / icons / small control codes)
-;   0x42..0xBF     -> VWF (letters)
-;   >= 0xC0        -> fixed (colon, space, digits and other tile_id-
-;                    style codes ; don't consume an allocator slot)
-; Escape codes 0x00 / 0x03 / 0x0E still match before the threshold.
+; Explicit-mode control codes drive fixed-vs-VWF routing:
+;   0x00         -> terminate
+;   0x03 BB      -> fixed tile_id BB at current pos
+;   0x0E PP      -> set palette / tile-flag byte
+;   0xFC NN      -> pad with space tiles ($FF) until y reaches the
+;                  NN-th tile slot ; resets bits_left_on_tile to 8 so
+;                  the next VWF char starts on a clean tile boundary
+;   0xFD         -> disable VWF (subsequent chars route to the fixed
+;                  tile_id path)
+;   0xFE         -> enable VWF (subsequent chars route to display_char)
+; Default mode at entry = fixed so the leading symbol byte lands as a
+; literal tile_id without an explicit escape.
+    lda.b #0x80
+    sta.b 0x37
 
 _di_loop:
     lda.w 0x0000, x
@@ -1016,19 +1024,21 @@ _di_loop:
     beq _di_fixed
     cmp #0x0E
     beq _di_pal
-    cmp #0x0F
-    beq _di_skip
-    cmp #0x42
-    bcc _di_fixed_char
-    cmp #0xc0
-    bcs _di_fixed_char
+    cmp #0xFC
+    beq _di_pad
+    cmp #0xFD
+    beq _di_vwf_off
+    cmp #0xFE
+    beq _di_vwf_on
+    bit.b 0x37
+    bmi _di_fixed_char
 ; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
 ; advances both source X and dest Y as it allocates).
     inx
     sty.b battle_render.tilemap_offset
     jsr.w battle_render.display_char
     ldy.b battle_render.tilemap_offset
-    bra _di_loop
+    jmp.w _di_loop
 
 _di_fixed_char:
 ; Fixed-mode raw char: write current byte as tile_id at (\$34),y. No
@@ -1043,7 +1053,7 @@ _di_fixed_char:
     sta (0x34), y
     iny
     inx
-    bra _di_loop
+    jmp.w _di_loop
 
 
 _di_fixed:
@@ -1060,7 +1070,7 @@ _di_fixed:
     sta (0x34), y
     iny
     inx
-    bra _di_loop
+    jmp.w _di_loop
 
 _di_pal:
 ; 0x0E PP -> stash PP as the tile flags byte. Vanilla draw_text
@@ -1070,7 +1080,7 @@ _di_pal:
     lda.w 0x0000, x
     sta.b 0x36
     inx
-    bra _di_loop
+    jmp.w _di_loop
 
 _di_done:
     plb
@@ -1079,7 +1089,46 @@ _di_done:
 
 _di_skip:
     inx
-    bra _di_loop
+    jmp.w _di_loop
+
+_di_vwf_on:
+    inx
+    stz.b 0x37
+    jmp.w _di_loop
+
+_di_vwf_off:
+    inx
+    lda.b #0x80
+    sta.b 0x37
+    jmp.w _di_loop
+
+_di_pad:
+; 0xFC NN -> pad the slot tilemap with space tiles ($FF) until y
+; reaches the NN-th tile entry. NN is in tile units (one entry = 2
+; bytes), so the comparison uses NN * 2. Also resets bits_left so the
+; next VWF char starts on a clean tile column.
+    inx
+    lda.w 0x0000, x
+    inx
+    asl
+    sta.b 0x38
+_di_pad_loop:
+    cpy.b 0x38
+    bcs _di_pad_done
+    lda #0xff
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    bra _di_pad_loop
+_di_pad_done:
+    lda #0x08
+    sta.b battle_render.bits_left_on_tile
+    jmp.w _di_loop
 
 init_inventory_for_current_slot_local:
 """
