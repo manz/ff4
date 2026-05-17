@@ -1296,6 +1296,45 @@ normal length, no visible black strip.
     pha
     phx
     phy
+    .if BATTLE_ITEMS_VWF {
+; Per-NMI inventory HDMA footer override. The BG3 V-scroll HDMA chain
+; (channel 2, indirect, src $7E:760B -> $7E:7ED2 chunk) has 4 entries
+; at $7E:7F42..$7F51 hardcoded to scroll 0x01DB ; that value points
+; at empty tilemap and renders 2 rows of black between the last
+; visible item row and the bottom-border. Replace those 4 entries
+; with 0x0073 (the same lock value as the last entry before the gap)
+; so the bottom-border row (tilemap rows 13/14 at VRAM $75A0) stays
+; pinned. Only fire when inventory is open (bit 2 of $4A) so the
+; cmd/status menus that share BG3 V-scroll are untouched.
+    php
+    sep #0x30
+    lda.l 0x7E004A
+    and.b #0x04
+    beq _no_inv_footer
+    rep #0x30
+; Below-body gap: vanilla writes 0x02BB into 7 entries at
+; $7E:8068..$807D (after body row 4's last scroll 0x0183 and the
+; trailing 0x0187 partial entry). That value lands in empty tilemap
+; -> 2 rows of black between the visible items and the bottom-border.
+; Replace with the next body row's scroll value (0x0187) so the
+; lock pattern extends downward and pins the bottom border row.
+; Step a few literals for fine-tuning ; if 0x0187 shows wrong row,
+; try 0x018B, 0x018F, 0x0173, ...
+; Pin the two bottom-border tile rows. First half of the gap maps to
+; row N (8 px below hidden-slot content = 0x018B + 8 = 0x0193).
+; Second half steps another +8 to land on row N+1 = 0x019B.
+    lda.w #0x0193
+    sta.l 0x7E8068
+    sta.l 0x7E806C
+    sta.l 0x7E8070
+    lda.w #0x019B
+    sta.l 0x7E8074
+    sta.l 0x7E8078
+    sta.l 0x7E807C
+    sta.l 0x7E8080
+_no_inv_footer:
+    plp
+    }
     lda.l battle_render.pending_transfer_mask
     bit #1
     beq _no_transfer
