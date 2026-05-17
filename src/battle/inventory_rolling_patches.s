@@ -129,15 +129,14 @@ _update_enabled_items_trampoline:
 ; Original function was overwritten. This must fit in bank $02 free space.
 
 _draw_battle_command_window_relocated:
-; Thunk-level gate on CMD_DIRTY_BIT. Set TILEMAP_PENDING_COMMANDS
-; so the NMI dma_transfer picks up the cmd-window tilemap DMA
-; in sync with the tile-data DMA. Skip on clean ; VRAM retains
-; last upload and no DMA fires.
-    lda.l battle_menu_dirty
-    bit.b #CMD_DIRTY_BIT
-    beq _dbcw_skip
-    and.b #( ~ CMD_DIRTY_BIT ) & 0xFF
-    sta.l battle_menu_dirty
+; Drop the CMD_DIRTY_BIT gate. The cmd-window tilemap region at
+; $C1A5+ is a mirror of the main view ($BE65+) overlaid with cmd
+; tiles. ATB rotation / monster death / HP ticks etc. only write to
+; main, never re-mirror, so gating left the cmd region frozen at
+; battle-init state (and we kept seeing empty char-name + monster
+; rows behind the cmd window). Mirror is now a single ch3 WRAM DMA
+; (~400 cycles), small enough to run every frame; total cost is in
+; the same ballpark as vanilla's per-frame DrawCmdWindow.
     lda.l battle_render.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_COMMANDS
     sta.l battle_render.tilemap_pending_mask
@@ -153,9 +152,6 @@ _draw_battle_command_window_relocated:
     lda #0x03
     ldx.w #0x0064
     jmp 0x99F1  ; tail-call DrawCmdListText (rts via that function)
-
-_dbcw_skip:
-    rts
 
 ; ============================================================================
 ; WRAP/CLEAR TRAMPOLINE (small, stays in bank $02)
