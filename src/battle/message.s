@@ -1059,9 +1059,12 @@ _di_clear:
 ;                  init pre-clears the slot to space tiles)
 ;   0xFE         -> toggle fixed <-> VWF dispatch for subsequent chars
 ; Default mode at entry = fixed so the leading symbol byte lands as a
-; literal tile_id without an explicit escape.
+; literal tile_id without an explicit escape. Stash the mode flag in
+; scratch DP $1F: $37/$38/$39/$3A are controller-1/2 button shadows
+; and writing $80 to $37 set the A-bit, which cursor.asm @b5a6 then
+; latched as a phantom A press, toggling swap mode every scroll.
     lda.b #0x80
-    sta.b 0x37
+    sta.b 0x1F
 
 _di_loop:
     lda.w 0x0000, x
@@ -1074,7 +1077,7 @@ _di_loop:
     beq _di_pad
     cmp #0xFE
     beq _di_vwf_toggle
-    bit.b 0x37
+    bit.b 0x1F
     bmi _di_fixed_char
 ; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
 ; advances both source X and dest Y as it allocates).
@@ -1153,9 +1156,9 @@ _di_skip:
 
 _di_vwf_toggle:
     inx
-    lda.b 0x37
+    lda.b 0x1F
     eor.b #0x80
-    sta.b 0x37
+    sta.b 0x1F
     jmp.w _di_loop
 
 _di_pad:
@@ -1331,9 +1334,12 @@ normal length, no visible black strip.
     lda.l 0x7E004A
     and.b #0x04
     beq _inv_footer_closed
-; OPEN: pin the two bottom-border tile rows. First 3 entries map to
-; row N (= 0x0193, +8 from hidden-slot lock), last 4 step to N+1
-; (= 0x019B, +16). Value pair from commit 3ee7e2b ("*bam*").
+; OPEN: pin the two bottom-border tile rows past body. $8068+ is
+; past ch2's HDMA chunk (240-byte count terminates at $7FC2) ;
+; these writes don't drive HDMA but mirror to the swap table via
+; the vanilla state-1 routine which the inventory code reads. Real
+; mid-scroll leak fix needs to patch INSIDE chunk 2 ($7F74-$7FBF)
+; where vanilla rewrites body-row scrolls per rolling_buffer_pos.
     rep #0x30
     lda.w #0x0193
     sta.l 0x7E8068
@@ -1346,8 +1352,9 @@ normal length, no visible black strip.
     sta.l 0x7E8080
     bra _inv_footer_done
 _inv_footer_closed:
-; CLOSED: write vanilla idle pattern every frame so the state-1 swap
+; CLOSED: write vanilla idle pattern every frame so state-1 swap
 ; can't bring our open values back. Trace at battle-settle:
+;   $8064 = 0x0187 (vanilla "slot 5" transition entry, static)
 ;   $8068/6C/70 = 0x01F7
 ;   $8074..$80 = 0x0026, 0x0025, 0x0024, 0x0023 (decreasing)
     rep #0x30
