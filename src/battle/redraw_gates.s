@@ -110,6 +110,14 @@ re-render once the dead slot is wiped.
     lda.l battle_render.region_dirty_bits
     ora.b #battle_render.REGION_DIRTY_MONSTERS
     sta.l battle_render.region_dirty_bits
+    ; Propagate to cmd-window region: the cmd-window tilemap at $C1A5+ is
+    ; a mirror of the main view ($BE65+) overlaid with cmd tiles. If we
+    ; refresh monsters in the main view, the cmd mirror is stale, so set
+    ; CMD_DIRTY_BIT here too. The relocated DrawCmdWindow path picks this
+    ; up next frame and re-runs the WRAM mirror via `mirror_main_to_cmd`.
+    lda.l battle_menu_dirty
+    ora.b #CMD_DIRTY_BIT
+    sta.l battle_menu_dirty
     tdc
     tax
     stx.b 0xa9

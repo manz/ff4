@@ -19,6 +19,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.init_inventory_for_current_slot
+    .extern messages_vwf.mirror_main_to_cmd
     .extern messages_vwf.draw_inventory_text
     .extern messages_vwf.deinit
 }
@@ -141,13 +142,11 @@ _draw_battle_command_window_relocated:
     ora.b #battle_render.TILEMAP_PENDING_COMMANDS
     sta.l battle_render.tilemap_pending_mask
 
-    jsr.w draw_window_render_hook  ; Draw command list + sets LDX #$0340
+    jsr.w draw_window_render_hook  ; Draw command list (X side-effect unused now)
 
-_dbcw_loop:
-    lda.w 0xBE65, x  ; Copy main menu window tilemap
-    sta.w 0xC1A5, x
-    dex
-    bne _dbcw_loop
+; Mirror main-view tilemap $BE65..$C1A4 -> $C1A5..$C4E4 via WRAM DMA
+; ch3 (replaces a $340-iter lda/sta loop ; ~10K cycles -> ~400).
+    jsr.l messages_vwf.mirror_main_to_cmd
     lda #0x02
     jsr 0x9B59  ; Load menu window data
     jsr 0x9BC7  ; Draw window

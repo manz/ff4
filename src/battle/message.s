@@ -971,6 +971,54 @@ message renderer routes char dispatch through the VWF put_char path.
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_inventory_region
     rtl
+mirror_main_to_cmd:
+"""
+WRAM->WRAM DMA mirror of the main-view BG3 tilemap block
+$7E:BE65..$C1A4 (= $340 bytes covering entry-0's $BEA6 + frame) onto
+the cmd-window region $7E:C1A5..$C4E4. Replaces a $340-iteration
+lda/sta loop in `_draw_battle_command_window_relocated` (~10K
+cycles) with a single ch3 GP-DMA (~$340 bytes/cycle plus setup,
+~400 cycles).
+
+Channel 3 is otherwise idle in battle (HDMAEN $87 covers ch0/1/2/7
+only). Sets WMADDR to $7E:C1A5 then GP-DMA's source $7E:BE65 to
+B-bus reg $2180 (WMDATA), B-fixed, $340 bytes. Caller assumed
+P with M=8 X=16 on entry, restored on exit.
+"""
+
+
+    php
+    rep #0x20
+; WMADDR = $7E:C1A5  ; $2181 lo+mid, $2183 hi-bank selector ($7E = 0)
+    lda.w #0xC1A5
+    sta.l 0x002181
+    sep #0x20
+    lda.b #0x00
+    sta.l 0x002183
+; DMAP ch3 = $00 (A->B, fixed B, byte mode, no decrement)
+    lda.b #0x00
+    sta.l 0x004330
+; BBAD ch3 = $80 (target $2180 WMDATA)
+    lda.b #0x80
+    sta.l 0x004331
+; A1T ch3 = $BE65 (src address low+mid)
+    rep #0x20
+    lda.w #0xBE65
+    sta.l 0x004332
+    sep #0x20
+; A1B ch3 = $7E (src bank)
+    lda.b #0x7E
+    sta.l 0x004334
+; DAS ch3 = $0340 (size)
+    rep #0x20
+    lda.w #0x0340
+    sta.l 0x004335
+    sep #0x20
+; MDMAEN ch3
+    lda.b #0x08
+    sta.l 0x00420B
+    plp
+    rtl
 draw_inventory_text:
 """
 Custom inventory text renderer that walks a format buffer ourselves
