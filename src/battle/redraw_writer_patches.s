@@ -92,112 +92,125 @@ follow-up patches.
 
 .pool bank02_battle_redraw_helpers {
     range 0x0297AB 0x029824
-    fill 0
     strategy order
 }
 
 .alloc battle_redraw_helpers in bank02_battle_redraw_helpers {
-    ; --- Names + monster gated trampolines (slice 2, queue-side bits) ---
-    ; The init -> DrawText -> deinit pipeline still fires every frame so
-    ; battle_flags symmetry is preserved (other VWF callers like HP/MP
-    ; digits keep seeing a consistent dispatcher state). The gating is
-    ; INSIDE `init_*_gated`: it reads the region's clean bit from
-    ; `region_dirty_bits` at $703C01. If clean, it sets `render_skipped`
-    ; ($703C02) to $FF; the trampoline reads that and skips DrawText, and
-    ; `deinit_gated` skips the DMA-signal. The WRAM tile buffer is left
-    ; untouched, no DMA fires from this region's deinit, and the VRAM
-    ; tilemap persists from the previous render.
-    _msg_monster_window_gated:
-    """Gated DrawMonsterNames trampoline (slice-2 queue-side bit)."""
+; --- Names + monster gated trampolines (slice 2, queue-side bits) ---
+; The init -> DrawText -> deinit pipeline still fires every frame so
+; battle_flags symmetry is preserved (other VWF callers like HP/MP
+; digits keep seeing a consistent dispatcher state). The gating is
+; INSIDE `init_*_gated`: it reads the region's clean bit from
+; `region_dirty_bits` at $703C01. If clean, it sets `render_skipped`
+; ($703C02) to $FF; the trampoline reads that and skips DrawText, and
+; `deinit_gated` skips the DMA-signal. The WRAM tile buffer is left
+; untouched, no DMA fires from this region's deinit, and the VRAM
+; tilemap persists from the previous render.
+_msg_monster_window_gated:
+"""Gated DrawMonsterNames trampoline (slice-2 queue-side bit)."""
     jsr.l messages_vwf.init_monsters_gated
     lda.l battle_render.render_skipped
     bne _mmwg_after_draw
     jsr 0xA455
-    ; DrawText
-    _mmwg_after_draw:
+; DrawText
+_mmwg_after_draw:
     jsr.l messages_vwf.deinit_gated
     rts
-    ; --- Bank-02 trampoline for NMI-side UpdateFlyingHDMA ---
-    ; `dma_transfer` (bank-20) calls this via JSL ; trampoline JSR's
-    ; into UpdateFlyingHDMA ($02:82E1, phase-2 spin-wait nopped) and
-    ; RTLs back. Matches the JSL push/pop convention ; the vanilla
-    ; function ends in rts, our trampoline rtl's instead.
-    flying_hdma_trampoline:
-    """Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1)."""
+; --- Bank-02 trampoline for NMI-side UpdateFlyingHDMA ---
+; `dma_transfer` (bank-20) calls this via JSL ; trampoline JSR's
+; into UpdateFlyingHDMA ($02:82E1, phase-2 spin-wait nopped) and
+; RTLs back. Matches the JSL push/pop convention ; the vanilla
+; function ends in rts, our trampoline rtl's instead.
+flying_hdma_trampoline:
+"""
+Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
+    NMI caller leaves M=X=16  ; vanilla expects M=X=8 (main-loop
+    convention). Without forcing M=8 the routine reads/writes 16-bit
+    through `$ED4E`, `$1813`, and the buffer fill at `$7614,x`, so
+    every BG vscroll entry gets 0x0000 and the flying animation
+    freezes the moment our NMI dispatch takes over.
+"""
+
+
+    php
+    rep #0x30
+    lda.w #0x0000
+    sep #0x20
     jsr 0x82E1
+    plp
     rtl
-    ; --- Battle-init seed: zero/seed all redraw-gate state at the
-    ; `Battle_ext` root entry ($03:8000). Runs exactly once per battle
-    ; (from field.asm:1005 `jsl Battle_ext` and menu.asm:163
-    ; `jml Battle_ext`  ; no other callers per ff4decomp). Earlier we
-    ; tried `InitMenuWindows` ($02:9A63) but that ran INSIDE the
-    ; UpdateCharNames per-char loop entry, and a 2nd-battle kss restore
-    ; mid-state could skip it entirely. The root entry is the only
-    ; correct seed point.
-    ;
-    ; Original `Battle_ext` was `jmp ExecBattle` (3 bytes). JML is 4
-    ; bytes so we clobber 1 byte of `Battle_ext2` at $03:8003. Decomp
-    ; grep confirms zero callers of Battle_ext2 anywhere.
-    _battle_ext_seed:
-    """Battle_ext root tail: seed redraw-gate state then jump ExecBattle."""
+; --- Battle-init seed: zero/seed all redraw-gate state at the
+; `Battle_ext` root entry ($03:8000). Runs exactly once per battle
+; (from field.asm:1005 `jsl Battle_ext` and menu.asm:163
+; `jml Battle_ext`  ; no other callers per ff4decomp). Earlier we
+; tried `InitMenuWindows` ($02:9A63) but that ran INSIDE the
+; UpdateCharNames per-char loop entry, and a 2nd-battle kss restore
+; mid-state could skip it entirely. The root entry is the only
+; correct seed point.
+;
+; Original `Battle_ext` was `jmp ExecBattle` (3 bytes). JML is 4
+; bytes so we clobber 1 byte of `Battle_ext2` at $03:8003. Decomp
+; grep confirms zero callers of Battle_ext2 anywhere.
+_battle_ext_seed:
+"""Battle_ext root tail: seed redraw-gate state then jump ExecBattle."""
     jsr.l reset_queue_dirty_bits
     jmp.l 0x038009
-    ; ExecBattle
-    ; --- DrawStatusText gate (hash-based) ---
-    ; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
-    ; (top remaining hitter after the cmd-window gate). Skip when char
-    ; status state is unchanged. Hash = XOR of `$2003+slot*$40` for the
-    ; 5 char slots (status 1 byte). Cached at `status_hash` ; first call
-    ; per battle always renders (cache initialized to 0 by Battle_ext
-    ; seed but state hash != 0 in normal play). Status flicker pulse
-    ; freezes when no status changes ; acceptable trade for ~9M cycles.
-    gate_draw_status_text:
-    """Bank-02 trampoline  ; JSL gate_status_check, jmp $A2A1 on dirty, rts on clean."""
+; ExecBattle
+; --- DrawStatusText gate (hash-based) ---
+; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
+; (top remaining hitter after the cmd-window gate). Skip when char
+; status state is unchanged. Hash = XOR of `$2003+slot*$40` for the
+; 5 char slots (status 1 byte). Cached at `status_hash` ; first call
+; per battle always renders (cache initialized to 0 by Battle_ext
+; seed but state hash != 0 in normal play). Status flicker pulse
+; freezes when no status changes ; acceptable trade for ~9M cycles.
+gate_draw_status_text:
+"""Bank-02 trampoline  ; JSL gate_status_check, jmp $A2A1 on dirty, rts on clean."""
     jsr.l gate_status_check
     bcc _gdst_skip
     jmp 0xA2A1
-    _gdst_skip:
+_gdst_skip:
     rts
-    ; --- DrawObjNames gate (hash of monster slots + $1822) ---
-    ; Bank-20 body returns carry-set when re-render needed ; bank-02
-    ; trampoline tail-jumps to vanilla DrawObjNames on dirty, rts on
-    ; clean. Earlier we noop'd UpdateMagicList ($02:96D4) to reclaim
-    ; 36 bytes for this gate's body, but that broke Rydia's summon
-    ; menu display (vanilla UpdateMagicList still needed for periodic
-    ; magic list refresh ; ImmediateMenuUpdate alone doesn't cover
-    ; all dispatch paths). Restored.
-    gate_draw_obj_names:
-    """Bank-02 trampoline  ; JSL gate_obj_names_check, jmp $99D3 on dirty, rts on clean."""
+; --- DrawObjNames gate (hash of monster slots + $1822) ---
+; Bank-20 body returns carry-set when re-render needed ; bank-02
+; trampoline tail-jumps to vanilla DrawObjNames on dirty, rts on
+; clean. Earlier we noop'd UpdateMagicList ($02:96D4) to reclaim
+; 36 bytes for this gate's body, but that broke Rydia's summon
+; menu display (vanilla UpdateMagicList still needed for periodic
+; magic list refresh ; ImmediateMenuUpdate alone doesn't cover
+; all dispatch paths). Restored.
+gate_draw_obj_names:
+"""Bank-02 trampoline  ; JSL gate_obj_names_check, jmp $99D3 on dirty, rts on clean."""
     jsr.l gate_obj_names_check
     bcc _gdon_skip
     jmp 0x99D3
-    _gdon_skip:
+_gdon_skip:
     rts
-    ; --- Battle-init highlight stamp ---
-    ; Reclaim the 3-nop slot at $02:9A69 (previously vanilla `jsr
-    ; InitMagicListTextBuf` ; we noop'd that in magic/patches.s since
-    ; our two-column magic display drives its own buffer). Insert
-    ; `jsr walker_helper` so the active-char palette gets stamped
-    ; right after UpdateCharNames built $B966 ; subsequent init steps
-    ; (DrawHPText, DrawMonsterNames, etc.) target different WRAM
-    ; regions ($B9DE, $BB1E) so the stamp survives.
-    walker_helper:
-    """5-byte bank-02 trampoline: JSL bank-20 walker, RTS to caller."""
+; --- Battle-init highlight stamp ---
+; Reclaim the 3-nop slot at $02:9A69 (previously vanilla `jsr
+; InitMagicListTextBuf` ; we noop'd that in magic/patches.s since
+; our two-column magic display drives its own buffer). Insert
+; `jsr walker_helper` so the active-char palette gets stamped
+; right after UpdateCharNames built $B966 ; subsequent init steps
+; (DrawHPText, DrawMonsterNames, etc.) target different WRAM
+; regions ($B9DE, $BB1E) so the stamp survives.
+walker_helper:
+"""5-byte bank-02 trampoline: JSL bank-20 walker, RTS to caller."""
     jsr.l walker_rtl
     rts
-    _msg_names_window_gated:
-    """Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
+_msg_names_window_gated:
+"""Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
     lda.b 0x4A
     and.b 0x04
     bne _mnwg_done
-    ; inventory open -> skip whole pipeline
+; inventory open -> skip whole pipeline
     jsr.l messages_vwf.init_names_gated
     lda.l battle_render.render_skipped
     bne _mnwg_after_draw
     jsr 0xA455
-    _mnwg_after_draw:
+_mnwg_after_draw:
     jsr.l messages_vwf.deinit_gated
-    _mnwg_done:
+_mnwg_done:
     rts
 }
 ; end .alloc battle_redraw_helpers
