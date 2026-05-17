@@ -47,7 +47,7 @@ TILEMAP_BYTES_PER_ROW := 128  ; 2 tilemap rows x 64 bytes ($80)
 text_buffer_base := 0x97A6  ; Ring buffer (6 slots × 60 = 360 bytes, uses freed spell buffer 1)
 inv_format_buffer := 0x9E66  ; Format buffer for draw_text (uses freed spell buffer 2)
 tilemap_buffer_base := 0xC4E6  ; Tilemap buffer
-tilemap_content_offset := 0x44  ; Offset to content area ($C52A - $C4E6)
+tilemap_content_offset := 0x46  ; Was $44 ($C52A, col 2). +2 = 1 tiles right ($C52E, col 2).
 
 ; ============================================================================
 ; RAM VARIABLES (Using unused battle RAM)

@@ -1297,32 +1297,28 @@ normal length, no visible black strip.
     phx
     phy
     .if BATTLE_ITEMS_VWF {
-; Per-NMI inventory HDMA footer override. The BG3 V-scroll HDMA chain
-; (channel 2, indirect, src $7E:760B -> $7E:7ED2 chunk) has 4 entries
-; at $7E:7F42..$7F51 hardcoded to scroll 0x01DB ; that value points
-; at empty tilemap and renders 2 rows of black between the last
-; visible item row and the bottom-border. Replace those 4 entries
-; with 0x0073 (the same lock value as the last entry before the gap)
-; so the bottom-border row (tilemap rows 13/14 at VRAM $75A0) stays
-; pinned. Only fire when inventory is open (bit 2 of $4A) so the
-; cmd/status menus that share BG3 V-scroll are untouched.
+; Per-NMI BG3 V-scroll footer override.
+;
+; Channel 2 (BG3 V-scroll, indirect, $7E:760B -> $7E:7ED2 chunk) is
+; multiplexed across the BG3 layer (cmd / status / inventory share).
+; Vanilla 0x02BB at $7E:8068..$8081 leaves 2 rows of black below
+; inv body where the window's bottom border should be.
+;
+; While inv is open: write border-row scrolls every NMI (vanilla
+; state-1 swap at $02:A8FE would otherwise overwrite within a frame).
+; On the close edge: one-shot restore 0x02BB so cmd/status menus
+; that share ch2 stop rendering inventory's border tiles.
+;
+; Open-state shadow at $703F04 (next free past tilemap_pending_mask).
     php
     sep #0x30
     lda.l 0x7E004A
     and.b #0x04
-    beq _no_inv_footer
+    beq _inv_footer_closed
+; OPEN: pin the two bottom-border tile rows. First 3 entries map to
+; row N (= 0x0193, +8 from hidden-slot lock), last 4 step to N+1
+; (= 0x019B, +16). Value pair from commit 3ee7e2b ("*bam*").
     rep #0x30
-; Below-body gap: vanilla writes 0x02BB into 7 entries at
-; $7E:8068..$807D (after body row 4's last scroll 0x0183 and the
-; trailing 0x0187 partial entry). That value lands in empty tilemap
-; -> 2 rows of black between the visible items and the bottom-border.
-; Replace with the next body row's scroll value (0x0187) so the
-; lock pattern extends downward and pins the bottom border row.
-; Step a few literals for fine-tuning ; if 0x0187 shows wrong row,
-; try 0x018B, 0x018F, 0x0173, ...
-; Pin the two bottom-border tile rows. First half of the gap maps to
-; row N (8 px below hidden-slot content = 0x018B + 8 = 0x0193).
-; Second half steps another +8 to land on row N+1 = 0x019B.
     lda.w #0x0193
     sta.l 0x7E8068
     sta.l 0x7E806C
@@ -1332,7 +1328,26 @@ normal length, no visible black strip.
     sta.l 0x7E8078
     sta.l 0x7E807C
     sta.l 0x7E8080
-_no_inv_footer:
+    bra _inv_footer_done
+_inv_footer_closed:
+; CLOSED: write vanilla idle pattern every frame so the state-1 swap
+; can't bring our open values back. Trace at battle-settle:
+;   $8068/6C/70 = 0x01F7
+;   $8074..$80 = 0x0026, 0x0025, 0x0024, 0x0023 (decreasing)
+    rep #0x30
+    lda.w #0x01F7
+    sta.l 0x7E8068
+    sta.l 0x7E806C
+    sta.l 0x7E8070
+    lda.w #0x0026
+    sta.l 0x7E8074
+    lda.w #0x0025
+    sta.l 0x7E8078
+    lda.w #0x0024
+    sta.l 0x7E807C
+    lda.w #0x0023
+    sta.l 0x7E8080
+_inv_footer_done:
     plp
     }
     lda.l battle_render.pending_transfer_mask
