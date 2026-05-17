@@ -923,6 +923,10 @@ _render_item_to_circular_slot:
 
     lda.l 0x7E321B, x  ; Item ID
     sta.b 0x02
+    bne _slot_id_nonzero
+    jmp.w _empty_slot_fast  ; ID == 0 -> empty entry, skip VWF
+
+_slot_id_nonzero:
     lda.l 0x7E321C, x  ; Quantity
     pha
 
@@ -1039,6 +1043,32 @@ _slot_finish:
     sta.w inv_format_buffer, y
 
     jsr.l draw_text_rolling_trampoline
+    jmp.w _slot_render_done
+
+_empty_slot_fast:
+"""
+Empty inventory entry (item ID = 0). Skip the format-build + VWF
+blit and fill the slot's text buffer with 30 blank tile entries
+(2 bytes each = `$FF $00`). Saves the ~80K cycles draw_text would
+otherwise burn rendering an empty palette + name string.
+"""
+    rep #0x20
+    lda.w 0xEF52
+    sta.b 0x04  ; ptr-to-slot in DP scratch
+    sep #0x20
+    ldy.w #0
+
+_empty_fill_loop:
+    lda.b #0xFF
+    sta (0x04), y
+    iny
+    lda.b #0x00
+    sta (0x04), y
+    iny
+    cpy.w #60
+    bne _empty_fill_loop
+
+_slot_render_done:
 
 ; draw_text fills text buffer - tilemap copy is done separately by:
 ; - _copy_all_slots_to_tilemap in tfr_inventory_list_rolling (for init)

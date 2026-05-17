@@ -154,6 +154,13 @@ _not_found:
 ; Gate state moved past the inventory tile slice ($703C00..$703EF0)
 ; so the rolling pre-render does not stomp these bytes.
     pending_transfer_mask = 0x703f00
+; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
+; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
+; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
+; one or more bits per frame and DMAs only the dirty slot's 160-byte
+; slice instead of the full 4KB CHR region, fits in vblank without
+; forced blank.
+    dma_dirty_slots = 0x703f10
 ; --- Per-region dirty bits (normal sense: 1 = dirty, 0 = clean) ---
 ; Sits next to the DMA queue byte; writers SET bits on state change.
     region_dirty_bits = 0x703f01
@@ -1119,14 +1126,19 @@ _di_done:
 ; Clear the VWF battle_flag so later non-inventory renders (monster HP
 ; refresh, status text, etc.) go back to the WRAM put_char path.
     jsr.l battle_flags.clear_vwf_render
-; Set bit 0 of pending_transfer_mask so the NMI dma_transfer actually
-; fires for this slot's CHR. init_inventory_for_current_slot_local
-; writes slot_base into the mask (low byte = even) so bit 0 stays
-; clear until the render completes ; without this, scroll-edge
-; prerender writes to the $703000 staging buffer never reach VRAM.
-    lda.l battle_render.pending_transfer_mask
-    ora.b #0x01
-    sta.l battle_render.pending_transfer_mask
+; Mark this slot's CHR slice dirty in dma_dirty_slots. NMI
+; dma_transfer picks it up and DMAs the 160-byte slice to VRAM.
+; Replaces the old full-4KB DMA trigger ; partial DMA fits in
+; vblank without forced blank.
+    php
+    sep #0x30
+    lda.l 0x7EEF82  ; slot index (low byte only ; M=8)
+    and.b #0x07  ; clamp to 0..7 (valid range 0..5)
+    tax
+    lda.l _dma_slot_bit_lut, x
+    ora.l battle_render.dma_dirty_slots
+    sta.l battle_render.dma_dirty_slots
+    plp
     plb
     plp
     rtl
@@ -1349,6 +1361,62 @@ _inv_footer_closed:
     sta.l 0x7E8080
 _inv_footer_done:
     plp
+; --- Inventory CHR partial DMA ---
+; Pop one bit from dma_dirty_slots and DMA that slot's 160-byte CHR
+; slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0). Replaces
+; the old full-4KB DMA path for inventory. Non-inv VWF regions still
+; flow through the legacy pending_transfer_mask check below.
+    php
+    sep #0x20
+    rep #0x10
+    lda.l battle_render.dma_dirty_slots
+    and.b #0x3F
+    bne _inv_dma_have
+    jmp.w _no_inv_dma
+_inv_dma_have:
+    ldx.w #0xFFFF
+_inv_dma_find:
+    inx
+    lsr
+    bcc _inv_dma_find
+    cpx.w #0x0006  ; safety: out-of-range index -> no DMA
+    bcs _inv_dma_done
+; X = slot index 0..5. Clear its bit before DMA so re-entry is safe.
+    phx
+    lda.l _dma_slot_bit_lut, x
+    eor.b #0xFF
+    and.l battle_render.dma_dirty_slots
+    sta.l battle_render.dma_dirty_slots
+    plx
+; Build X = slot*2 with X.hi clean (we're in M=8 X=16, plain tax leaks A.hi).
+    rep #0x20
+    txa
+    and.w #0x000F
+    asl
+    tax
+    sep #0x20
+; LUT reads use `.l` (24-bit long) since DBR in NMI isn't bank-20.
+    lda.l _dma_slot_vram_lut, x
+    sta.b 0x0c
+    lda.l _dma_slot_vram_lut + 1, x
+    sta.b 0x0d
+    lda.l _dma_slot_src_lut, x
+    sta.b 0x0a
+    lda.l _dma_slot_src_lut + 1, x
+    sta.b 0x0b
+    rep #0x20
+    lda.b 0x0c
+    tay
+    lda.b 0x0a
+    tax
+    lda.w #0x00A0
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_inv_dma_done:
+_no_inv_dma:
+    plp
     }
     lda.l battle_render.pending_transfer_mask
     bit #1
@@ -1519,4 +1587,22 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
 ;02/A64A: A8           TAY
 ;02/A64B: E2 20        SEP #$20
 ;02/A64D: 60           RTS
+
+; Per-slot inventory CHR DMA tables. Auto-generated via .for.
+; - bit_lut[N]    = 1 << N (slot N's dirty-mask bit)
+; - vram_lut[N]   = ($BC00 + N*$A0) >> 1 (word-address into BG3 CHR upper half)
+; - src_lut[N]    = $3000 + (0xC0 + N*10)*16 = $3C00 + N*$A0 (bank-70 offset)
+; Slot N owns 10 tile_ids starting at low byte (0xC0 + N*10), so 160-byte slice.
+_dma_slot_bit_lut:
+    .for k := 0, 6 {
+    .db ( 1 << k )
+    }
+_dma_slot_vram_lut:
+    .for k := 0, 6 {
+    .dw ( 0xBC00 + k * 0xA0 ) >> 1
+    }
+_dma_slot_src_lut:
+    .for k := 0, 6 {
+    .dw 0x3C00 + k * 0xA0
+    }
 }
