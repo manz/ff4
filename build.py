@@ -165,7 +165,9 @@ def build_fixed_asset(table, input_file, binary_text_file):
     write_pointers_value_as_binary(pointers, binary_text_file)
 
 
-def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file, buffer_width=None):
+def build_fixed_to_ptr_asset(
+    table, input_file, binary_text_file, pointers_file, buffer_width=None
+):
     pointers = read_fixed_from_xml(
         input_file, table, formatter=lambda t: t.strip() + "[end]"
     )
@@ -184,7 +186,7 @@ def build_fixed_to_ptr_asset(table, input_file, binary_text_file, pointers_file,
             print(f"{text} is too long ({ptr_len}px , {math.ceil(ptr_len / 8)} tiles)")
 
     text = table.to_text(max_ptr[1].value)
-    print(f"{text} is the largest ({max_length}px ({math.ceil(max_length/8)})")
+    print(f"{text} is the largest ({max_length}px ({math.ceil(max_length / 8)})")
     write_pointers_value_as_binary(pointers, binary_text_file)
 
     write_pointers_addresses_as_binary(
@@ -327,8 +329,7 @@ def build_vwf_font_asset(
         known_pairs_to_kern = [
             "Ya",
             "Pa",
-            "Po"
-            "Fa",
+            "PoFa",
             "Fe",
             "Fo",
             "Fu",
@@ -489,6 +490,12 @@ if __name__ == "__main__":
             menu_table,
         ),
         ("fixed", menu_table, os.path.join(text_root, "items.xml"), "assets/items.dat"),
+        (
+            "fixed",
+            menu_table,
+            os.path.join(text_root, "items_unleashed.xml"),
+            "assets/items_unleashed.dat",
+        ),
         ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "assets/magic.dat"),
         (
             "fixed",
@@ -528,7 +535,7 @@ if __name__ == "__main__":
             os.path.join(text_root, "monsters_long.xml"),
             "assets/monsters_long.dat",
             "assets/monsters_long.ptr",
-            80
+            80,
         ),
         (
             "nullterminated",

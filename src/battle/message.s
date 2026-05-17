@@ -2,6 +2,7 @@
 Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
 dialog-stream consumer).
 """
+.include "src/battle/inventory_budget.i"
 .if 0 {
     .scope _vwf_tile_ring {
 ; Ring buffer for VWF tile allocation
@@ -898,8 +899,10 @@ here.
     and.w #0x00FF
     sta.b 0x00
 
-; Tile_id base = slot * 10 + 0xC0. With 6 slots that's 60 tiles in
-; 0xC0..0xFB, leaving 4 tiles of slack before the 8-bit wrap point.
+; Tile_id base = slot_index * ITEM_VWF_TILE_BUDGET + ITEM_VWF_TILE_BASE.
+; With K=10 and BUFFER_SLOTS=6 that's 60 tiles in $C0..$FB, leaving 4
+; tiles of slack before the 8-bit wrap point. Math below assumes K=10
+; (asl x3 = *8, then +slot twice = *10) ; bump together if K changes.
     asl
     asl
     asl
@@ -908,13 +911,14 @@ here.
     clc
     adc.b 0x00
     clc
-    adc.w #0x00c0
+    adc.w #ITEM_VWF_TILE_BASE
     sta.b 0x02
 
-; Clear the slot's 9-tile CHR slice at buffer_ptr + tile_id_base * 16
-; (144 bytes = $90). Stale CHR bits from prior renders would otherwise
-; OR into the new render via the VWF blitter's ora-then-store path.
-; Pattern $FF $00 alternates the 2 bitplanes (empty tile in 4bpp).
+; Clear the slot's CHR slice (ITEM_VWF_CHR_BYTES bytes) at
+; buffer_ptr + tile_id_base * 16. Stale bits would OR into the new
+; render via the VWF blitter's ora-then-store path. Pattern $FF $00
+; alternates the 2 bitplanes (empty tile in 4bpp). Loop count =
+; ITEM_VWF_CHR_WORDS = K * 8.
     lda.b 0x02
     asl
     asl
@@ -923,7 +927,7 @@ here.
     clc
     adc.w #battle_render.buffer_ptr & 0xffff
     tax
-    ldy.w #72
+    ldy.w #ITEM_VWF_CHR_WORDS
 _chr_clear_loop:
     lda.w #0x00ff
     sta.l 0x700000, x
@@ -940,13 +944,13 @@ _chr_clear_loop:
     pla
     sta.l battle_render.pending_transfer_mask
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
-; Slot owns 10 tile_ids: [slot_base .. slot_base+9]. Set the allocator
-; clamp AFTER init_with_tile_id (which resets slot_limit_low to 0xFF).
-; Overflow freezes at the last tile instead of bleeding into the next
-; slot's CHR / tile_id range.
+; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
+; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
+; to 0xFF). Overflow freezes at the last tile instead of bleeding into
+; the next slot's CHR / tile_id range.
     lda.b 0x02
     clc
-    adc.b #9
+    adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
     .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
@@ -1189,7 +1193,7 @@ returns via rts (the public entry returns rtl).
     clc
     adc.b 0x00
     clc
-    adc.w #0x00c0
+    adc.w #ITEM_VWF_TILE_BASE
     sta.b 0x02
     asl
     asl
@@ -1198,7 +1202,7 @@ returns via rts (the public entry returns rtl).
     clc
     adc.w #battle_render.buffer_ptr & 0xffff
     tax
-    ldy.w #72
+    ldy.w #ITEM_VWF_CHR_WORDS
 _dis_chr_clear:
     lda.w #0x00ff
     sta.l 0x700000, x
@@ -1213,13 +1217,13 @@ _dis_chr_clear:
     pla
     sta.l battle_render.pending_transfer_mask
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
-; Slot owns 10 tile_ids: [slot_base .. slot_base+9]. Set the allocator
-; clamp AFTER init_with_tile_id (which resets slot_limit_low to 0xFF).
-; Overflow freezes at the last tile instead of bleeding into the next
-; slot's CHR / tile_id range.
+; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
+; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
+; to 0xFF). Overflow freezes at the last tile instead of bleeding into
+; the next slot's CHR / tile_id range.
     lda.b 0x02
     clc
-    adc.b #9
+    adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
     .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char

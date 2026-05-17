@@ -4,6 +4,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 runs the field-menu NMI DMA check.
 """
 .extern assets_items_dat
+.extern assets_items_unleashed_dat
 .extern mult8_trampoline
 .extern load_menu_tfr_data_trampoline
 .extern hex_to_dec_trampoline
@@ -36,6 +37,7 @@ runs the field-menu NMI DMA check.
 VISIBLE_ROWS := 5  ; Rows visible on screen
 BUFFER_SLOTS := 6  ; 6 slots for 5 visible (1 off-screen for pre-render)
 TOTAL_ITEMS := 48  ; Total inventory items
+.include "src/battle/inventory_budget.i"
 TOTAL_ROWS := 48  ; One item per row now
 
 ; Buffer sizes
@@ -943,16 +945,18 @@ _slot_id_nonzero:
 
 _slot_not_disabled:
 
-; Calculate item name offset
+; Calculate item name offset into the 17-byte-per-record
+; assets_items_unleashed_dat table: id * 17 = (id << 4) + id.
     rep #0x20
     lda.b 0x02
     and.w #0x00FF
     sta.b 0x08
     asl
+    asl
+    asl
+    asl
     clc
     adc.b 0x08
-    asl
-    asl
     tax
     sep #0x20
 
@@ -966,7 +970,7 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    lda.l assets_items_dat, x
+    lda.l assets_items_unleashed_dat, x
     sta.w inv_format_buffer, y
     iny
 
@@ -983,12 +987,12 @@ lda.b 0x00
 sta.w inv_format_buffer, y
 iny
 
-lda #11
+lda #16
 sta.b 0x00
 
 _slot_name_loop:
     inx
-    lda.l assets_items_dat, x
+    lda.l assets_items_unleashed_dat, x
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00
