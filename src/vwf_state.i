@@ -41,14 +41,14 @@ VWF_CHR_BUFFER_SIZE := 0x1000  ; covers tile_ids $00..$FF (256 * 16 bytes)
 ; (fixed-stride table vs null-terminated table vs RAM-resident string)
 ; without touching the renderer. Sized for the longest field-menu
 ; item slot in `assets_items_unleashed_dat` + 1 terminator + headroom.
-VWF_TEXT_BUFFER := 0x70F900
+VWF_TEXT_BUFFER := 0x707000
 VWF_TEXT_BUFFER_SIZE := 0x40
 
 ; --- VWF config struct (forward-compat ; not consumed yet) ------------
 ; Field offsets so future readers can `lda.l VWF_CONFIG_BASE + .field`
 ; without manual byte math. Phase n of the unification will start
 ; populating + consuming these.
-VWF_CONFIG_BASE := 0x70F800
+VWF_CONFIG_BASE := 0x707080
 
 .struct VwfConfig {
     word font_ptr        ; .l-addr 16-bit low (bank stored separately if needed)
