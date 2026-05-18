@@ -209,16 +209,23 @@ drops_render_item_to_slot:
     ; tile_ids in BG3 CHR ($5000..$56E0) and the second renderer of each
     ; frame would overwrite the first one's glyphs (the garbage-tiles bug
     ; visible in the chest-with-monster-drop screen). Offset by 11 so
-    ; drops slot 0..4 lands at tile_ids $16E..$19F (CHR $56E0..$5A00),
-    ; past treasure's 11-slot region at $100..$169. items_menu_vwf bumps
-    ; `chr_byte_count` to $A00 so the NMI DMA flush covers the wider
-    ; window. drops's tilemap target stays at $7E:C600 (its own BG3 staging
-    ; surface) so the offset only affects CHR allocation, not where the
-    ; glyphs land on screen.
+    ; drops slots 0..5 land at tile_ids $16E..$1A9 (CHR $56E0..$5A90),
+    ; past treasure's 6-buffer-slot region at $100..$13B. drops's tilemap
+    ; target stays at $7E:C600 (its own BG3 staging surface) so the offset
+    ; only affects CHR allocation, not where the glyphs land on screen.
+    ;
+    ; VWF_CALLER_CTX=1 also tells items_menu_vwf to write the SECONDARY
+    ; flush descriptor (DROPS_VWF_VRAM_DEST_WORD + DROPS_VWF_BYTE_COUNT +
+    ; DROPS_VWF_CHR_SRC_OFFSET) and redirect VWF_CHR_DIRTY -> DIRTY_B so
+    ; the NMI flush hits drops's VRAM range without trampling treasure's
+    ; primary descriptor. Cleared after the render so subsequent
+    ; treasure-side calls fall back to primary.
     lda.w drops_rolling_slot_index
     clc
     adc #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5d
+    lda #0x01
+    sta.l VWF_CALLER_CTX
     rep #0x20
     lda.w drops_rolling_slot_index
     and.w #0x00FF
@@ -229,6 +236,8 @@ drops_render_item_to_slot:
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
+    lda #0x00
+    sta.l VWF_CALLER_CTX
     pla
     sta.b 0xDB
     pla

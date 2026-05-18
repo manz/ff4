@@ -71,6 +71,25 @@ VWF_SRC_OFFSET := 0x7070C0
 ; battle inventory's `dma_dirty_slots` gates the per-slot DMA.
 VWF_CHR_DIRTY := 0x7070C2
 
+; --- Secondary descriptor for two-region simultaneous flush -------------
+; Drops + treasure-inventory coexist in the treasure popup and render
+; through the same `items_menu_vwf.draw_field_item_name` JSL hook.
+; Region 1 = $100..$13B (treasure) flushes via the primary descriptor
+; at VWF_CONFIG_BASE ; region 1B = $16E..$1A9 (drops) needs its own
+; flush dest + size so each panel's CHR lands in VRAM without the
+; other's stale buffer bytes leaking through one combined DMA.
+;
+; VWF_CALLER_CTX is a one-byte hint set by drops_rolling around the
+; vanilla JSR chain ; items_menu_vwf reads it to decide whether to
+; write the primary or the secondary descriptor + dirty flag.
+;   0 = primary  (treasure / field-items / default)
+;   1 = drops    (secondary)
+VWF_CALLER_CTX := 0x7070C3
+VWF_CHR_DIRTY_B := 0x7070C4
+VWF_CHR_VRAM_WORD_B := 0x7070C5
+VWF_CHR_BYTE_COUNT_B := 0x7070C7
+VWF_CHR_SRC_OFFSET_B := 0x7070C9
+
 .struct VwfConfig {
     word tile_id_base
     byte slot_budget

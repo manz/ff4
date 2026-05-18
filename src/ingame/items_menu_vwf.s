@@ -162,21 +162,35 @@ _copy_loop:
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
 ; CHR -> VRAM flush descriptor. Menu PPU runs in Mode 0
 ; (BGMODE = $00 at `ff4decomp/menu/menu.asm:3878`) with BG34NBA = $22
-; -> BG3 CHR at VRAM word $2000 (byte $4000). Tile_ids $C0..$FF
-; in 2bpp BG3 live at $4000 + $C0 * 16 = $4C00 (word $2600), $400
-; bytes. NMI flush reads these once the engine sets VWF_CHR_DIRTY.
+; -> BG3 CHR at VRAM word $2000 (byte $4000). Two descriptors live in
+; SRAM so the NMI flush can DMA treasure (primary) and drops (secondary)
+; in disjoint slices without one panel's range trampling the other's
+; through a single combined DMA. VWF_CALLER_CTX (set by drops_rolling
+; around its vanilla JSR chain) picks which descriptor this call's
+; flush targets ; tile_id_base / slot_budget / tilemap_base / flags
+; stay primary regardless since they are per-call render inputs, not
+; per-region flush params.
     rep #0x20
+    lda.l VWF_CALLER_CTX & 0xFFFFFF
+    and.w #0x00FF
+    bne _write_secondary_desc
+; --- Primary descriptor (treasure / field-items / default) ---
     lda.w #FIELD_VWF_VRAM_DEST_WORD
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
-; Byte count covers treasure region ($100..$13B = 6 buffer slots * K=10
-; tile_ids) PLUS drops region 1B at $16E..$1A9 (drops_rolling pre-offsets
-; DP $5D by DROPS_VWF_TILE_SLOT_OFFSET=11 so its CHR lands disjoint from
-; treasure). Empirically $A00 lands cleanest ; was $700 pre-split which
-; only covered the treasure side and left drops glyphs unflushed.
-; Bumping to $B00 introduced new tile-stride artefacts (likely vblank
-; budget pressure pushing some PPU writes past the visible window).
-    lda.w #0x0A00
+    lda.w #FIELD_VWF_PRIMARY_BYTE_COUNT
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    bra _desc_done
+
+_write_secondary_desc:
+; --- Secondary descriptor (drops in treasure popup) ---
+    lda.w #DROPS_VWF_VRAM_DEST_WORD
+    sta.l VWF_CHR_VRAM_WORD_B
+    lda.w #DROPS_VWF_BYTE_COUNT
+    sta.l VWF_CHR_BYTE_COUNT_B
+    lda.w #DROPS_VWF_CHR_SRC_OFFSET
+    sta.l VWF_CHR_SRC_OFFSET_B
+
+_desc_done:
     sep #0x20
 ; Tilemap attr OR mask. Field VWF tile_ids live in the 9-bit
 ; window ($100..$169) so bit 0 of the attr byte (= tile_id bit 8)
@@ -251,6 +265,21 @@ _top_loop:
     iny
 ; --- Run the unified renderer over VWF_TEXT_BUFFER ---
     jsr.l render_with_config_trampoline
+; render_with_config sets VWF_CHR_DIRTY=1 unconditionally. For drops
+; (CTX=1) ADDITIONALLY raise DIRTY_B so the NMI's secondary flush
+; covers drops's region this frame. Treasure's primary DIRTY must
+; stay set untouched : treasure rendered its own slots earlier in the
+; same frame and clearing here would skip its flush, leaking last-
+; frame's CHR back into the treasure inventory band. Leaving DIRTY=1
+; is harmless on drops-only frames: the primary DMA covers treasure
+; VRAM range only ($5000..$5400) which drops never writes into.
+    sep #0x20
+    lda.l VWF_CALLER_CTX & 0xFFFFFF
+    beq _dirty_done
+    lda.b #0x01
+    sta.l VWF_CHR_DIRTY_B
+
+_dirty_done:
     ply
     plp
     rtl

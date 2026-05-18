@@ -85,6 +85,25 @@ FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
 DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 
+; --- Drops VWF flush descriptor (secondary NMI flush slot) ---
+; Hardcoded since drops only ever lives at the +11-slot offset in
+; the field BG3 CHR window. NMI runs both primary (treasure) and
+; secondary (drops) flushes per frame so each panel's CHR reaches
+; VRAM intact regardless of which descriptor was written last.
+;   src offset =  $16E   * 16 = $16E0  bytes into VWF_CHR_BUFFER
+;   vram dest  = ($5000 + $6E0) / 2 = $2B70 (= drops's CHR base)
+;   size       =  6 buffer slots * K=10 * 16 = $3C0 bytes
+DROPS_VWF_CHR_SRC_OFFSET := 0x16E0
+DROPS_VWF_VRAM_DEST_WORD := 0x2B70
+DROPS_VWF_BYTE_COUNT := 0x03C0
+
+; Primary (treasure) flush size: 6 buffer slots * K=10 * 16 bytes =
+; $3C0, round up to $400 for slack. Was bumped to $A00 in an earlier
+; iteration that tried to fit drops into the primary descriptor too ;
+; the two-descriptor flush above lets us shrink back down so the
+; primary DMA stays tight against treasure's range.
+FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0400
+
 
 .struct Item {
     byte id

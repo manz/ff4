@@ -247,6 +247,8 @@ buffer here clobbered other regions' CHR mid-frame, so callers
 populate config first and `init` confines its $FF/$00 fill to
 their slot.
 """
+
+
     .if ENABLE_KERNING_MENU {
     stz.b prev_char
     }
@@ -294,20 +296,20 @@ _init_clear_loop:
 _init_skip_clear:
     plp
     pla  ; balances the `pha` after `stz.b temp` ; without this the
-         ; `rts` popped the saved A byte as the high byte of the
-         ; return address and item_description.draw_trampoline ran
-         ; off into a BRK opcode on every menu open.
+; `rts` popped the saved A byte as the high byte of the
+; return address and item_description.draw_trampoline ran
+; off into a BRK opcode on every menu open.
     initialize(counter)
     rts
 flush_chr_to_vram:
 """
-NMI-callable VWF CHR flush. Gates on `VWF_CHR_DIRTY` ; if set,
+NMI-callable VWF CHR flush. Gates on `VWF_CHR_DIRTY`  ; if set,
 reads `VwfConfig.chr_src_offset` / `chr_vram_word` / `chr_byte_count`
 from the config struct and DMAs the slice from `VWF_CHR_BUFFER +
 chr_src_offset` to VRAM word `chr_vram_word`. Clears the dirty
 byte on the way out.
 
-Designed to hang off the field NMI hook ; running in vblank means
+Designed to hang off the field NMI hook  ; running in vblank means
 the DMA does not tear visible scanlines and we drop the explicit
 `wait_for_vblank` the synchronous tail-of-render flush needed.
 Battle-side equivalent of the partial CHR DMA in
@@ -320,7 +322,7 @@ Battle-side equivalent of the partial CHR DMA in
     sep #0x20
     rep #0x10
     lda.l VWF_CHR_DIRTY
-    beq _flush_skip
+    beq _flush_skip_a
     lda.b #0x00
     sta.l VWF_CHR_DIRTY
 ; Channel 6: free per the FF4 DMA audit (vanilla btlgfx + menu
@@ -330,9 +332,9 @@ Battle-side equivalent of the partial CHR DMA in
 ; VWF_CHR_FLUSH_OFFSET (engine constant, identical for battle +
 ; field). Dest VRAM word + size come from VwfConfig so each caller
 ; targets its own CHR slot without forking the upload path.
-    lda.b #0x01     ; DMAP: word transfer (2 byte regs, alt low/high)
+    lda.b #0x01  ; DMAP: word transfer (2 byte regs, alt low/high)
     sta.l 0x004360
-    lda.b #0x18     ; BBAD: $2118 VMDATAL
+    lda.b #0x18  ; BBAD: $2118 VMDATAL
     sta.l 0x004361
     rep #0x20
     lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
@@ -351,7 +353,43 @@ Battle-side equivalent of the partial CHR DMA in
     lda.b #0x40
     sta.l 0x00420B  ; MDMAEN ch6
 
-_flush_skip:
+_flush_skip_a:
+; --- Secondary descriptor flush (region 1B, drops in the treasure
+; popup). Shares DMA channel 6 with the primary flush ; runs after
+; the primary descriptor's DMA finishes so we never re-arm a busy
+; channel. Each descriptor covers a disjoint slice of VRAM so two
+; sequential DMAs land at distinct dest addresses without conflict.
+; Secondary source offset is its OWN word so drops can DMA only its
+; CHR slice ; primary keeps starting at VWF_CHR_FLUSH_OFFSET.
+    sep #0x20
+    lda.l VWF_CHR_DIRTY_B
+    beq _flush_skip_b
+    lda.b #0x00
+    sta.l VWF_CHR_DIRTY_B
+    lda.b #0x01
+    sta.l 0x004360
+    lda.b #0x18
+    sta.l 0x004361
+    rep #0x20
+    lda.l VWF_CHR_SRC_OFFSET_B
+    clc
+    adc.w #VWF_CHR_BUFFER & 0xFFFF
+    sta.l 0x004362
+    sep #0x20
+    lda.b #VWF_CHR_BUFFER >> 16
+    sta.l 0x004364
+    rep #0x20
+    lda.l VWF_CHR_VRAM_WORD_B
+    sta.l 0x002116
+    lda.l VWF_CHR_BYTE_COUNT_B
+    sta.l 0x004365
+    sep #0x20
+    lda.b #0x80
+    sta.l 0x002115
+    lda.b #0x40
+    sta.l 0x00420B
+
+_flush_skip_b:
     plp
     rts
     }
@@ -365,14 +403,14 @@ items helper and the battle inventory text walker each carry.
 
 VwfConfig fields consumed (matches `src/vwf_state.i`):
   tile_id_base   first tile_id this slot owns
-  slot_budget    +K-1 clamp ; $FF = no clamp
+  slot_budget    +K-1 clamp  ; $FF = no clamp
   tilemap_base   absolute WRAM byte index of the destination
-                 tilemap row ; display_char advances tilemap_offset
+                 tilemap row  ; display_char advances tilemap_offset
                  (DP $1D) by 2 per blit
 
 `font_ptr` / `kerning_ptr` are reserved in the struct but
 display_char still hardcodes `assets_menu_font_dat` for this
-phase ; swapping the font fetch to indirect-through-config is the
+phase  ; swapping the font fetch to indirect-through-config is the
 next refactor and lets battle keep its own font without forking
 the engine.
 
@@ -465,7 +503,7 @@ Unified entry: walk a null-terminated string at VWF_TEXT_BUFFER
 and blit each byte via display_char.
 
 Caller responsibilities (read from VwfConfig at VWF_CONFIG_BASE in
-the next phase ; for now the field-items helper hand-sets these
+the next phase  ; for now the field-items helper hand-sets these
 directly):
   - render_allocator.allocated_tile_id    set via init_with_tile_id
   - render_allocator.slot_limit_low       set per slot budget
@@ -473,7 +511,7 @@ directly):
   - render.temp, render.counter           cleared
   - render.tilemap_offset (= DP $1D)      absolute WRAM byte index
                                           of the bottom tilemap row
-                                          start; display_char auto-
+                                          start  ; display_char auto-
                                           increments by 2 per blit
   - X, Y                                  free for caller use
 
@@ -893,13 +931,15 @@ Write `allocated_tile_id` low byte to `(tilemap_offset)` and OR
 `VwfConfig.flags` into the next (palette/attr) byte. The flag
 mask used to be hard-coded `$01` (the 9-bit tile_id bit for the
 512-tile dialog window) but the field-menu items live in 2bpp
-BG3 where bit 0 of the attr byte is tile_id bit 8 ; an always-on
+BG3 where bit 0 of the attr byte is tile_id bit 8  ; an always-on
 OR pushed all our tile_ids into the +256 half of CHR and the
 high inventory slots wrapped past $FF in unpredictable ways.
 Letting the caller pick the OR value via the config struct keeps
 dialog (set `flags = $01`) working without forcing the menu items
 to honour a bit they do not own.
 """
+
+
     _base_addr = 0x7e0000
     lda.l render_allocator.allocated_tile_id
     ldx.b tilemap_offset
