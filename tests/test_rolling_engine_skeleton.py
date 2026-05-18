@@ -159,3 +159,101 @@ def test_invalidate_all_lights_full_mask(emu) -> None:
     fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_invalidate_all")
     emu.call(fn, x=x)
     assert _read_dirty_mask(emu) == 0xFF
+
+
+# --------------------------------------------------------------- Init
+
+
+# Engine-scratch bytes that init must zero (offsets within state struct).
+INIT_ZERO_BYTES = [
+    0,   # top_row
+    1,   # buffer_pos
+    2,   # edge_row
+    3,   # slot_index
+    6,   # hdma_enable
+    7,   # _pad
+    8,   # scroll_state
+    9,   # scroll_remaining
+    10,  # scroll_direction
+    11,  # transfer_pending
+    12,  # scroll_anim_offset lo
+    13,  # scroll_anim_offset hi
+    14,  # hdma_copy_pending
+    25,  # dirty_mask
+]
+
+
+def _fill_state_with_pattern(emu, byte: int = 0xAA, length: int = 32) -> None:
+    """Pre-fill 32 bytes at SCRATCH_STATE with a known sentinel so init's
+    zero-out and base_scroll = $FFFF stamping is visible against the
+    pattern."""
+    for i in range(length):
+        emu.write(SCRATCH_STATE + i, byte)
+
+
+def test_init_zeroes_engine_scratch(emu) -> None:
+    """rolling_engine_init clears the 14 engine-scratch + dirty_mask bytes."""
+    _fill_state_with_pattern(emu)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    for off in INIT_ZERO_BYTES:
+        val = emu.read(SCRATCH_STATE + off)
+        assert val == 0x00, (
+            f"offset {off} expected zero after init, got ${val:02X}")
+
+
+def test_init_stamps_base_scroll_sentinel(emu) -> None:
+    """rolling_engine_init writes $FFFF into base_scroll (offsets 4 + 5)."""
+    _fill_state_with_pattern(emu)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    assert emu.read(SCRATCH_STATE + 4) == 0xFF
+    assert emu.read(SCRATCH_STATE + 5) == 0xFF
+
+
+def test_init_preserves_config_fields(emu) -> None:
+    """Caller-managed config fields (visible_rows + dirty_mask aside)
+    must NOT be touched by init : engine_init clears scratch only."""
+    _fill_state_with_pattern(emu)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    # visible_rows (offset 15) + item_list_ptr 17..19 + item_count 20 +
+    # hdma_channel 21 + vwf_cfg_ptr 22..24 should keep the pattern.
+    for off in [15, 16, 17, 18, 19, 20, 21, 22, 23, 24]:
+        val = emu.read(SCRATCH_STATE + off)
+        assert val == 0xAA, (
+            f"config offset {off} got clobbered by init: ${val:02X}")
+
+
+# --------------------------------------------------------------- Shutdown
+
+
+def test_shutdown_clears_runtime_flags(emu) -> None:
+    """rolling_engine_shutdown clears hdma_enable / dirty_mask /
+    scroll_state / transfer_pending / hdma_copy_pending and restamps
+    the base_scroll sentinel."""
+    _fill_state_with_pattern(emu)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_shutdown")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    assert emu.read(SCRATCH_STATE + 6) == 0x00   # hdma_enable
+    assert emu.read(SCRATCH_STATE + 8) == 0x00   # scroll_state
+    assert emu.read(SCRATCH_STATE + 11) == 0x00  # transfer_pending
+    assert emu.read(SCRATCH_STATE + 14) == 0x00  # hdma_copy_pending
+    assert emu.read(SCRATCH_STATE + 25) == 0x00  # dirty_mask
+    assert emu.read(SCRATCH_STATE + 4) == 0xFF   # base_scroll lo
+    assert emu.read(SCRATCH_STATE + 5) == 0xFF   # base_scroll hi
+
+
+def test_shutdown_leaves_cursor_alone(emu) -> None:
+    """Shutdown does not nuke slot_index / buffer_pos / edge_row /
+    top_row ; those are caller's UI state."""
+    _setup_state(emu, slot_index=4, visible_rows=10)
+    emu.write(SCRATCH_STATE + 0, 0x07)  # top_row
+    emu.write(SCRATCH_STATE + 1, 0x03)  # buffer_pos
+    emu.write(SCRATCH_STATE + 2, 0x02)  # edge_row
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_shutdown")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    assert emu.read(SCRATCH_STATE + 0) == 0x07
+    assert emu.read(SCRATCH_STATE + 1) == 0x03
+    assert emu.read(SCRATCH_STATE + 2) == 0x02
+    assert emu.read(SCRATCH_STATE + 3) == 0x04  # slot_index

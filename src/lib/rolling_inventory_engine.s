@@ -23,18 +23,57 @@ rolling_engine_init:
 """
 Cold init for a rolling-inventory instance.
 
-Phase 1: stub. Returns immediately. Phase 2 will wire this up to
-zero the engine scratch portion of `RollingBufferState`, draw the
-window via `fn_draw_window`, pre-render the visible slots and arm
-the per-instance HDMA channel.
+Zeroes the 12-byte engine scratch portion of `RollingBufferState`
+(everything from top_row through transfer_pending plus the
+scroll_anim_offset word + hdma_copy_pending byte) and stamps
+`base_scroll = $FFFF` as the "not-yet-HDMA-initialised" sentinel
+the per-menu ensure_hdma_hook checks. dirty_mask is cleared too so
+the first vblank flush has nothing to fire.
+
+Caller-managed config fields (visible_rows, slot_height_tiles,
+item_list_ptr, item_count, hdma_channel, vwf_cfg_ptr) are NOT
+touched  ; callers fill them in before invoking this entry and the
+phase-2 render path will read them back.
 
 In/out :
   X = state ptr (16-bit, bank $7E implied)
-  Y = initial top_row (usually 0)
+  Y = initial top_row (unused in phase 1  ; phase 2 will route this
+      into the scroll-position pre-render)
+  All registers clobbered.
 """
 
 
+    {
+    php
+    sep #0x20
+    rep #0x10
+    lda.b #0x00
+; Zero engine scratch (top_row..transfer_pending + anim offset bytes +
+; hdma_copy_pending + dirty_mask).
+    sta.l 0x7E0000 + RollingBufferState.top_row, x
+    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l 0x7E0000 + RollingBufferState.hdma_enable, x
+; _pad byte (offset 7, struct-defined as `byte _pad`) ; a816 hides
+; leading-underscore field names from outer scopes, so write through
+; the literal offset rather than the symbolic name.
+    sta.l 0x7E0007, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset + 1, x
+    sta.l 0x7E0000 + RollingBufferState.hdma_copy_pending, x
+    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+; base_scroll = $FFFF sentinel ("HDMA not yet armed").
+    lda.b #0xFF
+    sta.l 0x7E0000 + RollingBufferState.base_scroll, x
+    sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
+    plp
     rtl
+    }
 
 rolling_engine_tick:
 """
@@ -165,6 +204,34 @@ Out : state.dirty_mask = $FF, A clobbered
     }
 
 rolling_engine_shutdown:
-"""Tear down HDMA channel + flush dirty rows on menu close (phase 1 stub)."""
+"""
+Tear down state on menu close.
+
+Zeroes `state.hdma_enable` + `state.dirty_mask` and resets
+`state.base_scroll` to the $FFFF sentinel so the next cold-init
+ensure_hdma_hook re-arms cleanly. Does not touch HDMAEN ($420C) :
+the per-menu exit hook owns that bit (it knows which channel mask
+to clear via `hdma_channel`).
+
+In : X = state ptr
+Out : engine state half-reset, A clobbered.
+"""
+
+
+    {
+    php
+    sep #0x20
+    rep #0x10
+    lda.b #0x00
+    sta.l 0x7E0000 + RollingBufferState.hdma_enable, x
+    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l 0x7E0000 + RollingBufferState.hdma_copy_pending, x
+    lda.b #0xFF
+    sta.l 0x7E0000 + RollingBufferState.base_scroll, x
+    sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
+    plp
     rtl
+    }
 }
