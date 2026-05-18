@@ -319,6 +319,7 @@ signature byte sits at PB:(PC - 1).
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
+    .include "src/lib/rolling_inventory_engine.s"
 }
 
 .if TREASURE_INVENTORY_ROLLING {

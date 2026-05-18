@@ -138,4 +138,11 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
     byte transfer_pending
     word scroll_anim_offset
     byte hdma_copy_pending
+    byte visible_rows
+    byte slot_height_tiles
+    long item_list_ptr
+    byte item_count
+    byte hdma_channel
+    long vwf_cfg_ptr
+    byte dirty_mask
 }
