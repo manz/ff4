@@ -32,6 +32,24 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ITEM_UNLEASHED_RECORD_SIZE := 0x11
 ITEM_UNLEASHED_TEXT_SIZE := 0x10
 
+; --- Field-menu BG3 CHR base ---
+; Menu PPU runs Mode 0 with BG34NBA = $22 (`ff4decomp/menu/menu.asm:3878+`),
+; mapping BG3 CHR to VRAM word $2000 / byte $4000.
+FIELD_BG3_CHR_VRAM_BYTE := 0x4000
+FIELD_BG3_CHR_VRAM_WORD := FIELD_BG3_CHR_VRAM_BYTE >> 1
+
+; small_vwf's `tilemap_write_no_inc` unconditionally ORs $01 into
+; the tilemap-entry high byte (palette/attr byte). In Mode 0 2bpp
+; BG3 that bit is the cc-low of the 10-bit tile_id, so tile_id
+; $C0 from the allocator reads back as $1C0 on the tilemap side.
+; PPU then looks for CHR at $4000 + $1C0 * 16 = $5C00. The flush
+; therefore aims at $5C00, with the SRAM source still at
+; VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ($703C00) ; the allocator
+; stays at $C0 so the per-slot CHR slice math does not need to
+; jump a buffer.
+FIELD_VWF_VRAM_DEST_BYTE := FIELD_BG3_CHR_VRAM_BYTE + 0x1C00
+FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
+
 ; --- Field-menu VWF regions ---
 ; Mirrors the battle-side `region_size * N` partition in
 ; `src/battle/message.s`. Each region owns a contiguous tile-id
