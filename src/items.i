@@ -97,12 +97,17 @@ DROPS_VWF_CHR_SRC_OFFSET := 0x16E0
 DROPS_VWF_VRAM_DEST_WORD := 0x2B70
 DROPS_VWF_BYTE_COUNT := 0x03C0
 
-; Primary (treasure) flush size: 6 buffer slots * K=10 * 16 bytes =
-; $3C0, round up to $400 for slack. Was bumped to $A00 in an earlier
-; iteration that tried to fit drops into the primary descriptor too ;
-; the two-descriptor flush above lets us shrink back down so the
-; primary DMA stays tight against treasure's range.
-FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0400
+; Primary flush size: covers the WORST-CASE primary consumer which
+; is the field-items menu (11 buffer slots * K=10 * 16 bytes = $6E0,
+; round up to $700). Treasure uses only 6 slots ($3C0) so the
+; primary DMA overshoots its region by a few tiles, but the extra
+; bytes flush into the start of drops's CHR window ($16E..$170)
+; whose secondary DMA overwrites them with the correct drops CHR
+; immediately afterwards. Was briefly $400 (treasure-only sized)
+; after the two-descriptor split, which cut field-items' last 5
+; buffer slots out of the flush window and tripped a BRK during
+; field scroll once tilemap entries pointed at unflushed tile_ids.
+FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 
 
 .struct Item {
