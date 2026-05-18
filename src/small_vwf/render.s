@@ -820,7 +820,20 @@ _no_adjustment:
 
     pla
 _end:
+; Clamp temp to 0..8 before writing bits_left_on_tile : kerning
+; adjustments can push the value past 8 (e.g. when a kerning entry
+; subtracts more than the current tile has left), and the downstream
+; dispatch at $97FC indexes a 9-entry jump table by bits_left * 2.
+; Out-of-range values land off the table end and execute random
+; bytes (BRK $00 on the held-DOWN field-items scroll). Treat any
+; value > 8 as "no bits left in this tile" so the next loop pass
+; allocates a fresh tile_id instead of crashing.
     lda.b temp
+    cmp.b #0x09
+    bcc _bits_left_in_range
+    lda.b #0x00
+
+_bits_left_in_range:
     sta.b bits_left_on_tile
 _overflow:
     pha
