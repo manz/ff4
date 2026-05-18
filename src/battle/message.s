@@ -3,6 +3,7 @@ Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blit
 dialog-stream consumer).
 """
 .include "src/battle/inventory_budget.i"
+.include "src/vwf_state.i"
 .if 0 {
     .scope _vwf_tile_ring {
 ; Ring buffer for VWF tile allocation
@@ -149,7 +150,7 @@ _not_found:
     0x80 -> 0xB0 char names
     0xB0 -> 0xF0 commands ? this one is untested.
     """
-    buffer_ptr = 0x703000
+    buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
 ; Gate state moved past the inventory tile slice ($703C00..$703EF0)

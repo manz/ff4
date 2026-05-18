@@ -1,4 +1,6 @@
 """Small (8x8) menu VWF renderer."""
+.include "src/vwf_state.i"
+
 VARS_BUFFER = 0x710000
 
 .macro initialize(var) {
@@ -229,15 +231,8 @@ get:
     prev_char = counter + 2
     current_char = prev_char + 1
     tilemap_offset = 0x1d
-    buffer_ptr = 0x703000
-; Bumped from $300 to $1000 so the CHR buffer covers tile_ids
-; $00..$FF (256 * 16 bytes). Field-menu item-name VWF reuses the
-; $C0..$FB tile-id window that battle inventory rolling already
-; uses, which lands at $703C00..$703FB0 in the CHR slice. The
-; matching vram-save buffer at $704000 was sized off this constant
-; so the resize propagates through `save_dialog_vram_far` /
-; `restore_dialog_gfx_far` automatically.
-    buffer_size = 0x1000
+    buffer_ptr = VWF_CHR_BUFFER
+    buffer_size = VWF_CHR_BUFFER_SIZE
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 init:
 """font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
