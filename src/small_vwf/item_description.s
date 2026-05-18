@@ -1,5 +1,6 @@
 """Small-VWF item-description renderer."""
 .include "src/vwf_state.i"
+.include "src/items.i"
 
 .scope items_description {
     """Small-VWF item-description renderer entry-points."""
@@ -70,6 +71,28 @@ draw_string:
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
     lda.b #0x01
     sta.l VWF_CONFIG_BASE + VwfConfig.flags
+; Description flush descriptor uses the SECONDARY slot so the
+; description region ($5800..$5FF0) gets its own DMA independent of
+; the primary descriptor that items_menu_vwf rewrites every per-slot
+; call. Without this, items_menu_vwf's tight $400 primary window
+; (treasure region only) caused the description CHR to never flush
+; once items + description coexisted in the field menu.
+;
+;   src offset = $180 * 16            = $1800 buffer bytes
+;   vram dest  = ($5000 + $800) / 2   = $2C00 word
+;   size       = $80 tiles * 16       = $800 bytes
+;
+; DIRTY_B is set at the tail of draw_string ; display_char also sets
+; primary DIRTY which the field-items renderer covers in its own
+; flush, so no clearing is needed here.
+    rep #0x20
+    lda.w #0x1800
+    sta.l VWF_CHR_SRC_OFFSET_B
+    lda.w #0x2C00
+    sta.l VWF_CHR_VRAM_WORD_B
+    lda.w #0x0800
+    sta.l VWF_CHR_BYTE_COUNT_B
+    sep #0x20
 ; Preserve Y across render.init: the per-region CHR clear loop
 ; tays the budget word count and lands Y=$0000 on exit, which
 ; collapsed _char_loop into an immediate _char_loop_exit (the loop
@@ -101,6 +124,10 @@ _char_loop:
 _char_loop_exit:
     jsr.w _transfer_item_description
     jsr.w render.deinit
+; Description finished writing to buffer ; raise the secondary
+; dirty flag so the NMI flush DMAs $5800..$5FF0 next vblank.
+    lda.b #0x01
+    sta.l VWF_CHR_DIRTY_B
     plx
     pld
     plb
