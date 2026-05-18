@@ -31,7 +31,10 @@ VARS_BUFFER = 0x710000
 }
 
 .scope _vram_copy {
-    buffer = 0x704000
+; Moved from $704000 to $705000 so the CHR buffer at $703000 can
+; grow to $1000 bytes (cover tile_ids $00..$FF) without trampling
+; the vram-save staging.
+    buffer = 0x705000
 save_dialog_vram_far:
     jsr.l 0x14fd0f
 ; original save
@@ -227,7 +230,14 @@ get:
     current_char = prev_char + 1
     tilemap_offset = 0x1d
     buffer_ptr = 0x703000
-    buffer_size = 0x300
+; Bumped from $300 to $1000 so the CHR buffer covers tile_ids
+; $00..$FF (256 * 16 bytes). Field-menu item-name VWF reuses the
+; $C0..$FB tile-id window that battle inventory rolling already
+; uses, which lands at $703C00..$703FB0 in the CHR slice. The
+; matching vram-save buffer at $704000 was sized off this constant
+; so the resize propagates through `save_dialog_vram_far` /
+; `restore_dialog_gfx_far` automatically.
+    buffer_size = 0x1000
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 init:
 """font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
