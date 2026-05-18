@@ -351,3 +351,38 @@ def test_init_fires_fn_draw_window_when_armed(emu) -> None:
     witness = emu.read(0x7E0700)
     assert witness == 0xA5, (
         f"fn_draw_window stub did not fire ; witness=${witness:02X}")
+
+
+def test_init_loops_fn_render_slot_visible_rows_times(emu) -> None:
+    """rolling_engine_init calls fn_render_slot once per visible row,
+    planting slot_index = edge_row = iteration count before each call.
+
+    Stub at $7E:0800 increments a counter at $7E:0900 then RTLs.
+    With visible_rows = 5, init should fire 5 callbacks (counter = 5)
+    and leave slot_index + edge_row pinned at 4 (last iteration).
+    """
+    # Stub : lda.l $7E0900 ; inc ; sta.l $7E0900 ; rtl
+    #        AF 00 09 7E   ; 1A   ; 8F 00 09 7E   ; 6B
+    stub = bytes([0xAF, 0x00, 0x09, 0x7E,
+                  0x1A,
+                  0x8F, 0x00, 0x09, 0x7E,
+                  0x6B])
+    for i, b in enumerate(stub):
+        emu.write(0x7E0800 + i, b)
+    emu.write(0x7E0900, 0x00)
+
+    # Zero the whole scratch state then set just visible_rows + render hook.
+    for i in range(40):
+        emu.write(SCRATCH_STATE + i, 0x00)
+    emu.write(SCRATCH_STATE + RBS_VISIBLE_ROWS, 5)
+    emu.write(SCRATCH_STATE + 26, 0x00)  # fn_render_slot low
+    emu.write(SCRATCH_STATE + 27, 0x08)  # fn_render_slot mid
+    emu.write(SCRATCH_STATE + 28, 0x7E)  # fn_render_slot bank
+
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+
+    counter = emu.read(0x7E0900)
+    assert counter == 5, f"fn_render_slot fired {counter} times, expected 5"
+    assert emu.read(SCRATCH_STATE + 3) == 4   # slot_index
+    assert emu.read(SCRATCH_STATE + 2) == 4   # edge_row

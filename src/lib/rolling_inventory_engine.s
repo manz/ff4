@@ -71,33 +71,79 @@ In/out :
     lda.b #0xFF
     sta.l 0x7E0000 + RollingBufferState.base_scroll, x
     sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
-; Fire fn_draw_window hook when armed (any of the 3 ptr bytes non-zero).
-; Hook is a bank-20 RTL routine ; we stash its 24-bit target at the
-; fixed scratch cell ROLLING_ENGINE_HOOK_SCRATCH ($00:1F80..$1F82) and
-; `jmp [abs]` reads + jumps to it. Indirect-long requires the read
-; address to live in bank $00 absolute, hence the explicit scratch
-; cell rather than a direct-page indirection.
-    lda.l 0x7E0000 + RollingBufferState.fn_draw_window, x
+; Fire fn_draw_window hook when armed.
+    rep #0x10
+    ldy.w #RollingBufferState.fn_draw_window
+    jsr.w _engine_call_hook
+; Fire fn_update_hdma hook (= per-menu ensure_hdma_initialized in the
+; field-items wiring). Phase 3+ may split this into ensure-once vs
+; per-scroll-update hooks ; for now both share the slot.
+    ldy.w #RollingBufferState.fn_update_hdma
+    jsr.w _engine_call_hook
+; Loop `visible_rows` times, calling fn_render_slot for each row.
+; Each iteration plants edge_row + slot_index = loop counter before
+; firing the hook so the per-menu render reads the right values.
+    sep #0x20
+    lda.b #0x00
+
+_engine_init_render_loop:
+    pha
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    pla
+    inc
+    cmp.l 0x7E0000 + RollingBufferState.visible_rows, x
+    bcc _engine_init_render_loop
+
+    plp
+    rtl
+    }
+
+_engine_call_hook:
+"""
+Internal helper. JSLs through a hook far-ptr stored at
+`state[X + Y]`.
+
+In  : X = state ptr (16-bit, bank $7E implied)
+      Y = struct offset of the 3-byte hook field
+      M = 8 (caller-managed)
+Out : hook RTLs back to caller of _engine_call_hook. A clobbered.
+      Hook is skipped if all three bytes are zero  ; null-safe.
+"""
+
+
+    {
+    phx
+    phy
+    sty.b 0x90  ; stash offset in DP
+    rep #0x20
+    txa
+    clc
+    adc.b 0x90
+    tax  ; X now points at the hook field's first byte
+    sep #0x20
+    lda.l 0x7E0000, x
     sta.l 0x001F80
-    lda.l 0x7E0000 + RollingBufferState.fn_draw_window + 1, x
+    lda.l 0x7E0001, x
     sta.l 0x001F81
-    lda.l 0x7E0000 + RollingBufferState.fn_draw_window + 2, x
+    lda.l 0x7E0002, x
     sta.l 0x001F82
     ora.l 0x001F80
     ora.l 0x001F81
-    beq _engine_init_no_window
-; Push return-here long (bank + 16-bit address - 1) so the hook's RTL
-; lands at `_engine_init_after_window`.
+    beq _engine_call_hook_null
     phk
     rep #0x20
-    pea.w ( _engine_init_after_window - 1 ) & 0xFFFF
+    pea.w ( _engine_call_hook_return - 1 ) & 0xFFFF
     sep #0x20
     jmp [0x001F80]
 
-_engine_init_after_window:
-_engine_init_no_window:
-    plp
-    rtl
+_engine_call_hook_return:
+_engine_call_hook_null:
+    ply
+    plx
+    rts
     }
 
 rolling_engine_tick:

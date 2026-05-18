@@ -338,8 +338,18 @@ menu_fn_render_slot_trampoline:
     rtl
 
 menu_fn_update_hdma_trampoline:
-"""Bank-20 RTL wrapper around `update_menu_scroll_hdma`."""
-    jsr.w update_menu_scroll_hdma
+"""
+Bank-20 RTL wrapper around `ensure_hdma_initialized`.
+
+Named fn_update_hdma in the struct but semantically the
+"arm-HDMA-channel + first-frame setup" hook for init. Phase 3 may
+split into ensure-once vs per-scroll-update if scroll-tick needs a
+distinct entry, but the existing field-menu macro chain treats
+ensure as idempotent so reusing it for both is fine.
+"""
+
+
+    jsr.w ensure_hdma_initialized
     rtl
 
 menu_fn_draw_window_trampoline:
