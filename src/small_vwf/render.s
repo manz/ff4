@@ -368,6 +368,40 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     sec
     sbc.b #0x01
     sta.l render_allocator.slot_limit_low
+; --- Clear this slot's CHR slice to $FF $00 (blank 2bpp / 4bpp
+; tile) so the new blit does not pile pixels onto the previous
+; tenant. Mirror of `messages_vwf.init_inventory_for_current_slot`
+; in `src/battle/message.s` ; clear loop spans
+; (slot_budget * 16) bytes at VWF_CHR_BUFFER + tile_id_base * 16.
+    php
+    rep #0x30
+    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl  ; * 16
+    clc
+    adc.w #VWF_CHR_BUFFER & 0xFFFF
+    tax
+    lda.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    and.w #0x00FF
+    asl
+    asl
+    asl  ; words to clear = budget * 8 (16 bytes/tile, written as words)
+    tay
+    sep #0x20
+
+_chr_clear_loop:
+    lda.b #0xFF
+    sta.l VWF_CHR_BUFFER & 0xFF0000, x
+    inx
+    lda.b #0x00
+    sta.l VWF_CHR_BUFFER & 0xFF0000, x
+    inx
+    dey
+    bne _chr_clear_loop
+    plp
 ; Render scratch state.
     lda.b #0x08
     sta.b bits_left_on_tile

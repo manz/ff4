@@ -109,11 +109,13 @@ _copy_loop:
     tax
     sep #0x20
     lda.l assets_items_unleashed_dat, x
+    pha  ; save the byte so the 16-bit src-pointer update does not clobber it
     inx
     rep #0x20
     txa
     sta.l VWF_SRC_OFFSET
     sep #0x20
+    pla
     plx
     sta.l VWF_TEXT_BUFFER, x
     inx
@@ -144,14 +146,15 @@ _copy_loop:
     sep #0x20
     lda.b #FIELD_ITEM_VWF_TILE_BUDGET
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
-; CHR -> VRAM flush descriptor. Field menu BG3 CHR sits at VRAM
-; byte $4000 (BG34NBA = $22 in `ff4decomp/menu/menu.asm:3889+`,
-; bits 0-3 = $2 -> base $2 * $2000 = $4000). VWF window for
-; tile_ids $C0..$FF starts at $4000 + $C00 = $4C00 (word $2600),
-; covering $400 bytes. NMI flush reads these once the engine
-; sets VWF_CHR_DIRTY.
+; CHR -> VRAM flush descriptor. Piggyback on the item-description
+; small_vwf path that already renders correctly: it DMAs the CHR
+; buffer at $70:3000 to VRAM byte $A000 (word $5000, see
+; `src/small_vwf/item_description.s:103`). Using the same VRAM
+; window means BG tilemap entries that reference our VWF tile_ids
+; resolve through the same CHR pages the description engine
+; already proved end-to-end.
     rep #0x20
-    lda.w #( 0x4000 + VWF_CHR_FLUSH_OFFSET ) >> 1
+    lda.w #( 0xA000 + VWF_CHR_FLUSH_OFFSET ) >> 1
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
     lda.w #0x0400
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
