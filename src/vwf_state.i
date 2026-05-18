@@ -11,7 +11,7 @@ owns it during field menus.
 Define the shared address as a single symbol so future engines
 (field-menu items, treasure-list VWF, drops-list VWF, ...) all
 point at the same place automatically. Bumping the size only
-needs to happen here ; `_vram_copy.buffer` already sits at $70:5000
+needs to happen here  ; `_vram_copy.buffer` already sits at $70:5000
 past the buffer so the VRAM-save staging is decoupled from the
 CHR-buffer size.
 
@@ -72,24 +72,13 @@ VWF_SRC_OFFSET := 0x7070C0
 VWF_CHR_DIRTY := 0x7070C2
 
 .struct VwfConfig {
-    word font_ptr        ; .l-addr 16-bit low (bank stored separately if needed)
-    byte font_bank
-    word kerning_ptr     ; null = kerning off
-    byte kerning_bank
-    word tile_id_base    ; first tile_id this renderer owns (9-bit, 0..$1FF)
-    byte slot_budget     ; ITEM_VWF_TILE_BUDGET-style clamp ; $FF = none
-    word tilemap_base    ; WRAM dest base (16-bit, bank-$7E implied)
-    byte palette_byte    ; default palette / attr
-    byte flags           ; bit 0 = kerning, bit 1 = priority OR ; rest reserved
-    ; CHR -> VRAM flush descriptor. The NMI flush routine reads these
-    ; (gated on `VWF_CHR_DIRTY`) so each caller decides where its CHR
-    ; lands ; battle messages, item descriptions, field items, drops,
-    ; treasure all share the same engine without forking the upload.
-    ; The source ALWAYS starts at `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET`
-    ; (the engine-side constant below) ; only the VRAM dest + size
-    ; vary per caller.
-    word chr_vram_word   ; VRAM word address for DMA dest
-    word chr_byte_count  ; DMA byte count
+    word tile_id_base
+    byte slot_budget
+    word tilemap_base
+    byte palette_byte
+    byte flags
+    word chr_vram_word
+    word chr_byte_count
 }
 
 ; Engine-shared CHR-flush source offset. Every VWF caller writes
