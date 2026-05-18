@@ -187,7 +187,15 @@ mirrors get written by the VWF dispatcher (`tilemap_write`
 in message.s) at offsets +0 and +$0C of the row base, so 12 hi
 bytes total per slot (6 on each mirror).
 
-A = active slot index (0..4) on entry. M=8, X=8.
+A = active char_id (NOT slot index) on entry. Vanilla stores the
+queue-popped char_id into `$1822`  ; the tilemap layout is keyed
+by SLOT index. Resolve char_id -> slot by scanning the per-slot
+char_id table at `$7E:29C5` (one byte per slot, $FF = empty).
+Without this indirection the highlight lands on whatever char_id
+matches the slot number (Cecil acting -> char_id 0 -> slot 0,
+which holds Palom in a remixed party).
+
+M=8, X=8.
 """
 
 
@@ -200,6 +208,26 @@ A = active slot index (0..4) on entry. M=8, X=8.
     pha
     plb
     pla
+    ; A = active char_id ; scan $7E:29C5..$29C9 for the slot that
+    ; holds it. Fall back to $FF (no slot) when the char is absent
+    ; (KO / dead etc.) so every slot ends up with palette 0.
+    sta.l scp_pal_byte  ; reuse as scratch for the char_id key
+    ldx.w #0
+
+_scp_id_scan:
+    cpx.w #5
+    bcs _scp_id_miss
+    lda.l 0x7E29C5, x
+    cmp.l scp_pal_byte
+    beq _scp_id_hit
+    inx
+    bra _scp_id_scan
+
+_scp_id_miss:
+    ldx.w #0xFF  ; sentinel slot ; no match
+
+_scp_id_hit:
+    txa
     sta.l scp_active_slot
     ; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
     ; caller's BG / DMA state needs them preserved.
