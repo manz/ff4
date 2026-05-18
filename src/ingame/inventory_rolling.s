@@ -265,8 +265,87 @@ _menu_hdma_signal:
     rts
 
 init_menu_rolling_buffer_impl:
-"""Init field rolling buffer (10 visible, lazy 11th slot)."""
+"""
+Init field rolling buffer (10 visible, lazy 11th slot).
+
+Populates the phase-1 engine config + hook fields so the bank-20
+`rolling_engine_*` entries can drive the same instance the macro
+expansion below already manages. Engine consumers stay inert until
+phase 2 swaps the macro for the JSL path  ; populating now lets the
+integration tests assert real config values and gives us a stable
+ABI surface to port against.
+"""
+
+
+    php
+    rep #0x30  ; M=16, X=16
+    sep #0x20  ; M=8 (X stays 16)
+    ; visible_rows + slot_height_tiles
+    lda.b #MENU_VISIBLE_ITEMS
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.visible_rows
+    lda.b #0x02  ; 2 BG rows per slot
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.slot_height_tiles
+    ; item_list_ptr = $7E:1440 (vanilla inventory array)
+    lda.b #0x40
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr
+    lda.b #0x14
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr + 1
+    lda.b #0x7E
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr + 2
+    ; item_count = 48 (vanilla field inventory)
+    lda.b #0x30
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_count
+    ; hdma_channel = 5 (BG1VOFS HDMA used by field-items rolling buffer)
+    lda.b #0x05
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.hdma_channel
+    ; vwf_cfg_ptr = $70:7080 (VWF_CONFIG_BASE)
+    lda.b #0x80
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr
+    lda.b #0x70
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    lda.b #0x70
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    ; fn_render_slot = menu_fn_render_slot_trampoline (bank-20 RTL wrapper)
+    lda.b #menu_fn_render_slot_trampoline & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot
+    lda.b #( menu_fn_render_slot_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot + 1
+    lda.b #( menu_fn_render_slot_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot + 2
+    ; fn_update_hdma = menu_fn_update_hdma_trampoline
+    lda.b #menu_fn_update_hdma_trampoline & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma
+    lda.b #( menu_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma + 1
+    lda.b #( menu_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma + 2
+    ; fn_draw_window = menu_fn_draw_window_trampoline
+    lda.b #menu_fn_draw_window_trampoline & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window
+    lda.b #( menu_fn_draw_window_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 1
+    lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
+    plp
+    ; Drop into the existing macro expansion. Phase 2.1+ will replace the
+    ; macro with a `jsl rolling_engine_init` once the bank-20 entry grows a
+    ; real init body that fires fn_draw_window + fn_render_slot per row.
     engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
+
+menu_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `_menu_render_item_to_slot`."""
+    jsr.w _menu_render_item_to_slot
+    rtl
+
+menu_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `update_menu_scroll_hdma`."""
+    jsr.w update_menu_scroll_hdma
+    rtl
+
+menu_fn_draw_window_trampoline:
+"""Bank-20 RTL wrapper around `_menu_draw_inventory_window`."""
+    jsr.w _menu_draw_inventory_window
+    rtl
 
 _menu_draw_inventory_window:
 """Field menu draws the InventoryWindow ($DCCE) frame on entry."""

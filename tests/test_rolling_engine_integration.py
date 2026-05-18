@@ -70,6 +70,34 @@ def test_vblank_flush_clears_live_dirty_mask(field_menu) -> None:
     assert e.read(FIELD_MENU_ROLLING_BASE + DIRTY_MASK_OFFSET) == 0x00
 
 
+def test_field_menu_init_populates_engine_config(field_menu) -> None:
+    """init_menu_rolling_buffer_impl writes the phase-2 engine config +
+    hook far-ptrs into the field-menu state struct.
+
+    Confirms the per-menu init now arms the bank-20 engine entries with
+    everything they need (visible_rows, item_list_ptr, hdma_channel,
+    vwf_cfg_ptr, render/hdma/draw hooks) even though the macro is still
+    driving the actual scroll machinery.
+    """
+    e = field_menu
+    base = FIELD_MENU_ROLLING_BASE
+    assert e.read(base + 15) == 0x0A           # visible_rows = 10
+    assert e.read(base + 16) == 0x02           # slot_height_tiles = 2
+    assert e.read(base + 17) == 0x40           # item_list_ptr low
+    assert e.read(base + 18) == 0x14           # item_list_ptr mid
+    assert e.read(base + 19) == 0x7E           # item_list_ptr bank
+    assert e.read(base + 20) == 0x30           # item_count = 48
+    assert e.read(base + 21) == 0x05           # hdma_channel = 5
+    assert e.read(base + 22) == 0x80           # vwf_cfg_ptr low
+    assert e.read(base + 23) == 0x70           # vwf_cfg_ptr mid
+    assert e.read(base + 24) == 0x70           # vwf_cfg_ptr bank
+    # Hook far-ptrs land in bank-20 reloc region.
+    for hook_off in (26, 29, 32):
+        bank = e.read(base + hook_off + 2)
+        assert bank == 0x20, (
+            f"hook at +{hook_off} bank=${bank:02X}, expected $20")
+
+
 def test_cursor_down_on_field_menu_advances_slot_index(field_menu) -> None:
     """`rolling_engine_cursor_down` advances slot_index on live state.
 
