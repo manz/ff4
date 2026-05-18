@@ -2599,13 +2599,11 @@ _field_nmi_check_treasure:
 }
 
 _field_nmi_done:
-; --- VWF CHR flush ---
-; Hand off to the 8x8 VWF engine's NMI flush. Gates on
-; `VWF_CHR_DIRTY` ; reads `VwfConfig.chr_vram_word` /
-; `chr_byte_count` for the dest, sources from the engine-shared
-; `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET`. Single mechanism for
-; all VWF-driven menu surfaces (field items, item descriptions,
-; future treasure / drops VWF) so they share one DMA path.
-    jsr.l render.flush_chr_to_vram
+; NOTE: planned tail-call to `render.flush_chr_to_vram` for VWF
+; CHR upload caused NMI nesting / BRK on save-screen entry ; the
+; field NMI hook already drives ch7 for its own tilemap DMA so
+; another ch7 write from the VWF flush stomped mid-NMI state.
+; Reverted ; the flush needs to either pick a different channel
+; or piggyback on the existing DMA queue rather than racing it.
     plp
     rtl
