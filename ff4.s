@@ -167,6 +167,30 @@ Output: X = offset into ItemName table.
     rtl
 
 
+multiply_item_index_17:
+"""
+Relocated multiply-by-ITEM_UNLEASHED_RECORD_SIZE for the items_unleashed
+name offset. Called from $019023 via JSL when the field menu is
+wired to the 17-byte assets_items_unleashed_dat table.
+Input: $43 = item ID (16-bit mode active).
+Output: X = offset into ItemName table.
+"""
+
+
+; ITEM_UNLEASHED_RECORD_SIZE = 17 = (id << 4) + id.
+    lda 0x43
+    pha
+    asl
+    asl
+    asl
+    asl  ; * 16
+    clc
+    adc 0x01, s  ; * 16 + id = * 17
+    tax
+    pla  ; balance stack
+    rtl
+
+
 multiply_by_12:
 """A: value to multiply  ; returns A*12 in A."""
     php
@@ -178,6 +202,29 @@ multiply_by_12:
     adc 0x01, s
     asl
     asl
+    sta 0x01, s
+    pla
+    plp
+    rtl
+
+
+multiply_by_17:
+"""
+A: value to multiply  ; returns A*17 in A. Mirror of multiply_by_12
+sized for the 17-byte assets_items_unleashed_dat stride.
+"""
+
+
+    php
+    rep #0x20
+    and.w #0x00FF
+    pha
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc 0x01, s  ; * 16 + value = * 17
     sta 0x01, s
     pla
     plp
@@ -280,10 +327,10 @@ signature byte sits at PB:(PC - 1).
 .incbin "assets/monsters_long.ptr"
 .incbin "assets/monsters_long.dat"
 .incbin "assets/battle_commands_nul.ptr"
+
 .incbin "assets/battle_commands_nul.dat"
 .incbin "assets/magic.dat"
 .incbin "assets/places_names.dat"
-
 .incbin "assets/classes.ptr"
 .incbin "assets/classes.dat"
 .incbin "assets/items.dat"
