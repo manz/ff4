@@ -58,47 +58,51 @@ Patched:
     lda #0x04
 
 ; Replace the inline id*9 multiplier at $00:B253-B26C with a
-; jsl multiply_by_12 chain. A is item-id on entry (just loaded via
-; lda $0712,x at $B24B), returns A=id*12. Move into X for the
-; existing inner-loop indexed `lda.l assets_items_dat, x` read.
-; The original block was 26 bytes ($B253..$B26C); replacement uses
-; 9 bytes, padded with NOP to keep downstream instruction
-; addresses ($B26F lda#, $B273 lda.l ...) anchored.
+; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
+; lda $0712,x at $B24B), returns A = id * ITEM_UNLEASHED_RECORD_SIZE.
+; Move into X for the existing inner-loop indexed
+; `lda.l assets_items_unleashed_dat, x` read. The original block was
+; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
+; to keep downstream instruction addresses ($B26F lda#, $B273 lda.l
+; ...) anchored.
     *=0x00B253
     rep #0x10
-    jsr.l multiply_by_12
+    jsr.l multiply_by_17
     tax
     inx
     pad_nop(18)
 
 ; Inner-name-write loop count at $00:B26F: original `lda #$08`
-; (8 letters per name). Bump to ITEM_NAME_TEXT_SIZE.
+; (8 letters per name). Bump to ITEM_UNLEASHED_TEXT_SIZE.
     *=0x00B26F
-    lda #ITEM_NAME_TEXT_SIZE
+    lda #ITEM_UNLEASHED_TEXT_SIZE
 
 ; Item-name table source at $00:B273: original `lda.l $0F8000,x`
-; (JP layout). Redirect to French assets_items_dat.
+; (JP layout). Redirect to assets_items_unleashed_dat.
     *=0x00B273
-    lda.l assets_items_dat, x
+    lda.l assets_items_unleashed_dat, x
 
 ; Make both column-toggle branches advance Y by 24 (full text-buffer
 ; row, 12 chars). Both → `adc #$18` so every item lands on its own
-; row regardless of which column the toggle picks.
+; row regardless of which column the toggle picks. Keep at 24
+; for now ; widening to fit a 16-char name + colon + qty requires
+; revisiting the picker's tilemap row stride too.
     *=0x00B2B5
     adc #0x18
     *=0x00B2BF
     adc #0x18
 
 ; Item-text layout post-name: original writes ":" at +8 ($077C), tens
-; at +9 ($077D), ones at +10 ($077E). Names were 8 chars (slots 0..7).
-; French names are 11 chars (slots 0..10) + 1 tile spacer = 12, so
-; push the qty trio out by +12 (one full tile beyond the name):
+; at +9 ($077D), ones at +10 ($077E). 12-char names pushed the trio
+; to $0780/81/82. 16-char names need another +4 to land past the name
+; (assets_items_unleashed_dat = symbol + 16 chars), so trio sits at
+; $0784/85/86 with the same 1-tile spacer between name and colon.
     *=0x00B28E
-    sta 0x0780, y
+    sta 0x0784, y
     *=0x00B2A4
-    sta 0x0781, y
+    sta 0x0785, y
     *=0x00B2A9
-    sta 0x0782, y
+    sta 0x0786, y
 
 ; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
 ; check at $00:AFB0 by replacing the AND mask with $00 — beq always
