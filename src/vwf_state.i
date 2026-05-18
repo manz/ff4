@@ -99,3 +99,19 @@ VWF_CHR_DIRTY := 0x7070C2
 ; (If a future client uses a different base, this constant moves to
 ; the engine and we still avoid forking the DMA source per caller.)
 VWF_CHR_FLUSH_OFFSET := 0x100 * 0x10
+
+; --- VRAM save / restore range ---
+; The dialog VWF saves the VRAM CHR window before dialog opens and
+; restores it on close. With field-menu items + item-description
+; each carving out their own slice of CHR ($5000..$5FFF), the save
+; range must cover that whole 4KB block so menu close puts the
+; menu CHR back the way the field renderer expects it.
+;
+;   Word $2800 .. $37FF  =  byte $5000 .. $6FFF  (8KB)
+;
+; Generous on the upper end so a future region 3 / region 4 (status,
+; equipment, ...) lands inside the save window without bumping the
+; SRAM scratch.
+VRAM_SAVE_BASE_WORD := 0x2800
+VRAM_SAVE_BYTE_COUNT := 0x2000
+VRAM_SAVE_SRAM_BASE := 0x705000

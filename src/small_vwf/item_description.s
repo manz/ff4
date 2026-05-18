@@ -74,6 +74,9 @@ draw_string:
     rep #0x20
     lda.w #0x0080
     jsr.w render_allocator.init_with_tile_id_wide
+    sep #0x20  ; _char_loop reads bytes one at a time ; M=16 here
+               ; would have lda'd two source bytes per char and
+               ; soft-locked the description render in wait_for_vblank.
 _char_loop:
     lda.w 0x0000, y
     beq _char_loop_exit
