@@ -145,4 +145,7 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
     byte hdma_channel
     long vwf_cfg_ptr
     byte dirty_mask
+    long fn_render_slot
+    long fn_update_hdma
+    long fn_draw_window
 }

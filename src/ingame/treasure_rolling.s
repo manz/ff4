@@ -59,7 +59,7 @@ treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pe
 ; aborts and undoes vanilla's $1BB7 increment, debouncing the
 ; "hold-DOWN auto-repeat fires every 2 frames" issue that scrolled the
 ; inventory two items per visible tap.
-treasure_scroll_cooldown := treasure_rolling + 26  ; past phase-1 extended RollingBufferState fields
+treasure_scroll_cooldown := treasure_rolling + 35  ; past phase-1 extended RollingBufferState (config + hooks)
 TREASURE_SCROLL_COOLDOWN_FRAMES := 0x18  ; ~24 frames between scrolls (long enough to outlast a typical button hold)
 
 ; Scroll State Constants
