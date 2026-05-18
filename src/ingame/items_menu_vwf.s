@@ -44,11 +44,14 @@ Status:
 .include "src/items.i"
 .include "src/battle/inventory_budget.i"
 
+.include "src/libmz.i"
 .include "src/vwf_state.i"
 
 .extern assets_items_unleashed_dat
 .extern render
 .extern render.render_with_config
+.extern wait_for_vblank_long
+.extern dma_transfer_to_vram
 
 .scope items_menu_vwf {
 draw_field_item_name:
@@ -196,7 +199,21 @@ _top_loop:
     iny
 ; --- Run the unified renderer over VWF_TEXT_BUFFER ---
     jsr.l render_with_config_trampoline
+; --- Flush this slot's CHR slice from SRAM to VRAM ---
+; Field menu BG3 CHR lives at VRAM byte $A000 ($5000 word). Tile-id
+; $XX maps to VRAM byte $A000 + $XX * $10, word $5000 + $XX * $08.
+; Cover the full $C0..$FF VWF range so every slot's tiles land in
+; the matching CHR slot. Wait for vblank so the VRAM write does
+; not tear the visible scanlines.
+    jsr.l wait_for_vblank_long_trampoline
+    dma_transfer_to_vram_call(VWF_CHR_BUFFER + 0xC0 * 0x10, ( 0xA000 + 0xC0 * 0x10 ) >> 1, 0x400, 0x1801)
     plp
+    rtl
+
+wait_for_vblank_long_trampoline:
+"""Bank-20 wrapper around `wait_for_vblank_long` so the macro can
+reach it across scope boundaries."""
+    jsr.l wait_for_vblank_long
     rtl
 
 render_with_config_trampoline:
