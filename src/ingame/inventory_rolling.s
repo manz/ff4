@@ -327,9 +327,16 @@ ABI surface to port against.
     lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
     plp
-    ; Drop into the existing macro expansion. Phase 2.1+ will replace the
-    ; macro with a `jsl rolling_engine_init` once the bank-20 entry grows a
-    ; real init body that fires fn_draw_window + fn_render_slot per row.
+    ; Phase 2.4 attempt rolled back : the bank-20 engine's init body
+    ; mirrors the macro shape but routing the live field-menu through
+    ; it (rep #$10 ; ldx #menu_rolling ; jsr.l rolling_engine_init)
+    ; renders only the menu chrome on screen -- per-slot hook
+    ; dispatch needs deeper debugging vs the macro's inline JSR.W
+    ; semantics. Engine entries remain unit-tested + integration-
+    ; tested independently against synthetic state ; the per-menu
+    ; macro still drives the real init until the discrepancy is
+    ; chased down. Keeping the engine config + hook ptrs armed above
+    ; so the JSL path stays one edit away.
     engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
 
 menu_fn_render_slot_trampoline:
