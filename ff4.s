@@ -129,8 +129,14 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-Clear the dialog VWF tile buffer at $702000-$706FFF (16-bit zeroes) after letting the boot ROM init at
-$15C9AA.
+Clear the dialog VWF tile buffer + engine scratch at $702000-$7070FF
+(includes VWF_CONFIG_BASE, VWF_CHR_DIRTY / DIRTY_B, VWF_CALLER_CTX, and
+the secondary descriptor fields) after letting the boot ROM init at
+$15C9AA. Range was $5000 bytes pre-secondary-descriptor  ; bumped to
+$5100 so the new dirty / vram_word / byte_count / src_offset bytes
+land zero on cold boot instead of inheriting random SRAM and
+triggering a bogus secondary flush on the very first NMI (which trashed
+the save-selection sprite CHR).
 """
 
 
@@ -142,7 +148,7 @@ $15C9AA.
 _loop:
     sta.l 0x702000, x
     inx
-    cpx.w #0x5000
+    cpx.w #0x5100
     bne _loop
     }
     rtl
@@ -323,11 +329,11 @@ signature byte sits at PB:(PC - 1).
 
 ; --- Binary text assets -------------------------------------------------
 
+
 .incbin "assets/attack_names.ptr"
 .incbin "assets/attack_names.dat"
 .incbin "assets/monsters_long.ptr"
 .incbin "assets/monsters_long.dat"
-
 .incbin "assets/battle_commands_nul.ptr"
 .incbin "assets/battle_commands_nul.dat"
 .incbin "assets/magic.dat"

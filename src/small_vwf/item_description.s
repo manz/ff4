@@ -74,19 +74,20 @@ draw_string:
 ; Description flush descriptor uses the SECONDARY slot so the
 ; description region ($5800..$5FF0) gets its own DMA independent of
 ; the primary descriptor that items_menu_vwf rewrites every per-slot
-; call. Without this, items_menu_vwf's tight $400 primary window
-; (treasure region only) caused the description CHR to never flush
-; once items + description coexisted in the field menu.
+; call. The allocator base is $80 (`init_with_tile_id_wide(#$0080)`)
+; with the $01 attr-byte OR turning it into effective tile_id $180
+; for tilemap entries ; the actual CHR bytes live at buffer offset
+; $80 * 16 = $800 (NOT $1800).
 ;
-;   src offset = $180 * 16            = $1800 buffer bytes
+;   src offset = $80 * 16             = $0800 buffer bytes
 ;   vram dest  = ($5000 + $800) / 2   = $2C00 word
-;   size       = $80 tiles * 16       = $800 bytes
+;   size       = $80 tiles * 16       = $0800 bytes
 ;
 ; DIRTY_B is set at the tail of draw_string ; display_char also sets
 ; primary DIRTY which the field-items renderer covers in its own
 ; flush, so no clearing is needed here.
     rep #0x20
-    lda.w #0x1800
+    lda.w #0x0800
     sta.l VWF_CHR_SRC_OFFSET_B
     lda.w #0x2C00
     sta.l VWF_CHR_VRAM_WORD_B
