@@ -472,6 +472,20 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     php
     sep #0x20
     rep #0x10
+; Reset per-glyph carry state so each slot's first char starts fresh.
+; prev_char carries over from the previous slot's last char ; without
+; a reset the new slot's first kerning lookup pairs against an
+; unrelated glyph and shifts the allocator several tiles. Same goes
+; for bits_left_on_tile : if a prior render ended with the value
+; pinned by the $09 clamp at _end (kerning overshoot path), the new
+; slot would start with bits_left=0 and burn its first tile.
+; Symptom before this reset : treasure-inventory slot 0 rendered as
+; "le d'or" (Aigu chopped) right after drops finished rendering.
+    .if ENABLE_KERNING_MENU {
+    stz.b prev_char
+    }
+    lda.b #0x08
+    sta.b bits_left_on_tile
 ; Allocator base + clamp via the 16-bit `init_with_tile_id_wide`
 ; entry. tile_id_base is a 9-bit value (0..$1FF) so we need the
 ; full word ; the 8-bit init zero-extends and caps at $FF which
