@@ -159,6 +159,13 @@ _copy_loop:
     lda.w #0x0400
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
     sep #0x20
+; Tilemap attr OR mask. Field VWF tile_ids live in the 9-bit
+; window ($100..$169) so bit 0 of the attr byte (= tile_id bit 8)
+; must be set ; the allocator stores $0100+, the tilemap entry
+; writes the low byte to the tile_id slot and ORs `$01` into the
+; attr byte to give the PPU the full 9-bit tile_id.
+    lda.b #0x01
+    sta.l VWF_CONFIG_BASE + VwfConfig.flags
 ; --- VwfConfig.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
 ; Caller's Y is the 16-bit byte offset of the top row tile we are
 ; about to write the symbol into ; VWF chars start two bytes later.

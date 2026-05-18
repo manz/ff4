@@ -1,4 +1,6 @@
 """Small-VWF item-description renderer."""
+.include "src/vwf_state.i"
+
 .scope items_description {
     """Small-VWF item-description renderer entry-points."""
 draw_trampoline:
@@ -49,6 +51,19 @@ draw:
     plx
     sep #0x20
 draw_string:
+; Region config: descriptions live in tile_id range $00..$BF
+; (256 tile_ids worth of CHR, slot_budget covers the whole window
+; so `render.init` clears just the description's slice). flags
+; mask = $01 because the description tilemap targets the 9-bit
+; tile_id window via the attr-byte OR.
+    rep #0x20
+    lda.w #0x0000
+    sta.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    sep #0x20
+    lda.b #0xC0
+    sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    lda.b #0x01
+    sta.l VWF_CONFIG_BASE + VwfConfig.flags
     jsr.w render.init
 _char_loop:
     lda.w 0x0000, y

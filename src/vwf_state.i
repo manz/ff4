@@ -30,7 +30,12 @@ Forward-compat reservation:
 ; --- VWF CHR buffer (shared across battle + menu renderers) -----------
 
 VWF_CHR_BUFFER := 0x703000
-VWF_CHR_BUFFER_SIZE := 0x1000  ; covers tile_ids $00..$FF (256 * 16 bytes)
+; Sized to cover tile_ids $00..$1FF (512 * 16 bytes). Field menu
+; rolling buffer has 11 slots * K=10 tiles starting at base $C0,
+; so the high slots end up at tile_id $160+ ; the previous $1000
+; sizing capped at $FF and the high-slot CHR landed in
+; $704000-$704FFF which was outside any blit / DMA reach.
+VWF_CHR_BUFFER_SIZE := 0x2000
 
 ; --- Null-terminated text-staging buffer ------------------------------
 ; Callers copy the source string (from items_unleashed, monster names,
@@ -93,4 +98,4 @@ VWF_CHR_DIRTY := 0x7070C2
 ; $C0, so the flush always starts $C00 bytes into the buffer.
 ; (If a future client uses a different base, this constant moves to
 ; the engine and we still avoid forking the DMA source per caller.)
-VWF_CHR_FLUSH_OFFSET := 0xC0 * 0x10
+VWF_CHR_FLUSH_OFFSET := 0x100 * 0x10

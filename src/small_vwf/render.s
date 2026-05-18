@@ -235,10 +235,18 @@ get:
     buffer_size = VWF_CHR_BUFFER_SIZE
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
 init:
-"""font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat"""
-; Initialize the renderer
-; clear a chunk of ram
-; resets variables
+"""
+font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat.
+
+Resets the per-render scratch (bits_left_on_tile / temp / counter)
+and zeros the allocator. Clears ONLY the CHR slice owned by the
+current region (`VwfConfig.tile_id_base * 16` for
+`VwfConfig.slot_budget * 16` bytes), mirror of the per-slot clear
+in battle's `init_inventory_for_current_slot`. Wiping the whole
+buffer here clobbered other regions' CHR mid-frame, so callers
+populate config first and `init` confines its $FF/$00 fill to
+their slot.
+"""
     .if ENABLE_KERNING_MENU {
     stz.b prev_char
     }
@@ -252,20 +260,39 @@ _brk_init_bits:
     initialize(temp)
     stz.b temp
     pha
-    lda #0x00
-    phx
-    ldx.w #0
-_clear_loop:
+; --- Per-region CHR clear from VwfConfig ---
+    php
+    rep #0x30
+    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    and.w #0x01FF  ; 9-bit tile_id_base
+    asl
+    asl
+    asl
+    asl  ; * 16
+    clc
+    adc.w #VWF_CHR_BUFFER & 0xFFFF
+    tax
+    lda.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    and.w #0x00FF
+    asl
+    asl
+    asl  ; budget * 8 word-pairs
+    tay
+    beq _init_skip_clear
+    sep #0x20
+
+_init_clear_loop:
     lda.b #0xFF
-    sta.l buffer_ptr, x
+    sta.l VWF_CHR_BUFFER & 0xFF0000, x
+    inx
     lda.b #0x00
-    sta.l buffer_ptr + 1, x
+    sta.l VWF_CHR_BUFFER & 0xFF0000, x
     inx
-    inx
-    cpx.w #buffer_size + 2
-    bne _clear_loop
-    plx
-    pla
+    dey
+    bne _init_clear_loop
+
+_init_skip_clear:
+    plp
     initialize(counter)
     rts
 flush_chr_to_vram:
@@ -381,7 +408,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     php
     rep #0x30
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
-    and.w #0x00FF
+    and.w #0x01FF  ; 9-bit tile_id_base
     asl
     asl
     asl
@@ -500,14 +527,16 @@ make_pointers:
     lda.w #0x0000
     sep #0x20
 
-    lda.l render_allocator.allocated_tile_id
-
-    sta.b oldtilepos
+; Read full 16-bit allocated_tile_id so 9-bit tile_ids ($100+) keep
+; their high bit in oldtilepos. The previous 8-bit read masked bit
+; 8 and field-menu VWF blits (tile_id_base $100) landed at SRAM
+; offset 0, stomping the static font region.
     rep #0x20
+    lda.l render_allocator.allocated_tile_id
     asl
     asl
     asl
-    asl
+    asl  ; tile_id * 16, 16-bit result
     sta.b oldtilepos
     tay
     sep #0x20
@@ -855,12 +884,24 @@ small_vwf_kerning_binary_ext:
     rtl
     }
 tilemap_write_no_inc:
+"""
+Write `allocated_tile_id` low byte to `(tilemap_offset)` and OR
+`VwfConfig.flags` into the next (palette/attr) byte. The flag
+mask used to be hard-coded `$01` (the 9-bit tile_id bit for the
+512-tile dialog window) but the field-menu items live in 2bpp
+BG3 where bit 0 of the attr byte is tile_id bit 8 ; an always-on
+OR pushed all our tile_ids into the +256 half of CHR and the
+high inventory slots wrapped past $FF in unpredictable ways.
+Letting the caller pick the OR value via the config struct keeps
+dialog (set `flags = $01`) working without forcing the menu items
+to honour a bit they do not own.
+"""
     _base_addr = 0x7e0000
     lda.l render_allocator.allocated_tile_id
     ldx.b tilemap_offset
     sta.l _base_addr, x
     lda.l _base_addr + 1, x
-    ora.b #0x01
+    ora.l VWF_CONFIG_BASE + VwfConfig.flags
     sta.l _base_addr + 1, x
     rts
 tilemap_write:

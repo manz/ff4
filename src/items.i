@@ -1,5 +1,7 @@
 
 
+.include "src/vwf_state.i"
+
 """
 Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
 
@@ -34,20 +36,15 @@ ITEM_UNLEASHED_TEXT_SIZE := 0x10
 
 ; --- Field-menu BG3 CHR base ---
 ; Menu PPU runs Mode 0 with BG34NBA = $22 (`ff4decomp/menu/menu.asm:3878+`),
-; mapping BG3 CHR to VRAM word $2000 / byte $4000.
+; mapping BG3 CHR to VRAM word $2000 / byte $4000. 256 static-font
+; tile_ids live at $00..$FF ; the VWF region starts past that at
+; tile_id $100 (9-bit tile_id territory) so glyph blits never
+; trample the menu chrome / font CHR.
 FIELD_BG3_CHR_VRAM_BYTE := 0x4000
 FIELD_BG3_CHR_VRAM_WORD := FIELD_BG3_CHR_VRAM_BYTE >> 1
 
-; small_vwf's `tilemap_write_no_inc` unconditionally ORs $01 into
-; the tilemap-entry high byte (palette/attr byte). In Mode 0 2bpp
-; BG3 that bit is the cc-low of the 10-bit tile_id, so tile_id
-; $C0 from the allocator reads back as $1C0 on the tilemap side.
-; PPU then looks for CHR at $4000 + $1C0 * 16 = $5C00. The flush
-; therefore aims at $5C00, with the SRAM source still at
-; VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ($703C00) ; the allocator
-; stays at $C0 so the per-slot CHR slice math does not need to
-; jump a buffer.
-FIELD_VWF_VRAM_DEST_BYTE := FIELD_BG3_CHR_VRAM_BYTE + 0x1C00
+; VWF window starts at tile_id $100 in CHR = $4000 + $100 * 16 = $5000.
+FIELD_VWF_VRAM_DEST_BYTE := FIELD_BG3_CHR_VRAM_BYTE + 0x1000
 FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 
 ; --- Field-menu VWF regions ---
@@ -59,16 +56,15 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; tile-id base + budget + VRAM dest and the engine routes via
 ; VwfConfig without touching the existing regions.
 ;
-;   Region 0  $00..$BF   vanilla menu font CHR (untouched)
-;   Region 1  $C0..$FF   field item-name rolling buffer
-;                        (FIELD_ITEM_VWF_TILE_BASE + K * slot)
+;   Region 0  $000..$0FF  vanilla menu font CHR (untouched)
+;   Region 1  $100..$169  field item-name rolling buffer
+;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot)
 ;
-; With 11 buffer slots * K=10 tile-ids the high slots overflow past
-; $FF and wrap into the font region ; the visible-slot-only render
-; (display slots 0..9) is contained, but slot 10's pre-render slot
-; lands at tile-id $124. Acceptable for now ; future regions or a
-; tighter K take this constraint.
-FIELD_ITEM_VWF_TILE_BASE := 0xC0
+; Pushing the VWF region into 9-bit tile_id territory ($100+) keeps
+; it disjoint from the static font window ; 11 buffer slots * K=10
+; tile_ids fit at $100..$169 (margin to $1FF before the next BG3
+; CHR boundary).
+FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
 
 
