@@ -71,7 +71,7 @@ VWF_CHR_DIRTY := 0x7070C2
     byte font_bank
     word kerning_ptr     ; null = kerning off
     byte kerning_bank
-    byte tile_id_base    ; first tile_id this renderer owns
+    word tile_id_base    ; first tile_id this renderer owns (9-bit, 0..$1FF)
     byte slot_budget     ; ITEM_VWF_TILE_BUDGET-style clamp ; $FF = none
     word tilemap_base    ; WRAM dest base (16-bit, bank-$7E implied)
     byte palette_byte    ; default palette / attr

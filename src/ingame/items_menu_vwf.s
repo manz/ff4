@@ -124,8 +124,12 @@ _copy_loop:
     lda.b #0x00
     sta.l VWF_TEXT_BUFFER, x  ; null terminator
 ; --- Populate VwfConfig.tile_id_base = FIELD base + $5D * K ---
-; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2 =
-; (slot << 3) + slot + slot.
+; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2.
+; Store the full 16-bit value: slots 6..10 produce tile_id_base
+; $C0 + 10*K = $C0 + 100 = $124 which the 8-bit allocator wrapped
+; back into the menu font CHR range. The wide init keeps tile_id
+; bit 8 (which `tilemap_write_no_inc` ORs in via $01 on the high
+; tilemap byte) intact.
     rep #0x20
     lda.b 0x5D
     and.w #0x00FF
@@ -139,9 +143,7 @@ _copy_loop:
     adc 0x01, s  ; + slot = * 10
     clc
     adc.w #FIELD_ITEM_VWF_TILE_BASE
-    sep #0x20
-    sta.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
-    rep #0x20
+    sta.l VWF_CONFIG_BASE + VwfConfig.tile_id_base  ; word
     pla  ; balance
     sep #0x20
     lda.b #FIELD_ITEM_VWF_TILE_BUDGET

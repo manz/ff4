@@ -353,15 +353,20 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     php
     sep #0x20
     rep #0x10
-; Allocator base + clamp.
+; Allocator base + clamp via the 16-bit `init_with_tile_id_wide`
+; entry. tile_id_base is a 9-bit value (0..$1FF) so we need the
+; full word ; the 8-bit init zero-extends and caps at $FF which
+; would have wrapped field-menu slots 6..10 (base $C0 + 10*10 =
+; $124) back into the menu font CHR range.
+    rep #0x20
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
-    jsr.w render_allocator.init_with_tile_id
-; Belt + braces: re-stash allocated_tile_id in case an interleaved
-; render.init zeroed it before we got here.
+    jsr.w render_allocator.init_with_tile_id_wide
+; Belt + braces: re-stash allocated_tile_id verbatim so any
+; interleaved render.init can not zero it on us before display_char
+; reads it back.
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
     sta.l render_allocator.allocated_tile_id
-    lda.b #0x00
-    sta.l render_allocator.allocated_tile_id + 1
+    sep #0x20
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
     clc
     adc.l VWF_CONFIG_BASE + VwfConfig.slot_budget
