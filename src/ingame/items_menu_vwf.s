@@ -170,10 +170,17 @@ _copy_loop:
 ; flush targets ; tile_id_base / slot_budget / tilemap_base / flags
 ; stay primary regardless since they are per-call render inputs, not
 ; per-region flush params.
+; Tight `== 1` check so stale SRAM from old savestates (or any future
+; CTX value not yet defined) falls back to the primary path instead
+; of misrouting to drops. Without this, savestates captured before
+; the secondary descriptor existed carried random bytes at
+; VWF_CALLER_CTX and any non-zero value sent the very first render
+; into the drops branch on the wrong inventory.
+    sep #0x20
+    lda.l VWF_CALLER_CTX
+    cmp.b #0x01
+    beq _write_secondary_desc
     rep #0x20
-    lda.l VWF_CALLER_CTX & 0xFFFFFF
-    and.w #0x00FF
-    bne _write_secondary_desc
 ; --- Primary descriptor (treasure / field-items / default) ---
     lda.w #FIELD_VWF_VRAM_DEST_WORD
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
@@ -183,6 +190,7 @@ _copy_loop:
 
 _write_secondary_desc:
 ; --- Secondary descriptor (drops in treasure popup) ---
+    rep #0x20
     lda.w #DROPS_VWF_VRAM_DEST_WORD
     sta.l VWF_CHR_VRAM_WORD_B
     lda.w #DROPS_VWF_BYTE_COUNT
@@ -310,8 +318,9 @@ _bottom_blank_loop:
 ; is harmless on drops-only frames: the primary DMA covers treasure
 ; VRAM range only ($5000..$5400) which drops never writes into.
     sep #0x20
-    lda.l VWF_CALLER_CTX & 0xFFFFFF
-    beq _dirty_done
+    lda.l VWF_CALLER_CTX
+    cmp.b #0x01
+    bne _dirty_done
     lda.b #0x01
     sta.l VWF_CHR_DIRTY_B
 

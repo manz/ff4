@@ -361,11 +361,29 @@ _flush_skip_a:
 ; sequential DMAs land at distinct dest addresses without conflict.
 ; Secondary source offset is its OWN word so drops can DMA only its
 ; CHR slice ; primary keeps starting at VWF_CHR_FLUSH_OFFSET.
+;
+; Guard against savestates captured before the secondary descriptor
+; existed : their SRAM at $7070C4 carries random bytes, so before
+; firing the DMA we also require VWF_CHR_VRAM_WORD_B + byte_count_B
+; to look sensible. Any value where vram_word is zero or byte_count
+; is zero / huge is treated as "uninitialised" and the flush is
+; clear-and-skip so the first NMI after a stale load can't garbage-
+; DMA into sprite CHR.
     sep #0x20
     lda.l VWF_CHR_DIRTY_B
     beq _flush_skip_b
     lda.b #0x00
     sta.l VWF_CHR_DIRTY_B
+    rep #0x20
+    lda.l VWF_CHR_VRAM_WORD_B
+    beq _flush_skip_b_late
+    cmp.w #0x4000
+    bcs _flush_skip_b_late
+    lda.l VWF_CHR_BYTE_COUNT_B
+    beq _flush_skip_b_late
+    cmp.w #0x1000
+    bcs _flush_skip_b_late
+    sep #0x20
     lda.b #0x01
     sta.l 0x004360
     lda.b #0x18
@@ -388,6 +406,9 @@ _flush_skip_a:
     sta.l 0x002115
     lda.b #0x40
     sta.l 0x00420B
+
+_flush_skip_b_late:
+    sep #0x20
 
 _flush_skip_b:
     plp
