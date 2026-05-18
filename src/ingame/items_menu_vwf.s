@@ -160,11 +160,14 @@ _copy_loop:
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
     sep #0x20
 ; --- VwfConfig.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
-; Caller's Y is the byte offset of the top row tile we are about to
-; write the symbol into ; VWF chars start two bytes later.
+; Caller's Y is the 16-bit byte offset of the top row tile we are
+; about to write the symbol into ; VWF chars start two bytes later.
+; X-flag is 16-bit (we did rep #$10 at entry) so `tya` returns the
+; full Y. An earlier version of this helper masked Y to its low
+; byte with `and #$00FF`, which made every slot past slot 1
+; collapse onto slot 0's tilemap base (slot 2's Y = $0144 -> $44).
     rep #0x20
     tya
-    and.w #0x00FF
     clc
     adc.b 0x29
     clc
