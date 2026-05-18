@@ -325,6 +325,20 @@ Battle-side equivalent of the partial CHR DMA in
     beq _flush_skip_a
     lda.b #0x00
     sta.l VWF_CHR_DIRTY
+; CRITICAL: clear HDMAEN bit 6 before retargeting ch6 for a one-shot
+; DMA. The treasure-popup rolling buffer also arms ch6 (BG3VOFS HDMA)
+; via $1BAE ; if we rewrite $4360-$4365 with the VWF flush descriptor
+; without disabling HDMA bit 6 first, the per-scanline HDMA keeps
+; running off the rewritten registers and writes VWF_CHR_BUFFER bytes
+; to VMDATAL on every visible scanline for the rest of the frame.
+; That trashes VRAM, kills BG3 scroll modulation, and made the
+; treasure-popup band display garbage stride after the first frame.
+; Push HDMAEN on the stack so we restore the prior mask exactly
+; (treasure ch6 + drops ch4 + anything else vanilla armed).
+    lda.l 0x00420C
+    pha
+    and.b #0xBF
+    sta.l 0x00420C
 ; Channel 6: free per the FF4 DMA audit (vanilla btlgfx + menu
 ; never touch $4360..$436F ; ch7 already carries battle's
 ; `_sram_dma_transfer_7`, small_vwf's libmz transfers and the
@@ -352,6 +366,11 @@ Battle-side equivalent of the partial CHR DMA in
     sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
     lda.b #0x40
     sta.l 0x00420B  ; MDMAEN ch6
+; Restore prior HDMAEN bits (treasure ch6, drops ch4, etc) ; one-shot
+; DMA on ch6 has completed by now and HDMA can resume reading the
+; treasure HDMA table for per-scanline BG3VOFS on the next frame.
+    pla
+    sta.l 0x00420C
 
 _flush_skip_a:
 ; --- Secondary descriptor flush (region 1B, drops in the treasure
@@ -385,6 +404,13 @@ _flush_skip_a:
 
 _vram_word_b_ok:
     sep #0x20
+; Same HDMAEN-bit-6 save/restore dance as the primary flush ; ch6 is
+; shared with treasure BG3VOFS HDMA and must not stay armed while
+; we hijack its registers for the secondary VRAM blit.
+    lda.l 0x00420C
+    pha
+    and.b #0xBF
+    sta.l 0x00420C
     lda.b #0x01
     sta.l 0x004360
     lda.b #0x18
@@ -407,6 +433,8 @@ _vram_word_b_ok:
     sta.l 0x002115
     lda.b #0x40
     sta.l 0x00420B
+    pla
+    sta.l 0x00420C
 
 _flush_skip_b_late:
     sep #0x20
