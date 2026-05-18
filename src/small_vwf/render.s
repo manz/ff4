@@ -268,6 +268,27 @@ _clear_loop:
     pla
     initialize(counter)
     rts
+flush_chr_to_vram:
+"""
+Flush the VWF CHR window for tile_ids $C0..$FF from SRAM
+(`VWF_CHR_BUFFER + $C00`, $400 bytes) to VRAM byte $AC00 (word
+$5600), the BG3 menu CHR slot.
+
+Phase n of the engine unification ; ultimately this should hang
+off a NMI hook driven by a `vwf_chr_dirty` byte, mirror of the
+battle inventory's `dma_dirty_slots` partial-DMA path. The dirty
+bit becomes a `display_char` side effect so any client of the 8x8
+engine triggers a flush without knowing about VRAM addresses.
+
+For now the field-items helper calls this directly at the tail of
+each render. Wait for vblank so the upload does not tear visible
+scanlines.
+"""
+
+
+    jsr.l wait_for_vblank_long
+    dma_transfer_to_vram_call(VWF_CHR_BUFFER + 0xC0 * 0x10, ( 0xA000 + 0xC0 * 0x10 ) >> 1, 0x400, 0x1801)
+    rts
 render_with_config:
 """
 Config-driven VWF entry: reads `VwfConfig` at `VWF_CONFIG_BASE`,
