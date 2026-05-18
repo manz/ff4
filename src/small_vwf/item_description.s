@@ -70,13 +70,20 @@ draw_string:
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
     lda.b #0x01
     sta.l VWF_CONFIG_BASE + VwfConfig.flags
+; Preserve Y across render.init: the per-region CHR clear loop
+; tays the budget word count and lands Y=$0000 on exit, which
+; collapsed _char_loop into an immediate _char_loop_exit (the loop
+; reads `lda.w $0000,y` -> $20:0000 = $00 terminator) and the
+; description never rendered a single glyph.
+    phy
     jsr.w render.init
     rep #0x20
     lda.w #0x0080
     jsr.w render_allocator.init_with_tile_id_wide
     sep #0x20  ; _char_loop reads bytes one at a time ; M=16 here
-               ; would have lda'd two source bytes per char and
-               ; soft-locked the description render in wait_for_vblank.
+; would lda two source bytes per char and soft-lock
+; in wait_for_vblank.
+    ply
 _char_loop:
     lda.w 0x0000, y
     beq _char_loop_exit
