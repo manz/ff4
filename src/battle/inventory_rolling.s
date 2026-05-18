@@ -2599,11 +2599,15 @@ _field_nmi_check_treasure:
 }
 
 _field_nmi_done:
-; NOTE: planned tail-call to `render.flush_chr_to_vram` for VWF
-; CHR upload caused NMI nesting / BRK on save-screen entry ; the
-; field NMI hook already drives ch7 for its own tilemap DMA so
-; another ch7 write from the VWF flush stomped mid-NMI state.
-; Reverted ; the flush needs to either pick a different channel
-; or piggyback on the existing DMA queue rather than racing it.
+; --- VWF CHR flush (DMA channel 6) ---
+; Hands off to `render.flush_chr_to_vram`. Gates on `VWF_CHR_DIRTY`
+; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
+; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
+; by every engine we ship (ch7 is the shared battle / libmz /
+; field-NMI-tilemap channel, ch3 was the WRAM mirror experiment).
+; `flush_chr_to_vram` lives in the same bank-20 reloc region as
+; this impl ; use a short JSR so the return stays balanced with
+; the RTS the engine routine ends with.
+    jsr.w render.flush_chr_to_vram
     plp
     rtl

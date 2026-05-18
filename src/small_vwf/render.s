@@ -292,31 +292,33 @@ Battle-side equivalent of the partial CHR DMA in
     beq _flush_skip
     lda.b #0x00
     sta.l VWF_CHR_DIRTY
-; Channel 7 is the canonical "free" DMA channel in FF4's NMI ; the
-; same channel `messages_vwf.dma_transfer` drives its CHR upload on
-; in battle. Source = VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET (engine
-; constant, identical for battle + field). Dest VRAM word + size
-; come from VwfConfig so each caller targets its own CHR slot.
+; Channel 6: free per the FF4 DMA audit (vanilla btlgfx + menu
+; never touch $4360..$436F ; ch7 already carries battle's
+; `_sram_dma_transfer_7`, small_vwf's libmz transfers and the
+; field NMI's tilemap upload). Source = VWF_CHR_BUFFER +
+; VWF_CHR_FLUSH_OFFSET (engine constant, identical for battle +
+; field). Dest VRAM word + size come from VwfConfig so each caller
+; targets its own CHR slot without forking the upload path.
     lda.b #0x01     ; DMAP: word transfer (2 byte regs, alt low/high)
-    sta.l 0x004370
+    sta.l 0x004360
     lda.b #0x18     ; BBAD: $2118 VMDATAL
-    sta.l 0x004371
+    sta.l 0x004361
     rep #0x20
     lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
-    sta.l 0x004372  ; A1T low+mid
+    sta.l 0x004362  ; A1T low+mid
     sep #0x20
     lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
-    sta.l 0x004374  ; A1B source bank
+    sta.l 0x004364  ; A1B source bank
     rep #0x20
     lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
     sta.l 0x002116  ; VMADD
     lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
-    sta.l 0x004375  ; DAS
+    sta.l 0x004365  ; DAS
     sep #0x20
     lda.b #0x80
     sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
-    lda.b #0x80
-    sta.l 0x00420B  ; MDMAEN ch7
+    lda.b #0x40
+    sta.l 0x00420B  ; MDMAEN ch6
 
 _flush_skip:
     plp
