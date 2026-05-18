@@ -156,7 +156,10 @@ _copy_loop:
     rep #0x20
     lda.w #FIELD_VWF_VRAM_DEST_WORD
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
-    lda.w #0x0400
+; Byte count = 11 buffer slots * K=10 tile_ids * 16 bytes/tile =
+; $6E0 ; round up to $700 to give the DMA a power-of-friendly
+; size + slack if the budget bumps later.
+    lda.w #0x0700
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
     sep #0x20
 ; Tilemap attr OR mask. Field VWF tile_ids live in the 9-bit
