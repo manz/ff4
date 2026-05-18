@@ -71,6 +71,31 @@ In/out :
     lda.b #0xFF
     sta.l 0x7E0000 + RollingBufferState.base_scroll, x
     sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
+; Fire fn_draw_window hook when armed (any of the 3 ptr bytes non-zero).
+; Hook is a bank-20 RTL routine ; we stash its 24-bit target at the
+; fixed scratch cell ROLLING_ENGINE_HOOK_SCRATCH ($00:1F80..$1F82) and
+; `jmp [abs]` reads + jumps to it. Indirect-long requires the read
+; address to live in bank $00 absolute, hence the explicit scratch
+; cell rather than a direct-page indirection.
+    lda.l 0x7E0000 + RollingBufferState.fn_draw_window, x
+    sta.l 0x001F80
+    lda.l 0x7E0000 + RollingBufferState.fn_draw_window + 1, x
+    sta.l 0x001F81
+    lda.l 0x7E0000 + RollingBufferState.fn_draw_window + 2, x
+    sta.l 0x001F82
+    ora.l 0x001F80
+    ora.l 0x001F81
+    beq _engine_init_no_window
+; Push return-here long (bank + 16-bit address - 1) so the hook's RTL
+; lands at `_engine_init_after_window`.
+    phk
+    rep #0x20
+    pea.w ( _engine_init_after_window - 1 ) & 0xFFFF
+    sep #0x20
+    jmp [0x001F80]
+
+_engine_init_after_window:
+_engine_init_no_window:
     plp
     rtl
     }

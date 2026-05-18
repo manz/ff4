@@ -323,3 +323,31 @@ def test_vblank_flush_noop_when_clean(emu) -> None:
     fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_vblank_flush")
     emu.call(fn, x=x)
     assert _read_dirty_mask(emu) == 0x00
+
+
+def test_init_fires_fn_draw_window_when_armed(emu) -> None:
+    """When state.fn_draw_window is non-zero, rolling_engine_init JSLs
+    through it.
+
+    Plant a small RTL stub at $7E:0600 that writes a sentinel ($A5) to a
+    witness byte ($7E:0700), point fn_draw_window at the stub, then
+    call init. The witness byte should flip if the hook actually fires.
+    Stub bytes : `lda #$A5 ; sta.l $7E:0700 ; rtl` = A9 A5 8F 00 07 7E 6B.
+    """
+    stub_bytes = bytes([0xA9, 0xA5, 0x8F, 0x00, 0x07, 0x7E, 0x6B])
+    for i, b in enumerate(stub_bytes):
+        emu.write(0x7E0600 + i, b)
+    emu.write(0x7E0700, 0x00)
+
+    _fill_state_with_pattern(emu)
+    # fn_draw_window lives at struct offset 32..34 (after dirty_mask).
+    emu.write(SCRATCH_STATE + 32, 0x00)
+    emu.write(SCRATCH_STATE + 33, 0x06)
+    emu.write(SCRATCH_STATE + 34, 0x7E)
+
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+
+    witness = emu.read(0x7E0700)
+    assert witness == 0xA5, (
+        f"fn_draw_window stub did not fire ; witness=${witness:02X}")
