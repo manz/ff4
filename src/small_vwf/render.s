@@ -293,6 +293,10 @@ _init_clear_loop:
 
 _init_skip_clear:
     plp
+    pla  ; balances the `pha` after `stz.b temp` ; without this the
+         ; `rts` popped the saved A byte as the high byte of the
+         ; return address and item_description.draw_trampoline ran
+         ; off into a BRK opcode on every menu open.
     initialize(counter)
     rts
 flush_chr_to_vram:
