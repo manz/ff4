@@ -304,3 +304,22 @@ def test_tick_finishes_animation_on_last_frame(emu) -> None:
     assert emu.read(SCRATCH_STATE + RBS_SCROLL_REMAINING) == 0
     assert emu.read(SCRATCH_STATE + RBS_SCROLL_STATE) == 0
     assert emu.read(SCRATCH_STATE + RBS_TRANSFER_PENDING) == 1
+
+
+# --------------------------------------------------------------- Flush
+
+
+def test_vblank_flush_clears_dirty_mask(emu) -> None:
+    """vblank_flush clears state.dirty_mask after handling the dirty rows."""
+    x = _setup_state(emu, slot_index=0, visible_rows=10, dirty_mask=0x35)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_vblank_flush")
+    emu.call(fn, x=x)
+    assert _read_dirty_mask(emu) == 0x00
+
+
+def test_vblank_flush_noop_when_clean(emu) -> None:
+    """vblank_flush is harmless when dirty_mask is already zero."""
+    x = _setup_state(emu, slot_index=0, visible_rows=10, dirty_mask=0x00)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_vblank_flush")
+    emu.call(fn, x=x)
+    assert _read_dirty_mask(emu) == 0x00

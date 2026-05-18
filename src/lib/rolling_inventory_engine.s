@@ -119,17 +119,35 @@ _tick_idle:
 
 rolling_engine_vblank_flush:
 """
-NMI-time flush (phase 1 stub).
+NMI-time flush.
 
-Walks `state.dirty_mask`, DMAs each dirty slot's VWF stage region to
-VRAM and writes the tilemap entries. Must run inside force-blank or
-the HDMA gap window. Phase 1 returns immediately.
+Phase 1.4 scope : reads `state.dirty_mask`, returns immediately on
+$00, otherwise clears the mask so the next vblank starts clean.
+Phase 2 will wedge the real DMA-from-VWF-stage-to-VRAM dance in
+between, driven by the `vwf_cfg_ptr` config and a small bank-01
+trampoline  ; the dirty-mask gate + clear stays valid regardless of
+how the DMA path lands.
 
-In : X = state ptr
+Must run inside force-blank or the HDMA gap window so the DMA
+doesn't tear visible scanlines (phase 2 concern).
+
+In  : X = state ptr
+Out : state.dirty_mask = 0 if it was non-zero, A clobbered.
 """
 
 
+    {
+    php
+    sep #0x20
+    lda.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    beq _flush_clean
+    lda.b #0x00
+    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+
+_flush_clean:
+    plp
     rtl
+    }
 
 rolling_engine_cursor_up:
 """
