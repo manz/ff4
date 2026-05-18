@@ -230,12 +230,48 @@ _top_loop:
     inx
     cpx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
     bne _top_loop
+; --- Bottom row: $FF blank pre-fill across the slot width so any
+; tilemap entries past the new glyph count stop showing PREVIOUS
+; frame's tile_ids. display_char rewrites the front-of-row entries
+; as it allocates new tile_ids per glyph ; the leftover positions
+; stay $FF blank instead of pointing at stale CHR (e.g. before this
+; pre-fill, drops slot 1's bottom row kept references to slot 0's
+; tile range whenever the previous frame had a longer name, which
+; rendered the start of "Aiguille d'or" inside the next slot's row
+; as soon as drops + treasure stopped sharing a single tile region).
+;
+; Y enters this block at Y_orig + (1+ITEM_UNLEASHED_TEXT_SIZE)*2,
+; pointing past the top-row run ; advance to the bottom-row start
+; (next BG row = +$40 from top-row base = +$40 - run_size from
+; current Y), blank 17 cells, then restore Y back to Y_orig for the
+; symbol-write block below.
+    rep #0x20
+    tya
+    clc
+    adc.w #( 0x0040 - ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
+    tay
+    sep #0x20
+    ldx.w #0x0000
+
+_bottom_blank_loop:
+    lda.b #0xFF
+    sta (0x29), y
+    iny
+    lda.b 0xDB
+    ora.b 0x34
+    sta (0x29), y
+    iny
+    inx
+    cpx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+    bne _bottom_blank_loop
 ; --- Restore caller's Y to point at the symbol slot, write symbol +
-; palette to the bottom row first tile ---
+; palette to the bottom row first tile. Y is currently
+; Y_orig + $40 + (1+ITEM_UNLEASHED_TEXT_SIZE)*2 after the bottom
+; blank ; subtract both terms to land back at Y_orig.
     rep #0x20
     tya
     sec
-    sbc.w #( ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
+    sbc.w #( 0x0040 + ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
     tay
     lda.b 0x29
     clc
