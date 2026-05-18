@@ -54,6 +54,13 @@ Status:
 .extern dma_transfer_to_vram
 
 .scope items_menu_vwf {
+    """
+VWF render path for field-menu / treasure / drops item-name slots.
+Hijacks vanilla `DrawItemName` ($01:9060) to populate VwfConfig at
+VWF_CONFIG_BASE and dispatch through `render.render_with_config`, so
+the patched menu chrome keeps the slot layout while the glyphs go
+through the variable-width font engine.
+    """
 draw_field_item_name:
 """
 Bank-20 field-menu item-name render driven by VwfConfig.
@@ -102,7 +109,7 @@ $C0..$F6 tile-id window.
 ; counter and broke the per-slot copy).
     rep #0x20
     txa
-    inc       ; skip symbol byte
+    inc  ; skip symbol byte
     sta.l VWF_SRC_OFFSET
     sep #0x20
     ldx.w #0x0000
@@ -161,10 +168,13 @@ _copy_loop:
     rep #0x20
     lda.w #FIELD_VWF_VRAM_DEST_WORD
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
-; Byte count = 11 buffer slots * K=10 tile_ids * 16 bytes/tile =
-; $6E0 ; round up to $700 to give the DMA a power-of-friendly
-; size + slack if the budget bumps later.
-    lda.w #0x0700
+; Byte count covers treasure region ($100..$169 = $6A0 bytes) PLUS
+; drops region 1B at $16E..$19F (drops_rolling pre-offsets DP $5D by
+; DROPS_VWF_TILE_SLOT_OFFSET=11 so its CHR lands disjoint from
+; treasure). $A00 covers tile_ids $100..$1A0 with slack ; was $700
+; pre-split which only covered the treasure side and left drops
+; glyphs unflushed (or clobbered) in BG3 CHR.
+    lda.w #0x0A00
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
     sep #0x20
 ; Tilemap attr OR mask. Field VWF tile_ids live in the 9-bit
@@ -245,8 +255,12 @@ _top_loop:
     rtl
 
 render_with_config_trampoline:
-"""Trampoline that pops the bank then jsr's the bank-local entry
-in small_vwf, paired RTL so callers stay long-jmp clean."""
+"""
+Trampoline that pops the bank then jsr's the bank-local entry
+in small_vwf, paired RTL so callers stay long-jmp clean.
+"""
+
+
     jsr.w render.render_with_config
     rtl
 }

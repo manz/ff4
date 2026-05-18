@@ -1,21 +1,23 @@
-
+"""
+Inventory item layout + VWF region map shared across field, treasure,
+drops, and key-item menus. Defines the `Item` struct (2-byte id + qty
+pair) plus the BG3 CHR tile-id windows each menu surface owns.
+"""
 
 .include "src/vwf_state.i"
 
-"""
-Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
+; Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
+;
+; Used by every menu surface that shows player items in single-column
 
-Used by every menu surface that shows player items in single-column
-
-rolling-buffer form:
-  - Field menu Items submenu       at $7E:1440 (48 slots)
-  - Treasure menu inventory list   at $7E:1440 (same 48-slot array)
-  - Treasure menu drops list       at $7E:FF28 (8 drop slots)
-  - Key-item picker filter buffer  at $7E:0712 (filtered subset of $1440)
-
-Battle inventory at $321A is a separate 4-byte layout (flags + id +
-qty + spell) and gets its own struct in a follow-up plan.
-"""
+; rolling-buffer form:
+;   - Field menu Items submenu       at $7E:1440 (48 slots)
+;   - Treasure menu inventory list   at $7E:1440 (same 48-slot array)
+;   - Treasure menu drops list       at $7E:FF28 (8 drop slots)
+;   - Key-item picker filter buffer  at $7E:0712 (filtered subset of $1440)
+;
+; Battle inventory at $321A is a separate 4-byte layout (flags + id +
+; qty + spell) and gets its own struct in a follow-up plan.
 
 
 ; Per-item record size in the French-translated assets_items_dat table:
@@ -57,22 +59,30 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; VwfConfig without touching the existing regions.
 ;
 ;   Region 0  $000..$0FF  vanilla menu font CHR (untouched)
-;   Region 1  $100..$169  field / treasure / drops item-name buffer
-;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot)
-;                         All three inventories route through the
-;                         same `DrawItemName` JSL hook so they share
-;                         this region ; safe today because they
-;                         never render concurrently (field menu vs
-;                         treasure popup vs drops popup are
-;                         exclusive UI states) but a future split
-;                         needs disjoint CHR windows.
+;   Region 1  $100..$169  field / treasure inventory item-name buffer
+;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot,
+;                          11 slots * K=10 tile_ids)
+;   Region 1B $16E..$19F  drops item-name buffer (treasure popup only),
+;                         5 slots offset by DROPS_VWF_TILE_SLOT_OFFSET
+;                         (=11) from the treasure base so the two
+;                         panels coexist without clobbering each other.
+;
+; Field menu vs treasure-popup vs drops are UI-exclusive at the panel
+; level, but inside the treasure popup the treasure inventory AND the
+; monster-drops band render every frame. They both route through the
+; patched `DrawItemName` JSL hook in `items_menu_vwf.draw_field_item_name`
+; which computes tile_id_base from DP $5D. Drops's render hook offsets
+; $5D by +11 before calling the vanilla trampoline chain so its CHR
+; lands at $16E.. instead of $100.. ; items_menu_vwf bumps chr_byte_count
+; from $700 to $A00 so the NMI DMA flush covers both regions.
 ;
 ; Pushing the VWF region into 9-bit tile_id territory ($100+) keeps
-; it disjoint from the static font window ; 11 buffer slots * K=10
-; tile_ids fit at $100..$169 (margin to $1FF before the next BG3
-; CHR boundary).
+; it disjoint from the static font window ; the combined treasure +
+; drops footprint fits at $100..$19F (margin to $1FF before the next
+; BG3 CHR boundary).
 FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
+DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 
 
 .struct Item {

@@ -201,7 +201,23 @@ drops_render_item_to_slot:
     stz.b 0x34
     pla
     jsr.l check_can_use_item_trampoline
+    ; --- VWF tile-id offset for drops (disjoint from treasure inventory) ---
+    ; `items_menu_vwf.draw_field_item_name` computes
+    ; `tile_id_base = FIELD_ITEM_VWF_TILE_BASE + $5D * K`. Treasure inventory
+    ; calls the same helper with $5D = treasure_slot_index ; if drops were
+    ; to pass its raw slot_index too, both panels would land on the same
+    ; tile_ids in BG3 CHR ($5000..$56E0) and the second renderer of each
+    ; frame would overwrite the first one's glyphs (the garbage-tiles bug
+    ; visible in the chest-with-monster-drop screen). Offset by 11 so
+    ; drops slot 0..4 lands at tile_ids $16E..$19F (CHR $56E0..$5A00),
+    ; past treasure's 11-slot region at $100..$169. items_menu_vwf bumps
+    ; `chr_byte_count` to $A00 so the NMI DMA flush covers the wider
+    ; window. drops's tilemap target stays at $7E:C600 (its own BG3 staging
+    ; surface) so the offset only affects CHR allocation, not where the
+    ; glyphs land on screen.
     lda.w drops_rolling_slot_index
+    clc
+    adc #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5d
     rep #0x20
     lda.w drops_rolling_slot_index
