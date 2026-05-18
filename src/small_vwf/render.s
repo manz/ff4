@@ -268,6 +268,65 @@ _clear_loop:
     pla
     initialize(counter)
     rts
+render_with_config:
+"""
+Config-driven VWF entry: reads `VwfConfig` at `VWF_CONFIG_BASE`,
+sets up the allocator + render state from it, then walks
+VWF_TEXT_BUFFER through `draw_text_buffer`. Single call site
+replaces the bespoke init / display_char loops that the field-
+items helper and the battle inventory text walker each carry.
+
+VwfConfig fields consumed (matches `src/vwf_state.i`):
+  tile_id_base   first tile_id this slot owns
+  slot_budget    +K-1 clamp ; $FF = no clamp
+  tilemap_base   absolute WRAM byte index of the destination
+                 tilemap row ; display_char advances tilemap_offset
+                 (DP $1D) by 2 per blit
+
+`font_ptr` / `kerning_ptr` are reserved in the struct but
+display_char still hardcodes `assets_menu_font_dat` for this
+phase ; swapping the font fetch to indirect-through-config is the
+next refactor and lets battle keep its own font without forking
+the engine.
+
+M=8, X=16 on entry. Stack-balanced, RTS.
+"""
+
+
+    {
+    php
+    sep #0x20
+    rep #0x10
+; Allocator base + clamp.
+    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    jsr.w render_allocator.init_with_tile_id
+; Belt + braces: re-stash allocated_tile_id in case an interleaved
+; render.init zeroed it before we got here.
+    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    sta.l render_allocator.allocated_tile_id
+    lda.b #0x00
+    sta.l render_allocator.allocated_tile_id + 1
+    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    clc
+    adc.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    sec
+    sbc.b #0x01
+    sta.l render_allocator.slot_limit_low
+; Render scratch state.
+    lda.b #0x08
+    sta.b bits_left_on_tile
+    stz.b temp
+    stz.b counter
+; tilemap_offset = config.tilemap_base (16-bit).
+    rep #0x20
+    lda.l VWF_CONFIG_BASE + VwfConfig.tilemap_base
+    sta.b tilemap_offset
+    sep #0x20
+    jsr.w draw_text_buffer
+    plp
+    rts
+    }
+
 draw_text_buffer:
 """
 Unified entry: walk a null-terminated string at VWF_TEXT_BUFFER

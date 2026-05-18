@@ -32,6 +32,16 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ITEM_UNLEASHED_RECORD_SIZE := 0x11
 ITEM_UNLEASHED_TEXT_SIZE := 0x10
 
+; Field-menu item VWF tile budget. 11 buffer slots (10 visible + 1
+; pre-render) so per-slot K of 5 fits inside the $C0..$FF window
+; that battle inventory already carved out (slot 10 lands at
+; $C0 + 10*5 = $F2 .. $F6, well below the $FF top-of-fixed-font).
+; Names render-truncated at ~10 chars at K=5 with average French
+; glyph widths ; revisit when the VwfConfig swap-in lets us route
+; CHR through a wider tile-id range.
+FIELD_ITEM_VWF_TILE_BASE := 0xC0
+FIELD_ITEM_VWF_TILE_BUDGET := 0x05
+
 
 .struct Item {
     byte id
