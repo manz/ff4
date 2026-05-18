@@ -91,21 +91,29 @@ $C0..$F6 tile-id window.
 ; Byte 0 of the record is the symbol (rendered separately as fixed
 ; tile below) ; bytes 1..ITEM_UNLEASHED_TEXT_SIZE go into the buffer.
 ; X is the destination index (only abs,x works with sta.l) ; the
-; source offset rides in DP scratch $45 / $46 (16-bit) and advances
-; alongside.
+; source offset rides in long SRAM scratch `VWF_SRC_OFFSET` so we
+; do not steal a direct-page byte from vanilla's menu loop (the
+; original placement on DP $45 clashed with the items code's row
+; counter and broke the per-slot copy).
     rep #0x20
     txa
     inc       ; skip symbol byte
-    sta.b 0x45
+    sta.l VWF_SRC_OFFSET
     sep #0x20
     ldx.w #0x0000
 
 _copy_loop:
     phx
-    ldx.b 0x45
+    rep #0x20
+    lda.l VWF_SRC_OFFSET
+    tax
+    sep #0x20
     lda.l assets_items_unleashed_dat, x
     inx
-    stx.b 0x45
+    rep #0x20
+    txa
+    sta.l VWF_SRC_OFFSET
+    sep #0x20
     plx
     sta.l VWF_TEXT_BUFFER, x
     inx
@@ -136,6 +144,16 @@ _copy_loop:
     sep #0x20
     lda.b #FIELD_ITEM_VWF_TILE_BUDGET
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+; CHR -> VRAM flush descriptor. Field menu BG3 CHR sits at VRAM
+; byte $A000 ; the VWF window for tile_ids $C0..$FF starts at
+; $A000 + $C00 = $AC00 (word $5600), covering $400 bytes. NMI
+; flush hook reads these once the engine sets VWF_CHR_DIRTY.
+    rep #0x20
+    lda.w #( 0xA000 + VWF_CHR_FLUSH_OFFSET ) >> 1
+    sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
+    lda.w #0x0400
+    sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    sep #0x20
 ; --- VwfConfig.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
 ; Caller's Y is the byte offset of the top row tile we are about to
 ; write the symbol into ; VWF chars start two bytes later.
@@ -199,21 +217,7 @@ _top_loop:
     iny
 ; --- Run the unified renderer over VWF_TEXT_BUFFER ---
     jsr.l render_with_config_trampoline
-; --- Flush this slot's CHR slice from SRAM to VRAM ---
-; Field menu BG3 CHR lives at VRAM byte $A000 ($5000 word). Tile-id
-; $XX maps to VRAM byte $A000 + $XX * $10, word $5000 + $XX * $08.
-; Cover the full $C0..$FF VWF range so every slot's tiles land in
-; the matching CHR slot. Wait for vblank so the VRAM write does
-; not tear the visible scanlines.
-    jsr.l wait_for_vblank_long_trampoline
-    dma_transfer_to_vram_call(VWF_CHR_BUFFER + 0xC0 * 0x10, ( 0xA000 + 0xC0 * 0x10 ) >> 1, 0x400, 0x1801)
     plp
-    rtl
-
-wait_for_vblank_long_trampoline:
-"""Bank-20 wrapper around `wait_for_vblank_long` so the macro can
-reach it across scope boundaries."""
-    jsr.l wait_for_vblank_long
     rtl
 
 render_with_config_trampoline:

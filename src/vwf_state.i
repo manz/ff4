@@ -50,6 +50,22 @@ VWF_TEXT_BUFFER_SIZE := 0x40
 ; populating + consuming these.
 VWF_CONFIG_BASE := 0x707080
 
+; --- Engine scratch in SRAM (no DP collisions) ---------------------------
+; Long-addressable scratch for VWF callers that need a counter / pointer
+; without stealing direct-page bytes from the menu loop. The field-items
+; helper uses VWF_SRC_OFFSET as the 16-bit source index into
+; assets_items_unleashed_dat while X holds the destination index in
+; VWF_TEXT_BUFFER (only sta.l abs,x is encoded by a816).
+VWF_SRC_OFFSET := 0x7070C0
+
+; --- Dirty flag for NMI-side CHR flush ----------------------------------
+; Set by `render.display_char` (or `render.render_with_config`) after a
+; blit lands in `VWF_CHR_BUFFER`. The NMI flush hook reads this byte,
+; fires the DMA from `VWF_CHR_BUFFER + $C00` to VRAM $AC00 ($400 bytes)
+; when set, then clears it. Gates the upload exactly the same way the
+; battle inventory's `dma_dirty_slots` gates the per-slot DMA.
+VWF_CHR_DIRTY := 0x7070C2
+
 .struct VwfConfig {
     word font_ptr        ; .l-addr 16-bit low (bank stored separately if needed)
     byte font_bank
@@ -60,4 +76,21 @@ VWF_CONFIG_BASE := 0x707080
     word tilemap_base    ; WRAM dest base (16-bit, bank-$7E implied)
     byte palette_byte    ; default palette / attr
     byte flags           ; bit 0 = kerning, bit 1 = priority OR ; rest reserved
+    ; CHR -> VRAM flush descriptor. The NMI flush routine reads these
+    ; (gated on `VWF_CHR_DIRTY`) so each caller decides where its CHR
+    ; lands ; battle messages, item descriptions, field items, drops,
+    ; treasure all share the same engine without forking the upload.
+    ; The source ALWAYS starts at `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET`
+    ; (the engine-side constant below) ; only the VRAM dest + size
+    ; vary per caller.
+    word chr_vram_word   ; VRAM word address for DMA dest
+    word chr_byte_count  ; DMA byte count
 }
+
+; Engine-shared CHR-flush source offset. Every VWF caller writes
+; glyph CHR at `VWF_CHR_BUFFER + tile_id_base * 16` ; both battle
+; inventory and field menu items happen to anchor at tile_id base
+; $C0, so the flush always starts $C00 bytes into the buffer.
+; (If a future client uses a different base, this constant moves to
+; the engine and we still avoid forking the DMA source per caller.)
+VWF_CHR_FLUSH_OFFSET := 0xC0 * 0x10

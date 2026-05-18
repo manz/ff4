@@ -270,25 +270,58 @@ _clear_loop:
     rts
 flush_chr_to_vram:
 """
-Flush the VWF CHR window for tile_ids $C0..$FF from SRAM
-(`VWF_CHR_BUFFER + $C00`, $400 bytes) to VRAM byte $AC00 (word
-$5600), the BG3 menu CHR slot.
+NMI-callable VWF CHR flush. Gates on `VWF_CHR_DIRTY` ; if set,
+reads `VwfConfig.chr_src_offset` / `chr_vram_word` / `chr_byte_count`
+from the config struct and DMAs the slice from `VWF_CHR_BUFFER +
+chr_src_offset` to VRAM word `chr_vram_word`. Clears the dirty
+byte on the way out.
 
-Phase n of the engine unification ; ultimately this should hang
-off a NMI hook driven by a `vwf_chr_dirty` byte, mirror of the
-battle inventory's `dma_dirty_slots` partial-DMA path. The dirty
-bit becomes a `display_char` side effect so any client of the 8x8
-engine triggers a flush without knowing about VRAM addresses.
-
-For now the field-items helper calls this directly at the tail of
-each render. Wait for vblank so the upload does not tear visible
-scanlines.
+Designed to hang off the field NMI hook ; running in vblank means
+the DMA does not tear visible scanlines and we drop the explicit
+`wait_for_vblank` the synchronous tail-of-render flush needed.
+Battle-side equivalent of the partial CHR DMA in
+`messages_vwf.dma_transfer`.
 """
 
 
-    jsr.l wait_for_vblank_long
-    dma_transfer_to_vram_call(VWF_CHR_BUFFER + 0xC0 * 0x10, ( 0xA000 + 0xC0 * 0x10 ) >> 1, 0x400, 0x1801)
+    {
+    php
+    sep #0x20
+    rep #0x10
+    lda.l VWF_CHR_DIRTY
+    beq _flush_skip
+    lda.b #0x00
+    sta.l VWF_CHR_DIRTY
+; Channel 7 is the canonical "free" DMA channel in FF4's NMI ; the
+; same channel `messages_vwf.dma_transfer` drives its CHR upload on
+; in battle. Source = VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET (engine
+; constant, identical for battle + field). Dest VRAM word + size
+; come from VwfConfig so each caller targets its own CHR slot.
+    lda.b #0x01     ; DMAP: word transfer (2 byte regs, alt low/high)
+    sta.l 0x004370
+    lda.b #0x18     ; BBAD: $2118 VMDATAL
+    sta.l 0x004371
+    rep #0x20
+    lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
+    sta.l 0x004372  ; A1T low+mid
+    sep #0x20
+    lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
+    sta.l 0x004374  ; A1B source bank
+    rep #0x20
+    lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
+    sta.l 0x002116  ; VMADD
+    lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    sta.l 0x004375  ; DAS
+    sep #0x20
+    lda.b #0x80
+    sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
+    lda.b #0x80
+    sta.l 0x00420B  ; MDMAEN ch7
+
+_flush_skip:
+    plp
     rts
+    }
 render_with_config:
 """
 Config-driven VWF entry: reads `VwfConfig` at `VWF_CONFIG_BASE`,
@@ -344,6 +377,12 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     sta.b tilemap_offset
     sep #0x20
     jsr.w draw_text_buffer
+; Tell the NMI flush hook this slot needs a VRAM upload. Mirror of
+; `battle_render.dma_dirty_slots` ; engine-side so every consumer
+; (field items, item descriptions, treasure list, ...) signals dirty
+; without knowing about VRAM addresses.
+    lda.b #0x01
+    sta.l VWF_CHR_DIRTY
     plp
     rts
     }

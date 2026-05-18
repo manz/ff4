@@ -11,6 +11,7 @@ runs the field-menu NMI DMA check.
 .extern normalize_num_trampoline
 .extern draw_text_rolling_trampoline
 .extern return_to_bank02
+.extern render.flush_chr_to_vram
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.deinit
@@ -2598,5 +2599,13 @@ _field_nmi_check_treasure:
 }
 
 _field_nmi_done:
+; --- VWF CHR flush ---
+; Hand off to the 8x8 VWF engine's NMI flush. Gates on
+; `VWF_CHR_DIRTY` ; reads `VwfConfig.chr_vram_word` /
+; `chr_byte_count` for the dest, sources from the engine-shared
+; `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET`. Single mechanism for
+; all VWF-driven menu surfaces (field items, item descriptions,
+; future treasure / drops VWF) so they share one DMA path.
+    jsr.l render.flush_chr_to_vram
     plp
     rtl
