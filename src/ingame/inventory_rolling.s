@@ -344,7 +344,12 @@ ABI surface to port against.
     ; Phase 2.4 lands once the discrepancy reproduces in a smaller
     ; harness ; for now the macro keeps driving init so the field
     ; menu renders.
-    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
+    php
+    rep #0x10
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
+    rtl
 
 menu_fn_render_slot_trampoline:
 """
