@@ -327,21 +327,40 @@ ABI surface to port against.
     lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
     plp
-    ; Phase 2.4 attempt rolled back : the bank-20 engine's init body
-    ; mirrors the macro shape but routing the live field-menu through
-    ; it (rep #$10 ; ldx #menu_rolling ; jsr.l rolling_engine_init)
-    ; renders only the menu chrome on screen -- per-slot hook
-    ; dispatch needs deeper debugging vs the macro's inline JSR.W
-    ; semantics. Engine entries remain unit-tested + integration-
-    ; tested independently against synthetic state ; the per-menu
-    ; macro still drives the real init until the discrepancy is
-    ; chased down. Keeping the engine config + hook ptrs armed above
-    ; so the JSL path stays one edit away.
+    ; Phase 2.4 swap deferred. The engine_init body fires the same
+    ; hook sequence as the macro (draw_window, ensure_hdma, render
+    ; loop x10 confirmed via exec callbacks) and leaves WRAM in the
+    ; same end-state (BG1 staging tilemap entries identical, VWF CHR
+    ; identical to macro path, $1BAE = $20). But the field NMI hook
+    ; at $01:FFDD (`lda.l $7E:1BAE ; sta $420C`) reads $1BAE as $00
+    ; every frame when init ran through the engine, even though
+    ; out-of-band Python probes confirm $1BAE = $20 from frame 20
+    ; onward. macro path correctly writes $20 to HDMAEN per frame.
+    ; HDMA never arms => items invisible on screen.
+    ;
+    ; Suspected: an emulator-side memory-map / cache effect specific
+    ; to writes routed via `sta.l 0x7E0000 + offset, X` when X spans
+    ; a 16-bit value, vs the macro's direct `sta.w state_base` form.
+    ; Phase 2.4 lands once the discrepancy reproduces in a smaller
+    ; harness ; for now the macro keeps driving init so the field
+    ; menu renders.
     engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
 
 menu_fn_render_slot_trampoline:
-"""Bank-20 RTL wrapper around `_menu_render_item_to_slot`."""
+"""
+Bank-20 RTL wrapper around `_menu_render_item_to_slot`.
+
+php/plp keeps M/X flag mutations inside the inner routine from
+leaking back to the engine. The engine relies on X-flag = 16
+throughout init  ; hooks that toggle X-flag truncate X to its low
+byte, which sends subsequent `sta.l abs,X` writes to garbage
+addresses.
+"""
+
+
+    php
     jsr.w _menu_render_item_to_slot
+    plp
     rtl
 
 menu_fn_update_hdma_trampoline:
@@ -353,15 +372,30 @@ Named fn_update_hdma in the struct but semantically the
 split into ensure-once vs per-scroll-update if scroll-tick needs a
 distinct entry, but the existing field-menu macro chain treats
 ensure as idempotent so reusing it for both is fine.
+
+php/plp guards the engine's X-flag = 16 from inner sep/rep.
 """
 
 
+    php
     jsr.w ensure_hdma_initialized
+    plp
     rtl
 
 menu_fn_draw_window_trampoline:
-"""Bank-20 RTL wrapper around `_menu_draw_inventory_window`."""
+"""
+Bank-20 RTL wrapper around `_menu_draw_inventory_window`.
+
+php/plp protects the engine's X-flag = 16  ; the inner draw does
+`rep #$10  ; jsr ; sep #$10` for its own 8-bit-X dance and would
+otherwise leave X-flag = 8 when we return, corrupting `,X` indexed
+state writes downstream of the hook in the engine_init body.
+"""
+
+
+    php
     jsr.w _menu_draw_inventory_window
+    plp
     rtl
 
 _menu_draw_inventory_window:
