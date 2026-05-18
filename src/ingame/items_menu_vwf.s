@@ -73,6 +73,11 @@ $C0..$F6 tile-id window.
     php
     sep #0x20
     rep #0x10
+; Preserve caller's Y. Vanilla `DrawEquipItemName` (`$01:9013`) and
+; `DrawItemName` (`$01:9060`) each phy at entry and ply before rts ;
+; the caller `DrawItemSlot` continues with `tya ; adc #$60 ; tay`
+; to position the colon glyph, so Y must come back unchanged.
+    phy
 ; --- X = item id * ITEM_UNLEASHED_RECORD_SIZE (inline mul-by-17) ---
     rep #0x20
     lda.b 0x43
@@ -235,6 +240,7 @@ _top_loop:
     iny
 ; --- Run the unified renderer over VWF_TEXT_BUFFER ---
     jsr.l render_with_config_trampoline
+    ply
     plp
     rtl
 
