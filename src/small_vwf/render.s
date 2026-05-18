@@ -363,12 +363,14 @@ _flush_skip_a:
 ; CHR slice ; primary keeps starting at VWF_CHR_FLUSH_OFFSET.
 ;
 ; Guard against savestates captured before the secondary descriptor
-; existed : their SRAM at $7070C4 carries random bytes, so before
-; firing the DMA we also require VWF_CHR_VRAM_WORD_B + byte_count_B
-; to look sensible. Any value where vram_word is zero or byte_count
-; is zero / huge is treated as "uninitialised" and the flush is
-; clear-and-skip so the first NMI after a stale load can't garbage-
-; DMA into sprite CHR.
+; existed : their SRAM at $7070C4..$7070CA carries random bytes, so
+; before firing the DMA we whitelist VWF_CHR_VRAM_WORD_B against the
+; two known arming targets ($2B70 drops, $2C00 description) and
+; reject anything else as uninitialised. Stale SRAM almost certainly
+; will not match either constant, so the secondary DMA stays dormant
+; until items_menu_vwf or item_description explicitly arms it. Stops
+; the save-selection sprite CHR from being trashed by random garbage
+; on the very first NMI after a stale load.
     sep #0x20
     lda.l VWF_CHR_DIRTY_B
     beq _flush_skip_b
@@ -376,13 +378,12 @@ _flush_skip_a:
     sta.l VWF_CHR_DIRTY_B
     rep #0x20
     lda.l VWF_CHR_VRAM_WORD_B
-    beq _flush_skip_b_late
-    cmp.w #0x4000
-    bcs _flush_skip_b_late
-    lda.l VWF_CHR_BYTE_COUNT_B
-    beq _flush_skip_b_late
-    cmp.w #0x1000
-    bcs _flush_skip_b_late
+    cmp.w #0x2B70
+    beq _vram_word_b_ok
+    cmp.w #0x2C00
+    bne _flush_skip_b_late
+
+_vram_word_b_ok:
     sep #0x20
     lda.b #0x01
     sta.l 0x004360
