@@ -65,26 +65,104 @@ In : X = state ptr
     rtl
 
 rolling_engine_cursor_up:
-"""Cursor move up (phase 1 stub)."""
+"""
+Decrement slot_index, wrapping to (visible_rows - 1) at zero.
+
+In  : X = state ptr (bank $7E implied)
+Out : state.slot_index updated, A clobbered
+"""
+
+
+    {
+    php
+    sep #0x20
+    lda.l 0x7E0000 + RollingBufferState.slot_index, x
+    bne _cursor_up_dec
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+
+_cursor_up_dec:
+    dec
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    plp
     rtl
+    }
 
 rolling_engine_cursor_down:
-"""Cursor move down (phase 1 stub)."""
+"""
+Increment slot_index, wrapping to 0 when it would equal visible_rows.
+
+In  : X = state ptr
+Out : state.slot_index updated, A clobbered
+"""
+
+
+    {
+    php
+    sep #0x20
+    lda.l 0x7E0000 + RollingBufferState.slot_index, x
+    inc
+    cmp.l 0x7E0000 + RollingBufferState.visible_rows, x
+    bcc _cursor_dn_store
+    lda.b #0x00
+
+_cursor_dn_store:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    plp
     rtl
+    }
 
 rolling_engine_invalidate_slot:
 """
-Mark one slot dirty for next vblank flush (phase 1 stub).
+Mark one slot dirty for the next vblank flush.
 
 In : X = state ptr, A.b = slot index 0..visible_rows-1
+Out : state.dirty_mask gets bit (1 << A) set
 """
 
 
+    {
+    php
+    sep #0x20
+    pha
+; X stays state ptr ; use Y for the shift-left tally so we can keep
+; X bound to the struct base for the dirty_mask write below.
+    phx
+    tay
+    lda.b #0x01
+
+_inv_slot_shift:
+    cpy.w #0x0000
+    beq _inv_slot_done
+    asl
+    dey
+    bra _inv_slot_shift
+
+_inv_slot_done:
+    plx
+    ora.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    pla
+    plp
     rtl
+    }
 
 rolling_engine_invalidate_all:
-"""Mark every visible slot dirty (phase 1 stub)."""
+"""
+Mark every visible slot dirty by setting dirty_mask = $FF.
+
+In : X = state ptr
+Out : state.dirty_mask = $FF, A clobbered
+"""
+
+
+    {
+    php
+    sep #0x20
+    lda.b #0xFF
+    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    plp
     rtl
+    }
 
 rolling_engine_shutdown:
 """Tear down HDMA channel + flush dirty rows on menu close (phase 1 stub)."""
