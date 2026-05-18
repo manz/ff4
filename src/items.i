@@ -62,8 +62,8 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ;   Region 1  $100..$169  field / treasure inventory item-name buffer
 ;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot,
 ;                          11 slots * K=10 tile_ids)
-;   Region 1B $16E..$19F  drops item-name buffer (treasure popup only),
-;                         5 slots offset by DROPS_VWF_TILE_SLOT_OFFSET
+;   Region 1B $16E..$1A9  drops item-name buffer (treasure popup only),
+;                         6 buffer slots offset by DROPS_VWF_TILE_SLOT_OFFSET
 ;                         (=11) from the treasure base so the two
 ;                         panels coexist without clobbering each other.
 ;
@@ -74,11 +74,12 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; which computes tile_id_base from DP $5D. Drops's render hook offsets
 ; $5D by +11 before calling the vanilla trampoline chain so its CHR
 ; lands at $16E.. instead of $100.. ; items_menu_vwf bumps chr_byte_count
-; from $700 to $A00 so the NMI DMA flush covers both regions.
+; from $700 to $B00 so the NMI DMA flush covers both regions across
+; all 6 buffer slots per panel.
 ;
 ; Pushing the VWF region into 9-bit tile_id territory ($100+) keeps
 ; it disjoint from the static font window ; the combined treasure +
-; drops footprint fits at $100..$19F (margin to $1FF before the next
+; drops footprint fits at $100..$1A9 (margin to $1FF before the next
 ; BG3 CHR boundary).
 FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A

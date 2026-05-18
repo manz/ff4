@@ -168,12 +168,13 @@ _copy_loop:
     rep #0x20
     lda.w #FIELD_VWF_VRAM_DEST_WORD
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
-; Byte count covers treasure region ($100..$169 = $6A0 bytes) PLUS
-; drops region 1B at $16E..$19F (drops_rolling pre-offsets DP $5D by
-; DROPS_VWF_TILE_SLOT_OFFSET=11 so its CHR lands disjoint from
-; treasure). $A00 covers tile_ids $100..$1A0 with slack ; was $700
-; pre-split which only covered the treasure side and left drops
-; glyphs unflushed (or clobbered) in BG3 CHR.
+; Byte count covers treasure region ($100..$13B = 6 buffer slots * K=10
+; tile_ids) PLUS drops region 1B at $16E..$1A9 (drops_rolling pre-offsets
+; DP $5D by DROPS_VWF_TILE_SLOT_OFFSET=11 so its CHR lands disjoint from
+; treasure). Empirically $A00 lands cleanest ; was $700 pre-split which
+; only covered the treasure side and left drops glyphs unflushed.
+; Bumping to $B00 introduced new tile-stride artefacts (likely vblank
+; budget pressure pushing some PPU writes past the visible window).
     lda.w #0x0A00
     sta.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
     sep #0x20
