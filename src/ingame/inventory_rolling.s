@@ -327,28 +327,19 @@ ABI surface to port against.
     lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
     plp
-    ; Phase 2.4 swap deferred. The engine_init body fires the same
-    ; hook sequence as the macro (draw_window, ensure_hdma, render
-    ; loop x10 confirmed via exec callbacks) and leaves WRAM in the
-    ; same end-state (BG1 staging tilemap entries identical, VWF CHR
-    ; identical to macro path, $1BAE = $20). But the field NMI hook
-    ; at $01:FFDD (`lda.l $7E:1BAE ; sta $420C`) reads $1BAE as $00
-    ; every frame when init ran through the engine, even though
-    ; out-of-band Python probes confirm $1BAE = $20 from frame 20
-    ; onward. macro path correctly writes $20 to HDMAEN per frame.
-    ; HDMA never arms => items invisible on screen.
-    ;
-    ; Suspected: an emulator-side memory-map / cache effect specific
-    ; to writes routed via `sta.l 0x7E0000 + offset, X` when X spans
-    ; a 16-bit value, vs the macro's direct `sta.w state_base` form.
-    ; Phase 2.4 lands once the discrepancy reproduces in a smaller
-    ; harness ; for now the macro keeps driving init so the field
-    ; menu renders.
-    php
-    rep #0x10
-    ldx.w #menu_rolling
-    jsr.l rolling_engine.rolling_engine_init
-    plp
+    ; Phase 2.4 swap reverted. Engine path completes init (items render,
+    ; $1BAE = $20, HDMA arms) but shifts the inventory BG layer ~2 tiles
+    ; left vs the macro's render-equivalent output : description window
+    ; visible, qty colon column lands at BG3 col 18 instead of col 14,
+    ; and item names clip their first glyph against the window border.
+    ; Macro path produces pixel-identical output to the recorded
+    ; goldens ; engine path does not. Root cause not yet isolated ;
+    ; current hypothesis is a register / DP-flag state divergence
+    ; introduced by `_engine_call_hook`'s indirect-long dispatch (PHK +
+    ; PEA + `jmp [abs]`) that the inner `_menu_render_item_to_slot`
+    ; reads downstream of the trampoline's php/plp wrap. Phase 2.4
+    ; lands once that diff is closed.
+    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
     rtl
 
 menu_fn_render_slot_trampoline:
