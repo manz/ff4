@@ -57,8 +57,15 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; VwfConfig without touching the existing regions.
 ;
 ;   Region 0  $000..$0FF  vanilla menu font CHR (untouched)
-;   Region 1  $100..$169  field item-name rolling buffer
+;   Region 1  $100..$169  field / treasure / drops item-name buffer
 ;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot)
+;                         All three inventories route through the
+;                         same `DrawItemName` JSL hook so they share
+;                         this region ; safe today because they
+;                         never render concurrently (field menu vs
+;                         treasure popup vs drops popup are
+;                         exclusive UI states) but a future split
+;                         needs disjoint CHR windows.
 ;
 ; Pushing the VWF region into 9-bit tile_id territory ($100+) keeps
 ; it disjoint from the static font window ; 11 buffer slots * K=10
