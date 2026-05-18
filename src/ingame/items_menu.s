@@ -5,6 +5,8 @@ Field / drops / treasure rolling inventory all defer to vanilla
 DrawItemSlot at $01:9000, so patching here switches them in one
 go.
 """
+
+.extern items_menu_vwf.draw_field_item_name
 ; Item name expansion for menu system
 ; Patches the multiply-by-9 to multiply-by-17
 ; Also redirects $0F8000 references to assets_items_unleashed_dat
@@ -43,6 +45,27 @@ go.
 
 *=0x019043
     lda.l assets_items_unleashed_dat, x
+
+; ===== DRAWITEMNAME JSL HOOKS =====
+; Both vanilla entry points relocate to `items_menu_vwf.draw_field_item_name`
+; in bank $20. Initial stub mirrors the vanilla fixed-font body so the
+; visible output stays identical; subsequent phases will swap in the
+; small_vwf glyph blit + per-slot CHR allocator.
+
+; DrawEquipItemName ($01:9013): vanilla `phy ; phx ; lda ($60),y ; bra _9017`.
+; We replace with: load A from ($60),y, then `jsl helper ; rts`.
+
+*=0x019013
+    lda (0x60), y
+    jsr.l items_menu_vwf.draw_field_item_name
+    rts
+
+; DrawItemName ($01:9060): vanilla `phy ; phy ; bra _9017` -> caller already
+; passed A = item_id. JSL the helper and return.
+
+*=0x019060
+    jsr.l items_menu_vwf.draw_field_item_name
+    rts
 
 ; ===== COLON/QUANTITY POSITION PATCHES =====
 ; Item names expanded from 9 to 16 bytes (+7 chars = +14 VRAM bytes)

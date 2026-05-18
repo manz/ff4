@@ -300,6 +300,7 @@ signature byte sits at PB:(PC - 1).
 }
 
 .import "ingame/places_names_window"
+.import "ingame/items_menu_vwf"
 .import "menus/system_menus_text"
 .import "dakuten"
 .import "menus/start_screen_text"
@@ -326,8 +327,8 @@ signature byte sits at PB:(PC - 1).
 .incbin "assets/attack_names.dat"
 .incbin "assets/monsters_long.ptr"
 .incbin "assets/monsters_long.dat"
-.incbin "assets/battle_commands_nul.ptr"
 
+.incbin "assets/battle_commands_nul.ptr"
 .incbin "assets/battle_commands_nul.dat"
 .incbin "assets/magic.dat"
 .incbin "assets/places_names.dat"
