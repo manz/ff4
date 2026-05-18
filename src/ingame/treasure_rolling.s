@@ -496,6 +496,16 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
     ora #0x40  ; Channel 6 enable (treasure rolling buffer)
     sta.l 0x7E1BAE
     sta.w treasure_hdma_enable
+    ; Push the enable straight to HDMAEN ($420C) so the very first frame
+    ; after popup-open has ch6 active. Without this immediate write, the
+    ; field NMI hook only copies $1BAE -> $420C on the NEXT vblank, which
+    ; left the first rendered frame with HDMA off and BG3VOFS at whatever
+    ; the previous menu left in $93 / $9F. Treasure inventory items then
+    ; rendered at the WRONG vertical scanline and looked like garbled
+    ; stride for a frame before settling.
+    lda.l 0x00420C
+    ora #0x40
+    sta.l 0x00420C
     rts
 
 _t_hdma_already_init:
