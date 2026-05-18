@@ -111,14 +111,19 @@ _copy_loop:
     lda.b #0x00
     sta.l VWF_TEXT_BUFFER, x  ; null terminator
 ; --- Populate VwfConfig.tile_id_base = FIELD base + $5D * K ---
+; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2 =
+; (slot << 3) + slot + slot.
     rep #0x20
     lda.b 0x5D
     and.w #0x00FF
     pha
     asl
-    asl  ; * 4
+    asl
+    asl  ; * 8
     clc
-    adc 0x01, s  ; + slot = * 5
+    adc 0x01, s  ; + slot = * 9
+    clc
+    adc 0x01, s  ; + slot = * 10
     clc
     adc.w #FIELD_ITEM_VWF_TILE_BASE
     sep #0x20
