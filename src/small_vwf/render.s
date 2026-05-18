@@ -268,6 +268,48 @@ _clear_loop:
     pla
     initialize(counter)
     rts
+draw_text_buffer:
+"""
+Unified entry: walk a null-terminated string at VWF_TEXT_BUFFER
+and blit each byte via display_char.
+
+Caller responsibilities (read from VwfConfig at VWF_CONFIG_BASE in
+the next phase ; for now the field-items helper hand-sets these
+directly):
+  - render_allocator.allocated_tile_id    set via init_with_tile_id
+  - render_allocator.slot_limit_low       set per slot budget
+  - render.bits_left_on_tile              set to 8
+  - render.temp, render.counter           cleared
+  - render.tilemap_offset (= DP $1D)      absolute WRAM byte index
+                                          of the bottom tilemap row
+                                          start; display_char auto-
+                                          increments by 2 per blit
+  - X, Y                                  free for caller use
+
+Each iteration reads the next byte from `VWF_TEXT_BUFFER + Y` (Y
+caller-zeroed on entry), exits on $00. display_char writes both
+the CHR slice and the tile_id at tilemap_offset, and increments
+the allocator (clamped at slot_limit_low).
+"""
+
+
+    {
+    phx
+    ldx.w #0x0000
+
+_dtb_loop:
+    lda.l VWF_TEXT_BUFFER, x
+    beq _dtb_done
+    inx
+    phx
+    jsr.w display_char
+    plx
+    bra _dtb_loop
+
+_dtb_done:
+    plx
+    rts
+    }
 deinit:
     {
     _restore_long(buffer_ptr)
