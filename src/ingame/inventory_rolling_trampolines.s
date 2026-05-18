@@ -219,8 +219,13 @@ treasure_scroll_down_trigger:
 """Treasure profile: input-driven scroll-down trigger."""
     lda.w treasure_scroll_state
     bne _t_down_abort
+    lda.w treasure_scroll_cooldown
+    bne _t_down_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_down
+    sep #0x20
+    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
+    sta.w treasure_scroll_cooldown
     rts
 _t_down_abort:
     dec.w 0x1BB7
@@ -230,8 +235,13 @@ treasure_scroll_up_trigger:
 """Treasure profile: input-driven scroll-up trigger."""
     lda.w treasure_scroll_state
     bne _t_up_abort
+    lda.w treasure_scroll_cooldown
+    bne _t_up_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_up
+    sep #0x20
+    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
+    sta.w treasure_scroll_cooldown
     rts
 _t_up_abort:
     inc.w 0x1BB7
@@ -295,6 +305,17 @@ by calling the original $82C0 so original per-frame work still runs.
 """
 
 
+; Cooldown tick : runs every popup frame regardless of button state
+; so the held-DOWN debounce drains uniformly. Without this the
+; trigger path's per-call dec only fired while DOWN was held, which
+; let auto-repeat consume the cooldown in 2-3 frames and scrolled
+; the treasure inv two items per visible tap.
+    sep #0x20
+    lda.w treasure_scroll_cooldown
+    beq _t_main_cd_done
+    dec.w treasure_scroll_cooldown
+
+_t_main_cd_done:
     lda.w treasure_scroll_state
     beq _treasure_main_check_drops_tick
     jsr.w _treasure_update_scroll_frame

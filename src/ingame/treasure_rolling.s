@@ -53,6 +53,14 @@ treasure_scroll_direction := treasure_rolling + RollingBufferState.scroll_direct
 treasure_transfer_pending := treasure_rolling + RollingBufferState.transfer_pending
 treasure_scroll_anim_offset := treasure_rolling + RollingBufferState.scroll_anim_offset
 treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pending
+; Cooldown counter sitting one byte past the shared struct so the
+; engine layout stays untouched. Decremented each frame in
+; treasure_scroll_state_check ; non-zero means treasure_scroll_*_trigger
+; aborts and undoes vanilla's $1BB7 increment, debouncing the
+; "hold-DOWN auto-repeat fires every 2 frames" issue that scrolled the
+; inventory two items per visible tap.
+treasure_scroll_cooldown := treasure_rolling + 15
+TREASURE_SCROLL_COOLDOWN_FRAMES := 0x18  ; ~24 frames between scrolls (long enough to outlast a typical button hold)
 
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
@@ -478,6 +486,14 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 ; $9F = -120 to position items at screen scanline 120; we mirror that.
     lda.l 0x7E019F
     sta.w treasure_rolling_base_scroll
+    ; Clear the held-DOWN debounce counter ; engine_init_rolling_buffer
+    ; zeros the 12-byte engine struct but cooldown lives one byte past,
+    ; so explicitly nuke it here so the very first scroll trigger fires
+    ; immediately after popup-open.
+    sep #0x20
+    lda #0x00
+    sta.w treasure_scroll_cooldown
+    rep #0x20
 
 ; Initialize HDMA channel configuration
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
@@ -527,7 +543,13 @@ Returns: Carry clear = process input normally
     php
     sep #0x20  ; 8-bit A
 
-; Check if we're scrolling
+; Tick cooldown counter so the next held-DOWN scroll is debounced.
+    lda.w treasure_scroll_cooldown
+    beq _t_scroll_cd_done
+    dec.w treasure_scroll_cooldown
+
+_t_scroll_cd_done:
+    ; Check if we're scrolling
     lda.w treasure_scroll_state
     beq _t_scroll_state_idle
 
