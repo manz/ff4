@@ -257,3 +257,50 @@ def test_shutdown_leaves_cursor_alone(emu) -> None:
     assert emu.read(SCRATCH_STATE + 1) == 0x03
     assert emu.read(SCRATCH_STATE + 2) == 0x02
     assert emu.read(SCRATCH_STATE + 3) == 0x04  # slot_index
+
+
+# --------------------------------------------------------------- Tick
+
+
+# Scroll FSM byte offsets within RollingBufferState.
+RBS_SCROLL_STATE = 8
+RBS_SCROLL_REMAINING = 9
+RBS_TRANSFER_PENDING = 11
+
+
+def _setup_scroll(emu, *, state: int, remaining: int) -> int:
+    emu.write(SCRATCH_STATE + RBS_SCROLL_STATE, state)
+    emu.write(SCRATCH_STATE + RBS_SCROLL_REMAINING, remaining)
+    emu.write(SCRATCH_STATE + RBS_TRANSFER_PENDING, 0)
+    return SCRATCH_STATE & 0xFFFF
+
+
+def test_tick_idle_is_a_noop(emu) -> None:
+    """Tick with scroll_state == 0 leaves scroll_remaining untouched."""
+    x = _setup_scroll(emu, state=0, remaining=8)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_tick")
+    emu.call(fn, x=x)
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_STATE) == 0
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_REMAINING) == 8
+    assert emu.read(SCRATCH_STATE + RBS_TRANSFER_PENDING) == 0
+
+
+def test_tick_decrements_scroll_remaining(emu) -> None:
+    """Tick with scroll_state != 0 drops scroll_remaining by 1."""
+    x = _setup_scroll(emu, state=1, remaining=4)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_tick")
+    emu.call(fn, x=x)
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_REMAINING) == 3
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_STATE) == 1
+    assert emu.read(SCRATCH_STATE + RBS_TRANSFER_PENDING) == 0
+
+
+def test_tick_finishes_animation_on_last_frame(emu) -> None:
+    """When scroll_remaining hits zero, scroll_state clears and
+    transfer_pending stamps 1 so NMI flush picks up the final frame."""
+    x = _setup_scroll(emu, state=1, remaining=1)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_tick")
+    emu.call(fn, x=x)
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_REMAINING) == 0
+    assert emu.read(SCRATCH_STATE + RBS_SCROLL_STATE) == 0
+    assert emu.read(SCRATCH_STATE + RBS_TRANSFER_PENDING) == 1

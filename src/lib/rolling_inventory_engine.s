@@ -77,17 +77,45 @@ In/out :
 
 rolling_engine_tick:
 """
-Per-frame state-machine tick (phase 1 stub).
+Per-frame state-machine tick.
 
-Phase 2 will read the pad-down bits in A.b, advance the scroll
-animation, mark dirty rows, and schedule the next slot to pre-render
-when scrolling past the buffer edge.
+Advances the scroll animation by one frame when scroll_state != 0 :
+decrements scroll_remaining and, when it hits zero, clears
+scroll_state and stamps transfer_pending = 1 so the next vblank
+flush picks up the final frame. Returns immediately when
+scroll_state is idle.
 
-In : X = state ptr, A.b = pad-down bits
+Phase 1.3 scope. Phase 2 will additionally drive scroll_anim_offset,
+read the pad-down bits in A.b to start fresh scrolls, and route the
+new edge slot through fn_render_slot once that hook lands in the
+struct.
+
+In  : X = state ptr
+Out : scroll_remaining decremented (if scrolling), scroll_state
+      cleared + transfer_pending set when animation completes.
 """
 
 
+    {
+    php
+    sep #0x20
+    lda.l 0x7E0000 + RollingBufferState.scroll_state, x
+    beq _tick_idle
+    lda.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sec
+    sbc.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    bne _tick_still_scrolling
+    lda.b #0x00
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+
+_tick_still_scrolling:
+_tick_idle:
+    plp
     rtl
+    }
 
 rolling_engine_vblank_flush:
 """
