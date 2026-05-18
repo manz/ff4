@@ -32,12 +32,24 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ITEM_UNLEASHED_RECORD_SIZE := 0x11
 ITEM_UNLEASHED_TEXT_SIZE := 0x10
 
-; Field-menu item VWF tile budget. K=10 to match battle inventory ;
-; with 11 buffer slots (10 visible + 1 pre-render) the high slots
-; wrap past $FF and stomp the start of the font CHR area. Accepted
-; for now to keep glyph widths usable on full 16-char names ;
-; long-term fix is either a 9-bit tile_id allocator or a per-frame
-; allocation strategy that does not need disjoint per-slot ranges.
+; --- Field-menu VWF regions ---
+; Mirrors the battle-side `region_size * N` partition in
+; `src/battle/message.s`. Each region owns a contiguous tile-id
+; window inside the BG3 CHR slot at VRAM $4000 (menu BG34NBA = $22).
+; Adding a new VWF surface (item description, treasure list,
+; whatever lives on field) means declaring a new region with its
+; tile-id base + budget + VRAM dest and the engine routes via
+; VwfConfig without touching the existing regions.
+;
+;   Region 0  $00..$BF   vanilla menu font CHR (untouched)
+;   Region 1  $C0..$FF   field item-name rolling buffer
+;                        (FIELD_ITEM_VWF_TILE_BASE + K * slot)
+;
+; With 11 buffer slots * K=10 tile-ids the high slots overflow past
+; $FF and wrap into the font region ; the visible-slot-only render
+; (display slots 0..9) is contained, but slot 10's pre-render slot
+; lands at tile-id $124. Acceptable for now ; future regions or a
+; tighter K take this constraint.
 FIELD_ITEM_VWF_TILE_BASE := 0xC0
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
 
