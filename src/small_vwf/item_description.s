@@ -51,20 +51,29 @@ draw:
     plx
     sep #0x20
 draw_string:
-; Region config: descriptions live in tile_id range $00..$BF
-; (256 tile_ids worth of CHR, slot_budget covers the whole window
-; so `render.init` clears just the description's slice). flags
-; mask = $01 because the description tilemap targets the 9-bit
-; tile_id window via the attr-byte OR.
+; Region config: description CHR lives in tile_id range $180..$1FF
+; (allocator base $80, with attr-byte OR $01 -> effective tile_id
+; $180 ; VRAM byte $5800..$5FF0). Disjoint from the field-items
+; window at $100..$169 -> VRAM $5000..$56A0 ; the two regions used
+; to fight for VRAM $5000 (both DMAs targeted there) and the last
+; render stomped the other.
+;
+;   Region map (BG3 CHR at VRAM $4000)
+;     $00..$FF   static menu font ($4000..$4FF0)
+;     $100..$169 field-menu items ($5000..$56A0)
+;     $180..$1FF item description  ($5800..$5FF0)
     rep #0x20
-    lda.w #0x0000
+    lda.w #0x0080
     sta.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
     sep #0x20
-    lda.b #0xC0
+    lda.b #0x80
     sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
     lda.b #0x01
     sta.l VWF_CONFIG_BASE + VwfConfig.flags
     jsr.w render.init
+    rep #0x20
+    lda.w #0x0080
+    jsr.w render_allocator.init_with_tile_id_wide
 _char_loop:
     lda.w 0x0000, y
     beq _char_loop_exit
@@ -114,8 +123,10 @@ _reset_render:
     bra _char_loop
 _transfer_item_description:
     jsr.w wait_for_vblank
-; we could reduce the transfer size to the size of the string
-    dma_transfer_to_vram_call(render.buffer_ptr, 0x5000 >> 1, render.buffer_size, 0x1801)
-; use of the menu engine built in dma transfer in NMI
+; DMA description's CHR slice only: SRAM $703800 (= buffer + $80*16
+; for tile_id_base $80) to VRAM word $2C00 (= byte $5800), $800
+; bytes covering 128 tile_ids. Keeps the upload disjoint from the
+; field-items DMA at byte $5000 / word $2800.
+    dma_transfer_to_vram_call(render.buffer_ptr + 0x800, 0x5800 >> 1, 0x800, 0x1801)
     rts
 }
