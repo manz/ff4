@@ -53,18 +53,22 @@ go.
 ; small_vwf glyph blit + per-slot CHR allocator.
 
 ; DrawEquipItemName ($01:9013): vanilla `phy ; phx ; lda ($60),y ; bra _9017`.
-; We replace with: load A from ($60),y, then `jsl helper ; rts`.
+; Route through the bank-01 jsr.w trampoline so the patch stays inside
+; the vanilla 4-byte slot and the byte at $01:9017 stays untouched.
 
 *=0x019013
     lda (0x60), y
-    jsr.l items_menu_vwf.draw_field_item_name
+    jsr.w draw_field_item_name_trampoline
     rts
 
 ; DrawItemName ($01:9060): vanilla `phy ; phy ; bra _9017` -> caller already
-; passed A = item_id. JSL the helper and return.
+; passed A = item_id. Use the bank-01 jsr.w trampoline (3 bytes) + rts
+; (1 byte) so the FIVE-byte JSL.L + RTS no longer spills into the
+; sprite-render sub-routine at $01:9064 (the save-screen sprite path
+; jsr's $9064 directly).
 
 *=0x019060
-    jsr.l items_menu_vwf.draw_field_item_name
+    jsr.w draw_field_item_name_trampoline
     rts
 
 ; ===== COLON/QUANTITY POSITION PATCHES =====

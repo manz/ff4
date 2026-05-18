@@ -4,6 +4,8 @@ wrappers around original bank-$01 helpers used by the rolling code.
 """
 .include "src/ingame/macros.i"
 
+.extern items_menu_vwf.draw_field_item_name
+
 ;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
 ;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
 ;; Each trampoline = jsr.l + rts = 5 bytes.
@@ -17,7 +19,7 @@ wrappers around original bank-$01 helpers used by the rolling code.
 }
 
 .if INVENTORY_ROLLING_BUFFER {
-.alloc bank01_inventory_trampolines in bank01_trampolines {
+    .alloc bank01_inventory_trampolines in bank01_trampolines {
 check_and_clear_count:
 """Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $21."""
     jsr.l check_and_clear_count_impl
@@ -136,8 +138,30 @@ reset_sprites_trampoline:
     jsr 0x8D6A
 ; original @ $01:8D6A
     rtl
-}  ; end .alloc bank01_inventory_trampolines
-}  ; end .if INVENTORY_ROLLING_BUFFER
+
+draw_field_item_name_trampoline:
+"""
+Bank-$01 JSR-callable wrapper around the bank-20
+`items_menu_vwf.draw_field_item_name` RTL helper. The vanilla
+`DrawItemName` patch at $01:9060 / `DrawEquipItemName` at $01:9013
+must stay 4 bytes (jsr.w + rts) so the very next byte at $01:9064
+keeps holding the vanilla sprite-render sub-routine's `phx` opcode :
+overrunning into $01:9064 with a JSL + RTS (5 bytes) replaced that
+phx with the wrapper's RTS, which short-circuited the save-selection
+sprite path's `jsr $9064` and parked every sprite off-screen on the
+title-screen-press-A entry. Use this trampoline so the call site
+stays at 3+1 bytes and the vanilla sprite routine is preserved.
+"""
+
+
+    jsr.l items_menu_vwf.draw_field_item_name
+    rts
+    }
+
+
+; end .alloc bank01_inventory_trampolines
+}
+; end .if INVENTORY_ROLLING_BUFFER
 
 ;; Bank-$01 thunks + wrappers for the treasure exchange rolling buffer.
 ;; Mirror the field-menu set above but call the treasure_-prefixed bodies
@@ -145,7 +169,7 @@ reset_sprites_trampoline:
 ;; screen so the HDMA channel + tilemap buffer + WRAM shadow tables are
 ;; reused; only the per-menu state RAM differs.
 .if TREASURE_INVENTORY_ROLLING {
-.alloc bank01_treasure_trampolines in bank01_trampolines {
+    .alloc bank01_treasure_trampolines in bank01_trampolines {
 _treasure_check_and_clear_count:
     jsr.l treasure_check_and_clear_count_impl
     rts
@@ -423,5 +447,9 @@ the bottom border at screen y=112..120 (just below the 5th item).
 
 
     menu_window(0, 0, 30, 12)
-}  ; end .alloc bank01_treasure_trampolines
-}  ; end .if TREASURE_INVENTORY_ROLLING
+    }
+
+
+; end .alloc bank01_treasure_trampolines
+}
+; end .if TREASURE_INVENTORY_ROLLING
