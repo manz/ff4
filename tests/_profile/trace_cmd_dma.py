@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
 
-e = load_emu_from_kss(kss_path("ff4-battle-ext.kss"), settle_frames=0)
+e = load_emu_from_kss(kss_path("ff4-battle.kss"), settle_frames=0)
 
 def snap(label):
     cmd_dirty = e.read(0x7EEF9A)

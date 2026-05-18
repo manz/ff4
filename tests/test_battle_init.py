@@ -24,7 +24,7 @@ from _ff4kintsuki import (
 )
 
 GOLDENS = Path(__file__).parent / "goldens" / "battle_init"
-KSS = kss_path("ff4-battle-ext.kss")
+KSS = kss_path("ff4-battle.kss")
 
 
 @pytest.fixture

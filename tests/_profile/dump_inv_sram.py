@@ -27,7 +27,7 @@ def dump_region(emu, label: str, start: int, length: int) -> str:
 
 
 def main() -> None:
-    emu = load_emu_from_kss(kss_path("ff4-battle-ext.kss"), settle_frames=600)
+    emu = load_emu_from_kss(kss_path("ff4-battle.kss"), settle_frames=600)
     tap(emu, Button.DOWN, gap=20)
     tap(emu, Button.DOWN, gap=20)
     tap(emu, Button.A, gap=60)

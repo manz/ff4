@@ -1,6 +1,6 @@
 """Profile the battle VWF blit path with all redraw gates forced dirty.
 
-Loads ff4-battle-ext.kss at the Battle_ext seed point, pokes every
+Loads ff4-battle.kss at the Battle_ext seed point, pokes every
 redraw-gate dirty bit so DrawCharNames + DrawMonsterNames + DrawCmd
 fire on every profiled frame, then runs `profile_start` scoped to the
 display_char neighbourhood in bank $20 and reports per-function call
@@ -58,7 +58,7 @@ def force_redraw(emu):
 
 
 def run():
-    emu = load_emu_from_kss(kss_path("ff4-battle-ext.kss"), settle_frames=0)
+    emu = load_emu_from_kss(kss_path("ff4-battle.kss"), settle_frames=0)
     force_redraw(emu)
     emu.run_frames(WARMUP_FRAMES)
     force_redraw(emu)

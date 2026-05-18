@@ -85,7 +85,7 @@ def diff(prev: dict, cur: dict, frame: int) -> None:
 
 
 def main() -> None:
-    emu = load_emu_from_kss(kss_path("ff4-battle-ext.kss"), settle_frames=600)
+    emu = load_emu_from_kss(kss_path("ff4-battle.kss"), settle_frames=600)
     # Settle until Cecil's ATB fills + cmd menu opens, then drive the
     # input sequence the user mapped out: DOWN, DOWN, A -> item menu.
     tap(emu, Button.DOWN, gap=20)

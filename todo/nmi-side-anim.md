@@ -99,7 +99,7 @@ update the first 8 bytes (HDMA tables often repeat).
 
 - `tests/_profile/profile_bank20.py` : measure dma_transfer
   inclusive cycle delta after each phase
-- Visual smoke on `ff4-battle-ext.kss` : Zu wing flap, char float
+- Visual smoke on `ff4-battle.kss` : Zu wing flap, char float
   state if any party member has Float
 
 ## Crack / risk
