@@ -473,6 +473,83 @@ _finish_skip:
     rtl
     }
 
+rolling_engine_swap_redraw:
+"""
+Re-render all `visible_rows + 1` slots from current buffer_pos after
+an item swap. Slots whose item index >= item_count are cleared via
+the built-in field-items clear path (other profiles' clear stubs were
+RTS no-ops, so we skip the call entirely for them). Resets scroll
+state so a mid-animation swap doesn't trigger spurious finish_scroll
+re-renders.
+
+In : X = state ptr, A = current scroll_pos (8-bit)
+Out: all `visible_rows + 1` slots refreshed, transfer_pending = 1,
+     HDMA shadow rebuilt via per-menu update_scroll_hdma.
+"""
+
+
+    {
+    php
+    rep #0x10
+    sep #0x20
+    sta.l 0x001F88  ; stash scroll_pos
+    ldy.w #RollingBufferState.fn_update_hdma
+    jsr.w _engine_call_hook
+    lda.b #0x00
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset + 1, x
+; buffer_slots = visible_rows + 1
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    inc
+    sta.l 0x001F89  ; stash buffer_slots
+    lda.b #0x00
+
+_swap_loop:
+    pha
+    clc
+    adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
+
+_swap_mod:
+    cmp.l 0x001F89
+    bcc _swap_mod_done
+    sec
+    sbc.l 0x001F89
+    bra _swap_mod
+
+_swap_mod_done:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    pla
+    pha
+    clc
+    adc.l 0x001F88
+    cmp.l 0x7E0000 + RollingBufferState.item_count, x
+    bcs _swap_clear
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    bra _swap_next
+
+_swap_clear:
+; Only field-items has a real clear ; other menus' clear stubs were
+; RTS no-ops, so skip the call entirely unless menu_id == 0.
+    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    bne _swap_next
+    jsr.w _clear_inventory_slot
+
+_swap_next:
+    pla
+    inc
+    cmp.l 0x001F89
+    bcc _swap_loop
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    jsr.w _engine_dispatch_update_scroll_hdma
+    plp
+    rtl
+    }
+
 _engine_dispatch_update_scroll_hdma:
 """
 Branches to the per-menu update_*_scroll_hdma function based on

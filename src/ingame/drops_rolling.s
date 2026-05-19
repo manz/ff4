@@ -480,5 +480,11 @@ drops_refresh_slots_impl:
     rtl
 
 drops_swap_redraw_impl:
-"""Drops profile: post-swap re-render."""
-    engine_swap_redraw(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_ensure_hdma_initialized, drops_render_item_to_slot, clear_drops_slot, update_drops_scroll_hdma)  ; noqa: E501
+"""Drops profile: post-swap re-render via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + drops_scroll_pos
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_swap_redraw
+    plp
+    rtl

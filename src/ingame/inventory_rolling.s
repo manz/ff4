@@ -696,8 +696,14 @@ menu_exit_hook_impl:
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
 swap_redraw_hook_impl_body:
-"""Field profile: post-swap re-render of all 11 slots."""
-    engine_swap_redraw(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, ensure_hdma_initialized, _menu_render_item_to_slot, _clear_inventory_slot, update_menu_scroll_hdma)  ; noqa: E501
+"""Field profile: post-swap re-render of all 11 slots via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1B1A
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_swap_redraw
+    plp
+    rtl
 
 
 ; _clear_inventory_slot

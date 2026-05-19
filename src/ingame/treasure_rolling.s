@@ -752,8 +752,14 @@ treasure_menu_exit_hook_impl:
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
 treasure_swap_redraw_hook_impl_body:
-"""Treasure profile: post-swap re-render of all 6 slots."""
-    engine_swap_redraw(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, TREASURE_TOTAL_ITEMS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, _clear_treasure_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: post-swap re-render of all 6 slots via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_swap_redraw
+    plp
+    rtl
 
 
 ; _clear_treasure_slot
