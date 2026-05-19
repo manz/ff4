@@ -430,12 +430,24 @@ _drops_draw_window:
     rts
 
 drops_start_scroll_down_impl:
-"""Drops profile: kick scroll-down state machine."""
-    engine_start_scroll_down(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, DROPS_SCROLL_PIXELS_PER_FRAME, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
+"""Drops profile: kick scroll-down state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + drops_scroll_pos
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_down
+    plp
+    rtl
 
 drops_start_scroll_up_impl:
-"""Drops profile: kick scroll-up state machine."""
-    engine_start_scroll_up(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
+"""Drops profile: kick scroll-up state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + drops_scroll_pos
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_up
+    plp
+    rtl
 
 drops_update_scroll_frame_impl:
 """Drops profile: per-frame scroll animation tick."""

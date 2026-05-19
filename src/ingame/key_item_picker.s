@@ -456,12 +456,24 @@ picker frame via its IRQ slide. No-op.
     rts
 
 key_item_start_scroll_down_impl:
-"""Picker: kick scroll-down state machine."""
-    engine_start_scroll_down(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, KEY_ITEM_SCROLL_PIXELS_PER_FRAME, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
+"""Picker: kick scroll-down state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + key_item_scroll_pos
+    ldx.w #key_item_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_down
+    plp
+    rtl
 
 key_item_start_scroll_up_impl:
-"""Picker: kick scroll-up state machine."""
-    engine_start_scroll_up(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
+"""Picker: kick scroll-up state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + key_item_scroll_pos
+    ldx.w #key_item_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_up
+    plp
+    rtl
 
 key_item_update_scroll_frame_impl:
 """Picker: per-frame scroll animation tick."""

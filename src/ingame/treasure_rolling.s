@@ -655,12 +655,24 @@ _t_scroll_still_active:
     rts
 
 treasure_start_scroll_down_impl:
-"""Treasure profile: kick scroll-down state machine."""
-    engine_start_scroll_down(treasure_rolling, 0x1BB7, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, TREASURE_SCROLL_TOTAL_PIXELS, TREASURE_SCROLL_PIXELS_PER_FRAME, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: kick scroll-down state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7  ; treasure scroll_pos (shared with vanilla cursor)
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_down
+    plp
+    rtl
 
 treasure_start_scroll_up_impl:
-"""Treasure profile: kick scroll-up state machine."""
-    engine_start_scroll_up(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, TREASURE_SCROLL_TOTAL_PIXELS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: kick scroll-up state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_up
+    plp
+    rtl
 
 treasure_update_scroll_frame_impl:
 """Treasure profile: per-frame scroll animation tick."""

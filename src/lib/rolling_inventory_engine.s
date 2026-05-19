@@ -121,16 +121,16 @@ Out: all `visible_rows + 1` slots re-rendered, transfer_pending set.
     php
     sep #0x20
     rep #0x10
-    sta.l 0x001F84  ; stash scroll_pos
+    sta.l 0x001F88  ; stash scroll_pos
     lda.l 0x7E0000 + RollingBufferState.visible_rows, x
     inc  ; buffer_slots = visible_rows + 1
-    sta.l 0x001F85  ; stash buffer_slots
+    sta.l 0x001F89  ; stash buffer_slots
     lda.b #0x00
 
 _engine_refresh_loop:
     pha
     clc
-    adc.l 0x001F84
+    adc.l 0x001F88
     sta.l 0x7E0000 + RollingBufferState.edge_row, x
     pla
     pha
@@ -138,10 +138,10 @@ _engine_refresh_loop:
     adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
 
 _engine_refresh_mod:
-    cmp.l 0x001F85
+    cmp.l 0x001F89
     bcc _engine_refresh_mod_done
     sec
-    sbc.l 0x001F85
+    sbc.l 0x001F89
     bra _engine_refresh_mod
 
 _engine_refresh_mod_done:
@@ -150,7 +150,7 @@ _engine_refresh_mod_done:
     jsr.w _engine_call_hook
     pla
     inc
-    cmp.l 0x001F85
+    cmp.l 0x001F89
     bcc _engine_refresh_loop
     lda.b #0x01
     sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
@@ -248,6 +248,134 @@ _frame_hdma_drops:
 _frame_hdma_done:
     jsr.l tfr_sprites_vblank_trampoline
     jsr.l tfr_bg2_tiles_vblank_trampoline
+    plp
+    rtl
+    }
+
+rolling_engine_start_scroll_down:
+"""
+Kick off a non-blocking scroll-down animation. Advances buffer_pos
+with wrap, pre-renders the new bottom slot via fn_render_slot, configures
+the scroll FSM (state = 1, remaining = 16 pixels, direction = +8 =
+positive = down, anim_offset = -16), stamps transfer_pending, and
+dispatches the per-menu update_scroll_hdma to seed the first frame's
+HDMA shadow.
+
+In : X = state ptr, A = current scroll_pos (8-bit)
+Out: scroll state machine armed for the next 2 frames of animation.
+"""
+
+
+    {
+    php
+    rep #0x10
+    sep #0x20
+    sta.l 0x001F88  ; stash scroll_pos
+    ldy.w #RollingBufferState.fn_update_hdma
+    jsr.w _engine_call_hook
+; buffer_slots = visible_rows + 1
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    inc
+    sta.l 0x001F89
+; inc buffer_pos with wrap
+    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    inc
+    cmp.l 0x001F89
+    bcc _start_dn_buf_ok
+    lda.b #0x00
+
+_start_dn_buf_ok:
+    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
+; slot_index = (buffer_pos + visible_rows - 1) % buffer_slots
+    clc
+    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    dec
+
+_start_dn_mod:
+    cmp.l 0x001F89
+    bcc _start_dn_mod_done
+    sec
+    sbc.l 0x001F89
+    bra _start_dn_mod
+
+_start_dn_mod_done:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+; edge_row = scroll_pos + visible_rows - 1
+    lda.l 0x001F88
+    clc
+    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    dec
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+; FSM : scroll_state = 1, remaining = 16, direction = +8 (positive = down)
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    lda.b #16
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    lda.b #8
+    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    rep #0x20
+    lda.w #0xFFF0
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sep #0x20
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    jsr.w _engine_dispatch_update_scroll_hdma
+    plp
+    rtl
+    }
+
+rolling_engine_start_scroll_up:
+"""
+Kick off a non-blocking scroll-up animation. Walks buffer_pos backwards
+(wrap to visible_rows = buffer_slots - 1), pre-renders the new top
+slot, configures the FSM (state = 1, remaining = 16, direction = -2 =
+$FE = negative = up, anim_offset = +16), stamps transfer_pending,
+dispatches update_scroll_hdma.
+
+In : X = state ptr, A = current scroll_pos (8-bit, already decremented
+     by the caller)
+Out: scroll state machine armed for next 2 frames of animation.
+"""
+
+
+    {
+    php
+    rep #0x10
+    sep #0x20
+    sta.l 0x001F88  ; stash scroll_pos
+    ldy.w #RollingBufferState.fn_update_hdma
+    jsr.w _engine_call_hook
+    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    beq _start_up_wrap
+    dec
+    bra _start_up_wrap_done
+
+_start_up_wrap:
+; buffer_slots - 1 == visible_rows.
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+
+_start_up_wrap_done:
+    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    lda.l 0x001F88  ; scroll_pos
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    lda.b #16
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    lda.b #0xFE  ; -2 (negative = up direction)
+    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    rep #0x20
+    lda.w #0x0010
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sep #0x20
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    jsr.w _engine_dispatch_update_scroll_hdma
     plp
     rtl
     }

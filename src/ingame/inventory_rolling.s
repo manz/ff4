@@ -601,12 +601,24 @@ _scroll_still_active:
     rts
 
 start_scroll_down_impl:
-"""Field profile: kick scroll-down state machine."""
-    engine_start_scroll_down(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, SCROLL_PIXELS_PER_FRAME, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
+"""Field profile: kick scroll-down state machine via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1B1A  ; field scroll_pos
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_down
+    plp
+    rtl
 
 start_scroll_up_impl:
-"""Field profile: kick scroll-up state machine."""
-    engine_start_scroll_up(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
+"""Field profile: kick scroll-up state machine via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1B1A
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_up
+    plp
+    rtl
 
 update_scroll_frame_impl:
 """Field profile: per-frame scroll animation tick via the bank-20 engine."""
