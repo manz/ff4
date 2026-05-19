@@ -1013,12 +1013,12 @@ Preserves: 16-bit A mode on exit
     rts
 _circ_slot_not_drops:
 ; Inventory in treasure context uses treasure_rolling_buffer_pos.
-    lda.l 0x7E0000 + 0x1BD6  ; treasure_hdma_enable
+    lda.l 0x7E0000 + 0x9C06  ; treasure_hdma_enable (treasure_rolling + 0x06)
     beq _circ_check_field
     lda.b 0x5d
     lsr
     clc
-    adc.l 0x7E0000 + 0x1BD1  ; treasure_rolling_buffer_pos
+    adc.l 0x7E0000 + 0x9C01  ; treasure_rolling_buffer_pos (treasure_rolling + 0x01)
 _t_circ_mod:
     cmp #6  ; TREASURE_BUFFER_SLOTS
     bcc _t_circ_done

@@ -40,7 +40,12 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; struct layout as the field-menu state block — fields resolved via
 ; `RollingBufferState` from src/items.i so any layout change applies
 ; uniformly across profiles.
-treasure_rolling := 0x1BD0
+; Treasure rolling state moved out of $1B00-$1BFF (which vanilla menu /
+; sprite code writes to via indexed STA past $1BEB) to a clean $7E:9C00
+; region. Engine path needs the full 35-byte struct (state + config +
+; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
+; so the original $1BD0 base worked despite vanilla's later collisions.
+treasure_rolling := 0x9C00
 treasure_rolling_top_row := treasure_rolling + RollingBufferState.top_row
 treasure_rolling_buffer_pos := treasure_rolling + RollingBufferState.buffer_pos
 treasure_rolling_edge_row := treasure_rolling + RollingBufferState.edge_row
@@ -320,8 +325,83 @@ treasure_refresh_slots_impl:
     engine_refresh_slots(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, _treasure_render_item_to_slot)
 
 init_treasure_rolling_buffer_impl:
-"""Init treasure rolling buffer (5 visible + prefetch slot 6)."""
-    engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot)  ; noqa: E501
+"""
+Init treasure rolling buffer (5 visible + prefetch slot 6) via the
+bank-20 rolling-inventory engine. State + hook far-ptrs live at
+$7E:9C00  ; the engine writes the config block then JSLs into
+`rolling_engine.rolling_engine_init` to zero the scratch, stamp
+`base_scroll = $FFFF`, fire draw_window + ensure_hdma hooks, and
+render `visible_rows` slots.
+"""
+    php
+    rep #0x30
+    sep #0x20
+    lda.b #TREASURE_BUFFER_SLOTS
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.visible_rows
+    lda.b #0x02
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.slot_height_tiles
+    lda.b #0x40
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.item_list_ptr
+    lda.b #0x14
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.item_list_ptr + 1
+    lda.b #0x7E
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.item_list_ptr + 2
+    lda.b #TREASURE_TOTAL_ITEMS
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.item_count
+    lda.b #0x06
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.hdma_channel
+    lda.b #0x80
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.vwf_cfg_ptr
+    lda.b #0x70
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    lda.b #0x70
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    lda.b #treasure_fn_render_slot_trampoline & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_render_slot
+    lda.b #( treasure_fn_render_slot_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_render_slot + 1
+    lda.b #( treasure_fn_render_slot_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_render_slot + 2
+    lda.b #treasure_fn_update_hdma_trampoline & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_update_hdma
+    lda.b #( treasure_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_update_hdma + 1
+    lda.b #( treasure_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_update_hdma + 2
+    lda.b #treasure_fn_draw_window_trampoline & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_draw_window
+    lda.b #( treasure_fn_draw_window_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_draw_window + 1
+    lda.b #( treasure_fn_draw_window_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_draw_window + 2
+    plp
+    php
+    rep #0x10
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
+    rtl
+
+treasure_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `_treasure_render_item_to_slot`."""
+    php
+    jsr.w _treasure_render_item_to_slot
+    plp
+    rtl
+
+treasure_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `treasure_ensure_hdma_initialized`."""
+    php
+    jsr.w treasure_ensure_hdma_initialized
+    plp
+    rtl
+
+treasure_fn_draw_window_trampoline:
+"""Bank-20 RTL wrapper around `_treasure_draw_inventory_window`."""
+    php
+    jsr.w _treasure_draw_inventory_window
+    plp
+    rtl
 
 _treasure_draw_inventory_window:
 """Treasure menu draws a 5-row inventory window so the bottom border lands on the rolling-buffer footer scanlines."""

@@ -2471,7 +2471,7 @@ FIELD_HDMA_TABLE_SIZE := 40
 DROPS_HDMA_TABLE := 0x7E9880
 DROPS_HDMA_SHADOW := 0x7E98C0
 DROPS_HDMA_TABLE_SIZE := 40
-drops_hdma_copy_pending := 0x1BEE
+drops_hdma_copy_pending := 0x9C3E  ; drops_rolling + 0x0E (drops_rolling moved to $9C30)
 
 ; Called via JSL from bank $01 nmi_dma_transfer_check
 
@@ -2572,10 +2572,10 @@ _drops_nmi_hdma_copy_done:
 _field_nmi_check_treasure:
 .if TREASURE_INVENTORY_ROLLING {
 ; === Tilemap DMA transfer (treasure menu = BG3) ===
-    lda.l 0x7E0000 + 0x1BDB  ; treasure_transfer_pending
+    lda.l 0x7E0000 + 0x9C0B  ; treasure_transfer_pending
     beq _field_nmi_done
     lda #0x00
-    sta.l 0x7E0000 + 0x1BDB
+    sta.l 0x7E0000 + 0x9C0B
 
     sep #0x20
     lda #0x01
@@ -2599,15 +2599,15 @@ _field_nmi_check_treasure:
 }
 
 _field_nmi_done:
-; --- VWF CHR flush (DMA channel 6) ---
-; Hands off to `render.flush_chr_to_vram`. Gates on `VWF_CHR_DIRTY`
-; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
-; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
-; by every engine we ship (ch7 is the shared battle / libmz /
-; field-NMI-tilemap channel, ch3 was the WRAM mirror experiment).
-; `flush_chr_to_vram` lives in the same bank-20 reloc region as
-; this impl ; use a short JSR so the return stays balanced with
-; the RTS the engine routine ends with.
+    ; --- VWF CHR flush (DMA channel 6) ---
+    ; Hands off to `render.flush_chr_to_vram`. Gates on `VWF_CHR_DIRTY`
+    ; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
+    ; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
+    ; by every engine we ship (ch7 is the shared battle / libmz /
+    ; field-NMI-tilemap channel, ch3 was the WRAM mirror experiment).
+    ; `flush_chr_to_vram` lives in the same bank-20 reloc region as
+    ; this impl ; use a short JSR so the return stays balanced with
+    ; the RTS the engine routine ends with.
     jsr.w render.flush_chr_to_vram
     plp
     rtl
