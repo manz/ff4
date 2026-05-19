@@ -327,19 +327,11 @@ ABI surface to port against.
     lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
     plp
-    ; Phase 2.4 swap reverted. Engine path completes init (items render,
-    ; $1BAE = $20, HDMA arms) but shifts the inventory BG layer ~2 tiles
-    ; left vs the macro's render-equivalent output : description window
-    ; visible, qty colon column lands at BG3 col 18 instead of col 14,
-    ; and item names clip their first glyph against the window border.
-    ; Macro path produces pixel-identical output to the recorded
-    ; goldens ; engine path does not. Root cause not yet isolated ;
-    ; current hypothesis is a register / DP-flag state divergence
-    ; introduced by `_engine_call_hook`'s indirect-long dispatch (PHK +
-    ; PEA + `jmp [abs]`) that the inner `_menu_render_item_to_slot`
-    ; reads downstream of the trampoline's php/plp wrap. Phase 2.4
-    ; lands once that diff is closed.
-    engine_init_rolling_buffer(menu_rolling, MENU_VISIBLE_ITEMS, _menu_draw_inventory_window, ensure_hdma_initialized, _menu_render_item_to_slot)  ; noqa: E501
+    php
+    rep #0x10
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
     rtl
 
 menu_fn_render_slot_trampoline:
