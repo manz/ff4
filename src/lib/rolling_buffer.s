@@ -131,51 +131,6 @@ _row_loop_done:
 }
 
 
-.macro engine_init_rolling_buffer(state_base, render_count, draw_window_hook, ensure_hdma_hook, render_slot_hook) {
-    """
-    Initialise the rolling buffer on menu entry: zero the 12-byte state block,
-    mark base_scroll = $FFFF (sentinel), draw the inventory window border,
-    run the profile's `ensure_hdma_hook`, then render `render_count` slots via
-    `render_slot_hook` (each call sees `slot_index` already populated).
-    Field menu uses VISIBLE_ITEMS  ; treasure uses BUFFER_SLOTS.
-    """
-    php
-    pha
-    jsr.w draw_window_hook
-    lda.b 0x46
-    pha
-; Zero 12-byte rolling state, then mark base_scroll = $FFFF sentinel
-    rep #0x20
-    lda.w #0x0000
-    sta.w state_base
-    sta.w state_base + 2
-    sta.w state_base + 4
-    sta.w state_base + 6
-    sta.w state_base + 8
-    sta.w state_base + 10
-    lda.w #0xFFFF
-    sta.w state_base + RollingBufferState.base_scroll
-    sep #0x20
-    jsr.w ensure_hdma_hook
-    lda #0x00
-    sta.b 0x46
-_init_loop:
-    lda.b 0x46
-    sta.w state_base + RollingBufferState.edge_row
-    sta.w state_base + RollingBufferState.slot_index
-    jsr.w render_slot_hook
-    inc.b 0x46
-    lda.b 0x46
-    cmp #render_count
-    bne _init_loop
-    pla
-    sta.b 0x46
-    pla
-    plp
-    rtl
-}
-
-
 .macro engine_scroll_down_prepare(
     state_base,
     scroll_pos_addr,
