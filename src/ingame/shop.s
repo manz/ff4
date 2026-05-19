@@ -47,18 +47,38 @@ small-VWF item descriptions.
 
 *=0x01C350
     load_system_menu_text_pointer(shops.welcome_and_actions)
+    ; Route the owner greeting ("Puis-je vous aider ?") through the small-VWF
+    ; description region ; the slimmed welcome_and_actions block holds only the
+    ; "Achat Vente Sortir" action labels rendered by the vanilla engine.
+
+*=0x01C353
+    jmp.w shop_welcome_text_hook
 
 *=0x01C43F
     load_system_menu_text_pointer(shops.quantity)
+    ; Route the buy-flow welcome ("Que désirez vous ?") through the small-VWF
+    ; description region ; vanilla quantity block (Quantité + "1") continues to
+    ; render via $8301 inside the hook.
+
+*=0x01C442
+    jsr.w shop_quantity_text_hook
 
 *=0x01c7e4
     load_system_menu_text_pointer(shops.quantity)
+
+*=0x01C7E7
+    jsr.w shop_quantity_text_hook
 
 *=0x01C568
     load_system_menu_text_pointer(shops.gils + 2)
 
 *=0x01c74e
     load_system_menu_text_pointer(shops.thank_you_window)
+    ; Route the owner thank-you ("Merci !") through the small-VWF description
+    ; region ; the window itself still draws via vanilla $82FB inside the hook.
+
+*=0x01C751
+    jsr.w shop_thanks_text_hook
 
 *=0x01c962
     load_system_menu_text_pointer(shops.sell_window)

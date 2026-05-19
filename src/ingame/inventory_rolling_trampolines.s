@@ -474,3 +474,57 @@ the bottom border at screen y=112..120 (just below the 5th item).
 ; end .alloc bank01_treasure_trampolines
 }
 ; end .if TREASURE_INVENTORY_ROLLING
+
+.alloc bank01_shop_trampolines in bank01_trampolines {
+shop_quantity_text_hook:
+"""
+Render the owner welcome ('Que désirez vous ?') through the small-VWF
+description region, then fall through to the vanilla menu-text engine
+for the rest of the quantity block (Quantité + initial '1' digit).
+
+Called in place of the original `jsr $8301` at the buy ($01:C442) and
+sell ($01:C7E7) entry points  ; the matching `LDY #shops.quantity` at
+$01:C43F / $01:C7E4 is left in place so an unrelated future caller
+could still chain into $8301 with the slimmed block.
+"""
+
+
+    ldy.w #shops.que_desirez_vous
+    jsr.l items_description.draw_trampoline_pos
+    ldy.w #shops.quantity - 0x8000
+    jsr.w 0x8301  ; draw text at position (= display_text_in_menus thunk)
+    rts
+
+shop_welcome_text_hook:
+"""
+Render the shop owner's greeting ('Puis-je vous aider ?') through the
+small-VWF description region, then tail-jump to the vanilla menu-text
+engine for the remaining `Achat Vente Sortir` action labels.
+
+Called in place of the original `jmp $8301` at $01:C353. The matching
+`LDY #shops.welcome_and_actions` at $01:C350 is left in place  ; the
+slimmed `welcome_and_actions` block now holds only the action line.
+"""
+
+
+    ldy.w #shops.puis_je_vous_aider
+    jsr.l items_description.draw_trampoline_pos
+    ldy.w #shops.welcome_and_actions - 0x8000
+    jmp.w 0x8301  ; tail-call to draw positioned text
+
+shop_thanks_text_hook:
+"""
+Draw the thank-you window via the vanilla `$82FB` (which expects an
+empty trailing text block  ; see `thank_you_window` data), then render
+the actual 'Merci !' copy through the small-VWF description region.
+
+Called in place of the original `jsr $82FB` at $01:C751. The matching
+`LDY #shops.thank_you_window` at $01:C74E is left in place.
+"""
+
+
+    jsr.w 0x82FB  ; draw window + (empty) text
+    ldy.w #shops.merci
+    jsr.l items_description.draw_trampoline_pos
+    rts
+}

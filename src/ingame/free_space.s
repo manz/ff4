@@ -14,12 +14,13 @@ relocating other code.
 draw_window = 0x0180d9
 
 .alloc bank01_slack_pre_inventory in bank01_slack {
-
 check_if_description_was_rendered:
 """
 Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the
 auto-counter ($4218/$4219) is non-zero.
 """
+
+
     pha
     lda.l 0x004218
     ora.l 0x004219
@@ -54,8 +55,9 @@ Open a menu window at the cursor and render its VWF message  ; advances Y past t
 delegating to `_draw_vwf_message_pos`.
 """
 
+
     jsr.w draw_window
-    ; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
+; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
     pha
     rep #0x20
     tya
@@ -74,24 +76,26 @@ draw_vwf_message_pos_with_bank:
 Like `_draw_vwf_message_pos` but pre-loads the menu-strings bank into A so the trampoline can pick the right
 asset bank.
 """
+
+
     lda.b #messages.use_on_whom >> 16
 
 _draw_vwf_message_pos:
     jsr.l items_description.draw_trampoline_pos
     rts
 
-.if 0 {
+    .if 0 {
 transform_window_trampoline:
 """JML trampoline into `transform_window_far`."""
     jmp.l transform_window_far
-}
+    }
 
 copy_text_with_dakuten:
 """Near-call wrapper around `copy_text_with_dakuten_far` for callers in the same bank."""
     jsr.l copy_text_with_dakuten_far
     rts
 
-.if DEBUG {
+    .if DEBUG {
 display_build_number:
 """Render the `BUILD_DATE + version` string at column 1, row 27 of the title screen (DEBUG builds only)."""
     {
@@ -103,15 +107,16 @@ display_build_number:
     jsr.w 0x8798  ; copy text at position.
     rts
     }
+    }
 }
 
-}  ; end .alloc bank01_slack_pre_inventory
+; end .alloc bank01_slack_pre_inventory
 
 ; ============================================================================
 ; Inventory Rolling Buffer Trampolines and Handlers
 ; ============================================================================
 .alloc bank01_slack_inventory in bank01_slack {
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
 swap_redraw_trampoline:
 """JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
     jsr.w swap_redraw_hook_impl
@@ -217,7 +222,8 @@ Re-renders all visible slots to show updated quantity or empty slot
 
     jsr.w swap_redraw_hook_impl
     rts
+    }
 }
 
 
-}  ; end .alloc bank01_slack_inventory
+; end .alloc bank01_slack_inventory
