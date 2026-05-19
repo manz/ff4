@@ -219,11 +219,22 @@ end:
 *=0x1b349
     lda.w assets_magic_dat, y
 
-; Copy of save and restore vram routines from menu, save 0x1300 instead of 0x1000 and store it to the sram
+; Save / restore covers VRAM byte $4000-$5FFF ($2000 bytes) instead of
+; vanilla's $1000. The extra $1000 bytes reach past the static-font /
+
+; vanilla BG3 CHR area to cover the full VWF region union :
+;   Region 1   $5000-$56A0  (field / treasure item-name CHR)
+;   Region 1B  $56E0-$5AA0  (drops item-name CHR, treasure popup)
+;   Region D   $5800-$5FF0  (item description CHR)
+; Without the extension, menu glyph bytes at $5300+ stayed in VRAM
+; forever (overworld never writes those addresses), so any BG tilemap
+; entry referencing VWF tile_ids $100+ rendered the leftover glyphs
+; over the overworld map. SRAM buffer at $70:5000-$70:6FFF stays
+; clear of the battle-magic region at $70:7000.
 {
     *=0x14ff62
     sram_buffer = 0x705000
-    save_size = 0x1300
+    save_size = 0x2000
     phb
     tdc
     pha
