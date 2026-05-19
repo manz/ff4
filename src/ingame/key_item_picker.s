@@ -52,7 +52,11 @@ KEY_ITEM_SCROLL_LIMIT := 42
 KEY_ITEM_SCROLL_PIXELS_PER_FRAME := 8
 KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 
-key_item_rolling := 0x1BF0
+; Key-item picker state moved out of $1B00-$1BFF to clean $7E:9C60 for
+; the same reason as treasure ($9C00) + drops ($9C30) : engine path
+; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
+; sprite code stomps past $1BEB.
+key_item_rolling := 0x9C60
 key_item_rolling_top_row := key_item_rolling + RollingBufferState.top_row
 key_item_rolling_buffer_pos := key_item_rolling + RollingBufferState.buffer_pos
 key_item_rolling_edge_row := key_item_rolling + RollingBufferState.edge_row
@@ -66,7 +70,7 @@ key_item_transfer_pending := key_item_rolling + RollingBufferState.transfer_pend
 key_item_scroll_anim_offset := key_item_rolling + RollingBufferState.scroll_anim_offset
 key_item_hdma_copy_pending := key_item_rolling + RollingBufferState.hdma_copy_pending
 
-key_item_scroll_pos := 0x1BFF
+key_item_scroll_pos := 0x9C8F
 
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
@@ -365,9 +369,81 @@ _key_item_hdma_signal:
 
 
 key_item_init_impl:
-"""Init key-item picker (filter $1440 -> $0712, then engine init)."""
+"""
+Init key-item picker (filter $1440 -> $0712 then engine init). State
++ hook far-ptrs live at $7E:9C60 (relocated out of $1B00-$1BFF).
+"""
     jsr.w key_item_init_filter
-    engine_init_rolling_buffer(key_item_rolling, KEY_ITEM_BUFFER_SLOTS, _key_item_draw_window, key_item_ensure_hdma_initialized, key_item_render_item_to_slot)  ; noqa: E501
+    php
+    rep #0x30
+    sep #0x20
+    lda.b #KEY_ITEM_BUFFER_SLOTS
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.visible_rows
+    lda.b #0x02
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.slot_height_tiles
+    ; item_list_ptr = $7E:0712 (filtered key-item array)
+    lda.b #0x12
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.item_list_ptr
+    lda.b #0x07
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.item_list_ptr + 1
+    lda.b #0x7E
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.item_list_ptr + 2
+    lda.b #KEY_ITEM_TOTAL_ITEMS
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.item_count
+    lda.b #0x04
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.hdma_channel
+    lda.b #0x80
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.vwf_cfg_ptr
+    lda.b #0x70
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    lda.b #0x70
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    lda.b #key_item_fn_render_slot_trampoline & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_render_slot
+    lda.b #( key_item_fn_render_slot_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_render_slot + 1
+    lda.b #( key_item_fn_render_slot_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_render_slot + 2
+    lda.b #key_item_fn_update_hdma_trampoline & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_update_hdma
+    lda.b #( key_item_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_update_hdma + 1
+    lda.b #( key_item_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_update_hdma + 2
+    lda.b #key_item_fn_draw_window_trampoline & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_draw_window
+    lda.b #( key_item_fn_draw_window_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_draw_window + 1
+    lda.b #( key_item_fn_draw_window_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_draw_window + 2
+    plp
+    php
+    rep #0x10
+    ldx.w #key_item_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
+    rtl
+
+key_item_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `key_item_render_item_to_slot`."""
+    php
+    jsr.w key_item_render_item_to_slot
+    plp
+    rtl
+
+key_item_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `key_item_ensure_hdma_initialized`."""
+    php
+    jsr.w key_item_ensure_hdma_initialized
+    plp
+    rtl
+
+key_item_fn_draw_window_trampoline:
+"""Bank-20 RTL wrapper around `_key_item_draw_window`."""
+    php
+    jsr.w _key_item_draw_window
+    plp
+    rtl
 
 
 _key_item_draw_window:
