@@ -381,6 +381,8 @@ render `visible_rows` slots.
     sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_draw_window + 1
     lda.b #( treasure_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + treasure_rolling + RollingBufferState.fn_draw_window + 2
+    lda.b #ROLLING_MENU_ID_TREASURE
+    sta.l 0x7E0000 + treasure_rolling + RollingBufferState.menu_id
     plp
     php
     rep #0x10
@@ -670,7 +672,12 @@ treasure_start_scroll_up_impl:
 
 treasure_update_scroll_frame_impl:
 """Treasure profile: per-frame scroll animation tick."""
-    engine_update_scroll_frame(treasure_rolling, TREASURE_SCROLL_PIXELS_PER_FRAME, update_treasure_scroll_hdma)
+    php
+    rep #0x10
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_update_scroll_frame
+    plp
+    rtl
 
 treasure_finish_scroll_impl:
 """Treasure profile: end-of-animation pre-render + cleanup."""

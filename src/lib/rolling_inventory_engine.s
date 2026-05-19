@@ -158,6 +158,100 @@ _engine_refresh_mod_done:
     rtl
     }
 
+rolling_engine_update_scroll_frame:
+"""
+Advance the scroll animation one frame. Mirrors the legacy
+`engine_update_scroll_frame` macro :
+  - scroll_anim_offset += (scroll_direction < 0 ? -8 : +8)
+  - if vanilla cursor-row marker $1B19 != 0, bump cursor sprite Y at
+    $0311 by 2 pixels in the matching direction (down for negative
+    direction, up for positive)
+  - scroll_remaining -= 8 (animation timer countdown)
+  - per-menu update_scroll_hdma trampoline rebuilds the HDMA shadow
+    table (dispatched via state.menu_id)
+  - tfr_sprites_vblank_trampoline + tfr_bg2_tiles_vblank_trampoline
+    push sprite OAM + BG2 tiles into VRAM so the animation frame
+    becomes visible.
+
+Pixels-per-frame hardcoded at 8  ; every existing caller
+(INVENTORY_SCROLL_PIXELS_PER_FRAME / TREASURE / DROPS / KEY_ITEM) uses
+that value, so the constant moves into the engine.
+
+In : X = state ptr (16-bit, bank $7E implied)
+Out: scroll_anim_offset / scroll_remaining advanced, HDMA shadow +
+     sprite / BG2 VRAM uploads driven by the per-menu trampolines.
+"""
+
+
+    {
+    php
+    rep #0x10
+    sep #0x20
+    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    bpl _frame_positive
+    rep #0x20
+    lda.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sec
+    sbc.w #8
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    bra _frame_update_cursor
+
+_frame_positive:
+    rep #0x20
+    lda.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    clc
+    adc.w #8
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+
+_frame_update_cursor:
+    sep #0x20
+    lda.l 0x7E1B19  ; vanilla cursor-row marker
+    beq _frame_no_cursor
+    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    bpl _frame_cursor_down
+    inc.w 0x0311
+    inc.w 0x0311
+    bra _frame_no_cursor
+
+_frame_cursor_down:
+    dec.w 0x0311
+    dec.w 0x0311
+
+_frame_no_cursor:
+    lda.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sec
+    sbc.b #8
+    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+; Dispatch per-menu update_scroll_hdma via menu_id branch. The four
+; profiles' update_*_scroll_hdma functions live in bank-20 alongside
+; this engine, so jsr.w (3-byte) reaches them cleanly.
+    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    beq _frame_hdma_field
+    cmp.b #ROLLING_MENU_ID_TREASURE
+    beq _frame_hdma_treasure
+    cmp.b #ROLLING_MENU_ID_DROPS
+    beq _frame_hdma_drops
+    jsr.w update_key_item_scroll_hdma
+    bra _frame_hdma_done
+
+_frame_hdma_field:
+    jsr.w update_menu_scroll_hdma
+    bra _frame_hdma_done
+
+_frame_hdma_treasure:
+    jsr.w update_treasure_scroll_hdma
+    bra _frame_hdma_done
+
+_frame_hdma_drops:
+    jsr.w update_drops_scroll_hdma
+
+_frame_hdma_done:
+    jsr.l tfr_sprites_vblank_trampoline
+    jsr.l tfr_bg2_tiles_vblank_trampoline
+    plp
+    rtl
+    }
+
 _engine_call_hook:
 """
 Internal helper. JSLs through a hook far-ptr stored at

@@ -326,6 +326,8 @@ ABI surface to port against.
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 1
     lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
+    lda.b #ROLLING_MENU_ID_FIELD
+    sta.l 0x7E0000 + menu_rolling + RollingBufferState.menu_id
     plp
     php
     rep #0x10
@@ -615,8 +617,13 @@ start_scroll_up_impl:
     engine_start_scroll_up(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, SCROLL_TOTAL_PIXELS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
 
 update_scroll_frame_impl:
-"""Field profile: per-frame scroll animation tick."""
-    engine_update_scroll_frame(menu_rolling, SCROLL_PIXELS_PER_FRAME, update_menu_scroll_hdma)
+"""Field profile: per-frame scroll animation tick via the bank-20 engine."""
+    php
+    rep #0x10
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_update_scroll_frame
+    plp
+    rtl
 
 finish_scroll_impl:
 """Field profile: end-of-animation pre-render + cleanup."""

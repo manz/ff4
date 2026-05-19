@@ -307,55 +307,6 @@ _start_up_wrap_done:
 }
 
 
-.macro engine_update_scroll_frame(state_base, pixels_per_frame, update_hdma_hook) {
-    """
-    One animation frame: advance scroll_anim_offset by pixels_per_frame towards 0 (sign-aware), nudge cursor
-    sprite at $0311 if 'second item' mode is active, decrement scroll_remaining, refresh HDMA, then push
-    sprites + BG2 to VRAM.
-    """
-    php
-    rep #0x20
-    lda.w state_base + RollingBufferState.scroll_anim_offset
-    sep #0x20
-    lda.w state_base + RollingBufferState.scroll_direction
-    bpl _frame_positive
-    rep #0x20
-    lda.w state_base + RollingBufferState.scroll_anim_offset
-    sec
-    sbc.w #pixels_per_frame
-    sta.w state_base + RollingBufferState.scroll_anim_offset
-    bra _frame_update_cursor
-_frame_positive:
-    rep #0x20
-    lda.w state_base + RollingBufferState.scroll_anim_offset
-    clc
-    adc.w #pixels_per_frame
-    sta.w state_base + RollingBufferState.scroll_anim_offset
-_frame_update_cursor:
-    sep #0x20
-    lda.w 0x1B19
-    beq _frame_no_cursor
-    lda.w state_base + RollingBufferState.scroll_direction
-    bpl _frame_cursor_down
-    inc.w 0x0311
-    inc.w 0x0311
-    bra _frame_no_cursor
-_frame_cursor_down:
-    dec.w 0x0311
-    dec.w 0x0311
-_frame_no_cursor:
-    lda.w state_base + RollingBufferState.scroll_remaining
-    sec
-    sbc #pixels_per_frame
-    sta.w state_base + RollingBufferState.scroll_remaining
-    jsr.w update_hdma_hook
-    jsr.l tfr_sprites_vblank_trampoline
-    jsr.l tfr_bg2_tiles_vblank_trampoline
-    plp
-    rtl
-}
-
-
 .macro engine_finish_scroll(
     state_base,
     scroll_pos_addr,

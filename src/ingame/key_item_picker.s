@@ -416,6 +416,8 @@ Init key-item picker (filter $1440 -> $0712 then engine init). State
     sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_draw_window + 1
     lda.b #( key_item_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + key_item_rolling + RollingBufferState.fn_draw_window + 2
+    lda.b #ROLLING_MENU_ID_KEY_ITEM
+    sta.l 0x7E0000 + key_item_rolling + RollingBufferState.menu_id
     plp
     php
     rep #0x10
@@ -471,7 +473,12 @@ key_item_start_scroll_up_impl:
 
 key_item_update_scroll_frame_impl:
 """Picker: per-frame scroll animation tick."""
-    engine_update_scroll_frame(key_item_rolling, KEY_ITEM_SCROLL_PIXELS_PER_FRAME, update_key_item_scroll_hdma)
+    php
+    rep #0x10
+    ldx.w #key_item_rolling
+    jsr.l rolling_engine.rolling_engine_update_scroll_frame
+    plp
+    rtl
 
 key_item_finish_scroll_impl:
 """Picker: end-of-animation pre-render + cleanup."""

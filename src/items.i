@@ -148,4 +148,10 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
     long fn_render_slot
     long fn_update_hdma
     long fn_draw_window
+    byte menu_id
 }
+
+ROLLING_MENU_ID_FIELD := 0
+ROLLING_MENU_ID_TREASURE := 1
+ROLLING_MENU_ID_DROPS := 2
+ROLLING_MENU_ID_KEY_ITEM := 3

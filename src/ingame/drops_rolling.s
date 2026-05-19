@@ -387,6 +387,8 @@ original $01:D817 DrawWindow call clobbering them.
     sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_draw_window + 1
     lda.b #( drops_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_draw_window + 2
+    lda.b #ROLLING_MENU_ID_DROPS
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.menu_id
     plp
     php
     rep #0x10
@@ -445,7 +447,12 @@ drops_start_scroll_up_impl:
 
 drops_update_scroll_frame_impl:
 """Drops profile: per-frame scroll animation tick."""
-    engine_update_scroll_frame(drops_rolling, DROPS_SCROLL_PIXELS_PER_FRAME, update_drops_scroll_hdma)
+    php
+    rep #0x10
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_update_scroll_frame
+    plp
+    rtl
 
 drops_finish_scroll_impl:
 """Drops profile: end-of-animation pre-render + cleanup."""
