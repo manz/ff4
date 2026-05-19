@@ -252,6 +252,37 @@ _frame_hdma_done:
     rtl
     }
 
+_engine_dispatch_update_scroll_hdma:
+"""
+Branches to the per-menu update_*_scroll_hdma function based on
+state.menu_id. All four functions live in bank-20 alongside the engine
+so a 16-bit jsr.w is enough.
+"""
+
+
+    {
+    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    beq _dispatch_field
+    cmp.b #ROLLING_MENU_ID_TREASURE
+    beq _dispatch_treasure
+    cmp.b #ROLLING_MENU_ID_DROPS
+    beq _dispatch_drops
+    jsr.w update_key_item_scroll_hdma
+    rts
+
+_dispatch_field:
+    jsr.w update_menu_scroll_hdma
+    rts
+
+_dispatch_treasure:
+    jsr.w update_treasure_scroll_hdma
+    rts
+
+_dispatch_drops:
+    jsr.w update_drops_scroll_hdma
+    rts
+    }
+
 _engine_call_hook:
 """
 Internal helper. JSLs through a hook far-ptr stored at

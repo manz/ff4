@@ -396,14 +396,6 @@ _menu_draw_inventory_window:
     sep #0x10
     rts
 
-menu_scroll_down_prepare:
-"""Field profile scroll-down pre-render."""
-    engine_scroll_down_prepare(menu_rolling, 0x1B1A, MENU_SCROLL_LIMIT, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
-
-menu_scroll_up_prepare:
-"""Field profile scroll-up pre-render."""
-    engine_scroll_up_prepare(menu_rolling, 0x1B1A, MENU_BUFFER_SLOTS, ensure_hdma_initialized, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
-
 ; _menu_render_item_to_slot
 ; Renders an item to a specific circular buffer slot in the tilemap.
 ;

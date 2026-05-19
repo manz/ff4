@@ -455,14 +455,6 @@ picker frame via its IRQ slide. No-op.
 """
     rts
 
-key_item_scroll_down_prepare:
-"""Picker scroll-down pre-render."""
-    engine_scroll_down_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_SCROLL_LIMIT, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
-
-key_item_scroll_up_prepare:
-"""Picker scroll-up pre-render."""
-    engine_scroll_up_prepare(key_item_rolling, key_item_scroll_pos, KEY_ITEM_BUFFER_SLOTS, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
-
 key_item_start_scroll_down_impl:
 """Picker: kick scroll-down state machine."""
     engine_start_scroll_down(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_SCROLL_TOTAL_PIXELS, KEY_ITEM_SCROLL_PIXELS_PER_FRAME, key_item_ensure_hdma_initialized, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501

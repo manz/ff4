@@ -429,14 +429,6 @@ _drops_draw_window:
     sep #0x10
     rts
 
-drops_scroll_down_prepare:
-"""Drops profile scroll-down pre-render."""
-    engine_scroll_down_prepare(drops_rolling, drops_scroll_pos, DROPS_SCROLL_LIMIT, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
-
-drops_scroll_up_prepare:
-"""Drops profile scroll-up pre-render."""
-    engine_scroll_up_prepare(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
-
 drops_start_scroll_down_impl:
 """Drops profile: kick scroll-down state machine."""
     engine_start_scroll_down(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_SCROLL_TOTAL_PIXELS, DROPS_SCROLL_PIXELS_PER_FRAME, drops_ensure_hdma_initialized, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501

@@ -420,14 +420,6 @@ _treasure_draw_inventory_window:
     sep #0x10
     rts
 
-treasure_scroll_down_prepare:
-"""Treasure profile scroll-down pre-render."""
-    engine_scroll_down_prepare(treasure_rolling, 0x1BB7, TREASURE_SCROLL_LIMIT, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
-
-treasure_scroll_up_prepare:
-"""Treasure profile scroll-up pre-render."""
-    engine_scroll_up_prepare(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
-
 ; _treasure_render_item_to_slot
 ; Renders an item to a specific circular buffer slot in the tilemap.
 ;
