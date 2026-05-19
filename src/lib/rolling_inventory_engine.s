@@ -101,6 +101,63 @@ _engine_init_render_loop:
     rtl
     }
 
+rolling_engine_refresh_slots:
+"""
+Re-render every slot in the rolling buffer from the current `buffer_pos`
+without resetting scroll state. Mirrors the legacy `engine_refresh_slots`
+macro : iterates `(visible_rows + 1)` times (visible window + prefetch
+slot), each iteration setting edge_row = scroll_pos + counter and
+slot_index = (buffer_pos + counter) % buffer_slots, then firing
+fn_render_slot. Stamps `transfer_pending = 1` on exit so the per-menu
+NMI hook DMAs the BG staging buffer next vblank.
+
+In : X = state ptr (16-bit, bank $7E implied)
+     A = current scroll_pos value (8-bit)
+Out: all `visible_rows + 1` slots re-rendered, transfer_pending set.
+"""
+
+
+    {
+    php
+    sep #0x20
+    rep #0x10
+    sta.l 0x001F84  ; stash scroll_pos
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    inc  ; buffer_slots = visible_rows + 1
+    sta.l 0x001F85  ; stash buffer_slots
+    lda.b #0x00
+
+_engine_refresh_loop:
+    pha
+    clc
+    adc.l 0x001F84
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    pla
+    pha
+    clc
+    adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
+
+_engine_refresh_mod:
+    cmp.l 0x001F85
+    bcc _engine_refresh_mod_done
+    sec
+    sbc.l 0x001F85
+    bra _engine_refresh_mod
+
+_engine_refresh_mod_done:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    pla
+    inc
+    cmp.l 0x001F85
+    bcc _engine_refresh_loop
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    plp
+    rtl
+    }
+
 _engine_call_hook:
 """
 Internal helper. JSLs through a hook far-ptr stored at

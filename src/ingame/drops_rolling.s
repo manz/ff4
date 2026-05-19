@@ -452,8 +452,15 @@ drops_finish_scroll_impl:
     engine_finish_scroll(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
 
 drops_refresh_slots_impl:
-"""Drops profile: re-render all 5 slots (original redraw helper path)."""
-    engine_refresh_slots(drops_rolling, drops_scroll_pos, DROPS_BUFFER_SLOTS, drops_render_item_to_slot)
+"""Drops profile: re-render all 6 slots via the bank-20 engine."""
+    php
+    sep #0x20
+    rep #0x10
+    lda.l 0x7E0000 + drops_scroll_pos
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_refresh_slots
+    plp
+    rtl
 
 drops_swap_redraw_impl:
 """Drops profile: post-swap re-render."""

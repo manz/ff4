@@ -321,8 +321,15 @@ _treasure_hdma_signal:
 ; was on before the swap survives.
 
 treasure_refresh_slots_impl:
-"""Treasure profile: re-render all 6 slots without resetting scroll state (original redraw helper at $01:D933)."""
-    engine_refresh_slots(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, _treasure_render_item_to_slot)
+"""Treasure profile: re-render all 6 slots via the bank-20 engine (post-swap redraw at $01:D933)."""
+    php
+    sep #0x20
+    rep #0x10
+    lda.l 0x7E0000 + 0x1BB7  ; treasure scroll_pos (shared with vanilla cursor row)
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_refresh_slots
+    plp
+    rtl
 
 init_treasure_rolling_buffer_impl:
 """
