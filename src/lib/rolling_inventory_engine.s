@@ -117,11 +117,17 @@ Out : hook RTLs back to caller of _engine_call_hook. A clobbered.
     {
     phx
     phy
-    sty.b 0x90  ; stash offset in DP
+; Stash hook-field offset at $00:1F83 (next to the $1F80-82 jmp-vec
+; cell). Direct-page `sty.b 0x90` looked tempting but FF4's menu code
+; sets DP=$0100 before calling our patch, so the store actually
+; landed at $0190 = the BG1HOFS shadow ; vanilla NMI then scrolled
+; BG1 by the hook offset (26 px for fn_render_slot) on every render.
     rep #0x20
+    tya
+    sta.l 0x001F83
     txa
     clc
-    adc.b 0x90
+    adc.l 0x001F83
     tax  ; X now points at the hook field's first byte
     sep #0x20
     lda.l 0x7E0000, x
