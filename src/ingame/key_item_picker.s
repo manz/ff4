@@ -330,7 +330,87 @@ _filter_next:
 
 update_key_item_scroll_hdma:
 """Build the key-item HDMA shadow table via the shared engine."""
-    engine_update_scroll_hdma(key_item_rolling, KEY_ITEM_HDMA_SHADOW, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_VISIBLE_ITEMS, _key_item_hdma_header, _key_item_hdma_footer, _key_item_hdma_signal)  ; noqa: E501
+    ; Build key-item picker HDMA scroll table. Inlined from the former
+    ; engine_update_scroll_hdma macro for the same reason as treasure.
+{
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x40
+    pha
+    lda.b 0x42
+    pha
+    ldx.w #0x0000
+    jsr.w _key_item_hdma_header
+    stz.b 0x42
+
+_row_loop:
+    lda.w key_item_rolling + RollingBufferState.buffer_pos
+    and.w #0x00FF
+    clc
+    adc.b 0x42
+
+_mod_loop:
+    cmp.w #KEY_ITEM_BUFFER_SLOTS
+    bcc _mod_done
+    sec
+    sbc.w #KEY_ITEM_BUFFER_SLOTS
+    bra _mod_loop
+
+_mod_done:
+    asl
+    asl
+    asl
+    asl
+    sta.b 0x40
+    lda.b 0x42
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    eor.w #0xFFFF
+    inc
+    clc
+    adc.b 0x40
+    clc
+    adc.w key_item_rolling + RollingBufferState.base_scroll
+    sta.b 0x40
+    sep #0x20
+    lda #16
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.b 0x40
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    inx
+    inx
+    rep #0x20
+    inc.b 0x42
+    lda.b 0x42
+    cmp.w #KEY_ITEM_VISIBLE_ITEMS
+    bcs _row_loop_done
+    jmp.w _row_loop
+
+_row_loop_done:
+    jsr.w _key_item_hdma_footer
+    sep #0x20
+    lda #0x00
+    sta.l KEY_ITEM_HDMA_SHADOW, x
+    jsr.w _key_item_hdma_signal
+    rep #0x20
+    pla
+    sta.b 0x42
+    pla
+    sta.b 0x40
+    ply
+    plx
+    pla
+    plp
+    rts
+}
 
 _key_item_hdma_header:
 """Picker HDMA header — 112 lines at BASE (top half = field map preserved)."""

@@ -258,7 +258,91 @@ _t_init_item_rows:
 
 update_treasure_scroll_hdma:
 """Build the treasure-menu HDMA scroll table via the shared engine."""
-    engine_update_scroll_hdma(treasure_rolling, TREASURE_HDMA_SHADOW, TREASURE_BUFFER_SLOTS, TREASURE_VISIBLE_ITEMS, _treasure_hdma_header, _treasure_hdma_footer, _treasure_hdma_signal)  ; noqa: E501
+    ; Build treasure HDMA scroll table. Inlined from the former
+    ; `engine_update_scroll_hdma` macro since its per-row writes use
+    ; compile-time state_base + hdma_shadow_addr ; routing through the
+    ; bank-20 engine would need menu_id dispatch at every state read,
+    ; which costs more than the modest 80-line duplication across the
+    ; four menus.
+{
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x40
+    pha
+    lda.b 0x42
+    pha
+    ldx.w #0x0000
+    jsr.w _treasure_hdma_header
+    stz.b 0x42
+
+_row_loop:
+    lda.w treasure_rolling + RollingBufferState.buffer_pos
+    and.w #0x00FF
+    clc
+    adc.b 0x42
+
+_mod_loop:
+    cmp.w #TREASURE_BUFFER_SLOTS
+    bcc _mod_done
+    sec
+    sbc.w #TREASURE_BUFFER_SLOTS
+    bra _mod_loop
+
+_mod_done:
+    asl
+    asl
+    asl
+    asl
+    sta.b 0x40
+    lda.b 0x42
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    eor.w #0xFFFF
+    inc
+    clc
+    adc.b 0x40
+    clc
+    adc.w treasure_rolling + RollingBufferState.base_scroll
+    sta.b 0x40
+    sep #0x20
+    lda #16
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.b 0x40
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    inx
+    rep #0x20
+    inc.b 0x42
+    lda.b 0x42
+    cmp.w #TREASURE_VISIBLE_ITEMS
+    bcs _row_loop_done
+    jmp.w _row_loop
+
+_row_loop_done:
+    jsr.w _treasure_hdma_footer
+    sep #0x20
+    lda #0x00
+    sta.l TREASURE_HDMA_SHADOW, x
+    jsr.w _treasure_hdma_signal
+    rep #0x20
+    pla
+    sta.b 0x42
+    pla
+    sta.b 0x40
+    ply
+    plx
+    pla
+    plp
+    rts
+}
 
 _treasure_hdma_header:
 """Treasure profile header: drops band (120 lines at BASE-16) + inventory border (8 lines at BASE)."""

@@ -269,7 +269,87 @@ clear_drops_slot:
 
 update_drops_scroll_hdma:
 """Build the drops HDMA shadow table via the shared engine."""
-    engine_update_scroll_hdma(drops_rolling, DROPS_HDMA_SHADOW, DROPS_BUFFER_SLOTS, DROPS_VISIBLE_ITEMS, _drops_hdma_header, _drops_hdma_footer, _drops_hdma_signal)  ; noqa: E501
+    ; Build drops HDMA scroll table. Inlined from the former
+    ; engine_update_scroll_hdma macro for the same reason as treasure.
+{
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x40
+    pha
+    lda.b 0x42
+    pha
+    ldx.w #0x0000
+    jsr.w _drops_hdma_header
+    stz.b 0x42
+
+_row_loop:
+    lda.w drops_rolling + RollingBufferState.buffer_pos
+    and.w #0x00FF
+    clc
+    adc.b 0x42
+
+_mod_loop:
+    cmp.w #DROPS_BUFFER_SLOTS
+    bcc _mod_done
+    sec
+    sbc.w #DROPS_BUFFER_SLOTS
+    bra _mod_loop
+
+_mod_done:
+    asl
+    asl
+    asl
+    asl
+    sta.b 0x40
+    lda.b 0x42
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    eor.w #0xFFFF
+    inc
+    clc
+    adc.b 0x40
+    clc
+    adc.w drops_rolling + RollingBufferState.base_scroll
+    sta.b 0x40
+    sep #0x20
+    lda #16
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.b 0x40
+    sta.l DROPS_HDMA_SHADOW, x
+    inx
+    inx
+    rep #0x20
+    inc.b 0x42
+    lda.b 0x42
+    cmp.w #DROPS_VISIBLE_ITEMS
+    bcs _row_loop_done
+    jmp.w _row_loop
+
+_row_loop_done:
+    jsr.w _drops_hdma_footer
+    sep #0x20
+    lda #0x00
+    sta.l DROPS_HDMA_SHADOW, x
+    jsr.w _drops_hdma_signal
+    rep #0x20
+    pla
+    sta.b 0x42
+    pla
+    sta.b 0x40
+    ply
+    plx
+    pla
+    plp
+    rts
+}
 
 _drops_hdma_header:
 """Header: 32 lines at base (-24) — off-screen 24 lines + 8 lines top border."""
