@@ -31,6 +31,14 @@ Patched:
 
 
 .if TREASURE_INVENTORY_ROLLING {
+; TODO : wire `jsr.l key_item_render_all` at $00:AF4D once the picker
+; has a VRAM strategy that doesn't garble the room/map underneath. The
+; picker triggers from event scripts mid-map (EventCmd_f7), so unlike
+; the field menu we cannot blow away the BG3 CHR slice the room is
+; using. Two viable paths : (a) save/restore around picker entry/exit,
+; (b) reserve picker-only VRAM that the map provably never touches.
+; Engine code at `key_item_render_all` + `key_item_init_impl` is in
+; place but currently unreachable.
 ; UpdateItemText at $00:B22B reads scroll pos $BA, multiplies by 4
 ; (asl asl) for 2-col x 2-byte stride into $0712. Single-col layout
 ; needs stride = 2, so replace the 2nd `asl` at $00:B232 with NOP.
