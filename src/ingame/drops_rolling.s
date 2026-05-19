@@ -47,7 +47,11 @@ DROPS_SCROLL_LIMIT := 3
 DROPS_SCROLL_PIXELS_PER_FRAME := 8
 DROPS_SCROLL_TOTAL_PIXELS := 16
 
-drops_rolling := 0x1BE0
+; Drops rolling state moved out of $1B00-$1BFF (vanilla menu / sprite
+; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
+; the full 35-byte struct ; the macro path only ever touched the first
+; 12 bytes so the original $1BE0 base worked there.
+drops_rolling := 0x9C30
 drops_rolling_top_row := drops_rolling + RollingBufferState.top_row
 drops_rolling_buffer_pos := drops_rolling + RollingBufferState.buffer_pos
 drops_rolling_edge_row := drops_rolling + RollingBufferState.edge_row
@@ -65,7 +69,7 @@ drops_hdma_copy_pending := drops_rolling + RollingBufferState.hdma_copy_pending
 ; doesn't collide with the engine's RollingBufferState fields. Other
 ; profiles read scroll_pos from a original menu byte ($1B1A field /
 ; $1BB7 treasure inventory); drops has no original equivalent.
-drops_scroll_pos := 0x1BEF
+drops_scroll_pos := 0x9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
@@ -334,11 +338,83 @@ _drops_hdma_signal:
 
 drops_init_impl:
 """
-Init drops rolling buffer. Drops render onto BG4 staging ($7E:C600) alongside TreasureItemsWindow
-($01:E275 def_window 1, 3, 27, 10) which the draw_window hook redraws first so the engine can write items into
-the just-drawn frame without the original $01:D817 DrawWindow call clobbering them.
+Init drops rolling buffer via the bank-20 engine. State + hook
+far-ptrs live at $7E:9C30 (relocated out of $1B00-$1BFF). Drops render
+onto BG4 staging ($7E:C600) alongside TreasureItemsWindow ($01:E275
+def_window 1, 3, 27, 10) which the draw_window hook redraws first so
+the engine can write items into the just-drawn frame without the
+original $01:D817 DrawWindow call clobbering them.
 """
-    engine_init_rolling_buffer(drops_rolling, DROPS_VISIBLE_ITEMS, _drops_draw_window, drops_ensure_hdma_initialized, drops_render_item_to_slot)  ; noqa: E501
+    php
+    rep #0x30
+    sep #0x20
+    lda.b #DROPS_VISIBLE_ITEMS
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.visible_rows
+    lda.b #0x02
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.slot_height_tiles
+    ; item_list_ptr = $7E:FF28 (treasure drops table)
+    lda.b #0x28
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.item_list_ptr
+    lda.b #0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.item_list_ptr + 1
+    lda.b #0x7E
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.item_list_ptr + 2
+    lda.b #DROPS_TOTAL_ITEMS
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.item_count
+    lda.b #0x04
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.hdma_channel
+    lda.b #0x80
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.vwf_cfg_ptr
+    lda.b #0x70
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    lda.b #0x70
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    lda.b #drops_fn_render_slot_trampoline & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_render_slot
+    lda.b #( drops_fn_render_slot_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_render_slot + 1
+    lda.b #( drops_fn_render_slot_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_render_slot + 2
+    lda.b #drops_fn_update_hdma_trampoline & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_update_hdma
+    lda.b #( drops_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_update_hdma + 1
+    lda.b #( drops_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_update_hdma + 2
+    lda.b #drops_fn_draw_window_trampoline & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_draw_window
+    lda.b #( drops_fn_draw_window_trampoline >> 8 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_draw_window + 1
+    lda.b #( drops_fn_draw_window_trampoline >> 16 ) & 0xFF
+    sta.l 0x7E0000 + drops_rolling + RollingBufferState.fn_draw_window + 2
+    plp
+    php
+    rep #0x10
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
+    rtl
+
+drops_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `drops_render_item_to_slot`."""
+    php
+    jsr.w drops_render_item_to_slot
+    plp
+    rtl
+
+drops_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `drops_ensure_hdma_initialized`."""
+    php
+    jsr.w drops_ensure_hdma_initialized
+    plp
+    rtl
+
+drops_fn_draw_window_trampoline:
+"""Bank-20 RTL wrapper around `_drops_draw_window`."""
+    php
+    jsr.w _drops_draw_window
+    plp
+    rtl
 
 
 _drops_draw_window:
