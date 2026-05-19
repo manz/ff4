@@ -630,8 +630,14 @@ update_scroll_frame_impl:
     rtl
 
 finish_scroll_impl:
-"""Field profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(menu_rolling, 0x1B1A, MENU_VISIBLE_ITEMS, MENU_BUFFER_SLOTS, MENU_TOTAL_ITEMS, _menu_render_item_to_slot, update_menu_scroll_hdma)  ; noqa: E501
+"""Field profile: end-of-animation cleanup via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1B1A
+    ldx.w #menu_rolling
+    jsr.l rolling_engine.rolling_engine_finish_scroll
+    plp
+    rtl
 
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.

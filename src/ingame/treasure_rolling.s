@@ -684,8 +684,14 @@ treasure_update_scroll_frame_impl:
     rtl
 
 treasure_finish_scroll_impl:
-"""Treasure profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(treasure_rolling, 0x1BB7, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, TREASURE_TOTAL_ITEMS, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: end-of-animation cleanup via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_finish_scroll
+    plp
+    rtl
 
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.

@@ -380,6 +380,99 @@ _start_up_wrap_done:
     rtl
     }
 
+rolling_engine_finish_scroll:
+"""
+End-of-animation : pre-render the next-direction edge slot (the one
+that becomes the new prefetch after the current animation lands),
+reset scroll_state + anim_offset, refresh the HDMA shadow, fire the
+vanilla cursor + post-scroll cleanup trampolines.
+
+For scroll-down (direction = +N): slot_index = buffer_pos - 1 (with
+wrap to buffer_slots - 1)  ; edge_row = scroll_pos + visible_rows ;
+skip render when scroll_pos + visible_rows >= item_count (past tail).
+
+For scroll-up (direction < 0, $FE) : slot_index = (buffer_pos + visible)
+mod buffer_slots  ; edge_row = scroll_pos - 1 ; skip render when
+scroll_pos == 0 (past head).
+
+In : X = state ptr, A = current scroll_pos (8-bit)
+Out: scroll FSM cleared, prefetch slot rendered, HDMA refreshed.
+"""
+
+
+    {
+    php
+    rep #0x10
+    sep #0x20
+    sta.l 0x001F88  ; stash scroll_pos
+; buffer_slots = visible_rows + 1
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    inc
+    sta.l 0x001F89
+    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    bmi _finish_was_up
+; --- scroll-down post-anim ---
+    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    beq _finish_dn_wrap
+    dec
+    bra _finish_dn_slot_ok
+
+_finish_dn_wrap:
+; buffer_slots - 1 == visible_rows
+    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+
+_finish_dn_slot_ok:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    lda.l 0x001F88  ; scroll_pos
+    clc
+    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    cmp.l 0x7E0000 + RollingBufferState.item_count, x
+    bcs _finish_skip
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    bra _finish_skip
+
+_finish_was_up:
+; --- scroll-up post-anim ---
+    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    clc
+    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+
+_finish_up_mod:
+    cmp.l 0x001F89
+    bcc _finish_up_slot_ok
+    sec
+    sbc.l 0x001F89
+    bra _finish_up_mod
+
+_finish_up_slot_ok:
+    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    lda.l 0x001F88  ; scroll_pos
+    beq _finish_skip
+    dec
+    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    ldy.w #RollingBufferState.fn_render_slot
+    jsr.w _engine_call_hook
+    lda.b #0x01
+    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+
+_finish_skip:
+    lda.b #0x00
+    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    rep #0x20
+    lda.w #0x0000
+    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sep #0x20
+    jsr.w _engine_dispatch_update_scroll_hdma
+    jsr.l draw_item_cursors_trampoline
+    jsr.l update_ctrl_after_scroll_trampoline
+    plp
+    rtl
+    }
+
 _engine_dispatch_update_scroll_hdma:
 """
 Branches to the per-menu update_*_scroll_hdma function based on

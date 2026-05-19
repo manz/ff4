@@ -459,8 +459,14 @@ drops_update_scroll_frame_impl:
     rtl
 
 drops_finish_scroll_impl:
-"""Drops profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(drops_rolling, drops_scroll_pos, DROPS_VISIBLE_ITEMS, DROPS_BUFFER_SLOTS, DROPS_TOTAL_ITEMS, drops_render_item_to_slot, update_drops_scroll_hdma)  ; noqa: E501
+"""Drops profile: end-of-animation cleanup via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + drops_scroll_pos
+    ldx.w #drops_rolling
+    jsr.l rolling_engine.rolling_engine_finish_scroll
+    plp
+    rtl
 
 drops_refresh_slots_impl:
 """Drops profile: re-render all 6 slots via the bank-20 engine."""

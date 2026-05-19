@@ -485,8 +485,14 @@ key_item_update_scroll_frame_impl:
     rtl
 
 key_item_finish_scroll_impl:
-"""Picker: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(key_item_rolling, key_item_scroll_pos, KEY_ITEM_VISIBLE_ITEMS, KEY_ITEM_BUFFER_SLOTS, KEY_ITEM_TOTAL_ITEMS, key_item_render_item_to_slot, update_key_item_scroll_hdma)  ; noqa: E501
+"""Picker: end-of-animation cleanup via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E0000 + key_item_scroll_pos
+    ldx.w #key_item_rolling
+    jsr.l rolling_engine.rolling_engine_finish_scroll
+    plp
+    rtl
 
 key_item_refresh_slots_impl:
 """Picker: re-render all slots via the bank-20 engine."""
