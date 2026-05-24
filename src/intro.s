@@ -8,123 +8,127 @@ and chains into the title screen.
 ; ----------------------------------------------------------------
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
+.include "bank20.i"
 .import "libmz"
 .import "assets"
 .extern clear_ram
 
-start_splash_screen:
-"""Boot-time splash-screen entry point."""
-    ; initialise SNES
-    jsr.w initialize_snes
 
-; set register modes
-    rep #0x10  ; make X & Y 16-bits
-    sep #0x20  ; make A 8-bits
+.alloc intro_block in bank20_reloc {
+    start_splash_screen:
+    """Boot-time splash-screen entry point."""
+        ; initialise SNES
+        jsr.w initialize_snes
 
-; initialise graphics hardware
-    lda #0x03  ; graphics mode 3
-    sta 0x2105
-    lda #0x01  ; enable plane 0
-    sta 0x212c
-    lda #0x00  ; set plane 0 memory to 0x0000, 32x32 chars
-    sta 0x2107
-    lda #0x01  ; set plane 0 character set to 0x1000
-    sta 0x210b
+    ; set register modes
+        rep #0x10  ; make X & Y 16-bits
+        sep #0x20  ; make A 8-bits
 
-; copy intro map data
-    dma_transfer_to_vram_call(assets_intro_map, 0x0000, assets_intro_map__size, 0x1801)
+    ; initialise graphics hardware
+        lda #0x03  ; graphics mode 3
+        sta 0x2105
+        lda #0x01  ; enable plane 0
+        sta 0x212c
+        lda #0x00  ; set plane 0 memory to 0x0000, 32x32 chars
+        sta 0x2107
+        lda #0x01  ; set plane 0 character set to 0x1000
+        sta 0x210b
 
-; copy color palettes
-    dma_transfer_to_palette_call(assets_intro_col, assets_intro_col__size)
+    ; copy intro map data
+        dma_transfer_to_vram_call(assets_intro_map, 0x0000, assets_intro_map__size, 0x1801)
 
-; copy intro tile set
-    dma_transfer_to_vram_call(assets_intro_set, 0x1000, assets_intro_set__size, 0x1801)
+    ; copy color palettes
+        dma_transfer_to_palette_call(assets_intro_col, assets_intro_col__size)
 
-    jsr.w _splash_screen_fade_in
+    ; copy intro tile set
+        dma_transfer_to_vram_call(assets_intro_set, 0x1000, assets_intro_set__size, 0x1801)
 
-    lda #0x80
-    jsr.w _gamepad_interruptable_loop
+        jsr.w _splash_screen_fade_in
 
-    jsr.w _splash_screen_fade_out
+        lda #0x80
+        jsr.w _gamepad_interruptable_loop
 
-    jsr.l clear_ram
-    ; runs the original jsl routines
-    jsr.l 0x15C8DF
-    jsr.l 0x15C9AA
+        jsr.w _splash_screen_fade_out
 
-    rtl
+        jsr.l clear_ram
+        ; runs the original jsl routines
+        jsr.l 0x15C8DF
+        jsr.l 0x15C9AA
 
-; TODO: rewrite as HDMA table would make it look less hacky.
+        rtl
 
-_splash_screen_fade_out:
-{
-    stz 0x00
-loop:
-    inc 0x00
-    lda #0x0F
-    sbc 0x00
-    sta 0x2100
-    lda 0x00
-    cmp #0x0F
-    beq exit
-    lda 0x00
-    asl
-    asl
-    asl
-    asl
-    inc
-    sta 0x2106
+    ; TODO: rewrite as HDMA table would make it look less hacky.
 
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
-    bra loop
-exit:
-    rts
-}
+    _splash_screen_fade_out:
+    {
+        stz 0x00
+    loop:
+        inc 0x00
+        lda #0x0F
+        sbc 0x00
+        sta 0x2100
+        lda 0x00
+        cmp #0x0F
+        beq exit
+        lda 0x00
+        asl
+        asl
+        asl
+        asl
+        inc
+        sta 0x2106
 
-
-_splash_screen_fade_in:
-{
-    stz 0x00
-loop:
-    inc 0x00
-    lda 0x00
-    sta 0x2100
-    asl
-    asl
-    asl
-    asl
-    sta 0x01
-    lda #0xF0
-    sec
-    sbc 0x01
-    inc
-    sta 0x2106
-
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
-
-    lda 0x00
-    cmp #0x0F
-    beq exit
-    bra loop
-exit:
-    rts
-}
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+        bra loop
+    exit:
+        rts
+    }
 
 
-_gamepad_interruptable_loop:
-    ; 8bit A: Number of iterations
-{
-    jsr.w enable_gamepad
-    jsr.w wait_for_vblank
+    _splash_screen_fade_in:
+    {
+        stz 0x00
+    loop:
+        inc 0x00
+        lda 0x00
+        sta 0x2100
+        asl
+        asl
+        asl
+        asl
+        sta 0x01
+        lda #0xF0
+        sec
+        sbc 0x01
+        inc
+        sta 0x2106
 
-    ldx 0x4218  ; lecture depuis joystick
-    bne exit  ; si on appuye sur quelque chose on sort du delay
-    dec
-    bne _gamepad_interruptable_loop
-exit:
-    jsr.w disable_gamepad
-    rts
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+
+        lda 0x00
+        cmp #0x0F
+        beq exit
+        bra loop
+    exit:
+        rts
+    }
+
+
+    _gamepad_interruptable_loop:
+        ; 8bit A: Number of iterations
+    {
+        jsr.w enable_gamepad
+        jsr.w wait_for_vblank
+
+        ldx 0x4218  ; lecture depuis joystick
+        bne exit  ; si on appuye sur quelque chose on sort du delay
+        dec
+        bne _gamepad_interruptable_loop
+    exit:
+        jsr.w disable_gamepad
+        rts
+    }
 }

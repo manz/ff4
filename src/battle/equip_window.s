@@ -1,4 +1,6 @@
 """
+.include "../bank20.i"
+
 Relocated battle equipped-items window transfer routine.
 
 Pivots the per-character equip popup from `R-label  L-label / R-item  L-item` (two columns of stacked
@@ -23,102 +25,105 @@ Tilemap dest bases (set by hooks in items_patches.s):
 
 .extern load_menu_tfr_data_trampoline
 
-tfr_equip_window_new:
-"""
-Relocated replacement for vanilla `TfrEquipWindow` at $02:97A6.
 
-Walks 6 per-block transfer passes: slot-1 / slot-2 labels into the
-left column (rows 1 and 3), slot-1 / slot-2 item top+bot halves into
-the right column (rows 0-1 and 2-3 respectively). Caller is the
-bank-02 trampoline that JSLs here  ; return via RTL.
-"""
+.alloc battle_equip_window_block in bank20_reloc {
+    tfr_equip_window_new:
+    """
+    Relocated replacement for vanilla `TfrEquipWindow` at $02:97A6.
+
+    Walks 6 per-block transfer passes: slot-1 / slot-2 labels into the
+    left column (rows 1 and 3), slot-1 / slot-2 item top+bot halves into
+    the right column (rows 0-1 and 2-3 respectively). Caller is the
+    bank-02 trampoline that JSLs here  ; return via RTL.
+    """
 
 
-{
-    rep #0x10  ; X/Y 16-bit at runtime (caller may have X=1)
-    ldx.w #0xD1E8
-    stx 0x00
-    ldx.w #0xD204
-    stx 0x02
-    lda 0x1822
-    asl
-    tax
-    rep #0x20
-    lda.l 0x16FEC1, x  ; EquipTextBufPtrs
-    pha
-    lda.l 0x16FF25, x  ; RLHandTextBufPtrs
-    tax
-    sep #0x20
+    {
+        rep #0x10  ; X/Y 16-bit at runtime (caller may have X=1)
+        ldx.w #0xD1E8
+        stx 0x00
+        ldx.w #0xD204
+        stx 0x02
+        lda 0x1822
+        asl
+        tax
+        rep #0x20
+        lda.l 0x16FEC1, x  ; EquipTextBufPtrs
+        pha
+        lda.l 0x16FF25, x  ; RLHandTextBufPtrs
+        tax
+        sep #0x20
 
-; --- Pass A: slot-1 label -> LEFT col row 1 (buf[0..$13]) ---
-    ldy.w #0x0040
-loop_a:
-    lda.w 0x0000, x
-    sta (0x00), y
-    inx
-    iny
-    cpy.w #0x0054
-    bne loop_a
+    ; --- Pass A: slot-1 label -> LEFT col row 1 (buf[0..$13]) ---
+        ldy.w #0x0040
+    loop_a:
+        lda.w 0x0000, x
+        sta (0x00), y
+        inx
+        iny
+        cpy.w #0x0054
+        bne loop_a
 
-; --- Pass B: slot-2 label -> LEFT col row 3 (buf[$14..$27]) ---
-    ldy.w #0x00C0
-loop_b:
-    lda.w 0x0000, x
-    sta (0x00), y
-    inx
-    iny
-    cpy.w #0x00D4
-    bne loop_b
+    ; --- Pass B: slot-2 label -> LEFT col row 3 (buf[$14..$27]) ---
+        ldy.w #0x00C0
+    loop_b:
+        lda.w 0x0000, x
+        sta (0x00), y
+        inx
+        iny
+        cpy.w #0x00D4
+        bne loop_b
 
-; --- Switch to EquipBuf ---
-    plx
+    ; --- Switch to EquipBuf ---
+        plx
 
-; --- Pass C: slot-1 item top -> RIGHT col row 0 (buf[0..$1D]) ---
-    ldy.w #0x0000
-loop_c:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x001E
-    bne loop_c
+    ; --- Pass C: slot-1 item top -> RIGHT col row 0 (buf[0..$1D]) ---
+        ldy.w #0x0000
+    loop_c:
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x001E
+        bne loop_c
 
-; --- Pass D: slot-1 item bot -> RIGHT col row 1 (buf[$1E..$3B]) ---
-    ldy.w #0x0040
-loop_d:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x005E
-    bne loop_d
+    ; --- Pass D: slot-1 item bot -> RIGHT col row 1 (buf[$1E..$3B]) ---
+        ldy.w #0x0040
+    loop_d:
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x005E
+        bne loop_d
 
-; --- Pass E: slot-2 item top -> RIGHT col row 2 (buf[$3C..$59]) ---
-    ldy.w #0x0080
-loop_e:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x009E
-    bne loop_e
+    ; --- Pass E: slot-2 item top -> RIGHT col row 2 (buf[$3C..$59]) ---
+        ldy.w #0x0080
+    loop_e:
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x009E
+        bne loop_e
 
-; --- Pass F: slot-2 item bot -> RIGHT col row 3 (buf[$5A..$77]) ---
-    ldy.w #0x00C0
-loop_f:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x00DE
-    bne loop_f
+    ; --- Pass F: slot-2 item bot -> RIGHT col row 3 (buf[$5A..$77]) ---
+        ldy.w #0x00C0
+    loop_f:
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x00DE
+        bne loop_f
 
-; --- Trigger tilemap upload (window 7, 2 transfers) ---
-    lda #0x07
-    ldy.w #0x0002
-    jsr.l load_menu_tfr_data_trampoline
-    lda #0x01
-    sta 0x1825
-    sta 0x1824
-    rtl
+    ; --- Trigger tilemap upload (window 7, 2 transfers) ---
+        lda #0x07
+        ldy.w #0x0002
+        jsr.l load_menu_tfr_data_trampoline
+        lda #0x01
+        sta 0x1825
+        sta 0x1824
+        rtl
+    }
 }

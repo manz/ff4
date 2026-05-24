@@ -53,42 +53,48 @@ conditional_bg1_vofs := 0x208000
 dialog_bank_ptr_base = 0x218000
 
 
-*=0xFFC0
+.alloc at 0x00FFC0 {
     ; patch snes cartridge type
-    ; original PCB: SHVC-1A3B
-    ; target PCB: SHVC-1A5B
+    ; original PCB: SHVC-1A3B  ;  target PCB: SHVC-1A5B
     .ascii "Final Fantasy IV     "
+}
 
-;FFD5 20H / 30H Map Mode
-
-*=0xFFD6
+.alloc at 0x00FFD6 {
+    ; FFD5 20H / 30H Map Mode
     .db 0x02  ; Cartridge Type
     .db 0x0B  ; ~ 0BH ROM Size
     .db 0x07  ; RAM Size
+}
+
 .if ENABLE_BRK_HANDLER {
-    *=0x00FFE0
-; JML trampoline in vector-table padding  ; native/emu BRK vectors point here.
-    jmp.l brk_handler
-    *=0x00FFE6
-    .dw 0xFFE0
-    *=0x00FFFE
-    .dw 0xFFE0
+    ; JML trampoline in vector-table padding; native/emu BRK vectors point here.
+    .alloc at 0x00FFE0 {
+        jmp.l brk_handler
+    }
+    .alloc at 0x00FFE6 {
+        .dw 0xFFE0
+    }
+    .alloc at 0x00FFFE {
+        .dw 0xFFE0
+    }
 }
 
 
-*=0x008031
-    ; déroutage pour ajouter le splash screen
-.if ENABLE_INTRO {
-    jsr.l start_splash_screen
-} else {
-    jsr.l clear_ram
+; déroutage pour ajouter le splash screen
+.alloc at 0x008031 {
+    .if ENABLE_INTRO {
+        jsr.l start_splash_screen
+    } else {
+        jsr.l clear_ram
+    }
 }
 
 
-*=0x00B463
-    ; déroutage pour utiliser la vwf dans les dialogues.
+; déroutage pour utiliser la vwf dans les dialogues.
+.alloc at 0x00B463 {
     jsr.l vwfstart
     rts
+}
 
 ; ============================================================================
 ; Bank-20 relocated region.
@@ -276,7 +282,6 @@ signature byte sits at PB:(PC - 1).
 ; and matches the legacy `*=0x208000` chain so .import modules without
 ; their own `*=` directive land in bank-20 as expected.
 
-*=0x208100
     ; --- Imported modules ---------------------------------------------------
 
 .import "libmz"
@@ -372,5 +377,6 @@ signature byte sits at PB:(PC - 1).
 ; (which would otherwise leave the upper half of the table at
 ; $21:0xxx, an address LoROM does not map back to ROM data).
 
-*=0x238000
-.incbin "assets/items_unleashed.dat"  ; end
+.alloc at 0x238000 {
+    .incbin "assets/items_unleashed.dat"
+}

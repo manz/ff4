@@ -106,6 +106,7 @@ def build_patch(input, output, lang):
         symbols={"LANG": lang},
         include_paths=[Path("src")],
         prelude_file=Path("config.i"),
+        overlap_mode="warn",
     )
 
     if result.exit_code != 0:
