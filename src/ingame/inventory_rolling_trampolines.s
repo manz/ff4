@@ -2,7 +2,6 @@
 Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
 """
-.include "config.i"
 .include "src/ingame/macros.i"
 
 .extern items_menu_vwf.draw_field_item_name

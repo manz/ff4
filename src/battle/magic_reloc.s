@@ -13,8 +13,6 @@ left_column_base = destination_buffer - 4
 right_column_base = destination_buffer + 18 - 2
 
 
-.include "../bank20.i"
-
 .alloc battle_magic_reloc_block in bank20_reloc {
     draw_magic_list_direct:
     """Relocated battle spell-list renderer: walks the per-character spell-list pointer table."""

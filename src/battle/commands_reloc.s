@@ -4,7 +4,6 @@
 Relocated battle-command-list renderer (`draw_command_list_for_character`) plus its private command-build
 loop, called by the patched bank-$02 hook.
 """
-.include "config.i"
 .extern messages_vwf
 .extern messages_vwf.init_commands_list
 .extern _draw_text_battle_far
@@ -16,8 +15,6 @@ loop, called by the patched bank-$02 hook.
 
 mult8_far := 0x2855c
 
-
-.include "../bank20.i"
 
 .alloc battle_commands_reloc_block in bank20_reloc {
     .if BATTLE_CMD_VWF {

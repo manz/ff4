@@ -1,4 +1,3 @@
-.include "config.i"
 """English-language counterpart of `start_screen_text.s`."""
 .include "src/ingame/macros.i"
 

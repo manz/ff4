@@ -26,8 +26,6 @@ Tilemap dest bases (set by hooks in items_patches.s):
 .extern load_menu_tfr_data_trampoline
 
 
-.include "../bank20.i"
-
 .alloc battle_equip_window_block in bank20_reloc {
     tfr_equip_window_new:
     """

@@ -2,7 +2,6 @@
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 """
-.include "config.i"
 .extern init_inventory_text_buf_rolling
 .extern tfr_inventory_list_rolling
 .extern scroll_list_down_hook
@@ -43,32 +42,32 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 ; PATCH: InitInventoryTextBuf ($029E9C)
 ; ============================================================================
 
-.alloc at 0x029E9C {
-        jsr.l init_inventory_text_buf_rolling
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        rts
+*=0x029E9C
+    jsr.l init_inventory_text_buf_rolling
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    rts
 
-    ; ============================================================================
-    ; PATCH: TfrInventoryList ($0298FA)
-    ; ============================================================================
-    ; Original function is $98FA-$9982 (136 bytes). We replace with JSL+RTS (5 bytes)
-    ; This frees $98FF-$9982 (131 bytes) for our trampolines.
-}
-.alloc at 0x0298FA {
-        jsr.l tfr_inventory_list_rolling
-        rts
+; ============================================================================
+; PATCH: TfrInventoryList ($0298FA)
+; ============================================================================
+; Original function is $98FA-$9982 (136 bytes). We replace with JSL+RTS (5 bytes)
+; This frees $98FF-$9982 (131 bytes) for our trampolines.
 
-    ; ============================================================================
-    ; TRAMPOLINES (Bank $02 free space: $98FF-$9982)
-    ; ============================================================================
-    ; These are called via JSL from bank $20, return via RTL
-    .pool bank02_trampolines {
-        range 0x0298ff 0x029982
-        strategy order
-    }
+*=0x0298FA
+    jsr.l tfr_inventory_list_rolling
+    rts
+
+; ============================================================================
+; TRAMPOLINES (Bank $02 free space: $98FF-$9982)
+; ============================================================================
+; These are called via JSL from bank $20, return via RTL
+.pool bank02_trampolines {
+    range 0x0298ff 0x029982
+    strategy order
 }
+
 .alloc bank02_trampolines_block in bank02_trampolines {
 draw_text_rolling_trampoline:
 """
@@ -196,111 +195,110 @@ return_to_bank02:
 ; Redirect callers of $9989 to relocated function
 ; Must use JSR (not JSL) since function ends with JMP, not RTL
 
-.alloc at 0x0296CB {
-        jsr.w _draw_battle_command_window_relocated
-}
-.alloc at 0x029983 {
-        jsr.w _draw_battle_command_window_relocated
+*=0x0296CB
+    jsr.w _draw_battle_command_window_relocated
 
-    ; ============================================================================
-    ; PATCHES in ascending address order (assembler requires this)
-    ; ============================================================================
+*=0x029983
+    jsr.w _draw_battle_command_window_relocated
 
-    ; Scroll animation end - wrap $EF65 (4 bytes each)
-    ; Must use JMP (not JMP.L) - 3 bytes + 1 NOP = 4 bytes
-}
-.alloc at 0x02A86E {
-        jmp.w wrap_and_clear_trampoline
-        nop
+; ============================================================================
+; PATCHES in ascending address order (assembler requires this)
+; ============================================================================
 
-    ; Animation loop DECrement path ($02A872-$02A87B) - 10 bytes
-    ; Original: LDX $EF71 / DEX / STX $EF71 / JMP CheckListCursorVisible
-    ; NOP the LDX/DEX/STX, replace JMP with RTS (skips CheckListCursorVisible)
-    ; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
-}
-.alloc at 0x02A872 {
-    _nop_patch_dec:
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        rts  ; Skip CheckListCursorVisible (was JMP $A82D)
-        nop  ; Fill remaining 2 bytes of JMP
-        nop
-}
-.alloc at 0x02A8AA {
-        jmp.w wrap_and_clear_trampoline
-        nop
+; Scroll animation end - wrap $EF65 (4 bytes each)
+; Must use JMP (not JMP.L) - 3 bytes + 1 NOP = 4 bytes
 
-    ; Animation loop INCrement path ($02A8AE-$02A8B7) - 10 bytes
-    ; Original: LDX $EF71 / INX / STX $EF71 / JMP CheckListCursorVisible
-    ; NOP the LDX/INX/STX, replace JMP with RTS (skips CheckListCursorVisible)
-    ; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
-}
-.alloc at 0x02A8AE {
-    _nop_patch_inc:
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        rts  ; Skip CheckListCursorVisible (was JMP $A82D)
-        nop  ; Fill remaining 2 bytes of JMP
-        nop
+*=0x02A86E
+    jmp.w wrap_and_clear_trampoline
+    nop
 
-    ; Scroll hooks - use JMP.L to bank $20 functions
-}
-.alloc at 0x02A8B8 {
-        jmp.l scroll_list_down_hook
-}
-.alloc at 0x02A8CA {
-        jmp.l scroll_list_up_hook
+; Animation loop DECrement path ($02A872-$02A87B) - 10 bytes
+; Original: LDX $EF71 / DEX / STX $EF71 / JMP CheckListCursorVisible
+; NOP the LDX/DEX/STX, replace JMP with RTS (skips CheckListCursorVisible)
+; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 
-    ; ============================================================================
-    ; PATCH: UpdateListScrollHDMA ($02A7F1)
-    ; ============================================================================
-    ; This is the KEY patch for true FF6-style circular buffer.
-    ; Original code builds HDMA table with unbounded scroll values.
-    ; Our replacement wraps scroll values at 96 pixels (6 rows).
-    ;
-    ; Original function is 32 bytes ($02A7F1-$02A810).
-    ; We replace with JMP.L (4 bytes) + NOPs.
-}
-.alloc at 0x02A7F1 {
-        jmp.l update_list_scroll_hdma_wrapped
-        ; Fill remaining bytes with NOPs (32 - 4 = 28 bytes)
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
-        .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+*=0x02A872
+_nop_patch_dec:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    rts  ; Skip CheckListCursorVisible (was JMP $A82D)
+    nop  ; Fill remaining 2 bytes of JMP
+    nop
 
-    ; ============================================================================
-    ; PATCH: Cursor scroll limit for single-column mode
-    ; ============================================================================
+*=0x02A8AA
+    jmp.w wrap_and_clear_trampoline
+    nop
 
-    ; Original code at $02B517 checks if at end of list:
-    ;   lda $ef85 / cmp #$17 / bne @b521
-    ; The #$17 (23) is for 2-column mode (24 items per column).
-    ; For single-column (48 items), change to #$2B (43 = 48-5).
-}
-.alloc at 0x02B519 {
-        .db 0x2B  ; CMP #$2B instead of CMP #$17
+; Animation loop INCrement path ($02A8AE-$02A8B7) - 10 bytes
+; Original: LDX $EF71 / INX / STX $EF71 / JMP CheckListCursorVisible
+; NOP the LDX/INX/STX, replace JMP with RTS (skips CheckListCursorVisible)
+; CheckListCursorVisible can incorrectly hide cursor 2 with our circular buffer scroll values
 
-    ; ============================================================================
-    ; PATCH: ResetListScrollHDMA ($02AAB8)
-    ; ============================================================================
-    ; Fill BOTH $7F74 (active table) AND $81F4 (swap table) with our converted
-    ; scroll values. This prevents the menu animation from swapping in bad values.
-    ;
-    ; Original fills only $81F4 with 371-based values.
-    ; We fill both with our 132-based values so animation swap is a no-op.
-}
-.alloc at 0x02AAB8 {
-        jsr.l reset_list_scroll_hdma_rolling
-        rts
-}
+*=0x02A8AE
+_nop_patch_inc:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    rts  ; Skip CheckListCursorVisible (was JMP $A82D)
+    nop  ; Fill remaining 2 bytes of JMP
+    nop
+
+; Scroll hooks - use JMP.L to bank $20 functions
+
+*=0x02A8B8
+    jmp.l scroll_list_down_hook
+
+*=0x02A8CA
+    jmp.l scroll_list_up_hook
+
+; ============================================================================
+; PATCH: UpdateListScrollHDMA ($02A7F1)
+; ============================================================================
+; This is the KEY patch for true FF6-style circular buffer.
+; Original code builds HDMA table with unbounded scroll values.
+; Our replacement wraps scroll values at 96 pixels (6 rows).
+;
+; Original function is 32 bytes ($02A7F1-$02A810).
+; We replace with JMP.L (4 bytes) + NOPs.
+
+*=0x02A7F1
+    jmp.l update_list_scroll_hdma_wrapped
+    ; Fill remaining bytes with NOPs (32 - 4 = 28 bytes)
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+    .db 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 4
+
+; ============================================================================
+; PATCH: Cursor scroll limit for single-column mode
+; ============================================================================
+
+; Original code at $02B517 checks if at end of list:
+;   lda $ef85 / cmp #$17 / bne @b521
+; The #$17 (23) is for 2-column mode (24 items per column).
+; For single-column (48 items), change to #$2B (43 = 48-5).
+
+*=0x02B519
+    .db 0x2B  ; CMP #$2B instead of CMP #$17
+
+; ============================================================================
+; PATCH: ResetListScrollHDMA ($02AAB8)
+; ============================================================================
+; Fill BOTH $7F74 (active table) AND $81F4 (swap table) with our converted
+; scroll values. This prevents the menu animation from swapping in bad values.
+;
+; Original fills only $81F4 with 371-based values.
+; We fill both with our 132-based values so animation swap is a no-op.
+
+*=0x02AAB8
+    jsr.l reset_list_scroll_hdma_rolling
+    rts

@@ -11,10 +11,8 @@ NOPing the random-roll gate at $03:ED0D.
 ; because forcing it pulls drop-table index 0 (empty) and produces an
 ; "no item" treasure prompt instead of an actual drop.
 
-.include "config.i"
 .if TREASURE_DEBUG_ALWAYS_DROP {
-.alloc at 0x03ED0D {
-        nop
-        nop
-}
+    *=0x03ED0D
+    nop
+    nop
 }

@@ -30,7 +30,6 @@ Patched:
 """
 
 
-.include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
 ; TODO : wire `jsr.l key_item_render_all` at $00:AF4D once the picker
 ; has a VRAM strategy that doesn't garble the room/map underneath. The
@@ -59,91 +58,78 @@ Patched:
 ; (text buffer is 13 chars/half-row × 2 = 26 wide) which is more
 ; invasive. Keep 2-col layout for now, single-stride scroll lets
 ; us walk the filtered $0712 in step with the engine's worldview.
-.alloc at 0x00B23C {
-        nop
+    *=0x00B23C
+    nop
 
-    ; Items per page: original `lda #$08` → 4 (single-col 4 rows).
-}
-.alloc at 0x00B245 {
-        lda #0x04
+; Items per page: original `lda #$08` → 4 (single-col 4 rows).
+    *=0x00B245
+    lda #0x04
 
-    ; Replace the inline id*9 multiplier at $00:B253-B26C with a
-    ; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
-    ; lda $0712,x at $B24B), returns A = id * ITEM_UNLEASHED_RECORD_SIZE.
-    ; Move into X for the existing inner-loop indexed
-    ; `lda.l assets_items_unleashed_dat, x` read. The original block was
-    ; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
-    ; to keep downstream instruction addresses ($B26F lda#, $B273 lda.l
-    ; ...) anchored.
-}
-.alloc at 0x00B253 {
-        rep #0x10
-        jsr.l multiply_by_17
-        tax
-        inx
-        pad_nop(18)
+; Replace the inline id*9 multiplier at $00:B253-B26C with a
+; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
+; lda $0712,x at $B24B), returns A = id * ITEM_UNLEASHED_RECORD_SIZE.
+; Move into X for the existing inner-loop indexed
+; `lda.l assets_items_unleashed_dat, x` read. The original block was
+; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
+; to keep downstream instruction addresses ($B26F lda#, $B273 lda.l
+; ...) anchored.
+    *=0x00B253
+    rep #0x10
+    jsr.l multiply_by_17
+    tax
+    inx
+    pad_nop(18)
 
-    ; Inner-name-write loop count at $00:B26F: original `lda #$08`
-    ; (8 letters per name). Bump to ITEM_UNLEASHED_TEXT_SIZE.
-}
-.alloc at 0x00B26F {
-        lda #ITEM_UNLEASHED_TEXT_SIZE
+; Inner-name-write loop count at $00:B26F: original `lda #$08`
+; (8 letters per name). Bump to ITEM_UNLEASHED_TEXT_SIZE.
+    *=0x00B26F
+    lda #ITEM_UNLEASHED_TEXT_SIZE
 
-    ; Item-name table source at $00:B273: original `lda.l $0F8000,x`
-    ; (JP layout). Redirect to assets_items_unleashed_dat.
-}
-.alloc at 0x00B273 {
-        lda.l assets_items_unleashed_dat, x
+; Item-name table source at $00:B273: original `lda.l $0F8000,x`
+; (JP layout). Redirect to assets_items_unleashed_dat.
+    *=0x00B273
+    lda.l assets_items_unleashed_dat, x
 
-    ; Make both column-toggle branches advance Y by 24 (full text-buffer
-    ; row, 12 chars). Both → `adc #$18` so every item lands on its own
-    ; row regardless of which column the toggle picks. Keep at 24
-    ; for now ; widening to fit a 16-char name + colon + qty requires
-    ; revisiting the picker's tilemap row stride too.
-}
-.alloc at 0x00B2B5 {
-        adc #0x18
-}
-.alloc at 0x00B2BF {
-        adc #0x18
+; Make both column-toggle branches advance Y by 24 (full text-buffer
+; row, 12 chars). Both → `adc #$18` so every item lands on its own
+; row regardless of which column the toggle picks. Keep at 24
+; for now ; widening to fit a 16-char name + colon + qty requires
+; revisiting the picker's tilemap row stride too.
+    *=0x00B2B5
+    adc #0x18
+    *=0x00B2BF
+    adc #0x18
 
-    ; Item-text layout post-name: original writes ":" at +8 ($077C), tens
-    ; at +9 ($077D), ones at +10 ($077E). 12-char names pushed the trio
-    ; to $0780/81/82. 16-char names need another +4 to land past the name
-    ; (assets_items_unleashed_dat = symbol + 16 chars), so trio sits at
-    ; $0784/85/86 with the same 1-tile spacer between name and colon.
-}
-.alloc at 0x00B28E {
-        sta 0x0784, y
-}
-.alloc at 0x00B2A4 {
-        sta 0x0785, y
-}
-.alloc at 0x00B2A9 {
-        sta 0x0786, y
+; Item-text layout post-name: original writes ":" at +8 ($077C), tens
+; at +9 ($077D), ones at +10 ($077E). 12-char names pushed the trio
+; to $0780/81/82. 16-char names need another +4 to land past the name
+; (assets_items_unleashed_dat = symbol + 16 chars), so trio sits at
+; $0784/85/86 with the same 1-tile spacer between name and colon.
+    *=0x00B28E
+    sta 0x0784, y
+    *=0x00B2A4
+    sta 0x0785, y
+    *=0x00B2A9
+    sta 0x0786, y
 
-    ; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
-    ; check at $00:AFB0 by replacing the AND mask with $00 — beq always
-    ; taken, right-button branch skipped. Original:
-    ;   AFB0: A5 03      lda $03
-    ;   AFB2: 29 01      and #$01     ← JOY_RIGHT mask
-    ;   AFB4: F0 1A      beq +$1A
-}
-.alloc at 0x00AFB2 {
-        and #0x00
+; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
+; check at $00:AFB0 by replacing the AND mask with $00 — beq always
+; taken, right-button branch skipped. Original:
+;   AFB0: A5 03      lda $03
+;   AFB2: 29 01      and #$01     ← JOY_RIGHT mask
+;   AFB4: F0 1A      beq +$1A
+    *=0x00AFB2
+    and #0x00
 
-    ; A-select index calc at $00:AF9C: original
-    ;   lda $ba / clc / adc $8c / asl / clc / adc $8b / asl / tax
-    ;   index = (($ba + $8c) * 2 + $8b) * 2  = ($ba+$8c)*4
-    ; Single col: drop the col mix-in AND the second asl, so
-    ; index = ($ba + $8c) * 2 (one item = 2 bytes id+qty).
-    ;   $00:AFA2 clc / adc $8b (3 bytes) → 3 NOPs
-    ;   $00:AFA5 asl (1 byte) → NOP
-}
-.alloc at 0x00AFA2 {
-        pad_nop(3)
-}
-.alloc at 0x00AFA5 {
-        nop
-}
+; A-select index calc at $00:AF9C: original
+;   lda $ba / clc / adc $8c / asl / clc / adc $8b / asl / tax
+;   index = (($ba + $8c) * 2 + $8b) * 2  = ($ba+$8c)*4
+; Single col: drop the col mix-in AND the second asl, so
+; index = ($ba + $8c) * 2 (one item = 2 bytes id+qty).
+;   $00:AFA2 clc / adc $8b (3 bytes) → 3 NOPs
+;   $00:AFA5 asl (1 byte) → NOP
+    *=0x00AFA2
+    pad_nop(3)
+    *=0x00AFA5
+    nop
 }

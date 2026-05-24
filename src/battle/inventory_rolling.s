@@ -3,7 +3,6 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
-.include "config.i"
 .extern assets_items_dat
 .extern assets_items_unleashed_dat
 .extern mult8_trampoline
@@ -13,8 +12,6 @@ runs the field-menu NMI DMA check.
 .extern draw_text_rolling_trampoline
 .extern return_to_bank02
 .extern render.flush_chr_to_vram
-
-.include "../bank20.i"
 
 .alloc battle_inventory_rolling_block in bank20_reloc {
     .if BATTLE_ITEMS_VWF {

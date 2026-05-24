@@ -26,8 +26,6 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 scp_active_slot := 0x7EEF9C  ; scratch for set_active_char_palette
 scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
 
-.include "../bank20.i"
-
 .alloc battle_redraw_gates_block in bank20_reloc {
     status_hash := 0x7EEF9E  ; hash of char-status bytes; gates DrawStatusText
     obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames

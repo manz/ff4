@@ -18,214 +18,194 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;
 ; Flag-gated off until the entry/exit/trigger thunks are wired up.
 
-.include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
 ; Kill 2-col navigation in the inventory picker (JOY_RIGHT / JOY_LEFT).
-.alloc at 0x01DA23 {
-        .db 0x00
-}
-.alloc at 0x01DA34 {
-        .db 0x00
+    *=0x01DA23
+    .db 0x00
 
-    ; Force inventory cursor X to always 0 (left column).
-    ; Original $01D9F5: `lda $1BB6` (AD B6 1B) → `lda #$00 / nop`.
-}
-.alloc at 0x01D9F5 {
-        lda #0x00
-        nop
+    *=0x01DA34
+    .db 0x00
 
-    ; Single-column swap-offset: original _01daac computes
-    ;   index = ((($1bb5 + $1bb7) << 1 + $1bb6) << 1
-    ; for the 2-column inventory ($1bb5 = visible row, $1bb7 = scroll row,
-    ; $1bb6 = column 0/1). The double-shift assumes 2 cols × 2 bytes/item;
-    ; with our forced single-column ($1bb6=0) it multiplies by 4 instead of
-    ; the 2 bytes/item we actually need, so the swap reads/writes
-    ; even-numbered items only and half the inventory becomes unreachable.
-    ; NOP the second `asl` at $01DAC2 so the offset becomes
-    ; ($1bb5 + $1bb7) * 2 = byte index into $1440.
-}
-.alloc at 0x01DAC2 {
-        nop
+; Force inventory cursor X to always 0 (left column).
+; Original $01D9F5: `lda $1BB6` (AD B6 1B) → `lda #$00 / nop`.
+    *=0x01D9F5
+    lda #0x00
+    nop
 
-    ; Extend $1BB7 max from $14 (20) to $2B (43 = 48 - 5).
-}
-.alloc at 0x01DA86 {
-        .db 0x2B
+; Single-column swap-offset: original _01daac computes
+;   index = ((($1bb5 + $1bb7) << 1 + $1bb6) << 1
+; for the 2-column inventory ($1bb5 = visible row, $1bb7 = scroll row,
+; $1bb6 = column 0/1). The double-shift assumes 2 cols × 2 bytes/item;
+; with our forced single-column ($1bb6=0) it multiplies by 4 instead of
+; the 2 bytes/item we actually need, so the swap reads/writes
+; even-numbered items only and half the inventory becomes unreachable.
+; NOP the second `asl` at $01DAC2 so the offset becomes
+; ($1bb5 + $1bb7) * 2 = byte index into $1440.
+    *=0x01DAC2
+    nop
 
-    ; Drops swap byte-index recompute. Original at $01:DAAC computes
-    ;   X = (($1BB3 * 2) + $1BB4) * 2
-    ; for the 4-row x 2-col drops grid: cursor row is $1BB3, column $1BB4.
-    ; With single-column drops + rolling buffer the actual drop slot is
-    ;   (cursor_row + drops_scroll_pos) * 2  bytes into $7E:FF28.
-    ; Replace the 8-byte sequence in place — same length, no relocation.
-    ;   AD B3 1B  lda $1BB3
-    ;   18        clc
-    ;   6D EF 1B  adc drops_scroll_pos
-    ;   0A        asl
-    ;   20 B4 87  jsr $87B4 (sta $43 / ldx $43 — A -> X via scratch)
-}
-.alloc at 0x01DAAC {
-        lda.w 0x1BB3
-        clc
-        adc.w drops_scroll_pos
-        asl
-        jsr 0x87B4
+; Extend $1BB7 max from $14 (20) to $2B (43 = 48 - 5).
+    *=0x01DA86
+    .db 0x2B
 
-    ; Replace `jsr $01A172` (original DrawInventoryList) at TWO call sites:
-    ;   - $01:D81D — treasure menu entry (`_01d7f2` flow), fires once on enter
-    ;     → full init (zero state, render slots 0..5).
-    ;   - $01:D933 — `_01d929` redraw helper, fires after every successful
-    ;     swap. Original rebuilds the whole 48-item list here; we only need
-    ;     to re-render the 6 buffer slots from the mutated $1440. Crucially
-    ;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow — otherwise
-    ;     swapping with an item past visible row 4 snaps the scroll back to
-    ;     the top because init re-zeroes the rolling state.
-}
-.alloc at 0x01D81D {
-        jsr.w init_treasure_rolling_buffer
-}
-.alloc at 0x01D933 {
-        jsr.w treasure_refresh_slots
-}
-.alloc at 0x01D80E {
-        jsr.w drops_init
-}
-.alloc at 0x01D92D {
-        jsr.w drops_refresh_slots
+; Drops swap byte-index recompute. Original at $01:DAAC computes
+;   X = (($1BB3 * 2) + $1BB4) * 2
+; for the 4-row x 2-col drops grid: cursor row is $1BB3, column $1BB4.
+; With single-column drops + rolling buffer the actual drop slot is
+;   (cursor_row + drops_scroll_pos) * 2  bytes into $7E:FF28.
+; Replace the 8-byte sequence in place — same length, no relocation.
+;   AD B3 1B  lda $1BB3
+;   18        clc
+;   6D EF 1B  adc drops_scroll_pos
+;   0A        asl
+;   20 B4 87  jsr $87B4 (sta $43 / ldx $43 — A -> X via scratch)
+    *=0x01DAAC
+    lda.w 0x1BB3
+    clc
+    adc.w drops_scroll_pos
+    asl
+    jsr 0x87B4
 
-    ; drops_init draws TreasureItemsWindow on BG4 itself (via its
-    ; draw_window_hook) so the engine can render items into the freshly
-    ; drawn frame. Original still has SelectBG4 + ldy + DrawWindow at
-    ; $01:D811-$01:D819 (9 bytes) which would draw the same window on
-    ; top of our items, overwriting them with body fill. NOP the whole
-    ; block — drops_init has already done both steps. SelectBG3 at
-    ; $01:D81A still runs and primes $29=$D600 for treasure_init at
-    ; $01:D81D.
-}
-.alloc at 0x01D811 {
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+; Replace `jsr $01A172` (original DrawInventoryList) at TWO call sites:
+;   - $01:D81D — treasure menu entry (`_01d7f2` flow), fires once on enter
+;     → full init (zero state, render slots 0..5).
+;   - $01:D933 — `_01d929` redraw helper, fires after every successful
+;     swap. Original rebuilds the whole 48-item list here; we only need
+;     to re-render the 6 buffer slots from the mutated $1440. Crucially
+;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow — otherwise
+;     swapping with an item past visible row 4 snaps the scroll back to
+;     the top because init re-zeroes the rolling state.
+    *=0x01D81D
+    jsr.w init_treasure_rolling_buffer
+    *=0x01D933
+    jsr.w treasure_refresh_slots
 
-    ; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
-    ; the hand pointer 16 px below the drops band's first slot (legacy
-    ; 4x2 grid expected items at row 6+ on screen). With drops bumped
-    ; to start at tilemap row 4 (+0x80 byte stride from baseline), the
-    ; sprite needs base $28 so cursor row 0 lines up with item 0.
-}
-.alloc at 0x01D96F {
-        .db 0x28
+    *=0x01D80E
+    jsr.w drops_init
+    *=0x01D92D
+    jsr.w drops_refresh_slots
 
-    ; Drops cursor row clamp + UP/DOWN scroll triggers. Original at
-    ; $01D9D1: `bmi $D9D6 / sta $1BB3` skips store when dec underflows
-    ; (clamp at row 0). Original at $01D9E0: `cmp #$04 / beq $D9E7 /
-    ; sta $1BB3` caps cursor at 4 rows. Hijack both clamp arms so the
-    ; rolling buffer gets a chance to scroll instead of just clamping.
+; drops_init draws TreasureItemsWindow on BG4 itself (via its
+; draw_window_hook) so the engine can render items into the freshly
+; drawn frame. Original still has SelectBG4 + ldy + DrawWindow at
+; $01:D811-$01:D819 (9 bytes) which would draw the same window on
+; top of our items, overwriting them with body fill. NOP the whole
+; block — drops_init has already done both steps. SelectBG3 at
+; $01:D81A still runs and primes $29=$D600 for treasure_init at
+; $01:D81D.
+    *=0x01D811
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
-    ; Drops cursor loop frame-wait at $01:D98B is the per-frame tick site
-    ; for the cursor-on-drops mode (counterpart to the picker loop's
-    ; $01:DA08). Replace with our combined main-loop check so the drops
-    ; scroll state machine advances while DOWN/UP are held.
-}
-.alloc at 0x01D98B {
-        jsr.w treasure_main_loop_scroll_check
+; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
+; the hand pointer 16 px below the drops band's first slot (legacy
+; 4x2 grid expected items at row 6+ on screen). With drops bumped
+; to start at tilemap row 4 (+0x80 byte stride from baseline), the
+; sprite needs base $28 so cursor row 0 lines up with item 0.
+    *=0x01D96F
+    .db 0x28
 
-    ; UP clamp -> drops_up_handler (handler reads N flag from preceding
-    ; `dec`, scrolls when row underflowed).
-}
-.alloc at 0x01D9D1 {
-        jsr.w drops_up_handler
-        nop
-        nop
+; Drops cursor row clamp + UP/DOWN scroll triggers. Original at
+; $01D9D1: `bmi $D9D6 / sta $1BB3` skips store when dec underflows
+; (clamp at row 0). Original at $01D9E0: `cmp #$04 / beq $D9E7 /
+; sta $1BB3` caps cursor at 4 rows. Hijack both clamp arms so the
+; rolling buffer gets a chance to scroll instead of just clamping.
 
-    ; DOWN clamp -> drops_down_handler (handler reads A = row+1, scrolls
-    ; when at or past the visible cap).
-}
-.alloc at 0x01D9E0 {
-        .db 0xEA  ; nop (was cmp #$05 byte 1)
-        .db 0xEA  ; nop (was cmp #$05 byte 2)
-        jsr.w drops_down_handler
-        nop
-        nop
+; Drops cursor loop frame-wait at $01:D98B is the per-frame tick site
+; for the cursor-on-drops mode (counterpart to the picker loop's
+; $01:DA08). Replace with our combined main-loop check so the drops
+; scroll state machine advances while DOWN/UP are held.
+    *=0x01D98B
+    jsr.w treasure_main_loop_scroll_check
 
-    ; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
-    ; bytes) with our state-machine trigger.
-}
-.alloc at 0x01DA57 {
-        jsr.w treasure_scroll_up_trigger
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+; UP clamp -> drops_up_handler (handler reads N flag from preceding
+; `dec`, scrolls when row underflowed).
+    *=0x01D9D1
+    jsr.w drops_up_handler
+    nop
+    nop
 
-    ; Same for the down-scroll loop at $01:DA8C-$01:DA9B.
-}
-.alloc at 0x01DA8C {
-        jsr.w treasure_scroll_down_trigger
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+; DOWN clamp -> drops_down_handler (handler reads A = row+1, scrolls
+; when at or past the visible cap).
+    *=0x01D9E0
+    .db 0xEA  ; nop (was cmp #$05 byte 1)
+    .db 0xEA  ; nop (was cmp #$05 byte 2)
+    jsr.w drops_down_handler
+    nop
+    nop
 
-    ; Main-loop hook replaces `jsr $82C0` at $01:DA08. The hook drives the
-    ; per-frame scroll animation, freezes input via `stz $01` while
-    ; animating, and forwards to the original $82C0 so original per-frame
-    ; work still runs.
-}
-.alloc at 0x01DA08 {
-        jsr.w treasure_main_loop_scroll_check
+; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
+; bytes) with our state-machine trigger.
+    *=0x01DA57
+    jsr.w treasure_scroll_up_trigger
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
-    ; Same hook at $01:DA9C. The down/up scroll branch ends with
-    ;   $DA9C jsr $82C0 / ldx $02 / stx $00 / $DAA3 jmp $DA0B
-    ; which loops back to the input check WITHOUT passing through $DA08.
-    ; While DOWN/UP is held, control bounces between $DA0B and $DAA3
-    ; forever, so the $DA08 hook never fires and the scroll animation
-    ; never ticks. Replacing the second $82C0 with our hook drives the
-    ; state machine on the held-button inner loop too, matching the
-    ; field-menu scroll cadence (every frame).
-}
-.alloc at 0x01DA9C {
-        jsr.w treasure_main_loop_scroll_check
+; Same for the down-scroll loop at $01:DA8C-$01:DA9B.
+    *=0x01DA8C
+    jsr.w treasure_scroll_down_trigger
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
-    ; Up-scroll branch: same pattern as the down branch, ends with
-    ;   $DA67 jsr $82C0 / ldx $02 / stx $00 / $DA6E bra $DA0B
-    ; Tick the state machine here too so held-UP scroll animates at the
-    ; same cadence as held-DOWN.
-}
-.alloc at 0x01DA67 {
-        jsr.w treasure_main_loop_scroll_check
+; Main-loop hook replaces `jsr $82C0` at $01:DA08. The hook drives the
+; per-frame scroll animation, freezes input via `stz $01` while
+; animating, and forwards to the original $82C0 so original per-frame
+; work still runs.
+    *=0x01DA08
+    jsr.w treasure_main_loop_scroll_check
 
-    ; Treasure menu exit. Original: `stz $1BC6` (3 bytes) clears the in-menu flag.
-    ; Replace with our exit hook (also 3 bytes), which restores original state and
-    ; additionally tears down the rolling-buffer state + HDMA ch6 registers so
-    ; the next menu mode (field, key-item picker, battle) starts from a clean
-    ; slate. The hook itself re-runs the `stz $1BC6` to preserve original contract.
-}
-.alloc at 0x01D7E6 {
-        jsr.w treasure_menu_exit_hook
-}
+; Same hook at $01:DA9C. The down/up scroll branch ends with
+;   $DA9C jsr $82C0 / ldx $02 / stx $00 / $DAA3 jmp $DA0B
+; which loops back to the input check WITHOUT passing through $DA08.
+; While DOWN/UP is held, control bounces between $DA0B and $DAA3
+; forever, so the $DA08 hook never fires and the scroll animation
+; never ticks. Replacing the second $82C0 with our hook drives the
+; state machine on the held-button inner loop too, matching the
+; field-menu scroll cadence (every frame).
+    *=0x01DA9C
+    jsr.w treasure_main_loop_scroll_check
+
+; Up-scroll branch: same pattern as the down branch, ends with
+;   $DA67 jsr $82C0 / ldx $02 / stx $00 / $DA6E bra $DA0B
+; Tick the state machine here too so held-UP scroll animates at the
+; same cadence as held-DOWN.
+    *=0x01DA67
+    jsr.w treasure_main_loop_scroll_check
+
+; Treasure menu exit. Original: `stz $1BC6` (3 bytes) clears the in-menu flag.
+; Replace with our exit hook (also 3 bytes), which restores original state and
+; additionally tears down the rolling-buffer state + HDMA ch6 registers so
+; the next menu mode (field, key-item picker, battle) starts from a clean
+; slate. The hook itself re-runs the `stz $1BC6` to preserve original contract.
+    *=0x01D7E6
+    jsr.w treasure_menu_exit_hook
 }

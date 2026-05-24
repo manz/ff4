@@ -7,8 +7,6 @@ dakuten/handakuten composite tile pair.
 
 
 
-.include "bank20.i"
-
 .alloc dakuten_block in bank20_reloc {
     .incbin "assets/dakuten.bin"
 

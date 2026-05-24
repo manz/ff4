@@ -6,7 +6,6 @@ relocating other code.
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
 
-.include "config.i"
 .pool bank01_slack {
     range 0x01ff35 0x01ffff
     strategy order

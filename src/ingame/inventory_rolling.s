@@ -14,7 +14,6 @@ approach for the main menu items list with HDMA-based circular scrolling.
 ; CONSTANTS
 
 ; Layout (single column)
-.include "config.i"
 MENU_VISIBLE_ITEMS := 10  ; Visible items at once
 MENU_BUFFER_SLOTS := 11  ; 11 slots (10 visible + 1 pre-render)
 MENU_TOTAL_ITEMS := 48  ; Total inventory items

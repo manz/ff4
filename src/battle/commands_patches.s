@@ -2,85 +2,77 @@
 In-place patches that resize the battle command-window layout when `BATTLE_CMD_VWF` is enabled (shorter slot
 stride, command-id base, format-buffer pointer).
 """
-.include "config.i"
 command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 .if BATTLE_CMD_VWF {
     command_length = 6
 ; Command window
-.alloc at 0x16fe5a + 6 * 2 {
-        .db 0x05, 0x00, command_length + 2, 0x0d
-}
-.alloc at 0x2b990 {
-        lda.b #0x18 + 8
-}
+    *=0x16fe5a + 6 * 2
+    .db 0x05, 0x00, command_length + 2, 0x0d
+
+    *=0x2b990
+    lda.b #0x18 + 8
 } else {
     command_length = 10
 
 ; move command cursor on the moved window
-.alloc at 0x2b990 {
-        lda.b #0x18
-}
-.alloc at 0x029CD6 {
-        lda.b #command_length
-}
-.alloc at 0x029D15 {
-        lda.b #command_length
-}
-.alloc at 0x029D42 {
-        cpy.w #command_length + 2
-}
-.alloc at 0x029D5A {
-        cpy.w #command_length + 2
-}
-.alloc at 0x029D39 {
-        lda.l assets_battle_commands_dat, x
-}
-.alloc at 0x029CE0 {
-        lda.b #command_length * 4
+    *=0x2b990
+    lda.b #0x18
+    *=0x029CD6
+    lda.b #command_length
 
-    ; patches source & length of battle commands used in display attack window.
-}
-.alloc at 0x02cb49 {
-        lda.b #command_length
+    *=0x029D15
+    lda.b #command_length
 
-    ; attack window kick for example ends up there
-}
-.alloc at 0x02cb54 {
-        lda.l assets_battle_commands_dat, x
-}
-.alloc at 0x02cb5d {
-        cpy.w #command_length
+    *=0x029D42
+    cpy.w #command_length + 2
 
-    ; Command window
-}
-.alloc at 0x16fe5a + 6 * 2 {
-        .db 0x04, 0x00, command_length + 2, 0x0d
-}
+    *=0x029D5A
+    cpy.w #command_length + 2
+
+    *=0x029D39
+    lda.l assets_battle_commands_dat, x
+
+    *=0x029CE0
+    lda.b #command_length * 4
+
+; patches source & length of battle commands used in display attack window.
+    *=0x02cb49
+    lda.b #command_length
+
+; attack window kick for example ends up there
+    *=0x02cb54
+    lda.l assets_battle_commands_dat, x
+
+    *=0x02cb5d
+    cpy.w #command_length
+
+; Command window
+    *=0x16fe5a + 6 * 2
+    .db 0x04, 0x00, command_length + 2, 0x0d
 }
 
 
 {
 ; ram position of the prebuilt battle windows
-.alloc at 0x16FEAD {
-    cmd_text_buf_ptrs:
-        battle_data_size = command_length * 4 * 5
-        .dw command_buffer_ptr
-        .dw command_buffer_ptr + battle_data_size
-        .dw command_buffer_ptr + battle_data_size * 2
-        .dw command_buffer_ptr + battle_data_size * 3
-        .dw command_buffer_ptr + battle_data_size * 4
-}
-.alloc at 0x16FE54 {
-        .db command_length * 2
-        .db 0x0a
-        .dw command_buffer_ptr  ; read address
-        .if BATTLE_CMD_VWF {
-        .dw 0xC1F4 - 2  ; write address
-        } else {
-        .dw 0xC1F4 - 4  ; write address
-        }
-}
-.alloc at 0x02999F {
-        ldx.w #battle_data_size
-}
+    *=0x16FEAD
+cmd_text_buf_ptrs:
+    battle_data_size = command_length * 4 * 5
+    .dw command_buffer_ptr
+    .dw command_buffer_ptr + battle_data_size
+    .dw command_buffer_ptr + battle_data_size * 2
+    .dw command_buffer_ptr + battle_data_size * 3
+    .dw command_buffer_ptr + battle_data_size * 4
+
+    *=0x16FE54
+    .db command_length * 2
+    .db 0x0a
+    .dw command_buffer_ptr  ; read address
+    .if BATTLE_CMD_VWF {
+    .dw 0xC1F4 - 2  ; write address
+    } else {
+    .dw 0xC1F4 - 4  ; write address
+    }
+
+    *=0x02999F
+    ldx.w #battle_data_size
 }

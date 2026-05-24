@@ -4,37 +4,8 @@ Final Fantasy IV the new hack.
 ----------------
 """
 
-.include "config.i"
-
 ; Forward declaration - conditional_bg1_vofs is at start of relocated region ($208000)
 conditional_bg1_vofs := 0x208000
-
-; Auto-prepended: imports must precede .include'd patches so extern stubs are visible.
-.import "assets"
-.import "battle/commands_reloc"
-.import "battle/equip_window"
-.import "battle/graphics"
-.import "battle/inventory_rolling"
-.import "battle/items_reloc"
-.import "battle/magic_reloc"
-.import "battle/math_reloc"
-.import "battle/monsters_reloc"
-.import "battle/redraw_gates"
-.import "battle/sram"
-.import "dakuten"
-.import "dialog"
-.import "ingame/init_bg_scroll_hdma"
-.import "ingame/items_menu_vwf"
-.import "ingame/places_names_window"
-.import "intro"
-.import "kerning"
-.import "libmz"
-.import "menus/in_game_text"
-.import "menus/start_screen_text"
-.import "menus/system_menus_text"
-.import "menus/tools_shop_text"
-.import "small_vwf/init"
-.import "vwf"
 
 .include "src/libmz.i"
 .include "src/items.i"
@@ -383,24 +354,22 @@ signature byte sits at PB:(PC - 1).
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
-.alloc at 0xc436 {
-        lda #0x39
-        nop
-}
+    *=0xc436
+    lda #0x39
+    nop
 }
 
 .if DEBUG_SHOW_ITEM_WINDOW {
 ; Hijack ExecEvent to always run F7 (select item) with Baron Key
 ; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
-.alloc at 0x00E1EB {
-        lda #0xD1
-        sta 0x09d6
-        lda #0xFF
-        sta 0x09d7
-        ldx #0x0000
-        stx 0xb3
-        jmp.w 0xED96
-}
+    *=0x00E1EB
+    lda #0xD1
+    sta 0x09d6
+    lda #0xFF
+    sta 0x09d7
+    ldx #0x0000
+    stx 0xb3
+    jmp.w 0xED96
 }
 
 ; Park the 17-byte-stride items_unleashed.dat in an empty bank so the

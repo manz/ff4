@@ -5,8 +5,6 @@ Hard-coded battle command graphics: tile-id rows used when the row/defend comman
 from ROM.
 """
 
-.include "../bank20.i"
-
 .alloc battle_graphics_block in bank20_reloc {
     .scope defend_row {
         """Two glyph rows for the Defend / Row battle command labels."""
