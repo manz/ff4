@@ -86,7 +86,7 @@ def assets_need_refresh(source, destination):
 
 
 def build_patch(input, output, lang):
-    from a816.module_builder import build_with_imports_direct
+    from a816.module_builder import build_with_imports
 
     obj_dir = Path("build/obj")
     if obj_dir.exists():
@@ -97,15 +97,14 @@ def build_patch(input, output, lang):
     if out_path.exists():
         out_path.unlink()
 
-    result = build_with_imports_direct(
+    result = build_with_imports(
         main_source=Path(input),
         output_file=Path(output),
         output_format="ips",
         module_paths=[Path("build/obj"), Path("src")],
         output_dir=Path("build/obj"),
         symbols={"LANG": lang},
-        include_paths=[Path("src")],
-        prelude_file=Path("config.i"),
+        include_paths=[Path("src"), Path(".")],
         overlap_mode="warn",
     )
 

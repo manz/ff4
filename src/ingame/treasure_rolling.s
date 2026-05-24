@@ -15,6 +15,7 @@ from `inventory_rolling.s` and tuned for the chest UI.
 ; menus are mutually exclusive on screen.
 
 ; Layout (single column)
+.include "config.i"
 TREASURE_VISIBLE_ITEMS := 5  ; Visible items at once
 TREASURE_BUFFER_SLOTS := 6  ; 6 slots (5 visible + 1 pre-render)
 TREASURE_TOTAL_ITEMS := 48  ; Total inventory items

@@ -1,3 +1,4 @@
+.include "config.i"
 """Small (8x8) menu VWF renderer."""
 .include "src/vwf_state.i"
 
