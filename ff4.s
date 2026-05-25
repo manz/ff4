@@ -4,8 +4,35 @@ Final Fantasy IV the new hack.
 ----------------
 """
 
-; Forward declaration - conditional_bg1_vofs is at start of relocated region ($208000)
-conditional_bg1_vofs := 0x208000
+; Auto-prepended: imports must precede .include'd patches
+.import "assets"
+.import "battle/commands_reloc"
+.import "battle/equip_window"
+.import "battle/graphics"
+.import "battle/inventory_rolling"
+.import "battle/items_reloc"
+.import "battle/magic_reloc"
+.import "battle/math_reloc"
+.import "battle/monsters_reloc"
+.import "battle/redraw_gates"
+.import "battle/sram"
+.import "dakuten"
+.import "dialog"
+.import "ingame/init_bg_scroll_hdma"
+.import "ingame/items_menu_vwf"
+.import "ingame/places_names_window"
+.import "intro"
+.import "kerning"
+.import "libmz"
+.import "menus/in_game_text"
+.import "menus/start_screen_text"
+.import "menus/system_menus_text"
+.import "menus/tools_shop_text"
+.import "small_vwf/init"
+.import "vwf"
+
+.include "config.i"
+
 
 .include "src/libmz.i"
 .include "src/items.i"
@@ -54,28 +81,32 @@ dialog_bank_ptr_base = 0x218000
 
 
 .alloc at 0x00FFC0 {
-    ; patch snes cartridge type
-    ; original PCB: SHVC-1A3B  ;  target PCB: SHVC-1A5B
+; patch snes cartridge type
+; original PCB: SHVC-1A3B  ;  target PCB: SHVC-1A5B
     .ascii "Final Fantasy IV     "
 }
 
 .alloc at 0x00FFD6 {
-    ; FFD5 20H / 30H Map Mode
+; FFD5 20H / 30H Map Mode
     .db 0x02  ; Cartridge Type
     .db 0x0B  ; ~ 0BH ROM Size
     .db 0x07  ; RAM Size
 }
 
 .if ENABLE_BRK_HANDLER {
-    ; JML trampoline in vector-table padding; native/emu BRK vectors point here.
+; JML trampoline in vector-table padding; native/emu BRK vectors point here.
     .alloc at 0x00FFE0 {
-        jmp.l brk_handler
+    jmp.l brk_handler
     }
+
+
     .alloc at 0x00FFE6 {
-        .dw 0xFFE0
+    .dw 0xFFE0
     }
+
+
     .alloc at 0x00FFFE {
-        .dw 0xFFE0
+    .dw 0xFFE0
     }
 }
 
@@ -83,9 +114,9 @@ dialog_bank_ptr_base = 0x218000
 ; déroutage pour ajouter le splash screen
 .alloc at 0x008031 {
     .if ENABLE_INTRO {
-        jsr.l start_splash_screen
+    jsr.l start_splash_screen
     } else {
-        jsr.l clear_ram
+    jsr.l clear_ram
     }
 }
 
@@ -119,6 +150,7 @@ dialog_bank_ptr_base = 0x218000
 ; Address is pinned by `conditional_bg1_vofs := 0x208000` at the top of
 ; this file ; `strategy order` keeps it first in the pool.
     .if INVENTORY_ROLLING_BUFFER {
+conditional_bg1_vofs:
     lda.l 0x7E0000 + menu_hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
@@ -282,7 +314,7 @@ signature byte sits at PB:(PC - 1).
 ; and matches the legacy `*=0x208000` chain so .import modules without
 ; their own `*=` directive land in bank-20 as expected.
 
-    ; --- Imported modules ---------------------------------------------------
+; --- Imported modules ---------------------------------------------------
 
 .import "libmz"
 .import "dialog"
@@ -336,33 +368,22 @@ signature byte sits at PB:(PC - 1).
 ; --- Binary text assets -------------------------------------------------
 
 
-.incbin "assets/attack_names.ptr"
-.incbin "assets/attack_names.dat"
-.incbin "assets/monsters_long.ptr"
-.incbin "assets/monsters_long.dat"
-.incbin "assets/battle_commands_nul.ptr"
-.incbin "assets/battle_commands_nul.dat"
-.incbin "assets/magic.dat"
-.incbin "assets/places_names.dat"
-.incbin "assets/classes.ptr"
-.incbin "assets/classes.dat"
-.incbin "assets/items.dat"
-.incbin "assets/item_descriptions.dat"
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
-    *=0xc436
+    .alloc at 0xc436 {
     lda #0x39
     nop
+    }
 }
 
 .if DEBUG_SHOW_ITEM_WINDOW {
 ; Hijack ExecEvent to always run F7 (select item) with Baron Key
 ; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
-    *=0x00E1EB
+    .alloc at 0x00E1EB {
     lda #0xD1
     sta 0x09d6
     lda #0xFF
@@ -370,6 +391,7 @@ signature byte sits at PB:(PC - 1).
     ldx #0x0000
     stx 0xb3
     jmp.w 0xED96
+    }
 }
 
 ; Park the 17-byte-stride items_unleashed.dat in an empty bank so the
@@ -380,3 +402,4 @@ signature byte sits at PB:(PC - 1).
 .alloc at 0x238000 {
     .incbin "assets/items_unleashed.dat"
 }
+

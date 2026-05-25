@@ -2,35 +2,35 @@
 Field-menu item screen patches: scroll-region tweaks, layout fixes and entry-point hooks (separate from
 rolling-buffer code which lives in `inventory_rolling.s`).
 """
+.include "config.i"
 .include "src/ingame/macros.i"
 
 ; during scroll
 
-*=0x01A814
+.alloc at 0x01A814 {
     load_system_menu_text_pointer(items_menu.item)
 
 ; when scroll done
-
-*=0x019F56
+}
+.alloc at 0x019F56 {
     load_system_menu_text_pointer(items_menu.item)
-
-*=0x1a750
+}
+.alloc at 0x1a750 {
     load_system_menu_text_pointer(items_menu.item)
 
 ; patching find description setup bank and offset
-
-*=0x01a7f6
+}
+.alloc at 0x01a7f6 {
     ldx.w #assets_item_descriptions_dat & 0xffff
-
-*=0x01a7fc
+}
+.alloc at 0x01a7fc {
     addr = ( assets_item_descriptions_dat & 0xff0000 )
     lda.l addr, x
-
-
-*=0x01a7da
-    ; In the original code the item description is rendered multiple times (once per tick ?)
-    ; rendering the variable width font that often cause noticeable slowdowns, we are trying to render the text only
-    ; when the description should change. Because the draw window clears the tilemap the check must happen before it.
+}
+.alloc at 0x01a7da {
+; In the original code the item description is rendered multiple times (once per tick ?)
+; rendering the variable width font that often cause noticeable slowdowns, we are trying to render the text only
+; when the description should change. Because the draw window clears the tilemap the check must happen before it.
     jmp.w check_if_description_was_rendered
     nop
 
@@ -38,61 +38,60 @@ _back:
 
 
 ; Hook in the display_item_description function, draw the window and render the string
-
-*=0x01a808
+}
+.alloc at 0x01a808 {
     lda.b #assets_item_descriptions_dat >> 16
     ldx.w #0x0054
     jsr.w draw_vwf_message
-
-
-*=0x1a439
+}
+.alloc at 0x1a439 {
     ldy.w #messages.use_on_whom
     jsr.w draw_vwf_message_pos_with_bank
-
-*=0x1a36f
+}
+.alloc at 0x1a36f {
     ldy.w #messages.cantuse
     jsr.w draw_vwf_message_pos_with_bank
 
 
 ; inventory window (22 rows tall for 10 visible items + borders)
-
-*=0x01dcce
+}
+.alloc at 0x01dcce {
     menu_window(0, 0, 30, 23)
 
 ;
-
-*=0x01dcd6
+}
+.alloc at 0x01dcd6 {
     menu_window(9, 0, 21, 3)
 
 ; item select character on the left side (selected item in the right column)
-
-*=0x01dd38
+}
+.alloc at 0x01dd38 {
     menu_window(0, 5, 16, 21)
 
 ; item select character on the right side (selected item in the left column)
-
-*=0x01dd3c
+}
+.alloc at 0x01dd3c {
     menu_window(14, 5, 16, 21)
 
 ; moves the right item column one tile to the right
-
-*=0x01a227
+}
+.alloc at 0x01a227 {
     adc.w #0x001c + 2
-
-*=0x01a1c4
+}
+.alloc at 0x01a1c4 {
     adc.w #0x0006  ; +2 tiles to the right
-
-*=0x1efd7d
+}
+.alloc at 0x1efd7d {
     _delta_l = 0
     _delta_r = 2
 
     .dw 0x039e - _delta_l, 0x019e - _delta_l, 0x059e - _delta_l, 0x029e - _delta_l, 0x049e - _delta_l
     .dw 0x0384 - _delta_r, 0x0184 - _delta_r, 0x0584 - _delta_r, 0x0284 - _delta_r, 0x0484 - _delta_r
-
-*=0x01a4f4
+}
+.alloc at 0x01a4f4 {
     adc.w #0x0082
-
-*=0x01a51a
+}
+.alloc at 0x01a51a {
     draw_hp_mp = 0x018a2a
     lda.w #0x0046 + 0x40
     ldy.w #0x0007
@@ -106,35 +105,34 @@ _back:
     lda.w #0x0090 + 0x40
     ldy.w #0x000d
     jsr.w draw_hp_mp
-
-*=0x01aed6
+}
+.alloc at 0x01aed6 {
     ldy.w #messages.cant_use_magic - 0x8000
     jsr.w draw_window_and_vwf_message
 
 ; choice window
-
-*=0x01db40
+}
+.alloc at 0x01db40 {
     load_system_menu_text_pointer(treasure.choice_window)
 
 ; label window
-
-*=0x01db46
+}
+.alloc at 0x01db46 {
     load_system_menu_text_pointer(treasure.header_window)
-
-*=0x01d83d
+}
+.alloc at 0x01d83d {
     load_system_menu_text_pointer(treasure.take_all)
-
-
-*=0x01db2e
+}
+.alloc at 0x01db2e {
     load_system_menu_text_pointer(treasure.key_items_left_warning)
-
-*=0x01d95b
+}
+.alloc at 0x01d95b {
     load_system_menu_text_pointer(treasure.exchange)
-
-*=0x1d88b
+}
+.alloc at 0x1d88b {
     lda.b #0x48 - 8
-
-*=0x1d88f
+}
+.alloc at 0x1d88f {
     lda.b #0xb8 - 8
 
 ;01D887  A5 60          LDA $60
@@ -146,12 +144,13 @@ _back:
 ;01D893  A9 0E          LDA #$0E
 ;01D895  85 46          STA $46
 ;01D897  4C 81 82       JMP $8281
-
-*=0x01D814
+}
+.alloc at 0x01D814 {
     load_system_menu_text_pointer(treasure.items_window)
-
-*=0x1d792
+}
+.alloc at 0x1d792 {
 _treasure_menu_entry:
+}
 
 ; Test Overrides:
 ; would be nice to automate that
@@ -165,20 +164,28 @@ _treasure_menu_entry:
 ; ============================================================================
 ; Scroll limit: 48 items - 10 visible = 38 max scroll position
 ; CMP opcode at $A076, operand at $A077
-    *=0x01A077
+    .alloc at 0x01A077 {
     .db 38  ; 38 = new scroll limit
 
 ; Visible items count - handled in inventory_single_column.s
 
 ; Disable left button (AND #$00 instead of AND #$02)
-    *=0x019FF4
+    }
+
+    .alloc at 0x019FF4 {
     and #0x00
 
 ; Disable right button (AND #$00 instead of AND #$01)
-    *=0x01A005
+    }
+
+    .alloc at 0x01A005 {
     and #0x00
 
 ; Hook swap redraw to reset rolling buffer
-    *=0x01A401
+    }
+
+    .alloc at 0x01A401 {
     jmp.w swap_redraw_trampoline  ; Replace JSR $A172
+    }
 }
+

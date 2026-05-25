@@ -1,3 +1,4 @@
+.include "config.i"
 """French translated text data for the start screen / save selection."""
 .include "src/ingame/macros.i"
 .include "../bank20.i"

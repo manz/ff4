@@ -2,6 +2,7 @@
 Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
 dialog-stream consumer).
 """
+.include "config.i"
 .include "src/battle/inventory_budget.i"
 .include "src/vwf_state.i"
 .if 0 {
