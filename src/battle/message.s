@@ -1333,6 +1333,24 @@ normal length, no visible black strip.
     pha
     phx
     phy
+; --- Forced-blank for the over-vblank DMA window ---
+; The VWF tile + tilemap + inventory-CHR DMA below can run ~40 scanlines
+; of transfer and starts late in the NMI (after OAM DMA + the flying-HDMA
+; chain), so the tail spills past the ~37-line vblank into active scan and
+; tears VRAM. Set forced-blank ($2100=$80) whenever any DMA work is queued
+; so those first active lines stay blanked while the DMA finishes; the
+; vanilla NMI tail at $02:837F restores brightness from $6CC1. Idle frames
+; (nothing queued) skip the blank, so there's no visible black strip.
+    php
+    sep #0x20
+    lda.l battle_render.pending_transfer_mask
+    ora.l battle_render.tilemap_pending_mask
+    ora.l battle_render.dma_dirty_slots
+    beq _no_force_blank
+    lda #0x80
+    sta.l 0x002100
+_no_force_blank:
+    plp
     .if BATTLE_ITEMS_VWF {
 ; Per-NMI BG3 V-scroll footer override.
 ;
