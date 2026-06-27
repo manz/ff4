@@ -11,22 +11,22 @@ character-name row up so it does not collide with the dextrality string.
 .alloc at 0x01bd54 {
         ldy.w #0x01c6 - 0x40 - 2
 
-        _item_delta = 8
+        item_delta = 8
 }
 .alloc at 0x01bd7b {
-        ldx.w #0x0164 + _item_delta
+        ldx.w #0x0164 + item_delta
 }
 .alloc at 0x01bd82 {
-        ldx.w #0x01e4 + _item_delta
+        ldx.w #0x01e4 + item_delta
 }
 .alloc at 0x01bd89 {
-        ldx.w #0x0264 + _item_delta
+        ldx.w #0x0264 + item_delta
 }
 .alloc at 0x01bd92 {
-        ldx.w #0x0064 + _item_delta
+        ldx.w #0x0064 + item_delta
 }
 .alloc at 0x01bda8 {
-        ldx.w #0x00e4 + _item_delta
+        ldx.w #0x00e4 + item_delta
 }
 .alloc at 0x1bd5c {
         jsr.l load_dextrelity_pointer

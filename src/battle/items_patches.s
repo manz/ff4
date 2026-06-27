@@ -12,6 +12,11 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/9E1A: A9 09  LDA #0x09
 
 .include "config.i"
+
+; root-scope extern: `.alloc` bodies open their own scope, so an extern
+; declared inside one never resolves at the use site.
+.extern tfr_equip_window_new
+
 .alloc at 0x029E1A {
     lda #ITEM_NAME_RECORD_SIZE
 
@@ -364,7 +369,6 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Vanilla body $0297A6..$029824 (126 bytes) hard-coded a side-by-side dual-write
 ; pattern. New routine in bank $20 walks label/item per hand row-by-row.
 ; Trampoline overwrites the entry; obsolete in-body patches removed.
-    .extern tfr_equip_window_new
 }
 .alloc at 0x0297A6 {
     jsr.l tfr_equip_window_new

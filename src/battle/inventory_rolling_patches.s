@@ -129,7 +129,7 @@ _update_enabled_items_trampoline:
 ; ============================================================================
 ; Original function was overwritten. This must fit in bank $02 free space.
 
-_draw_battle_command_window_relocated:
+draw_battle_command_window_relocated:
 ; Drop the CMD_DIRTY_BIT gate. The cmd-window tilemap region at
 ; $C1A5+ is a mirror of the main view ($BE65+) overlaid with cmd
 ; tiles. ATB rotation / monster death / HP ticks etc. only write to
@@ -197,10 +197,10 @@ return_to_bank02:
 ; Must use JSR (not JSL) since function ends with JMP, not RTL
 
 .alloc at 0x0296CB {
-        jsr.w _draw_battle_command_window_relocated
+        jsr.w draw_battle_command_window_relocated
 }
 .alloc at 0x029983 {
-        jsr.w _draw_battle_command_window_relocated
+        jsr.w draw_battle_command_window_relocated
 
     ; ============================================================================
     ; PATCHES in ascending address order (assembler requires this)

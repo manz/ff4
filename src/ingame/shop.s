@@ -159,7 +159,7 @@ small-VWF item descriptions.
         .db 0x00 + 8, 0x2c + 8
 }
 .alloc at 0x01debe {
-    _shop_title_ptr:
+    shop_title_ptr:
         .dw shops.weapons_title - 0x8000
         .dw shops.armor_title - 0x8000
         .dw shops.items_title - 0x8000
@@ -171,7 +171,7 @@ small-VWF item descriptions.
         asl
         tax
         rep #0x20
-        lda.l _shop_title_ptr, x
+        lda.l shop_title_ptr, x
         tay
         sep #0x20
         nop

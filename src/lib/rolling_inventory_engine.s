@@ -1,5 +1,5 @@
 """
-Unified rolling-inventory engine — bank-20 entry points.
+Unified rolling-inventory engine - bank-20 entry points.
 
 Phase 1 skeleton : declares the JSL-callable entry points specified in
 plans/rolling_inventory_engine.md. Each entry currently delegates to
@@ -539,7 +539,7 @@ sites that remain in the per-menu source files.
     ; RTS no-ops, so skip the call entirely unless menu_id == 0.
         lda.l 0x7E0000 + RollingBufferState.menu_id, x
         bne _swap_next
-        jsr.w _clear_inventory_slot
+        jsr.w clear_inventory_slot
 
     _swap_next:
         pla

@@ -106,7 +106,7 @@ follow-up patches.
 ; `deinit_gated` skips the DMA-signal. The WRAM tile buffer is left
 ; untouched, no DMA fires from this region's deinit, and the VRAM
 ; tilemap persists from the previous render.
-_msg_monster_window_gated:
+msg_monster_window_gated:
 """Gated DrawMonsterNames trampoline (slice-2 queue-side bit)."""
     jsr.l messages_vwf.init_monsters_gated
     lda.l battle_render.render_skipped
@@ -151,7 +151,7 @@ Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
 ; Original `Battle_ext` was `jmp ExecBattle` (3 bytes). JML is 4
 ; bytes so we clobber 1 byte of `Battle_ext2` at $03:8003. Decomp
 ; grep confirms zero callers of Battle_ext2 anywhere.
-_battle_ext_seed:
+battle_ext_seed:
 """Battle_ext root tail: seed redraw-gate state then jump ExecBattle."""
     jsr.l reset_queue_dirty_bits
     jmp.l 0x038009
@@ -198,7 +198,7 @@ walker_helper:
 """5-byte bank-02 trampoline: JSL bank-20 walker, RTS to caller."""
     jsr.l walker_rtl
     rts
-_msg_names_window_gated:
+msg_names_window_gated:
 """Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
     lda.b 0x4A
     and.b 0x04
@@ -220,7 +220,7 @@ _mnwg_done:
 ; Redirect `Battle_ext` entry to our seed helper.
 
 .alloc at 0x038000 {
-        jmp.l _battle_ext_seed
+        jmp.l battle_ext_seed
 
     ; Redirect RedrawMainMenu's `jsr DrawStatusText` to our gate.
 }

@@ -121,9 +121,26 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 ; 12-byte block at a known WRAM base; routines reference fields via
 ; `<base> + RollingBufferState.<field>` instead of hardcoded offsets.
 ;
-; Field menu base:    $7E:1BA8
-; Treasure inventory: $7E:1BD0
-; (Drops + key-item bases will be assigned during Phase 4-5.)
+
+; Bases (all in clean $7E:9C00 arena, off vanilla scratch $1B**):
+;   Treasure inv:      $7E:9C00
+;   Drops:             $7E:9C30
+;   Key-item picker:   $7E:9C60
+;   Field menu:        $7E:9C90  (FIELD_MENU_ROLLING_BASE below)
+;
+; The whole arena lives inside the spell-list text buffers that the
+; magic-direct-render rewrite freed (see battle/inventory_rolling.s
+; comment: "freed by magic direct rendering: $97A6, $9E66, …"). Battle
+; reuses the low end ($97A6 ring + $9DA7 command buffer), leaving the
+; $990E..$9DA7 gap free - that's where our four rolling states sit.
+; Menus are mutually exclusive with battle, and init re-seeds the
+; struct on every menu open, so battle-side overwrites don't matter.
+;
+; Only the field base lives here for now - the other three are still
+; defined inside their respective modules. Migrate them into shared
+; constants when the singleton arena refactor lands.
+FIELD_MENU_ROLLING_BASE := 0x7E9C90
+
 .struct RollingBufferState {
     byte top_row
     byte buffer_pos
@@ -155,3 +172,15 @@ ROLLING_MENU_ID_FIELD := 0
 ROLLING_MENU_ID_TREASURE := 1
 ROLLING_MENU_ID_DROPS := 2
 ROLLING_MENU_ID_KEY_ITEM := 3
+
+; Typed view onto the field state - gives field_menu_rolling.hdma_enable,
+; field_menu_rolling.fn_render_slot, etc. as flat symbols (a816 cast,
+; eager-expanded in symbols.py::_try_expand_typed_cast).
+;
+; The field hdma_enable / hdma_copy_pending bytes also act as the
+; SHARED menu HDMA signals - all four rolling menus poke them to ask
+; the field-menu NMI hook (field_menu_nmi_dma_transfer_check_impl) to
+; copy shadow→active during the next vblank. Reference directly as
+; `field_menu_rolling.hdma_enable` / `.hdma_copy_pending` everywhere.
+field_menu_rolling := (FIELD_MENU_ROLLING_BASE as RollingBufferState)
+

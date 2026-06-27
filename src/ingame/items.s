@@ -34,7 +34,7 @@ rolling-buffer code which lives in `inventory_rolling.s`).
     jmp.w check_if_description_was_rendered
     nop
 
-_back:
+item_desc_back:
 
 
 ; Hook in the display_item_description function, draw the window and render the string

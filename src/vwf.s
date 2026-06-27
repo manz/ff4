@@ -13,6 +13,9 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 .import "assets"
 .import "kerning"
 
+; `.import` links kerning but doesn't surface its alloc-body GLOBALs by name;
+; declare the ones used here at root scope.
+.extern dialog_get_kerning_adjustment_binary_search
 
 .alloc vwf_block in bank20_reloc {
     wait_for_action_button:

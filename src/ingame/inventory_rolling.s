@@ -35,23 +35,17 @@ MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 ; RAM VARIABLES
 ; Using menu RAM area (unused bytes)
 
-; Field rolling-buffer state RAM block (12 bytes from $1BA8). Each
-; named symbol below is just a typed offset into the shared struct
-; — keeps existing call sites working byte-for-byte while making the
-; layout self-documenting (and trivially relocatable later).
-menu_rolling := 0x1BA8
-menu_rolling_top_row := menu_rolling + RollingBufferState.top_row
-menu_rolling_buffer_pos := menu_rolling + RollingBufferState.buffer_pos
-menu_rolling_edge_row := menu_rolling + RollingBufferState.edge_row
-menu_rolling_slot_index := menu_rolling + RollingBufferState.slot_index
-menu_rolling_base_scroll := menu_rolling + RollingBufferState.base_scroll
-menu_hdma_enable := menu_rolling + RollingBufferState.hdma_enable
-menu_scroll_state := menu_rolling + RollingBufferState.scroll_state
-menu_scroll_remaining := menu_rolling + RollingBufferState.scroll_remaining
-menu_scroll_direction := menu_rolling + RollingBufferState.scroll_direction
-menu_transfer_pending := menu_rolling + RollingBufferState.transfer_pending
-menu_scroll_anim_offset := menu_rolling + RollingBufferState.scroll_anim_offset
-menu_hdma_copy_pending := menu_rolling + RollingBufferState.hdma_copy_pending
+; Field rolling-buffer state RAM block. Base lives in items.i as
+; FIELD_MENU_ROLLING_BASE so the bank-$20 NMI handler can derive its
+; HDMA-flag addresses from the same struct typedef. Previously at
+; $7E:1BA8 where it collided with vanilla DrawItemCharSelect scratch
+; ($1BC1 / $1BC3) - char-target screen during item-use stomped
+; dirty_mask and fn_render_slot mid byte, sending the hook into ROM
+; padding.
+; Module scope can't see items.i's FIELD_MENU_ROLLING_BASE constant
+; so bind to the literal addr here. items.i mirrors this base under
+; the name `field_menu_rolling` for cross-module struct access.
+menu_rolling := (0x7E9C90 as RollingBufferState)
 
 ; Scroll State Constants
 SCROLL_STATE_IDLE := 0
@@ -104,7 +98,6 @@ HDMAEN := 0x420C  ; HDMA enable register
     Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     """
 
-
         php
         sep #0x20  ; 8-bit A
 
@@ -129,7 +122,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         lda #MENU_HDMA_BANK  ; $7E
         sta.l HDMA5_SRC_BANK  ; $004354
 
-    ; HDMA channel 5 is now enabled via shadow variable (menu_hdma_enable)
+    ; HDMA channel 5 is now enabled via shadow variable (menu_rolling.hdma_enable)
     ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
 
         plp
@@ -171,7 +164,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sta.l MENU_HDMA_TABLE, x
         inx
         rep #0x20  ; 16-bit A for value
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         sta.l MENU_HDMA_TABLE, x
         inx
         inx
@@ -187,7 +180,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sta.l MENU_HDMA_TABLE, x
         inx
         rep #0x20  ; 16-bit A for value
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         sta.l MENU_HDMA_TABLE, x
         inx
         inx
@@ -205,7 +198,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sta.l MENU_HDMA_TABLE, x
         inx
         rep #0x20
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         clc
         adc.w #16  ; Lock at base + 16
         sta.l MENU_HDMA_TABLE, x
@@ -320,7 +313,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sta.l MENU_HDMA_SHADOW, x
         inx
         rep #0x20
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         sta.l MENU_HDMA_SHADOW, x
         inx
         inx
@@ -333,7 +326,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sta.l MENU_HDMA_SHADOW, x
         inx
         rep #0x20
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         clc
         adc.w #16
         sta.l MENU_HDMA_SHADOW, x
@@ -345,7 +338,7 @@ HDMAEN := 0x420C  ; HDMA enable register
     """Field profile NMI signal: set copy-pending shadow flag."""
         sep #0x20
         lda #0x01
-        sta.w menu_hdma_copy_pending
+        sta.w menu_rolling.hdma_copy_pending
         rts
 
     init_menu_rolling_buffer_impl:
@@ -360,58 +353,57 @@ HDMAEN := 0x420C  ; HDMA enable register
     ABI surface to port against.
     """
 
-
         php
         rep #0x30  ; M=16, X=16
         sep #0x20  ; M=8 (X stays 16)
         ; visible_rows + slot_height_tiles
         lda.b #MENU_VISIBLE_ITEMS
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.visible_rows
+        sta.l menu_rolling.visible_rows
         lda.b #0x02  ; 2 BG rows per slot
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.slot_height_tiles
+        sta.l menu_rolling.slot_height_tiles
         ; item_list_ptr = $7E:1440 (vanilla inventory array)
         lda.b #0x40
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr
+        sta.l menu_rolling.item_list_ptr
         lda.b #0x14
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr + 1
+        sta.l menu_rolling.item_list_ptr + 1
         lda.b #0x7E
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_list_ptr + 2
+        sta.l menu_rolling.item_list_ptr + 2
         ; item_count = 48 (vanilla field inventory)
         lda.b #0x30
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.item_count
+        sta.l menu_rolling.item_count
         ; hdma_channel = 5 (BG1VOFS HDMA used by field-items rolling buffer)
         lda.b #0x05
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.hdma_channel
+        sta.l menu_rolling.hdma_channel
         ; vwf_cfg_ptr = $70:7080 (VWF_CONFIG_BASE)
         lda.b #0x80
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr
+        sta.l menu_rolling.vwf_cfg_ptr
         lda.b #0x70
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr + 1
+        sta.l menu_rolling.vwf_cfg_ptr + 1
         lda.b #0x70
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.vwf_cfg_ptr + 2
+        sta.l menu_rolling.vwf_cfg_ptr + 2
         ; fn_render_slot = menu_fn_render_slot_trampoline (bank-20 RTL wrapper)
         lda.b #menu_fn_render_slot_trampoline & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot
+        sta.l menu_rolling.fn_render_slot
         lda.b #( menu_fn_render_slot_trampoline >> 8 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot + 1
+        sta.l menu_rolling.fn_render_slot + 1
         lda.b #( menu_fn_render_slot_trampoline >> 16 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_render_slot + 2
+        sta.l menu_rolling.fn_render_slot + 2
         ; fn_update_hdma = menu_fn_update_hdma_trampoline
         lda.b #menu_fn_update_hdma_trampoline & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma
+        sta.l menu_rolling.fn_update_hdma
         lda.b #( menu_fn_update_hdma_trampoline >> 8 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma + 1
+        sta.l menu_rolling.fn_update_hdma + 1
         lda.b #( menu_fn_update_hdma_trampoline >> 16 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_update_hdma + 2
+        sta.l menu_rolling.fn_update_hdma + 2
         ; fn_draw_window = menu_fn_draw_window_trampoline
         lda.b #menu_fn_draw_window_trampoline & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window
+        sta.l menu_rolling.fn_draw_window
         lda.b #( menu_fn_draw_window_trampoline >> 8 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 1
+        sta.l menu_rolling.fn_draw_window + 1
         lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.fn_draw_window + 2
+        sta.l menu_rolling.fn_draw_window + 2
         lda.b #ROLLING_MENU_ID_FIELD
-        sta.l 0x7E0000 + menu_rolling + RollingBufferState.menu_id
+        sta.l menu_rolling.menu_id
         plp
         php
         rep #0x10
@@ -431,7 +423,6 @@ HDMAEN := 0x420C  ; HDMA enable register
     addresses.
     """
 
-
         php
         jsr.w _menu_render_item_to_slot
         plp
@@ -450,7 +441,6 @@ HDMAEN := 0x420C  ; HDMA enable register
     php/plp guards the engine's X-flag = 16 from inner sep/rep.
     """
 
-
         php
         jsr.w ensure_hdma_initialized
         plp
@@ -465,7 +455,6 @@ HDMAEN := 0x420C  ; HDMA enable register
     otherwise leave X-flag = 8 when we return, corrupting `,X` indexed
     state writes downstream of the hook in the engine_init body.
     """
-
 
         php
         jsr.w _menu_draw_inventory_window
@@ -483,8 +472,8 @@ HDMAEN := 0x420C  ; HDMA enable register
     ; _menu_render_item_to_slot
     ; Renders an item to a specific circular buffer slot in the tilemap.
     ;
-    ; Input: menu_rolling_edge_row = item index (0-47) for data lookup
-    ;        menu_rolling_slot_index = slot index (0-11) for destination
+    ; Input: menu_rolling.edge_row = item index (0-47) for data lookup
+    ;        menu_rolling.slot_index = slot index (0-11) for destination
     ;
     ; Strategy: Set up $5d = slot_index (for Y position calculation),
     ;           $5a = pointer to item data, then call game's DrawItemSlot.
@@ -526,7 +515,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         sep #0x20  ; 8-bit A
 
     ; Calculate item data pointer: $1440 + (edge_row * Item.__size)
-        lda.w menu_rolling_edge_row
+        lda.w menu_rolling.edge_row
         asl  ; * Item.__size (2 bytes per Item)
         clc
         adc #0x40  ; Low byte of $1440
@@ -553,7 +542,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         jsr.l check_can_use_item_trampoline  ; bank-$01 trampoline for original @ $A25D (sets $DB)
 
     ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
-        lda.w menu_rolling_slot_index
+        lda.w menu_rolling.slot_index
         sta.b 0x5d
 
     ; Calculate Y = slot_index * 128 + 70
@@ -561,7 +550,7 @@ HDMAEN := 0x420C  ; HDMA enable register
     ; +64 for window border (1 tile row = 32 tiles × 2 bytes)
     ; +6 for left margin (3 tiles)
         rep #0x20  ; 16-bit A (X/Y already 16-bit)
-        lda.w menu_rolling_slot_index
+        lda.w menu_rolling.slot_index
         and.w #0x00FF  ; Clear high byte
         xba  ; Swap bytes: A = slot * 256
         lsr  ; A = slot * 128
@@ -619,7 +608,7 @@ HDMAEN := 0x420C  ; HDMA enable register
 
     ; Check if already initialized (base_scroll != 0xFFFF)
         rep #0x20  ; 16-bit A
-        lda.w menu_rolling_base_scroll
+        lda.w menu_rolling.base_scroll
         cmp.w #0xFFFF
         bne _hdma_already_init
 
@@ -627,7 +616,7 @@ HDMAEN := 0x420C  ; HDMA enable register
     ; Use long addressing to ensure we read from WRAM
         .db 0xAF  ; LDA.L opcode
         .db 0x93, 0x01, 0x7E  ; $7E0193
-        sta.w menu_rolling_base_scroll
+        sta.w menu_rolling.base_scroll
 
     ; Initialize HDMA channel configuration
         sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
@@ -637,7 +626,7 @@ HDMAEN := 0x420C  ; HDMA enable register
     ; Force long addressing: STA.L $7E1BAE
         lda #0x20  ; Channel 5
         .db 0x8F  ; STA.L opcode
-        .dw menu_hdma_enable  ; $1BAE
+        .dw menu_rolling.hdma_enable  ; $1BAE
         .db 0x7E  ; Bank $7E
         rts
 
@@ -656,19 +645,18 @@ HDMAEN := 0x420C  ; HDMA enable register
      Carry set = skip input (still scrolling)
     """
 
-
         php
         sep #0x20  ; 8-bit A
 
     ; Check if we're scrolling
-        lda.w menu_scroll_state
+        lda.w menu_rolling.scroll_state
         beq _scroll_state_idle
 
     ; We're scrolling - process one animation frame
         jsr.l update_scroll_frame_impl
 
     ; Check if scroll finished
-        lda.w menu_scroll_remaining
+        lda.w menu_rolling.scroll_remaining
         bne _scroll_still_active
 
     ; Scroll finished - clean up and return to idle
@@ -731,17 +719,17 @@ HDMAEN := 0x420C  ; HDMA enable register
     """Field-menu entry hook: lazy-init HDMA + force shadow flush before first frame."""
         stz.w 0x1B1F
         lda #0x00
-        sta.l 0x7E1BAE
-    ; menu_hdma_enable
-        stz.w menu_scroll_state
-        stz.w menu_scroll_remaining
-        stz.w menu_scroll_direction
-        stz.w menu_transfer_pending
-        stz.w menu_hdma_copy_pending
+        sta.l menu_rolling.hdma_enable
+    ; menu_rolling.hdma_enable
+        stz.w menu_rolling.scroll_state
+        stz.w menu_rolling.scroll_remaining
+        stz.w menu_rolling.scroll_direction
+        stz.w menu_rolling.transfer_pending
+        stz.w menu_rolling.hdma_copy_pending
     ; Clear HDMA copy flag
-        stz.w menu_scroll_anim_offset
+        stz.w menu_rolling.scroll_anim_offset
     ; Clear low byte
-        stz.w menu_scroll_anim_offset + 1
+        stz.w menu_rolling.scroll_anim_offset + 1
     ; Clear high byte
     ; Initialize cursor column to 0 for single-column mode
     ; This ensures $1b22 is always 0 even if it had a value from previous menu
@@ -755,8 +743,8 @@ HDMAEN := 0x420C  ; HDMA enable register
         php
         sep #0x20
         lda #0x00
-        sta.l 0x7E1BAE
-    ; menu_hdma_enable shadow off so NMI writes 0 to HDMAEN this frame
+        sta.l menu_rolling.hdma_enable
+    ; menu_rolling.hdma_enable shadow off so NMI writes 0 to HDMAEN this frame
         sta.l 0x004350
         sta.l 0x004351
         sta.l 0x004352
@@ -789,13 +777,12 @@ HDMAEN := 0x420C  ; HDMA enable register
         plp
         rtl
 
-
-    ; _clear_inventory_slot
+    ; clear_inventory_slot
     ; Clears a single inventory slot in the tilemap buffer.
-    ; Input: menu_rolling_slot_index = slot to clear (0-10)
+    ; Input: menu_rolling.slot_index = slot to clear (0-10)
     ; Used when item index is out of bounds (>= 48)
 
-    _clear_inventory_slot:
+    clear_inventory_slot:
         php
         phb
     ; Set data bank to $7E for WRAM access
@@ -814,7 +801,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         lda.w #0xB600
         sta.b 0x29
     ; Calculate Y = slot_index * 128 + 70
-        lda.w menu_rolling_slot_index
+        lda.w menu_rolling.slot_index
         and.w #0x00FF
         xba
     ; A = slot * 256
@@ -905,18 +892,16 @@ HDMAEN := 0x420C  ; HDMA enable register
 
     draw_trash_single_column:
 
-
     """
     Draws the trash can 2x2 tile graphic for single-column inventory.
     Input: Y = tilemap offset (from slot calculation)
     ($29) = tilemap base ($B600)
-    menu_rolling_slot_index = current slot
+    menu_rolling.slot_index = current slot
     Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
 
     Tilemap format: [tile_number, attributes] pairs
     Each row is 64 bytes (32 tiles × 2 bytes)
     """
-
 
     ; Y points to start of item slot area
     ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
@@ -1080,7 +1065,6 @@ HDMAEN := 0x420C  ; HDMA enable register
 
     circular_slot_calc:
 
-
     """
     Calculate tilemap Y offset using circular buffer position.
     Called from patched code at $A1BA via CircularSlotCalc_ext.
@@ -1090,7 +1074,6 @@ HDMAEN := 0x420C  ; HDMA enable register
     Output: Y = tilemap offset for circular buffer slot
     Preserves: 16-bit A mode on exit
     """
-
 
         sep #0x20
     ; 8-bit A
@@ -1119,13 +1102,13 @@ HDMAEN := 0x420C  ; HDMA enable register
         tay
         rts
     _circ_slot_not_drops:
-    ; Inventory in treasure context uses treasure_rolling_buffer_pos.
-        lda.l 0x7E0000 + 0x9C06  ; treasure_hdma_enable (treasure_rolling + 0x06)
+    ; Inventory in treasure context uses treasure_rolling.buffer_pos.
+        lda.l 0x7E0000 + 0x9C06  ; treasure_rolling.hdma_enable (treasure_rolling + 0x06)
         beq _circ_check_field
         lda.b 0x5d
         lsr
         clc
-        adc.l 0x7E0000 + 0x9C01  ; treasure_rolling_buffer_pos (treasure_rolling + 0x01)
+        adc.l 0x7E0000 + 0x9C01  ; treasure_rolling.buffer_pos (treasure_rolling + 0x01)
     _t_circ_mod:
         cmp #6  ; TREASURE_BUFFER_SLOTS
         bcc _t_circ_done
@@ -1143,7 +1126,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         rts
     _circ_check_field:
     ; Check if circular buffer mode is active (HDMA enabled)
-        lda.l 0x7E0000 + menu_hdma_enable
+        lda.l menu_rolling.hdma_enable
         beq _circ_slot_original
     ; Not active, use original calculation
     ; Circular buffer Y calculation
@@ -1154,7 +1137,7 @@ HDMAEN := 0x420C  ; HDMA enable register
         lsr
     ; Divide by 2 to get visual slot (0-9)
         clc
-        adc.l 0x7E0000 + menu_rolling_buffer_pos
+        adc.l menu_rolling.buffer_pos
     ; Add buffer_pos
 
     _circ_slot_mod:

@@ -90,27 +90,27 @@ tfr_bg2_tiles_vblank_trampoline:
 ; original @ $01:9420
     rtl
 
-_tfr_bg3_tiles_vblank_trampoline:
+tfr_bg3_tiles_vblank_trampoline:
     jsr 0x9447
-; original @ $01:9447 — pushes BG3 buffer at $7E:D600 to VRAM $7000
+; original @ $01:9447 - pushes BG3 buffer at $7E:D600 to VRAM $7000
 ; over a vblank-bounded chunked DMA. Used by the treasure rolling
 ; buffer: render writes go to the BG3 staging area but original's
 ; treasure main loop only refreshes BG2/sprites mid-menu, so without
 ; this call the rolling-buffer slot updates never make it on screen.
     rtl
 
-_tfr_bg4_tiles_vblank_trampoline:
+tfr_bg4_tiles_vblank_trampoline:
     jsr 0x943A
-; original @ $01:943A — pushes BG4 buffer at $7E:C600 to VRAM $7800.
+; original @ $01:943A - pushes BG4 buffer at $7E:C600 to VRAM $7800.
 ; Used by the drops rolling buffer: drops items render into the BG4
 ; frame that already holds TreasureItemsWindow, but the treasure main
 ; loop never re-DMAs BG4 mid-menu so swap/scroll updates would stay
 ; in WRAM without this call.
     rtl
 
-_drops_select_bg4_trampoline:
+drops_select_bg4_trampoline:
     jsr 0x8485
-; original SelectClearBG4 at $01:8485 — wipes BG4 staging to blank
+; original SelectClearBG4 at $01:8485 - wipes BG4 staging to blank
 ; tiles before falling through to SelectBG4 ($8488). Without the
 ; clear, $C600..$CDFF holds whatever the previous menu/screen left
 ; there, which gets DMA'd to BG4 VRAM and bleeds across the screen
@@ -211,14 +211,14 @@ _treasure_finish_scroll:
 ; machine so the existing field NMI hook copies the shadow→active table
 ; even when the rolling-buffer init at $01:D933 never ran (some treasure
 ; flows skip the redraw helper).
-; Original writes $1BB7 each frame DOWN/UP is held — no built-in debounce
+; Original writes $1BB7 each frame DOWN/UP is held - no built-in debounce
 ; once the blocking scroll loop is gone. Gate the trigger on
-; `treasure_scroll_state == 0` and undo original's $1BB7 update when an
+; `treasure_rolling.scroll_state == 0` and undo original's $1BB7 update when an
 ; animation is still in flight, so the rolling buffer steps once per
 ; press instead of advancing dozens of times per held button.
 treasure_scroll_down_trigger:
 """Treasure profile: input-driven scroll-down trigger."""
-    lda.w treasure_scroll_state
+    lda.w treasure_rolling.scroll_state
     bne _t_down_abort
     lda.w treasure_scroll_cooldown
     bne _t_down_abort
@@ -234,7 +234,7 @@ _t_down_abort:
 
 treasure_scroll_up_trigger:
 """Treasure profile: input-driven scroll-up trigger."""
-    lda.w treasure_scroll_state
+    lda.w treasure_rolling.scroll_state
     bne _t_up_abort
     lda.w treasure_scroll_cooldown
     bne _t_up_abort
@@ -275,23 +275,23 @@ _t_setup_in_treasure:
     lda #0x7E
     sta.l 0x004364  ; HDMA6 src bank
     rep #0x20
-; Capture original BG3VOFS shadow ($9F) — original treasure draws inventory
+; Capture original BG3VOFS shadow ($9F) - original treasure draws inventory
 ; rows starting at screen scanline ~120 with $9F = -120, which keeps the
 ; existing window/dialog tilemap content visible on the header band.
     lda.l 0x7E019F
-    sta.w treasure_rolling_base_scroll
+    sta.w treasure_rolling.base_scroll
     sep #0x20
 ; Original treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
 ; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
 ; the drops-band parallax. Even with our scroll moved to ch6 (which
 ; iterates after ch2 and should "win" the BG3VOFS at scanlines past
 ; the drops band), the rolling buffer scroll never takes effect while
-; ch2 is enabled — likely because ch2 keeps reloading entries via its
+; ch2 is enabled - likely because ch2 keeps reloading entries via its
 ; indirect table past scanline 128. Mask ch2 entirely; the drops-band
 ; original parallax is purely cosmetic and the drops list still lands
 ; at the right scanline without it.
     lda #0xF9  ; $AD & ~0x04 | $40 | $10 = ch7|ch6|ch5|ch4|ch3|ch0 (drops on ch4)
-    sta.l 0x7E1BAE
+    sta.l field_menu_rolling.hdma_enable
     rts
 
 treasure_main_loop_scroll_check:
@@ -317,42 +317,42 @@ by calling the original $82C0 so original per-frame work still runs.
     dec.w treasure_scroll_cooldown
 
 _t_main_cd_done:
-    lda.w treasure_scroll_state
+    lda.w treasure_rolling.scroll_state
     beq _treasure_main_check_drops_tick
     jsr.w _treasure_update_scroll_frame
-    lda.w treasure_scroll_remaining
+    lda.w treasure_rolling.scroll_remaining
     bne _treasure_main_block_input
     jsr.w _treasure_finish_scroll
 _treasure_main_check_drops_tick:
 ; Drops scroll state machine shares the treasure menu's per-frame
 ; tick. While drops is animating, zero $01 (input mask) so cursor
-; input is frozen until the scroll lands — same shape as the
+; input is frozen until the scroll lands - same shape as the
 ; treasure-inventory branch above.
-    lda.w drops_scroll_state
+    lda.w drops_rolling.scroll_state
     beq _treasure_main_check_xfer
     jsr.l drops_update_scroll_frame_impl
-    lda.w drops_scroll_remaining
+    lda.w drops_rolling.scroll_remaining
     bne _treasure_main_block_input
     jsr.l drops_finish_scroll_impl
 _treasure_main_check_xfer:
-; Drain treasure_transfer_pending — the rolling buffer renderer writes
+; Drain treasure_rolling.transfer_pending - the rolling buffer renderer writes
 ; to the BG3 staging buffer at $7E:D600, but original's treasure main
 ; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
 ; tilemap to VRAM ourselves whenever a slot was just re-rendered.
-    lda.w treasure_transfer_pending
+    lda.w treasure_rolling.transfer_pending
     beq _treasure_main_after_bg3
-    jsr.l _tfr_bg3_tiles_vblank_trampoline
-    stz.w treasure_transfer_pending
+    jsr.l tfr_bg3_tiles_vblank_trampoline
+    stz.w treasure_rolling.transfer_pending
 _treasure_main_after_bg3:
-; Drain drops_transfer_pending — drops render into BG4 staging at
+; Drain drops_rolling.transfer_pending - drops render into BG4 staging at
 ; $7E:C600 (alongside TreasureItemsWindow), so push BG4 to VRAM
 ; whenever drops re-rendered.
-    lda.w drops_transfer_pending
+    lda.w drops_rolling.transfer_pending
     beq _treasure_main_after_xfer
-    jsr.l _tfr_bg4_tiles_vblank_trampoline
-    stz.w drops_transfer_pending
+    jsr.l tfr_bg4_tiles_vblank_trampoline
+    stz.w drops_rolling.transfer_pending
 _treasure_main_after_xfer:
-    lda.w treasure_scroll_state
+    lda.w treasure_rolling.scroll_state
     beq _treasure_main_call_orig
 _treasure_main_block_input:
     stz.b 0x01
@@ -394,7 +394,7 @@ reveal. Returns with the row stored or an animation kicked.
     cmp #DROPS_VISIBLE_ITEMS
     bcc _drops_down_store
     pha
-    lda.l drops_scroll_state
+    lda.l drops_rolling.scroll_state
     bne _drops_down_busy
 ; Clamp scroll_pos at TOTAL - VISIBLE (3 for 8-total / 5-visible).
     lda.l drops_scroll_pos
@@ -429,7 +429,7 @@ a fresh top row down.
     rts
 _drops_up_scroll:
     pha
-    lda.l drops_scroll_state
+    lda.l drops_rolling.scroll_state
     bne _drops_up_busy
     lda.l drops_scroll_pos
     beq _drops_up_busy  ; already at top
@@ -457,7 +457,7 @@ treasure_inventory_window:
 ; -24 so the window appears on screen at y=24 (matching where the
 ; original TreasureItemsWindow at $01:E275 lived). Anchoring at the
 ; tilemap origin keeps the per-row HDMA offsets consistent with the
-; treasure-inventory layout — same shape, easier math.
+; treasure-inventory layout - same shape, easier math.
 treasure_drops_window:
 """
 Bank-$01 window data for the treasure drops list (5 visible rows, BG4).

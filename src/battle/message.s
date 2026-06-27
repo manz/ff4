@@ -164,27 +164,9 @@ _not_found:
 ; slice instead of the full 4KB CHR region, fits in vblank without
 ; forced blank.
     dma_dirty_slots = 0x703f10
-; --- Per-region dirty bits (normal sense: 1 = dirty, 0 = clean) ---
-; Sits next to the DMA queue byte; writers SET bits on state change.
-    region_dirty_bits = 0x703f01
-    REGION_DIRTY_MESSAGES = 0x01
-    REGION_DIRTY_MONSTERS = 0x02
-    REGION_DIRTY_NAMES = 0x04
-    REGION_DIRTY_COMMANDS = 0x08
-; Transient marker: $FF if `init_*_with_gate` short-circuited
-; because the region was clean; $00 if it ran the full init.
-; Used by deinit_with_gate to decide whether to signal DMA, and
-; by the gated trampoline to decide whether to skip DrawText.
-    render_skipped = 0x703f02
-; Per-region tilemap-DMA pending bitmask. Set by `init_*_gated`
-; on the render path  ; consumed by `dma_transfer` in NMI to fire
-; a per-region tilemap DMA (WRAM tilemap -> BG VRAM). Decouples
-; tilemap upload from the vanilla `TfrCmdWindow` / `TfrMainMenu`
-; periodic queue so the tile-data + tilemap transfers stay in
-; sync on the same NMI as the render.
-    tilemap_pending_mask = 0x703f03
-    TILEMAP_PENDING_COMMANDS = 0x01
-    TILEMAP_PENDING_MAIN = 0x02
+    ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
+    ; redraw_gates.s and the writer-site shims via a compile-time include.
+    .include "render_defs.i"
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
     temp = bits_left_on_tile + 4
@@ -210,7 +192,7 @@ Reset the allocator to the inventory tile_id base (0xC0) once per
 rolling render pass. Subsequent per-item DrawText calls let the
 allocator increment naturally, so each item owns its own tile range
 (item N uses 0xC0 + N * width_in_tiles). Skips clear_buffer for the
-reasons noted on the other inventory entry — tile_id 0xC0+ would
+reasons noted on the other inventory entry - tile_id 0xC0+ would
 overrun the shared buffer into the state words at $703C00+.
 """
 
@@ -735,7 +717,7 @@ found_pair_cleanup:
     lda.w assets_menu_font_dat, y  ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff  ; Ensure high byte is clear
 
-; Clean up stack — use ply so A (adjustment) is preserved.
+; Clean up stack - use ply so A (adjustment) is preserved.
     ply  ; Remove target_char
     ply  ; Remove low bound
     ply  ; Remove high bound
@@ -801,7 +783,7 @@ Write a 10-bit tile_id reference at tilemap_offset.
 Low 8 bits of tile_id go in the entry's low byte  ; bits 8-9 ride
 the entry's high byte alongside the palette / flip / priority bits.
 With the 16-bit allocator, the entry's high byte is just
-(palette | allocator_high_byte) — no hardcoded +0x100 shift, so
+(palette | allocator_high_byte) - no hardcoded +0x100 shift, so
 inventory tile_ids past 0xFF reach the upper half of BG3 CHR
 cleanly instead of wrapping back into the messages region.
 """
@@ -834,7 +816,8 @@ tilemap_write:
     rts
 }
 
-.extern flying_hdma_trampoline
+; (flying_hdma_trampoline extern lives at sram.s root: message.s is .include'd
+; inside an .alloc body, whose scope can't host an extern.)
 
 .scope messages_vwf {
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""

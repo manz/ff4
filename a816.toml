@@ -1,0 +1,3 @@
+entrypoint = "ff4.s"
+module-paths = ["build/obj", "src"]
+include-paths = ["src"]

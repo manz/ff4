@@ -26,6 +26,16 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 scp_active_slot := 0x7EEF9C  ; scratch for set_active_char_palette
 scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
 
+; Cross-module LABEL: extern at root scope (`.extern` only registers in its own
+; scope, and an `.alloc` body opens its own).
+.extern clear_names_window_buffer
+
+; Cross-module CONSTANTS are compile-time, not link symbols: share the same
+; definitions message.s uses via the include, under the same scope name.
+.scope battle_render {
+    .include "render_defs.i"
+}
+
 .include "../bank20.i"
 
 .alloc battle_redraw_gates_block in bank20_reloc {
@@ -138,14 +148,6 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
         sta.l battle_menu_dirty
         sta.l battle_monster_dirty
         rtl
-
-        .extern clear_names_window_buffer
-        .extern battle_render.REGION_DIRTY_MONSTERS
-        .extern battle_render.REGION_DIRTY_NAMES
-        .extern battle_render.region_dirty_bits
-        .extern battle_render.render_skipped
-        .extern battle_render.tilemap_pending_mask
-        .extern battle_render.TILEMAP_PENDING_MAIN
 
     reset_queue_dirty_bits:
     """

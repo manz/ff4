@@ -4,6 +4,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 runs the field-menu NMI DMA check.
 """
 .include "config.i"
+.include "../items.i"
 .extern assets_items_dat
 .extern assets_items_unleashed_dat
 .extern mult8_trampoline
@@ -14,13 +15,17 @@ runs the field-menu NMI DMA check.
 .extern return_to_bank02
 .extern render.flush_chr_to_vram
 
+; externs live at root scope: a816 registers `.extern` only in the scope it is
+; declared in, and an `.alloc` body opens its own scope, so an extern declared
+; inside never resolves at the use site.
+.if BATTLE_ITEMS_VWF {
+    .extern messages_vwf.init_inventory
+    .extern messages_vwf.deinit
+}
+
 .include "../bank20.i"
 
 .alloc battle_inventory_rolling_block in bank20_reloc {
-    .if BATTLE_ITEMS_VWF {
-        .extern messages_vwf.init_inventory
-        .extern messages_vwf.deinit
-    }
 
     ; ============================================================================
     ; Rolling Buffer Implementation for Battle Inventory (Single Column)
@@ -2463,21 +2468,18 @@ runs the field-menu NMI DMA check.
     ; ============================================================================
     ; Field Menu NMI Handler (relocated from bank $01 to save space)
     ; ============================================================================
-    ; Constants for field menu HDMA (duplicated here for bank $20 access)
-    field_menu_hdma_enable := 0x1BAE
-    field_menu_hdma_copy_pending := 0x1BB6
-    field_menu_transfer_pending := 0x1BB3
+    ; Field + drops state aliases - use the cast'd struct views from
+    ; items.i / src/ingame/drops_rolling.s. Field is `field_menu_rolling`
+    ; (defined in items.i, visible at module scope). Drops state at
+    ; $7E:9C30 isn't exported from its defining module, so re-cast it
+    ; locally to get drops_rolling.hdma_copy_pending et al.
+    drops_rolling := (0x7E9C30 as RollingBufferState)
     FIELD_HDMA_TABLE := 0x7E9800
     FIELD_HDMA_SHADOW := 0x7E9840
     FIELD_HDMA_TABLE_SIZE := 40
-
-    ; Drops profile HDMA constants (mirror src/ingame/drops_rolling.s
-    ; definitions; duplicated here so the NMI handler can reference them
-    ; without crossing the bank-$01 / bank-$20 import boundary).
     DROPS_HDMA_TABLE := 0x7E9880
     DROPS_HDMA_SHADOW := 0x7E98C0
     DROPS_HDMA_TABLE_SIZE := 40
-    drops_hdma_copy_pending := 0x9C3E  ; drops_rolling + 0x0E (drops_rolling moved to $9C30)
 
     ; Called via JSL from bank $01 nmi_dma_transfer_check
 
@@ -2491,17 +2493,17 @@ runs the field-menu NMI DMA check.
 
     ; === GUARD: Only run if menu HDMA is enabled ===
     ; This prevents field menu DMA from corrupting battle VRAM
-        lda.l 0x7E0000 + field_menu_hdma_enable
+        lda.l field_menu_rolling.hdma_enable
         bne _field_nmi_active
         jmp.w _field_nmi_done
 
     _field_nmi_active:
 
     ; === HDMA table copy: shadow -> active ===
-        lda.l 0x7E0000 + field_menu_hdma_copy_pending
+        lda.l field_menu_rolling.hdma_copy_pending
         beq _field_nmi_hdma_copy_done
         lda #0x00
-        sta.l 0x7E0000 + field_menu_hdma_copy_pending
+        sta.l field_menu_rolling.hdma_copy_pending
 
     ; Copy 40 bytes from shadow ($9840) to active ($9800)
         rep #0x30  ; 16-bit A, X, Y
@@ -2520,16 +2522,16 @@ runs the field-menu NMI DMA check.
         ; === Drops HDMA table copy: $7E:98C0 shadow -> $7E:9880 active ===
         ; Drops uses ch4 driving BG4VOFS with its own 64-byte table, so the
         ; shadow→active copy needs a parallel block keyed off
-        ; drops_hdma_copy_pending. Skip if drops HDMA is disabled in
+        ; drops_rolling.hdma_copy_pending. Skip if drops HDMA is disabled in
         ; $1BAE bit 4.
         sep #0x20
-        lda.l 0x7E1BAE
+        lda.l field_menu_rolling.hdma_enable
         and #0x10
         beq _drops_nmi_hdma_copy_done
-        lda.l 0x7E0000 + drops_hdma_copy_pending
+        lda.l drops_rolling.hdma_copy_pending
         beq _drops_nmi_hdma_copy_done
         lda #0x00
-        sta.l 0x7E0000 + drops_hdma_copy_pending
+        sta.l drops_rolling.hdma_copy_pending
         rep #0x30
         ldx.w #0x0000
 
@@ -2550,10 +2552,10 @@ runs the field-menu NMI DMA check.
     ; and clearing it would snap the drops cursor back to row 0.
         lda.l 0x7E1BC6
         bne _field_nmi_check_treasure
-        lda.l 0x7E0000 + field_menu_transfer_pending
+        lda.l field_menu_rolling.transfer_pending
         beq _field_nmi_check_treasure
         lda #0x00
-        sta.l 0x7E0000 + field_menu_transfer_pending
+        sta.l field_menu_rolling.transfer_pending
 
         sep #0x20
         lda #0x01
@@ -2578,7 +2580,7 @@ runs the field-menu NMI DMA check.
     _field_nmi_check_treasure:
     .if TREASURE_INVENTORY_ROLLING {
     ; === Tilemap DMA transfer (treasure menu = BG3) ===
-        lda.l 0x7E0000 + 0x9C0B  ; treasure_transfer_pending
+        lda.l 0x7E0000 + 0x9C0B  ; treasure_rolling.transfer_pending
         beq _field_nmi_done
         lda #0x00
         sta.l 0x7E0000 + 0x9C0B

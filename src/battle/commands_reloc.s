@@ -7,7 +7,7 @@ loop, called by the patched bank-$02 hook.
 .include "config.i"
 .extern messages_vwf
 .extern messages_vwf.init_commands_list
-.extern _draw_text_battle_far
+.extern draw_text_battle_far
 .extern assets_battle_commands_nul_ptr
 .extern assets_battle_commands_nul_dat
 .extern command_buffer_ptr
@@ -30,7 +30,7 @@ mult8_far := 0x2855c
     """
     Public RTL entry: render the per-character battle command list for the active character.
     Dirty-bit gating moved up to the bank-02 thunk
-    (`_draw_battle_command_window_relocated`) which clears CMD_DIRTY_BIT
+    (`draw_battle_command_window_relocated`) which clears CMD_DIRTY_BIT
     before calling here  ; gating twice would leave the inner buffer
     filled with $00FF blanks. Inventory-open short-circuit stays.
     """
@@ -137,7 +137,7 @@ mult8_far := 0x2855c
         sta 0xef54
 
         jsr.l messages_vwf.init_commands_list
-        jsr.l _draw_text_battle_far
+        jsr.l draw_text_battle_far
         rts
     }
 

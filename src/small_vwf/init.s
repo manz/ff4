@@ -10,12 +10,14 @@ RTL entry points for cross-bank callers.
 .import "assets"
 .import "libmz"
 
-.alloc small_vwf_init_block in bank20_reloc {
-    .if BATTLE_ENABLED {
-        .extern battle_render
-        .extern battle_render.clear_buffer
-    }
+; root-scope externs: `.alloc` bodies open their own scope, so an extern
+; declared inside never resolves at the use site.
+.if BATTLE_ENABLED {
+    .extern battle_render
+    .extern battle_render.clear_buffer
+}
 
+.alloc small_vwf_init_block in bank20_reloc {
     .include "src/small_vwf/render.s"
     .include "src/small_vwf/item_description.s"
 }

@@ -69,7 +69,7 @@ Final Fantasy IV the new hack.
 .include "src/ingame/items_menu.s"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
-; Blob with internal absolute references — pinned to offset $EBD2 within an
+; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .if INVENTORY_ROLLING_BUFFER {
     .include "src/ingame/init_bg_scroll_hdma_patches.s"
@@ -151,7 +151,7 @@ dialog_bank_ptr_base = 0x218000
 ; this file ; `strategy order` keeps it first in the pool.
     .if INVENTORY_ROLLING_BUFFER {
 conditional_bg1_vofs:
-    lda.l 0x7E0000 + menu_hdma_enable
+    lda.l field_menu_rolling.hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
 ; Menu context: D=$0100, so $93 reads from $0193

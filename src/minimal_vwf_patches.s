@@ -46,7 +46,7 @@ the VWF layer kicks in without rewriting the message window.
     ; has to be rendered before animating the window display
 }
 .alloc at 0x00B32C {
-        jsr.w _first_window
+        jsr.w first_window
 
     ; Replace the display_script function by the vwfed one.
 }
@@ -54,14 +54,14 @@ the VWF layer kicks in without rewriting the message window.
         jsr.l vwfstart
         rts
 
-    _first_window:
+    first_window:
         lda 0x01
         sta 0xDE
         sta 0xED
         jsr.l vwfinit
         rts
 
-    _animation_wait_route:
+    animation_wait_route:
         wait_for_nmi_end = 0x912F
         jsr.w wait_for_nmi_end
 
@@ -72,7 +72,7 @@ the VWF layer kicks in without rewriting the message window.
         inc 0xDF
         lda 0xDF
         cmp #0x08
-        bne _animation_wait_route
+        bne animation_wait_route
 
     ; restore tileset position
         lda 0x210C
@@ -81,7 +81,7 @@ the VWF layer kicks in without rewriting the message window.
         adc #0x02
         sta 0x210C
 
-        jmp.w _end_of_animation
+        jmp.w end_of_animation
 
     ; do not scroll between text blocks
 }
@@ -91,9 +91,9 @@ the VWF layer kicks in without rewriting the message window.
         jmp.w 0xB398
 }
 .alloc at 0x00B335 {
-        jmp.w _animation_wait_route
+        jmp.w animation_wait_route
 
-    _end_of_animation:
+    end_of_animation:
         jmp.w 0xB369  ; skip_wait_for_action_button
 }
 {
