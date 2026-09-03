@@ -127,6 +127,14 @@ small-VWF item descriptions.
 }
 
 
+; Buy-list cursor X. Vanilla parks the hand at 16px, one column left of
+; the names at column 3 ; the rows moved a column left, so the cursor
+; follows. SelectItemSell is untouched: it lists the player's own
+; inventory through a different draw path.
+.alloc at 0x01C5C0 {
+        lda #0x08
+}
+
 ; Row positions for the item names, one column left of vanilla's so the
 ; names regain the column the price field needs. Original table at
 ; $01:C58E held $0246, $02C6, ... (column 3 of each row).
