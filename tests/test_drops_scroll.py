@@ -154,3 +154,52 @@ def test_drops_scroll_screenshot(drops_emu, steps: int, name: str) -> None:
     for _ in range(steps):
         tap(drops_emu, Button.DOWN)
     assert_screenshot_matches_golden(drops_emu, GOLDENS / f"{name}.png")
+
+
+def test_drops_bg4_vram_matches_staging_on_open(drops_emu) -> None:
+    """The drops window + item rows must reach VRAM as soon as the
+    treasure menu opens.
+
+    `rolling_engine_init` renders every slot into the BG4 staging
+    buffer at $7E:C600 but the transfer to VRAM only happens when a
+    profile stamps `transfer_pending`, which the treasure main-loop
+    hook drains. Without that stamp on the init path, VRAM keeps
+    whatever vanilla's window-open upload left behind, a staircased
+    and partially-written tilemap, until the first scroll finally
+    triggers a push. Assert staging and VRAM agree row for row.
+    """
+    stage = bytes(drops_emu.read_range(BG4_STAGING, 14 * 64))
+    vram = bytes(drops_emu.vram_read_range(BG4_TILEMAP_WORD * 2, 14 * 64))
+    assert vram == stage, "BG4 VRAM tilemap does not match the staging buffer"
+
+
+def test_drops_scroll_advances_past_visible_band(drops_emu) -> None:
+    """DOWN past the last visible drops row scrolls the list.
+
+    With 8 drops and 5 visible rows the cursor clamps at row 4 and every
+    further DOWN must advance `drops_scroll_pos` (up to TOTAL - VISIBLE)
+    so items 5..7 come into view. `drops_scroll_pos` lives at $7E:9C5F;
+    it was declared as a bare 16-bit constant, so every `lda.l` /
+    `sta.l` against it assembled to bank $00, i.e. ROM, so the
+    position never persisted and drops stayed unscrolled.
+    """
+    e = drops_emu
+    cursor_row = 0x7E1BB3
+    # The fixture already tapped DOWN once to land on drops row 0.
+    for _ in range(DROPS_VISIBLE_ROWS - 1):
+        tap(e, Button.DOWN)
+    assert e.read(cursor_row) == DROPS_VISIBLE_ROWS - 1, (
+        "cursor should clamp on the last visible drops row")
+    assert e.read(DROPS_SCROLL_POS) == 0, "no scroll before the clamp is hit"
+
+    for expected in range(1, DROPS_TOTAL_ITEMS - DROPS_VISIBLE_ROWS + 1):
+        tap(e, Button.DOWN)
+        e.run_frames(30)          # let the scroll animation settle
+        assert e.read(DROPS_SCROLL_POS) == expected, (
+            f"scroll_pos stuck at {e.read(DROPS_SCROLL_POS)}, "
+            f"expected {expected}")
+
+    tap(e, Button.DOWN)
+    e.run_frames(30)
+    assert e.read(DROPS_SCROLL_POS) == DROPS_TOTAL_ITEMS - DROPS_VISIBLE_ROWS, (
+        "scroll_pos must clamp at TOTAL - VISIBLE")

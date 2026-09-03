@@ -100,6 +100,15 @@ sites that remain in the per-menu source files.
         cmp.l 0x7E0000 + RollingBufferState.visible_rows, x
         bcc _engine_init_render_loop
 
+    ; Stamp transfer_pending so the per-menu main-loop hook pushes the
+    ; freshly-rendered staging buffer to VRAM on the next vblank - same
+    ; contract as rolling_engine_refresh_slots. Without it the init
+    ; render sat in WRAM until the first scroll, leaving VRAM showing
+    ; whatever vanilla's window-open upload wrote (drops came up with a
+    ; staircased window + a clobbered treasure row 0).
+        lda.b #0x01
+        sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+
         plp
         rtl
         }
