@@ -108,10 +108,12 @@ key_item_ensure_hdma_initialized:
     lda.l 0x7E019F
     sta.l key_item_rolling.base_scroll
     sep #0x20
-    jsr.w _key_item_init_hdma_channel
-    lda #KEY_ITEM_HDMA_CHANNEL_BIT
-    sta.l field_menu_rolling.hdma_enable
-    sta.l key_item_rolling.hdma_enable
+; Build the scroll table so the shadow is ready, but do NOT arm the
+; channel yet. Driving BG3VOFS here overrides the scroll vanilla uses to
+; place this window and leaves the register parked at our value after
+; the picker closes ; arming lands with the scroll wiring, once the
+; bands are matched to the window's real position on screen.
+    jsr.w update_key_item_scroll_hdma
     rts
 
 _key_item_hdma_already_init:
@@ -649,10 +651,10 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     lda #0x01
     sta.l 0x00420B          ; MDMAEN ch0
 
-; Publish the scroll table and arm the channel. The menus let the field
-; NMI hook copy shadow -> active and drive HDMAEN, but that hook only
-; runs while a menu owns the screen ; the picker is an overlay on the
-; live map, so it does its own copy in the same vblank as the tilemap.
+; Publish the scroll table. The menus let the field NMI hook copy
+; shadow -> active, but that hook only runs while a menu owns the
+; screen, so the picker copies in the same vblank as its tilemap. The
+; channel itself stays disarmed until the scroll wiring lands.
     rep #0x30
     ldx.w #0x0000
 
@@ -664,9 +666,6 @@ _push_hdma_copy:
     cpx.w #KEY_ITEM_HDMA_TABLE_SIZE
     bcc _push_hdma_copy
     sep #0x20
-    lda.l 0x00420C
-    ora #KEY_ITEM_HDMA_CHANNEL_BIT
-    sta.l 0x00420C
 
 _push_window_done:
     plp
