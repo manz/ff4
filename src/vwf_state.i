@@ -37,6 +37,19 @@ VWF_CHR_BUFFER := 0x703000
 ; $704000-$704FFF which was outside any blit / DMA reach.
 VWF_CHR_BUFFER_SIZE := 0x2000
 
+; --- Battle-render gate state (OUTSIDE the CHR buffer) ------------------
+; These bytes must not live inside VWF_CHR_BUFFER. The inventory rolling
+; buffer anchors at tile_id $C0 and hands each of its 11 slots
+; ITEM_VWF_TILE_BUDGET (10) tiles, so slot N's CHR slice runs from
+; $70:3C00 + N*160 and the last slot ends at $70:4240. Slot 4 alone spans
+; $70:3E80..$70:3F1F, which is exactly where the gate bytes used to sit --
+; a rendered item name wrote glyph pixels over pending_transfer_mask, the
+; region dirty bits, render_skipped and dma_dirty_slots (observed:
+; pending_transfer_mask = $F3), so the battle names / monsters regions lost
+; their dirty + CHR-pending bits and never flushed again: black name blocks
+; and an empty monster window for the rest of the battle.
+BATTLE_RENDER_STATE := 0x707100
+
 ; --- Null-terminated text-staging buffer ------------------------------
 ; Callers copy the source string (from items_unleashed, monster names,
 ; magic list, ...) into this buffer + write $00 terminator, then call

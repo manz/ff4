@@ -15,13 +15,13 @@ dialog-stream consumer).
     TILES_PER_ENTRY = 8
 ; Fixed 8 tiles per string
 ; Memory layout
-    tile_ring_head = 0x703FF0
+    tile_ring_head = BATTLE_RENDER_STATE + 0xF0
 ; Current allocation position (entry index) - byte
-    tile_ring_count = 0x703FF1
+    tile_ring_count = BATTLE_RENDER_STATE + 0xF1
 ; Number of active allocations - byte
-    tile_ring_next_id = 0x703FF2
+    tile_ring_next_id = BATTLE_RENDER_STATE + 0xF2
 ; Next ID to assign - word
-    tile_ring_base_tile = 0x703FF4
+    tile_ring_base_tile = BATTLE_RENDER_STATE + 0xF4
 init:
 """
 Base tile ID for ring buffer area - byte
@@ -154,16 +154,18 @@ _not_found:
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
-; Gate state moved past the inventory tile slice ($703C00..$703EF0)
-; so the rolling pre-render does not stomp these bytes.
-    pending_transfer_mask = 0x703f00
+; Gate state lives at BATTLE_RENDER_STATE ($70:7100), outside the CHR
+; buffer entirely. The inventory slot slices run $70:3C00..$70:4240, so
+; any 'past the inventory tile slice' address inside the buffer gets
+; overwritten by rendered item CHR -- see vwf_state.i for the detail.
+    pending_transfer_mask = BATTLE_RENDER_STATE + 0x00
 ; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
 ; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
 ; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
 ; one or more bits per frame and DMAs only the dirty slot's 160-byte
 ; slice instead of the full 4KB CHR region, fits in vblank without
 ; forced blank.
-    dma_dirty_slots = 0x703f10
+    dma_dirty_slots = BATTLE_RENDER_STATE + 0x10
     ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
     ; redraw_gates.s and the writer-site shims via a compile-time include.
     .include "render_defs.i"
