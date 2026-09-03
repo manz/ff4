@@ -67,6 +67,8 @@ KEY_ITEM_HDMA_TABLE := 0x7E9900
 KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
 KEY_ITEM_HDMA_SHADOW := 0x7E9940
 KEY_ITEM_HDMA_BANK := 0x7E
+; Header + 6 rows + footer + terminator, rounded up to a word count.
+KEY_ITEM_HDMA_TABLE_SIZE := 40
 
 KEY_ITEM_FILTER_BUFFER := 0x0712
 
@@ -100,16 +102,16 @@ key_item_ensure_hdma_initialized:
 """
 
     rep #0x20
-    lda.w key_item_rolling.base_scroll
+    lda.l key_item_rolling.base_scroll
     cmp.w #0xFFFF
     bne _key_item_hdma_already_init
     lda.l 0x7E019F
-    sta.w key_item_rolling.base_scroll
+    sta.l key_item_rolling.base_scroll
     sep #0x20
     jsr.w _key_item_init_hdma_channel
     lda #KEY_ITEM_HDMA_CHANNEL_BIT
     sta.l field_menu_rolling.hdma_enable
-    sta.w key_item_rolling.hdma_enable
+    sta.l key_item_rolling.hdma_enable
     rts
 
 _key_item_hdma_already_init:
@@ -162,7 +164,7 @@ key_item_render_item_to_slot:
     lda.w #0xD600
     sta.b 0x29
     sep #0x20
-    lda.w key_item_rolling.edge_row
+    lda.l key_item_rolling.edge_row
     asl
     clc
     adc #0x12
@@ -181,7 +183,7 @@ key_item_render_item_to_slot:
     stz.b 0x34
     pla
     jsr.l check_can_use_item_trampoline
-    lda.w key_item_rolling.slot_index
+    lda.l key_item_rolling.slot_index
     sta.b 0x5d
 ; Attribute byte for the fixed cells the renderer writes (symbol,
 ; colon, quantity): palette 0 + priority, matching the window body.
@@ -194,7 +196,7 @@ key_item_render_item_to_slot:
     lda #VWF_CTX_KEY_ITEM
     sta.l VWF_CALLER_CTX
     rep #0x20
-    lda.w key_item_rolling.slot_index
+    lda.l key_item_rolling.slot_index
     and.w #0x00FF
     xba
     lsr
@@ -268,7 +270,7 @@ clear_key_item_slot:
     pha
     lda.w #0xD600
     sta.b 0x29
-    lda.w key_item_rolling.slot_index
+    lda.l key_item_rolling.slot_index
     and.w #0x00FF
     xba
     lsr
@@ -366,7 +368,7 @@ update_key_item_scroll_hdma:
     stz.b 0x42
 
 _row_loop:
-    lda.w key_item_rolling + RollingBufferState.buffer_pos
+    lda.l key_item_rolling + RollingBufferState.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -395,7 +397,7 @@ _mod_done:
     clc
     adc.b 0x40
     clc
-    adc.w key_item_rolling + RollingBufferState.base_scroll
+    adc.l key_item_rolling + RollingBufferState.base_scroll
     sta.b 0x40
     sep #0x20
     lda #16
@@ -438,7 +440,7 @@ _key_item_hdma_header:
     sta.l KEY_ITEM_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w key_item_rolling.base_scroll
+    lda.l key_item_rolling.base_scroll
     sta.l KEY_ITEM_HDMA_SHADOW, x
     inx
     inx
@@ -451,7 +453,7 @@ _key_item_hdma_footer:
     sta.l KEY_ITEM_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w key_item_rolling.base_scroll
+    lda.l key_item_rolling.base_scroll
     clc
     adc.w #16
     sta.l KEY_ITEM_HDMA_SHADOW, x
@@ -463,7 +465,7 @@ _key_item_hdma_signal:
 """NMI shadow-copy signal - set both picker copy_pending + shared $1BB6 mirror."""
     sep #0x20
     lda #0x01
-    sta.w key_item_rolling.hdma_copy_pending
+    sta.l key_item_rolling.hdma_copy_pending
     rts
 
 key_item_init_impl:
@@ -615,9 +617,10 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     php
     sep #0x20
     rep #0x10
-    lda.w key_item_rolling.transfer_pending
+    lda.l key_item_rolling.transfer_pending
     beq _push_window_done
-    stz.w key_item_rolling.transfer_pending
+    lda #0x00
+    sta.l key_item_rolling.transfer_pending
     jsr.l wait_for_vblank_long
 ; No vanilla NMI hook runs the VWF flush in field the way the menus do,
 ; so push the picker's glyph CHR here, in the same vblank as the
@@ -645,6 +648,25 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     sep #0x20
     lda #0x01
     sta.l 0x00420B          ; MDMAEN ch0
+
+; Publish the scroll table and arm the channel. The menus let the field
+; NMI hook copy shadow -> active and drive HDMAEN, but that hook only
+; runs while a menu owns the screen ; the picker is an overlay on the
+; live map, so it does its own copy in the same vblank as the tilemap.
+    rep #0x30
+    ldx.w #0x0000
+
+_push_hdma_copy:
+    lda.l KEY_ITEM_HDMA_SHADOW, x
+    sta.l KEY_ITEM_HDMA_TABLE, x
+    inx
+    inx
+    cpx.w #KEY_ITEM_HDMA_TABLE_SIZE
+    bcc _push_hdma_copy
+    sep #0x20
+    lda.l 0x00420C
+    ora #KEY_ITEM_HDMA_CHANNEL_BIT
+    sta.l 0x00420C
 
 _push_window_done:
     plp
