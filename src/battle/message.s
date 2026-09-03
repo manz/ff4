@@ -15,13 +15,13 @@ dialog-stream consumer).
     TILES_PER_ENTRY = 8
 ; Fixed 8 tiles per string
 ; Memory layout
-    tile_ring_head = 0x703FF0
+    tile_ring_head = BATTLE_RENDER_STATE + 0xF0
 ; Current allocation position (entry index) - byte
-    tile_ring_count = 0x703FF1
+    tile_ring_count = BATTLE_RENDER_STATE + 0xF1
 ; Number of active allocations - byte
-    tile_ring_next_id = 0x703FF2
+    tile_ring_next_id = BATTLE_RENDER_STATE + 0xF2
 ; Next ID to assign - word
-    tile_ring_base_tile = 0x703FF4
+    tile_ring_base_tile = BATTLE_RENDER_STATE + 0xF4
 init:
 """
 Base tile ID for ring buffer area - byte
@@ -154,16 +154,30 @@ _not_found:
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
-; Gate state moved past the inventory tile slice ($703C00..$703EF0)
-; so the rolling pre-render does not stomp these bytes.
-    pending_transfer_mask = 0x703f00
+; Gate state lives at BATTLE_RENDER_STATE ($70:7100), outside the CHR
+; buffer entirely. The inventory slot slices run $70:3C00..$70:4240, so
+; any 'past the inventory tile slice' address inside the buffer gets
+; overwritten by rendered item CHR -- see vwf_state.i for the detail.
+    pending_transfer_mask = BATTLE_RENDER_STATE + 0x00
+; Bit 0 (CHR_PENDING) = "a CHR transfer is queued" (set by deinit /
+; deinit_gated). Bits 1-4 = which VWF region was (re)rendered this frame
+; and needs its 0x300-byte CHR slice flushed. dma_transfer DMAs only the
+; flagged regions (<= 0xC00 total = ~18 lines, fits vblank) instead of
+; blasting the whole 0x1000 buffer every dirty frame. Region N's slice
+; lives at buffer_ptr + N*0x300 and targets VRAM $B000 + N*0x300.
+;   N=0 messages, N=1 monsters, N=2 names, N=3 commands.
+    CHR_PENDING = 0x01
+    CHR_REGION_MESSAGES = 0x02
+    CHR_REGION_MONSTERS = 0x04
+    CHR_REGION_NAMES = 0x08
+    CHR_REGION_COMMANDS = 0x10
 ; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
 ; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
 ; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
 ; one or more bits per frame and DMAs only the dirty slot's 160-byte
 ; slice instead of the full 4KB CHR region, fits in vblank without
 ; forced blank.
-    dma_dirty_slots = 0x703f10
+    dma_dirty_slots = BATTLE_RENDER_STATE + 0x10
     ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
     ; redraw_gates.s and the writer-site shims via a compile-time include.
     .include "render_defs.i"
@@ -176,16 +190,25 @@ _not_found:
 ;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_MONSTERS
+    sta.l pending_transfer_mask
     lda.b #region_size
-    bra _init
+    brl _init
 init_names:
 """Initialize the renderer targeting the name region."""
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_NAMES
+    sta.l pending_transfer_mask
     lda.b #region_size * 2
-    bra _init
+    brl _init
 init_commands_list:
 """Initialize the renderer targeting the commands list region."""
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_COMMANDS
+    sta.l pending_transfer_mask
     lda.b #region_size * 3
-    bra _init
+    brl _init
 init_inventory_region:
 """
 Reset the allocator to the inventory tile_id base (0xC0) once per
@@ -197,8 +220,10 @@ overrun the shared buffer into the state words at $703C00+.
 """
 
 
+; Inventory CHR flushes via dma_dirty_slots (per-slot 160B DMA), not the
+; region blast, so it must NOT touch pending_transfer_mask (a base store
+; here would corrupt the region bits). A = tile_id base for the allocator.
     lda.b #region_size * 4
-    sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
     .if ENABLE_KERNING_MENU {
     stz.b prev_char
@@ -217,9 +242,14 @@ across scope boundaries. A on entry = tile_id base.
 
     jmp.w render_allocator.init_with_tile_id
 _init:
-    sta.l pending_transfer_mask
+; Region bit already set by the caller; A = tile_id base for the allocator.
     jsr.w render_allocator.init_with_tile_id
-    bra _internal_init
+    brl _internal_init
+; Near trampoline: the per-region CHR-bit sets grew the gated bodies past
+; the 8-bit branch range to _gated_skip, so the clean-path branches hop
+; here and jmp the rest of the way.
+_gated_skip_near:
+    jmp.w _gated_skip
 ; --- Region-gated init variants ---
 ; Mirror the public init_X paths but check the matching region-dirty
 ; bit in `region_dirty_bits` first. When the bit is CLEAR (= clean), set
@@ -233,52 +263,62 @@ init_monsters_gated:
 """Gated init for the monsters region."""
     lda.l region_dirty_bits
     bit.b #REGION_DIRTY_MONSTERS
-    beq _gated_skip
+    beq _gated_skip_near
     and.b #( ~ REGION_DIRTY_MONSTERS ) & 0xFF
     sta.l region_dirty_bits
     lda.l tilemap_pending_mask
     ora.b #TILEMAP_PENDING_MAIN
     sta.l tilemap_pending_mask
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_MONSTERS
+    sta.l pending_transfer_mask
     lda.b #region_size
-    bra _init_continue
+    brl _init_continue
 init_names_gated:
 """Gated init for the names region."""
     lda.l region_dirty_bits
     bit.b #REGION_DIRTY_NAMES
-    beq _gated_skip
+    beq _gated_skip_near
     and.b #( ~ REGION_DIRTY_NAMES ) & 0xFF
     sta.l region_dirty_bits
     lda.l tilemap_pending_mask
     ora.b #TILEMAP_PENDING_MAIN
     sta.l tilemap_pending_mask
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_NAMES
+    sta.l pending_transfer_mask
     lda.b #region_size * 2
-    bra _init_continue
+    brl _init_continue
 init_commands_list_gated:
 """Gated init for the commands region."""
     lda.l region_dirty_bits
     bit.b #REGION_DIRTY_COMMANDS
-    beq _gated_skip
+    beq _gated_skip_near
     and.b #( ~ REGION_DIRTY_COMMANDS ) & 0xFF
     sta.l region_dirty_bits
     lda.l tilemap_pending_mask
     ora.b #TILEMAP_PENDING_COMMANDS
     sta.l tilemap_pending_mask
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_COMMANDS
+    sta.l pending_transfer_mask
     lda.b #region_size * 3
 _init_continue:
     pha
     lda.b #0x00
     sta.l render_skipped
     pla
-    sta.l pending_transfer_mask
+; Region bit already set above; A = tile_id base for the allocator.
     jsr.w render_allocator.init_with_tile_id
-    bra _internal_init
+    brl _internal_init
 _gated_skip:
     lda.b #0xFF
     sta.l render_skipped
     rts
 init:
     pha
-    lda #0
+    lda.l pending_transfer_mask
+    ora.b #CHR_REGION_MESSAGES
     sta.l pending_transfer_mask
     pla
     jsr.w render_allocator.init
@@ -927,7 +967,15 @@ _chr_clear_loop:
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-    sta.l battle_render.pending_transfer_mask
+; A = this slot's tile_id base, for the allocator thunk below. It used to
+; also get stored into pending_transfer_mask, back when that byte held the
+; tile base; now the mask is a dirty-region bitmask, so the store wrote
+; ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...) over
+; CHR_PENDING and every region bit -- each inventory slot pre-render wiped
+; the pending flush of whatever region had just rendered. The battle names
+; region renders once per battle, so losing that one flush left the
+; glyphs in WRAM and black tiles on screen for the whole fight. Inventory
+; CHR flushes via dma_dirty_slots, not this mask.
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
 ; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
 ; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
@@ -1234,7 +1282,15 @@ _dis_chr_clear:
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-    sta.l battle_render.pending_transfer_mask
+; A = this slot's tile_id base, for the allocator thunk below. It used to
+; also get stored into pending_transfer_mask, back when that byte held the
+; tile base; now the mask is a dirty-region bitmask, so the store wrote
+; ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...) over
+; CHR_PENDING and every region bit -- each inventory slot pre-render wiped
+; the pending flush of whatever region had just rendered. The battle names
+; region renders once per battle, so losing that one flush left the
+; glyphs in WRAM and black tiles on screen for the whole fight. Inventory
+; CHR flushes via dma_dirty_slots, not this mask.
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
 ; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
 ; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
@@ -1331,6 +1387,24 @@ normal length, no visible black strip.
     pha
     phx
     phy
+; --- Forced-blank for the over-vblank DMA window ---
+; The VWF tile + tilemap + inventory-CHR DMA below can run ~40 scanlines
+; of transfer and starts late in the NMI (after OAM DMA + the flying-HDMA
+; chain), so the tail spills past the ~37-line vblank into active scan and
+; tears VRAM. Set forced-blank ($2100=$80) whenever any DMA work is queued
+; so those first active lines stay blanked while the DMA finishes; the
+; vanilla NMI tail at $02:837F restores brightness from $6CC1. Idle frames
+; (nothing queued) skip the blank, so there's no visible black strip.
+    php
+    sep #0x20
+    lda.l battle_render.pending_transfer_mask
+    ora.l battle_render.tilemap_pending_mask
+    ora.l battle_render.dma_dirty_slots
+    beq _no_force_blank
+    lda #0x80
+    sta.l 0x002100
+_no_force_blank:
+    plp
     .if BATTLE_ITEMS_VWF {
 ; Per-NMI BG3 V-scroll footer override.
 ;
@@ -1445,51 +1519,71 @@ _inv_dma_done:
 _no_inv_dma:
     plp
     }
-    lda.l battle_render.pending_transfer_mask
-    bit #1
-    beq _no_transfer
-    and #0xfe
-    .if SMART {
-    rep #0x20
-    asl
-    asl
-    asl
-    asl
-    pha
-    clc
-    adc.w #0xb000
-    lsr
-    tay
-    pla
-    clc
-    adc.w #battle_render.buffer_ptr
-    tax
+; --- Per-region CHR DMA ---
+; Flush only the regions flagged dirty this frame (bits 1-4), each a
+; 0x300-byte 2bpp slice at buffer_ptr + N*0x300 -> VRAM $B000 + N*0x300.
+; Worst case (all four) = 0xC00 = ~18 lines, comfortably inside vblank,
+; so the screen no longer tears / needs forced-blank for text. Inventory
+; CHR rides the separate dma_dirty_slots path above.
+    php
     sep #0x20
-    }
+    rep #0x10
+    lda.l battle_render.pending_transfer_mask
+    bit.b #battle_render.CHR_PENDING
+    bne _chr_dma_go
+    jmp.w _chr_dma_skip
+_chr_dma_go:
+    bit.b #battle_render.CHR_REGION_MESSAGES
+    beq _chr_no_msg
     ldy.w #0xb000 >> 1
     ldx.w #battle_render.buffer_ptr
-    phx
-    .if SMART {
-    ldx.w #0x400
-    } else {
-    .if BATTLE_ITEMS_VWF {
-; Inventory region extends past the legacy 0xC00 window. Bump to
-; 0x1000 so the DMA covers the full BG3 CHR upper half ($B000..$BFFF
-; = tile_ids 0x100..0x1FF). Gains 16 tile_ids for the inventory slot
-; budget at zero risk -- the trailing 0x100 bytes were unused.
-; TODO: don't transfer the whole thing every frame ; only dirty
-; regions need flushing.
-    ldx.w #0x1000
-    } else {
-    ldx.w #0xc00
-    }
-    }
-    stx 0x0e
-    plx
-    lda #0x70
+    rep #0x20
+    lda.w #0x300
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
     jsr.w _sram_dma_transfer_7
-    lda #0x00
+_chr_no_msg:
+    lda.l battle_render.pending_transfer_mask
+    bit.b #battle_render.CHR_REGION_MONSTERS
+    beq _chr_no_mon
+    ldy.w #( 0xb000 + 0x300 ) >> 1
+    ldx.w #battle_render.buffer_ptr + 0x300
+    rep #0x20
+    lda.w #0x300
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_chr_no_mon:
+    lda.l battle_render.pending_transfer_mask
+    bit.b #battle_render.CHR_REGION_NAMES
+    beq _chr_no_names
+    ldy.w #( 0xb000 + 0x600 ) >> 1
+    ldx.w #battle_render.buffer_ptr + 0x600
+    rep #0x20
+    lda.w #0x300
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_chr_no_names:
+    lda.l battle_render.pending_transfer_mask
+    bit.b #battle_render.CHR_REGION_COMMANDS
+    beq _chr_no_cmds
+    ldy.w #( 0xb000 + 0x900 ) >> 1
+    ldx.w #battle_render.buffer_ptr + 0x900
+    rep #0x20
+    lda.w #0x300
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_chr_no_cmds:
+    lda.b #0x00
     sta.l battle_render.pending_transfer_mask
+_chr_dma_skip:
+    plp
 _no_transfer:
 ; --- Per-region tilemap DMA pass ---
 ; Reads `tilemap_pending_mask` (set by `init_*_gated` on render paths
