@@ -1,8 +1,8 @@
 """Integration test : drive the bank-20 rolling-inventory engine against
 real in-game state, not synthetic SCRATCH_STATE.
 
-Opens the field-menu items submenu (state base = $7E:1BA8) and the
-treasure popup state (base = $7E:1BD0), then JSLs through
+Opens the field-menu items submenu and the treasure popup state
+(bases resolved from the build's debug info), then JSLs through
 `rolling_engine_invalidate_all` + `rolling_engine_vblank_flush` to
 verify the dirty_mask gate works on live WRAM.
 
@@ -16,13 +16,13 @@ import pytest
 from kintsuki import Button
 
 from _ff4kintsuki import load_emu_from_kss, kss_path, tap
+from _rolling_state import addr
 
+FIELD_MENU_ROLLING_BASE = addr("field_menu_rolling", "top_row")
+TREASURE_ROLLING_BASE = addr("treasure_rolling", "top_row")
 
-FIELD_MENU_ROLLING_BASE = 0x7E1BA8
-TREASURE_ROLLING_BASE = 0x7E1BD0
-
-# RollingBufferState offsets (mirrors src/items.i).
-DIRTY_MASK_OFFSET = 25
+DIRTY_MASK_OFFSET = (addr("field_menu_rolling", "dirty_mask")
+                     - FIELD_MENU_ROLLING_BASE)
 
 
 @pytest.fixture
@@ -80,22 +80,25 @@ def test_field_menu_init_populates_engine_config(field_menu) -> None:
     driving the actual scroll machinery.
     """
     e = field_menu
-    base = FIELD_MENU_ROLLING_BASE
-    assert e.read(base + 15) == 0x0A           # visible_rows = 10
-    assert e.read(base + 16) == 0x02           # slot_height_tiles = 2
-    assert e.read(base + 17) == 0x40           # item_list_ptr low
-    assert e.read(base + 18) == 0x14           # item_list_ptr mid
-    assert e.read(base + 19) == 0x7E           # item_list_ptr bank
-    assert e.read(base + 20) == 0x30           # item_count = 48
-    assert e.read(base + 21) == 0x05           # hdma_channel = 5
-    assert e.read(base + 22) == 0x80           # vwf_cfg_ptr low
-    assert e.read(base + 23) == 0x70           # vwf_cfg_ptr mid
-    assert e.read(base + 24) == 0x70           # vwf_cfg_ptr bank
+
+    def field(name: str) -> int:
+        return addr("field_menu_rolling", name)
+
+    assert e.read(field("visible_rows")) == 0x0A
+    assert e.read(field("slot_height_tiles")) == 0x02
+    assert e.read(field("item_list_ptr")) == 0x40       # $7E:1440 inventory
+    assert e.read(field("item_list_ptr") + 1) == 0x14
+    assert e.read(field("item_list_ptr") + 2) == 0x7E
+    assert e.read(field("item_count")) == 0x30          # 48 slots
+    assert e.read(field("hdma_channel")) == 0x05
+    assert e.read(field("vwf_cfg_ptr")) == 0x80         # $70:7080 VwfConfig
+    assert e.read(field("vwf_cfg_ptr") + 1) == 0x70
+    assert e.read(field("vwf_cfg_ptr") + 2) == 0x70
     # Hook far-ptrs land in bank-20 reloc region.
-    for hook_off in (26, 29, 32):
-        bank = e.read(base + hook_off + 2)
+    for hook in ("fn_render_slot", "fn_update_hdma", "fn_draw_window"):
+        bank = e.read(field(hook) + 2)
         assert bank == 0x20, (
-            f"hook at +{hook_off} bank=${bank:02X}, expected $20")
+            f"{hook} bank=${bank:02X}, expected $20")
 
 
 def test_cursor_down_on_field_menu_advances_slot_index(field_menu) -> None:

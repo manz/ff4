@@ -13,17 +13,20 @@ import pytest
 
 from kintsuki import Button, Emu
 
+from _rolling_state import addr
+
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
 
 # WRAM landmarks mirroring src/ingame/treasure_rolling*.s.
 INVENTORY = 0x7E1440
 DROPS     = 0x7EFF28
+# Vanilla treasure scroll_pos byte (not part of RollingBufferState).
 SCROLL_POS = 0x7E1BB7
-TREASURE_BUFFER_POS = 0x7E1BD1
-TREASURE_EDGE_ROW = 0x7E1BD2
-TREASURE_SLOT_INDEX = 0x7E1BD3
-TREASURE_BASE_SCROLL = 0x7E1BD4
+TREASURE_BUFFER_POS = addr("treasure_rolling", "buffer_pos")
+TREASURE_EDGE_ROW = addr("treasure_rolling", "edge_row")
+TREASURE_SLOT_INDEX = addr("treasure_rolling", "slot_index")
+TREASURE_BASE_SCROLL = addr("treasure_rolling", "base_scroll")
 
 SAVESTATES = Path(__file__).parent / "savestates"
 
@@ -106,9 +109,10 @@ def capture_treasure_state(emu: Emu) -> bytes:
 
 # ---- Field-menu (Items submenu) primitives ---------------------------------
 
+# Vanilla field scroll_pos byte (not part of RollingBufferState).
 FIELD_SCROLL_POS = 0x7E1B1A
-FIELD_BUFFER_POS = 0x7E1BA9
-FIELD_HDMA_ENABLE = 0x7E1BAE
+FIELD_BUFFER_POS = addr("field_menu_rolling", "buffer_pos")
+FIELD_HDMA_ENABLE = addr("field_menu_rolling", "hdma_enable")
 MENU_VISIBLE_ITEMS = 10
 MENU_BUFFER_SLOTS = 11
 TRASH_ITEM_ID = 0xFF

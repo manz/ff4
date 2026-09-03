@@ -17,6 +17,7 @@ import pytest
 
 from kintsuki import Button
 
+from _rolling_state import addr
 from _ff4kintsuki import (
     DROPS,
     REPO,
@@ -30,14 +31,24 @@ GOLDENS = Path(__file__).parent / "goldens" / "drops"
 
 DROPS_TOTAL_ITEMS = 8
 
-# Drops engine state RAM. Mirrors src/ingame/drops_rolling.s.
-DROPS_ROLLING_BASE = 0x7E1BE0
-DROPS_TOP_ROW       = DROPS_ROLLING_BASE + 0
-DROPS_BUFFER_POS    = DROPS_ROLLING_BASE + 1
-DROPS_EDGE_ROW      = DROPS_ROLLING_BASE + 2
-DROPS_SLOT_INDEX    = DROPS_ROLLING_BASE + 3
-DROPS_BASE_SCROLL   = DROPS_ROLLING_BASE + 4   # word
-DROPS_SCROLL_POS    = 0x7E1BFF
+# Drops engine state RAM, resolved from src/ingame/drops_rolling.s.
+# Drops has no vanilla scroll_pos byte; scroll_state stands in for it.
+DROPS_TOP_ROW       = addr("drops_rolling", "top_row")
+DROPS_BUFFER_POS    = addr("drops_rolling", "buffer_pos")
+DROPS_EDGE_ROW      = addr("drops_rolling", "edge_row")
+DROPS_SLOT_INDEX    = addr("drops_rolling", "slot_index")
+DROPS_BASE_SCROLL   = addr("drops_rolling", "base_scroll")   # word
+DROPS_SCROLL_STATE  = addr("drops_rolling", "scroll_state")
+
+# Drops render onto BG4: staging buffer in WRAM, tilemap base in VRAM
+# (BG4SC = $7A -> word $7800), mirroring src/ingame/drops_rolling.s.
+BG4_STAGING = 0x7EC600
+BG4_TILEMAP_WORD = 0x7800
+
+# Visible drops rows + the scroll position byte the drops profile owns
+# (DROPS_VISIBLE_ITEMS / drops_scroll_pos in src/ingame/drops_rolling.s).
+DROPS_VISIBLE_ROWS = 5
+DROPS_SCROLL_POS = 0x7E9C5F
 
 
 def _seed_eight_drops(emu) -> None:
@@ -80,7 +91,7 @@ def _capture_drops_state(emu) -> bytes:
     so the snapshot stays stable across palette swaps and is more
     diff-friendly than a full framebuffer screenshot."""
     head = bytes([
-        emu.read(DROPS_SCROLL_POS),
+        emu.read(DROPS_SCROLL_STATE),
         emu.read(DROPS_BUFFER_POS),
         emu.read(DROPS_EDGE_ROW),
         emu.read(DROPS_SLOT_INDEX),
