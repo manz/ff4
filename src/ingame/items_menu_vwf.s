@@ -181,8 +181,10 @@ Status:
     ; into the drops branch on the wrong inventory.
         sep #0x20
         lda.l VWF_CALLER_CTX
-        cmp.b #0x01
+        cmp.b #VWF_CTX_DROPS
         beq _write_secondary_desc
+        cmp.b #VWF_CTX_KEY_ITEM
+        beq _write_key_item_desc
         rep #0x20
     ; --- Primary descriptor (treasure / field-items / default) ---
         lda.w #FIELD_VWF_VRAM_DEST_WORD
@@ -200,6 +202,19 @@ Status:
         sta.l VWF_CHR_BYTE_COUNT_B
         lda.w #DROPS_VWF_CHR_SRC_OFFSET
         sta.l VWF_CHR_SRC_OFFSET_B
+        bra _desc_done
+
+    _write_key_item_desc:
+    ; --- Key-item picker (BG3 CHR $6800, the dialogue VWF window) ---
+    ; Shares the secondary slot: the picker is an event-script overlay
+    ; on the field map and never coexists with the treasure popup.
+        rep #0x20
+        lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
+        sta.l VWF_CHR_VRAM_WORD_B
+        lda.w #KEY_ITEM_VWF_BYTE_COUNT
+        sta.l VWF_CHR_BYTE_COUNT_B
+        lda.w #KEY_ITEM_VWF_CHR_SRC_OFFSET
+        sta.l VWF_CHR_SRC_OFFSET_B
 
     _desc_done:
         sep #0x20
@@ -208,7 +223,19 @@ Status:
     ; must be set ; the allocator stores $0100+, the tilemap entry
     ; writes the low byte to the tile_id slot and ORs `$01` into the
     ; attr byte to give the PPU the full 9-bit tile_id.
+    ; The picker overlays the field map, where the window body carries
+    ; the priority bit ($20) ; without it the glyph cells fall behind
+    ; the map tiles the window is drawn over.
+        lda.l VWF_CALLER_CTX
+        cmp.b #VWF_CTX_KEY_ITEM
+        beq _flags_key_item
         lda.b #0x01
+        bra _flags_store
+
+    _flags_key_item:
+        lda.b #0x21
+
+    _flags_store:
         sta.l VWF_CONFIG_BASE + VwfConfig.flags
     ; --- VwfConfig.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
     ; Caller's Y is the 16-bit byte offset of the top row tile we are
@@ -322,10 +349,25 @@ Status:
     ; VRAM range only ($5000..$5400) which drops never writes into.
         sep #0x20
         lda.l VWF_CALLER_CTX
-        cmp.b #0x01
+        beq _dirty_done
+        cmp.b #VWF_CTX_KEY_ITEM
+        beq _dirty_key_item
+        cmp.b #VWF_CTX_DROPS
         bne _dirty_done
         lda.b #0x01
         sta.l VWF_CHR_DIRTY_B
+        bra _dirty_done
+
+    _dirty_key_item:
+    ; The picker owns the secondary descriptor ONLY. Its primary dirty
+    ; bit must be cleared, not left set: the primary flush targets
+    ; FIELD_VWF_VRAM_DEST_WORD ($2800), which is spare CHR in the menu's
+    ; mode 0 but the BG3 TILEMAP once the field map is up - flushing it
+    ; would spray glyph bytes over the map's BG3 tilemap.
+        lda.b #0x01
+        sta.l VWF_CHR_DIRTY_B
+        lda.b #0x00
+        sta.l VWF_CHR_DIRTY
 
     _dirty_done:
         ply

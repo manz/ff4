@@ -70,6 +70,18 @@ KEY_ITEM_HDMA_BANK := 0x7E
 
 KEY_ITEM_FILTER_BUFFER := 0x0712
 
+; BG3 staging page for the picker's window body. The rendered page is
+; DMA'd to BG3 plane 1 at VRAM word $2C00, where vanilla draws the
+; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
+; 16 rows x 32 entries x 2 bytes covers the whole visible window.
+KEY_ITEM_STAGING_ADDR := 0xD600
+KEY_ITEM_STAGING_SIZE := 0x0400
+KEY_ITEM_TILEMAP_VRAM_WORD := 0x2C00
+; Attribute byte vanilla writes for every cell of this window: palette
+; 0 with the priority bit, so the body draws above the map.
+KEY_ITEM_TILEMAP_ATTR := 0x20
+KEY_ITEM_CURSOR_TILE := 0x19
+
 KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 KEY_ITEM_HDMA4_CTRL := 0x4340
 KEY_ITEM_HDMA4_DEST := 0x4341
@@ -171,16 +183,33 @@ key_item_render_item_to_slot:
     jsr.l check_can_use_item_trampoline
     lda.w key_item_rolling.slot_index
     sta.b 0x5d
+; Attribute byte for the fixed cells the renderer writes (symbol,
+; colon, quantity): palette 0 + priority, matching the window body.
+    lda #KEY_ITEM_TILEMAP_ATTR
+    sta.b 0xDB
+    stz.b 0x34
+; Route this render's CHR flush at the picker's window (BG3 $6800) via
+; the secondary descriptor: the field map is live underneath, so the
+; primary window ($2800) is the BG3 tilemap here, not spare CHR.
+    lda #VWF_CTX_KEY_ITEM
+    sta.l VWF_CALLER_CTX
     rep #0x20
     lda.w key_item_rolling.slot_index
     and.w #0x00FF
     xba
     lsr
+; Y = slot * 128 + 4 : two staging rows (2 * 64 bytes) per slot, four
+; bytes in for the cursor column. draw_field_item_name blanks the row
+; at Y and writes glyphs at Y + $40, so slot N's name lands on staging
+; row 2N+1 - rows 1/3/5/7, matching where vanilla draws the picker's
+; item names in BG3 plane 1.
     clc
-    adc.w #0x0444
+    adc.w #0x0004
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
+    lda #VWF_CTX_PRIMARY
+    sta.l VWF_CALLER_CTX
     pla
     sta.b 0xDB
     pla
@@ -521,10 +550,104 @@ key_item_fn_draw_window_trampoline:
 
 _key_item_draw_window:
 """
-    Picker is invoked from inside original ShowItemWindow which already drew the
-    picker frame via its IRQ slide. No-op.
+Prime the BG3 staging buffer with the picker's blank window body.
+
+Vanilla draws the picker's box on BG1 and writes only item text, the
+cursor column and blank fill into BG3 plane 1, so the body is cheap to
+rebuild: $FF blanks across every cell with the cursor marker in column
+2. The engine then renders item names over it and the whole page is
+pushed to VRAM in one DMA, which keeps us off VRAM reads entirely.
 """
 
+    php
+    phb
+    rep #0x30
+    lda.w #0x7E7E
+    pha
+    plb
+    plb
+    ldx.w #0x0000
+
+_draw_window_loop:
+; Column pattern mirrors what vanilla leaves in BG3 plane 1: columns 0
+; and 1 hold tile $00, column 2 the cursor marker $19, the rest blank
+; $FF - every cell with attr $20 (palette 0, priority set) so the body
+; sits above the map.
+    txa
+    and.w #0x003F
+    cmp.w #0x0004
+    bcc _draw_window_left
+    cmp.w #0x0006
+    bcc _draw_window_cursor
+    lda.w #0x00FF
+    bra _draw_window_store
+
+_draw_window_left:
+    lda.w #0x0000
+    bra _draw_window_store
+
+_draw_window_cursor:
+    lda.w #KEY_ITEM_CURSOR_TILE
+
+_draw_window_store:
+    sep #0x20
+    sta.w KEY_ITEM_STAGING_ADDR, x
+    inx
+    lda #KEY_ITEM_TILEMAP_ATTR
+    sta.w KEY_ITEM_STAGING_ADDR, x
+    inx
+    rep #0x20
+    cpx.w #KEY_ITEM_STAGING_SIZE
+    bne _draw_window_loop
+    sep #0x20
+    plb
+    plp
+    rts
+
+key_item_push_window:
+"""
+DMA the staging page to the picker's BG3 tilemap slice ($2C00).
+
+The picker overlays a live map, so unlike the menus there is no vanilla
+BG3 push to piggyback on: drain `transfer_pending` through here.
+"""
+
+    php
+    sep #0x20
+    rep #0x10
+    lda.w key_item_rolling.transfer_pending
+    beq _push_window_done
+    stz.w key_item_rolling.transfer_pending
+    jsr.l wait_for_vblank_long
+; No vanilla NMI hook runs the VWF flush in field the way the menus do,
+; so push the picker's glyph CHR here, in the same vblank as the
+; tilemap it belongs to.
+    jsr.l render.flush_chr_to_vram
+    rep #0x20
+    lda.w #KEY_ITEM_TILEMAP_VRAM_WORD
+    sta.l 0x002116          ; VMADD
+    sep #0x20
+    lda #0x80
+    sta.l 0x002115          ; VMAIN: word access, +1 word per write
+    lda #0x01
+    sta.l 0x004300          ; DMAP: word transfer
+    lda #0x18
+    sta.l 0x004301          ; BBAD: $2118 VMDATAL
+    rep #0x20
+    lda.w #KEY_ITEM_STAGING_ADDR
+    sta.l 0x004302
+    sep #0x20
+    lda #0x7E
+    sta.l 0x004304
+    rep #0x20
+    lda.w #KEY_ITEM_STAGING_SIZE
+    sta.l 0x004305
+    sep #0x20
+    lda #0x01
+    sta.l 0x00420B          ; MDMAEN ch0
+
+_push_window_done:
+    plp
     rts
 
 key_item_start_scroll_down_impl:
