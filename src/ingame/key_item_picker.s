@@ -57,7 +57,10 @@ KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 ; sprite code stomps past $1BEB.
 key_item_rolling := (0x7E9C60 as RollingBufferState)
 
-key_item_scroll_pos := 0x9C8F
+; Full 24-bit address: every access is `lda.l` / `sta.l`, and a bare
+; 16-bit constant makes those assemble against bank $00 - i.e. ROM -
+; so the scroll position silently never persists. Same bug drops had.
+key_item_scroll_pos := 0x7E9C8F
 
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
