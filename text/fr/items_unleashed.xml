@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="17" padding=" ">
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x29]Griffe de feu</sn:fixed>
+    <sn:fixed>[0x29]Griffe de glace</sn:fixed>
+    <sn:fixed>[0x29]Griffe de foudre</sn:fixed>
+    <sn:fixed>[0x29]Griffe de fée</sn:fixed>
+    <sn:fixed>[0x29]Griffe d'enfer</sn:fixed>
+    <sn:fixed>[0x29]Griffe de chat</sn:fixed>
+    <sn:fixed>[0x2a]Baguette</sn:fixed>
+    <sn:fixed>[0x2a]Baguette glace</sn:fixed>
+    <sn:fixed>[0x2a]Baguette feu</sn:fixed>
+    <sn:fixed>[0x2a]Baguette foudre</sn:fixed>
+    <sn:fixed>[0x2a]Baguette de mue</sn:fixed>
+    <sn:fixed>[0x2a]Baguette de fée</sn:fixed>
+    <sn:fixed>[0x2a]Baguette étoiles</sn:fixed>
+    <sn:fixed>[0x2a]Baguette Lilith</sn:fixed>
+    <sn:fixed>[0x2b]Bâton</sn:fixed>
+    <sn:fixed>[0x2b]Bâton de soin</sn:fixed>
+    <sn:fixed>[0x2b]Bâton mithril</sn:fixed>
+    <sn:fixed>[0x2b]Bâton de force</sn:fixed>
+    <sn:fixed>[0x2b]Bâton pulsar</sn:fixed>
+    <sn:fixed>[0x2b]Bâton du sage</sn:fixed>
+    <sn:fixed>[0x2b]Bâton runique</sn:fixed>
+    <sn:fixed>[0x2c]Epée ténébreuse</sn:fixed>
+    <sn:fixed>[0x2c]Lame de l'ombre</sn:fixed>
+    <sn:fixed>[0x2c]Death Bringer</sn:fixed>
+    <sn:fixed>[0x2e]Epée légendaire</sn:fixed>
+    <sn:fixed>[0x2e]Epée de lumière</sn:fixed>
+    <sn:fixed>[0x2e]Excalibur</sn:fixed>
+    <sn:fixed>[0x2d]Epée de flammes</sn:fixed>
+    <sn:fixed>[0x2d]Lame de glace</sn:fixed>
+    <sn:fixed>[0x2d]Défenseur</sn:fixed>
+    <sn:fixed>[0x2d]Epée de sang</sn:fixed>
+    <sn:fixed>[0x2d]Epée ancienne</sn:fixed>
+    <sn:fixed>[0x2d]Epée du sommeil</sn:fixed>
+    <sn:fixed>[0x2d]Lame briseuse</sn:fixed>
+    <sn:fixed>[0x2f]Lance</sn:fixed>
+    <sn:fixed>[0x2f]Lance du vent</sn:fixed>
+    <sn:fixed>[0x2f]Lance de feu</sn:fixed>
+    <sn:fixed>[0x2f]Lance de glace</sn:fixed>
+    <sn:fixed>[0x2f]Lance du dragon</sn:fixed>
+    <sn:fixed>[0x2f]Lance sacrée</sn:fixed>
+    <sn:fixed>[0x2f]Lance de sang</sn:fixed>
+    <sn:fixed>[0x2f]Gungnir</sn:fixed>
+    <sn:fixed>[0x31]Kunai</sn:fixed>
+    <sn:fixed>[0x31]Ashura</sn:fixed>
+    <sn:fixed>[0x31]Kotetsu</sn:fixed>
+    <sn:fixed>[0x31]Kikuichimonji</sn:fixed>
+    <sn:fixed>[0x31]Murasame</sn:fixed>
+    <sn:fixed>[0x31]Masamune</sn:fixed>
+    <sn:fixed>[0x30]Dague Assassin</sn:fixed>
+    <sn:fixed>[0x30]Tueur de mages</sn:fixed>
+    <sn:fixed>[0x3a]Fouet</sn:fixed>
+    <sn:fixed>[0x3a]Fouet à chaîne</sn:fixed>
+    <sn:fixed>[0x3a]Fouet foudre</sn:fixed>
+    <sn:fixed>[0x3a]Fouet de feu</sn:fixed>
+    <sn:fixed>[0x3a]Crin de dragon</sn:fixed>
+    <sn:fixed>[0x34]Hachette</sn:fixed>
+    <sn:fixed>[0x34]Hache des nains</sn:fixed>
+    <sn:fixed>[0x34]Tueur d'ogres</sn:fixed>
+    <sn:fixed>[0x30]Dague mithril</sn:fixed>
+    <sn:fixed>[0x30]Dague dansante</sn:fixed>
+    <sn:fixed>[0x2d]Epée mithril</sn:fixed>
+    <sn:fixed>[0x30]Couperet</sn:fixed>
+    <sn:fixed>[0x2e]Ragnarok</sn:fixed>
+    <sn:fixed>[0x32]Shuriken</sn:fixed>
+    <sn:fixed>[0x32]Shuriken Fuma</sn:fixed>
+    <sn:fixed>[0x33]Boomerang</sn:fixed>
+    <sn:fixed>[0x33]Engetsurin</sn:fixed>
+    <sn:fixed>[0x36]Harpe des rêves</sn:fixed>
+    <sn:fixed>[0x36]Harpe de Lamia</sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x34]Hache d'Idun</sn:fixed>
+    <sn:fixed>[0x34]Hache runique</sn:fixed>
+    <sn:fixed>[0x35]Marteau mithril</sn:fixed>
+    <sn:fixed>[0x35]Marteau Terre</sn:fixed>
+    <sn:fixed>[0x35]Maillet</sn:fixed>
+    <sn:fixed>[0x2d]Vengeur</sn:fixed>
+    <sn:fixed>[0x37]Arc</sn:fixed>
+    <sn:fixed>[0x37]Arbalète</sn:fixed>
+    <sn:fixed>[0x37]Grand arc</sn:fixed>
+    <sn:fixed>[0x37]Arc mortel</sn:fixed>
+    <sn:fixed>[0x37]Arc elfique</sn:fixed>
+    <sn:fixed>[0x37]Arc de Yoichi</sn:fixed>
+    <sn:fixed>[0x37]Arc d'Artémis</sn:fixed>
+    <sn:fixed>[0x38]Flèche de fer</sn:fixed>
+    <sn:fixed>[0x38]Flèche sacrée</sn:fixed>
+    <sn:fixed>[0x38]Flèche de feu</sn:fixed>
+    <sn:fixed>[0x38]Flèche de glace</sn:fixed>
+    <sn:fixed>[0x38]Flèche foudre</sn:fixed>
+    <sn:fixed>[0x38]Flèche ténèbres</sn:fixed>
+    <sn:fixed>[0x38]Flèche de poison</sn:fixed>
+    <sn:fixed>[0x38]Flèche muselière</sn:fixed>
+    <sn:fixed>[0x38]Flèche d'ange</sn:fixed>
+    <sn:fixed>[0x38]Flèche Yoichi</sn:fixed>
+    <sn:fixed>[0x38]Flèche Méduse</sn:fixed>
+    <sn:fixed>[0x38]Flèche Artémis</sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de fer</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier noir</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier démon</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier sacré</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier mithril</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier flamme</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier glace</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier diamant</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier d'Egide</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier Genji</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier dragon</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier cristal</sn:fixed>
+    <sn:fixed>[0x3c]Heaume de fer</sn:fixed>
+    <sn:fixed>[0x3c]Heaume noir</sn:fixed>
+    <sn:fixed>[0x3c]Heaume Hadès</sn:fixed>
+    <sn:fixed>[0x3c]Heaume démon</sn:fixed>
+    <sn:fixed>[0x3c]Heaume sacré</sn:fixed>
+    <sn:fixed>[0x3c]Heaume mithril</sn:fixed>
+    <sn:fixed>[0x3c]Heaume diamant</sn:fixed>
+    <sn:fixed>[0x3c]Heaume Genji</sn:fixed>
+    <sn:fixed>[0x3c]Heaume dragon</sn:fixed>
+    <sn:fixed>[0x3c]Heaume cristal</sn:fixed>
+    <sn:fixed>[0x3c]Chapeau de cuir</sn:fixed>
+    <sn:fixed>[0x3c]Chapeau plumes</sn:fixed>
+    <sn:fixed>[0x3c]Tricorne</sn:fixed>
+    <sn:fixed>[0x3c]Mitre du prêtre</sn:fixed>
+    <sn:fixed>[0x3c]Bandeau d'or</sn:fixed>
+    <sn:fixed>[0x3c]Ruban</sn:fixed>
+    <sn:fixed>[0x3c]Bandana</sn:fixed>
+    <sn:fixed>[0x3c]Béret vert</sn:fixed>
+    <sn:fixed>[0x3c]Capuche noire</sn:fixed>
+    <sn:fixed>[0x3c]Masque de verre</sn:fixed>
+    <sn:fixed>[0x3d]Armure de fer</sn:fixed>
+    <sn:fixed>[0x3d]Armure noire</sn:fixed>
+    <sn:fixed>[0x3d]Armure Hadès</sn:fixed>
+    <sn:fixed>[0x3d]Armure démon</sn:fixed>
+    <sn:fixed>[0x3d]Armure Chevalier</sn:fixed>
+    <sn:fixed>[0x3d]Armure mithril</sn:fixed>
+    <sn:fixed>[0x3d]Cotte de flammes</sn:fixed>
+    <sn:fixed>[0x3d]Armure de glace</sn:fixed>
+    <sn:fixed>[0x3d]Armure diamant</sn:fixed>
+    <sn:fixed>[0x3d]Armure Genji</sn:fixed>
+    <sn:fixed>[0x3d]Cotte de dragon</sn:fixed>
+    <sn:fixed>[0x3d]Cotte de cristal</sn:fixed>
+    <sn:fixed>[0x3d]Vêtements</sn:fixed>
+    <sn:fixed>[0x3d]Tunique cuir</sn:fixed>
+    <sn:fixed>[0x3d]Robe de Gaïa</sn:fixed>
+    <sn:fixed>[0x3d]Robe du prêtre</sn:fixed>
+    <sn:fixed>[0x3d]Robe noire</sn:fixed>
+    <sn:fixed>[0x3d]Robe de lumière</sn:fixed>
+    <sn:fixed>[0x3d]Robe blanche</sn:fixed>
+    <sn:fixed>[0x3d]Ruban de force</sn:fixed>
+    <sn:fixed>[0x3d]Bustier Minerva</sn:fixed>
+    <sn:fixed>[0x3d]Habit bagnard</sn:fixed>
+    <sn:fixed>[0x3d]Habit poète</sn:fixed>
+    <sn:fixed>[0x3d]Tenue Kenpou</sn:fixed>
+    <sn:fixed>[0x3d]Ceinture noire</sn:fixed>
+    <sn:fixed>[0x3d]Armure adamant</sn:fixed>
+    <sn:fixed>[0x3d]Habit ninja</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet fer</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet noir</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet Hadès</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet démon</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet mithril</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet diamant</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet géant</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet Genji</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet dragon</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet cristal</sn:fixed>
+    <sn:fixed>[0x3e]Brassard de fer</sn:fixed>
+    <sn:fixed>[0x3e]Anneau rubis</sn:fixed>
+    <sn:fixed>[0x3e]Brassard argent</sn:fixed>
+    <sn:fixed>[0x3e]Brassard force</sn:fixed>
+    <sn:fixed>[0x3e]Brassard rune</sn:fixed>
+    <sn:fixed>[0x3e]Anneau cristal</sn:fixed>
+    <sn:fixed>[0x3e]Brassard diamant</sn:fixed>
+    <sn:fixed>[0x3e]Anneau garde</sn:fixed>
+    <sn:fixed>[0x3e]Anneau maudit</sn:fixed>
+    <sn:fixed>[0xff]Eclat de Bombe</sn:fixed>
+    <sn:fixed>[0xff]Bras de Bombe</sn:fixed>
+    <sn:fixed>[0xff]Vent du Sud</sn:fixed>
+    <sn:fixed>[0xff]Vent du Nord</sn:fixed>
+    <sn:fixed>[0xff]Foudre de Zeus</sn:fixed>
+    <sn:fixed>[0xff]Foudre divine</sn:fixed>
+    <sn:fixed>[0xff]Poussière étoile</sn:fixed>
+    <sn:fixed>[0xff]Baiser Lilith</sn:fixed>
+    <sn:fixed>[0xff]Croc vampire</sn:fixed>
+    <sn:fixed>[0xff]Vin de Bacchus</sn:fixed>
+    <sn:fixed>[0xff]Sandales Hermès</sn:fixed>
+    <sn:fixed>[0xff]Sablier cuivre</sn:fixed>
+    <sn:fixed>[0xff]Sablier argent</sn:fixed>
+    <sn:fixed>[0xff]Sablier d'or</sn:fixed>
+    <sn:fixed>[0xff]Toile d'araignée</sn:fixed>
+    <sn:fixed>[0xff]Bouc émissaire</sn:fixed>
+    <sn:fixed>[0xff]Croc rouge</sn:fixed>
+    <sn:fixed>[0xff]Croc blanc</sn:fixed>
+    <sn:fixed>[0xff]Croc bleu</sn:fixed>
+    <sn:fixed>[0xff]Rideau lumière</sn:fixed>
+    <sn:fixed>[0xff]Âme de Bombe</sn:fixed>
+    <sn:fixed>[0xff]Rideau lunaire</sn:fixed>
+    <sn:fixed>[0xff]Cloche silence</sn:fixed>
+    <sn:fixed>[0xff]Tambour terre</sn:fixed>
+    <sn:fixed>[0xff]Cristal</sn:fixed>
+    <sn:fixed>[0xff]Moustache Coeurl</sn:fixed>
+    <sn:fixed>[0xff]Grimoire</sn:fixed>
+    <sn:fixed>[0xff]Bestiaire</sn:fixed>
+    <sn:fixed>[0xff]Réveil</sn:fixed>
+    <sn:fixed>[0xff]Corne licorne</sn:fixed>
+    <sn:fixed>[0xff]Potion</sn:fixed>
+    <sn:fixed>[0xff]Hi-Potion</sn:fixed>
+    <sn:fixed>[0xff]Méga-Potion</sn:fixed>
+    <sn:fixed>[0xff]Ether</sn:fixed>
+    <sn:fixed>[0xff]Ether sec</sn:fixed>
+    <sn:fixed>[0xff]Elixir</sn:fixed>
+    <sn:fixed>[0xff]Plume de phénix</sn:fixed>
+    <sn:fixed>[0xff]Aiguille d'or</sn:fixed>
+    <sn:fixed>[0xff]Baiser de fée</sn:fixed>
+    <sn:fixed>[0xff]Marteau magique</sn:fixed>
+    <sn:fixed>[0xff]Aliment diète</sn:fixed>
+    <sn:fixed>[0xff]Herbe d'écho</sn:fixed>
+    <sn:fixed>[0xff]Collyre</sn:fixed>
+    <sn:fixed>[0xff]Antidote</sn:fixed>
+    <sn:fixed>[0xff]Crucifix</sn:fixed>
+    <sn:fixed>[0xff]Panacée</sn:fixed>
+    <sn:fixed>[0xff]Alarme</sn:fixed>
+    <sn:fixed>[0xff]Pomme d'or</sn:fixed>
+    <sn:fixed>[0xff]Pomme d'argent</sn:fixed>
+    <sn:fixed>[0xff]Goutte de Soma</sn:fixed>
+    <sn:fixed>[0xff]Tente</sn:fixed>
+    <sn:fixed>[0xff]Chalet</sn:fixed>
+    <sn:fixed>[0xff]Revue coquine</sn:fixed>
+    <sn:fixed>[0xff]Porte de secours</sn:fixed>
+    <sn:fixed>[0xff]Pain de nain</sn:fixed>
+    <sn:fixed>[0x41]Gobelin</sn:fixed>
+    <sn:fixed>[0x41]Bombe</sn:fixed>
+    <sn:fixed>[0x41]Cocatrix</sn:fixed>
+    <sn:fixed>[0x41]Flagelleur</sn:fixed>
+    <sn:fixed>[0xff]Légume Gysahl</sn:fixed>
+    <sn:fixed>[0xff]Laissez-passer</sn:fixed>
+    <sn:fixed>[0xff]Flûte Gysahl</sn:fixed>
+    <sn:fixed>[0xff]Anneau Bombe</sn:fixed>
+    <sn:fixed>[0xff]Clé de Baron</sn:fixed>
+    <sn:fixed>[0xff]Lumière désert</sn:fixed>
+    <sn:fixed>[0xff]Cristal terre</sn:fixed>
+    <sn:fixed>[0xff]Pierre de magma</sn:fixed>
+    <sn:fixed>[0xff]Collier de Luca</sn:fixed>
+    <sn:fixed>[0xff]Murmure</sn:fixed>
+    <sn:fixed>[0xff]Cristal ténèbres</sn:fixed>
+    <sn:fixed>[0xff]Queue de rat</sn:fixed>
+    <sn:fixed>[0xff]Adamantite</sn:fixed>
+    <sn:fixed>[0xff]Poêle d'amour</sn:fixed>
+    <sn:fixed>[0xff]Queue rose</sn:fixed>
+    <sn:fixed>[0xff]Clé de Lugae</sn:fixed>
+    <sn:fixed>[0xff]Matière sombre</sn:fixed>
+    <sn:fixed>[0xff]Scénario 0015</sn:fixed>
+    <sn:fixed>[0xff]Scénario 0016</sn:fixed>
+    <sn:fixed>[0xff]--Trier--</sn:fixed>
+    <sn:fixed>[0xff]Poubelle</sn:fixed>
+</sn:fixedlist>

@@ -15,6 +15,7 @@ from `inventory_rolling.s` and tuned for the chest UI.
 ; menus are mutually exclusive on screen.
 
 ; Layout (single column)
+.include "config.i"
 TREASURE_VISIBLE_ITEMS := 5  ; Visible items at once
 TREASURE_BUFFER_SLOTS := 6  ; 6 slots (5 visible + 1 pre-render)
 TREASURE_TOTAL_ITEMS := 48  ; Total inventory items
@@ -37,22 +38,28 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; channel + tilemap buffer + shadow table are shared (re-init on entry).
 
 ; Treasure rolling-buffer state RAM block (12 bytes from $1BD0). Same
-; struct layout as the field-menu state block — fields resolved via
+; struct layout as the field-menu state block - fields resolved via
 ; `RollingBufferState` from src/items.i so any layout change applies
 ; uniformly across profiles.
-treasure_rolling := 0x1BD0
-treasure_rolling_top_row := treasure_rolling + RollingBufferState.top_row
-treasure_rolling_buffer_pos := treasure_rolling + RollingBufferState.buffer_pos
-treasure_rolling_edge_row := treasure_rolling + RollingBufferState.edge_row
-treasure_rolling_slot_index := treasure_rolling + RollingBufferState.slot_index
-treasure_rolling_base_scroll := treasure_rolling + RollingBufferState.base_scroll
-treasure_hdma_enable := treasure_rolling + RollingBufferState.hdma_enable
-treasure_scroll_state := treasure_rolling + RollingBufferState.scroll_state
-treasure_scroll_remaining := treasure_rolling + RollingBufferState.scroll_remaining
-treasure_scroll_direction := treasure_rolling + RollingBufferState.scroll_direction
-treasure_transfer_pending := treasure_rolling + RollingBufferState.transfer_pending
-treasure_scroll_anim_offset := treasure_rolling + RollingBufferState.scroll_anim_offset
-treasure_hdma_copy_pending := treasure_rolling + RollingBufferState.hdma_copy_pending
+; Treasure rolling state moved out of $1B00-$1BFF (which vanilla menu /
+; sprite code writes to via indexed STA past $1BEB) to a clean $7E:9C00
+; region. Engine path needs the full 35-byte struct (state + config +
+; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
+; so the original $1BD0 base worked despite vanilla's later collisions.
+treasure_rolling := (0x7E9C00 as RollingBufferState)
+
+; Cooldown counter sitting one byte past the shared struct so the
+; engine layout stays untouched. Decremented each frame in
+; treasure_scroll_state_check ; non-zero means treasure_scroll_*_trigger
+; aborts and undoes vanilla's $1BB7 increment, debouncing the
+; "hold-DOWN auto-repeat fires every 2 frames" issue that scrolled the
+; inventory two items per visible tap.
+; RollingBufferState ends at offset 35 inclusive (menu_id byte added
+; in the engine port). Bump cooldown past that ; was +35 = collided
+; with menu_id and treasure_ensure_hdma_initialized's STZ wiped it,
+; sending engine dispatch to the wrong menu's HDMA path.
+treasure_scroll_cooldown := treasure_rolling + 36
+TREASURE_SCROLL_COOLDOWN_FRAMES := 0x18  ; ~24 frames between scrolls (long enough to outlast a typical button hold)
 
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
@@ -83,15 +90,16 @@ TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 ; Share field-menu HDMA tables (mutually exclusive on screen).
 ; Active (read by HDMA channel 5): $7E:9800
 ; Shadow (written by game): $7E:9840
-; NMI hook copies shadow → active during VBlank when `menu_hdma_copy_pending`
-; ($1BB6) is set, gated on `menu_hdma_enable` ($1BAE) being non-zero.
+; NMI hook copies shadow → active during VBlank when `menu_rolling.hdma_copy_pending`
+; ($1BB6) is set, gated on `menu_rolling.hdma_enable` ($1BAE) being non-zero.
 TREASURE_HDMA_TABLE_ADDR := 0x9800
 TREASURE_HDMA_TABLE := 0x7E9800
 TREASURE_HDMA_SHADOW_ADDR := 0x9840
 TREASURE_HDMA_SHADOW := 0x7E9840
 TREASURE_HDMA_TABLE_SIZE := 40
 TREASURE_HDMA_BANK := 0x7E
-treasure_hdma_copy_pending_shared := 0x1BB6  ; field-menu copy-pending flag
+; Shared menu HDMA signals defined in src/items.i - referenced here as
+; field_menu_rolling.hdma_enable / field_menu_rolling.hdma_copy_pending.
 
 ; HDMA channel 6 for the treasure rolling buffer. Original treasure
 ; enables HDMAEN=$AD (ch7|ch5|ch3|ch2|ch0); ch2 in particular is an
@@ -108,16 +116,18 @@ TREASURE_HDMA6_SRC_BANK := 0x4364
 TREASURE_HDMA6_IND_BANK := 0x4367
 HDMAEN := 0x420C  ; HDMA enable register
 
+.include "../bank20.i"
+
+.alloc treasure_rolling_block in bank20_reloc {
 init_treasure_inventory_hdma:
 """
-Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
-Called when entering the item menu
+    Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
+    Called when entering the item menu
 
-HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
-Register: $210E (BG1VOFS)
-Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
+    HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
+    Register: $210E (BG1VOFS)
+    Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
-
 
     php
     sep #0x20  ; 8-bit A
@@ -132,7 +142,7 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     lda #0x02  ; Mode: DIRECT, write 2 bytes to same PPU reg
     sta.l TREASURE_HDMA6_CTRL  ; $004360
 
-    lda #0x12  ; BG3VOFS register ($2112) — treasure inventory is on BG3
+    lda #0x12  ; BG3VOFS register ($2112) - treasure inventory is on BG3
     sta.l TREASURE_HDMA6_DEST  ; $004361
 
 ; Source = HDMA table in WRAM at $7E9800
@@ -143,7 +153,7 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
     lda #TREASURE_HDMA_BANK  ; $7E
     sta.l TREASURE_HDMA6_SRC_BANK  ; $004364
 
-; HDMA channel 5 is now enabled via shadow variable (treasure_hdma_enable)
+; HDMA channel 5 is now enabled via shadow variable (treasure_rolling.hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
 
     plp
@@ -151,21 +161,23 @@ Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 
 disable_treasure_inventory_hdma:
 """
-Disables HDMA channel 5 when leaving item menu
-The shadow variable is cleared by menu_exit_hook
+    Disables HDMA channel 5 when leaving item menu
+    The shadow variable is cleared by menu_exit_hook
 """
+
     php
     sep #0x20  ; 8-bit A
-    ; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
+; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
     plp
     rts
 
 init_treasure_hdma_table:
 """
-Builds direct mode HDMA table in WRAM at $7E9800
-Format: count, lo, hi per entry, $00 to end
-Initial state: all rows at BASE scroll (no circular buffer offset)
+    Builds direct mode HDMA table in WRAM at $7E9800
+    Format: count, lo, hi per entry, $00 to end
+    Initial state: all rows at BASE scroll (no circular buffer offset)
 """
+
     rep #0x30  ; 16-bit A, X, Y
     php
     pha  ; Save A
@@ -185,7 +197,7 @@ Initial state: all rows at BASE scroll (no circular buffer offset)
     sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit A for value
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     sta.l TREASURE_HDMA_TABLE, x
     inx
     inx
@@ -201,7 +213,7 @@ _t_init_item_rows:
     sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit A for value
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     sta.l TREASURE_HDMA_TABLE, x
     inx
     inx
@@ -219,7 +231,7 @@ _t_init_item_rows:
     sta.l TREASURE_HDMA_TABLE, x
     inx
     rep #0x20
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     clc
     adc.w #16  ; Lock at base + 16
     sta.l TREASURE_HDMA_TABLE, x
@@ -245,18 +257,101 @@ _t_init_item_rows:
 
 update_treasure_scroll_hdma:
 """Build the treasure-menu HDMA scroll table via the shared engine."""
-    engine_update_scroll_hdma(treasure_rolling, TREASURE_HDMA_SHADOW, TREASURE_BUFFER_SLOTS, TREASURE_VISIBLE_ITEMS, _treasure_hdma_header, _treasure_hdma_footer, _treasure_hdma_signal)  ; noqa: E501
+; Build treasure HDMA scroll table. Inlined from the former
+; `engine_update_scroll_hdma` macro since its per-row writes use
+; compile-time state_base + hdma_shadow_addr ; routing through the
+; bank-20 engine would need menu_id dispatch at every state read,
+; which costs more than the modest 80-line duplication across the
+; four menus.
+    {
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+    lda.b 0x40
+    pha
+    lda.b 0x42
+    pha
+    ldx.w #0x0000
+    jsr.w _treasure_hdma_header
+    stz.b 0x42
+
+_row_loop:
+    lda.w treasure_rolling + RollingBufferState.buffer_pos
+    and.w #0x00FF
+    clc
+    adc.b 0x42
+
+_mod_loop:
+    cmp.w #TREASURE_BUFFER_SLOTS
+    bcc _mod_done
+    sec
+    sbc.w #TREASURE_BUFFER_SLOTS
+    bra _mod_loop
+
+_mod_done:
+    asl
+    asl
+    asl
+    asl
+    sta.b 0x40
+    lda.b 0x42
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    eor.w #0xFFFF
+    inc
+    clc
+    adc.b 0x40
+    clc
+    adc.w treasure_rolling + RollingBufferState.base_scroll
+    sta.b 0x40
+    sep #0x20
+    lda #16
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.b 0x40
+    sta.l TREASURE_HDMA_SHADOW, x
+    inx
+    inx
+    rep #0x20
+    inc.b 0x42
+    lda.b 0x42
+    cmp.w #TREASURE_VISIBLE_ITEMS
+    bcs _row_loop_done
+    jmp.w _row_loop
+
+_row_loop_done:
+    jsr.w _treasure_hdma_footer
+    sep #0x20
+    lda #0x00
+    sta.l TREASURE_HDMA_SHADOW, x
+    jsr.w _treasure_hdma_signal
+    rep #0x20
+    pla
+    sta.b 0x42
+    pla
+    sta.b 0x40
+    ply
+    plx
+    pla
+    plp
+    rts
+    }
 
 _treasure_hdma_header:
 """Treasure profile header: drops band (120 lines at BASE-16) + inventory border (8 lines at BASE)."""
-
 
     sep #0x20
     lda #120
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     sec
     sbc.w #16
     sta.l TREASURE_HDMA_SHADOW, x
@@ -267,7 +362,7 @@ _treasure_hdma_header:
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     inx
@@ -276,13 +371,12 @@ _treasure_hdma_header:
 _treasure_hdma_footer:
 """Treasure profile footer: 16 scanlines at BASE+16 (hides prefetch slot)."""
 
-
     sep #0x20
     lda #16
     sta.l TREASURE_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w treasure_rolling_base_scroll
+    lda.w treasure_rolling.base_scroll
     clc
     adc.w #16
     sta.l TREASURE_HDMA_SHADOW, x
@@ -294,13 +388,13 @@ _treasure_hdma_signal:
 """Treasure profile signal: set both treasure flag and shared $1BB6 mirror."""
     sep #0x20
     lda #0x01
-    sta.w treasure_hdma_copy_pending
-    sta.w treasure_hdma_copy_pending_shared
+    sta.l treasure_rolling.hdma_copy_pending
+    sta.l field_menu_rolling.hdma_copy_pending
     rts
 
 ; Re-render all BUFFER_SLOTS (6) entries from $1440 using current
 ; $1BB7 (scroll_pos) and the existing buffer_pos rotation. Called from
-; the redraw helper at $01:D933 after a swap completes — the swap
+; the redraw helper at $01:D933 after a swap completes - the swap
 ; mutates $1440 in place and original's DrawInventoryList would redraw
 ; the whole 48-item list, but we only need to refresh the 5 visible
 ; slots + 1 prefetch. Crucially does NOT touch buffer_pos or any of
@@ -308,12 +402,97 @@ _treasure_hdma_signal:
 ; was on before the swap survives.
 
 treasure_refresh_slots_impl:
-"""Treasure profile: re-render all 6 slots without resetting scroll state (original redraw helper at $01:D933)."""
-    engine_refresh_slots(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, _treasure_render_item_to_slot)
+"""Treasure profile: re-render all 6 slots via the bank-20 engine (post-swap redraw at $01:D933)."""
+    php
+    sep #0x20
+    rep #0x10
+    lda.l 0x7E0000 + 0x1BB7  ; treasure scroll_pos (shared with vanilla cursor row)
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_refresh_slots
+    plp
+    rtl
 
 init_treasure_rolling_buffer_impl:
-"""Init treasure rolling buffer (5 visible + prefetch slot 6)."""
-    engine_init_rolling_buffer(treasure_rolling, TREASURE_BUFFER_SLOTS, _treasure_draw_inventory_window, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot)  ; noqa: E501
+"""
+    Init treasure rolling buffer (5 visible + prefetch slot 6) via the
+    bank-20 rolling-inventory engine. State + hook far-ptrs live at
+    $7E:9C00  ; the engine writes the config block then JSLs into
+    `rolling_engine.rolling_engine_init` to zero the scratch, stamp
+    `base_scroll = $FFFF`, fire draw_window + ensure_hdma hooks, and
+    render `visible_rows` slots.
+"""
+
+    php
+    rep #0x30
+    sep #0x20
+    lda.b #TREASURE_BUFFER_SLOTS
+    sta.l treasure_rolling + RollingBufferState.visible_rows
+    lda.b #0x02
+    sta.l treasure_rolling + RollingBufferState.slot_height_tiles
+    lda.b #0x40
+    sta.l treasure_rolling + RollingBufferState.item_list_ptr
+    lda.b #0x14
+    sta.l treasure_rolling + RollingBufferState.item_list_ptr + 1
+    lda.b #0x7E
+    sta.l treasure_rolling + RollingBufferState.item_list_ptr + 2
+    lda.b #TREASURE_TOTAL_ITEMS
+    sta.l treasure_rolling + RollingBufferState.item_count
+    lda.b #0x06
+    sta.l treasure_rolling + RollingBufferState.hdma_channel
+    lda.b #0x80
+    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr
+    lda.b #0x70
+    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    lda.b #0x70
+    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    lda.b #treasure_fn_render_slot_trampoline & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_render_slot
+    lda.b #( treasure_fn_render_slot_trampoline >> 8 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_render_slot + 1
+    lda.b #( treasure_fn_render_slot_trampoline >> 16 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_render_slot + 2
+    lda.b #treasure_fn_update_hdma_trampoline & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_update_hdma
+    lda.b #( treasure_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_update_hdma + 1
+    lda.b #( treasure_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_update_hdma + 2
+    lda.b #treasure_fn_draw_window_trampoline & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_draw_window
+    lda.b #( treasure_fn_draw_window_trampoline >> 8 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_draw_window + 1
+    lda.b #( treasure_fn_draw_window_trampoline >> 16 ) & 0xFF
+    sta.l treasure_rolling + RollingBufferState.fn_draw_window + 2
+    lda.b #ROLLING_MENU_ID_TREASURE
+    sta.l treasure_rolling + RollingBufferState.menu_id
+    plp
+    php
+    rep #0x10
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_init
+    plp
+    rtl
+
+treasure_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `_treasure_render_item_to_slot`."""
+    php
+    jsr.w _treasure_render_item_to_slot
+    plp
+    rtl
+
+treasure_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `treasure_ensure_hdma_initialized`."""
+    php
+    jsr.w treasure_ensure_hdma_initialized
+    plp
+    rtl
+
+treasure_fn_draw_window_trampoline:
+"""Bank-20 RTL wrapper around `_treasure_draw_inventory_window`."""
+    php
+    jsr.w _treasure_draw_inventory_window
+    plp
+    rtl
 
 _treasure_draw_inventory_window:
 """Treasure menu draws a 5-row inventory window so the bottom border lands on the rolling-buffer footer scanlines."""
@@ -323,19 +502,11 @@ _treasure_draw_inventory_window:
     sep #0x10
     rts
 
-treasure_scroll_down_prepare:
-"""Treasure profile scroll-down pre-render."""
-    engine_scroll_down_prepare(treasure_rolling, 0x1BB7, TREASURE_SCROLL_LIMIT, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
-
-treasure_scroll_up_prepare:
-"""Treasure profile scroll-up pre-render."""
-    engine_scroll_up_prepare(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
-
 ; _treasure_render_item_to_slot
 ; Renders an item to a specific circular buffer slot in the tilemap.
 ;
-; Input: treasure_rolling_edge_row = item index (0-47) for data lookup
-;        treasure_rolling_slot_index = slot index (0-11) for destination
+; Input: treasure_rolling.edge_row = item index (0-47) for data lookup
+;        treasure_rolling.slot_index = slot index (0-11) for destination
 ;
 ; Strategy: Set up $5d = slot_index (for Y position calculation),
 ;           $5a = pointer to item data, then call game's DrawItemSlot.
@@ -377,7 +548,7 @@ _treasure_render_item_to_slot:
     sep #0x20  ; 8-bit A
 
 ; Calculate item data pointer: $1440 + (edge_row * Item.__size)
-    lda.w treasure_rolling_edge_row
+    lda.w treasure_rolling.edge_row
     asl  ; * Item.__size (2 bytes per Item)
     clc
     adc #0x40  ; Low byte of $1440
@@ -404,7 +575,7 @@ _treasure_render_item_to_slot:
     jsr.l check_can_use_item_trampoline  ; bank-$01 trampoline for original @ $A25D (sets $DB)
 
 ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
-    lda.w treasure_rolling_slot_index
+    lda.w treasure_rolling.slot_index
     sta.b 0x5d
 
 ; Calculate Y = slot_index * 128 + $44
@@ -412,7 +583,7 @@ _treasure_render_item_to_slot:
 ; +64 = 1 BG row (top window border at staging row 0)
 ; +4 for left margin (2 tiles)
     rep #0x20  ; 16-bit A (X/Y already 16-bit)
-    lda.w treasure_rolling_slot_index
+    lda.w treasure_rolling.slot_index
     and.w #0x00FF  ; Clear high byte
     xba  ; Swap bytes: A = slot * 256
     lsr  ; A = slot * 128
@@ -429,7 +600,7 @@ _treasure_render_item_to_slot:
     bra _t_skip_draw_item_slot
 
 _t_not_trash_item:
-    ; Clear the 2x2 trash can area first (in case we scrolled from trash position)
+; Clear the 2x2 trash can area first (in case we scrolled from trash position)
     jsr.w _clear_treasure_trash_area
 
 ; Call DrawItemSlot inner at $A1ED
@@ -463,21 +634,33 @@ _t_skip_draw_item_slot:
 
 treasure_ensure_hdma_initialized:
 """
-Lazy initialization: captures $93 and sets up HDMA on first scroll.
-Called from scroll prepare functions.
-Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
+    Lazy initialization: captures $93 and sets up HDMA on first scroll.
+    Called from scroll prepare functions.
+    Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 """
 
-; Check if already initialized (base_scroll != 0xFFFF)
+; Check if already initialized (base_scroll != 0xFFFF). Use long
+; addressing - engine `_engine_call_hook` jumps in with DB unchanged
+; from the vanilla caller (DB=$00), so abs reads would hit ROM and the
+; gate would always read "not $FFFF" → bail. Hits every DB-relative
+; access in this routine.
     rep #0x20  ; 16-bit A
-    lda.w treasure_rolling_base_scroll
+    lda.l treasure_rolling.base_scroll
     cmp.w #0xFFFF
     bne _t_hdma_already_init
 
 ; Capture original BG3VOFS shadow ($9F). Original treasure menu uses
 ; $9F = -120 to position items at screen scanline 120; we mirror that.
     lda.l 0x7E019F
-    sta.w treasure_rolling_base_scroll
+    sta.l treasure_rolling.base_scroll
+; Clear the held-DOWN debounce counter ; engine_init_rolling_buffer
+; zeros the 12-byte engine struct but cooldown lives one byte past,
+; so explicitly nuke it here so the very first scroll trigger fires
+; immediately after popup-open.
+    sep #0x20
+    lda #0x00
+    sta.l treasure_scroll_cooldown
+    rep #0x20
 
 ; Initialize HDMA channel configuration
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
@@ -486,16 +669,26 @@ Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 ; Enable HDMA via the SHARED field-menu shadow at $1BAE. The existing
 ; field NMI hook (`field_menu_nmi_dma_transfer_check_impl`) reads this
 ; byte and copies the HDMA shadow→active table each frame.
-; Treasure-only `treasure_hdma_enable` ($1BD6) is kept as a tracking
+; Treasure-only `treasure_rolling.hdma_enable` ($1BD6) is kept as a tracking
 ; flag but isn't read by the NMI path.
-; OR-in ch6 enable bit ($40) so drops's ch4 bit ($10) — set by
-; drops_ensure_hdma_initialized at menu open — survives. Plain
+; OR-in ch6 enable bit ($40) so drops's ch4 bit ($10) - set by
+; drops_ensure_hdma_initialized at menu open - survives. Plain
 ; `sta` would clobber the drops enable; same lazy-init order issue
 ; as treasure_force_hdma_setup which uses $F9 (= ch7|ch6|ch5|ch4|ch3|ch0).
-    lda.l 0x7E1BAE
+    lda.l field_menu_rolling.hdma_enable
     ora #0x40  ; Channel 6 enable (treasure rolling buffer)
-    sta.l 0x7E1BAE
-    sta.w treasure_hdma_enable
+    sta.l field_menu_rolling.hdma_enable
+    sta.l treasure_rolling.hdma_enable
+; Push the enable straight to HDMAEN ($420C) so the very first frame
+; after popup-open has ch6 active. Without this immediate write, the
+; field NMI hook only copies $1BAE -> $420C on the NEXT vblank, which
+; left the first rendered frame with HDMA off and BG3VOFS at whatever
+; the previous menu left in $93 / $9F. Treasure inventory items then
+; rendered at the WRONG vertical scanline and looked like garbled
+; stride for a frame before settling.
+    lda.l 0x00420C
+    ora #0x40
+    sta.l 0x00420C
     rts
 
 _t_hdma_already_init:
@@ -506,26 +699,31 @@ _t_hdma_already_init:
 
 treasure_scroll_state_check:
 """
-Called at main loop entry ($019FF2) to handle scroll animation frames.
-If scrolling is active, processes one frame and skips input handling.
+    Called at main loop entry ($019FF2) to handle scroll animation frames.
+    If scrolling is active, processes one frame and skips input handling.
 
-Returns: Carry clear = process input normally
- Carry set = skip input (still scrolling)
+    Returns: Carry clear = process input normally
+     Carry set = skip input (still scrolling)
 """
-
 
     php
     sep #0x20  ; 8-bit A
 
+; Tick cooldown counter so the next held-DOWN scroll is debounced.
+    lda.w treasure_scroll_cooldown
+    beq _t_scroll_cd_done
+    dec.w treasure_scroll_cooldown
+
+_t_scroll_cd_done:
 ; Check if we're scrolling
-    lda.w treasure_scroll_state
+    lda.w treasure_rolling.scroll_state
     beq _t_scroll_state_idle
 
 ; We're scrolling - process one animation frame
     jsr.l treasure_update_scroll_frame_impl
 
 ; Check if scroll finished
-    lda.w treasure_scroll_remaining
+    lda.w treasure_rolling.scroll_remaining
     bne _t_scroll_still_active
 
 ; Scroll finished - clean up and return to idle
@@ -542,40 +740,63 @@ _t_scroll_still_active:
     rts
 
 treasure_start_scroll_down_impl:
-"""Treasure profile: kick scroll-down state machine."""
-    engine_start_scroll_down(treasure_rolling, 0x1BB7, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, TREASURE_SCROLL_TOTAL_PIXELS, TREASURE_SCROLL_PIXELS_PER_FRAME, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: kick scroll-down state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7  ; treasure scroll_pos (shared with vanilla cursor)
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_down
+    plp
+    rtl
 
 treasure_start_scroll_up_impl:
-"""Treasure profile: kick scroll-up state machine."""
-    engine_start_scroll_up(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, TREASURE_SCROLL_TOTAL_PIXELS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: kick scroll-up state machine via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_start_scroll_up
+    plp
+    rtl
 
 treasure_update_scroll_frame_impl:
 """Treasure profile: per-frame scroll animation tick."""
-    engine_update_scroll_frame(treasure_rolling, TREASURE_SCROLL_PIXELS_PER_FRAME, update_treasure_scroll_hdma)
+    php
+    rep #0x10
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_update_scroll_frame
+    plp
+    rtl
 
 treasure_finish_scroll_impl:
-"""Treasure profile: end-of-animation pre-render + cleanup."""
-    engine_finish_scroll(treasure_rolling, 0x1BB7, TREASURE_VISIBLE_ITEMS, TREASURE_BUFFER_SLOTS, TREASURE_TOTAL_ITEMS, _treasure_render_item_to_slot, update_treasure_scroll_hdma)  ; noqa: E501
+"""Treasure profile: end-of-animation cleanup via the bank-20 engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_finish_scroll
+    plp
+    rtl
 
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.
 
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
 treasure_menu_entry_hook_impl:
 """Treasure profile: menu-entry implementation (HDMA capture + flush)."""
     stz.w 0x1B1F
     lda #0x00
-    sta.l 0x7E1BAE
-; treasure_hdma_enable
-    stz.w treasure_scroll_state
-    stz.w treasure_scroll_remaining
-    stz.w treasure_scroll_direction
-    stz.w treasure_transfer_pending
-    stz.w treasure_hdma_copy_pending
+    sta.l field_menu_rolling.hdma_enable
+; treasure_rolling.hdma_enable
+    stz.w treasure_rolling.scroll_state
+    stz.w treasure_rolling.scroll_remaining
+    stz.w treasure_rolling.scroll_direction
+    stz.w treasure_rolling.transfer_pending
+    stz.w treasure_rolling.hdma_copy_pending
 ; Clear HDMA copy flag
-    stz.w treasure_scroll_anim_offset
+    stz.w treasure_rolling.scroll_anim_offset
 ; Clear low byte
-    stz.w treasure_scroll_anim_offset + 1
+    stz.w treasure_rolling.scroll_anim_offset + 1
 ; Clear high byte
 ; Initialize cursor column to 0 for single-column mode
 ; This ensures $1b22 is always 0 even if it had a value from previous menu
@@ -589,8 +810,8 @@ treasure_menu_exit_hook_impl:
     php
     sep #0x20
     lda #0x00
-    sta.l 0x7E1BAE
-; treasure_hdma_enable shadow off
+    sta.l field_menu_rolling.hdma_enable
+; treasure_rolling.hdma_enable shadow off
     sta.l 0x7E1BC6
 ; restore original "in treasure menu" flag (was original `stz $1BC6` at $01:D7E6 before the hook patch)
     sta.l 0x004360
@@ -616,13 +837,18 @@ treasure_menu_exit_hook_impl:
 ; Does NOT reset buffer_pos - we stay at the current scroll position.
 
 treasure_swap_redraw_hook_impl_body:
-"""Treasure profile: post-swap re-render of all 6 slots."""
-    engine_swap_redraw(treasure_rolling, 0x1BB7, TREASURE_BUFFER_SLOTS, TREASURE_TOTAL_ITEMS, treasure_ensure_hdma_initialized, _treasure_render_item_to_slot, _clear_treasure_slot, update_treasure_scroll_hdma)  ; noqa: E501
-
+"""Treasure profile: post-swap re-render of all 6 slots via the engine."""
+    php
+    rep #0x10
+    lda.l 0x7E1BB7
+    ldx.w #treasure_rolling
+    jsr.l rolling_engine.rolling_engine_swap_redraw
+    plp
+    rtl
 
 ; _clear_treasure_slot
 ; Clears a single inventory slot in the tilemap buffer.
-; Input: treasure_rolling_slot_index = slot to clear (0-10)
+; Input: treasure_rolling.slot_index = slot to clear (0-10)
 ; Used when item index is out of bounds (>= 48)
 
 _clear_treasure_slot:
@@ -644,7 +870,7 @@ _clear_treasure_slot:
     lda.w #0xD600  ; BG3 screen buffer (treasure inventory lives on BG3)
     sta.b 0x29
 ; Calculate Y = slot_index * 128 + 70
-    lda.w treasure_rolling_slot_index
+    lda.w treasure_rolling.slot_index
     and.w #0x00FF
     xba
 ; A = slot * 256
@@ -735,18 +961,16 @@ _clear_treasure_trash_area:
 
 draw_trash_treasure:
 
-
 """
-Draws the trash can 2x2 tile graphic for single-column inventory.
-Input: Y = tilemap offset (from slot calculation)
-($29) = tilemap base ($B600)
-treasure_rolling_slot_index = current slot
-Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
+    Draws the trash can 2x2 tile graphic for single-column inventory.
+    Input: Y = tilemap offset (from slot calculation)
+    ($29) = tilemap base ($B600)
+    treasure_rolling.slot_index = current slot
+    Tiles: $04 (top-left), $05 (top-right), $06 (bottom-left), $07 (bottom-right)
 
-Tilemap format: [tile_number, attributes] pairs
-Each row is 64 bytes (32 tiles × 2 bytes)
+    Tilemap format: [tile_number, attributes] pairs
+    Each row is 64 bytes (32 tiles × 2 bytes)
 """
-
 
 ; Y points to start of item slot area
 ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
@@ -910,21 +1134,19 @@ _t_normal_return:
 
 treasure_circular_slot_calc:
 
-
 """
-Calculate tilemap Y offset using circular buffer position.
-Called from patched code at $A1BA via CircularSlotCalc_ext.
+    Calculate tilemap Y offset using circular buffer position.
+    Called from patched code at $A1BA via CircularSlotCalc_ext.
 
-Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
-Output: Y = tilemap offset for circular buffer slot
-Preserves: 16-bit A mode on exit
+    Input: $5D = game's slot counter (0, 2, 4, 6... incremented by 2 per row)
+    Output: Y = tilemap offset for circular buffer slot
+    Preserves: 16-bit A mode on exit
 """
-
 
     sep #0x20
 ; 8-bit A
 ; Check if circular buffer mode is active (HDMA enabled)
-    lda.l 0x7E0000 + treasure_hdma_enable
+    lda.l treasure_rolling.hdma_enable
     beq _t_circ_slot_original
 ; Not active, use original calculation
 ; Circular buffer Y calculation
@@ -935,7 +1157,7 @@ Preserves: 16-bit A mode on exit
     lsr
 ; Divide by 2 to get visual slot (0-9)
     clc
-    adc.l 0x7E0000 + treasure_rolling_buffer_pos
+    adc.l treasure_rolling.buffer_pos
 ; Add buffer_pos
 
 _t_circ_slot_mod:
@@ -987,4 +1209,6 @@ treasure_circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w treasure_circular_slot_calc
     rtl
+    }
 }
+

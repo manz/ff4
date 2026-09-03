@@ -1,17 +1,21 @@
 """
+.include "bank20.i"
+
 Dakuten composite-glyph table + `lookup_dakuten` helper that maps a (prev_char, current_char) pair to the
 dakuten/handakuten composite tile pair.
 """
 
 
-.incbin "assets/dakuten.bin"
+.include "bank20.i"
+.import "assets"
+.alloc lookup_dakuten in bank20_reloc {
+"""
+    input: A 8bit: current char
+    output: A 16bits: the resolved char
+"""
 
-lookup_dakuten:
-"""
-input: A 8bit: current char
-output: A 16bits: the resolved char
-"""
-{
+
+    {
     php
     sep #0x20
     cmp.l assets_dakuten_bin
@@ -39,10 +43,10 @@ _char_out_of_range:
 _exit:
     plp
     rtl
-}
+    }
 
 _store_char_with_dakuten:
-{
+    {
     jsr.l lookup_dakuten
     cmp #0xff
     beq _skip
@@ -56,4 +60,6 @@ _skip:
 ;0187AE  E8             INX
 ;0187AF  C8             INY
     rtl
+    }
 }
+

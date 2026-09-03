@@ -19,7 +19,7 @@ NMI_CALLEES = {
     0x028302: "SetFlyingHDMA (added NMI hook)",
 }
 
-e = load_emu_from_kss(kss_path("ff4-battle-ext.kss"))
+e = load_emu_from_kss(kss_path("ff4-battle.kss"))
 e.run_frames(60)
 
 e.profile_start(lo=0x000000, hi=0xFFFFFF)

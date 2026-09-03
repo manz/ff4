@@ -2,6 +2,9 @@
 Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
 dialog-stream consumer).
 """
+.include "config.i"
+.include "src/battle/inventory_budget.i"
+.include "src/vwf_state.i"
 .if 0 {
     .scope _vwf_tile_ring {
 ; Ring buffer for VWF tile allocation
@@ -148,31 +151,22 @@ _not_found:
     0x80 -> 0xB0 char names
     0xB0 -> 0xF0 commands ? this one is untested.
     """
-    buffer_ptr = 0x703000
+    buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
-    pending_transfer_mask = 0x703c00
-; --- Per-region dirty bits (normal sense: 1 = dirty, 0 = clean) ---
-; Sits next to the DMA queue byte; writers SET bits on state change.
-    region_dirty_bits = 0x703c01
-    REGION_DIRTY_MESSAGES = 0x01
-    REGION_DIRTY_MONSTERS = 0x02
-    REGION_DIRTY_NAMES = 0x04
-    REGION_DIRTY_COMMANDS = 0x08
-; Transient marker: $FF if `init_*_with_gate` short-circuited
-; because the region was clean; $00 if it ran the full init.
-; Used by deinit_with_gate to decide whether to signal DMA, and
-; by the gated trampoline to decide whether to skip DrawText.
-    render_skipped = 0x703c02
-; Per-region tilemap-DMA pending bitmask. Set by `init_*_gated`
-; on the render path  ; consumed by `dma_transfer` in NMI to fire
-; a per-region tilemap DMA (WRAM tilemap -> BG VRAM). Decouples
-; tilemap upload from the vanilla `TfrCmdWindow` / `TfrMainMenu`
-; periodic queue so the tile-data + tilemap transfers stay in
-; sync on the same NMI as the render.
-    tilemap_pending_mask = 0x703c03
-    TILEMAP_PENDING_COMMANDS = 0x01
-    TILEMAP_PENDING_MAIN = 0x02
+; Gate state moved past the inventory tile slice ($703C00..$703EF0)
+; so the rolling pre-render does not stomp these bytes.
+    pending_transfer_mask = 0x703f00
+; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
+; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
+; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
+; one or more bits per frame and DMAs only the dirty slot's 160-byte
+; slice instead of the full 4KB CHR region, fits in vblank without
+; forced blank.
+    dma_dirty_slots = 0x703f10
+    ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
+    ; redraw_gates.s and the writer-site shims via a compile-time include.
+    .include "render_defs.i"
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
     temp = bits_left_on_tile + 4
@@ -191,6 +185,37 @@ init_names:
 init_commands_list:
 """Initialize the renderer targeting the commands list region."""
     lda.b #region_size * 3
+    bra _init
+init_inventory_region:
+"""
+Reset the allocator to the inventory tile_id base (0xC0) once per
+rolling render pass. Subsequent per-item DrawText calls let the
+allocator increment naturally, so each item owns its own tile range
+(item N uses 0xC0 + N * width_in_tiles). Skips clear_buffer for the
+reasons noted on the other inventory entry - tile_id 0xC0+ would
+overrun the shared buffer into the state words at $703C00+.
+"""
+
+
+    lda.b #region_size * 4
+    sta.l pending_transfer_mask
+    jsr.w render_allocator.init_with_tile_id
+    .if ENABLE_KERNING_MENU {
+    stz.b prev_char
+    }
+    lda.b #0x08
+    sta.b bits_left_on_tile
+    stz.b temp
+    stz.b counter
+    rts
+render_allocator_init_with_tile_id_thunk:
+"""
+In-scope thunk so messages_vwf can reach the allocator via jsr.w
+across scope boundaries. A on entry = tile_id base.
+"""
+
+
+    jmp.w render_allocator.init_with_tile_id
 _init:
     sta.l pending_transfer_mask
     jsr.w render_allocator.init_with_tile_id
@@ -692,7 +717,7 @@ found_pair_cleanup:
     lda.w assets_menu_font_dat, y  ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff  ; Ensure high byte is clear
 
-; Clean up stack — use ply so A (adjustment) is preserved.
+; Clean up stack - use ply so A (adjustment) is preserved.
     ply  ; Remove target_char
     ply  ; Remove low bound
     ply  ; Remove high bound
@@ -752,15 +777,28 @@ battle_msg_kerning_binary_ext:
     rtl
     }
 tilemap_write_no_inc:
-    lda.l render_allocator.allocated_tile_id
+"""
+Write a 10-bit tile_id reference at tilemap_offset.
+
+Low 8 bits of tile_id go in the entry's low byte  ; bits 8-9 ride
+the entry's high byte alongside the palette / flip / priority bits.
+With the 16-bit allocator, the entry's high byte is just
+(palette | allocator_high_byte) - no hardcoded +0x100 shift, so
+inventory tile_ids past 0xFF reach the upper half of BG3 CHR
+cleanly instead of wrapping back into the messages region.
+"""
+
+
     phy
     ldy.b tilemap_offset
+    lda.l render_allocator.allocated_tile_id
     sta (0x34), y
     lda #0xff
     sta (0x32), y
     iny
     lda 0x36
     sta (0x32), y
+    ora.l render_allocator.allocated_tile_id + 1
     ora.b #0x01
     sta (0x34), y
     ply
@@ -778,7 +816,8 @@ tilemap_write:
     rts
 }
 
-.extern flying_hdma_trampoline
+; (flying_hdma_trampoline extern lives at sram.s root: message.s is .include'd
+; inside an .alloc body, whose scope can't host an extern.)
 
 .scope messages_vwf {
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
@@ -829,6 +868,391 @@ init_names:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_names
     rtl
+init_inventory_for_current_slot:
+"""
+Compute tile_id base from the live rolling_slot_index (0..5),
+allocate 9 tile_ids per slot starting at 0xC0, and reset allocator
+state. Saves the bank-02 trampoline ~20 bytes by keeping the math
+here.
+"""
+
+
+    php
+    rep #0x10
+    rep #0x20
+    lda.l 0x7EEF82
+    and.w #0x00FF
+    sta.b 0x00
+
+; Tile_id base = slot_index * ITEM_VWF_TILE_BUDGET + ITEM_VWF_TILE_BASE.
+; With K=10 and BUFFER_SLOTS=6 that's 60 tiles in $C0..$FB, leaving 4
+; tiles of slack before the 8-bit wrap point. Math below assumes K=10
+; (asl x3 = *8, then +slot twice = *10) ; bump together if K changes.
+    asl
+    asl
+    asl
+    clc
+    adc.b 0x00
+    clc
+    adc.b 0x00
+    clc
+    adc.w #ITEM_VWF_TILE_BASE
+    sta.b 0x02
+
+; Clear the slot's CHR slice (ITEM_VWF_CHR_BYTES bytes) at
+; buffer_ptr + tile_id_base * 16. Stale bits would OR into the new
+; render via the VWF blitter's ora-then-store path. Pattern $FF $00
+; alternates the 2 bitplanes (empty tile in 4bpp). Loop count =
+; ITEM_VWF_CHR_WORDS = K * 8.
+    lda.b 0x02
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc.w #battle_render.buffer_ptr & 0xffff
+    tax
+    ldy.w #ITEM_VWF_CHR_WORDS
+_chr_clear_loop:
+    lda.w #0x00ff
+    sta.l 0x700000, x
+    inx
+    inx
+    dey
+    bne _chr_clear_loop
+
+; Restore tile_id base into A for the allocator init.
+    lda.b 0x02
+    sep #0x20
+    pha
+    jsr.l battle_flags.set_vwf_render
+    pla
+    sta.l battle_render.pending_transfer_mask
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
+; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
+; to 0xFF). Overflow freezes at the last tile instead of bleeding into
+; the next slot's CHR / tile_id range.
+    lda.b 0x02
+    clc
+    adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
+    sta.l render_allocator.slot_limit_low
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
+    rtl
+init_inventory:
+"""
+Wrap battle_render.init_inventory_region with set_vwf_render so the
+message renderer routes char dispatch through the VWF put_char path.
+"""
+
+
+    jsr.l battle_flags.set_vwf_render
+    jsr.w battle_render.init_inventory_region
+    rtl
+mirror_main_to_cmd:
+"""
+Block-mirror the main-view BG3 tilemap region $7E:BE65..$C1A4
+($340 bytes covering entry-0 + window frame) onto the cmd-window
+region $7E:C1A5..$C4E4 via the 65816 `MVN` block move. ~7 cycles
+per byte  ; ~5800 cycles total, roughly half the cost of the
+original $340-iter lda/sta loop that this replaces.
+
+First pass tried WRAM->WRAM GP-DMA via $2180 (WMDATA). It writes
+zeros: the A-bus read of source WRAM contends with the B-bus
+write into WRAM through $2180, the WRAM controller can not serve
+both halves of the cycle, and the destination ends up cleared.
+MVN routes bytes through the CPU one at a time so the bus stays
+single-master and the move actually lands.
+
+Caller assumed P with M=8 X=16 on entry, restored on exit.
+"""
+
+
+    php
+    rep #0x30
+    ldx.w #0xBE65
+    ldy.w #0xC1A5
+    lda.w #0x033F
+; A = byte count - 1 ($340 bytes)
+    .db 0x54
+    .db 0x7E
+    .db 0x7E
+; mvn #$7E, #$7E (dst_bank, src_bank)
+    plp
+    rtl
+draw_inventory_text:
+"""
+Custom inventory text renderer that walks a format buffer ourselves
+instead of going through the vanilla draw_text dispatch. Owns the
+escape interpretation end-to-end so we can mix VWF-rendered name
+chars with fixed-width symbol / colon / digit / type tiles without
+toggling battle_flags mid-stream.
+
+Caller setup mirrors the vanilla draw_text contract:
+  $EF50: 16-bit format buffer ptr (source bytes)
+  $EF52: 16-bit destination tilemap-buffer ptr (in bank \$7E)
+  $EF54: line length (tiles per row, currently 15)
+  $EF55: palette
+  $7EEF82: rolling_slot_index (0..5) for VWF allocator base
+
+Escape codes handled:
+  0x00: terminator -> return
+  0x03 BB: emit fixed tile_id BB at the next tilemap slot
+  0x0E PP: set tile-attribute byte to PP for subsequent writes
+  any other byte: VWF blit through battle_render.display_char
+"""
+
+
+    php
+    rep #0x10
+    sep #0x20
+
+; Set DBR to $7E so 16-bit absolute,Y / abs,X writes target WRAM.
+    phb
+    lda.b #0x7E
+    pha
+    plb
+
+; Init VWF state via the slot helper. It resets the allocator to
+; (0xC0 + slot * 10), bits_left_on_tile = 8, etc.
+    jsr.w init_inventory_for_current_slot_local
+
+; Vanilla draw_text prologue: stash src ptr / dest row-1 ptr / dest
+; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
+; relies on these for the indirect ($32),y and ($34),y writes.
+    lda.w 0xef55
+    sta.b 0x36
+    ldx.w 0xef50
+    stx.b 0x30
+    ldx.w 0xef52
+    stx.b 0x32
+; Row 2 ptr = row 1 ptr + (line_length * 2). DON'T modify $ef54 in
+; place ; the caller hands us the live line_length each call, and a
+; persistent asl would double it every render.
+    lda.w 0xef54
+    asl
+    clc
+    adc.b 0x32
+    sta.b 0x34
+    lda.b 0x33
+    adc #0x00
+    sta.b 0x35
+
+; Pre-clear both row buffers in the slot with space tiles ($FF) +
+; palette so an `0xFC NN` goto can skip ahead without leaving stale
+; tile_ids on the way. 15 tiles per row, 2 bytes per entry = 30 byte
+; pairs per row.
+    ldy.w #0x0000
+_di_clear:
+    lda #0xff
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    cpy.w #30
+    bne _di_clear
+
+; X = src (format buffer ptr), Y = dest offset (0-relative into the
+; tilemap buffer pointed to by \$32 / \$34).
+    ldx.w 0xEF50
+    ldy.w #0x0000
+
+; Control codes:
+;   0x00         -> terminate
+;   0x03 BB      -> fixed tile_id BB at current pos
+;   0x0E PP      -> set palette / tile-flag byte
+;   0xFC NN      -> goto tile slot NN in the slot tilemap (no fill ;
+;                  init pre-clears the slot to space tiles)
+;   0xFE         -> toggle fixed <-> VWF dispatch for subsequent chars
+; Default mode at entry = fixed so the leading symbol byte lands as a
+; literal tile_id without an explicit escape. Stash the mode flag in
+; scratch DP $1F: $37/$38/$39/$3A are controller-1/2 button shadows
+; and writing $80 to $37 set the A-bit, which cursor.asm @b5a6 then
+; latched as a phantom A press, toggling swap mode every scroll.
+    lda.b #0x80
+    sta.b 0x1F
+
+_di_loop:
+    lda.w 0x0000, x
+    beq _di_done
+    cmp #0x03
+    beq _di_fixed
+    cmp #0x0E
+    beq _di_pal
+    cmp #0xFC
+    beq _di_pad
+    cmp #0xFE
+    beq _di_vwf_toggle
+    bit.b 0x1F
+    bmi _di_fixed_char
+; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
+; advances both source X and dest Y as it allocates).
+    inx
+    sty.b battle_render.tilemap_offset
+    jsr.w battle_render.display_char
+    ldy.b battle_render.tilemap_offset
+    jmp.w _di_loop
+
+_di_fixed_char:
+; Fixed-mode raw char: write current byte as tile_id at (\$34),y. No
+; ora #0x01 on the attr -- the +0x100 high bit is only for VWF tiles
+; in the 0x1xx range, fixed font tiles live in 0x00..0xFF.
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    inx
+    jmp.w _di_loop
+
+
+_di_fixed:
+; 0x03 BB -> write fixed tile_id BB at (\$34),y. Same shape as
+; _di_fixed_char (mirror of wram.put_char), no +0x100 bit set.
+    inx
+    lda.w 0x0000, x
+    sta (0x34), y
+    lda #0xff
+    sta (0x32), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    inx
+    jmp.w _di_loop
+
+_di_pal:
+; 0x0E PP -> stash PP as the tile flags byte. Vanilla draw_text
+; stores it at $36 ; mirror that so subsequent fixed / VWF writes
+; pick up the right palette.
+    inx
+    lda.w 0x0000, x
+    sta.b 0x36
+    inx
+    jmp.w _di_loop
+
+_di_done:
+; Clear the VWF battle_flag so later non-inventory renders (monster HP
+; refresh, status text, etc.) go back to the WRAM put_char path.
+    jsr.l battle_flags.clear_vwf_render
+; Mark this slot's CHR slice dirty in dma_dirty_slots. NMI
+; dma_transfer picks it up and DMAs the 160-byte slice to VRAM.
+; Replaces the old full-4KB DMA trigger ; partial DMA fits in
+; vblank without forced blank.
+    php
+    sep #0x30
+    lda.l 0x7EEF82  ; slot index (low byte only ; M=8)
+    and.b #0x07  ; clamp to 0..7 (valid range 0..5)
+    tax
+    lda.l _dma_slot_bit_lut, x
+    ora.l battle_render.dma_dirty_slots
+    sta.l battle_render.dma_dirty_slots
+    plp
+    plb
+    plp
+    rtl
+
+_di_skip:
+    inx
+    jmp.w _di_loop
+
+_di_vwf_toggle:
+    inx
+    lda.b 0x1F
+    eor.b #0x80
+    sta.b 0x1F
+    jmp.w _di_loop
+
+_di_pad:
+; 0xFC NN -> goto tile slot NN (jump Y to NN * 2). The slot tilemap is
+; pre-cleared to space tiles in init, so intermediate slots already
+; show as blank without an explicit fill. Also resets bits_left so the
+; next VWF char starts on a clean tile column.
+    inx
+    lda.w 0x0000, x
+    inx
+    asl
+    tay
+    lda #0x08
+    sta.b battle_render.bits_left_on_tile
+    jmp.w _di_loop
+
+init_inventory_for_current_slot_local:
+"""
+Local jsr.w-reachable copy of init_inventory_for_current_slot that
+returns via rts (the public entry returns rtl).
+"""
+
+
+    php
+    rep #0x10
+    rep #0x20
+    lda.l 0x7EEF82
+    and.w #0x00FF
+    sta.b 0x00
+    asl
+    asl
+    asl
+    clc
+    adc.b 0x00
+    clc
+    adc.b 0x00
+    clc
+    adc.w #ITEM_VWF_TILE_BASE
+    sta.b 0x02
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc.w #battle_render.buffer_ptr & 0xffff
+    tax
+    ldy.w #ITEM_VWF_CHR_WORDS
+_dis_chr_clear:
+    lda.w #0x00ff
+    sta.l 0x700000, x
+    inx
+    inx
+    dey
+    bne _dis_chr_clear
+    lda.b 0x02
+    sep #0x20
+    pha
+    jsr.l battle_flags.set_vwf_render
+    pla
+    sta.l battle_render.pending_transfer_mask
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
+; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
+; to 0xFF). Overflow freezes at the last tile instead of bleeding into
+; the next slot's CHR / tile_id range.
+    lda.b 0x02
+    clc
+    adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
+    sta.l render_allocator.slot_limit_low
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
+    rts
 init_monsters_gated:
 """
 Gated counterpart to `init_monsters`. Always flips the VWF flag
@@ -907,6 +1331,120 @@ normal length, no visible black strip.
     pha
     phx
     phy
+    .if BATTLE_ITEMS_VWF {
+; Per-NMI BG3 V-scroll footer override.
+;
+; Channel 2 (BG3 V-scroll, indirect, $7E:760B -> $7E:7ED2 chunk) is
+; multiplexed across the BG3 layer (cmd / status / inventory share).
+; Vanilla 0x02BB at $7E:8068..$8081 leaves 2 rows of black below
+; inv body where the window's bottom border should be.
+;
+; While inv is open: write border-row scrolls every NMI (vanilla
+; state-1 swap at $02:A8FE would otherwise overwrite within a frame).
+; On the close edge: one-shot restore 0x02BB so cmd/status menus
+; that share ch2 stop rendering inventory's border tiles.
+;
+; Open-state shadow at $703F04 (next free past tilemap_pending_mask).
+    php
+    sep #0x30
+    lda.l 0x7E004A
+    and.b #0x04
+    beq _inv_footer_closed
+; OPEN: pin the two bottom-border tile rows past body. $8068+ is
+; past ch2's HDMA chunk (240-byte count terminates at $7FC2) ;
+; these writes don't drive HDMA but mirror to the swap table via
+; the vanilla state-1 routine which the inventory code reads. Real
+; mid-scroll leak fix needs to patch INSIDE chunk 2 ($7F74-$7FBF)
+; where vanilla rewrites body-row scrolls per rolling_buffer_pos.
+    rep #0x30
+    lda.w #0x0193
+    sta.l 0x7E8068
+    sta.l 0x7E806C
+    sta.l 0x7E8070
+    lda.w #0x019B
+    sta.l 0x7E8074
+    sta.l 0x7E8078
+    sta.l 0x7E807C
+    sta.l 0x7E8080
+    bra _inv_footer_done
+_inv_footer_closed:
+; CLOSED: write vanilla idle pattern every frame so state-1 swap
+; can't bring our open values back. Trace at battle-settle:
+;   $8064 = 0x0187 (vanilla "slot 5" transition entry, static)
+;   $8068/6C/70 = 0x01F7
+;   $8074..$80 = 0x0026, 0x0025, 0x0024, 0x0023 (decreasing)
+    rep #0x30
+    lda.w #0x01F7
+    sta.l 0x7E8068
+    sta.l 0x7E806C
+    sta.l 0x7E8070
+    lda.w #0x0026
+    sta.l 0x7E8074
+    lda.w #0x0025
+    sta.l 0x7E8078
+    lda.w #0x0024
+    sta.l 0x7E807C
+    lda.w #0x0023
+    sta.l 0x7E8080
+_inv_footer_done:
+    plp
+; --- Inventory CHR partial DMA ---
+; Pop one bit from dma_dirty_slots and DMA that slot's 160-byte CHR
+; slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0). Replaces
+; the old full-4KB DMA path for inventory. Non-inv VWF regions still
+; flow through the legacy pending_transfer_mask check below.
+    php
+    sep #0x20
+    rep #0x10
+    lda.l battle_render.dma_dirty_slots
+    and.b #0x3F
+    bne _inv_dma_have
+    jmp.w _no_inv_dma
+_inv_dma_have:
+    ldx.w #0xFFFF
+_inv_dma_find:
+    inx
+    lsr
+    bcc _inv_dma_find
+    cpx.w #0x0006  ; safety: out-of-range index -> no DMA
+    bcs _inv_dma_done
+; X = slot index 0..5. Clear its bit before DMA so re-entry is safe.
+    phx
+    lda.l _dma_slot_bit_lut, x
+    eor.b #0xFF
+    and.l battle_render.dma_dirty_slots
+    sta.l battle_render.dma_dirty_slots
+    plx
+; Build X = slot*2 with X.hi clean (we're in M=8 X=16, plain tax leaks A.hi).
+    rep #0x20
+    txa
+    and.w #0x000F
+    asl
+    tax
+    sep #0x20
+; LUT reads use `.l` (24-bit long) since DBR in NMI isn't bank-20.
+    lda.l _dma_slot_vram_lut, x
+    sta.b 0x0c
+    lda.l _dma_slot_vram_lut + 1, x
+    sta.b 0x0d
+    lda.l _dma_slot_src_lut, x
+    sta.b 0x0a
+    lda.l _dma_slot_src_lut + 1, x
+    sta.b 0x0b
+    rep #0x20
+    lda.b 0x0c
+    tay
+    lda.b 0x0a
+    tax
+    lda.w #0x00A0
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_inv_dma_done:
+_no_inv_dma:
+    plp
+    }
     lda.l battle_render.pending_transfer_mask
     bit #1
     beq _no_transfer
@@ -934,7 +1472,17 @@ normal length, no visible black strip.
     .if SMART {
     ldx.w #0x400
     } else {
+    .if BATTLE_ITEMS_VWF {
+; Inventory region extends past the legacy 0xC00 window. Bump to
+; 0x1000 so the DMA covers the full BG3 CHR upper half ($B000..$BFFF
+; = tile_ids 0x100..0x1FF). Gains 16 tile_ids for the inventory slot
+; budget at zero risk -- the trailing 0x100 bytes were unused.
+; TODO: don't transfer the whole thing every frame ; only dirty
+; regions need flushing.
+    ldx.w #0x1000
+    } else {
     ldx.w #0xc00
+    }
     }
     stx 0x0e
     plx
@@ -1066,4 +1614,22 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
 ;02/A64A: A8           TAY
 ;02/A64B: E2 20        SEP #$20
 ;02/A64D: 60           RTS
+
+; Per-slot inventory CHR DMA tables. Auto-generated via .for.
+; - bit_lut[N]    = 1 << N (slot N's dirty-mask bit)
+; - vram_lut[N]   = ($BC00 + N*$A0) >> 1 (word-address into BG3 CHR upper half)
+; - src_lut[N]    = $3000 + (0xC0 + N*10)*16 = $3C00 + N*$A0 (bank-70 offset)
+; Slot N owns 10 tile_ids starting at low byte (0xC0 + N*10), so 160-byte slice.
+_dma_slot_bit_lut:
+    .for k := 0, 6 {
+    .db ( 1 << k )
+    }
+_dma_slot_vram_lut:
+    .for k := 0, 6 {
+    .dw ( 0xBC00 + k * 0xA0 ) >> 1
+    }
+_dma_slot_src_lut:
+    .for k := 0, 6 {
+    .dw 0x3C00 + k * 0xA0
+    }
 }

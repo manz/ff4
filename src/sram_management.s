@@ -18,8 +18,53 @@ ROM-header SRAM-size byte at $00:FFD8 (clamped to 7 → 128KB max).
     jsr.l 0x15C9AA
     lda.b #1
     jsr.w _clear_ram
-
+    jsr.w _zero_vwf_description_region
     rtl
+
+_zero_vwf_description_region:
+"""
+Belt-and-suspenders boot init : zero the menu VWF VRAM union
+
+$5000-$5FF0 ($1000 bytes from VRAM word $2800). Covers :
+  Region 1   $5000-$56A0  (field / treasure item-name CHR)
+  Region 1B  $56E0-$5AA0  (drops item-name CHR, treasure popup)
+  Region D   $5800-$5FF0  (item description CHR)
+
+Without this, the menu save/restore round-trips whatever leftover
+bytes happened to be at these VRAM addresses at the very first
+SaveDlgGfx, which then persist forever through the SRAM save buffer
+as glyph residue in the VRAM viewer (overworld never reads these
+slices). Overworld re-uploads its own map CHR on every map transition,
+so this one-time zero does not erase live overworld data  ; it only
+breaks the carry-forward of stale boot-VRAM.
+
+SRAM $70:0000+ was just zeroed by `_clear_ram` above, so it works as
+a fixed-source zero-fill DMA.
+"""
+
+
+    php
+    sep #0x20
+    lda.b #0x80
+    sta.l 0x002100  ; PPU force blank
+    lda.b #0x80
+    sta.l 0x002115  ; VMAIN : increment on $2119, +1 word
+    rep #0x20
+    lda.w #0x2800  ; VMADD : VRAM word $2800 (= byte $5000)
+    sta.l 0x002116
+    lda.w #0x1811  ; $4300 = $11 (mode 1, fixed src) | $4301 = $18 (VMDATAL)
+    sta.l 0x004300
+    lda.w #0x0000  ; A1T : SRAM byte $00 (freshly zeroed by _clear_ram)
+    sta.l 0x004302
+    lda.w #0x1000  ; DAS : $1000 byte transfer = $5000..$5FFF
+    sta.l 0x004305
+    sep #0x20
+    lda.b #0x70  ; A1B : SRAM bank $70
+    sta.l 0x004304
+    lda.b #0x01
+    sta.l 0x00420B  ; MDMAEN ch0
+    plp
+    rts
 
 _clear_ram:
 {

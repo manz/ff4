@@ -24,7 +24,7 @@ from _ff4kintsuki import (
 )
 
 GOLDENS = Path(__file__).parent / "goldens" / "battle_init"
-KSS = kss_path("ff4-battle-ext.kss")
+KSS = kss_path("ff4-battle.kss")
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ def battle_emu():
     # or HP delta) and the golden captures an empty header strip.
     emu.write(0x7EEF9A, 0xFF)  # battle_menu_dirty: all chars + cmd + status
     emu.write(0x7EEF9B, 0xFF)  # battle_monster_dirty: all monster slots
-    emu.write(0x703C01, 0xFF)  # region_dirty_bits: slice-2 queue
+    emu.write(0x703F01, 0xFF)  # region_dirty_bits: slice-2 queue (moved past inventory tiles)
     emu.run_frames(600)
     yield emu
     emu.close()

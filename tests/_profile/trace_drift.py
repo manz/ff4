@@ -2,11 +2,10 @@
 import sys
 sys.path.insert(0, "tests")
 import ctypes
-from pathlib import Path
 from kintsuki import Emu
-from _ff4kintsuki import ROM
+from _ff4kintsuki import ROM, kss_path
 
-KSS = Path("/Users/manz/PyCharmProjects/ff4-modules/.claude/worktrees/equip-window-relayout/tests/savestates/ff4-battle-ext.kss")
+KSS = kss_path("ff4-battle.kss")
 e = Emu(load_srm_sidecar=False)
 e.load_rom(str(ROM))
 blob = KSS.read_bytes()

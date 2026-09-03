@@ -1,4 +1,7 @@
 """Small-VWF item-description renderer."""
+.include "src/vwf_state.i"
+.include "src/items.i"
+
 .scope items_description {
     """Small-VWF item-description renderer entry-points."""
 draw_trampoline:
@@ -49,7 +52,62 @@ draw:
     plx
     sep #0x20
 draw_string:
+; Region config: description CHR lives in tile_id range $180..$1FF
+; (allocator base $80, with attr-byte OR $01 -> effective tile_id
+; $180 ; VRAM byte $5800..$5FF0). Disjoint from the field-items
+; window at $100..$169 -> VRAM $5000..$56A0 ; the two regions used
+; to fight for VRAM $5000 (both DMAs targeted there) and the last
+; render stomped the other.
+;
+;   Region map (BG3 CHR at VRAM $4000)
+;     $00..$FF   static menu font ($4000..$4FF0)
+;     $100..$169 field-menu items ($5000..$56A0)
+;     $180..$1FF item description  ($5800..$5FF0)
+    rep #0x20
+    lda.w #0x0080
+    sta.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    sep #0x20
+    lda.b #0x80
+    sta.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    lda.b #0x01
+    sta.l VWF_CONFIG_BASE + VwfConfig.flags
+; Description flush descriptor uses the SECONDARY slot so the
+; description region ($5800..$5FF0) gets its own DMA independent of
+; the primary descriptor that items_menu_vwf rewrites every per-slot
+; call. The allocator base is $80 (`init_with_tile_id_wide(#$0080)`)
+; with the $01 attr-byte OR turning it into effective tile_id $180
+; for tilemap entries ; the actual CHR bytes live at buffer offset
+; $80 * 16 = $800 (NOT $1800).
+;
+;   src offset = $80 * 16             = $0800 buffer bytes
+;   vram dest  = ($5000 + $800) / 2   = $2C00 word
+;   size       = $80 tiles * 16       = $0800 bytes
+;
+; DIRTY_B is set at the tail of draw_string ; display_char also sets
+; primary DIRTY which the field-items renderer covers in its own
+; flush, so no clearing is needed here.
+    rep #0x20
+    lda.w #0x0800
+    sta.l VWF_CHR_SRC_OFFSET_B
+    lda.w #0x2C00
+    sta.l VWF_CHR_VRAM_WORD_B
+    lda.w #0x0800
+    sta.l VWF_CHR_BYTE_COUNT_B
+    sep #0x20
+; Preserve Y across render.init: the per-region CHR clear loop
+; tays the budget word count and lands Y=$0000 on exit, which
+; collapsed _char_loop into an immediate _char_loop_exit (the loop
+; reads `lda.w $0000,y` -> $20:0000 = $00 terminator) and the
+; description never rendered a single glyph.
+    phy
     jsr.w render.init
+    rep #0x20
+    lda.w #0x0080
+    jsr.w render_allocator.init_with_tile_id_wide
+    sep #0x20  ; _char_loop reads bytes one at a time ; M=16 here
+; would lda two source bytes per char and soft-lock
+; in wait_for_vblank.
+    ply
 _char_loop:
     lda.w 0x0000, y
     beq _char_loop_exit
@@ -67,6 +125,10 @@ _char_loop:
 _char_loop_exit:
     jsr.w _transfer_item_description
     jsr.w render.deinit
+; Description finished writing to buffer ; raise the secondary
+; dirty flag so the NMI flush DMAs $5800..$5FF0 next vblank.
+    lda.b #0x01
+    sta.l VWF_CHR_DIRTY_B
     plx
     pld
     plb
@@ -99,8 +161,10 @@ _reset_render:
     bra _char_loop
 _transfer_item_description:
     jsr.w wait_for_vblank
-; we could reduce the transfer size to the size of the string
-    dma_transfer_to_vram_call(render.buffer_ptr, 0x5000 >> 1, render.buffer_size, 0x1801)
-; use of the menu engine built in dma transfer in NMI
+; DMA description's CHR slice only: SRAM $703800 (= buffer + $80*16
+; for tile_id_base $80) to VRAM word $2C00 (= byte $5800), $800
+; bytes covering 128 tile_ids. Keeps the upload disjoint from the
+; field-items DMA at byte $5000 / word $2800.
+    dma_transfer_to_vram_call(render.buffer_ptr + 0x800, 0x5800 >> 1, 0x800, 0x1801)
     rts
 }

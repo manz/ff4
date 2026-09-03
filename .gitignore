@@ -1,6 +1,12 @@
 build/**
 *.smc
+*.sfc
 oldies
+
+# a816 build artifacts
+a.out
+a.out.adbg
+*.o
 
 # Generated build assets (keep intro source files)
 assets/*

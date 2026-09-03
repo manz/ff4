@@ -4,8 +4,35 @@ Final Fantasy IV the new hack.
 ----------------
 """
 
-; Forward declaration - conditional_bg1_vofs is at start of relocated region ($208000)
-conditional_bg1_vofs := 0x208000
+; Auto-prepended: imports must precede .include'd patches
+.import "assets"
+.import "battle/commands_reloc"
+.import "battle/equip_window"
+.import "battle/graphics"
+.import "battle/inventory_rolling"
+.import "battle/items_reloc"
+.import "battle/magic_reloc"
+.import "battle/math_reloc"
+.import "battle/monsters_reloc"
+.import "battle/redraw_gates"
+.import "battle/sram"
+.import "dakuten"
+.import "dialog"
+.import "ingame/init_bg_scroll_hdma"
+.import "ingame/items_menu_vwf"
+.import "ingame/places_names_window"
+.import "intro"
+.import "kerning"
+.import "libmz"
+.import "menus/in_game_text"
+.import "menus/start_screen_text"
+.import "menus/system_menus_text"
+.import "menus/tools_shop_text"
+.import "small_vwf/init"
+.import "vwf"
+
+.include "config.i"
+
 
 .include "src/libmz.i"
 .include "src/items.i"
@@ -42,7 +69,7 @@ conditional_bg1_vofs := 0x208000
 .include "src/ingame/items_menu.s"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
-; Blob with internal absolute references — pinned to offset $EBD2 within an
+; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .if INVENTORY_ROLLING_BUFFER {
     .include "src/ingame/init_bg_scroll_hdma_patches.s"
@@ -53,42 +80,52 @@ conditional_bg1_vofs := 0x208000
 dialog_bank_ptr_base = 0x218000
 
 
-*=0xFFC0
-    ; patch snes cartridge type
-    ; original PCB: SHVC-1A3B
-    ; target PCB: SHVC-1A5B
+.alloc at 0x00FFC0 {
+; patch snes cartridge type
+; original PCB: SHVC-1A3B  ;  target PCB: SHVC-1A5B
     .ascii "Final Fantasy IV     "
+}
 
-;FFD5 20H / 30H Map Mode
-
-*=0xFFD6
+.alloc at 0x00FFD6 {
+; FFD5 20H / 30H Map Mode
     .db 0x02  ; Cartridge Type
     .db 0x0B  ; ~ 0BH ROM Size
     .db 0x07  ; RAM Size
+}
+
 .if ENABLE_BRK_HANDLER {
-    *=0x00FFE0
-; JML trampoline in vector-table padding  ; native/emu BRK vectors point here.
+; JML trampoline in vector-table padding; native/emu BRK vectors point here.
+    .alloc at 0x00FFE0 {
     jmp.l brk_handler
-    *=0x00FFE6
+    }
+
+
+    .alloc at 0x00FFE6 {
     .dw 0xFFE0
-    *=0x00FFFE
+    }
+
+
+    .alloc at 0x00FFFE {
     .dw 0xFFE0
+    }
 }
 
 
-*=0x008031
-    ; déroutage pour ajouter le splash screen
-.if ENABLE_INTRO {
+; déroutage pour ajouter le splash screen
+.alloc at 0x008031 {
+    .if ENABLE_INTRO {
     jsr.l start_splash_screen
-} else {
+    } else {
     jsr.l clear_ram
+    }
 }
 
 
-*=0x00B463
-    ; déroutage pour utiliser la vwf dans les dialogues.
+; déroutage pour utiliser la vwf dans les dialogues.
+.alloc at 0x00B463 {
     jsr.l vwfstart
     rts
+}
 
 ; ============================================================================
 ; Bank-20 relocated region.
@@ -113,7 +150,8 @@ dialog_bank_ptr_base = 0x218000
 ; Address is pinned by `conditional_bg1_vofs := 0x208000` at the top of
 ; this file ; `strategy order` keeps it first in the pool.
     .if INVENTORY_ROLLING_BUFFER {
-    lda.l 0x7E0000 + menu_hdma_enable
+conditional_bg1_vofs:
+    lda.l field_menu_rolling.hdma_enable
     bne _cond_skip_bg1vofs
 ; HDMA not active - do original BG1VOFS writes
 ; Menu context: D=$0100, so $93 reads from $0193
@@ -129,8 +167,14 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-Clear the dialog VWF tile buffer at $702000-$706FFF (16-bit zeroes) after letting the boot ROM init at
-$15C9AA.
+Clear the dialog VWF tile buffer + engine scratch at $702000-$7070FF
+(includes VWF_CONFIG_BASE, VWF_CHR_DIRTY / DIRTY_B, VWF_CALLER_CTX, and
+the secondary descriptor fields) after letting the boot ROM init at
+$15C9AA. Range was $5000 bytes pre-secondary-descriptor  ; bumped to
+$5100 so the new dirty / vram_word / byte_count / src_offset bytes
+land zero on cold boot instead of inheriting random SRAM and
+triggering a bogus secondary flush on the very first NMI (which trashed
+the save-selection sprite CHR).
 """
 
 
@@ -142,7 +186,7 @@ $15C9AA.
 _loop:
     sta.l 0x702000, x
     inx
-    cpx.w #0x5000
+    cpx.w #0x5100
     bne _loop
     }
     rtl
@@ -167,6 +211,30 @@ Output: X = offset into ItemName table.
     rtl
 
 
+multiply_item_index_17:
+"""
+Relocated multiply-by-ITEM_UNLEASHED_RECORD_SIZE for the items_unleashed
+name offset. Called from $019023 via JSL when the field menu is
+wired to the 17-byte assets_items_unleashed_dat table.
+Input: $43 = item ID (16-bit mode active).
+Output: X = offset into ItemName table.
+"""
+
+
+; ITEM_UNLEASHED_RECORD_SIZE = 17 = (id << 4) + id.
+    lda 0x43
+    pha
+    asl
+    asl
+    asl
+    asl  ; * 16
+    clc
+    adc 0x01, s  ; * 16 + id = * 17
+    tax
+    pla  ; balance stack
+    rtl
+
+
 multiply_by_12:
 """A: value to multiply  ; returns A*12 in A."""
     php
@@ -178,6 +246,29 @@ multiply_by_12:
     adc 0x01, s
     asl
     asl
+    sta 0x01, s
+    pla
+    plp
+    rtl
+
+
+multiply_by_17:
+"""
+A: value to multiply  ; returns A*17 in A. Mirror of multiply_by_12
+sized for the 17-byte assets_items_unleashed_dat stride.
+"""
+
+
+    php
+    rep #0x20
+    and.w #0x00FF
+    pha
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc 0x01, s  ; * 16 + value = * 17
     sta 0x01, s
     pla
     plp
@@ -223,8 +314,7 @@ signature byte sits at PB:(PC - 1).
 ; and matches the legacy `*=0x208000` chain so .import modules without
 ; their own `*=` directive land in bank-20 as expected.
 
-*=0x208100
-    ; --- Imported modules ---------------------------------------------------
+; --- Imported modules ---------------------------------------------------
 
 .import "libmz"
 .import "dialog"
@@ -253,6 +343,7 @@ signature byte sits at PB:(PC - 1).
 }
 
 .import "ingame/places_names_window"
+.import "ingame/items_menu_vwf"
 .import "menus/system_menus_text"
 .import "dakuten"
 .import "menus/start_screen_text"
@@ -265,6 +356,7 @@ signature byte sits at PB:(PC - 1).
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
     .include "src/ingame/inventory_rolling.s"
+    .include "src/lib/rolling_inventory_engine.s"
 }
 
 .if TREASURE_INVENTORY_ROLLING {
@@ -275,33 +367,23 @@ signature byte sits at PB:(PC - 1).
 
 ; --- Binary text assets -------------------------------------------------
 
-.incbin "assets/attack_names.ptr"
-.incbin "assets/attack_names.dat"
-.incbin "assets/monsters_long.ptr"
-.incbin "assets/monsters_long.dat"
-.incbin "assets/battle_commands_nul.ptr"
-.incbin "assets/battle_commands_nul.dat"
-.incbin "assets/magic.dat"
-.incbin "assets/places_names.dat"
-.incbin "assets/classes.ptr"
-.incbin "assets/classes.dat"
-.incbin "assets/items.dat"
-.incbin "assets/item_descriptions.dat"
+
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
-    *=0xc436
+    .alloc at 0xc436 {
     lda #0x39
     nop
+    }
 }
 
 .if DEBUG_SHOW_ITEM_WINDOW {
 ; Hijack ExecEvent to always run F7 (select item) with Baron Key
 ; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
-    *=0x00E1EB
+    .alloc at 0x00E1EB {
     lda #0xD1
     sta 0x09d6
     lda #0xFF
@@ -309,5 +391,15 @@ signature byte sits at PB:(PC - 1).
     ldx #0x0000
     stx 0xb3
     jmp.w 0xED96
+    }
 }
-;end
+
+; Park the 17-byte-stride items_unleashed.dat in an empty bank so the
+; full 4352-byte table fits without crossing a LoROM bank boundary
+; (which would otherwise leave the upper half of the table at
+; $21:0xxx, an address LoROM does not map back to ROM data).
+
+.alloc at 0x238000 {
+    .incbin "assets/items_unleashed.dat"
+}
+

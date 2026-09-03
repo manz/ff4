@@ -40,14 +40,28 @@ from _ff4kintsuki import (
 )
 
 GOLDENS = Path(__file__).parent / "goldens" / "field_inventory"
-KSS = kss_path("ff4-field-inventory-open.kss")
+# Pre-open kss : the legacy `ff4-field-inventory-open.kss` froze
+# VRAM from before the items_menu_vwf flush split + bottom-row blank
+# pre-fill landed, so loading it short-circuits the new render path
+# and the post-fix CHR never reaches VRAM. Use the before-open state
+# and drive a fresh open through the current ROM so every render hook
+# lands the way it does in-game.
+KSS = kss_path("ff4-before-inventory-opens.kss")
 
 
 @pytest.fixture
 def field_emu():
-    e = load_emu_from_kss(KSS)
-    # Settle so the menu is fully open and HDMA shadows are populated.
+    e = load_emu_from_kss(KSS, settle_frames=60)
+    # Open the items submenu.
+    tap(e, Button.A)
     e.run_frames(60)
+    # Cursor wiggle nudges check_if_description_was_rendered off its
+    # initial "last_drawn == 0 / autocounter pending" state so the
+    # description redraw actually fires for the highlighted slot.
+    tap(e, Button.DOWN)
+    e.run_frames(15)
+    tap(e, Button.UP)
+    e.run_frames(120)
     yield e
     e.close()
 
