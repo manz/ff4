@@ -216,6 +216,28 @@ _treasure_finish_scroll:
 ; `treasure_rolling.scroll_state == 0` and undo original's $1BB7 update when an
 ; animation is still in flight, so the rolling buffer steps once per
 ; press instead of advancing dozens of times per held button.
+_treasure_arm_cooldown:
+"""Reload the held-DOWN debounce after a scroll trigger fired."""
+    sep #0x20
+    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
+    sta.w treasure_scroll_cooldown
+    rts
+
+_treasure_wait_vblank:
+"""
+Burn one frame on the debounced-abort path (vanilla `WaitVblank`,
+$01:818A).
+
+Vanilla scrolled inside a blocking 8-frame loop, which also paced the
+surrounding input loop. Our trigger returns immediately instead, so
+while the debounce holds a press off, the loop spins with no vblank
+wait at all: game time ($16A3) freezes, the cooldown never ticks and
+hold-to-scroll dies after the first item. One wait per aborted
+trigger restores vanilla's pacing.
+"""
+    jsr 0x818A
+    rts
+
 treasure_scroll_down_trigger:
 """Treasure profile: input-driven scroll-down trigger."""
     lda.w treasure_rolling.scroll_state
@@ -224,12 +246,11 @@ treasure_scroll_down_trigger:
     bne _t_down_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_down
-    sep #0x20
-    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
-    sta.w treasure_scroll_cooldown
+    jsr.w _treasure_arm_cooldown
     rts
 _t_down_abort:
     dec.w 0x1BB7
+    jsr.w _treasure_wait_vblank
     rts
 
 treasure_scroll_up_trigger:
@@ -240,12 +261,11 @@ treasure_scroll_up_trigger:
     bne _t_up_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_up
-    sep #0x20
-    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
-    sta.w treasure_scroll_cooldown
+    jsr.w _treasure_arm_cooldown
     rts
 _t_up_abort:
     inc.w 0x1BB7
+    jsr.w _treasure_wait_vblank
     rts
 
 _treasure_force_hdma_setup:
@@ -306,12 +326,16 @@ by calling the original $82C0 so original per-frame work still runs.
 """
 
 
-; Cooldown tick : runs every popup frame regardless of button state
-; so the held-DOWN debounce drains uniformly. Without this the
-; trigger path's per-call dec only fired while DOWN was held, which
-; let auto-repeat consume the cooldown in 2-3 frames and scrolled
-; the treasure inv two items per visible tap.
+; Cooldown tick, gated on vanilla's per-frame game-time byte. This
+; loop runs once per frame while input flows but ~20 times inside the
+; frame that ends a scroll animation (blocking input with `stz $01`
+; costs the vanilla loop its pacing), and a per-call `dec` drained the
+; whole debounce in that one frame - so one held DOWN scrolled twice.
     sep #0x20
+    lda.l menu_frame_time
+    cmp.w treasure_scroll_frame_seen
+    beq _t_main_cd_done
+    sta.w treasure_scroll_frame_seen
     lda.w treasure_scroll_cooldown
     beq _t_main_cd_done
     dec.w treasure_scroll_cooldown

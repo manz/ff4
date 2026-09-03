@@ -48,18 +48,7 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; so the original $1BD0 base worked despite vanilla's later collisions.
 treasure_rolling := (0x7E9C00 as RollingBufferState)
 
-; Cooldown counter sitting one byte past the shared struct so the
-; engine layout stays untouched. Decremented each frame in
-; treasure_scroll_state_check ; non-zero means treasure_scroll_*_trigger
-; aborts and undoes vanilla's $1BB7 increment, debouncing the
-; "hold-DOWN auto-repeat fires every 2 frames" issue that scrolled the
-; inventory two items per visible tap.
-; RollingBufferState ends at offset 35 inclusive (menu_id byte added
-; in the engine port). Bump cooldown past that ; was +35 = collided
-; with menu_id and treasure_ensure_hdma_initialized's STZ wiped it,
-; sending engine dispatch to the wrong menu's HDMA path.
-treasure_scroll_cooldown := treasure_rolling + 36
-TREASURE_SCROLL_COOLDOWN_FRAMES := 0x18  ; ~24 frames between scrolls (long enough to outlast a typical button hold)
+TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
@@ -653,10 +642,9 @@ treasure_ensure_hdma_initialized:
 ; $9F = -120 to position items at screen scanline 120; we mirror that.
     lda.l 0x7E019F
     sta.l treasure_rolling.base_scroll
-; Clear the held-DOWN debounce counter ; engine_init_rolling_buffer
-; zeros the 12-byte engine struct but cooldown lives one byte past,
-; so explicitly nuke it here so the very first scroll trigger fires
-; immediately after popup-open.
+; Clear the held-DOWN debounce so the first scroll trigger after
+; popup-open fires immediately (the engine zeroes the struct, but the
+; cooldown lives one byte past it).
     sep #0x20
     lda #0x00
     sta.l treasure_scroll_cooldown
@@ -709,12 +697,8 @@ treasure_scroll_state_check:
     php
     sep #0x20  ; 8-bit A
 
-; Tick cooldown counter so the next held-DOWN scroll is debounced.
-    lda.w treasure_scroll_cooldown
-    beq _t_scroll_cd_done
-    dec.w treasure_scroll_cooldown
-
-_t_scroll_cd_done:
+; Cooldown ticks once per vblank in the NMI hook, not here: this
+; entry is reached several times per frame.
 ; Check if we're scrolling
     lda.w treasure_rolling.scroll_state
     beq _t_scroll_state_idle

@@ -141,6 +141,27 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 ; constants when the singleton arena refactor lands.
 FIELD_MENU_ROLLING_BASE := 0x7E9C90
 
+; Vanilla's game-time frame tick (`WaitVblank` at $01:818A does
+; `inc $16a3`, rolling over at 60). This is the only real frame clock
+; the menus have: they run with NMI disabled ($4200 = 0) and poll
+; RDNMI inside WaitVblank, so there is no NMI to hook and the menu
+; loops themselves iterate a variable number of times per frame - the
+; treasure loop spins ~20 times in the frame that ends a scroll
+; animation. Watch this byte for a change instead of counting loop
+; iterations.
+menu_frame_time := 0x7E16A3
+
+; Treasure held-DOWN debounce, one byte past the treasure
+; RollingBufferState instance at $7E:9C00 (struct ends at offset 35
+; inclusive). Non-zero means treasure_scroll_*_trigger aborts and
+; undoes vanilla's $1BB7 increment, so a press steps one item and
+; holding DOWN repeats at a fixed cadence.
+treasure_scroll_cooldown := 0x7E9C24
+
+; Last `menu_frame_time` value the treasure loop observed, so the
+; cooldown above ticks once per frame however often the loop runs.
+treasure_scroll_frame_seen := 0x7E9C25
+
 .struct RollingBufferState {
     byte top_row
     byte buffer_pos
