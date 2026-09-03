@@ -56,7 +56,12 @@ drops_rolling := (0x7E9C30 as RollingBufferState)
 ; doesn't collide with the engine's RollingBufferState fields. Other
 ; profiles read scroll_pos from a original menu byte ($1B1A field /
 ; $1BB7 treasure inventory); drops has no original equivalent.
-drops_scroll_pos := 0x9C5F
+;
+; Full 24-bit address: every access is `lda.l` / `sta.l`, and a bare
+; 16-bit constant made those assemble against bank $00 - i.e. ROM - so
+; the scroll position silently never persisted and drops stayed pinned
+; at the top of the list no matter how far DOWN was held.
+drops_scroll_pos := 0x7E9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.

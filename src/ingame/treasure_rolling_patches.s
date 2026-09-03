@@ -57,19 +57,21 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     ; for the 4-row x 2-col drops grid: cursor row is $1BB3, column $1BB4.
     ; With single-column drops + rolling buffer the actual drop slot is
     ;   (cursor_row + drops_scroll_pos) * 2  bytes into $7E:FF28.
-    ; Replace the 8-byte sequence in place — same length, no relocation.
-    ;   AD B3 1B  lda $1BB3
-    ;   18        clc
-    ;   6D EF 1B  adc drops_scroll_pos
-    ;   0A        asl
-    ;   20 B4 87  jsr $87B4 (sta $43 / ldx $43 — A -> X via scratch)
+    ; The math needs long addressing for drops_scroll_pos ($7E:9C5F)
+    ; and the vanilla sequence at $01:DAAC..$01:DAB6 is exactly 11
+    ; bytes with $01:DAB7 already holding the next instruction, so it
+    ; goes through drops_swap_index and the rest is padded out.
 }
 .alloc at 0x01DAAC {
-        lda.w 0x1BB3
-        clc
-        adc.w drops_scroll_pos
-        asl
-        jsr 0x87B4
+        jsr.w drops_swap_index
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
 
     ; Replace `jsr $01A172` (original DrawInventoryList) at TWO call sites:
     ;   - $01:D81D — treasure menu entry (`_01d7f2` flow), fires once on enter

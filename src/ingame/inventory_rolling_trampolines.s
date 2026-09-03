@@ -369,6 +369,22 @@ treasure_menu_exit_hook:
     jsr.l treasure_menu_exit_hook_impl
     rts
 
+drops_swap_index:
+"""
+Bank-$01 helper for the drops swap byte-index recompute at $01:DAAC.
+
+X = (cursor_row + drops_scroll_pos) * 2, the byte index into the
+drops array at $7E:FF28. Lives here rather than inline at the patch
+site because `drops_scroll_pos` needs long addressing ($7E:9C5F) and
+the 11-byte vanilla sequence has no room for the extra opcode byte.
+"""
+    lda.w 0x1BB3
+    clc
+    adc.l drops_scroll_pos
+    asl
+    jsr 0x87B4  ; A -> X via scratch $43
+    rts
+
 drops_init:
 """Bank-$01 trampoline: kick the drops rolling buffer init (filter+render via engine)."""
     jsr.l drops_init_impl
