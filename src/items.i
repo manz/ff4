@@ -85,6 +85,34 @@ FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
 DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 
+; --- Key-item picker VWF flush descriptor (shares the secondary slot) ---
+; The picker runs over a live map from an event script, so it cannot
+; use the field/menu VWF window: FIELD_VWF_VRAM_DEST_WORD ($2800) is
+; the BG3 TILEMAP in field (mode 1, BG3SC $29), not spare CHR.
+;
+; It renders into the window `vwfinit` already owns instead. That
+; repoints BG3 CHR to $6000 (BG34NBA low nibble = 6), loads the vanilla
+; 2bpp font into tile ids $00..$FF, and keeps ids $100+ from $6800 up
+; for dialogue VWF glyphs. The picker replaces dialogue text on screen,
+; so it borrows that window the same way drops and treasure share
+; regions - by never being visible at the same time.
+;
+; Tile ids need no new base: items_menu_vwf already emits
+; FIELD_ITEM_VWF_TILE_BASE ($100) + slot * K with flags = $01 for the
+; 9th id bit, which lands exactly on $6800 for BG3's 2bpp 8-word
+; stride. Only the flush destination differs.
+;   src offset =  $100 * 16 = $1000 bytes into VWF_CHR_BUFFER
+;   vram dest  =  $6000 + $100 * 8 = $6800 (BG3 CHR, 2bpp)
+;   size       =  7 buffer slots * K=10 * 16 = $460 bytes
+KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
+KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
+KEY_ITEM_VWF_BYTE_COUNT := 0x0460
+
+; Caller-context values for VWF_CALLER_CTX (see src/vwf_state.i).
+VWF_CTX_PRIMARY := 0x00
+VWF_CTX_DROPS := 0x01
+VWF_CTX_KEY_ITEM := 0x02
+
 ; --- Drops VWF flush descriptor (secondary NMI flush slot) ---
 ; Hardcoded since drops only ever lives at the +11-slot offset in
 ; the field BG3 CHR window. NMI runs both primary (treasure) and

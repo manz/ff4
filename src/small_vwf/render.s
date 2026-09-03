@@ -1,4 +1,5 @@
 .include "config.i"
+.include "src/items.i"
 """Small (8x8) menu VWF renderer."""
 .include "src/vwf_state.i"
 
@@ -326,52 +327,40 @@ Battle-side equivalent of the partial CHR DMA in
     beq _flush_skip_a
     lda.b #0x00
     sta.l VWF_CHR_DIRTY
-; CRITICAL: clear HDMAEN bit 6 before retargeting ch6 for a one-shot
-; DMA. The treasure-popup rolling buffer also arms ch6 (BG3VOFS HDMA)
-; via $1BAE ; if we rewrite $4360-$4365 with the VWF flush descriptor
-; without disabling HDMA bit 6 first, the per-scanline HDMA keeps
-; running off the rewritten registers and writes VWF_CHR_BUFFER bytes
-; to VMDATAL on every visible scanline for the rest of the frame.
-; That trashes VRAM, kills BG3 scroll modulation, and made the
-; treasure-popup band display garbage stride after the first frame.
-; Push HDMAEN on the stack so we restore the prior mask exactly
-; (treasure ch6 + drops ch4 + anything else vanilla armed).
-    lda.l 0x00420C
-    pha
-    and.b #0xBF
-    sta.l 0x00420C
-; Channel 6: free per the FF4 DMA audit (vanilla btlgfx + menu
-; never touch $4360..$436F ; ch7 already carries battle's
-; `_sram_dma_transfer_7`, small_vwf's libmz transfers and the
-; field NMI's tilemap upload). Source = VWF_CHR_BUFFER +
-; VWF_CHR_FLUSH_OFFSET (engine constant, identical for battle +
-; field). Dest VRAM word + size come from VwfConfig so each caller
-; targets its own CHR slot without forking the upload path.
+; Channel 3: the one channel no context drives HDMA on (field items
+; runs HDMAEN $20, the treasure popup $50 = treasure ch6 + drops ch4,
+; battle $87 = ch0/1/2/7). A one-shot DMA leaves its descriptor behind
+; in the channel registers, and this used to run on ch6 - the same
+; channel the treasure rolling buffer arms for per-scanline BG3VOFS.
+; Clearing HDMAEN bit 6 around the transfer kept the scanline writes
+; from firing, but the restore re-armed ch6 HDMA over the VWF flush
+; descriptor left in $4360..$4365: treasure's scroll table was never
+; read again, so the window's bottom border stopped being anchored and
+; the prefetch slot leaked past the footer once the list scrolled.
+; Source = VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET (engine constant,
+; identical for battle + field). Dest VRAM word + size come from
+; VwfConfig so each caller targets its own CHR slot without forking
+; the upload path.
     lda.b #0x01  ; DMAP: word transfer (2 byte regs, alt low/high)
-    sta.l 0x004360
+    sta.l 0x004330
     lda.b #0x18  ; BBAD: $2118 VMDATAL
-    sta.l 0x004361
+    sta.l 0x004331
     rep #0x20
     lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
-    sta.l 0x004362  ; A1T low+mid
+    sta.l 0x004332  ; A1T low+mid
     sep #0x20
     lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
-    sta.l 0x004364  ; A1B source bank
+    sta.l 0x004334  ; A1B source bank
     rep #0x20
     lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
     sta.l 0x002116  ; VMADD
     lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
-    sta.l 0x004365  ; DAS
+    sta.l 0x004335  ; DAS
     sep #0x20
     lda.b #0x80
     sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
-    lda.b #0x40
-    sta.l 0x00420B  ; MDMAEN ch6
-; Restore prior HDMAEN bits (treasure ch6, drops ch4, etc) ; one-shot
-; DMA on ch6 has completed by now and HDMA can resume reading the
-; treasure HDMA table for per-scanline BG3VOFS on the next frame.
-    pla
-    sta.l 0x00420C
+    lda.b #0x08
+    sta.l 0x00420B  ; MDMAEN ch3
 
 _flush_skip_a:
 ; --- Secondary descriptor flush (region 1B, drops in the treasure
@@ -401,41 +390,37 @@ _flush_skip_a:
     cmp.w #0x2B70
     beq _vram_word_b_ok
     cmp.w #0x2C00
+    beq _vram_word_b_ok
+    cmp.w #KEY_ITEM_VWF_VRAM_DEST_WORD  ; $6800, picker on BG3 CHR
     bne _flush_skip_b_late
 
 _vram_word_b_ok:
     sep #0x20
-; Same HDMAEN-bit-6 save/restore dance as the primary flush ; ch6 is
-; shared with treasure BG3VOFS HDMA and must not stay armed while
-; we hijack its registers for the secondary VRAM blit.
-    lda.l 0x00420C
-    pha
-    and.b #0xBF
-    sta.l 0x00420C
+; Same channel 3 as the primary flush, and likewise sequential: the
+; one-shot DMA above has completed before this one re-arms the
+; channel, and the two descriptors target disjoint VRAM slices.
     lda.b #0x01
-    sta.l 0x004360
+    sta.l 0x004330
     lda.b #0x18
-    sta.l 0x004361
+    sta.l 0x004331
     rep #0x20
     lda.l VWF_CHR_SRC_OFFSET_B
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
-    sta.l 0x004362
+    sta.l 0x004332
     sep #0x20
     lda.b #VWF_CHR_BUFFER >> 16
-    sta.l 0x004364
+    sta.l 0x004334
     rep #0x20
     lda.l VWF_CHR_VRAM_WORD_B
     sta.l 0x002116
     lda.l VWF_CHR_BYTE_COUNT_B
-    sta.l 0x004365
+    sta.l 0x004335
     sep #0x20
     lda.b #0x80
     sta.l 0x002115
-    lda.b #0x40
+    lda.b #0x08
     sta.l 0x00420B
-    pla
-    sta.l 0x00420C
 
 _flush_skip_b_late:
     sep #0x20

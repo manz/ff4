@@ -310,7 +310,10 @@ _t_setup_in_treasure:
 ; indirect table past scanline 128. Mask ch2 entirely; the drops-band
 ; original parallax is purely cosmetic and the drops list still lands
 ; at the right scanline without it.
-    lda #0xF9  ; $AD & ~0x04 | $40 | $10 = ch7|ch6|ch5|ch4|ch3|ch0 (drops on ch4)
+    lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
+; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
+; (src/small_vwf/render.s) and was never configured as an HDMA
+; channel, so arming it fed the PPU a garbage table.
     sta.l field_menu_rolling.hdma_enable
     rts
 
