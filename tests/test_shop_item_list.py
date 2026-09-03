@@ -19,8 +19,8 @@ from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 KSS = "ff4-buggy-item-shop-press-a.kss"
 BG4_STAGING = 0x7EC600
 # Tilemap offsets the shop's list loop feeds DrawItemName, from the
-# table at $01:C58E. Names render one row below each.
-ROW_OFFSETS = (0x0246, 0x02C6, 0x0346, 0x03C6, 0x0446)
+# table patched in src/ingame/shop.s. Names render one row below each.
+ROW_OFFSETS = (0x0244, 0x02C4, 0x0344, 0x03C4, 0x0444)
 NAME_WIDTH = 16
 VWF_TILE_BASE = 0x100
 VWF_TILE_BUDGET = 0x0A
@@ -78,9 +78,10 @@ def test_rows_own_disjoint_tiles(shop_emu) -> None:
 
 
 # Vanilla draws each row's price digits and the "Gils" suffix before the
-# name, at these cells of the name row.
-PRICE_DIGIT_COLS = (13, 14, 15)
-PRICE_SUFFIX_COL = 16
+# name, at these cells of the name row (counted from the row's first
+# cell, which the rows-shifted-left patch moved to column 2).
+PRICE_DIGIT_COLS = (14, 15, 16)
+PRICE_SUFFIX_COL = 17
 DIGIT_TILES = range(0x80, 0x8A)
 GLYPH_G = 0x48
 
@@ -101,3 +102,42 @@ def test_price_survives_the_name_render(shop_emu) -> None:
             + " ".join(f"${d:02x}" for d in digits))
         assert cells[PRICE_SUFFIX_COL] == GLYPH_G, (
             f"row {row} lost the 'G' of Gils, got ${cells[PRICE_SUFFIX_COL]:02x}")
+
+
+# Leftmost cell the price field can reach, for the widest price the shop
+# can show. The name render must stop before it.
+PRICE_FIELD_FIRST_COL = 11
+
+
+def test_name_render_never_writes_into_the_price_field() -> None:
+    """No write from the name renderer may land in a price column.
+
+    Vanilla lays the price out right-aligned ending at column 15, blanking
+    the unused leading cells, so the field reaches back to column 9. A
+    blank run sized to the name alone still clipped 4-digit prices: 1000
+    rendered as 000, because its leading digit sits at column 12.
+    """
+    # Watch from before the list is drawn, so the fixture's own draw does
+    # not hide the writes.
+    e = load_emu_from_kss(kss_path(KSS), settle_frames=60)
+    rows = {BG4_STAGING + off + 0x40: row for row, off in enumerate(ROW_OFFSETS)}
+    bad = []
+
+    def on_write(addr, val):
+        pc = e.get_state().pc
+        if (pc >> 16) != 0x20:          # only our bank-20 renderer
+            return
+        for base, row in rows.items():
+            col = (addr - base) // 2
+            if 0 <= col < 20 and addr >= base:
+                if col >= PRICE_FIELD_FIRST_COL:
+                    bad.append((row, col, val, pc))
+
+    lo = min(rows) - 0x40
+    e.add_write_callback(lo, lo + 0x600, on_write)
+    tap(e, Button.A, gap=40)            # "Achat" draws the list under the watch
+    e.run_frames(40)
+    e.close()
+
+    assert not bad, "renderer wrote into the price field: " + ", ".join(
+        f"row {r} col {c} <- ${v:02x} (pc ${pc:06x})" for r, c, v, pc in bad[:6])

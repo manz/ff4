@@ -290,17 +290,15 @@ Status:
         tay
         sep #0x20
         phy  ; bottom-row start, so the restore below ignores the run length
-    ; The shop draws the row's price before its name, so its pre-fill
-    ; must stop before those columns ; every other caller owns the whole
-    ; row and blanks it all.
-        lda.l VWF_CALLER_CTX
-        cmp.b #VWF_CTX_SHOP
-        beq _bottom_blank_narrow
-        ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
-        bra _bottom_blank_loop
-
-    _bottom_blank_narrow:
-        ldx.w #SHOP_NAME_BLANK_CELLS
+    ; Blank only what a VWF name can actually occupy: the symbol cell
+    ; plus FIELD_ITEM_VWF_TILE_BUDGET glyph cells. This used to clear
+    ; 1 + ITEM_UNLEASHED_TEXT_SIZE (17) cells, the width of the old
+    ; fixed-width 16-char field, but no name is wider than the tile
+    ; budget it is given: the widest item name measures 75px = 10 tiles.
+    ; Those 6 surplus cells belonged to whatever the caller drew to the
+    ; right of the name, and the shop draws each row's price there
+    ; BEFORE the name, so a 4-digit price came back as 000.
+        ldx.w #( 1 + FIELD_ITEM_VWF_TILE_BUDGET )
 
     _bottom_blank_loop:
         lda.b #0xFF

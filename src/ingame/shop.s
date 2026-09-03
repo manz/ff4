@@ -32,7 +32,7 @@ small-VWF item descriptions.
     ; list window
 }
 .alloc at 0x01deb6 {
-        menu_window(1, 8, 21, 17)
+        menu_window(0, 8, 22, 17)
 
 
     ; Moves gils 7 digits 2 tiles to the right.
@@ -126,6 +126,13 @@ small-VWF item descriptions.
 }
 }
 
+
+; Row positions for the item names, one column left of vanilla's so the
+; names regain the column the price field needs. Original table at
+; $01:C58E held $0246, $02C6, ... (column 3 of each row).
+.alloc at 0x01C58E {
+        .dw 0x0244, 0x02C4, 0x0344, 0x03C4, 0x0444, 0x04C4, 0x0544, 0x05C4
+}
 
 ; Shop list rows draw through the hijacked DrawItemName, which needs a
 ; slot index in $5D ; the loop leaves the item id there instead.

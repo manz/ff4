@@ -112,14 +112,6 @@ KEY_ITEM_VWF_BYTE_COUNT := 0x0460
 VWF_CTX_PRIMARY := 0x00
 VWF_CTX_DROPS := 0x01
 VWF_CTX_KEY_ITEM := 0x02
-VWF_CTX_SHOP := 0x03
-
-; Cells the shop's name render may blank on the bottom row. The shop
-; draws each row's price digits and "Gils" suffix BEFORE the name, at
-; columns 13..19, so the pre-fill has to stop short of them; the field
-; menu has no such constraint because vanilla draws its quantity after
-; the name.
-SHOP_NAME_BLANK_CELLS := 13
 
 ; --- Drops VWF flush descriptor (secondary NMI flush slot) ---
 ; Hardcoded since drops only ever lives at the +11-slot offset in
