@@ -412,8 +412,15 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
     txa
     lsr
     sta.b 0x5D
+    lda.b #VWF_CTX_SHOP
+    sta.l VWF_CALLER_CTX
     pla
-    jmp.w 0x9060
+    jsr.w 0x9060
+    pha
+    lda.b #VWF_CTX_PRIMARY
+    sta.l VWF_CALLER_CTX
+    pla
+    rts
 
 drops_swap_index:
 """

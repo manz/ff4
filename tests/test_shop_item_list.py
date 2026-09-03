@@ -46,6 +46,12 @@ def _row_tiles(emu, offset: int) -> list[int]:
     return ids
 
 
+def _row_tiles_wide(emu, offset: int, width: int = 20) -> list[int]:
+    """Raw tile ids across a whole list row, name and price alike."""
+    base = BG4_STAGING + offset + 0x40
+    return [emu.read(base + i * 2) for i in range(width)]
+
+
 def test_rows_render_within_the_vwf_window(shop_emu) -> None:
     """Every glyph cell must point inside the field VWF tile window."""
     limit = VWF_TILE_BASE + len(ROW_OFFSETS) * VWF_TILE_BUDGET
@@ -69,3 +75,29 @@ def test_rows_own_disjoint_tiles(shop_emu) -> None:
                 pytest.fail(f"tile ${tile:03x} used by rows "
                             f"{seen[tile]} and {row}")
             seen[tile] = row
+
+
+# Vanilla draws each row's price digits and the "Gils" suffix before the
+# name, at these cells of the name row.
+PRICE_DIGIT_COLS = (13, 14, 15)
+PRICE_SUFFIX_COL = 16
+DIGIT_TILES = range(0x80, 0x8A)
+GLYPH_G = 0x48
+
+
+def test_price_survives_the_name_render(shop_emu) -> None:
+    """The name render must not blank the price the shop already drew.
+
+    The list loop draws digits and "Gils" into the name row, then calls
+    DrawItemName for the same row. Our bottom-row pre-fill blanked
+    1 + ITEM_UNLEASHED_TEXT_SIZE cells, which reached columns 13..16 and
+    erased the digits plus the "G", leaving every row reading " ils".
+    """
+    for row, offset in enumerate(ROW_OFFSETS):
+        cells = _row_tiles_wide(shop_emu, offset)
+        digits = [cells[c] for c in PRICE_DIGIT_COLS]
+        assert any(d in DIGIT_TILES for d in digits), (
+            f"row {row} has no price digits, got "
+            + " ".join(f"${d:02x}" for d in digits))
+        assert cells[PRICE_SUFFIX_COL] == GLYPH_G, (
+            f"row {row} lost the 'G' of Gils, got ${cells[PRICE_SUFFIX_COL]:02x}")

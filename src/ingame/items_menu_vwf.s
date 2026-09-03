@@ -289,7 +289,18 @@ Status:
         adc.w #( 0x0040 - ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
         tay
         sep #0x20
-        ldx.w #0x0000
+        phy  ; bottom-row start, so the restore below ignores the run length
+    ; The shop draws the row's price before its name, so its pre-fill
+    ; must stop before those columns ; every other caller owns the whole
+    ; row and blanks it all.
+        lda.l VWF_CALLER_CTX
+        cmp.b #VWF_CTX_SHOP
+        beq _bottom_blank_narrow
+        ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+        bra _bottom_blank_loop
+
+    _bottom_blank_narrow:
+        ldx.w #SHOP_NAME_BLANK_CELLS
 
     _bottom_blank_loop:
         lda.b #0xFF
@@ -299,17 +310,17 @@ Status:
         ora.b 0x34
         sta (0x29), y
         iny
-        inx
-        cpx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+        dex
         bne _bottom_blank_loop
+        ply
     ; --- Restore caller's Y to point at the symbol slot, write symbol +
-    ; palette to the bottom row first tile. Y is currently
-    ; Y_orig + $40 + (1+ITEM_UNLEASHED_TEXT_SIZE)*2 after the bottom
-    ; blank ; subtract both terms to land back at Y_orig.
+    ; palette to the bottom row first tile. Y came back off the stack as
+    ; the bottom-row start (Y_orig + $40), so one subtraction lands on
+    ; Y_orig whatever the blank run length was.
         rep #0x20
         tya
         sec
-        sbc.w #( 0x0040 + ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
+        sbc.w #0x0040
         tay
         lda.b 0x29
         clc
