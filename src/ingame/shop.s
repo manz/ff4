@@ -127,6 +127,12 @@ small-VWF item descriptions.
 }
 
 
+; Shop list rows draw through the hijacked DrawItemName, which needs a
+; slot index in $5D ; the loop leaves the item id there instead.
+.alloc at 0x01C580 {
+        jsr.w shop_draw_item_name
+}
+
 ; Changes the offset of the hand pointer
 
 .alloc at 0x01C37C {

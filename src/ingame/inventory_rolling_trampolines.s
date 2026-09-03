@@ -396,6 +396,25 @@ treasure_menu_exit_hook:
     jsr.l treasure_menu_exit_hook_impl
     rts
 
+shop_draw_item_name:
+"""
+Hand the shop's row index to the VWF renderer, then draw the name.
+
+`items_menu_vwf.draw_field_item_name` reads DP $5D as the slot index and
+gives each slot its own tile-id window. The shop's list loop
+($01:C4A0) keeps the item id in $5D instead, so a high id asked for a
+tile base past the CHR buffer and rows shared or overran each other's
+tiles. At the call site X holds row * 2 (index into the tilemap-offset
+table at $01:C58E) and A holds the item id, which must reach vanilla
+`DrawItemName` untouched.
+"""
+    pha
+    txa
+    lsr
+    sta.b 0x5D
+    pla
+    jmp.w 0x9060
+
 drops_swap_index:
 """
 Bank-$01 helper for the drops swap byte-index recompute at $01:DAAC.
