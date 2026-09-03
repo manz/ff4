@@ -103,6 +103,17 @@ VWF_CHR_VRAM_WORD_B := 0x7070C5
 VWF_CHR_BYTE_COUNT_B := 0x7070C7
 VWF_CHR_SRC_OFFSET_B := 0x7070C9
 
+; Tilemap write cursor for `render.draw_text_buffer`.
+;
+; This lived on direct page ($1D) until the key-item picker: that menu
+; overlays the field map, where NMI stays enabled, and vanilla's
+; UpdateCtrl ($14:FD12) uses $1D as scratch. An NMI landing mid-render
+; zeroed the cursor and the rest of the name's tilemap cells went to
+; $7E:0000 instead of the staging buffer. The other menus never saw it
+; because they run with NMI off. Long-addressed, so no interrupt can
+; alias it.
+VWF_TILEMAP_OFFSET := 0x7070CB
+
 .struct VwfConfig {
     word tile_id_base
     byte slot_budget

@@ -23,7 +23,7 @@ draw_pos:
     lda.w 0x0000, y
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     tax
     sep #0x20
     iny
@@ -48,7 +48,7 @@ draw:
     txa
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     plx
     sep #0x20
 draw_string:
@@ -141,7 +141,7 @@ _move_to:
     tax
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     sep #0x20
     bra _reset_render
 _newline:
@@ -152,7 +152,7 @@ _newline:
     tax
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     sep #0x20
 _reset_render:
     lda #0x08

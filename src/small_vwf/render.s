@@ -232,7 +232,7 @@ get:
     counter = temp + 1
     prev_char = counter + 2
     current_char = prev_char + 1
-    tilemap_offset = 0x1d
+    tilemap_offset = VWF_TILEMAP_OFFSET  ; long, NMI-safe (see src/vwf_state.i)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
@@ -534,7 +534,7 @@ _chr_clear_loop:
 ; tilemap_offset = config.tilemap_base (16-bit).
     rep #0x20
     lda.l VWF_CONFIG_BASE + VwfConfig.tilemap_base
-    sta.b tilemap_offset
+    sta.l tilemap_offset
     sep #0x20
     jsr.w draw_text_buffer
 ; Tell the NMI flush hook this slot needs a VRAM upload. Mirror of
@@ -559,7 +559,7 @@ directly):
   - render_allocator.slot_limit_low       set per slot budget
   - render.bits_left_on_tile              set to 8
   - render.temp, render.counter           cleared
-  - render.tilemap_offset (= DP $1D)      absolute WRAM byte index
+  - render.tilemap_offset (long scratch)  absolute WRAM byte index
                                           of the bottom tilemap row
                                           start  ; display_char auto-
                                           increments by 2 per blit
@@ -1004,20 +1004,27 @@ to honour a bit they do not own.
 
 
     _base_addr = 0x7e0000
+    php
+    rep #0x30
+    lda.l tilemap_offset
+    tax
+    sep #0x20
     lda.l render_allocator.allocated_tile_id
-    ldx.b tilemap_offset
     sta.l _base_addr, x
     lda.l _base_addr + 1, x
     ora.l VWF_CONFIG_BASE + VwfConfig.flags
     sta.l _base_addr + 1, x
+    plp
     rts
 tilemap_write:
     pha
     jsr.w tilemap_write_no_inc
     jsr.w render_allocator.increment
     with_long_a({
-inc.b tilemap_offset
-inc.b tilemap_offset}
+lda.l tilemap_offset
+inc
+inc
+sta.l tilemap_offset}
 )
 
 

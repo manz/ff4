@@ -1683,7 +1683,7 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
     clc
     adc 0x32
     sta 0x32
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     pla
     clc
     adc 0x32
