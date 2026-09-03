@@ -414,7 +414,11 @@ init_treasure_rolling_buffer_impl:
     php
     rep #0x30
     sep #0x20
-    lda.b #TREASURE_BUFFER_SLOTS
+; VISIBLE rows, not buffer slots: the engine derives
+; `buffer_slots = visible_rows + 1` itself. Publishing
+; TREASURE_BUFFER_SLOTS here gave it 7 slots, so the prefetch slot
+; rendered a row pair below the window and wiped the bottom border.
+    lda.b #TREASURE_VISIBLE_ITEMS
     sta.l treasure_rolling + RollingBufferState.visible_rows
     lda.b #0x02
     sta.l treasure_rolling + RollingBufferState.slot_height_tiles

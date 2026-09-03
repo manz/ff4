@@ -444,7 +444,9 @@ key_item_init_impl:
     php
     rep #0x30
     sep #0x20
-    lda.b #KEY_ITEM_BUFFER_SLOTS
+; VISIBLE rows, not buffer slots - the engine adds the prefetch slot
+; itself (`buffer_slots = visible_rows + 1`).
+    lda.b #KEY_ITEM_VISIBLE_ITEMS
     sta.l key_item_rolling + RollingBufferState.visible_rows
     lda.b #0x02
     sta.l key_item_rolling + RollingBufferState.slot_height_tiles
