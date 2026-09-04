@@ -609,9 +609,24 @@ _check_scroll:
     beq _after_open_done
     sta.l key_item_last_scroll
     sta.l key_item_scroll_pos
+; Only refresh against a struct this profile actually armed. The slide
+; marker lives in WRAM and survives the picker closing, so a later open
+; can reach the scroll edge without the open edge having run init -
+; refreshing then dispatches whatever far-pointers happen to be in the
+; struct, and the engine's hook call lands in the middle of unrelated
+; code. menu_id is the cheapest proof that init has run.
+    lda.l key_item_rolling.menu_id
+    cmp.b #ROLLING_MENU_ID_KEY_ITEM
+    bne _render_from_scratch
     jsr.w _key_item_enter_render
     rep #0x30
     jsr.l key_item_refresh_slots_impl
+    bra _finish_render
+
+_render_from_scratch:
+    jsr.w _key_item_enter_render
+    rep #0x30
+    jsr.l key_item_init_impl
 
 _finish_render:
     sep #0x20
