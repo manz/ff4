@@ -60,6 +60,19 @@ Patched:
         jsr.l key_item_close_impl
 }
 
+; Cursor address, folded into the rolling ring. In our ROM:
+;   B13D A5 BA     lda $ba
+;   B13F 18        clc
+;   B140 65 8C     adc $8c
+;   B142 85 4B     sta $4b
+; (the ff4decomp notes place this block at $B13B - bank $00 there runs
+; two bytes behind ours from $0089ED on, the same drift
+; utils/import_decomp_labels.py re-anchors around.)
+.alloc at 0x00B13D {
+        jsr.l key_item_cursor_slot_impl
+        pad_nop(3)
+}
+
 ; Render the list through the rolling engine once the window is open.
 ; Hooks `lda #$01 ; sta $7D` at $00:AF7E and reproduces the store ; the
 ; `jsr $912F` above it is vanilla's frame wait for this input loop and

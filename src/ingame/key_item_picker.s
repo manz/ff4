@@ -98,7 +98,10 @@ KEY_ITEM_STAGING_ADDR := 0xD600
 ; map content that never gets put back, which showed up as blocks of
 ; scrambled map after paging through the list. The engine's fifth
 ; (prefetch) slot stays in the staging page and is not pushed.
-KEY_ITEM_STAGING_SIZE := 0x0200
+; The whole ring: KEY_ITEM_BUFFER_SLOTS slots of two 32-cell tilemap
+; rows at 2 bytes a cell. This was 0x200 - four slots - so the fifth,
+; the one a scroll rotates into view, never reached VRAM.
+KEY_ITEM_STAGING_SIZE := KEY_ITEM_BUFFER_SLOTS * 0x80
 ; Vanilla's item-window IRQ points BG3 at the right screen (plane 1) for
 ; the window's scanlines and sets BG3VOFS from $BB, which rests at $70.
 ; The band starts around screen line 144, so it shows BG line 144 + 112
@@ -200,6 +203,43 @@ _blank_cell:
     dey
     bne _blank_cell
     rts
+
+key_item_cursor_slot_impl:
+"""
+Give vanilla's cursor draw a ring slot instead of an absolute row.
+
+`DrawItemSelectCursor` ($00:B11A) computes the cursor's VRAM address
+from `$BA + $8C` - scroll position plus cursor row - because vanilla
+drew the whole filtered list as one tall strip and scrolled the window
+over it, so an item's address grew without bound as the list scrolled.
+Our ring re-renders in place and wraps $BB instead, so past the first
+screenful that address walked off the end of the window and drew the
+hand into unrelated tilemap rows.
+
+Fold it into the ring: the item at cursor row r lives in slot
+(top_row + r) mod KEY_ITEM_BUFFER_SLOTS, which is what the rest of the
+routine wants in $4B.
+
+Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla picks
+up again at $00:B144 with `stz $4a`.
+"""
+    php
+    sep #0x20
+    lda.b 0xBA
+    clc
+    adc.b 0x8C
+
+_cursor_slot_mod:
+    cmp.b #KEY_ITEM_BUFFER_SLOTS
+    bcc _cursor_slot_done
+    sec
+    sbc.b #KEY_ITEM_BUFFER_SLOTS
+    bra _cursor_slot_mod
+
+_cursor_slot_done:
+    sta.b 0x4B
+    plp
+    rtl
 
 key_item_render_item_to_slot:
 """Render filtered item from $7E:0712 + edge_row*Item.__size into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
