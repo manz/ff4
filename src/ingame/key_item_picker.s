@@ -108,6 +108,9 @@ KEY_ITEM_TILEMAP_VRAM_WORD := 0x2C00
 ; Attribute byte vanilla writes for every cell of this window: palette
 ; 0 with the priority bit, so the body draws above the map.
 KEY_ITEM_TILEMAP_ATTR := 0x20
+; Blank cell the menu windows are filled with (see any drawn window in
+; the BG3 buffer: every empty cell reads $FF).
+KEY_ITEM_BLANK_TILE := 0xFF
 KEY_ITEM_CURSOR_TILE := 0x19
 
 KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
@@ -165,6 +168,39 @@ _key_item_init_hdma_channel:
     plp
     rts
 
+_key_item_blank_slot_rows:
+"""
+Fill this slot's two tilemap rows with the window's blank cell.
+
+The renderer only writes the cells it draws - the name, the colon and
+the two quantity digits - so every other cell in the row keeps whatever
+the field left in the BG3 tilemap underneath. On a dark room that
+passed for a window body; on a bright one the map's own tiles show
+straight through the list, including the gap between a short name and
+its quantity. Wipe the whole 2-row slot first and let the draw fill it
+back in.
+
+Entry: 16-bit A/X/Y, DB = $7E. X and Y are caller-saved already.
+"""
+    rep #0x30
+    lda.l key_item_rolling.slot_index
+    and.w #0x00FF
+    xba
+    lsr          ; slot * 128 : two 32-tile rows, 2 bytes per cell
+    clc
+    adc.w #0xD600
+    tax
+    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BLANK_TILE
+    ldy.w #0x0040   ; 64 cells = 2 tilemap rows
+
+_blank_cell:
+    sta.w 0x0000, x
+    inx
+    inx
+    dey
+    bne _blank_cell
+    rts
+
 key_item_render_item_to_slot:
 """Render filtered item from $7E:0712 + edge_row*Item.__size into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
     php
@@ -192,6 +228,7 @@ key_item_render_item_to_slot:
     rep #0x20
     lda.w #0xD600
     sta.b 0x29
+    jsr.w _key_item_blank_slot_rows
     sep #0x20
     lda.l key_item_rolling.edge_row
     asl
