@@ -87,6 +87,12 @@ KEY_ITEM_SCROLL_FRAMES := 8
 KEY_ITEM_SCROLL_STEP_PX := 2
 KEY_ITEM_ROW_HEIGHT_PX := 16
 
+; NMITIMEN while the picker is up: vanilla's InitItemWindowIRQ arms
+; $A1 = NMI + V-IRQ + auto-joypad, and the V-IRQ is what draws the
+; window. Rendering drops NMI and keeps the IRQ.
+KEY_ITEM_NMITIMEN_PICKER := 0xA1
+KEY_ITEM_NMITIMEN_RENDER := 0x21
+
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
 KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
@@ -653,7 +659,12 @@ render the way vanilla brackets its own unsafe field work (field.asm
 InitMapRAM).
 """
     sep #0x20
-    lda #0x00
+; Drop NMI only. The picker's window is drawn BY the V-IRQ
+; (InitItemWindowIRQ arms $A1 = NMI + V-IRQ + auto-joypad), so clearing
+; the whole register blanked the window for the frames we render in:
+; it looked like the window closed and reopened on every scroll, and the
+; cursor lost its per-frame draw with it.
+    lda #KEY_ITEM_NMITIMEN_RENDER
     sta.l 0x004200
     rep #0x10
     ldx.w #0x0000
@@ -679,7 +690,7 @@ _restore_dp:
     cpx.w #0x0100
     bne _restore_dp
     sep #0x20
-    lda #0x81  ; NMI + auto-joypad, the value field code restores
+    lda #KEY_ITEM_NMITIMEN_PICKER
     sta.l 0x004200
     rts
 
