@@ -590,6 +590,7 @@ contents.
     lda.b 0xBA
     sta.l key_item_last_scroll
     sta.l key_item_scroll_pos
+    jsr.w key_item_save_vram
     jsr.w _key_item_enter_render
     rep #0x30
     jsr.l key_item_init_impl
@@ -740,6 +741,109 @@ _scroll_up_loop:
     adc.b #KEY_ITEM_ROW_HEIGHT_PX
     sta.b 0xBB
     jsr.w key_item_rerender
+    plp
+    rtl
+
+_key_item_vram_to_sram:
+"""
+Copy one VRAM slice into SRAM. A = VRAM word address (16-bit), X = SRAM
+address low+mid, Y = byte count ; bank of the destination is fixed to
+the reservation's.
+
+Must run inside vblank: VRAM reads outside blanking return garbage.
+"""
+    php
+    rep #0x20
+    sta.l 0x002116          ; VMADD
+    sep #0x20
+    lda #0x80
+    sta.l 0x002115          ; VMAIN: increment after the high byte
+    lda.l 0x002139          ; prime the read latch (discarded)
+    lda #0x81               ; DMAP: PPU -> CPU, two registers
+    sta.l 0x004330
+    lda #0x39               ; BBAD: $2139 VMDATAREADL
+    sta.l 0x004331
+    rep #0x20
+    txa
+    sta.l 0x004332
+    sep #0x20
+    lda #key_item_chr_save >> 16
+    sta.l 0x004334
+    rep #0x20
+    tya
+    sta.l 0x004335
+    sep #0x20
+    lda #0x08
+    sta.l 0x00420B          ; MDMAEN ch3
+    plp
+    rts
+
+_key_item_sram_to_vram:
+"""Write one saved slice back. Same register contract as the save."""
+    php
+    rep #0x20
+    sta.l 0x002116
+    sep #0x20
+    lda #0x80
+    sta.l 0x002115
+    lda #0x01               ; DMAP: CPU -> PPU, two registers
+    sta.l 0x004330
+    lda #0x18               ; BBAD: $2118 VMDATAL
+    sta.l 0x004331
+    rep #0x20
+    txa
+    sta.l 0x004332
+    sep #0x20
+    lda #key_item_chr_save >> 16
+    sta.l 0x004334
+    rep #0x20
+    tya
+    sta.l 0x004335
+    sep #0x20
+    lda #0x08
+    sta.l 0x00420B
+    plp
+    rts
+
+key_item_save_vram:
+"""Stash the two slices the picker is about to overwrite."""
+    php
+    sep #0x20
+    rep #0x10
+; Only the glyph CHR: the window band of the tilemap belongs to vanilla,
+; which draws its window there during the slide-open - before this hook
+; ever runs - and puts the map back itself on close. Snapshotting it
+; here would capture the window, not the map, and restoring that would
+; be worse than leaving it alone.
+    jsr.l wait_for_vblank_long
+    rep #0x20
+    lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
+    ldx.w #key_item_chr_save & 0xFFFF
+    ldy.w #KEY_ITEM_VWF_BYTE_COUNT
+    jsr.w _key_item_vram_to_sram
+    plp
+    rts
+
+key_item_close_impl:
+"""
+Give the map its VRAM back as the picker closes.
+
+Hooked over `lda #$01 ; sta $ec` at the tail of vanilla's close
+animation ($00:B05D block), the last thing that runs before
+ShowItemWindow returns.
+"""
+    php
+    sep #0x20
+    rep #0x10
+    jsr.l wait_for_vblank_long
+    rep #0x20
+    lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
+    ldx.w #key_item_chr_save & 0xFFFF
+    ldy.w #KEY_ITEM_VWF_BYTE_COUNT
+    jsr.w _key_item_sram_to_vram
+    sep #0x20
+    lda #0x01
+    sta.b 0xEC  ; the store this hook displaced
     plp
     rtl
 

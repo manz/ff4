@@ -44,3 +44,10 @@ bodies, and placement directives cannot nest.
 .reserve key_item_last_scroll 1 in rolling_state
 .reserve key_item_scroll_pos 1 in rolling_state
 .reserve key_item_scroll_frames 1 in rolling_state
+
+; VRAM the picker overwrites while it is open, saved so the map gets it
+; back on close: its glyph CHR window and the window band of BG3's
+; tilemap. Both are live map data on maps that use high BG3 tile ids -
+; nothing else saves them, and the leftovers showed as scrambled map.
+.reserve key_item_chr_save 0x0460 in rolling_state
+.reserve key_item_map_save 0x0200 in rolling_state

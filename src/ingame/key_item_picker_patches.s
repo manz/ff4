@@ -53,6 +53,13 @@ Patched:
         rts
 }
 
+; Hand the map its VRAM back as the window closes. Vanilla's close
+; animation ends with `lda #$01 ; sta $ec` at $00:B06E, the last thing
+; before ShowItemWindow returns.
+.alloc at 0x00B06E {
+        jsr.l key_item_close_impl
+}
+
 ; Render the list through the rolling engine once the window is open.
 ; Hooks `lda #$01 ; sta $7D` at $00:AF7E and reproduces the store ; the
 ; `jsr $912F` above it is vanilla's frame wait for this input loop and
