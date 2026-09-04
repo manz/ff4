@@ -32,6 +32,14 @@ Patched:
 
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
+; Render the list through the rolling engine once the window is open.
+; Hooks `lda #$01 ; sta $7D` at $00:AF7E and reproduces the store ; the
+; `jsr $912F` above it is vanilla's frame wait for this input loop and
+; has to stay.
+.alloc at 0x00AF7E {
+        jsr.l key_item_after_open_impl
+}
+
 ; TODO : wire `jsr.l key_item_render_all` at $00:AF4D once the picker
 ; has a VRAM strategy that doesn't garble the room/map underneath. The
 ; picker triggers from event scripts mid-map (EventCmd_f7), so unlike

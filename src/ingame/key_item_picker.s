@@ -44,8 +44,11 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
   $1BFE  hdma_copy_pending
 """
 
-KEY_ITEM_VISIBLE_ITEMS := 6
-KEY_ITEM_BUFFER_SLOTS := 7
+; Four rows on screen, matching the window vanilla draws ; the engine
+; adds the prefetch slot itself, and it stays inside the staging page
+; without being pushed.
+KEY_ITEM_VISIBLE_ITEMS := 4
+KEY_ITEM_BUFFER_SLOTS := 5
 KEY_ITEM_TOTAL_ITEMS := 48
 KEY_ITEM_SCROLL_LIMIT := 42
 KEY_ITEM_SCROLL_PIXELS_PER_FRAME := 8
@@ -62,6 +65,17 @@ key_item_rolling := (0x7E9C60 as RollingBufferState)
 ; so the scroll position silently never persists. Same bug drops had.
 key_item_scroll_pos := 0x7E9C8F
 
+; Last value of vanilla's window-slide counter ($DA) the per-frame hook
+; saw. The picker's input loop has no open-time entry point we can
+; reach, so the list renders on the frame $DA arrives at its
+; fully-open value.
+key_item_open_slide_seen := 0x7E9C8E
+KEY_ITEM_SLIDE_OPEN_DONE := 0x08
+
+; Scratch for the caller's direct page while the picker renders. Sits in
+; the free $7E:990E..$9DA7 gap documented in src/items.i.
+KEY_ITEM_DP_SAVE := 0x7E9D00
+
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
 KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
@@ -77,7 +91,11 @@ KEY_ITEM_FILTER_BUFFER := 0x0712
 ; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
 ; 16 rows x 32 entries x 2 bytes covers the whole visible window.
 KEY_ITEM_STAGING_ADDR := 0xD600
-KEY_ITEM_STAGING_SIZE := 0x0400
+; Eight rows: the four item rows and their blank partners. BG3 plane 1 is
+; the map's own tilemap around the window, so pushing the whole staging
+; page scribbled over the map, and row 8 carries the window's bottom
+; border, which vanilla draws and we must not blank.
+KEY_ITEM_STAGING_SIZE := 0x0200
 KEY_ITEM_TILEMAP_VRAM_WORD := 0x2C00
 ; Attribute byte vanilla writes for every cell of this window: palette
 ; 0 with the priority bit, so the body draws above the map.
@@ -202,13 +220,13 @@ key_item_render_item_to_slot:
     and.w #0x00FF
     xba
     lsr
-; Y = slot * 128 + 4 : two staging rows (2 * 64 bytes) per slot, four
-; bytes in for the cursor column. draw_field_item_name blanks the row
-; at Y and writes glyphs at Y + $40, so slot N's name lands on staging
-; row 2N+1 - rows 1/3/5/7, matching where vanilla draws the picker's
-; item names in BG3 plane 1.
+; Y = slot * 128 + 6 : two staging rows (2 * 64 bytes) per slot, six
+; bytes in so the symbol lands in column 3 and the name from column 4,
+; where vanilla puts them - column 2 belongs to the cursor.
+; draw_field_item_name blanks the row at Y and writes glyphs at Y + $40,
+; so slot N's name lands on staging row 2N+1: rows 1/3/5/7.
     clc
-    adc.w #0x0004
+    adc.w #0x0006
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
@@ -531,6 +549,75 @@ key_item_init_impl:
     plp
     rtl
 
+key_item_after_open_impl:
+"""
+Draw the picker's list once its window has finished opening.
+
+Hooked over `lda #$01 ; sta $7D` at $00:AF7E, just past the top of the
+picker's input loop. Vanilla's own `jsr $912F` right before it is left
+alone: standing in for that wait cost the loop its frame pacing and the
+picker never drew. Every cursor branch jumps back to the loop top, so
+this runs once per frame and must stay cheap. Vanilla's slide counter
+$DA climbs 1..8 while the window opens and then sits at 8, so its
+arrival at 8 is the edge to render on.
+"""
+
+    php
+    sep #0x20
+    rep #0x10
+    lda #0x01
+    sta.b 0x7D  ; the store this hook displaced
+    lda.b 0xDA  ; DP-relative: the caller's direct page, whatever it is
+    cmp.l key_item_open_slide_seen
+    beq _after_open_done
+    sta.l key_item_open_slide_seen
+    cmp.b #KEY_ITEM_SLIDE_OPEN_DONE
+    bne _after_open_done
+; Render with NMI off and the caller's direct page saved.
+;
+; The menu VWF renderer scratches a wide set of direct-page bytes -
+; $1D, $29/$2A, $33, $34, $43, $5A-$5D, $DB and its own $63-$79 block -
+; which is free real estate in the menus but live field state here: the
+; field engine writes those same bytes every frame. Leaving any of them
+; disturbed scrambles the map. Rather than chase the exact footprint,
+; snapshot the page, render, put it back. NMI is off across it the way
+; vanilla brackets its own unsafe field work (field.asm InitMapRAM).
+    lda #0x00
+    sta.l 0x004200
+    rep #0x10
+    ldx.w #0x0000
+
+_save_dp:
+    lda.b 0x00, x
+    sta.l KEY_ITEM_DP_SAVE, x
+    inx
+    cpx.w #0x0100
+    bne _save_dp
+
+    rep #0x30
+    jsr.l key_item_init_impl
+    sep #0x20
+    rep #0x10
+    jsr.w key_item_push_window
+    sep #0x20
+    rep #0x10
+    ldx.w #0x0000
+
+_restore_dp:
+    lda.l KEY_ITEM_DP_SAVE, x
+    sta.b 0x00, x
+    inx
+    cpx.w #0x0100
+    bne _restore_dp
+
+    sep #0x20
+    lda #0x81  ; NMI + auto-joypad, the value field code restores
+    sta.l 0x004200
+
+_after_open_done:
+    plp
+    rtl
+
 key_item_fn_render_slot_trampoline:
 """Bank-20 RTL wrapper around `key_item_render_item_to_slot`."""
     php
@@ -627,7 +714,7 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
 ; No vanilla NMI hook runs the VWF flush in field the way the menus do,
 ; so push the picker's glyph CHR here, in the same vblank as the
 ; tilemap it belongs to.
-    jsr.l render.flush_chr_to_vram
+    jsr.w render.flush_chr_to_vram  ; RTS-ending, same bank-20 region
     rep #0x20
     lda.w #KEY_ITEM_TILEMAP_VRAM_WORD
     sta.l 0x002116          ; VMADD
