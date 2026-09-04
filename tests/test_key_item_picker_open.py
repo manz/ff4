@@ -115,3 +115,32 @@ def test_picker_leaves_the_field_direct_page_intact(picker_emu):
     scratch = [0x1D, 0x1E, 0x29, 0x2A, 0x33, 0x34, 0x43, 0x5C, 0x5D]
     hot = [f"${b:02x}" for b in scratch if before[b] != after[b] and after[b] in (0x00, 0xFF)]
     assert not hot, f"renderer scratch left in the field direct page: {' '.join(hot)}"
+
+
+def test_engine_rows_follow_the_scroll(picker_emu):
+    """Scrolling the list must re-render its rows.
+
+    Vanilla owns the scroll position ($BA) and the cursor; the engine
+    owns the row contents. Without a re-render on the scroll edge the
+    rows kept whatever the open-time render left behind.
+    """
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    def rows() -> bytes:
+        vram = bytes(e.vram_read_range(0x2C00 * 2, 8 * 32 * 2))
+        out = bytearray()
+        for row in (1, 3, 5, 7):
+            for col in range(4, 20):
+                off = (row * 32 + col) * 2
+                out.append(vram[off])
+        return bytes(out)
+
+    before = rows()
+    for _ in range(8):
+        tap(e, Button.DOWN)
+        e.run_frames(12)
+    assert rows() != before, "list rows unchanged after scrolling"
