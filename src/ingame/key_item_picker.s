@@ -653,6 +653,7 @@ InitMapRAM).
 ; cursor lost its per-frame draw with it.
     lda #KEY_ITEM_NMITIMEN_RENDER
     sta.l 0x004200
+    jsr.w _key_item_save_dma
     rep #0x10
     ldx.w #0x0000
 
@@ -676,6 +677,7 @@ _restore_dp:
     inx
     cpx.w #0x0100
     bne _restore_dp
+    jsr.w _key_item_restore_dma
     sep #0x20
     lda #KEY_ITEM_NMITIMEN_PICKER
     sta.l 0x004200
@@ -744,6 +746,45 @@ _scroll_up_loop:
     plp
     rtl
 
+_key_item_save_dma:
+"""
+Stash DMA channel 3's registers.
+
+Every transfer the picker runs - tilemap push, CHR flush, the VRAM
+save/restore - reprograms channel 3, which steals it from any HDMA the
+map has armed there. A mosaic/pixelate effect loses its table mid
+animation and never gets it back, so put the registers where they were.
+"""
+    php
+    sep #0x20
+    rep #0x10
+    ldx.w #0x0000
+
+_save_dma_loop:
+    lda.l 0x004330, x
+    sta.l key_item_dma_save, x
+    inx
+    cpx.w #0x000B
+    bne _save_dma_loop
+    plp
+    rts
+
+_key_item_restore_dma:
+"""Put channel 3's registers back."""
+    php
+    sep #0x20
+    rep #0x10
+    ldx.w #0x0000
+
+_restore_dma_loop:
+    lda.l key_item_dma_save, x
+    sta.l 0x004330, x
+    inx
+    cpx.w #0x000B
+    bne _restore_dma_loop
+    plp
+    rts
+
 _key_item_vram_to_sram:
 """
 Copy one VRAM slice into SRAM. A = VRAM word address (16-bit), X = SRAM
@@ -808,6 +849,7 @@ _key_item_sram_to_vram:
 key_item_save_vram:
 """Stash the two slices the picker is about to overwrite."""
     php
+    jsr.w _key_item_save_dma
     sep #0x20
     rep #0x10
 ; Only the glyph CHR: the window band of the tilemap belongs to vanilla,
@@ -821,6 +863,7 @@ key_item_save_vram:
     ldx.w #key_item_chr_save & 0xFFFF
     ldy.w #KEY_ITEM_VWF_BYTE_COUNT
     jsr.w _key_item_vram_to_sram
+    jsr.w _key_item_restore_dma
     plp
     rts
 
@@ -833,6 +876,7 @@ animation ($00:B05D block), the last thing that runs before
 ShowItemWindow returns.
 """
     php
+    jsr.w _key_item_save_dma
     sep #0x20
     rep #0x10
     jsr.l wait_for_vblank_long
@@ -841,6 +885,7 @@ ShowItemWindow returns.
     ldx.w #key_item_chr_save & 0xFFFF
     ldy.w #KEY_ITEM_VWF_BYTE_COUNT
     jsr.w _key_item_sram_to_vram
+    jsr.w _key_item_restore_dma
     sep #0x20
     lda #0x01
     sta.b 0xEC  ; the store this hook displaced
@@ -967,21 +1012,21 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     lda #0x80
     sta.l 0x002115          ; VMAIN: word access, +1 word per write
     lda #0x01
-    sta.l 0x004300          ; DMAP: word transfer
+    sta.l 0x004330          ; DMAP: word transfer
     lda #0x18
-    sta.l 0x004301          ; BBAD: $2118 VMDATAL
+    sta.l 0x004331          ; BBAD: $2118 VMDATAL
     rep #0x20
     lda.w #KEY_ITEM_STAGING_ADDR
-    sta.l 0x004302
+    sta.l 0x004332
     sep #0x20
     lda #0x7E
-    sta.l 0x004304
+    sta.l 0x004334
     rep #0x20
     lda.w #KEY_ITEM_STAGING_SIZE
-    sta.l 0x004305
+    sta.l 0x004335
     sep #0x20
-    lda #0x01
-    sta.l 0x00420B          ; MDMAEN ch0
+    lda #0x08
+    sta.l 0x00420B          ; MDMAEN ch3
 
 ; Publish the scroll table. The menus let the field NMI hook copy
 ; shadow -> active, but that hook only runs while a menu owns the

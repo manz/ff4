@@ -51,3 +51,9 @@ bodies, and placement directives cannot nest.
 ; nothing else saves them, and the leftovers showed as scrambled map.
 .reserve key_item_chr_save 0x0460 in rolling_state
 .reserve key_item_map_save 0x0200 in rolling_state
+
+; DMA channel registers ($4330-$433A) saved across the picker's own
+; transfers. Reprogramming a channel steals it from whatever HDMA the
+; map has armed on it - a pixelate/mosaic effect mid-animation, say -
+; and the effect never gets its registers back.
+.reserve key_item_dma_save 0x000B in rolling_state
