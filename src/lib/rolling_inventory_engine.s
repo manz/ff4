@@ -235,16 +235,25 @@ sites that remain in the per-menu source files.
         sec
         sbc.b #8
         sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
-    ; Dispatch per-menu update_scroll_hdma via menu_id branch. The four
+    ; Dispatch per-menu update_scroll_hdma via menu_id branch. The
     ; profiles' update_*_scroll_hdma functions live in bank-20 alongside
-    ; this engine, so jsr.w (3-byte) reaches them cleanly.
+    ; this engine, so jsr.w (3-byte) reaches them cleanly. Every id needs
+    ; its own branch: the tail is the key-item builder, not a generic
+    ; one, so a profile that falls through here scribbles the picker's
+    ; table instead of its own.
         lda.l 0x7E0000 + RollingBufferState.menu_id, x
         beq _frame_hdma_field
         cmp.b #ROLLING_MENU_ID_TREASURE
         beq _frame_hdma_treasure
         cmp.b #ROLLING_MENU_ID_DROPS
         beq _frame_hdma_drops
+        cmp.b #ROLLING_MENU_ID_SELL
+        beq _frame_hdma_sell
         jsr.w update_key_item_scroll_hdma
+        bra _frame_hdma_done
+
+    _frame_hdma_sell:
+        jsr.w update_sell_scroll_hdma
         bra _frame_hdma_done
 
     _frame_hdma_field:

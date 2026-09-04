@@ -108,6 +108,44 @@ tfr_bg4_tiles_vblank_trampoline:
 ; in WRAM without this call.
     rtl
 
+sell_select_bg3_trampoline:
+"""
+Bank-$01 RTL trampoline around original `SelectBG3` ($01:8470).
+
+Points $29 at the BG3 buffer ($7E:D600) and $35 at its VRAM tilemap
+($7000), which is where the sell list renders.
+"""
+    jsr 0x8470
+    rtl
+
+sell_init:
+"""Bank-$01 trampoline: replace DrawInventoryList for the sell list."""
+    jsr.l sell_init_impl
+    rts
+
+sell_scroll_up:
+"""Bank-$01 trampoline: sell list scroll up, in place of vanilla's $9F loop."""
+    jsr.l sell_scroll_up_impl
+    rts
+
+sell_scroll_down:
+"""Bank-$01 trampoline: sell list scroll down, in place of vanilla's $9F loop."""
+    jsr.l sell_scroll_down_impl
+    rts
+
+sell_leave:
+"""
+Shop teardown: restore the dialogue window graphics, then drop ch5.
+
+Hooked over the `JSR $873F` at $01:C304, the last call the shop menu
+makes before returning - the displaced call is reissued here. The sell
+list's HDMA bit lives in the shared `field_menu_rolling.hdma_enable`,
+so leaving it set would arm ch5 over the field's own BG3.
+"""
+    jsr 0x873F
+    jsr.l sell_disable_hdma
+    rts
+
 drops_select_bg4_trampoline:
     jsr 0x8485
 ; original SelectClearBG4 at $01:8485 - wipes BG4 staging to blank

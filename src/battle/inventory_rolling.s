@@ -2480,6 +2480,12 @@ runs the field-menu NMI DMA check.
     DROPS_HDMA_TABLE := 0x7E9880
     DROPS_HDMA_SHADOW := 0x7E98C0
     DROPS_HDMA_TABLE_SIZE := 40
+    ; Sell list, same story as drops: state at $7E:9CC0, re-cast locally.
+    sell_rolling := (0x7E9CC0 as RollingBufferState)
+    SELL_HDMA_TABLE := 0x7E9900
+    SELL_HDMA_SHADOW := 0x7E9940
+    ; header + 8 row bands + footer + terminator = 31 bytes.
+    SELL_HDMA_TABLE_SIZE := 32
 
     ; Called via JSL from bank $01 nmi_dma_transfer_check
 
@@ -2545,6 +2551,31 @@ runs the field-menu NMI DMA check.
         sep #0x20
 
     _drops_nmi_hdma_copy_done:
+        ; === Sell-list HDMA table copy: $7E:9940 shadow -> $7E:9900 active ===
+        ; The shop's sell list drives BG3VOFS on ch5 from its own table;
+        ; without this block the active table stays zero-filled, which HDMA
+        ; reads as an immediate end-of-table and the list never scrolls.
+        sep #0x20
+        lda.l field_menu_rolling.hdma_enable
+        and #0x20
+        beq _sell_nmi_hdma_copy_done
+        lda.l sell_rolling.hdma_copy_pending
+        beq _sell_nmi_hdma_copy_done
+        lda #0x00
+        sta.l sell_rolling.hdma_copy_pending
+        rep #0x30
+        ldx.w #0x0000
+
+    _sell_nmi_hdma_copy_loop:
+        lda.l SELL_HDMA_SHADOW, x
+        sta.l SELL_HDMA_TABLE, x
+        inx
+        inx
+        cpx.w #SELL_HDMA_TABLE_SIZE
+        bcc _sell_nmi_hdma_copy_loop
+        sep #0x20
+
+    _sell_nmi_hdma_copy_done:
 
     ; === Tilemap DMA transfer (field menu = BG1) ===
     ; Skip when treasure menu owns the screen: $1BB3 is then the

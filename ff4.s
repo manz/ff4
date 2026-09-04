@@ -373,6 +373,7 @@ signature byte sits at PB:(PC - 1).
     .include "src/ingame/treasure_rolling.s"
     .include "src/ingame/drops_rolling.s"
     .include "src/ingame/key_item_picker.s"
+    .include "src/ingame/shop_sell_rolling.s"
 }
 
 ; --- Binary text assets -------------------------------------------------
@@ -380,6 +381,7 @@ signature byte sits at PB:(PC - 1).
 
 .if TREASURE_INVENTORY_ROLLING {
     .include "src/ingame/key_item_picker_patches.s"
+    .include "src/ingame/shop_sell_rolling_patches.s"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {

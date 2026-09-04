@@ -221,6 +221,7 @@ ROLLING_MENU_ID_FIELD := 0
 ROLLING_MENU_ID_TREASURE := 1
 ROLLING_MENU_ID_DROPS := 2
 ROLLING_MENU_ID_KEY_ITEM := 3
+ROLLING_MENU_ID_SELL := 4
 
 ; Typed view onto the field state - gives field_menu_rolling.hdma_enable,
 ; field_menu_rolling.fn_render_slot, etc. as flat symbols (a816 cast,
