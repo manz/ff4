@@ -17,6 +17,7 @@ sites that remain in the per-menu source files.
 """
 
 
+.include "src/rolling_state.i"
 .include "../bank20.i"
 
 .alloc rolling_inventory_engine_block in bank20_reloc {
@@ -133,16 +134,16 @@ sites that remain in the per-menu source files.
         php
         sep #0x20
         rep #0x10
-        sta.l 0x001F88  ; stash scroll_pos
+        sta.l rolling_engine_scratch  ; stash scroll_pos
         lda.l 0x7E0000 + RollingBufferState.visible_rows, x
         inc  ; buffer_slots = visible_rows + 1
-        sta.l 0x001F89  ; stash buffer_slots
+        sta.l rolling_engine_scratch + 1  ; stash buffer_slots
         lda.b #0x00
 
     _engine_refresh_loop:
         pha
         clc
-        adc.l 0x001F88
+        adc.l rolling_engine_scratch
         sta.l 0x7E0000 + RollingBufferState.edge_row, x
         pla
         pha
@@ -150,10 +151,10 @@ sites that remain in the per-menu source files.
         adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
 
     _engine_refresh_mod:
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _engine_refresh_mod_done
         sec
-        sbc.l 0x001F89
+        sbc.l rolling_engine_scratch + 1
         bra _engine_refresh_mod
 
     _engine_refresh_mod_done:
@@ -162,7 +163,7 @@ sites that remain in the per-menu source files.
         jsr.w _engine_call_hook
         pla
         inc
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _engine_refresh_loop
         lda.b #0x01
         sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
@@ -282,17 +283,17 @@ sites that remain in the per-menu source files.
         php
         rep #0x10
         sep #0x20
-        sta.l 0x001F88  ; stash scroll_pos
+        sta.l rolling_engine_scratch  ; stash scroll_pos
         ldy.w #RollingBufferState.fn_update_hdma
         jsr.w _engine_call_hook
     ; buffer_slots = visible_rows + 1
         lda.l 0x7E0000 + RollingBufferState.visible_rows, x
         inc
-        sta.l 0x001F89
+        sta.l rolling_engine_scratch + 1
     ; inc buffer_pos with wrap
         lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
         inc
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _start_dn_buf_ok
         lda.b #0x00
 
@@ -304,16 +305,16 @@ sites that remain in the per-menu source files.
         dec
 
     _start_dn_mod:
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _start_dn_mod_done
         sec
-        sbc.l 0x001F89
+        sbc.l rolling_engine_scratch + 1
         bra _start_dn_mod
 
     _start_dn_mod_done:
         sta.l 0x7E0000 + RollingBufferState.slot_index, x
     ; edge_row = scroll_pos + visible_rows - 1
-        lda.l 0x001F88
+        lda.l rolling_engine_scratch
         clc
         adc.l 0x7E0000 + RollingBufferState.visible_rows, x
         dec
@@ -356,7 +357,7 @@ sites that remain in the per-menu source files.
         php
         rep #0x10
         sep #0x20
-        sta.l 0x001F88  ; stash scroll_pos
+        sta.l rolling_engine_scratch  ; stash scroll_pos
         ldy.w #RollingBufferState.fn_update_hdma
         jsr.w _engine_call_hook
         lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
@@ -371,7 +372,7 @@ sites that remain in the per-menu source files.
     _start_up_wrap_done:
         sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
         sta.l 0x7E0000 + RollingBufferState.slot_index, x
-        lda.l 0x001F88  ; scroll_pos
+        lda.l rolling_engine_scratch  ; scroll_pos
         sta.l 0x7E0000 + RollingBufferState.edge_row, x
         ldy.w #RollingBufferState.fn_render_slot
         jsr.w _engine_call_hook
@@ -416,11 +417,11 @@ sites that remain in the per-menu source files.
         php
         rep #0x10
         sep #0x20
-        sta.l 0x001F88  ; stash scroll_pos
+        sta.l rolling_engine_scratch  ; stash scroll_pos
     ; buffer_slots = visible_rows + 1
         lda.l 0x7E0000 + RollingBufferState.visible_rows, x
         inc
-        sta.l 0x001F89
+        sta.l rolling_engine_scratch + 1
         lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
         bmi _finish_was_up
     ; --- scroll-down post-anim ---
@@ -435,7 +436,7 @@ sites that remain in the per-menu source files.
 
     _finish_dn_slot_ok:
         sta.l 0x7E0000 + RollingBufferState.slot_index, x
-        lda.l 0x001F88  ; scroll_pos
+        lda.l rolling_engine_scratch  ; scroll_pos
         clc
         adc.l 0x7E0000 + RollingBufferState.visible_rows, x
         cmp.l 0x7E0000 + RollingBufferState.item_count, x
@@ -454,15 +455,15 @@ sites that remain in the per-menu source files.
         adc.l 0x7E0000 + RollingBufferState.visible_rows, x
 
     _finish_up_mod:
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _finish_up_slot_ok
         sec
-        sbc.l 0x001F89
+        sbc.l rolling_engine_scratch + 1
         bra _finish_up_mod
 
     _finish_up_slot_ok:
         sta.l 0x7E0000 + RollingBufferState.slot_index, x
-        lda.l 0x001F88  ; scroll_pos
+        lda.l rolling_engine_scratch  ; scroll_pos
         beq _finish_skip
         dec
         sta.l 0x7E0000 + RollingBufferState.edge_row, x
@@ -504,7 +505,7 @@ sites that remain in the per-menu source files.
         php
         rep #0x10
         sep #0x20
-        sta.l 0x001F88  ; stash scroll_pos
+        sta.l rolling_engine_scratch  ; stash scroll_pos
         ldy.w #RollingBufferState.fn_update_hdma
         jsr.w _engine_call_hook
         lda.b #0x00
@@ -515,7 +516,7 @@ sites that remain in the per-menu source files.
     ; buffer_slots = visible_rows + 1
         lda.l 0x7E0000 + RollingBufferState.visible_rows, x
         inc
-        sta.l 0x001F89  ; stash buffer_slots
+        sta.l rolling_engine_scratch + 1  ; stash buffer_slots
         lda.b #0x00
 
     _swap_loop:
@@ -524,10 +525,10 @@ sites that remain in the per-menu source files.
         adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
 
     _swap_mod:
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _swap_mod_done
         sec
-        sbc.l 0x001F89
+        sbc.l rolling_engine_scratch + 1
         bra _swap_mod
 
     _swap_mod_done:
@@ -535,7 +536,7 @@ sites that remain in the per-menu source files.
         pla
         pha
         clc
-        adc.l 0x001F88
+        adc.l rolling_engine_scratch
         cmp.l 0x7E0000 + RollingBufferState.item_count, x
         bcs _swap_clear
         sta.l 0x7E0000 + RollingBufferState.edge_row, x
@@ -553,7 +554,7 @@ sites that remain in the per-menu source files.
     _swap_next:
         pla
         inc
-        cmp.l 0x001F89
+        cmp.l rolling_engine_scratch + 1
         bcc _swap_loop
         lda.b #0x01
         sta.l 0x7E0000 + RollingBufferState.transfer_pending, x

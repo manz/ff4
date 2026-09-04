@@ -60,29 +60,10 @@ KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 ; sprite code stomps past $1BEB.
 key_item_rolling := (0x7E9C60 as RollingBufferState)
 
-; Full 24-bit address: every access is `lda.l` / `sta.l`, and a bare
-; 16-bit constant makes those assemble against bank $00 - i.e. ROM -
-; so the scroll position silently never persists. Same bug drops had.
-key_item_scroll_pos := 0x7E9C8F
 
-; Last value of vanilla's window-slide counter ($DA) the per-frame hook
-; saw. The picker's input loop has no open-time entry point we can
-; reach, so the list renders on the frame $DA arrives at its
-; fully-open value.
-key_item_open_slide_seen := 0x7E9C8E
 KEY_ITEM_SLIDE_OPEN_DONE := 0x08
 
-; Scratch for the caller's direct page while the picker renders. Sits in
-; the free $7E:990E..$9DA7 gap documented in src/items.i.
-KEY_ITEM_DP_SAVE := 0x7E9D00
 
-; Last scroll position ($BA) the per-frame hook rendered at.
-key_item_last_scroll := 0x7E9C8D
-
-; Frame counter for the window-scroll animation, and its cadence:
-; vanilla moved $BB two pixels a frame for eight frames, one 16px item
-; row, and the engine keeps that feel.
-key_item_scroll_frames := 0x7E9C8C
 KEY_ITEM_SCROLL_FRAMES := 8
 KEY_ITEM_SCROLL_STEP_PX := 2
 KEY_ITEM_ROW_HEIGHT_PX := 16
@@ -108,10 +89,14 @@ KEY_ITEM_FILTER_BUFFER := 0x0712
 ; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
 ; 16 rows x 32 entries x 2 bytes covers the whole visible window.
 KEY_ITEM_STAGING_ADDR := 0xD600
-; Ten rows: five buffer slots at two rows each, the ring the window
-; scrolls over. BG3 plane 1 is the map's own tilemap around the window,
-; so the push covers the ring and nothing more.
-KEY_ITEM_STAGING_SIZE := 0x0280
+; Eight rows: the four rows the window shows, at two rows each.
+;
+; BG3 plane 1 is the map's own tilemap, and vanilla only saves and
+; restores the rows its window covers - anything we write past them is
+; map content that never gets put back, which showed up as blocks of
+; scrambled map after paging through the list. The engine's fifth
+; (prefetch) slot stays in the staging page and is not pushed.
+KEY_ITEM_STAGING_SIZE := 0x0200
 ; Vanilla's item-window IRQ points BG3 at the right screen (plane 1) for
 ; the window's scanlines and sets BG3VOFS from $BB, which rests at $70.
 ; The band starts around screen line 144, so it shows BG line 144 + 112
@@ -129,6 +114,7 @@ KEY_ITEM_HDMA4_DEST := 0x4341
 KEY_ITEM_HDMA4_SRC_LO := 0x4342
 KEY_ITEM_HDMA4_SRC_BANK := 0x4344
 
+.include "src/rolling_state.i"
 .include "../bank20.i"
 
 .alloc key_item_picker_block in bank20_reloc {
@@ -671,7 +657,7 @@ InitMapRAM).
 
 _save_dp:
     lda.b 0x00, x
-    sta.l KEY_ITEM_DP_SAVE, x
+    sta.l key_item_dp_save, x
     inx
     cpx.w #0x0100
     bne _save_dp
@@ -684,7 +670,7 @@ _key_item_leave_render:
     ldx.w #0x0000
 
 _restore_dp:
-    lda.l KEY_ITEM_DP_SAVE, x
+    lda.l key_item_dp_save, x
     sta.b 0x00, x
     inx
     cpx.w #0x0100
