@@ -35,7 +35,9 @@ bodies, and placement directives cannot nest.
 ; --- Key-item picker ---------------------------------------------------
 ; Snapshot of the caller's direct page while the picker renders: the menu
 ; VWF renderer scratches bytes the field engine owns.
-.reserve key_item_dp_save 0x0100 in rolling_state
+; Caller's direct-page register, held while the picker renders on its
+; own page.
+.reserve key_item_dp_prev 2 in rolling_state
 
 ; Vanilla's window-slide counter ($DA) as last seen by the per-frame
 ; hook, its scroll position ($BA) as last rendered, the engine-side

@@ -71,6 +71,8 @@ KEY_ITEM_ROW_HEIGHT_PX := 16
 ; NMITIMEN while the picker is up: vanilla's InitItemWindowIRQ arms
 ; $A1 = NMI + V-IRQ + auto-joypad, and the V-IRQ is what draws the
 ; window. Rendering drops NMI and keeps the IRQ.
+; Direct page the picker renders on, off the field's own $0600.
+KEY_ITEM_RENDER_DP := 0x1D00
 KEY_ITEM_NMITIMEN_PICKER := 0xA1
 KEY_ITEM_NMITIMEN_RENDER := 0x21
 
@@ -633,17 +635,26 @@ _after_open_done:
 
 _key_item_enter_render:
 """
-Make the field safe for a menu-context render: NMI off, direct page
-saved.
+Make the field safe for a menu-context render: NMI off, and the render
+moved onto a direct page of its own.
 
 The menu VWF renderer scratches a wide set of direct-page bytes - $1D,
 $29/$2A, $33, $34, $43, $5A-$5D, $DB and its own $63-$79 block - which
 is free real estate in the menus but live field state here: the field
-engine writes those same bytes every frame, and leaving any of them
-disturbed scrambles the map. Rather than chase the exact footprint,
-snapshot the page and put it back afterwards. NMI stays off across the
-render the way vanilla brackets its own unsafe field work (field.asm
-InitMapRAM).
+engine writes those same bytes every frame. Snapshotting the field page
+and putting it back does not fix that: the window V-IRQ keeps running
+across the render (it is what draws the window at all), so a restore
+also rewinds whatever the IRQ advanced meanwhile, and the frame it
+misses drags the window's band across the map.
+
+So the render gets its own page instead. $1D00 is free - the decomp RAM
+map has $1BEC-$1DFF unassigned, and no read or write lands there in any
+of our savestates. The live field page is copied in first, so anything
+the render reads still sees the caller's values; anything it writes
+lands in the copy and is dropped. Both interrupt handlers load their own
+D ($00:9480 and $00:92A5 both do `ldx #$0600 / phx / pld`), so they are
+unaffected by ours. NMI stays off across the render the way vanilla
+brackets its own unsafe field work (field.asm InitMapRAM).
 """
     sep #0x20
 ; Drop NMI only. The picker's window is drawn BY the V-IRQ
@@ -654,29 +665,28 @@ InitMapRAM).
     lda #KEY_ITEM_NMITIMEN_RENDER
     sta.l 0x004200
     jsr.w _key_item_save_dma
-    rep #0x10
-    ldx.w #0x0000
-
-_save_dp:
-    lda.b 0x00, x
-    sta.l key_item_dp_save, x
-    inx
-    cpx.w #0x0100
-    bne _save_dp
+    rep #0x30
+    tdc
+    sta.l key_item_dp_prev
+    tax
+    ldy.w #KEY_ITEM_RENDER_DP
+    lda.w #0x00FF
+; MVN leaves DB on its destination bank; the caller's is not ours to
+; change.
+    phb
+    mvn 0x7E, 0x7E
+    plb
+    lda.w #KEY_ITEM_RENDER_DP
+    tcd
     rts
 
 _key_item_leave_render:
-"""Restore the caller's direct page and re-enable NMI."""
+"""Hand the caller its own direct page back and re-enable NMI."""
+    rep #0x20
+    lda.l key_item_dp_prev
+    tcd
     sep #0x20
     rep #0x10
-    ldx.w #0x0000
-
-_restore_dp:
-    lda.l key_item_dp_save, x
-    sta.b 0x00, x
-    inx
-    cpx.w #0x0100
-    bne _restore_dp
     jsr.w _key_item_restore_dma
     sep #0x20
     lda #KEY_ITEM_NMITIMEN_PICKER
