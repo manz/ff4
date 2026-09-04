@@ -4,6 +4,16 @@ Final Fantasy IV the new hack.
 ----------------
 """
 
+; --- Memory map --------------------------------------------------------
+; The default low_rom bus knows ROM and WRAM but not the cart's SRAM, so
+; a `bss` pool in bank $70 failed the map check even though nothing is
+; emitted there. Declaring the map ourselves adds it: the header is
+; patched to 128KB of SRAM and the boot path clears it, so bank $70 is
+; ours alone and far safer for state than hand-picked WRAM holes.
+.map identifier=1 bank_range=0x00, 0x6f addr_range=0x8000, 0xffff mask=0x8000 mirror_bank_range=0x80, 0xcf
+.map identifier=2 bank_range=0x7e, 0x7f addr_range=0x0000, 0xffff mask=0x10000 writable=1
+.map identifier=3 bank_range=0x70, 0x70 addr_range=0x0000, 0x7fff mask=0x8000 writable=1
+
 ; Auto-prepended: imports must precede .include'd patches
 .import "assets"
 .import "battle/commands_reloc"

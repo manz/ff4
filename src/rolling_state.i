@@ -12,15 +12,18 @@ bodies, and placement directives cannot nest.
 ; gap, engine scratch landing on live field state. Reserve out of a pool
 ; instead and let the assembler place things and check for overlap.
 ;
-; The pool sits in the $7E:990E..$9DA7 hole the magic-direct-render
-; rewrite freed (see the arena notes above), below the rolling state
-; instances at $9C00. The extended SRAM in bank $70 would be the better
-; home - it is ours alone and the boot path clears it - but a816's
-; low_rom bus only knows $7E/$7F as writable, so a bss pool there fails
-; the map check.
+; The pool lives in the cart's SRAM, past the VWF buffers. The header is
+; patched to 128KB and the boot path clears it, so bank $70 is ours
+; alone - no vanilla code, no menu/field context switch, nothing to
+; collide with. ff4.s declares the bank in the memory map so a bss pool
+; can be placed here.
+;
+; In use below $7200: VWF CHR buffer ($3000), VRAM save window ($5000),
+; VWF text buffer + config + flags ($7000..$70CC), battle render state
+; ($7100).
 .pool rolling_state {
     bss
-    range 0x7E9A00 0x7E9BFF
+    range 0x707200 0x707FFF
     strategy order
 }
 
