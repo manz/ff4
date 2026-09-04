@@ -76,6 +76,9 @@ KEY_ITEM_SLIDE_OPEN_DONE := 0x08
 ; the free $7E:990E..$9DA7 gap documented in src/items.i.
 KEY_ITEM_DP_SAVE := 0x7E9D00
 
+; Last scroll position ($BA) the per-frame hook rendered at.
+key_item_last_scroll := 0x7E9C8D
+
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
 KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
@@ -551,15 +554,22 @@ key_item_init_impl:
 
 key_item_after_open_impl:
 """
-Draw the picker's list once its window has finished opening.
+Keep the picker's list drawn, once per frame.
 
 Hooked over `lda #$01 ; sta $7D` at $00:AF7E, just past the top of the
 picker's input loop. Vanilla's own `jsr $912F` right before it is left
 alone: standing in for that wait cost the loop its frame pacing and the
 picker never drew. Every cursor branch jumps back to the loop top, so
-this runs once per frame and must stay cheap. Vanilla's slide counter
-$DA climbs 1..8 while the window opens and then sits at 8, so its
-arrival at 8 is the edge to render on.
+this runs once per frame and must stay cheap - it renders on two edges
+only:
+
+  - vanilla's slide counter $DA reaching its fully-open value, i.e. the
+    window has just finished opening, so build config and render;
+  - vanilla's scroll position $BA changing, i.e. the list scrolled
+    under the cursor, so re-render the slots at the new position.
+
+Vanilla owns the scroll and the cursor ; the engine owns the row
+contents.
 """
 
     php
@@ -569,19 +579,53 @@ arrival at 8 is the edge to render on.
     sta.b 0x7D  ; the store this hook displaced
     lda.b 0xDA  ; DP-relative: the caller's direct page, whatever it is
     cmp.l key_item_open_slide_seen
-    beq _after_open_done
+    beq _check_scroll
     sta.l key_item_open_slide_seen
     cmp.b #KEY_ITEM_SLIDE_OPEN_DONE
     bne _after_open_done
-; Render with NMI off and the caller's direct page saved.
-;
-; The menu VWF renderer scratches a wide set of direct-page bytes -
-; $1D, $29/$2A, $33, $34, $43, $5A-$5D, $DB and its own $63-$79 block -
-; which is free real estate in the menus but live field state here: the
-; field engine writes those same bytes every frame. Leaving any of them
-; disturbed scrambles the map. Rather than chase the exact footprint,
-; snapshot the page, render, put it back. NMI is off across it the way
-; vanilla brackets its own unsafe field work (field.asm InitMapRAM).
+    lda.b 0xBA
+    sta.l key_item_last_scroll
+    sta.l key_item_scroll_pos
+    jsr.w _key_item_enter_render
+    rep #0x30
+    jsr.l key_item_init_impl
+    bra _finish_render
+
+_check_scroll:
+    lda.b 0xBA
+    cmp.l key_item_last_scroll
+    beq _after_open_done
+    sta.l key_item_last_scroll
+    sta.l key_item_scroll_pos
+    jsr.w _key_item_enter_render
+    rep #0x30
+    jsr.l key_item_refresh_slots_impl
+
+_finish_render:
+    sep #0x20
+    rep #0x10
+    jsr.w key_item_push_window
+    jsr.w _key_item_leave_render
+
+_after_open_done:
+    plp
+    rtl
+
+_key_item_enter_render:
+"""
+Make the field safe for a menu-context render: NMI off, direct page
+saved.
+
+The menu VWF renderer scratches a wide set of direct-page bytes - $1D,
+$29/$2A, $33, $34, $43, $5A-$5D, $DB and its own $63-$79 block - which
+is free real estate in the menus but live field state here: the field
+engine writes those same bytes every frame, and leaving any of them
+disturbed scrambles the map. Rather than chase the exact footprint,
+snapshot the page and put it back afterwards. NMI stays off across the
+render the way vanilla brackets its own unsafe field work (field.asm
+InitMapRAM).
+"""
+    sep #0x20
     lda #0x00
     sta.l 0x004200
     rep #0x10
@@ -593,12 +637,10 @@ _save_dp:
     inx
     cpx.w #0x0100
     bne _save_dp
+    rts
 
-    rep #0x30
-    jsr.l key_item_init_impl
-    sep #0x20
-    rep #0x10
-    jsr.w key_item_push_window
+_key_item_leave_render:
+"""Restore the caller's direct page and re-enable NMI."""
     sep #0x20
     rep #0x10
     ldx.w #0x0000
@@ -609,14 +651,10 @@ _restore_dp:
     inx
     cpx.w #0x0100
     bne _restore_dp
-
     sep #0x20
     lda #0x81  ; NMI + auto-joypad, the value field code restores
     sta.l 0x004200
-
-_after_open_done:
-    plp
-    rtl
+    rts
 
 key_item_fn_render_slot_trampoline:
 """Bank-20 RTL wrapper around `key_item_render_item_to_slot`."""
