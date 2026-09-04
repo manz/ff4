@@ -20,6 +20,23 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
+; Cursor sprite X, both lists. Vanilla picks between two columns -
+; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the
+; inventory - and the left column's hand sits at X = 0 because vanilla's
+; col-0 names started hard against the window border. Single-column VWF
+; rows put the item symbol at x=24 and the name at x=32, so the hand
+; belongs at x=16, one cell to their left. Both branches load it, which
+; also makes the column byte irrelevant.
+.alloc at 0x01D977 {
+        lda #0x10
+}
+.alloc at 0x01D97B {
+        lda #0x10
+}
+.alloc at 0x01D9FE {
+        lda #0x10
+}
+
 ; Kill 2-col navigation in the inventory picker (JOY_RIGHT / JOY_LEFT).
 .alloc at 0x01DA23 {
         .db 0x00
@@ -119,10 +136,14 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     ; the hand pointer 16 px below the drops band's first slot (legacy
     ; 4x2 grid expected items at row 6+ on screen). With drops bumped
     ; to start at tilemap row 4 (+0x80 byte stride from baseline), the
-    ; sprite needs base $28 so cursor row 0 lines up with item 0.
+    ; sprite needs a base that lines cursor row 0 up with item 0.
+    ;
+    ; $2D, not $28: the inventory hand lands exactly on its glyph row
+    ; ($86 = 134, measured off the framebuffer), while $28 put the drops
+    ; hand five pixels above its own. Same relationship for both lists.
 }
 .alloc at 0x01D96F {
-        .db 0x28
+        .db 0x2D
 
     ; Drops cursor row clamp + UP/DOWN scroll triggers. Original at
     ; $01D9D1: `bmi $D9D6 / sta $1BB3` skips store when dec underflows
