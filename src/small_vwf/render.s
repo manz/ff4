@@ -230,8 +230,8 @@ get:
     bits_left_on_tile = _var_base + 0x10
     temp = bits_left_on_tile + 1
     counter = temp + 1
-    prev_char = counter + 2
-    current_char = prev_char + 1
+    prev_char = VWF_PREV_CHAR        ; long, off the field's MOSAIC shadow
+    current_char = VWF_CURRENT_CHAR  ; (see src/vwf_state.i)
     tilemap_offset = VWF_TILEMAP_OFFSET  ; long, NMI-safe (see src/vwf_state.i)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
@@ -252,7 +252,8 @@ their slot.
 
 
     .if ENABLE_KERNING_MENU {
-    stz.b prev_char
+    lda.b #0x00
+    sta.l prev_char
     }
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
@@ -468,7 +469,8 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; Symptom before this reset : treasure-inventory slot 0 rendered as
 ; "le d'or" (Aigu chopped) right after drops finished rendering.
     .if ENABLE_KERNING_MENU {
-    stz.b prev_char
+    lda.b #0x00
+    sta.l prev_char
     }
     lda.b #0x08
     sta.b bits_left_on_tile
@@ -603,7 +605,7 @@ make_pointers:
 
     ldx.w #0x0000
     ldy.w #0x0000
-    lda.b current_char
+    lda.l current_char
     xba
     lda.b #0x00
     xba
@@ -637,7 +639,7 @@ make_pointers:
     }
 display_char:
     {
-    sta.b current_char
+    sta.l current_char
 
     jsr.w make_pointers
 
@@ -865,8 +867,8 @@ _bits_left_in_range:
     sta.b bits_left_on_tile
 _overflow:
     pha
-    lda.b current_char
-    sta.b prev_char
+    lda.l current_char
+    sta.l prev_char
     pla
     rts
     }
@@ -876,10 +878,10 @@ _get_kerning_adjustment_binary_search:
 ; Space ($FF) never appears in any font's kerning pair table; bail
 ; before the bank push so callers skip the binary search entirely.
     sep #0x20
-    lda.b prev_char
+    lda.l prev_char
     cmp #0xff
     beq _space_skip
-    lda.b current_char
+    lda.l current_char
     cmp #0xff
     beq _space_skip
     rep #0x20
@@ -922,7 +924,7 @@ _loop:
     tay
 
     lda.w assets_menu_font_dat, y
-    cmp.b prev_char
+    cmp.l prev_char
     beq _found
     bcc _search_upper
 

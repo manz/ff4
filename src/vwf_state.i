@@ -114,6 +114,19 @@ VWF_CHR_SRC_OFFSET_B := 0x7070C9
 ; alias it.
 VWF_TILEMAP_OFFSET := 0x7070CB
 
+; Kerning state for `render.draw_text_buffer`: the previous and current
+; character codes.
+;
+; These lived on direct page at $77 / $79, which is free in the menus
+; but is the field engine's MOSAIC shadow: the picker renders over a
+; live map, so glyph codes landed in $77 and the window IRQ pushed them
+; straight to $2106 - the map pixelated for as long as a render took.
+; The renderer's other scratch ($73-$75) is saved and restored around a
+; render; these two never were, and even saving them would not help
+; while an interrupt reads the byte mid-render.
+VWF_PREV_CHAR := 0x7070CD
+VWF_CURRENT_CHAR := 0x7070CE
+
 .struct VwfConfig {
     word tile_id_base
     byte slot_budget
