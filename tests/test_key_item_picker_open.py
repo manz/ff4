@@ -53,19 +53,22 @@ def test_a_tap_opens_picker(picker_emu):
     )
 
 
-def test_picker_single_col_layout(picker_emu):
-    """Single-col patches force UpdateItemText to write each item on
-    a fresh text-buffer row (Y stride 24). After A,A the text buffer
-    at $0774 should have non-$FF bytes at row offsets 0, 24, 48 — at
-    least one of which has a recognizable item name char."""
+def test_vanilla_list_draw_is_suppressed(picker_emu):
+    """Vanilla must not lay its own copy of the list into the window.
+
+    UpdateItemText ($00:B22B) wrote the whole filtered list into the
+    text buffer at $0774, which then reached the window band that
+    vanilla scrolls over with $BB. With the engine drawing its ring into
+    the same band, the list came out rendered twice, fixed-width under
+    variable-width. The routine is patched to return immediately, so the
+    buffer stays blank.
+    """
     _open_picker(picker_emu)
-    row0 = picker_emu.read(0x7E0774)
-    row1 = picker_emu.read(0x7E0774 + 0x18)
-    row2 = picker_emu.read(0x7E0774 + 0x30)
-    rendered = [r for r in (row0, row1, row2) if r != 0xFF and r != 0]
-    assert len(rendered) >= 1, (
-        f"text buffer unrendered: row0=${row0:02x} row1=${row1:02x} row2=${row2:02x}"
-    )
+    picker_emu.run_frames(30)
+    rows = [picker_emu.read(0x7E0774 + i * 0x18) for i in range(3)]
+    assert all(r in (0x00, 0xFF) for r in rows), (
+        "vanilla still drew the list: "
+        + " ".join(f"${r:02x}" for r in rows))
 
 
 

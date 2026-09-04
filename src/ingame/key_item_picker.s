@@ -79,6 +79,14 @@ KEY_ITEM_DP_SAVE := 0x7E9D00
 ; Last scroll position ($BA) the per-frame hook rendered at.
 key_item_last_scroll := 0x7E9C8D
 
+; Frame counter for the window-scroll animation, and its cadence:
+; vanilla moved $BB two pixels a frame for eight frames, one 16px item
+; row, and the engine keeps that feel.
+key_item_scroll_frames := 0x7E9C8C
+KEY_ITEM_SCROLL_FRAMES := 8
+KEY_ITEM_SCROLL_STEP_PX := 2
+KEY_ITEM_ROW_HEIGHT_PX := 16
+
 KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
 KEY_ITEM_HDMA_TABLE := 0x7E9900
 KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
@@ -94,11 +102,15 @@ KEY_ITEM_FILTER_BUFFER := 0x0712
 ; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
 ; 16 rows x 32 entries x 2 bytes covers the whole visible window.
 KEY_ITEM_STAGING_ADDR := 0xD600
-; Eight rows: the four item rows and their blank partners. BG3 plane 1 is
-; the map's own tilemap around the window, so pushing the whole staging
-; page scribbled over the map, and row 8 carries the window's bottom
-; border, which vanilla draws and we must not blank.
-KEY_ITEM_STAGING_SIZE := 0x0200
+; Ten rows: five buffer slots at two rows each, the ring the window
+; scrolls over. BG3 plane 1 is the map's own tilemap around the window,
+; so the push covers the ring and nothing more.
+KEY_ITEM_STAGING_SIZE := 0x0280
+; Vanilla's item-window IRQ points BG3 at the right screen (plane 1) for
+; the window's scanlines and sets BG3VOFS from $BB, which rests at $70.
+; The band starts around screen line 144, so it shows BG line 144 + 112
+; = 256, which wraps to plane row 0: the ring belongs at the top of the
+; plane, and each $10 of $BB steps it one item further in.
 KEY_ITEM_TILEMAP_VRAM_WORD := 0x2C00
 ; Attribute byte vanilla writes for every cell of this window: palette
 ; 0 with the priority bit, so the body draws above the map.
@@ -654,6 +666,85 @@ _restore_dp:
     sep #0x20
     lda #0x81  ; NMI + auto-joypad, the value field code restores
     sta.l 0x004200
+    rts
+
+key_item_scroll_down_impl:
+"""
+Scroll the picker's window down one item, over the engine's ring.
+
+Replaces vanilla ScrollItemListDown ($00:B09E), which animated $BB by 2
+per frame for 8 frames and relied on the WHOLE list being present in the
+tilemap. The engine keeps five slots, so after the animation $BB comes
+back by one item's worth and the ring is re-rendered at the new scroll
+position: the window walks the list while the tilemap stays put.
+"""
+    php
+    sep #0x20
+    rep #0x10
+    lda #KEY_ITEM_SCROLL_FRAMES
+    sta.l key_item_scroll_frames
+
+_scroll_down_loop:
+    jsr.l wait_for_vblank_long
+    sep #0x20
+    lda.b 0xBB
+    clc
+    adc.b #KEY_ITEM_SCROLL_STEP_PX
+    sta.b 0xBB
+    lda.l key_item_scroll_frames
+    dec
+    sta.l key_item_scroll_frames
+    bne _scroll_down_loop
+; Back onto the ring, then redraw it where the list now sits.
+    lda.b 0xBB
+    sec
+    sbc.b #KEY_ITEM_ROW_HEIGHT_PX
+    sta.b 0xBB
+    jsr.w key_item_rerender
+    plp
+    rtl
+
+key_item_scroll_up_impl:
+"""Scroll the window up one item ; mirror of the down path."""
+    php
+    sep #0x20
+    rep #0x10
+    lda #KEY_ITEM_SCROLL_FRAMES
+    sta.l key_item_scroll_frames
+
+_scroll_up_loop:
+    jsr.l wait_for_vblank_long
+    sep #0x20
+    lda.b 0xBB
+    sec
+    sbc.b #KEY_ITEM_SCROLL_STEP_PX
+    sta.b 0xBB
+    lda.l key_item_scroll_frames
+    dec
+    sta.l key_item_scroll_frames
+    bne _scroll_up_loop
+    lda.b 0xBB
+    clc
+    adc.b #KEY_ITEM_ROW_HEIGHT_PX
+    sta.b 0xBB
+    jsr.w key_item_rerender
+    plp
+    rtl
+
+key_item_rerender:
+"""Redraw the ring at vanilla's current scroll position ($BA)."""
+    sep #0x20
+    rep #0x10
+    lda.b 0xBA
+    sta.l key_item_last_scroll
+    sta.l key_item_scroll_pos
+    jsr.w _key_item_enter_render
+    rep #0x30
+    jsr.l key_item_refresh_slots_impl
+    sep #0x20
+    rep #0x10
+    jsr.w key_item_push_window
+    jsr.w _key_item_leave_render
     rts
 
 key_item_fn_render_slot_trampoline:

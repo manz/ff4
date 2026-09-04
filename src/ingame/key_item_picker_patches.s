@@ -32,6 +32,27 @@ Patched:
 
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
+; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the
+; WHOLE filtered list into the window band and vanilla then scrolls over
+; it with $BB ; with the engine drawing its ring into the same band the
+; list came out twice over.
+.alloc at 0x00B22B {
+        rts
+}
+
+; Window scrolling, over the engine's ring instead of a fully drawn
+; list. Vanilla ScrollItemListUp/Down each animate $BB by 2px a frame
+; for 8 frames ; the replacements keep that cadence, then step back onto
+; the ring and redraw it.
+.alloc at 0x00B08E {
+        jsr.l key_item_scroll_up_impl
+        rts
+}
+.alloc at 0x00B09E {
+        jsr.l key_item_scroll_down_impl
+        rts
+}
+
 ; Render the list through the rolling engine once the window is open.
 ; Hooks `lda #$01 ; sta $7D` at $00:AF7E and reproduces the store ; the
 ; `jsr $912F` above it is vanilla's frame wait for this input loop and
