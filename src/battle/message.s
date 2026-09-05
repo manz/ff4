@@ -178,8 +178,8 @@ _not_found:
 ; slice instead of the full 4KB CHR region, fits in vblank without
 ; forced blank.
     dma_dirty_slots = BATTLE_RENDER_STATE + 0x10
-    ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
-    ; redraw_gates.s and the writer-site shims via a compile-time include.
+; Dirty-bit / render-skipped / tilemap-pending interface: shared with
+; redraw_gates.s and the writer-site shims via a compile-time include.
     .include "render_defs.i"
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
@@ -856,8 +856,6 @@ tilemap_write:
     rts
 }
 
-; (flying_hdma_trampoline extern lives at sram.s root: message.s is .include'd
-; inside an .alloc body, whose scope can't host an extern.)
 
 .scope messages_vwf {
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
@@ -920,7 +918,7 @@ here.
     php
     rep #0x10
     rep #0x20
-    lda.l 0x7EEF82
+    lda 0x7EEF82
     and.w #0x00FF
     sta.b 0x00
 
@@ -955,7 +953,7 @@ here.
     ldy.w #ITEM_VWF_CHR_WORDS
 _chr_clear_loop:
     lda.w #0x00ff
-    sta.l 0x700000, x
+    sta 0x700000, x
     inx
     inx
     dey
@@ -1025,9 +1023,9 @@ Caller assumed P with M=8 X=16 on entry, restored on exit.
 
     php
     rep #0x30
-    ldx.w #0xBE65
-    ldy.w #0xC1A5
-    lda.w #0x033F
+    ldx #0xBE65
+    ldy #0xC1A5
+    lda #0x033F
 ; A = byte count - 1 ($340 bytes)
     .db 0x54
     .db 0x7E
@@ -1075,16 +1073,16 @@ Escape codes handled:
 ; Vanilla draw_text prologue: stash src ptr / dest row-1 ptr / dest
 ; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
 ; relies on these for the indirect ($32),y and ($34),y writes.
-    lda.w 0xef55
+    lda 0xef55
     sta.b 0x36
-    ldx.w 0xef50
+    ldx 0xef50
     stx.b 0x30
-    ldx.w 0xef52
+    ldx 0xef52
     stx.b 0x32
 ; Row 2 ptr = row 1 ptr + (line_length * 2). DON'T modify $ef54 in
 ; place ; the caller hands us the live line_length each call, and a
 ; persistent asl would double it every render.
-    lda.w 0xef54
+    lda 0xef54
     asl
     clc
     adc.b 0x32
@@ -1112,7 +1110,7 @@ _di_clear:
 
 ; X = src (format buffer ptr), Y = dest offset (0-relative into the
 ; tilemap buffer pointed to by \$32 / \$34).
-    ldx.w 0xEF50
+    ldx 0xEF50
     ldy.w #0x0000
 
 ; Control codes:
@@ -1203,7 +1201,7 @@ _di_done:
 ; vblank without forced blank.
     php
     sep #0x30
-    lda.l 0x7EEF82  ; slot index (low byte only ; M=8)
+    lda 0x7EEF82  ; slot index (low byte only ; M=8)
     and.b #0x07  ; clamp to 0..7 (valid range 0..5)
     tax
     lda.l _dma_slot_bit_lut, x
@@ -1249,7 +1247,7 @@ returns via rts (the public entry returns rtl).
     php
     rep #0x10
     rep #0x20
-    lda.l 0x7EEF82
+    lda 0x7EEF82
     and.w #0x00FF
     sta.b 0x00
     asl
@@ -1272,7 +1270,7 @@ returns via rts (the public entry returns rtl).
     ldy.w #ITEM_VWF_CHR_WORDS
 _dis_chr_clear:
     lda.w #0x00ff
-    sta.l 0x700000, x
+    sta 0x700000, x
     inx
     inx
     dey
@@ -1421,7 +1419,7 @@ _no_force_blank:
 ; Open-state shadow at $703F04 (next free past tilemap_pending_mask).
     php
     sep #0x30
-    lda.l 0x7E004A
+    lda 0x7E004A
     and.b #0x04
     beq _inv_footer_closed
 ; OPEN: pin the two bottom-border tile rows past body. $8068+ is
@@ -1431,15 +1429,15 @@ _no_force_blank:
 ; mid-scroll leak fix needs to patch INSIDE chunk 2 ($7F74-$7FBF)
 ; where vanilla rewrites body-row scrolls per rolling_buffer_pos.
     rep #0x30
-    lda.w #0x0193
-    sta.l 0x7E8068
-    sta.l 0x7E806C
-    sta.l 0x7E8070
-    lda.w #0x019B
-    sta.l 0x7E8074
-    sta.l 0x7E8078
-    sta.l 0x7E807C
-    sta.l 0x7E8080
+    lda #0x0193
+    sta 0x7E8068
+    sta 0x7E806C
+    sta 0x7E8070
+    lda #0x019B
+    sta 0x7E8074
+    sta 0x7E8078
+    sta 0x7E807C
+    sta 0x7E8080
     bra _inv_footer_done
 _inv_footer_closed:
 ; CLOSED: write vanilla idle pattern every frame so state-1 swap
@@ -1448,18 +1446,18 @@ _inv_footer_closed:
 ;   $8068/6C/70 = 0x01F7
 ;   $8074..$80 = 0x0026, 0x0025, 0x0024, 0x0023 (decreasing)
     rep #0x30
-    lda.w #0x01F7
-    sta.l 0x7E8068
-    sta.l 0x7E806C
-    sta.l 0x7E8070
+    lda #0x01F7
+    sta 0x7E8068
+    sta 0x7E806C
+    sta 0x7E8070
     lda.w #0x0026
-    sta.l 0x7E8074
+    sta 0x7E8074
     lda.w #0x0025
-    sta.l 0x7E8078
+    sta 0x7E8078
     lda.w #0x0024
-    sta.l 0x7E807C
+    sta 0x7E807C
     lda.w #0x0023
-    sta.l 0x7E8080
+    sta 0x7E8080
 _inv_footer_done:
     plp
 ; --- Inventory CHR partial DMA ---
@@ -1475,7 +1473,7 @@ _inv_footer_done:
     bne _inv_dma_have
     jmp.w _no_inv_dma
 _inv_dma_have:
-    ldx.w #0xFFFF
+    ldx #0xFFFF
 _inv_dma_find:
     inx
     lsr
@@ -1538,7 +1536,7 @@ _chr_dma_go:
     ldy.w #0xb000 >> 1
     ldx.w #battle_render.buffer_ptr
     rep #0x20
-    lda.w #0x300
+    lda #0x300
     sta.b 0x0e
     sep #0x20
     lda.b #0x70
@@ -1550,7 +1548,7 @@ _chr_no_msg:
     ldy.w #( 0xb000 + 0x300 ) >> 1
     ldx.w #battle_render.buffer_ptr + 0x300
     rep #0x20
-    lda.w #0x300
+    lda #0x300
     sta.b 0x0e
     sep #0x20
     lda.b #0x70
@@ -1562,7 +1560,7 @@ _chr_no_mon:
     ldy.w #( 0xb000 + 0x600 ) >> 1
     ldx.w #battle_render.buffer_ptr + 0x600
     rep #0x20
-    lda.w #0x300
+    lda #0x300
     sta.b 0x0e
     sep #0x20
     lda.b #0x70
@@ -1574,7 +1572,7 @@ _chr_no_names:
     ldy.w #( 0xb000 + 0x900 ) >> 1
     ldx.w #battle_render.buffer_ptr + 0x900
     rep #0x20
-    lda.w #0x300
+    lda #0x300
     sta.b 0x0e
     sep #0x20
     lda.b #0x70
@@ -1604,12 +1602,12 @@ _no_transfer:
     pha
     bit.b #battle_render.TILEMAP_PENDING_COMMANDS
     beq _no_cmd_tilemap
-    ldy.w #0x71C0
+    ldy #0x71C0
 ; VRAM word addr (battle cmd window)
-    ldx.w #0xC1E6
+    ldx #0xC1E6
 ; WRAM tilemap src
     rep #0x20
-    lda.w #0x0280
+    lda #0x0280
     sta.b 0x0e
     sep #0x20
     lda #0x7E
@@ -1618,11 +1616,11 @@ _no_cmd_tilemap:
     pla
     bit.b #battle_render.TILEMAP_PENDING_MAIN
     beq _no_main_tilemap
-    ldy.w #0x7020
+    ldy #0x7020
 ; VRAM word addr (main window: names/monsters/hp/status)
-    ldx.w #0xBEA6
+    ldx #0xBEA6
     rep #0x20
-    lda.w #0x0280
+    lda #0x0280
     sta.b 0x0e
     sep #0x20
     lda #0x7E
@@ -1640,7 +1638,7 @@ _no_tilemap_dma:
 ; while our cross-bank JSL gets a matching RTL pop. Float-monster
 ; BG1 vscroll table now updates every vblank.
     jsr.l flying_hdma_trampoline
-    jsr.l 0x03fe03
+    jsr 0x03fe03
     rtl
 _sram_dma_transfer_7:
     phb
@@ -1676,7 +1674,7 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
     lda #8
     sta.b battle_render.bits_left_on_tile
     pla
-    lda.w 0xef54
+    lda 0xef54
     rep #0x20
     pha
     asl

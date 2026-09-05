@@ -414,4 +414,3 @@ signature byte sits at PB:(PC - 1).
 .alloc at 0x238000 {
     .incbin "assets/items_unleashed.dat"
 }
-

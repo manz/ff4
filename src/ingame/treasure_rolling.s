@@ -118,6 +118,7 @@ init_treasure_inventory_hdma:
     Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
 
+
     php
     sep #0x20  ; 8-bit A
 
@@ -154,6 +155,7 @@ disable_treasure_inventory_hdma:
     The shadow variable is cleared by menu_exit_hook
 """
 
+
     php
     sep #0x20  ; 8-bit A
 ; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
@@ -166,6 +168,7 @@ init_treasure_hdma_table:
     Format: count, lo, hi per entry, $00 to end
     Initial state: all rows at BASE scroll (no circular buffer offset)
 """
+
 
     rep #0x30  ; 16-bit A, X, Y
     php
@@ -411,6 +414,7 @@ init_treasure_rolling_buffer_impl:
     render `visible_rows` slots.
 """
 
+
     php
     rep #0x30
     sep #0x20
@@ -632,6 +636,7 @@ treasure_ensure_hdma_initialized:
     Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 """
 
+
 ; Check if already initialized (base_scroll != 0xFFFF). Use long
 ; addressing - engine `_engine_call_hook` jumps in with DB unchanged
 ; from the vanilla caller (DB=$00), so abs reads would hit ROM and the
@@ -697,6 +702,7 @@ treasure_scroll_state_check:
     Returns: Carry clear = process input normally
      Carry set = skip input (still scrolling)
 """
+
 
     php
     sep #0x20  ; 8-bit A
@@ -960,6 +966,7 @@ draw_trash_treasure:
     Each row is 64 bytes (32 tiles × 2 bytes)
 """
 
+
 ; Y points to start of item slot area
 ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
 ; Save starting Y for second row calculation
@@ -1131,6 +1138,7 @@ treasure_circular_slot_calc:
     Preserves: 16-bit A mode on exit
 """
 
+
     sep #0x20
 ; 8-bit A
 ; Check if circular buffer mode is active (HDMA enabled)
@@ -1199,4 +1207,3 @@ treasure_circular_slot_calc_ext:
     rtl
     }
 }
-

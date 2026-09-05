@@ -172,11 +172,13 @@ _treasure_menu_entry:
 ; Disable left button (AND #$00 instead of AND #$02)
     }
 
+
     .alloc at 0x019FF4 {
     and #0x00
 
 ; Disable right button (AND #$00 instead of AND #$01)
     }
+
 
     .alloc at 0x01A005 {
     and #0x00
@@ -184,8 +186,8 @@ _treasure_menu_entry:
 ; Hook swap redraw to reset rolling buffer
     }
 
+
     .alloc at 0x01A401 {
     jmp.w swap_redraw_trampoline  ; Replace JSR $A172
     }
 }
-

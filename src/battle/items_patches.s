@@ -402,4 +402,3 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 .alloc at 0x16FE7E {
     .db 0x00, 0x00, 0x20, 0x07  ; x=0 (edge), y=0, width=32, height=7
 }
-

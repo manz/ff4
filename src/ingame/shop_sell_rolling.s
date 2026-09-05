@@ -23,6 +23,7 @@ round trip - so channel 5 is free and the shared
 the field menu.
 """
 
+
 .include "../bank20.i"
 .include "config.i"
 
@@ -73,7 +74,6 @@ SELL_BASE_SCROLL := 0xFFB8
 SELL_SCROLL_FRAMES := 8
 
 .alloc sell_rolling_block in bank20_reloc {
-
 sell_ensure_hdma_initialized:
 """
 Lazy init: park base_scroll and configure ch5 driving BG3VOFS.
@@ -81,6 +81,8 @@ Lazy init: park base_scroll and configure ch5 driving BG3VOFS.
 Long addressing throughout - the engine's `_engine_call_hook` enters
 with the caller's DB, so absolute reads would land in ROM.
 """
+
+
     rep #0x20
     lda.l sell_rolling.base_scroll
     cmp.w #0xFFFF
@@ -89,9 +91,9 @@ with the caller's DB, so absolute reads would land in ROM.
     sta.l sell_rolling.base_scroll
 
     sep #0x20
-    lda #0x02          ; direct mode, 2 bytes per write
+    lda #0x02  ; direct mode, 2 bytes per write
     sta.l SELL_HDMA5_CTRL
-    lda #0x12          ; BG3VOFS
+    lda #0x12  ; BG3VOFS
     sta.l SELL_HDMA5_DEST
     rep #0x20
     lda.w #SELL_HDMA_TABLE_ADDR
@@ -118,7 +120,7 @@ sell_disable_hdma:
     php
     sep #0x20
     lda.l field_menu_rolling.hdma_enable
-    and #0xDF          ; ~SELL_HDMA_ENABLE_BIT, spelled out: `^` is a816's bank-byte operator, not xor
+    and #0xDF  ; ~SELL_HDMA_ENABLE_BIT, spelled out: `^` is a816's bank-byte operator, not xor
     sta.l field_menu_rolling.hdma_enable
     lda #0x00
     sta.l sell_rolling.hdma_enable
@@ -140,18 +142,20 @@ trailing a shorter one.
 
 Entry: 16-bit A/X/Y, DB = $7E.
 """
+
+
     rep #0x30
     lda.l sell_rolling.slot_index
     and.w #0x00FF
     clc
     adc.w #SELL_SLOT_ORIGIN
     xba
-    lsr                ; (slot + 1) * 128
+    lsr  ; (slot + 1) * 128
     clc
     adc.w #SELL_BG3_BUFFER
     tax
     lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BLANK_TILE
-    ldy.w #0x0040      ; 64 cells = two 32-tile rows
+    ldy.w #0x0040  ; 64 cells = two 32-tile rows
 
 _sell_blank_cell:
     sta.w 0x0000, x
@@ -165,10 +169,12 @@ sell_render_item_to_slot:
 """
 Render inventory item `edge_row` into ring slot `slot_index`.
 
-Item data comes from the vanilla inventory array at $7E:1440; the
+Item data comes from the vanilla inventory array at $7E:1440  ; the
 tilemap goes to the BG3 buffer at ($7E:D600) + (slot + 1) * 128 + 4,
 one slot below the window's top border.
 """
+
+
     php
     phb
     lda #0x7E
@@ -265,6 +271,8 @@ line (slot + 1) * 16. The band's BG3VOFS is therefore
 `base_scroll + slot * 16 - r * 16`, the same body math the drops and
 treasure profiles use.
 """
+
+
     {
     php
     rep #0x30
@@ -296,16 +304,16 @@ _sell_mod_done:
     asl
     asl
     asl
-    asl                ; slot * 16
+    asl  ; slot * 16
     sta.b 0x40
     lda.b 0x42
     and.w #0x00FF
     asl
     asl
     asl
-    asl                ; row * 16
+    asl  ; row * 16
     eor.w #0xFFFF
-    inc                ; -row * 16
+    inc  ; -row * 16
     clc
     adc.b 0x40
     clc
@@ -382,7 +390,7 @@ _sell_draw_window:
     sep #0x20
     jsr.l sell_select_bg3_trampoline
     rep #0x10
-    ldy.w #0xDCCE      ; the window $01:A172 itself draws
+    ldy.w #0xDCCE  ; the window $01:A172 itself draws
     jsr.l draw_window_trampoline
     sep #0x10
     rts
@@ -392,6 +400,8 @@ sell_init_impl:
 Replace vanilla `DrawInventoryList` for the sell list: configure the
 profile and let the engine draw the ring.
 """
+
+
     php
     rep #0x30
     sep #0x20
@@ -466,6 +476,8 @@ base_scroll is set - so calling only that left the table holding the
 offsets from the frame the list opened on, and the ring rolled
 underneath a scroll that never moved.
 """
+
+
     php
     jsr.w sell_ensure_hdma_initialized
     jsr.w update_sell_scroll_hdma
@@ -484,7 +496,7 @@ _sell_run_scroll:
 Run one item's worth of scroll animation to completion.
 
 Vanilla's own loops at $01:C8E3 / $01:C91C spend 8 frames moving $9F by
-2px; the engine's state machine keeps that cadence, so the replacement
+2px  ; the engine's state machine keeps that cadence, so the replacement
 blocks for the same 8 frames and the shop's input loop sees no change
 in timing.
 
@@ -497,6 +509,8 @@ down and leaves `scroll_state` set for `rolling_engine_finish_scroll`
 to clear, so a loop waiting on the state never exits and one waiting on
 `scroll_remaining` has to know the per-frame step anyway.
 """
+
+
     php
     rep #0x10
     sep #0x20

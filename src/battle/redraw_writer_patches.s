@@ -41,58 +41,58 @@ follow-up patches.
 ; an ATB rotation.
 
 .alloc at 0x03A482 {
-        jsr.l set_active_char_and_dirty
-        .db 0xEA  ; nop padding so $03:A487 still aligns to `jsr ValidateArrows`
+    jsr.l set_active_char_and_dirty
+    .db 0xEA  ; nop padding so $03:A487 still aligns to `jsr ValidateArrows`
 
-    ; --- Monster-death dirty hook: `UpdateDead` entry at $03:B1A0 ---
-    ; Replaces the 4-byte prelude (`tdc; tax; stx $a9`) with a JSL to
-    ; the bank-20 shim that ORs in REGION_DIRTY_MONSTERS, replays the
-    ; prelude, and RTLs. Engine reaches B1A4 with identical state to
-    ; vanilla. Fires every time the engine applies dead-status to a
-    ; battle slot (post-attack, regen tick, etc.)  ; the gated monster-
-    ; name trampoline picks up the dirty bit on the next frame.
+; --- Monster-death dirty hook: `UpdateDead` entry at $03:B1A0 ---
+; Replaces the 4-byte prelude (`tdc; tax; stx $a9`) with a JSL to
+; the bank-20 shim that ORs in REGION_DIRTY_MONSTERS, replays the
+; prelude, and RTLs. Engine reaches B1A4 with identical state to
+; vanilla. Fires every time the engine applies dead-status to a
+; battle slot (post-attack, regen tick, etc.)  ; the gated monster-
+; name trampoline picks up the dirty bit on the next frame.
 }
 .alloc at 0x03B1A0 {
-        jsr.l mark_monsters_dirty_and_init
+    jsr.l mark_monsters_dirty_and_init
 
-    ; --- Phase 2: NMI-safe UpdateFlyingHDMA ---
-    ; Vanilla `UpdateFlyingHDMA` ($02:82E1) spin-waits on the IRQ flag
-    ; `$f353` at $02:82E8 (5 bytes: `lda $f353; beq -5`) to avoid HDMA
-    ; mid-fetch tearing in main-loop context. In NMI/vblank the HDMA
-    ; engine is idle, so the wait is safe to skip and required to
-    ; avoid hanging when called from NMI (the IRQ won't fire while we're
-    ; in vblank). NOP out the 5 bytes  ; main-loop callers still work
-    ; (just take the wait-loop hit one less time per frame).
+; --- Phase 2: NMI-safe UpdateFlyingHDMA ---
+; Vanilla `UpdateFlyingHDMA` ($02:82E1) spin-waits on the IRQ flag
+; `$f353` at $02:82E8 (5 bytes: `lda $f353; beq -5`) to avoid HDMA
+; mid-fetch tearing in main-loop context. In NMI/vblank the HDMA
+; engine is idle, so the wait is safe to skip and required to
+; avoid hanging when called from NMI (the IRQ won't fire while we're
+; in vblank). NOP out the 5 bytes  ; main-loop callers still work
+; (just take the wait-loop hit one less time per frame).
 }
 .alloc at 0x0282E8 {
-        nop
-        nop
-        nop
-        nop
-        nop
+    nop
+    nop
+    nop
+    nop
+    nop
 
-    ; --- Phase 5: deduplicate UpdateFlyingHDMA ---
-    ; Main-loop `UpdateObjPos` ($02:82B9) calls UpdateFlyingHDMA at
-    ; $02:82BC ; our NMI hook in `messages_vwf.dma_transfer` already
-    ; fires it every vblank, so the main-loop call is redundant.
-    ; NOP the 3-byte JSR to reclaim ~5K cycles/NMI.
+; --- Phase 5: deduplicate UpdateFlyingHDMA ---
+; Main-loop `UpdateObjPos` ($02:82B9) calls UpdateFlyingHDMA at
+; $02:82BC ; our NMI hook in `messages_vwf.dma_transfer` already
+; fires it every vblank, so the main-loop call is redundant.
+; NOP the 3-byte JSR to reclaim ~5K cycles/NMI.
 }
 .alloc at 0x0282BC {
-        nop
-        nop
-        nop
+    nop
+    nop
+    nop
 
-    ; --- Bank-02 free-space pool: vanilla TfrEquipWindow body ---
-    ; TfrEquipWindow was relocated to bank-20 (see items_patches.s)
-    ; leaving $02:97AB..$02:9824 free. Pool-allocate our helpers here
-    ; instead of hand-placing each via `*=` ; `strategy order` keeps
-    ; symbols in declaration order so external `jsr.w`/`jsr.l` from
-    ; bank-02 (sram_patches.s, message.s, RedrawMainMenu redirects,
-    ; etc.) resolve to stable in-bank addresses.
+; --- Bank-02 free-space pool: vanilla TfrEquipWindow body ---
+; TfrEquipWindow was relocated to bank-20 (see items_patches.s)
+; leaving $02:97AB..$02:9824 free. Pool-allocate our helpers here
+; instead of hand-placing each via `*=` ; `strategy order` keeps
+; symbols in declaration order so external `jsr.w`/`jsr.l` from
+; bank-02 (sram_patches.s, message.s, RedrawMainMenu redirects,
+; etc.) resolve to stable in-bank addresses.
 
     .pool bank02_battle_redraw_helpers {
-        range 0x0297AB 0x029824
-        strategy order
+    range 0x0297AB 0x029824
+    strategy order
     }
 }
 .alloc battle_redraw_helpers in bank02_battle_redraw_helpers {
@@ -220,20 +220,20 @@ _mnwg_done:
 ; Redirect `Battle_ext` entry to our seed helper.
 
 .alloc at 0x038000 {
-        jmp.l battle_ext_seed
+    jmp.l battle_ext_seed
 
-    ; Redirect RedrawMainMenu's `jsr DrawStatusText` to our gate.
+; Redirect RedrawMainMenu's `jsr DrawStatusText` to our gate.
 }
 .alloc at 0x0296C8 {
-        jsr.w gate_draw_status_text
+    jsr.w gate_draw_status_text
 
-    ; Redirect RedrawMainMenu's `jsr DrawObjNames` to our gate.
+; Redirect RedrawMainMenu's `jsr DrawObjNames` to our gate.
 }
 .alloc at 0x0296CE {
-        jsr.w gate_draw_obj_names
+    jsr.w gate_draw_obj_names
 
-    ; Battle-init palette stamp (replaces noop'd InitMagicListTextBuf jsr).
+; Battle-init palette stamp (replaces noop'd InitMagicListTextBuf jsr).
 }
 .alloc at 0x029A69 {
-        jsr.w walker_helper
+    jsr.w walker_helper
 }

@@ -39,6 +39,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
   $1BEE  hdma_copy_pending
 """
 
+
 DROPS_VISIBLE_ITEMS := 5
 DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
@@ -379,6 +380,7 @@ _drops_hdma_footer:
     and ch6 from reloading on the same scanline.
 """
 
+
     sep #0x20
     lda #25
     sta.l DROPS_HDMA_SHADOW, x
@@ -421,6 +423,7 @@ drops_init_impl:
     the engine can write items into the just-drawn frame without the
     original $01:D817 DrawWindow call clobbering them.
 """
+
 
     php
     rep #0x30
@@ -565,4 +568,3 @@ drops_swap_redraw_impl:
     plp
     rtl
 }
-

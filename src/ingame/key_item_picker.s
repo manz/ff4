@@ -44,6 +44,7 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
   $1BFE  hdma_copy_pending
 """
 
+
 ; Four rows on screen, matching the window vanilla draws ; the engine
 ; adds the prefetch slot itself, and it stays inside the staging page
 ; without being pushed.
@@ -134,6 +135,7 @@ key_item_ensure_hdma_initialized:
     teardown.
 """
 
+
     rep #0x20
     lda.l key_item_rolling.base_scroll
     cmp.w #0xFFFF
@@ -178,23 +180,25 @@ Fill this slot's two tilemap rows with the window's blank cell.
 The renderer only writes the cells it draws - the name, the colon and
 the two quantity digits - so every other cell in the row keeps whatever
 the field left in the BG3 tilemap underneath. On a dark room that
-passed for a window body; on a bright one the map's own tiles show
+passed for a window body  ; on a bright one the map's own tiles show
 straight through the list, including the gap between a short name and
 its quantity. Wipe the whole 2-row slot first and let the draw fill it
 back in.
 
 Entry: 16-bit A/X/Y, DB = $7E. X and Y are caller-saved already.
 """
+
+
     rep #0x30
     lda.l key_item_rolling.slot_index
     and.w #0x00FF
     xba
-    lsr          ; slot * 128 : two 32-tile rows, 2 bytes per cell
+    lsr  ; slot * 128 : two 32-tile rows, 2 bytes per cell
     clc
     adc.w #0xD600
     tax
     lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BLANK_TILE
-    ldy.w #0x0040   ; 64 cells = 2 tilemap rows
+    ldy.w #0x0040  ; 64 cells = 2 tilemap rows
 
 _blank_cell:
     sta.w 0x0000, x
@@ -220,9 +224,11 @@ Fold it into the ring: the item at cursor row r lives in slot
 (top_row + r) mod KEY_ITEM_BUFFER_SLOTS, which is what the rest of the
 routine wants in $4B.
 
-Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla picks
+Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D  ; vanilla picks
 up again at $00:B144 with `stz $4a`.
 """
+
+
     php
     sep #0x20
     lda.b 0xBA
@@ -347,6 +353,7 @@ key_item_render_all:
     of the existing item-window flow ($EB=$01 latched by original preamble at $00:AF53).
 """
 
+
     php
     rep #0x10
     sep #0x20
@@ -410,6 +417,7 @@ key_item_init_filter:
     ff4decomp notes). Clears the 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs
     are key items: [$CE..$E6] u [$EB..$FD].
 """
+
 
     php
     phb
@@ -586,6 +594,7 @@ key_item_init_impl:
     + hook far-ptrs live at $7E:9C60 (relocated out of $1B00-$1BFF).
 """
 
+
     jsr.w key_item_init_filter
     php
     rep #0x30
@@ -645,7 +654,7 @@ key_item_after_open_impl:
 """
 Keep the picker's list drawn, once per frame.
 
-Hooked over `lda #$01 ; sta $7D` at $00:AF7E, just past the top of the
+Hooked over `lda #$01  ; sta $7D` at $00:AF7E, just past the top of the
 picker's input loop. Vanilla's own `jsr $912F` right before it is left
 alone: standing in for that wait cost the loop its frame pacing and the
 picker never drew. Every cursor branch jumps back to the loop top, so
@@ -653,13 +662,14 @@ this runs once per frame and must stay cheap - it renders on two edges
 only:
 
   - vanilla's slide counter $DA reaching its fully-open value, i.e. the
-    window has just finished opening, so build config and render;
+    window has just finished opening, so build config and render  ;
   - vanilla's scroll position $BA changing, i.e. the list scrolled
     under the cursor, so re-render the slots at the new position.
 
-Vanilla owns the scroll and the cursor ; the engine owns the row
+Vanilla owns the scroll and the cursor  ; the engine owns the row
 contents.
 """
+
 
     php
     sep #0x20
@@ -733,12 +743,14 @@ misses drags the window's band across the map.
 So the render gets its own page instead. $1D00 is free - the decomp RAM
 map has $1BEC-$1DFF unassigned, and no read or write lands there in any
 of our savestates. The live field page is copied in first, so anything
-the render reads still sees the caller's values; anything it writes
+the render reads still sees the caller's values  ; anything it writes
 lands in the copy and is dropped. Both interrupt handlers load their own
 D ($00:9480 and $00:92A5 both do `ldx #$0600 / phx / pld`), so they are
 unaffected by ours. NMI stays off across the render the way vanilla
 brackets its own unsafe field work (field.asm InitMapRAM).
 """
+
+
     sep #0x20
 ; Drop NMI only. The picker's window is drawn BY the V-IRQ
 ; (InitItemWindowIRQ arms $A1 = NMI + V-IRQ + auto-joypad), so clearing
@@ -788,11 +800,13 @@ last item into blanks before it refused to move at all.
 
 Returns with Z set when the window is already at the bottom, which is
 what the `bne $B016` right after this site tests. Vanilla left $BA in A
-here; nothing reads it, since $B075 loads its own A first.
+here  ; nothing reads it, since $B075 loads its own A first.
 
 Entered with an 8-bit accumulator and the caller's direct page, so $BA
 stays a direct-page read.
 """
+
+
     lda.l key_item_count
     sec
     sbc.b #KEY_ITEM_VISIBLE_ITEMS
@@ -814,6 +828,8 @@ tilemap. The engine keeps five slots, so after the animation $BB comes
 back by one item's worth and the ring is re-rendered at the new scroll
 position: the window walks the list while the tilemap stays put.
 """
+
+
     php
     sep #0x20
     rep #0x10
@@ -841,7 +857,7 @@ _scroll_down_loop:
     rtl
 
 key_item_scroll_up_impl:
-"""Scroll the window up one item ; mirror of the down path."""
+"""Scroll the window up one item  ; mirror of the down path."""
     php
     sep #0x20
     rep #0x10
@@ -876,6 +892,8 @@ save/restore - reprograms channel 3, which steals it from any HDMA the
 map has armed there. A mosaic/pixelate effect loses its table mid
 animation and never gets it back, so put the registers where they were.
 """
+
+
     php
     sep #0x20
     rep #0x10
@@ -909,21 +927,23 @@ _restore_dma_loop:
 _key_item_vram_to_sram:
 """
 Copy one VRAM slice into SRAM. A = VRAM word address (16-bit), X = SRAM
-address low+mid, Y = byte count ; bank of the destination is fixed to
+address low+mid, Y = byte count  ; bank of the destination is fixed to
 the reservation's.
 
 Must run inside vblank: VRAM reads outside blanking return garbage.
 """
+
+
     php
     rep #0x20
-    sta.l 0x002116          ; VMADD
+    sta.l 0x002116  ; VMADD
     sep #0x20
     lda #0x80
-    sta.l 0x002115          ; VMAIN: increment after the high byte
-    lda.l 0x002139          ; prime the read latch (discarded)
-    lda #0x81               ; DMAP: PPU -> CPU, two registers
+    sta.l 0x002115  ; VMAIN: increment after the high byte
+    lda.l 0x002139  ; prime the read latch (discarded)
+    lda #0x81  ; DMAP: PPU -> CPU, two registers
     sta.l 0x004330
-    lda #0x39               ; BBAD: $2139 VMDATAREADL
+    lda #0x39  ; BBAD: $2139 VMDATAREADL
     sta.l 0x004331
     rep #0x20
     txa
@@ -936,7 +956,7 @@ Must run inside vblank: VRAM reads outside blanking return garbage.
     sta.l 0x004335
     sep #0x20
     lda #0x08
-    sta.l 0x00420B          ; MDMAEN ch3
+    sta.l 0x00420B  ; MDMAEN ch3
     plp
     rts
 
@@ -948,9 +968,9 @@ _key_item_sram_to_vram:
     sep #0x20
     lda #0x80
     sta.l 0x002115
-    lda #0x01               ; DMAP: CPU -> PPU, two registers
+    lda #0x01  ; DMAP: CPU -> PPU, two registers
     sta.l 0x004330
-    lda #0x18               ; BBAD: $2118 VMDATAL
+    lda #0x18  ; BBAD: $2118 VMDATAL
     sta.l 0x004331
     rep #0x20
     txa
@@ -992,10 +1012,12 @@ key_item_close_impl:
 """
 Give the map its VRAM back as the picker closes.
 
-Hooked over `lda #$01 ; sta $ec` at the tail of vanilla's close
+Hooked over `lda #$01  ; sta $ec` at the tail of vanilla's close
 animation ($00:B05D block), the last thing that runs before
 ShowItemWindow returns.
 """
+
+
     php
     jsr.w _key_item_save_dma
     sep #0x20
@@ -1061,6 +1083,7 @@ rebuild: $FF blanks across every cell with the cursor marker in column
 pushed to VRAM in one DMA, which keeps us off VRAM reads entirely.
 """
 
+
     php
     phb
     rep #0x30
@@ -1114,6 +1137,7 @@ The picker overlays a live map, so unlike the menus there is no vanilla
 BG3 push to piggyback on: drain `transfer_pending` through here.
 """
 
+
     php
     sep #0x20
     rep #0x10
@@ -1128,14 +1152,14 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     jsr.w render.flush_chr_to_vram  ; RTS-ending, same bank-20 region
     rep #0x20
     lda.w #KEY_ITEM_TILEMAP_VRAM_WORD
-    sta.l 0x002116          ; VMADD
+    sta.l 0x002116  ; VMADD
     sep #0x20
     lda #0x80
-    sta.l 0x002115          ; VMAIN: word access, +1 word per write
+    sta.l 0x002115  ; VMAIN: word access, +1 word per write
     lda #0x01
-    sta.l 0x004330          ; DMAP: word transfer
+    sta.l 0x004330  ; DMAP: word transfer
     lda #0x18
-    sta.l 0x004331          ; BBAD: $2118 VMDATAL
+    sta.l 0x004331  ; BBAD: $2118 VMDATAL
     rep #0x20
     lda.w #KEY_ITEM_STAGING_ADDR
     sta.l 0x004332
@@ -1147,7 +1171,7 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     sta.l 0x004335
     sep #0x20
     lda #0x08
-    sta.l 0x00420B          ; MDMAEN ch3
+    sta.l 0x00420B  ; MDMAEN ch3
 
 ; Publish the scroll table. The menus let the field NMI hook copy
 ; shadow -> active, but that hook only runs while a menu owns the
@@ -1219,4 +1243,3 @@ key_item_refresh_slots_impl:
     plp
     rtl
 }
-

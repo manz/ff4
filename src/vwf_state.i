@@ -44,6 +44,7 @@ VWF_CHR_BUFFER_SIZE := 0x2000
 ; $70:3C00 + N*160 and the last slot ends at $70:4240. Slot 4 alone spans
 ; $70:3E80..$70:3F1F, which is exactly where the gate bytes used to sit --
 ; a rendered item name wrote glyph pixels over pending_transfer_mask, the
+
 ; region dirty bits, render_skipped and dma_dirty_slots (observed:
 ; pending_transfer_mask = $F3), so the battle names / monsters regions lost
 ; their dirty + CHR-pending bits and never flushed again: black name blocks

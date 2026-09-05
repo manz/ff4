@@ -89,4 +89,3 @@ font_table:
     .incbin "assets/intro.set"
     }
 }
-

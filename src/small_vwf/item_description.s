@@ -37,7 +37,7 @@ draw:
     phd
     phx
     phx
-    ldx.w #0x0100
+    ldx #0x0100
     phx
     pld
     plx
@@ -87,11 +87,11 @@ draw_string:
 ; primary DIRTY which the field-items renderer covers in its own
 ; flush, so no clearing is needed here.
     rep #0x20
-    lda.w #0x0800
+    lda #0x0800
     sta.l VWF_CHR_SRC_OFFSET_B
-    lda.w #0x2C00
+    lda #0x2C00
     sta.l VWF_CHR_VRAM_WORD_B
-    lda.w #0x0800
+    lda #0x0800
     sta.l VWF_CHR_BYTE_COUNT_B
     sep #0x20
 ; Preserve Y across render.init: the per-region CHR clear loop

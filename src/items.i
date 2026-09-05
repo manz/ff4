@@ -233,4 +233,3 @@ ROLLING_MENU_ID_SELL := 4
 ; copy shadow→active during the next vblank. Reference directly as
 ; `field_menu_rolling.hdma_enable` / `.hdma_copy_pending` everywhere.
 field_menu_rolling := (FIELD_MENU_ROLLING_BASE as RollingBufferState)
-

@@ -115,6 +115,8 @@ Bank-$01 RTL trampoline around original `SelectBG3` ($01:8470).
 Points $29 at the BG3 buffer ($7E:D600) and $35 at its VRAM tilemap
 ($7000), which is where the sell list renders.
 """
+
+
     jsr 0x8470
     rtl
 
@@ -142,6 +144,8 @@ makes before returning - the displaced call is reissued here. The sell
 list's HDMA bit lives in the shared `field_menu_rolling.hdma_enable`,
 so leaving it set would arm ch5 over the field's own BG3.
 """
+
+
     jsr 0x873F
     jsr.l sell_disable_hdma
     rts
@@ -273,6 +277,8 @@ wait at all: game time ($16A3) freezes, the cooldown never ticks and
 hold-to-scroll dies after the first item. One wait per aborted
 trigger restores vanilla's pacing.
 """
+
+
     jsr 0x818A
     rts
 
@@ -446,6 +452,8 @@ tiles. At the call site X holds row * 2 (index into the tilemap-offset
 table at $01:C58E) and A holds the item id, which must reach vanilla
 `DrawItemName` untouched.
 """
+
+
     pha
     txa
     lsr
@@ -462,6 +470,8 @@ drops array at $7E:FF28. Lives here rather than inline at the patch
 site because `drops_scroll_pos` needs long addressing ($7E:9C5F) and
 the 11-byte vanilla sequence has no room for the extra opcode byte.
 """
+
+
     lda.w 0x1BB3
     clc
     adc.l drops_scroll_pos

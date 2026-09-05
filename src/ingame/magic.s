@@ -149,4 +149,3 @@ the magic-render path.
 .alloc at 0x01B5FF {
     lda #0x40 + 8
 }
-

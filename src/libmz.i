@@ -24,9 +24,9 @@ _positive:
     pha
     plb
     lda.b #0x80
-    sta.w 0x2115
+    sta 0x2115
     ldx.w #vram_pointer
-    stx.w 0x2116
+    stx 0x2116
     ldx.w #dma_mode
     stx.w 0x4300 + ( channel << 4 )
     lda.b #source_address >> 16

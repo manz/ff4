@@ -1,6 +1,6 @@
 .include "config.i"
 .include "src/items.i"
-"""Small (8x8) menu VWF renderer."""
+; Small (8x8) menu VWF renderer.
 .include "src/vwf_state.i"
 
 VARS_BUFFER = 0x710000
@@ -40,7 +40,7 @@ VARS_BUFFER = 0x710000
 ; the vram-save staging.
     buffer = 0x705000
 save_dialog_vram_far:
-    jsr.l 0x14fd0f
+    jsr 0x14fd0f
 ; original save
     jsr.l wait_for_vblank_long
     phb
@@ -80,7 +80,7 @@ restore_dialog_gfx_far:
     stx 0x0122
     jsr.w _transfer_to_vram
     jsr.l wait_for_vblank_long
-    jsr.l 0x14ffd6
+    jsr 0x14ffd6
 ; original restore
     rtl
 _transfer_to_vram:
@@ -187,7 +187,7 @@ init:
     rts
     .if BATTLE_ENABLED {
 init_battle_far:
-    jsr.l 0x13ff12  ; play song
+    jsr 0x13ff12  ; play song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl
@@ -230,7 +230,7 @@ get:
     bits_left_on_tile = _var_base + 0x10
     temp = bits_left_on_tile + 1
     counter = temp + 1
-    prev_char = VWF_PREV_CHAR        ; long, off the field's MOSAIC shadow
+    prev_char = VWF_PREV_CHAR  ; long, off the field's MOSAIC shadow
     current_char = VWF_CURRENT_CHAR  ; (see src/vwf_state.i)
     tilemap_offset = VWF_TILEMAP_OFFSET  ; long, NMI-safe (see src/vwf_state.i)
     buffer_ptr = VWF_CHR_BUFFER
@@ -269,7 +269,7 @@ _brk_init_bits:
     php
     rep #0x30
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
-    and.w #0x01FF  ; 9-bit tile_id_base
+    and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
     asl
@@ -388,9 +388,9 @@ _flush_skip_a:
     sta.l VWF_CHR_DIRTY_B
     rep #0x20
     lda.l VWF_CHR_VRAM_WORD_B
-    cmp.w #0x2B70
+    cmp #0x2B70
     beq _vram_word_b_ok
-    cmp.w #0x2C00
+    cmp #0x2C00
     beq _vram_word_b_ok
     cmp.w #KEY_ITEM_VWF_VRAM_DEST_WORD  ; $6800, picker on BG3 CHR
     bne _flush_skip_b_late
@@ -502,7 +502,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     php
     rep #0x30
     lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
-    and.w #0x01FF  ; 9-bit tile_id_base
+    and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
     asl
