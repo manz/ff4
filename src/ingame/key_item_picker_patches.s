@@ -60,6 +60,15 @@ Patched:
         jsr.l key_item_close_impl
 }
 
+; Scroll ceiling, from the list we actually built. Replaces exactly the
+; four bytes of `lda $ba / cmp #$11` at $00:B00D; the `bne $B016` that
+; follows still decides whether to scroll.
+;   B00D A5 BA     lda $ba
+;   B00F C9 11     cmp #$11
+.alloc at 0x00B00D {
+        jsl key_item_scroll_limit_impl
+}
+
 ; Cursor address, folded into the rolling ring. In our ROM:
 ;   B13D A5 BA     lda $ba
 ;   B13F 18        clc

@@ -451,6 +451,12 @@ _filter_next:
     inx
     cpx.w #0x0060
     bne _filter_walk
+; Y advanced by two per accepted item, so it ends at twice the count.
+; Everything downstream - the ring's item_count and the scroll ceiling -
+; needs that number, and this is the only place that knows it.
+    tya
+    lsr
+    sta.l key_item_count
     plb
     plp
     rts
@@ -597,7 +603,7 @@ key_item_init_impl:
     sta.l key_item_rolling + RollingBufferState.item_list_ptr + 1
     lda.b #0x7E
     sta.l key_item_rolling + RollingBufferState.item_list_ptr + 2
-    lda.b #KEY_ITEM_TOTAL_ITEMS
+    lda.l key_item_count
     sta.l key_item_rolling + RollingBufferState.item_count
     lda.b #0x04
     sta.l key_item_rolling + RollingBufferState.hdma_channel
@@ -769,6 +775,34 @@ _key_item_leave_render:
     lda #KEY_ITEM_NMITIMEN_PICKER
     sta.l 0x004200
     rts
+
+key_item_scroll_limit_impl:
+"""
+Stop the list where it actually ends, not where vanilla's did.
+
+Replaces `lda $ba / cmp #$11` at $00:B00D. Vanilla drew the whole
+filtered list and let the window slide over it, so a fixed ceiling of 17
+matched the longest list it could build. Ours is built per save: with 16
+key items held, that ceiling let the window scroll five rows past the
+last item into blanks before it refused to move at all.
+
+Returns with Z set when the window is already at the bottom, which is
+what the `bne $B016` right after this site tests. Vanilla left $BA in A
+here; nothing reads it, since $B075 loads its own A first.
+
+Entered with an 8-bit accumulator and the caller's direct page, so $BA
+stays a direct-page read.
+"""
+    lda.l key_item_count
+    sec
+    sbc.b #KEY_ITEM_VISIBLE_ITEMS
+    bcs _limit_ready
+; Fewer items than the window shows: there is nothing to scroll.
+    lda.b #0x00
+
+_limit_ready:
+    cmp.b 0xBA
+    rtl
 
 key_item_scroll_down_impl:
 """

@@ -147,3 +147,64 @@ def test_engine_rows_follow_the_scroll(picker_emu):
         tap(e, Button.DOWN)
         e.run_frames(12)
     assert rows() != before, "list rows unchanged after scrolling"
+
+
+# Vanilla runs this menu with DP = $0600, so its scratch is at $7E:06xx.
+DP = 0x7E0600
+CURSOR_ROW = DP + 0x8C   # $8C, row within the window, 0..3
+SCROLL_POS = DP + 0xBA   # $BA, index of the item on the top row
+VISIBLE_ROWS = 4
+
+
+def _owned_key_items(emu) -> int:
+    """Count what InitItemList accepted into the $7E:0712 filter buffer."""
+    buf = bytes(emu.read(0x7E0712 + i) for i in range(96))
+    return sum(1 for i in range(0, 96, 2) if buf[i] != 0)
+
+
+def test_scroll_stops_at_the_end_of_the_list(picker_emu):
+    """The window must stop with the last item on the bottom row.
+
+    Vanilla compared $BA against a hardcoded 17 ($00:B00F), sized for the
+    longest list it could ever draw. The picker builds its list per save,
+    so on a 16-item list that ceiling scrolled five rows of blanks into
+    view before refusing to move. The ceiling now comes from the count.
+    """
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    owned = _owned_key_items(e)
+    assert owned > VISIBLE_ROWS, f"kss needs a scrollable list, got {owned} key items"
+    expected = owned - VISIBLE_ROWS
+
+    for _ in range(owned + 12):
+        tap(e, Button.DOWN, hold=4, gap=16)
+
+    assert e.read(SCROLL_POS) == expected, (
+        f"scrolled to {e.read(SCROLL_POS)}, expected {expected} "
+        f"({owned} items - {VISIBLE_ROWS} rows)"
+    )
+    assert e.read(CURSOR_ROW) == VISIBLE_ROWS - 1, (
+        "cursor left the bottom row while the list scrolled"
+    )
+
+
+def test_scroll_stops_at_the_top_of_the_list(picker_emu):
+    """Mirror going up: cursor to row 0, then the window back to item 0."""
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    owned = _owned_key_items(e)
+    for _ in range(owned + 12):
+        tap(e, Button.DOWN, hold=4, gap=16)
+    for _ in range(owned + 12):
+        tap(e, Button.UP, hold=4, gap=16)
+
+    assert e.read(SCROLL_POS) == 0, f"window stuck at scroll {e.read(SCROLL_POS)}"
+    assert e.read(CURSOR_ROW) == 0, f"cursor stuck at row {e.read(CURSOR_ROW)}"

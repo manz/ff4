@@ -39,6 +39,11 @@ bodies, and placement directives cannot nest.
 ; own page.
 .reserve key_item_dp_prev 2 in rolling_state
 
+; How many key items the filter actually accepted. Vanilla hardcoded a
+; 17-position scroll ceiling for a list it drew in full; the picker's
+; list is built per save, so the ceiling has to come from the count.
+.reserve key_item_count 1 in rolling_state
+
 ; Vanilla's window-slide counter ($DA) as last seen by the per-frame
 ; hook, its scroll position ($BA) as last rendered, the engine-side
 ; scroll position, and the window-scroll animation's frame counter.
