@@ -14,7 +14,11 @@ symbols `pair`, `kerning_func`, `prev_char` injected from Python before assembly
 .map identifier=1 bank_range=0x00, 0x6f addr_range=0x8000, 0xffff mask=0x8000 mirror_bank_range=0x80, 0xcf
 .map identifier=2 bank_range=0x7e, 0x7f addr_range=0x0000, 0xffff mask=0x10000 writable=1
 
-*=0x7E0000
+; These stubs are assembled standalone into a flat WRAM image the test
+; then single-steps; there is no ROM layout to place code into, so the
+; bare origin is the point rather than something to modernise.
+
+*=0x7E0000  ; noqa: UP001
     rep #0x30
     lda.w #pair
     sta.l prev_char
