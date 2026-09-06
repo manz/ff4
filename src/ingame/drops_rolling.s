@@ -51,7 +51,11 @@ DROPS_SCROLL_TOTAL_PIXELS := 16
 ; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
 ; the full 35-byte struct ; the macro path only ever touched the first
 ; 12 bytes so the original $1BE0 base worked there.
-drops_rolling := (0x7E9C30 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+drops_rolling := (0x7E9C30 as RollingBufferState)  ; noqa: S001
 
 ; Drops scroll position lives one byte past the state block so it
 ; doesn't collide with the engine's RollingBufferState fields. Other

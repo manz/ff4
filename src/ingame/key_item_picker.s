@@ -59,7 +59,11 @@ KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 ; the same reason as treasure ($9C00) + drops ($9C30) : engine path
 ; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
 ; sprite code stomps past $1BEB.
-key_item_rolling := (0x7E9C60 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+key_item_rolling := (0x7E9C60 as RollingBufferState)  ; noqa: S001
 
 
 KEY_ITEM_SLIDE_OPEN_DONE := 0x08

@@ -46,7 +46,11 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; region. Engine path needs the full 35-byte struct (state + config +
 ; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
 ; so the original $1BD0 base worked despite vanilla's later collisions.
-treasure_rolling := (0x7E9C00 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+treasure_rolling := (0x7E9C00 as RollingBufferState)  ; noqa: S001
 
 TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 

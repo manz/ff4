@@ -45,7 +45,11 @@ MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 ; Module scope can't see items.i's FIELD_MENU_ROLLING_BASE constant
 ; so bind to the literal addr here. items.i mirrors this base under
 ; the name `field_menu_rolling` for cross-module struct access.
-menu_rolling := (0x7E9C90 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+menu_rolling := (0x7E9C90 as RollingBufferState)  ; noqa: S001
 
 ; Scroll State Constants
 SCROLL_STATE_IDLE := 0

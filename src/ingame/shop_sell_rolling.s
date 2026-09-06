@@ -33,7 +33,11 @@ SELL_TOTAL_ITEMS := 48
 
 ; State block in the shared $7E:99xx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
-sell_rolling := (0x7E9CC0 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+sell_rolling := (0x7E9CC0 as RollingBufferState)  ; noqa: S001
 
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and
 ; cursor row ($1B94). The profile reads them rather than keeping its
