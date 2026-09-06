@@ -1,5 +1,13 @@
+"""
+New-game / save-slot screen patches.
+
+Rewires the screen's text table and pointer setup at the strings this
+project relocated out of their original home, and adjusts the window
+geometry and Cecil sprite position that go with them.
+"""
+
+
 .include "config.i"
-; New-game / save-slot screen patches: text-table rewiring and pointer setup for the relocated start-screen strings.
 .include "src/ingame/macros.i"
 
 

@@ -1,5 +1,11 @@
+"""
+English text for the start screen and save selection.
+
+Counterpart of start_screen_text.s, selected by build configuration.
+"""
+
+
 .include "config.i"
-; English-language counterpart of `start_screen_text.s`.
 .include "src/ingame/macros.i"
 
 .scope newgame {

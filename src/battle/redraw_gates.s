@@ -30,9 +30,14 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
 ; scope, and an `.alloc` body opens its own).
 .extern clear_names_window_buffer
 
-; Cross-module CONSTANTS are compile-time, not link symbols: share the same
-; definitions message.s uses via the include, under the same scope name.
 .scope battle_render {
+    """
+    Render constants shared with message.s.
+
+    Cross-module constants are compile-time, not link symbols, so both
+    modules pull the same definitions in under the same scope name
+    rather than one importing them from the other.
+    """
     .include "render_defs.i"
 }
 

@@ -1,5 +1,13 @@
+"""
+French text for the start screen and save selection.
+
+Laid out in bank 20 alongside the other relocated strings  ; the English
+counterpart is start_screen_text_en.s and the two are selected by build
+configuration, not linked together.
+"""
+
+
 .include "config.i"
-; French translated text data for the start screen / save selection.
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 

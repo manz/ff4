@@ -1,6 +1,21 @@
+"""
+Small (8x8) menu VWF renderer.
+
+Draws proportional text into a CHR staging buffer a glyph at a time,
+packing each character against the previous one by its measured width
+plus any kerning pair, then flushing the dirty tiles to VRAM by DMA.
+Callers hand it a string and a slot  ; the tile ids it allocates start at
+$100, so the tilemap entries carry bit 8 in their attribute byte.
+
+Its scratch lives in SRAM rather than on the direct page: the menus have
+a page to spare, but the field does not, and the bytes this used to
+borrow there were live engine state (see `VWF_PREV_CHAR` and friends in
+vwf_state.i).
+"""
+
+
 .include "config.i"
 .include "src/items.i"
-; Small (8x8) menu VWF renderer.
 .include "src/vwf_state.i"
 
 VARS_BUFFER = 0x710000
