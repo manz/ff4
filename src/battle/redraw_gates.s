@@ -203,6 +203,86 @@ gated_clear_names_window_buffer:
 _gcnwb_skip:
     rtl
 
+refresh_char_highlight_rtl:
+"""RTL wrapper so the NMI helper in message.s can JSL in and land back."""
+    jsr.w refresh_char_highlight
+    rtl
+
+refresh_char_highlight:
+"""
+    Per-frame: re-apply the char-name highlight when it has moved.
+
+    The walk used to run from the writer shim, at the instant the engine
+    stores $1822. That is too early to ask which names are on screen -
+    measured at that point, $7E:F2C1 reports four of five slots hidden,
+    while the same bytes read all-zero once the battle is running - so
+    the highlight was applied against state the engine had not populated
+    yet and then never revisited.
+
+    Running it per frame instead makes it self-healing: it costs a
+    compare on an idle frame, and it re-applies whenever the active
+    character or the set of drawn names changes, whatever order the
+    engine got there in.
+
+    Key = active char index, folded with one bit per drawn row so a
+    party member dropping out re-compacts the rows. $FF (what the shim
+    stores) never matches, forcing the next frame to apply.
+
+    Called from the NMI helper in message.s. DBR is the caller's.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    lda.l 0x7E1822
+    sta.l scp_active_slot
+    ldx.w #0
+
+_rch_key_loop:
+    cpx.w #5
+    bcs _rch_key_done
+    lda.l 0x02A1F3, x
+    phx
+    rep #0x20
+    and.w #0x00FF
+    tax
+    sep #0x20
+    lda.l 0x7EF2C1, x
+    plx
+    cmp #0x00  ; `plx` clobbered N/Z with the index
+    beq _rch_key_next
+; Hidden slot: fold its index into the key so the compacted row layout
+; is part of what we compare against.
+    txa
+    inc
+    asl
+    asl
+    asl
+    eor.l scp_active_slot
+    sta.l scp_active_slot
+
+_rch_key_next:
+    inx
+    bra _rch_key_loop
+
+_rch_key_done:
+    lda.l scp_active_slot
+    cmp.l battle_render.scp_state_key
+    beq _rch_done
+    sta.l battle_render.scp_state_key
+    lda.l 0x7E1822
+    jsr.w set_active_char_palette
+; The palette bytes live in the WRAM tilemap; ask the NMI DMA path to
+; push it so the flip reaches VRAM.
+    lda.l battle_render.tilemap_pending_mask
+    ora.b #battle_render.TILEMAP_PENDING_MAIN
+    sta.l battle_render.tilemap_pending_mask
+
+_rch_done:
+    plp
+    rts
+
 set_active_char_palette:
 """
     Walk all 5 char-name slots in the `$7E:B966` tilemap. Active slot
@@ -248,13 +328,49 @@ set_active_char_palette:
     pha
     sep #0x20
     ldx.w #0
+    lda #0x00
+    sta.l battle_render.scp_out_row
 
 _scp_slot_loop:
     cpx.w #5
     bcs _scp_done
-; CharOrderTbl[row] = char slot displayed at this row. Compare to
-; the active slot; match -> highlight palette, miss -> palette 0.
-    lda.l 0x02A1C8, x
+; Which character a row shows, and whether it is drawn at all, both come
+; from `$02:A1CD` - the table `DrawCharNames` ($02:A20C) indexes by
+; display position to get that character's battle struct. A first byte
+; of zero is the empty-slot case vanilla skips (`lda ($00) / beq`),
+; and it skips WITHOUT taking a row, so names compact upward.
+;
+; The struct base gives the slot to compare against $1822:
+; slot = (ptr - $2000) / $40. Reading the slot out of `CharOrderTbl`
+; instead does not agree with the pointer table - measured on a
+; Palom / Cecil / Porom party, the order table claims display 0 is slot
+; 1 while its pointer is $2080, i.e. slot 2 - which is what put the
+; glow on the wrong name.
+    phx
+    rep #0x20
+    txa
+    asl
+    tax
+    lda.l 0x02A1CD, x
+    sta.l battle_render.scp_base
+    tax
+    sep #0x20
+    lda.l 0x7E0000, x  ; first byte of that character's battle struct
+    plx
+    cmp #0x00  ; `plx` clobbered N/Z with the display index
+    beq _scp_next_slot
+; slot = (base - $2000) / $40
+    rep #0x20
+    lda.l battle_render.scp_base
+    sec
+    sbc.w #0x2000
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr
+    sep #0x20
     cmp.l scp_active_slot
     beq _scp_is_active
     lda #0x00
@@ -266,11 +382,11 @@ _scp_is_active:
 _scp_have_pal:
     sta.l scp_pal_byte
 
-; base = $B966 + slot * 24 (per-slot stride confirmed via trace:
-; $32 mirror at slot*24+0 (6 tiles padding), $34 mirror at
-; slot*24+12 (6 tiles real name content)).
+; base = $B966 + row * 24, counting drawn names only (per-row stride
+; confirmed via trace: $32 mirror at row*24+0 (6 tiles padding), $34
+; mirror at row*24+12 (6 tiles real name content)).
     rep #0x20
-    txa
+    lda.l battle_render.scp_out_row
     and.w #0x000F
     asl
     asl
@@ -296,6 +412,11 @@ _scp_have_pal:
     sep #0x20
     ldy.w #1
     jsr.w _scp_patch_six
+    lda.l battle_render.scp_out_row
+    inc
+    sta.l battle_render.scp_out_row
+
+_scp_next_slot:
     inx
     bra _scp_slot_loop
 
@@ -354,12 +475,12 @@ set_active_char_and_dirty:
 ; each char's 6 max tiles on both pointer mirrors ; ~300 cycles
 ; vs ~3M for the VWF re-render. Also flip names tilemap dirty
 ; so the unified-DMA path uploads the patched tilemap to VRAM.
-    pla
-    pha
-    jsr.w set_active_char_palette
-    lda.l battle_render.tilemap_pending_mask
-    ora.b #battle_render.TILEMAP_PENDING_MAIN
-    sta.l battle_render.tilemap_pending_mask
+; Invalidate the highlight key rather than walking here: this runs at
+; the $1822 store, before the engine has populated the state that says
+; which names are drawn. `refresh_char_highlight` picks it up on the
+; next frame, when that state is good.
+    lda.b #0xFF
+    sta.l battle_render.scp_state_key
     pla
     rtl
 }

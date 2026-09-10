@@ -14,6 +14,7 @@ BATTLE_DAKUTEN_TABLE = 0x16FA40
 
 ; root-scope extern for the included message.s (an .alloc body can't host one).
 .extern flying_hdma_trampoline
+.extern refresh_char_highlight_rtl
 
 .alloc battle_sram_block in bank20_reloc {
     .scope battle_flags {

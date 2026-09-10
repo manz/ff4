@@ -5,6 +5,7 @@ dialog-stream consumer).
 .include "config.i"
 .include "src/battle/inventory_budget.i"
 .include "src/vwf_state.i"
+
 .if 0 {
     .scope _vwf_tile_ring {
 ; Ring buffer for VWF tile allocation
@@ -1385,6 +1386,12 @@ normal length, no visible black strip.
     pha
     phx
     phy
+; Re-apply the char-name highlight if the active character or the set
+; of drawn names moved since last frame. A compare when nothing
+; changed; a ~300-cycle tilemap palette walk when it did, which is why
+; it can afford to live on the per-frame path instead of guessing the
+; right moment from a writer site.
+    jsr.l refresh_char_highlight_rtl
 ; --- Forced-blank for the over-vblank DMA window ---
 ; The VWF tile + tilemap + inventory-CHR DMA below can run ~40 scanlines
 ; of transfer and starts late in the NMI (after OAM DMA + the flying-HDMA
