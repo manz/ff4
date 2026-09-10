@@ -28,3 +28,16 @@ render_skipped = BATTLE_RENDER_STATE + 0x02
 tilemap_pending_mask = BATTLE_RENDER_STATE + 0x03
 TILEMAP_PENDING_COMMANDS = 0x01
 TILEMAP_PENDING_MAIN = 0x02
+
+; --- Char-name highlight ---
+; Signature of what the highlight was last applied for: the active char
+; index folded with which name rows are actually on screen. The per-frame
+; refresh compares against it and re-walks only when it moves, so the
+; palette flip costs a compare on an idle frame. $FF forces a re-apply.
+scp_state_key = BATTLE_RENDER_STATE + 0x04
+; Scratch: tilemap row being written, which counts drawn names only.
+scp_out_row = BATTLE_RENDER_STATE + 0x05
+; Scratch: battle-struct base of the row being written. A word in our own
+; arena rather than a direct-page byte - the walk runs from NMI, where the
+; caller's page is not ours to borrow.
+scp_base = BATTLE_RENDER_STATE + 0x06
