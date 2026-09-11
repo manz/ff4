@@ -2,6 +2,10 @@
 Minimal dialog-VWF wiring: pointer-loading helpers + entry hooks called from the existing dialog routines so
 the VWF layer kicks in without rewriting the message window.
 """
+
+.include "src/rom_map.i"
+.include "src/libmz.i"
+
 ;=====================================================================
 ; Les Fonctions de chargement de pointeur de dialogue
 ;=====================================================================

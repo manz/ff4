@@ -51,26 +51,26 @@ Final Fantasy IV the new hack.
 .import "items"
 .include "src/lib/rolling_buffer.i"
 .include "src/menus/system_menus_text.i"
-.include "src/minimal_vwf_patches.s"
+.import "minimal_vwf_patches"
 .if BATTLE_ENABLED {
-    .include "src/battle/math_patches.s"
-    .include "src/battle/graphics_patches.s"
+    .import "battle/math_patches"
+    .import "battle/graphics_patches"
     .if MAGIC_ENABLED {
-    .include "src/battle/magic/patches.s"
-    .include "src/battle/commands_patches.s"
+    .import "battle/magic/patches"
+    .import "battle/commands_patches"
     }
-    .include "src/battle/message_patches.s"
-    .include "src/battle/sram_patches.s"
+    .import "battle/message_patches"
+    .import "battle/sram_patches"
     .if BATTLE_MONSTERS_VWF {
-    .include "src/battle/monsters_patches.s"
+    .import "battle/monsters_patches"
     }
-    .include "src/battle/items_patches.s"
-    .include "src/battle/redraw_writer_patches.s"
+    .import "battle/items_patches"
+    .import "battle/redraw_writer_patches"
     .if INVENTORY_ROLLING_BUFFER {
-    .include "src/battle/inventory_rolling_patches.s"
+    .import "battle/inventory_rolling_patches"
     }
     .if TREASURE_DEBUG_ALWAYS_DROP {
-    .include "src/battle/debug_always_drop.s"
+    .import "battle/debug_always_drop"
     }
 }
 
@@ -83,7 +83,7 @@ Final Fantasy IV the new hack.
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma_patches"
-    .include "src/ingame/inventory_rolling_trampolines.s"
+    .import "ingame/inventory_rolling_trampolines"
 }
 
 

@@ -2,6 +2,10 @@
 Battle graphics asset patches: MISS sprite glyphs, defend/row text overrides and other small tile fixups that
 piggyback on `defend_row` data.
 """
+
+.include "src/rom_map.i"
+.extern assets_battle_statuses_dat
+
 .extern defend_row
 
 ; MISS sprite graphics

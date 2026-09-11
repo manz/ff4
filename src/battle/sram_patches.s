@@ -2,6 +2,9 @@
 ROM patches that route every battle-text draw call (commands, monster names, char names, attack names, message
 window) through our messages-VWF init/deinit trampolines.
 """
+
+.include "src/rom_map.i"
+
 .include "config.i"
 .extern draw_command_list_for_character
 .extern battle_display_char

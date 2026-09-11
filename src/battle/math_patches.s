@@ -2,6 +2,9 @@
 Patches that re-point the bank-2 hardware multiplier (`Mult8` at $8560) at our reimplementation, plus the JMP
 trampoline at $83B9 jumping into `_hw_mult16`.
 """
+
+.include "src/rom_map.i"
+
 ; ===========================================================================
 ; Mult8 Hardware Implementation - Bank 2 version at $8560
 ; Input: $26, $28 → Output: $2a = $26 * $28

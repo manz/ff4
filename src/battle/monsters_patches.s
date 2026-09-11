@@ -2,6 +2,10 @@
 Patches that switch the battle monster-name loader from a fixed-size table to a pointer-indirected one (long
 names) and forward to `load_monster_pointer`.
 """
+
+.include "src/rom_map.i"
+.extern assets_monsters_long_dat
+
 .extern load_monster_pointer
 .extern initialize_monster_slot
 .extern tab_escape_code
