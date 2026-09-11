@@ -1,0 +1,1104 @@
+# addr	name	type	m	x	e	comment
+008000	program_start	code				program start
+008078	DmaBufferToVram	code				One-shot VRAM DMA. $1D=VMADDR word, $1F=src, $21=src bank, $22=byte count (callers stage it in $DE).
+0080A0	field_main	code				field main
+008186	WaitVblank_far	code				RTL wrapper around WaitVblank.
+00818A	WaitVblank	code				Menu frame boundary. Polls RDNMI, and `inc $16a3` here is the only per-frame tick menus have - NMI is disabled ($4200=0) while a menu is up, so $0092A5 never runs. Menu loops iterate a variable number of times per frame; count frames off $16A3, not loop calls.
+0081F4	check_menu	code				check menu
+008290	init_new_game	code				init new game
+0082A5	UpdateCtrlAfterScroll	code				Post-scroll input fixup; called by the rolling engine's finish_scroll.
+0082C0	ReadCtrlAndDispatch	code				Joypad read + dispatch. Runs once per frame while input flows but ~20 times inside the frame that ends a scroll animation - not a frame tick.
+008302	update_player_movement_speed	code				update player movement speed
+008313	load_map	code				load map
+00834E	init_map_ram	code				init map ram
+0083A4	load_sub_map	code				load sub-map
+008452	reload_sub_map	code				reload sub-map
+008502	load_overworld	code				load overworld
+00853C	load_underground	code				load underground
+008574	load_moon	code				load moon
+0085AB	init_world_map	code				init world map
+0085DB	remove_float	code				remove float
+0085EF	screen_off	code				screen off
+0085FA	title_screen	code				title screen
+0087B4	AToXViaScratch43	code				sta $43 / ldx $43.
+00883D	load_title_screen_bg_graphics	code				load title screen bg graphics
+00885E	transfer_title_screen_crystal_tilemap_to_vram	code				transfer title screen crystal tilemap to vram
+008890			1	0	0	
+0088E2	next_sprite	code				next sprite
+0088EB	battle_world_map	code				battle (world map)
+008918	battle_sub_map	code				battle (sub-map)
+008959	battle	code				battle
+0089EF	init_interrupt_jump_code	code				init interrupt jump code
+008A0A	fade_out_for_menu	code				fade out for menu
+008A13	reload_graphics_after_menu	code				reload graphics after menu
+008A60	load_cave_water_graphics	code				load cave water graphics
+008A96	transfer_cave_water_graphics_to_vram	code				transfer cave water graphics to vram
+008AC6	update_cave_animated_water	code				update cave animated water
+008B1F	rotate_word	code				rotate word
+008B2C	init_dma	code				init dma
+008B38	execute_dma	code				execute dma
+008B3E	update_random_battle	code				update random battle
+008CB7	update_battle_parameters	code				update battle parameters
+008CD6	get_battle_bg_sub_map	code				get battle bg (sub-map)
+008CF2	choose_random_battle	code				choose random battle
+008D4B	fade_out_music_fast	code				fade out music (fast)
+008D55	fade_out_music_slow	code				fade out music (slow)
+008D5F	play_map_song	code				play map song
+008D9B	play_sound_effect	code				play sound effect
+008DB2	fade_in	code				fade in
+008DD3	fade_out	code				fade out
+008DFE	wait_for_key_up	code				wait for key up
+008E07	wait_for_keypress	code				wait for keypress
+008E10	transfer_water_lava_tile_to_vram	code				transfer water/lava tile to vram
+008E49	update_water_lava_animation	code				update water/lava animation
+008E59	transfer_water_lava_graphics_to_vram	code				transfer water/lava graphics to vram
+008E69	transfer_overworld_water_graphics_to_vram	code				transfer overworld water graphics to vram
+008EC6	transfer_underground_lava_graphics_from_vram	code				transfer underground lava graphics from vram
+008EE5	update_underground_lava_animation	code				update underground lava animation
+008F36	transfer_underground_lava_graphics_to_vram	code				transfer underground lava graphics to vram
+008F6B	transfer_overworld_water_graphics_from_vram	code				transfer overworld water graphics from vram
+008FA3	update_overworld_water_animation	code				update overworld water animation
+009013	DrawEquipItemName	code				Hijacked -> items_menu_vwf.draw_field_item_name.
+009060	DrawItemName	code				Hijacked -> items_menu_vwf.draw_field_item_name.
+0090BC	calculate_mode_7_rotation_parameters	code				calculate mode 7 rotation parameters
+0090D2	calculate_mode_7_trig_function	code				calculate mode 7 trig function
+009106	update_mode_7_registers	code				update mode 7 registers
+00912F			1	0	0	
+00913E	wait_for_vblank_short	code				wait for vblank (short)
+00914D			1	0	0	
+009179	reset_all_sprites	code				reset all sprites
+009197	reset_sprites_0_63	code				reset sprites 0-63
+0091B5	load_world_map_palette	code				load world map palette
+0091CC	update_screen_wipe_irq	code				update screen wipe (irq)
+009206	update_screen_wipe_nmi	code				update screen wipe (nmi)
+009241	screen_wipe_out	code				screen wipe (out)
+00926B	screen_wipe_in	code				screen wipe (in)
+00929E	asl	code				asl
+0092A5	NMIHandler	code				Vectored via the RAM stub at $00:0200. NOT reached while a menu is open - menus disable NMI and poll RDNMI in WaitVblank instead.
+00943A	TfrBg4TilesVblank	code				Pushes the BG4 staging buffer $7E:C600 -> VRAM word $7800. Drops list rides this; drained off drops_rolling.transfer_pending.
+009447	TfrBg3TilesVblank	code				Pushes the BG3 staging buffer $7E:D600 -> VRAM word $7000. Treasure inventory rides this; drained off treasure_rolling.transfer_pending.
+009480	field_irq	code				field irq
+0094C2	draw_world_map_sprites	code				draw world map sprites
+0094F0	init_character_properties	code				init character properties
+009535	travel_from_overworld_to_underground	code				travel from overworld to underground
+00973D	load_vehicle_graphics	code				load vehicle graphics
+009794	load_sprite_graphics_world_map	code				load sprite graphics (world map)
+0097A4	load_sprite_graphics_sub_map	code				load sprite graphics (sub-map)
+0097B5	do_poison_damage	code				do poison damage
+009801	do_floor_damage	code				do floor damage
+00984E	check_treasures_and_npcs	code				check treasures and npcs
+009879	check_treasures	code				check treasures
+0099FD	give_gp	code				give gp
+009A38	give_item	code				give item
+009AEB	get_treasure_chest_tiles	code				get treasure chest tiles
+009B0F			1	0	0	
+009B21			1	0	0	
+009B44	get_treasure_switch_id	code				get treasure switch id
+009B5D	get_pointer_to_treasure_properties	code				get pointer to treasure properties
+009B80	init_map_treasures	code				init map treasures
+009BD1	check_triggers_sub_map	code				check triggers (sub-map)
+009CED	push_map_to_stack	code				push map to stack
+009D36	check_triggers_world_map	code				check triggers (world map)
+009E3D	board_exit_vehicle	code				board/exit vehicle
+009F6E	update_local_tile_properties	code				update local tile properties
+009FC2	get_tile_properties	code				get tile properties
+00A016	animate_4_frames	code				animate 4 frames
+00A02B	animate_8_frames	code				animate 8 frames
+00A040	board_chocobo	code				board chocobo
+00A04B	board_black_chocobo	code				board black chocobo
+00A07D	get_off_chocobo	code				get off chocobo
+00A105	DrawItemCursors	code				Cursor sprites: drops cursor -> OAM staging $0300, inventory cursor -> $0310. X = ($1B22 ? $6C : 0) + 4, Y from $1B23 * 16 + $36.
+00A122	land_black_chocobo	code				land black chocobo
+00A15C	DrawTreasureList	code				Vanilla 4x2 drops grid over $7E:FF28. Replaced by drops_init / drops_refresh_slots at $01:D80E and $01:D92D.
+00A160	board_ship	code				board ship
+00A16A	board_hovercraft	code				board hovercraft
+00A19A	vehicle_appearing_animation	code				vehicle appearing animation
+00A1E0	land_hovercraft	code				land hovercraft
+00A215	board_enterprise	code				board enterprise
+00A285	board_falcon	code				board falcon
+00A2ED	enter_big_whale	code				enter big whale
+00A301	board_big_whale	code				board big whale
+00A555	load_moon_graphics_telescope	code				load moon graphics (telescope)
+00A580	draw_star_sprites	code				draw star sprites
+00A60D	land_enterprise_pick_up_hovercraft	code				land enterprise / pick up hovercraft
+00A6F4	drop_hovercraft	code				drop hovercraft
+00A72F	pick_up_hovercraft	code				pick up hovercraft
+00A75C	land_falcon	code				land falcon
+00A873	move_player	code				move player
+00A943	check_player_movement_sub_map	code				check player movement (sub-map)
+00AA42	open_door	code				open door
+00AA5A	check_tile_passability	code				check tile passability
+00AA96	check_if_blocked_by_npc	code				check if blocked by npc
+00AADA	set_player_position_in_npc_map	code				set player position in npc map
+00AB15	clear_player_position_in_npc_map	code				clear player position in npc map
+00AB31	get_bg1_tilemap_vram_address	code				get bg1 tilemap vram address
+00AB62	get_open_door_tiles	code				get open door tiles
+00AB86	check_player_movement_world_map	code				check player movement (world map)
+00AC7F	check_if_blocked_by_vehicle	code				check if blocked by vehicle
+00ADE7	show_yes_no_selection_window	code				show yes/no selection window
+00AEAD	transfer_yes_no_window_to_vram	code				transfer yes/no window to vram
+00AF26	close_yes_no_window_one_row	code				close yes/no window (one row)
+00AF4D	show_item_selection_window	code				show item selection window
+00B075	play_cursor_sound_effect	code				play cursor sound effect
+00B08E	scroll_item_list_up	code				scroll item list up
+00B09E	scroll_item_list_down	code				scroll item list down
+00B0AE	init_irq_for_item_selection	code				init irq for item selection
+00B0D1	update_item_selection_window_irq	code				update item selection window (irq)
+00B11C	draw_item_select_cursor	code				draw item select cursor
+00B176	transfer_item_selection_window_to_vram	code				transfer item selection window to vram
+00B22B	update_item_selection_window_text	code				update item selection window text
+00B2D5	init_item_list	code				init item list
+00B30D	open_dialogue_window	code				open dialogue window
+00B3A0			1	0	0	
+00B3BB			1	0	0	
+00B404			1	0	0	
+00B41D			1	0	0	
+00B44F	get_dialogue_id	code				get dialogue id
+00B45B	decode_dialogue_text_one_line	code				decode dialogue text (one line)
+00B4DC	get_next_dialogue_byte	code				get next dialogue byte
+00B4E3			1	0	0	
+00B670			1	0	0	
+00B6F3	init_irq_for_dialogue_window	code				init irq for dialogue window
+00B716	update_dialogue_window_irq	code				update dialogue window (irq)
+00B761	transfer_dialogue_window_to_vram	code				transfer dialogue window to vram
+00B7CB	hide_dialogue_window	code				hide dialogue window
+00B80F	transfer_dialogue_text_to_vram	code				transfer dialogue text to vram
+00B8AB	hide_map_name_window	code				hide map name window
+00B8D9	load_map_name	code				load map name
+00B948	transfer_map_name_window_to_vram	code				transfer map name window to vram
+00BA0C	check_npcs	code				check npcs
+00BB0F	get_npc_pointer	code				get npc pointer
+00BB6A	draw_npcs	code				draw npcs
+00BDB2			1	0	0	
+00BE10	check_npc_movement	code				check npc movement
+00BFE5			1	0	0	
+00C00E	move_npcs	code				move npcs
+00C121	reload_npcs	code				reload npcs
+00C143	init_npcs	code				init npcs
+00C2BE	load_npc_palette	code				load npc palette
+00C2EF	clear_npc_map	code				clear npc map
+00C2FF	clear_npc_map_position	code				clear npc map position
+00C30D	check_npc_map	code				check npc map
+00C32A	check_npc_map_00c328	code				check npc map
+00C347	set_npc_map_position	code				set npc map position
+00C357	get_pointer_to_npc_map	code				get pointer to npc map
+00C371	load_npc_graphics	code				load npc graphics
+00C38D	load_sprite_graphics	code				load sprite graphics
+00C3F1	check_npc_switch	code				check npc switch
+00C42A	random_0_255	code				random (0..255)
+00C4D1	special_effect_3f	code				special effect $3F:
+00C500	special_effect_3c_soft_reset	code				special effect $3C: soft reset
+00C518	fade_music_to_half_volume	code				fade music to half volume
+00C532	special_effect_3b	code				special effect $3B:
+00C572	special_effect_37_solar_system_prophecy	code				special effect $37: solar system (prophecy)
+00C580	special_effect_38_solar_system_moon_departs	code				special effect $38: solar system (moon departs)
+00C58E	special_effect_39_end_credits	code				special effect $39: end credits
+00C5AF	special_effect_36	code				special effect $36:
+00C61F	special_effect_34_telescope	code				special effect $34: telescope
+00C772	special_effect_32	code				special effect $32:
+00C88D	special_effect_30	code				special effect $30:
+00C8B4	special_effect_2e_hide_enterprise	code				special effect $2E: hide enterprise
+00C8BA	special_effect_2f	code				special effect $2F:
+00C8BE	special_effect_2d	code				special effect $2D:
+00C8E1	special_effect_20	code				special effect $20:
+00C90F	special_effect_21	code				special effect $21:
+00CAA7	special_effect_22	code				special effect $22:
+00CB21	special_effect_23	code				special effect $23:
+00CE78	special_effect_1f	code				special effect $1F:
+00CFC6	special_effect_1d	code				special effect $1D:
+00CFD2	special_effect_1c	code				special effect $1C:
+00CFE5	special_effect_28	code				special effect $28:
+00CFF8	special_effect_19	code				special effect $19:
+00D011	special_effect_1a	code				special effect $1A:
+00D021	special_effect_1b	code				special effect $1B:
+00D344	special_effect_0d	code				special effect $0D:
+00D352	special_effect_0a	code				special effect $0A:
+00D363	special_effect_0b	code				special effect $0B:
+00D3F4	special_effect_09	code				special effect $09:
+00D4DE	special_effect_0e	code				special effect $0E:
+00D55D	special_effect_04	code				special effect $04:
+00D5F8	special_effect_03	code				special effect $03:
+00D7AF	special_effect_31	code				special effect $31:
+00D833	special_effect_1e	code				special effect $1E:
+00D843	special_effect_3a	code				special effect $3A:
+00D853	special_effect_0c	code				special effect $0C:
+00D8AF	special_effect_08	code				special effect $08:
+00D99B	special_effect_02	code				special effect $02:
+00D9D8	special_effect_07	code				special effect $07:
+00D9E1	special_effect_08_00d9df	code				special effect $08:
+00DAA5	special_effect_00_red_wings_intro_1	code				special effect $00: red wings intro 1
+00DB03	special_effect_01_red_wings_intro_2	code				special effect $01: red wings intro 2
+00DB73			1	0	0	
+00DBAE	decrement_screen_brightness	code				decrement screen brightness
+00DBC0	increment_screen_brightness	code				increment screen brightness
+00DBD4	load_world_map_for_red_wings_intro	code				load world map for red wings intro
+00DC06	special_effect_15	code				special effect $15:
+00DC10	special_effect_12	code				special effect $12:
+00DC3B	special_effect_13	code				special effect $13:
+00DC64	special_effect_14	code				special effect $14:
+00DCD4	special_effect_2b	code				special effect $2B:
+00DD07	special_effect_2c	code				special effect $2C:
+00DE6A	special_effect_16_tanks_vs_red_wings	code				special effect $16: tanks vs. red wings
+00DFC6	draw_tank_sprite	code				draw tank sprite ???
+00E015	draw_airship_sprite	code				draw airship sprite ???
+00E15C	draw_explosion_sprite	code				draw explosion sprite ???
+00E1C2	set_large_sprite_flag_32_sprites	code				set large sprite flag (32 sprites)
+00E1D1	set_large_sprite_flag_64_sprites	code				set large sprite flag (64 sprites)
+00E1E0	wait	code				wait
+00E1ED	execute_event	code				execute event
+00E2A4			1	0	0	
+00E361			1	0	0	
+00E4AB			1	0	0	
+00E555	get_next_event_script_byte	code				get next event script byte
+00E55C	find_event_script_terminator	code				find event script terminator
+00E74D	restore_party_after_solo_character_battle	code				restore party after solo character battle
+00E7BA	increment_character_properties_pointer	code				increment character properties pointer
+00E7C8	clear_status	code				clear status
+00E7EC			1	0	0	
+00E86E	restore_character_properties	code				restore character properties
+00E897	load_character_properties	code				load character properties
+00E8E8	init_cecil_s_equipment	code				init cecil's equipment
+00E8ED	init_character_equipment	code				init character equipment
+00E9D1			1	0	0	
+00EA16			1	0	0	
+00ED1F	set_current_gp	code				set current gp
+00ED2F	get_current_gp	code				get current gp
+00EE37	transfer_inverted_palette_to_ppu	code				transfer inverted palette to ppu
+00EF47	draw_secret_door	code				draw secret door
+00EF9E	transfer_secret_door_tilemap_to_vram	code				transfer secret door tilemap to vram
+00F169			1	0	0	
+00F22F	execute_trigger_script	code				execute trigger script
+00F2C9	execute_npc_script	code				execute npc script
+00F37A			1	0	0	
+00F3A2			1	0	0	
+00F3BD			1	0	0	
+00F3D5			1	0	0	
+00F3EF	check_event_switch	code				check event switch
+00F409	get_event_switch_offset	code				get event switch offset
+00F416	get_npc_switch_offset	code				get npc switch offset
+00F434	init_mode_7_hdma_zoom_data	code				init mode 7 hdma zoom data
+00F51A	increment_zoom_multiplier	code				increment zoom multiplier
+00F535	update_bg2_scroll	code				update bg2 scroll
+00F60F	load_world_tileset	code				load world tileset
+00F627	clear_bg_tilemap	code				clear bg tilemap
+00F635	update_tilemap_scrolling_world_map	code				update tilemap scrolling (world map)
+00F761	update_tilemap_scrolling_sub_map	code				update tilemap scrolling (sub-map)
+00F871	copy_tilemap_row_to_vram_buffer	code				copy tilemap row to vram buffer
+00F8B1			1	0	0	
+00F924			1	0	0	
+00F973			1	0	0	
+00FA96	init_bg1_tilemap	code				init bg1 tilemap
+00FB4B	init_bg2_tilemap	code				init bg2 tilemap
+00FB95	transfer_bg2_tilemap_to_vram	code				transfer bg2 tilemap to vram
+00FBC4	transfer_bg1_tilemap_to_vram_scrolling	code				transfer bg1 tilemap to vram (scrolling)
+00FC76	transfer_world_tilemap_to_vram	code				transfer world tilemap to vram
+00FD22	decompress_world_tilemap	code				decompress world tilemap
+00FD74	decompress_overworld_tilemap	code				decompress overworld tilemap
+00FE02	decompress_underground_tilemap	code				decompress underground tilemap
+00FE4F	decompress_moon_tilemap	code				decompress moon tilemap
+00FEBC	decompress_bg_tilemap	code				decompress bg tilemap
+00FFAD	decode_bg1_tilemap	code				decode bg1 tilemap
+00FFB4	decode_bg2_tilemap	code				decode bg2 tilemap
+00FFBC			1	0	0	
+01800C			1	0	0	
+018010			1	0	0	
+01801C			1	0	0	
+018028			1	0	0	
+01802C	main_menu	code				main menu
+018045	init_main_menu	code				init main menu
+01805E	update_controller_field	code				update controller (field)
+01806E	update_controller_battle	code				update controller (battle)
+018078	transfer_data_to_vram	code				transfer data to vram
+0180B2	transfer_palettes_to_ppu	code				transfer palettes to ppu
+0180F5	draw_window_tilemap_to_buffer	code				draw window tilemap to buffer
+018186	wait_for_vblank_far	code				wait for vblank (far)
+01818A	wait_for_vblank_01818a	code				wait for vblank
+0181BD	convert_hex_to_decimal_2_digits	code				convert hex to decimal (2 digits)
+0181D6	convert_hex_to_decimal_4_digits	code				convert hex to decimal (4 digits)
+018245	wait_for_hardware_multiply	code				wait for hardware multiply
+01824C	transfer_sprite_data_to_ppu	code				transfer sprite data to ppu
+01827C	draw_cursor_sprite	code				draw cursor sprite
+0182B6	update_controller	code				update controller
+0182BB	init_controller	code				init controller
+0182C0	update_controller_w_sound_effect	code				update controller (w/ sound effect)
+0182E4	draw_text_any_bank	code				draw text (any bank)
+0182FB	draw_window_and_text	code				draw window and text
+018336	wait_for_keypress_018336	code				wait for keypress
+01834B	do_jump_table	code				do jump table
+018369	draw_2_digit_number	code				draw 2-digit number
+01837F	draw_4_digit_number	code				draw 4-digit number
+0183AB	draw_character_name	code				draw character name
+0183E3	open_window	code				open window
+018417	close_window	code				close window
+01846D	select_bg3	code				select bg3
+018485	select_bg4	code				select bg4
+0184B7	select_bg2	code				select bg2
+0184D0	transform_window	code				transform window
+01858D	update_bg_scroll_position	code				update bg scroll position
+0185C0	change_top_of_window	code				change top of window
+0185D2	change_bottom_of_window	code				change bottom of window
+0185E4	change_left_side_of_window	code				change left side of window
+0185F6	change_right_side_of_window	code				change right side of window
+018608	get_pointer_to_window_tilemap_buffer	code				get pointer to window tilemap buffer
+018632	draw_window_row_middle	code				draw window row (middle)
+01865A	hide_window_row	code				hide window row
+018675	draw_window_row_top	code				draw window row (top)
+018698	draw_window_row_bottom	code				draw window row (bottom)
+0186BB	draw_window_column	code				draw window column
+01871D	hide_window_column	code				hide window column
+01873A	save_dialogue_window_graphics	code				save dialogue window graphics
+01873F	restore_dialogue_window_graphics	code				restore dialogue window graphics
+018749	update_window_color	code				update window color
+01874E	cursor_sound_effect	code				cursor sound effect
+018758	error_sound_effect	code				error sound effect
+01875C	play_sound_effect_far	code				play sound effect (far)
+018760	cure_sound_effect	code				cure sound effect
+018762	play_sound_effect_018762	code				play sound effect
+018779	clear_text	code				clear text
+01877E	next_row_x	code				next row (X)
+01878B	next_row_y	code				next row (Y)
+0187B4	tax	code				tax
+0187B9	iny	code				iny
+0187C2	draw_game_time_and_gp	code				draw game time and gp
+0187E6	init_main_menu_0187e6	code				init main menu
+0187FB	main_menu_0187fb	code				main menu
+018897	draw_character_blocks_and_portraits	code				draw character blocks and portraits
+01889D	draw_all_character_blocks	code				draw all character blocks
+0188BF	draw_selected_character_block	code				draw selected character block
+0188FD	draw_portraits	code				draw portraits
+018919	draw_main_menu	code				draw main menu
+018948	calculate_portrait_position	code				calculate portrait position
+018992	draw_portrait	code				draw portrait
+01899A	draw_character_block	code				draw character block
+018A52	select_character_main_menu	code				select character (main menu)
+018B93	draw_game_time	code				draw game time
+018BE8	divide_by_60	code				divide by 60
+018C65	clear_cursor_position_data	code				clear cursor position data
+018C7D	init_menu	code				init menu
+018D2D	clear_screen_buffer	code				clear screen buffer
+018D6A	clear_sprite_data	code				clear sprite data
+018DA0	load_character_graphics	code				load character graphics
+018DCE	load_character_slot_graphics	code				load character slot graphics
+018E6E	draw_portrait_018e6e	code				draw portrait
+018F59	convert_hex_to_decimal_7_digits	code				convert hex to decimal (7 digits)
+018F85	divide_by_10	code				divide by 10
+018FA6	draw_number_text_7_digits	code				draw number text (7 digits)
+018FC6	draw_character_title	code				draw character title
+019001	get_pointer_to_character_properties	code				get pointer to character properties
+019064	draw_character	code				draw character
+01925E	load_portraits	code				load portraits
+019273	transfer_portrait_graphics_to_vram	code				transfer portrait graphics to vram
+0192FB	transfer_3bpp_graphics_to_vram	code				transfer 3bpp graphics to vram
+01932E	load_portrait_palette	code				load portrait palette
+019411	transfer_screen_buffer_to_vram_all	code				transfer screen buffer to vram (all)
+01941D	transfer_screen_buffer_to_vram	code				transfer screen buffer to vram
+019464	fade_in_019464	code				fade in
+01947E	fade_out_01947e	code				fade out
+019592	game_load_menu	code				game load menu
+0195CC			1	0	0	
+019659	get_player_input_select_save_slot	code				get player input (select save slot)
+01979B			1	0	0	
+0197D3	confirm_selected_save_slot	code				confirm selected save slot
+01990E	init_save_slot	code				init save slot
+019917			1	0	0	
+019924			1	0	0	
+019950			1	0	0	
+019982			1	0	0	
+019AE9			1	0	0	
+019B17			1	0	0	
+019B61	name_change_menu	code				name change menu
+01A5CD	calculate_potion_ether_effect	code				calculate potion/ether effect
+01A706	use_consumable_item_ce_ea	code				use consumable item ($CE-$EA)
+01A919	get_character_id	code				get character id
+01A922	sort_inventory	code				sort inventory
+01A92F	status_menu	code				status menu
+01ABB6	draw_status_window	code				draw status window ???
+01ABF9	order_main_menu	code				order (main menu)
+01ACDE	row_main_menu	code				row (main menu)
+01AD94	character_order_change_animation	code				character order change animation
+01AE10	draw_character_sprites_order_change	code				draw character sprites (order change)
+01AE2A	sort_items	code				sort items
+01AED3	magic_menu	code				magic menu
+01B2A6	draw_spell_name	code				draw spell name
+01B458	draw_spell_target_select_windows	code				draw spell target select windows
+01B519	cast_spell	code				cast spell
+01B6B1	draw_portrait_spell_target_select	code				draw portrait (spell target select)
+01B9A0	get_pointer_to_selected_character_properties	code				get pointer to selected character properties
+01BA1A	namingway_menu	code				namingway menu
+01BA2E	namingway_menu_change_name	code				namingway menu (change name?)
+01BAF9	namingway_menu_change_whose_name	code				namingway menu (change whose name?)
+01BBF5	equip_menu	code				equip menu
+01BCF7	select_equipment_slot	code				select equipment slot
+01BE89	select_item_from_inventory	code				select item from inventory
+01BFA6	check_if_item_can_be_equipped	code				check if item can be equipped
+01BFFA	check_if_item_is_in_range	code				check if item is in range
+01C01A	check_if_item_can_go_in_equipment_slot	code				check if item can go in equipment slot
+01C0D6	equip_remove_item	code				equip/remove item
+01C238	find_item_in_inventory	code				find item in inventory
+01C25C	check_if_item_is_an_arrow	code				check if item is an arrow
+01C268	swap_equipment_with_inventory	code				swap equipment with inventory
+01C275	check_item_equipability	code				check item equipability
+01C2BF	shop_menu	code				shop menu
+01C405	buy_menu	code				buy menu
+01C49A	update_shop_list	code				update shop list
+01C4A0	load_shop_list	code				load shop list
+01C5AE	increment_shop_list_pointer	code				increment shop list pointer
+01C5B5	select_item_to_buy	code				select item to buy
+01C665	buy_item	code				buy item
+01C7BE	sell_menu	code				sell menu
+01C849	select_item_to_sell	code				select item to sell
+01C936	confirm_sell_item	code				confirm sell item
+01CA9C	copy_cursor_sprite_data	code				copy cursor sprite data
+01CB0D	draw_item_quantity_cursor	code				draw item quantity cursor
+01CB1F	update_item_quantity	code				update item quantity
+01CB86	save_menu	code				save menu
+01CC5F	calculate_save_slot_checksum	code				calculate save slot checksum
+01CC95	fat_chocobo_menu_from_field	code				fat chocobo menu (from field)
+01CCB3	fat_chocobo_menu_whistle	code				fat chocobo menu (whistle)
+01CCF1	play_song	code				play song
+01CCFE	fat_chocobo_menu	code				fat chocobo menu
+01CE2C	fat_chocobo_irq	code				fat chocobo irq
+01CE81	give_item_to_fat_chocobo	code				give item to fat chocobo
+01D060	take_item_from_fat_chocobo	code				take item from fat chocobo
+01D082	load_fat_chocobo_graphics	code				load fat chocobo graphics
+01D0D9	load_fat_chocobo_sprite_data	code				load fat chocobo sprite data
+01D142	config_menu	code				config menu
+01D406	draw_color_slider_tick_marks	code				draw color slider tick marks
+01D427	get_window_color_from_components	code				get window color from components
+01D44A	get_components_from_window_color	code				get components from window color
+01D46C	set_stereo_mono	code				set stereo/mono
+01D47E	button_mapping_menu	code				button mapping menu
+01D4DB	get_player_input_button_mapping_menu	code				get player input (button mapping menu)
+01D5DC	validate_button_mapping	code				validate button mapping ???
+01D60A	get_button_mapping_cursor_x_position	code				get button mapping cursor x position
+01D61D	get_toggle_cursor_x_position	code				get toggle cursor x position
+01D628	toggle_stereo_mono	code				toggle stereo/mono
+01D633	toggle_single_multi_controller	code				toggle single/multi-controller
+01D63C	toggle_active_wait_mode	code				toggle active/wait mode
+01D645	toggle_default_custom_button_mapping	code				toggle default/custom button mapping
+01D656	multi_controller_menu	code				multi-controller menu
+01D74E	get_controller_for_character	code				get controller for character
+01D75F	get_character_id_01d75f	code				get character id
+01D779	change_battle_speed_numerals_to_gray	code				change battle speed numerals to gray
+01E69C			1	0	0	
+01E8BD	load_battle_bg_tilemap	code				load battle bg tilemap
+01E905	get_pointer_to_upper_battle_bg_tilemap	code				get pointer to upper battle bg tilemap
+01E90C	load_lower_battle_bg_tilemap	code				load lower battle bg tilemap
+01E958	load_upper_battle_bg_tilemap	code				load upper battle bg tilemap
+01E988	update_monster_rows	code				update monster rows
+01E9D4	h_flip_tilemap	code				h-flip tilemap
+01E9E1	modify_monster_tilemap_demon_wall_back_attack	code				modify monster tilemap (demon wall/back attack)
+01EA69			1	0	0	
+01EAE1			1	0	0	
+01EBBF	draw_pause_window_text	code				draw pause window text
+01EBD2			1	0	0	
+01EE09	wait_one_frame_01ee09	code				wait one frame
+01EE0E	do_special_animation_far	code				do special animation (far)
+01EE12	do_special_animation	code				do special animation
+01EEAD	flash_screen	code				flash screen
+01EEE1	special_animation_ad_change_to_next_form	code				special animation $AD: change to next form
+01EF06	unused_special_animation	code				unused special animation
+01EF07	find_adult_rydia	code				find adult rydia
+01EF21	special_animation_b1	code				special animation $B1
+01EF53	special_animation_b0_mist_dragon_vs_golbez	code				special animation $B0: mist dragon vs. golbez
+01EF6B	load_mist_dragon_vs_golbez_attack_properties	code				load mist dragon vs. golbez attack properties
+01EF81	restore_attack_properties	code				restore attack properties
+01EF90	show_mist_dragon_vs_golbez	code				show mist dragon vs. golbez
+01EFBB	special_animation_b8	code				special animation $B8:
+01EFDB	special_animation_b2	code				special animation $B2:
+01EFE1	special_animation_b3	code				special animation $B3:
+01EFF4	special_animation_b4_call_edward_and_tellah	code				special animation $B4: call edward and tellah
+01F002	special_animation_b5_call_palom_and_porom	code				special animation $B5: call palom and porom
+01F010	special_animation_b6_call_yang_and_cid	code				special animation $B6: call yang and cid
+01F01E	special_animation_b7_call_fusoya_and_golbez	code				special animation $B7: call fusoya and golbez
+01F02F			1	0	0	
+01F112			1	0	0	
+01FDF9			1	0	0	
+028003			1	0	0	
+02800E	execute_battle_graphics	code				execute battle graphics
+02804B	battle_graphics_15	code				battle graphics $15:
+028064	battle_graphics_14_update_monster_rows	code				battle graphics $14: update monster rows
+028069	battle_graphics_13_party_runs_away	code				battle graphics $13: party runs away
+02812D	battle_graphics_12_victory_animation	code				battle graphics $12: victory animation
+028158	battle_graphics_06_draw_inventory_item_text	code				battle graphics $06: draw inventory item text
+028160	battle_graphics_07	code				battle graphics $07:
+028168	battle_graphics_08_update_arrow_quantity	code				battle graphics $08: update arrow quantity
+028170	battle_graphics_09_draw_battle_command_list	code				battle graphics $09: draw battle command list
+028178	battle_graphics_04_toggle_character_rows	code				battle graphics $04: toggle character rows
+028181	battle_graphics_03_init_battle_graphics	code				battle graphics $03: init battle graphics
+028263			1	0	0	
+028295	battle_graphics_02_wait_one_frame	code				battle graphics $02: wait one frame
+0282B0	battle_graphics_0f_wait_one_frame	code				battle graphics $0F: wait one frame
+0282B9			1	0	0	
+0282E1	update_flying_monster_v_scroll	code				update flying monster v-scroll
+028302	set_monster_hdma_v_scroll_value	code				set monster hdma v-scroll value
+02831B			1	0	0	
+028345	battle_nmi	code				battle nmi
+0283E1	clear_vram	code				clear vram
+028409	transfer_summon_graphics_to_vram	code				transfer summon graphics to vram ???
+0284B2			1	0	0	
+028513	wait_one_frame_028513	code				wait one frame
+02851E	wait_for_vblank_02851e	code				wait for vblank
+028527	divide_far	code				divide (far)
+02852B	divide	code				divide
+028560			1	0	0	
+02857C	multiply_16_bit	code				multiply (16-bit)
+0285A7	multiply_16_bit_0285a7	code				multiply (16-bit)
+0285D2	hardware_multiply	code				hardware multiply
+0285EB	hardware_divide	code				hardware divide
+02860F	transfer_3bpp_graphics_to_vram_02860f	code				transfer 3bpp graphics to vram
+028642	transfer_3bpp_graphics_to_vram_028642	code				transfer 3bpp graphics to vram
+028675	transfer_data_to_vram_channel_5	code				transfer data to vram (channel 5)
+02869A	DmaToVram_ch2	code				Generic VRAM upload helper: Y=VMADDR, X=src addr, A=src bank, size in $00. Bank-02 menu code uploads window tilemaps through this.
+0286BF	convert_hex_to_decimal	code				convert hex to decimal
+028716	normalize_number_text	code				normalize number text
+02875B			1	0	0	
+0287B1			1	0	0	
+0287E3			1	0	0	
+028826			1	0	0	
+028858			1	0	0	
+02886B			1	0	0	
+0288FB			1	0	0	
+028905			1	0	0	
+02892E			1	0	0	
+028980	clear_sprite_data_028980	code				clear sprite data
+02898F			1	0	0	
+0289D0	init_hardware_registers	code				init hardware registers
+028A51	battle_irq	code				battle irq
+028A66	clear_tilemap_buffer	code				clear tilemap buffer
+028A7C	transfer_tilemap_to_vram	code				transfer tilemap to vram
+028A89			1	0	0	
+028B1C	load_graphics	code				load graphics
+028B44	load_misc_monster_graphics	code				load misc. monster graphics
+028B7F			1	0	0	
+028BC7			1	0	0	
+028D2F	load_monster_tilemap	code				load monster tilemap
+028D35			1	0	0	
+028DA8			1	0	0	
+028EA5			1	0	0	
+028EC1			1	0	0	
+028ECA	load_monster_graphics	code				load monster graphics
+029058			1	0	0	
+029063	load_misc_sprite_graphics	code				load misc. sprite graphics
+029073	load_menu_graphics_bg2	code				load menu graphics (bg2)
+0290A0	transfer_bg2_menu_tile_to_vram	code				transfer bg2 menu tile to vram
+0290C2			1	0	0	
+029132			1	0	0	
+029137	load_menu_graphics_bg3	code				load menu graphics (bg3)
+029150			1	0	0	
+029179			1	0	0	
+0291A9			1	0	0	
+0291D2	load_battle_bg_graphics	code				load battle bg graphics
+029286			1	0	0	
+0292CA	clear_message_window_tilemap	code				clear message window tilemap
+0292D6	draw_message_window_full	code				draw message window (full)
+029304	draw_message_window_left	code				draw message window (left)
+029332	draw_message_window_center	code				draw message window (center)
+029360	draw_message_window_right	code				draw message window (right)
+02938E	open_message_window	code				open message window
+0293A8	close_message_window	code				close message window
+0293C5	transfer_message_window_tilemap_to_vram	code				transfer message window tilemap to vram
+02941A	transfer_mp_cost_tilemap_to_vram	code				transfer mp cost tilemap to vram
+029433	transfer_menu_tilemap_to_vram_update	code				transfer menu tilemap to vram (update)
+02946B	do_menu_text_update	code				do menu text update
+029472	do_menu_text_update_029472	code				do menu text update
+0294B4	copy_equipped_items_to_character_properties	code				copy equipped items to character properties
+029631	swap_inventory_slots	code				swap inventory slots
+02966D	do_forced_menu_vram_update	code				do forced menu vram update
+029682	transfer_menu_tilemap_to_vram	code				transfer menu tilemap to vram
+0296C8			1	0	0	
+0296D4	transfer_inventory_spell_list_tilemap_to_vram	code				transfer inventory/spell list tilemap to vram
+0296FA	do_periodic_menu_vram_update	code				do periodic menu vram update
+029719	do_periodic_menu_text_update	code				do periodic menu text update
+029738	load_menu_tilemap_vram_transfer_data	code				load menu tilemap vram transfer data
+029764	transfer_mp_cost_tilemap_to_vram_029764	code				transfer mp cost tilemap to vram
+029989			1	0	0	
+0299A5	transfer_battle_command_window_tilemap_to_vram	code				transfer battle command window tilemap to vram
+0299B6	transfer_status_tilemap_to_vram	code				transfer status tilemap to vram
+0299CA	draw_main_menu_0299ca	code				draw main menu
+0299D3	draw_monster_and_character_names	code				draw monster and character names
+0299DC	draw_character_hp	code				draw character hp
+0299E1	transfer_main_menu_tilemap_to_vram	code				transfer main menu tilemap to vram
+029A05			1	0	0	
+029A63	init_menu_text_and_tilemaps	code				init menu text and tilemaps
+029A8B			1	0	0	
+029AC7	transfer_menu_tilemap_to_vram_init	code				transfer menu tilemap to vram (init)
+029AF4	draw_menu_windows	code				draw menu windows
+029B59	load_menu_window_data	code				load menu window data
+029B77	get_window_border_tiles	code				get window border tiles
+029BAC	draw_window_029bac	code				draw window
+029BB5			1	0	0	
+029BBE			1	0	0	
+029BC7			1	0	0	
+029CA1			1	0	0	
+029CBF	draw_battle_command_list	code				draw battle command list
+029CD0	draw_battle_command_name	code				draw battle command name
+029D69	init_equipped_item_text_buffer	code				init equipped item text buffer
+029D8A	draw_right_left_hand_text	code				draw right/left hand text
+029DCD	draw_equipped_item_text	code				draw equipped item text
+029E9C			1	0	0	
+029FA4	draw_inventory_item_text	code				draw inventory item text
+02A070	init_spell_list_text_buffer	code				init spell list text buffer
+02A08E	draw_spell_name_spell_list	code				draw spell name (spell list)
+02A12C	battle_graphics_0c_draw_hp_text	code				battle graphics $0C: draw hp text
+02A1D7	battle_graphics_0d_draw_current_max_mp	code				battle graphics $0D: draw current/max mp
+02A1F8	check_if_character_name_hp_hidden	code				check if character name/hp hidden
+02A20C	battle_graphics_0a_draw_character_names	code				battle graphics $0A: draw character names
+02A2A1	draw_status_text	code				draw status text
+02A39E	battle_graphics_0b_draw_monster_names	code				battle graphics $0B: draw monster names
+02A411	get_battle_menu_text_buffer_data	code				get battle menu text buffer data
+02A42F	draw_battle_menu_text	code				draw battle menu text
+02A455	draw_text_02a455	code				draw text
+02A491	increment_text_pointer	code				increment text pointer
+02A497			1	0	0	
+02A49B			1	0	0	
+02A626	text_escape_code	code				text escape code
+02A765			1	0	0	
+02A811	update_hdma_data_for_menu	code				update hdma data for menu ???
+02A96B	open_close_menu	code				open/close menu
+02AA63			1	0	0	
+02AB05	pause_battle_delay_mode	code				pause battle (delay mode)
+02AB12	unpause_battle_delay_mode	code				unpause battle (delay mode)
+02AB20	pause_battle_wait_mode	code				pause battle (wait mode)
+02AB29	unpause_battle_wait_mode	code				unpause battle (wait mode)
+02ABD2	battle_graphics_01_close_menu	code				battle graphics $01: close menu
+02ABDD	battle_graphics_00_open_menu	code				battle graphics $00: open menu
+02ABF4			1	0	0	
+02AC23	update_cursor	code				update cursor
+02ACAF			1	0	0	
+02AD8B	select_default_target	code				select default target
+02AE29	update_target_cursor	code				update target cursor
+02B868	update_mp_cost_in_menu	code				update mp cost in menu
+02B919	play_error_sound_effect	code				play error sound effect
+02BAD2			1	0	0	
+02BB0B			1	0	0	
+02BB1A			1	0	0	
+02BB29	draw_target_cursor_sprites	code				draw target cursor sprites
+02BBE3	draw_menu_cursor_sprite	code				draw menu cursor sprite
+02BC4E			1	0	0	
+02BC82			1	0	0	
+02BC8E			1	0	0	
+02BC9D	do_special_animation_02bc9d	code				do special animation
+02BCA2	draw_attack_name_window	code				draw attack name window
+02BCAD			1	0	0	
+02BCB2			1	0	0	
+02BCC2	clear_bg1_h_scroll_hdma_data	code				clear bg1 h-scroll hdma data
+02BCD2	set_palette_to_black_and_white	code				set ??? palette to black and white
+02BD43			1	0	0	
+02BDAE			1	0	0	
+02BDD3			1	0	0	
+02BEAB	execute_graphics_script_far	code				execute graphics script (far)
+02BEAF	battle_graphics_05_graphics_script	code				battle graphics $05: graphics script
+02BEC2	init_buffer_pointers	code				init buffer pointers
+02BED7	battle_graphics_11_display_damage_numerals	code				battle graphics $11: display damage numerals
+02BEDD			1	0	0	
+02BEF0	execute_graphics_script	code				execute graphics script
+02C02B	get_next_graphics_script_byte	code				get next graphics script byte
+02C033	do_command_animation	code				do command animation
+02C09D	command_animation_10_twin_1	code				command animation $10: twin 1
+02C0B4	unused_command_animation	code				unused command animation
+02C0C1	command_animation_20_twin_2	code				command animation $20: twin 2
+02C117	command_animation_16_throw	code				command animation $16: throw
+02C280			1	0	0	
+02C2A9	command_animation_1b_defend	code				command animation $1B: defend
+02C2D9	command_animation_0e_kick	code				command animation $0E: kick
+02C476	command_animation_1e_jump_2	code				command animation $1E: jump 2
+02C555	command_animation_1c_appear_show	code				command animation $1C: appear (show)
+02C5B8			1	0	0	
+02C5C4	command_animation_09_hide_far	code				command animation $09: hide (far)
+02C5C8	command_animation_1c_appear_far	code				command animation $1C: appear (far)
+02C5CC	command_animation_09_hide	code				command animation $09: hide
+02C619	command_animation_06_jump_1	code				command animation $06: jump 1
+02C6B8	command_animation_1a_row_change	code				command animation $1A: row (change)
+02C6BF	command_animation_00_1f_fight_focus_2	code				command animation $00/$1F: fight/focus 2
+02C6C5	command_animation_08_0f_sing_brace	code				command animation $08/$0F: sing/brace
+02C6D2	command_animation_02_white_magic	code				command animation $02: white magic
+02C6DF	command_animation_03_black_magic	code				command animation $03: black magic
+02C718	command_animation_04_summon	code				command animation $04: summon
+02C72A	command_animation_25	code				command animation $25:
+02C793	command_animation_12_cry	code				command animation $12: cry
+02C79A	command_animation_11_bluff	code				command animation $11: bluff
+02C7A1	command_animation_19_regen	code				command animation $19: regen
+02C7A9	command_animation_07_14_recall_search	code				command animation $07/$14: recall/search
+02C7B1	command_animation_01_item	code				command animation $01: item
+02C7F1	command_animation_medicine_prayer_protect_steal_ninjutsu	code				command animation: medicine, prayer, protect, steal, ninjutsu
+02C7F9			1	0	0	
+02C81D	command_animation_05_dark_wave	code				command animation $05: dark wave
+02C88B	command_animation_0c_aim	code				command animation $0C: aim
+02C8A0	wait_02c8a0	code				wait
+02C8A7	do_graphics_script_command_f0_fe	code				do graphics script command $F0-$FE
+02C93B	wait_for_battle_message	code				wait for battle message
+02C974	wait_for_message_window	code				wait for message window
+02C97F	graphics_script_command_f8_display_text	code				graphics script command $F8: display text
+02CC32	graphics_script_command_f3	code				graphics script command $F3:
+02CCA2	graphics_script_command_f0_change_boss_frame	code				graphics script command $F0: change boss frame
+02CD42	weapon_animation_0a_whip	code				weapon animation $0A: whip
+02CD49	weapon_animation_01_sword	code				weapon animation $01: sword
+02CD56	weapon_animation_0b_hammer	code				weapon animation $0B: hammer
+02CD5A	weapon_animation_02_rod	code				weapon animation $02: rod
+02D069			1	0	0	
+02D13F	do_weapon_animation	code				do weapon animation
+02D1A2	weapon_animation_06_shuriken	code				weapon animation $06: shuriken
+02D248	weapon_animation_07	code				weapon animation $07:
+02D370	weapon_animation_08_boomerang	code				weapon animation $08: boomerang
+02D3F7	weapon_animation_09_harp	code				weapon animation $09: harp
+02D52A	weapon_animation_04_bow	code				weapon animation $04: bow
+02D55D	weapon_animation_05_unarmed	code				weapon animation $05: unarmed
+02D7A8	weapon_animation_00	code				weapon animation $00:
+02D7B4	weapon_animation_03_claw	code				weapon animation $03: claw
+02D8A0	load_weapon_palette	code				load weapon palette
+02D970	load_weapon_graphics	code				load weapon graphics
+02DA3D	load_3bpp_graphics	code				load 3bpp graphics
+02DA73			1	0	0	
+02DAFE			1	0	0	
+02DC52			1	0	0	
+02DCED			1	0	0	
+02DDA5			1	0	0	
+02DDDC			1	0	0	
+02E03A			1	0	0	
+02E08A			1	0	0	
+02E103	get_pointer_to_character_monster_properties_far	code				get pointer to character/monster properties (far)
+02E107	get_pointer_to_character_monster_properties	code				get pointer to character/monster properties
+02E116			1	0	0	
+02E1ED			1	0	0	
+02E24C	draw_character_sprites	code				draw character sprites
+02E41C	draw_character_sprite	code				draw character sprite
+02E505	draw_damage_numeral_sprites	code				draw damage numeral sprites
+02E5D9			1	0	0	
+02E63D			1	0	0	
+02E6ED			1	0	0	
+02E707			1	0	0	
+02E71E			1	0	0	
+02E8D8			1	0	0	
+02E8DD			1	0	0	
+02E8E2			1	0	0	
+02E8F9	battle_graphics_10	code				battle graphics $10:
+02E9A9			1	0	0	
+02EA82	load_summon_graphics	code				load summon graphics
+02EAC1	do_magic_animation	code				do magic animation
+02EAC9			1	0	0	
+02EB57			1	0	0	
+02EB5D	do_magic_animation_far	code				do magic animation (far)
+02F316			1	0	0	
+02F35F			1	0	0	
+02F497			1	0	0	
+02F4D6			1	0	0	
+02F4F8			1	0	0	
+02F524			1	0	0	
+02F57E			1	0	0	
+02F596			1	0	0	
+02F5DF			1	0	0	
+02F5E7			1	0	0	
+02F63B			1	0	0	
+02F699			1	0	0	
+02F6BC	execute_animation_script	code				execute animation script
+02F8F3			1	0	0	
+02FAF7			1	0	0	
+02FB6B			1	0	0	
+02FBE4			1	0	0	
+02FD2B			1	0	0	
+02FE14			1	0	0	
+02FF09			0	0	0	
+02FF20			1	0	0	
+02FF35			1	0	0	
+02FF42			1	0	0	
+038000			1	0	0	
+038006			1	0	0	
+038009	battle_038009	code				battle
+038036	update_character_equipment	code				update character equipment
+03805F	draw_current_max_mp	code				draw current/max mp
+038085	execute_battle_graphics_038085	code				execute battle graphics
+03808A	init_battle	code				init battle
+038235	init_ram	code				init ram
+0382CB	init_hardware_registers_0382cb	code				init hardware registers
+038379	random_x_a	code				random (X..A)
+0383B9	multiply_16_bit_0383b9	code				multiply (16-bit)
+0383E0	multiply_8_bit_0383e0	code				multiply (8-bit)
+038407	divide_038407	code				divide
+038443	get_script_length	code				get script length
+03845E	load_array_item	code				load array item
+03847B	asl_03847b	code				asl
+03847C			1	0	0	
+03847D			0	0	0	
+03847E			1	0	0	
+03847F			1	0	0	
+038482	lsr	code				lsr
+038483			1	0	0	
+038484			1	0	0	
+038485			1	0	0	
+038486			0	0	0	
+038489	set_current_character_monster	code				set current character/monster
+0384E3	add_16_bit	code				add (16-bit)
+0384FC	subtract_16_bit	code				subtract (16-bit)
+03850C	count_bits	code				count bits
+03851A	copy_attacker_target_properties_from_buffer	code				copy attacker/target properties from buffer
+03855A	clear_bit	code				clear bit
+03855F	set_bit	code				set bit
+038564	test_bit	code				test bit
+038569	get_pointer_to_timer	code				get pointer to timer
+038579	choose_a_random_monster	code				choose a random monster
+038582	choose_a_random_character	code				choose a random character
+03858B	random_0_98	code				random (0..98)
+038593	random_0_255_038593	code				random (0..255)
+03859B	add_message_to_graphics_script_33c2	code				add message to graphics script ($33C2)
+0385A6	add_message_to_graphics_script_33c6	code				add message to graphics script ($33C6)
+0385B1	add_message_to_graphics_script_33c8	code				add message to graphics script ($33C8)
+0385BC	increment_character_monster_pointer	code				increment character/monster pointer
+0385C8	set_timer	code				set timer
+0385D9	battle_main	code				battle main
+038687	do_action	code				do action
+03869F	end_battle	code				end battle
+0387D8	check_if_victory_fanfare_is_disabled	code				check if victory fanfare is disabled
+0387E4	find_battle_id_in_list	code				find battle id in list
+038803	check_if_victory_animation_is_disabled	code				check if victory animation is disabled
+03880F	clear_status_for_victory_animation	code				clear status for victory animation
+038840	drop_gp_from_running_away	code				drop gp from running away
+038929	init_characters_and_monsters	code				init characters and monsters
+038E99	hide_monster	code				hide monster
+038ECC	load_equipment_properties	code				load equipment properties
+038FCA	init_monster_properties	code				init monster properties
+039489	load_monster_attack_defense_values	code				load monster attack/defense values
+0394A8	load_character_properties_0394a8	code				load character properties
+0395CE	init_character_rows	code				init character rows
+039625	init_poison_timers	code				init poison timers
+039677	decrement_timers	code				decrement timers
+039741	check_for_pending_action	code				check for pending action
+039788	check_if_timer_expired	code				check if timer expired
+0397B3	init_action	code				init action
+0397FD	update_character_equipment_external	code				update character equipment (external)
+039837	update_character_stats	code				update character stats
+039D9E	get_opposing_elements	code				get opposing elements
+039DAB	get_shield_properties	code				get shield properties
+039DFE	copy_equipped_item_data_to_character_properties	code				copy equipped item data to character properties
+039E20	max_99	code				max 99
+039E27	max_255	code				max 255
+039E2C	calculate_timer_duration	code				calculate timer duration
+039FD8	apply_speed_multiplier	code				apply speed multiplier
+03A015	check_if_battle_is_over	code				check if battle is over
+03A0F7	update_enabled_inventory_items	code				update enabled inventory items
+03A158	check_if_character_can_use_item	code				check if character can use item
+03A1A0	update_enabled_commands_and_spells	code				update enabled commands and spells
+03A27E	check_if_battle_command_is_enabled	code				check if battle command is enabled
+03A2D9	check_command_requirements	code				check command requirements
+03A371	action_type_0_choose_character_action	code				action type 0: choose character action
+03A3E3	open_close_menu_03a3e3	code				open/close menu
+03A4C8	set_berserk_status_avenger_sword	code				set berserk status (avenger sword)
+03A4D9	get_auto_battle_command	code				get auto-battle command
+03A58D	validate_selected_character	code				validate selected character
+03A5B2	validate_selected_command	code				validate selected command
+03A714	validate_selected_targets	code				validate selected targets
+03A74D	clear_invalid_targets	code				clear invalid targets
+03A778	get_pointer_to_selected_command_magic_item_data	code				get pointer to selected command/magic/item data
+03A7C1	redraw_inventory_item_text	code				redraw inventory item text
+03A7D6	use_potion_salve	code				use potion (salve)
+03A81B	validate_equipped_arrows	code				validate equipped arrows
+03A856	action_type_3_do_timer_effect	code				action type 3: do timer effect
+03A9FF	do_sap_and_regen	code				do sap and regen
+03AAE2	do_forced_character_actions	code				do forced character actions
+03AB9D	choose_charmed_attack	code				choose charmed attack
+03ABED	choose_charmed_spell	code				choose charmed spell
+03AC8C	choose_berserk_attack	code				choose berserk attack
+03ACF9	force_edward_to_hide_appear	code				force edward to hide/appear
+03AD23	count_character_targets	code				count character targets
+03AD57	action_type_2_do_attack	code				action type 2: do attack
+03B09E	retarget	code				retarget
+03B0FF	execute_battle_command	code				execute battle command
+03B163	get_pointer_to_character_monster_properties_03b163	code				get pointer to character/monster properties
+03B18E	set_targets	code				set targets
+03B1A0			1	0	0	
+03B288	add_attack_to_retaliation_stack	code				add attack to retaliation stack
+03B2D7	shift_retaliation_stack	code				shift retaliation stack
+03B2FD	init_graphics_script	code				init graphics script
+03B33F	battle_command_21_do_nothing	code				battle command $21: do nothing
+03B3B6	action_type_1_choose_monster_action	code				action type 1: choose monster action
+03B68F	set_monster_pending_action	code				set monster pending action
+03B74C	get_pointer_to_monster_script	code				get pointer to monster script
+03B76F	change_monster_stat	code				change monster stat
+03B7FF	apply_speed_modifier	code				apply speed modifier
+03B877	change_battle_variable	code				change battle variable
+03B8A1	choose_monster_target	code				choose monster target
+03B97E	get_front_row_characters	code				get front row characters
+03B9C9	get_back_row_characters	code				get back row characters
+03BA11	get_monster_with_status	code				get monster with status
+03BBDE	init_monster_action_delay	code				init monster action delay
+03BBF2	init_monster_graphics_script	code				init monster graphics script
+03BC12	clear_graphics_script_buffer	code				clear graphics script buffer
+03BC1E	copy_monster_graphic_script_from_buffer	code				copy monster graphic script from buffer
+03BC31			1	0	0	
+03BCCE	check_monster_condition	code				check monster condition
+03BF0F	get_monster_condition_target	code				get monster condition target
+03C16C	do_retaliation	code				do retaliation
+03C408	find_valid_character_target	code				find valid character target
+03C489	battle_command_00_fight	code				battle command $00: fight
+03C914	decrement_arrow_quantity	code				decrement arrow quantity
+03C987	get_number_of_hits	code				get number of hits
+03C99F	calculate_damage	code				calculate damage
+03CA41	apply_damage_multiplier	code				apply damage multiplier
+03CA62	get_pointer_to_damage_buffer	code				get pointer to damage buffer
+03CA6E	update_hp_after_damage	code				update hp after damage
+03CB3A	apply_attack_status	code				apply attack status
+03CC36	battle_command_02_magic	code				battle command $02: magic
+03CD2E	do_magic_attack	code				do magic attack
+03D297	do_magic_effect	code				do magic effect
+03D2AC	validate_magic_targets	code				validate magic targets
+03D32E	check_if_attack_name_is_shown	code				check if attack name is shown
+03D354	check_if_monster_flash_is_disabled	code				check if monster flash is disabled
+03E030	remove_target	code				remove target
+03E053	get_summon_attack_id	code				get summon attack id
+03E07E	subtract_mp_if_summon_failed	code				subtract mp if summon failed
+03E100	check_elemental_resistance	code				check elemental resistance
+03E133	check_elemental_weakness	code				check elemental weakness
+03E156	battle_command_14_search_peep	code				battle command $14: search (peep)
+03E1B5	battle_command_24_run_away	code				battle command $24: run away
+03E1CF	battle_command_17_steal_sneak	code				battle command $17: steal (sneak)
+03E2D2	draw_stolen_item_text_in_inventory	code				draw stolen item text in inventory
+03E2DF	battle_command_0a_salve	code				battle command $0A: salve
+03E34F	battle_command_16_throw_dart	code				battle command $16: throw (dart)
+03E3D4	battle_command_1a_change_row	code				battle command $1A: change row
+03E3FD	battle_command_19_regen	code				battle command $19: regen
+03E43B	battle_command_22_end_regen	code				battle command $22: end regen
+03E441	battle_command_10_twin_1	code				battle command $10: twin 1
+03E4E6	battle_command_20_twin_2	code				battle command $20: twin 2
+03E612	battle_command_13_cover	code				battle command $13: cover
+03E656	battle_command_1d_don_t_cover_off	code				battle command $1D: don't cover (off)
+03E699	battle_command_0f_brace	code				battle command $0F: brace
+03E6B7	battle_command_0e_kick	code				battle command $0E: kick
+03E7F3	battle_command_0d_focus_1	code				battle command $0D: focus 1
+03E826	battle_command_1f_focus_2	code				battle command $1F: focus 2
+03E839	battle_command_0c_aim	code				battle command $0C: aim
+03E855	battle_command_0b_pray	code				battle command $0B: pray
+03E879	battle_command_09_hide	code				battle command $09: hide
+03E8BE	battle_command_1c_appear_show	code				battle command $1C: appear (show)
+03E903	battle_command_08_sing	code				battle command $08: sing
+03E957	battle_command_06_jump_1	code				battle command $06: jump 1
+03E9A5	battle_command_1e_jump_2	code				battle command $1E: jump 2
+03E9E1	battle_command_1b_defend	code				battle command $1B: defend
+03E9EC	battle_command_05_dark_wave	code				battle command $05: dark wave
+03EA1D	battle_command_07_recall	code				battle command $07: recall
+03EAC6	battle_command_11_bluff	code				battle command $11: bluff
+03EAE9	battle_command_12_cry	code				battle command $12: cry
+03EB2C	load_stolen_item_properties	code				load stolen item properties
+03EBA2	battle_command_01_item	code				battle command $01: item
+03EC12	choose_a_random_summon	code				choose a random summon
+03EC72	update_party_after_victory	code				update party after victory
+03F02E	update_character_at_level_up	code				update character at level up
+03F0CD	increase_hp_mp_at_level_up	code				increase hp/mp at level up
+03F108	update_spell_list_at_level_up	code				update spell list at level up
+03F18B	restore_character_properties_after_battle	code				restore character properties after battle
+03F4D8			1	0	0	
+03F541			1	0	0	
+03F555			1	0	0	
+03F56A			1	0	0	
+03F680			1	0	0	
+03F6F5			1	0	0	
+03F719			1	0	0	
+03F741			1	0	0	
+03F76E	load_battle_bg_palette	code				load battle bg palette
+03F7CD	increment_game_time	code				increment game time
+03F864	wait_8_frames	code				wait 8 frames
+03F86F	big_bang	code				big bang
+03F8BE	make_final_battle_bg_scroll_backward	code				make final battle bg scroll backward
+03F8E0	make_final_battle_bg_scroll_forward	code				make final battle bg scroll forward
+03F902	update_final_battle_bg_hdma_data	code				update final battle bg hdma data
+03FAC8			1	0	0	
+03FAE5			1	0	0	
+03FB74	update_sound_for_pause_unpause	code				update sound for pause/unpause
+03FB9C			1	0	0	
+03FC3E			1	0	0	
+03FD48			1	0	0	
+03FDD0	update_controller_03fdd0	code				update controller
+03FE03	transfer_sprite_data_to_ppu_03fe03	code				transfer sprite data to ppu
+03FE46	init_hdma_tables	code				init hdma tables
+03FEBE	transfer_color_palettes_to_ppu	code				transfer color palettes to ppu
+048000			1	0	0	
+048004			1	0	0	
+048008	init_sound_music	code				init sound/music
+048107	execute_sound_command	code				execute sound command
+04816F	play_song_04816f	code				play song
+0485E1	play_game_sound_effect	code				play game sound effect
+048608	play_system_sound_effect	code				play system sound effect
+04861E	sound_interrupt	code				sound interrupt
+04864E	add_pointer_offset	code				add pointer offset
+0FC600	play_fanfare	code				play fanfare
+0FC618	play_song_0fc618	code				play song
+13D610	end_credits	code				end credits
+13D62B	solar_system_moon_departs	code				solar system (moon departs)
+13D652	solar_system_prophecy	code				solar system (prophecy)
+13DDFB	clear_sprite_data_13ddfb	code				clear sprite data
+13DE14	init_hardware_registers_13de14	code				init hardware registers
+13E057	cinematic_irq	code				cinematic irq
+13E0CB	transfer_sprite_data_to_ppu_13e0cb	code				transfer sprite data to ppu
+13E0F3	multiply_8_bit_13e0f3	code				multiply (8-bit)
+13E3B3	cinematic_nmi	code				cinematic nmi
+13FF12	play_battle_song	code				play battle song
+13FF3A	validate_dead_character_hp	code				validate dead character hp
+13FF5F	divide_16_bit	code				divide (16-bit)
+13FFB4	disable_regen_based_on_fusoya_s_status	code				disable regen based on fusoya's status
+14FD00			1	0	0	
+14FD03	UpdateCtrl_ext	code				jmp UpdateCtrl.
+14FD09			1	0	0	
+14FD0F			1	0	0	
+14FD12	UpdateCtrl	code				menu/system.asm. Waits on HVBJOY bit 0 (auto-joypad busy), not vblank.
+14FD90	read_controller_register	code				read controller register
+14FDD9	init_controller_14fdd9	code				init controller
+14FE63	set_button_mapping	code				set button mapping
+14FE9E	clear_text_14fe9e	code				clear text
+14FED6	update_window_color_14fed6	code				update window color
+14FFD6			1	0	0	
+15B000	transfer_3bpp_graphics_to_vram_15b000	code				transfer 3bpp graphics to vram
+15B088	load_map_bg_graphics	code				load map bg graphics
+15B114	clear_bg1_bg2_graphics_in_vram	code				clear bg1/bg2 graphics in vram
+15B143	transfer_bg1_bg2_graphics_to_vram_3bpp	code				transfer bg1/bg2 graphics to vram (3bpp)
+15B181	transfer_world_map_graphics_to_vram	code				transfer world map graphics to vram
+15B1E0	draw_player_sprite_sub_map	code				draw player sprite (sub-map)
+15B30C	draw_player_sprite_world_map	code				draw player sprite (world map)
+15B3AF	set_sprite_x_position_msb	code				set sprite x position msb
+15B3DC	draw_chocobo_sprite	code				draw chocobo sprite
+15B4F9	draw_black_chocobo_sprite	code				draw black chocobo sprite
+15B5EF	draw_dwarf_tank_sprites	code				draw dwarf tank sprites
+15B66F	draw_ship_sprite	code				draw ship sprite
+15B70F	draw_hovercraft_sprite	code				draw hovercraft sprite
+15B8DD	draw_enterprise_sprite	code				draw enterprise sprite
+15B9CC	draw_falcon_sprite	code				draw falcon sprite
+15BC2F	draw_big_whale_sprite	code				draw big whale sprite
+15C144			1	0	0	
+15C163	update_mode_7_zoom_hdma_table	code				update mode 7 zoom hdma table
+15C1F9	load_map_palette	code				load map palette
+15C226	load_text_window_palette	code				load text window palette
+15C23D	no_effect	code				no effect
+15C23E	load_initial_spell_lists	code				load initial spell lists
+15C324	convert_hex_to_decimal_15c324	code				convert hex to decimal
+15C38F			1	0	0	
+15C3BD	update_big_whale_palette_animation	code				update big whale palette animation
+15C3EA	update_tower_of_bab_il_palette_animation	code				update tower of bab-il palette animation
+15C41A			1	0	0	
+15C4CD			1	0	0	
+15C505	update_world_map_zoomed_bg_palettes	code				update world map zoomed bg palettes
+15C6D5	invert_map_palette	code				invert map palette
+15C6F4	modify_overworld_tilemap	code				modify overworld tilemap
+15C7E5	transfer_chest_door_tilemap_to_vram	code				transfer chest/door tilemap to vram
+15C827	load_player_sprite_palettes	code				load player sprite palettes
+15C84C	update_showing_character	code				update showing character
+15C85E	validate_showing_character	code				validate showing character
+15C87B	get_showing_character_properties_pointer	code				get showing character properties pointer
+15C88B	load_player_sprite_graphics	code				load player sprite graphics
+15C8DF	init_hardware_registers_15c8df	code				init hardware registers
+15C9AA	clear_ram	code				clear ram
+15CA1D	reset_controller_inputs	code				reset controller inputs
+15CA5E	transfer_palettes_to_ppu_15ca5e	code				transfer palettes to ppu
+15CA85	transfer_data_to_vram_15ca85	code				transfer data to vram
+15CAB1	clear_vram_15cab1	code				clear vram
+15CADC	transfer_sprite_data_to_ppu_15cadc	code				transfer sprite data to ppu
+15CB01	load_bg_animation_graphics	code				load bg animation graphics
+15CB5F	transfer_bg_animation_graphics_to_vram	code				transfer bg animation graphics to vram
+1EFCCD	init_hardware_registers_1efccd	code				init hardware registers
+1EFD91	get_pointer_to_magic_menu_cursor_positions	code				get pointer to magic menu cursor positions
+1EFD9C	load_magic_menu_cursor_positions	code				load magic menu cursor positions
+1EFDB6	save_magic_menu_cursor_positions	code				save magic menu cursor positions
+1EFE84	tax_1efe84	code				tax
+7E1B1A	field_scroll_pos	data				Vanilla field-menu item scroll position.
+7E1BB3	drops_cursor_row	data				Vanilla drops cursor row, clamped to visible rows.
+7E1BB7	treasure_scroll_pos	data				Vanilla treasure inventory scroll position.
+7E1BC6	in_treasure_menu	data				Non-zero while the treasure popup owns the screen.
+7EC600	bg4_staging	data				BG4 tilemap staging (drops list + its window).
+7ED600	bg3_staging	data				BG3 tilemap staging (treasure inventory + its window).

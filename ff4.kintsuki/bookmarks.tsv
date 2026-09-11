@@ -1,0 +1,4 @@
+# name	addr	view	comment
+frame_clock	00818A		WaitVblank - the menu frame tick lives here
+bg4_push	00943A		drops staging -> VRAM
+bg3_push	009447		treasure staging -> VRAM

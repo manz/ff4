@@ -1,0 +1,10 @@
+game
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+  label:  Final Fantasy IV
+  name:   Final Fantasy IV
+  title:  Final Fantasy IV
+  region: NTSC
+  revision: 1.0
+  board: SHVC-1A3M-10
+    memory type=ROM content=Program size=0x200000
+    memory type=RAM content=Save size=0x20000
