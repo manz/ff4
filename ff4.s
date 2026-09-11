@@ -46,7 +46,7 @@ Final Fantasy IV the new hack.
 
 .include "src/libmz.i"
 .import "item_layout"
-.include "src/lib/rolling_buffer.s"
+.include "src/lib/rolling_buffer.i"
 .include "src/menus/system_menus_text.i"
 .include "src/minimal_vwf_patches.s"
 .if BATTLE_ENABLED {
@@ -370,10 +370,10 @@ signature byte sits at PB:(PC - 1).
 }
 
 .if TREASURE_INVENTORY_ROLLING {
-    .include "src/ingame/treasure_rolling.s"
-    .include "src/ingame/drops_rolling.s"
-    .include "src/ingame/key_item_picker.s"
-    .include "src/ingame/shop_sell_rolling.s"
+    .import "ingame/key_item_picker"
+    .import "ingame/drops_rolling"
+    .import "ingame/treasure_rolling"
+    .import "ingame/shop_sell_rolling"
 }
 
 ; --- Binary text assets -------------------------------------------------

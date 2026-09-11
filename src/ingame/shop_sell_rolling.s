@@ -26,6 +26,18 @@ the field menu.
 
 .include "../bank20.i"
 .include "config.i"
+.import "item_layout"
+
+; Labels this module borrows from its neighbours. As an include these
+; resolved because ff4.s composed one translation unit; a module has to
+; name what it uses.
+.extern check_can_use_item_trampoline
+.extern draw_item_slot_inner_trampoline
+.extern draw_window_trampoline
+.extern tfr_bg3_tiles_vblank_trampoline
+.extern sell_select_bg3_trampoline
+.extern wait_for_vblank_long
+.extern rolling_engine
 
 SELL_VISIBLE_ITEMS := 8
 SELL_BUFFER_SLOTS := 9
@@ -33,11 +45,7 @@ SELL_TOTAL_ITEMS := 48
 
 ; State block in the shared $7E:99xx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
-; `RollingBufferState` is declared in items.i, which ff4.s includes
-; ahead of this module - the assembler resolves the cast, the lint
-; sees one file at a time and cannot. Codes are comma-separated, so
-; the reason has to sit here rather than after the marker.
-sell_rolling := (0x7E9CC0 as RollingBufferState)  ; noqa: S001
+sell_rolling := (0x7E9CC0 as RollingBufferState)
 
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and
 ; cursor row ($1B94). The profile reads them rather than keeping its
