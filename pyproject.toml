@@ -10,7 +10,7 @@ authors = [{ name = "Emmanuel Peralta", email = "manz@ringum.net" }]
 requires-python = ">=3.13"
 
 dependencies = [
-    "a816==1.1.0a31",
+    "a816==1.1.0a33",
     "kintsuki[visual]==0.0.0a13",
 ]
 

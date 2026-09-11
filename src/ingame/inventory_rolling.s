@@ -3,7 +3,7 @@ Field-menu inventory rolling-buffer engine (single column, 5 visible rows + 1 pr
 approach for the main menu items list with HDMA-based circular scrolling.
 """
 
-.import "item_layout"
+.import "items"
 .include "src/lib/rolling_buffer.i"
 
 ; Borrowed from neighbouring modules; inlining used to supply them.

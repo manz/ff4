@@ -17,7 +17,7 @@ sites that remain in the per-menu source files.
 """
 
 
-.import "item_layout"
+.import "items"
 
 ; The profiles call into the engine and the engine dispatches back into
 ; their HDMA builders, so the two sides are mutually dependent. That is

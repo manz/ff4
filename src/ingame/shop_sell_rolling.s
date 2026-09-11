@@ -26,7 +26,7 @@ the field menu.
 
 .include "../bank20.i"
 .include "config.i"
-.import "item_layout"
+.import "items"
 
 ; Labels this module borrows from its neighbours. As an include these
 ; resolved because ff4.s composed one translation unit; a module has to

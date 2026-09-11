@@ -45,7 +45,7 @@ Final Fantasy IV the new hack.
 
 
 .include "src/libmz.i"
-.import "item_layout"
+.import "items"
 .include "src/lib/rolling_buffer.i"
 .include "src/menus/system_menus_text.i"
 .include "src/minimal_vwf_patches.s"
