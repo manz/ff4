@@ -6,6 +6,12 @@ bodies, and placement directives cannot nest.
 """
 
 
+; The cart SRAM map travels with the pool. `.map` is per translation
+; unit and an imported module does not inherit the patch-main's, so a
+; module that reserves from this pool needs bank $70 described here or
+; the reservation has no region to sit in.
+.map identifier=3 bank_range=0x70, 0x70 addr_range=0x0000, 0x7fff mask=0x8000 writable=1
+
 ; --- Rolling-menu state pool -------------------------------------------
 ;
 ; Hand-picking scratch addresses has cost us repeatedly: bank-$00

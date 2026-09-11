@@ -45,6 +45,17 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
 """
 
 
+.import "items"
+
+; Labels borrowed from neighbouring modules. As an include these resolved
+; because ff4.s composed one translation unit; a module names what it uses.
+.extern check_can_use_item_trampoline
+.extern draw_item_slot_inner_trampoline
+.extern wait_for_vblank_long
+.extern rolling_engine
+.extern render
+
+
 ; Four rows on screen, matching the window vanilla draws ; the engine
 ; adds the prefetch slot itself, and it stays inside the staging page
 ; without being pushed.
@@ -59,11 +70,7 @@ KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 ; the same reason as treasure ($9C00) + drops ($9C30) : engine path
 ; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
 ; sprite code stomps past $1BEB.
-; `RollingBufferState` is declared in items.i, which ff4.s includes
-; ahead of this module - the assembler resolves the cast, the lint
-; sees one file at a time and cannot. Codes are comma-separated, so
-; the reason has to sit here rather than after the marker.
-key_item_rolling := (0x7E9C60 as RollingBufferState)  ; noqa: S001
+key_item_rolling := (0x7E9C60 as RollingBufferState)
 
 
 KEY_ITEM_SLIDE_OPEN_DONE := 0x08
@@ -128,6 +135,7 @@ KEY_ITEM_HDMA4_SRC_LO := 0x4342
 KEY_ITEM_HDMA4_SRC_BANK := 0x4344
 
 .include "src/rolling_state.i"
+
 .include "../bank20.i"
 
 .alloc key_item_picker_block in bank20_reloc {

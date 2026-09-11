@@ -2,6 +2,13 @@
 ROM patches that wire the battle magic system to the relocated `draw_magic_list_direct` renderer + the
 long-form attack-name copier.
 """
+
+.include "src/rom_map.i"
+.extern assets_attack_names_dat
+.extern assets_attack_names_ptr
+.extern assets_magic_dat
+.extern battle_magic_length
+
 .extern draw_magic_list_direct
 .extern magic_list_ptrs
 

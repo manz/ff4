@@ -2,6 +2,47 @@
 Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
 """
+
+.include "src/rom_map.i"
+.extern drops_start_scroll_up_impl
+.extern drops_start_scroll_down_impl
+.extern drops_refresh_slots_impl
+.extern drops_init_impl
+.extern treasure_menu_exit_hook_impl
+.extern treasure_menu_entry_hook_impl
+.extern drops_finish_scroll_impl
+.extern drops_update_scroll_frame_impl
+.import "items"
+.extern items_description
+.extern shops
+
+; Typed views over the profiles' state blocks. A cast is compile-time,
+; so it cannot be imported the way a label is: each module that reads
+; these fields binds its own view over the same addresses, the way
+; battle/inventory_rolling.s already does.
+treasure_rolling := (0x7E9C00 as RollingBufferState)
+drops_rolling := (0x7E9C30 as RollingBufferState)
+.extern TREASURE_SCROLL_COOLDOWN_FRAMES
+.extern treasure_finish_scroll_impl
+.extern treasure_update_scroll_frame_impl
+.extern treasure_start_scroll_up_impl
+.extern treasure_start_scroll_down_impl
+.extern treasure_swap_redraw_hook_impl_body
+.extern treasure_refresh_slots_impl
+.extern init_treasure_rolling_buffer_impl
+.extern treasure_check_and_clear_count_impl
+.extern sell_disable_hdma
+.extern sell_scroll_down_impl
+.extern sell_scroll_up_impl
+.extern sell_init_impl
+.extern finish_scroll_impl
+.extern update_scroll_frame_impl
+.extern start_scroll_up_impl
+.extern start_scroll_down_impl
+.extern swap_redraw_hook_impl_body
+.extern init_menu_rolling_buffer_impl
+.extern check_and_clear_count_impl
+
 .include "config.i"
 .include "src/ingame/macros.i"
 

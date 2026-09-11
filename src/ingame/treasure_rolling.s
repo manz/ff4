@@ -2,6 +2,20 @@
 Treasure inventory rolling-buffer engine (single column, 5 visible, 6 buffer slots, scroll limit 43)  ; cloned
 from `inventory_rolling.s` and tuned for the chest UI.
 """
+
+.import "items"
+.include "src/lib/rolling_buffer.i"
+
+; Labels borrowed from neighbouring modules. As an include these resolved
+; because ff4.s composed one translation unit; a module names what it uses.
+.extern check_can_use_item_trampoline
+.extern draw_item_slot_inner_trampoline
+.extern draw_window_trampoline
+.extern reset_sprites_trampoline
+.extern treasure_inventory_window
+.extern rolling_engine
+.extern tfr_bg3_tiles_vblank_trampoline
+
 ; Treasure inventory rolling buffer (single-column, 5 visible).
 ;
 
@@ -16,6 +30,7 @@ from `inventory_rolling.s` and tuned for the chest UI.
 
 ; Layout (single column)
 .include "config.i"
+
 TREASURE_VISIBLE_ITEMS := 5  ; Visible items at once
 TREASURE_BUFFER_SLOTS := 6  ; 6 slots (5 visible + 1 pre-render)
 TREASURE_TOTAL_ITEMS := 48  ; Total inventory items
@@ -46,11 +61,7 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; region. Engine path needs the full 35-byte struct (state + config +
 ; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
 ; so the original $1BD0 base worked despite vanilla's later collisions.
-; `RollingBufferState` is declared in items.i, which ff4.s includes
-; ahead of this module - the assembler resolves the cast, the lint
-; sees one file at a time and cannot. Codes are comma-separated, so
-; the reason has to sit here rather than after the marker.
-treasure_rolling := (0x7E9C00 as RollingBufferState)  ; noqa: S001
+treasure_rolling := (0x7E9C00 as RollingBufferState)
 
 TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 

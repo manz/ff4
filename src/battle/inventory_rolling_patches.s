@@ -2,6 +2,10 @@
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 """
+
+.include "src/rom_map.i"
+.extern draw_window_render_hook
+
 .include "config.i"
 .extern init_inventory_text_buf_rolling
 .extern tfr_inventory_list_rolling

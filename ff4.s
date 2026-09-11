@@ -30,6 +30,9 @@ Final Fantasy IV the new hack.
 .import "dialog"
 .import "ingame/init_bg_scroll_hdma"
 .import "ingame/items_menu_vwf"
+.import "ingame/places_names"
+.import "ingame/new_game"
+.import "ingame/credits"
 .import "ingame/places_names_window"
 .import "intro"
 .import "kerning"
@@ -45,45 +48,42 @@ Final Fantasy IV the new hack.
 
 
 .include "src/libmz.i"
-.include "src/items.i"
-.include "src/lib/rolling_buffer.s"
+.import "items"
+.include "src/lib/rolling_buffer.i"
 .include "src/menus/system_menus_text.i"
-.include "src/minimal_vwf_patches.s"
+.import "minimal_vwf_patches"
 .if BATTLE_ENABLED {
-    .include "src/battle/math_patches.s"
-    .include "src/battle/graphics_patches.s"
+    .import "battle/math_patches"
+    .import "battle/graphics_patches"
     .if MAGIC_ENABLED {
-    .include "src/battle/magic/patches.s"
-    .include "src/battle/commands_patches.s"
+    .import "battle/magic/patches"
+    .import "battle/commands_patches"
     }
-    .include "src/battle/message_patches.s"
-    .include "src/battle/sram_patches.s"
+    .import "battle/message_patches"
+    .import "battle/sram_patches"
     .if BATTLE_MONSTERS_VWF {
-    .include "src/battle/monsters_patches.s"
+    .import "battle/monsters_patches"
     }
-    .include "src/battle/items_patches.s"
-    .include "src/battle/redraw_writer_patches.s"
+    .import "battle/items_patches"
+    .import "battle/redraw_writer_patches"
     .if INVENTORY_ROLLING_BUFFER {
-    .include "src/battle/inventory_rolling_patches.s"
+    .import "battle/inventory_rolling_patches"
     }
     .if TREASURE_DEBUG_ALWAYS_DROP {
-    .include "src/battle/debug_always_drop.s"
+    .import "battle/debug_always_drop"
     }
 }
 
-.include "src/ingame/places_names.s"
-.include "src/ingame/new_game.s"
-.include "src/ingame/credits.s"
 .include "src/ingame/menus.i"
 ; item name expansion patches
-.include "src/ingame/items_menu.s"
+.import "ingame/items_menu"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .if INVENTORY_ROLLING_BUFFER {
-    .include "src/ingame/init_bg_scroll_hdma_patches.s"
-    .include "src/ingame/inventory_rolling_trampolines.s"
+    .import "ingame/init_bg_scroll_hdma_patches"
+    .import "ingame/inventory_rolling_trampolines"
 }
 
 
@@ -365,23 +365,23 @@ signature byte sits at PB:(PC - 1).
 
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
-    .include "src/ingame/inventory_rolling.s"
-    .include "src/lib/rolling_inventory_engine.s"
 }
 
 .if TREASURE_INVENTORY_ROLLING {
-    .include "src/ingame/treasure_rolling.s"
-    .include "src/ingame/drops_rolling.s"
-    .include "src/ingame/key_item_picker.s"
-    .include "src/ingame/shop_sell_rolling.s"
+    .import "ingame/key_item_picker"
+    .import "ingame/drops_rolling"
+    .import "ingame/inventory_rolling"
+    .import "lib/rolling_inventory_engine"
+    .import "ingame/treasure_rolling"
+    .import "ingame/shop_sell_rolling"
 }
 
 ; --- Binary text assets -------------------------------------------------
 
 
 .if TREASURE_INVENTORY_ROLLING {
-    .include "src/ingame/key_item_picker_patches.s"
-    .include "src/ingame/shop_sell_rolling_patches.s"
+    .import "ingame/key_item_picker_patches"
+    .import "ingame/shop_sell_rolling_patches"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {

@@ -2,6 +2,18 @@
 Field-menu inventory rolling-buffer engine (single column, 5 visible rows + 1 prefetch): adapts the battle
 approach for the main menu items list with HDMA-based circular scrolling.
 """
+
+.import "items"
+.include "src/lib/rolling_buffer.i"
+
+; Borrowed from neighbouring modules; inlining used to supply them.
+.extern check_can_use_item_trampoline
+.extern draw_item_slot_inner_trampoline
+.extern draw_window_trampoline
+.extern reset_sprites_trampoline
+.extern draw_trash_single_column
+.extern rolling_engine
+
 ; Rolling Buffer Implementation for Main Menu Inventory (Single Column)
 ;
 ; HDMA-based circular buffer scrolling for single-column menu inventory.

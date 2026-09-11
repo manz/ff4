@@ -2,6 +2,12 @@
 Pinned-address overlay rewiring original battle-message pointer loads ($02C909, $02CC07, ...) to the relocated
 translated-string tables.
 """
+
+.include "src/rom_map.i"
+.extern msg_window_draw_text_trampoline
+.extern assets_battle_text_ptr
+.extern assets_battle_messages_ptr
+
 .extern messages_vwf
 
 .scope message_patches {

@@ -12,6 +12,9 @@ follow-up patches.
 """
 
 
+.include "src/rom_map.i"
+
+
 .extern set_active_char_and_dirty
 .extern messages_vwf
 .extern messages_vwf.init_monsters_gated

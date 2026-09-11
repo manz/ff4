@@ -40,6 +40,18 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 """
 
 
+.import "items"
+
+; Labels borrowed from neighbouring modules. As an include these resolved
+; because ff4.s composed one translation unit; a module names what it uses.
+.extern check_can_use_item_trampoline
+.extern draw_item_slot_inner_trampoline
+.extern draw_window_trampoline
+.extern drops_select_bg4_trampoline
+.extern treasure_drops_window
+.extern rolling_engine
+
+
 DROPS_VISIBLE_ITEMS := 5
 DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
@@ -51,11 +63,7 @@ DROPS_SCROLL_TOTAL_PIXELS := 16
 ; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
 ; the full 35-byte struct ; the macro path only ever touched the first
 ; 12 bytes so the original $1BE0 base worked there.
-; `RollingBufferState` is declared in items.i, which ff4.s includes
-; ahead of this module - the assembler resolves the cast, the lint
-; sees one file at a time and cannot. Codes are comma-separated, so
-; the reason has to sit here rather than after the marker.
-drops_rolling := (0x7E9C30 as RollingBufferState)  ; noqa: S001
+drops_rolling := (0x7E9C30 as RollingBufferState)
 
 ; Drops scroll position lives one byte past the state block so it
 ; doesn't collide with the engine's RollingBufferState fields. Other
@@ -94,6 +102,7 @@ DROPS_SCROLL_STATE_SCROLLING := 1
 ;     drops geometry + tilemap layout work) -----------------------------------
 
 .include "../bank20.i"
+
 
 .alloc drops_rolling_block in bank20_reloc {
 drops_ensure_hdma_initialized:
