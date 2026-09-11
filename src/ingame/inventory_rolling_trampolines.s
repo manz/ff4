@@ -108,6 +108,48 @@ tfr_bg4_tiles_vblank_trampoline:
 ; in WRAM without this call.
     rtl
 
+sell_select_bg3_trampoline:
+"""
+Bank-$01 RTL trampoline around original `SelectBG3` ($01:8470).
+
+Points $29 at the BG3 buffer ($7E:D600) and $35 at its VRAM tilemap
+($7000), which is where the sell list renders.
+"""
+
+
+    jsr 0x8470
+    rtl
+
+sell_init:
+"""Bank-$01 trampoline: replace DrawInventoryList for the sell list."""
+    jsr.l sell_init_impl
+    rts
+
+sell_scroll_up:
+"""Bank-$01 trampoline: sell list scroll up, in place of vanilla's $9F loop."""
+    jsr.l sell_scroll_up_impl
+    rts
+
+sell_scroll_down:
+"""Bank-$01 trampoline: sell list scroll down, in place of vanilla's $9F loop."""
+    jsr.l sell_scroll_down_impl
+    rts
+
+sell_leave:
+"""
+Shop teardown: restore the dialogue window graphics, then drop ch5.
+
+Hooked over the `JSR $873F` at $01:C304, the last call the shop menu
+makes before returning - the displaced call is reissued here. The sell
+list's HDMA bit lives in the shared `field_menu_rolling.hdma_enable`,
+so leaving it set would arm ch5 over the field's own BG3.
+"""
+
+
+    jsr 0x873F
+    jsr.l sell_disable_hdma
+    rts
+
 drops_select_bg4_trampoline:
     jsr 0x8485
 ; original SelectClearBG4 at $01:8485 - wipes BG4 staging to blank
@@ -216,6 +258,30 @@ _treasure_finish_scroll:
 ; `treasure_rolling.scroll_state == 0` and undo original's $1BB7 update when an
 ; animation is still in flight, so the rolling buffer steps once per
 ; press instead of advancing dozens of times per held button.
+_treasure_arm_cooldown:
+"""Reload the held-DOWN debounce after a scroll trigger fired."""
+    sep #0x20
+    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
+    sta.w treasure_scroll_cooldown
+    rts
+
+_treasure_wait_vblank:
+"""
+Burn one frame on the debounced-abort path (vanilla `WaitVblank`,
+$01:818A).
+
+Vanilla scrolled inside a blocking 8-frame loop, which also paced the
+surrounding input loop. Our trigger returns immediately instead, so
+while the debounce holds a press off, the loop spins with no vblank
+wait at all: game time ($16A3) freezes, the cooldown never ticks and
+hold-to-scroll dies after the first item. One wait per aborted
+trigger restores vanilla's pacing.
+"""
+
+
+    jsr 0x818A
+    rts
+
 treasure_scroll_down_trigger:
 """Treasure profile: input-driven scroll-down trigger."""
     lda.w treasure_rolling.scroll_state
@@ -224,12 +290,11 @@ treasure_scroll_down_trigger:
     bne _t_down_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_down
-    sep #0x20
-    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
-    sta.w treasure_scroll_cooldown
+    jsr.w _treasure_arm_cooldown
     rts
 _t_down_abort:
     dec.w 0x1BB7
+    jsr.w _treasure_wait_vblank
     rts
 
 treasure_scroll_up_trigger:
@@ -240,12 +305,11 @@ treasure_scroll_up_trigger:
     bne _t_up_abort
     jsr.w _treasure_force_hdma_setup
     jsr.w _treasure_start_scroll_up
-    sep #0x20
-    lda.b #TREASURE_SCROLL_COOLDOWN_FRAMES
-    sta.w treasure_scroll_cooldown
+    jsr.w _treasure_arm_cooldown
     rts
 _t_up_abort:
     inc.w 0x1BB7
+    jsr.w _treasure_wait_vblank
     rts
 
 _treasure_force_hdma_setup:
@@ -290,7 +354,10 @@ _t_setup_in_treasure:
 ; indirect table past scanline 128. Mask ch2 entirely; the drops-band
 ; original parallax is purely cosmetic and the drops list still lands
 ; at the right scanline without it.
-    lda #0xF9  ; $AD & ~0x04 | $40 | $10 = ch7|ch6|ch5|ch4|ch3|ch0 (drops on ch4)
+    lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
+; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
+; (src/small_vwf/render.s) and was never configured as an HDMA
+; channel, so arming it fed the PPU a garbage table.
     sta.l field_menu_rolling.hdma_enable
     rts
 
@@ -306,12 +373,16 @@ by calling the original $82C0 so original per-frame work still runs.
 """
 
 
-; Cooldown tick : runs every popup frame regardless of button state
-; so the held-DOWN debounce drains uniformly. Without this the
-; trigger path's per-call dec only fired while DOWN was held, which
-; let auto-repeat consume the cooldown in 2-3 frames and scrolled
-; the treasure inv two items per visible tap.
+; Cooldown tick, gated on vanilla's per-frame game-time byte. This
+; loop runs once per frame while input flows but ~20 times inside the
+; frame that ends a scroll animation (blocking input with `stz $01`
+; costs the vanilla loop its pacing), and a per-call `dec` drained the
+; whole debounce in that one frame - so one held DOWN scrolled twice.
     sep #0x20
+    lda.l menu_frame_time
+    cmp.w treasure_scroll_frame_seen
+    beq _t_main_cd_done
+    sta.w treasure_scroll_frame_seen
     lda.w treasure_scroll_cooldown
     beq _t_main_cd_done
     dec.w treasure_scroll_cooldown
@@ -367,6 +438,45 @@ _treasure_menu_entry_hook:
 treasure_menu_exit_hook:
 """Treasure profile: menu-exit hook trampoline."""
     jsr.l treasure_menu_exit_hook_impl
+    rts
+
+shop_draw_item_name:
+"""
+Hand the shop's row index to the VWF renderer, then draw the name.
+
+`items_menu_vwf.draw_field_item_name` reads DP $5D as the slot index and
+gives each slot its own tile-id window. The shop's list loop
+($01:C4A0) keeps the item id in $5D instead, so a high id asked for a
+tile base past the CHR buffer and rows shared or overran each other's
+tiles. At the call site X holds row * 2 (index into the tilemap-offset
+table at $01:C58E) and A holds the item id, which must reach vanilla
+`DrawItemName` untouched.
+"""
+
+
+    pha
+    txa
+    lsr
+    sta.b 0x5D
+    pla
+    jmp.w 0x9060
+
+drops_swap_index:
+"""
+Bank-$01 helper for the drops swap byte-index recompute at $01:DAAC.
+
+X = (cursor_row + drops_scroll_pos) * 2, the byte index into the
+drops array at $7E:FF28. Lives here rather than inline at the patch
+site because `drops_scroll_pos` needs long addressing ($7E:9C5F) and
+the 11-byte vanilla sequence has no room for the extra opcode byte.
+"""
+
+
+    lda.w 0x1BB3
+    clc
+    adc.l drops_scroll_pos
+    asl
+    jsr 0x87B4  ; A -> X via scratch $43
     rts
 
 drops_init:

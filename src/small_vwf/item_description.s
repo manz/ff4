@@ -23,7 +23,7 @@ draw_pos:
     lda.w 0x0000, y
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     tax
     sep #0x20
     iny
@@ -37,7 +37,7 @@ draw:
     phd
     phx
     phx
-    ldx.w #0x0100
+    ldx #0x0100
     phx
     pld
     plx
@@ -48,7 +48,7 @@ draw:
     txa
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     plx
     sep #0x20
 draw_string:
@@ -87,11 +87,11 @@ draw_string:
 ; primary DIRTY which the field-items renderer covers in its own
 ; flush, so no clearing is needed here.
     rep #0x20
-    lda.w #0x0800
+    lda #0x0800
     sta.l VWF_CHR_SRC_OFFSET_B
-    lda.w #0x2C00
+    lda #0x2C00
     sta.l VWF_CHR_VRAM_WORD_B
-    lda.w #0x0800
+    lda #0x0800
     sta.l VWF_CHR_BYTE_COUNT_B
     sep #0x20
 ; Preserve Y across render.init: the per-region CHR clear loop
@@ -141,7 +141,7 @@ _move_to:
     tax
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     sep #0x20
     bra _reset_render
 _newline:
@@ -152,7 +152,7 @@ _newline:
     tax
     clc
     adc 0x29
-    sta.b render.tilemap_offset
+    sta.l render.tilemap_offset
     sep #0x20
 _reset_render:
     lda #0x08

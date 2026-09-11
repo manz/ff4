@@ -46,20 +46,13 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; region. Engine path needs the full 35-byte struct (state + config +
 ; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
 ; so the original $1BD0 base worked despite vanilla's later collisions.
-treasure_rolling := (0x7E9C00 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+treasure_rolling := (0x7E9C00 as RollingBufferState)  ; noqa: S001
 
-; Cooldown counter sitting one byte past the shared struct so the
-; engine layout stays untouched. Decremented each frame in
-; treasure_scroll_state_check ; non-zero means treasure_scroll_*_trigger
-; aborts and undoes vanilla's $1BB7 increment, debouncing the
-; "hold-DOWN auto-repeat fires every 2 frames" issue that scrolled the
-; inventory two items per visible tap.
-; RollingBufferState ends at offset 35 inclusive (menu_id byte added
-; in the engine port). Bump cooldown past that ; was +35 = collided
-; with menu_id and treasure_ensure_hdma_initialized's STZ wiped it,
-; sending engine dispatch to the wrong menu's HDMA path.
-treasure_scroll_cooldown := treasure_rolling + 36
-TREASURE_SCROLL_COOLDOWN_FRAMES := 0x18  ; ~24 frames between scrolls (long enough to outlast a typical button hold)
+TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 
 ; Scroll State Constants
 TREASURE_SCROLL_STATE_IDLE := 0
@@ -129,6 +122,7 @@ init_treasure_inventory_hdma:
     Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
 
+
     php
     sep #0x20  ; 8-bit A
 
@@ -165,6 +159,7 @@ disable_treasure_inventory_hdma:
     The shadow variable is cleared by menu_exit_hook
 """
 
+
     php
     sep #0x20  ; 8-bit A
 ; Shadow variable cleared by caller, NMI will write 0 to HDMAEN
@@ -177,6 +172,7 @@ init_treasure_hdma_table:
     Format: count, lo, hi per entry, $00 to end
     Initial state: all rows at BASE scroll (no circular buffer offset)
 """
+
 
     rep #0x30  ; 16-bit A, X, Y
     php
@@ -422,10 +418,15 @@ init_treasure_rolling_buffer_impl:
     render `visible_rows` slots.
 """
 
+
     php
     rep #0x30
     sep #0x20
-    lda.b #TREASURE_BUFFER_SLOTS
+; VISIBLE rows, not buffer slots: the engine derives
+; `buffer_slots = visible_rows + 1` itself. Publishing
+; TREASURE_BUFFER_SLOTS here gave it 7 slots, so the prefetch slot
+; rendered a row pair below the window and wiped the bottom border.
+    lda.b #TREASURE_VISIBLE_ITEMS
     sta.l treasure_rolling + RollingBufferState.visible_rows
     lda.b #0x02
     sta.l treasure_rolling + RollingBufferState.slot_height_tiles
@@ -639,6 +640,7 @@ treasure_ensure_hdma_initialized:
     Checks if base_scroll == 0xFFFF (sentinel) and if so, initializes.
 """
 
+
 ; Check if already initialized (base_scroll != 0xFFFF). Use long
 ; addressing - engine `_engine_call_hook` jumps in with DB unchanged
 ; from the vanilla caller (DB=$00), so abs reads would hit ROM and the
@@ -653,10 +655,9 @@ treasure_ensure_hdma_initialized:
 ; $9F = -120 to position items at screen scanline 120; we mirror that.
     lda.l 0x7E019F
     sta.l treasure_rolling.base_scroll
-; Clear the held-DOWN debounce counter ; engine_init_rolling_buffer
-; zeros the 12-byte engine struct but cooldown lives one byte past,
-; so explicitly nuke it here so the very first scroll trigger fires
-; immediately after popup-open.
+; Clear the held-DOWN debounce so the first scroll trigger after
+; popup-open fires immediately (the engine zeroes the struct, but the
+; cooldown lives one byte past it).
     sep #0x20
     lda #0x00
     sta.l treasure_scroll_cooldown
@@ -706,15 +707,12 @@ treasure_scroll_state_check:
      Carry set = skip input (still scrolling)
 """
 
+
     php
     sep #0x20  ; 8-bit A
 
-; Tick cooldown counter so the next held-DOWN scroll is debounced.
-    lda.w treasure_scroll_cooldown
-    beq _t_scroll_cd_done
-    dec.w treasure_scroll_cooldown
-
-_t_scroll_cd_done:
+; Cooldown ticks once per vblank in the NMI hook, not here: this
+; entry is reached several times per frame.
 ; Check if we're scrolling
     lda.w treasure_rolling.scroll_state
     beq _t_scroll_state_idle
@@ -972,6 +970,7 @@ draw_trash_treasure:
     Each row is 64 bytes (32 tiles × 2 bytes)
 """
 
+
 ; Y points to start of item slot area
 ; Draw 2x2 trash can icon, then clear remaining 10 tiles per row
 ; Save starting Y for second row calculation
@@ -1143,6 +1142,7 @@ treasure_circular_slot_calc:
     Preserves: 16-bit A mode on exit
 """
 
+
     sep #0x20
 ; 8-bit A
 ; Check if circular buffer mode is active (HDMA enabled)
@@ -1211,4 +1211,3 @@ treasure_circular_slot_calc_ext:
     rtl
     }
 }
-

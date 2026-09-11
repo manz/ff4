@@ -10,19 +10,19 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 ; ===========================================================================
 
 .alloc at 0x028560 {
-        phx  ; Preserve X (original does this)
-        lda 0x26
-        sta.l 0x004202  ; Multiplicand
-        lda 0x28
-        sta.l 0x004203  ; Multiplier (triggers multiply)
-        ; Wait using bank switch (same as MultHW)
-        phb  ; 3 cycles
-        lda #0x00  ; 2 cycles
-        pha  ; 3 cycles
-        plb  ; 4 cycles (DB=0 now, 12 cycles waited)
-        ldx 0x4216  ; 16-bit X reads RDMPYL/H (X is 16-bit)
-        stx 0x2a  ; Store 16-bit result to $2a/$2b
-        plb  ; Restore data bank
-        plx
-        rts
+    phx  ; Preserve X (original does this)
+    lda 0x26
+    sta.l 0x004202  ; Multiplicand
+    lda 0x28
+    sta.l 0x004203  ; Multiplier (triggers multiply)
+; Wait using bank switch (same as MultHW)
+    phb  ; 3 cycles
+    lda #0x00  ; 2 cycles
+    pha  ; 3 cycles
+    plb  ; 4 cycles (DB=0 now, 12 cycles waited)
+    ldx 0x4216  ; 16-bit X reads RDMPYL/H (X is 16-bit)
+    stx 0x2a  ; Store 16-bit result to $2a/$2b
+    plb  ; Restore data bank
+    plx
+    rts
 }

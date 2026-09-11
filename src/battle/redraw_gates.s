@@ -30,9 +30,14 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
 ; scope, and an `.alloc` body opens its own).
 .extern clear_names_window_buffer
 
-; Cross-module CONSTANTS are compile-time, not link symbols: share the same
-; definitions message.s uses via the include, under the same scope name.
 .scope battle_render {
+    """
+    Render constants shared with message.s.
+
+    Cross-module constants are compile-time, not link symbols, so both
+    modules pull the same definitions in under the same scope name
+    rather than one importing them from the other.
+    """
     .include "render_defs.i"
 }
 
@@ -47,73 +52,81 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
     NAMES_DIRTY_BIT := 0x10  ; bit 4 of battle_menu_dirty (char names region)
     MONSTER_DIRTY_BIT := 0x01  ; bit 0 of battle_monster_dirty (any monster name)
 
-    mark_cmd_dirty:
-    """
+mark_cmd_dirty:
+"""
     Set the cmd-window dirty bit. Callable from any bank via JSL/RTL.
     65816 `tsb` has no long-addressing form  ; emulate via lda/ora/sta.
-    """
-        lda.l battle_menu_dirty
-        ora.b #CMD_DIRTY_BIT
-        sta.l battle_menu_dirty
-        rtl
+"""
 
-    walker_rtl:
-    """
+
+    lda.l battle_menu_dirty
+    ora.b #CMD_DIRTY_BIT
+    sta.l battle_menu_dirty
+    rtl
+
+walker_rtl:
+"""
     RTL wrapper around `set_active_char_palette` so bank-02 callers
     can JSL into it with matching pop. Reads $1822 into A first so
     caller doesn't have to set it up.
-    """
-        lda.l 0x7E1822
-        jsr.w set_active_char_palette
-        rtl
+"""
 
-    gate_status_check:
-    """
+
+    lda.l 0x7E1822
+    jsr.w set_active_char_palette
+    rtl
+
+gate_status_check:
+"""
     Bank-20 body for the DrawStatusText hash gate. XOR of char-slot
     status-1 bytes ($2003+slot*$40). Sets carry on dirty, clears on
     clean. Caller (bank-02 trampoline at $02:97F8) tail-jumps to
     $A2A1 on dirty, rts on clean.
-    """
-        lda.l 0x7E2003
-        eor.l 0x7E2043
-        eor.l 0x7E2083
-        eor.l 0x7E20C3
-        eor.l 0x7E2103
-        cmp.l status_hash
-        beq _gsc_clean
-        sta.l status_hash
-        sec
-        rtl
+"""
 
-    _gsc_clean:
-        clc
-        rtl
 
-    gate_obj_names_check:
-    """
+    lda.l 0x7E2003
+    eor.l 0x7E2043
+    eor.l 0x7E2083
+    eor.l 0x7E20C3
+    eor.l 0x7E2103
+    cmp.l status_hash
+    beq _gsc_clean
+    sta.l status_hash
+    sec
+    rtl
+
+_gsc_clean:
+    clc
+    rtl
+
+gate_obj_names_check:
+"""
     Bank-20 body for the DrawObjNames hash gate. XOR of monster slot
     type bytes ($29B5..$29B8) + active-char index ($1822). Sets
     carry on dirty (re-render needed), clears carry on clean.
     Caller (bank-02 trampoline at $02:97C2) tail-jumps to $99D3 on
     dirty, rts on clean.
-    """
-        lda.l 0x7E29B5
-        eor.l 0x7E29B6
-        eor.l 0x7E29B7
-        eor.l 0x7E29B8
-        eor.l 0x7E1822
-        cmp.l obj_names_hash
-        beq _goc_clean
-        sta.l obj_names_hash
-        sec
-        rtl
+"""
 
-    _goc_clean:
-        clc
-        rtl
 
-    mark_monsters_dirty_and_init:
-    """
+    lda.l 0x7E29B5
+    eor.l 0x7E29B6
+    eor.l 0x7E29B7
+    eor.l 0x7E29B8
+    eor.l 0x7E1822
+    cmp.l obj_names_hash
+    beq _goc_clean
+    sta.l obj_names_hash
+    sec
+    rtl
+
+_goc_clean:
+    clc
+    rtl
+
+mark_monsters_dirty_and_init:
+"""
     Hook shim for `UpdateDead` entry at $03:B1A0. The original 4 bytes
     (`tdc  ; tax; stx $a9`) get replaced by a JSL here  ; this helper
     sets the monsters-region dirty bit, then replicates the clobbered
@@ -122,68 +135,156 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
     dead (`sta $29b5,x` with $FF after status apply)  ; flagging
     monsters dirty here lets the gated monster-name trampoline
     re-render once the dead slot is wiped.
-    """
-        lda.l battle_render.region_dirty_bits
-        ora.b #battle_render.REGION_DIRTY_MONSTERS
-        sta.l battle_render.region_dirty_bits
-        ; Propagate to cmd-window region: the cmd-window tilemap at $C1A5+ is
-        ; a mirror of the main view ($BE65+) overlaid with cmd tiles. If we
-        ; refresh monsters in the main view, the cmd mirror is stale, so set
-        ; CMD_DIRTY_BIT here too. The relocated DrawCmdWindow path picks this
-        ; up next frame and re-runs the WRAM mirror via `mirror_main_to_cmd`.
-        lda.l battle_menu_dirty
-        ora.b #CMD_DIRTY_BIT
-        sta.l battle_menu_dirty
-        tdc
-        tax
-        stx.b 0xa9
-        rtl
+"""
 
-    mark_all_dirty:
-    """
+
+    lda.l battle_render.region_dirty_bits
+    ora.b #battle_render.REGION_DIRTY_MONSTERS
+    sta.l battle_render.region_dirty_bits
+; Propagate to cmd-window region: the cmd-window tilemap at $C1A5+ is
+; a mirror of the main view ($BE65+) overlaid with cmd tiles. If we
+; refresh monsters in the main view, the cmd mirror is stale, so set
+; CMD_DIRTY_BIT here too. The relocated DrawCmdWindow path picks this
+; up next frame and re-runs the WRAM mirror via `mirror_main_to_cmd`.
+    lda.l battle_menu_dirty
+    ora.b #CMD_DIRTY_BIT
+    sta.l battle_menu_dirty
+    tdc
+    tax
+    stx.b 0xa9
+    rtl
+
+mark_all_dirty:
+"""
     Reset both dirty bytes to $FF so the next frame renders everything.
     Called once at battle init.
-    """
-        lda.b #0xFF
-        sta.l battle_menu_dirty
-        sta.l battle_monster_dirty
-        rtl
+"""
 
-    reset_queue_dirty_bits:
-    """
+
+    lda.b #0xFF
+    sta.l battle_menu_dirty
+    sta.l battle_monster_dirty
+    rtl
+
+reset_queue_dirty_bits:
+"""
     Seed all redraw-gate state for a fresh battle. Called once per
     battle from the InitMenuWindows hook ($02:9A63). Normal sense
     everywhere: 1 = dirty, 0 = clean. Seed all bytes to $FF so the
     first frame renders everything  ; the per-region gates clear their
     own bits after rendering, and writer sites re-arm on state change.
-    """
-        lda.b #0x00
-        sta.l battle_render.render_skipped
-        lda.b #0xFF
-        sta.l battle_render.region_dirty_bits
-        sta.l battle_menu_dirty
-        sta.l battle_monster_dirty
-        rtl
+"""
 
-    gated_clear_names_window_buffer:
-    """
+
+    lda.b #0x00
+    sta.l battle_render.render_skipped
+    lda.b #0xFF
+    sta.l battle_render.region_dirty_bits
+    sta.l battle_menu_dirty
+    sta.l battle_monster_dirty
+    rtl
+
+gated_clear_names_window_buffer:
+"""
     Wrap `clear_names_window_buffer` ($02:A299 call site) with the
     names-region dirty-bit check. When names is clean (bit clear),
     skip the tilemap wipe so the gated `init_names_gated` + skipped
     DrawText leaves the VRAM tilemap untouched. Without this the
     tilemap wipe still fires every frame and the gated render skip
     leaves blank tiles on screen.
-    """
-        lda.l battle_render.region_dirty_bits
-        bit.b #battle_render.REGION_DIRTY_NAMES
-        beq _gcnwb_skip
-        jsr.l clear_names_window_buffer
+"""
 
-    _gcnwb_skip:
-        rtl
 
-    set_active_char_palette:
-    """
+    lda.l battle_render.region_dirty_bits
+    bit.b #battle_render.REGION_DIRTY_NAMES
+    beq _gcnwb_skip
+    jsr.l clear_names_window_buffer
+
+_gcnwb_skip:
+    rtl
+
+refresh_char_highlight_rtl:
+"""RTL wrapper so the NMI helper in message.s can JSL in and land back."""
+    jsr.w refresh_char_highlight
+    rtl
+
+refresh_char_highlight:
+"""
+    Per-frame: re-apply the char-name highlight when it has moved.
+
+    The walk used to run from the writer shim, at the instant the engine
+    stores $1822. That is too early to ask which names are on screen -
+    measured at that point, $7E:F2C1 reports four of five slots hidden,
+    while the same bytes read all-zero once the battle is running - so
+    the highlight was applied against state the engine had not populated
+    yet and then never revisited.
+
+    Running it per frame instead makes it self-healing: it costs a
+    compare on an idle frame, and it re-applies whenever the active
+    character or the set of drawn names changes, whatever order the
+    engine got there in.
+
+    Key = active char index, folded with one bit per drawn row so a
+    party member dropping out re-compacts the rows. $FF (what the shim
+    stores) never matches, forcing the next frame to apply.
+
+    Called from the NMI helper in message.s. DBR is the caller's.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    lda.l 0x7E1822
+    sta.l scp_active_slot
+    ldx.w #0
+
+_rch_key_loop:
+    cpx.w #5
+    bcs _rch_key_done
+    lda.l 0x02A1F3, x
+    phx
+    rep #0x20
+    and.w #0x00FF
+    tax
+    sep #0x20
+    lda.l 0x7EF2C1, x
+    plx
+    cmp #0x00  ; `plx` clobbered N/Z with the index
+    beq _rch_key_next
+; Hidden slot: fold its index into the key so the compacted row layout
+; is part of what we compare against.
+    txa
+    inc
+    asl
+    asl
+    asl
+    eor.l scp_active_slot
+    sta.l scp_active_slot
+
+_rch_key_next:
+    inx
+    bra _rch_key_loop
+
+_rch_key_done:
+    lda.l scp_active_slot
+    cmp.l battle_render.scp_state_key
+    beq _rch_done
+    sta.l battle_render.scp_state_key
+    lda.l 0x7E1822
+    jsr.w set_active_char_palette
+; The palette bytes live in the WRAM tilemap; ask the NMI DMA path to
+; push it so the flip reaches VRAM.
+    lda.l battle_render.tilemap_pending_mask
+    ora.b #battle_render.TILEMAP_PENDING_MAIN
+    sta.l battle_render.tilemap_pending_mask
+
+_rch_done:
+    plp
+    rts
+
+set_active_char_palette:
+"""
     Walk all 5 char-name slots in the `$7E:B966` tilemap. Active slot
     gets palette $04 (bit 2 of tilemap-entry hi byte = palette 1)  ;
     others get $00 (palette 0).
@@ -207,106 +308,147 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
     (= Palom in the default order).
 
     M=8, X=8.
-    """
+"""
 
 
-        php
-        sep #0x20
-        rep #0x10
-        phb
-        pha
-        lda.b #0x7E  ; force DBR = $7E so `(0x32),y` writes to WRAM
-        pha
-        plb
-        pla
-        sta.l scp_active_slot
-        ; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
-        ; caller's BG / DMA state needs them preserved.
-        rep #0x20
-        lda.b 0x32
-        pha
-        sep #0x20
-        ldx.w #0
+    php
+    sep #0x20
+    rep #0x10
+    phb
+    pha
+    lda.b #0x7E  ; force DBR = $7E so `(0x32),y` writes to WRAM
+    pha
+    plb
+    pla
+    sta.l scp_active_slot
+; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
+; caller's BG / DMA state needs them preserved.
+    rep #0x20
+    lda.b 0x32
+    pha
+    sep #0x20
+    ldx.w #0
+    lda #0x00
+    sta.l battle_render.scp_out_row
 
-    _scp_slot_loop:
-        cpx.w #5
-        bcs _scp_done
-        ; CharOrderTbl[row] = char slot displayed at this row. Compare to
-        ; the active slot; match -> highlight palette, miss -> palette 0.
-        lda.l 0x02A1C8, x
-        cmp.l scp_active_slot
-        beq _scp_is_active
-        lda #0x00
-        bra _scp_have_pal
+_scp_slot_loop:
+    cpx.w #5
+    bcs _scp_done
+; Which character a row shows, and whether it is drawn at all, both come
+; from `$02:A1CD` - the table `DrawCharNames` ($02:A20C) indexes by
+; display position to get that character's battle struct. A first byte
+; of zero is the empty-slot case vanilla skips (`lda ($00) / beq`),
+; and it skips WITHOUT taking a row, so names compact upward.
+;
+; The struct base gives the slot to compare against $1822:
+; slot = (ptr - $2000) / $40. Reading the slot out of `CharOrderTbl`
+; instead does not agree with the pointer table - measured on a
+; Palom / Cecil / Porom party, the order table claims display 0 is slot
+; 1 while its pointer is $2080, i.e. slot 2 - which is what put the
+; glow on the wrong name.
+    phx
+    rep #0x20
+    txa
+    asl
+    tax
+    lda.l 0x02A1CD, x
+    sta.l battle_render.scp_base
+    tax
+    sep #0x20
+    lda.l 0x7E0000, x  ; first byte of that character's battle struct
+    plx
+    cmp #0x00  ; `plx` clobbered N/Z with the display index
+    beq _scp_next_slot
+; slot = (base - $2000) / $40
+    rep #0x20
+    lda.l battle_render.scp_base
+    sec
+    sbc.w #0x2000
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr
+    sep #0x20
+    cmp.l scp_active_slot
+    beq _scp_is_active
+    lda #0x00
+    bra _scp_have_pal
 
-    _scp_is_active:
-        lda #0x08  ; palette 2 (vanilla `lda #$08` in UpdateCharNames @a24c)
+_scp_is_active:
+    lda #0x08  ; palette 2 (vanilla `lda #$08` in UpdateCharNames @a24c)
 
-    _scp_have_pal:
-        sta.l scp_pal_byte
+_scp_have_pal:
+    sta.l scp_pal_byte
 
-    ; base = $B966 + slot * 24 (per-slot stride confirmed via trace:
-    ; $32 mirror at slot*24+0 (6 tiles padding), $34 mirror at
-    ; slot*24+12 (6 tiles real name content)).
-        rep #0x20
-        txa
-        and.w #0x000F
-        asl
-        asl
-        asl  ; *8
-        pha
-        asl  ; *16
-        clc
-        adc 1, s  ; *16 + *8 = *24
-        clc
-        adc.w #0xB966
-        sta.b 0x32
-        pla  ; balance stack
-        sep #0x20
-        ; Patch 6 entries on the ($32) mirror at offsets +1, +3, +5, +7, +9, +B
-        ldy.w #1
-        jsr.w _scp_patch_six
-        ; Now patch the ($34) mirror at base + $0C
-        rep #0x20
-        lda.b 0x32
-        clc
-        adc.w #0x000C
-        sta.b 0x32
-        sep #0x20
-        ldy.w #1
-        jsr.w _scp_patch_six
-        inx
-        bra _scp_slot_loop
+; base = $B966 + row * 24, counting drawn names only (per-row stride
+; confirmed via trace: $32 mirror at row*24+0 (6 tiles padding), $34
+; mirror at row*24+12 (6 tiles real name content)).
+    rep #0x20
+    lda.l battle_render.scp_out_row
+    and.w #0x000F
+    asl
+    asl
+    asl  ; *8
+    pha
+    asl  ; *16
+    clc
+    adc 1, s  ; *16 + *8 = *24
+    clc
+    adc.w #0xB966
+    sta.b 0x32
+    pla  ; balance stack
+    sep #0x20
+; Patch 6 entries on the ($32) mirror at offsets +1, +3, +5, +7, +9, +B
+    ldy.w #1
+    jsr.w _scp_patch_six
+; Now patch the ($34) mirror at base + $0C
+    rep #0x20
+    lda.b 0x32
+    clc
+    adc.w #0x000C
+    sta.b 0x32
+    sep #0x20
+    ldy.w #1
+    jsr.w _scp_patch_six
+    lda.l battle_render.scp_out_row
+    inc
+    sta.l battle_render.scp_out_row
 
-    _scp_done:
-        rep #0x20
-        pla
-        sta.b 0x32
-        sep #0x20
-        plb
-        plp
-        rts
+_scp_next_slot:
+    inx
+    bra _scp_slot_loop
 
-    _scp_patch_six:
-        ; ($32) = row base in bank $7E. Y = first hi-byte offset.
-        ; Walks Y, Y+2, ..., Y+10. Masks `$E3`, ORs in `scp_pal_byte`.
-        phx
-        ldx.w #6
+_scp_done:
+    rep #0x20
+    pla
+    sta.b 0x32
+    sep #0x20
+    plb
+    plp
+    rts
 
-    _scp_loop_six:
-        lda (0x32), y
-        and #0xE3
-        ora.l scp_pal_byte
-        sta (0x32), y
-        iny
-        iny
-        dex
-        bne _scp_loop_six
-        plx
-        rts
+_scp_patch_six:
+; ($32) = row base in bank $7E. Y = first hi-byte offset.
+; Walks Y, Y+2, ..., Y+10. Masks `$E3`, ORs in `scp_pal_byte`.
+    phx
+    ldx.w #6
 
-    set_active_char_and_dirty:
-    """
+_scp_loop_six:
+    lda (0x32), y
+    and #0xE3
+    ora.l scp_pal_byte
+    sta (0x32), y
+    iny
+    iny
+    dex
+    bne _scp_loop_six
+    plx
+    rts
+
+set_active_char_and_dirty:
+"""
     Writer-site shim for the active-char store (`sta $1822` at $03:A482,
     followed by `sta $d0`). Original 5 bytes replaced by JSL + NOP. Shim
     performs both stores then unconditionally marks cmd + names +
@@ -317,26 +459,28 @@ scp_pal_byte := 0x7EEF9D  ; current palette byte being applied
     matches a stale value in $1822, leaving the prior cmd-window
     tilemap on screen.
     Caller has M=8, A holds the char index, DBR may differ from $7E.
-    """
-        sep #0x20
-        sta.l 0x7E1822
-        sta.l 0x7E00D0
-        pha
-        lda.l battle_menu_dirty
-        ora.b #CMD_DIRTY_BIT
-        sta.l battle_menu_dirty
-        ; Char-name palette patch (replaces the full names VWF re-render
-        ; that used to fire via REGION_DIRTY_NAMES on every rotation).
-        ; Walks the `$7E:B966` tilemap, rewrites the palette field of
-        ; each char's 6 max tiles on both pointer mirrors ; ~300 cycles
-        ; vs ~3M for the VWF re-render. Also flip names tilemap dirty
-        ; so the unified-DMA path uploads the patched tilemap to VRAM.
-        pla
-        pha
-        jsr.w set_active_char_palette
-        lda.l battle_render.tilemap_pending_mask
-        ora.b #battle_render.TILEMAP_PENDING_MAIN
-        sta.l battle_render.tilemap_pending_mask
-        pla
-        rtl
+"""
+
+
+    sep #0x20
+    sta.l 0x7E1822
+    sta.l 0x7E00D0
+    pha
+    lda.l battle_menu_dirty
+    ora.b #CMD_DIRTY_BIT
+    sta.l battle_menu_dirty
+; Char-name palette patch (replaces the full names VWF re-render
+; that used to fire via REGION_DIRTY_NAMES on every rotation).
+; Walks the `$7E:B966` tilemap, rewrites the palette field of
+; each char's 6 max tiles on both pointer mirrors ; ~300 cycles
+; vs ~3M for the VWF re-render. Also flip names tilemap dirty
+; so the unified-DMA path uploads the patched tilemap to VRAM.
+; Invalidate the highlight key rather than walking here: this runs at
+; the $1822 store, before the engine has populated the state that says
+; which names are drawn. `refresh_char_highlight` picks it up on the
+; next frame, when that state is good.
+    lda.b #0xFF
+    sta.l battle_render.scp_state_key
+    pla
+    rtl
 }

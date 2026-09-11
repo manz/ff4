@@ -15,7 +15,7 @@ clear_ram:
 Wipe the cart's SRAM banks ($70:0000+) at boot, sized via the
 ROM-header SRAM-size byte at $00:FFD8 (clamped to 7 → 128KB max).
 """
-    jsr.l 0x15C9AA
+    jsr 0x15C9AA
     lda.b #1
     jsr.w _clear_ram
     jsr.w _zero_vwf_description_region
@@ -50,13 +50,13 @@ a fixed-source zero-fill DMA.
     lda.b #0x80
     sta.l 0x002115  ; VMAIN : increment on $2119, +1 word
     rep #0x20
-    lda.w #0x2800  ; VMADD : VRAM word $2800 (= byte $5000)
+    lda #0x2800  ; VMADD : VRAM word $2800 (= byte $5000)
     sta.l 0x002116
-    lda.w #0x1811  ; $4300 = $11 (mode 1, fixed src) | $4301 = $18 (VMDATAL)
+    lda #0x1811  ; $4300 = $11 (mode 1, fixed src) | $4301 = $18 (VMDATAL)
     sta.l 0x004300
     lda.w #0x0000  ; A1T : SRAM byte $00 (freshly zeroed by _clear_ram)
     sta.l 0x004302
-    lda.w #0x1000  ; DAS : $1000 byte transfer = $5000..$5FFF
+    lda #0x1000  ; DAS : $1000 byte transfer = $5000..$5FFF
     sta.l 0x004305
     sep #0x20
     lda.b #0x70  ; A1B : SRAM bank $70
@@ -103,11 +103,11 @@ _clear_2kb:
     inx  ; Increment offset by 2 bytes
     inx
     iny  ; Increment word count
-    cpy.w #0x0400  ; 2KB = 1024 words = $400 words
+    cpy #0x0400  ; 2KB = 1024 words = $400 words
     bne _clear_2kb
 
 ; Check if we need to switch banks (X >= $8000)
-    cpx.w #0x8000
+    cpx #0x8000
     bcc _same_bank  ; Stay in same bank if X < $8000
 
 ; Switch to next SRAM bank

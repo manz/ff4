@@ -81,9 +81,9 @@ _a455:
     lda 0xef55
     sta 0x36
     asl 0xef54
-    ldx.w 0xef50
+    ldx 0xef50
     stx 0x30
-    ldx.w 0xef52
+    ldx 0xef52
     stx 0x32
     lda 0x32
     clc
@@ -546,7 +546,7 @@ _a6c3:
 
 _text_cmd_09:
 _a6ca:
-    ldx.w #0x0100
+    ldx #0x0100
     lda #2
     bra _draw_char_var
 
@@ -556,7 +556,7 @@ _a6ca:
 
 _text_cmd_0a:
 _a6d1:
-    ldx.w #0x0180
+    ldx #0x0180
     lda #3
     bra _draw_char_var
 
@@ -566,7 +566,7 @@ _a6d1:
 
 _text_cmd_0b:
 _a6d8:
-    ldx.w #0x0200
+    ldx #0x0200
     lda #4
 ; fallthrough
 
@@ -784,7 +784,7 @@ _a7d7:
 _loop:
     lda.l assets_monsters_long_dat, x
     beq _exit
-    jsr.w 0xA497  ; draw text
+    jsr 0xA497  ; draw text
 ;jsr.w msg_monster_window_trampoline
     inx
     bra _loop
@@ -827,7 +827,7 @@ hex_to_dec:
 """Convert the hex value in A/X to decimal digits in the format buffer."""
 _at_86bf:
     stx 0x26
-    ldx.w #10000
+    ldx #10000
     stx 0x28
     jsr.l div16_far
     lda 0x2a
@@ -836,7 +836,7 @@ _at_86bf:
     sta 0x180c
     ldx.w 0x2c
     stx 0x26
-    ldx.w #1000
+    ldx #1000
     stx 0x28
     jsr.l div16_far
     lda 0x2a

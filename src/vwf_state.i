@@ -44,6 +44,7 @@ VWF_CHR_BUFFER_SIZE := 0x2000
 ; $70:3C00 + N*160 and the last slot ends at $70:4240. Slot 4 alone spans
 ; $70:3E80..$70:3F1F, which is exactly where the gate bytes used to sit --
 ; a rendered item name wrote glyph pixels over pending_transfer_mask, the
+
 ; region dirty bits, render_skipped and dma_dirty_slots (observed:
 ; pending_transfer_mask = $F3), so the battle names / monsters regions lost
 ; their dirty + CHR-pending bits and never flushed again: black name blocks
@@ -102,6 +103,30 @@ VWF_CHR_DIRTY_B := 0x7070C4
 VWF_CHR_VRAM_WORD_B := 0x7070C5
 VWF_CHR_BYTE_COUNT_B := 0x7070C7
 VWF_CHR_SRC_OFFSET_B := 0x7070C9
+
+; Tilemap write cursor for `render.draw_text_buffer`.
+;
+; This lived on direct page ($1D) until the key-item picker: that menu
+; overlays the field map, where NMI stays enabled, and vanilla's
+; UpdateCtrl ($14:FD12) uses $1D as scratch. An NMI landing mid-render
+; zeroed the cursor and the rest of the name's tilemap cells went to
+; $7E:0000 instead of the staging buffer. The other menus never saw it
+; because they run with NMI off. Long-addressed, so no interrupt can
+; alias it.
+VWF_TILEMAP_OFFSET := 0x7070CB
+
+; Kerning state for `render.draw_text_buffer`: the previous and current
+; character codes.
+;
+; These lived on direct page at $77 / $79, which is free in the menus
+; but is the field engine's MOSAIC shadow: the picker renders over a
+; live map, so glyph codes landed in $77 and the window IRQ pushed them
+; straight to $2106 - the map pixelated for as long as a render took.
+; The renderer's other scratch ($73-$75) is saved and restored around a
+; render; these two never were, and even saving them would not help
+; while an interrupt reads the byte mid-render.
+VWF_PREV_CHAR := 0x7070CD
+VWF_CURRENT_CHAR := 0x7070CE
 
 .struct VwfConfig {
     word tile_id_base

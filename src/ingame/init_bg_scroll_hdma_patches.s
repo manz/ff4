@@ -8,5 +8,5 @@ after the original's ROM space is reclaimed.
 ;; the bank is identical so internal in-bank JSR/JMP targets stay valid.)
 
 .alloc at 0x02818A {
-        jsr.l init_bg_scroll_hdma
+    jsr.l init_bg_scroll_hdma
 }

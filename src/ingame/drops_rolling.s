@@ -39,6 +39,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
   $1BEE  hdma_copy_pending
 """
 
+
 DROPS_VISIBLE_ITEMS := 5
 DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
@@ -50,13 +51,22 @@ DROPS_SCROLL_TOTAL_PIXELS := 16
 ; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
 ; the full 35-byte struct ; the macro path only ever touched the first
 ; 12 bytes so the original $1BE0 base worked there.
-drops_rolling := (0x7E9C30 as RollingBufferState)
+; `RollingBufferState` is declared in items.i, which ff4.s includes
+; ahead of this module - the assembler resolves the cast, the lint
+; sees one file at a time and cannot. Codes are comma-separated, so
+; the reason has to sit here rather than after the marker.
+drops_rolling := (0x7E9C30 as RollingBufferState)  ; noqa: S001
 
 ; Drops scroll position lives one byte past the state block so it
 ; doesn't collide with the engine's RollingBufferState fields. Other
 ; profiles read scroll_pos from a original menu byte ($1B1A field /
 ; $1BB7 treasure inventory); drops has no original equivalent.
-drops_scroll_pos := 0x9C5F
+;
+; Full 24-bit address: every access is `lda.l` / `sta.l`, and a bare
+; 16-bit constant made those assemble against bank $00 - i.e. ROM - so
+; the scroll position silently never persisted and drops stayed pinned
+; at the top of the list no matter how far DOWN was held.
+drops_scroll_pos := 0x7E9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
@@ -374,6 +384,7 @@ _drops_hdma_footer:
     and ch6 from reloading on the same scanline.
 """
 
+
     sep #0x20
     lda #25
     sta.l DROPS_HDMA_SHADOW, x
@@ -416,6 +427,7 @@ drops_init_impl:
     the engine can write items into the just-drawn frame without the
     original $01:D817 DrawWindow call clobbering them.
 """
+
 
     php
     rep #0x30
@@ -560,4 +572,3 @@ drops_swap_redraw_impl:
     plp
     rtl
 }
-

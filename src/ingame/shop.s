@@ -7,107 +7,107 @@ small-VWF item descriptions.
 ; move gils window
 
 .alloc at 0x1dea6 {
-        menu_window(23, 4, 7, 3)
+    menu_window(23, 4, 7, 3)
 
-    ; move character 1 tile below
+; move character 1 tile below
 }
 .alloc at 0x1deba {
-        menu_window(23, 9, 7, 11)
+    menu_window(23, 9, 7, 11)
 
-    ; message window
+; message window
 }
 .alloc at 0x01deb2 {
-        menu_window(8, 0, 20, 2)
+    menu_window(8, 0, 20, 2)
 
-    ; shop title
+; shop title
 }
 .alloc at 0x01deae {
-        menu_window(0, 0, 8, 2)
+    menu_window(0, 0, 8, 2)
 
-    ; actions window
+; actions window
 }
 .alloc at 0x01deaa {
-        menu_window(1, 4, 20, 3)
+    menu_window(1, 4, 20, 3)
 
-    ; list window
+; list window
 }
 .alloc at 0x01deb6 {
-        menu_window(1, 8, 21, 17)
+    menu_window(0, 8, 22, 17)
 
 
-    ; Moves gils 7 digits 2 tiles to the right.
+; Moves gils 7 digits 2 tiles to the right.
 }
 .alloc at 0x1c3f5 {
-        ldy.w #0x01a6 + 8
+    ldy.w #0x01a6 + 8
 
-    ; ギル : gils
+; ギル : gils
 }
 .alloc at 0x01C3EC {
-        load_system_menu_text_pointer(shops.gils)
+    load_system_menu_text_pointer(shops.gils)
 }
 .alloc at 0x01C350 {
-        load_system_menu_text_pointer(shops.welcome_and_actions)
-        ; Route the owner greeting ("Puis-je vous aider ?") through the small-VWF
-        ; description region ; the slimmed welcome_and_actions block holds only the
-        ; "Achat Vente Sortir" action labels rendered by the vanilla engine.
+    load_system_menu_text_pointer(shops.welcome_and_actions)
+; Route the owner greeting ("Puis-je vous aider ?") through the small-VWF
+; description region ; the slimmed welcome_and_actions block holds only the
+; "Achat Vente Sortir" action labels rendered by the vanilla engine.
 }
 .alloc at 0x01C353 {
-        jmp.w shop_welcome_text_hook
+    jmp.w shop_welcome_text_hook
 }
 .alloc at 0x01C43F {
-        load_system_menu_text_pointer(shops.quantity)
-        ; Route the buy-flow welcome ("Que désirez vous ?") through the small-VWF
-        ; description region ; vanilla quantity block (Quantité + "1") continues to
-        ; render via $8301 inside the hook.
+    load_system_menu_text_pointer(shops.quantity)
+; Route the buy-flow welcome ("Que désirez vous ?") through the small-VWF
+; description region ; vanilla quantity block (Quantité + "1") continues to
+; render via $8301 inside the hook.
 }
 .alloc at 0x01C442 {
-        jsr.w shop_quantity_text_hook
+    jsr.w shop_quantity_text_hook
 }
 .alloc at 0x01c7e4 {
-        load_system_menu_text_pointer(shops.quantity)
+    load_system_menu_text_pointer(shops.quantity)
 }
 .alloc at 0x01C7E7 {
-        jsr.w shop_quantity_text_hook
+    jsr.w shop_quantity_text_hook
 }
 .alloc at 0x01C568 {
-        load_system_menu_text_pointer(shops.gils + 2)
+    load_system_menu_text_pointer(shops.gils + 2)
 }
 .alloc at 0x01c74e {
-        load_system_menu_text_pointer(shops.thank_you_window)
-        ; Route the owner thank-you ("Merci !") through the small-VWF description
-        ; region ; the window itself still draws via vanilla $82FB inside the hook.
+    load_system_menu_text_pointer(shops.thank_you_window)
+; Route the owner thank-you ("Merci !") through the small-VWF description
+; region ; the window itself still draws via vanilla $82FB inside the hook.
 }
 .alloc at 0x01C751 {
-        jsr.w shop_thanks_text_hook
+    jsr.w shop_thanks_text_hook
 }
 .alloc at 0x01c962 {
-        load_system_menu_text_pointer(shops.sell_window)
+    load_system_menu_text_pointer(shops.sell_window)
 }
 .alloc at 0x01c41e {
-        load_system_menu_text_pointer(shops.inventory_full)
+    load_system_menu_text_pointer(shops.inventory_full)
 }
 .alloc at 0x01c700 {
-        load_system_menu_text_pointer(shops.not_enough_gils)
+    load_system_menu_text_pointer(shops.not_enough_gils)
 
 
-    ; Buy menu
-    ; quantity hand pointer position "10"
+; Buy menu
+; quantity hand pointer position "10"
 }
 .alloc at 0x01cb12 {
-        ldx #0x3058 + 48
+    ldx #0x3058 + 48
 
-    ; quantity hand pointer position "1"
+; quantity hand pointer position "1"
 }
 .alloc at 0x01cb17 {
-        ldx.w #0x3040 + 54
+    ldx.w #0x3040 + 54
 
-    ; Sell menu
+; Sell menu
 }
 .alloc at 0x01c80b {
-        ldx.w #0x3058 + 48
+    ldx.w #0x3058 + 48
 }
 .alloc at 0x01c810 {
-        ldx.w #0x3040 + 54
+    ldx.w #0x3040 + 54
 }
 {
 ; the 10 is drawn using a draw number function while the 1 is in the text.
@@ -116,66 +116,89 @@ small-VWF item descriptions.
     _quantity_10_position = 0x019a + 12
 
 ; Sell menu
-.alloc at 0x01c81e {
-        ldy.w #_quantity_10_position
+    .alloc at 0x01c81e {
+    ldy.w #_quantity_10_position
 
-    ; Buy menu
-}
-.alloc at 0x01c464 {
-        ldy.w #_quantity_10_position
-}
+; Buy menu
+    }
+
+
+    .alloc at 0x01c464 {
+    ldy.w #_quantity_10_position
+    }
 }
 
+
+; Buy-list cursor X. Vanilla parks the hand at 16px, one column left of
+; the names at column 3 ; the rows moved a column left, so the cursor
+; follows. SelectItemSell is untouched: it lists the player's own
+; inventory through a different draw path.
+.alloc at 0x01C5C0 {
+    lda #0x08
+}
+
+; Row positions for the item names, one column left of vanilla's so the
+; names regain the column the price field needs. Original table at
+; $01:C58E held $0246, $02C6, ... (column 3 of each row).
+.alloc at 0x01C58E {
+    .dw 0x0244, 0x02C4, 0x0344, 0x03C4, 0x0444, 0x04C4, 0x0544, 0x05C4
+}
+
+; Shop list rows draw through the hijacked DrawItemName, which needs a
+; slot index in $5D ; the loop leaves the item id there instead.
+.alloc at 0x01C580 {
+    jsr.w shop_draw_item_name
+}
 
 ; Changes the offset of the hand pointer
 
 .alloc at 0x01C37C {
-        lda 0x1B79
-        asl
-        asl
-        asl
-        asl
-        sta 0x45
-        asl
-        adc 0x45
-        nop
-        nop
-        sta 0x45
+    lda 0x1B79
+    asl
+    asl
+    asl
+    asl
+    sta 0x45
+    asl
+    adc 0x45
+    nop
+    nop
+    sta 0x45
 }
 .alloc at 0x01920a {
-        ; shop party sprite positions
-        ; Attack formation 3 front, 2 back
-        .db 0x00 + 8, 0x1c + 8
-        .db 0x00 + 8, 0x00 + 8
-        .db 0x00 + 8, 0x38 + 8
-        .db 0x18 + 8, 0x0c + 8
-        .db 0x18 + 8, 0x2c + 8
+; shop party sprite positions
+; Attack formation 3 front, 2 back
+    .db 0x00 + 8, 0x1c + 8
+    .db 0x00 + 8, 0x00 + 8
+    .db 0x00 + 8, 0x38 + 8
+    .db 0x18 + 8, 0x0c + 8
+    .db 0x18 + 8, 0x2c + 8
 
-    ; Defense formation 3 back, 2 front
-        .db 0x18 + 8, 0x1c + 8
-        .db 0x18 + 8, 0x00 + 8
-        .db 0x18 + 8, 0x38 + 8
-        .db 0x00 + 8, 0x0c + 8
-        .db 0x00 + 8, 0x2c + 8
+; Defense formation 3 back, 2 front
+    .db 0x18 + 8, 0x1c + 8
+    .db 0x18 + 8, 0x00 + 8
+    .db 0x18 + 8, 0x38 + 8
+    .db 0x00 + 8, 0x0c + 8
+    .db 0x00 + 8, 0x2c + 8
 }
 .alloc at 0x01debe {
-    shop_title_ptr:
-        .dw shops.weapons_title - 0x8000
-        .dw shops.armor_title - 0x8000
-        .dw shops.items_title - 0x8000
+shop_title_ptr:
+    .dw shops.weapons_title - 0x8000
+    .dw shops.armor_title - 0x8000
+    .dw shops.items_title - 0x8000
 }
 .alloc at 0x01c336 {
-        lda.b #0
-        xba
-        lda 0x1a01
-        asl
-        tax
-        rep #0x20
-        lda.l shop_title_ptr, x
-        tay
-        sep #0x20
-        nop
-        nop
-        nop
-        ldx.w #0x0042
+    lda.b #0
+    xba
+    lda 0x1a01
+    asl
+    tax
+    rep #0x20
+    lda.l shop_title_ptr, x
+    tay
+    sep #0x20
+    nop
+    nop
+    nop
+    ldx.w #0x0042
 }

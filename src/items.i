@@ -85,6 +85,34 @@ FIELD_ITEM_VWF_TILE_BASE := 0x100
 FIELD_ITEM_VWF_TILE_BUDGET := 0x0A
 DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 
+; --- Key-item picker VWF flush descriptor (shares the secondary slot) ---
+; The picker runs over a live map from an event script, so it cannot
+; use the field/menu VWF window: FIELD_VWF_VRAM_DEST_WORD ($2800) is
+; the BG3 TILEMAP in field (mode 1, BG3SC $29), not spare CHR.
+;
+; It renders into the window `vwfinit` already owns instead. That
+; repoints BG3 CHR to $6000 (BG34NBA low nibble = 6), loads the vanilla
+; 2bpp font into tile ids $00..$FF, and keeps ids $100+ from $6800 up
+; for dialogue VWF glyphs. The picker replaces dialogue text on screen,
+; so it borrows that window the same way drops and treasure share
+; regions - by never being visible at the same time.
+;
+; Tile ids need no new base: items_menu_vwf already emits
+; FIELD_ITEM_VWF_TILE_BASE ($100) + slot * K with flags = $01 for the
+; 9th id bit, which lands exactly on $6800 for BG3's 2bpp 8-word
+; stride. Only the flush destination differs.
+;   src offset =  $100 * 16 = $1000 bytes into VWF_CHR_BUFFER
+;   vram dest  =  $6000 + $100 * 8 = $6800 (BG3 CHR, 2bpp)
+;   size       =  7 buffer slots * K=10 * 16 = $460 bytes
+KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
+KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
+KEY_ITEM_VWF_BYTE_COUNT := 0x0460
+
+; Caller-context values for VWF_CALLER_CTX (see src/vwf_state.i).
+VWF_CTX_PRIMARY := 0x00
+VWF_CTX_DROPS := 0x01
+VWF_CTX_KEY_ITEM := 0x02
+
 ; --- Drops VWF flush descriptor (secondary NMI flush slot) ---
 ; Hardcoded since drops only ever lives at the +11-slot offset in
 ; the field BG3 CHR window. NMI runs both primary (treasure) and
@@ -141,6 +169,27 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 ; constants when the singleton arena refactor lands.
 FIELD_MENU_ROLLING_BASE := 0x7E9C90
 
+; Vanilla's game-time frame tick (`WaitVblank` at $01:818A does
+; `inc $16a3`, rolling over at 60). This is the only real frame clock
+; the menus have: they run with NMI disabled ($4200 = 0) and poll
+; RDNMI inside WaitVblank, so there is no NMI to hook and the menu
+; loops themselves iterate a variable number of times per frame - the
+; treasure loop spins ~20 times in the frame that ends a scroll
+; animation. Watch this byte for a change instead of counting loop
+; iterations.
+menu_frame_time := 0x7E16A3
+
+; Treasure held-DOWN debounce, one byte past the treasure
+; RollingBufferState instance at $7E:9C00 (struct ends at offset 35
+; inclusive). Non-zero means treasure_scroll_*_trigger aborts and
+; undoes vanilla's $1BB7 increment, so a press steps one item and
+; holding DOWN repeats at a fixed cadence.
+treasure_scroll_cooldown := 0x7E9C24
+
+; Last `menu_frame_time` value the treasure loop observed, so the
+; cooldown above ticks once per frame however often the loop runs.
+treasure_scroll_frame_seen := 0x7E9C25
+
 .struct RollingBufferState {
     byte top_row
     byte buffer_pos
@@ -172,6 +221,7 @@ ROLLING_MENU_ID_FIELD := 0
 ROLLING_MENU_ID_TREASURE := 1
 ROLLING_MENU_ID_DROPS := 2
 ROLLING_MENU_ID_KEY_ITEM := 3
+ROLLING_MENU_ID_SELL := 4
 
 ; Typed view onto the field state - gives field_menu_rolling.hdma_enable,
 ; field_menu_rolling.fn_render_slot, etc. as flat symbols (a816 cast,
@@ -183,4 +233,3 @@ ROLLING_MENU_ID_KEY_ITEM := 3
 ; copy shadow→active during the next vblank. Reference directly as
 ; `field_menu_rolling.hdma_enable` / `.hdma_copy_pending` everywhere.
 field_menu_rolling := (FIELD_MENU_ROLLING_BASE as RollingBufferState)
-

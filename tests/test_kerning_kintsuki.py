@@ -30,10 +30,25 @@ MENU_STUB_PATH = Path(__file__).parent / "asm/kerning_menu_stub.s"
 KERNING_OFFSET = 256 * 17       # within the dialog font asset
 MENU_KERNING_OFFSET = 256 * 9   # within the menu font asset
 
-# Direct-page slots used by each menu-font caller for `prev_char`.
-# Hardcoded because they live inside .scope blocks and aren't exported.
-SMALLVWF_PREV_CHAR = 0x77   # src/small_vwf/render.s: render scope
-BATTLEMSG_PREV_CHAR = 0xB1  # src/battle/message.s
+# Where each menu-font caller keeps `prev_char`, as a full 24-bit
+# address. small_vwf's moved off the direct page into SRAM: at $77 it
+# aliased the field engine's MOSAIC shadow, so glyph codes reached
+# $2106. The battle renderer still uses direct page, which the stub's
+# long store reaches with D = 0.
+def _smallvwf_prev_char() -> int:
+    """Resolve small_vwf's prev_char from the build's debug info."""
+    from a816 import debug_info
+    adbg = REPO / "build" / "ff4.ips.adbg"
+    if not adbg.exists():
+        pytest.skip(f"debug info not built at {adbg}")
+    for sym in debug_info.read(adbg).symbols:
+        if sym.name == "VWF_PREV_CHAR":
+            return sym.address & 0xFFFFFF
+    raise AssertionError("VWF_PREV_CHAR missing from the symbol table")
+
+
+SMALLVWF_PREV_CHAR = _smallvwf_prev_char()
+BATTLEMSG_PREV_CHAR = 0x0000B1  # src/battle/message.s, direct page
 
 
 def _read_kerning_table() -> list[tuple[int, int]]:

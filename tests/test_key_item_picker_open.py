@@ -53,18 +53,158 @@ def test_a_tap_opens_picker(picker_emu):
     )
 
 
-def test_picker_single_col_layout(picker_emu):
-    """Single-col patches force UpdateItemText to write each item on
-    a fresh text-buffer row (Y stride 24). After A,A the text buffer
-    at $0774 should have non-$FF bytes at row offsets 0, 24, 48 — at
-    least one of which has a recognizable item name char."""
+def test_vanilla_list_draw_is_suppressed(picker_emu):
+    """Vanilla must not lay its own copy of the list into the window.
+
+    UpdateItemText ($00:B22B) wrote the whole filtered list into the
+    text buffer at $0774, which then reached the window band that
+    vanilla scrolls over with $BB. With the engine drawing its ring into
+    the same band, the list came out rendered twice, fixed-width under
+    variable-width. The routine is patched to return immediately, so the
+    buffer stays blank.
+    """
     _open_picker(picker_emu)
-    row0 = picker_emu.read(0x7E0774)
-    row1 = picker_emu.read(0x7E0774 + 0x18)
-    row2 = picker_emu.read(0x7E0774 + 0x30)
-    rendered = [r for r in (row0, row1, row2) if r != 0xFF and r != 0]
-    assert len(rendered) >= 1, (
-        f"text buffer unrendered: row0=${row0:02x} row1=${row1:02x} row2=${row2:02x}"
+    picker_emu.run_frames(30)
+    rows = [picker_emu.read(0x7E0774 + i * 0x18) for i in range(3)]
+    assert all(r in (0x00, 0xFF) for r in rows), (
+        "vanilla still drew the list: "
+        + " ".join(f"${r:02x}" for r in rows))
+
+
+
+
+def test_engine_renders_the_picker_list(picker_emu):
+    """The picker's rows come from the rolling engine, not vanilla's
+    fixed-font text buffer.
+
+    Engine-rendered names use VWF tile ids from FIELD_ITEM_VWF_TILE_BASE
+    ($100+), which the tilemap carries as a low byte plus bit 8 in the
+    attribute byte. Vanilla's own rows are fixed-font ids below $100.
+    """
+    _open_picker(picker_emu)
+    picker_emu.run_frames(60)
+
+    # BG3 plane 1 at word $2C00 is where the picker's window body lives;
+    # item names sit on plane rows 1/3/5/7.
+    base = 0x2C00
+    vram = bytes(picker_emu.vram_read_range(base * 2, 8 * 32 * 2))
+    vwf_cells = 0
+    for row in (1, 3, 5, 7):
+        for col in range(4, 20):
+            off = (row * 32 + col) * 2
+            tile = vram[off] | ((vram[off + 1] & 0x01) << 8)
+            if tile >= 0x100:
+                vwf_cells += 1
+    assert vwf_cells >= 8, (
+        f"expected engine-rendered VWF cells in the picker rows, got {vwf_cells}")
+
+
+def test_picker_leaves_the_field_direct_page_intact(picker_emu):
+    """Rendering must not disturb the field engine's direct-page state.
+
+    The menu VWF renderer scratches direct-page bytes the field owns
+    ($29/$2A, $33, $34, $43, its own $63-$79 block); leaving any of them
+    behind scrambled the map. The picker snapshots the page around its
+    render, so the bytes must read back unchanged.
+    """
+    e = picker_emu
+    e.run_frames(30)
+    before = bytes(e.read(0x000600 + i) for i in range(0x100))
+    _open_picker(e)
+    e.run_frames(60)
+    after = bytes(e.read(0x000600 + i) for i in range(0x100))
+    # The field engine moves plenty of its own state each frame; the
+    # check is that the renderer's scratch bytes are not left disturbed.
+    scratch = [0x1D, 0x1E, 0x29, 0x2A, 0x33, 0x34, 0x43, 0x5C, 0x5D]
+    hot = [f"${b:02x}" for b in scratch if before[b] != after[b] and after[b] in (0x00, 0xFF)]
+    assert not hot, f"renderer scratch left in the field direct page: {' '.join(hot)}"
+
+
+def test_engine_rows_follow_the_scroll(picker_emu):
+    """Scrolling the list must re-render its rows.
+
+    Vanilla owns the scroll position ($BA) and the cursor; the engine
+    owns the row contents. Without a re-render on the scroll edge the
+    rows kept whatever the open-time render left behind.
+    """
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    def rows() -> bytes:
+        vram = bytes(e.vram_read_range(0x2C00 * 2, 8 * 32 * 2))
+        out = bytearray()
+        for row in (1, 3, 5, 7):
+            for col in range(4, 20):
+                off = (row * 32 + col) * 2
+                out.append(vram[off])
+        return bytes(out)
+
+    before = rows()
+    for _ in range(8):
+        tap(e, Button.DOWN)
+        e.run_frames(12)
+    assert rows() != before, "list rows unchanged after scrolling"
+
+
+# Vanilla runs this menu with DP = $0600, so its scratch is at $7E:06xx.
+DP = 0x7E0600
+CURSOR_ROW = DP + 0x8C   # $8C, row within the window, 0..3
+SCROLL_POS = DP + 0xBA   # $BA, index of the item on the top row
+VISIBLE_ROWS = 4
+
+
+def _owned_key_items(emu) -> int:
+    """Count what InitItemList accepted into the $7E:0712 filter buffer."""
+    buf = bytes(emu.read(0x7E0712 + i) for i in range(96))
+    return sum(1 for i in range(0, 96, 2) if buf[i] != 0)
+
+
+def test_scroll_stops_at_the_end_of_the_list(picker_emu):
+    """The window must stop with the last item on the bottom row.
+
+    Vanilla compared $BA against a hardcoded 17 ($00:B00F), sized for the
+    longest list it could ever draw. The picker builds its list per save,
+    so on a 16-item list that ceiling scrolled five rows of blanks into
+    view before refusing to move. The ceiling now comes from the count.
+    """
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    owned = _owned_key_items(e)
+    assert owned > VISIBLE_ROWS, f"kss needs a scrollable list, got {owned} key items"
+    expected = owned - VISIBLE_ROWS
+
+    for _ in range(owned + 12):
+        tap(e, Button.DOWN, hold=4, gap=16)
+
+    assert e.read(SCROLL_POS) == expected, (
+        f"scrolled to {e.read(SCROLL_POS)}, expected {expected} "
+        f"({owned} items - {VISIBLE_ROWS} rows)"
+    )
+    assert e.read(CURSOR_ROW) == VISIBLE_ROWS - 1, (
+        "cursor left the bottom row while the list scrolled"
     )
 
 
+def test_scroll_stops_at_the_top_of_the_list(picker_emu):
+    """Mirror going up: cursor to row 0, then the window back to item 0."""
+    from kintsuki import Button
+
+    e = picker_emu
+    _open_picker(e)
+    e.run_frames(60)
+
+    owned = _owned_key_items(e)
+    for _ in range(owned + 12):
+        tap(e, Button.DOWN, hold=4, gap=16)
+    for _ in range(owned + 12):
+        tap(e, Button.UP, hold=4, gap=16)
+
+    assert e.read(SCROLL_POS) == 0, f"window stuck at scroll {e.read(SCROLL_POS)}"
+    assert e.read(CURSOR_ROW) == 0, f"cursor stuck at row {e.read(CURSOR_ROW)}"
