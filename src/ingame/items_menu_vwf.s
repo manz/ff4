@@ -41,7 +41,7 @@ Status:
 """
 
 
-.include "src/items.i"
+.import "item_layout"
 .include "../bank20.i"
 .include "src/battle/inventory_budget.i"
 
