@@ -2,6 +2,12 @@
 Place-name window patches: increase the window length to fit French names and re-route the loader through our
 pointer table.
 """
+
+.include "src/rom_map.i"
+.extern places_bottom_window
+.extern places_top_window
+.extern assets_places_names_dat
+
 {
     place_name_length = 0x1A
     .alloc at 0x00B90E {

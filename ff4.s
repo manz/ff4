@@ -30,6 +30,9 @@ Final Fantasy IV the new hack.
 .import "dialog"
 .import "ingame/init_bg_scroll_hdma"
 .import "ingame/items_menu_vwf"
+.import "ingame/places_names"
+.import "ingame/new_game"
+.import "ingame/credits"
 .import "ingame/places_names_window"
 .import "intro"
 .import "kerning"
@@ -71,9 +74,6 @@ Final Fantasy IV the new hack.
     }
 }
 
-.include "src/ingame/places_names.s"
-.include "src/ingame/new_game.s"
-.include "src/ingame/credits.s"
 .include "src/ingame/menus.i"
 ; item name expansion patches
 .include "src/ingame/items_menu.s"

@@ -3,6 +3,10 @@ In-place patches for the staff credits screen: re-point the credits text loader 
 `assets_credits_text_bin` block.
 """
 
+.include "src/rom_map.i"
+.extern assets_credits_text_bin
+
+
 .alloc at 0x13d7ef {
     ldx.w #assets_credits_text_bin & 0xffff
 }
