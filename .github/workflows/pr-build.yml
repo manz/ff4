@@ -19,15 +19,12 @@ jobs:
     - uses: actions/cache@v5
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
           
     - name: Install Requirements
-      run: pip install -r requirements.txt
-
-    - name: Install Test Requirements
-      run: pip install pytest
+      run: pip install '.[dev]'
 
     - name: Decrypt base ROM
       env:

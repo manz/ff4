@@ -1,0 +1,34 @@
+# Dependency + build configuration for the patch tooling.
+#
+# This repository builds a ROM patch rather than a library: nothing here is
+# imported from outside, so the wheel carries no packages and
+# `pip install -e .[dev]` exists to pull the dependencies in one step.
+[project]
+name = "ff4"
+description = "Final Fantasy IV French translation patch"
+authors = [{ name = "Emmanuel Peralta", email = "manz@ringum.net" }]
+requires-python = ">=3.13"
+
+dependencies = [
+    "a816==1.1.0a31",
+    "kintsuki[visual]==0.0.0a13",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+# `make tests` invokes pytest, so a checkout with only the runtime
+# dependencies could not run the suite and CI installed it out of band.
+dev = ["pytest"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "code"
+path = "hatch_version.py"
+expression = "get_version()"
+
+[tool.hatch.build.targets.wheel]
+bypass-selection = true

@@ -1,2 +1,0 @@
-a816==1.1.0a31
-kintsuki[visual]==0.0.0a13
