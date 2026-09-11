@@ -365,13 +365,13 @@ signature byte sits at PB:(PC - 1).
 
 .if INVENTORY_ROLLING_BUFFER {
     .import "ingame/init_bg_scroll_hdma"
-    .include "src/ingame/inventory_rolling.s"
-    .include "src/lib/rolling_inventory_engine.s"
 }
 
 .if TREASURE_INVENTORY_ROLLING {
     .import "ingame/key_item_picker"
     .import "ingame/drops_rolling"
+    .import "ingame/inventory_rolling"
+    .import "lib/rolling_inventory_engine"
     .import "ingame/treasure_rolling"
     .import "ingame/shop_sell_rolling"
 }

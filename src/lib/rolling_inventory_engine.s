@@ -17,6 +17,24 @@ sites that remain in the per-menu source files.
 """
 
 
+.import "item_layout"
+
+; The profiles call into the engine and the engine dispatches back into
+; their HDMA builders, so the two sides are mutually dependent. That is
+; fine across modules: each compiles against the names it declares here
+; and the linker resolves them.
+.extern update_menu_scroll_hdma
+.extern update_treasure_scroll_hdma
+.extern update_drops_scroll_hdma
+.extern update_key_item_scroll_hdma
+.extern update_sell_scroll_hdma
+.extern clear_inventory_slot
+.extern draw_item_cursors_trampoline
+.extern tfr_bg2_tiles_vblank_trampoline
+.extern tfr_sprites_vblank_trampoline
+.extern update_ctrl_after_scroll_trampoline
+
+
 .include "src/rolling_state.i"
 .include "../bank20.i"
 
