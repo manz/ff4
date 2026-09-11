@@ -30,6 +30,18 @@ Patched:
 """
 
 
+.include "src/rom_map.i"
+.extern assets_items_unleashed_dat
+.extern multiply_by_17
+.extern key_item_after_open_impl
+.extern key_item_cursor_slot_impl
+.extern key_item_scroll_limit_impl
+.extern key_item_close_impl
+.extern key_item_scroll_down_impl
+.extern key_item_scroll_up_impl
+.include "src/libmz.i"
+
+
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
 ; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the

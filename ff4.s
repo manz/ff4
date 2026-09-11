@@ -76,13 +76,13 @@ Final Fantasy IV the new hack.
 
 .include "src/ingame/menus.i"
 ; item name expansion patches
-.include "src/ingame/items_menu.s"
+.import "ingame/items_menu"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .if INVENTORY_ROLLING_BUFFER {
-    .include "src/ingame/init_bg_scroll_hdma_patches.s"
+    .import "ingame/init_bg_scroll_hdma_patches"
     .include "src/ingame/inventory_rolling_trampolines.s"
 }
 
@@ -380,8 +380,8 @@ signature byte sits at PB:(PC - 1).
 
 
 .if TREASURE_INVENTORY_ROLLING {
-    .include "src/ingame/key_item_picker_patches.s"
-    .include "src/ingame/shop_sell_rolling_patches.s"
+    .import "ingame/key_item_picker_patches"
+    .import "ingame/shop_sell_rolling_patches"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {

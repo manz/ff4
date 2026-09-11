@@ -1044,7 +1044,7 @@ toggling battle_flags mid-stream.
 
 Caller setup mirrors the vanilla draw_text contract:
   $EF50: 16-bit format buffer ptr (source bytes)
-  $EF52: 16-bit destination tilemap-buffer ptr (in bank \$7E)
+  $EF52: 16-bit destination tilemap-buffer ptr (in bank $7E)
   $EF54: line length (tiles per row, currently 15)
   $EF55: palette
   $7EEF82: rolling_slot_index (0..5) for VWF allocator base
@@ -1110,7 +1110,7 @@ _di_clear:
     bne _di_clear
 
 ; X = src (format buffer ptr), Y = dest offset (0-relative into the
-; tilemap buffer pointed to by \$32 / \$34).
+; tilemap buffer pointed to by $32 / $34).
     ldx 0xEF50
     ldy.w #0x0000
 
@@ -1151,7 +1151,7 @@ _di_loop:
     jmp.w _di_loop
 
 _di_fixed_char:
-; Fixed-mode raw char: write current byte as tile_id at (\$34),y. No
+; Fixed-mode raw char: write current byte as tile_id at ($34),y. No
 ; ora #0x01 on the attr -- the +0x100 high bit is only for VWF tiles
 ; in the 0x1xx range, fixed font tiles live in 0x00..0xFF.
     sta (0x34), y
@@ -1167,7 +1167,7 @@ _di_fixed_char:
 
 
 _di_fixed:
-; 0x03 BB -> write fixed tile_id BB at (\$34),y. Same shape as
+; 0x03 BB -> write fixed tile_id BB at ($34),y. Same shape as
 ; _di_fixed_char (mirror of wram.put_char), no +0x100 bit set.
     inx
     lda.w 0x0000, x

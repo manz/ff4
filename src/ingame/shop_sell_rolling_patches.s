@@ -10,6 +10,14 @@ length.
 """
 
 
+.include "src/rom_map.i"
+.extern sell_leave
+.extern sell_scroll_down
+.extern sell_scroll_up
+.extern sell_init
+.include "src/libmz.i"
+
+
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
 ; Sell list draw, on entry and after a sale changes quantities.
