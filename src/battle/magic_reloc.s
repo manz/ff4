@@ -13,6 +13,11 @@ battle_magic_length = 9
 destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer - 4
 right_column_base = destination_buffer + 18 - 2
+; Window frame in the BG3 page-1 menu buffer: row 1 starts at $7E:C526,
+; 64 bytes per row. Spell rows cover rows 1-24, the bottom edge is row 25.
+FRAME_SIDE_ROWS = 24
+frame_first_row = 0x7EC526
+frame_bottom_row = frame_first_row + FRAME_SIDE_ROWS * 0x40
 
 
 .include "../bank20.i"
@@ -170,10 +175,41 @@ same_row:
 ; next spell index
     dec.b spell_counter
 ; decrement spell counter
-    beq exit
+    beq draw_frame
     jmp.w spell_loop
 
-exit:
+draw_frame:
+; The 12 spell rows fill buffer rows 1-24, past the 15-row frame the
+; shared menu buffer carries from battle start, and the list's scroll
+; HDMA shows row 25 as the window's bottom edge. Draw that frame here.
+    rep #0x20
+    ldx.w #0
+
+side_loop:
+    lda.w #0x000B
+    sta.l frame_first_row, x
+    lda.w #0x000C
+    sta.l frame_first_row + 0x3E, x
+    txa
+    clc
+    adc.w #0x0040
+    tax
+    cpx.w #FRAME_SIDE_ROWS * 0x40
+    bne side_loop
+    lda.w #0x000D
+    sta.l frame_bottom_row
+    ldx.w #0x0002
+    lda.w #0x000E
+
+bottom_loop:
+    sta.l frame_bottom_row, x
+    inx
+    inx
+    cpx.w #0x003E
+    bne bottom_loop
+    lda.w #0x000F
+    sta.l frame_bottom_row + 0x3E
+    sep #0x20
     rtl
     }
 
