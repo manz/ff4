@@ -25,7 +25,9 @@ long-form attack-name copier.
     ldx.w #24 * 4 * 2
 }
 .alloc at 0x16fe1c {
-    .dw 0x600  ; 0x400
+; Spell-list tilemap upload length (vanilla 0x400): rows 1-24 of spells
+; plus the bottom-edge row 25 `draw_magic_list_direct` draws.
+    .dw 0x640
 }
 .alloc at 0x029839 {
 _transfer_white_magic:
@@ -123,10 +125,6 @@ exit:
 
 
 ; cursor and scrolling
-}
-.alloc at 0x16fe1c {
-;destination_buffer
-    .dw 0x600  ; 0x400
 }
 .alloc at 0x02B72B {
     cmp #11

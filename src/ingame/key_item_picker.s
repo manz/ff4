@@ -126,7 +126,14 @@ KEY_ITEM_TILEMAP_ATTR := 0x20
 ; Blank cell the menu windows are filled with (see any drawn window in
 ; the BG3 buffer: every empty cell reads $FF).
 KEY_ITEM_BLANK_TILE := 0xFF
-KEY_ITEM_CURSOR_TILE := 0x19
+; Every row of vanilla's window in BG3 plane 1: $00 outside the box in
+; columns 0-1 and 30-31, the side borders $19 / $1A in columns 2 and 29,
+; blank body between.
+KEY_ITEM_OUTSIDE_TILE := 0x00
+KEY_ITEM_BORDER_LEFT_TILE := 0x19
+KEY_ITEM_BORDER_RIGHT_TILE := 0x1A
+KEY_ITEM_BORDER_LEFT_COL := 2
+KEY_ITEM_BORDER_RIGHT_COL := 29
 
 KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 KEY_ITEM_HDMA4_CTRL := 0x4340
@@ -209,15 +216,51 @@ Entry: 16-bit A/X/Y, DB = $7E. X and Y are caller-saved already.
     clc
     adc.w #0xD600
     tax
-    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BLANK_TILE
     ldy.w #0x0040  ; 64 cells = 2 tilemap rows
 
 _blank_cell:
+    jsr.w _key_item_window_cell
     sta.w 0x0000, x
     inx
     inx
     dey
     bne _blank_cell
+    rts
+
+_key_item_window_cell:
+"""
+Blank window cell for the staging byte at X: outside tile, side border
+or body, by column. The staging page is row-aligned, so X's low six
+bits are the byte offset within its row.
+
+Entry/exit: 16-bit A/X. Returns the cell word (attr << 8 | tile) in A.
+"""
+
+
+    txa
+    and.w #0x003F
+    lsr
+    cmp.w #KEY_ITEM_BORDER_LEFT_COL
+    bcc _cell_outside
+    beq _cell_left
+    cmp.w #KEY_ITEM_BORDER_RIGHT_COL
+    bcc _cell_body
+    beq _cell_right
+
+_cell_outside:
+    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_OUTSIDE_TILE
+    rts
+
+_cell_left:
+    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BORDER_LEFT_TILE
+    rts
+
+_cell_right:
+    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BORDER_RIGHT_TILE
+    rts
+
+_cell_body:
+    lda.w #( KEY_ITEM_TILEMAP_ATTR << 8 ) | KEY_ITEM_BLANK_TILE
     rts
 
 key_item_cursor_slot_impl:
@@ -1089,10 +1132,10 @@ _key_item_draw_window:
 Prime the BG3 staging buffer with the picker's blank window body.
 
 Vanilla draws the picker's box on BG1 and writes only item text, the
-cursor column and blank fill into BG3 plane 1, so the body is cheap to
-rebuild: $FF blanks across every cell with the cursor marker in column
-2. The engine then renders item names over it and the whole page is
-pushed to VRAM in one DMA, which keeps us off VRAM reads entirely.
+side borders and blank fill into BG3 plane 1, so the body is cheap to
+rebuild (see `_key_item_window_cell`). The engine then renders item
+names over it and the whole page is pushed to VRAM in one DMA, which
+keeps us off VRAM reads entirely.
 """
 
 
@@ -1106,34 +1149,10 @@ pushed to VRAM in one DMA, which keeps us off VRAM reads entirely.
     ldx.w #0x0000
 
 _draw_window_loop:
-; Column pattern mirrors what vanilla leaves in BG3 plane 1: columns 0
-; and 1 hold tile $00, column 2 the cursor marker $19, the rest blank
-; $FF - every cell with attr $20 (palette 0, priority set) so the body
-; sits above the map.
-    txa
-    and.w #0x003F
-    cmp.w #0x0004
-    bcc _draw_window_left
-    cmp.w #0x0006
-    bcc _draw_window_cursor
-    lda.w #0x00FF
-    bra _draw_window_store
-
-_draw_window_left:
-    lda.w #0x0000
-    bra _draw_window_store
-
-_draw_window_cursor:
-    lda.w #KEY_ITEM_CURSOR_TILE
-
-_draw_window_store:
-    sep #0x20
+    jsr.w _key_item_window_cell
     sta.w KEY_ITEM_STAGING_ADDR, x
     inx
-    lda #KEY_ITEM_TILEMAP_ATTR
-    sta.w KEY_ITEM_STAGING_ADDR, x
     inx
-    rep #0x20
     cpx.w #KEY_ITEM_STAGING_SIZE
     bne _draw_window_loop
     sep #0x20

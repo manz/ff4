@@ -15,12 +15,20 @@ make            # assembles build/ff4.ips, then runs the tests
 
 ## Screenshots
 
+`make screenshots` regenerates these from the test savestates.
+
 ### Variable width fonts
 ![battle-messages-vwf.png](screenshots/battle-messages-vwf.png)
 ![dialog-vwf.png](screenshots/dialog-vwf.png)
 ![menu-description-vwf.png](screenshots/menu-description-vwf.png)
 ### Menus
 ![battle-menu.png](screenshots/battle-menu.png)
-![load-save-menu.png](screenshots/load-save-menu.png)
 ![main-menu.png](screenshots/main-menu.png)
+![load-save-menu.png](screenshots/load-save-menu.png)
 ![two-columns-magic.png](screenshots/two-columns-magic.png)
+### Rolling inventories
+![field-inventory-scroll.png](screenshots/field-inventory-scroll.png)
+![battle-items.png](screenshots/battle-items.png)
+![shop-sell.png](screenshots/shop-sell.png)
+![drops.png](screenshots/drops.png)
+![key-item-picker.png](screenshots/key-item-picker.png)
