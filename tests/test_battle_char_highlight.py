@@ -82,6 +82,20 @@ def test_closed_menu_clears_highlight(emu):
     assert _vram_rows(emu) == _expected(None)
 
 
+def test_names_render_survives_turn_rotation(emu):
+    """The gated DrawCharNames path runs and returns into vanilla code
+    that does `tax` with X=16; a walker that leaked the hidden B byte
+    sent the $02:800E dispatch into `brk #$21` a frame later."""
+    gated = emu.lookup_symbol_addr("msg_names_window_gated")
+    calls: list[int] = []
+    emu.add_exec_callback(gated, gated, lambda _pc, _op: calls.append(emu.frame_count))
+    for _ in range(8):
+        tap(emu, Button.A)
+        emu.run_frames(60)
+    assert calls
+    assert emu.get_state().stp == 0
+
+
 def test_next_turn_lights_compacted_row(emu):
     """Edward is slot 2, display index 4: with slot 1 absent he lands on row 3."""
     tap(emu, Button.A)

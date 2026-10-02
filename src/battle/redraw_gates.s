@@ -227,13 +227,18 @@ set_active_char_palette:
     that: display index in X, output row counted separately in
     `highlight_row`.
 
-    M=8, X=8.
+    M=8, X=8. Preserves the caller's full 16-bit C: vanilla callers
+    run `tax` with X=16 and rely on the hidden B byte (e.g. the
+    `asl  ; tax` dispatch at $02:800E), so leaking the high byte of
+    our `$32` restore sent that dispatch through a garbage jump table
+    entry into `brk #$21`.
 """
 
 
     php
+    rep #0x30
+    pha
     sep #0x20
-    rep #0x10
     phb
     pha
     lda.b #0x7E  ; force DBR = $7E so `(0x32),y` writes to WRAM
@@ -351,6 +356,8 @@ _scp_done:
     sta.b 0x32
     sep #0x20
     plb
+    rep #0x20
+    pla
     plp
     rts
 
