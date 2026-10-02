@@ -77,6 +77,11 @@ SELL_SLOT_ORIGIN := 1
 ; Blank window cell, as every drawn window leaves it in the buffer.
 SELL_BLANK_TILE := 0xFF
 SELL_TILEMAP_ATTR := 0x00
+; Side borders vanilla's window keeps in the first and last columns of
+; every body row.
+SELL_BORDER_LEFT_TILE := 0xFA
+SELL_BORDER_RIGHT_TILE := 0xFB
+SELL_BORDER_RIGHT_COL := 31
 
 ; BG3VOFS with the window frame parked where vanilla puts it: vanilla
 ; seeds $9F with $FFB8 at $01:C7C1.
@@ -166,15 +171,42 @@ Entry: 16-bit A/X/Y, DB = $7E.
     clc
     adc.w #SELL_BG3_BUFFER
     tax
-    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BLANK_TILE
     ldy.w #0x0040  ; 64 cells = two 32-tile rows
 
 _sell_blank_cell:
+    jsr.w _sell_window_cell
     sta.w 0x0000, x
     inx
     inx
     dey
     bne _sell_blank_cell
+    rts
+
+_sell_window_cell:
+"""
+Blank window cell for the buffer byte at X: side border in the first
+and last columns, body elsewhere. The buffer is row-aligned, so X's low
+six bits are the byte offset within its row.
+
+Entry/exit: 16-bit A/X. Returns the cell word (attr << 8 | tile) in A.
+"""
+
+
+    txa
+    and.w #0x003F
+    lsr
+    beq _sell_cell_left
+    cmp.w #SELL_BORDER_RIGHT_COL
+    beq _sell_cell_right
+    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BLANK_TILE
+    rts
+
+_sell_cell_left:
+    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BORDER_LEFT_TILE
+    rts
+
+_sell_cell_right:
+    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BORDER_RIGHT_TILE
     rts
 
 sell_render_item_to_slot:
