@@ -7,7 +7,7 @@
 name = "ff4"
 description = "Final Fantasy IV French translation patch"
 authors = [{ name = "Emmanuel Peralta", email = "manz@ringum.net" }]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 
 dependencies = [
     "a816==1.1.0a33",
