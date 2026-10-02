@@ -210,14 +210,8 @@ walker_helper:
 msg_names_window_gated:
 """Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
     lda.b 0x4A
-; NOTE: `and $04` (direct page), not `and #$04`. It reads scratch, so
-; the branch below is effectively "skip almost always" and the gated
-; DrawCharNames pipeline hardly ever runs. That looks like a typo for
-; the immediate (menu-state bit 2 = inventory open, cf. vanilla
-; UpdateMagicList @96ef), but correcting it halts the CPU on the BRK
-; trap ~70 frames into a battle, so the DP read is load-bearing until
-; whatever the re-enabled render path trips over is found.
-    and.b 0x04
+; Menu-state bit 2 = inventory open (cf. vanilla UpdateMagicList @96ef).
+    and.b #0x04
     bne _mnwg_done
 ; inventory open -> skip whole pipeline
     jsr.l messages_vwf.init_names_gated
