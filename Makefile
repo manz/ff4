@@ -22,11 +22,11 @@ build: $(IPS)  ## Assemble the IPS patch
 
 # The base ROM is deliberately not a prerequisite: as a rule it would be
 # something `make -B` tries to remake, and it is an input we can only ask
-# the user to provide. CI decrypts ff4.sfc.gz.gpg into place.
+# the user to provide. CI decrypts ff4.sfc.gz.gpg into place with a
+# secret passphrase.
 $(IPS): $(SOURCES)
 	$(Q) test -s $(ROM) || { \
-		echo "$(ROM) missing. Decrypt it with:"; \
-		echo "  gpg --decrypt ff4.sfc.gz.gpg | gunzip > $(ROM)"; \
+		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
 		exit 1; }
 	$(info $(M) Building patch...)
 	$(Q) $(PY) ./build.py
