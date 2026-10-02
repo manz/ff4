@@ -3,8 +3,8 @@ Q = $(if $(filter 1,$V),,@)
 
 M = $(shell if [ "$$(tput colors 2> /dev/null || echo 0)" -ge 8 ]; then printf "\033[34;1m▶\033[0m"; else printf "▶"; fi)
 
-# Prefer the checkout's venv, fall back to whatever is on PATH so CI
-# (which pip-installs into the job's interpreter) works unchanged.
+# Prefer the checkout's venv (`uv sync` creates it), fall back to whatever
+# is on PATH.
 PY ?= $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 
 ROM = build/ff4.sfc

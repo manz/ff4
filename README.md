@@ -7,7 +7,7 @@ Bring your own base ROM: an unheadered Final Fantasy IV (Japan) dump at
 `ff4.sfc.gz.gpg` is CI's encrypted copy; its passphrase is not public.
 
 ```shell
-python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
+uv sync --extra dev
 make            # assembles build/ff4.ips, then runs the tests
 ```
 
