@@ -2,12 +2,12 @@
 #
 # This repository builds a ROM patch rather than a library: nothing here is
 # imported from outside, so the wheel carries no packages and
-# `pip install -e .[dev]` exists to pull the dependencies in one step.
+# `uv sync --extra dev` exists to pull the locked dependencies in one step.
 [project]
 name = "ff4"
 description = "Final Fantasy IV French translation patch"
 authors = [{ name = "Emmanuel Peralta", email = "manz@ringum.net" }]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 
 dependencies = [
     "a816==1.1.0a33",
