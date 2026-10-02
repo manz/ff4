@@ -27,6 +27,7 @@ follow-up patches.
 .extern gate_obj_names_check
 .extern gate_status_check
 .extern walker_rtl
+.extern refresh_active_char_palette
 .extern battle_render.render_skipped
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
@@ -169,6 +170,11 @@ battle_ext_seed:
 ; freezes when no status changes ; acceptable trade for ~9M cycles.
 gate_draw_status_text:
 """Bank-02 trampoline  ; JSL gate_status_check, jmp $A2A1 on dirty, rts on clean."""
+; RedrawMainMenu runs every frame and this is its first call, so it is
+; the per-frame slot for the highlight refresh. DrawCharNames is NOT in
+; this chain (it fires from the graphics-command dispatch, a handful of
+; frames per battle), which is why the refresh cannot live there alone.
+    jsr.l refresh_active_char_palette
     jsr.l gate_status_check
     bcc _gdst_skip
     jmp 0xA2A1
@@ -204,6 +210,13 @@ walker_helper:
 msg_names_window_gated:
 """Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
     lda.b 0x4A
+; NOTE: `and $04` (direct page), not `and #$04`. It reads scratch, so
+; the branch below is effectively "skip almost always" and the gated
+; DrawCharNames pipeline hardly ever runs. That looks like a typo for
+; the immediate (menu-state bit 2 = inventory open, cf. vanilla
+; UpdateMagicList @96ef), but correcting it halts the CPU on the BRK
+; trap ~70 frames into a battle, so the DP read is load-bearing until
+; whatever the re-enabled render path trips over is found.
     and.b 0x04
     bne _mnwg_done
 ; inventory open -> skip whole pipeline
@@ -213,6 +226,10 @@ msg_names_window_gated:
     jsr 0xA455
 _mnwg_after_draw:
     jsr.l messages_vwf.deinit_gated
+; Re-stamp the active-char highlight: a render that just ran rebuilt
+; the names tilemap without it, and the menu open/close edge has no
+; writer site of its own.
+    jsr.l refresh_active_char_palette
 _mnwg_done:
     rts
 }
