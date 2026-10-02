@@ -29,15 +29,14 @@ tilemap_pending_mask = BATTLE_RENDER_STATE + 0x03
 TILEMAP_PENDING_COMMANDS = 0x01
 TILEMAP_PENDING_MAIN = 0x02
 
-; --- Char-name highlight ---
-; Signature of what the highlight was last applied for: the active char
-; index folded with which name rows are actually on screen. The per-frame
-; refresh compares against it and re-walks only when it moves, so the
-; palette flip costs a compare on an idle frame. $FF forces a re-apply.
-scp_state_key = BATTLE_RENDER_STATE + 0x04
-; Scratch: tilemap row being written, which counts drawn names only.
-scp_out_row = BATTLE_RENDER_STATE + 0x05
-; Scratch: battle-struct base of the row being written. A word in our own
-; arena rather than a direct-page byte - the walk runs from NMI, where the
-; caller's page is not ours to borrow.
-scp_base = BATTLE_RENDER_STATE + 0x06
+; --- Active-char highlight walker scratch (redraw_gates.s) ---
+; Lives in the project-owned render-state block, not the $7E:EF9x
+; battle scratch: vanilla cursor code and the rolling-inventory
+; engine both claim bytes in there.
+highlight_active_slot = BATTLE_RENDER_STATE + 0x05
+highlight_pal_byte = BATTLE_RENDER_STATE + 0x06
+highlight_row = BATTLE_RENDER_STATE + 0x07
+; Last ($1822, $D7) pair the walker stamped for; the per-frame refresh
+; re-stamps when either moves.
+highlight_cache_slot = BATTLE_RENDER_STATE + 0x08
+highlight_cache_menu = BATTLE_RENDER_STATE + 0x09

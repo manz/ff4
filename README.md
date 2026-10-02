@@ -2,11 +2,12 @@
 
 ## Building
 
-The base ROM is not in the repository; decrypt the copy that is:
+Bring your own base ROM: an unheadered Final Fantasy IV (Japan) dump at
+`build/ff4.sfc` (SHA-1 `eac14578b3465ffce874119005f9b244e8565a79`).
+`ff4.sfc.gz.gpg` is CI's encrypted copy; its passphrase is not public.
 
 ```shell
 python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
-gpg --decrypt ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
 make            # assembles build/ff4.ips, then runs the tests
 ```
 
