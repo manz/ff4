@@ -40,6 +40,11 @@ tests: $(IPS)  ## Run the full suite against a freshly built patch
 .PHONY: test
 test: tests  ## Alias for `tests`
 
+.PHONY: screenshots
+screenshots: $(IPS)  ## Regenerate the README screenshots from the savestates
+	$(info $(M) Capturing screenshots...)
+	$(Q) $(PY) utils/readme_shots.py
+
 .PHONY: check
 check:  ## Verify .s/.i formatting and run the a816 fluff lints
 	$(info $(M) Checking sources...)
