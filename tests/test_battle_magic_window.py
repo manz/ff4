@@ -37,7 +37,6 @@ BORDER_LEFT, BORDER_RIGHT = 0x000B, 0x000C
 BOTTOM = [0x000D, *([0x000E] * 30), 0x000F]
 SPELL_TILES = range(0x1C0, 0x1FC)
 CMD_GLYPHS = (0xB900, 0x300)  # command glyphs, BG3 tiles $190..$1BF
-PALETTE_BITS = 0x1C00
 LIST_ROWS = 12
 BG3_VWF_CHR = 0xB000  # BG3 tile $100 in VRAM (bytes)
 CHR_BUFFER = 0x703000  # VWF CHR buffer, tile $00
@@ -76,11 +75,8 @@ def _open_items(e) -> None:
 
 
 def _items_window(e) -> list[list[int]]:
-    # The items transfer uploads only the rows its window shows. After the
-    # magic list the window repaints its slots, and a repaint greys the
-    # items the battle can't use, which the battle-start paint doesn't:
-    # compare the cells without their palette.
-    return [[c & ~PALETTE_BITS for c in _row(e, r)] for r in range(ITEMS_BOTTOM_ROW + 1)]
+    # The items transfer uploads only the rows its window shows.
+    return [_row(e, r) for r in range(ITEMS_BOTTOM_ROW + 1)]
 
 
 @pytest.fixture(scope="module")
