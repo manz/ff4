@@ -1,7 +1,7 @@
 """Resolve rolling-buffer state addresses from the build's `.adbg`.
 
 `RollingBufferState` instances are declared as a816 struct casts
-(`menu_rolling := (0x7E9C90 as RollingBufferState)`), which the
+(`field_menu_rolling := (FIELD_MENU_ROLLING_BASE as RollingBufferState)`), which the
 assembler eager-expands into per-field symbols
 (`field_menu_rolling.buffer_pos`, ...). Those land in the `.adbg`
 SYMBOLS section as `SymbolKind.CONSTANT`, which `Emu.lookup_symbol_addr`

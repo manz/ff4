@@ -128,10 +128,10 @@ main_loop_scroll_check:
 
 
 """Called from $019FF2 via jmp.w"""
-    lda.w menu_rolling.scroll_state
+    lda.w field_menu_rolling.scroll_state
     beq _main_loop_do_input
     jsr.w update_scroll_frame
-    lda.w menu_rolling.scroll_remaining
+    lda.w field_menu_rolling.scroll_remaining
     bne _main_loop_skip_input
     jsr.w finish_scroll
     jmp.w _main_loop_skip_input  ; Skip input on the frame scroll finishes
@@ -191,7 +191,7 @@ Must copy shadow -> active HDMA table BEFORE enabling HDMA
 
     jsr.w nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
     .db 0xAF  ; LDA.L opcode
-    .dw menu_rolling.hdma_enable  ; $1BAE
+    .dw field_menu_rolling.hdma_enable  ; $1BAE
     .db 0x7E  ; Bank $7E
     sta.w 0x420C
     rts

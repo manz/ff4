@@ -70,7 +70,6 @@ KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 ; the same reason as treasure ($9C00) + drops ($9C30) : engine path
 ; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
 ; sprite code stomps past $1BEB.
-key_item_rolling := (0x7E9C60 as RollingBufferState)
 
 
 KEY_ITEM_SLIDE_OPEN_DONE := 0x08
@@ -543,7 +542,7 @@ update_key_item_scroll_hdma:
     stz.b 0x42
 
 _row_loop:
-    lda.l key_item_rolling + RollingBufferState.buffer_pos
+    lda.l key_item_rolling.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -572,7 +571,7 @@ _mod_done:
     clc
     adc.b 0x40
     clc
-    adc.l key_item_rolling + RollingBufferState.base_scroll
+    adc.l key_item_rolling.base_scroll
     sta.b 0x40
     sep #0x20
     lda #16
@@ -657,46 +656,46 @@ key_item_init_impl:
 ; VISIBLE rows, not buffer slots - the engine adds the prefetch slot
 ; itself (`buffer_slots = visible_rows + 1`).
     lda.b #KEY_ITEM_VISIBLE_ITEMS
-    sta.l key_item_rolling + RollingBufferState.visible_rows
+    sta.l key_item_rolling.visible_rows
     lda.b #0x02
-    sta.l key_item_rolling + RollingBufferState.slot_height_tiles
+    sta.l key_item_rolling.slot_height_tiles
 ; item_list_ptr = $7E:0712 (filtered key-item array)
     lda.b #0x12
-    sta.l key_item_rolling + RollingBufferState.item_list_ptr
+    sta.l key_item_rolling.item_list_ptr
     lda.b #0x07
-    sta.l key_item_rolling + RollingBufferState.item_list_ptr + 1
+    sta.l key_item_rolling.item_list_ptr + 1
     lda.b #0x7E
-    sta.l key_item_rolling + RollingBufferState.item_list_ptr + 2
+    sta.l key_item_rolling.item_list_ptr + 2
     lda.l key_item_count
-    sta.l key_item_rolling + RollingBufferState.item_count
+    sta.l key_item_rolling.item_count
     lda.b #0x04
-    sta.l key_item_rolling + RollingBufferState.hdma_channel
+    sta.l key_item_rolling.hdma_channel
     lda.b #0x80
-    sta.l key_item_rolling + RollingBufferState.vwf_cfg_ptr
+    sta.l key_item_rolling.vwf_cfg_ptr
     lda.b #0x70
-    sta.l key_item_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    sta.l key_item_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
-    sta.l key_item_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    sta.l key_item_rolling.vwf_cfg_ptr + 2
     lda.b #key_item_fn_render_slot_trampoline & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_render_slot
+    sta.l key_item_rolling.fn_render_slot
     lda.b #( key_item_fn_render_slot_trampoline >> 8 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_render_slot + 1
+    sta.l key_item_rolling.fn_render_slot + 1
     lda.b #( key_item_fn_render_slot_trampoline >> 16 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_render_slot + 2
+    sta.l key_item_rolling.fn_render_slot + 2
     lda.b #key_item_fn_update_hdma_trampoline & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_update_hdma
+    sta.l key_item_rolling.fn_update_hdma
     lda.b #( key_item_fn_update_hdma_trampoline >> 8 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_update_hdma + 1
+    sta.l key_item_rolling.fn_update_hdma + 1
     lda.b #( key_item_fn_update_hdma_trampoline >> 16 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_update_hdma + 2
+    sta.l key_item_rolling.fn_update_hdma + 2
     lda.b #key_item_fn_draw_window_trampoline & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_draw_window
+    sta.l key_item_rolling.fn_draw_window
     lda.b #( key_item_fn_draw_window_trampoline >> 8 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_draw_window + 1
+    sta.l key_item_rolling.fn_draw_window + 1
     lda.b #( key_item_fn_draw_window_trampoline >> 16 ) & 0xFF
-    sta.l key_item_rolling + RollingBufferState.fn_draw_window + 2
+    sta.l key_item_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_KEY_ITEM
-    sta.l key_item_rolling + RollingBufferState.menu_id
+    sta.l key_item_rolling.menu_id
     plp
     php
     rep #0x10

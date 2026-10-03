@@ -2688,26 +2688,19 @@ _cursor2_done:
 ; ============================================================================
 ; Field Menu NMI Handler (relocated from bank $01 to save space)
 ; ============================================================================
-; Field + drops state aliases - use the cast'd struct views from
-; items.i / src/ingame/drops_rolling.s. Field is `field_menu_rolling`
-; (defined in items.i, visible at module scope). Drops state at
-; $7E:9C30 isn't exported from its defining module, so re-cast it
-; locally to get drops_rolling.hdma_copy_pending et al.
-    drops_rolling := (0x7E9C30 as RollingBufferState)
+; Menu states are the `<profile>_rolling` binds from items.s.
     FIELD_HDMA_TABLE := 0x7E9800
     FIELD_HDMA_SHADOW := 0x7E9840
     FIELD_HDMA_TABLE_SIZE := 40
     DROPS_HDMA_TABLE := 0x7E9880
     DROPS_HDMA_SHADOW := 0x7E98C0
     DROPS_HDMA_TABLE_SIZE := 40
-; Sell list, same story as drops: state at $7E:9CC0, re-cast locally.
-    sell_rolling := (0x7E9CC0 as RollingBufferState)
+; Sell list.
     SELL_HDMA_TABLE := 0x7E9900
     SELL_HDMA_SHADOW := 0x7E9940
 ; header + 8 row bands + footer + terminator = 31 bytes.
     SELL_HDMA_TABLE_SIZE := 32
-; Equip screen inventory list, state at $7E:9CF0, same story again.
-    equip_rolling := (0x7E9CF0 as RollingBufferState)
+; Equip screen inventory list.
     EQUIP_HDMA_TABLE := 0x7E9980
     EQUIP_HDMA_SHADOW := 0x7E99C0
 ; header + 6 row bands + footer + terminator = 25 bytes.
@@ -2863,10 +2856,10 @@ _equip_nmi_hdma_copy_done:
 _field_nmi_check_treasure:
     .if TREASURE_INVENTORY_ROLLING {
 ; === Tilemap DMA transfer (treasure menu = BG3) ===
-    lda.l 0x7E0000 + 0x9C0B  ; treasure_rolling.transfer_pending
+    lda.l treasure_rolling.transfer_pending
     beq _field_nmi_done
     lda #0x00
-    sta.l 0x7E0000 + 0x9C0B
+    sta.l treasure_rolling.transfer_pending
 
     sep #0x20
     lda #0x01

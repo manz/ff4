@@ -61,7 +61,6 @@ TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; region. Engine path needs the full 35-byte struct (state + config +
 ; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
 ; so the original $1BD0 base worked despite vanilla's later collisions.
-treasure_rolling := (0x7E9C00 as RollingBufferState)
 
 TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 
@@ -94,8 +93,8 @@ TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 ; Share field-menu HDMA tables (mutually exclusive on screen).
 ; Active (read by HDMA channel 5): $7E:9800
 ; Shadow (written by game): $7E:9840
-; NMI hook copies shadow → active during VBlank when `menu_rolling.hdma_copy_pending`
-; ($1BB6) is set, gated on `menu_rolling.hdma_enable` ($1BAE) being non-zero.
+; NMI hook copies shadow → active during VBlank when `field_menu_rolling.hdma_copy_pending`
+; ($1BB6) is set, gated on `field_menu_rolling.hdma_enable` ($1BAE) being non-zero.
 TREASURE_HDMA_TABLE_ADDR := 0x9800
 TREASURE_HDMA_TABLE := 0x7E9800
 TREASURE_HDMA_SHADOW_ADDR := 0x9840
@@ -285,7 +284,7 @@ update_treasure_scroll_hdma:
     stz.b 0x42
 
 _row_loop:
-    lda.w treasure_rolling + RollingBufferState.buffer_pos
+    lda.w treasure_rolling.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -314,7 +313,7 @@ _mod_done:
     clc
     adc.b 0x40
     clc
-    adc.w treasure_rolling + RollingBufferState.base_scroll
+    adc.w treasure_rolling.base_scroll
     sta.b 0x40
     sep #0x20
     lda #16
@@ -438,45 +437,45 @@ init_treasure_rolling_buffer_impl:
 ; TREASURE_BUFFER_SLOTS here gave it 7 slots, so the prefetch slot
 ; rendered a row pair below the window and wiped the bottom border.
     lda.b #TREASURE_VISIBLE_ITEMS
-    sta.l treasure_rolling + RollingBufferState.visible_rows
+    sta.l treasure_rolling.visible_rows
     lda.b #0x02
-    sta.l treasure_rolling + RollingBufferState.slot_height_tiles
+    sta.l treasure_rolling.slot_height_tiles
     lda.b #0x40
-    sta.l treasure_rolling + RollingBufferState.item_list_ptr
+    sta.l treasure_rolling.item_list_ptr
     lda.b #0x14
-    sta.l treasure_rolling + RollingBufferState.item_list_ptr + 1
+    sta.l treasure_rolling.item_list_ptr + 1
     lda.b #0x7E
-    sta.l treasure_rolling + RollingBufferState.item_list_ptr + 2
+    sta.l treasure_rolling.item_list_ptr + 2
     lda.b #TREASURE_TOTAL_ITEMS
-    sta.l treasure_rolling + RollingBufferState.item_count
+    sta.l treasure_rolling.item_count
     lda.b #0x06
-    sta.l treasure_rolling + RollingBufferState.hdma_channel
+    sta.l treasure_rolling.hdma_channel
     lda.b #0x80
-    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr
+    sta.l treasure_rolling.vwf_cfg_ptr
     lda.b #0x70
-    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    sta.l treasure_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
-    sta.l treasure_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    sta.l treasure_rolling.vwf_cfg_ptr + 2
     lda.b #treasure_fn_render_slot_trampoline & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_render_slot
+    sta.l treasure_rolling.fn_render_slot
     lda.b #( treasure_fn_render_slot_trampoline >> 8 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_render_slot + 1
+    sta.l treasure_rolling.fn_render_slot + 1
     lda.b #( treasure_fn_render_slot_trampoline >> 16 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_render_slot + 2
+    sta.l treasure_rolling.fn_render_slot + 2
     lda.b #treasure_fn_update_hdma_trampoline & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_update_hdma
+    sta.l treasure_rolling.fn_update_hdma
     lda.b #( treasure_fn_update_hdma_trampoline >> 8 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_update_hdma + 1
+    sta.l treasure_rolling.fn_update_hdma + 1
     lda.b #( treasure_fn_update_hdma_trampoline >> 16 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_update_hdma + 2
+    sta.l treasure_rolling.fn_update_hdma + 2
     lda.b #treasure_fn_draw_window_trampoline & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_draw_window
+    sta.l treasure_rolling.fn_draw_window
     lda.b #( treasure_fn_draw_window_trampoline >> 8 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_draw_window + 1
+    sta.l treasure_rolling.fn_draw_window + 1
     lda.b #( treasure_fn_draw_window_trampoline >> 16 ) & 0xFF
-    sta.l treasure_rolling + RollingBufferState.fn_draw_window + 2
+    sta.l treasure_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_TREASURE
-    sta.l treasure_rolling + RollingBufferState.menu_id
+    sta.l treasure_rolling.menu_id
     plp
     php
     rep #0x10

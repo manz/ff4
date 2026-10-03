@@ -20,8 +20,6 @@ wrappers around original bank-$01 helpers used by the rolling code.
 ; so it cannot be imported the way a label is: each module that reads
 ; these fields binds its own view over the same addresses, the way
 ; battle/inventory_rolling.s already does.
-treasure_rolling := (0x7E9C00 as RollingBufferState)
-drops_rolling := (0x7E9C30 as RollingBufferState)
 .extern TREASURE_SCROLL_COOLDOWN_FRAMES
 .extern treasure_finish_scroll_impl
 .extern treasure_update_scroll_frame_impl
