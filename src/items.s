@@ -144,6 +144,17 @@ DROPS_VWF_BYTE_COUNT := 0x03C0
 FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 
 
+; --- Treasure / drops picker rows ---
+; Single-column rolling rows put the item icon at tile column 2 and the
+; name from column 3. The 16-px hand cursor sits flush left of the icon.
+; The drops band's first item is on tilemap row 5 of the screen; the hand
+; sprite's top goes one pixel above the row, as on the inventory list.
+TREASURE_ROW_ICON_COL := 2
+TREASURE_CURSOR_X := TREASURE_ROW_ICON_COL * 8 - 16
+DROPS_FIRST_ITEM_ROW := 5
+DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
+
+
 .struct Item {
     byte id
     byte qty

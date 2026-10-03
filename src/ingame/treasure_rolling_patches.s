@@ -19,26 +19,25 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; Flag-gated off until the entry/exit/trigger thunks are wired up.
 
 .include "config.i"
+.import "items"
 .if TREASURE_INVENTORY_ROLLING {
 ; Cursor sprite X, both lists. Vanilla picks between two columns -
 ; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the
-; inventory - and the left column's hand sits at X = 0 because vanilla's
-; col-0 names started hard against the window border. Single-column VWF
-; rows put the item symbol at x=24 and the name at x=32, so the hand
-; belongs at x=16, one cell to their left. Both branches load it, which
-; also makes the column byte irrelevant.
+; inventory. Single-column rows have one: the hand goes flush left of
+; the item icon (TREASURE_CURSOR_X, items.s). Both branches load it,
+; which also makes the column byte irrelevant.
     .alloc at 0x01D977 {
-    lda #0x10
+    lda #TREASURE_CURSOR_X
     }
 
 
     .alloc at 0x01D97B {
-    lda #0x10
+    lda #TREASURE_CURSOR_X
     }
 
 
     .alloc at 0x01D9FE {
-    lda #0x10
+    lda #TREASURE_CURSOR_X
     }
 
 
@@ -158,19 +157,14 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     nop
 
 ; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
-; the hand pointer 16 px below the drops band's first slot (legacy
-; 4x2 grid expected items at row 6+ on screen). With drops bumped
-; to start at tilemap row 4 (+0x80 byte stride from baseline), the
-; sprite needs a base that lines cursor row 0 up with item 0.
-;
-; $2D, not $28: the inventory hand lands exactly on its glyph row
-; ($86 = 134, measured off the framebuffer), while $28 put the drops
-; hand five pixels above its own. Same relationship for both lists.
+; the hand for the legacy 4x2 grid. The single-column band starts at
+; DROPS_FIRST_ITEM_ROW, and the hand sits one pixel above the row the
+; same way the inventory's does (DROPS_CURSOR_Y_BASE, items.s).
     }
 
 
     .alloc at 0x01D96F {
-    .db 0x2D
+    .db DROPS_CURSOR_Y_BASE
 
 ; Drops cursor row clamp + UP/DOWN scroll triggers. Original at
 ; $01D9D1: `bmi $D9D6 / sta $1BB3` skips store when dec underflows
