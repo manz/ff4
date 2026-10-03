@@ -9,7 +9,7 @@ $100, so the tilemap entries carry bit 8 in their attribute byte.
 
 Its scratch lives in SRAM rather than on the direct page: the menus have
 a page to spare, but the field does not, and the bytes this used to
-borrow there were live engine state (see `VWF_PREV_CHAR` and friends in
+borrow there were live engine state (see `vwf_engine.prev_char` and friends in
 vwf_state.i).
 """
 
@@ -245,9 +245,9 @@ get:
     bits_left_on_tile = _var_base + 0x10
     temp = bits_left_on_tile + 1
     counter = temp + 1
-    prev_char = VWF_PREV_CHAR  ; long, off the field's MOSAIC shadow
-    current_char = VWF_CURRENT_CHAR  ; (see src/vwf_state.i)
-    tilemap_offset = VWF_TILEMAP_OFFSET  ; long, NMI-safe (see src/vwf_state.i)
+    prev_char = vwf_engine.prev_char  ; long, off the field's MOSAIC shadow
+    current_char = vwf_engine.current_char  ; (see src/vwf_state.i)
+    tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/vwf_state.i)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
     last_drawn_text_ptr = buffer_ptr + buffer_size + 2
@@ -257,8 +257,8 @@ font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat.
 
 Resets the per-render scratch (bits_left_on_tile / temp / counter)
 and zeros the allocator. Clears ONLY the CHR slice owned by the
-current region (`VwfConfig.tile_id_base * 16` for
-`VwfConfig.slot_budget * 16` bytes), mirror of the per-slot clear
+current region (`vwf_cfg.tile_id_base * 16` for
+`vwf_cfg.slot_budget * 16` bytes), mirror of the per-slot clear
 in battle's `init_inventory_for_current_slot`. Wiping the whole
 buffer here clobbered other regions' CHR mid-frame, so callers
 populate config first and `init` confines its $FF/$00 fill to
@@ -283,7 +283,7 @@ _brk_init_bits:
 ; --- Per-region CHR clear from VwfConfig ---
     php
     rep #0x30
-    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    lda vwf_cfg.tile_id_base
     and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
@@ -292,7 +292,7 @@ _brk_init_bits:
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     tax
-    lda.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    lda vwf_cfg.slot_budget
     and.w #0x00FF
     asl
     asl
@@ -321,10 +321,10 @@ _init_skip_clear:
     rts
 flush_chr_to_vram:
 """
-NMI-callable VWF CHR flush. Gates on `VWF_CHR_DIRTY`  ; if set,
-reads `VwfConfig.chr_src_offset` / `chr_vram_word` / `chr_byte_count`
-from the config struct and DMAs the slice from `VWF_CHR_BUFFER +
-chr_src_offset` to VRAM word `chr_vram_word`. Clears the dirty
+NMI-callable VWF CHR flush. Gates on `vwf_engine.chr_dirty`  ; if set,
+reads `vwf_cfg.chr_vram_word` / `vwf_cfg.chr_byte_count` and DMAs the
+slice from `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET` to VRAM word
+`chr_vram_word`. Clears the dirty
 byte on the way out.
 
 Designed to hang off the field NMI hook  ; running in vblank means
@@ -339,19 +339,19 @@ Battle-side equivalent of the partial CHR DMA in
     php
     sep #0x20
     rep #0x10
-    lda.l VWF_CHR_DIRTY
+    lda vwf_engine.chr_dirty
     beq _flush_skip_a
     lda.b #0x00
-    sta.l VWF_CHR_DIRTY
+    sta vwf_engine.chr_dirty
 ; Only fire against the one descriptor anything writes (items_menu_vwf:
 ; FIELD_VWF_VRAM_DEST_WORD, at most $B00 bytes). Cart RAM from a build
 ; that never set it - savestates carry $FF here - otherwise turns this
 ; into a 64K DMA over all of VRAM, the menu cursor's sprite CHR with it.
     rep #0x20
-    lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
+    lda vwf_cfg.chr_vram_word
     cmp.w #FIELD_VWF_VRAM_DEST_WORD
     bne _flush_bad_a
-    lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    lda vwf_cfg.chr_byte_count
     beq _flush_bad_a
     cmp #0x0B01
     bcs _flush_bad_a
@@ -381,9 +381,9 @@ Battle-side equivalent of the partial CHR DMA in
     lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
     sta.l 0x004334  ; A1B source bank
     rep #0x20
-    lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
+    lda vwf_cfg.chr_vram_word
     sta.l 0x002116  ; VMADD
-    lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    lda vwf_cfg.chr_byte_count
     sta.l 0x004335  ; DAS
     sep #0x20
     lda.b #0x80
@@ -407,7 +407,7 @@ _flush_skip_a:
 ;
 ; Guard against savestates captured before the secondary descriptor
 ; existed : their SRAM at $7070C4..$7070CA carries random bytes, so
-; before firing the DMA we whitelist VWF_CHR_VRAM_WORD_B against the
+; before firing the DMA we whitelist vwf_engine.flush_b.vram_word against the
 ; two known arming targets ($2B70 drops, $2C00 description) and
 ; reject anything else as uninitialised. Stale SRAM almost certainly
 ; will not match either constant, so the secondary DMA stays dormant
@@ -415,7 +415,7 @@ _flush_skip_a:
 ; the save-selection sprite CHR from being trashed by random garbage
 ; on the very first NMI after a stale load.
     sep #0x20
-    lda.l VWF_CHR_DIRTY_B
+    lda vwf_engine.flush_b.dirty
     beq _flush_skip_b
 ; A frame whose vanilla buffer transfers ran long (the equip screen
 ; pushes several 4K tilemaps) reaches this point after vblank; a VRAM
@@ -423,9 +423,9 @@ _flush_skip_a:
     lda.l 0x004212  ; HVBJOY: bit 7 = in vblank
     bpl _flush_skip_b
     lda.b #0x00
-    sta.l VWF_CHR_DIRTY_B
+    sta vwf_engine.flush_b.dirty
     rep #0x20
-    lda.l VWF_CHR_VRAM_WORD_B
+    lda vwf_engine.flush_b.vram_word
     cmp #0x2B70
     beq _vram_word_b_ok
     cmp #0x2C00
@@ -443,7 +443,7 @@ _vram_word_b_ok:
     lda.b #0x18
     sta.l 0x004331
     rep #0x20
-    lda.l VWF_CHR_SRC_OFFSET_B
+    lda vwf_engine.flush_b.src_offset
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     sta.l 0x004332
@@ -451,9 +451,9 @@ _vram_word_b_ok:
     lda.b #VWF_CHR_BUFFER >> 16
     sta.l 0x004334
     rep #0x20
-    lda.l VWF_CHR_VRAM_WORD_B
+    lda vwf_engine.flush_b.vram_word
     sta.l 0x002116
-    lda.l VWF_CHR_BYTE_COUNT_B
+    lda vwf_engine.flush_b.byte_count
     sta.l 0x004335
     sep #0x20
     lda.b #0x80
@@ -470,7 +470,7 @@ _flush_skip_b:
     }
 render_with_config:
 """
-Config-driven VWF entry: reads `VwfConfig` at `VWF_CONFIG_BASE`,
+Config-driven VWF entry: reads `vwf_cfg`,
 sets up the allocator + render state from it, then walks
 VWF_TEXT_BUFFER through `draw_text_buffer`. Single call site
 replaces the bespoke init / display_char loops that the field-
@@ -518,17 +518,17 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; would have wrapped field-menu slots 6..10 (base $C0 + 10*10 =
 ; $124) back into the menu font CHR range.
     rep #0x20
-    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    lda vwf_cfg.tile_id_base
     jsr.w render_allocator.init_with_tile_id_wide
 ; Belt + braces: re-stash allocated_tile_id verbatim so any
 ; interleaved render.init can not zero it on us before display_char
 ; reads it back.
-    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    lda vwf_cfg.tile_id_base
     sta.l render_allocator.allocated_tile_id
     sep #0x20
-    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    lda vwf_cfg.tile_id_base
     clc
-    adc.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    adc vwf_cfg.slot_budget
     sec
     sbc.b #0x01
     sta.l render_allocator.slot_limit_low
@@ -539,7 +539,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; (slot_budget * 16) bytes at VWF_CHR_BUFFER + tile_id_base * 16.
     php
     rep #0x30
-    lda.l VWF_CONFIG_BASE + VwfConfig.tile_id_base
+    lda vwf_cfg.tile_id_base
     and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
@@ -548,7 +548,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     tax
-    lda.l VWF_CONFIG_BASE + VwfConfig.slot_budget
+    lda vwf_cfg.slot_budget
     and.w #0x00FF
     asl
     asl
@@ -573,7 +573,7 @@ _chr_clear_loop:
     stz.b counter
 ; tilemap_offset = config.tilemap_base (16-bit).
     rep #0x20
-    lda.l VWF_CONFIG_BASE + VwfConfig.tilemap_base
+    lda vwf_cfg.tilemap_base
     sta.l tilemap_offset
     sep #0x20
     jsr.w draw_text_buffer
@@ -582,7 +582,7 @@ _chr_clear_loop:
 ; (field items, item descriptions, treasure list, ...) signals dirty
 ; without knowing about VRAM addresses.
     lda.b #0x01
-    sta.l VWF_CHR_DIRTY
+    sta vwf_engine.chr_dirty
     plp
     rts
     }
@@ -592,7 +592,7 @@ draw_text_buffer:
 Unified entry: walk a null-terminated string at VWF_TEXT_BUFFER
 and blit each byte via display_char.
 
-Caller responsibilities (read from VwfConfig at VWF_CONFIG_BASE in
+Caller responsibilities (read from `vwf_cfg` in
 the next phase  ; for now the field-items helper hand-sets these
 directly):
   - render_allocator.allocated_tile_id    set via init_with_tile_id
@@ -1031,7 +1031,7 @@ small_vwf_kerning_binary_ext:
 tilemap_write_no_inc:
 """
 Write `allocated_tile_id` low byte to `(tilemap_offset)` and OR
-`VwfConfig.flags` into the next (palette/attr) byte. The flag
+`vwf_cfg.flags` into the next (palette/attr) byte. The flag
 mask used to be hard-coded `$01` (the 9-bit tile_id bit for the
 512-tile dialog window) but the field-menu items live in 2bpp
 BG3 where bit 0 of the attr byte is tile_id bit 8  ; an always-on
@@ -1052,7 +1052,7 @@ to honour a bit they do not own.
     lda.l render_allocator.allocated_tile_id
     sta.l _base_addr, x
     lda.l _base_addr + 1, x
-    ora.l VWF_CONFIG_BASE + VwfConfig.flags
+    ora vwf_cfg.flags
     sta.l _base_addr + 1, x
     plp
     rts

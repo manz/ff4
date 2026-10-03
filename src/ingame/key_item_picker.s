@@ -361,7 +361,7 @@ key_item_render_item_to_slot:
 ; the secondary descriptor: the field map is live underneath, so the
 ; primary window ($2800) is the BG3 tilemap here, not spare CHR.
     lda #VWF_CTX_KEY_ITEM
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     rep #0x20
     lda.l key_item_rolling.slot_index
     and.w #0x00FF
@@ -378,7 +378,7 @@ key_item_render_item_to_slot:
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
     lda #VWF_CTX_PRIMARY
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     pla
     sta.b 0xDB
     pla

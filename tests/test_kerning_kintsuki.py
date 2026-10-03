@@ -42,9 +42,9 @@ def _smallvwf_prev_char() -> int:
     if not adbg.exists():
         pytest.skip(f"debug info not built at {adbg}")
     for sym in debug_info.read(adbg).symbols:
-        if sym.name == "VWF_PREV_CHAR":
+        if sym.name == "vwf_engine.prev_char":
             return sym.address & 0xFFFFFF
-    raise AssertionError("VWF_PREV_CHAR missing from the symbol table")
+    raise AssertionError("vwf_engine.prev_char missing from the symbol table")
 
 
 SMALLVWF_PREV_CHAR = _smallvwf_prev_char()

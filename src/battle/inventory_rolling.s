@@ -2891,7 +2891,7 @@ _field_nmi_check_treasure:
 
 _field_nmi_done:
 ; --- VWF CHR flush (DMA channel 6) ---
-; Hands off to `render.flush_chr_to_vram`. Gates on `VWF_CHR_DIRTY`
+; Hands off to `render.flush_chr_to_vram`. Gates on `vwf_engine.chr_dirty`
 ; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
 ; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
 ; by every engine we ship (ch7 is the shared battle / libmz /

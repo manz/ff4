@@ -15,15 +15,9 @@ needs to happen here  ; `_vram_copy.buffer` already sits at $70:5000
 past the buffer so the VRAM-save staging is decoupled from the
 CHR-buffer size.
 
-Forward-compat reservation:
-  VWF_CONFIG_BASE points at a planned per-context state struct
-  (font_ptr, kerning_ptr, tile_id_base, slot_budget, palette,
-  tilemap_base, flags). When the engines start reading from this
-  block, callers will write the struct once before invoking
-  `vwf_render_string` and the engine drops its hardcoded font
-  pointer. The struct lives in unused SRAM space ($70:F800+, same
-  region we already use for the items_menu_vwf debug breadcrumb)
-  so adding it does not perturb battle / menu live state.
+Per-render parameters live in `vwf_cfg` (VwfConfig at $70:7080), the
+engine's own state in `vwf_engine` (VwfEngine at $70:70C0): callers fill
+the config, then call `render.render_with_config`.
 """
 
 
@@ -63,70 +57,29 @@ BATTLE_RENDER_STATE := 0x707100
 VWF_TEXT_BUFFER := 0x707000
 VWF_TEXT_BUFFER_SIZE := 0x40
 
-; --- VWF config struct (forward-compat ; not consumed yet) ------------
-; Field offsets so future readers can `lda.l VWF_CONFIG_BASE + .field`
-; without manual byte math. Phase n of the unification will start
-; populating + consuming these.
+; --- VWF config: per-render parameters, bound as `vwf_cfg` (below) ------
 VWF_CONFIG_BASE := 0x707080
 
-; --- Engine scratch in SRAM (no DP collisions) ---------------------------
-; Long-addressable scratch for VWF callers that need a counter / pointer
-; without stealing direct-page bytes from the menu loop. The field-items
-; helper uses VWF_SRC_OFFSET as the 16-bit source index into
-; assets_items_unleashed_dat while X holds the destination index in
-; VWF_TEXT_BUFFER (only sta.l abs,x is encoded by a816).
-VWF_SRC_OFFSET := 0x7070C0
+; --- Engine state in SRAM (no DP collisions), bound as `vwf_engine` ---
+VWF_ENGINE_BASE := 0x7070C0
 
-; --- Dirty flag for NMI-side CHR flush ----------------------------------
-; Set by `render.display_char` (or `render.render_with_config`) after a
-; blit lands in `VWF_CHR_BUFFER`. The NMI flush hook reads this byte,
-; fires the DMA from `VWF_CHR_BUFFER + $C00` to VRAM $AC00 ($400 bytes)
-; when set, then clears it. Gates the upload exactly the same way the
-; battle inventory's `dma_dirty_slots` gates the per-slot DMA.
-VWF_CHR_DIRTY := 0x7070C2
+; Where one panel's CHR goes: the drops panel's flush (see caller_ctx).
+.struct VwfFlushDesc {
+    byte dirty
+    word vram_word
+    word byte_count
+    word src_offset
+}
 
-; --- Secondary descriptor for two-region simultaneous flush -------------
-; Drops + treasure-inventory coexist in the treasure popup and render
-; through the same `items_menu_vwf.draw_field_item_name` JSL hook.
-; Region 1 = $100..$13B (treasure) flushes via the primary descriptor
-; at VWF_CONFIG_BASE ; region 1B = $16E..$1A9 (drops) needs its own
-; flush dest + size so each panel's CHR lands in VRAM without the
-; other's stale buffer bytes leaking through one combined DMA.
-;
-; VWF_CALLER_CTX is a one-byte hint set by drops_rolling around the
-; vanilla JSR chain ; items_menu_vwf reads it to decide whether to
-; write the primary or the secondary descriptor + dirty flag.
-;   0 = primary  (treasure / field-items / default)
-;   1 = drops    (secondary)
-VWF_CALLER_CTX := 0x7070C3
-VWF_CHR_DIRTY_B := 0x7070C4
-VWF_CHR_VRAM_WORD_B := 0x7070C5
-VWF_CHR_BYTE_COUNT_B := 0x7070C7
-VWF_CHR_SRC_OFFSET_B := 0x7070C9
-
-; Tilemap write cursor for `render.draw_text_buffer`.
-;
-; This lived on direct page ($1D) until the key-item picker: that menu
-; overlays the field map, where NMI stays enabled, and vanilla's
-; UpdateCtrl ($14:FD12) uses $1D as scratch. An NMI landing mid-render
-; zeroed the cursor and the rest of the name's tilemap cells went to
-; $7E:0000 instead of the staging buffer. The other menus never saw it
-; because they run with NMI off. Long-addressed, so no interrupt can
-; alias it.
-VWF_TILEMAP_OFFSET := 0x7070CB
-
-; Kerning state for `render.draw_text_buffer`: the previous and current
-; character codes.
-;
-; These lived on direct page at $77 / $79, which is free in the menus
-; but is the field engine's MOSAIC shadow: the picker renders over a
-; live map, so glyph codes landed in $77 and the window IRQ pushed them
-; straight to $2106 - the map pixelated for as long as a render took.
-; The renderer's other scratch ($73-$75) is saved and restored around a
-; render; these two never were, and even saving them would not help
-; while an interrupt reads the byte mid-render.
-VWF_PREV_CHAR := 0x7070CD
-VWF_CURRENT_CHAR := 0x7070CE
+.struct VwfEngine {
+    word src_offset
+    byte chr_dirty
+    byte caller_ctx
+    VwfFlushDesc flush_b
+    word tilemap_offset
+    byte prev_char
+    byte current_char
+}
 
 .struct VwfConfig {
     word tile_id_base
@@ -137,6 +90,9 @@ VWF_CURRENT_CHAR := 0x7070CE
     word chr_vram_word
     word chr_byte_count
 }
+
+vwf_cfg := (VWF_CONFIG_BASE as VwfConfig)
+vwf_engine := (VWF_ENGINE_BASE as VwfEngine)
 
 ; Engine-shared CHR-flush source offset. Every VWF caller writes
 ; glyph CHR at `VWF_CHR_BUFFER + tile_id_base * 16` ; both battle

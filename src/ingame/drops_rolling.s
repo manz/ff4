@@ -230,9 +230,9 @@ drops_render_item_to_slot:
 ; target stays at $7E:C600 (its own BG3 staging surface) so the offset
 ; only affects CHR allocation, not where the glyphs land on screen.
 ;
-; VWF_CALLER_CTX=1 also tells items_menu_vwf to write the SECONDARY
+; vwf_engine.caller_ctx=1 also tells items_menu_vwf to write the SECONDARY
 ; flush descriptor (DROPS_VWF_VRAM_DEST_WORD + DROPS_VWF_BYTE_COUNT +
-; DROPS_VWF_CHR_SRC_OFFSET) and redirect VWF_CHR_DIRTY -> DIRTY_B so
+; DROPS_VWF_CHR_SRC_OFFSET) and redirect vwf_engine.chr_dirty -> DIRTY_B so
 ; the NMI flush hits drops's VRAM range without trampling treasure's
 ; primary descriptor. Cleared after the render so subsequent
 ; treasure-side calls fall back to primary.
@@ -241,7 +241,7 @@ drops_render_item_to_slot:
     adc #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5d
     lda #0x01
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     rep #0x20
     lda.w drops_rolling.slot_index
     and.w #0x00FF
@@ -253,7 +253,7 @@ drops_render_item_to_slot:
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
     lda #0x00
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     pla
     sta.b 0xDB
     pla
