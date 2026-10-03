@@ -146,11 +146,12 @@ _not_found:
 
 .scope battle_render {
     """
-    Currently works by region
-    0x00 -> 0x40 messages tiles
-    0x40 -> 0x80 monster names
-    0x80 -> 0xB0 char names
-    0xB0 -> 0xF0 commands ? this one is untested.
+    Battle VWF CHR regions, region_size (48) tile ids each:
+    0x00 -> 0x2F messages
+    0x30 -> 0x5F monster names (init_monsters)
+    0x60 -> 0x8F char names (init_names)
+    0x90 -> 0xBF commands (init_commands_list)
+    0xC0 -> 0xFB inventory: 6 slots x ITEM_VWF_TILE_BUDGET (init_inventory_region)
     """
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
