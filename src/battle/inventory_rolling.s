@@ -59,6 +59,8 @@ runs the field-menu NMI DMA check.
 
 ; Buffer sizes
     TEXT_BYTES_PER_ITEM := 60  ; 30 tiles x 2 bytes (dakuten + main rows)
+    TILE_PALETTE_MASK := 0x1C  ; Tile attribute bits 2-4
+    ITEM_GREY_PALETTE := 0x04  ; Palette 1: disabled item
     TILEMAP_BYTES_PER_ROW := 128  ; 2 tilemap rows x 64 bytes ($80)
 
 ; Memory addresses - using freed spell list buffers
@@ -1679,6 +1681,10 @@ _tfr_skip_refresh:
 
 _tfr_frame_ok:
 
+; The disabled bits change at each turn (per-character usability,
+; $03:A0F7) after the rows were rendered: match their palettes.
+    jsr.w _recolour_visible_slots
+
 ; Copy all 6 slots from text buffer to tilemap buffer
 ; This runs AFTER the game's window clearing at $9AF4
     jsr.w _copy_all_slots_to_tilemap
@@ -1694,6 +1700,80 @@ _tfr_frame_ok:
 
     plb  ; Restore data bank
     rtl
+
+_recolour_visible_slots:
+"""
+    Set the palette of every visible slot from its item's disabled bit
+    ($321A bit 7: grey, palette 1). Only the tile attribute bytes change:
+    vanilla's UpdateEnabledItems recolours its own 48-row buffer, which
+    the rolling list no longer shows. The hidden slot keeps the palette
+    it was rendered with, from the flags of the time it was rendered.
+"""
+
+
+    lda #0
+    sta.b 0x06  ; Ring slot
+
+_recolour_slot:
+; Visible row = (slot - rolling_buffer_pos) mod BUFFER_SLOTS
+    lda.b 0x06
+    sec
+    sbc.w rolling_buffer_pos
+    bcs _recolour_row_ok
+    adc #BUFFER_SLOTS
+
+_recolour_row_ok:
+    cmp #VISIBLE_ROWS
+    bcs _recolour_next
+    clc
+    adc.w rolling_top_row
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl  ; x 4 bytes per item
+    tax
+    sep #0x20
+    lda.l 0x7E321A, x
+    asl  ; C = disabled
+    lda #0x00
+    bcc _recolour_palette
+    lda #ITEM_GREY_PALETTE
+
+_recolour_palette:
+    sta.b 0x07
+; Text buffer offset = slot * 60 = slot * 64 - slot * 4
+    rep #0x20
+    lda.b 0x06
+    and.w #0x00FF
+    asl
+    asl
+    sta.b 0x08
+    asl
+    asl
+    asl
+    asl
+    sec
+    sbc.b 0x08
+    tax
+    sep #0x20
+    ldy.w #TEXT_BYTES_PER_ITEM >> 1  ; One attribute byte per tile
+
+_recolour_cell:
+    lda.w text_buffer_base + 1, x
+    and #0xFF - TILE_PALETTE_MASK
+    ora.b 0x07
+    sta.w text_buffer_base + 1, x
+    inx
+    inx
+    dey
+    bne _recolour_cell
+
+_recolour_next:
+    inc.b 0x06
+    lda.b 0x06
+    cmp #BUFFER_SLOTS
+    bne _recolour_slot
+    rts
 
 ; ============================================================================
 ; _refresh_visible_items_internal
