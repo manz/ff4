@@ -157,19 +157,58 @@ def _stash_previous_golden(golden_path: Path) -> None:
     golden_path.rename(prev)
 
 
+# The 256x224 picture inside kintsuki's letterboxed framebuffer.
+PICTURE = (13, 9, 13 + 256, 9 + 224)
+# Battle menu panel (item list, magic window, commands) in picture
+# coordinates: everything below the battlefield.
+BATTLE_MENU_PANEL = (0, 140, 256, 224)
+
+
 def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
                                      *, threshold: float = 0.1,
-                                     max_diff_pixels: int = 0) -> None:
+                                     max_diff_pixels: int = 0,
+                                     region: tuple[int, int, int, int] | None = None) -> None:
     """Record-or-compare the framebuffer against `golden_path` via
     `kintsuki.visual.golden` (records + skips on first run, asserts
-    pixel-match thereafter)."""
+    pixel-match thereafter).
+
+    `region` (left, top, right, bottom in picture coordinates) compares
+    only that box. Battle goldens use it to pin the window under test:
+    the battlefield above runs on the ATB, so its frame shifts whenever
+    a change makes the battle loop faster or slower."""
     import os
-    from kintsuki.visual import golden
     if os.environ.get("UPDATE_GOLDENS") == "1":
         _stash_previous_golden(golden_path)
     golden_path.parent.mkdir(parents=True, exist_ok=True)
-    golden(emu, golden_path,
-           threshold=threshold, max_diff_pixels=max_diff_pixels)
+    if region is None:
+        from kintsuki.visual import golden
+        golden(emu, golden_path,
+               threshold=threshold, max_diff_pixels=max_diff_pixels)
+        return
+    _assert_region_matches_golden(emu, golden_path, region, threshold, max_diff_pixels)
+
+
+def _assert_region_matches_golden(emu: Emu, golden_path: Path, region: tuple[int, int, int, int],
+                                  threshold: float, max_diff_pixels: int) -> None:
+    import tempfile
+    from PIL import Image, ImageChops
+
+    with tempfile.TemporaryDirectory() as tmp:
+        shot = Path(tmp) / "frame.png"
+        emu.screenshot(str(shot))
+        actual = Image.open(shot).convert("RGB").crop(PICTURE).crop(region)
+    if not golden_path.exists():
+        actual.save(golden_path)
+        pytest.skip(f"recorded {golden_path.name}: verify + commit")
+    expected = Image.open(golden_path).convert("RGB")
+    assert expected.size == actual.size, f"{golden_path.name}: size {actual.size} vs golden {expected.size}"
+    diff = ImageChops.difference(expected, actual)
+    limit = threshold * 255
+    bad = sum(1 for px in diff.get_flattened_data() if max(px) > limit)
+    if bad > max_diff_pixels:
+        actual.save(golden_path.with_suffix(".actual.png"))
+        diff.save(golden_path.with_suffix(".diff.png"))
+    assert bad <= max_diff_pixels, f"{bad} diff pixels vs {golden_path.name} (max {max_diff_pixels})"
 
 
 def assert_bytes_match_golden(snapshot: bytes, golden_path: Path) -> None:
