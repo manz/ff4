@@ -18,7 +18,7 @@ runs the field-menu NMI DMA check.
 ; externs live at root scope: a816 registers `.extern` only in the scope it is
 ; declared in, and an `.alloc` body opens its own scope, so an extern declared
 ; inside never resolves at the use site.
-.extern messages_vwf.spell_list_restore
+.extern spell_list_scroll_render
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.deinit
@@ -59,6 +59,8 @@ runs the field-menu NMI DMA check.
 
 ; Buffer sizes
     TEXT_BYTES_PER_ITEM := 60  ; 30 tiles x 2 bytes (dakuten + main rows)
+    TILE_PALETTE_MASK := 0x1C  ; Tile attribute bits 2-4
+    ITEM_GREY_PALETTE := 0x04  ; Palette 1: disabled item
     TILEMAP_BYTES_PER_ROW := 128  ; 2 tilemap rows x 64 bytes ($80)
 
 ; Memory addresses - using freed spell list buffers
@@ -153,9 +155,9 @@ init_inventory_text_buf_rolling:
     stz.b 0x60  ; Cursor row = 0 (top visible row)
     stz.w rolling_top_row
     stz.w rolling_buffer_pos
-; Battle start: this window's frame and slots are fresh and the command
-; tiles hold commands. Reset the magic-list flags so cart RAM left over
-; from an earlier battle (or a savestate) can't force a repaint.
+; Battle start: this window's frame and slots are fresh. Reset the
+; magic-list flags so cart RAM left over from an earlier battle (or a
+; savestate) can't force a repaint.
     lda.b #0x00
     sta.l battle_render.items_frame_dirty
     sta.l battle_render.spell_tiles_live
@@ -1651,12 +1653,16 @@ tfr_inventory_list_rolling:
 ; before animation, so steady-state scroll requires zero re-render
 ; here. The flag was the per-frame full rebuild that was clobbering
 ; the pre-rendered hidden slot.
-; The magic list parks this window's glyphs while it uses their tiles;
-; if no command redraw has put them back yet, do it now.
+; The magic list renders its names into this window's tiles: once it
+; has, paint every visible slot again. Exactly 1: cart RAM a build never
+; wrote (old savestates carry $FF) must not force a repaint.
     lda.l battle_render.spell_tiles_live
-    cmp.b #0x01  ; not stale cart RAM, see commands_reloc.s
+    cmp.b #0x01
     bne _tfr_glyphs_ok
-    jsr.l messages_vwf.spell_list_restore
+    lda.b #0x00
+    sta.l battle_render.spell_tiles_live
+    lda.b #0x01
+    sta.w inventory_needs_full_refresh
 
 _tfr_glyphs_ok:
     lda.w inventory_needs_full_refresh
@@ -1675,6 +1681,10 @@ _tfr_skip_refresh:
 
 _tfr_frame_ok:
 
+; The disabled bits change at each turn (per-character usability,
+; $03:A0F7) after the rows were rendered: match their palettes.
+    jsr.w _recolour_visible_slots
+
 ; Copy all 6 slots from text buffer to tilemap buffer
 ; This runs AFTER the game's window clearing at $9AF4
     jsr.w _copy_all_slots_to_tilemap
@@ -1690,6 +1700,80 @@ _tfr_frame_ok:
 
     plb  ; Restore data bank
     rtl
+
+_recolour_visible_slots:
+"""
+    Set the palette of every visible slot from its item's disabled bit
+    ($321A bit 7: grey, palette 1). Only the tile attribute bytes change:
+    vanilla's UpdateEnabledItems recolours its own 48-row buffer, which
+    the rolling list no longer shows. The hidden slot keeps the palette
+    it was rendered with, from the flags of the time it was rendered.
+"""
+
+
+    lda #0
+    sta.b 0x06  ; Ring slot
+
+_recolour_slot:
+; Visible row = (slot - rolling_buffer_pos) mod BUFFER_SLOTS
+    lda.b 0x06
+    sec
+    sbc.w rolling_buffer_pos
+    bcs _recolour_row_ok
+    adc #BUFFER_SLOTS
+
+_recolour_row_ok:
+    cmp #VISIBLE_ROWS
+    bcs _recolour_next
+    clc
+    adc.w rolling_top_row
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl  ; x 4 bytes per item
+    tax
+    sep #0x20
+    lda.l 0x7E321A, x
+    asl  ; C = disabled
+    lda #0x00
+    bcc _recolour_palette
+    lda #ITEM_GREY_PALETTE
+
+_recolour_palette:
+    sta.b 0x07
+; Text buffer offset = slot * 60 = slot * 64 - slot * 4
+    rep #0x20
+    lda.b 0x06
+    and.w #0x00FF
+    asl
+    asl
+    sta.b 0x08
+    asl
+    asl
+    asl
+    asl
+    sec
+    sbc.b 0x08
+    tax
+    sep #0x20
+    ldy.w #TEXT_BYTES_PER_ITEM >> 1  ; One attribute byte per tile
+
+_recolour_cell:
+    lda.w text_buffer_base + 1, x
+    and #0xFF - TILE_PALETTE_MASK
+    ora.b 0x07
+    sta.w text_buffer_base + 1, x
+    inx
+    inx
+    dey
+    bne _recolour_cell
+
+_recolour_next:
+    inc.b 0x06
+    lda.b 0x06
+    cmp #BUFFER_SLOTS
+    bne _recolour_slot
+    rts
 
 ; ============================================================================
 ; _refresh_visible_items_internal
@@ -1960,6 +2044,12 @@ scroll_list_down_hook:
     bne _sd_is_inventory
 
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
+; The spell list only renders the rows on screen: paint the one about
+; to slide in at the bottom first.
+    lda.l 0x7EEF86
+    clc
+    adc.b #battle_render.SPELL_VISIBLE_ROWS
+    jsr.l spell_list_scroll_render
 ; Original code: ldx $ef71, dex, stx $ef71, lda #$0c, sta $ef64, lda #$02, sta $1820, rts
     ldx.w 0xEF71
     dex
@@ -2087,6 +2177,11 @@ scroll_list_up_hook:
     bne _su_is_inventory
 
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
+; Paint the spell row about to slide in at the top (none past row 0:
+; $FF is out of range).
+    lda.l 0x7EEF86
+    dec
+    jsr.l spell_list_scroll_render
 ; Original code: ldx $ef71, inx, stx $ef71, lda #$0c, sta $ef64, lda #$03, sta $1820, rts
     ldx.w 0xEF71
     inx
