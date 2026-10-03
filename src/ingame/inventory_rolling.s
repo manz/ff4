@@ -534,9 +534,9 @@ _menu_render_item_to_slot:
     lda.b 0x5a  ; Pointer value = $1440 + edge_row * Item.__size
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha  ; Save Item.id for CheckCanUseItem
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C  ; Store qty in $5C
 
 ; Call CheckCanUseItem to set palette in $DB

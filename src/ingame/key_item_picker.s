@@ -339,9 +339,9 @@ key_item_render_item_to_slot:
     lda.b 0x5a
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C
     stz.b 0x34
     pla
@@ -488,7 +488,7 @@ _filter_clear:
     ldy.w #0x0000
 
 _filter_walk:
-    lda.w 0x1440, x
+    lda.w field_inventory.id, x
     cmp #0xCE
     bcc _filter_next
     cmp #0xE7
@@ -500,7 +500,7 @@ _filter_walk:
 
 _filter_accept:
     sta.w 0x0712, y
-    lda.w 0x1441, x
+    lda.w field_inventory.qty, x
     sta.w 0x0713, y
     iny
     iny

@@ -177,6 +177,21 @@ DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
     byte qty
 }
 
+; The field inventory: 48 Items at $7E:1440, indexed `, x` by row * 2.
+FIELD_INVENTORY := 0x1440
+field_inventory := (FIELD_INVENTORY as Item)
+; Item at the absolute WRAM pointer in X: `item_x.id, x`.
+item_x := (0x7E0000 as Item)
+
+; The battle inventory: 48 slots at $7E:321A, indexed `, x` by slot * 4.
+.struct BattleItemSlot {
+    byte flags
+    byte id
+    byte qty
+    byte unused
+}
+battle_inventory := (0x7E321A as BattleItemSlot)
+
 
 ; Rolling-buffer engine state. Each profile (field menu, treasure
 ; inventory, treasure drops, key-item picker, shop sell, equip) gets its

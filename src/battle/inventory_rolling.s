@@ -268,17 +268,17 @@ _render_inventory_item:
     asl  ; x 4 bytes per item
     tax
 
-    lda.l 0x7E321B, x  ; Item ID (WRAM)
+    lda.l battle_inventory.id, x  ; Item ID (WRAM)
     sta.b 0x02  ; Save for later
     sta.b 0x26  ; For name lookup
-    lda.l 0x7E321C, x  ; Quantity (WRAM)
+    lda.l battle_inventory.qty, x  ; Quantity (WRAM)
     pha  ; Save quantity
 
 ; Determine palette (white=enabled, gray=disabled)
     lda #0x00
     sta.b 0x00  ; Palette for name
     sta.b 0x01  ; Palette for symbol
-    lda.l 0x7E321A, x  ; Flags (WRAM)
+    lda.l battle_inventory.flags, x  ; Flags (WRAM)
     and #0x80
     beq _not_disabled
     lda #0x04  ; Gray palette
@@ -438,17 +438,17 @@ _render_inventory_item_circular:
     asl  ; x 4 bytes per item
     tax
 
-    lda.l 0x7E321B, x  ; Item ID
+    lda.l battle_inventory.id, x  ; Item ID
     sta.b 0x02
     sta.b 0x26
-    lda.l 0x7E321C, x  ; Quantity
+    lda.l battle_inventory.qty, x  ; Quantity
     pha
 
 ; Determine palette
     lda #0x00
     sta.b 0x00
     sta.b 0x01
-    lda.l 0x7E321A, x  ; Flags
+    lda.l battle_inventory.flags, x  ; Flags
     and #0x80
     beq _circ_not_disabled
     lda #0x04
@@ -954,20 +954,20 @@ _render_item_to_circular_slot:
     asl
     tax
 
-    lda.l 0x7E321B, x  ; Item ID
+    lda.l battle_inventory.id, x  ; Item ID
     sta.b 0x02
     bne _slot_id_nonzero
     jmp.w _empty_slot_fast  ; ID == 0 -> empty entry, skip VWF
 
 _slot_id_nonzero:
-    lda.l 0x7E321C, x  ; Quantity
+    lda.l battle_inventory.qty, x  ; Quantity
     pha
 
 ; Palette selection
     lda #0x00
     sta.b 0x00
     sta.b 0x01
-    lda.l 0x7E321A, x
+    lda.l battle_inventory.flags, x
     and #0x80
     beq _slot_not_disabled
     lda #0x04
@@ -1734,7 +1734,7 @@ _recolour_row_ok:
     asl  ; x 4 bytes per item
     tax
     sep #0x20
-    lda.l 0x7E321A, x
+    lda.l battle_inventory.flags, x
     asl  ; C = disabled
     lda #0x00
     bcc _recolour_palette

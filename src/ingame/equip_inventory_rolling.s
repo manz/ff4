@@ -263,9 +263,9 @@ $A172 pass did.
     lda.b 0x5a
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C
     stz.b 0x34
     pla
