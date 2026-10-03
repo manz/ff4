@@ -8,15 +8,22 @@ only carries the items window's shorter frame from battle start.
 The items window shares that buffer but only draws its frame at battle
 start, so opening it after the magic list has to rebuild it.
 
+Spell names render in the battle VWF into the commands + inventory tile
+range ($90..$FF, BG3 tiles $190..$1FF): neither window shows while the
+list is up, and both redraw their own glyphs once it closes.
+
 Starts a fresh encounter from the world map so nothing comes from a
 battle an older build already set up.
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 from kintsuki import Button
+from PIL import Image
 
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import BATTLE_MENU_PANEL, PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
@@ -26,6 +33,11 @@ ITEMS_BOTTOM_ROW = 14
 SIDE_ROWS = range(1, BOTTOM_ROW)
 BORDER_LEFT, BORDER_RIGHT = 0x000B, 0x000C
 BOTTOM = [0x000D, *([0x000E] * 30), 0x000F]
+SPELL_TILES = range(0x190, 0x200)
+BG3_VWF_CHR = 0xB000  # BG3 tile $100 in VRAM (bytes)
+CHR_BUFFER = 0x703000  # VWF CHR buffer, tile $00
+CMD_WINDOW = (44, 140, 108, 200)
+GOLDENS = Path(__file__).parent / "goldens" / "battle_magic"
 
 
 def _row(emu, row: int) -> list[int]:
@@ -103,3 +115,86 @@ def test_side_borders_run_down_to_the_bottom_row(magic_emu):
 
 def test_items_after_magic_match_items_opened_directly(items_direct, items_after_magic):
     assert items_after_magic == items_direct
+
+
+def _spell_tiles(emu) -> set[int]:
+    cells = (c & 0x3FF for r in SIDE_ROWS for c in _row(emu, r))
+    return {c for c in cells if c >= 0x100}
+
+
+@pytest.fixture
+def own_magic_emu():
+    # Live emulator instances share VRAM and the framebuffer, so tests that
+    # read them must not run against a module fixture another one followed.
+    e = _fresh_battle()
+    _open_magic(e)
+    yield e
+    e.close()
+
+
+def test_spell_names_use_the_spell_tile_range(own_magic_emu):
+    tiles = _spell_tiles(own_magic_emu)
+    assert tiles and tiles <= set(SPELL_TILES)
+
+
+def test_spell_glyphs_reach_vram(own_magic_emu):
+    stale = [
+        t
+        for t in sorted(_spell_tiles(own_magic_emu))
+        if bytes(own_magic_emu.vram_read_range(BG3_VWF_CHR + (t - 0x100) * 16, 16))
+        != bytes(own_magic_emu.read(CHR_BUFFER + (t - 0x100) * 16 + i) for i in range(16))
+    ]
+    assert stale == []
+
+
+def test_magic_window_golden(own_magic_emu):
+    assert_screenshot_matches_golden(own_magic_emu, GOLDENS / "white_magic.png", region=BATTLE_MENU_PANEL)
+
+
+def _to_turn(e, slot: int) -> None:
+    # Everyone before `slot` attacks; the menu then comes up for `slot`.
+    while e.read(0x7E1822) != slot:
+        current = e.read(0x7E1822)
+        tap(e, Button.A, gap=20)
+        tap(e, Button.A, gap=20)
+        for _ in range(1500):
+            e.run_frames(1)
+            if e.read(0x7E00D7) and e.read(0x7E1822) != current:
+                break
+        e.run_frames(40)
+
+
+@pytest.mark.parametrize(
+    ("slot", "downs", "name"),
+    [(3, 1, "white"), (2, 1, "ninja"), (4, 1, "black"), (4, 2, "summon")],
+)
+def test_spell_list_golden(slot, downs, name):
+    e = _fresh_battle()
+    try:
+        _to_turn(e, slot)
+        for _ in range(downs):
+            tap(e, Button.DOWN, gap=20)
+        tap(e, Button.A, gap=20)
+        e.run_frames(50)
+        assert_screenshot_matches_golden(e, GOLDENS / f"{name}.png", region=BATTLE_MENU_PANEL)
+    finally:
+        e.close()
+
+
+def _cmd_window(emu, path) -> bytes:
+    emu.screenshot(str(path))
+    return Image.open(path).convert("RGB").crop(PICTURE).crop(CMD_WINDOW).tobytes()
+
+
+def test_command_window_comes_back_after_magic(tmp_path):
+    e = _fresh_battle()
+    try:
+        tap(e, Button.DOWN, gap=20)  # hand on Magie, where B brings it back
+        before = _cmd_window(e, tmp_path / "before.png")
+        tap(e, Button.A, gap=20)
+        e.run_frames(50)
+        tap(e, Button.B, gap=30)
+        e.run_frames(30)
+        assert _cmd_window(e, tmp_path / "after.png") == before
+    finally:
+        e.close()

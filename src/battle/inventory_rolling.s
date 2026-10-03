@@ -18,6 +18,7 @@ runs the field-menu NMI DMA check.
 ; externs live at root scope: a816 registers `.extern` only in the scope it is
 ; declared in, and an `.alloc` body opens its own scope, so an extern declared
 ; inside never resolves at the use site.
+.extern messages_vwf.spell_list_restore
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.deinit
@@ -152,6 +153,12 @@ init_inventory_text_buf_rolling:
     stz.b 0x60  ; Cursor row = 0 (top visible row)
     stz.w rolling_top_row
     stz.w rolling_buffer_pos
+; Battle start: this window's frame and slots are fresh and the command
+; tiles hold commands. Reset the magic-list flags so cart RAM left over
+; from an earlier battle (or a savestate) can't force a repaint.
+    lda.b #0x00
+    sta.l battle_render.items_frame_dirty
+    sta.l battle_render.spell_tiles_live
 ; Note: Game's $4A flag (bit 2) already indicates inventory is active
 
     .if BATTLE_ITEMS_VWF {
@@ -1644,6 +1651,14 @@ tfr_inventory_list_rolling:
 ; before animation, so steady-state scroll requires zero re-render
 ; here. The flag was the per-frame full rebuild that was clobbering
 ; the pre-rendered hidden slot.
+; The magic list parks this window's glyphs while it uses their tiles;
+; if no command redraw has put them back yet, do it now.
+    lda.l battle_render.spell_tiles_live
+    cmp.b #0x01  ; not stale cart RAM, see commands_reloc.s
+    bne _tfr_glyphs_ok
+    jsr.l messages_vwf.spell_list_restore
+
+_tfr_glyphs_ok:
     lda.w inventory_needs_full_refresh
     beq _tfr_skip_refresh
     jsr.w _refresh_visible_items_internal

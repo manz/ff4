@@ -1035,6 +1035,179 @@ Caller assumed P with M=8 X=16 on entry, restored on exit.
 ; mvn #$7E, #$7E (dst_bank, src_bank)
     plp
     rtl
+spell_list_begin:
+"""
+Start rendering the battle magic list in the VWF: reset the allocator to
+SPELL_TILE_BASE and blank the spell range of the CHR buffer. The range
+spans the commands and inventory regions, free while the list is up
+(see render_defs.i). M=8, X=16.
+"""
+
+
+    php
+    rep #0x30
+; Park the commands + inventory glyphs this range overwrites (MVN within
+; bank $70); spell_list_restore puts them back when the list closes.
+    phb
+    ldx.w #( battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10 ) & 0xFFFF
+    ldy.w #battle_spell_chr_save & 0xFFFF
+    lda.w #BATTLE_SPELL_CHR_SAVE_SIZE - 1
+    .db 0x54
+    .db 0x70
+    .db 0x70
+; mvn #$70, #$70 (dst_bank, src_bank)
+    plb
+    ldx.w #battle_render.SPELL_TILE_BASE * 0x10
+
+_slb_clear:
+    lda.w #0x00FF
+    sta.l battle_render.buffer_ptr, x
+    inx
+    inx
+    cpx #0x1000
+    bne _slb_clear
+    sep #0x20
+    lda.b #battle_render.SPELL_TILE_BASE
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
+    rtl
+
+draw_spell_name:
+"""
+Render one spell name in the VWF. X = offset of the name in
+assets_magic_dat, Y = cell offset into the ($32) / ($34) row pair,
+$36 = attribute (palette). Trailing $FF padding is dropped: rendered
+past the last glyph it only burns tiles and, at a budget clamp, blits
+over the glyph. Closes the last partial tile so the next name starts on
+a fresh one. M=8, X=16  ; Y comes back past the name.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    rep #0x20
+    txa
+    sta.l battle_render.spell_name_src
+    sep #0x20
+    lda.b #battle_render.SPELL_NAME_LENGTH
+    sta.l battle_render.spell_name_left
+
+_dsn_trim:
+    lda.l battle_render.spell_name_left
+    beq _dsn_close
+    rep #0x20
+    and.w #0x00FF
+    clc
+    adc.l battle_render.spell_name_src
+    dec
+    tax
+    sep #0x20
+    lda.l assets_magic_dat, x
+    cmp #0xFF
+    bne _dsn_render
+    lda.l battle_render.spell_name_left
+    dec
+    sta.l battle_render.spell_name_left
+    bra _dsn_trim
+
+_dsn_render:
+    rep #0x20
+    lda.l battle_render.spell_name_src
+    tax
+    sep #0x20
+
+_dsn_char:
+    lda.l assets_magic_dat, x
+    jsr.w battle_render.display_char
+    inx
+    lda.l battle_render.spell_name_left
+    dec
+    sta.l battle_render.spell_name_left
+    bne _dsn_char
+
+_dsn_close:
+    lda.b battle_render.bits_left_on_tile
+    cmp #0x08
+    beq _dsn_aligned
+    jsr.w render_allocator.increment
+    bra _dsn_fresh
+
+_dsn_aligned:
+; The last glyph ended on a tile boundary: display_char already moved to
+; a fresh tile and put it in the next cell. Leave that tile to the next
+; name and blank the cell instead.
+    lda #0xFF
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    dey
+
+_dsn_fresh:
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    plp
+    rtl
+
+spell_list_restore:
+"""
+Put the commands + inventory glyphs back after the magic list closed:
+copy the parked CHR into the buffer, queue the same range's flush and
+clear spell_tiles_live. Called by whichever of those windows shows
+first. Preserves P.
+"""
+
+
+    php
+    rep #0x30
+    phb
+    ldx.w #battle_spell_chr_save & 0xFFFF
+    ldy.w #( battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10 ) & 0xFFFF
+    lda.w #BATTLE_SPELL_CHR_SAVE_SIZE - 1
+    .db 0x54
+    .db 0x70
+    .db 0x70
+; mvn #$70, #$70 (dst_bank, src_bank)
+    plb
+    sep #0x20
+    lda.l battle_render.pending_transfer_mask
+    ora.b #battle_render.CHR_PENDING | battle_render.CHR_REGION_SPELLS
+    sta.l battle_render.pending_transfer_mask
+    lda.b #0x00
+    sta.l battle_render.spell_tiles_live
+    plp
+    rtl
+
+spell_list_end:
+"""
+Queue the spell range's CHR flush and mark the commands + inventory
+tiles as holding spell glyphs until spell_list_restore runs.
+"""
+
+
+    php
+    sep #0x20
+    lda.l battle_render.pending_transfer_mask
+    ora.b #battle_render.CHR_PENDING | battle_render.CHR_REGION_SPELLS
+    sta.l battle_render.pending_transfer_mask
+    lda.b #0x01
+    sta.l battle_render.spell_tiles_live
+    plp
+    rtl
+
 draw_inventory_text:
 """
 Custom inventory text renderer that walks a format buffer ourselves
@@ -1580,6 +1753,18 @@ _chr_no_names:
     lda.b #0x70
     jsr.w _sram_dma_transfer_7
 _chr_no_cmds:
+    lda.l battle_render.pending_transfer_mask
+    bit.b #battle_render.CHR_REGION_SPELLS
+    beq _chr_no_spells
+    ldy.w #( 0xb000 + battle_render.SPELL_TILE_BASE * 0x10 ) >> 1
+    ldx.w #battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10
+    rep #0x20
+    lda.w #( 0x100 - battle_render.SPELL_TILE_BASE ) * 0x10
+    sta.b 0x0e
+    sep #0x20
+    lda.b #0x70
+    jsr.w _sram_dma_transfer_7
+_chr_no_spells:
     lda.b #0x00
     sta.l battle_render.pending_transfer_mask
 _chr_dma_skip:
