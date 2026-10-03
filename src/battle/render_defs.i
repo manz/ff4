@@ -46,3 +46,19 @@ highlight_cache_menu = BATTLE_RENDER_STATE + 0x09
 ; window shares; non-zero tells the next items transfer to rebuild the
 ; items frame before it copies the slots back in.
 items_frame_dirty = BATTLE_RENDER_STATE + 0x0A
+
+; --- Battle spell list VWF (magic_reloc.s, message.s, commands_reloc.s) ---
+; The magic list renders its names into the commands + inventory tile
+; range ($90..$FF): neither window shows while the list is up, and the
+; command list no longer re-renders on its own (CMD_DIRTY_BIT gate).
+; Non-zero while those tiles hold spell glyphs: the next command render
+; must redraw its own, even with CMD_DIRTY_BIT clear.
+spell_tiles_live = BATTLE_RENDER_STATE + 0x0B
+; Per-name scratch for messages_vwf.draw_spell_name.
+spell_name_left = BATTLE_RENDER_STATE + 0x0C
+spell_name_src = BATTLE_RENDER_STATE + 0x0D
+; pending_transfer_mask bit: flush the spell range $90..$FF (CHR buffer
+; $900..$FFF -> VRAM $B900) in the NMI's per-region pass.
+CHR_REGION_SPELLS = 0x20
+SPELL_TILE_BASE = 0x90
+SPELL_NAME_LENGTH = 9

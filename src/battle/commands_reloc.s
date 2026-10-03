@@ -9,12 +9,20 @@ loop, called by the patched bank-$02 hook.
 .include "config.i"
 .extern messages_vwf
 .extern messages_vwf.init_commands_list
+.extern messages_vwf.spell_list_restore
 .extern draw_text_battle_far
 .extern assets_battle_commands_nul_ptr
 .extern assets_battle_commands_nul_dat
 .extern command_buffer_ptr
 .extern battle_menu_dirty
 .extern CMD_DIRTY_BIT
+
+.include "src/vwf_state.i"
+
+.scope battle_render {
+    """Render-state bytes shared with the battle magic list."""
+    .include "render_defs.i"
+}
 
 mult8_far := 0x2855c
 
@@ -120,9 +128,24 @@ _exit:
 ; the command set: vanilla redraws the window every few frames and the
 ; overlay is re-copied from command_buffer_ptr each time, so re-render
 ; (and blank the buffer first) only when CMD_DIRTY_BIT says it moved.
+; While the magic list (or its target pick, $4A bit 7) is up its glyphs
+; own this region's tiles: defer. Once it has closed, put the command
+; glyphs it parked back before deciding whether to re-render.
+    lda.l 0x7E004A
+    bmi _skip_render
+; Exactly 1: cart RAM a build never wrote (old savestates carry $FF)
+; must not "restore" an uninitialised save over the command glyphs.
+    lda.l battle_render.spell_tiles_live
+    cmp.b #0x01
+    bne _check_dirty
+    jsr.l messages_vwf.spell_list_restore
+
+_check_dirty:
     lda.l battle_menu_dirty
     and.b #CMD_DIRTY_BIT
     bne _render_commands
+
+_skip_render:
     rts
 
 _render_commands:

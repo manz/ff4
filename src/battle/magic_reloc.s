@@ -6,15 +6,17 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 """
 
 
-.extern assets_magic_dat
-.extern draw_letter_far
+.extern messages_vwf.spell_list_begin
+.extern messages_vwf.draw_spell_name
+.extern messages_vwf.spell_list_end
 
 .scope battle_render {
     """Render-state bytes shared with the battle items window."""
     .include "render_defs.i"
 }
 
-battle_magic_length = 9
+; Spell name length in assets_magic_dat; magic/patches.s imports it too.
+battle_magic_length = battle_render.SPELL_NAME_LENGTH
 destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer - 4
 right_column_base = destination_buffer + 18 - 2
@@ -22,6 +24,9 @@ right_column_base = destination_buffer + 18 - 2
 ; 64 bytes per row. Spell rows cover rows 1-24, the bottom edge is row 25.
 FRAME_SIDE_ROWS = 24
 frame_first_row = 0x7EC526
+; Cells each spell clears from its column base: a leading blank, the
+; 9-cell name field and the rest of the column up to the next one.
+SPELL_CELLS = 20
 frame_bottom_row = frame_first_row + FRAME_SIDE_ROWS * 0x40
 
 
@@ -57,6 +62,7 @@ draw_magic_list_direct:
     lda #0x00
 ; current spell index (0-23)
     sta.b current_spell_index
+    jsr.l messages_vwf.spell_list_begin
 
 spell_loop:
     phx
@@ -132,28 +138,24 @@ enabled_spell:
 ;     asl
     tax
     sep #0x20
-    lda.b #battle_magic_length
-; 8 characters to write
-    sta 0x02
-; draw a space before rendering the magic name to clear left overs from the items.
-    lda #0xff
-    jsr.l draw_letter_far
-
-
-letter_loop:
-    lda.l assets_magic_dat, x
-    jsr.l draw_letter_far
-    inx
-    dec 0x02
-    bne letter_loop
-    lda #0x0A
-    sta 0x02
+; Blank the spell's cells on both tilemap rows first (one leading cell,
+; the name, then the rest of the column: what the items window or a
+; longer previous name left there), then render the name from cell 1.
+    ldy.w #0
 
 clear_loop:
     lda.b #0xff
-    jsr.l draw_letter_far
-    dec 0x02
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    lda.b 0x36
+    sta (0x32), y
+    sta (0x34), y
+    iny
+    cpy.w #SPELL_CELLS * 2
     bne clear_loop
+    ldy.w #2
+    jsr.l messages_vwf.draw_spell_name
 
 next_spell:
 ; Advance pointer by 4 bytes like original
@@ -219,6 +221,7 @@ bottom_loop:
 ; battle start; have its next transfer rebuild it.
     lda.b #0x01
     sta.l battle_render.items_frame_dirty
+    jsr.l messages_vwf.spell_list_end
     rtl
     }
 
