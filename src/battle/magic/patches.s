@@ -11,6 +11,7 @@ long-form attack-name copier.
 
 .extern draw_magic_list_direct
 .extern magic_list_ptrs
+.extern magic_cursor_rows
 
 .alloc at 0x029A69 {
 ; 029A69  20 70 A0   JSR $A070
@@ -148,6 +149,11 @@ exit:
 .alloc at 0x02B742 {
     nop
     nop
+}
+; Spell-list hand Y: its own row table (magic_reloc.s) instead of the
+; $16:FC5B one the battle item list also reads.
+.alloc at 0x02B7B9 {
+    lda.l magic_cursor_rows, x
 }
 .alloc at 0x16FC56 {
     .db 8 - 8

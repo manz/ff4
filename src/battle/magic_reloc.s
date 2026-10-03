@@ -225,6 +225,23 @@ bottom_loop:
     rtl
     }
 
+magic_cursor_rows:
+"""
+    Spell-list hand Y per visible row, read at $02:B7B9 instead of the
+    $16:FC5B table it shares with the battle item list. VWF names sit on
+    each 16-px row's bottom tile line, lower in the cell than the 8x8
+    font's glyphs, so the hand comes down MAGIC_CURSOR_Y_NUDGE pixels to
+    point at the middle of the name.
+"""
+
+
+    MAGIC_CURSOR_Y_FIRST := 0x9C  ; vanilla $16:FC5B[0]
+    MAGIC_CURSOR_Y_PITCH := 12  ; vanilla row step
+    MAGIC_CURSOR_Y_NUDGE := 2
+    .for row := 0, 5 {
+    .db MAGIC_CURSOR_Y_FIRST + MAGIC_CURSOR_Y_NUDGE + row * MAGIC_CURSOR_Y_PITCH
+    }
+
 magic_list_ptrs:
 """Per-magic-type spell-list base pointers (white, black, summon, ninja, kokan)."""
     .dw 0x2c7a, 0x2d9a, 0x2eba, 0x2fda, 0x30fa
