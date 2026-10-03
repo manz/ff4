@@ -9,6 +9,11 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 .extern assets_magic_dat
 .extern draw_letter_far
 
+.scope battle_render {
+    """Render-state bytes shared with the battle items window."""
+    .include "render_defs.i"
+}
+
 battle_magic_length = 9
 destination_buffer = 0xc530 - 4
 left_column_base = destination_buffer - 4
@@ -210,6 +215,10 @@ bottom_loop:
     lda.w #0x000F
     sta.l frame_bottom_row + 0x3E
     sep #0x20
+; The items window shares this buffer and only draws its frame at
+; battle start; have its next transfer rebuild it.
+    lda.b #0x01
+    sta.l battle_render.items_frame_dirty
     rtl
     }
 

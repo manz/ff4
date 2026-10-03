@@ -23,6 +23,11 @@ runs the field-menu NMI DMA check.
     .extern messages_vwf.deinit
 }
 
+.scope battle_render {
+    """Render-state bytes shared with the battle magic list."""
+    .include "render_defs.i"
+}
+
 .include "../bank20.i"
 
 .alloc battle_inventory_rolling_block in bank20_reloc {
@@ -60,6 +65,9 @@ runs the field-menu NMI DMA check.
     text_buffer_base := 0x97A6  ; Ring buffer (6 slots × 60 = 360 bytes, uses freed spell buffer 1)
     inv_format_buffer := 0x9E66  ; Format buffer for draw_text (uses freed spell buffer 2)
     tilemap_buffer_base := 0xC4E6  ; Tilemap buffer
+ITEMS_FRAME_FIRST_ROW := 1  ; Buffer rows of the items window frame:
+    ITEMS_FRAME_BOTTOM_ROW := 14  ; sides on 1-13, bottom edge on 14,
+    ITEMS_FRAME_CLEAR_END_ROW := 26  ; rows 15-25 blank (magic frame area)
     tilemap_content_offset := 0x46  ; Was $44 ($C52A, col 2). +2 = 1 tiles right ($C52E, col 2).
 
 ; ============================================================================
@@ -1460,6 +1468,69 @@ _copy_slot_row2:
 ; Copies all 6 slots from text buffer to tilemap buffer
 ; Called from tfr_inventory_list_rolling AFTER game clears window buffers
 
+_restore_items_frame:
+"""
+    Redraw the items window frame in the shared menu buffer: side
+    tiles on rows 1-13, the bottom edge on row 14, and rows 15-25
+    (where the magic list draws its taller frame) cleared. The slot
+    copy that follows puts the item rows back. DBR = $7E, X = 16.
+"""
+
+
+    rep #0x20
+    ldx.w #ITEMS_FRAME_FIRST_ROW * 0x40
+
+_rif_side_row:
+    lda.w #0x000B
+    ldy.w #0x000C
+    jsr.w _rif_fill_row
+    cpx.w #ITEMS_FRAME_BOTTOM_ROW * 0x40
+    bne _rif_side_row
+    lda.w #0x000D
+    ldy.w #0x000F
+    jsr.w _rif_fill_row
+    lda.w #0x0000
+
+_rif_clear:
+    sta.w tilemap_buffer_base, x
+    inx
+    inx
+    cpx.w #ITEMS_FRAME_CLEAR_END_ROW * 0x40
+    bne _rif_clear
+    sep #0x20
+    rts
+
+_rif_fill_row:
+; One 32-cell row at X: A on the left edge, Y on the right edge, and the
+; body tile between ($00FF blank on side rows, $000E on the bottom edge).
+; M=16. Leaves X at the next row.
+    sta.w tilemap_buffer_base, x
+    cmp.w #0x000D
+    beq _rif_bottom_body
+    lda.w #0x00FF
+    bra _rif_body_set
+
+_rif_bottom_body:
+    lda.w #0x000E
+
+_rif_body_set:
+    inx
+    inx
+    phy
+    ldy.w #30
+
+_rif_body:
+    sta.w tilemap_buffer_base, x
+    inx
+    inx
+    dey
+    bne _rif_body
+    pla
+    sta.w tilemap_buffer_base, x
+    inx
+    inx
+    rts
+
 _copy_all_slots_to_tilemap:
 ; Save DBR - mult8_trampoline may change it
     phb
@@ -1562,6 +1633,15 @@ tfr_inventory_list_rolling:
     stz.w inventory_needs_full_refresh
 
 _tfr_skip_refresh:
+; The magic list draws its own frame over this buffer. Rebuild ours
+; once before the slots go back in.
+    lda.l battle_render.items_frame_dirty
+    beq _tfr_frame_ok
+    jsr.w _restore_items_frame
+    lda.b #0x00
+    sta.l battle_render.items_frame_dirty
+
+_tfr_frame_ok:
 
 ; Copy all 6 slots from text buffer to tilemap buffer
 ; This runs AFTER the game's window clearing at $9AF4
