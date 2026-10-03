@@ -8,9 +8,11 @@ only carries the items window's shorter frame from battle start.
 The items window shares that buffer but only draws its frame at battle
 start, so opening it after the magic list has to rebuild it.
 
-Spell names render in the battle VWF into the commands + inventory tile
-range ($90..$FF, BG3 tiles $190..$1FF): neither window shows while the
-list is up, and both redraw their own glyphs once it closes.
+Spell names render in the battle VWF into the items window's tiles ($C0..$FB,
+BG3 tiles $1C0..$1FB), only for the rows on screen. The command window slides
+out under the list as it opens and back in as it closes, so its glyph tiles
+must never change on the way; the items window repaints its own when it next
+opens.
 
 Starts a fresh encounter from the world map so nothing comes from a
 battle an older build already set up.
@@ -33,7 +35,10 @@ ITEMS_BOTTOM_ROW = 14
 SIDE_ROWS = range(1, BOTTOM_ROW)
 BORDER_LEFT, BORDER_RIGHT = 0x000B, 0x000C
 BOTTOM = [0x000D, *([0x000E] * 30), 0x000F]
-SPELL_TILES = range(0x190, 0x200)
+SPELL_TILES = range(0x1C0, 0x1FC)
+CMD_GLYPHS = (0xB900, 0x300)  # command glyphs, BG3 tiles $190..$1BF
+PALETTE_BITS = 0x1C00
+LIST_ROWS = 12
 BG3_VWF_CHR = 0xB000  # BG3 tile $100 in VRAM (bytes)
 CHR_BUFFER = 0x703000  # VWF CHR buffer, tile $00
 CMD_WINDOW = (44, 140, 108, 200)
@@ -71,8 +76,11 @@ def _open_items(e) -> None:
 
 
 def _items_window(e) -> list[list[int]]:
-    # The items transfer uploads only the rows its window shows.
-    return [_row(e, r) for r in range(ITEMS_BOTTOM_ROW + 1)]
+    # The items transfer uploads only the rows its window shows. After the
+    # magic list the window repaints its slots, and a repaint greys the
+    # items the battle can't use, which the battle-start paint doesn't:
+    # compare the cells without their palette.
+    return [[c & ~PALETTE_BITS for c in _row(e, r)] for r in range(ITEMS_BOTTOM_ROW + 1)]
 
 
 @pytest.fixture(scope="module")
@@ -196,5 +204,72 @@ def test_command_window_comes_back_after_magic(tmp_path):
         tap(e, Button.B, gap=30)
         e.run_frames(30)
         assert _cmd_window(e, tmp_path / "after.png") == before
+    finally:
+        e.close()
+
+
+def _cmd_glyphs(emu) -> bytes:
+    return bytes(emu.vram_read_range(*CMD_GLYPHS))
+
+
+def _hold(e, button, frames: int, check) -> None:
+    e.press(0, button)
+    for f in range(frames):
+        if f == 6:
+            e.release(0, button)
+        e.run_frames(1)
+        check()
+
+
+def test_command_glyphs_never_change_with_magic_up():
+    # Every frame of open, a scroll down the whole list and back, and close:
+    # the command window shows on screen at both ends.
+    e = _fresh_battle()
+    try:
+        _to_turn(e, 3)  # Rosa: the longest list
+        tap(e, Button.DOWN, gap=20)
+        before = _cmd_glyphs(e)
+        changed = []
+
+        def check():
+            if _cmd_glyphs(e) != before:
+                changed.append(e.read(0x7E004A))
+
+        _hold(e, Button.A, 60, check)
+        for button in (Button.DOWN, Button.UP):
+            for _ in range(LIST_ROWS - 1):
+                _hold(e, button, 26, check)
+        _hold(e, Button.B, 60, check)
+        assert changed == []
+    finally:
+        e.close()
+
+
+def _rosa_list_scrolled(*buttons) -> object:
+    e = _fresh_battle()
+    _to_turn(e, 3)
+    tap(e, Button.DOWN, gap=20)
+    tap(e, Button.A, gap=20)
+    e.run_frames(50)
+    for button in buttons:
+        for _ in range(LIST_ROWS - 1):
+            tap(e, button, gap=20)
+    e.run_frames(30)
+    return e
+
+
+def test_spell_list_scrolled_to_the_bottom_golden():
+    e = _rosa_list_scrolled(Button.DOWN)
+    try:
+        assert_screenshot_matches_golden(e, GOLDENS / "white_bottom.png", region=BATTLE_MENU_PANEL)
+    finally:
+        e.close()
+
+
+def test_spell_list_scrolled_back_to_the_top_golden():
+    # Every row on the way down and back took a ring slot over.
+    e = _rosa_list_scrolled(Button.DOWN, Button.UP)
+    try:
+        assert_screenshot_matches_golden(e, GOLDENS / "white_top.png", region=BATTLE_MENU_PANEL)
     finally:
         e.close()

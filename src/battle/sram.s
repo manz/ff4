@@ -9,7 +9,6 @@ helper.
 .import "assets"
 .import "dakuten"
 .import "small_vwf/init"
-.include "src/rolling_state.i"
 
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 

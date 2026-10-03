@@ -18,7 +18,7 @@ runs the field-menu NMI DMA check.
 ; externs live at root scope: a816 registers `.extern` only in the scope it is
 ; declared in, and an `.alloc` body opens its own scope, so an extern declared
 ; inside never resolves at the use site.
-.extern messages_vwf.spell_list_restore
+.extern spell_list_scroll_render
 .if BATTLE_ITEMS_VWF {
     .extern messages_vwf.init_inventory
     .extern messages_vwf.deinit
@@ -153,9 +153,9 @@ init_inventory_text_buf_rolling:
     stz.b 0x60  ; Cursor row = 0 (top visible row)
     stz.w rolling_top_row
     stz.w rolling_buffer_pos
-; Battle start: this window's frame and slots are fresh and the command
-; tiles hold commands. Reset the magic-list flags so cart RAM left over
-; from an earlier battle (or a savestate) can't force a repaint.
+; Battle start: this window's frame and slots are fresh. Reset the
+; magic-list flags so cart RAM left over from an earlier battle (or a
+; savestate) can't force a repaint.
     lda.b #0x00
     sta.l battle_render.items_frame_dirty
     sta.l battle_render.spell_tiles_live
@@ -1651,12 +1651,16 @@ tfr_inventory_list_rolling:
 ; before animation, so steady-state scroll requires zero re-render
 ; here. The flag was the per-frame full rebuild that was clobbering
 ; the pre-rendered hidden slot.
-; The magic list parks this window's glyphs while it uses their tiles;
-; if no command redraw has put them back yet, do it now.
+; The magic list renders its names into this window's tiles: once it
+; has, paint every visible slot again. Exactly 1: cart RAM a build never
+; wrote (old savestates carry $FF) must not force a repaint.
     lda.l battle_render.spell_tiles_live
-    cmp.b #0x01  ; not stale cart RAM, see commands_reloc.s
+    cmp.b #0x01
     bne _tfr_glyphs_ok
-    jsr.l messages_vwf.spell_list_restore
+    lda.b #0x00
+    sta.l battle_render.spell_tiles_live
+    lda.b #0x01
+    sta.w inventory_needs_full_refresh
 
 _tfr_glyphs_ok:
     lda.w inventory_needs_full_refresh
@@ -1960,6 +1964,12 @@ scroll_list_down_hook:
     bne _sd_is_inventory
 
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
+; The spell list only renders the rows on screen: paint the one about
+; to slide in at the bottom first.
+    lda.l 0x7EEF86
+    clc
+    adc.b #battle_render.SPELL_VISIBLE_ROWS
+    jsr.l spell_list_scroll_render
 ; Original code: ldx $ef71, dex, stx $ef71, lda #$0c, sta $ef64, lda #$02, sta $1820, rts
     ldx.w 0xEF71
     dex
@@ -2087,6 +2097,11 @@ scroll_list_up_hook:
     bne _su_is_inventory
 
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
+; Paint the spell row about to slide in at the top (none past row 0:
+; $FF is out of range).
+    lda.l 0x7EEF86
+    dec
+    jsr.l spell_list_scroll_render
 ; Original code: ldx $ef71, inx, stx $ef71, lda #$0c, sta $ef64, lda #$03, sta $1820, rts
     ldx.w 0xEF71
     inx

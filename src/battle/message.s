@@ -1035,40 +1035,46 @@ Caller assumed P with M=8 X=16 on entry, restored on exit.
 ; mvn #$7E, #$7E (dst_bank, src_bank)
     plp
     rtl
-spell_list_begin:
+spell_name_begin:
 """
-Start rendering the battle magic list in the VWF: reset the allocator to
-SPELL_TILE_BASE and blank the spell range of the CHR buffer. The range
-spans the commands and inventory regions, free while the list is up
-(see render_defs.i). M=8, X=16.
+Start one battle spell name in the VWF: A = the name's first tile id in
+the spell ring. Blanks its SPELL_NAME_TILES tiles in the CHR buffer and
+points the allocator at them, clamped to the last one so a name can't
+spill into its neighbour's. M=8, X=16.
 """
 
 
     php
-    rep #0x30
-; Park the commands + inventory glyphs this range overwrites (MVN within
-; bank $70); spell_list_restore puts them back when the list closes.
-    phb
-    ldx.w #( battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10 ) & 0xFFFF
-    ldy.w #battle_spell_chr_save & 0xFFFF
-    lda.w #BATTLE_SPELL_CHR_SAVE_SIZE - 1
-    .db 0x54
-    .db 0x70
-    .db 0x70
-; mvn #$70, #$70 (dst_bank, src_bank)
-    plb
-    ldx.w #battle_render.SPELL_TILE_BASE * 0x10
+    sep #0x20
+    rep #0x10
+    pha
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    tax
+    clc
+    adc.w #battle_render.SPELL_NAME_TILES * 0x10
+    sta.l battle_render.spell_name_src
 
-_slb_clear:
+_snb_clear:
     lda.w #0x00FF
     sta.l battle_render.buffer_ptr, x
     inx
     inx
-    cpx #0x1000
-    bne _slb_clear
+    txa
+    cmp.l battle_render.spell_name_src
+    bne _snb_clear
     sep #0x20
-    lda.b #battle_render.SPELL_TILE_BASE
+    pla
+    pha
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+    pla
+    clc
+    adc.b #battle_render.SPELL_NAME_TILES - 1
+    sta.l render_allocator.slot_limit_low
     .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
     }
@@ -1162,40 +1168,8 @@ _dsn_fresh:
     plp
     rtl
 
-spell_list_restore:
-"""
-Put the commands + inventory glyphs back after the magic list closed:
-copy the parked CHR into the buffer, queue the same range's flush and
-clear spell_tiles_live. Called by whichever of those windows shows
-first. Preserves P.
-"""
-
-
-    php
-    rep #0x30
-    phb
-    ldx.w #battle_spell_chr_save & 0xFFFF
-    ldy.w #( battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10 ) & 0xFFFF
-    lda.w #BATTLE_SPELL_CHR_SAVE_SIZE - 1
-    .db 0x54
-    .db 0x70
-    .db 0x70
-; mvn #$70, #$70 (dst_bank, src_bank)
-    plb
-    sep #0x20
-    lda.l battle_render.pending_transfer_mask
-    ora.b #battle_render.CHR_PENDING | battle_render.CHR_REGION_SPELLS
-    sta.l battle_render.pending_transfer_mask
-    lda.b #0x00
-    sta.l battle_render.spell_tiles_live
-    plp
-    rtl
-
-spell_list_end:
-"""
-Queue the spell range's CHR flush and mark the commands + inventory
-tiles as holding spell glyphs until spell_list_restore runs.
-"""
+spell_ring_flush:
+"""Queue the spell ring's CHR flush for the next NMI. Preserves P."""
 
 
     php
@@ -1203,8 +1177,6 @@ tiles as holding spell glyphs until spell_list_restore runs.
     lda.l battle_render.pending_transfer_mask
     ora.b #battle_render.CHR_PENDING | battle_render.CHR_REGION_SPELLS
     sta.l battle_render.pending_transfer_mask
-    lda.b #0x01
-    sta.l battle_render.spell_tiles_live
     plp
     rtl
 
@@ -1759,7 +1731,7 @@ _chr_no_cmds:
     ldy.w #( 0xb000 + battle_render.SPELL_TILE_BASE * 0x10 ) >> 1
     ldx.w #battle_render.buffer_ptr + battle_render.SPELL_TILE_BASE * 0x10
     rep #0x20
-    lda.w #( 0x100 - battle_render.SPELL_TILE_BASE ) * 0x10
+    lda.w #battle_render.SPELL_RING_TILES * 0x10
     sta.b 0x0e
     sep #0x20
     lda.b #0x70

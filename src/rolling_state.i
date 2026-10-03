@@ -90,13 +90,3 @@ bodies, and placement directives cannot nest.
 .alloc key_item_dma_save in rolling_state {
     .res 0x000B
 }
-
-; --- Battle magic list ---
-; The spell names render into the commands + inventory CHR range
-; ($90..$FB, buffer $900..$FBF) while the list is up. Their glyphs are
-; parked here and copied back when it closes, so both windows come back
-; exactly as they were instead of re-rendering.
-BATTLE_SPELL_CHR_SAVE_SIZE := 0x06C0
-.alloc battle_spell_chr_save in rolling_state {
-    .res BATTLE_SPELL_CHR_SAVE_SIZE
-}
