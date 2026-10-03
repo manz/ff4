@@ -151,6 +151,23 @@ FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 ; sprite's top goes one pixel above the row, as on the inventory list.
 TREASURE_ROW_ICON_COL := 2
 TREASURE_CURSOR_X := TREASURE_ROW_ICON_COL * 8 - 16
+; The equip screen's inventory list uses the same single-column rows,
+; so its hand sits in the same column.
+EQUIP_LIST_CURSOR_X := TREASURE_CURSOR_X
+; Rows the list shows, and vanilla's scroll-down bound: it increments the
+; first-visible row and refuses the scroll when it reaches this value.
+EQUIP_LIST_VISIBLE_ROWS := 6
+EQUIP_LIST_TOTAL_ITEMS := 48
+EQUIP_LIST_SCROLL_LIMIT := EQUIP_LIST_TOTAL_ITEMS - EQUIP_LIST_VISIBLE_ROWS + 1
+; BG4VOFS vanilla parks the list window at ($01:BE95 seeds $99 with
+; scroll * 16 + $FF98), so window line 0 is screen line -$FF98. Rows
+; start one tile row below the top border (EQUIP_LIST_ORIGIN_LINES), and
+; VWF names sit on each slot's bottom tile row: the hand goes one pixel
+; above that row, as on the treasure lists.
+EQUIP_LIST_BASE_SCROLL := 0xFF98
+EQUIP_LIST_ORIGIN_LINES := 8
+EQUIP_LIST_FIRST_ROW_Y := 0x10000 - EQUIP_LIST_BASE_SCROLL + EQUIP_LIST_ORIGIN_LINES
+EQUIP_LIST_CURSOR_Y_BASE := EQUIP_LIST_FIRST_ROW_Y + 8 - 1
 DROPS_FIRST_ITEM_ROW := 5
 DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
 
@@ -239,6 +256,7 @@ ROLLING_MENU_ID_TREASURE := 1
 ROLLING_MENU_ID_DROPS := 2
 ROLLING_MENU_ID_KEY_ITEM := 3
 ROLLING_MENU_ID_SELL := 4
+ROLLING_MENU_ID_EQUIP := 5
 
 ; Typed view onto the field state - gives field_menu_rolling.hdma_enable,
 ; field_menu_rolling.fn_render_slot, etc. as flat symbols (a816 cast,

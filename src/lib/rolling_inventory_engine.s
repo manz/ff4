@@ -28,6 +28,7 @@ sites that remain in the per-menu source files.
 .extern update_drops_scroll_hdma
 .extern update_key_item_scroll_hdma
 .extern update_sell_scroll_hdma
+.extern update_equip_scroll_hdma
 .extern clear_inventory_slot
 .extern draw_item_cursors_trampoline
 .extern tfr_bg2_tiles_vblank_trampoline
@@ -267,11 +268,17 @@ _frame_no_cursor:
     beq _frame_hdma_drops
     cmp.b #ROLLING_MENU_ID_SELL
     beq _frame_hdma_sell
+    cmp.b #ROLLING_MENU_ID_EQUIP
+    beq _frame_hdma_equip
     jsr.w update_key_item_scroll_hdma
     bra _frame_hdma_done
 
 _frame_hdma_sell:
     jsr.w update_sell_scroll_hdma
+    bra _frame_hdma_done
+
+_frame_hdma_equip:
+    jsr.w update_equip_scroll_hdma
     bra _frame_hdma_done
 
 _frame_hdma_field:
@@ -605,7 +612,13 @@ _engine_dispatch_update_scroll_hdma:
     beq _dispatch_treasure
     cmp.b #ROLLING_MENU_ID_DROPS
     beq _dispatch_drops
+    cmp.b #ROLLING_MENU_ID_EQUIP
+    beq _dispatch_equip
     jsr.w update_key_item_scroll_hdma
+    rts
+
+_dispatch_equip:
+    jsr.w update_equip_scroll_hdma
     rts
 
 _dispatch_field:

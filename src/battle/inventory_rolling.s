@@ -2596,6 +2596,12 @@ _cursor2_done:
     SELL_HDMA_SHADOW := 0x7E9940
 ; header + 8 row bands + footer + terminator = 31 bytes.
     SELL_HDMA_TABLE_SIZE := 32
+; Equip screen inventory list, state at $7E:9CF0, same story again.
+    equip_rolling := (0x7E9CF0 as RollingBufferState)
+    EQUIP_HDMA_TABLE := 0x7E9980
+    EQUIP_HDMA_SHADOW := 0x7E99C0
+; header + 6 row bands + footer + terminator = 25 bytes.
+    EQUIP_HDMA_TABLE_SIZE := 26
 
 ; Called via JSL from bank $01 nmi_dma_transfer_check
 
@@ -2688,6 +2694,30 @@ _sell_nmi_hdma_copy_loop:
     sep #0x20
 
 _sell_nmi_hdma_copy_done:
+; === Equip-list HDMA table copy: $7E:99C0 shadow -> $7E:9980 active ===
+; The equip screen's inventory list drives BG4VOFS on ch5 from its own
+; table; it never shows alongside the field list or a shop.
+    sep #0x20
+    lda.l field_menu_rolling.hdma_enable
+    and #0x20
+    beq _equip_nmi_hdma_copy_done
+    lda.l equip_rolling.hdma_copy_pending
+    beq _equip_nmi_hdma_copy_done
+    lda #0x00
+    sta.l equip_rolling.hdma_copy_pending
+    rep #0x30
+    ldx.w #0x0000
+
+_equip_nmi_hdma_copy_loop:
+    lda.l EQUIP_HDMA_SHADOW, x
+    sta.l EQUIP_HDMA_TABLE, x
+    inx
+    inx
+    cpx.w #EQUIP_HDMA_TABLE_SIZE
+    bcc _equip_nmi_hdma_copy_loop
+    sep #0x20
+
+_equip_nmi_hdma_copy_done:
 
 ; === Tilemap DMA transfer (field menu = BG1) ===
 ; Skip when treasure menu owns the screen: $1BB3 is then the

@@ -35,6 +35,10 @@ drops_rolling := (0x7E9C30 as RollingBufferState)
 .extern sell_scroll_down_impl
 .extern sell_scroll_up_impl
 .extern sell_init_impl
+.extern equip_disable_hdma
+.extern equip_scroll_down_impl
+.extern equip_scroll_up_impl
+.extern equip_init_impl
 .extern finish_scroll_impl
 .extern update_scroll_frame_impl
 .extern start_scroll_up_impl
@@ -189,6 +193,45 @@ so leaving it set would arm ch5 over the field's own BG3.
 
     jsr 0x873F
     jsr.l sell_disable_hdma
+    rts
+
+equip_select_bg4_trampoline:
+"""
+Bank-$01 RTL trampoline around original `SelectBG4` ($01:8488).
+
+Points $29 at the BG4 buffer ($7E:C600), where the equip list renders.
+"""
+
+
+    jsr 0x8488
+    rtl
+
+equip_init:
+"""Bank-$01 trampoline: replace DrawInventoryList for the equip list."""
+    jsr.l equip_init_impl
+    rts
+
+equip_scroll_up:
+"""Bank-$01 trampoline: equip list scroll up, in place of vanilla's $99 loop."""
+    jsr.l equip_scroll_up_impl
+    rts
+
+equip_scroll_down:
+"""Bank-$01 trampoline: equip list scroll down, in place of vanilla's $99 loop."""
+    jsr.l equip_scroll_down_impl
+    rts
+
+equip_leave:
+"""
+Equip list teardown: drop ch5, then reissue the displaced call.
+
+Hooked over the `JSR $A2DC` at $01:BE70, where both ways out of the
+list (B, or an equip/remove) land before the screen clears BG4.
+"""
+
+
+    jsr.l equip_disable_hdma
+    jsr 0xA2DC
     rts
 
 drops_select_bg4_trampoline:

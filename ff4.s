@@ -374,6 +374,7 @@ signature byte sits at PB:(PC - 1).
     .import "lib/rolling_inventory_engine"
     .import "ingame/treasure_rolling"
     .import "ingame/shop_sell_rolling"
+    .import "ingame/equip_inventory_rolling"
 }
 
 ; --- Binary text assets -------------------------------------------------
@@ -382,6 +383,7 @@ signature byte sits at PB:(PC - 1).
 .if TREASURE_INVENTORY_ROLLING {
     .import "ingame/key_item_picker_patches"
     .import "ingame/shop_sell_rolling_patches"
+    .import "ingame/equip_inventory_rolling_patches"
 }
 
 .if TRIGGER_ENDING_CUTSCENE {
