@@ -40,3 +40,9 @@ highlight_row = BATTLE_RENDER_STATE + 0x07
 ; re-stamps when either moves.
 highlight_cache_slot = BATTLE_RENDER_STATE + 0x08
 highlight_cache_menu = BATTLE_RENDER_STATE + 0x09
+
+; --- Battle items window frame (inventory_rolling.s, magic_reloc.s) ---
+; The magic list draws a taller frame over the menu buffer the items
+; window shares; non-zero tells the next items transfer to rebuild the
+; items frame before it copies the slots back in.
+items_frame_dirty = BATTLE_RENDER_STATE + 0x0A
