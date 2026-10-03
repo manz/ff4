@@ -6,144 +6,6 @@ dialog-stream consumer).
 .include "src/battle/inventory_budget.i"
 .include "src/vwf_state.i"
 
-.if 0 {
-    .scope _vwf_tile_ring {
-; Ring buffer for VWF tile allocation
-; Each entry represents 8 consecutive tiles
-; VWF system computes addresses from tile_id
-    MAX_ENTRIES = 37
-; Number of 8-tile slots (296 tiles / 8 = 37)
-    TILES_PER_ENTRY = 8
-; Fixed 8 tiles per string
-; Memory layout
-    tile_ring_head = BATTLE_RENDER_STATE + 0xF0
-; Current allocation position (entry index) - byte
-    tile_ring_count = BATTLE_RENDER_STATE + 0xF1
-; Number of active allocations - byte
-    tile_ring_next_id = BATTLE_RENDER_STATE + 0xF2
-; Next ID to assign - word
-    tile_ring_base_tile = BATTLE_RENDER_STATE + 0xF4
-init:
-"""
-Base tile ID for ring buffer area - byte
-A: the base tile id
-"""
-
-
-; tile_ring_base_tile should be set to your VWF tile area start
-; With 0x128 dynamic + 0x128 immortal = 0x250 (592) tiles total
-; But tile IDs are 1 byte (0-255), so max usable is 0xFF
-; Let's use dynamic area starting at tile 0x00
-    sta.w tile_ring_base_tile
-    stz.b tile_ring_head
-    stz.b tile_ring_count
-    stz.w tile_ring_next_id
-    rts
-allocate_tiles:
-"""
-Allocate next 8-tile slot
-Returns: A = starting tile_id (byte), X = allocation ID (word)
-"""
-
-
-; Calculate tile_id: base_tile + (head * TILES_PER_ENTRY)
-    lda.w tile_ring_head
-; Multiply by 8 (shift left 3 times)
-    asl
-    asl
-    asl
-; Add to base
-    clc
-    adc.w tile_ring_base_tile
-; Get current ID for tracking
-    ldx.w tile_ring_next_id
-    rts
-commit_allocation:
-"""
-Commit the allocation (call after rendering to tiles)
-X = allocation ID
-"""
-
-
-    {
-; Advance head pointer
-    lda.w tile_ring_head
-    inc
-    cmp.b #MAX_ENTRIES
-    bne _ok
-    lda.b #0  ; Wrap around
-_ok:
-    sta.w tile_ring_head
-
-; Increment count (max at MAX_ENTRIES)
-    lda.w tile_ring_count
-    cmp.b #MAX_ENTRIES
-    beq _next
-    inc
-    sta.w tile_ring_count
-_next:
-; Increment next ID
-    inc.w tile_ring_next_id
-
-    rts
-    }
-get_tiles_by_id:
-"""
-Get tile_id of a specific allocation by ID
-A = allocation ID (word)
-Returns: A = starting tile_id (byte), Carry = 0 if found, 1 if expired
-"""
-
-
-    {
-; Check if ID is still valid (within current range)
-    sec
-    lda.w tile_ring_next_id
-    sbc.w tile_ring_count
-    cmp.b 1, s  ; Compare with requested ID on stack
-    bcs _not_found  ; ID too old
-
-    lda.w tile_ring_next_id
-    sec
-    sbc.b 1, s  ; buffer_next_id - requested_id
-    cmp.w tile_ring_count
-    bcs _not_found  ; ID too recent
-
-; Calculate which entry index this ID maps to
-    lda.w tile_ring_head
-    sec
-    sbc.w tile_ring_count
-    clc
-    adc.b 1, s  ; Add offset for this ID
-
-; Handle wrap-around
-_loop:
-    cmp.b #MAX_ENTRIES
-    bcc _ok
-    sec
-    sbc.b #MAX_ENTRIES
-    bra _loop
-_ok:
-; Calculate tile_id
-; Multiply by 8
-    asl
-    asl
-    asl
-; Add to base
-    clc
-    adc.w tile_ring_base_tile
-
-    clc  ; Found
-    rts
-
-_not_found:
-    sec  ; Not found
-    rts
-    }
-    }
-}
-
-
 .scope battle_render {
     """
     Battle VWF CHR regions, region_size (48) tile ids each:
@@ -160,7 +22,7 @@ _not_found:
 ; buffer entirely. The inventory slot slices run $70:3C00..$70:4240, so
 ; any 'past the inventory tile slice' address inside the buffer gets
 ; overwritten by rendered item CHR -- see vwf_state.i for the detail.
-    pending_transfer_mask = BATTLE_RENDER_STATE + 0x00
+    pending_transfer_mask = battle_render_state.pending_transfer_mask
 ; Bit 0 (CHR_PENDING) = "a CHR transfer is queued" (set by deinit /
 ; deinit_gated). Bits 1-4 = which VWF region was (re)rendered this frame
 ; and needs its 0x300-byte CHR slice flushed. dma_transfer DMAs only the
@@ -168,18 +30,18 @@ _not_found:
 ; blasting the whole 0x1000 buffer every dirty frame. Region N's slice
 ; lives at buffer_ptr + N*0x300 and targets VRAM $B000 + N*0x300.
 ;   N=0 messages, N=1 monsters, N=2 names, N=3 commands.
-    CHR_PENDING = 0x01
-    CHR_REGION_MESSAGES = 0x02
-    CHR_REGION_MONSTERS = 0x04
-    CHR_REGION_NAMES = 0x08
-    CHR_REGION_COMMANDS = 0x10
+    CHR_PENDING = ChrTransferBits.pending.mask
+    CHR_REGION_MESSAGES = ChrTransferBits.messages.mask
+    CHR_REGION_MONSTERS = ChrTransferBits.monsters.mask
+    CHR_REGION_NAMES = ChrTransferBits.names.mask
+    CHR_REGION_COMMANDS = ChrTransferBits.commands.mask
 ; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
 ; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
 ; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
 ; one or more bits per frame and DMAs only the dirty slot's 160-byte
 ; slice instead of the full 4KB CHR region, fits in vblank without
 ; forced blank.
-    dma_dirty_slots = BATTLE_RENDER_STATE + 0x10
+    dma_dirty_slots = battle_render_state.dma_dirty_slots
 ; Dirty-bit / render-skipped / tilemap-pending interface: shared with
 ; redraw_gates.s and the writer-site shims via a compile-time include.
     .include "render_defs.i"
