@@ -246,22 +246,12 @@ _flags_store:
 ; full Y. An earlier version of this helper masked Y to its low
 ; byte with `and #$00FF`, which made every slot past slot 1
 ; collapse onto slot 0's tilemap base (slot 2's Y = $0144 -> $44).
-; Equip draws no symbol, so its glyphs start in the symbol's cell.
-    ldx.w #0x0042  ; + $40 (next row) + $02 (past symbol)
-    lda.l VWF_CALLER_CTX
-    cmp.b #VWF_CTX_EQUIP
-    bne _tilemap_base_set
-    ldx.w #0x0040
-
-_tilemap_base_set:
     rep #0x20
-    txa
-    clc
-    adc.b 0x29
-    sta.b 0x1D
     tya
     clc
-    adc.b 0x1D
+    adc.b 0x29
+    clc
+    adc.w #0x0042  ; + $40 (next row) + $02 (past symbol)
     sta.l VWF_CONFIG_BASE + VwfConfig.tilemap_base
     sep #0x20
 ; --- Top row: $FF tile + palette across the full slot width
@@ -310,7 +300,7 @@ _top_loop:
 ; Those 6 surplus cells belonged to whatever the caller drew to the
 ; right of the name, and the shop draws each row's price there
 ; BEFORE the name, so a 4-digit price came back as 000.
-    jsr.w _bottom_row_cells
+    ldx.w #( 1 + FIELD_ITEM_VWF_TILE_BUDGET )
 
 _bottom_blank_loop:
     lda.b #0xFF
@@ -337,9 +327,6 @@ _bottom_blank_loop:
     adc.w #0x0040
     sta.b 0x1D
     sep #0x20
-    lda.l VWF_CALLER_CTX
-    cmp.b #VWF_CTX_EQUIP
-    beq _render_name
 ; X currently 0 from the top-row loop ; re-fetch items_unleashed offset.
     rep #0x20
     lda.b 0x43
@@ -362,8 +349,6 @@ _bottom_blank_loop:
     sta (0x1D), y  ; bottom-row symbol palette
     iny
 ; --- Run the unified renderer over VWF_TEXT_BUFFER ---
-
-_render_name:
     jsr.l render_with_config_trampoline
 ; render_with_config sets VWF_CHR_DIRTY=1 unconditionally. For drops
 ; (CTX=1) ADDITIONALLY raise DIRTY_B so the NMI's secondary flush
@@ -407,16 +392,8 @@ _dirty_done:
 
 _top_row_cells:
 ; X = cells the top (blank) row covers: the full fixed-width slot, or
-; just the equip name cells.
+; just the equip name cells (its names start too far right for 17).
     ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
-    bra _row_cells_ctx
-
-_bottom_row_cells:
-; X = cells the bottom row pre-blanks: symbol + glyph budget, or just
-; the equip name cells.
-    ldx.w #( 1 + FIELD_ITEM_VWF_TILE_BUDGET )
-
-_row_cells_ctx:
     lda.l VWF_CALLER_CTX
     cmp.b #VWF_CTX_EQUIP
     bne _row_cells_done
@@ -428,7 +405,7 @@ _row_cells_done:
 draw_equip_item_name:
 """
     `DrawEquipItemName` ($01:9013) replacement: equipped item names in
-    the VWF, without the item icon.
+    the VWF.
 
     Vanilla convention: Y = equipment byte offset in the character
     record at ($60) ($30..$35), X = tilemap byte offset of the slot,

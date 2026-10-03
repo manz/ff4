@@ -3,8 +3,7 @@
 `DrawEquipItemName` ($01:9013) renders each equipped name through the
 field VWF helper in its own caller context: the names borrow the drops
 tile window ($16E.., idle outside the treasure popup) and its flush
-descriptor, and draw without the item icon in the 10 cells left of the
-window edge.
+descriptor, icon first, from col 20 past the six-cell slot labels.
 
 The screen pushes several 4K tilemaps the frame it draws, so the CHR
 flush can land after vblank; it has to wait for the next one instead of
@@ -24,7 +23,7 @@ CHR_BASE = 0x4000
 CHR_BUFFER = 0x703000
 EQUIP_TILES = range(0x16E, 0x16E + 6 * 10)
 NAME_ROWS = (2, 4, 6, 8, 10)
-NAME_COLS = range(22, 32)
+NAME_COLS = range(20, 32)
 
 
 @pytest.fixture(scope="module")
@@ -44,12 +43,12 @@ def _bg2_cells(emu):
 
 
 def test_names_use_the_equip_tile_window(equip_emu):
-    glyphs = {t for row in _bg2_cells(equip_emu) for t in row if t != 0x0FF}
+    glyphs = {t for row in _bg2_cells(equip_emu) for t in row if t >= 0x100}
     assert glyphs and glyphs <= set(EQUIP_TILES)
 
 
 def test_name_glyphs_reach_vram(equip_emu):
-    glyphs = sorted({t for row in _bg2_cells(equip_emu) for t in row if t != 0x0FF})
+    glyphs = sorted({t for row in _bg2_cells(equip_emu) for t in row if t >= 0x100})
     stale = [
         t
         for t in glyphs

@@ -228,19 +228,19 @@ controls:
 menu:
     _text_y = 1
     menu_window(0, 0, 30, 11)
-    move_to(13, 0 + _text_y)
-    .text "M. Droite"
+    move_to(14, 0 + _text_y)
+    .text "Droite"
     .db 0x01
-    move_to(13, 2 + _text_y)
-    .text "M. Gauche"
+    move_to(14, 2 + _text_y)
+    .text "Gauche"
     .db 0x01
-    move_to(13, 4 + _text_y)
+    move_to(14, 4 + _text_y)
     .text "Tête"
     .db 0x01
-    move_to(13, 6 + _text_y)
+    move_to(14, 6 + _text_y)
     .text "Corps"
     .db 0x01
-    move_to(13, 8 + _text_y)
+    move_to(14, 8 + _text_y)
     .text "Mains"
     .db 0
     }
@@ -259,7 +259,7 @@ string_1:
     .db 0
 string_2:
 ; みぎきき
-    .text "Droiter"
+    .text "Droitier"
     .db 0
 string_3:
 ; りょうきき
