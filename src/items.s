@@ -112,6 +112,12 @@ KEY_ITEM_VWF_BYTE_COUNT := 0x0460
 VWF_CTX_PRIMARY := 0x00
 VWF_CTX_DROPS := 0x01
 VWF_CTX_KEY_ITEM := 0x02
+; Equip screen names (`$01:9013`). Six slots borrow the drops region
+; ($16E.., secondary flush), idle outside the treasure popup, and render
+; without the item icon: the slot label already names the kind, and the
+; name gets the icon's cell, so EQUIP_NAME_CELLS covers the widest name.
+VWF_CTX_EQUIP := 0x03
+EQUIP_NAME_CELLS := 0x0A
 
 ; --- Drops VWF flush descriptor (secondary NMI flush slot) ---
 ; Hardcoded since drops only ever lives at the +11-slot offset in

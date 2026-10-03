@@ -13,6 +13,7 @@ go.
 
 
 .extern items_menu_vwf.draw_field_item_name
+.extern items_menu_vwf.draw_equip_item_name
 ; Item name expansion for menu system
 ; Patches the multiply-by-9 to multiply-by-17
 ; Also redirects $0F8000 references to assets_items_unleashed_dat
@@ -58,13 +59,13 @@ go.
 ; visible output stays identical; subsequent phases will swap in the
 ; small_vwf glyph blit + per-slot CHR allocator.
 
-; DrawEquipItemName ($01:9013): vanilla `phy ; phx ; lda ($60),y ; bra _9017`.
-; Route through the bank-01 jsr.w trampoline so the patch stays inside
-; the vanilla 4-byte slot and the byte at $01:9017 stays untouched.
+; DrawEquipItemName ($01:9013): only the equip screen calls it, with Y
+; on the character record and X on the tilemap, unlike the item lists.
+; Its own wrapper maps that onto the VWF helper. The vanilla entry is 6
+; bytes ($9013-$9018), so the JSL + RTS fits.
 }
 .alloc at 0x019013 {
-    lda (0x60), y
-    jsr.w draw_field_item_name_trampoline
+    jsr.l items_menu_vwf.draw_equip_item_name
     rts
 
 ; DrawItemName ($01:9060): vanilla `phy ; phy ; bra _9017` -> caller already
