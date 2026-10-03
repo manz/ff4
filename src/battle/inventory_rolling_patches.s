@@ -142,10 +142,6 @@ draw_battle_command_window_relocated:
 ; rows behind the cmd window). Mirror is now a single ch3 WRAM DMA
 ; (~400 cycles), small enough to run every frame; total cost is in
 ; the same ballpark as vanilla's per-frame DrawCmdWindow.
-    lda.l battle_render.tilemap_pending_mask
-    ora.b #battle_render.TILEMAP_PENDING_COMMANDS
-    sta.l battle_render.tilemap_pending_mask
-
     jsr.w draw_window_render_hook  ; Draw command list (X side-effect unused now)
 
 ; Mirror main-view tilemap $BE65..$C1A4 -> $C1A5..$C4E4 via WRAM DMA
@@ -156,7 +152,14 @@ draw_battle_command_window_relocated:
     jsr 0x9BC7  ; Draw window
     lda #0x03
     ldx.w #0x0064
-    jmp 0x99F1  ; tail-call DrawCmdListText (rts via that function)
+    jsr 0x99F1  ; DrawCmdListText
+; Queue the cmd tilemap upload only now that mirror + overlay are both
+; in: queued earlier, an NMI between the two pushed the bare mirror (or
+; a half-copied overlay) to VRAM. The VWF render used to fill that gap.
+    lda.l battle_render.tilemap_pending_mask
+    ora.b #battle_render.TILEMAP_PENDING_COMMANDS
+    sta.l battle_render.tilemap_pending_mask
+    rts
 
 ; ============================================================================
 ; WRAP/CLEAR TRAMPOLINE (small, stays in bank $02)
