@@ -161,11 +161,12 @@ EQUIP_LIST_TOTAL_ITEMS := 48
 EQUIP_LIST_SCROLL_LIMIT := EQUIP_LIST_TOTAL_ITEMS - EQUIP_LIST_VISIBLE_ROWS + 1
 ; BG4VOFS vanilla parks the list window at ($01:BE95 seeds $99 with
 ; scroll * 16 + $FF98), so window line 0 is screen line -$FF98. Rows
-; start one 16-px slot below the top border, and VWF names sit on each
-; slot's bottom tile row: the hand goes one pixel above that row, as on
-; the treasure lists.
+; start one tile row below the top border (EQUIP_LIST_ORIGIN_LINES), and
+; VWF names sit on each slot's bottom tile row: the hand goes one pixel
+; above that row, as on the treasure lists.
 EQUIP_LIST_BASE_SCROLL := 0xFF98
-EQUIP_LIST_FIRST_ROW_Y := 0x10000 - EQUIP_LIST_BASE_SCROLL + 16
+EQUIP_LIST_ORIGIN_LINES := 8
+EQUIP_LIST_FIRST_ROW_Y := 0x10000 - EQUIP_LIST_BASE_SCROLL + EQUIP_LIST_ORIGIN_LINES
 EQUIP_LIST_CURSOR_Y_BASE := EQUIP_LIST_FIRST_ROW_Y + 8 - 1
 DROPS_FIRST_ITEM_ROW := 5
 DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1

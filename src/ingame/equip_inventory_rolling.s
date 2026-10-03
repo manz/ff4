@@ -61,10 +61,11 @@ EQUIP_HDMA_BANK := 0x7E
 EQUIP_HDMA_SHADOW := 0x7E99C0
 
 ; BG4 buffer and the window vanilla's $A172 draws into it: top border on
-; buffer slot 0, body from slot 1. The ring occupies slots 1..7.
+; tile row 0, body rows 1..23, bottom border on row 24 (off screen). The
+; ring's 7 slots take rows 1..14, the rows vanilla's own list used.
 EQUIP_BG4_BUFFER := 0xC600
-EQUIP_SLOT_ORIGIN := 1
 EQUIP_SLOT_BYTES := 0x80  ; two 32-tile tilemap rows
+EQUIP_SLOT_ORIGIN := EQUIP_LIST_ORIGIN_LINES * 8  ; byte offset of slot 0: a tile row is 8 lines, $40 bytes
 EQUIP_SLOT_PIXELS := 16
 EQUIP_NAME_OFFSET := 0x0004  ; icon at tile column 2
 
@@ -78,12 +79,14 @@ EQUIP_BORDER_RIGHT_COL := 31
 
 ; BG4VOFS with the window frame parked where vanilla puts it: vanilla
 ; seeds $99 with scroll * 16 + $FF98 at $01:BE95. The header covers the
-; screen down to the end of the window's top-border slot.
+; screen down to the end of the window's top border.
 EQUIP_BASE_SCROLL := EQUIP_LIST_BASE_SCROLL
 EQUIP_HEADER_LINES := EQUIP_LIST_FIRST_ROW_Y
-; What is left of the 224-line screen below the six rows: the top half
-; of buffer slot 7, which only ever holds a blank row.
+; What is left of the 224-line screen below the six rows. It shows the
+; blank window body just past the ring (row 15 on), never the pre-render
+; slot: scrolled by the slots the ring holds beyond the visible ones.
 EQUIP_FOOTER_LINES := 224 - EQUIP_HEADER_LINES - EQUIP_VISIBLE_ITEMS * EQUIP_SLOT_PIXELS
+EQUIP_FOOTER_SCROLL := ( EQUIP_BUFFER_SLOTS - EQUIP_VISIBLE_ITEMS ) * EQUIP_SLOT_PIXELS
 ; header + 6 row bands + footer + terminator, rounded to words.
 EQUIP_HDMA_TABLE_SIZE := 26
 
@@ -162,12 +165,10 @@ Entry: 16-bit A/X/Y, DB = $7E.
     rep #0x30
     lda.l equip_rolling.slot_index
     and.w #0x00FF
-    clc
-    adc.w #EQUIP_SLOT_ORIGIN
     xba
-    lsr  ; (slot + 1) * EQUIP_SLOT_BYTES
+    lsr  ; slot * EQUIP_SLOT_BYTES
     clc
-    adc.w #EQUIP_BG4_BUFFER
+    adc.w #EQUIP_BG4_BUFFER + EQUIP_SLOT_ORIGIN
     tax
     ldy.w #EQUIP_SLOT_BYTES >> 1  ; cells in two 32-tile rows
 
@@ -209,8 +210,8 @@ equip_render_item_to_slot:
 Render inventory item `edge_row` into ring slot `slot_index`.
 
 Item data comes from the vanilla inventory array at $7E:1440  ; the
-tilemap goes to the BG4 buffer at $7E:C600 + (slot + 1) * 128 + 4, one
-slot below the window's top border. `check_can_use_item` sets the
+tilemap goes to the BG4 buffer at $7E:C600 + EQUIP_SLOT_ORIGIN +
+slot * 128 + 4, starting one tile row below the window's top border. `check_can_use_item` sets the
 greyed palette for items this character cannot equip, as vanilla's
 $A172 pass did.
 """
@@ -278,12 +279,10 @@ $A172 pass did.
     rep #0x20
     lda.w equip_rolling.slot_index
     and.w #0x00FF
-    clc
-    adc.w #EQUIP_SLOT_ORIGIN
     xba
-    lsr
+    lsr  ; slot * EQUIP_SLOT_BYTES
     clc
-    adc.w #EQUIP_NAME_OFFSET
+    adc.w #EQUIP_SLOT_ORIGIN + EQUIP_NAME_OFFSET
     tay
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
@@ -316,7 +315,8 @@ update_equip_scroll_hdma:
 Build the equip HDMA shadow table: one band per visible row.
 
 Row r shows ring slot (buffer_pos + r) mod 7, whose content sits at BG
-line (slot + 1) * 16, so the band's BG4VOFS is
+line origin + slot * 16 while the row is on screen line header + r * 16  ;
+header = origin - base_scroll, so the band's BG4VOFS is
 `base_scroll + slot * 16 - r * 16`, the sell/drops body math.
 """
 
@@ -384,8 +384,17 @@ _equip_mod_done:
     jmp.w _equip_row_loop
 
 _equip_row_loop_done:
-    lda.w #EQUIP_FOOTER_LINES
-    jsr.w _equip_hdma_base_band
+    sep #0x20
+    lda #EQUIP_FOOTER_LINES
+    sta.l EQUIP_HDMA_SHADOW, x
+    inx
+    rep #0x20
+    lda.w equip_rolling.base_scroll
+    clc
+    adc.w #EQUIP_FOOTER_SCROLL
+    sta.l EQUIP_HDMA_SHADOW, x
+    inx
+    inx
     sep #0x20
     lda #0x00
     sta.l EQUIP_HDMA_SHADOW, x
@@ -405,8 +414,8 @@ _equip_row_loop_done:
 
 _equip_hdma_base_band:
 """
-One band of A lines held at base_scroll (header above the list, footer
-below it). Entry: 16-bit A = line count, X = shadow offset.
+One band of A lines held at base_scroll (the header above the list).
+Entry: 16-bit A = line count, X = shadow offset.
 """
 
 

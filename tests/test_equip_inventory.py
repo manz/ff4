@@ -88,6 +88,33 @@ def test_hand_sits_on_its_row(list_emu, tmp_path):
     assert hand == tops[list_emu.read(CURSOR_ROW)] - 1
 
 
+# Vanilla's first row: top border on screen line 104 (BG4VOFS $FF98), the
+# slot one tile row below it, the name on the slot's bottom tile row.
+VANILLA_FIRST_NAME_Y = 120
+BELOW_LAST_ROW = (VANILLA_FIRST_NAME_Y - 8 + VISIBLE_ROWS * 16, 224)
+
+
+def _name_tops(emu, path, band=LIST_BAND) -> list[int]:
+    emu.screenshot(str(path))
+    im = Image.open(path).convert("RGB").crop(PICTURE)
+    lit = [y for y in range(*band) if any(sum(im.getpixel((x, y))) > 300 for x in range(24, 120))]
+    return [y for i, y in enumerate(lit) if i == 0 or y - lit[i - 1] > 2]
+
+
+def test_rows_sit_where_vanilla_draws_them(list_emu, tmp_path):
+    tap(list_emu, Button.A, gap=90)
+    list_emu.run_frames(30)
+    assert _name_tops(list_emu, tmp_path / "s.png")[0] == VANILLA_FIRST_NAME_Y
+
+
+def test_pre_render_row_stays_hidden(list_emu, tmp_path):
+    tap(list_emu, Button.A, gap=90)
+    for _ in range(VISIBLE_ROWS + 3):
+        tap(list_emu, Button.DOWN, gap=16)
+    list_emu.run_frames(30)
+    assert _name_tops(list_emu, tmp_path / "s.png", BELOW_LAST_ROW) == []
+
+
 def test_list_never_halts(list_emu):
     tap(list_emu, Button.A, gap=90)
     for button in [Button.DOWN] * INVENTORY_SLOTS + [Button.UP] * INVENTORY_SLOTS + [Button.B]:
