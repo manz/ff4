@@ -91,7 +91,11 @@ def test_hand_sits_on_its_row(list_emu, tmp_path):
 # Vanilla's first row: top border on screen line 104 (BG4VOFS $FF98), the
 # slot one tile row below it, the name on the slot's bottom tile row.
 VANILLA_FIRST_NAME_Y = 120
-BELOW_LAST_ROW = (VANILLA_FIRST_NAME_Y - 8 + VISIBLE_ROWS * 16, 224)
+BELOW_LAST_ROW = VANILLA_FIRST_NAME_Y - 8 + VISIBLE_ROWS * 16
+# The window's bottom border is pinned on the tile row right under the
+# last visible row; past it the screen shows nothing of the list.
+BOTTOM_BORDER = (BELOW_LAST_ROW, BELOW_LAST_ROW + 8)
+BELOW_WINDOW = (BELOW_LAST_ROW + 8, 224)
 
 
 def _name_tops(emu, path, band=LIST_BAND) -> list[int]:
@@ -112,7 +116,25 @@ def test_pre_render_row_stays_hidden(list_emu, tmp_path):
     for _ in range(VISIBLE_ROWS + 3):
         tap(list_emu, Button.DOWN, gap=16)
     list_emu.run_frames(30)
-    assert _name_tops(list_emu, tmp_path / "s.png", BELOW_LAST_ROW) == []
+    assert _name_tops(list_emu, tmp_path / "s.png", BELOW_WINDOW) == []
+
+
+def _border_line(emu, path) -> bool:
+    """A bright horizontal line across the window inside BOTTOM_BORDER."""
+    emu.screenshot(str(path))
+    im = Image.open(path).convert("RGB").crop(PICTURE)
+    return any(
+        sum(1 for x in range(8, 248) if sum(im.getpixel((x, y))) > 500) > 200 for y in range(*BOTTOM_BORDER)
+    )
+
+
+@pytest.mark.parametrize("downs", [0, VISIBLE_ROWS + 3])
+def test_bottom_border_is_pinned_under_the_last_row(list_emu, tmp_path, downs):
+    tap(list_emu, Button.A, gap=90)
+    for _ in range(downs):
+        tap(list_emu, Button.DOWN, gap=16)
+    list_emu.run_frames(30)
+    assert _border_line(list_emu, tmp_path / "s.png")
 
 
 def test_list_never_halts(list_emu):
