@@ -28,6 +28,7 @@ Final Fantasy IV the new hack.
 .import "battle/sram"
 .import "dakuten"
 .import "dialog"
+.import "hw"
 .import "ingame/init_bg_scroll_hdma"
 .import "ingame/items_menu_vwf"
 .import "ingame/places_names"
@@ -166,9 +167,9 @@ conditional_bg1_vofs:
 ; HDMA not active - do original BG1VOFS writes
 ; Menu context: D=$0100, so $93 reads from $0193
     lda.b 0x93
-    sta.w 0x210E
+    sta.w ppu.BG1VOFS
     lda.b 0x94
-    sta.w 0x210E
+    sta.w ppu.BG1VOFS
 
 _cond_skip_bg1vofs:
     rtl
@@ -301,7 +302,7 @@ signature byte sits at PB:(PC - 1).
     sei
     sep #0x20
     lda #0x00  ; disable NMI / auto-joypad
-    sta.l 0x004200
+    sta.l cpu_regs.NMITIMEN
     pla  ; A = P (discard)
     rep #0x20
     pla  ; A = pushed PC (= BRK + 2)

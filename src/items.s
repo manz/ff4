@@ -108,7 +108,7 @@ KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
 KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
 KEY_ITEM_VWF_BYTE_COUNT := 0x0460
 
-; Caller-context values for VWF_CALLER_CTX (see src/vwf_state.i).
+; Caller-context values for vwf_engine.caller_ctx (see src/vwf_state.i).
 VWF_CTX_PRIMARY := 0x00
 VWF_CTX_DROPS := 0x01
 VWF_CTX_KEY_ITEM := 0x02
@@ -177,18 +177,35 @@ DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
     byte qty
 }
 
+; The field inventory: 48 Items at $7E:1440, indexed `, x` by row * 2.
+FIELD_INVENTORY := 0x1440
+field_inventory := (FIELD_INVENTORY as Item)
+; Item at the absolute WRAM pointer in X: `item_x.id, x`.
+item_x := (0x7E0000 as Item)
+
+; The battle inventory: 48 slots at $7E:321A, indexed `, x` by slot * 4.
+.struct BattleItemSlot {
+    byte flags
+    byte id
+    byte qty
+    byte unused
+}
+battle_inventory := (0x7E321A as BattleItemSlot)
+
 
 ; Rolling-buffer engine state. Each profile (field menu, treasure
-; inventory, treasure drops, key-item picker) gets its own contiguous
-; 12-byte block at a known WRAM base; routines reference fields via
-; `<base> + RollingBufferState.<field>` instead of hardcoded offsets.
+; inventory, treasure drops, key-item picker, shop sell, equip) gets its
+; own RollingBufferState block at a known WRAM base, bound below as
+; `<profile>_rolling` so routines read `<profile>_rolling.<field>`.
 ;
 
 ; Bases (all in clean $7E:9C00 arena, off vanilla scratch $1B**):
 ;   Treasure inv:      $7E:9C00
 ;   Drops:             $7E:9C30
 ;   Key-item picker:   $7E:9C60
-;   Field menu:        $7E:9C90  (FIELD_MENU_ROLLING_BASE below)
+;   Field menu:        $7E:9C90
+;   Shop sell:         $7E:9CC0
+;   Equip:             $7E:9CF0
 ;
 ; The whole arena lives inside the spell-list text buffers that the
 ; magic-direct-render rewrite freed (see battle/inventory_rolling.s
@@ -197,11 +214,12 @@ DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
 ; $990E..$9DA7 gap free - that's where our four rolling states sit.
 ; Menus are mutually exclusive with battle, and init re-seeds the
 ; struct on every menu open, so battle-side overwrites don't matter.
-;
-; Only the field base lives here for now - the other three are still
-; defined inside their respective modules. Migrate them into shared
-; constants when the singleton arena refactor lands.
+TREASURE_ROLLING_BASE := 0x7E9C00
+DROPS_ROLLING_BASE := 0x7E9C30
+KEY_ITEM_ROLLING_BASE := 0x7E9C60
 FIELD_MENU_ROLLING_BASE := 0x7E9C90
+SELL_ROLLING_BASE := 0x7E9CC0
+EQUIP_ROLLING_BASE := 0x7E9CF0
 
 ; Vanilla's game-time frame tick (`WaitVblank` at $01:818A does
 ; `inc $16a3`, rolling over at 60). This is the only real frame clock
@@ -212,17 +230,6 @@ FIELD_MENU_ROLLING_BASE := 0x7E9C90
 ; animation. Watch this byte for a change instead of counting loop
 ; iterations.
 menu_frame_time := 0x7E16A3
-
-; Treasure held-DOWN debounce, one byte past the treasure
-; RollingBufferState instance at $7E:9C00 (struct ends at offset 35
-; inclusive). Non-zero means treasure_scroll_*_trigger aborts and
-; undoes vanilla's $1BB7 increment, so a press steps one item and
-; holding DOWN repeats at a fixed cadence.
-treasure_scroll_cooldown := 0x7E9C24
-
-; Last `menu_frame_time` value the treasure loop observed, so the
-; cooldown above ticks once per frame however often the loop runs.
-treasure_scroll_frame_seen := 0x7E9C25
 
 .struct RollingBufferState {
     byte top_row
@@ -258,13 +265,31 @@ ROLLING_MENU_ID_KEY_ITEM := 3
 ROLLING_MENU_ID_SELL := 4
 ROLLING_MENU_ID_EQUIP := 5
 
-; Typed view onto the field state - gives field_menu_rolling.hdma_enable,
-; field_menu_rolling.fn_render_slot, etc. as flat symbols (a816 cast,
-; eager-expanded in symbols.py::_try_expand_typed_cast).
+; Typed views onto each profile's state: `field_menu_rolling.hdma_enable`,
+; `drops_rolling.fn_render_slot`, etc. (a816 typed bind).
 ;
 ; The field hdma_enable / hdma_copy_pending bytes also act as the
-; SHARED menu HDMA signals - all four rolling menus poke them to ask
+; SHARED menu HDMA signals - every rolling menu pokes them to ask
 ; the field-menu NMI hook (field_menu_nmi_dma_transfer_check_impl) to
 ; copy shadow→active during the next vblank. Reference directly as
 ; `field_menu_rolling.hdma_enable` / `.hdma_copy_pending` everywhere.
 field_menu_rolling := (FIELD_MENU_ROLLING_BASE as RollingBufferState)
+treasure_rolling := (TREASURE_ROLLING_BASE as RollingBufferState)
+drops_rolling := (DROPS_ROLLING_BASE as RollingBufferState)
+key_item_rolling := (KEY_ITEM_ROLLING_BASE as RollingBufferState)
+sell_rolling := (SELL_ROLLING_BASE as RollingBufferState)
+equip_rolling := (EQUIP_ROLLING_BASE as RollingBufferState)
+
+; The engine walks whichever profile X points at (X = the base's low
+; word): `rolling_x.<field>, x`.
+rolling_x := (0x7E0000 as RollingBufferState)
+
+; Treasure held-DOWN debounce, the byte right past the treasure
+; RollingBufferState instance. Non-zero means treasure_scroll_*_trigger aborts and
+; undoes vanilla's $1BB7 increment, so a press steps one item and
+; holding DOWN repeats at a fixed cadence.
+treasure_scroll_cooldown := TREASURE_ROLLING_BASE + RollingBufferState.__size
+
+; Last `menu_frame_time` value the treasure loop observed, so the
+; cooldown above ticks once per frame however often the loop runs.
+treasure_scroll_frame_seen := treasure_scroll_cooldown + 1

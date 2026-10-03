@@ -1,4 +1,5 @@
 """
+.import "hw"
 .include "../bank20.i"
 
 Relocated 16x16 -> 32 multiply (`_hw_mult16`) using the SNES hardware multiplier,
@@ -36,25 +37,25 @@ _hw_mult16:
 
 ; 1. Low(A) * Low(B) -> result bytes 0-1
     lda 0x393d  ; A low byte
-    sta 0x4202  ; WRMPYA - multiplicand
+    sta cpu_regs.WRMPYA  ; WRMPYA - multiplicand
     lda 0x393f  ; B low byte
-    sta 0x4203  ; WRMPYB - multiplier (triggers multiply)
+    sta cpu_regs.WRMPYB  ; WRMPYB - multiplier (triggers multiply)
     nop
     nop  ; Wait 8 cycles for result
     rep #0x20
-    lda 0x4216  ; RDMPYL/H - 16-bit result
+    lda cpu_regs.RDMPYL  ; RDMPYL/H - 16-bit result
     sta 0x3941  ; Store in result bytes 0-1
 
 ; 2. Low(A) * High(B) -> add to result bytes 1-2
     sep #0x20
     lda 0x393d  ; A low byte
-    sta 0x4202
+    sta cpu_regs.WRMPYA
     lda 0x3940  ; B high byte ($393F + 1)
-    sta 0x4203
+    sta cpu_regs.WRMPYB
     nop
     nop
     rep #0x20
-    lda 0x4216
+    lda cpu_regs.RDMPYL
     clc
     adc 0x3942  ; Add to result bytes 1-2 (with carry to byte 3)
     sta 0x3942
@@ -62,13 +63,13 @@ _hw_mult16:
 ; 3. High(A) * Low(B) -> add to result bytes 1-2
     sep #0x20
     lda 0x393e  ; A high byte ($393D + 1)
-    sta 0x4202
+    sta cpu_regs.WRMPYA
     lda 0x393f  ; B low byte
-    sta 0x4203
+    sta cpu_regs.WRMPYB
     nop
     nop
     rep #0x20
-    lda 0x4216
+    lda cpu_regs.RDMPYL
     clc
     adc 0x3942  ; Add to result bytes 1-2
     sta 0x3942
@@ -76,13 +77,13 @@ _hw_mult16:
 ; 4. High(A) * High(B) -> add to result bytes 2-3
     sep #0x20
     lda 0x393e  ; A high byte
-    sta 0x4202
+    sta cpu_regs.WRMPYA
     lda 0x3940  ; B high byte
-    sta 0x4203
+    sta cpu_regs.WRMPYB
     nop
     nop
     rep #0x20
-    lda 0x4216
+    lda cpu_regs.RDMPYL
     clc
     adc 0x3943  ; Add to result bytes 2-3
     sta 0x3943

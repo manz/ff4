@@ -40,6 +40,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 """
 
 
+.import "hw"
 .import "items"
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
@@ -63,7 +64,6 @@ DROPS_SCROLL_TOTAL_PIXELS := 16
 ; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
 ; the full 35-byte struct ; the macro path only ever touched the first
 ; 12 bytes so the original $1BE0 base worked there.
-drops_rolling := (0x7E9C30 as RollingBufferState)
 
 ; Drops scroll position lives one byte past the state block so it
 ; doesn't collide with the engine's RollingBufferState fields. Other
@@ -78,11 +78,6 @@ drops_scroll_pos := 0x7E9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
-DROPS_HDMA4_CTRL := 0x4340
-DROPS_HDMA4_DEST := 0x4341
-DROPS_HDMA4_SRC_LO := 0x4342
-DROPS_HDMA4_SRC_HI := 0x4343
-DROPS_HDMA4_SRC_BANK := 0x4344
 
 ; Drops HDMA tables share field-menu/treasure-inventory shadow region
 ; ($7E:9800 / $7E:9840). The active table for drops is built into a
@@ -136,15 +131,15 @@ drops_ensure_hdma_initialized:
 ; src $7E:9880 (drops active table).
     sep #0x20
     lda #0x02
-    sta.l DROPS_HDMA4_CTRL
-    lda #0x14
-    sta.l DROPS_HDMA4_DEST
+    sta.l dma_ch4.DMAP
+    lda #PPU.BG4VOFS
+    sta.l dma_ch4.BBAD
     rep #0x20
     lda.w #DROPS_HDMA_TABLE_ADDR
-    sta.l DROPS_HDMA4_SRC_LO
+    sta.l dma_ch4.A1TL
     sep #0x20
     lda #DROPS_HDMA_BANK
-    sta.l DROPS_HDMA4_SRC_BANK
+    sta.l dma_ch4.A1B
 
 ; Enable ch4 (BG4VOFS) only. TM HDMA mask via ch1 disabled - writes
 ; to $212C per-scanline blank the screen for reasons not yet
@@ -210,9 +205,9 @@ drops_render_item_to_slot:
     lda.b 0x5a
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C
     stz.b 0x34
     pla
@@ -230,9 +225,9 @@ drops_render_item_to_slot:
 ; target stays at $7E:C600 (its own BG3 staging surface) so the offset
 ; only affects CHR allocation, not where the glyphs land on screen.
 ;
-; VWF_CALLER_CTX=1 also tells items_menu_vwf to write the SECONDARY
+; vwf_engine.caller_ctx=1 also tells items_menu_vwf to write the SECONDARY
 ; flush descriptor (DROPS_VWF_VRAM_DEST_WORD + DROPS_VWF_BYTE_COUNT +
-; DROPS_VWF_CHR_SRC_OFFSET) and redirect VWF_CHR_DIRTY -> DIRTY_B so
+; DROPS_VWF_CHR_SRC_OFFSET) and redirect vwf_engine.chr_dirty -> DIRTY_B so
 ; the NMI flush hits drops's VRAM range without trampling treasure's
 ; primary descriptor. Cleared after the render so subsequent
 ; treasure-side calls fall back to primary.
@@ -241,7 +236,7 @@ drops_render_item_to_slot:
     adc #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5d
     lda #0x01
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     rep #0x20
     lda.w drops_rolling.slot_index
     and.w #0x00FF
@@ -253,7 +248,7 @@ drops_render_item_to_slot:
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
     lda #0x00
-    sta.l VWF_CALLER_CTX
+    sta vwf_engine.caller_ctx
     pla
     sta.b 0xDB
     pla
@@ -298,7 +293,7 @@ update_drops_scroll_hdma:
     stz.b 0x42
 
 _row_loop:
-    lda.w drops_rolling + RollingBufferState.buffer_pos
+    lda.w drops_rolling.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -327,7 +322,7 @@ _mod_done:
     clc
     adc.b 0x40
     clc
-    adc.w drops_rolling + RollingBufferState.base_scroll
+    adc.w drops_rolling.base_scroll
     sta.b 0x40
     sep #0x20
     lda #16
@@ -442,46 +437,46 @@ drops_init_impl:
     rep #0x30
     sep #0x20
     lda.b #DROPS_VISIBLE_ITEMS
-    sta.l drops_rolling + RollingBufferState.visible_rows
+    sta.l drops_rolling.visible_rows
     lda.b #0x02
-    sta.l drops_rolling + RollingBufferState.slot_height_tiles
+    sta.l drops_rolling.slot_height_tiles
 ; item_list_ptr = $7E:FF28 (treasure drops table)
     lda.b #0x28
-    sta.l drops_rolling + RollingBufferState.item_list_ptr
+    sta.l drops_rolling.item_list_ptr
     lda.b #0xFF
-    sta.l drops_rolling + RollingBufferState.item_list_ptr + 1
+    sta.l drops_rolling.item_list_ptr + 1
     lda.b #0x7E
-    sta.l drops_rolling + RollingBufferState.item_list_ptr + 2
+    sta.l drops_rolling.item_list_ptr + 2
     lda.b #DROPS_TOTAL_ITEMS
-    sta.l drops_rolling + RollingBufferState.item_count
+    sta.l drops_rolling.item_count
     lda.b #0x04
-    sta.l drops_rolling + RollingBufferState.hdma_channel
+    sta.l drops_rolling.hdma_channel
     lda.b #0x80
-    sta.l drops_rolling + RollingBufferState.vwf_cfg_ptr
+    sta.l drops_rolling.vwf_cfg_ptr
     lda.b #0x70
-    sta.l drops_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    sta.l drops_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
-    sta.l drops_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    sta.l drops_rolling.vwf_cfg_ptr + 2
     lda.b #drops_fn_render_slot_trampoline & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_render_slot
+    sta.l drops_rolling.fn_render_slot
     lda.b #( drops_fn_render_slot_trampoline >> 8 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_render_slot + 1
+    sta.l drops_rolling.fn_render_slot + 1
     lda.b #( drops_fn_render_slot_trampoline >> 16 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_render_slot + 2
+    sta.l drops_rolling.fn_render_slot + 2
     lda.b #drops_fn_update_hdma_trampoline & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_update_hdma
+    sta.l drops_rolling.fn_update_hdma
     lda.b #( drops_fn_update_hdma_trampoline >> 8 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_update_hdma + 1
+    sta.l drops_rolling.fn_update_hdma + 1
     lda.b #( drops_fn_update_hdma_trampoline >> 16 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_update_hdma + 2
+    sta.l drops_rolling.fn_update_hdma + 2
     lda.b #drops_fn_draw_window_trampoline & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_draw_window
+    sta.l drops_rolling.fn_draw_window
     lda.b #( drops_fn_draw_window_trampoline >> 8 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_draw_window + 1
+    sta.l drops_rolling.fn_draw_window + 1
     lda.b #( drops_fn_draw_window_trampoline >> 16 ) & 0xFF
-    sta.l drops_rolling + RollingBufferState.fn_draw_window + 2
+    sta.l drops_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_DROPS
-    sta.l drops_rolling + RollingBufferState.menu_id
+    sta.l drops_rolling.menu_id
     plp
     php
     rep #0x10

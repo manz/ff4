@@ -3,6 +3,7 @@ Pinned-address overlay rewiring original battle-message pointer loads ($02C909, 
 translated-string tables.
 """
 
+.import "hw"
 .include "src/rom_map.i"
 .extern msg_window_draw_text_trampoline
 .extern assets_battle_text_ptr
@@ -49,9 +50,9 @@ translated-string tables.
     .alloc at 0x0382f5 {
 ; bg 1
     lda.b #( 0xd000 >> 9 | 0b01 )
-    sta 0x2107
+    sta ppu.BG1SC
     lda.b #( 0xc000 >> 9 | 0b01 )
-    sta 0x2108
+    sta ppu.BG2SC
 ; Fix teleport resizing bg 1 & 2, that reverted them to their original addresses.
     }
 
@@ -59,9 +60,9 @@ translated-string tables.
     .alloc at 0x02f11a {
 ; bg 1
     lda.b #( 0xd000 >> 9 | 0b01 )
-    sta.l 0x002107
+    sta.l ppu.BG1SC
     lda.b #( 0xc000 >> 9 | 0b01 )
-    sta.l 0x002108
+    sta.l ppu.BG2SC
 ; bg1 move
     }
 

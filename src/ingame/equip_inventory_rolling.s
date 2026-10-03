@@ -21,6 +21,7 @@ signal arms it, as for sell.
 """
 
 
+.import "hw"
 .include "../bank20.i"
 .include "config.i"
 .import "items"
@@ -40,19 +41,13 @@ EQUIP_TOTAL_ITEMS := EQUIP_LIST_TOTAL_ITEMS
 ; State block in the shared $7E:9Cxx arena, after sell ($9CC0). The
 ; engine addresses every instance as bank $7E + X, so it cannot live in
 ; the cart-RAM rolling_state pool.
-equip_rolling := (0x7E9CF0 as RollingBufferState)
 
 ; Vanilla's own equip-list scroll position ("first visible row"), the
 ; byte its ($57) pointer resolves to on this screen.
 EQUIP_SCROLL_POS := 0x7E1B2A
 
 ; HDMA channel 5 driving BG4VOFS ($2114).
-EQUIP_HDMA5_CTRL := 0x4350
-EQUIP_HDMA5_DEST := 0x4351
-EQUIP_HDMA5_SRC_LO := 0x4352
-EQUIP_HDMA5_SRC_BANK := 0x4354
 EQUIP_HDMA_ENABLE_BIT := 0x20
-BG4VOFS_REG := 0x14
 
 ; Own table slot in the HDMA scratch area ($9800 field, $9880 drops,
 ; $9900 sell / key items).
@@ -119,15 +114,15 @@ with the caller's DB, so absolute reads would land in ROM.
 
     sep #0x20
     lda #0x02  ; direct mode, 2 bytes per write
-    sta.l EQUIP_HDMA5_CTRL
-    lda #BG4VOFS_REG
-    sta.l EQUIP_HDMA5_DEST
+    sta.l dma_ch5.DMAP
+    lda #PPU.BG4VOFS
+    sta.l dma_ch5.BBAD
     rep #0x20
     lda.w #EQUIP_HDMA_TABLE_ADDR
-    sta.l EQUIP_HDMA5_SRC_LO
+    sta.l dma_ch5.A1TL
     sep #0x20
     lda #EQUIP_HDMA_BANK
-    sta.l EQUIP_HDMA5_SRC_BANK
+    sta.l dma_ch5.A1B
 
 ; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
 ; $420C, and mark this profile's own gate.
@@ -268,9 +263,9 @@ $A172 pass did.
     lda.b 0x5a
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C
     stz.b 0x34
     pla
@@ -341,7 +336,7 @@ header = origin - base_scroll, so the band's BG4VOFS is
     stz.b 0x42
 
 _equip_row_loop:
-    lda.w equip_rolling + RollingBufferState.buffer_pos
+    lda.w equip_rolling.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -370,7 +365,7 @@ _equip_mod_done:
     clc
     adc.b 0x40
     clc
-    adc.w equip_rolling + RollingBufferState.base_scroll
+    adc.w equip_rolling.base_scroll
     sta.b 0x40
     sep #0x20
     lda #EQUIP_SLOT_PIXELS
@@ -455,45 +450,45 @@ scroll position the screen kept from its last visit.
     rep #0x30
     sep #0x20
     lda.b #EQUIP_VISIBLE_ITEMS
-    sta.l equip_rolling + RollingBufferState.visible_rows
+    sta.l equip_rolling.visible_rows
     lda.b #0x02
-    sta.l equip_rolling + RollingBufferState.slot_height_tiles
+    sta.l equip_rolling.slot_height_tiles
     lda.b #0x40
-    sta.l equip_rolling + RollingBufferState.item_list_ptr
+    sta.l equip_rolling.item_list_ptr
     lda.b #0x14
-    sta.l equip_rolling + RollingBufferState.item_list_ptr + 1
+    sta.l equip_rolling.item_list_ptr + 1
     lda.b #0x7E
-    sta.l equip_rolling + RollingBufferState.item_list_ptr + 2
+    sta.l equip_rolling.item_list_ptr + 2
     lda.b #EQUIP_TOTAL_ITEMS
-    sta.l equip_rolling + RollingBufferState.item_count
+    sta.l equip_rolling.item_count
     lda.b #0x05
-    sta.l equip_rolling + RollingBufferState.hdma_channel
+    sta.l equip_rolling.hdma_channel
     lda.b #0x80
-    sta.l equip_rolling + RollingBufferState.vwf_cfg_ptr
+    sta.l equip_rolling.vwf_cfg_ptr
     lda.b #0x70
-    sta.l equip_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    sta.l equip_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
-    sta.l equip_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    sta.l equip_rolling.vwf_cfg_ptr + 2
     lda.b #equip_fn_render_slot_trampoline & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_render_slot
+    sta.l equip_rolling.fn_render_slot
     lda.b #( equip_fn_render_slot_trampoline >> 8 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_render_slot + 1
+    sta.l equip_rolling.fn_render_slot + 1
     lda.b #( equip_fn_render_slot_trampoline >> 16 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_render_slot + 2
+    sta.l equip_rolling.fn_render_slot + 2
     lda.b #equip_fn_update_hdma_trampoline & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_update_hdma
+    sta.l equip_rolling.fn_update_hdma
     lda.b #( equip_fn_update_hdma_trampoline >> 8 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_update_hdma + 1
+    sta.l equip_rolling.fn_update_hdma + 1
     lda.b #( equip_fn_update_hdma_trampoline >> 16 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_update_hdma + 2
+    sta.l equip_rolling.fn_update_hdma + 2
     lda.b #equip_fn_draw_window_trampoline & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_draw_window
+    sta.l equip_rolling.fn_draw_window
     lda.b #( equip_fn_draw_window_trampoline >> 8 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_draw_window + 1
+    sta.l equip_rolling.fn_draw_window + 1
     lda.b #( equip_fn_draw_window_trampoline >> 16 ) & 0xFF
-    sta.l equip_rolling + RollingBufferState.fn_draw_window + 2
+    sta.l equip_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_EQUIP
-    sta.l equip_rolling + RollingBufferState.menu_id
+    sta.l equip_rolling.menu_id
     rep #0x20
     lda.w #0xFFFF
     sta.l equip_rolling.base_scroll

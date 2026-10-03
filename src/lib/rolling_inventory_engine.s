@@ -73,27 +73,27 @@ rolling_engine_init:
     lda.b #0x00
 ; Zero engine scratch (top_row..transfer_pending + anim offset bytes +
 ; hdma_copy_pending + dirty_mask).
-    sta.l 0x7E0000 + RollingBufferState.top_row, x
-    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
-    sta.l 0x7E0000 + RollingBufferState.hdma_enable, x
+    sta.l rolling_x.top_row, x
+    sta.l rolling_x.buffer_pos, x
+    sta.l rolling_x.edge_row, x
+    sta.l rolling_x.slot_index, x
+    sta.l rolling_x.hdma_enable, x
 ; _pad byte (offset 7, struct-defined as `byte _pad`) ; a816 hides
 ; leading-underscore field names from outer scopes, so write through
 ; the literal offset rather than the symbolic name.
     sta.l 0x7E0007, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset + 1, x
-    sta.l 0x7E0000 + RollingBufferState.hdma_copy_pending, x
-    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    sta.l rolling_x.scroll_state, x
+    sta.l rolling_x.scroll_remaining, x
+    sta.l rolling_x.scroll_direction, x
+    sta.l rolling_x.transfer_pending, x
+    sta.l rolling_x.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset + 1, x
+    sta.l rolling_x.hdma_copy_pending, x
+    sta.l rolling_x.dirty_mask, x
 ; base_scroll = $FFFF sentinel ("HDMA not yet armed").
     lda.b #0xFF
-    sta.l 0x7E0000 + RollingBufferState.base_scroll, x
-    sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
+    sta.l rolling_x.base_scroll, x
+    sta.l rolling_x.base_scroll + 1, x
 ; Fire fn_draw_window hook when armed.
     rep #0x10
     ldy.w #RollingBufferState.fn_draw_window
@@ -111,13 +111,13 @@ rolling_engine_init:
 
 _engine_init_render_loop:
     pha
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.edge_row, x
+    sta.l rolling_x.slot_index, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     pla
     inc
-    cmp.l 0x7E0000 + RollingBufferState.visible_rows, x
+    cmp.l rolling_x.visible_rows, x
     bcc _engine_init_render_loop
 
 ; Stamp transfer_pending so the per-menu main-loop hook pushes the
@@ -127,7 +127,7 @@ _engine_init_render_loop:
 ; whatever vanilla's window-open upload wrote (drops came up with a
 ; staircased window + a clobbered treasure row 0).
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
 
     plp
     rtl
@@ -154,7 +154,7 @@ rolling_engine_refresh_slots:
     sep #0x20
     rep #0x10
     sta.l rolling_engine_scratch  ; stash scroll_pos
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
     inc  ; buffer_slots = visible_rows + 1
     sta.l rolling_engine_scratch + 1  ; stash buffer_slots
     lda.b #0x00
@@ -163,11 +163,11 @@ _engine_refresh_loop:
     pha
     clc
     adc.l rolling_engine_scratch
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     pla
     pha
     clc
-    adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    adc.l rolling_x.buffer_pos, x
 
 _engine_refresh_mod:
     cmp.l rolling_engine_scratch + 1
@@ -177,7 +177,7 @@ _engine_refresh_mod:
     bra _engine_refresh_mod
 
 _engine_refresh_mod_done:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     pla
@@ -185,7 +185,7 @@ _engine_refresh_mod_done:
     cmp.l rolling_engine_scratch + 1
     bcc _engine_refresh_loop
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
     plp
     rtl
     }
@@ -219,27 +219,27 @@ rolling_engine_update_scroll_frame:
     php
     rep #0x10
     sep #0x20
-    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    lda.l rolling_x.scroll_direction, x
     bpl _frame_positive
     rep #0x20
-    lda.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    lda.l rolling_x.scroll_anim_offset, x
     sec
     sbc.w #8
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset, x
     bra _frame_update_cursor
 
 _frame_positive:
     rep #0x20
-    lda.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    lda.l rolling_x.scroll_anim_offset, x
     clc
     adc.w #8
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset, x
 
 _frame_update_cursor:
     sep #0x20
     lda.l 0x7E1B19  ; vanilla cursor-row marker
     beq _frame_no_cursor
-    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    lda.l rolling_x.scroll_direction, x
     bpl _frame_cursor_down
     inc.w 0x0311
     inc.w 0x0311
@@ -250,17 +250,17 @@ _frame_cursor_down:
     dec.w 0x0311
 
 _frame_no_cursor:
-    lda.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    lda.l rolling_x.scroll_remaining, x
     sec
     sbc.b #8
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l rolling_x.scroll_remaining, x
 ; Dispatch per-menu update_scroll_hdma via menu_id branch. The
 ; profiles' update_*_scroll_hdma functions live in bank-20 alongside
 ; this engine, so jsr.w (3-byte) reaches them cleanly. Every id needs
 ; its own branch: the tail is the key-item builder, not a generic
 ; one, so a profile that falls through here scribbles the picker's
 ; table instead of its own.
-    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    lda.l rolling_x.menu_id, x
     beq _frame_hdma_field
     cmp.b #ROLLING_MENU_ID_TREASURE
     beq _frame_hdma_treasure
@@ -321,21 +321,21 @@ rolling_engine_start_scroll_down:
     ldy.w #RollingBufferState.fn_update_hdma
     jsr.w _engine_call_hook
 ; buffer_slots = visible_rows + 1
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
     inc
     sta.l rolling_engine_scratch + 1
 ; inc buffer_pos with wrap
-    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    lda.l rolling_x.buffer_pos, x
     inc
     cmp.l rolling_engine_scratch + 1
     bcc _start_dn_buf_ok
     lda.b #0x00
 
 _start_dn_buf_ok:
-    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    sta.l rolling_x.buffer_pos, x
 ; slot_index = (buffer_pos + visible_rows - 1) % buffer_slots
     clc
-    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    adc.l rolling_x.visible_rows, x
     dec
 
 _start_dn_mod:
@@ -346,28 +346,28 @@ _start_dn_mod:
     bra _start_dn_mod
 
 _start_dn_mod_done:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
 ; edge_row = scroll_pos + visible_rows - 1
     lda.l rolling_engine_scratch
     clc
-    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    adc.l rolling_x.visible_rows, x
     dec
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
 ; FSM : scroll_state = 1, remaining = 16, direction = +8 (positive = down)
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l rolling_x.scroll_state, x
     lda.b #16
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l rolling_x.scroll_remaining, x
     lda.b #8
-    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    sta.l rolling_x.scroll_direction, x
     rep #0x20
     lda.w #0xFFF0
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset, x
     sep #0x20
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
     jsr.w _engine_dispatch_update_scroll_hdma
     plp
     rtl
@@ -394,34 +394,34 @@ rolling_engine_start_scroll_up:
     sta.l rolling_engine_scratch  ; stash scroll_pos
     ldy.w #RollingBufferState.fn_update_hdma
     jsr.w _engine_call_hook
-    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    lda.l rolling_x.buffer_pos, x
     beq _start_up_wrap
     dec
     bra _start_up_wrap_done
 
 _start_up_wrap:
 ; buffer_slots - 1 == visible_rows.
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
 
 _start_up_wrap_done:
-    sta.l 0x7E0000 + RollingBufferState.buffer_pos, x
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.buffer_pos, x
+    sta.l rolling_x.slot_index, x
     lda.l rolling_engine_scratch  ; scroll_pos
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l rolling_x.scroll_state, x
     lda.b #16
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l rolling_x.scroll_remaining, x
     lda.b #0xFE  ; -2 (negative = up direction)
-    sta.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    sta.l rolling_x.scroll_direction, x
     rep #0x20
     lda.w #0x0010
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset, x
     sep #0x20
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
     jsr.w _engine_dispatch_update_scroll_hdma
     plp
     rtl
@@ -453,40 +453,40 @@ rolling_engine_finish_scroll:
     sep #0x20
     sta.l rolling_engine_scratch  ; stash scroll_pos
 ; buffer_slots = visible_rows + 1
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
     inc
     sta.l rolling_engine_scratch + 1
-    lda.l 0x7E0000 + RollingBufferState.scroll_direction, x
+    lda.l rolling_x.scroll_direction, x
     bmi _finish_was_up
 ; --- scroll-down post-anim ---
-    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    lda.l rolling_x.buffer_pos, x
     beq _finish_dn_wrap
     dec
     bra _finish_dn_slot_ok
 
 _finish_dn_wrap:
 ; buffer_slots - 1 == visible_rows
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
 
 _finish_dn_slot_ok:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     lda.l rolling_engine_scratch  ; scroll_pos
     clc
-    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
-    cmp.l 0x7E0000 + RollingBufferState.item_count, x
+    adc.l rolling_x.visible_rows, x
+    cmp.l rolling_x.item_count, x
     bcs _finish_skip
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
     bra _finish_skip
 
 _finish_was_up:
 ; --- scroll-up post-anim ---
-    lda.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    lda.l rolling_x.buffer_pos, x
     clc
-    adc.l 0x7E0000 + RollingBufferState.visible_rows, x
+    adc.l rolling_x.visible_rows, x
 
 _finish_up_mod:
     cmp.l rolling_engine_scratch + 1
@@ -496,22 +496,22 @@ _finish_up_mod:
     bra _finish_up_mod
 
 _finish_up_slot_ok:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     lda.l rolling_engine_scratch  ; scroll_pos
     beq _finish_skip
     dec
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
 
 _finish_skip:
     lda.b #0x00
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l rolling_x.scroll_state, x
     rep #0x20
     lda.w #0x0000
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset, x
     sep #0x20
     jsr.w _engine_dispatch_update_scroll_hdma
     jsr.l draw_item_cursors_trampoline
@@ -543,12 +543,12 @@ rolling_engine_swap_redraw:
     ldy.w #RollingBufferState.fn_update_hdma
     jsr.w _engine_call_hook
     lda.b #0x00
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_anim_offset + 1, x
+    sta.l rolling_x.scroll_state, x
+    sta.l rolling_x.scroll_remaining, x
+    sta.l rolling_x.scroll_anim_offset, x
+    sta.l rolling_x.scroll_anim_offset + 1, x
 ; buffer_slots = visible_rows + 1
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
     inc
     sta.l rolling_engine_scratch + 1  ; stash buffer_slots
     lda.b #0x00
@@ -556,7 +556,7 @@ rolling_engine_swap_redraw:
 _swap_loop:
     pha
     clc
-    adc.l 0x7E0000 + RollingBufferState.buffer_pos, x
+    adc.l rolling_x.buffer_pos, x
 
 _swap_mod:
     cmp.l rolling_engine_scratch + 1
@@ -566,14 +566,14 @@ _swap_mod:
     bra _swap_mod
 
 _swap_mod_done:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     pla
     pha
     clc
     adc.l rolling_engine_scratch
-    cmp.l 0x7E0000 + RollingBufferState.item_count, x
+    cmp.l rolling_x.item_count, x
     bcs _swap_clear
-    sta.l 0x7E0000 + RollingBufferState.edge_row, x
+    sta.l rolling_x.edge_row, x
     ldy.w #RollingBufferState.fn_render_slot
     jsr.w _engine_call_hook
     bra _swap_next
@@ -581,7 +581,7 @@ _swap_mod_done:
 _swap_clear:
 ; Only field-items has a real clear ; other menus' clear stubs were
 ; RTS no-ops, so skip the call entirely unless menu_id == 0.
-    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    lda.l rolling_x.menu_id, x
     bne _swap_next
     jsr.w clear_inventory_slot
 
@@ -591,7 +591,7 @@ _swap_next:
     cmp.l rolling_engine_scratch + 1
     bcc _swap_loop
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
     jsr.w _engine_dispatch_update_scroll_hdma
     plp
     rtl
@@ -606,7 +606,7 @@ _engine_dispatch_update_scroll_hdma:
 
 
     {
-    lda.l 0x7E0000 + RollingBufferState.menu_id, x
+    lda.l rolling_x.menu_id, x
     beq _dispatch_field
     cmp.b #ROLLING_MENU_ID_TREASURE
     beq _dispatch_treasure
@@ -709,17 +709,17 @@ rolling_engine_tick:
     {
     php
     sep #0x20
-    lda.l 0x7E0000 + RollingBufferState.scroll_state, x
+    lda.l rolling_x.scroll_state, x
     beq _tick_idle
-    lda.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    lda.l rolling_x.scroll_remaining, x
     sec
     sbc.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.scroll_remaining, x
+    sta.l rolling_x.scroll_remaining, x
     bne _tick_still_scrolling
     lda.b #0x00
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
+    sta.l rolling_x.scroll_state, x
     lda.b #0x01
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
+    sta.l rolling_x.transfer_pending, x
 
 _tick_still_scrolling:
 _tick_idle:
@@ -749,10 +749,10 @@ rolling_engine_vblank_flush:
     {
     php
     sep #0x20
-    lda.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    lda.l rolling_x.dirty_mask, x
     beq _flush_clean
     lda.b #0x00
-    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    sta.l rolling_x.dirty_mask, x
 
 _flush_clean:
     plp
@@ -771,13 +771,13 @@ rolling_engine_cursor_up:
     {
     php
     sep #0x20
-    lda.l 0x7E0000 + RollingBufferState.slot_index, x
+    lda.l rolling_x.slot_index, x
     bne _cursor_up_dec
-    lda.l 0x7E0000 + RollingBufferState.visible_rows, x
+    lda.l rolling_x.visible_rows, x
 
 _cursor_up_dec:
     dec
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     plp
     rtl
     }
@@ -794,14 +794,14 @@ rolling_engine_cursor_down:
     {
     php
     sep #0x20
-    lda.l 0x7E0000 + RollingBufferState.slot_index, x
+    lda.l rolling_x.slot_index, x
     inc
-    cmp.l 0x7E0000 + RollingBufferState.visible_rows, x
+    cmp.l rolling_x.visible_rows, x
     bcc _cursor_dn_store
     lda.b #0x00
 
 _cursor_dn_store:
-    sta.l 0x7E0000 + RollingBufferState.slot_index, x
+    sta.l rolling_x.slot_index, x
     plp
     rtl
     }
@@ -834,8 +834,8 @@ _inv_slot_shift:
 
 _inv_slot_done:
     plx
-    ora.l 0x7E0000 + RollingBufferState.dirty_mask, x
-    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    ora.l rolling_x.dirty_mask, x
+    sta.l rolling_x.dirty_mask, x
     pla
     plp
     rtl
@@ -854,7 +854,7 @@ rolling_engine_invalidate_all:
     php
     sep #0x20
     lda.b #0xFF
-    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
+    sta.l rolling_x.dirty_mask, x
     plp
     rtl
     }
@@ -879,14 +879,14 @@ rolling_engine_shutdown:
     sep #0x20
     rep #0x10
     lda.b #0x00
-    sta.l 0x7E0000 + RollingBufferState.hdma_enable, x
-    sta.l 0x7E0000 + RollingBufferState.dirty_mask, x
-    sta.l 0x7E0000 + RollingBufferState.scroll_state, x
-    sta.l 0x7E0000 + RollingBufferState.transfer_pending, x
-    sta.l 0x7E0000 + RollingBufferState.hdma_copy_pending, x
+    sta.l rolling_x.hdma_enable, x
+    sta.l rolling_x.dirty_mask, x
+    sta.l rolling_x.scroll_state, x
+    sta.l rolling_x.transfer_pending, x
+    sta.l rolling_x.hdma_copy_pending, x
     lda.b #0xFF
-    sta.l 0x7E0000 + RollingBufferState.base_scroll, x
-    sta.l 0x7E0000 + RollingBufferState.base_scroll + 1, x
+    sta.l rolling_x.base_scroll, x
+    sta.l rolling_x.base_scroll + 1, x
     plp
     rtl
     }
