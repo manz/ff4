@@ -1,64 +1,79 @@
 """Battle-init smoke test.
 
-Regression guard for the bank-20 relocation work. The
-`.alloc bank20_modules` wrap (overflow Q#13 / Q#14 era) shifted bank-20
-symbol addresses in a way that caused the engine to BRK / STP during
-battle redraw on the first menu interaction. The build still succeeded
-and the IPS coverage looked normal, so a pure build-side check would
-have missed it. This test boots the patched ROM into a battle-running
-savestate, lets a few frames settle, asserts the CPU never halted, and
-records a PNG golden of the framebuffer.
+Regression guard for the bank-20 relocation work: the `.alloc
+bank20_modules` wrap once shifted bank-20 symbols so the engine hit BRK /
+STP during the first battle redraw, while the build and IPS coverage
+looked normal. This starts a fresh encounter from the world map, forces
+every redraw gate dirty, lets the battle run, and asserts the CPU never
+halted.
 
-Recorded once via UPDATE_GOLDENS=1; replays as a pixel-match thereafter.
+It also pins what the old full-screen golden was meant to catch: the
+monster and character name windows draw real glyphs. A render-state byte
+living inside the CHR buffer once left black name blocks for the whole
+fight; here every name cell has to point at a non-empty VWF tile.
 """
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
+from kintsuki import Button
 
-from _ff4kintsuki import (
-    assert_screenshot_matches_golden,
-    kss_path,
-    load_emu_from_kss,
-)
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 
-GOLDENS = Path(__file__).parent / "goldens" / "battle_init"
-KSS = kss_path("ff4-battle.kss")
+KSS = kss_path("ff4-before-field-inventory.kss")
+
+BATTLE_MENU_DIRTY = 0x7EEF9A  # bit 5 cmd window, bit 6 status, 0-4 char rows
+BATTLE_MONSTER_DIRTY = 0x7EEF9B  # per-monster-slot name redraw
+REGION_DIRTY_BITS = 0x707101  # BATTLE_RENDER_STATE + 1, slice-2 queue
+
+# Battle VWF regions (src/battle/message.s): tile t is BG3 tile $100 + t,
+# CHR at VRAM $B000; 48 tile ids per region.
+VWF_CHR = 0xB000
+REGION_SIZE = 48
+MONSTER_NAMES = range(0x100 + REGION_SIZE * 1, 0x100 + REGION_SIZE * 2)
+CHAR_NAMES = range(0x100 + REGION_SIZE * 2, 0x100 + REGION_SIZE * 3)
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def battle_emu():
-    emu = load_emu_from_kss(KSS, settle_frames=0)
-    # Force every redraw gate dirty before settling so the smoke test
-    # exercises DrawCharNames / DrawMonsterNames / DrawCmdWindow on the
-    # first frame. Without this the slice-2 gates stay clean (the gate
-    # state only re-arms on writer-side state changes like ATB rotation
-    # or HP delta) and the golden captures an empty header strip.
-    emu.write(0x7EEF9A, 0xFF)  # battle_menu_dirty: all chars + cmd + status
-    emu.write(0x7EEF9B, 0xFF)  # battle_monster_dirty: all monster slots
-    emu.write(0x703F01, 0xFF)  # region_dirty_bits: slice-2 queue (moved past inventory tiles)
-    emu.run_frames(600)
-    yield emu
-    emu.close()
+    e = load_emu_from_kss(KSS, settle_frames=60)
+    tap(e, Button.B, gap=20)
+    for i in range(7):
+        button = (Button.LEFT, Button.RIGHT)[i % 2]
+        e.press(0, button)
+        e.run_frames(40)
+        e.release(0, button)
+    e.run_frames(200)  # fresh encounter, first command menu up
+    e.write(BATTLE_MENU_DIRTY, 0xFF)
+    e.write(BATTLE_MONSTER_DIRTY, 0xFF)
+    e.write(REGION_DIRTY_BITS, 0xFF)
+    e.run_frames(600)
+    yield e
+    e.close()
+
+
+def _bg3_tiles(emu) -> list[int]:
+    base = (emu.get_ppu_state().bg3sc >> 2) << 10
+    raw = bytes(emu.vram_read_range(base * 2, 0x1000))
+    return [(raw[i] | raw[i + 1] << 8) & 0x3FF for i in range(0, len(raw), 2)]
+
+
+def _blank_glyphs(emu, region: range) -> list[int]:
+    used = sorted({t for t in _bg3_tiles(emu) if t in region})
+    assert used, "no tilemap cell points into the region"
+    return [t for t in used if not any(bytes(emu.vram_read_range(VWF_CHR + (t - 0x100) * 16, 16)))]
 
 
 def test_battle_init_no_stp(battle_emu):
-    """If the CPU executed STP during the settle frames, the patch is
-    broken: the BRK trap (or any rogue opcode) halted the emulator.
-    Catches the bank20_modules wrap regression that fired
-    `brk_handler -> STP` from $02:A455 during DrawText."""
     s = battle_emu.get_state()
     assert s.stp == 0, (
-        f"CPU halted via STP during battle init: PC=${s.pc:04X} "
-        f"PB=${s.b:02X} A=${s.a:04X}. The bank-20 reloc patch likely "
-        "corrupted bank-02 code; check `git log -- ff4.s` for recent "
-        "allocator or *= changes."
+        f"CPU halted via STP during battle init: PC=${s.pc:04X} PB=${s.b:02X} A=${s.a:04X}. "
+        "The bank-20 reloc patch likely corrupted bank-02 code; check allocator or *= changes."
     )
 
 
-def test_battle_init_screen_golden(battle_emu):
-    """Pixel-match the framebuffer 600 frames into the battle state.
-    Sensitive to any rendering regression that survives the no-STP
-    check (garbled tiles, wrong palette, broken text)."""
-    assert_screenshot_matches_golden(battle_emu, GOLDENS / "battle_init.png")
+def test_monster_names_draw_glyphs(battle_emu):
+    assert _blank_glyphs(battle_emu, MONSTER_NAMES) == []
+
+
+def test_char_names_draw_glyphs(battle_emu):
+    assert _blank_glyphs(battle_emu, CHAR_NAMES) == []

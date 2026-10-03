@@ -9,9 +9,10 @@ PY ?= $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 
 ROM = build/ff4.sfc
 IPS = build/ff4.ips
-# -o binds looser than -not, so the extension test needs its own group
-# or .s files under .venv/ come along.
-SOURCES = $(shell find . -path ./.venv -prune -o \( -name '*.s' -o -name '*.i' \) -print)
+# Prune hidden directories: they never hold our sources, and .venv matches
+# too, so the .s files a816 ships stay out. -o binds looser than -not, so
+# the extension test needs its own group or pruned paths come along.
+SOURCES = $(shell find . -path './.*' -prune -o \( -name '*.s' -o -name '*.i' \) -print)
 
 .SUFFIXES:
 .PHONY: all
