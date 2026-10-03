@@ -45,6 +45,7 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
 """
 
 
+.import "hw"
 .import "items"
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
@@ -135,10 +136,6 @@ KEY_ITEM_BORDER_LEFT_COL := 2
 KEY_ITEM_BORDER_RIGHT_COL := 29
 
 KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
-KEY_ITEM_HDMA4_CTRL := 0x4340
-KEY_ITEM_HDMA4_DEST := 0x4341
-KEY_ITEM_HDMA4_SRC_LO := 0x4342
-KEY_ITEM_HDMA4_SRC_BANK := 0x4344
 
 .include "src/rolling_state.i"
 
@@ -179,15 +176,15 @@ _key_item_init_hdma_channel:
     sep #0x20
     jsr.w update_key_item_scroll_hdma
     lda #0x02
-    sta.l KEY_ITEM_HDMA4_CTRL
-    lda #0x12
-    sta.l KEY_ITEM_HDMA4_DEST
+    sta.l dma_ch4.DMAP
+    lda #PPU.BG3VOFS
+    sta.l dma_ch4.BBAD
     rep #0x20
     lda.w #KEY_ITEM_HDMA_TABLE_ADDR
-    sta.l KEY_ITEM_HDMA4_SRC_LO
+    sta.l dma_ch4.A1TL
     sep #0x20
     lda #KEY_ITEM_HDMA_BANK
-    sta.l KEY_ITEM_HDMA4_SRC_BANK
+    sta.l dma_ch4.A1B
     plp
     rts
 
@@ -418,7 +415,7 @@ key_item_render_all:
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
     lda #0x00
-    sta.l 0x00420C
+    sta.l cpu_regs.HDMAEN
     plp
     rtl
 
@@ -812,7 +809,7 @@ brackets its own unsafe field work (field.asm InitMapRAM).
 ; it looked like the window closed and reopened on every scroll, and the
 ; cursor lost its per-frame draw with it.
     lda #KEY_ITEM_NMITIMEN_RENDER
-    sta.l 0x004200
+    sta.l cpu_regs.NMITIMEN
     jsr.w _key_item_save_dma
     rep #0x30
     tdc
@@ -839,7 +836,7 @@ _key_item_leave_render:
     jsr.w _key_item_restore_dma
     sep #0x20
     lda #KEY_ITEM_NMITIMEN_PICKER
-    sta.l 0x004200
+    sta.l cpu_regs.NMITIMEN
     rts
 
 key_item_scroll_limit_impl:
@@ -954,7 +951,7 @@ animation and never gets it back, so put the registers where they were.
     ldx.w #0x0000
 
 _save_dma_loop:
-    lda.l 0x004330, x
+    lda.l dma_ch3.DMAP, x
     sta.l key_item_dma_save, x
     inx
     cpx.w #0x000B
@@ -971,7 +968,7 @@ _key_item_restore_dma:
 
 _restore_dma_loop:
     lda.l key_item_dma_save, x
-    sta.l 0x004330, x
+    sta.l dma_ch3.DMAP, x
     inx
     cpx.w #0x000B
     bne _restore_dma_loop
@@ -990,27 +987,27 @@ Must run inside vblank: VRAM reads outside blanking return garbage.
 
     php
     rep #0x20
-    sta.l 0x002116  ; VMADD
+    sta.l ppu.VMADDL  ; VMADD
     sep #0x20
     lda #0x80
-    sta.l 0x002115  ; VMAIN: increment after the high byte
-    lda.l 0x002139  ; prime the read latch (discarded)
+    sta.l ppu.VMAIN  ; VMAIN: increment after the high byte
+    lda.l ppu.VMDATALREAD  ; prime the read latch (discarded)
     lda #0x81  ; DMAP: PPU -> CPU, two registers
-    sta.l 0x004330
-    lda #0x39  ; BBAD: $2139 VMDATAREADL
-    sta.l 0x004331
+    sta.l dma_ch3.DMAP
+    lda #PPU.VMDATALREAD
+    sta.l dma_ch3.BBAD
     rep #0x20
     txa
-    sta.l 0x004332
+    sta.l dma_ch3.A1TL
     sep #0x20
     lda #key_item_chr_save >> 16
-    sta.l 0x004334
+    sta.l dma_ch3.A1B
     rep #0x20
     tya
-    sta.l 0x004335
+    sta.l dma_ch3.DASL
     sep #0x20
     lda #0x08
-    sta.l 0x00420B  ; MDMAEN ch3
+    sta.l cpu_regs.MDMAEN  ; MDMAEN ch3
     plp
     rts
 
@@ -1018,26 +1015,26 @@ _key_item_sram_to_vram:
 """Write one saved slice back. Same register contract as the save."""
     php
     rep #0x20
-    sta.l 0x002116
+    sta.l ppu.VMADDL
     sep #0x20
     lda #0x80
-    sta.l 0x002115
+    sta.l ppu.VMAIN
     lda #0x01  ; DMAP: CPU -> PPU, two registers
-    sta.l 0x004330
-    lda #0x18  ; BBAD: $2118 VMDATAL
-    sta.l 0x004331
+    sta.l dma_ch3.DMAP
+    lda #PPU.VMDATAL
+    sta.l dma_ch3.BBAD
     rep #0x20
     txa
-    sta.l 0x004332
+    sta.l dma_ch3.A1TL
     sep #0x20
     lda #key_item_chr_save >> 16
-    sta.l 0x004334
+    sta.l dma_ch3.A1B
     rep #0x20
     tya
-    sta.l 0x004335
+    sta.l dma_ch3.DASL
     sep #0x20
     lda #0x08
-    sta.l 0x00420B
+    sta.l cpu_regs.MDMAEN
     plp
     rts
 
@@ -1182,26 +1179,26 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     jsr.w render.flush_chr_to_vram  ; RTS-ending, same bank-20 region
     rep #0x20
     lda.w #KEY_ITEM_TILEMAP_VRAM_WORD
-    sta.l 0x002116  ; VMADD
+    sta.l ppu.VMADDL  ; VMADD
     sep #0x20
     lda #0x80
-    sta.l 0x002115  ; VMAIN: word access, +1 word per write
+    sta.l ppu.VMAIN  ; VMAIN: word access, +1 word per write
     lda #0x01
-    sta.l 0x004330  ; DMAP: word transfer
-    lda #0x18
-    sta.l 0x004331  ; BBAD: $2118 VMDATAL
+    sta.l dma_ch3.DMAP  ; DMAP: word transfer
+    lda #PPU.VMDATAL
+    sta.l dma_ch3.BBAD
     rep #0x20
     lda.w #KEY_ITEM_STAGING_ADDR
-    sta.l 0x004332
+    sta.l dma_ch3.A1TL
     sep #0x20
     lda #0x7E
-    sta.l 0x004334
+    sta.l dma_ch3.A1B
     rep #0x20
     lda.w #KEY_ITEM_STAGING_SIZE
-    sta.l 0x004335
+    sta.l dma_ch3.DASL
     sep #0x20
     lda #0x08
-    sta.l 0x00420B  ; MDMAEN ch3
+    sta.l cpu_regs.MDMAEN  ; MDMAEN ch3
 
 ; Publish the scroll table. The menus let the field NMI hook copy
 ; shadow -> active, but that hook only runs while a menu owns the

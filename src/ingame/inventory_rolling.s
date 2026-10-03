@@ -3,6 +3,7 @@ Field-menu inventory rolling-buffer engine (single column, 5 visible rows + 1 pr
 approach for the main menu items list with HDMA-based circular scrolling.
 """
 
+.import "hw"
 .import "items"
 .include "src/lib/rolling_buffer.i"
 
@@ -82,15 +83,6 @@ MENU_HDMA_SHADOW := 0x7E9840  ; Full 24-bit address
 MENU_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + padding)
 MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
 
-; HDMA registers for channel 5
-HDMA5_CTRL := 0x4350  ; DMA control
-HDMA5_DEST := 0x4351  ; PPU register
-HDMA5_SRC_LO := 0x4352  ; Source address low
-HDMA5_SRC_HI := 0x4353  ; Source address high
-HDMA5_SRC_BANK := 0x4354  ; Source bank
-HDMA5_IND_BANK := 0x4357  ; Indirect bank
-HDMAEN := 0x420C  ; HDMA enable register
-
 .include "../bank20.i"
 
 .alloc inventory_rolling_block in bank20_reloc {
@@ -116,18 +108,16 @@ init_menu_inventory_hdma:
 ; Configure HDMA channel 5 for DIRECT mode
 ; Must use long addressing - DB may be $7E but registers are at $00:43xx
     lda #0x02  ; Mode: DIRECT, write 2 bytes to same PPU reg
-    sta.l HDMA5_CTRL  ; $004350
-
-    lda #0x0E  ; BG1VOFS register ($210E)
-    sta.l HDMA5_DEST  ; $004351
-
+    sta.l dma_ch5.DMAP
+    lda #PPU.BG1VOFS
+    sta.l dma_ch5.BBAD
 ; Source = HDMA table in WRAM at $7E9800
     rep #0x20  ; 16-bit A
     lda.w #MENU_HDMA_TABLE_ADDR  ; $9800
-    sta.l HDMA5_SRC_LO  ; $004352-$004353
+    sta.l dma_ch5.A1TL
     sep #0x20  ; 8-bit A
     lda #MENU_HDMA_BANK  ; $7E
-    sta.l HDMA5_SRC_BANK  ; $004354
+    sta.l dma_ch5.A1B
 
 ; HDMA channel 5 is now enabled via shadow variable (field_menu_rolling.hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
@@ -762,11 +752,11 @@ menu_exit_hook_impl:
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
 ; field_menu_rolling.hdma_enable shadow off so NMI writes 0 to HDMAEN this frame
-    sta.l 0x004350
-    sta.l 0x004351
-    sta.l 0x004352
-    sta.l 0x004353
-    sta.l 0x004354
+    sta.l dma_ch5.DMAP
+    sta.l dma_ch5.BBAD
+    sta.l dma_ch5.A1TL
+    sta.l dma_ch5.A1TH
+    sta.l dma_ch5.A1B
 ; HDMA5 ctrl/dest/src cleared so a stale config can't restart on next mode switch
     rep #0x20
     lda.w #0x0000

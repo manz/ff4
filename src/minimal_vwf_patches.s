@@ -3,6 +3,7 @@ Minimal dialog-VWF wiring: pointer-loading helpers + entry hooks called from the
 the VWF layer kicks in without rewriting the message window.
 """
 
+.import "hw"
 .include "src/rom_map.i"
 .include "src/libmz.i"
 
@@ -79,11 +80,11 @@ _wait_for_open_animation:
     bne animation_wait_route
 
 ; restore tileset position
-    lda 0x210C
+    lda ppu.BG34NBA
     and #0xF0
     clc
     adc #0x02
-    sta 0x210C
+    sta ppu.BG34NBA
 
     jmp.w end_of_animation
 

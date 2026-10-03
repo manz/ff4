@@ -40,6 +40,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 """
 
 
+.import "hw"
 .import "items"
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
@@ -77,11 +78,6 @@ drops_scroll_pos := 0x7E9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
 ; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
-DROPS_HDMA4_CTRL := 0x4340
-DROPS_HDMA4_DEST := 0x4341
-DROPS_HDMA4_SRC_LO := 0x4342
-DROPS_HDMA4_SRC_HI := 0x4343
-DROPS_HDMA4_SRC_BANK := 0x4344
 
 ; Drops HDMA tables share field-menu/treasure-inventory shadow region
 ; ($7E:9800 / $7E:9840). The active table for drops is built into a
@@ -135,15 +131,15 @@ drops_ensure_hdma_initialized:
 ; src $7E:9880 (drops active table).
     sep #0x20
     lda #0x02
-    sta.l DROPS_HDMA4_CTRL
-    lda #0x14
-    sta.l DROPS_HDMA4_DEST
+    sta.l dma_ch4.DMAP
+    lda #PPU.BG4VOFS
+    sta.l dma_ch4.BBAD
     rep #0x20
     lda.w #DROPS_HDMA_TABLE_ADDR
-    sta.l DROPS_HDMA4_SRC_LO
+    sta.l dma_ch4.A1TL
     sep #0x20
     lda #DROPS_HDMA_BANK
-    sta.l DROPS_HDMA4_SRC_BANK
+    sta.l dma_ch4.A1B
 
 ; Enable ch4 (BG4VOFS) only. TM HDMA mask via ch1 disabled - writes
 ; to $212C per-scanline blank the screen for reasons not yet

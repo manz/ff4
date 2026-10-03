@@ -3,6 +3,7 @@ Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live
 wrappers around original bank-$01 helpers used by the rolling code.
 """
 
+.import "hw"
 .include "src/rom_map.i"
 .extern drops_start_scroll_up_impl
 .extern drops_start_scroll_down_impl
@@ -411,15 +412,15 @@ key-item submenu (e.g. Baron key) is yet another context to add later.
 _t_setup_in_treasure:
     sep #0x20
     lda #0x02
-    sta.l 0x004360  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
-    lda #0x12
-    sta.l 0x004361  ; HDMA6 dest: BG3VOFS ($2112)
+    sta.l dma_ch6.DMAP  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
+    lda #PPU.BG3VOFS
+    sta.l dma_ch6.BBAD
     rep #0x20
     lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
-    sta.l 0x004362  ; HDMA6 src lo/hi
+    sta.l dma_ch6.A1TL  ; HDMA6 src lo/hi
     sep #0x20
     lda #0x7E
-    sta.l 0x004364  ; HDMA6 src bank
+    sta.l dma_ch6.A1B  ; HDMA6 src bank
     rep #0x20
 ; Capture original BG3VOFS shadow ($9F) - original treasure draws inventory
 ; rows starting at screen scanline ~120 with $9F = -120, which keeps the

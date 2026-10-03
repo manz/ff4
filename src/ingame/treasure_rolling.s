@@ -3,6 +3,7 @@ Treasure inventory rolling-buffer engine (single column, 5 visible, 6 buffer slo
 from `inventory_rolling.s` and tuned for the chest UI.
 """
 
+.import "hw"
 .import "items"
 .include "src/lib/rolling_buffer.i"
 
@@ -111,13 +112,6 @@ TREASURE_HDMA_BANK := 0x7E
 ; until we masked ch2 entirely, which then dropped the drops parallax
 ; effect. Move our writes to ch6 (free in original treasure) so ch2
 ; can keep driving its drops-band scroll untouched.
-TREASURE_HDMA6_CTRL := 0x4360
-TREASURE_HDMA6_DEST := 0x4361
-TREASURE_HDMA6_SRC_LO := 0x4362
-TREASURE_HDMA6_SRC_HI := 0x4363
-TREASURE_HDMA6_SRC_BANK := 0x4364
-TREASURE_HDMA6_IND_BANK := 0x4367
-HDMAEN := 0x420C  ; HDMA enable register
 
 .include "../bank20.i"
 
@@ -144,19 +138,16 @@ init_treasure_inventory_hdma:
 ; Configure HDMA channel 6 for DIRECT mode
 ; Must use long addressing - DB may be $7E but registers are at $00:43xx
     lda #0x02  ; Mode: DIRECT, write 2 bytes to same PPU reg
-    sta.l TREASURE_HDMA6_CTRL  ; $004360
-
-    lda #0x12  ; BG3VOFS register ($2112) - treasure inventory is on BG3
-    sta.l TREASURE_HDMA6_DEST  ; $004361
-
+    sta.l dma_ch6.DMAP
+    lda #PPU.BG3VOFS  ; treasure inventory is on BG3
+    sta.l dma_ch6.BBAD
 ; Source = HDMA table in WRAM at $7E9800
     rep #0x20  ; 16-bit A
     lda.w #TREASURE_HDMA_TABLE_ADDR  ; $9800
-    sta.l TREASURE_HDMA6_SRC_LO  ; $004362-$004363
+    sta.l dma_ch6.A1TL
     sep #0x20  ; 8-bit A
     lda #TREASURE_HDMA_BANK  ; $7E
-    sta.l TREASURE_HDMA6_SRC_BANK  ; $004364
-
+    sta.l dma_ch6.A1B
 ; HDMA channel 5 is now enabled via shadow variable (treasure_rolling.hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
 
@@ -697,9 +688,9 @@ treasure_ensure_hdma_initialized:
 ; the previous menu left in $93 / $9F. Treasure inventory items then
 ; rendered at the WRONG vertical scanline and looked like garbled
 ; stride for a frame before settling.
-    lda.l 0x00420C
+    lda.l cpu_regs.HDMAEN
     ora #0x40
-    sta.l 0x00420C
+    sta.l cpu_regs.HDMAEN
     rts
 
 _t_hdma_already_init:
@@ -822,11 +813,11 @@ treasure_menu_exit_hook_impl:
 ; treasure_rolling.hdma_enable shadow off
     sta.l 0x7E1BC6
 ; restore original "in treasure menu" flag (was original `stz $1BC6` at $01:D7E6 before the hook patch)
-    sta.l 0x004360
-    sta.l 0x004361
-    sta.l 0x004362
-    sta.l 0x004363
-    sta.l 0x004364
+    sta.l dma_ch6.DMAP
+    sta.l dma_ch6.BBAD
+    sta.l dma_ch6.A1TL
+    sta.l dma_ch6.A1TH
+    sta.l dma_ch6.A1B
 ; HDMA6 ctrl/dest/src cleared
     rep #0x20
     lda.w #0x0000

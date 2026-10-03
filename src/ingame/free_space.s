@@ -23,8 +23,8 @@ auto-counter ($4218/$4219) is non-zero.
 
 
     pha
-    lda.l 0x004218
-    ora.l 0x004219
+    lda.l cpu_regs.PAD1L
+    ora.l cpu_regs.PAD1H
     bne _not_still
     pla
     pha
@@ -193,7 +193,7 @@ Must copy shadow -> active HDMA table BEFORE enabling HDMA
     .db 0xAF  ; LDA.L opcode
     .dw field_menu_rolling.hdma_enable  ; $1BAE
     .db 0x7E  ; Bank $7E
-    sta.w 0x420C
+    sta.w cpu_regs.HDMAEN
     rts
 
 adjust_inventory_pointer:

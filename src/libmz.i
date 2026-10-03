@@ -2,13 +2,14 @@
 Reusable assembly helpers (`dma_transfer_to_*` macros, `_wait_for_vblank_inline`, save/restore variable
 mirrors, padding macros) shared across the patch sources.
 """
+.import "hw"
 .macro _wait_for_vblank_inline() {
     pha
 _negative:
-    lda.l 0x004212
+    lda.l cpu_regs.HVBJOY
     bmi _negative
 _positive:
-    lda.l 0x004212
+    lda.l cpu_regs.HVBJOY
     bpl _positive
     pla
 }
@@ -24,19 +25,19 @@ _positive:
     pha
     plb
     lda.b #0x80
-    sta 0x2115
+    sta ppu.VMAIN
     ldx.w #vram_pointer
-    stx 0x2116
+    stx ppu.VMADDL
     ldx.w #dma_mode
-    stx.w 0x4300 + ( channel << 4 )
+    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DMAP
     lda.b #source_address >> 16
-    sta.w 0x4304 + ( channel << 4 )
+    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1B
     ldx.w #source_address
-    stx.w 0x4302 + ( channel << 4 )
+    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1TL
     ldx.w #count
-    stx.w 0x4305 + ( channel << 4 )
+    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DASL
     lda.b #0x01 << channel
-    sta 0x420B
+    sta cpu_regs.MDMAEN
     nop
     nop
     plb

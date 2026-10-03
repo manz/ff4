@@ -63,22 +63,22 @@ save_dialog_vram_far:
     pha
     plb
     lda #0x80
-    sta 0x2115
+    sta ppu.VMAIN
     ldx #0x2800
-    stx 0x2116
-    ldx 0x2139
+    stx ppu.VMADDL
+    ldx ppu.VMDATALREAD
     lda #0x81
-    sta 0x4300
-    lda #0x39
-    sta 0x4301
+    sta dma_ch0.DMAP
+    lda #PPU.VMDATALREAD
+    sta dma_ch0.BBAD
     ldx.w #buffer & 0xffff
-    stx 0x4302
+    stx dma_ch0.A1TL
     lda.b #buffer >> 16
-    sta 0x4304
+    sta dma_ch0.A1B
     ldx.w #render.buffer_size
-    stx 0x4305
+    stx dma_ch0.DASL
     lda #0x01
-    sta 0x420b
+    sta cpu_regs.MDMAEN
     plb
     rtl
 restore_dialog_gfx_far:
@@ -105,25 +105,25 @@ _transfer_to_vram:
     pha
     plb
     lda #0x80
-    sta 0x2115
+    sta ppu.VMAIN
     tdc
-    sta 0x420c
+    sta cpu_regs.HDMAEN
     ldy 0x011d
-    sty 0x2116
+    sty ppu.VMADDL
     lda #0x01
-    sta 0x4300
+    sta dma_ch0.DMAP
     rep #0x20
-    lda #0x2118
-    sta 0x4301
+    lda #PPU_BASE + PPU.VMDATAL  ; BBAD (A1TL rewritten below)
+    sta dma_ch0.BBAD
     lda 0x011f
-    sta 0x4302
+    sta dma_ch0.A1TL
     lda 0x0121
-    sta 0x4304
+    sta dma_ch0.A1B
     sep #0x20
     lda 0x0123
-    sta 0x4306
+    sta dma_ch0.DASH
     lda #0x01
-    sta 0x420b
+    sta cpu_regs.MDMAEN
     plb
     rts
 }
@@ -371,25 +371,25 @@ Battle-side equivalent of the partial CHR DMA in
 ; VwfConfig so each caller targets its own CHR slot without forking
 ; the upload path.
     lda.b #0x01  ; DMAP: word transfer (2 byte regs, alt low/high)
-    sta.l 0x004330
-    lda.b #0x18  ; BBAD: $2118 VMDATAL
-    sta.l 0x004331
+    sta.l dma_ch3.DMAP
+    lda.b #PPU.VMDATAL
+    sta.l dma_ch3.BBAD
     rep #0x20
     lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
-    sta.l 0x004332  ; A1T low+mid
+    sta.l dma_ch3.A1TL  ; A1T low+mid
     sep #0x20
     lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
-    sta.l 0x004334  ; A1B source bank
+    sta.l dma_ch3.A1B  ; A1B source bank
     rep #0x20
     lda vwf_cfg.chr_vram_word
-    sta.l 0x002116  ; VMADD
+    sta.l ppu.VMADDL  ; VMADD
     lda vwf_cfg.chr_byte_count
-    sta.l 0x004335  ; DAS
+    sta.l dma_ch3.DASL  ; DAS
     sep #0x20
     lda.b #0x80
-    sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
+    sta.l ppu.VMAIN  ; VMAIN: increment on $2119, +1 word
     lda.b #0x08
-    sta.l 0x00420B  ; MDMAEN ch3
+    sta.l cpu_regs.MDMAEN  ; MDMAEN ch3
 
     bra _flush_skip_a
 
@@ -420,7 +420,7 @@ _flush_skip_a:
 ; A frame whose vanilla buffer transfers ran long (the equip screen
 ; pushes several 4K tilemaps) reaches this point after vblank; a VRAM
 ; DMA during active display is dropped. Keep the flag for next NMI.
-    lda.l 0x004212  ; HVBJOY: bit 7 = in vblank
+    lda.l cpu_regs.HVBJOY  ; HVBJOY: bit 7 = in vblank
     bpl _flush_skip_b
     lda.b #0x00
     sta vwf_engine.flush_b.dirty
@@ -439,27 +439,27 @@ _vram_word_b_ok:
 ; one-shot DMA above has completed before this one re-arms the
 ; channel, and the two descriptors target disjoint VRAM slices.
     lda.b #0x01
-    sta.l 0x004330
-    lda.b #0x18
-    sta.l 0x004331
+    sta.l dma_ch3.DMAP
+    lda.b #PPU.VMDATAL
+    sta.l dma_ch3.BBAD
     rep #0x20
     lda vwf_engine.flush_b.src_offset
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
-    sta.l 0x004332
+    sta.l dma_ch3.A1TL
     sep #0x20
     lda.b #VWF_CHR_BUFFER >> 16
-    sta.l 0x004334
+    sta.l dma_ch3.A1B
     rep #0x20
     lda vwf_engine.flush_b.vram_word
-    sta.l 0x002116
+    sta.l ppu.VMADDL
     lda vwf_engine.flush_b.byte_count
-    sta.l 0x004335
+    sta.l dma_ch3.DASL
     sep #0x20
     lda.b #0x80
-    sta.l 0x002115
+    sta.l ppu.VMAIN
     lda.b #0x08
-    sta.l 0x00420B
+    sta.l cpu_regs.MDMAEN
 
 _flush_skip_b_late:
     sep #0x20
@@ -769,7 +769,7 @@ _shift:
     phx
     tax
     lda.l vwf_shift_table, x
-    sta.l 0x004202
+    sta.l cpu_regs.WRMPYA
 
 
     plx
@@ -781,14 +781,14 @@ _shift:
 _really_shift:
     inx
 
-    sta.l 0x004203  ; MULTIPLICAND
+    sta.l cpu_regs.WRMPYB  ; MULTIPLICAND
 
     rep #0x20
     nop
     nop
     nop
     nop
-    lda.l 0x004216  ; the result is stored in 0x4216-0x4217
+    lda.l cpu_regs.RDMPYL  ; the result is stored in 0x4216-0x4217
     sep #0x20
     }
 _store:

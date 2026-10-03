@@ -288,25 +288,25 @@ end:
     pha
     plb
     lda #0x80
-    sta 0x2100  ; screen off
+    sta ppu.INIDISP  ; screen off
     sta 0x88
     lda #0x80
-    sta 0x2115
+    sta ppu.VMAIN
     ldx #0x2000  ; ppu 0x2000
-    stx 0x2116
-    ldx 0x2139  ; read "dummy" value
+    stx ppu.VMADDL
+    ldx ppu.VMDATALREAD  ; read "dummy" value
     lda #0x81  ; single address, auto-increment
-    sta 0x4300
-    lda #0x39  ; source: 0x2139 (vram data read)
-    sta 0x4301
+    sta dma_ch0.DMAP
+    lda #PPU.VMDATALREAD  ; B-bus source
+    sta dma_ch0.BBAD
     ldx.w #sram_buffer & 0xffff  ; destination: 0x7ee600
-    stx 0x4302
+    stx dma_ch0.A1TL
     lda.b #sram_buffer >> 16
-    sta 0x4304
+    sta dma_ch0.A1B
     ldx.w #save_size  ; size: 0x1000
-    stx 0x4305
+    stx dma_ch0.DASL
     lda #0x01
-    sta 0x420b
+    sta cpu_regs.MDMAEN
     plb
     rtl
     }

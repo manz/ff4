@@ -3,6 +3,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
+.import "hw"
 .include "config.i"
 .import "items"
 .extern assets_items_dat
@@ -2835,23 +2836,23 @@ _equip_nmi_hdma_copy_done:
 
     sep #0x20
     lda #0x01
-    sta.w 0x4300
-    lda #0x18
-    sta.w 0x4301
+    sta.w dma_ch0.DMAP
+    lda #PPU.VMDATAL
+    sta.w dma_ch0.BBAD
     rep #0x20
     lda.w #0xB600
-    sta.w 0x4302
+    sta.w dma_ch0.A1TL
     sep #0x20
     lda #0x7E
-    sta.w 0x4304
+    sta.w dma_ch0.A1B
     rep #0x20
     lda.w #0x0800
-    sta.w 0x4305
+    sta.w dma_ch0.DASL
     lda.w #0x6000
-    sta.w 0x2116
+    sta.w ppu.VMADDL
     sep #0x20
     lda #0x01
-    sta.w 0x420B
+    sta.w cpu_regs.MDMAEN
 
 _field_nmi_check_treasure:
     .if TREASURE_INVENTORY_ROLLING {
@@ -2863,23 +2864,23 @@ _field_nmi_check_treasure:
 
     sep #0x20
     lda #0x01
-    sta.w 0x4300
-    lda #0x18
-    sta.w 0x4301
+    sta.w dma_ch0.DMAP
+    lda #PPU.VMDATAL
+    sta.w dma_ch0.BBAD
     rep #0x20
     lda.w #0xD600  ; BG3 screen buffer source ($7ED600)
-    sta.w 0x4302
+    sta.w dma_ch0.A1TL
     sep #0x20
     lda #0x7E
-    sta.w 0x4304
+    sta.w dma_ch0.A1B
     rep #0x20
     lda.w #0x0800  ; 2 KB tilemap
-    sta.w 0x4305
+    sta.w dma_ch0.DASL
     lda.w #0x7000  ; BG3 tilemap VRAM target
-    sta.w 0x2116
+    sta.w ppu.VMADDL
     sep #0x20
     lda #0x01
-    sta.w 0x420B
+    sta.w cpu_regs.MDMAEN
     }
 
 _field_nmi_done:

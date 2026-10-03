@@ -1,4 +1,5 @@
 """
+.import "hw"
 .include "../bank20.i"
 
 Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-type pointer table
@@ -137,15 +138,15 @@ enabled_spell:
     and.w #0x007f
 ; clear disabled bit
     sep #0x20
-    sta.l 0x004202
+    sta.l cpu_regs.WRMPYA
     lda.b #battle_magic_length
-    sta.l 0x004203
+    sta.l cpu_regs.WRMPYB
     nop
     nop
     nop
     nop
     rep #0x20
-    lda.l 0x004216
+    lda.l cpu_regs.RDMPYL
 ;     asl                 ; spell ID * 8 (8 bytes per name)
 ;     asl
 ;     asl

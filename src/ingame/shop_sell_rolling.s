@@ -24,6 +24,7 @@ the field menu.
 """
 
 
+.import "hw"
 .include "../bank20.i"
 .include "config.i"
 .import "items"
@@ -53,11 +54,6 @@ SELL_SCROLL_POS := 0x7E1B96
 
 ; HDMA channel 5 driving BG3VOFS ($2112). Nothing else in the shop
 ; touches HDMA.
-SELL_HDMA5_CTRL := 0x4350
-SELL_HDMA5_DEST := 0x4351
-SELL_HDMA5_SRC_LO := 0x4352
-SELL_HDMA5_SRC_HI := 0x4353
-SELL_HDMA5_SRC_BANK := 0x4354
 SELL_HDMA_ENABLE_BIT := 0x20
 
 ; Own table slot in the HDMA scratch area ($9800 treasure, $9880 drops).
@@ -108,15 +104,15 @@ with the caller's DB, so absolute reads would land in ROM.
 
     sep #0x20
     lda #0x02  ; direct mode, 2 bytes per write
-    sta.l SELL_HDMA5_CTRL
-    lda #0x12  ; BG3VOFS
-    sta.l SELL_HDMA5_DEST
+    sta.l dma_ch5.DMAP
+    lda #PPU.BG3VOFS
+    sta.l dma_ch5.BBAD
     rep #0x20
     lda.w #SELL_HDMA_TABLE_ADDR
-    sta.l SELL_HDMA5_SRC_LO
+    sta.l dma_ch5.A1TL
     sep #0x20
     lda #SELL_HDMA_BANK
-    sta.l SELL_HDMA5_SRC_BANK
+    sta.l dma_ch5.A1B
 
 ; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
 ; $420C, and mark this profile's own gate.

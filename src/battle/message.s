@@ -1409,7 +1409,7 @@ normal length, no visible black strip.
     ora.l battle_render.dma_dirty_slots
     beq _no_force_blank
     lda #0x80
-    sta.l 0x002100
+    sta.l ppu.INIDISP
 _no_force_blank:
     plp
     .if BATTLE_ITEMS_VWF {
@@ -1668,17 +1668,17 @@ _sram_dma_transfer_7:
     pha
     plb
     pla
-    sty 0x2116
-    stx 0x4372
-    sta 0x4374
+    sty ppu.VMADDL
+    stx dma_ch7.A1TL
+    sta dma_ch7.A1B
     lda #0x01
-    sta 0x4370
-    lda #0x18
-    sta 0x4371
+    sta dma_ch7.DMAP
+    lda #PPU.VMDATAL
+    sta dma_ch7.BBAD
     ldx.b 0x0e
-    stx 0x4375
+    stx dma_ch7.DASL
     lda #1 << 7
-    sta 0x420b
+    sta cpu_regs.MDMAEN
     plb
     rts
 new_line_escape_code_handler:
