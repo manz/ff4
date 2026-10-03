@@ -1020,6 +1020,23 @@ _slot_name_loop:
     bne _slot_name_loop
 
     .if BATTLE_ITEMS_VWF {
+; Drop the name field's trailing $FF padding before closing the VWF run.
+; Rendered, those spaces keep advancing past the slot's tile budget, and
+; once the allocator clamps they blit into the last tile over the end of
+; the final glyph. The $FC goto below still lands the quantity column.
+    lda #16
+    sta.b 0x00
+
+_slot_name_trim:
+    dey
+    lda.w inv_format_buffer, y
+    cmp #0xFF
+    bne _slot_name_trimmed
+    dec.b 0x00
+    bne _slot_name_trim
+
+_slot_name_trimmed:
+    iny
     lda #0xFE
     sta.w inv_format_buffer, y
     iny

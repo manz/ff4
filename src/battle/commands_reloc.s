@@ -115,6 +115,20 @@ _exit:
     sta.w 0x0000, y
 
     sta 0xef55
+; The list above (and $1817's count) feeds the menu's cursor logic, so it
+; is rebuilt on every call. The VWF render below only changes with
+; the command set: vanilla redraws the window every few frames and the
+; overlay is re-copied from command_buffer_ptr each time, so re-render
+; (and blank the buffer first) only when CMD_DIRTY_BIT says it moved.
+    lda.l battle_menu_dirty
+    and.b #CMD_DIRTY_BIT
+    bne _render_commands
+    rts
+
+_render_commands:
+    lda.l battle_menu_dirty
+    and.b #0xFF - CMD_DIRTY_BIT
+    sta.l battle_menu_dirty
 
     ldx.w #command_buffer_ptr
     stx 0xef52  ; destination
