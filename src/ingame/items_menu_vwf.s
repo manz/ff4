@@ -183,6 +183,8 @@ _copy_loop:
     lda.l VWF_CALLER_CTX
     cmp.b #VWF_CTX_DROPS
     beq _write_secondary_desc
+    cmp.b #VWF_CTX_EQUIP
+    beq _write_secondary_desc
     cmp.b #VWF_CTX_KEY_ITEM
     beq _write_key_item_desc
     rep #0x20
@@ -255,7 +257,8 @@ _flags_store:
 ; --- Top row: $FF tile + palette across the full slot width
 ; (1 symbol + ITEM_UNLEASHED_TEXT_SIZE name + trailing blanks fit
 ; into the same Y window the vanilla loop walked) ---
-    ldx.w #0x0000
+    phy
+    jsr.w _top_row_cells
 
 _top_loop:
     lda.b #0xFF
@@ -265,8 +268,7 @@ _top_loop:
     ora.b 0x34
     sta (0x29), y
     iny
-    inx
-    cpx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+    dex
     bne _top_loop
 ; --- Bottom row: $FF blank pre-fill across the slot width so any
 ; tilemap entries past the new glyph count stop showing PREVIOUS
@@ -284,9 +286,9 @@ _top_loop:
 ; current Y), blank 17 cells, then restore Y back to Y_orig for the
 ; symbol-write block below.
     rep #0x20
-    tya
+    pla
     clc
-    adc.w #( 0x0040 - ( 1 + ITEM_UNLEASHED_TEXT_SIZE ) * 2 )
+    adc.w #0x0040
     tay
     sep #0x20
     phy  ; bottom-row start, so the restore below ignores the run length
@@ -361,6 +363,8 @@ _bottom_blank_loop:
     beq _dirty_done
     cmp.b #VWF_CTX_KEY_ITEM
     beq _dirty_key_item
+    cmp.b #VWF_CTX_EQUIP
+    beq _dirty_key_item
     cmp.b #VWF_CTX_DROPS
     bne _dirty_done
     lda.b #0x01
@@ -368,6 +372,9 @@ _bottom_blank_loop:
     bra _dirty_done
 
 _dirty_key_item:
+; Equip shares this path: its names only touch the secondary region, and
+; the primary flush would push the item list's region over whatever the
+; equip screen keeps at $5000 while no list is open.
 ; The picker owns the secondary descriptor ONLY. Its primary dirty
 ; bit must be cleared, not left set: the primary flush targets
 ; FIELD_VWF_VRAM_DEST_WORD ($2800), which is spare CHR in the menu's
@@ -379,6 +386,60 @@ _dirty_key_item:
     sta.l VWF_CHR_DIRTY
 
 _dirty_done:
+    ply
+    plp
+    rtl
+
+_top_row_cells:
+; X = cells the top (blank) row covers: the full fixed-width slot, or
+; just the equip name cells (its names start too far right for 17).
+    ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+    lda.l VWF_CALLER_CTX
+    cmp.b #VWF_CTX_EQUIP
+    bne _row_cells_done
+    ldx.w #EQUIP_NAME_CELLS
+
+_row_cells_done:
+    rts
+
+draw_equip_item_name:
+"""
+    `DrawEquipItemName` ($01:9013) replacement: equipped item names in
+    the VWF.
+
+    Vanilla convention: Y = equipment byte offset in the character
+    record at ($60) ($30..$35), X = tilemap byte offset of the slot,
+    $29 = BG2 buffer. The equip screen runs alongside the inventory
+    list, so the names take the drops tile region (slots 11..16 via
+    $5D) and its flush descriptor instead of the list's slots.
+    Preserves Y (the caller INYs to the next slot), $5D and
+    VWF_CALLER_CTX.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    phy
+    lda.b 0x5D
+    pha
+    lda.l VWF_CALLER_CTX
+    pha
+    tya
+    sec
+    sbc.b #0x30
+    clc
+    adc.b #DROPS_VWF_TILE_SLOT_OFFSET
+    sta.b 0x5D
+    lda.b #VWF_CTX_EQUIP
+    sta.l VWF_CALLER_CTX
+    lda (0x60), y
+    txy
+    jsr.l draw_field_item_name
+    pla
+    sta.l VWF_CALLER_CTX
+    pla
+    sta.b 0x5D
     ply
     plp
     rtl

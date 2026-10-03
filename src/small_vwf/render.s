@@ -399,6 +399,11 @@ _flush_skip_a:
     sep #0x20
     lda.l VWF_CHR_DIRTY_B
     beq _flush_skip_b
+; A frame whose vanilla buffer transfers ran long (the equip screen
+; pushes several 4K tilemaps) reaches this point after vblank; a VRAM
+; DMA during active display is dropped. Keep the flag for next NMI.
+    lda.l 0x004212  ; HVBJOY: bit 7 = in vblank
+    bpl _flush_skip_b
     lda.b #0x00
     sta.l VWF_CHR_DIRTY_B
     rep #0x20

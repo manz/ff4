@@ -11,7 +11,10 @@ character-name row up so it does not collide with the dextrality string.
 .alloc at 0x01bd54 {
     ldy.w #0x01c6 - 0x40 - 2
 
-    item_delta = 8
+; Equipped names start two cells right of vanilla (col 20): the slot
+; labels sit at col 14, one cell clear of the hand cursor, and are six
+; cells wide. Icon + the widest VWF name then end at col 30.
+    item_delta = 4
 }
 .alloc at 0x01bd7b {
     ldx.w #0x0164 + item_delta
