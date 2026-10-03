@@ -343,6 +343,19 @@ Battle-side equivalent of the partial CHR DMA in
     beq _flush_skip_a
     lda.b #0x00
     sta.l VWF_CHR_DIRTY
+; Only fire against the one descriptor anything writes (items_menu_vwf:
+; FIELD_VWF_VRAM_DEST_WORD, at most $B00 bytes). Cart RAM from a build
+; that never set it - savestates carry $FF here - otherwise turns this
+; into a 64K DMA over all of VRAM, the menu cursor's sprite CHR with it.
+    rep #0x20
+    lda.l VWF_CONFIG_BASE + VwfConfig.chr_vram_word
+    cmp.w #FIELD_VWF_VRAM_DEST_WORD
+    bne _flush_bad_a
+    lda.l VWF_CONFIG_BASE + VwfConfig.chr_byte_count
+    beq _flush_bad_a
+    cmp #0x0B01
+    bcs _flush_bad_a
+    sep #0x20
 ; Channel 3: the one channel no context drives HDMA on (field items
 ; runs HDMAEN $20, the treasure popup $50 = treasure ch6 + drops ch4,
 ; battle $87 = ch0/1/2/7). A one-shot DMA leaves its descriptor behind
@@ -377,6 +390,11 @@ Battle-side equivalent of the partial CHR DMA in
     sta.l 0x002115  ; VMAIN: increment on $2119, +1 word
     lda.b #0x08
     sta.l 0x00420B  ; MDMAEN ch3
+
+    bra _flush_skip_a
+
+_flush_bad_a:
+    sep #0x20
 
 _flush_skip_a:
 ; --- Secondary descriptor flush (region 1B, drops in the treasure
