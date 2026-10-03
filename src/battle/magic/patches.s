@@ -11,7 +11,6 @@ long-form attack-name copier.
 
 .extern draw_magic_list_direct
 .extern magic_list_ptrs
-.extern magic_cursor_rows
 
 .alloc at 0x029A69 {
 ; 029A69  20 70 A0   JSR $A070
@@ -150,10 +149,18 @@ exit:
     nop
     nop
 }
-; Spell-list hand Y: its own row table (magic_reloc.s) instead of the
-; $16:FC5B one the battle item list also reads.
-.alloc at 0x02B7B9 {
-    lda.l magic_cursor_rows, x
+; Battle list hand Y per visible row ($16:FC5B), read by both the item
+; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists now draw
+; VWF names on each 16-px row's bottom tile line, lower in the cell than
+; the 8x8 font's glyphs, so the hand comes down LIST_CURSOR_Y_NUDGE
+; pixels to point at the middle of the name.
+LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
+LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
+LIST_CURSOR_Y_NUDGE := 2
+.alloc at 0x16FC5B {
+    .for row := 0, 5 {
+    .db LIST_CURSOR_Y_FIRST + LIST_CURSOR_Y_NUDGE + row * LIST_CURSOR_Y_PITCH
+    }
 }
 .alloc at 0x16FC56 {
     .db 8 - 8
