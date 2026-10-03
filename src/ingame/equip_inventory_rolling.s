@@ -82,11 +82,15 @@ EQUIP_BORDER_RIGHT_COL := 31
 ; screen down to the end of the window's top border.
 EQUIP_BASE_SCROLL := EQUIP_LIST_BASE_SCROLL
 EQUIP_HEADER_LINES := EQUIP_LIST_FIRST_ROW_Y
-; What is left of the 224-line screen below the six rows. It shows the
-; blank window body just past the ring (row 15 on), never the pre-render
-; slot: scrolled by the slots the ring holds beyond the visible ones.
-EQUIP_FOOTER_LINES := 224 - EQUIP_HEADER_LINES - EQUIP_VISIBLE_ITEMS * EQUIP_SLOT_PIXELS
-EQUIP_FOOTER_SCROLL := ( EQUIP_BUFFER_SLOTS - EQUIP_VISIBLE_ITEMS ) * EQUIP_SLOT_PIXELS
+; What is left of the 224-line screen below the six rows. It pins the
+; window's bottom border right under the last visible row: vanilla's
+; DrawWindow makes this window 25 tile rows, so its border (row 24) sat
+; off screen. The footer scrolls so its first line shows buffer row 24,
+; then the empty row below it; the pre-render slot never shows.
+EQUIP_WINDOW_BOTTOM_ROW := 24
+EQUIP_FOOTER_TOP := EQUIP_HEADER_LINES + EQUIP_VISIBLE_ITEMS * EQUIP_SLOT_PIXELS
+EQUIP_FOOTER_LINES := 224 - EQUIP_FOOTER_TOP
+EQUIP_FOOTER_SCROLL := EQUIP_WINDOW_BOTTOM_ROW * 8 - EQUIP_FOOTER_TOP + 0x10000 - EQUIP_BASE_SCROLL
 ; header + 6 row bands + footer + terminator, rounded to words.
 EQUIP_HDMA_TABLE_SIZE := 26
 
