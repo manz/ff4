@@ -1,14 +1,10 @@
 """
-.import "hw"
-.include "../bank20.i"
-
 Relocated 16x16 -> 32 multiply (`_hw_mult16`) using the SNES hardware multiplier,
 plus shorta / shorta0 size-toggle helpers.
 Called from JMP trampoline at $83B9 (in `math_patches.s`).
 Input:  $393D (16-bit) * $393F (16-bit). Output: $3941 (low 16-bit), $3943 (high 16-bit).
 """
-
-
+.import "preamble"
 .include "../bank20.i"
 
 .alloc battle_math_reloc_block in bank20_reloc {

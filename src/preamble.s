@@ -1,8 +1,8 @@
 """
-Typed hardware register binds over the a816 standard library.
+Build context every module can import: the typed hardware register binds
+over the a816 standard library. The bus map lives in a816.toml.
 
-Import this module wherever code touches a PPU, CPU or DMA register, then
-address registers by name: `sta ppu.VMAIN`, `lda.l cpu_regs.HVBJOY`,
+Address registers by name: `sta ppu.VMAIN`, `lda.l cpu_regs.HVBJOY`,
 `sta dma_ch7.BBAD`. Typed operands pick their addressing mode from the
 register's address (absolute for $21xx / $42xx / $43xx). An explicit
 `.b` / `.w` / `.l` on the opcode still wins.

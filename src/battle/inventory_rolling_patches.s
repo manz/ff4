@@ -2,8 +2,6 @@
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 """
-
-.include "src/rom_map.i"
 .extern draw_window_render_hook
 
 .include "config.i"
@@ -17,7 +15,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .extern check_cursor2_visibility_rolling
 .extern battle_menu_dirty
 .extern CMD_DIRTY_BIT
-.extern battle_render.tilemap_pending_mask
+.extern battle_render_state.tilemap_pending_mask
 .extern battle_render.TILEMAP_PENDING_COMMANDS
 .extern battle_menu_dirty
 .extern CMD_DIRTY_BIT
@@ -156,9 +154,9 @@ draw_battle_command_window_relocated:
 ; Queue the cmd tilemap upload only now that mirror + overlay are both
 ; in: queued earlier, an NMI between the two pushed the bare mirror (or
 ; a half-copied overlay) to VRAM. The VWF render used to fill that gap.
-    lda.l battle_render.tilemap_pending_mask
+    lda.l battle_render_state.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_COMMANDS
-    sta.l battle_render.tilemap_pending_mask
+    sta.l battle_render_state.tilemap_pending_mask
     rts
 
 ; ============================================================================

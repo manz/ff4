@@ -3,8 +3,7 @@ Minimal dialog-VWF wiring: pointer-loading helpers + entry hooks called from the
 the VWF layer kicks in without rewriting the message window.
 """
 
-.import "hw"
-.include "src/rom_map.i"
+.import "preamble"
 .include "src/libmz.i"
 
 ;=====================================================================

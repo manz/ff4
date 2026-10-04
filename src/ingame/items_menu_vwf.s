@@ -42,6 +42,7 @@ Status:
 
 
 .import "items"
+.import "vwf_ram"
 .include "../bank20.i"
 .include "src/battle/inventory_budget.i"
 
@@ -68,7 +69,7 @@ draw_field_item_name:
 """
     Bank-20 field-menu item-name render driven by `vwf_cfg`.
 
-    Stages the item name in `VWF_TEXT_BUFFER` with a $00 terminator,
+    Stages the item name in `vwf_text_buffer` with a $00 terminator,
     fills `vwf_cfg` with per-slot tile budget + tilemap dest,
     fills the top tilemap row with $FF blanks (so the 16-pixel-tall
     slot keeps its height), writes the items_unleashed symbol byte
@@ -102,7 +103,7 @@ draw_field_item_name:
     tax
     pla
     sep #0x20
-; --- Copy items_unleashed name bytes into VWF_TEXT_BUFFER, terminate $00 ---
+; --- Copy items_unleashed name bytes into vwf_text_buffer, terminate $00 ---
 ; Byte 0 of the record is the symbol (rendered separately as fixed
 ; tile below) ; bytes 1..ITEM_UNLEASHED_TEXT_SIZE go into the buffer.
 ; X is the destination index (only abs,x works with sta.l) ; the
@@ -113,14 +114,14 @@ draw_field_item_name:
     rep #0x20
     txa
     inc  ; skip symbol byte
-    sta vwf_engine.src_offset
+    sta.l vwf_engine.src_offset
     sep #0x20
     ldx.w #0x0000
 
 _copy_loop:
     phx
     rep #0x20
-    lda vwf_engine.src_offset
+    lda.l vwf_engine.src_offset
     tax
     sep #0x20
     lda.l assets_items_unleashed_dat, x
@@ -128,16 +129,16 @@ _copy_loop:
     inx
     rep #0x20
     txa
-    sta vwf_engine.src_offset
+    sta.l vwf_engine.src_offset
     sep #0x20
     pla
     plx
-    sta.l VWF_TEXT_BUFFER, x
+    sta.l vwf_text_buffer, x
     inx
     cpx.w #ITEM_UNLEASHED_TEXT_SIZE
     bne _copy_loop
     lda.b #0x00
-    sta.l VWF_TEXT_BUFFER, x  ; null terminator
+    sta.l vwf_text_buffer, x  ; null terminator
 ; --- Populate vwf_cfg.tile_id_base = FIELD base + $5D * K ---
 ; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2.
 ; Store the full 16-bit value: slots 6..10 produce tile_id_base
@@ -158,11 +159,11 @@ _copy_loop:
     adc 0x01, s  ; + slot = * 10
     clc
     adc.w #FIELD_ITEM_VWF_TILE_BASE
-    sta vwf_cfg.tile_id_base  ; word
+    sta.l vwf_cfg.tile_id_base  ; word
     pla  ; balance
     sep #0x20
     lda.b #FIELD_ITEM_VWF_TILE_BUDGET
-    sta vwf_cfg.slot_budget
+    sta.l vwf_cfg.slot_budget
 ; CHR -> VRAM flush descriptor. Menu PPU runs in Mode 0
 ; (BGMODE = $00 at `ff4decomp/menu/menu.asm:3878`) with BG34NBA = $22
 ; -> BG3 CHR at VRAM word $2000 (byte $4000). Two descriptors live in
@@ -180,7 +181,7 @@ _copy_loop:
 ; vwf_engine.caller_ctx and any non-zero value sent the very first render
 ; into the drops branch on the wrong inventory.
     sep #0x20
-    lda vwf_engine.caller_ctx
+    lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_DROPS
     beq _write_secondary_desc
     cmp.b #VWF_CTX_EQUIP
@@ -190,20 +191,20 @@ _copy_loop:
     rep #0x20
 ; --- Primary descriptor (treasure / field-items / default) ---
     lda.w #FIELD_VWF_VRAM_DEST_WORD
-    sta vwf_cfg.chr_vram_word
+    sta.l vwf_cfg.chr_vram_word
     lda.w #FIELD_VWF_PRIMARY_BYTE_COUNT
-    sta vwf_cfg.chr_byte_count
+    sta.l vwf_cfg.chr_byte_count
     bra _desc_done
 
 _write_secondary_desc:
 ; --- Secondary descriptor (drops in treasure popup) ---
     rep #0x20
     lda.w #DROPS_VWF_VRAM_DEST_WORD
-    sta vwf_engine.flush_b.vram_word
+    sta.l vwf_engine.flush_b.vram_word
     lda.w #DROPS_VWF_BYTE_COUNT
-    sta vwf_engine.flush_b.byte_count
+    sta.l vwf_engine.flush_b.byte_count
     lda.w #DROPS_VWF_CHR_SRC_OFFSET
-    sta vwf_engine.flush_b.src_offset
+    sta.l vwf_engine.flush_b.src_offset
     bra _desc_done
 
 _write_key_item_desc:
@@ -212,11 +213,11 @@ _write_key_item_desc:
 ; on the field map and never coexists with the treasure popup.
     rep #0x20
     lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
-    sta vwf_engine.flush_b.vram_word
+    sta.l vwf_engine.flush_b.vram_word
     lda.w #KEY_ITEM_VWF_BYTE_COUNT
-    sta vwf_engine.flush_b.byte_count
+    sta.l vwf_engine.flush_b.byte_count
     lda.w #KEY_ITEM_VWF_CHR_SRC_OFFSET
-    sta vwf_engine.flush_b.src_offset
+    sta.l vwf_engine.flush_b.src_offset
 
 _desc_done:
     sep #0x20
@@ -228,7 +229,7 @@ _desc_done:
 ; The picker overlays the field map, where the window body carries
 ; the priority bit ($20) ; without it the glyph cells fall behind
 ; the map tiles the window is drawn over.
-    lda vwf_engine.caller_ctx
+    lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_KEY_ITEM
     beq _flags_key_item
     lda.b #0x01
@@ -238,7 +239,7 @@ _flags_key_item:
     lda.b #0x21
 
 _flags_store:
-    sta vwf_cfg.flags
+    sta.l vwf_cfg.flags
 ; --- vwf_cfg.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
 ; Caller's Y is the 16-bit byte offset of the top row tile we are
 ; about to write the symbol into ; VWF chars start two bytes later.
@@ -252,7 +253,7 @@ _flags_store:
     adc.b 0x29
     clc
     adc.w #0x0042  ; + $40 (next row) + $02 (past symbol)
-    sta vwf_cfg.tilemap_base
+    sta.l vwf_cfg.tilemap_base
     sep #0x20
 ; --- Top row: $FF tile + palette across the full slot width
 ; (1 symbol + ITEM_UNLEASHED_TEXT_SIZE name + trailing blanks fit
@@ -348,7 +349,7 @@ _bottom_blank_loop:
     ora.b 0x34
     sta (0x1D), y  ; bottom-row symbol palette
     iny
-; --- Run the unified renderer over VWF_TEXT_BUFFER ---
+; --- Run the unified renderer over vwf_text_buffer ---
     jsr.l render_with_config_trampoline
 ; render_with_config sets vwf_engine.chr_dirty=1 unconditionally. For drops
 ; (CTX=1) ADDITIONALLY raise DIRTY_B so the NMI's secondary flush
@@ -359,7 +360,7 @@ _bottom_blank_loop:
 ; is harmless on drops-only frames: the primary DMA covers treasure
 ; VRAM range only ($5000..$5400) which drops never writes into.
     sep #0x20
-    lda vwf_engine.caller_ctx
+    lda.l vwf_engine.caller_ctx
     beq _dirty_done
     cmp.b #VWF_CTX_KEY_ITEM
     beq _dirty_key_item
@@ -368,7 +369,7 @@ _bottom_blank_loop:
     cmp.b #VWF_CTX_DROPS
     bne _dirty_done
     lda.b #0x01
-    sta vwf_engine.flush_b.dirty
+    sta.l vwf_engine.flush_b.dirty
     bra _dirty_done
 
 _dirty_key_item:
@@ -381,9 +382,9 @@ _dirty_key_item:
 ; mode 0 but the BG3 TILEMAP once the field map is up - flushing it
 ; would spray glyph bytes over the map's BG3 tilemap.
     lda.b #0x01
-    sta vwf_engine.flush_b.dirty
+    sta.l vwf_engine.flush_b.dirty
     lda.b #0x00
-    sta vwf_engine.chr_dirty
+    sta.l vwf_engine.chr_dirty
 
 _dirty_done:
     ply
@@ -394,7 +395,7 @@ _top_row_cells:
 ; X = cells the top (blank) row covers: the full fixed-width slot, or
 ; just the equip name cells (its names start too far right for 17).
     ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
-    lda vwf_engine.caller_ctx
+    lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_EQUIP
     bne _row_cells_done
     ldx.w #EQUIP_NAME_CELLS
@@ -423,7 +424,7 @@ draw_equip_item_name:
     phy
     lda.b 0x5D
     pha
-    lda vwf_engine.caller_ctx
+    lda.l vwf_engine.caller_ctx
     pha
     tya
     sec
@@ -432,12 +433,12 @@ draw_equip_item_name:
     adc.b #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5D
     lda.b #VWF_CTX_EQUIP
-    sta vwf_engine.caller_ctx
+    sta.l vwf_engine.caller_ctx
     lda (0x60), y
     txy
     jsr.l draw_field_item_name
     pla
-    sta vwf_engine.caller_ctx
+    sta.l vwf_engine.caller_ctx
     pla
     sta.b 0x5D
     ply

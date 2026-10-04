@@ -2,7 +2,8 @@
 Small (8x8) VWF init routine: prepares the menu tile buffer, runs the renderer init and wires up the long-form
 RTL entry points for cross-bank callers.
 """
-.import "hw"
+.import "preamble"
+.import "vwf_ram"
 .include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
@@ -10,6 +11,7 @@ RTL entry points for cross-bank callers.
 
 .import "assets"
 .import "items"
+.import "battle/render_state"
 .import "libmz"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern

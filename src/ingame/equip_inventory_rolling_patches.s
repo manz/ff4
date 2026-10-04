@@ -10,7 +10,6 @@ cursor and index math collapse to one column.
 """
 
 
-.include "src/rom_map.i"
 .include "src/libmz.i"
 .import "items"
 .extern equip_init

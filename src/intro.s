@@ -8,7 +8,7 @@ and chains into the title screen.
 ; ----------------------------------------------------------------
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
-.import "hw"
+.import "preamble"
 .include "bank20.i"
 .import "libmz"
 .import "assets"

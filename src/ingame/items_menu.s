@@ -5,8 +5,6 @@ Field / drops / treasure rolling inventory all defer to vanilla
 DrawItemSlot at $01:9000, so patching here switches them in one
 go.
 """
-
-.include "src/rom_map.i"
 .extern draw_field_item_name_trampoline
 .extern assets_items_unleashed_dat
 .extern multiply_item_index_17

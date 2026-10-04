@@ -29,7 +29,7 @@ VWF_CHR_BUFFER := 0x703000
 ; so the high slots end up at tile_id $160+ ; the previous $1000
 ; sizing capped at $FF and the high-slot CHR landed in
 ; $704000-$704FFF which was outside any blit / DMA reach.
-VWF_CHR_BUFFER_SIZE := 0x2000
+VWF_CHR_BUFFER_SIZE := 0x1F00  ; tiles $000..$1EF; BATTLE_FLAGS follows
 
 ; --- Battle-render gate state (OUTSIDE the CHR buffer) ------------------
 ; These bytes must not live inside VWF_CHR_BUFFER. The inventory rolling
@@ -43,111 +43,11 @@ VWF_CHR_BUFFER_SIZE := 0x2000
 ; pending_transfer_mask = $F3), so the battle names / monsters regions lost
 ; their dirty + CHR-pending bits and never flushed again: black name blocks
 ; and an empty monster window for the rest of the battle.
-BATTLE_RENDER_STATE := 0x707100
+; Hence BATTLE_RENDER_STATE at $70:7100: reserved in battle/render_state.s.
 
-; pending_transfer_mask: which VWF CHR slices the NMI flushes.
-.struct ChrTransferBits {
-    u1 pending
-    u1 messages
-    u1 monsters
-    u1 names
-    u1 commands
-    u1 spells
-    u2 free
-}
+; Typed and reserved in battle/render_state.s.
 
-; region_dirty_bits: regions whose text changed (1 = dirty).
-.struct RegionDirtyBits {
-    u1 messages
-    u1 monsters
-    u1 names
-    u1 commands
-    u4 free
-}
-
-; tilemap_pending_mask: per-region tilemap DMAs the NMI fires.
-.struct TilemapPendingBits {
-    u1 commands
-    u1 main
-    u6 free
-}
-
-; The battle renderer's own state; battle/render_defs.i documents each
-; field under its `battle_render.` name.
-.struct BattleRenderState {
-    ChrTransferBits pending_transfer_mask
-    RegionDirtyBits region_dirty_bits
-    byte render_skipped
-    TilemapPendingBits tilemap_pending_mask
-    byte free_04
-    byte highlight_active_slot
-    byte highlight_pal_byte
-    byte highlight_row
-    byte highlight_cache_slot
-    byte highlight_cache_menu
-    byte items_frame_dirty
-    byte spell_tiles_live
-    byte spell_name_left
-    word spell_name_src
-    byte free_0f
-    byte dma_dirty_slots
-    word spell_list_ptr
-    byte spell_row
-    byte spell_slot
-    byte spell_ring_dirty
-    byte spell_ring_rows
-}
-
-battle_render_state := (BATTLE_RENDER_STATE as BattleRenderState)
-
-; --- Null-terminated text-staging buffer ------------------------------
-; Callers copy the source string (from items_unleashed, monster names,
-; magic list, ...) into this buffer + write $00 terminator, then call
-; `vwf_render_string` with just a pointer. Lets the engine drop the
-; explicit char-count argument that battle / item-description / field
-; helpers each carry today, and lets us swap the source layout
-; (fixed-stride table vs null-terminated table vs RAM-resident string)
-; without touching the renderer. Sized for the longest field-menu
-; item slot in `assets_items_unleashed_dat` + 1 terminator + headroom.
-VWF_TEXT_BUFFER := 0x707000
-VWF_TEXT_BUFFER_SIZE := 0x40
-
-; --- VWF config: per-render parameters, bound as `vwf_cfg` (below) ------
-VWF_CONFIG_BASE := 0x707080
-
-; --- Engine state in SRAM (no DP collisions), bound as `vwf_engine` ---
-VWF_ENGINE_BASE := 0x7070C0
-
-; Where one panel's CHR goes: the drops panel's flush (see caller_ctx).
-.struct VwfFlushDesc {
-    byte dirty
-    word vram_word
-    word byte_count
-    word src_offset
-}
-
-.struct VwfEngine {
-    word src_offset
-    byte chr_dirty
-    byte caller_ctx
-    VwfFlushDesc flush_b
-    word tilemap_offset
-    byte prev_char
-    byte current_char
-}
-
-.struct VwfConfig {
-    word tile_id_base
-    byte slot_budget
-    word tilemap_base
-    byte palette_byte
-    byte flags
-    word chr_vram_word
-    word chr_byte_count
-}
-
-vwf_cfg := (VWF_CONFIG_BASE as VwfConfig)
-vwf_engine := (VWF_ENGINE_BASE as VwfEngine)
+; The text buffer, vwf_cfg and vwf_engine are reserved in vwf_ram.s.
 
 ; Engine-shared CHR-flush source offset. Every VWF caller writes
 ; glyph CHR at `VWF_CHR_BUFFER + tile_id_base * 16` ; both battle

@@ -7,7 +7,6 @@ geometry and Cecil sprite position that go with them.
 """
 
 
-.include "src/rom_map.i"
 .include "src/menus/system_menus_text.i"
 
 ; The macro above expands to a call into the menus text module, and the

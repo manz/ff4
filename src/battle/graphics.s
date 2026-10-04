@@ -1,6 +1,4 @@
 """
-.include "../bank20.i"
-
 Hard-coded battle command graphics: tile-id rows used when the row/defend command labels need to be redrawn
 from ROM.
 """

@@ -1,6 +1,4 @@
 """
-.include "../bank20.i"
-
 Relocated battle monster-name pointer resolver: indexes `assets_monsters_long_ptr[A*2]` and renders the
 resulting string into the active slot.
 """

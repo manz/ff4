@@ -1,3 +1,18 @@
 entrypoint = "ff4.s"
 module-paths = ["build/obj", "src"]
 include-paths = ["src"]
+rom_size = 0x200000  # 2 MB patched image
+
+# Bus map, seeded onto every module (no source `.map` lines).
+[map.1]  # LoROM ROM, mirrored at $80-$CF
+address = "00-6f,80-cf:8000-ffff"
+mask = 0x8000
+
+[map.2]  # console WRAM
+address = "7e-7f:0000-ffff"
+writable = true
+
+[map.3]  # cart SRAM: header patched to 128KB, cleared at boot, ours alone
+address = "70:0000-7fff"
+mask = 0x8000
+writable = true

@@ -1,6 +1,6 @@
 """Shared low-level helpers: vblank spinner + DMA transfer routines for VRAM / palette + small bank-trampolines."""
 
-.import "hw"
+.import "preamble"
 .include "libmz.i"
 .include "bank20.i"
 

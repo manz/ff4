@@ -21,7 +21,7 @@ signal arms it, as for sell.
 """
 
 
-.import "hw"
+.import "preamble"
 .include "../bank20.i"
 .include "config.i"
 .import "items"

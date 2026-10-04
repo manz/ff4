@@ -49,14 +49,9 @@
 
 .scope field_vwf {
     """
-    S-RAM layout
-    0x700000 - 0x701fff: Save data
-    0x702000 - 0x702fff: Tile buffer for dialog text renderer
-    0x703000 - 0x7032FF: Tile buffer used in battle text renderer and menu text renderer
-    0x705000 - 0x706300: Vram saved before entering menus.
-    0x707000 - 0x709cff: Battle magic buffers
-    0x710000 - 0x710100: Vars buffer
-    0x710100 - 0x710107: BRK trap capture (P, PC.lo, PC.hi, PB)
+    S-RAM layout: $70:0000-1FFF save data, $70:2000-6FFF sram_layout.s,
+    $70:7000-70FF vwf_ram.s, $70:7100 battle/render_state.s, $70:7200-7FFF
+    rolling_state.i.
     """
     tile_buffer = 0x702000
 }

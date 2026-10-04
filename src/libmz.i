@@ -2,7 +2,7 @@
 Reusable assembly helpers (`dma_transfer_to_*` macros, `_wait_for_vblank_inline`, save/restore variable
 mirrors, padding macros) shared across the patch sources.
 """
-.import "hw"
+.import "preamble"
 .macro _wait_for_vblank_inline() {
     pha
 _negative:

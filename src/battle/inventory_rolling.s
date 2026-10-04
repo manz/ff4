@@ -3,7 +3,9 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
-.import "hw"
+.import "preamble"
+.import "vwf_ram"
+.import "battle/render_state"
 .include "config.i"
 .import "items"
 .extern assets_items_dat
@@ -160,8 +162,8 @@ init_inventory_text_buf_rolling:
 ; magic-list flags so cart RAM left over from an earlier battle (or a
 ; savestate) can't force a repaint.
     lda.b #0x00
-    sta.l battle_render.items_frame_dirty
-    sta.l battle_render.spell_tiles_live
+    sta.l battle_render_state.items_frame_dirty
+    sta.l battle_render_state.spell_tiles_live
 ; Note: Game's $4A flag (bit 2) already indicates inventory is active
 
     .if BATTLE_ITEMS_VWF {
@@ -1657,11 +1659,11 @@ tfr_inventory_list_rolling:
 ; The magic list renders its names into this window's tiles: once it
 ; has, paint every visible slot again. Exactly 1: cart RAM a build never
 ; wrote (old savestates carry $FF) must not force a repaint.
-    lda.l battle_render.spell_tiles_live
+    lda.l battle_render_state.spell_tiles_live
     cmp.b #0x01
     bne _tfr_glyphs_ok
     lda.b #0x00
-    sta.l battle_render.spell_tiles_live
+    sta.l battle_render_state.spell_tiles_live
     lda.b #0x01
     sta.w inventory_needs_full_refresh
 
@@ -1674,11 +1676,11 @@ _tfr_glyphs_ok:
 _tfr_skip_refresh:
 ; The magic list draws its own frame over this buffer. Rebuild ours
 ; once before the slots go back in.
-    lda.l battle_render.items_frame_dirty
+    lda.l battle_render_state.items_frame_dirty
     beq _tfr_frame_ok
     jsr.w _restore_items_frame
     lda.b #0x00
-    sta.l battle_render.items_frame_dirty
+    sta.l battle_render_state.items_frame_dirty
 
 _tfr_frame_ok:
 

@@ -12,7 +12,7 @@ follow-up patches.
 """
 
 
-.include "src/rom_map.i"
+.import "battle/render_state"
 
 
 .extern set_active_char_and_dirty
@@ -28,7 +28,7 @@ follow-up patches.
 .extern gate_status_check
 .extern walker_rtl
 .extern refresh_active_char_palette
-.extern battle_render.render_skipped
+.extern battle_render_state.render_skipped
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
 
@@ -105,7 +105,7 @@ follow-up patches.
 ; battle_flags symmetry is preserved (other VWF callers like HP/MP
 ; digits keep seeing a consistent dispatcher state). The gating is
 ; INSIDE `init_*_gated`: it reads the region's clean bit from
-; `region_dirty_bits` at $703C01. If clean, it sets `render_skipped`
+; `battle_render_state.region_dirty_bits` at $703C01. If clean, it sets `battle_render_state.render_skipped`
 ; ($703C02) to $FF; the trampoline reads that and skips DrawText, and
 ; `deinit_gated` skips the DMA-signal. The WRAM tile buffer is left
 ; untouched, no DMA fires from this region's deinit, and the VRAM
@@ -113,7 +113,7 @@ follow-up patches.
 msg_monster_window_gated:
 """Gated DrawMonsterNames trampoline (slice-2 queue-side bit)."""
     jsr.l messages_vwf.init_monsters_gated
-    lda.l battle_render.render_skipped
+    lda.l battle_render_state.render_skipped
     bne _mmwg_after_draw
     jsr 0xA455
 ; DrawText
@@ -215,7 +215,7 @@ msg_names_window_gated:
     bne _mnwg_done
 ; inventory open -> skip whole pipeline
     jsr.l messages_vwf.init_names_gated
-    lda.l battle_render.render_skipped
+    lda.l battle_render_state.render_skipped
     bne _mnwg_after_draw
     jsr 0xA455
 _mnwg_after_draw:

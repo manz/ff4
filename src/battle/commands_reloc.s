@@ -1,6 +1,4 @@
 """
-.include "../bank20.i"
-
 Relocated battle-command-list renderer (`draw_command_list_for_character`) plus its private command-build
 loop, called by the patched bank-$02 hook.
 """

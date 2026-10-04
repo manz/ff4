@@ -3,13 +3,14 @@ Battle SRAM dispatch + per-mode put-char primitives: `battle_flags` toggles, `wr
 put_char/put_char_with_dakuten, `battle_display_char` jump-table dispatch and the `clear_names_window_buffer`
 helper.
 """
-.import "hw"
+.import "preamble"
 .include "src/battle/sram.i"
 .include "../bank20.i"
 
 .import "assets"
 .import "dakuten"
 .import "small_vwf/init"
+.import "battle/render_state"
 
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 

@@ -9,7 +9,6 @@ linker dedupes identical ranges via `_merge_one_pool_decl`.
 
 
 ; The pool sits in bank $20, so the ROM map has to be in scope with it.
-.include "src/rom_map.i"
 
 .pool bank20_reloc {
     range 0x208000 0x20FFFF
