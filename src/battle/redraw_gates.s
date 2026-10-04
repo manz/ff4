@@ -17,6 +17,9 @@ that prompted the work.
 """
 
 
+.import "battle/render_state"
+
+
 battle_menu_dirty := 0x7EEF9A  ; bit 5 = cmd window, bit 6 = status strip,
 ; bits 0-4 = per-char menu (HP/MP/name),
 ; bit 7 = main-menu chrome
@@ -134,9 +137,9 @@ mark_monsters_dirty_and_init:
 """
 
 
-    lda.l battle_render.region_dirty_bits
+    lda.l battle_render_state.region_dirty_bits
     ora.b #battle_render.REGION_DIRTY_MONSTERS
-    sta.l battle_render.region_dirty_bits
+    sta.l battle_render_state.region_dirty_bits
 ; Propagate to cmd-window region: the cmd-window tilemap at $C1A5+ is
 ; a mirror of the main view ($BE65+) overlaid with cmd tiles. If we
 ; refresh monsters in the main view, the cmd mirror is stale, so set
@@ -173,9 +176,9 @@ reset_queue_dirty_bits:
 
 
     lda.b #0x00
-    sta.l battle_render.render_skipped
+    sta.l battle_render_state.render_skipped
     lda.b #0xFF
-    sta.l battle_render.region_dirty_bits
+    sta.l battle_render_state.region_dirty_bits
     sta.l battle_menu_dirty
     sta.l battle_monster_dirty
     rtl
@@ -191,7 +194,7 @@ gated_clear_names_window_buffer:
 """
 
 
-    lda.l battle_render.region_dirty_bits
+    lda.l battle_render_state.region_dirty_bits
     bit.b #battle_render.REGION_DIRTY_NAMES
     beq _gcnwb_skip
     jsr.l clear_names_window_buffer
@@ -223,7 +226,7 @@ set_active_char_palette:
     mid-jump). A 3-char party therefore fills rows 0..2, not the rows
     its slots would occupy in a full party. The loop below mirrors
     that: display index in X, output row counted separately in
-    `highlight_row`.
+    `battle_render_state.highlight_row`.
 
     M=8, X=8. Preserves the caller's full 16-bit C: vanilla callers
     run `tax` with X=16 and rely on the hidden B byte (e.g. the
@@ -243,7 +246,7 @@ set_active_char_palette:
     pha
     plb
     pla
-    sta.l battle_render.highlight_active_slot
+    sta.l battle_render_state.highlight_active_slot
 ; Vanilla only highlights while the battle menu is open (`lda $d7 ;
 ; beq` at UpdateCharNames @a250, $D7 set by OpenMenu @abdd). Match it:
 ; with the menu closed, park the active slot at $FF so no display row
@@ -251,7 +254,7 @@ set_active_char_palette:
     lda.l 0x7E00D7
     bne _scp_menu_open
     lda.b #0xFF
-    sta.l battle_render.highlight_active_slot
+    sta.l battle_render_state.highlight_active_slot
 
 _scp_menu_open:
 ; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
@@ -261,7 +264,7 @@ _scp_menu_open:
     pha
     sep #0x20
     lda #0x00
-    sta.l battle_render.highlight_row
+    sta.l battle_render_state.highlight_row
     ldx.w #0
 
 _scp_slot_loop:
@@ -277,7 +280,7 @@ _scp_in_range:
 ; CharOrderTbl[display index] = char slot shown on this row. Compare
 ; to the active slot; match -> highlight palette, miss -> palette 0.
     lda.l 0x02A1C8, x
-    cmp.l battle_render.highlight_active_slot
+    cmp.l battle_render_state.highlight_active_slot
     beq _scp_is_active
     lda #0x00
     bra _scp_have_pal
@@ -286,10 +289,10 @@ _scp_is_active:
     lda #0x08  ; palette 2 (vanilla `lda #$08` in UpdateCharNames @a24c)
 
 _scp_have_pal:
-    sta.l battle_render.highlight_pal_byte
+    sta.l battle_render_state.highlight_pal_byte
 
 ; Staging buffer: base = $B966 + row * 24.
-    lda.l battle_render.highlight_row
+    lda.l battle_render_state.highlight_row
     rep #0x20
     and.w #0x00FF
     asl
@@ -321,7 +324,7 @@ _scp_have_pal:
 ; the live main-view tilemap as well so the TILEMAP_PENDING_MAIN DMA
 ; carries the highlight on the next NMI: dakuten line at
 ; $BEC2 + row * $80, name line $40 further on.
-    lda.l battle_render.highlight_row
+    lda.l battle_render_state.highlight_row
     rep #0x20
     and.w #0x00FF
     xba  ; *256
@@ -340,9 +343,9 @@ _scp_have_pal:
     sep #0x20
     ldy.w #1
     jsr.w _scp_patch_six
-    lda.l battle_render.highlight_row
+    lda.l battle_render_state.highlight_row
     inc
-    sta.l battle_render.highlight_row
+    sta.l battle_render_state.highlight_row
 
 _scp_next_slot:
     inx
@@ -408,7 +411,7 @@ _scp_patch_six:
 _scp_loop_six:
     lda (0x32), y
     and #0xE3
-    ora.l battle_render.highlight_pal_byte
+    ora.l battle_render_state.highlight_pal_byte
     sta (0x32), y
     iny
     iny
@@ -425,7 +428,7 @@ refresh_active_char_palette:
     - A names re-render rebuilds `$B966` through vanilla
       `UpdateCharNames`, which writes palette 0 for every row whenever
       `$D7` is clear. That wipes the walker's stamp mid-turn, which is
-      what made the highlight look erratic. `render_skipped` is $00
+      what made the highlight look erratic. `battle_render_state.render_skipped` is $00
       exactly when DrawText ran, so re-stamp on that edge.
     - `$1822` / `$D7` can also move without a render (ATB rotation is
       covered by the writer shim, but the menu open/close edge is not),
@@ -437,24 +440,24 @@ refresh_active_char_palette:
 
     php
     sep #0x20
-    lda.l battle_render.render_skipped
+    lda.l battle_render_state.render_skipped
     beq _rap_stamp
     lda.l 0x7E1822
-    cmp.l battle_render.highlight_cache_slot
+    cmp.l battle_render_state.highlight_cache_slot
     bne _rap_stamp
     lda.l 0x7E00D7
-    cmp.l battle_render.highlight_cache_menu
+    cmp.l battle_render_state.highlight_cache_menu
     beq _rap_done
 
 _rap_stamp:
     lda.l 0x7E00D7
-    sta.l battle_render.highlight_cache_menu
+    sta.l battle_render_state.highlight_cache_menu
     lda.l 0x7E1822
-    sta.l battle_render.highlight_cache_slot
+    sta.l battle_render_state.highlight_cache_slot
     jsr.w set_active_char_palette
-    lda.l battle_render.tilemap_pending_mask
+    lda.l battle_render_state.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_MAIN
-    sta.l battle_render.tilemap_pending_mask
+    sta.l battle_render_state.tilemap_pending_mask
 
 _rap_done:
     plp
@@ -493,7 +496,7 @@ set_active_char_and_dirty:
 ; flags the walker reads. `refresh_active_char_palette` re-stamps on
 ; the next frame, when that state is good.
     lda.b #0xFF
-    sta.l battle_render.highlight_cache_slot
+    sta.l battle_render_state.highlight_cache_slot
     pla
     rtl
 }

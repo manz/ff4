@@ -43,62 +43,9 @@ VWF_CHR_BUFFER_SIZE := 0x2000
 ; pending_transfer_mask = $F3), so the battle names / monsters regions lost
 ; their dirty + CHR-pending bits and never flushed again: black name blocks
 ; and an empty monster window for the rest of the battle.
-BATTLE_RENDER_STATE := 0x707100
+; Hence BATTLE_RENDER_STATE at $70:7100: reserved in battle/render_state.s.
 
-; pending_transfer_mask: which VWF CHR slices the NMI flushes.
-.struct ChrTransferBits {
-    u1 pending
-    u1 messages
-    u1 monsters
-    u1 names
-    u1 commands
-    u1 spells
-    u2 free
-}
-
-; region_dirty_bits: regions whose text changed (1 = dirty).
-.struct RegionDirtyBits {
-    u1 messages
-    u1 monsters
-    u1 names
-    u1 commands
-    u4 free
-}
-
-; tilemap_pending_mask: per-region tilemap DMAs the NMI fires.
-.struct TilemapPendingBits {
-    u1 commands
-    u1 main
-    u6 free
-}
-
-; The battle renderer's own state; battle/render_defs.i documents each
-; field under its `battle_render.` name.
-.struct BattleRenderState {
-    ChrTransferBits pending_transfer_mask
-    RegionDirtyBits region_dirty_bits
-    byte render_skipped
-    TilemapPendingBits tilemap_pending_mask
-    byte free_04
-    byte highlight_active_slot
-    byte highlight_pal_byte
-    byte highlight_row
-    byte highlight_cache_slot
-    byte highlight_cache_menu
-    byte items_frame_dirty
-    byte spell_tiles_live
-    byte spell_name_left
-    word spell_name_src
-    byte free_0f
-    byte dma_dirty_slots
-    word spell_list_ptr
-    byte spell_row
-    byte spell_slot
-    byte spell_ring_dirty
-    byte spell_ring_rows
-}
-
-battle_render_state := (BATTLE_RENDER_STATE as BattleRenderState)
+; Typed and reserved in battle/render_state.s.
 
 ; --- Null-terminated text-staging buffer ------------------------------
 ; Callers copy the source string (from items_unleashed, monster names,

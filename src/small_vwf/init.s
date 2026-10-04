@@ -10,6 +10,7 @@ RTL entry points for cross-bank callers.
 
 .import "assets"
 .import "items"
+.import "battle/render_state"
 .import "libmz"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern

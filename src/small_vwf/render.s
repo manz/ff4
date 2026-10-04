@@ -577,7 +577,7 @@ _chr_clear_loop:
     sep #0x20
     jsr.w draw_text_buffer
 ; Tell the NMI flush hook this slot needs a VRAM upload. Mirror of
-; `battle_render.dma_dirty_slots` ; engine-side so every consumer
+; `battle_render_state.dma_dirty_slots` ; engine-side so every consumer
 ; (field items, item descriptions, treasure list, ...) signals dirty
 ; without knowing about VRAM addresses.
     lda.b #0x01

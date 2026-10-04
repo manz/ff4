@@ -3,6 +3,7 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 (`magic_list_ptrs`).
 """
 .import "preamble"
+.import "battle/render_state"
 .extern messages_vwf.spell_name_begin
 .extern messages_vwf.draw_spell_name
 .extern messages_vwf.spell_ring_flush
@@ -255,7 +256,7 @@ bottom_loop:
 ; The items window shares this buffer and only draws its frame at
 ; battle start; have its next transfer rebuild it.
     lda.b #0x01
-    sta.l battle_render.items_frame_dirty
+    sta.l battle_render_state.items_frame_dirty
     jsr.w _ring_flush
     rtl
 
@@ -291,39 +292,39 @@ map_loop:
 _ring_validate:
 ; The ring caches rows of one list only, and the items window paints over
 ; it: start it over unless it holds glyphs of the list at $00.
-    lda.l battle_render.spell_tiles_live
+    lda.l battle_render_state.spell_tiles_live
     cmp.b #0x01
     bne _ring_reset
     rep #0x20
     lda.b 0x00
-    cmp.l battle_render.spell_list_ptr
+    cmp.l battle_render_state.spell_list_ptr
     sep #0x20
     beq _ring_valid
 
 _ring_reset:
     rep #0x20
     lda.b 0x00
-    sta.l battle_render.spell_list_ptr
+    sta.l battle_render_state.spell_list_ptr
     sep #0x20
     lda.b #0xFF
     ldx.w #battle_render.SPELL_RING_ROWS - 1
 
 _ring_reset_loop:
-    sta.l battle_render.spell_ring_rows, x
+    sta.l battle_render_state.spell_ring_rows, x
     dex
     bpl _ring_reset_loop
     lda.b #0x01
-    sta.l battle_render.spell_tiles_live
+    sta.l battle_render_state.spell_tiles_live
 
 _ring_valid:
     rts
 
 _ring_flush:
 ; Queue the ring's CHR flush if a render touched it. M=8.
-    lda.l battle_render.spell_ring_dirty
+    lda.l battle_render_state.spell_ring_dirty
     beq _ring_clean
     lda.b #0x00
-    sta.l battle_render.spell_ring_dirty
+    sta.l battle_render_state.spell_ring_dirty
     jsr.l messages_vwf.spell_ring_flush
 
 _ring_clean:
@@ -332,30 +333,30 @@ _ring_clean:
 render_spell_row:
 """
 Render list row A's two names into its ring slot, unless the slot holds
-that row already. Needs spell_list_ptr and DBR = $7E. M=8, X=16  ;
+that row already. Needs battle_render_state.spell_list_ptr and DBR = $7E. M=8, X=16  ;
 clobbers $32-$36, X, Y.
 """
 
 
-    sta.l battle_render.spell_row
+    sta.l battle_render_state.spell_row
     sec
 
 _rsr_mod:
     sbc.b #battle_render.SPELL_RING_ROWS
     bcs _rsr_mod
     adc.b #battle_render.SPELL_RING_ROWS
-    sta.l battle_render.spell_slot
+    sta.l battle_render_state.spell_slot
     rep #0x20
     and.w #0x00FF
     tax
     sep #0x20
-    lda.l battle_render.spell_ring_rows, x
-    cmp.l battle_render.spell_row
+    lda.l battle_render_state.spell_ring_rows, x
+    cmp.l battle_render_state.spell_row
     beq _rsr_done
-    lda.l battle_render.spell_row
-    sta.l battle_render.spell_ring_rows, x
+    lda.l battle_render_state.spell_row
+    sta.l battle_render_state.spell_ring_rows, x
     lda.b #0x01
-    sta.l battle_render.spell_ring_dirty
+    sta.l battle_render_state.spell_ring_dirty
     lda.b #0x00
     jsr.w _rsr_name
     lda.b #0x01
@@ -369,8 +370,8 @@ _rsr_name:
     rep #0x20
     and.w #0x0001
     pha
-; List entry: spell_list_ptr + row * 8 + column * 4.
-    lda.l battle_render.spell_row
+; List entry: battle_render_state.spell_list_ptr + row * 8 + column * 4.
+    lda.l battle_render_state.spell_row
     and.w #0x00FF
     asl
     asl
@@ -382,7 +383,7 @@ _rsr_name:
     clc
     adc.b 0x32
     clc
-    adc.l battle_render.spell_list_ptr
+    adc.l battle_render_state.spell_list_ptr
     tax
 ; Row pair: column base + row * $80.
     lda.b 0x32
@@ -426,7 +427,7 @@ _rsr_palette:
     adc 1, s
     sta 1, s
 ; Ring tiles: the slot's base, plus a name's worth for the right column.
-    lda.l battle_render.spell_slot
+    lda.l battle_render_state.spell_slot
     and.w #0x00FF
     tax
     sep #0x20
@@ -468,7 +469,7 @@ goes on to TAX an 8-bit read with X=16), X, Y and $32-$37.
     sep #0x20
     cmp.b #battle_render.SPELL_LIST_ROWS
     bcs _slsr_out
-    lda.l battle_render.spell_tiles_live
+    lda.l battle_render_state.spell_tiles_live
     cmp.b #0x01
     bne _slsr_out
     lda.b #0x7E

@@ -10,6 +10,7 @@ helper.
 .import "assets"
 .import "dakuten"
 .import "small_vwf/init"
+.import "battle/render_state"
 
 BATTLE_DAKUTEN_TABLE = 0x16FA40
 
