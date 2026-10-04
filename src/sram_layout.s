@@ -21,28 +21,19 @@ SMALL_VWF_ALLOCATOR := 0x702F00
 SMALL_VWF_ALLOCATOR_SIZE := 3
 
 .pool sram_work {
+    bss
     range 0x702000 0x706FFF
     strategy order
 }
 
-.alloc sram_dialog_tiles at DIALOG_TILE_BUFFER {
-    .res DIALOG_TILE_BUFFER_SIZE
-}
-.alloc sram_small_vwf_allocator at SMALL_VWF_ALLOCATOR {
-    .res SMALL_VWF_ALLOCATOR_SIZE
-}
+.reserve sram_dialog_tiles DIALOG_TILE_BUFFER_SIZE at DIALOG_TILE_BUFFER in sram_work
+.reserve sram_small_vwf_allocator SMALL_VWF_ALLOCATOR_SIZE at SMALL_VWF_ALLOCATOR in sram_work
 ; Glyph CHR for tiles $000..$1EF. Renders observed reach tile $1AA; the
 ; last 16 tiles' worth of buffer is BATTLE_FLAGS' page.
-.alloc sram_vwf_chr at VWF_CHR_BUFFER {
-    .res VWF_CHR_BUFFER_SIZE
-}
-.alloc sram_battle_flags at BATTLE_FLAGS {
-    .res 1
-}
+.reserve sram_vwf_chr VWF_CHR_BUFFER_SIZE at VWF_CHR_BUFFER in sram_work
+.reserve sram_battle_flags 1 at BATTLE_FLAGS in sram_work
 ; Taken in turns: vanilla's VRAM save ($14:FF9C) fills the whole window
 ; while the treasure popup or a dialog is up; the field item menu keeps
 ; the item-description cache (render.last_drawn_text_ptr) at +2. A cache
 ; overwritten by a save only costs one description redraw.
-.alloc sram_vram_save at VRAM_SAVE_SRAM_BASE {
-    .res VRAM_SAVE_BYTE_COUNT
-}
+.reserve sram_vram_save VRAM_SAVE_BYTE_COUNT at VRAM_SAVE_SRAM_BASE in sram_work

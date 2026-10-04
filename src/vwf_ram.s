@@ -19,12 +19,11 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; without touching the renderer. Sized for the longest field-menu
 ; item slot in `assets_items_unleashed_dat` + 1 terminator + headroom.
 .pool vwf_text_ram {
+    bss
     range 0x707000 0x70703F
     strategy order
 }
-.alloc vwf_text_buffer in vwf_text_ram {
-    .res 0x40
-}
+.reserve vwf_text_buffer 0x40 in vwf_text_ram
 
 ; Where one panel's CHR goes: the drops panel's flush (see caller_ctx).
 .struct VwfFlushDesc {
@@ -103,6 +102,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; --- Per-render parameters: callers fill them, then call
 ; `render.render_with_config` ---------------------------------------------
 .pool vwf_cfg_ram {
+    bss
     range 0x707080 ( 0x707080 + VwfConfig.__size - 1 )
     strategy order
 }
@@ -110,6 +110,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 
 ; --- Engine state, long-addressed so no direct-page user can alias it ----
 .pool vwf_engine_ram {
+    bss
     range 0x7070C0 ( 0x7070C0 + VwfEngine.__size - 1 )
     strategy order
 }
