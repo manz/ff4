@@ -9,6 +9,7 @@ RTL entry points for cross-bank callers.
 .include "src/libmz.i"
 
 .import "assets"
+.import "items"
 .import "libmz"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern

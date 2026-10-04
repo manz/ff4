@@ -1,6 +1,5 @@
 """Small-VWF item-description renderer."""
 .include "src/vwf_state.i"
-.import "items"
 
 .scope items_description {
     """Small-VWF item-description renderer entry-points."""

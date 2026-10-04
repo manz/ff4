@@ -15,7 +15,6 @@ vwf_state.i).
 
 
 .include "config.i"
-.import "items"
 .include "src/vwf_state.i"
 
 VARS_BUFFER = 0x710000
