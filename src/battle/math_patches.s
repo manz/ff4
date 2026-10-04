@@ -4,7 +4,6 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 """
 
 .import "preamble"
-.include "src/rom_map.i"
 
 ; ===========================================================================
 ; Mult8 Hardware Implementation - Bank 2 version at $8560

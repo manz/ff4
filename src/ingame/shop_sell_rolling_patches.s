@@ -10,7 +10,6 @@ length.
 """
 
 
-.include "src/rom_map.i"
 .extern sell_leave
 .extern sell_scroll_down
 .extern sell_scroll_up

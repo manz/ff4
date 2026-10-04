@@ -4,7 +4,6 @@ translated-string tables.
 """
 
 .import "preamble"
-.include "src/rom_map.i"
 .extern msg_window_draw_text_trampoline
 .extern assets_battle_text_ptr
 .extern assets_battle_messages_ptr

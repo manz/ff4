@@ -2,8 +2,6 @@
 In-place patches for the staff credits screen: re-point the credits text loader at our relocated
 `assets_credits_text_bin` block.
 """
-
-.include "src/rom_map.i"
 .extern assets_credits_text_bin
 
 

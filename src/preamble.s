@@ -1,6 +1,6 @@
 """
 Build context every module can import: the typed hardware register binds
-over the a816 standard library.
+over the a816 standard library. The bus map lives in a816.toml.
 
 Address registers by name: `sta ppu.VMAIN`, `lda.l cpu_regs.HVBJOY`,
 `sta dma_ch7.BBAD`. Typed operands pick their addressing mode from the

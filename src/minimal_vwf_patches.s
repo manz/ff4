@@ -4,7 +4,6 @@ the VWF layer kicks in without rewriting the message window.
 """
 
 .import "preamble"
-.include "src/rom_map.i"
 .include "src/libmz.i"
 
 ;=====================================================================

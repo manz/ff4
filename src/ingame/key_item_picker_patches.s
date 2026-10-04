@@ -30,7 +30,6 @@ Patched:
 """
 
 
-.include "src/rom_map.i"
 .extern assets_items_unleashed_dat
 .extern multiply_by_17
 .extern key_item_after_open_impl

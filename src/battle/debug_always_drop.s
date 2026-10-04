@@ -3,8 +3,6 @@ Debug patch (gated by `TREASURE_DEBUG_ALWAYS_DROP`) that forces every battle to 
 NOPing the random-roll gate at $03:ED0D.
 """
 
-.include "src/rom_map.i"
-
 ; Debug: force every battle to drop an item.
 ;
 
