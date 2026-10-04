@@ -28,7 +28,9 @@ Final Fantasy IV the new hack.
 .import "battle/sram"
 .import "dakuten"
 .import "dialog"
+.import "hw"
 .import "ingame/init_bg_scroll_hdma"
+.import "ingame/items_menu"
 .import "ingame/items_menu_vwf"
 .import "ingame/places_names"
 .import "ingame/new_game"
@@ -75,8 +77,6 @@ Final Fantasy IV the new hack.
 }
 
 .include "src/ingame/menus.i"
-; item name expansion patches
-.import "ingame/items_menu"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
@@ -166,9 +166,9 @@ conditional_bg1_vofs:
 ; HDMA not active - do original BG1VOFS writes
 ; Menu context: D=$0100, so $93 reads from $0193
     lda.b 0x93
-    sta.w 0x210E
+    sta.w ppu.BG1VOFS
     lda.b 0x94
-    sta.w 0x210E
+    sta.w ppu.BG1VOFS
 
 _cond_skip_bg1vofs:
     rtl
@@ -301,7 +301,7 @@ signature byte sits at PB:(PC - 1).
     sei
     sep #0x20
     lda #0x00  ; disable NMI / auto-joypad
-    sta.l 0x004200
+    sta.l cpu_regs.NMITIMEN
     pla  ; A = P (discard)
     rep #0x20
     pla  ; A = pushed PC (= BRK + 2)
@@ -319,53 +319,7 @@ signature byte sits at PB:(PC - 1).
 
 ; end .alloc bank20_main
 
-; Resume implicit org for imported modules. The .alloc above consumes
-; $20:8000..$20:8048 (5 inline routines); $20:8100 gives safe margin
-; and matches the legacy `*=0x208000` chain so .import modules without
-; their own `*=` directive land in bank-20 as expected.
-
-; --- Imported modules ---------------------------------------------------
-
-.import "libmz"
-.import "dialog"
-.import "kerning"
-.if ENABLE_INTRO {
-    .import "intro"
-}
-.import "vwf"
-.import "small_vwf/init"
-
-.if BATTLE_ENABLED {
-    .import "battle/sram"
-    .import "battle/graphics"
-    .import "battle/monsters_reloc"
-    .if MAGIC_ENABLED {
-    .import "battle/magic_reloc"
-    }
-    .import "battle/redraw_gates"
-    .import "battle/commands_reloc"
-    .import "battle/items_reloc"
-    .import "battle/equip_window"
-    .import "battle/math_reloc"
-    .if INVENTORY_ROLLING_BUFFER {
-    .import "battle/inventory_rolling"
-    }
-}
-
-.import "ingame/places_names_window"
-.import "ingame/items_menu_vwf"
-.import "menus/system_menus_text"
-.import "dakuten"
-.import "menus/start_screen_text"
-.import "menus/tools_shop_text"
-.import "menus/in_game_text"
-.import "assets"
-
 ; --- Includes (gated by build flags) ------------------------------------
-
-.if INVENTORY_ROLLING_BUFFER {
-    .import "ingame/init_bg_scroll_hdma"
-}
 
 .if TREASURE_INVENTORY_ROLLING {
     .import "ingame/key_item_picker"

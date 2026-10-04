@@ -2,6 +2,7 @@
 Dialog/text VWF rendering engine: control-code parser (`parse`), per-glyph blit (`vwf_putchar`), tile-position
 tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
 """
+.import "hw"
 .include "config.i"
 .include "src/definitions.s"
 .include "bank20.i"
@@ -151,7 +152,6 @@ window_palette:
     vram_tile_map_pointer = 0x2C00
     WRAM = field_vwf.tile_buffer
 
-    WRAMPTR = 0x2108
 
 vwfinit:
 """
@@ -176,11 +176,11 @@ vwfinit:
     jsr.w wait_for_vblank
 
 ; Sets the BG3 vram pointer to 0x6000
-    lda 0x210C
+    lda ppu.BG34NBA
     and #0xF0
     clc
     adc #0x06
-    sta 0x210C
+    sta ppu.BG34NBA
 
     rtl
 ;** routine principale
@@ -196,7 +196,7 @@ vwfstart:
     rep #0x10
 
     lda.b #0x01
-    sta.w 0x420D
+    sta.w cpu_regs.MEMSEL
 
 ; 0x04-0x4F
     var_base = 0x23
@@ -725,7 +725,7 @@ _mul_0:
     } else {
     tax  ; using math multiplication
     lda.l vwf_shift_table, x
-    sta.l 0x004202  ; MULTPILIER
+    sta.l cpu_regs.WRMPYA  ; MULTPILIER
 
 
     plx
@@ -737,14 +737,14 @@ _mul_0:
     ply
     inx
 
-    sta.l 0x004203  ; MULTIPLICAND
+    sta.l cpu_regs.WRMPYB  ; MULTIPLICAND
 
     rep #0x20
     nop
     nop
     nop
     nop
-    lda.l 0x004216  ; the result is stored in 0x4216-0x4217
+    lda.l cpu_regs.RDMPYL  ; the result is stored in 0x4216-0x4217
     sep #0x20
     }
 
@@ -1051,7 +1051,7 @@ _wdisplay:
     phx
 
     lda.b #0x80
-    sta.w 0x2115
+    sta.w ppu.VMAIN
 
     rep #0x20
     pha
@@ -1060,13 +1060,13 @@ _wdisplay:
     lsr  ; addresse vram /2
     clc
     adc.w #vram_tile_set_pointer
-    sta.w 0x2116
+    sta.w ppu.VMADDL
 
 
     lda.b oldtilepos
     clc
     adc.w #WRAM & 0xFFFF
-    sta.w 0x4372
+    sta.w dma_ch7.A1TL
 
     pla
     sep #0x20
@@ -1074,14 +1074,14 @@ _wdisplay:
     channel = 7
 
     ldx.w #0x1801
-    stx.w 0x4370
+    stx.w dma_ch7.DMAP
     lda.b #0xFF & ( WRAM >> 16 )
-    sta.w 0x4374
+    sta.w dma_ch7.A1B
 
     ldx.w #0x0040
-    stx.w 0x4375
+    stx.w dma_ch7.DASL
     lda.b #0x01 << 7
-    sta 0x420B
+    sta cpu_regs.MDMAEN
 
     nop
     nop

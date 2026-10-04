@@ -8,6 +8,7 @@ and chains into the title screen.
 ; ----------------------------------------------------------------
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
+.import "hw"
 .include "bank20.i"
 .import "libmz"
 .import "assets"
@@ -26,13 +27,13 @@ start_splash_screen:
 
 ; initialise graphics hardware
     lda #0x03  ; graphics mode 3
-    sta 0x2105
+    sta ppu.BGMODE
     lda #0x01  ; enable plane 0
-    sta 0x212c
+    sta ppu.TM
     lda #0x00  ; set plane 0 memory to 0x0000, 32x32 chars
-    sta 0x2107
+    sta ppu.BG1SC
     lda #0x01  ; set plane 0 character set to 0x1000
-    sta 0x210b
+    sta ppu.BG12NBA
 
 ; copy intro map data
     dma_transfer_to_vram_call(assets_intro_map, 0x0000, assets_intro_map__size, 0x1801)
@@ -66,7 +67,7 @@ loop:
     inc 0x00
     lda #0x0F
     sbc 0x00
-    sta 0x2100
+    sta ppu.INIDISP
     lda 0x00
     cmp #0x0F
     beq exit
@@ -76,7 +77,7 @@ loop:
     asl
     asl
     inc
-    sta 0x2106
+    sta ppu.MOSAIC
 
     jsr.w wait_for_vblank
     jsr.w wait_for_vblank
@@ -93,7 +94,7 @@ _splash_screen_fade_in:
 loop:
     inc 0x00
     lda 0x00
-    sta 0x2100
+    sta ppu.INIDISP
     asl
     asl
     asl
@@ -103,7 +104,7 @@ loop:
     sec
     sbc 0x01
     inc
-    sta 0x2106
+    sta ppu.MOSAIC
 
     jsr.w wait_for_vblank
     jsr.w wait_for_vblank
@@ -123,7 +124,7 @@ _gamepad_interruptable_loop:
     jsr.w enable_gamepad
     jsr.w wait_for_vblank
 
-    ldx 0x4218  ; lecture depuis joystick
+    ldx cpu_regs.PAD1L  ; lecture depuis joystick
     bne exit  ; si on appuye sur quelque chose on sort du delay
     dec
     bne _gamepad_interruptable_loop

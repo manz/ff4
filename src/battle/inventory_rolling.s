@@ -3,6 +3,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
+.import "hw"
 .include "config.i"
 .import "items"
 .extern assets_items_dat
@@ -267,17 +268,17 @@ _render_inventory_item:
     asl  ; x 4 bytes per item
     tax
 
-    lda.l 0x7E321B, x  ; Item ID (WRAM)
+    lda.l battle_inventory.id, x  ; Item ID (WRAM)
     sta.b 0x02  ; Save for later
     sta.b 0x26  ; For name lookup
-    lda.l 0x7E321C, x  ; Quantity (WRAM)
+    lda.l battle_inventory.qty, x  ; Quantity (WRAM)
     pha  ; Save quantity
 
 ; Determine palette (white=enabled, gray=disabled)
     lda #0x00
     sta.b 0x00  ; Palette for name
     sta.b 0x01  ; Palette for symbol
-    lda.l 0x7E321A, x  ; Flags (WRAM)
+    lda.l battle_inventory.flags, x  ; Flags (WRAM)
     and #0x80
     beq _not_disabled
     lda #0x04  ; Gray palette
@@ -437,17 +438,17 @@ _render_inventory_item_circular:
     asl  ; x 4 bytes per item
     tax
 
-    lda.l 0x7E321B, x  ; Item ID
+    lda.l battle_inventory.id, x  ; Item ID
     sta.b 0x02
     sta.b 0x26
-    lda.l 0x7E321C, x  ; Quantity
+    lda.l battle_inventory.qty, x  ; Quantity
     pha
 
 ; Determine palette
     lda #0x00
     sta.b 0x00
     sta.b 0x01
-    lda.l 0x7E321A, x  ; Flags
+    lda.l battle_inventory.flags, x  ; Flags
     and #0x80
     beq _circ_not_disabled
     lda #0x04
@@ -953,20 +954,20 @@ _render_item_to_circular_slot:
     asl
     tax
 
-    lda.l 0x7E321B, x  ; Item ID
+    lda.l battle_inventory.id, x  ; Item ID
     sta.b 0x02
     bne _slot_id_nonzero
     jmp.w _empty_slot_fast  ; ID == 0 -> empty entry, skip VWF
 
 _slot_id_nonzero:
-    lda.l 0x7E321C, x  ; Quantity
+    lda.l battle_inventory.qty, x  ; Quantity
     pha
 
 ; Palette selection
     lda #0x00
     sta.b 0x00
     sta.b 0x01
-    lda.l 0x7E321A, x
+    lda.l battle_inventory.flags, x
     and #0x80
     beq _slot_not_disabled
     lda #0x04
@@ -1733,7 +1734,7 @@ _recolour_row_ok:
     asl  ; x 4 bytes per item
     tax
     sep #0x20
-    lda.l 0x7E321A, x
+    lda.l battle_inventory.flags, x
     asl  ; C = disabled
     lda #0x00
     bcc _recolour_palette
@@ -2688,26 +2689,19 @@ _cursor2_done:
 ; ============================================================================
 ; Field Menu NMI Handler (relocated from bank $01 to save space)
 ; ============================================================================
-; Field + drops state aliases - use the cast'd struct views from
-; items.i / src/ingame/drops_rolling.s. Field is `field_menu_rolling`
-; (defined in items.i, visible at module scope). Drops state at
-; $7E:9C30 isn't exported from its defining module, so re-cast it
-; locally to get drops_rolling.hdma_copy_pending et al.
-    drops_rolling := (0x7E9C30 as RollingBufferState)
+; Menu states are the `<profile>_rolling` binds from items.s.
     FIELD_HDMA_TABLE := 0x7E9800
     FIELD_HDMA_SHADOW := 0x7E9840
     FIELD_HDMA_TABLE_SIZE := 40
     DROPS_HDMA_TABLE := 0x7E9880
     DROPS_HDMA_SHADOW := 0x7E98C0
     DROPS_HDMA_TABLE_SIZE := 40
-; Sell list, same story as drops: state at $7E:9CC0, re-cast locally.
-    sell_rolling := (0x7E9CC0 as RollingBufferState)
+; Sell list.
     SELL_HDMA_TABLE := 0x7E9900
     SELL_HDMA_SHADOW := 0x7E9940
 ; header + 8 row bands + footer + terminator = 31 bytes.
     SELL_HDMA_TABLE_SIZE := 32
-; Equip screen inventory list, state at $7E:9CF0, same story again.
-    equip_rolling := (0x7E9CF0 as RollingBufferState)
+; Equip screen inventory list.
     EQUIP_HDMA_TABLE := 0x7E9980
     EQUIP_HDMA_SHADOW := 0x7E99C0
 ; header + 6 row bands + footer + terminator = 25 bytes.
@@ -2842,56 +2836,56 @@ _equip_nmi_hdma_copy_done:
 
     sep #0x20
     lda #0x01
-    sta.w 0x4300
-    lda #0x18
-    sta.w 0x4301
+    sta.w dma_ch0.DMAP
+    lda #PPU.VMDATAL
+    sta.w dma_ch0.BBAD
     rep #0x20
     lda.w #0xB600
-    sta.w 0x4302
+    sta.w dma_ch0.A1TL
     sep #0x20
     lda #0x7E
-    sta.w 0x4304
+    sta.w dma_ch0.A1B
     rep #0x20
     lda.w #0x0800
-    sta.w 0x4305
+    sta.w dma_ch0.DASL
     lda.w #0x6000
-    sta.w 0x2116
+    sta.w ppu.VMADDL
     sep #0x20
     lda #0x01
-    sta.w 0x420B
+    sta.w cpu_regs.MDMAEN
 
 _field_nmi_check_treasure:
     .if TREASURE_INVENTORY_ROLLING {
 ; === Tilemap DMA transfer (treasure menu = BG3) ===
-    lda.l 0x7E0000 + 0x9C0B  ; treasure_rolling.transfer_pending
+    lda.l treasure_rolling.transfer_pending
     beq _field_nmi_done
     lda #0x00
-    sta.l 0x7E0000 + 0x9C0B
+    sta.l treasure_rolling.transfer_pending
 
     sep #0x20
     lda #0x01
-    sta.w 0x4300
-    lda #0x18
-    sta.w 0x4301
+    sta.w dma_ch0.DMAP
+    lda #PPU.VMDATAL
+    sta.w dma_ch0.BBAD
     rep #0x20
     lda.w #0xD600  ; BG3 screen buffer source ($7ED600)
-    sta.w 0x4302
+    sta.w dma_ch0.A1TL
     sep #0x20
     lda #0x7E
-    sta.w 0x4304
+    sta.w dma_ch0.A1B
     rep #0x20
     lda.w #0x0800  ; 2 KB tilemap
-    sta.w 0x4305
+    sta.w dma_ch0.DASL
     lda.w #0x7000  ; BG3 tilemap VRAM target
-    sta.w 0x2116
+    sta.w ppu.VMADDL
     sep #0x20
     lda #0x01
-    sta.w 0x420B
+    sta.w cpu_regs.MDMAEN
     }
 
 _field_nmi_done:
 ; --- VWF CHR flush (DMA channel 6) ---
-; Hands off to `render.flush_chr_to_vram`. Gates on `VWF_CHR_DIRTY`
+; Hands off to `render.flush_chr_to_vram`. Gates on `vwf_engine.chr_dirty`
 ; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
 ; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
 ; by every engine we ship (ch7 is the shared battle / libmz /

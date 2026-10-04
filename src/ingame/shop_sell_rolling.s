@@ -24,6 +24,7 @@ the field menu.
 """
 
 
+.import "hw"
 .include "../bank20.i"
 .include "config.i"
 .import "items"
@@ -45,7 +46,6 @@ SELL_TOTAL_ITEMS := 48
 
 ; State block in the shared $7E:99xx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
-sell_rolling := (0x7E9CC0 as RollingBufferState)
 
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and
 ; cursor row ($1B94). The profile reads them rather than keeping its
@@ -54,11 +54,6 @@ SELL_SCROLL_POS := 0x7E1B96
 
 ; HDMA channel 5 driving BG3VOFS ($2112). Nothing else in the shop
 ; touches HDMA.
-SELL_HDMA5_CTRL := 0x4350
-SELL_HDMA5_DEST := 0x4351
-SELL_HDMA5_SRC_LO := 0x4352
-SELL_HDMA5_SRC_HI := 0x4353
-SELL_HDMA5_SRC_BANK := 0x4354
 SELL_HDMA_ENABLE_BIT := 0x20
 
 ; Own table slot in the HDMA scratch area ($9800 treasure, $9880 drops).
@@ -109,15 +104,15 @@ with the caller's DB, so absolute reads would land in ROM.
 
     sep #0x20
     lda #0x02  ; direct mode, 2 bytes per write
-    sta.l SELL_HDMA5_CTRL
-    lda #0x12  ; BG3VOFS
-    sta.l SELL_HDMA5_DEST
+    sta.l dma_ch5.DMAP
+    lda #PPU.BG3VOFS
+    sta.l dma_ch5.BBAD
     rep #0x20
     lda.w #SELL_HDMA_TABLE_ADDR
-    sta.l SELL_HDMA5_SRC_LO
+    sta.l dma_ch5.A1TL
     sep #0x20
     lda #SELL_HDMA_BANK
-    sta.l SELL_HDMA5_SRC_BANK
+    sta.l dma_ch5.A1B
 
 ; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
 ; $420C, and mark this profile's own gate.
@@ -260,9 +255,9 @@ one slot below the window's top border.
     lda.b 0x5a
     tax
     sep #0x20
-    lda.l 0x7E0000 + Item.id, x
+    lda.l item_x.id, x
     pha
-    lda.l 0x7E0000 + Item.qty, x
+    lda.l item_x.qty, x
     sta.b 0x5C
     stz.b 0x34
     pla
@@ -332,7 +327,7 @@ treasure profiles use.
     stz.b 0x42
 
 _sell_row_loop:
-    lda.w sell_rolling + RollingBufferState.buffer_pos
+    lda.w sell_rolling.buffer_pos
     and.w #0x00FF
     clc
     adc.b 0x42
@@ -361,7 +356,7 @@ _sell_mod_done:
     clc
     adc.b 0x40
     clc
-    adc.w sell_rolling + RollingBufferState.base_scroll
+    adc.w sell_rolling.base_scroll
     sta.b 0x40
     sep #0x20
     lda #16
@@ -450,45 +445,45 @@ profile and let the engine draw the ring.
     rep #0x30
     sep #0x20
     lda.b #SELL_VISIBLE_ITEMS
-    sta.l sell_rolling + RollingBufferState.visible_rows
+    sta.l sell_rolling.visible_rows
     lda.b #0x02
-    sta.l sell_rolling + RollingBufferState.slot_height_tiles
+    sta.l sell_rolling.slot_height_tiles
     lda.b #0x40
-    sta.l sell_rolling + RollingBufferState.item_list_ptr
+    sta.l sell_rolling.item_list_ptr
     lda.b #0x14
-    sta.l sell_rolling + RollingBufferState.item_list_ptr + 1
+    sta.l sell_rolling.item_list_ptr + 1
     lda.b #0x7E
-    sta.l sell_rolling + RollingBufferState.item_list_ptr + 2
+    sta.l sell_rolling.item_list_ptr + 2
     lda.b #SELL_TOTAL_ITEMS
-    sta.l sell_rolling + RollingBufferState.item_count
+    sta.l sell_rolling.item_count
     lda.b #0x05
-    sta.l sell_rolling + RollingBufferState.hdma_channel
+    sta.l sell_rolling.hdma_channel
     lda.b #0x80
-    sta.l sell_rolling + RollingBufferState.vwf_cfg_ptr
+    sta.l sell_rolling.vwf_cfg_ptr
     lda.b #0x70
-    sta.l sell_rolling + RollingBufferState.vwf_cfg_ptr + 1
+    sta.l sell_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
-    sta.l sell_rolling + RollingBufferState.vwf_cfg_ptr + 2
+    sta.l sell_rolling.vwf_cfg_ptr + 2
     lda.b #sell_fn_render_slot_trampoline & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_render_slot
+    sta.l sell_rolling.fn_render_slot
     lda.b #( sell_fn_render_slot_trampoline >> 8 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_render_slot + 1
+    sta.l sell_rolling.fn_render_slot + 1
     lda.b #( sell_fn_render_slot_trampoline >> 16 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_render_slot + 2
+    sta.l sell_rolling.fn_render_slot + 2
     lda.b #sell_fn_update_hdma_trampoline & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_update_hdma
+    sta.l sell_rolling.fn_update_hdma
     lda.b #( sell_fn_update_hdma_trampoline >> 8 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_update_hdma + 1
+    sta.l sell_rolling.fn_update_hdma + 1
     lda.b #( sell_fn_update_hdma_trampoline >> 16 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_update_hdma + 2
+    sta.l sell_rolling.fn_update_hdma + 2
     lda.b #sell_fn_draw_window_trampoline & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_draw_window
+    sta.l sell_rolling.fn_draw_window
     lda.b #( sell_fn_draw_window_trampoline >> 8 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_draw_window + 1
+    sta.l sell_rolling.fn_draw_window + 1
     lda.b #( sell_fn_draw_window_trampoline >> 16 ) & 0xFF
-    sta.l sell_rolling + RollingBufferState.fn_draw_window + 2
+    sta.l sell_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_SELL
-    sta.l sell_rolling + RollingBufferState.menu_id
+    sta.l sell_rolling.menu_id
     rep #0x20
     lda.w #0xFFFF
     sta.l sell_rolling.base_scroll
