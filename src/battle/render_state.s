@@ -67,6 +67,7 @@ BATTLE_RENDER_STATE := 0x707100
 ; Bounded to the record, so growing it past its span fails the build
 ; instead of overrunning.
 .pool battle_render_ram {
+    bss
     range BATTLE_RENDER_STATE ( BATTLE_RENDER_STATE + BattleRenderState.__size - 1 )
     strategy order
 }
