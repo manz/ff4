@@ -1,6 +1,4 @@
 """
-.include "../bank20.i"
-
 Battle redraw-gate state + writer helpers.
 
 FF6-style dirty-bit gating for the battle redraw chain. One byte at

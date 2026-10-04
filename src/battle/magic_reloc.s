@@ -1,12 +1,8 @@
 """
-.import "preamble"
-.include "../bank20.i"
-
 Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-type pointer table
 (`magic_list_ptrs`).
 """
-
-
+.import "preamble"
 .extern messages_vwf.spell_name_begin
 .extern messages_vwf.draw_spell_name
 .extern messages_vwf.spell_ring_flush

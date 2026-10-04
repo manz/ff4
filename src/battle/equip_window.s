@@ -1,6 +1,4 @@
 """
-.include "../bank20.i"
-
 Relocated battle equipped-items window transfer routine.
 
 Pivots the per-character equip popup from `R-label  L-label / R-item  L-item` (two columns of stacked

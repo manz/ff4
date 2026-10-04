@@ -1,6 +1,4 @@
 """
-.include "bank20.i"
-
 Dakuten composite-glyph table + `lookup_dakuten` helper that maps a (prev_char, current_char) pair to the
 dakuten/handakuten composite tile pair.
 """
