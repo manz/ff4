@@ -7,6 +7,7 @@ Final Fantasy IV the new hack.
 ; Auto-prepended: imports must precede .include'd patches
 .import "assets"
 .import "sram_layout"
+.import "wram_layout"
 .import "battle/render_state"
 .import "battle/commands_reloc"
 .import "battle/equip_window"

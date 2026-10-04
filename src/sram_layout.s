@@ -22,6 +22,7 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 
 .pool sram_work {
     bss
+    contexts vram_save, item_menu
     range 0x702000 0x706FFF
     strategy order
 }
@@ -36,4 +37,5 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 ; while the treasure popup or a dialog is up; the field item menu keeps
 ; the item-description cache (render.last_drawn_text_ptr) at +2. A cache
 ; overwritten by a save only costs one description redraw.
-.reserve sram_vram_save VRAM_SAVE_BYTE_COUNT at VRAM_SAVE_SRAM_BASE in sram_work
+.reserve sram_vram_save VRAM_SAVE_BYTE_COUNT at VRAM_SAVE_SRAM_BASE in sram_work.vram_save
+.reserve sram_description_cache 2 at VRAM_SAVE_SRAM_BASE + 2 in sram_work.item_menu
