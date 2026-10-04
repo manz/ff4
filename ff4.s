@@ -94,14 +94,10 @@ Final Fantasy IV the new hack.
     .import "ingame/treasure_rolling"
     .import "ingame/shop_sell_rolling"
     .import "ingame/equip_inventory_rolling"
-}
-
-.if TREASURE_INVENTORY_ROLLING {
     .import "ingame/key_item_picker_patches"
     .import "ingame/shop_sell_rolling_patches"
     .import "ingame/equip_inventory_rolling_patches"
 }
-
 
 dialog_bank_ptr_base = 0x218000
 
