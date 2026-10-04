@@ -4,14 +4,14 @@ requires-python = ">=3.14"
 
 [[package]]
 name = "a816"
-version = "1.1.0a36"
+version = "1.1.0a39"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "lsprotocol" },
     { name = "pygls" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e3/3b/2742e2a4b09cffcd25a2a52b6fc39e8d17d5fcd1ec248fa2a2aae11f8910/a816-1.1.0a36-py3-none-any.whl", hash = "sha256:d9a368583ca05bbc45b5724ba9204768b897d9069244394c746b1f071feaa119", size = 320166, upload-time = "2026-10-04T13:11:41.351Z" },
+    { url = "https://files.pythonhosted.org/packages/3a/93/8e233546e86c3ac6bb91af5d0d8f3893dba9a7d71cd0e21d66f2eb5164ce/a816-1.1.0a39-py3-none-any.whl", hash = "sha256:5226adb17f3ad35b20459f2d4369650f9935036a9f8b61b1a0000b3f3b46a906", size = 323476, upload-time = "2026-10-04T16:42:09.671Z" },
 ]
 
 [[package]]
@@ -60,7 +60,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "a816", specifier = "==1.1.0a36" },
+    { name = "a816", specifier = "==1.1.0a39" },
     { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a16" },
     { name = "pytest", marker = "extra == 'dev'" },
 ]
