@@ -86,6 +86,22 @@ Final Fantasy IV the new hack.
     .import "ingame/inventory_rolling_trampolines"
 }
 
+.if TREASURE_INVENTORY_ROLLING {
+    .import "ingame/key_item_picker"
+    .import "ingame/drops_rolling"
+    .import "ingame/inventory_rolling"
+    .import "lib/rolling_inventory_engine"
+    .import "ingame/treasure_rolling"
+    .import "ingame/shop_sell_rolling"
+    .import "ingame/equip_inventory_rolling"
+}
+
+.if TREASURE_INVENTORY_ROLLING {
+    .import "ingame/key_item_picker_patches"
+    .import "ingame/shop_sell_rolling_patches"
+    .import "ingame/equip_inventory_rolling_patches"
+}
+
 
 dialog_bank_ptr_base = 0x218000
 
@@ -318,27 +334,6 @@ signature byte sits at PB:(PC - 1).
 }
 
 ; end .alloc bank20_main
-
-; --- Includes (gated by build flags) ------------------------------------
-
-.if TREASURE_INVENTORY_ROLLING {
-    .import "ingame/key_item_picker"
-    .import "ingame/drops_rolling"
-    .import "ingame/inventory_rolling"
-    .import "lib/rolling_inventory_engine"
-    .import "ingame/treasure_rolling"
-    .import "ingame/shop_sell_rolling"
-    .import "ingame/equip_inventory_rolling"
-}
-
-; --- Binary text assets -------------------------------------------------
-
-
-.if TREASURE_INVENTORY_ROLLING {
-    .import "ingame/key_item_picker_patches"
-    .import "ingame/shop_sell_rolling_patches"
-    .import "ingame/equip_inventory_rolling_patches"
-}
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene
