@@ -64,12 +64,12 @@ draw_string:
 ;     $180..$1FF item description  ($5800..$5FF0)
     rep #0x20
     lda.w #0x0080
-    sta vwf_cfg.tile_id_base
+    sta.l vwf_cfg.tile_id_base
     sep #0x20
     lda.b #0x80
-    sta vwf_cfg.slot_budget
+    sta.l vwf_cfg.slot_budget
     lda.b #0x01
-    sta vwf_cfg.flags
+    sta.l vwf_cfg.flags
 ; Description flush descriptor uses the SECONDARY slot so the
 ; description region ($5800..$5FF0) gets its own DMA independent of
 ; the primary descriptor that items_menu_vwf rewrites every per-slot
@@ -87,11 +87,11 @@ draw_string:
 ; flush, so no clearing is needed here.
     rep #0x20
     lda #0x0800
-    sta vwf_engine.flush_b.src_offset
+    sta.l vwf_engine.flush_b.src_offset
     lda #0x2C00
-    sta vwf_engine.flush_b.vram_word
+    sta.l vwf_engine.flush_b.vram_word
     lda #0x0800
-    sta vwf_engine.flush_b.byte_count
+    sta.l vwf_engine.flush_b.byte_count
     sep #0x20
 ; Preserve Y across render.init: the per-region CHR clear loop
 ; tays the budget word count and lands Y=$0000 on exit, which
@@ -127,7 +127,7 @@ _char_loop_exit:
 ; Description finished writing to buffer ; raise the secondary
 ; dirty flag so the NMI flush DMAs $5800..$5FF0 next vblank.
     lda.b #0x01
-    sta vwf_engine.flush_b.dirty
+    sta.l vwf_engine.flush_b.dirty
     plx
     pld
     plb

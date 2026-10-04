@@ -47,54 +47,7 @@ VWF_CHR_BUFFER_SIZE := 0x2000
 
 ; Typed and reserved in battle/render_state.s.
 
-; --- Null-terminated text-staging buffer ------------------------------
-; Callers copy the source string (from items_unleashed, monster names,
-; magic list, ...) into this buffer + write $00 terminator, then call
-; `vwf_render_string` with just a pointer. Lets the engine drop the
-; explicit char-count argument that battle / item-description / field
-; helpers each carry today, and lets us swap the source layout
-; (fixed-stride table vs null-terminated table vs RAM-resident string)
-; without touching the renderer. Sized for the longest field-menu
-; item slot in `assets_items_unleashed_dat` + 1 terminator + headroom.
-VWF_TEXT_BUFFER := 0x707000
-VWF_TEXT_BUFFER_SIZE := 0x40
-
-; --- VWF config: per-render parameters, bound as `vwf_cfg` (below) ------
-VWF_CONFIG_BASE := 0x707080
-
-; --- Engine state in SRAM (no DP collisions), bound as `vwf_engine` ---
-VWF_ENGINE_BASE := 0x7070C0
-
-; Where one panel's CHR goes: the drops panel's flush (see caller_ctx).
-.struct VwfFlushDesc {
-    byte dirty
-    word vram_word
-    word byte_count
-    word src_offset
-}
-
-.struct VwfEngine {
-    word src_offset
-    byte chr_dirty
-    byte caller_ctx
-    VwfFlushDesc flush_b
-    word tilemap_offset
-    byte prev_char
-    byte current_char
-}
-
-.struct VwfConfig {
-    word tile_id_base
-    byte slot_budget
-    word tilemap_base
-    byte palette_byte
-    byte flags
-    word chr_vram_word
-    word chr_byte_count
-}
-
-vwf_cfg := (VWF_CONFIG_BASE as VwfConfig)
-vwf_engine := (VWF_ENGINE_BASE as VwfEngine)
+; The text buffer, vwf_cfg and vwf_engine are reserved in vwf_ram.s.
 
 ; Engine-shared CHR-flush source offset. Every VWF caller writes
 ; glyph CHR at `VWF_CHR_BUFFER + tile_id_base * 16` ; both battle

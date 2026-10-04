@@ -41,6 +41,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 
 
 .import "preamble"
+.import "vwf_ram"
 .import "items"
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
@@ -236,7 +237,7 @@ drops_render_item_to_slot:
     adc #DROPS_VWF_TILE_SLOT_OFFSET
     sta.b 0x5d
     lda #0x01
-    sta vwf_engine.caller_ctx
+    sta.l vwf_engine.caller_ctx
     rep #0x20
     lda.w drops_rolling.slot_index
     and.w #0x00FF
@@ -248,7 +249,7 @@ drops_render_item_to_slot:
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
     lda #0x00
-    sta vwf_engine.caller_ctx
+    sta.l vwf_engine.caller_ctx
     pla
     sta.b 0xDB
     pla

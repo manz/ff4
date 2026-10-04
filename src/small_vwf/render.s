@@ -282,7 +282,7 @@ _brk_init_bits:
 ; --- Per-region CHR clear from VwfConfig ---
     php
     rep #0x30
-    lda vwf_cfg.tile_id_base
+    lda.l vwf_cfg.tile_id_base
     and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
@@ -291,7 +291,7 @@ _brk_init_bits:
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     tax
-    lda vwf_cfg.slot_budget
+    lda.l vwf_cfg.slot_budget
     and.w #0x00FF
     asl
     asl
@@ -338,19 +338,19 @@ Battle-side equivalent of the partial CHR DMA in
     php
     sep #0x20
     rep #0x10
-    lda vwf_engine.chr_dirty
+    lda.l vwf_engine.chr_dirty
     beq _flush_skip_a
     lda.b #0x00
-    sta vwf_engine.chr_dirty
+    sta.l vwf_engine.chr_dirty
 ; Only fire against the one descriptor anything writes (items_menu_vwf:
 ; FIELD_VWF_VRAM_DEST_WORD, at most $B00 bytes). Cart RAM from a build
 ; that never set it - savestates carry $FF here - otherwise turns this
 ; into a 64K DMA over all of VRAM, the menu cursor's sprite CHR with it.
     rep #0x20
-    lda vwf_cfg.chr_vram_word
+    lda.l vwf_cfg.chr_vram_word
     cmp.w #FIELD_VWF_VRAM_DEST_WORD
     bne _flush_bad_a
-    lda vwf_cfg.chr_byte_count
+    lda.l vwf_cfg.chr_byte_count
     beq _flush_bad_a
     cmp #0x0B01
     bcs _flush_bad_a
@@ -380,9 +380,9 @@ Battle-side equivalent of the partial CHR DMA in
     lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
     sta.l dma_ch3.A1B  ; A1B source bank
     rep #0x20
-    lda vwf_cfg.chr_vram_word
+    lda.l vwf_cfg.chr_vram_word
     sta.l ppu.VMADDL  ; VMADD
-    lda vwf_cfg.chr_byte_count
+    lda.l vwf_cfg.chr_byte_count
     sta.l dma_ch3.DASL  ; DAS
     sep #0x20
     lda.b #0x80
@@ -414,7 +414,7 @@ _flush_skip_a:
 ; the save-selection sprite CHR from being trashed by random garbage
 ; on the very first NMI after a stale load.
     sep #0x20
-    lda vwf_engine.flush_b.dirty
+    lda.l vwf_engine.flush_b.dirty
     beq _flush_skip_b
 ; A frame whose vanilla buffer transfers ran long (the equip screen
 ; pushes several 4K tilemaps) reaches this point after vblank; a VRAM
@@ -422,9 +422,9 @@ _flush_skip_a:
     lda.l cpu_regs.HVBJOY  ; HVBJOY: bit 7 = in vblank
     bpl _flush_skip_b
     lda.b #0x00
-    sta vwf_engine.flush_b.dirty
+    sta.l vwf_engine.flush_b.dirty
     rep #0x20
-    lda vwf_engine.flush_b.vram_word
+    lda.l vwf_engine.flush_b.vram_word
     cmp #0x2B70
     beq _vram_word_b_ok
     cmp #0x2C00
@@ -442,7 +442,7 @@ _vram_word_b_ok:
     lda.b #PPU.VMDATAL
     sta.l dma_ch3.BBAD
     rep #0x20
-    lda vwf_engine.flush_b.src_offset
+    lda.l vwf_engine.flush_b.src_offset
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     sta.l dma_ch3.A1TL
@@ -450,9 +450,9 @@ _vram_word_b_ok:
     lda.b #VWF_CHR_BUFFER >> 16
     sta.l dma_ch3.A1B
     rep #0x20
-    lda vwf_engine.flush_b.vram_word
+    lda.l vwf_engine.flush_b.vram_word
     sta.l ppu.VMADDL
-    lda vwf_engine.flush_b.byte_count
+    lda.l vwf_engine.flush_b.byte_count
     sta.l dma_ch3.DASL
     sep #0x20
     lda.b #0x80
@@ -471,7 +471,7 @@ render_with_config:
 """
 Config-driven VWF entry: reads `vwf_cfg`,
 sets up the allocator + render state from it, then walks
-VWF_TEXT_BUFFER through `draw_text_buffer`. Single call site
+vwf_text_buffer through `draw_text_buffer`. Single call site
 replaces the bespoke init / display_char loops that the field-
 items helper and the battle inventory text walker each carry.
 
@@ -517,17 +517,17 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; would have wrapped field-menu slots 6..10 (base $C0 + 10*10 =
 ; $124) back into the menu font CHR range.
     rep #0x20
-    lda vwf_cfg.tile_id_base
+    lda.l vwf_cfg.tile_id_base
     jsr.w render_allocator.init_with_tile_id_wide
 ; Belt + braces: re-stash allocated_tile_id verbatim so any
 ; interleaved render.init can not zero it on us before display_char
 ; reads it back.
-    lda vwf_cfg.tile_id_base
+    lda.l vwf_cfg.tile_id_base
     sta.l render_allocator.allocated_tile_id
     sep #0x20
-    lda vwf_cfg.tile_id_base
+    lda.l vwf_cfg.tile_id_base
     clc
-    adc vwf_cfg.slot_budget
+    adc.l vwf_cfg.slot_budget
     sec
     sbc.b #0x01
     sta.l render_allocator.slot_limit_low
@@ -538,7 +538,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; (slot_budget * 16) bytes at VWF_CHR_BUFFER + tile_id_base * 16.
     php
     rep #0x30
-    lda vwf_cfg.tile_id_base
+    lda.l vwf_cfg.tile_id_base
     and #0x01FF  ; 9-bit tile_id_base
     asl
     asl
@@ -547,7 +547,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
     tax
-    lda vwf_cfg.slot_budget
+    lda.l vwf_cfg.slot_budget
     and.w #0x00FF
     asl
     asl
@@ -572,7 +572,7 @@ _chr_clear_loop:
     stz.b counter
 ; tilemap_offset = config.tilemap_base (16-bit).
     rep #0x20
-    lda vwf_cfg.tilemap_base
+    lda.l vwf_cfg.tilemap_base
     sta.l tilemap_offset
     sep #0x20
     jsr.w draw_text_buffer
@@ -581,14 +581,14 @@ _chr_clear_loop:
 ; (field items, item descriptions, treasure list, ...) signals dirty
 ; without knowing about VRAM addresses.
     lda.b #0x01
-    sta vwf_engine.chr_dirty
+    sta.l vwf_engine.chr_dirty
     plp
     rts
     }
 
 draw_text_buffer:
 """
-Unified entry: walk a null-terminated string at VWF_TEXT_BUFFER
+Unified entry: walk a null-terminated string at vwf_text_buffer
 and blit each byte via display_char.
 
 Caller responsibilities (read from `vwf_cfg` in
@@ -604,7 +604,7 @@ directly):
                                           increments by 2 per blit
   - X, Y                                  free for caller use
 
-Each iteration reads the next byte from `VWF_TEXT_BUFFER + Y` (Y
+Each iteration reads the next byte from `vwf_text_buffer + Y` (Y
 caller-zeroed on entry), exits on $00. display_char writes both
 the CHR slice and the tile_id at tilemap_offset, and increments
 the allocator (clamped at slot_limit_low).
@@ -616,7 +616,7 @@ the allocator (clamped at slot_limit_low).
     ldx.w #0x0000
 
 _dtb_loop:
-    lda.l VWF_TEXT_BUFFER, x
+    lda.l vwf_text_buffer, x
     beq _dtb_done
     inx
     phx
@@ -1051,7 +1051,7 @@ to honour a bit they do not own.
     lda.l render_allocator.allocated_tile_id
     sta.l _base_addr, x
     lda.l _base_addr + 1, x
-    ora vwf_cfg.flags
+    ora.l vwf_cfg.flags
     sta.l _base_addr + 1, x
     plp
     rts

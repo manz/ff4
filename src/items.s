@@ -108,7 +108,7 @@ KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
 KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
 KEY_ITEM_VWF_BYTE_COUNT := 0x0460
 
-; Caller-context values for vwf_engine.caller_ctx (see src/vwf_state.i).
+; Caller-context values for vwf_engine.caller_ctx (see src/vwf_ram.s).
 VWF_CTX_PRIMARY := 0x00
 VWF_CTX_DROPS := 0x01
 VWF_CTX_KEY_ITEM := 0x02

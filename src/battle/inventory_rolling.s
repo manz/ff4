@@ -4,6 +4,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 runs the field-menu NMI DMA check.
 """
 .import "preamble"
+.import "vwf_ram"
 .import "battle/render_state"
 .include "config.i"
 .import "items"

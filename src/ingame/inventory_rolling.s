@@ -4,6 +4,7 @@ approach for the main menu items list with HDMA-based circular scrolling.
 """
 
 .import "preamble"
+.import "vwf_ram"
 .import "items"
 .include "src/lib/rolling_buffer.i"
 
@@ -376,12 +377,12 @@ init_menu_rolling_buffer_impl:
 ; hdma_channel = 5 (BG1VOFS HDMA used by field-items rolling buffer)
     lda.b #0x05
     sta.l field_menu_rolling.hdma_channel
-; vwf_cfg_ptr = $70:7080 (VWF_CONFIG_BASE)
-    lda.b #0x80
+; vwf_cfg_ptr = vwf_cfg
+    lda.b #vwf_cfg & 0xFF
     sta.l field_menu_rolling.vwf_cfg_ptr
-    lda.b #0x70
+    lda.b #( vwf_cfg >> 8 ) & 0xFF
     sta.l field_menu_rolling.vwf_cfg_ptr + 1
-    lda.b #0x70
+    lda.b #vwf_cfg >> 16
     sta.l field_menu_rolling.vwf_cfg_ptr + 2
 ; fn_render_slot = menu_fn_render_slot_trampoline (bank-20 RTL wrapper)
     lda.b #menu_fn_render_slot_trampoline & 0xFF

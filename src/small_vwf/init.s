@@ -3,6 +3,7 @@ Small (8x8) VWF init routine: prepares the menu tile buffer, runs the renderer i
 RTL entry points for cross-bank callers.
 """
 .import "preamble"
+.import "vwf_ram"
 .include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
