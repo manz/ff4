@@ -24,7 +24,7 @@ the field menu.
 """
 
 
-.import "hw"
+.import "preamble"
 .include "../bank20.i"
 .include "config.i"
 .import "items"

@@ -1,5 +1,5 @@
 """
-.import "hw"
+.import "preamble"
 .include "../bank20.i"
 
 Relocated 16x16 -> 32 multiply (`_hw_mult16`) using the SNES hardware multiplier,

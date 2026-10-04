@@ -2,7 +2,7 @@
 Dialog/text VWF rendering engine: control-code parser (`parse`), per-glyph blit (`vwf_putchar`), tile-position
 tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
 """
-.import "hw"
+.import "preamble"
 .include "config.i"
 .include "src/definitions.s"
 .include "bank20.i"

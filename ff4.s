@@ -28,7 +28,7 @@ Final Fantasy IV the new hack.
 .import "battle/sram"
 .import "dakuten"
 .import "dialog"
-.import "hw"
+.import "preamble"
 .import "ingame/init_bg_scroll_hdma"
 .import "ingame/items_menu"
 .import "ingame/items_menu_vwf"

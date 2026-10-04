@@ -3,7 +3,7 @@ Pinned-address overlay rewiring original battle-message pointer loads ($02C909, 
 translated-string tables.
 """
 
-.import "hw"
+.import "preamble"
 .include "src/rom_map.i"
 .extern msg_window_draw_text_trampoline
 .extern assets_battle_text_ptr

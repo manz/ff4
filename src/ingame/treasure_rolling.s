@@ -3,7 +3,7 @@ Treasure inventory rolling-buffer engine (single column, 5 visible, 6 buffer slo
 from `inventory_rolling.s` and tuned for the chest UI.
 """
 
-.import "hw"
+.import "preamble"
 .import "items"
 .include "src/lib/rolling_buffer.i"
 

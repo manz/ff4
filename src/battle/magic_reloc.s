@@ -1,5 +1,5 @@
 """
-.import "hw"
+.import "preamble"
 .include "../bank20.i"
 
 Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-type pointer table

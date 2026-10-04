@@ -3,7 +3,7 @@ Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live
 wrappers around original bank-$01 helpers used by the rolling code.
 """
 
-.import "hw"
+.import "preamble"
 .include "src/rom_map.i"
 .extern drops_start_scroll_up_impl
 .extern drops_start_scroll_down_impl

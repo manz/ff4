@@ -3,7 +3,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
-.import "hw"
+.import "preamble"
 .include "config.i"
 .import "items"
 .extern assets_items_dat

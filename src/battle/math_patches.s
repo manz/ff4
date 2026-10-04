@@ -3,7 +3,7 @@ Patches that re-point the bank-2 hardware multiplier (`Mult8` at $8560) at our r
 trampoline at $83B9 jumping into `_hw_mult16`.
 """
 
-.import "hw"
+.import "preamble"
 .include "src/rom_map.i"
 
 ; ===========================================================================

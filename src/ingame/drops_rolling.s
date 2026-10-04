@@ -40,7 +40,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 """
 
 
-.import "hw"
+.import "preamble"
 .import "items"
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
