@@ -29,7 +29,7 @@ VWF_CHR_BUFFER := 0x703000
 ; so the high slots end up at tile_id $160+ ; the previous $1000
 ; sizing capped at $FF and the high-slot CHR landed in
 ; $704000-$704FFF which was outside any blit / DMA reach.
-VWF_CHR_BUFFER_SIZE := 0x2000
+VWF_CHR_BUFFER_SIZE := 0x1F00  ; tiles $000..$1EF; BATTLE_FLAGS follows
 
 ; --- Battle-render gate state (OUTSIDE the CHR buffer) ------------------
 ; These bytes must not live inside VWF_CHR_BUFFER. The inventory rolling

@@ -281,8 +281,8 @@ end:
 }
 {
     .alloc at 0x14ff62 {
-    sram_buffer = 0x705000
-    save_size = 0x2000
+    sram_buffer = VRAM_SAVE_SRAM_BASE
+    save_size = VRAM_SAVE_BYTE_COUNT
     phb
     tdc
     pha

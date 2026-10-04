@@ -52,7 +52,7 @@ VARS_BUFFER = 0x710000
 ; Moved from $704000 to $705000 so the CHR buffer at $703000 can
 ; grow to $1000 bytes (cover tile_ids $00..$FF) without trampling
 ; the vram-save staging.
-    buffer = 0x705000
+    buffer = VRAM_SAVE_SRAM_BASE
 save_dialog_vram_far:
     jsr 0x14fd0f
 ; original save
@@ -74,7 +74,7 @@ save_dialog_vram_far:
     stx dma_ch0.A1TL
     lda.b #buffer >> 16
     sta dma_ch0.A1B
-    ldx.w #render.buffer_size
+    ldx.w #VRAM_SAVE_BYTE_COUNT
     stx dma_ch0.DASL
     lda #0x01
     sta cpu_regs.MDMAEN
@@ -90,7 +90,7 @@ restore_dialog_gfx_far:
     stx 0x011f
     lda.b #buffer >> 16
     sta 0x0121
-    ldx.w #render.buffer_size
+    ldx.w #VRAM_SAVE_BYTE_COUNT
     stx 0x0122
     jsr.w _transfer_to_vram
     jsr.l wait_for_vblank_long
@@ -249,7 +249,8 @@ get:
     tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/vwf_state.i)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
-    last_drawn_text_ptr = buffer_ptr + buffer_size + 2
+; Item-description cache, in the VRAM save window (see sram_layout.s).
+    last_drawn_text_ptr = VRAM_SAVE_SRAM_BASE + 2
 init:
 """
 font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat.
