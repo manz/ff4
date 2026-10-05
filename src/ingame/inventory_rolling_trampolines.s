@@ -4,6 +4,7 @@ wrappers around original bank-$01 helpers used by the rolling code.
 """
 
 .import "preamble"
+.import "ingame/drops_rolling"
 .extern drops_start_scroll_up_impl
 .extern drops_start_scroll_down_impl
 .extern drops_refresh_slots_impl

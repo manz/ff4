@@ -2899,3 +2899,7 @@ _field_nmi_done:
     plp
     rtl
 }
+
+; Each rolling slot owns ITEM_VWF_TILE_BUDGET tiles from ITEM_VWF_TILE_BASE;
+; together they must stay inside the BG3 tile page.
+.assert ITEM_VWF_TILE_BASE + BUFFER_SLOTS * ITEM_VWF_TILE_BUDGET <= 0x100, "battle inventory slots run past tile $FF"
