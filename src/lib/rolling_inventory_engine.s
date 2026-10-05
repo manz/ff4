@@ -597,7 +597,8 @@ _swap_next:
 _engine_dispatch_update_scroll_hdma:
 """
     Branches to the per-menu update_*_scroll_hdma function based on
-    state.menu_id. All four functions live in bank-20 alongside the engine
+    state.menu_id. Every id needs its own branch (see the per-frame
+    dispatch above). The functions live in bank-20 alongside the engine
     so a 16-bit jsr.w is enough.
 """
 
@@ -609,9 +610,15 @@ _engine_dispatch_update_scroll_hdma:
     beq _dispatch_treasure
     cmp.b #ROLLING_MENU_ID_DROPS
     beq _dispatch_drops
+    cmp.b #ROLLING_MENU_ID_SELL
+    beq _dispatch_sell
     cmp.b #ROLLING_MENU_ID_EQUIP
     beq _dispatch_equip
     jsr.w update_key_item_scroll_hdma
+    rts
+
+_dispatch_sell:
+    jsr.w update_sell_scroll_hdma
     rts
 
 _dispatch_equip:
