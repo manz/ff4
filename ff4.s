@@ -23,6 +23,7 @@ Final Fantasy IV the new hack.
 .import "bank20_helpers"
 .import "dialog"
 .import "preamble"
+.import "vanilla"
 .import "ingame/init_bg_scroll_hdma"
 .import "ingame/items_menu"
 .import "ingame/items_menu_vwf"
