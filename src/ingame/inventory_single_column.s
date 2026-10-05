@@ -2,6 +2,11 @@
 Phase-1 single-column inventory layout patches: collapse the original 2-column items list to one column so the
 rolling buffer can take over rendering.
 """
+.import "preamble"
+.import "ingame/free_space"
+.include "config.i"
+
+.if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Single Column Inventory Patches for Main Menu
 ; ============================================================================
@@ -16,9 +21,9 @@ rolling buffer can take over rendering.
 ; ============================================================================
 ; CONSTANTS
 ; ============================================================================
-VISIBLE_ITEMS := 10  ; Items visible at once
+    VISIBLE_ITEMS := 10  ; Items visible at once
 ;TOTAL_ITEMS             := 48       ; Total inventory items
-SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
+    SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
 ; File is being processed - patches below should apply
 
@@ -46,7 +51,7 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Original: lda #$30 at A17D-A17E (a9 30)
 ; Just patch the operand byte at A17E, not the full instruction
 
-.alloc at 0x01A17E {
+    .alloc at 0x01A17E {
     .db VISIBLE_ITEMS + 1  ; Draw 11 items (10 visible + 1 pre-render slot)
 
 ; ============================================================================
@@ -62,8 +67,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ;           bne     @a223           ; Branch if right column
 ;
 ; Patch: Always use left column code path (never branch)
-}
-.alloc at 0x01A1EF {
+    }
+    .alloc at 0x01A1EF {
 ; Change BNE to BRA skip (effectively disable right-column branch)
 ; Original: AND #$01 / BNE @a223
 ; New: AND #$00 / BNE @a223 (always zero, never branches)
@@ -81,50 +86,10 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ;
 ; For single column, each item needs its own row, so remove the LSR.
 ; This makes Y = item_index * 128 + 2 instead of (item_index/2) * 128 + 2
-}
-.alloc at 0x01A1BC {
-    nop  ; Replace LSR with NOP
-
-; ============================================================================
-; Scroll Limit Patch
-; ============================================================================
-
-; Original scroll down limit check at $01A076:
-;   @a076:  cmp     #$0e            ; 14 = 24 items - 10 visible
-;           beq     @a0bc           ; Don't scroll if at limit
-;
-; The CMP opcode is at $A076, operand at $A077
-; New limit for single column: 48 - 10 = 38
-}
-.alloc at 0x01A077 {
-    .db SCROLL_LIMIT  ; 38 instead of 14
-
-; Also patch the cursor Y limit check
-
-; Original at $01A071:
-;   @a06c:  lda     $1b23           ; cursor Y
-;           cmp     #$09            ; max Y = 9 (for 10 visible rows)
-;
-; This stays the same for 10 visible items, so no change needed
-
-; ============================================================================
-; Cursor Drawing - Fixed X Position
-; ============================================================================
-; Original at $01A105 checks $1b22 (X position) for left/right column
-; Single column: always use left position
-;
-
-; Original:
-;   @a105:  ...
-;   @a116:  lda     $1b22                   ; cursor 1 x position
-;           beq     @a11b
-;           lda     #$6c                    ; right column X
-;   @a11b:  clc
-;           adc     #$04
-;
-; Patch: Skip the X position check, always use left column
-}
-.alloc at 0x01A114 {
+    }
+; $01:A1BC is covered by the slot hook at $01:A1BA (inventory_rolling_patches.s).
+; $01:A077 (scroll limit) is covered by the scroll hook at $01:A076 (inventory_rolling_patches.s).
+    .alloc at 0x01A114 {
     lda #0x00  ; Always 0 (left column) - replaces LDA $1B22 (3 bytes)
     nop  ; Was high byte of $1B22 address
     nop  ; Skip BEQ opcode
@@ -152,12 +117,10 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Right button handler similar at @a003
 ;
 ; Patch: Make left/right do nothing (skip to down button check)
-}
-.alloc at 0x019FF4 {
-; Change AND #JOY_LEFT to AND #0x00 (never matches)
-    and #0x00
-}
-.alloc at 0x01A005 {
+    }
+; $01:9FF4 (left button) is covered by the main loop hook at $01:9FF2
+; (inventory_rolling_patches.s), which replaces the whole input check.
+    .alloc at 0x01A005 {
 ; Change AND #JOY_RIGHT to AND #0x00 (never matches)
     and #0x00
 
@@ -177,8 +140,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; The pointer $5a = $1440 + (scroll_pos * 2)
 ;
 ; Add patch to adjust $5a before the loop
-}
-.alloc at 0x01A181 {
+    }
+    .alloc at 0x01A181 {
     jsr.w adjust_inventory_pointer
     nop
 
@@ -208,8 +171,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
 ; $1B25 stores absolute position (scroll + cursor) - keep original storage
 ; Just patch $A2CD to store 0 for X position
-}
-.alloc at 0x01A2CD {
+    }
+    .alloc at 0x01A2CD {
     lda #0x00  ; Always 0 for single column X (was LDA $1B22)
     nop  ; Pad to 3 bytes
 
@@ -224,24 +187,24 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Original: ASL / ADC $1B22 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B22 / ASL -> (val+col)*2
 ; MUST use CLC because the previous CMP leaves carry set!
-}
-.alloc at 0x01A398 {
+    }
+    .alloc at 0x01A398 {
     clc  ; Clear carry (was ASL which also clears carry)
 
 ; Second item (swap target) at $A3A6
 ; $1B25 already has absolute position
 ; Original: ASL / ADC $1B24 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B24 / ASL -> (val+col)*2
-}
-.alloc at 0x01A3A6 {
+    }
+    .alloc at 0x01A3A6 {
     clc  ; Clear carry (was ASL which also clears carry)
 
 ; Another second item calculation at $A320
 ; Used when selecting same item twice to use it
 ; CRITICAL: CMP $1B24 at $A318 sets carry if $1B22 >= $1B24 (always true when both are 0)
 ; Original ASL would clear carry, but NOP leaves carry SET, causing ADC to add +1!
-}
-.alloc at 0x01A320 {
+    }
+    .alloc at 0x01A320 {
     clc  ; Clear carry (was ASL which also clears carry)
 ; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
 ; For single column: (scroll_pos + cursor_y) * 2
@@ -283,8 +246,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ;
 ; For single column: remove first ASL at $A7CF
 ; This matches the patches at $A398, $A3A6, $A320
-}
-.alloc at 0x01A7CF {
+    }
+    .alloc at 0x01A7CF {
     nop  ; Remove first ASL for single column
 
 ; ============================================================================
@@ -294,4 +257,5 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
 ; We already have adjust_inventory_pointer at $A181, so add $1b22 init there.
 ; Actually, we'll add it to the menu_entry_hook_impl in inventory_rolling.s
+    }
 }

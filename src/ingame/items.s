@@ -2,6 +2,17 @@
 Field-menu item screen patches: scroll-region tweaks, layout fixes and entry-point hooks (separate from
 rolling-buffer code which lives in `inventory_rolling.s`).
 """
+.import "preamble"
+.import "assets"
+.import "menus/in_game_text"
+.import "menus/system_menus_text"
+.include "src/menus/system_menus_macros.i"
+.extern check_if_description_was_rendered
+.extern draw_vwf_message
+.extern draw_vwf_message_pos_with_bank
+.extern draw_window_and_vwf_message
+.extern swap_redraw_trampoline
+
 .include "config.i"
 .include "src/ingame/macros.i"
 
@@ -78,8 +89,11 @@ item_desc_back:
 .alloc at 0x01a227 {
     adc.w #0x001c + 2
 }
-.alloc at 0x01a1c4 {
+; $01:A1C4 sits inside the slot hook at $01:A1BA when the rolling buffer is on.
+.if INVENTORY_ROLLING_BUFFER == 0 {
+    .alloc at 0x01a1c4 {
     adc.w #0x0006  ; +2 tiles to the right
+    }
 }
 .alloc at 0x1efd7d {
     _delta_l = 0
@@ -164,19 +178,16 @@ _treasure_menu_entry:
 ; ============================================================================
 ; Scroll limit: 48 items - 10 visible = 38 max scroll position
 ; CMP opcode at $A076, operand at $A077
-    .alloc at 0x01A077 {
-    .db 38  ; 38 = new scroll limit
-
-; Visible items count - handled in inventory_single_column.s
-
-; Disable left button (AND #$00 instead of AND #$02)
-    }
+; $01:A077 (scroll limit) is covered by the scroll hook at $01:A076 (inventory_rolling_patches.s).
 
 
+; The rolling list hooks this loop at $01:9FF2 and overwrites it.
+    .if INVENTORY_ROLLING_BUFFER == 0 {
     .alloc at 0x019FF4 {
     and #0x00
 
 ; Disable right button (AND #$00 instead of AND #$01)
+    }
     }
 
 

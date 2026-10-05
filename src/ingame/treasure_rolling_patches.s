@@ -2,6 +2,12 @@
 ROM patches that wire the treasure inventory rolling buffer in: hooks the treasure menu entry/exit, replaces
 `DrawInventoryList` calls and re-uses HDMA channel 4.
 """
+.import "preamble"
+.import "ingame/inventory_rolling_trampolines"
+.include "config.i"
+.import "items"
+
+.if TREASURE_INVENTORY_ROLLING {
 ; Treasure inventory rolling-buffer ROM patches.
 ;
 
@@ -18,9 +24,7 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;
 ; Flag-gated off until the entry/exit/trigger thunks are wired up.
 
-.include "config.i"
-.import "items"
-.if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
 ; Cursor sprite X, both lists. Vanilla picks between two columns -
 ; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the
 ; inventory. Single-column rows have one: the hand goes flush left of
@@ -289,5 +293,6 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 
     .alloc at 0x01D7E6 {
     jsr.w treasure_menu_exit_hook
+    }
     }
 }

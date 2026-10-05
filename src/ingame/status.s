@@ -2,6 +2,12 @@
 Status-screen patches: reposition character name/labels to make room for translated strings (XP, level,
 attributes).
 """
+.import "preamble"
+.import "menus/in_game_text"
+.import "menus/system_menus_text"
+.include "config.i"
+.include "src/menus/system_menus_macros.i"
+
 ;décalage du nom vers le haut
 ;*=0x01A9B7
 ;    ldy.w #0x0044

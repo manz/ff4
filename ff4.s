@@ -47,6 +47,18 @@ Final Fantasy IV the new hack.
 .include "src/lib/rolling_buffer.i"
 .include "src/menus/system_menus_text.i"
 .import "minimal_vwf_patches"
+.import "ingame/free_space"
+.import "ingame/treasure_rolling_patches"
+.import "ingame/inventory_rolling_patches"
+.import "ingame/inventory_single_column"
+.import "ingame/main"
+.import "ingame/shop"
+.import "ingame/items"
+.import "ingame/magic"
+.import "ingame/windows"
+.import "ingame/options"
+.import "ingame/equip"
+.import "ingame/status"
 .if BATTLE_ENABLED {
     .import "battle/math_patches"
     .import "battle/graphics_patches"
@@ -69,7 +81,6 @@ Final Fantasy IV the new hack.
     }
 }
 
-.include "src/ingame/menus.i"
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
