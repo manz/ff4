@@ -14,6 +14,9 @@ the VWF layer kicks in without rewriting the message window.
 .import "dialog"
 .import "vwf"
 
+.label _text_cmd_07_b369 = 0x00B369
+.label _text_cmd_08_b398 = 0x00B398
+
 .alloc at 0x00B404 {
     jsr.l compute_dialog_text_offset
     jsr.l get_bank1_1_pointer
@@ -92,13 +95,13 @@ _wait_for_open_animation:
 .alloc at 0x00B370 {
     lda #0x00
     sta 0x07
-    jmp.w 0xB398
+    jmp.w _text_cmd_08_b398
 }
 .alloc at 0x00B335 {
     jmp.w animation_wait_route
 
 end_of_animation:
-    jmp.w 0xB369  ; skip_wait_for_action_button
+    jmp.w _text_cmd_07_b369  ; skip_wait_for_action_button
 }
 {
 ; Oui

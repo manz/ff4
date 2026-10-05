@@ -12,6 +12,7 @@ in-game menu wiring.
 .include "src/menus/system_menus_macros.i"
 
 .include "src/ingame/macros.i"
+.import "vanilla"
 
 
 {
@@ -104,7 +105,7 @@ load_next_char:
     lda.l assets_classes_dat, x
     beq end
 ; dakuten
-    jsr.w 0x8E32
+    jsr.w get_dakuten
     sta.w 0x0000, y
     xba
     sta.w 0x0040, y
@@ -221,7 +222,7 @@ end:
     rep #0x20
     lda.b 0x73
     sep #0x20
-    jsr.w 0x81D6
+    jsr.w hex_to_dec4
     lda.b 0x5B
     sta.w 0x0570, y
     lda.b 0x5D

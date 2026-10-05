@@ -11,6 +11,7 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 .import "dialog"
 .import "assets"
 .import "kerning"
+.import "vanilla"
 
 .scope field_vwf {
     """
@@ -362,7 +363,7 @@ _code08:
     sta.b 0x31
     lda.w 0x08FA
     sta.b 0x32
-    jsr.l 0x15C324
+    jsr.l field_hex_to_dec
 
     ldx.w #0x0000
 
@@ -558,7 +559,7 @@ _musique:
     lda.b #0x01
     sta 0x1E00
 
-    jsr.l 0x048004
+    jsr.l exec_sound_ext
     jmp.w main
 
 _code05:

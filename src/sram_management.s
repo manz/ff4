@@ -1,4 +1,5 @@
 """SRAM size-class table + RAM clear helper used by the boot path to wipe the work RAM before the title screen."""
+.import "vanilla"
 
 _sram_size_2kb_blocks:
     .dw 0  ; 0x00 = 0KB (no SRAM) = 0 blocks
@@ -15,7 +16,7 @@ clear_ram:
 Wipe the cart's SRAM banks ($70:0000+) at boot, sized via the
 ROM-header SRAM-size byte at $00:FFD8 (clamped to 7 → 128KB max).
 """
-    jsr 0x15C9AA
+    jsr.l field_clear_ram
     lda.b #1
     jsr.w _clear_ram
     jsr.w _zero_vwf_description_region

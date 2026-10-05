@@ -8,41 +8,42 @@ nothing above them, which keeps the import graph acyclic.
 .include "config.i"
 .include "src/ingame/macros.i"
 .include "src/ingame/bank01_trampolines.i"
+.import "vanilla"
 
 .if INVENTORY_ROLLING_BUFFER {
     .alloc bank01_vanilla_wrappers in bank01_trampolines {
 draw_window_trampoline:
 """Bank-$01 RTL trampoline around original `DrawWindow` ($01:80D9)."""
-    jsr 0x80D9
+    jsr.w draw_window
 ; original DrawWindow at $01:80D9
     rtl
 
 check_can_use_item_trampoline:
 """Bank-$01 RTL trampoline around original `CheckCanUseItem` ($01:A25D)."""
-    jsr 0xA25D
+    jsr.w check_can_use_item
 ; original CheckCanUseItem at $01:A25D (sets $DB)
     rtl
 
 draw_item_slot_inner_trampoline:
 """Bank-$01 RTL trampoline around original `DrawItemSlot` inner ($01:A1ED)."""
-    jsr 0xA1ED
+    jsr.w draw_item_slot_inner
 ; original DrawItemSlot inner at $01:A1ED
     rtl
 
 tfr_sprites_vblank_trampoline:
 """Bank-$01 RTL trampoline around original `TfrSpritesVblank` ($01:824F)."""
-    jsr 0x824F
+    jsr.w tfr_sprites
 ; original @ $01:824F
     rtl
 
 tfr_bg2_tiles_vblank_trampoline:
 """Bank-$01 RTL trampoline around original `TfrBG2TilesVblank` ($01:9420)."""
-    jsr 0x9420
+    jsr.w tfr_bg2_tiles_vblank
 ; original @ $01:9420
     rtl
 
 tfr_bg3_tiles_vblank_trampoline:
-    jsr 0x9447
+    jsr.w tfr_bg3_tiles_vblank
 ; original @ $01:9447 - pushes BG3 buffer at $7E:D600 to VRAM $7000
 ; over a vblank-bounded chunked DMA. Used by the treasure rolling
 ; buffer: render writes go to the BG3 staging area but original's
@@ -51,7 +52,7 @@ tfr_bg3_tiles_vblank_trampoline:
     rtl
 
 tfr_bg4_tiles_vblank_trampoline:
-    jsr 0x943A
+    jsr.w tfr_bg4_tiles_vblank
 ; original @ $01:943A - pushes BG4 buffer at $7E:C600 to VRAM $7800.
 ; Used by the drops rolling buffer: drops items render into the BG4
 ; frame that already holds TreasureItemsWindow, but the treasure main
@@ -68,7 +69,7 @@ Points $29 at the BG3 buffer ($7E:D600) and $35 at its VRAM tilemap
 """
 
 
-    jsr 0x8470
+    jsr.w select_bg3
     rtl
 
 equip_select_bg4_trampoline:
@@ -79,11 +80,11 @@ Points $29 at the BG4 buffer ($7E:C600), where the equip list renders.
 """
 
 
-    jsr 0x8488
+    jsr.w select_bg4
     rtl
 
 drops_select_bg4_trampoline:
-    jsr 0x8485
+    jsr.w select_clear_bg4
 ; original SelectClearBG4 at $01:8485 - wipes BG4 staging to blank
 ; tiles before falling through to SelectBG4 ($8488). Without the
 ; clear, $C600..$CDFF holds whatever the previous menu/screen left
@@ -93,24 +94,24 @@ drops_select_bg4_trampoline:
 
 draw_item_cursors_trampoline:
 """Bank-$01 RTL trampoline around original `DrawItemCursors` ($01:A105)."""
-    jsr 0xA105
+    jsr.w draw_item_cursors
 ; original @ $01:A105
     rtl
 
 update_ctrl_after_scroll_trampoline:
 """Bank-$01 RTL trampoline around original `UpdateCtrlAfterScroll` ($01:82A5)."""
-    jsr 0x82A5
+    jsr.w update_ctrl_after_scroll
 ; original @ $01:82A5
     rtl
 
 init_item_list_trampoline:
 """Bank-$01 trampoline for original InitItemList @ $01:B2D3 (filters $1440 -> $0712 by key-item ID range)."""
-    jsr 0xB2D3
+    jsr.w init_item_list
     rtl
 
 reset_sprites_trampoline:
 """Bank-$01 RTL trampoline around original `ResetSprites` ($01:8D6A)."""
-    jsr 0x8D6A
+    jsr.w reset_sprites
 ; original @ $01:8D6A
     rtl
     }

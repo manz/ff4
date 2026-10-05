@@ -18,8 +18,13 @@ relocating other code.
 
 .include "config.i"
 .include "src/ingame/bank01_slack.i"
+.import "vanilla"
 
-draw_window = 0x0180d9
+.label _select_item_9ff8 = 0x019FF8
+.label _select_item_a003 = 0x01A003
+.label _select_item_a0ff = 0x01A0FF
+.label _select_item2_a40a = 0x01A40A
+
 
 .alloc bank01_slack_pre_inventory in bank01_slack {
 draw_vwf_message:
@@ -77,12 +82,12 @@ copy_text_with_dakuten:
 display_build_number:
 """Render the `BUILD_DATE + version` string at column 1, row 27 of the title screen (DEBUG builds only)."""
     {
-    jsr.w 0x8301  ; draw text at position.
+    jsr.w draw_pos_text  ; draw text at position.
     load_system_menu_text_pointer(newgame.build_number)
     left = 1
     top = 27
     ldx.w #left * 2 + top * 64
-    jsr.w 0x8798  ; copy text at position.
+    jsr.w copy_text  ; copy text at position.
     rts
     }
     }
@@ -98,8 +103,8 @@ display_build_number:
 swap_redraw_trampoline:
 """JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
     jsr.w swap_redraw_hook_impl
-    jsr.w 0xA2D9  ; Clear second cursor (from original $A404)
-    jmp.w 0xA40A  ; Skip $84BA (game's sequential redraw), go to RTS
+    jsr.w hide_item_cursor2  ; Clear second cursor (from original $A404)
+    jmp.w _select_item2_a40a  ; Skip $84BA (game's sequential redraw), go to RTS
 
 main_loop_scroll_check:
 
@@ -116,11 +121,11 @@ _main_loop_do_input:
     lda.b 0x01
     and #0x80
     beq _left_not_pressed
-    jmp.w 0x9FF8
+    jmp.w _select_item_9ff8
 _left_not_pressed:
-    jmp.w 0xA003
+    jmp.w _select_item_a003
 _main_loop_skip_input:
-    jmp.w 0xA0FF
+    jmp.w _select_item_a0ff
 
 scroll_down_trigger:
 """--- scroll_down_trigger ---"""

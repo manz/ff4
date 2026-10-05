@@ -17,6 +17,7 @@ follow-up patches.
 
 .import "battle/redraw_gates"
 .import "battle/sram"
+.import "vanilla"
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
 
@@ -103,7 +104,7 @@ msg_monster_window_gated:
     jsr.l messages_vwf.init_monsters_gated
     lda.l battle_render_state.render_skipped
     bne _mmwg_after_draw
-    jsr 0xA455
+    jsr.w draw_text
 ; DrawText
 _mmwg_after_draw:
     jsr.l messages_vwf.deinit_gated
@@ -128,7 +129,7 @@ Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
     rep #0x30
     lda.w #0x0000
     sep #0x20
-    jsr 0x82E1
+    jsr.w update_flying_hdma
     plp
     rtl
 ; --- Battle-init seed: zero/seed all redraw-gate state at the
@@ -146,7 +147,7 @@ Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
 battle_ext_seed:
 """Battle_ext root tail: seed redraw-gate state then jump ExecBattle."""
     jsr.l reset_queue_dirty_bits
-    jmp.l 0x038009
+    jmp.l exec_battle
 ; ExecBattle
 ; --- DrawStatusText gate (hash-based) ---
 ; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
@@ -165,7 +166,7 @@ gate_draw_status_text:
     jsr.l refresh_active_char_palette
     jsr.l gate_status_check
     bcc _gdst_skip
-    jmp 0xA2A1
+    jmp.w draw_status_text
 _gdst_skip:
     rts
 ; --- DrawObjNames gate (hash of monster slots + $1822) ---
@@ -180,7 +181,7 @@ gate_draw_obj_names:
 """Bank-02 trampoline  ; JSL gate_obj_names_check, jmp $99D3 on dirty, rts on clean."""
     jsr.l gate_obj_names_check
     bcc _gdon_skip
-    jmp 0x99D3
+    jmp.w draw_obj_names
 _gdon_skip:
     rts
 ; --- Battle-init highlight stamp ---
@@ -205,7 +206,7 @@ msg_names_window_gated:
     jsr.l messages_vwf.init_names_gated
     lda.l battle_render_state.render_skipped
     bne _mnwg_after_draw
-    jsr 0xA455
+    jsr.w draw_text
 _mnwg_after_draw:
     jsr.l messages_vwf.deinit_gated
 ; Re-stamp the active-char highlight: a render that just ran rebuilt

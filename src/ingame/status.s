@@ -8,6 +8,8 @@ attributes).
 .include "config.i"
 .include "src/menus/system_menus_macros.i"
 
+.label _status_menu_main_aac9 = 0x01AAC9
+
 ;décalage du nom vers le haut
 ;*=0x01A9B7
 ;    ldy.w #0x0044
@@ -26,5 +28,5 @@ attributes).
 }
 .alloc at 0x1aab3 {
     jsr.l load_dextrelity_pointer
-    jmp.w 0x1aac9
+    jmp.w _status_menu_main_aac9
 }

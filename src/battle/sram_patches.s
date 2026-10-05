@@ -8,6 +8,7 @@ window) through our messages-VWF init/deinit trampolines.
 .import "battle/sram"
 .import "battle/redraw_writer_patches"
 .import "battle/redraw_gates"
+.import "vanilla"
 
 ; inventory buffer
 ;*=0x02991E
@@ -203,7 +204,7 @@ msg_window_draw_text_trampoline:
     jsr.l messages_vwf.init
 
 _draw_text_battle:
-    jsr 0xA455
+    jsr.w draw_text
     jsr.l messages_vwf.deinit
     rts
 
@@ -214,7 +215,7 @@ draw_text_battle_far:
 attack_names:
 """Trampoline for attack-name window: messages-VWF init, attack-name draw, deinit."""
     jsr.l messages_vwf.init
-    jsr 0xcb32
+    jsr.w show_msg_02
     jsr.l messages_vwf.deinit
     rts
     {

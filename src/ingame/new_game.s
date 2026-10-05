@@ -15,6 +15,7 @@ geometry and Cecil sprite position that go with them.
 
 .include "config.i"
 .include "src/ingame/macros.i"
+.import "vanilla"
 
 
 .table "text/ff4_menus.tbl"
@@ -108,7 +109,7 @@ geometry and Cecil sprite position that go with them.
     load_system_menu_text_pointer(newgame.gils_load_game)
 ; gils text position
     ldx.w #0x676
-    jsr.w 0x82cd  ; menu_draw_text
+    jsr.w draw_menu_text  ; menu_draw_text
 ; gils count position
     ldy #0x062c + 2
 

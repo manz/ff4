@@ -11,6 +11,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 
 .include "config.i"
 .include "src/battle/bank02_trampolines.i"
+.import "vanilla"
 .if BATTLE_ITEMS_VWF {
 }
 
@@ -51,7 +52,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 }
 .alloc bank02_trampolines_block in bank02_trampolines {
 _update_enabled_items_trampoline:
-    jsr 0x9F0E  ; UpdateEnabledItems at $029F0E
+    jsr.w update_enabled_items
     rtl
 
 ; ============================================================================
@@ -74,11 +75,11 @@ draw_battle_command_window_relocated:
 ; ch3 (replaces a $340-iter lda/sta loop ; ~10K cycles -> ~400).
     jsr.l messages_vwf.mirror_main_to_cmd
     lda #0x02
-    jsr 0x9B59  ; Load menu window data
-    jsr 0x9BC7  ; Draw window
+    jsr.w load_menu_window_data  ; Load menu window data
+    jsr.w draw_window3  ; Draw window
     lda #0x03
     ldx.w #0x0064
-    jsr 0x99F1  ; DrawCmdListText
+    jsr.w draw_cmd_list_text
 ; Queue the cmd tilemap upload only now that mirror + overlay are both
 ; in: queued earlier, an NMI between the two pushed the bare mirror (or
 ; a half-copied overlay) to VRAM. The VWF render used to fill that gap.

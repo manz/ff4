@@ -9,6 +9,9 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 .import "bank20_helpers"
 .include "config.i"
 
+.label _select_item_a066 = 0x01A066
+.label _select_item_a0bc = 0x01A0BC
+
 .if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Inventory Rolling Buffer Patches for Main Menu
@@ -44,7 +47,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 
     .alloc at 0x01A076 {
     jsr.w scroll_down_trigger
-    jmp.w 0xA0BC
+    jmp.w _select_item_a0bc
 ; Skip to after scroll block (A button check)
 ; ============================================================================
 ; SCROLL UP - Replace blocking loop with state machine
@@ -54,7 +57,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 
     .alloc at 0x01A01F {
     jsr.w scroll_up_trigger
-    jmp.w 0xA066
+    jmp.w _select_item_a066
 ; Skip to after scroll block (down button check)
 ; ============================================================================
 ; Menu Entry/Exit Hooks

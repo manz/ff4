@@ -32,6 +32,7 @@ wrappers around original bank-$01 helpers used by the rolling code.
 ;; bank-$01 names; the trampoline JSLs into the bank-$21 implementation.
 
 .include "src/ingame/bank01_trampolines.i"
+.import "vanilla"
 
 .if INVENTORY_ROLLING_BUFFER {
     .alloc bank01_inventory_trampolines in bank01_trampolines {
@@ -100,7 +101,7 @@ so leaving it set would arm ch5 over the field's own BG3.
 """
 
 
-    jsr 0x873F
+    jsr.w restore_dlg_gfx_far
     jsr.l sell_disable_hdma
     rts
 
@@ -129,7 +130,7 @@ list (B, or an equip/remove) land before the screen clears BG4.
 
 
     jsr.l equip_disable_hdma
-    jsr 0xA2DC
+    jsr.w hide_cursor2
     rts
 
 draw_field_item_name_trampoline:
@@ -229,7 +230,7 @@ trigger restores vanilla's pacing.
 """
 
 
-    jsr 0x818A
+    jsr.w wait_vblank
     rts
 
 treasure_scroll_down_trigger:
@@ -378,7 +379,7 @@ _treasure_main_after_xfer:
 _treasure_main_block_input:
     stz.b 0x01
 _treasure_main_call_orig:
-    jsr.w 0x82C0
+    jsr.w update_ctrl_menu
     rts
 
 _treasure_menu_entry_hook:
@@ -409,7 +410,7 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
     lsr
     sta.b 0x5D
     pla
-    jmp.w 0x9060
+    jmp.w draw_item_name
 
 drops_swap_index:
 """
@@ -426,7 +427,7 @@ the 11-byte vanilla sequence has no room for the extra opcode byte.
     clc
     adc.l drops_scroll_pos
     asl
-    jsr 0x87B4  ; A -> X via scratch $43
+    jsr.w tax16  ; A -> X via scratch $43
     rts
 
 drops_init:
@@ -525,7 +526,7 @@ could still chain into $8301 with the slimmed block.
     ldy.w #shops.que_desirez_vous
     jsr.l items_description.draw_trampoline_pos
     ldy.w #shops.quantity - 0x8000
-    jsr.w 0x8301  ; draw text at position (= display_text_in_menus thunk)
+    jsr.w draw_pos_text  ; draw text at position (= display_text_in_menus thunk)
     rts
 
 shop_welcome_text_hook:
@@ -543,7 +544,7 @@ slimmed `welcome_and_actions` block now holds only the action line.
     ldy.w #shops.puis_je_vous_aider
     jsr.l items_description.draw_trampoline_pos
     ldy.w #shops.welcome_and_actions - 0x8000
-    jmp.w 0x8301  ; tail-call to draw positioned text
+    jmp.w draw_pos_text  ; tail-call to draw positioned text
 
 shop_thanks_text_hook:
 """
@@ -556,7 +557,7 @@ Called in place of the original `jsr $82FB` at $01:C751. The matching
 """
 
 
-    jsr.w 0x82FB  ; draw window + (empty) text
+    jsr.w draw_window_text  ; draw window + (empty) text
     ldy.w #shops.merci
     jsr.l items_description.draw_trampoline_pos
     rts

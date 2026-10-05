@@ -3,6 +3,9 @@
 
 .import "assets"
 
+.label _copy_text_879d = 0x01879D
+.label _draw_main_menu_8947 = 0x018947
+
 
 .alloc system_menus_text_block in bank20_reloc {
     .macro _bank_switch() {
@@ -79,7 +82,7 @@ display_time:
     phb
     _bank_switch()
     rep #0x20
-    jmp.l 0x01879D
+    jmp.l _copy_text_879d
 
 disable_save:
 """
@@ -95,7 +98,7 @@ disable_save:
     sta 0xCA37  ; v
     sta 0xCA39  ; e
     sta 0xCA3B  ; r
-    jmp.l 0x018947
+    jmp.l _draw_main_menu_8947
 
 load_classes_pointer:
 """Resolve a class-name pointer from `assets_classes_ptr[A*2]` into A (24-bit)."""

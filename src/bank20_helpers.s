@@ -6,6 +6,7 @@ clear and the 17-byte item-record multiplies.
 .import "items"
 .include "config.i"
 .include "bank20.i"
+.import "vanilla"
 
 .alloc bank20_helpers in bank20_reloc {
 ; --- Inline reloc helpers ------------------------------------------------
@@ -42,7 +43,7 @@ the save-selection sprite CHR).
 """
 
 
-    jsr.l 0x15C9AA
+    jsr.l field_clear_ram
     {
     lda.b #0x00
     ldx.w #0x0000
