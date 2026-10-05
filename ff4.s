@@ -147,12 +147,6 @@ dialog_bank_ptr_base = 0x218000
 }
 
 
-; déroutage pour utiliser la vwf dans les dialogues.
-.alloc at 0x00B463 {
-    jsr.l vwfstart
-    rts
-}
-
 ; ============================================================================
 ; Bank-20 relocated region.
 ;
@@ -356,4 +350,3 @@ signature byte sits at PB:(PC - 1).
     jmp.w 0xED96
     }
 }
-

@@ -110,13 +110,10 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
     }
 
 
-    .alloc at 0x01A1F0 {
-    .db 0x00
-; Change operand from $01 to $00
+; $01:A1F0 (the AND operand) is zeroed by inventory_single_column.s at $01:A1EF.
 ; ============================================================================
 ; Replace DrawInventoryList with our rolling buffer init
 ; ============================================================================
-    }
 
 
     .alloc at 0x019F7B {

@@ -159,8 +159,11 @@ item_desc_back:
 ;01D895  85 46          STA $46
 ;01D897  4C 81 82       JMP $8281
 }
-.alloc at 0x01D814 {
+; The rolling treasure screen NOPs $01:D811-$01:D819 (treasure_rolling_patches.s).
+.if TREASURE_INVENTORY_ROLLING == 0 {
+    .alloc at 0x01D814 {
     load_system_menu_text_pointer(treasure.items_window)
+    }
 }
 .alloc at 0x1d792 {
 _treasure_menu_entry:
@@ -173,31 +176,7 @@ _treasure_menu_entry:
 ; set 0xee to 0x1804 (Key item baron key.)
 
 .if INVENTORY_ROLLING_BUFFER {
-; ============================================================================
-; Single-column patches (moved here to test if they apply)
-; ============================================================================
-; Scroll limit: 48 items - 10 visible = 38 max scroll position
-; CMP opcode at $A076, operand at $A077
-; $01:A077 (scroll limit) is covered by the scroll hook at $01:A076 (inventory_rolling_patches.s).
-
-
-; The rolling list hooks this loop at $01:9FF2 and overwrites it.
-    .if INVENTORY_ROLLING_BUFFER == 0 {
-    .alloc at 0x019FF4 {
-    and #0x00
-
-; Disable right button (AND #$00 instead of AND #$01)
-    }
-    }
-
-
-    .alloc at 0x01A005 {
-    and #0x00
-
-; Hook swap redraw to reset rolling buffer
-    }
-
-
+; Swap redraw resets the rolling buffer.
     .alloc at 0x01A401 {
     jmp.w swap_redraw_trampoline  ; Replace JSR $A172
     }
