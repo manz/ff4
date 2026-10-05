@@ -2,12 +2,24 @@
 Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
 dialog-stream consumer).
 """
+.import "preamble"
+.import "assets"
+.import "dakuten"
+.import "small_vwf/init"
+.import "battle/render_state"
+.import "battle/put_char"
+.include "src/battle/sram.i"
+.include "../bank20.i"
 
-.include "config.i"
-.include "src/battle/inventory_budget.i"
-.include "src/vwf_state.i"
+; Lives in a redraw_writer_patches pool; that module depends on this one.
+.extern flying_hdma_trampoline
 
-.scope battle_render {
+.alloc battle_message_block in bank20_reloc {
+    .include "config.i"
+    .include "src/battle/inventory_budget.i"
+    .include "src/vwf_state.i"
+
+    .scope battle_render {
     """
     Battle VWF CHR regions, region_size (48) tile ids each:
     0x00 -> 0x2F messages
@@ -717,10 +729,10 @@ tilemap_write:
     tdc
     pla
     rts
-}
+    }
 
 
-.scope messages_vwf {
+    .scope messages_vwf {
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
     dakuten_table = 0x16fa40
 put_fixed_char:
@@ -1743,5 +1755,6 @@ _dma_slot_vram_lut:
 _dma_slot_src_lut:
     .for k := 0, 6 {
     .dw 0x3C00 + k * 0xA0
+    }
     }
 }
