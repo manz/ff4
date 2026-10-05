@@ -118,7 +118,6 @@ end_of_animation:
     fill_value(0x20ff, 5)
     .dw 0x201a
     .dw 0x0000
-    .dw 0x0000
     }
 
 
@@ -142,7 +141,6 @@ end_of_animation:
     .dw 0x2019
     fill_value(0x20ff, 5)
     .dw 0x201a
-    .dw 0x0000
     .dw 0x0000
     }
 

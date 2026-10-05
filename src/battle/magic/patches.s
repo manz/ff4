@@ -10,12 +10,8 @@ long-form attack-name copier.
 .extern draw_magic_list_direct
 .extern magic_list_ptrs
 
-.alloc at 0x029A69 {
-; 029A69  20 70 A0   JSR $A070
-    nop
-    nop
-    nop
-}
+; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
+; redraw_writer_patches.s; the two-column display drives its own buffer.
 .alloc at 0x029834 {
     ldx.w #24 * 4
 }

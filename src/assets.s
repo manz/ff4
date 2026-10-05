@@ -22,7 +22,12 @@ plus the `font_table` pointer table indexed by font id.
     .incbin "assets/bank1_2.ptr"
     .incbin "assets/bank2.ptr"
 }
-.alloc at 0x228000 {
+; Dialog bank 1-1 spans $22 and $23 (the reader follows the 24-bit pointer across).
+.pool dialog_bank1_1 {
+    range 0x228000 0x23ffff
+    strategy pack
+}
+.alloc at 0x228000 in dialog_bank1_1 cross_bank {
     .incbin "assets/bank1_1.dat"
 }
 .alloc at 0x24A000 {
@@ -51,11 +56,11 @@ font_table:
 
     .incbin "assets/credits_text.bin"
 }
-.alloc at 0x298000 {
+.alloc at 0x298000 size 0x2000 {
     .incbin "assets/battle_messages.ptr"
     .incbin "assets/battle_messages.dat"
 }
-.alloc at 0x299900 {
+.alloc at 0x29A000 size 0x2000 {
     .incbin "assets/battle_text.ptr"
     .incbin "assets/battle_text.dat"
 }
@@ -80,6 +85,11 @@ font_table:
     .incbin "assets/items.dat"
     .incbin "assets/item_descriptions.dat"
     .incbin "assets/dakuten.bin"
+}
+
+; 17-byte records indexed by item id; the pool keeps the table inside one bank.
+.alloc _items_unleashed in assets {
+    .incbin "assets/items_unleashed.dat"
 }
 
 .if ENABLE_INTRO {

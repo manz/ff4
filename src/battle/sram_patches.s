@@ -110,11 +110,6 @@ window) through our messages-VWF init/deinit trampolines.
     }
 
 
-    .alloc at 0x0296b0 + 16 {
-    .dw 0x949a  ; noop for periodic names update
-    }
-
-
     .alloc at 0x02A299 {
     jsr.l gated_clear_names_window_buffer
     }
