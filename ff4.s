@@ -357,11 +357,3 @@ signature byte sits at PB:(PC - 1).
     }
 }
 
-; Park the 17-byte-stride items_unleashed.dat in an empty bank so the
-; full 4352-byte table fits without crossing a LoROM bank boundary
-; (which would otherwise leave the upper half of the table at
-; $21:0xxx, an address LoROM does not map back to ROM data).
-
-.alloc at 0x238000 {
-    .incbin "assets/items_unleashed.dat"
-}

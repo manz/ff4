@@ -437,7 +437,7 @@ if __name__ == "__main__":
             os.path.join(text_root, "battle_text.xml"),
             "assets/battle_text.dat",
             "assets/battle_text.ptr",
-            0x299900,
+            0x29A000,
         ),
         (
             "vwf-font",
