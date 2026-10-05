@@ -12,43 +12,60 @@ a page to spare, but the field does not, and the bytes this used to
 borrow there were live engine state (see `vwf_engine.prev_char` and friends in
 vwf_state.i).
 """
-
-
+.import "preamble"
+.import "vwf_ram"
+.import "assets"
+.import "items"
+.import "battle/render_state"
+.import "libmz"
 .include "config.i"
-.include "src/vwf_state.i"
+.include "src/vwf.i"
+.include "../bank20.i"
+.include "src/libmz.i"
 
-VARS_BUFFER = 0x710000
+; root-scope externs: `.alloc` bodies open their own scope, so an extern
+; declared inside never resolves at the use site.
+.if BATTLE_ENABLED {
+    .extern battle_render
+    .extern battle_render.clear_buffer
+}
 
-.macro initialize(var) {
+.alloc small_vwf_render in bank20_reloc {
+    .include "config.i"
+    .include "src/vwf_state.i"
+
+    VARS_BUFFER = 0x710000
+
+    .macro initialize(var) {
     """Mirror a direct-page byte to the global save area."""
     lda.b var
     sta.l VARS_BUFFER + var
-}
+    }
 
-.macro _initialize_long(var) {
+    .macro _initialize_long(var) {
     initialize(var)
     initialize(var + 1)
     initialize(var + 2)
-}
+    }
 
-.macro restore(var) {
+    .macro restore(var) {
     """Pull the previously-saved value back into direct page."""
     lda.b VARS_BUFFER + var
     sta.b var
-}
+    }
 
-.macro _restore_long(var) {
+    .macro _restore_long(var) {
     restore(var)
     restore(var + 1)
     restore(var + 2)
-}
+    }
 
-.macro _set_var_value(var, value) {
+    .macro _set_var_value(var, value) {
     lda.b #value
     sta.b var
-}
+    }
 
-.scope _vram_copy {
+    .scope _vram_copy {
 ; Moved from $704000 to $705000 so the CHR buffer at $703000 can
 ; grow to $1000 bytes (cover tile_ids $00..$FF) without trampling
 ; the vram-save staging.
@@ -125,9 +142,9 @@ _transfer_to_vram:
     sta cpu_regs.MDMAEN
     plb
     rts
-}
+    }
 
-.scope render_allocator {
+    .scope render_allocator {
     """
     Tile-id allocator for the small-VWF. Stored as a 16-bit word at
     $702F00..$702F01 so callers can reach the full 10-bit BG3
@@ -235,9 +252,9 @@ get:
 """Return current 16-bit allocator value in A (caller sets M)."""
     lda.l allocated_tile_id
     rts
-}
+    }
 
-.scope render {
+    .scope render {
     """Core 8x8 menu-VWF render scope."""
 ; variables
     _var_base = 0x63
@@ -1070,4 +1087,5 @@ sta.l tilemap_offset}
 
     pla
     rts
+    }
 }
