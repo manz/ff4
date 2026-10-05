@@ -53,7 +53,7 @@ dependencies = [
     { name = "kintsuki", extra = ["visual"] },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "pytest" },
 ]
@@ -62,9 +62,10 @@ dev = [
 requires-dist = [
     { name = "a816", specifier = "==1.1.0a42" },
     { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a16" },
-    { name = "pytest", marker = "extra == 'dev'" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest" }]
 
 [[package]]
 name = "iniconfig"

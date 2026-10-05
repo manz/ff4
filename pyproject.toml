@@ -1,8 +1,8 @@
 # Dependency + build configuration for the patch tooling.
 #
 # This repository builds a ROM patch rather than a library: nothing here is
-# imported from outside, so the wheel carries no packages and
-# `uv sync --extra dev` exists to pull the locked dependencies in one step.
+# imported from outside, so the wheel carries no packages and `uv sync`
+# exists to pull the locked dependencies (dev group included) in one step.
 [project]
 name = "ff4"
 description = "Final Fantasy IV French translation patch"
@@ -16,9 +16,8 @@ dependencies = [
 
 dynamic = ["version"]
 
-[project.optional-dependencies]
-# `make tests` invokes pytest, so a checkout with only the runtime
-# dependencies could not run the suite and CI installed it out of band.
+[dependency-groups]
+# `make tests` invokes pytest; uv installs the dev group by default.
 dev = ["pytest"]
 
 [build-system]
