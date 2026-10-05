@@ -32,13 +32,9 @@ the field menu.
 ; Labels this module borrows from its neighbours. As an include these
 ; resolved because ff4.s composed one translation unit; a module has to
 ; name what it uses.
-.extern check_can_use_item_trampoline
-.extern draw_item_slot_inner_trampoline
-.extern draw_window_trampoline
-.extern tfr_bg3_tiles_vblank_trampoline
-.extern sell_select_bg3_trampoline
-.extern wait_for_vblank_long
-.extern rolling_engine
+.import "ingame/vanilla_trampolines"
+.import "libmz"
+.import "lib/rolling_inventory_engine"
 
 SELL_VISIBLE_ITEMS := 8
 SELL_BUFFER_SLOTS := 9

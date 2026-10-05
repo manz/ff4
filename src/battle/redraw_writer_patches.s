@@ -15,20 +15,8 @@ follow-up patches.
 .import "battle/render_state"
 
 
-.extern set_active_char_and_dirty
-.extern messages_vwf
-.extern messages_vwf.init_monsters_gated
-.extern messages_vwf.init_names_gated
-.extern messages_vwf.deinit_gated
-.extern reset_queue_dirty_bits
-.extern mark_monsters_dirty_and_init
-.extern status_hash
-.extern obj_names_hash
-.extern gate_obj_names_check
-.extern gate_status_check
-.extern walker_rtl
-.extern refresh_active_char_palette
-.extern battle_render_state.render_skipped
+.import "battle/redraw_gates"
+.import "battle/sram"
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
 

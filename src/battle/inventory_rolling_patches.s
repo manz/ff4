@@ -2,29 +2,16 @@
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 """
-.extern draw_window_render_hook
+.import "battle/sram_patches"
+.import "battle/inventory_rolling"
+.import "battle/redraw_gates"
+.import "battle/render_state"
+.import "battle/sram"
+.import "battle/vanilla_trampolines"
 
 .include "config.i"
-.extern init_inventory_text_buf_rolling
-.extern tfr_inventory_list_rolling
-.extern scroll_list_down_hook
-.extern scroll_list_up_hook
-.extern update_list_scroll_hdma_wrapped
-.extern reset_list_scroll_hdma_rolling
-.extern post_scroll_down_render
-.extern check_cursor2_visibility_rolling
-.extern battle_menu_dirty
-.extern CMD_DIRTY_BIT
-.extern battle_render_state.tilemap_pending_mask
-.extern battle_render.TILEMAP_PENDING_COMMANDS
-.extern battle_menu_dirty
-.extern CMD_DIRTY_BIT
+.include "src/battle/bank02_trampolines.i"
 .if BATTLE_ITEMS_VWF {
-    .extern messages_vwf.init_inventory
-    .extern messages_vwf.init_inventory_for_current_slot
-    .extern messages_vwf.mirror_main_to_cmd
-    .extern messages_vwf.draw_inventory_text
-    .extern messages_vwf.deinit
 }
 
 ; ============================================================================
@@ -61,67 +48,8 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .alloc at 0x0298FA {
     jsr.l tfr_inventory_list_rolling
     rts
-
-; ============================================================================
-; TRAMPOLINES (Bank $02 free space: $98FF-$9982)
-; ============================================================================
-; These are called via JSL from bank $20, return via RTL
-    .pool bank02_trampolines {
-    range 0x0298ff 0x029982
-    strategy order
-    }
 }
 .alloc bank02_trampolines_block in bank02_trampolines {
-draw_text_rolling_trampoline:
-"""
-Bank-$02 trampoline around draw_text for inventory rendering. With
-BATTLE_ITEMS_VWF on, sets battle_flags = 0x02 so battle_display_char
-routes the put_char dispatch through messages_vwf.put_fixed_char_*
-for proportional rendering. Wraps the call with init_names / deinit
-so the VWF tile allocator and pending-DMA mask stay in sync.
-"""
-
-
-    .if BATTLE_ITEMS_VWF {
-; Custom draw_inventory_text owns the format walk end-to-end (escape
-; codes 0x00 / 0x03 / 0x0E plus VWF blits for raw chars). No need to
-; toggle battle_flags here ; it manages its own VWF state.
-    jsr.l messages_vwf.draw_inventory_text
-    rtl
-    } else {
-    lda.l 0x704F00
-    pha
-    lda.b #0x00
-    sta.l 0x704F00
-    xba
-    lda.b #0x00
-    xba
-    jsr 0xA455
-    pla
-    sta.l 0x704F00
-    rtl
-    }
-
-mult8_trampoline:
-"""Bank-$02 RTL trampoline around original Mult8 ($028560)."""
-    jsr 0x8560  ; Mult8 at $028560
-    rtl
-
-hex_to_dec_trampoline:
-"""Bank-$02 RTL trampoline around original hex_to_dec ($0286BF)."""
-    jsr 0x86BF  ; hex_to_dec at $0286BF
-    rtl
-
-normalize_num_trampoline:
-"""Bank-$02 RTL trampoline around original normalize_num ($028716)."""
-    jsr 0x8716  ; normalize_num at $028716
-    rtl
-
-load_menu_tfr_data_trampoline:
-"""Bank-$02 RTL trampoline around original LoadMenuTfrData ($029738)."""
-    jsr 0x9738  ; LoadMenuTfrData at $029738
-    rtl
-
 _update_enabled_items_trampoline:
     jsr 0x9F0E  ; UpdateEnabledItems at $029F0E
     rtl
@@ -186,10 +114,6 @@ wrap_and_clear_trampoline:
     rts
 
 ; Return point for bank $20 functions that need to RTS to bank $02 callers
-
-return_to_bank02:
-"""Trailing RTS used as a JML target by bank-$20 hooks to return to bank-$02."""
-    rts
 }
 
 ; end .alloc bank02_trampolines_block

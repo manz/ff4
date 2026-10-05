@@ -9,13 +9,8 @@ from `inventory_rolling.s` and tuned for the chest UI.
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
 ; because ff4.s composed one translation unit; a module names what it uses.
-.extern check_can_use_item_trampoline
-.extern draw_item_slot_inner_trampoline
-.extern draw_window_trampoline
-.extern reset_sprites_trampoline
-.extern treasure_inventory_window
-.extern rolling_engine
-.extern tfr_bg3_tiles_vblank_trampoline
+.import "ingame/vanilla_trampolines"
+.import "lib/rolling_inventory_engine"
 
 ; Treasure inventory rolling buffer (single-column, 5 visible).
 ;

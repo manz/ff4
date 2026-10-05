@@ -12,7 +12,7 @@ and chains into the title screen.
 .include "bank20.i"
 .import "libmz"
 .import "assets"
-.extern clear_ram
+.import "bank20_helpers"
 
 
 .alloc intro_block in bank20_reloc {

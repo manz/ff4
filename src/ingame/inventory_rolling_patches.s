@@ -6,7 +6,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 .import "ingame/free_space"
 .import "ingame/inventory_rolling"
 .import "ingame/inventory_rolling_trampolines"
-.extern conditional_bg1_vofs
+.import "bank20_helpers"
 .include "config.i"
 
 .if INVENTORY_ROLLING_BUFFER {

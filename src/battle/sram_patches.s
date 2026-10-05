@@ -4,15 +4,10 @@ window) through our messages-VWF init/deinit trampolines.
 """
 
 .include "config.i"
-.extern draw_command_list_for_character
-.extern battle_display_char
-.extern battle_display_dakuten_char
-.extern clear_names_window_buffer
-.extern battle_render
-.extern messages_vwf
-.extern msg_monster_window_gated
-.extern msg_names_window_gated
-.extern gated_clear_names_window_buffer
+.import "battle/commands_reloc"
+.import "battle/sram"
+.import "battle/redraw_writer_patches"
+.import "battle/redraw_gates"
 
 ; inventory buffer
 ;*=0x02991E

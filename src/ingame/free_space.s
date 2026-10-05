@@ -6,8 +6,8 @@ relocating other code.
 .import "battle/inventory_rolling"
 .import "ingame/inventory_rolling_trampolines"
 .import "small_vwf/init"
-.import "ingame/items"
 .import "ingame/inventory_rolling"
+.import "menus/in_game_text"
 .import "menus/start_screen_text"
 .import "menus/system_menus_text"
 .include "src/menus/system_menus_macros.i"
@@ -17,44 +17,11 @@ relocating other code.
 ; ============================================================================
 
 .include "config.i"
-.pool bank01_slack {
-    range 0x01ff35 0x01ffff
-    strategy order
-}
+.include "src/ingame/bank01_slack.i"
 
 draw_window = 0x0180d9
 
 .alloc bank01_slack_pre_inventory in bank01_slack {
-check_if_description_was_rendered:
-"""
-Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the
-auto-counter ($4218/$4219) is non-zero.
-"""
-
-
-    pha
-    lda.l cpu_regs.PAD1L
-    ora.l cpu_regs.PAD1H
-    bne _not_still
-    pla
-    pha
-
-    cmp.l render.last_drawn_text_ptr
-    bne _continue
-
-_not_still:
-    pla
-    rts
-
-_continue:
-    sta.l render.last_drawn_text_ptr
-
-    pla
-
-    pha
-    ldy.w #0xdcd6
-    jmp.w item_desc_back
-
 draw_vwf_message:
 """Render the VWF message at the current text pointer via the items_description trampoline."""
     jsr.l items_description.draw_trampoline

@@ -2,13 +2,9 @@
 ROM patches that wire the battle magic system to the relocated `draw_magic_list_direct` renderer + the
 long-form attack-name copier.
 """
-.extern assets_attack_names_dat
-.extern assets_attack_names_ptr
-.extern assets_magic_dat
-.extern battle_magic_length
+.import "assets"
+.import "battle/magic_reloc"
 
-.extern draw_magic_list_direct
-.extern magic_list_ptrs
 
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
 ; redraw_writer_patches.s; the two-column display drives its own buffer.

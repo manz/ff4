@@ -2,7 +2,7 @@
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 .table "text/ff4_menus.tbl"
-.extern lookup_dakuten
+.import "dakuten"
 
 
 .alloc in_game_text_block in bank20_reloc {

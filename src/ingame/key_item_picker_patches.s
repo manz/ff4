@@ -31,14 +31,9 @@ Patched:
 .import "items"
 
 
-.extern assets_items_unleashed_dat
-.extern multiply_by_17
-.extern key_item_after_open_impl
-.extern key_item_cursor_slot_impl
-.extern key_item_scroll_limit_impl
-.extern key_item_close_impl
-.extern key_item_scroll_down_impl
-.extern key_item_scroll_up_impl
+.import "assets"
+.import "ingame/key_item_picker"
+.import "bank20_helpers"
 .include "src/libmz.i"
 
 

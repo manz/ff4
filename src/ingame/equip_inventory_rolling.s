@@ -26,13 +26,9 @@ signal arms it, as for sell.
 .include "config.i"
 .import "items"
 
-.extern check_can_use_item_trampoline
-.extern draw_item_slot_inner_trampoline
-.extern draw_window_trampoline
-.extern tfr_bg4_tiles_vblank_trampoline
-.extern equip_select_bg4_trampoline
-.extern wait_for_vblank_long
-.extern rolling_engine
+.import "ingame/vanilla_trampolines"
+.import "libmz"
+.import "lib/rolling_inventory_engine"
 
 EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 EQUIP_BUFFER_SLOTS := EQUIP_VISIBLE_ITEMS + 1

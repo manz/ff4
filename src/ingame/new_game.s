@@ -8,12 +8,9 @@ geometry and Cecil sprite position that go with them.
 .include "src/menus/system_menus_macros.i"
 ; The macro above expands to a call into the menus text module, and the
 ; strings it points at live in the start-screen text module.
-.extern load_text_with_destination_in_x
-.extern display_window_with_text
-.extern display_time
-.extern display_text_in_menus
-.extern display_build_number
-.extern newgame
+.import "menus/system_menus_text"
+.import "ingame/free_space"
+.import "menus/start_screen_text"
 
 
 .include "config.i"

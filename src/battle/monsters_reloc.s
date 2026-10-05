@@ -4,7 +4,7 @@ resulting string into the active slot.
 """
 
 
-.extern assets_monsters_long_ptr
+.import "assets"
 
 
 .include "../bank20.i"

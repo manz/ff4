@@ -7,13 +7,12 @@ go.
 """
 .import "items"
 
-.extern draw_field_item_name_trampoline
-.extern assets_items_unleashed_dat
-.extern multiply_item_index_17
+.import "ingame/inventory_rolling_trampolines"
+.import "assets"
+.import "ingame/items_menu_vwf"
+.import "bank20_helpers"
 
 
-.extern items_menu_vwf.draw_field_item_name
-.extern items_menu_vwf.draw_equip_item_name
 ; Item name expansion for menu system
 ; Patches the multiply-by-9 to multiply-by-17
 ; Also redirects $0F8000 references to assets_items_unleashed_dat

@@ -10,10 +10,7 @@ length.
 """
 
 
-.extern sell_leave
-.extern sell_scroll_down
-.extern sell_scroll_up
-.extern sell_init
+.import "ingame/inventory_rolling_trampolines"
 .include "src/libmz.i"
 
 

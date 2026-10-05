@@ -5,14 +5,11 @@ loop, called by the patched bank-$02 hook.
 
 
 .include "config.i"
-.extern messages_vwf
-.extern messages_vwf.init_commands_list
+.import "battle/sram"
+.import "assets"
+.import "battle/commands_patches"
+.import "battle/redraw_gates"
 .extern draw_text_battle_far
-.extern assets_battle_commands_nul_ptr
-.extern assets_battle_commands_nul_dat
-.extern command_buffer_ptr
-.extern battle_menu_dirty
-.extern CMD_DIRTY_BIT
 
 mult8_far := 0x2855c
 
