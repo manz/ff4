@@ -209,5 +209,5 @@ _continue:
 
     pha
     ldy.w #0xdcd6
-    jmp.w item_desc_back
+    jmp item_desc_back
 }
