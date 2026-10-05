@@ -28,6 +28,7 @@ Patched:
   60          RTS
   A9 01       (original LDA #$01 stays — never reached after RTS)
 """
+.import "items"
 
 
 .extern assets_items_unleashed_dat
