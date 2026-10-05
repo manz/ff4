@@ -46,11 +46,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 
 ; Labels borrowed from neighbouring modules. As an include these resolved
 ; because ff4.s composed one translation unit; a module names what it uses.
-.extern check_can_use_item_trampoline
-.extern draw_item_slot_inner_trampoline
-.extern draw_window_trampoline
-.extern drops_select_bg4_trampoline
-.extern treasure_drops_window
+.import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
 
 

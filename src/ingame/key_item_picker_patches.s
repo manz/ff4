@@ -33,7 +33,7 @@ Patched:
 
 .import "assets"
 .import "ingame/key_item_picker"
-.extern multiply_by_17
+.import "bank20_helpers"
 .include "src/libmz.i"
 
 

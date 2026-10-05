@@ -30,10 +30,7 @@ sites that remain in the per-menu source files.
 .extern update_sell_scroll_hdma
 .extern update_equip_scroll_hdma
 .extern clear_inventory_slot
-.extern draw_item_cursors_trampoline
-.extern tfr_bg2_tiles_vblank_trampoline
-.extern tfr_sprites_vblank_trampoline
-.extern update_ctrl_after_scroll_trampoline
+.import "ingame/vanilla_trampolines"
 
 
 .include "src/rolling_state.i"

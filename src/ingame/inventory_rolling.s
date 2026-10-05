@@ -9,10 +9,7 @@ approach for the main menu items list with HDMA-based circular scrolling.
 .include "src/lib/rolling_buffer.i"
 
 ; Borrowed from neighbouring modules; inlining used to supply them.
-.extern check_can_use_item_trampoline
-.extern draw_item_slot_inner_trampoline
-.extern draw_window_trampoline
-.extern reset_sprites_trampoline
+.import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
 
 ; Rolling Buffer Implementation for Main Menu Inventory (Single Column)

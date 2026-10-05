@@ -6,7 +6,6 @@ parser to load the next message.
 .include "bank20.i"
 
 .import "assets"
-.extern dialog_bank_ptr_base
 
 
 .alloc dialog_block in bank20_reloc {
@@ -49,11 +48,11 @@ get_bank3_pointer:
 
 
     rep #0x20
-    lda.l dialog_bank_ptr_base + 0x600, x
+    lda.l assets_bank1_1_ptr + 0x600, x
     sta.b dialog_ptr
     lda.w #0x0000
     sep #0x20
-    lda.l dialog_bank_ptr_base + 0x600 + 2, x
+    lda.l assets_bank1_1_ptr + 0x600 + 2, x
     sta.b dialog_ptr + 2
     lda #0x02
     rtl

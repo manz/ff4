@@ -12,12 +12,7 @@ runs the field-menu NMI DMA check.
 .import "small_vwf/init"
 .import "battle/magic_reloc"
 .import "battle/sram"
-.extern mult8_trampoline
-.extern load_menu_tfr_data_trampoline
-.extern hex_to_dec_trampoline
-.extern normalize_num_trampoline
-.extern draw_text_rolling_trampoline
-.extern return_to_bank02
+.import "battle/vanilla_trampolines"
 
 ; externs live at root scope: a816 registers `.extern` only in the scope it is
 ; declared in, and an `.alloc` body opens its own scope, so an extern declared

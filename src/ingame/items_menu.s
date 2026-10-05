@@ -10,7 +10,7 @@ go.
 .import "ingame/inventory_rolling_trampolines"
 .import "assets"
 .import "ingame/items_menu_vwf"
-.extern multiply_item_index_17
+.import "bank20_helpers"
 
 
 ; Item name expansion for menu system

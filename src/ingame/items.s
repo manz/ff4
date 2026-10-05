@@ -6,14 +6,12 @@ rolling-buffer code which lives in `inventory_rolling.s`).
 .import "assets"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
+.import "ingame/free_space"
+.import "small_vwf/init"
 .include "src/menus/system_menus_macros.i"
-.extern check_if_description_was_rendered
-.extern draw_vwf_message
-.extern draw_vwf_message_pos_with_bank
-.extern draw_window_and_vwf_message
-.extern swap_redraw_trampoline
 
 .include "config.i"
+.include "src/ingame/bank01_slack.i"
 .include "src/ingame/macros.i"
 
 ; during scroll
@@ -180,4 +178,36 @@ _treasure_menu_entry:
     .alloc at 0x01A401 {
     jmp.w swap_redraw_trampoline  ; Replace JSR $A172
     }
+}
+
+.alloc item_description_skip_check in bank01_slack {
+check_if_description_was_rendered:
+"""
+Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the
+auto-counter ($4218/$4219) is non-zero.
+"""
+
+
+    pha
+    lda.l cpu_regs.PAD1L
+    ora.l cpu_regs.PAD1H
+    bne _not_still
+    pla
+    pha
+
+    cmp.l render.last_drawn_text_ptr
+    bne _continue
+
+_not_still:
+    pla
+    rts
+
+_continue:
+    sta.l render.last_drawn_text_ptr
+
+    pla
+
+    pha
+    ldy.w #0xdcd6
+    jmp.w item_desc_back
 }
