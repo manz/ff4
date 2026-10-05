@@ -206,7 +206,7 @@ signature byte sits at PB:(PC - 1).
 
 .if DEBUG_SHOW_ITEM_WINDOW {
 ; Hijack ExecEvent to always run F7 (select item) with Baron Key
-; EventCmd_f7 at $00ED96 expects: X points to script, $09d5+X+1 = item ID
+; EventCmd_f7 at $00ED97 expects: X points to script, $09d5+X+1 = item ID
     .alloc at 0x00E1EB {
     lda #0xD1
     sta 0x09d6
@@ -214,6 +214,6 @@ signature byte sits at PB:(PC - 1).
     sta 0x09d7
     ldx #0x0000
     stx 0xb3
-    jmp.w 0xED96
+    jmp.w 0xED97
     }
 }
