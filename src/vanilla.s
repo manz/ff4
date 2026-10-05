@@ -1,4 +1,4 @@
-"""SRAM / WRAM layout map for the patched ROM and per-mode VWF scopes."""
+"""Named vanilla ROM routines (`.label`): no bytes, but `ff4.sym`, xdds and the LSP symbolicate them."""
 
 ; Original ROM call sites referenced by rolling-buffer / treasure-menu patches.
 ; Captured here as `.label` declarations so symbol exports land in `ff4.sym`
@@ -45,22 +45,3 @@
 
 """TfrBG3TilesVblank: $7E:D600 -> VRAM $7000."""
 .label tfr_bg3_tiles_vblank = 0x019447
-
-
-.scope field_vwf {
-    """
-    S-RAM layout: $70:0000-1FFF save data, $70:2000-6FFF sram_layout.s,
-    $70:7000-70FF vwf_ram.s, $70:7100 battle/render_state.s, $70:7200-7FFF
-    rolling_state.i.
-    """
-    tile_buffer = 0x702000
-}
-
-.scope _battle_vwf {
-    tile_buffer = 0x702000
-    battle_tile_buffer = 0x703000
-}
-
-.scope _menu_vwf {
-    tile_buffer = 0x703000
-}

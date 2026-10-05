@@ -1,7 +1,20 @@
 """Small-VWF item-description renderer."""
-.include "src/vwf_state.i"
+.import "preamble"
+.import "vwf_ram"
+.import "assets"
+.import "items"
+.import "battle/render_state"
+.import "libmz"
+.include "config.i"
+.include "src/vwf.i"
+.include "../bank20.i"
+.include "src/libmz.i"
+.import "small_vwf/render"
 
-.scope items_description {
+.alloc small_vwf_item_description in bank20_reloc {
+    .include "src/vwf_state.i"
+
+    .scope items_description {
     """Small-VWF item-description renderer entry-points."""
 draw_trampoline:
     jsr.w draw
@@ -166,4 +179,5 @@ _transfer_item_description:
 ; field-items DMA at byte $5000 / word $2800.
     dma_transfer_to_vram_call(render.buffer_ptr + 0x800, 0x5800 >> 1, 0x800, 0x1801)
     rts
+    }
 }

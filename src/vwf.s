@@ -4,7 +4,6 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 """
 .import "preamble"
 .include "config.i"
-.include "src/definitions.s"
 .include "bank20.i"
 .include "src/libmz.i"
 .table "text/ff4_menus.tbl"
@@ -13,8 +12,14 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 .import "assets"
 .import "kerning"
 
-; `.import` links kerning but doesn't surface its alloc-body GLOBALs by name;
-; declare the ones used here at root scope.
+.scope field_vwf {
+    """
+    S-RAM layout: $70:0000-1FFF save data, $70:2000-6FFF sram_layout.s,
+    $70:7000-70FF vwf_ram.s, $70:7100 battle/render_state.s, $70:7200-7FFF
+    rolling_state.i.
+    """
+    tile_buffer = 0x702000
+}
 
 .alloc vwf_block in bank20_reloc {
 wait_for_action_button:
