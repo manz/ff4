@@ -100,7 +100,7 @@ def build_patch(input, output, lang):
         output_dir=Path("build/obj"),
         symbols={"LANG": lang},
         include_paths=[Path("src"), Path(".")],
-        overlap_mode="warn",
+        overlap_mode="error",
     )
 
     if result.exit_code != 0:
@@ -393,6 +393,7 @@ def build_assets(assets):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s - %(message)s")
     dialog_table = Table("text/ff4fr.tbl")
     menu_table = Table("text/ff4_menus.tbl")
     lang = "fr"
