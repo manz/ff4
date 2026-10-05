@@ -2,6 +2,10 @@
 Field-menu window-descriptor data (equip / status / options main windows) emitted via the `menu_window` macro
 at fixed bank-$01 addresses.
 """
+.import "preamble"
+.include "config.i"
+.include "src/ingame/macros.i"
+
 ; equip main window
 
 .alloc at 0x01dda9 {

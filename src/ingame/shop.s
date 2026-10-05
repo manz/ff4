@@ -2,6 +2,15 @@
 Shop-screen patches: move the gil window, adjust title positions, hook into the relocated shop text +
 small-VWF item descriptions.
 """
+.import "preamble"
+.import "ingame/inventory_rolling_trampolines"
+.import "menus/tools_shop_text"
+.import "assets"
+.import "menus/in_game_text"
+.import "menus/system_menus_text"
+.include "config.i"
+.include "src/menus/system_menus_macros.i"
+
 .include "src/ingame/macros.i"
 
 ; move gils window

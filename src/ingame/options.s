@@ -1,4 +1,11 @@
 """Options-menu patches: rename palette colours (RGB → RVB), reposition labels and adjust slider offsets."""
+.import "preamble"
+.import "menus/in_game_text"
+.import "menus/system_menus_text"
+.include "config.i"
+.include "src/ingame/macros.i"
+.include "src/menus/system_menus_macros.i"
+
 
 ;RGB -> RVB :o)
 

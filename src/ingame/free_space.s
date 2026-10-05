@@ -2,6 +2,16 @@
 Bank $01 free-space landing pad ($01:FF35+): tiny utility routines that fit in the slack reclaimed by
 relocating other code.
 """
+.import "preamble"
+.import "battle/inventory_rolling"
+.import "ingame/inventory_rolling_trampolines"
+.import "small_vwf/init"
+.import "ingame/items"
+.import "ingame/inventory_rolling"
+.import "menus/start_screen_text"
+.import "menus/system_menus_text"
+.include "src/menus/system_menus_macros.i"
+
 ; ============================================================================
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
@@ -43,7 +53,7 @@ _continue:
 
     pha
     ldy.w #0xdcd6
-    jmp item_desc_back
+    jmp.w item_desc_back
 
 draw_vwf_message:
 """Render the VWF message at the current text pointer via the items_description trampoline."""

@@ -2,6 +2,17 @@
 Field-menu item screen patches: scroll-region tweaks, layout fixes and entry-point hooks (separate from
 rolling-buffer code which lives in `inventory_rolling.s`).
 """
+.import "preamble"
+.import "assets"
+.import "menus/in_game_text"
+.import "menus/system_menus_text"
+.include "src/menus/system_menus_macros.i"
+.extern check_if_description_was_rendered
+.extern draw_vwf_message
+.extern draw_vwf_message_pos_with_bank
+.extern draw_window_and_vwf_message
+.extern swap_redraw_trampoline
+
 .include "config.i"
 .include "src/ingame/macros.i"
 

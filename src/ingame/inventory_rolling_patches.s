@@ -2,6 +2,14 @@
 ROM patches wiring the field-menu inventory rolling-buffer engine in (FF6-style non-blocking scroll state
 machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 """
+.import "preamble"
+.import "ingame/free_space"
+.import "ingame/inventory_rolling"
+.import "ingame/inventory_rolling_trampolines"
+.extern conditional_bg1_vofs
+.include "config.i"
+
+.if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Inventory Rolling Buffer Patches for Main Menu
 ; ============================================================================
@@ -13,8 +21,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ;
 ; ============================================================================
 
-.include "config.i"
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; MAIN LOOP HOOK - Process scroll animation frames
 ; ============================================================================
@@ -157,5 +164,6 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
     nop
     nop
     nop
+    }
     }
 }
