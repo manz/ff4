@@ -514,3 +514,8 @@ magic_list_ptrs:
 """Per-magic-type spell-list base pointers (white, black, summon, ninja, kokan)."""
     .dw 0x2c7a, 0x2d9a, 0x2eba, 0x2fda, 0x30fa
 }
+
+; The spell ring renders into the items window's tiles only: the command
+; window shows its own tiles while the two windows slide past each other.
+.assert battle_render.SPELL_TILE_BASE >= 0xC0, "spell ring reaches into the command tiles"
+.assert battle_render.SPELL_TILE_BASE + battle_render.SPELL_RING_TILES <= 0xFC, "spell ring past the item tiles"
