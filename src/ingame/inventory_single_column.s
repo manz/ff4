@@ -82,48 +82,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; For single column, each item needs its own row, so remove the LSR.
 ; This makes Y = item_index * 128 + 2 instead of (item_index/2) * 128 + 2
 }
-.alloc at 0x01A1BC {
-    nop  ; Replace LSR with NOP
-
-; ============================================================================
-; Scroll Limit Patch
-; ============================================================================
-
-; Original scroll down limit check at $01A076:
-;   @a076:  cmp     #$0e            ; 14 = 24 items - 10 visible
-;           beq     @a0bc           ; Don't scroll if at limit
-;
-; The CMP opcode is at $A076, operand at $A077
-; New limit for single column: 48 - 10 = 38
-}
-.alloc at 0x01A077 {
-    .db SCROLL_LIMIT  ; 38 instead of 14
-
-; Also patch the cursor Y limit check
-
-; Original at $01A071:
-;   @a06c:  lda     $1b23           ; cursor Y
-;           cmp     #$09            ; max Y = 9 (for 10 visible rows)
-;
-; This stays the same for 10 visible items, so no change needed
-
-; ============================================================================
-; Cursor Drawing - Fixed X Position
-; ============================================================================
-; Original at $01A105 checks $1b22 (X position) for left/right column
-; Single column: always use left position
-;
-
-; Original:
-;   @a105:  ...
-;   @a116:  lda     $1b22                   ; cursor 1 x position
-;           beq     @a11b
-;           lda     #$6c                    ; right column X
-;   @a11b:  clc
-;           adc     #$04
-;
-; Patch: Skip the X position check, always use left column
-}
+; $01:A1BC is covered by the slot hook at $01:A1BA (inventory_rolling_patches.s).
+; $01:A077 (scroll limit) is covered by the scroll hook at $01:A076 (inventory_rolling_patches.s).
 .alloc at 0x01A114 {
     lda #0x00  ; Always 0 (left column) - replaces LDA $1B22 (3 bytes)
     nop  ; Was high byte of $1B22 address
@@ -153,10 +113,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ;
 ; Patch: Make left/right do nothing (skip to down button check)
 }
-.alloc at 0x019FF4 {
-; Change AND #JOY_LEFT to AND #0x00 (never matches)
-    and #0x00
-}
+; $01:9FF4 (left button) is covered by the main loop hook at $01:9FF2
+; (inventory_rolling_patches.s), which replaces the whole input check.
 .alloc at 0x01A005 {
 ; Change AND #JOY_RIGHT to AND #0x00 (never matches)
     and #0x00
