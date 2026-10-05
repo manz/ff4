@@ -5,51 +5,23 @@ wrappers around original bank-$01 helpers used by the rolling code.
 
 .import "preamble"
 .import "ingame/drops_rolling"
-.extern drops_start_scroll_up_impl
-.extern drops_start_scroll_down_impl
-.extern drops_refresh_slots_impl
-.extern drops_init_impl
-.extern treasure_menu_exit_hook_impl
-.extern treasure_menu_entry_hook_impl
-.extern drops_finish_scroll_impl
-.extern drops_update_scroll_frame_impl
+.import "ingame/treasure_rolling"
+.import "small_vwf/init"
+.import "menus/tools_shop_text"
+.import "ingame/shop_sell_rolling"
+.import "ingame/equip_inventory_rolling"
+.import "ingame/inventory_rolling"
+.import "ingame/items_menu_vwf"
 .import "items"
-.extern items_description
-.extern shops
 
 ; Typed views over the profiles' state blocks. A cast is compile-time,
 ; so it cannot be imported the way a label is: each module that reads
 ; these fields binds its own view over the same addresses, the way
 ; battle/inventory_rolling.s already does.
-.extern TREASURE_SCROLL_COOLDOWN_FRAMES
-.extern treasure_finish_scroll_impl
-.extern treasure_update_scroll_frame_impl
-.extern treasure_start_scroll_up_impl
-.extern treasure_start_scroll_down_impl
-.extern treasure_swap_redraw_hook_impl_body
-.extern treasure_refresh_slots_impl
-.extern init_treasure_rolling_buffer_impl
-.extern treasure_check_and_clear_count_impl
-.extern sell_disable_hdma
-.extern sell_scroll_down_impl
-.extern sell_scroll_up_impl
-.extern sell_init_impl
-.extern equip_disable_hdma
-.extern equip_scroll_down_impl
-.extern equip_scroll_up_impl
-.extern equip_init_impl
-.extern finish_scroll_impl
-.extern update_scroll_frame_impl
-.extern start_scroll_up_impl
-.extern start_scroll_down_impl
-.extern swap_redraw_hook_impl_body
-.extern init_menu_rolling_buffer_impl
-.extern check_and_clear_count_impl
 
 .include "config.i"
 .include "src/ingame/macros.i"
 
-.extern items_menu_vwf.draw_field_item_name
 
 ;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
 ;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).

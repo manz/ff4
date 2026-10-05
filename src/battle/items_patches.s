@@ -4,7 +4,8 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 """
 .import "items"
 
-.extern assets_items_dat
+.import "assets"
+.import "battle/equip_window"
 
 ; Item name expansion patches for battle graphics
 ; Changes 9-byte items to 12-byte items
@@ -19,7 +20,6 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 
 ; root-scope extern: `.alloc` bodies open their own scope, so an extern
 ; declared inside one never resolves at the use site.
-.extern tfr_equip_window_new
 
 .alloc at 0x029E1A {
     lda #ITEM_NAME_RECORD_SIZE

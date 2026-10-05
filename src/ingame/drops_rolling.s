@@ -51,7 +51,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 .extern draw_window_trampoline
 .extern drops_select_bg4_trampoline
 .extern treasure_drops_window
-.extern rolling_engine
+.import "lib/rolling_inventory_engine"
 
 
 DROPS_VISIBLE_ITEMS := 5

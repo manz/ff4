@@ -49,11 +49,9 @@ Status:
 .include "src/libmz.i"
 .include "src/vwf_state.i"
 
-.extern assets_items_unleashed_dat
-.extern render
-.extern render.render_with_config
-.extern wait_for_vblank_long
-.extern dma_transfer_to_vram
+.import "assets"
+.import "small_vwf/init"
+.import "libmz"
 
 
 .alloc items_menu_vwf_block in bank20_reloc {

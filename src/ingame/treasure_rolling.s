@@ -14,7 +14,7 @@ from `inventory_rolling.s` and tuned for the chest UI.
 .extern draw_window_trampoline
 .extern reset_sprites_trampoline
 .extern treasure_inventory_window
-.extern rolling_engine
+.import "lib/rolling_inventory_engine"
 .extern tfr_bg3_tiles_vblank_trampoline
 
 ; Treasure inventory rolling buffer (single-column, 5 visible).

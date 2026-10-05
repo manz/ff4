@@ -4,11 +4,10 @@ translated-string tables.
 """
 
 .import "preamble"
-.extern msg_window_draw_text_trampoline
-.extern assets_battle_text_ptr
-.extern assets_battle_messages_ptr
+.import "battle/sram_patches"
+.import "assets"
+.import "battle/sram"
 
-.extern messages_vwf
 
 .scope message_patches {
     """Pinned-address overlay scope rewriting original battle-message pointer loads to relocated tables."""

@@ -2,11 +2,9 @@
 Patches that switch the battle monster-name loader from a fixed-size table to a pointer-indirected one (long
 names) and forward to `load_monster_pointer`.
 """
-.extern assets_monsters_long_dat
+.import "assets"
+.import "battle/monsters_reloc"
 
-.extern load_monster_pointer
-.extern initialize_monster_slot
-.extern tab_escape_code
 
 ; transform the monster names loading routine from fixed size to pointed.
 

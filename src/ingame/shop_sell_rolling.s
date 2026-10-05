@@ -37,8 +37,8 @@ the field menu.
 .extern draw_window_trampoline
 .extern tfr_bg3_tiles_vblank_trampoline
 .extern sell_select_bg3_trampoline
-.extern wait_for_vblank_long
-.extern rolling_engine
+.import "libmz"
+.import "lib/rolling_inventory_engine"
 
 SELL_VISIBLE_ITEMS := 8
 SELL_BUFFER_SLOTS := 9

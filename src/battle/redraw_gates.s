@@ -27,7 +27,7 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 
 ; Cross-module LABEL: extern at root scope (`.extern` only registers in its own
 ; scope, and an `.alloc` body opens its own).
-.extern clear_names_window_buffer
+.import "battle/sram"
 
 .scope battle_render {
     """

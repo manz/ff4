@@ -12,10 +12,7 @@ cursor and index math collapse to one column.
 
 .include "src/libmz.i"
 .import "items"
-.extern equip_init
-.extern equip_scroll_up
-.extern equip_scroll_down
-.extern equip_leave
+.import "ingame/inventory_rolling_trampolines"
 
 
 .include "config.i"

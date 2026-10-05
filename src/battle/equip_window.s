@@ -21,7 +21,7 @@ Tilemap dest bases (set by hooks in items_patches.s):
 """
 
 
-.extern load_menu_tfr_data_trampoline
+.import "battle/inventory_rolling_patches"
 
 
 .include "../bank20.i"

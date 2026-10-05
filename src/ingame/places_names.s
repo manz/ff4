@@ -2,9 +2,8 @@
 Place-name window patches: increase the window length to fit French names and re-route the loader through our
 pointer table.
 """
-.extern places_bottom_window
-.extern places_top_window
-.extern assets_places_names_dat
+.import "ingame/places_names_window"
+.import "assets"
 
 {
     place_name_length = 0x1A

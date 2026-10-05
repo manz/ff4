@@ -53,9 +53,9 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
 ; because ff4.s composed one translation unit; a module names what it uses.
 .extern check_can_use_item_trampoline
 .extern draw_item_slot_inner_trampoline
-.extern wait_for_vblank_long
-.extern rolling_engine
-.extern render
+.import "libmz"
+.import "lib/rolling_inventory_engine"
+.import "small_vwf/init"
 
 
 ; Four rows on screen, matching the window vanilla draws ; the engine

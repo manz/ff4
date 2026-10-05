@@ -1,7 +1,7 @@
 """Relocated implementations of the original system-menu text routines."""
 .include "../bank20.i"
 
-.extern assets_classes_ptr
+.import "assets"
 
 
 .alloc system_menus_text_block in bank20_reloc {

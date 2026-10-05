@@ -2,29 +2,14 @@
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 """
-.extern draw_window_render_hook
+.import "battle/sram_patches"
+.import "battle/inventory_rolling"
+.import "battle/redraw_gates"
+.import "battle/render_state"
+.import "battle/sram"
 
 .include "config.i"
-.extern init_inventory_text_buf_rolling
-.extern tfr_inventory_list_rolling
-.extern scroll_list_down_hook
-.extern scroll_list_up_hook
-.extern update_list_scroll_hdma_wrapped
-.extern reset_list_scroll_hdma_rolling
-.extern post_scroll_down_render
-.extern check_cursor2_visibility_rolling
-.extern battle_menu_dirty
-.extern CMD_DIRTY_BIT
-.extern battle_render_state.tilemap_pending_mask
-.extern battle_render.TILEMAP_PENDING_COMMANDS
-.extern battle_menu_dirty
-.extern CMD_DIRTY_BIT
 .if BATTLE_ITEMS_VWF {
-    .extern messages_vwf.init_inventory
-    .extern messages_vwf.init_inventory_for_current_slot
-    .extern messages_vwf.mirror_main_to_cmd
-    .extern messages_vwf.draw_inventory_text
-    .extern messages_vwf.deinit
 }
 
 ; ============================================================================

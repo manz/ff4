@@ -8,23 +8,21 @@ runs the field-menu NMI DMA check.
 .import "battle/render_state"
 .include "config.i"
 .import "items"
-.extern assets_items_dat
-.extern assets_items_unleashed_dat
+.import "assets"
+.import "small_vwf/init"
+.import "battle/magic_reloc"
+.import "battle/sram"
 .extern mult8_trampoline
 .extern load_menu_tfr_data_trampoline
 .extern hex_to_dec_trampoline
 .extern normalize_num_trampoline
 .extern draw_text_rolling_trampoline
 .extern return_to_bank02
-.extern render.flush_chr_to_vram
 
 ; externs live at root scope: a816 registers `.extern` only in the scope it is
 ; declared in, and an `.alloc` body opens its own scope, so an extern declared
 ; inside never resolves at the use site.
-.extern spell_list_scroll_render
 .if BATTLE_ITEMS_VWF {
-    .extern messages_vwf.init_inventory
-    .extern messages_vwf.deinit
 }
 
 .scope battle_render {

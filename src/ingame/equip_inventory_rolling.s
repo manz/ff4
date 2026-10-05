@@ -31,8 +31,8 @@ signal arms it, as for sell.
 .extern draw_window_trampoline
 .extern tfr_bg4_tiles_vblank_trampoline
 .extern equip_select_bg4_trampoline
-.extern wait_for_vblank_long
-.extern rolling_engine
+.import "libmz"
+.import "lib/rolling_inventory_engine"
 
 EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 EQUIP_BUFFER_SLOTS := EQUIP_VISIBLE_ITEMS + 1
