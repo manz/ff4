@@ -7,12 +7,12 @@ on:
       - master
 jobs:
   nightly:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     permissions:
       contents: write
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
     - uses: astral-sh/setup-uv@v10.2.0
       with:
         python-version: '3.14'
@@ -22,7 +22,7 @@ jobs:
     - name: Build patch
       run: uv run ./build.py
     - name: Create Nightly Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       with:
         tag_name: nightly-${{ github.run_number }}
         name: Nightly Build ${{ github.run_number }}
