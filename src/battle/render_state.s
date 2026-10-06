@@ -62,6 +62,7 @@ BATTLE_RENDER_STATE := 0x707100
     byte spell_slot
     byte spell_ring_dirty
     byte[6] spell_ring_rows
+    byte[5 * 4] status_shadow  ; 5 char slots, 4 status bytes each
 }
 
 ; Bounded to the record, so growing it past its span fails the build
