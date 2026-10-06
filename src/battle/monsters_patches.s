@@ -4,6 +4,7 @@ names) and forward to `load_monster_pointer`.
 """
 .import "assets"
 .import "battle/monsters_reloc"
+.import "vanilla"
 
 
 ; transform the monster names loading routine from fixed size to pointed.
@@ -15,7 +16,7 @@ names) and forward to `load_monster_pointer`.
 _loop:
     lda.l assets_monsters_long_dat, x
     beq _exit
-    jsr.w 0xA497
+    jsr.w draw_letter
 ; draw text
 ; jsr.w msg_monster_window_trampoline
     inx

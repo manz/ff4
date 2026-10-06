@@ -2,6 +2,7 @@
 Relocated battle text-draw helpers and constants (HexToDec / Mult8 / Div16 trampolines, dakuten + name pointer
 table aliases) consumed by the messages-VWF path.
 """
+.import "vanilla"
 .if 1 {
     hex_to_dec_var := 0x2f29c
     mult8_far := 0x2855c
@@ -784,7 +785,7 @@ _a7d7:
 _loop:
     lda.l assets_monsters_long_dat, x
     beq _exit
-    jsr 0xA497  ; draw text
+    jsr.w draw_letter  ; draw text
 ;jsr.w msg_monster_window_trampoline
     inx
     bra _loop

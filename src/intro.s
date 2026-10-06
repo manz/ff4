@@ -13,6 +13,7 @@ and chains into the title screen.
 .import "libmz"
 .import "assets"
 .import "bank20_helpers"
+.import "vanilla"
 
 
 .alloc intro_block in bank20_reloc {
@@ -53,8 +54,8 @@ start_splash_screen:
 
     jsr.l clear_ram
 ; runs the original jsl routines
-    jsr.l 0x15C8DF
-    jsr.l 0x15C9AA
+    jsr.l init_hw_regs
+    jsr.l field_clear_ram
 
     rtl
 

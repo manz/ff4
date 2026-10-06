@@ -4,6 +4,7 @@ long-form attack-name copier.
 """
 .import "assets"
 .import "battle/magic_reloc"
+.import "vanilla"
 
 
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
@@ -29,7 +30,7 @@ _transfer_white_magic:
     jsr.l draw_magic_list_direct
     lda #0x02  ; spell list
     ldy.w #0x0002
-    jsr.w 0x9738  ; LoadMenuTfrData
+    jsr.w load_menu_tfr_data
     lda #0x01
     sta 0x1825  ; 1 transfer
     sta 0x1824  ; enable menu tilemap vram transfer
@@ -56,7 +57,7 @@ draw_letter_far:
     tdc
     sta.l 0x7FFFFF
     pla
-    jsr.w 0xa497  ; Original draw_letter
+    jsr.w draw_letter  ; Original draw_letter
     rtl
 
 ; attack name window
@@ -98,7 +99,7 @@ loop:
 
 exit:
 """Tail of `loop`: jump to original attack-name window display."""
-    jmp.w 0xbca2  ; display monster? attack name window
+    jmp.w draw_attack_name_window  ; display monster? attack name window
 
 ; attack window position
 }

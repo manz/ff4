@@ -22,6 +22,7 @@ vwf_state.i).
 .include "src/vwf.i"
 .include "../bank20.i"
 .include "src/libmz.i"
+.import "vanilla"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern
 ; declared inside never resolves at the use site.
@@ -71,7 +72,7 @@ vwf_state.i).
 ; the vram-save staging.
     buffer = VRAM_SAVE_SRAM_BASE
 save_dialog_vram_far:
-    jsr 0x14fd0f
+    jsr.l save_dlg_gfx_ext
 ; original save
     jsr.l wait_for_vblank_long
     phb
@@ -111,7 +112,7 @@ restore_dialog_gfx_far:
     stx 0x0122
     jsr.w _transfer_to_vram
     jsr.l wait_for_vblank_long
-    jsr 0x14ffd6
+    jsr.l restore_dlg_gfx_ext
 ; original restore
     rtl
 _transfer_to_vram:
@@ -218,7 +219,7 @@ init:
     rts
     .if BATTLE_ENABLED {
 init_battle_far:
-    jsr 0x13ff12  ; play song
+    jsr.l play_battle_song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl

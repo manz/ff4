@@ -10,6 +10,7 @@ dialog-stream consumer).
 .import "battle/put_char"
 .include "src/battle/sram.i"
 .include "../bank20.i"
+.import "vanilla"
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
 .extern flying_hdma_trampoline
@@ -1670,7 +1671,7 @@ _no_tilemap_dma:
 ; while our cross-bank JSL gets a matching RTL pop. Float-monster
 ; BG1 vscroll table now updates every vblank.
     jsr.l flying_hdma_trampoline
-    jsr 0x03fe03
+    jsr.l btlgfx_tfr_sprites
     rtl
 _sram_dma_transfer_7:
     phb

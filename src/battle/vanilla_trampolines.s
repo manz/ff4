@@ -8,6 +8,7 @@ the import graph acyclic.
 .import "battle/sram"
 .include "config.i"
 .include "src/battle/bank02_trampolines.i"
+.import "vanilla"
 
 .alloc bank02_vanilla_wrappers in bank02_trampolines {
 draw_text_rolling_trampoline:
@@ -34,7 +35,7 @@ so the VWF tile allocator and pending-DMA mask stay in sync.
     xba
     lda.b #0x00
     xba
-    jsr 0xA455
+    jsr.w draw_text
     pla
     sta.l 0x704F00
     rtl
@@ -42,22 +43,22 @@ so the VWF tile allocator and pending-DMA mask stay in sync.
 
 mult8_trampoline:
 """Bank-$02 RTL trampoline around original Mult8 ($028560)."""
-    jsr 0x8560  ; Mult8 at $028560
+    jsr.w mult8
     rtl
 
 hex_to_dec_trampoline:
 """Bank-$02 RTL trampoline around original hex_to_dec ($0286BF)."""
-    jsr 0x86BF  ; hex_to_dec at $0286BF
+    jsr.w btlgfx_hex_to_dec
     rtl
 
 normalize_num_trampoline:
 """Bank-$02 RTL trampoline around original normalize_num ($028716)."""
-    jsr 0x8716  ; normalize_num at $028716
+    jsr.w normalize_num
     rtl
 
 load_menu_tfr_data_trampoline:
 """Bank-$02 RTL trampoline around original LoadMenuTfrData ($029738)."""
-    jsr 0x9738  ; LoadMenuTfrData at $029738
+    jsr.w load_menu_tfr_data
     rtl
 
 return_to_bank02:
