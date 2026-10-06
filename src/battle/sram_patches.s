@@ -12,7 +12,7 @@ window) through our messages-VWF init/deinit trampolines.
 
 ; inventory buffer
 ;*=0x02991E
-;    jsr.l copy_battle_char
+;    jsr.l _copy_battle_char
 ;    nop
 ;
 ;    nop
@@ -25,7 +25,7 @@ window) through our messages-VWF init/deinit trampolines.
 ;
 ;; inventory buffer
 ;*=0x029932
-;    jsr.l copy_battle_char
+;    jsr.l _copy_battle_char
 ;    nop
 ;
 ;    nop
@@ -131,7 +131,7 @@ window) through our messages-VWF init/deinit trampolines.
 ;    jsr.l render_allocator.init_battle_far
 
 .if BATTLE_NAMES_VWF + BATTLE_MONSTERS_VWF + BATTLE_CMD_VWF > 0 {
-; patches the newline control code handler to clear bitsleft on the current tile,
+; patches the _newline control code handler to clear bitsleft on the current tile,
 ; allowing the monster string to be rendered.
     .alloc at 0x02a637 {
     jsr.l messages_vwf.new_line_escape_code_handler
@@ -183,7 +183,7 @@ _draw_command_list:
     jsr.l draw_command_list_for_character
     rts
 
-msg_monster_window_trampoline:
+_msg_monster_window_trampoline:
 """Trampoline patched into the monster-name window draw."""
     jsr.l messages_vwf.init_monsters
     bra _draw_text_battle

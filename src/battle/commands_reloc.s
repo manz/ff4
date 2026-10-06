@@ -16,7 +16,7 @@ mult8_far := 0x2855c
 
 .include "../bank20.i"
 
-.alloc battle_commands_reloc_block in bank20_reloc {
+.alloc _battle_commands_reloc_block in bank20_reloc {
     .if BATTLE_CMD_VWF {
     command_length = 6
     } else {
@@ -146,7 +146,7 @@ _clear_buffer_loop:
 
     ldx #0x74fd  ; text buffer
     stx 0xef50
-    lda.b #command_length  ; draw text line length used for newline
+    lda.b #command_length  ; draw text line length used for _newline
     sta 0xef54
 
     jsr.l messages_vwf.init_commands_list

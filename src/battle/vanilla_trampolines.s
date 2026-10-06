@@ -10,7 +10,7 @@ the import graph acyclic.
 .include "src/battle/bank02_trampolines.i"
 .import "vanilla"
 
-.alloc bank02_vanilla_wrappers in bank02_trampolines {
+.alloc _bank02_vanilla_wrappers in bank02_trampolines {
 draw_text_rolling_trampoline:
 """
 Bank-$02 trampoline around draw_text for inventory rendering. With

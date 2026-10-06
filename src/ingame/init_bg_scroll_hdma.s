@@ -3,7 +3,7 @@
 
 .include "../bank20.i"
 
-.alloc init_bg_scroll_hdma_block in bank20_reloc {
+.alloc _init_bg_scroll_hdma_block in bank20_reloc {
 init_bg_scroll_hdma:
 """Init BG Scroll HDMA, relocated from $01:EBD2."""
     tdc

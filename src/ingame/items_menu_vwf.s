@@ -54,7 +54,7 @@ Status:
 .import "libmz"
 
 
-.alloc items_menu_vwf_block in bank20_reloc {
+.alloc _items_menu_vwf_block in bank20_reloc {
     .scope items_menu_vwf {
     """
     VWF render path for field-menu / treasure / drops item-name slots.

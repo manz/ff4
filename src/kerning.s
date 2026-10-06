@@ -6,7 +6,7 @@ kerning offsets.
 .include "bank20.i"
 
 
-.alloc kerning_block in bank20_reloc {
+.alloc _kerning_block in bank20_reloc {
 dialog_get_kerning_adjustment_binary_search_ext:
 """
     Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python

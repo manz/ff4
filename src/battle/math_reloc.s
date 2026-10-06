@@ -7,7 +7,7 @@ Input:  $393D (16-bit) * $393F (16-bit). Output: $3941 (low 16-bit), $3943 (high
 .import "preamble"
 .include "../bank20.i"
 
-.alloc battle_math_reloc_block in bank20_reloc {
+.alloc _battle_math_reloc_block in bank20_reloc {
     .macro shorta() {
     """Switch A to 8-bit (`SEP #$20`)."""
     sep #0x20

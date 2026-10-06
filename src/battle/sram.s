@@ -16,7 +16,7 @@ helper.
 
 ; root-scope extern for the included message.s (an .alloc body can't host one).
 
-.alloc battle_sram_block in bank20_reloc {
+.alloc _battle_sram_block in bank20_reloc {
 battle_display_char:
 """
     Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active

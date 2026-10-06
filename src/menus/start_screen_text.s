@@ -13,7 +13,7 @@ configuration, not linked together.
 
 .table "text/ff4_menus.tbl"
 
-.alloc start_screen_text_block in bank20_reloc {
+.alloc _start_screen_text_block in bank20_reloc {
     .scope newgame {
     """Title-screen + save-slot strings."""
 new_game:

@@ -26,7 +26,7 @@ Tilemap dest bases (set by hooks in items_patches.s):
 
 .include "../bank20.i"
 
-.alloc battle_equip_window_block in bank20_reloc {
+.alloc _battle_equip_window_block in bank20_reloc {
 tfr_equip_window_new:
 """
     Relocated replacement for vanilla `TfrEquipWindow` at $02:97A6.

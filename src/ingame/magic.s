@@ -14,8 +14,8 @@ the magic-render path.
 ; Columns offsets
 
 .alloc at 0x1efebd {
-    first_column := 0x0248 - 4
-    .dw first_column + 10 * 2 * 2, first_column + 10 * 2, first_column
+    _first_column := 0x0248 - 4
+    .dw _first_column + 10 * 2 * 2, _first_column + 10 * 2, _first_column
 
 ; columns cursor postion
 }

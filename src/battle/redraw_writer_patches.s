@@ -88,7 +88,7 @@ follow-up patches.
     strategy order
     }
 }
-.alloc battle_redraw_helpers in bank02_battle_redraw_helpers {
+.alloc _battle_redraw_helpers in bank02_battle_redraw_helpers {
 ; --- Names + monster gated trampolines (slice 2, queue-side bits) ---
 ; The init -> DrawText -> deinit pipeline still fires every frame so
 ; battle_flags symmetry is preserved (other VWF callers like HP/MP
@@ -153,7 +153,7 @@ battle_ext_seed:
 ; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
 ; (top remaining hitter after the cmd-window gate). Skip when char
 ; status state is unchanged. Hash = XOR of `$2003+slot*$40` for the
-; 5 char slots (status 1 byte). Cached at `status_hash` ; first call
+; 5 char slots (status 1 byte). Cached at `_status_hash` ; first call
 ; per battle always renders (cache initialized to 0 by Battle_ext
 ; seed but state hash != 0 in normal play). Status flicker pulse
 ; freezes when no status changes ; acceptable trade for ~9M cycles.
@@ -216,7 +216,7 @@ _mnwg_after_draw:
 _mnwg_done:
     rts
 }
-; end .alloc battle_redraw_helpers
+; end .alloc _battle_redraw_helpers
 
 ; --- Fixed-address hooks pointing into the pool helpers ---
 

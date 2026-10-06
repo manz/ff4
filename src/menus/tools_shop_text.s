@@ -4,7 +4,7 @@
 
 .table "text/ff4_menus.tbl"
 
-.alloc tools_shop_text_block in bank20_reloc {
+.alloc _tools_shop_text_block in bank20_reloc {
     .scope shops {
     """Shop UI strings."""
 gils:

@@ -18,7 +18,7 @@ _loop:
     beq _exit
     jsr.w draw_letter
 ; draw text
-; jsr.w msg_monster_window_trampoline
+; jsr.w _msg_monster_window_trampoline
     inx
     bra _loop
 

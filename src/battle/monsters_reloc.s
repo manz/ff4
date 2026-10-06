@@ -9,7 +9,7 @@ resulting string into the active slot.
 
 .include "../bank20.i"
 
-.alloc battle_monsters_reloc_block in bank20_reloc {
+.alloc _battle_monsters_reloc_block in bank20_reloc {
 load_monster_pointer:
 """Resolve a long-form monster name pointer from `assets_monsters_long_ptr[A*2]` and render it into the current slot."""
     rep #0x20

@@ -36,7 +36,7 @@ sites that remain in the per-menu source files.
 .include "src/rolling_state.i"
 .include "../bank20.i"
 
-.alloc rolling_inventory_engine_block in bank20_reloc {
+.alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {
     """Bank-20 rolling-inventory engine entry points (phase 1 stubs)."""
 rolling_engine_init:
@@ -95,7 +95,7 @@ rolling_engine_init:
     rep #0x10
     ldy.w #RollingBufferState.fn_draw_window
     jsr.w _engine_call_hook
-; Fire fn_update_hdma hook (= per-menu ensure_hdma_initialized in the
+; Fire fn_update_hdma hook (= per-menu _ensure_hdma_initialized in the
 ; field-items wiring). Phase 3+ may split this into ensure-once vs
 ; per-scroll-update hooks ; for now both share the slot.
     ldy.w #RollingBufferState.fn_update_hdma

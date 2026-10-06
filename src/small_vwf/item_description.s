@@ -11,7 +11,7 @@
 .include "src/libmz.i"
 .import "small_vwf/render"
 
-.alloc small_vwf_item_description in bank20_reloc {
+.alloc _small_vwf_item_description in bank20_reloc {
     .include "src/vwf_state.i"
 
     .scope items_description {

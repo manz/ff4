@@ -50,7 +50,7 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
     jsr.l tfr_inventory_list_rolling
     rts
 }
-.alloc bank02_trampolines_block in bank02_trampolines {
+.alloc _bank02_trampolines_block in bank02_trampolines {
 _update_enabled_items_trampoline:
     jsr.w update_enabled_items
     rtl
@@ -117,7 +117,7 @@ wrap_and_clear_trampoline:
 ; Return point for bank $20 functions that need to RTS to bank $02 callers
 }
 
-; end .alloc bank02_trampolines_block
+; end .alloc _bank02_trampolines_block
 
 ; ============================================================================
 ; ROM PATCHES

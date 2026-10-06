@@ -52,7 +52,7 @@ item_line2_offset := 30  ; Offset to second tilemap row within slot
 ; Tilemap row = 64 bytes (32 tiles × 2 bytes)
 ; Inventory row = 128 bytes (2 tilemap rows)
 
-;tilemap_buffer_base     := 0xC4E6   ; Tilemap buffer base
+;_tilemap_buffer_base     := 0xC4E6   ; Tilemap buffer base
 tilemap_row_stride := 128  ; Bytes per inventory row ($80)
 tilemap_left_start := 0xC52A  ; Left column start (original base)
 tilemap_right_start := 0xC546  ; Right column start

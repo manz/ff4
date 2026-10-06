@@ -5,7 +5,7 @@
 .include "bank20.i"
 
 
-.alloc libmz_block in bank20_reloc {
+.alloc _libmz_block in bank20_reloc {
 wait_for_vblank:
 """Spin until the next vblank edge: wait for $4212 to go low, then high."""
     {
