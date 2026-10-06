@@ -2037,7 +2037,7 @@ scroll_list_down_hook:
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
 ; The spell list only renders the rows on screen: paint the one about
 ; to slide in at the bottom first.
-    lda.l 0x7EEF86
+    lda.l btl_list_scroll
     clc
     adc.b #battle_render.SPELL_VISIBLE_ROWS
     jsr.l spell_list_scroll_render
@@ -2170,7 +2170,7 @@ scroll_list_up_hook:
 ; --- ORIGINAL MAGIC MENU BEHAVIOR ---
 ; Paint the spell row about to slide in at the top (none past row 0:
 ; $FF is out of range).
-    lda.l 0x7EEF86
+    lda.l btl_list_scroll
     dec
     jsr.l spell_list_scroll_render
 ; Original code: ldx $ef71, inx, stx $ef71, lda #$0c, sta $ef64, lda #$03, sta $1820, rts
@@ -2445,19 +2445,19 @@ _scanline_loop:
 
 ; Check if scroll animation is active before forcing cursor position
 ; Only force during animation ($1820 = 2 or 3), otherwise let normal code handle it
-    lda.l 0x7E1820  ; Animation type
+    lda.l menu_hdma_pending  ; Animation type
     beq _cursor_skip_force  ; If 0, no animation - skip forcing
 
 ; Animation is active - ensure cursor stays visible
 ; Must use long addressing since data bank may be $02 (ROM), not $7E (WRAM)
     pha  ; Save animation type
     lda #0x00
-    sta.l 0x7EEF69  ; Clear hide cursor 1 flag
-    sta.l 0x7EEF6E  ; Clear alternate hide cursor 1 flag
+    sta.l btl_hide_cursor1  ; Clear hide cursor 1 flag
+    sta.l btl_cursor1_y + 1  ; Clear alternate hide cursor 1 flag
 
 ; X position is always $0C for single-column mode
     lda #0x0C
-    sta.l 0x7EEF6B  ; Set cursor 1 X position
+    sta.l btl_cursor1_x  ; Set cursor 1 X position
 
 ; Set Y based on animation direction
 ; Scroll down ($1820=2): cursor at bottom row, Y = $CC
@@ -2472,7 +2472,7 @@ _cursor_scroll_up:
     lda #0x9C  ; Top row Y position
 
 _cursor_set_y:
-    sta.l 0x7EEF6D  ; Set cursor 1 Y position
+    sta.l btl_cursor1_y  ; Set cursor 1 Y position
 
 _cursor_skip_force:
 
@@ -2817,7 +2817,7 @@ _equip_nmi_hdma_copy_done:
 ; Skip when treasure menu owns the screen: $1BB3 is then the
 ; original drops cursor row, not field_menu_transfer_pending,
 ; and clearing it would snap the drops cursor back to row 0.
-    lda.l 0x7E1BC6
+    lda.l menu_cursor_data + 0xc6
     bne _field_nmi_check_treasure
     lda.l field_menu_rolling.transfer_pending
     beq _field_nmi_check_treasure

@@ -738,7 +738,7 @@ treasure_start_scroll_down_impl:
 """Treasure profile: kick scroll-down state machine via the engine."""
     php
     rep #0x10
-    lda.l 0x7E1BB7  ; treasure scroll_pos (shared with vanilla cursor)
+    lda.l menu_cursor_data + 0xb7  ; treasure scroll_pos (shared with vanilla cursor)
     ldx.w #treasure_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_down
     plp
@@ -748,7 +748,7 @@ treasure_start_scroll_up_impl:
 """Treasure profile: kick scroll-up state machine via the engine."""
     php
     rep #0x10
-    lda.l 0x7E1BB7
+    lda.l menu_cursor_data + 0xb7
     ldx.w #treasure_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_up
     plp
@@ -767,7 +767,7 @@ treasure_finish_scroll_impl:
 """Treasure profile: end-of-animation cleanup via the bank-20 engine."""
     php
     rep #0x10
-    lda.l 0x7E1BB7
+    lda.l menu_cursor_data + 0xb7
     ldx.w #treasure_rolling
     jsr.l rolling_engine.rolling_engine_finish_scroll
     plp
@@ -807,7 +807,7 @@ treasure_menu_exit_hook_impl:
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
 ; treasure_rolling.hdma_enable shadow off
-    sta.l 0x7E1BC6
+    sta.l menu_cursor_data + 0xc6
 ; restore original "in treasure menu" flag (was original `stz $1BC6` at $01:D7E6 before the hook patch)
     sta.l dma_ch6.DMAP
     sta.l dma_ch6.BBAD
@@ -835,7 +835,7 @@ treasure_swap_redraw_hook_impl_body:
 """Treasure profile: post-swap re-render of all 6 slots via the engine."""
     php
     rep #0x10
-    lda.l 0x7E1BB7
+    lda.l menu_cursor_data + 0xb7
     ldx.w #treasure_rolling
     jsr.l rolling_engine.rolling_engine_swap_redraw
     plp

@@ -73,7 +73,7 @@ walker_rtl:
 """
 
 
-    lda.l 0x7E1822
+    lda.l battle_selected_char
     jsr.w set_active_char_palette
     rtl
 
@@ -118,11 +118,11 @@ gate_obj_names_check:
 """
 
 
-    lda.l 0x7E29B5
-    eor.l 0x7E29B6
-    eor.l 0x7E29B7
-    eor.l 0x7E29B8
-    eor.l 0x7E1822
+    lda.l btl_monster_types
+    eor.l btl_monster_types + 1
+    eor.l btl_monster_types + 2
+    eor.l btl_monster_types + 3
+    eor.l battle_selected_char
     cmp.l _obj_names_hash
     beq _goc_clean
     sta.l _obj_names_hash
@@ -406,7 +406,7 @@ _scp_row_visible:
     and.w #0x00FF
     sep #0x20
     tax
-    lda.l 0x7EF2C1, x  ; name-hidden flag (Kain mid-jump, ...)
+    lda.l btl_name_hp_hidden, x  ; name-hidden flag (Kain mid-jump, ...)
     plx
     cmp #0x00  ; `plx` re-set Z from the index ; re-test the flag
     bne _scp_row_absent
@@ -471,7 +471,7 @@ refresh_active_char_palette:
     sep #0x20
     lda.l battle_render_state.render_skipped
     beq _rap_stamp
-    lda.l 0x7E1822
+    lda.l battle_selected_char
     cmp.l battle_render_state.highlight_cache_slot
     bne _rap_stamp
     lda.l 0x7E00D7
@@ -481,7 +481,7 @@ refresh_active_char_palette:
 _rap_stamp:
     lda.l 0x7E00D7
     sta.l battle_render_state.highlight_cache_menu
-    lda.l 0x7E1822
+    lda.l battle_selected_char
     sta.l battle_render_state.highlight_cache_slot
     jsr.w set_active_char_palette
     lda.l battle_render_state.tilemap_pending_mask
@@ -508,7 +508,7 @@ set_active_char_and_dirty:
 
 
     sep #0x20
-    sta.l 0x7E1822
+    sta.l battle_selected_char
     sta.l 0x7E00D0
     pha
     lda.l battle_menu_dirty

@@ -36,7 +36,7 @@ draw_command_list_for_character:
 
 ; Skip command rendering if inventory is active (bit 2 of $4A)
 ; This prevents format buffer ($74FD) conflicts with inventory code
-    lda.l 0x7E004A
+    lda.l (0x7E0000 as BtlGfxDP).menu_windows_open
     and #0x04
     bne _skip_commands
 
