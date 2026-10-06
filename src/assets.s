@@ -12,15 +12,15 @@ plus the `font_table` pointer table indexed by font id.
     .incbin "fonts/8x8.bin"
 }
 .alloc at 0x0FA710 {
-    .incbin "assets/characters_names.dat"
+    .incbin "characters_names.dat"
 }
 .alloc at 0x0E9800 {
-    .incbin "assets/monsters.dat"
+    .incbin "monsters.dat"
 }
 .alloc at 0x218000 {
-    .incbin "assets/bank1_1.ptr"
-    .incbin "assets/bank1_2.ptr"
-    .incbin "assets/bank2.ptr"
+    .incbin "bank1_1.ptr"
+    .incbin "bank1_2.ptr"
+    .incbin "bank2.ptr"
 }
 ; Dialog bank 1-1 spans $22 and $23 (the reader follows the 24-bit pointer across).
 .pool dialog_bank1_1 {
@@ -28,41 +28,41 @@ plus the `font_table` pointer table indexed by font id.
     strategy pack
 }
 .alloc at 0x228000 in dialog_bank1_1 cross_bank {
-    .incbin "assets/bank1_1.dat"
+    .incbin "bank1_1.dat"
 }
 .alloc at 0x24A000 {
-    .incbin "assets/bank1_2.dat"
+    .incbin "bank1_2.dat"
 }
 .alloc at 0x25A000 {
-    .incbin "assets/bank2.dat"
+    .incbin "bank2.dat"
 }
 .alloc at 0x27B000 {
-    .incbin "assets/battle_statuses.dat"
+    .incbin "battle_statuses.dat"
 }
 .alloc at 0x288000 {
-    .incbin "assets/menu_font.dat"
-    .incbin "assets/font.dat"
-    .incbin "assets/wicked_font.dat"
-    .incbin "assets/book_font.dat"
-    .incbin "assets/bold_font.dat"
-    .incbin "assets/battle_commands.dat"
+    .incbin "menu_font.dat"
+    .incbin "font.dat"
+    .incbin "wicked_font.dat"
+    .incbin "book_font.dat"
+    .incbin "bold_font.dat"
+    .incbin "battle_commands.dat"
 font_table:
 """24-bit pointer table indexed by font id (0=dialog, 1=wicked, 2=book, 3=bold)."""
-    .pointer assets_font_dat
-    .pointer assets_wicked_font_dat
-    .pointer assets_book_font_dat
-    .pointer assets_bold_font_dat
+    .pointer font_dat
+    .pointer wicked_font_dat
+    .pointer book_font_dat
+    .pointer bold_font_dat
 
 
-    .incbin "assets/credits_text.bin"
+    .incbin "credits_text.bin"
 }
 .alloc at 0x298000 size 0x2000 {
-    .incbin "assets/battle_messages.ptr"
-    .incbin "assets/battle_messages.dat"
+    .incbin "battle_messages.ptr"
+    .incbin "battle_messages.dat"
 }
 .alloc at 0x29A000 size 0x2000 {
-    .incbin "assets/battle_text.ptr"
-    .incbin "assets/battle_text.dat"
+    .incbin "battle_text.ptr"
+    .incbin "battle_text.dat"
 }
 
 .pool assets {
@@ -72,30 +72,30 @@ font_table:
 }
 
 .alloc __assets_stupid_mandatory_symbol in assets {
-    .incbin "assets/attack_names.ptr"
-    .incbin "assets/attack_names.dat"
-    .incbin "assets/monsters_long.ptr"
-    .incbin "assets/monsters_long.dat"
-    .incbin "assets/battle_commands_nul.ptr"
-    .incbin "assets/battle_commands_nul.dat"
-    .incbin "assets/magic.dat"
-    .incbin "assets/places_names.dat"
-    .incbin "assets/classes.ptr"
-    .incbin "assets/classes.dat"
-    .incbin "assets/items.dat"
-    .incbin "assets/item_descriptions.dat"
-    .incbin "assets/dakuten.bin"
+    .incbin "attack_names.ptr"
+    .incbin "attack_names.dat"
+    .incbin "monsters_long.ptr"
+    .incbin "monsters_long.dat"
+    .incbin "battle_commands_nul.ptr"
+    .incbin "battle_commands_nul.dat"
+    .incbin "magic.dat"
+    .incbin "places_names.dat"
+    .incbin "classes.ptr"
+    .incbin "classes.dat"
+    .incbin "items.dat"
+    .incbin "item_descriptions.dat"
+    .incbin "dakuten.bin"
 }
 
 ; 17-byte records indexed by item id; the pool keeps the table inside one bank.
 .alloc _items_unleashed in assets {
-    .incbin "assets/items_unleashed.dat"
+    .incbin "items_unleashed.dat"
 }
 
 .if ENABLE_INTRO {
     .alloc _intro_assets in assets {
-    .incbin "assets/intro.map"
-    .incbin "assets/intro.col"
-    .incbin "assets/intro.set"
+    .incbin "intro.map"
+    .incbin "intro.col"
+    .incbin "intro.set"
     }
 }

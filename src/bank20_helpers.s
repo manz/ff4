@@ -61,7 +61,7 @@ multiply_item_index_17:
 """
 Relocated multiply-by-ITEM_UNLEASHED_RECORD_SIZE for the items_unleashed
 name offset. Called from $019023 via JSL when the field menu is
-wired to the 17-byte assets_items_unleashed_dat table.
+wired to the 17-byte items_unleashed_dat table.
 Input: $43 = item ID (16-bit mode active).
 Output: X = offset into ItemName table.
 """
@@ -83,7 +83,7 @@ Output: X = offset into ItemName table.
 
 multiply_by_17:
 """
-A: value to multiply  ; returns A*17 in A. Sized for the 17-byte assets_items_unleashed_dat stride.
+A: value to multiply  ; returns A*17 in A. Sized for the 17-byte items_unleashed_dat stride.
 """
 
 

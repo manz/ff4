@@ -1,5 +1,5 @@
 """
-Relocated battle monster-name pointer resolver: indexes `assets_monsters_long_ptr[A*2]` and renders the
+Relocated battle monster-name pointer resolver: indexes `monsters_long_ptr[A*2]` and renders the
 resulting string into the active slot.
 """
 
@@ -12,12 +12,12 @@ resulting string into the active slot.
 
 .alloc _battle_monsters_reloc_block in bank20_reloc {
 load_monster_pointer:
-"""Resolve a long-form monster name pointer from `assets_monsters_long_ptr[A*2]` and render it into the current slot."""
+"""Resolve a long-form monster name pointer from `monsters_long_ptr[A*2]` and render it into the current slot."""
     rep #0x20
 ;lda.w #127 - 3
     asl
     tax
-    lda.l assets_monsters_long_ptr, x
+    lda.l monsters_long_ptr, x
     tax
     tdc
     sep #0x20

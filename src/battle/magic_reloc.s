@@ -14,7 +14,7 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
     .include "render_defs.i"
 }
 
-; Spell name length in assets_magic_dat; magic/patches.s imports it too.
+; Spell name length in magic_dat; magic/patches.s imports it too.
 battle_magic_length = battle_render.SPELL_NAME_LENGTH
 _destination_buffer = 0xc530 - 4
 _left_column_base = _destination_buffer - 4
@@ -416,7 +416,7 @@ _rsr_base:
 
 _rsr_palette:
     sta.b btlgfx_dp.text_tile_flags
-; Name offset in assets_magic_dat: (spell id & $7F) * 9.
+; Name offset in magic_dat: (spell id & $7F) * 9.
     lda.l 0x7E0001, x
     rep #0x20
     and.w #0x007F

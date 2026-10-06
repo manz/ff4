@@ -102,7 +102,7 @@ disable_save:
     jmp.l _draw_main_menu_8947
 
 load_classes_pointer:
-"""Resolve a class-name pointer from `assets_classes_ptr[A*2]` into A (24-bit)."""
+"""Resolve a class-name pointer from `classes_ptr[A*2]` into A (24-bit)."""
     phx
     rep #0x20
 
@@ -110,7 +110,7 @@ load_classes_pointer:
     asl
     tax
 
-    lda.l assets_classes_ptr, x
+    lda.l classes_ptr, x
     sep #0x20
 
     plx

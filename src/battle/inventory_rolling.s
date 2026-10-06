@@ -277,7 +277,7 @@ _render_inventory_item:
 
 _not_disabled:
 
-; Calculate item name address: assets_items_dat + (id x 13)
+; Calculate item name address: items_dat + (id x 13)
 ; Must use 16-bit math since id x 13 can exceed 255
     rep #0x20  ; 16-bit A
     lda.b 0x02  ; Load (will get $02-$03)
@@ -302,7 +302,7 @@ _not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
     sta.w inv_format_buffer, y
     iny
 
@@ -324,7 +324,7 @@ _not_disabled:
 
 _name_copy_loop:
     inx
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00
@@ -447,7 +447,7 @@ _render_inventory_item_circular:
 
 _circ_not_disabled:
 
-; Calculate item name address: assets_items_dat + (id x 12)
+; Calculate item name address: items_dat + (id x 12)
     rep #0x20
     lda.b 0x02
     and.w #0x00FF
@@ -474,7 +474,7 @@ _circ_not_disabled:
     iny
 
 ; Symbol tile (raw byte ; default mode is fixed)
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
     sta.w inv_format_buffer, y
     iny
 
@@ -499,7 +499,7 @@ _circ_not_disabled:
 
 _circ_name_loop:
     inx
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00
@@ -967,7 +967,7 @@ _slot_id_nonzero:
 _slot_not_disabled:
 
 ; Calculate item name offset into the 17-byte-per-record
-; assets_items_unleashed_dat table: id * 17 = (id << 4) + id.
+; items_unleashed_dat table: id * 17 = (id << 4) + id.
     rep #0x20
     lda.b 0x02
     and.w #0x00FF
@@ -991,7 +991,7 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    lda.l assets_items_unleashed_dat, x
+    lda.l items_unleashed_dat, x
     sta.w inv_format_buffer, y
     iny
 
@@ -1013,7 +1013,7 @@ _slot_not_disabled:
 
 _slot_name_loop:
     inx
-    lda.l assets_items_unleashed_dat, x
+    lda.l items_unleashed_dat, x
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00

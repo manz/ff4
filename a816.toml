@@ -1,6 +1,6 @@
 entrypoint = "ff4.s"
 module-paths = ["build/obj", "src"]
-include-paths = ["src"]
+include-paths = ["src", "build/gen", "src_assets"]  # sources, generated assets, hand-kept inputs
 rom_size = 0x200000  # 2 MB patched image
 
 # Bus map, seeded onto every module (no source `.map` lines).

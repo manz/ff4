@@ -66,7 +66,7 @@ _draw_letter_far:
     lda.b #battle_magic_length
 }
 .alloc at 0x02cbdd {
-    lda.l assets_magic_dat, x
+    lda.l magic_dat, x
 }
 .alloc at 0x02cbe6 {
     cpy.w #battle_magic_length + 1
@@ -81,7 +81,7 @@ _draw_letter_far:
     tax
 ; force the longest one.
 ; ldx.w #51* 2
-    lda.l assets_attack_names_ptr, x
+    lda.l attack_names_ptr, x
     tax
     sep #0x20
 
@@ -90,7 +90,7 @@ _draw_letter_far:
 
 loop:
 """Inner loop of the attack-name copier: stream attack-name bytes into the format buffer."""
-    lda.l assets_attack_names_dat, x
+    lda.l attack_names_dat, x
     sta 0x74fd, y
     beq exit
     iny
@@ -181,10 +181,10 @@ _LIST_CURSOR_Y_NUDGE := 2
     lda #9
 }
 .alloc at 0x02A573 {
-    lda.l assets_magic_dat, x
+    lda.l magic_dat, x
 }
 .alloc at 0x02A57E {
-    lda.l assets_magic_dat + 1, x
+    lda.l magic_dat + 1, x
 }
 .alloc at 0x02A57A {
     lda #9 - 1

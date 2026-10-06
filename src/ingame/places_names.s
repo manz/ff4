@@ -19,17 +19,17 @@ pointer table.
 
 
     .alloc at 0x00B8F1 {
-    lda.l assets_places_names_dat, x
+    lda.l places_names_dat, x
     }
 
 
     .alloc at 0x00B901 {
-    lda.l assets_places_names_dat, x
+    lda.l places_names_dat, x
     }
 
 
     .alloc at 0x00B92C {
-    lda.l assets_places_names_dat, x
+    lda.l places_names_dat, x
     }
 
 

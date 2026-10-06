@@ -147,7 +147,7 @@ Patched:
 ; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
 ; lda $0712,x at $B24B), returns A = id * ITEM_UNLEASHED_RECORD_SIZE.
 ; Move into X for the existing inner-loop indexed
-; `lda.l assets_items_unleashed_dat, x` read. The original block was
+; `lda.l items_unleashed_dat, x` read. The original block was
 ; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
 ; to keep downstream instruction addresses ($B26F lda#, $B273 lda.l
 ; ...) anchored.
@@ -170,12 +170,12 @@ Patched:
     lda #ITEM_UNLEASHED_TEXT_SIZE
 
 ; Item-name table source at $00:B273: original `lda.l $0F8000,x`
-; (JP layout). Redirect to assets_items_unleashed_dat.
+; (JP layout). Redirect to items_unleashed_dat.
     }
 
 
     .alloc at 0x00B273 {
-    lda.l assets_items_unleashed_dat, x
+    lda.l items_unleashed_dat, x
 
 ; Make both column-toggle branches advance Y by 24 (full text-buffer
 ; row, 12 chars). Both → `adc #$18` so every item lands on its own
@@ -196,7 +196,7 @@ Patched:
 ; Item-text layout post-name: original writes ":" at +8 ($077C), tens
 ; at +9 ($077D), ones at +10 ($077E). 12-char names pushed the trio
 ; to $0780/81/82. 16-char names need another +4 to land past the name
-; (assets_items_unleashed_dat = symbol + 16 chars), so trio sits at
+; (items_unleashed_dat = symbol + 16 chars), so trio sits at
 ; $0784/85/86 with the same 1-tile spacer between name and colon.
     }
 

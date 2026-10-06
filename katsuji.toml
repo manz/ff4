@@ -4,7 +4,7 @@
 png = "fonts/vwf.png"
 cell = [8, 16]
 table = "text/ff4fr.tbl"
-output = "assets/font.dat"
+output = "build/gen/font.dat"
 widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
@@ -43,7 +43,7 @@ kerning = { "tt" = 2 }
 png = "fonts/bold_vwf.png"
 cell = [8, 16]
 table = "text/ff4fr.tbl"
-output = "assets/bold_font.dat"
+output = "build/gen/bold_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
@@ -82,7 +82,7 @@ kerning = { "tt" = 2 }
 png = "fonts/wicked_vwf.png"
 cell = [8, 16]
 table = "text/ff4fr.tbl"
-output = "assets/wicked_font.dat"
+output = "build/gen/wicked_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
@@ -121,7 +121,7 @@ kerning = { "tt" = 2 }
 png = "fonts/book_vwf.png"
 cell = [8, 16]
 table = "text/ff4fr.tbl"
-output = "assets/book_font.dat"
+output = "build/gen/book_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
@@ -160,7 +160,7 @@ kerning = { "tt" = 2 }
 png = "fonts/8x8vwf.png"
 cell = [8, 8]
 table = "text/ff4_menus.tbl"
-output = "assets/menu_font.dat"
+output = "build/gen/menu_font.dat"
 widths = { "0xFF" = 3 }
 kerning-candidates = [
     "Ya", "Pa", "PoFa", "Fe", "Fo", "Fu", "Ta", "Te",

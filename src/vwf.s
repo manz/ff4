@@ -625,7 +625,7 @@ loop:
     pha
     lda.b #0x00
     xba
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
     cmp #0xFF
     beq cleanup
     _vwf_putchar()
@@ -663,7 +663,7 @@ _boucle2:
     cmp #0x08
     bne _shift
     plx
-; LDA.L assets_font_dat,X
+; LDA.L font_dat,X
     phy
     txy
     lda.b [font_addr], y

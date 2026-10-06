@@ -1,6 +1,6 @@
 """
 Patches for 12-byte (instead of 9-byte) item names in battle: rewrites every `cpx`/`cmp` boundary check and
-every $0F8000 item-data reference to land on `assets_items_dat`.
+every $0F8000 item-data reference to land on `items_dat`.
 """
 .import "items"
 
@@ -9,7 +9,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 
 ; Item name expansion patches for battle graphics
 ; Changes 9-byte items to 12-byte items
-; Redirects 0x0F8000 references to assets_items_dat
+; Redirects 0x0F8000 references to items_dat
 
 ; ===== BTLGFX/MENU: LOCATION 1 =====
 
@@ -28,7 +28,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/9E44: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x029E44 {
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
 
 ; --- loop counter ---
 ; Original: 02/9E58: A9 08  LDA #0x08
@@ -40,7 +40,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/9E5C: BF 01 80 0F  LDA 0x0F8001,X
 }
 .alloc at 0x029E5C {
-    lda.l assets_items_dat + 1, x
+    lda.l items_dat + 1, x
 
 ; ===== BTLGFX/MENU: LOCATION 2 =====
 
@@ -54,7 +54,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/A00C: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x02A00C {
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
 
 ; --- loop counter ---
 ; Original: 02/A020: A9 08  LDA #0x08
@@ -66,7 +66,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/A024: BF 01 80 0F  LDA 0x0F8001,X
 }
 .alloc at 0x02A024 {
-    lda.l assets_items_dat + 1, x
+    lda.l items_dat + 1, x
 
 ; ===== TEXTVAR_03: BATTLE MESSAGE ITEM NAME =====
 
@@ -86,7 +86,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/A5A5: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x02A5A5 {
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
 
 ; ===== BTLGFX/BTLGFX: ITEM DISPLAY =====
 
@@ -100,7 +100,7 @@ every $0F8000 item-data reference to land on `assets_items_dat`.
 ; Original: 02/CB83: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x02CB83 {
-    lda.l assets_items_dat, x
+    lda.l items_dat, x
 
 ; --- loop counter ---
 ; Original: 02/CB8C: C0 08 00  CPY #0x0008

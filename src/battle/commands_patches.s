@@ -46,7 +46,7 @@ command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 
 
     .alloc at 0x029D39 {
-    lda.l assets_battle_commands_dat, x
+    lda.l battle_commands_dat, x
     }
 
 
@@ -65,7 +65,7 @@ command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 
 
     .alloc at 0x02cb54 {
-    lda.l assets_battle_commands_dat, x
+    lda.l battle_commands_dat, x
     }
 
 
