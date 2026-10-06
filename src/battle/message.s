@@ -15,7 +15,7 @@ dialog-stream consumer).
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
 .extern flying_hdma_trampoline
 
-.alloc battle_message_block in bank20_reloc {
+.alloc _battle_message_block in bank20_reloc {
     .include "config.i"
     .include "src/battle/inventory_budget.i"
     .include "src/vwf_state.i"
@@ -784,7 +784,7 @@ init_names:
     rtl
 init_inventory_for_current_slot:
 """
-Compute tile_id base from the live rolling_slot_index (0..5),
+Compute tile_id base from the live _rolling_slot_index (0..5),
 allocate 9 tile_ids per slot starting at 0xC0, and reset allocator
 state. Saves the bank-02 trampoline ~20 bytes by keeping the math
 here.
@@ -1067,7 +1067,7 @@ Caller setup mirrors the vanilla draw_text contract:
   $EF52: 16-bit destination tilemap-buffer ptr (in bank $7E)
   $EF54: line length (tiles per row, currently 15)
   $EF55: palette
-  $7EEF82: rolling_slot_index (0..5) for VWF allocator base
+  $7EEF82: _rolling_slot_index (0..5) for VWF allocator base
 
 Escape codes handled:
   0x00: terminator -> return
@@ -1448,7 +1448,7 @@ _no_force_blank:
 ; these writes don't drive HDMA but mirror to the swap table via
 ; the vanilla state-1 routine which the inventory code reads. Real
 ; mid-scroll leak fix needs to patch INSIDE chunk 2 ($7F74-$7FBF)
-; where vanilla rewrites body-row scrolls per rolling_buffer_pos.
+; where vanilla rewrites body-row scrolls per _rolling_buffer_pos.
     rep #0x30
     lda #0x0193
     sta 0x7E8068
@@ -1723,7 +1723,7 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
     tay
     sep #0x20
     rtl
-; escape code $01: newline
+; escape code $01: _newline
 ;02/A637: AD 54 EF     LDA $EF54
 ;02/A63A: C2 20        REP #$20
 ;02/A63C: 48           PHA

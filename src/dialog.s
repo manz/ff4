@@ -8,7 +8,7 @@ parser to load the next message.
 .import "assets"
 
 
-.alloc dialog_block in bank20_reloc {
+.alloc _dialog_block in bank20_reloc {
 get_bank1_1_pointer:
 """Get a 24-bit dialog pointer for bank 1-1."""
     rep #0x20

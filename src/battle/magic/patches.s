@@ -51,7 +51,7 @@ _draw_magic_list:
     sep #0x20
     rts
 
-draw_letter_far:
+_draw_letter_far:
 """Far-callable wrapper around original draw_letter ($02A497)."""
     pha
     tdc
@@ -143,14 +143,14 @@ exit:
 ; Battle list hand Y per visible row ($16:FC5B), read by both the item
 ; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists now draw
 ; VWF names on each 16-px row's bottom tile line, lower in the cell than
-; the 8x8 font's glyphs, so the hand comes down LIST_CURSOR_Y_NUDGE
+; the 8x8 font's glyphs, so the hand comes down _LIST_CURSOR_Y_NUDGE
 ; pixels to point at the middle of the name.
-LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
-LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
-LIST_CURSOR_Y_NUDGE := 2
+_LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
+_LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
+_LIST_CURSOR_Y_NUDGE := 2
 .alloc at 0x16FC5B {
     .for row := 0, 5 {
-    .db LIST_CURSOR_Y_FIRST + LIST_CURSOR_Y_NUDGE + row * LIST_CURSOR_Y_PITCH
+    .db _LIST_CURSOR_Y_FIRST + _LIST_CURSOR_Y_NUDGE + row * _LIST_CURSOR_Y_PITCH
     }
 }
 .alloc at 0x16FC56 {

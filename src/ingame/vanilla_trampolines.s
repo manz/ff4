@@ -11,7 +11,7 @@ nothing above them, which keeps the import graph acyclic.
 .import "vanilla"
 
 .if INVENTORY_ROLLING_BUFFER {
-    .alloc bank01_vanilla_wrappers in bank01_trampolines {
+    .alloc _bank01_vanilla_wrappers in bank01_trampolines {
 draw_window_trampoline:
 """Bank-$01 RTL trampoline around original `DrawWindow` ($01:80D9)."""
     jsr.w draw_window
@@ -104,7 +104,7 @@ update_ctrl_after_scroll_trampoline:
 ; original @ $01:82A5
     rtl
 
-init_item_list_trampoline:
+_init_item_list_trampoline:
 """Bank-$01 trampoline for original InitItemList @ $01:B2D3 (filters $1440 -> $0712 by key-item ID range)."""
     jsr.w init_item_list
     rtl
@@ -118,7 +118,7 @@ reset_sprites_trampoline:
 }
 
 .if TREASURE_INVENTORY_ROLLING {
-    .alloc bank01_treasure_windows in bank01_trampolines {
+    .alloc _bank01_treasure_windows in bank01_trampolines {
 ; Custom InventoryWindow data for the treasure inventory list. Built
 ; via menu_window(left, top, width, height) so the layout matches
 ; original window blobs (cursor word + width/height byte pair).

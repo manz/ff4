@@ -36,9 +36,9 @@ the field menu.
 .import "libmz"
 .import "lib/rolling_inventory_engine"
 
-SELL_VISIBLE_ITEMS := 8
-SELL_BUFFER_SLOTS := 9
-SELL_TOTAL_ITEMS := 48
+_SELL_VISIBLE_ITEMS := 8
+_SELL_BUFFER_SLOTS := 9
+_SELL_TOTAL_ITEMS := 48
 
 ; State block in the shared $7E:99xx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
@@ -46,43 +46,43 @@ SELL_TOTAL_ITEMS := 48
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and
 ; cursor row ($1B94). The profile reads them rather than keeping its
 ; own copy so vanilla's bounds checks stay authoritative.
-SELL_SCROLL_POS := 0x7E1B96
+_SELL_SCROLL_POS := 0x7E1B96
 
 ; HDMA channel 5 driving BG3VOFS ($2112). Nothing else in the shop
 ; touches HDMA.
-SELL_HDMA_ENABLE_BIT := 0x20
+_SELL_HDMA_ENABLE_BIT := 0x20
 
 ; Own table slot in the HDMA scratch area ($9800 treasure, $9880 drops).
-SELL_HDMA_TABLE_ADDR := 0x9900
-SELL_HDMA_SHADOW_ADDR := 0x9940
-SELL_HDMA_BANK := 0x7E
+_SELL_HDMA_TABLE_ADDR := 0x9900
+_SELL_HDMA_SHADOW_ADDR := 0x9940
+_SELL_HDMA_BANK := 0x7E
 SELL_HDMA_SHADOW := 0x7E9940
 SELL_HDMA_TABLE := 0x7E9900
 
 ; BG3 buffer, and the window vanilla's $A172 draws into it: top border
 ; on buffer slot 0, body from slot 1, bottom border on slot 12. The ring
 ; therefore occupies slots 1..9, one 128-byte slot per item.
-SELL_BG3_BUFFER := 0xD600
-SELL_SLOT_ORIGIN := 1
+_SELL_BG3_BUFFER := 0xD600
+_SELL_SLOT_ORIGIN := 1
 
 ; Blank window cell, as every drawn window leaves it in the buffer.
-SELL_BLANK_TILE := 0xFF
-SELL_TILEMAP_ATTR := 0x00
+_SELL_BLANK_TILE := 0xFF
+_SELL_TILEMAP_ATTR := 0x00
 ; Side borders vanilla's window keeps in the first and last columns of
 ; every body row.
-SELL_BORDER_LEFT_TILE := 0xFA
-SELL_BORDER_RIGHT_TILE := 0xFB
-SELL_BORDER_RIGHT_COL := 31
+_SELL_BORDER_LEFT_TILE := 0xFA
+_SELL_BORDER_RIGHT_TILE := 0xFB
+_SELL_BORDER_RIGHT_COL := 31
 
 ; BG3VOFS with the window frame parked where vanilla puts it: vanilla
 ; seeds $9F with $FFB8 at $01:C7C1.
-SELL_BASE_SCROLL := 0xFFB8
+_SELL_BASE_SCROLL := 0xFFB8
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
-SELL_SCROLL_FRAMES := 8
+_SELL_SCROLL_FRAMES := 8
 
-.alloc sell_rolling_block in bank20_reloc {
-sell_ensure_hdma_initialized:
+.alloc _sell_rolling_block in bank20_reloc {
+_sell_ensure_hdma_initialized:
 """
 Lazy init: park base_scroll and configure ch5 driving BG3VOFS.
 
@@ -95,7 +95,7 @@ with the caller's DB, so absolute reads would land in ROM.
     lda.l sell_rolling.base_scroll
     cmp.w #0xFFFF
     bne _sell_hdma_already_init
-    lda.w #SELL_BASE_SCROLL
+    lda.w #_SELL_BASE_SCROLL
     sta.l sell_rolling.base_scroll
 
     sep #0x20
@@ -104,16 +104,16 @@ with the caller's DB, so absolute reads would land in ROM.
     lda #PPU.BG3VOFS
     sta.l dma_ch5.BBAD
     rep #0x20
-    lda.w #SELL_HDMA_TABLE_ADDR
+    lda.w #_SELL_HDMA_TABLE_ADDR
     sta.l dma_ch5.A1TL
     sep #0x20
-    lda #SELL_HDMA_BANK
+    lda #_SELL_HDMA_BANK
     sta.l dma_ch5.A1B
 
 ; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
 ; $420C, and mark this profile's own gate.
     lda.l field_menu_rolling.hdma_enable
-    ora #SELL_HDMA_ENABLE_BIT
+    ora #_SELL_HDMA_ENABLE_BIT
     sta.l field_menu_rolling.hdma_enable
     sta.l sell_rolling.hdma_enable
     jsr.w update_sell_scroll_hdma
@@ -128,7 +128,7 @@ sell_disable_hdma:
     php
     sep #0x20
     lda.l field_menu_rolling.hdma_enable
-    and #0xDF  ; ~SELL_HDMA_ENABLE_BIT, spelled out: `^` is a816's bank-byte operator, not xor
+    and #0xDF  ; ~_SELL_HDMA_ENABLE_BIT, spelled out: `^` is a816's bank-byte operator, not xor
     sta.l field_menu_rolling.hdma_enable
     lda #0x00
     sta.l sell_rolling.hdma_enable
@@ -156,11 +156,11 @@ Entry: 16-bit A/X/Y, DB = $7E.
     lda.l sell_rolling.slot_index
     and.w #0x00FF
     clc
-    adc.w #SELL_SLOT_ORIGIN
+    adc.w #_SELL_SLOT_ORIGIN
     xba
     lsr  ; (slot + 1) * 128
     clc
-    adc.w #SELL_BG3_BUFFER
+    adc.w #_SELL_BG3_BUFFER
     tax
     ldy.w #0x0040  ; 64 cells = two 32-tile rows
 
@@ -187,20 +187,20 @@ Entry/exit: 16-bit A/X. Returns the cell word (attr << 8 | tile) in A.
     and.w #0x003F
     lsr
     beq _sell_cell_left
-    cmp.w #SELL_BORDER_RIGHT_COL
+    cmp.w #_SELL_BORDER_RIGHT_COL
     beq _sell_cell_right
-    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BLANK_TILE
+    lda.w #( _SELL_TILEMAP_ATTR << 8 ) | _SELL_BLANK_TILE
     rts
 
 _sell_cell_left:
-    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BORDER_LEFT_TILE
+    lda.w #( _SELL_TILEMAP_ATTR << 8 ) | _SELL_BORDER_LEFT_TILE
     rts
 
 _sell_cell_right:
-    lda.w #( SELL_TILEMAP_ATTR << 8 ) | SELL_BORDER_RIGHT_TILE
+    lda.w #( _SELL_TILEMAP_ATTR << 8 ) | _SELL_BORDER_RIGHT_TILE
     rts
 
-sell_render_item_to_slot:
+_sell_render_item_to_slot:
 """
 Render inventory item `edge_row` into ring slot `slot_index`.
 
@@ -233,7 +233,7 @@ one slot below the window's top border.
     lda.b 0xDB
     pha
     rep #0x20
-    lda.w #SELL_BG3_BUFFER
+    lda.w #_SELL_BG3_BUFFER
     sta.b 0x29
     jsr.w _sell_blank_slot_rows
     sep #0x20
@@ -268,7 +268,7 @@ one slot below the window's top border.
     lda.w sell_rolling.slot_index
     and.w #0x00FF
     clc
-    adc.w #SELL_SLOT_ORIGIN
+    adc.w #_SELL_SLOT_ORIGIN
     xba
     lsr
     clc
@@ -329,10 +329,10 @@ _sell_row_loop:
     adc.b 0x42
 
 _sell_mod_loop:
-    cmp.w #SELL_BUFFER_SLOTS
+    cmp.w #_SELL_BUFFER_SLOTS
     bcc _sell_mod_done
     sec
-    sbc.w #SELL_BUFFER_SLOTS
+    sbc.w #_SELL_BUFFER_SLOTS
     bra _sell_mod_loop
 
 _sell_mod_done:
@@ -365,7 +365,7 @@ _sell_mod_done:
     inx
     inc.b 0x42
     lda.b 0x42
-    cmp.w #SELL_VISIBLE_ITEMS
+    cmp.w #_SELL_VISIBLE_ITEMS
     bcs _sell_row_loop_done
     jmp.w _sell_row_loop
 
@@ -440,7 +440,7 @@ profile and let the engine draw the ring.
     php
     rep #0x30
     sep #0x20
-    lda.b #SELL_VISIBLE_ITEMS
+    lda.b #_SELL_VISIBLE_ITEMS
     sta.l sell_rolling.visible_rows
     lda.b #0x02
     sta.l sell_rolling.slot_height_tiles
@@ -450,7 +450,7 @@ profile and let the engine draw the ring.
     sta.l sell_rolling.item_list_ptr + 1
     lda.b #0x7E
     sta.l sell_rolling.item_list_ptr + 2
-    lda.b #SELL_TOTAL_ITEMS
+    lda.b #_SELL_TOTAL_ITEMS
     sta.l sell_rolling.item_count
     lda.b #0x05
     sta.l sell_rolling.hdma_channel
@@ -460,23 +460,23 @@ profile and let the engine draw the ring.
     sta.l sell_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
     sta.l sell_rolling.vwf_cfg_ptr + 2
-    lda.b #sell_fn_render_slot_trampoline & 0xFF
+    lda.b #_sell_fn_render_slot_trampoline & 0xFF
     sta.l sell_rolling.fn_render_slot
-    lda.b #( sell_fn_render_slot_trampoline >> 8 ) & 0xFF
+    lda.b #( _sell_fn_render_slot_trampoline >> 8 ) & 0xFF
     sta.l sell_rolling.fn_render_slot + 1
-    lda.b #( sell_fn_render_slot_trampoline >> 16 ) & 0xFF
+    lda.b #( _sell_fn_render_slot_trampoline >> 16 ) & 0xFF
     sta.l sell_rolling.fn_render_slot + 2
-    lda.b #sell_fn_update_hdma_trampoline & 0xFF
+    lda.b #_sell_fn_update_hdma_trampoline & 0xFF
     sta.l sell_rolling.fn_update_hdma
-    lda.b #( sell_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    lda.b #( _sell_fn_update_hdma_trampoline >> 8 ) & 0xFF
     sta.l sell_rolling.fn_update_hdma + 1
-    lda.b #( sell_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    lda.b #( _sell_fn_update_hdma_trampoline >> 16 ) & 0xFF
     sta.l sell_rolling.fn_update_hdma + 2
-    lda.b #sell_fn_draw_window_trampoline & 0xFF
+    lda.b #_sell_fn_draw_window_trampoline & 0xFF
     sta.l sell_rolling.fn_draw_window
-    lda.b #( sell_fn_draw_window_trampoline >> 8 ) & 0xFF
+    lda.b #( _sell_fn_draw_window_trampoline >> 8 ) & 0xFF
     sta.l sell_rolling.fn_draw_window + 1
-    lda.b #( sell_fn_draw_window_trampoline >> 16 ) & 0xFF
+    lda.b #( _sell_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l sell_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_SELL
     sta.l sell_rolling.menu_id
@@ -488,25 +488,25 @@ profile and let the engine draw the ring.
     rep #0x10
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_init
-    jsr.w sell_ensure_hdma_initialized
+    jsr.w _sell_ensure_hdma_initialized
     sep #0x20
     jsr.l tfr_bg3_tiles_vblank_trampoline
     plp
     rtl
 
-sell_fn_render_slot_trampoline:
-"""Bank-20 RTL wrapper around `sell_render_item_to_slot`."""
+_sell_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `_sell_render_item_to_slot`."""
     php
-    jsr.w sell_render_item_to_slot
+    jsr.w _sell_render_item_to_slot
     plp
     rtl
 
-sell_fn_update_hdma_trampoline:
+_sell_fn_update_hdma_trampoline:
 """
 Bank-20 RTL wrapper: arm ch5 on the first call, rebuild the band table
 on every one.
 
-`sell_ensure_hdma_initialized` is a one-shot - it bails as soon as
+`_sell_ensure_hdma_initialized` is a one-shot - it bails as soon as
 base_scroll is set - so calling only that left the table holding the
 offsets from the frame the list opened on, and the ring rolled
 underneath a scroll that never moved.
@@ -514,12 +514,12 @@ underneath a scroll that never moved.
 
 
     php
-    jsr.w sell_ensure_hdma_initialized
+    jsr.w _sell_ensure_hdma_initialized
     jsr.w update_sell_scroll_hdma
     plp
     rtl
 
-sell_fn_draw_window_trampoline:
+_sell_fn_draw_window_trampoline:
 """Bank-20 RTL wrapper around `_sell_draw_window`."""
     php
     jsr.w _sell_draw_window
@@ -549,7 +549,7 @@ to clear, so a loop waiting on the state never exits and one waiting on
     php
     rep #0x10
     sep #0x20
-    lda #SELL_SCROLL_FRAMES
+    lda #_SELL_SCROLL_FRAMES
     sta.l sell_rolling._pad
 
 _sell_scroll_frame:
@@ -566,7 +566,7 @@ _sell_scroll_frame:
 ; with an 8-bit accumulator - handing either a 16-bit A wedges the loop.
     sep #0x20
     rep #0x10
-    lda.l SELL_SCROLL_POS
+    lda.l _SELL_SCROLL_POS
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_finish_scroll
     sep #0x20
@@ -578,7 +578,7 @@ sell_scroll_down_impl:
 """Sell profile: scroll the list down one item."""
     php
     rep #0x10
-    lda.l SELL_SCROLL_POS
+    lda.l _SELL_SCROLL_POS
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_down
     jsr.w _sell_run_scroll
@@ -589,19 +589,19 @@ sell_scroll_up_impl:
 """Sell profile: scroll the list up one item."""
     php
     rep #0x10
-    lda.l SELL_SCROLL_POS
+    lda.l _SELL_SCROLL_POS
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_up
     jsr.w _sell_run_scroll
     plp
     rtl
 
-sell_refresh_slots_impl:
+_sell_refresh_slots_impl:
 """Sell profile: re-render every slot (after a sale changes quantities)."""
     php
     sep #0x20
     rep #0x10
-    lda.l SELL_SCROLL_POS
+    lda.l _SELL_SCROLL_POS
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_refresh_slots
     jsr.l tfr_bg3_tiles_vblank_trampoline

@@ -15,24 +15,24 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 
 ; Spell name length in assets_magic_dat; magic/patches.s imports it too.
 battle_magic_length = battle_render.SPELL_NAME_LENGTH
-destination_buffer = 0xc530 - 4
-left_column_base = destination_buffer - 4
-right_column_base = destination_buffer + 18 - 2
+_destination_buffer = 0xc530 - 4
+_left_column_base = _destination_buffer - 4
+_right_column_base = _destination_buffer + 18 - 2
 ; Window frame in the BG3 page-1 menu buffer: row 1 starts at $7E:C526,
 ; 64 bytes per row. Spell rows cover rows 1-24, the bottom edge is row 25.
-FRAME_SIDE_ROWS = 24
-frame_first_row = 0x7EC526
+_FRAME_SIDE_ROWS = 24
+_frame_first_row = 0x7EC526
 ; Cells each spell clears from its column base: a leading blank, the
 ; 9-cell name field and the rest of the column up to the next one.
-SPELL_CELLS = 20
+_SPELL_CELLS = 20
 ; First visible list row (vanilla scroll state).
-list_top_row = 0x7EEF86
-frame_bottom_row = frame_first_row + FRAME_SIDE_ROWS * 0x40
+_list_top_row = 0x7EEF86
+_frame_bottom_row = _frame_first_row + _FRAME_SIDE_ROWS * 0x40
 
 
 .include "../bank20.i"
 
-.alloc battle_magic_reloc_block in bank20_reloc {
+.alloc _battle_magic_reloc_block in bank20_reloc {
 draw_magic_list_direct:
 """
 Relocated battle spell-list renderer: walks the per-character spell-list
@@ -97,7 +97,7 @@ spell_loop:
     beq left_column
 ; Right column
     rep #0x20
-    lda.w #right_column_base
+    lda.w #_right_column_base
     clc
     adc.b current_row_offset
 ; add current row offset
@@ -107,7 +107,7 @@ spell_loop:
 left_column:
 ; Left column
     rep #0x20
-    lda.w #left_column_base
+    lda.w #_left_column_base
     clc
     adc.b current_row_offset
 ; add current row offset
@@ -164,7 +164,7 @@ clear_loop:
     sta (0x32), y
     sta (0x34), y
     iny
-    cpy.w #SPELL_CELLS * 2
+    cpy.w #_SPELL_CELLS * 2
     bne clear_loop
     jsr.w _map_name_cells
 
@@ -207,7 +207,7 @@ same_row:
     jmp.w spell_loop
 
 render_rows:
-    lda.l list_top_row
+    lda.l _list_top_row
     sta.b spell_counter
     lda.b #battle_render.SPELL_VISIBLE_ROWS
     sta.b current_spell_index
@@ -216,7 +216,7 @@ row_loop:
     lda.b spell_counter
     cmp.b #battle_render.SPELL_LIST_ROWS
     bcs draw_frame
-    jsr.w render_spell_row
+    jsr.w _render_spell_row
     inc.b spell_counter
     dec.b current_spell_index
     bne row_loop
@@ -230,28 +230,28 @@ draw_frame:
 
 side_loop:
     lda.w #0x000B
-    sta.l frame_first_row, x
+    sta.l _frame_first_row, x
     lda.w #0x000C
-    sta.l frame_first_row + 0x3E, x
+    sta.l _frame_first_row + 0x3E, x
     txa
     clc
     adc.w #0x0040
     tax
-    cpx.w #FRAME_SIDE_ROWS * 0x40
+    cpx.w #_FRAME_SIDE_ROWS * 0x40
     bne side_loop
     lda.w #0x000D
-    sta.l frame_bottom_row
+    sta.l _frame_bottom_row
     ldx.w #0x0002
     lda.w #0x000E
 
 bottom_loop:
-    sta.l frame_bottom_row, x
+    sta.l _frame_bottom_row, x
     inx
     inx
     cpx.w #0x003E
     bne bottom_loop
     lda.w #0x000F
-    sta.l frame_bottom_row + 0x3E
+    sta.l _frame_bottom_row + 0x3E
     sep #0x20
 ; The items window shares this buffer and only draws its frame at
 ; battle start; have its next transfer rebuild it.
@@ -330,7 +330,7 @@ _ring_flush:
 _ring_clean:
     rts
 
-render_spell_row:
+_render_spell_row:
 """
 Render list row A's two names into its ring slot, unless the slot holds
 that row already. Needs battle_render_state.spell_list_ptr and DBR = $7E. M=8, X=16  ;
@@ -394,11 +394,11 @@ _rsr_name:
     sta.b 0x32
     lda 1, s
     beq _rsr_left
-    lda.w #right_column_base
+    lda.w #_right_column_base
     bra _rsr_base
 
 _rsr_left:
-    lda.w #left_column_base
+    lda.w #_left_column_base
 
 _rsr_base:
     clc
@@ -431,7 +431,7 @@ _rsr_palette:
     and.w #0x00FF
     tax
     sep #0x20
-    lda.l ring_slot_tiles, x
+    lda.l _ring_slot_tiles, x
     pha
     lda 4, s
     beq _rsr_tile
@@ -485,7 +485,7 @@ goes on to TAX an 8-bit read with X=16), X, Y and $32-$37.
     sep #0x20
 ; row: under 3 words, DBR, Y and X
     lda 12, s
-    jsr.w render_spell_row
+    jsr.w _render_spell_row
     jsr.w _ring_flush
     rep #0x20
     pla
@@ -504,7 +504,7 @@ _slsr_out:
     plp
     rtl
 
-ring_slot_tiles:
+_ring_slot_tiles:
 """First tile of each ring slot."""
     .for slot := 0, battle_render.SPELL_RING_ROWS {
     .db battle_render.SPELL_TILE_BASE + slot * battle_render.SPELL_ROW_TILES

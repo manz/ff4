@@ -31,16 +31,16 @@ vwf_state.i).
     .extern battle_render.clear_buffer
 }
 
-.alloc small_vwf_render in bank20_reloc {
+.alloc _small_vwf_render in bank20_reloc {
     .include "config.i"
     .include "src/vwf_state.i"
 
-    VARS_BUFFER = 0x710000
+    _VARS_BUFFER = 0x710000
 
     .macro initialize(var) {
     """Mirror a direct-page byte to the global save area."""
     lda.b var
-    sta.l VARS_BUFFER + var
+    sta.l _VARS_BUFFER + var
     }
 
     .macro _initialize_long(var) {
@@ -51,7 +51,7 @@ vwf_state.i).
 
     .macro restore(var) {
     """Pull the previously-saved value back into direct page."""
-    lda.b VARS_BUFFER + var
+    lda.b _VARS_BUFFER + var
     sta.b var
     }
 

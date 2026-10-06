@@ -16,7 +16,7 @@ and chains into the title screen.
 .import "vanilla"
 
 
-.alloc intro_block in bank20_reloc {
+.alloc _intro_block in bank20_reloc {
 start_splash_screen:
 """Boot-time splash-screen entry point."""
 ; initialise SNES

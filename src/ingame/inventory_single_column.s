@@ -22,7 +22,7 @@ rolling buffer can take over rendering.
 ; CONSTANTS
 ; ============================================================================
     VISIBLE_ITEMS := 10  ; Items visible at once
-;TOTAL_ITEMS             := 48       ; Total inventory items
+;_TOTAL_ITEMS             := 48       ; Total inventory items
     SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
 ; File is being processed - patches below should apply

@@ -39,9 +39,9 @@ character-name row up so it does not collide with the dextrality string.
 }
 .alloc at 0x1bd5c {
     jsr.l load_dextrelity_pointer
-    destrelity_return = 0x1bd73
+    _destrelity_return = 0x1bd73
     ldx.w #0x244
-    jmp.w destrelity_return
+    jmp.w _destrelity_return
 }
 .alloc at 0x01e2d9 {
     .dw ( dextrality.string_0 & 0xFFFF ) - 0x8000

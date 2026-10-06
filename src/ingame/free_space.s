@@ -26,7 +26,7 @@ relocating other code.
 .label _select_item2_a40a = 0x01A40A
 
 
-.alloc bank01_slack_pre_inventory in bank01_slack {
+.alloc _bank01_slack_pre_inventory in bank01_slack {
 draw_vwf_message:
 """Render the VWF message at the current text pointer via the items_description trampoline."""
     jsr.l items_description.draw_trampoline
@@ -93,12 +93,12 @@ display_build_number:
     }
 }
 
-; end .alloc bank01_slack_pre_inventory
+; end .alloc _bank01_slack_pre_inventory
 
 ; ============================================================================
 ; Inventory Rolling Buffer Trampolines and Handlers
 ; ============================================================================
-.alloc bank01_slack_inventory in bank01_slack {
+.alloc _bank01_slack_inventory in bank01_slack {
     .if INVENTORY_ROLLING_BUFFER {
 swap_redraw_trampoline:
 """JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
@@ -157,8 +157,8 @@ menu_exit_hook:
     jsr.l menu_exit_hook_impl
     rts
 
-nmi_dma_transfer_check:
-"""--- nmi_dma_transfer_check ---"""
+_nmi_dma_transfer_check:
+"""--- _nmi_dma_transfer_check ---"""
     jsr.l field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
     rts
 
@@ -171,7 +171,7 @@ Must copy shadow -> active HDMA table BEFORE enabling HDMA
 """
 
 
-    jsr.w nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
+    jsr.w _nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
     .db 0xAF  ; LDA.L opcode
     .dw field_menu_rolling.hdma_enable  ; $1BAE
     .db 0x7E  ; Bank $7E
@@ -209,4 +209,4 @@ Re-renders all visible slots to show updated quantity or empty slot
 }
 
 
-; end .alloc bank01_slack_inventory
+; end .alloc _bank01_slack_inventory

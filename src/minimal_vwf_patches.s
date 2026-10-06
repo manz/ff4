@@ -69,8 +69,8 @@ first_window:
     rts
 
 animation_wait_route:
-    wait_for_nmi_end = 0x912F
-    jsr.w wait_for_nmi_end
+    _wait_for_nmi_end = 0x912F
+    jsr.w _wait_for_nmi_end
 
 _wait_for_open_animation:
     lda 0x7F

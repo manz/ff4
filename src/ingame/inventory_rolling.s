@@ -27,20 +27,20 @@ approach for the main menu items list with HDMA-based circular scrolling.
 .include "config.i"
 MENU_VISIBLE_ITEMS := 10  ; Visible items at once
 MENU_BUFFER_SLOTS := 11  ; 11 slots (10 visible + 1 pre-render)
-MENU_TOTAL_ITEMS := 48  ; Total inventory items
+_MENU_TOTAL_ITEMS := 48  ; Total inventory items
 MENU_SCROLL_LIMIT := 38  ; 48 - 10 = max scroll position
 
 ; Pixels per item row
-MENU_PIXELS_PER_ROW := 16  ; Pixels per item slot (2 tilemap rows × 8)
+_MENU_PIXELS_PER_ROW := 16  ; Pixels per item slot (2 tilemap rows × 8)
 
 ; Scroll constants
-MENU_SCROLL_WRAP := 176  ; 11 slots × 16 pixels = 176
+_MENU_SCROLL_WRAP := 176  ; 11 slots × 16 pixels = 176
 ; MENU_BASE_SCROLL is read from $93 (BG1VOFS shadow) at runtime
 
 ; Screen layout - item list position
 ; The item list doesn't start at scanline 0; there's a window border above it
-MENU_ITEM_LIST_Y_START := 48  ; Scanline where item list begins (after border)
-MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
+_MENU_ITEM_LIST_Y_START := 48  ; Scanline where item list begins (after border)
+_MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 
 ; RAM VARIABLES
 ; Using menu RAM area (unused bytes)
@@ -52,11 +52,11 @@ MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 ; padding.
 
 ; Scroll State Constants
-SCROLL_STATE_IDLE := 0
-SCROLL_STATE_SCROLLING := 1
+_SCROLL_STATE_IDLE := 0
+_SCROLL_STATE_SCROLLING := 1
 ; Shared held-DOWN cadence (src/lib/rolling_buffer.s).
-SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
-SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
+_SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
+_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA Configuration (Direct Mode like FF6)
 ; Use HDMA channel 5 for BG1 vertical scroll during item menu
@@ -73,17 +73,17 @@ SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 ;
 ; Total table size: ~36 bytes + end marker
 
-MENU_HDMA_TABLE_ADDR := 0x9800  ; WRAM offset for HDMA table (active - read by HDMA)
-MENU_HDMA_TABLE := 0x7E9800  ; Full 24-bit address
-MENU_HDMA_SHADOW_ADDR := 0x9840  ; WRAM offset for shadow table (written by game logic)
-MENU_HDMA_SHADOW := 0x7E9840  ; Full 24-bit address
-MENU_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + padding)
-MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
+_MENU_HDMA_TABLE_ADDR := 0x9800  ; WRAM offset for HDMA table (active - read by HDMA)
+_MENU_HDMA_TABLE := 0x7E9800  ; Full 24-bit address
+_MENU_HDMA_SHADOW_ADDR := 0x9840  ; WRAM offset for shadow table (written by game logic)
+_MENU_HDMA_SHADOW := 0x7E9840  ; Full 24-bit address
+_MENU_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + padding)
+_MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
 
 .include "../bank20.i"
 
-.alloc inventory_rolling_block in bank20_reloc {
-init_menu_inventory_hdma:
+.alloc _inventory_rolling_block in bank20_reloc {
+_init_menu_inventory_hdma:
 """
     Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
     Called when entering the item menu
@@ -110,10 +110,10 @@ init_menu_inventory_hdma:
     sta.l dma_ch5.BBAD
 ; Source = HDMA table in WRAM at $7E9800
     rep #0x20  ; 16-bit A
-    lda.w #MENU_HDMA_TABLE_ADDR  ; $9800
+    lda.w #_MENU_HDMA_TABLE_ADDR  ; $9800
     sta.l dma_ch5.A1TL
     sep #0x20  ; 8-bit A
-    lda #MENU_HDMA_BANK  ; $7E
+    lda #_MENU_HDMA_BANK  ; $7E
     sta.l dma_ch5.A1B
 
 ; HDMA channel 5 is now enabled via shadow variable (field_menu_rolling.hdma_enable)
@@ -122,7 +122,7 @@ init_menu_inventory_hdma:
     plp
     rts
 
-disable_menu_inventory_hdma:
+_disable_menu_inventory_hdma:
 """
     Disables HDMA channel 5 when leaving item menu
     The shadow variable is cleared by menu_exit_hook
@@ -135,7 +135,7 @@ disable_menu_inventory_hdma:
     plp
     rts
 
-init_menu_hdma_table:
+_init_menu_hdma_table:
 """
     Builds direct mode HDMA table in WRAM at $7E9800
     Format: count, lo, hi per entry, $00 to end
@@ -159,11 +159,11 @@ init_menu_hdma_table:
 ; Entry 0: Border area - 48 scanlines at BASE scroll
     sep #0x20  ; 8-bit A for count byte
     lda #48  ; 48 scanlines
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit A for value
     lda.w field_menu_rolling.base_scroll
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     inx
 
@@ -175,11 +175,11 @@ init_menu_hdma_table:
 _init_item_rows:
     sep #0x20  ; 8-bit A for count
     lda #16  ; 16 scanlines per item row
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     rep #0x20  ; 16-bit A for value
     lda.w field_menu_rolling.base_scroll
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     inx
 
@@ -193,20 +193,20 @@ _init_item_rows:
 ; Lock to show the bottom window border area
     sep #0x20
     lda #16  ; 16 scanlines
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     rep #0x20
     lda.w field_menu_rolling.base_scroll
     clc
     adc.w #16  ; Lock at base + 16
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
     inx
     inx
 
 ; End marker
     sep #0x20
     lda #0x00
-    sta.l MENU_HDMA_TABLE, x
+    sta.l _MENU_HDMA_TABLE, x
 
 ; Restore DP bytes
     rep #0x20
@@ -272,11 +272,11 @@ _mod_done:
     sta.b 0x40
     sep #0x20
     lda #16
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     rep #0x20
     lda.b 0x40
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     inx
     rep #0x20
@@ -290,7 +290,7 @@ _row_loop_done:
     jsr.w _menu_hdma_footer
     sep #0x20
     lda #0x00
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     jsr.w _menu_hdma_signal
     rep #0x20
     pla
@@ -308,11 +308,11 @@ _menu_hdma_header:
 """Field profile header: 48-scanline border at BASE scroll (one entry)."""
     sep #0x20
     lda #48
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     rep #0x20
     lda.w field_menu_rolling.base_scroll
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     inx
     rts
@@ -321,13 +321,13 @@ _menu_hdma_footer:
 """Field profile footer: 16 scanlines at BASE+16 (locks bottom-border row 24)."""
     sep #0x20
     lda #16
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     rep #0x20
     lda.w field_menu_rolling.base_scroll
     clc
     adc.w #16
-    sta.l MENU_HDMA_SHADOW, x
+    sta.l _MENU_HDMA_SHADOW, x
     inx
     inx
     rts
@@ -380,26 +380,26 @@ init_menu_rolling_buffer_impl:
     sta.l field_menu_rolling.vwf_cfg_ptr + 1
     lda.b #vwf_cfg >> 16
     sta.l field_menu_rolling.vwf_cfg_ptr + 2
-; fn_render_slot = menu_fn_render_slot_trampoline (bank-20 RTL wrapper)
-    lda.b #menu_fn_render_slot_trampoline & 0xFF
+; fn_render_slot = _menu_fn_render_slot_trampoline (bank-20 RTL wrapper)
+    lda.b #_menu_fn_render_slot_trampoline & 0xFF
     sta.l field_menu_rolling.fn_render_slot
-    lda.b #( menu_fn_render_slot_trampoline >> 8 ) & 0xFF
+    lda.b #( _menu_fn_render_slot_trampoline >> 8 ) & 0xFF
     sta.l field_menu_rolling.fn_render_slot + 1
-    lda.b #( menu_fn_render_slot_trampoline >> 16 ) & 0xFF
+    lda.b #( _menu_fn_render_slot_trampoline >> 16 ) & 0xFF
     sta.l field_menu_rolling.fn_render_slot + 2
-; fn_update_hdma = menu_fn_update_hdma_trampoline
-    lda.b #menu_fn_update_hdma_trampoline & 0xFF
+; fn_update_hdma = _menu_fn_update_hdma_trampoline
+    lda.b #_menu_fn_update_hdma_trampoline & 0xFF
     sta.l field_menu_rolling.fn_update_hdma
-    lda.b #( menu_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    lda.b #( _menu_fn_update_hdma_trampoline >> 8 ) & 0xFF
     sta.l field_menu_rolling.fn_update_hdma + 1
-    lda.b #( menu_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    lda.b #( _menu_fn_update_hdma_trampoline >> 16 ) & 0xFF
     sta.l field_menu_rolling.fn_update_hdma + 2
-; fn_draw_window = menu_fn_draw_window_trampoline
-    lda.b #menu_fn_draw_window_trampoline & 0xFF
+; fn_draw_window = _menu_fn_draw_window_trampoline
+    lda.b #_menu_fn_draw_window_trampoline & 0xFF
     sta.l field_menu_rolling.fn_draw_window
-    lda.b #( menu_fn_draw_window_trampoline >> 8 ) & 0xFF
+    lda.b #( _menu_fn_draw_window_trampoline >> 8 ) & 0xFF
     sta.l field_menu_rolling.fn_draw_window + 1
-    lda.b #( menu_fn_draw_window_trampoline >> 16 ) & 0xFF
+    lda.b #( _menu_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l field_menu_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_FIELD
     sta.l field_menu_rolling.menu_id
@@ -411,7 +411,7 @@ init_menu_rolling_buffer_impl:
     plp
     rtl
 
-menu_fn_render_slot_trampoline:
+_menu_fn_render_slot_trampoline:
 """
     Bank-20 RTL wrapper around `_menu_render_item_to_slot`.
 
@@ -428,9 +428,9 @@ menu_fn_render_slot_trampoline:
     plp
     rtl
 
-menu_fn_update_hdma_trampoline:
+_menu_fn_update_hdma_trampoline:
 """
-    Bank-20 RTL wrapper around `ensure_hdma_initialized`.
+    Bank-20 RTL wrapper around `_ensure_hdma_initialized`.
 
     Named fn_update_hdma in the struct but semantically the
     "arm-HDMA-channel + first-frame setup" hook for init. Phase 3 may
@@ -443,11 +443,11 @@ menu_fn_update_hdma_trampoline:
 
 
     php
-    jsr.w ensure_hdma_initialized
+    jsr.w _ensure_hdma_initialized
     plp
     rtl
 
-menu_fn_draw_window_trampoline:
+_menu_fn_draw_window_trampoline:
 """
     Bank-20 RTL wrapper around `_menu_draw_inventory_window`.
 
@@ -565,7 +565,7 @@ _menu_render_item_to_slot:
     lda (0x5a)  ; Load item ID
     cmp #0xFF
     bne _not_trash_item
-    jsr.w draw_trash_single_column  ; Draw trash icon
+    jsr.w _draw_trash_single_column  ; Draw trash icon
     bra _skip_draw_item_slot
 
 _not_trash_item:
@@ -601,7 +601,7 @@ _skip_draw_item_slot:
     plp
     rts
 
-ensure_hdma_initialized:
+_ensure_hdma_initialized:
 """
     Lazy initialization: captures $93 and sets up HDMA on first scroll.
     Called from scroll prepare functions.
@@ -623,7 +623,7 @@ ensure_hdma_initialized:
 
 ; Initialize HDMA channel configuration
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
-    jsr.w init_menu_inventory_hdma
+    jsr.w _init_menu_inventory_hdma
 
 ; NOW enable HDMA via shadow variable (channel is configured)
 ; Force long addressing: STA.L $7E1BAE
@@ -639,7 +639,7 @@ _hdma_already_init:
 
 ; STATE MACHINE ROUTINES (FF6-style non-blocking scroll)
 
-scroll_state_check:
+_scroll_state_check:
 """
     Called at main loop entry ($019FF2) to handle scroll animation frames.
     If scrolling is active, processes one frame and skips input handling.
@@ -894,7 +894,7 @@ _clear_trash_area:
 ; Restore Y
     rts
 
-draw_trash_single_column:
+_draw_trash_single_column:
 
 """
     Draws the trash can 2x2 tile graphic for single-column inventory.
@@ -1068,7 +1068,7 @@ _skip_to_rts:
 _normal_return:
     rtl
 
-circular_slot_calc:
+_circular_slot_calc:
 
 """
     Calculate tilemap Y offset using circular buffer position.
@@ -1193,7 +1193,7 @@ _circ_slot_original:
 
 circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
-    jsr.w circular_slot_calc
+    jsr.w _circular_slot_calc
     rtl
     }
 }

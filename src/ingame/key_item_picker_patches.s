@@ -13,7 +13,7 @@ EventCmd_f7 ($00:ED96) flow:
   $00:ED9B: JSR $AF4D  ; <-- ShowItemWindow entry
   $00:ED9E: JSR ...
 
-Replace 4 bytes at $00:AF4D-$00:AF50 with `JSL key_item_init_impl`.
+Replace 4 bytes at $00:AF4D-$00:AF50 with `JSL _key_item_init_impl`.
 init_impl ends with RTL (from engine_init_rolling_buffer macro), pops
 24-bit return = $00:AF51, where we stash an RTS to bail back to
 EventCmd_f7's $00:ED9E continuation.
@@ -24,7 +24,7 @@ Original bytes at $00:AF4D-$00:AF52:
   A9 01      LDA #$01
 
 Patched:
-  22 LL MM HH JSL key_item_init_impl
+  22 LL MM HH JSL _key_item_init_impl
   60          RTS
   A9 01       (original LDA #$01 stays — never reached after RTS)
 """
@@ -105,13 +105,13 @@ Patched:
     }
 
 
-; TODO : wire `jsr.l key_item_render_all` at $00:AF4D once the picker
+; TODO : wire `jsr.l _key_item_render_all` at $00:AF4D once the picker
 ; has a VRAM strategy that doesn't garble the room/map underneath. The
 ; picker triggers from event scripts mid-map (EventCmd_f7), so unlike
 ; the field menu we cannot blow away the BG3 CHR slice the room is
 ; using. Two viable paths : (a) save/restore around picker entry/exit,
 ; (b) reserve picker-only VRAM that the map provably never touches.
-; Engine code at `key_item_render_all` + `key_item_init_impl` is in
+; Engine code at `_key_item_render_all` + `_key_item_init_impl` is in
 ; place but currently unreachable.
 ; UpdateItemText at $00:B22B reads scroll pos $BA, multiplies by 4
 ; (asl asl) for 2-col x 2-byte stride into $0712. Single-col layout

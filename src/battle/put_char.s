@@ -8,9 +8,9 @@ The message renderer and the `battle/sram` dispatch tables both call these, so t
 .include "src/battle/sram.i"
 .include "../bank20.i"
 
-BATTLE_DAKUTEN_TABLE = 0x16FA40
+_BATTLE_DAKUTEN_TABLE = 0x16FA40
 
-.alloc battle_put_char_block in bank20_reloc {
+.alloc _battle_put_char_block in bank20_reloc {
     .scope battle_flags {
     """Battle-flags toggles for switching the message renderer between WRAM tiles and VWF."""
 set_vwf_render:
@@ -22,7 +22,7 @@ clear_vwf_render:
     rtl
     }
 
-copy_battle_char:
+_copy_battle_char:
 """Copy a glyph + its dakuten companion from the SRAM staging area to the destination pair."""
     lda.l sram_base + 0x2E00, x
     sta (0x00), y
@@ -51,9 +51,9 @@ put_char_with_dakuten:
     sbc #0xF
     asl
     tax
-    lda.l BATTLE_DAKUTEN_TABLE, x
+    lda.l _BATTLE_DAKUTEN_TABLE, x
     sta (0x32), y
-    lda.l BATTLE_DAKUTEN_TABLE + 1, x
+    lda.l _BATTLE_DAKUTEN_TABLE + 1, x
     sta (0x34), y
     } else {
     jsr.l lookup_dakuten

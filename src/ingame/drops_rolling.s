@@ -51,11 +51,11 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 
 
 DROPS_VISIBLE_ITEMS := 5
-DROPS_BUFFER_SLOTS := 6
+_DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
-DROPS_SCROLL_LIMIT := 3
-DROPS_SCROLL_PIXELS_PER_FRAME := 8
-DROPS_SCROLL_TOTAL_PIXELS := 16
+_DROPS_SCROLL_LIMIT := 3
+_DROPS_SCROLL_PIXELS_PER_FRAME := 8
+_DROPS_SCROLL_TOTAL_PIXELS := 16
 
 ; Drops rolling state moved out of $1B00-$1BFF (vanilla menu / sprite
 ; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
@@ -81,14 +81,14 @@ drops_scroll_pos := 0x7E9C5F
 ; separate slot in the same WRAM area at $7E:9880 / shadow $7E:98C0
 ; so the two BG3VOFS-driven channels (ch4 drops + ch6 inventory)
 ; don't fight over a single buffer.
-DROPS_HDMA_TABLE_ADDR := 0x9880
+_DROPS_HDMA_TABLE_ADDR := 0x9880
 DROPS_HDMA_TABLE := 0x7E9880
-DROPS_HDMA_SHADOW_ADDR := 0x98C0
+_DROPS_HDMA_SHADOW_ADDR := 0x98C0
 DROPS_HDMA_SHADOW := 0x7E98C0
-DROPS_HDMA_BANK := 0x7E
+_DROPS_HDMA_BANK := 0x7E
 
-DROPS_SCROLL_STATE_IDLE := 0
-DROPS_SCROLL_STATE_SCROLLING := 1
+_DROPS_SCROLL_STATE_IDLE := 0
+_DROPS_SCROLL_STATE_SCROLLING := 1
 
 ; --- Profile hooks (stubs, real implementations land alongside the
 ;     drops geometry + tilemap layout work) -----------------------------------
@@ -96,13 +96,13 @@ DROPS_SCROLL_STATE_SCROLLING := 1
 .include "../bank20.i"
 
 
-.alloc drops_rolling_block in bank20_reloc {
-drops_ensure_hdma_initialized:
+.alloc _drops_rolling_block in bank20_reloc {
+_drops_ensure_hdma_initialized:
 """Lazy init: pin BG4VOFS shadow to 0 + configure ch4 driving BG4VOFS on first scroll."""
 ; Long addressing on every state read/write - engine `_engine_call_hook`
 ; jumps in with DB unchanged from the vanilla caller (DB=$00), so abs
 ; reads would hit ROM and the gate would always read "not $FFFF" →
-; bail. Same fix shape as treasure_ensure_hdma_initialized.
+; bail. Same fix shape as _treasure_ensure_hdma_initialized.
     rep #0x20
     lda.l drops_rolling.base_scroll
     cmp.w #0xFFFF
@@ -132,10 +132,10 @@ drops_ensure_hdma_initialized:
     lda #PPU.BG4VOFS
     sta.l dma_ch4.BBAD
     rep #0x20
-    lda.w #DROPS_HDMA_TABLE_ADDR
+    lda.w #_DROPS_HDMA_TABLE_ADDR
     sta.l dma_ch4.A1TL
     sep #0x20
-    lda #DROPS_HDMA_BANK
+    lda #_DROPS_HDMA_BANK
     sta.l dma_ch4.A1B
 
 ; Enable ch4 (BG4VOFS) only. TM HDMA mask via ch1 disabled - writes
@@ -158,7 +158,7 @@ _drops_hdma_already_init:
     sep #0x20
     rts
 
-drops_render_item_to_slot:
+_drops_render_item_to_slot:
 """Render one drops item from $7E:FF28 + edge_row*Item.__size into the BG3 buffer at $7E:D600 + slot_index*128 + 4."""
     php
     phb
@@ -267,7 +267,7 @@ drops_render_item_to_slot:
     plp
     rts
 
-clear_drops_slot:
+_clear_drops_slot:
 """Blank a single drops tilemap slot. STUB."""
     rts
 
@@ -296,10 +296,10 @@ _row_loop:
     adc.b 0x42
 
 _mod_loop:
-    cmp.w #DROPS_BUFFER_SLOTS
+    cmp.w #_DROPS_BUFFER_SLOTS
     bcc _mod_done
     sec
-    sbc.w #DROPS_BUFFER_SLOTS
+    sbc.w #_DROPS_BUFFER_SLOTS
     bra _mod_loop
 
 _mod_done:
@@ -454,23 +454,23 @@ drops_init_impl:
     sta.l drops_rolling.vwf_cfg_ptr + 1
     lda.b #0x70
     sta.l drops_rolling.vwf_cfg_ptr + 2
-    lda.b #drops_fn_render_slot_trampoline & 0xFF
+    lda.b #_drops_fn_render_slot_trampoline & 0xFF
     sta.l drops_rolling.fn_render_slot
-    lda.b #( drops_fn_render_slot_trampoline >> 8 ) & 0xFF
+    lda.b #( _drops_fn_render_slot_trampoline >> 8 ) & 0xFF
     sta.l drops_rolling.fn_render_slot + 1
-    lda.b #( drops_fn_render_slot_trampoline >> 16 ) & 0xFF
+    lda.b #( _drops_fn_render_slot_trampoline >> 16 ) & 0xFF
     sta.l drops_rolling.fn_render_slot + 2
-    lda.b #drops_fn_update_hdma_trampoline & 0xFF
+    lda.b #_drops_fn_update_hdma_trampoline & 0xFF
     sta.l drops_rolling.fn_update_hdma
-    lda.b #( drops_fn_update_hdma_trampoline >> 8 ) & 0xFF
+    lda.b #( _drops_fn_update_hdma_trampoline >> 8 ) & 0xFF
     sta.l drops_rolling.fn_update_hdma + 1
-    lda.b #( drops_fn_update_hdma_trampoline >> 16 ) & 0xFF
+    lda.b #( _drops_fn_update_hdma_trampoline >> 16 ) & 0xFF
     sta.l drops_rolling.fn_update_hdma + 2
-    lda.b #drops_fn_draw_window_trampoline & 0xFF
+    lda.b #_drops_fn_draw_window_trampoline & 0xFF
     sta.l drops_rolling.fn_draw_window
-    lda.b #( drops_fn_draw_window_trampoline >> 8 ) & 0xFF
+    lda.b #( _drops_fn_draw_window_trampoline >> 8 ) & 0xFF
     sta.l drops_rolling.fn_draw_window + 1
-    lda.b #( drops_fn_draw_window_trampoline >> 16 ) & 0xFF
+    lda.b #( _drops_fn_draw_window_trampoline >> 16 ) & 0xFF
     sta.l drops_rolling.fn_draw_window + 2
     lda.b #ROLLING_MENU_ID_DROPS
     sta.l drops_rolling.menu_id
@@ -482,21 +482,21 @@ drops_init_impl:
     plp
     rtl
 
-drops_fn_render_slot_trampoline:
-"""Bank-20 RTL wrapper around `drops_render_item_to_slot`."""
+_drops_fn_render_slot_trampoline:
+"""Bank-20 RTL wrapper around `_drops_render_item_to_slot`."""
     php
-    jsr.w drops_render_item_to_slot
+    jsr.w _drops_render_item_to_slot
     plp
     rtl
 
-drops_fn_update_hdma_trampoline:
-"""Bank-20 RTL wrapper around `drops_ensure_hdma_initialized`."""
+_drops_fn_update_hdma_trampoline:
+"""Bank-20 RTL wrapper around `_drops_ensure_hdma_initialized`."""
     php
-    jsr.w drops_ensure_hdma_initialized
+    jsr.w _drops_ensure_hdma_initialized
     plp
     rtl
 
-drops_fn_draw_window_trampoline:
+_drops_fn_draw_window_trampoline:
 """Bank-20 RTL wrapper around `_drops_draw_window`."""
     php
     jsr.w _drops_draw_window
@@ -563,7 +563,7 @@ drops_refresh_slots_impl:
     plp
     rtl
 
-drops_swap_redraw_impl:
+_drops_swap_redraw_impl:
 """Drops profile: post-swap re-render via the engine."""
     php
     rep #0x10

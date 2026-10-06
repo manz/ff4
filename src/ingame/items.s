@@ -180,7 +180,7 @@ _treasure_menu_entry:
     }
 }
 
-.alloc item_description_skip_check in bank01_slack {
+.alloc _item_description_skip_check in bank01_slack {
 check_if_description_was_rendered:
 """
 Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the

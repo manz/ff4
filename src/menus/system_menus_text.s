@@ -7,7 +7,7 @@
 .label _draw_main_menu_8947 = 0x018947
 
 
-.alloc system_menus_text_block in bank20_reloc {
+.alloc _system_menus_text_block in bank20_reloc {
     .macro _bank_switch() {
     cpy.w #0x8000
     bmi _moved_text

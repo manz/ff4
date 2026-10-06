@@ -161,7 +161,7 @@ Final Fantasy IV the new hack.
     strategy order
 }
 
-.alloc bank20_main in bank20_reloc {
+.alloc _bank20_main in bank20_reloc {
 brk_handler:
 """
 BRK trap: mask interrupts, disable NMI, fetch the BRK signature byte
@@ -194,7 +194,7 @@ signature byte sits at PB:(PC - 1).
     stp
 }
 
-; end .alloc bank20_main
+; end .alloc _bank20_main
 
 .if TRIGGER_ENDING_CUTSCENE {
 ; all effects are the Ending cutscene

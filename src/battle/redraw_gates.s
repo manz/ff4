@@ -42,16 +42,16 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 
 .include "../bank20.i"
 
-.alloc battle_redraw_gates_block in bank20_reloc {
-    status_hash := 0x7EEF9E  ; hash of char-status bytes; gates DrawStatusText
-    obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
-    char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
+.alloc _battle_redraw_gates_block in bank20_reloc {
+    _status_hash := 0x7EEF9E  ; hash of char-status bytes; gates DrawStatusText
+    _obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
+    _char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
 
     CMD_DIRTY_BIT := 0x20  ; bit 5 of battle_menu_dirty
-    NAMES_DIRTY_BIT := 0x10  ; bit 4 of battle_menu_dirty (char names region)
-    MONSTER_DIRTY_BIT := 0x01  ; bit 0 of battle_monster_dirty (any monster name)
+    _NAMES_DIRTY_BIT := 0x10  ; bit 4 of battle_menu_dirty (char names region)
+    _MONSTER_DIRTY_BIT := 0x01  ; bit 0 of battle_monster_dirty (any monster name)
 
-mark_cmd_dirty:
+_mark_cmd_dirty:
 """
     Set the cmd-window dirty bit. Callable from any bank via JSL/RTL.
     65816 `tsb` has no long-addressing form  ; emulate via lda/ora/sta.
@@ -89,9 +89,9 @@ gate_status_check:
     eor.l 0x7E2083
     eor.l 0x7E20C3
     eor.l 0x7E2103
-    cmp.l status_hash
+    cmp.l _status_hash
     beq _gsc_clean
-    sta.l status_hash
+    sta.l _status_hash
     sec
     rtl
 
@@ -114,9 +114,9 @@ gate_obj_names_check:
     eor.l 0x7E29B7
     eor.l 0x7E29B8
     eor.l 0x7E1822
-    cmp.l obj_names_hash
+    cmp.l _obj_names_hash
     beq _goc_clean
-    sta.l obj_names_hash
+    sta.l _obj_names_hash
     sec
     rtl
 
@@ -153,7 +153,7 @@ mark_monsters_dirty_and_init:
     stx.b 0xa9
     rtl
 
-mark_all_dirty:
+_mark_all_dirty:
 """
     Reset both dirty bytes to $FF so the next frame renders everything.
     Called once at battle init.

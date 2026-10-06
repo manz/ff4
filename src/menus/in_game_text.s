@@ -5,7 +5,7 @@
 .import "dakuten"
 
 
-.alloc in_game_text_block in bank20_reloc {
+.alloc _in_game_text_block in bank20_reloc {
     .scope in_game_menu {
     """Main pause-menu strings."""
 cant_fight:

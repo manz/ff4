@@ -407,7 +407,7 @@ _a626:
 
 ; ------------------------------------------------------------------------------
 
-; [ escape code 0x01: newline ]
+; [ escape code 0x01: _newline ]
 
 _text_cmd_01:
     jsr.l messages_vwf.new_line_escape_code_handler
@@ -786,7 +786,7 @@ _loop:
     lda.l assets_monsters_long_dat, x
     beq _exit
     jsr.w draw_letter  ; draw text
-;jsr.w msg_monster_window_trampoline
+;jsr.w _msg_monster_window_trampoline
     inx
     bra _loop
 _exit:
