@@ -11,6 +11,7 @@ requires-python = ">=3.14"
 
 dependencies = [
     "a816==1.1.0a44",
+    "katsuji==0.1.1",
     "kintsuki[visual]==0.0.0a16",
 ]
 

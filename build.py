@@ -22,11 +22,10 @@ from script.pointers import (
     Pointer,
 )
 
+from katsuji import build as katsuji_build
+from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dakutens import generate_dakutens
-from utils.font import convert_font_to_2bpp
-from utils.font_converter import FontConverter
-from utils.smallvwf import generate_8x8_vwf_asset
 
 logger = logging.getLogger(__name__)
 
@@ -225,155 +224,6 @@ def build_text_assets(banks):
         build_text_asset(dialog_table, bank[0], bank[1], bank[2], bank[3])
 
 
-def build_vwf_font_asset_2bpp(
-    font_file, has_grid, data_file, len_table_file, char_height
-):
-    # Use the FontConverter approach but for 2bpp
-    converter = FontConverter(font_file, has_grid, char_height=char_height)
-
-    len_table, font_data = converter.convert_to_2bpp()
-
-    # Apply width overrides
-    len_table[0xFF] = 3  # Space
-    len_table[0xFD] = 1  # Thin space
-    len_table[0xFE] = 2  # Non-breaking space
-
-    # Create interleaved format: char_data, char_width, char_data, char_width, ...
-    output_data = bytearray()
-
-    for char_index in range(256):
-        # Add character bitmap data
-        char_start = char_index * char_height * 2
-        char_end = char_start + char_height * 2
-        char_data = font_data[char_start:char_end]
-
-        # Pad if necessary
-        # while len(char_data) < char_height:
-        #     char_data += b'\x00'
-
-        output_data.extend(char_data)
-
-        # Add width data
-        width = len_table.get(char_index, 0)  # Default width 0
-        output_data.append(width)
-
-    with open(data_file, "wb") as fd:
-        fd.write(output_data)
-
-
-def build_vwf_font_asset(
-    font_file, has_grid, data_file, len_table_file, char_height, table
-):
-    converter = FontConverter(font_file, has_grid, char_height=char_height)
-
-    data_path = Path(data_file)
-
-    if data_path.stem == "menu_font":
-        overrides = {0xFF: 3}
-    else:
-        overrides = {
-            0xFF: 3 if data_path.stem == "font" else 5,
-            0xFD: 1,
-            0xFE: 2,
-            0xA0: -1,
-        }
-
-    len_table, data = converter.convert_to_1bpp(width_overrides=overrides)
-
-    # Generate test pairs (common kerning candidates)
-    known_pairs_to_kern = []
-
-    # Uppercase + lowercase (classic kerning pairs)
-    letters = ["T", "V", "F", "P", "A", "W", "Y", "L", "v", "t", "f", "r"]
-    vowels = ["a", "e", "i", "o", "u", "é", "à", "â", "è", "ê", "ï", "îr"]
-
-    if data_path.stem != "menu_font":
-        for letter in letters:
-            for vowel in vowels:
-                known_pairs_to_kern.append(letter + vowel)
-
-        # Lowercase + descender
-        for vowel in vowels + ["n"]:
-            known_pairs_to_kern.append(vowel + "j")
-            known_pairs_to_kern.append(vowel + "g")
-            known_pairs_to_kern.append(vowel + "y")
-            known_pairs_to_kern.append(vowel + "t")
-            known_pairs_to_kern.append(vowel + "f")
-
-        # Common letter combinations that might benefit
-        common_pairs = ["rn", "fi", "fl", "ff", "tt", "ll"]
-        known_pairs_to_kern.extend(common_pairs)
-        known_pairs_to_kern.extend(
-            ["ît", "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï", "ïm"]
-        )
-
-        print(
-            f"Testing {len(known_pairs_to_kern)} potential kerning pairs in {Path(font_file).stem}..."
-        )
-        # known_pairs_to_kern = ["Ta"]
-        # Find pairs that benefit from kerning
-        kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
-
-        def add_custom_kernings(text: str, advance: int) -> None:
-            chars = table.to_bytes(text)
-
-            kerning_pairs[(chars[0], chars[1])] = advance
-
-        add_custom_kernings("tt", 2)
-    else:
-        known_pairs_to_kern = [
-            "Ya",
-            "Pa",
-            "PoFa",
-            "Fe",
-            "Fo",
-            "Fu",
-            "Ta",
-            "Te",
-            "To",
-            "Tu",
-            "Tr",
-            "Ts",
-            "ra",
-            "re",
-            "ro",
-            "Aï",
-            "ïe",
-            "aî",
-            "ît",
-            "pa",
-            "at",
-            "ta",
-            "te",
-            "nt",
-            "fa",
-            "fe",
-            "fo",
-            "fu",
-            "fi",
-            "st",
-            "va",
-        ]
-        kerning_pairs = converter.find_kerning_pairs(table, known_pairs_to_kern)
-
-    with open(data_file, "wb") as fd:
-        fd.write(data)
-
-        # Write kerning data immediately after character data.
-        # Entries are read on the SNES as u16 LE: key = char1 | (char2 << 8).
-        # Binary search assumes ascending order on that exact value.
-        sorted_pairs = sorted(
-            kerning_pairs.items(),
-            key=lambda pair: pair[0][0] | (pair[0][1] << 8),
-        )
-        count = len(sorted_pairs)
-        fd.write(struct.pack("<H", count))
-        for (char1, char2), advance in sorted_pairs:
-            fd.write(struct.pack("BBB", char1, char2, abs(advance)))
-
-        fd.write(struct.pack("B", char_height))
-
-
 assets_builder = {
     "script": build_text_asset,
     "pointed_16bits_lowrom": build_pointed_16bits_lowrom,
@@ -381,7 +231,6 @@ assets_builder = {
     "fixed_to_ptr": build_fixed_to_ptr_asset,
     "nullterminated": build_null_terminated,
     "nullterminated_with_base": build_null_terminated_with_base,
-    "vwf-font": build_vwf_font_asset,
 }
 
 
@@ -439,51 +288,6 @@ if __name__ == "__main__":
             "assets/battle_text.dat",
             "assets/battle_text.ptr",
             0x29A000,
-        ),
-        (
-            "vwf-font",
-            "fonts/vwf.png",
-            False,
-            "assets/font.dat",
-            "assets/font_length_table.dat",
-            16,
-            dialog_table,
-        ),
-        (
-            "vwf-font",
-            "fonts/bold_vwf.png",
-            False,
-            "assets/bold_font.dat",
-            "assets/bold_font_length_table.dat",
-            16,
-            dialog_table,
-        ),
-        (
-            "vwf-font",
-            "fonts/wicked_vwf.png",
-            False,
-            "assets/wicked_font.dat",
-            "assets/wicked_font_length_table.dat",
-            16,
-            dialog_table,
-        ),
-        (
-            "vwf-font",
-            "fonts/book_vwf.png",
-            False,
-            "assets/book_font.dat",
-            "assets/book_font_length_table.dat",
-            16,
-            dialog_table,
-        ),
-        (
-            "vwf-font",
-            "fonts/8x8vwf.png",
-            False,
-            "assets/menu_font.dat",
-            "assets/menu_font_length_table.dat",
-            8,
-            menu_table,
         ),
         ("fixed", menu_table, os.path.join(text_root, "items.xml"), "assets/items.dat"),
         (
@@ -561,6 +365,8 @@ if __name__ == "__main__":
         ),
     ]
 
+    # Fonts first: the fixed-width string checks measure with menu_font.dat.
+    katsuji_build.build(katsuji_config.load(Path("katsuji.toml")))
     build_assets(assets_list)
 
     credits_file = Path(f"./text/{lang}/credits.txt")
