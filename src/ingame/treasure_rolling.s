@@ -109,6 +109,7 @@ _TREASURE_HDMA_BANK := 0x7E
 ; can keep driving its drops-band scroll untouched.
 
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:
@@ -778,7 +779,7 @@ treasure_finish_scroll_impl:
     .if INVENTORY_ROLLING_BUFFER {
 treasure_menu_entry_hook_impl:
 """Treasure profile: menu-entry implementation (HDMA capture + flush)."""
-    stz.w 0x1B1F
+    stz.w inventory_menu_mode
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
 ; treasure_rolling.hdma_enable
@@ -794,7 +795,7 @@ treasure_menu_entry_hook_impl:
 ; Clear high byte
 ; Initialize cursor column to 0 for single-column mode
 ; This ensures $1b22 is always 0 even if it had a value from previous menu
-    stz.w 0x1B22
+    stz.w inventory_cursor1_x
 ; cursor_x = 0
 ; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
     rtl

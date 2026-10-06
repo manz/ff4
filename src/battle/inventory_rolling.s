@@ -13,6 +13,7 @@ runs the field-menu NMI DMA check.
 .import "battle/magic_reloc"
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
+.import "vanilla"
 
 .scope battle_render {
     """Render-state bytes shared with the battle magic list."""
@@ -199,8 +200,8 @@ _init_row_loop:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
     plb  ; Restore data bank
     rtl
@@ -361,11 +362,11 @@ _has_item:
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
 
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
 
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _finish_format:
     sta.w inv_format_buffer, y
@@ -538,11 +539,11 @@ _circ_has_item:
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
 
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
 
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _circ_finish:
     sta.w inv_format_buffer, y
@@ -772,8 +773,8 @@ _bottom_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 ; Advance circular position (top slot advances as we scroll down)
     lda.w _rolling_buffer_pos
@@ -839,8 +840,8 @@ _store_pos_up:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _render_top_done:
     plb  ; Restore data bank
@@ -1072,10 +1073,10 @@ _slot_has_item:
     sep #0x20
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _slot_finish:
     sta.w inv_format_buffer, y
@@ -1262,8 +1263,8 @@ _transfer_circular_slot:
     jsr.l load_menu_tfr_data_trampoline
 
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 ; CRITICAL: Restore zero page variables from stack (reverse order)
 ; First restore $26-$2B (last pushed)
@@ -1685,8 +1686,8 @@ _tfr_frame_ok:
     jsr.l load_menu_tfr_data_trampoline
 
     lda #0x01
-    sta.w 0x1825  ; 1 transfer only
-    sta.w 0x1824  ; Enable transfer
+    sta.w menu_tilemap_tfr_count  ; 1 transfer only
+    sta.w menu_tilemap_tfr_enable  ; Enable transfer
 
     plb  ; Restore data bank
     rtl
@@ -1878,8 +1879,8 @@ _refresh_loop:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
     plb
     rtl
@@ -1922,8 +1923,8 @@ _post_up_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _post_up_done:
     plb
@@ -1971,8 +1972,8 @@ _post_down_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _post_down_done:
     plb
@@ -1993,7 +1994,7 @@ post_scroll_down_render:
 """Tail of `wrap_and_clear_trampoline` (JSL): post-animation hook for scroll-down."""
 ; Check if this was a scroll DOWN animation (type 2)
 ; $1820 still contains the animation type at this point
-    lda.w 0x1820
+    lda.w menu_hdma_pending
     cmp #0x02
     bne _psd_done
 
@@ -2047,7 +2048,7 @@ scroll_list_down_hook:
     lda #0x0C
     sta.w 0xEF64
     lda #0x02
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     jmp.l return_to_bank02
 
 _sd_is_inventory:
@@ -2121,7 +2122,7 @@ _sd_skip_prerender:
     lda #0x0C
     sta.w 0xEF64
     lda #0x02  ; Animation 2 (scroll down)
-    sta.w 0x1820
+    sta.w menu_hdma_pending
 
 ; Advance circular buffer position (top slot moves up, becomes off-screen)
     lda.w _rolling_buffer_pos
@@ -2179,7 +2180,7 @@ scroll_list_up_hook:
     lda #0x0C
     sta.w 0xEF64
     lda #0x03
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     jmp.l return_to_bank02
 
 _su_is_inventory:
@@ -2237,7 +2238,7 @@ _su_pos_ok:
     lda #0x0C
     sta.w 0xEF64
     lda #0x03  ; Animation 3 (scroll up)
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     bra _su_exit
 
 _su_abort:

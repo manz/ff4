@@ -6,6 +6,7 @@ parser to load the next message.
 .include "bank20.i"
 
 .import "assets"
+.import "vanilla"
 
 
 .alloc _dialog_block in bank20_reloc {
@@ -117,7 +118,7 @@ _loop:
     inx
 
 _end:
-    stx.w 0x0772
+    stx.w dialog_text_ptr
     stz.b 0xDD
     rtl
 
@@ -156,14 +157,14 @@ _load_letter:
 _incpointer:
     {
     phx
-    ldx.w 0x0772
+    ldx.w dialog_text_ptr
     inx
     bne _no_overflow
     inc.b dialog_ptr + 2
     ldx.w #0x8000
 
 _no_overflow:
-    stx.w 0x0772
+    stx.w dialog_text_ptr
     plx
     rts
     }
@@ -172,7 +173,7 @@ _no_overflow:
 load_letter_inc:
 """Advance dialog cursor by one character."""
     {
-    ldx.w 0x0772
+    ldx.w dialog_text_ptr
     inx
     cpx.w #0x0000
     bne _no_overflow
@@ -180,13 +181,13 @@ load_letter_inc:
     ldx.w #0x8000
 
 _no_overflow:
-    stx.w 0x0772
+    stx.w dialog_text_ptr
     }
 
 
 load_letter:
 """Peek the current character from the dialog stream into CURRENT_C."""
-    ldx.w 0x0772
+    ldx.w dialog_text_ptr
     phb
     lda.b dialog_ptr + 2
     pha

@@ -81,6 +81,7 @@ _MENU_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + 
 _MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
 
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _inventory_rolling_block in bank20_reloc {
 _init_menu_inventory_hdma:
@@ -721,7 +722,7 @@ finish_scroll_impl:
     .if INVENTORY_ROLLING_BUFFER {
 menu_entry_hook_impl:
 """Field-menu entry hook: lazy-init HDMA + force shadow flush before first frame."""
-    stz.w 0x1B1F
+    stz.w inventory_menu_mode
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
 ; field_menu_rolling.hdma_enable
@@ -737,7 +738,7 @@ menu_entry_hook_impl:
 ; Clear high byte
 ; Initialize cursor column to 0 for single-column mode
 ; This ensures $1b22 is always 0 even if it had a value from previous menu
-    stz.w 0x1B22
+    stz.w inventory_cursor1_x
 ; cursor_x = 0
 ; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
     rtl

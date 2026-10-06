@@ -30,7 +30,7 @@ wait_for_action_button:
 
     .if ENABLE_BUTTON_DISPLAY {
 _get_action_button_id:
-    lda.l 0x0016A9
+    lda.l button_mapping
     bne _custom_mapping
     lda.b #0x00
     xba
@@ -39,7 +39,7 @@ _get_action_button_id:
 _custom_mapping:
     lda.b #0x00
     xba
-    lda.l 0x001A37  ; action button id location
+    lda.l confirm_button  ; action button id location
     rts
     }
 
@@ -87,14 +87,14 @@ update_palette:
 """
 
 
-    ldx.w 0x16AA
-    stx.w 0x0CDD
-    stx.w 0x0CE5
+    ldx.w window_color
+    stx.w color_palettes + 2
+    stx.w color_palettes + 0xa
     .if ENABLE_BUTTON_DISPLAY {
-    stx.w 0x0CED
+    stx.w color_palettes + 0x12
 ; black for the shadow but it could be a darker version of the color
     ldx.w #0x0000
-    stx.w 0x0CEF
+    stx.w color_palettes + 0x14
     pha
     jsr.w _get_action_button_id
 
@@ -108,9 +108,9 @@ _proceed:
 
     rep #0x20
     lda.l _button_colors, x  ; color
-    sta.w 0x0CF1
+    sta.w color_palettes + 0x16
     lda.l _button_colors + 2, x  ; shadow color
-    sta.w 0x0CEF
+    sta.w color_palettes + 0x14
     sep #0x20
     lda #0x00
     xba
@@ -357,11 +357,11 @@ space:
 ;******************
 
 _code08:
-    lda.w 0x08F8
+    lda.w gil_amount
     sta.b 0x30
-    lda.w 0x08F9
+    lda.w gil_amount + 1
     sta.b 0x31
-    lda.w 0x08FA
+    lda.w gil_amount + 2
     sta.b 0x32
     jsr.l field_hex_to_dec
 
@@ -426,7 +426,7 @@ _display_character_name:
 next:
     lda #0x00
     xba
-    lda 0x1500, x
+    lda.w character_names, x
     sta.b CURRENT_C
     cmp #0xFF
     beq exit
@@ -555,9 +555,9 @@ _draw_ending_symbol:
 
 _musique:
     jsr.w load_letter_inc
-    sta 0x1E01
+    sta.w sound_interrupt_param
     lda.b #0x01
-    sta 0x1E00
+    sta.w sound_interrupt
 
     jsr.l exec_sound_ext
     jmp.w main
@@ -571,19 +571,19 @@ _code05:
     asl
     asl
     tax
-    stx 0x08F4
+    stx.w dialog_pause_duration
     ldx 0x0000
-    stx 0x08F6
+    stx.w dialog_pause_counter
     {
-    ldx 0x08f4
+    ldx.w dialog_pause_duration
     beq skip
 loop:
-    cpx 0x08f6
+    cpx.w dialog_pause_counter
 
     bne loop
 skip:
     ldx.w #0x0000
-    stx 0x08f4
+    stx.w dialog_pause_duration
     }
     jmp.w main
 
@@ -603,7 +603,7 @@ skip:
 
 _code07:
     {
-    lda 0x08FB
+    lda.w treasure_item_index
 
     rep #0x20
     and.w #0x00FF

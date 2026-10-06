@@ -183,3 +183,89 @@
 
 """Clear ram."""
 .label field_clear_ram = 0x15C9AA
+
+; --- Vanilla WRAM ($0000-$1FFF), named after ff4decomp notes/ff4j-sfc-ram-map.txt ---
+
+"""Sprite data staging for OAM ($0300-$051F)."""
+.label sprite_data = 0x0300
+
+"""Inventory for the item select window (48 * 2 bytes)."""
+.label item_select_list = 0x0712
+
+"""Dialogue text pointer (16-bit)."""
+.label dialog_text_ptr = 0x0772
+
+"""Dialogue text buffer ($0774-$0833)."""
+.label dialog_text_buffer = 0x0774
+
+"""Dialogue pause duration (16-bit)."""
+.label dialog_pause_duration = 0x08F4
+
+"""Dialogue pause counter (16-bit)."""
+.label dialog_pause_counter = 0x08F6
+
+"""Gil amount for a treasure chest or the inn (24-bit)."""
+.label gil_amount = 0x08F8
+
+"""Item index (treasure chest, item select window)."""
+.label treasure_item_index = 0x08FB
+
+"""Event script buffer ($09D5-$0A14)."""
+.label event_script = 0x09D5
+
+"""Colour palettes (16 * 32 bytes)."""
+.label color_palettes = 0x0CDB
+
+"""Character names (14 * 6 bytes)."""
+.label character_names = 0x1500
+
+"""Button mapping."""
+.label button_mapping = 0x16A9
+
+"""Window colour (16-bit)."""
+.label window_color = 0x16AA
+
+"""World, or the high byte of the map id on sub-maps."""
+.label world_id = 0x1701
+
+"""Map id."""
+.label map_id = 0x1702
+
+"""Hex to decimal conversion digits ($180C-$1810)."""
+.label hex_digits = 0x180C
+
+"""Pending menu HDMA update."""
+.label menu_hdma_pending = 0x1820
+
+"""Selected character (battle menu)."""
+.label battle_selected_char = 0x1822
+
+"""Enable the menu tilemap transfer to VRAM."""
+.label menu_tilemap_tfr_enable = 0x1824
+
+"""Number of VRAM transfers needed."""
+.label menu_tilemap_tfr_count = 0x1825
+
+"""Shop type."""
+.label shop_type = 0x1A01
+
+"""Confirm button mapping."""
+.label confirm_button = 0x1A37
+
+"""Menu cursor position data ($1B00-$1BEB)."""
+.label menu_cursor_data = 0x1B00
+
+"""Inventory scroll position."""
+.label inventory_scroll_pos = 0x1B1A
+
+"""0: item menu, 1: equip menu."""
+.label inventory_menu_mode = 0x1B1F
+
+"""Inventory cursor 1 x position (0 or 1)."""
+.label inventory_cursor1_x = 0x1B22
+
+"""Sound interrupt."""
+.label sound_interrupt = 0x1E00
+
+"""Sound interrupt parameter 1."""
+.label sound_interrupt_param = 0x1E01

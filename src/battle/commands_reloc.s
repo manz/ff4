@@ -15,6 +15,7 @@ mult8_far := 0x2855c
 
 
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _battle_commands_reloc_block in bank20_reloc {
     .if BATTLE_CMD_VWF {
@@ -39,7 +40,7 @@ draw_command_list_for_character:
     and #0x04
     bne _skip_commands
 
-    lda 0x1822  ; selected character slot
+    lda.w battle_selected_char  ; selected character slot
     sta 0x1816
     phx
     jsr.w _draw_command_list_for_character

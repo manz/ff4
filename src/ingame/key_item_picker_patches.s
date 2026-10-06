@@ -38,6 +38,7 @@ Patched:
 
 
 .include "config.i"
+.import "vanilla"
 .if TREASURE_INVENTORY_ROLLING {
 ; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the
 ; WHOLE filtered list into the window band and vanilla then scrolls over
@@ -201,17 +202,17 @@ Patched:
 
 
     .alloc at 0x00B28E {
-    sta 0x0784, y
+    sta.w dialog_text_buffer + 0x10, y
     }
 
 
     .alloc at 0x00B2A4 {
-    sta 0x0785, y
+    sta.w dialog_text_buffer + 0x11, y
     }
 
 
     .alloc at 0x00B2A9 {
-    sta 0x0786, y
+    sta.w dialog_text_buffer + 0x12, y
 
 ; Single-col picker has no col-1 to move cursor to. NOP the JOY_RIGHT
 ; check at $00:AFB0 by replacing the AND mask with $00, which leaves the

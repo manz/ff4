@@ -109,7 +109,7 @@ wrap_and_clear_trampoline:
     jsr.l check_cursor2_visibility_rolling
 
 ; Clear animation state
-    stz.w 0x1820
+    stz.w menu_hdma_pending
     rts
 
 ; Return point for bank $20 functions that need to RTS to bank $02 callers

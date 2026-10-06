@@ -140,6 +140,7 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 .include "src/rolling_state.i"
 
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
@@ -480,7 +481,7 @@ _key_item_init_filter:
     ldx.w #0x0000
 
 _filter_clear:
-    stz.w 0x0712, x
+    stz.w item_select_list, x
     inx
     cpx.w #0x0060
     bne _filter_clear
@@ -499,9 +500,9 @@ _filter_walk:
     bcs _filter_next
 
 _filter_accept:
-    sta.w 0x0712, y
+    sta.w item_select_list, y
     lda.w field_inventory.qty, x
-    sta.w 0x0713, y
+    sta.w item_select_list + 1, y
     iny
     iny
 

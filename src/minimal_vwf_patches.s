@@ -13,6 +13,7 @@ the VWF layer kicks in without rewriting the message window.
 .include "src/vwf.i"
 .import "dialog"
 .import "vwf"
+.import "vanilla"
 
 .label _text_cmd_07_b369 = 0x00B369
 .label _text_cmd_08_b398 = 0x00B398
@@ -22,7 +23,7 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l get_bank1_1_pointer
     sta 0xDD
     ldx.b dialog_ptr
-    stx 0x0772
+    stx.w dialog_text_ptr
     rts
 }
 .alloc at 0x00B41D {
@@ -30,7 +31,7 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l get_bank1_2_pointer
     sta 0xDD
     ldx.b dialog_ptr
-    stx 0x0772
+    stx.w dialog_text_ptr
     rts
 }
 .alloc at 0x00B436 {
@@ -38,13 +39,13 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l get_bank3_pointer
     sta 0xDD
     ldx.b dialog_ptr
-    stx 0x0772
+    stx.w dialog_text_ptr
     rts
 }
 .alloc at 0x00B3BB {
-    lda 0x1702
+    lda.w map_id
     sta.b dialog_ptr
-    lda 0x1701
+    lda.w world_id
     sta.b dialog_ptr + 1
     jsr.l get_bank2_pointer
     rts

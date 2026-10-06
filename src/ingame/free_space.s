@@ -132,17 +132,17 @@ scroll_down_trigger:
     cmp #MENU_SCROLL_LIMIT
     beq _scroll_down_at_max
     inc
-    sta.w 0x1B1A
+    sta.w inventory_scroll_pos
     jsr.w start_scroll_down
 _scroll_down_at_max:
     rts
 
 scroll_up_trigger:
 """--- scroll_up_trigger ---"""
-    lda.w 0x1B1A
+    lda.w inventory_scroll_pos
     beq _scroll_up_at_top
     dec
-    sta.w 0x1B1A
+    sta.w inventory_scroll_pos
     jsr.w start_scroll_up
 _scroll_up_at_top:
     rts
@@ -184,7 +184,7 @@ adjust_inventory_pointer:
 """Adjusts $5a to point to the first visible item based on scroll position"""
     stz.b 0x5d
     stz.b 0x5e
-    lda.w 0x1B1A
+    lda.w inventory_scroll_pos
     asl  ; scroll_pos * Item.__size = byte offset into $1440
     clc
     adc.b 0x5a

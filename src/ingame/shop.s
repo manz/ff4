@@ -12,6 +12,7 @@ small-VWF item descriptions.
 .include "src/menus/system_menus_macros.i"
 
 .include "src/ingame/macros.i"
+.import "vanilla"
 
 ; move gils window
 
@@ -162,7 +163,7 @@ small-VWF item descriptions.
 ; Changes the offset of the hand pointer
 
 .alloc at 0x01C37C {
-    lda 0x1B79
+    lda.w menu_cursor_data + 0x79
     asl
     asl
     asl
@@ -199,7 +200,7 @@ shop_title_ptr:
 .alloc at 0x01c336 {
     lda.b #0
     xba
-    lda 0x1a01
+    lda.w shop_type
     asl
     tax
     rep #0x20

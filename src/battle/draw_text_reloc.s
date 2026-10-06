@@ -350,7 +350,7 @@ _a5d1:
     ldx.w 0x2a
     _inx5()
 _a5e5:
-    lda 0x1500, x
+    lda.w character_names, x
     cmp #0xff
     bne _a5f5
     dex
@@ -361,7 +361,7 @@ _a5e5:
 _a5f5:
     ldx.w 0x2a
 _a5f7:
-    lda 0x1500, x
+    lda.w character_names, x
     jsr.w draw_letter
     inx
     dec 0x00
@@ -487,7 +487,7 @@ _a672:
     jsr.l mult8_far
     ldx.w 0x2a
 _a698:
-    lda 0x1500, x
+    lda.w character_names, x
     jsr.w draw_letter
     inx
     dec 0x00
@@ -633,10 +633,10 @@ _a722:
 _clear_hex_to_dec_buf:
 _a725:
     lda #0xff
-    sta 0x180c
-    sta 0x180d
-    sta 0x180e
-    sta 0x180f
+    sta.w hex_digits
+    sta.w hex_digits + 1
+    sta.w hex_digits + 2
+    sta.w hex_digits + 3
     rts
 
 ; ------------------------------------------------------------------------------
@@ -652,7 +652,7 @@ _a734:
     lda 0x02
     tax
 _a73c:
-    lda 0x180c, x
+    lda.w hex_digits, x
     cmp #0xff
     beq _a746
     clc
@@ -675,7 +675,7 @@ _a750:
     lda 0x02
     tax
 _a758:
-    lda 0x180c, x
+    lda.w hex_digits, x
     jsr.w _draw_letter_no_dakuten
     inx
     cpx.w #4
@@ -732,7 +732,7 @@ _a782:
     bra _a7a6
 _a7a0:
     jsr.w hex_to_dec
-    lda 0x1810
+    lda.w hex_digits + 4
 _a7a6:
     jmp.w _draw_letter_no_dakuten
 _a7a9:
@@ -834,7 +834,7 @@ _at_86bf:
     lda 0x2a
     clc
     adc #0x80
-    sta 0x180c
+    sta.w hex_digits
     ldx.w 0x2c
     stx 0x26
     ldx #1000
@@ -843,7 +843,7 @@ _at_86bf:
     lda 0x2a
     clc
     adc #0x80
-    sta 0x180d
+    sta.w hex_digits + 1
     ldx.w 0x2c
     stx 0x26
     ldx.w #100
@@ -852,7 +852,7 @@ _at_86bf:
     lda 0x2a
     clc
     adc #0x80
-    sta 0x180e
+    sta.w hex_digits + 2
     ldx.w 0x2c
     stx 0x26
     ldx.w #10
@@ -861,11 +861,11 @@ _at_86bf:
     lda 0x2a
     clc
     adc #0x80
-    sta 0x180f
+    sta.w hex_digits + 3
     lda 0x2c
     clc
     adc #0x80
-    sta 0x1810
+    sta.w hex_digits + 4
     rts
 
 normalize_num:
@@ -873,18 +873,18 @@ normalize_num:
 _at_8716:
     ldx.w #0
 _at_8719:
-    lda 0x180d, x  ; shift out the top digit
-    sta 0x180c, x
+    lda.w hex_digits + 1, x  ; shift out the top digit
+    sta.w hex_digits, x
     inx
     cpx.w #5
     bne _at_8719
     ldx.w #0
 _at_8728:
-    lda 0x180c, x
+    lda.w hex_digits, x
     cmp #0x80
     bne _at_873a  ; return if digit is not zero
     lda #0xff
-    sta 0x180c, x  ; hide digit
+    sta.w hex_digits, x  ; hide digit
     inx
     cpx.w #3  ; don't hide ones digit
     bne _at_8728

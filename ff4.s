@@ -209,9 +209,9 @@ signature byte sits at PB:(PC - 1).
 ; event_cmd_f7 ($00:ED97) expects: X points to script, $09d5+X+1 = item ID
     .alloc at 0x00E1EB {
     lda #0xD1
-    sta 0x09d6
+    sta.w event_script + 1
     lda #0xFF
-    sta 0x09d7
+    sta.w event_script + 2
     ldx #0x0000
     stx 0xb3
     jmp.w event_cmd_f7
