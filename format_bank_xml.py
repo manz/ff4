@@ -180,7 +180,7 @@ class DialogParser:
                     "assets/bold_font.dat",  # Index 3: [bold] (fe 03)
                 ]
 
-                self.text_metrics = TextMetrics(table, font_files, char_height=16)
+                self.text_metrics = TextMetrics(table, font_files)
             except (FileNotFoundError, Exception):
                 # Fallback to None if metrics can't be loaded (for testing)
                 self.text_metrics = None

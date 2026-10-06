@@ -27,7 +27,7 @@ from build import read_fixed_from_xml  # noqa: E402
 
 def _load(asset_xml: Path) -> tuple[list, TextMetrics, Table]:
     table = Table(str(ROOT / "text" / "ff4_menus.tbl"))
-    metrics = TextMetrics(table, [str(ROOT / "assets" / "menu_font.dat")], char_height=8)
+    metrics = TextMetrics(table, [str(ROOT / "assets" / "menu_font.dat")])
     items = read_fixed_from_xml(
         str(asset_xml),
         table,

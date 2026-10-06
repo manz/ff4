@@ -166,7 +166,7 @@ def build_fixed_to_ptr_asset(
         input_file, table, formatter=lambda t: t.strip() + "[end]"
     )
 
-    metrics = TextMetrics(table, ["./assets/menu_font.dat"], char_height=8)
+    metrics = TextMetrics(table, ["assets/menu_font.dat"])
     max_length = 0
     max_ptr = None
     for i, pointer in enumerate(pointers):
