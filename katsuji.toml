@@ -1,0 +1,170 @@
+# Fonts katsuji builds for the patch: `katsuji build`, or `build.py`, which calls it first.
+
+[fonts.dialog]
+png = "fonts/vwf.png"
+cell = [8, 16]
+table = "text/ff4fr.tbl"
+output = "assets/font.dat"
+widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+kerning-candidates = [
+    "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
+    "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
+    "Vu", "Vé", "Và", "Vâ", "Vè", "Vê", "Vï", "Vîr",
+    "Fa", "Fe", "Fi", "Fo", "Fu", "Fé", "Fà", "Fâ",
+    "Fè", "Fê", "Fï", "Fîr", "Pa", "Pe", "Pi", "Po",
+    "Pu", "Pé", "Pà", "Pâ", "Pè", "Pê", "Pï", "Pîr",
+    "Aa", "Ae", "Ai", "Ao", "Au", "Aé", "Aà", "Aâ",
+    "Aè", "Aê", "Aï", "Aîr", "Wa", "We", "Wi", "Wo",
+    "Wu", "Wé", "Wà", "Wâ", "Wè", "Wê", "Wï", "Wîr",
+    "Ya", "Ye", "Yi", "Yo", "Yu", "Yé", "Yà", "Yâ",
+    "Yè", "Yê", "Yï", "Yîr", "La", "Le", "Li", "Lo",
+    "Lu", "Lé", "Là", "Lâ", "Lè", "Lê", "Lï", "Lîr",
+    "va", "ve", "vi", "vo", "vu", "vé", "và", "vâ",
+    "vè", "vê", "vï", "vîr", "ta", "te", "ti", "to",
+    "tu", "té", "tà", "tâ", "tè", "tê", "tï", "tîr",
+    "fa", "fe", "fi", "fo", "fu", "fé", "fà", "fâ",
+    "fè", "fê", "fï", "fîr", "ra", "re", "ri", "ro",
+    "ru", "ré", "rà", "râ", "rè", "rê", "rï", "rîr",
+    "aj", "ag", "ay", "at", "af", "ej", "eg", "ey",
+    "et", "ef", "ij", "ig", "iy", "it", "if", "oj",
+    "og", "oy", "ot", "of", "uj", "ug", "uy", "ut",
+    "uf", "éj", "ég", "éy", "ét", "éf", "àj", "àg",
+    "ày", "àt", "àf", "âj", "âg", "ây", "ât", "âf",
+    "èj", "èg", "èy", "èt", "èf", "êj", "êg", "êy",
+    "êt", "êf", "ïj", "ïg", "ïy", "ït", "ïf", "îrj",
+    "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
+    "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
+    "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
+    "ïm",
+]
+kerning = { "tt" = 2 }
+
+[fonts.bold]
+png = "fonts/bold_vwf.png"
+cell = [8, 16]
+table = "text/ff4fr.tbl"
+output = "assets/bold_font.dat"
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+kerning-candidates = [
+    "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
+    "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
+    "Vu", "Vé", "Và", "Vâ", "Vè", "Vê", "Vï", "Vîr",
+    "Fa", "Fe", "Fi", "Fo", "Fu", "Fé", "Fà", "Fâ",
+    "Fè", "Fê", "Fï", "Fîr", "Pa", "Pe", "Pi", "Po",
+    "Pu", "Pé", "Pà", "Pâ", "Pè", "Pê", "Pï", "Pîr",
+    "Aa", "Ae", "Ai", "Ao", "Au", "Aé", "Aà", "Aâ",
+    "Aè", "Aê", "Aï", "Aîr", "Wa", "We", "Wi", "Wo",
+    "Wu", "Wé", "Wà", "Wâ", "Wè", "Wê", "Wï", "Wîr",
+    "Ya", "Ye", "Yi", "Yo", "Yu", "Yé", "Yà", "Yâ",
+    "Yè", "Yê", "Yï", "Yîr", "La", "Le", "Li", "Lo",
+    "Lu", "Lé", "Là", "Lâ", "Lè", "Lê", "Lï", "Lîr",
+    "va", "ve", "vi", "vo", "vu", "vé", "và", "vâ",
+    "vè", "vê", "vï", "vîr", "ta", "te", "ti", "to",
+    "tu", "té", "tà", "tâ", "tè", "tê", "tï", "tîr",
+    "fa", "fe", "fi", "fo", "fu", "fé", "fà", "fâ",
+    "fè", "fê", "fï", "fîr", "ra", "re", "ri", "ro",
+    "ru", "ré", "rà", "râ", "rè", "rê", "rï", "rîr",
+    "aj", "ag", "ay", "at", "af", "ej", "eg", "ey",
+    "et", "ef", "ij", "ig", "iy", "it", "if", "oj",
+    "og", "oy", "ot", "of", "uj", "ug", "uy", "ut",
+    "uf", "éj", "ég", "éy", "ét", "éf", "àj", "àg",
+    "ày", "àt", "àf", "âj", "âg", "ây", "ât", "âf",
+    "èj", "èg", "èy", "èt", "èf", "êj", "êg", "êy",
+    "êt", "êf", "ïj", "ïg", "ïy", "ït", "ïf", "îrj",
+    "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
+    "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
+    "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
+    "ïm",
+]
+kerning = { "tt" = 2 }
+
+[fonts.wicked]
+png = "fonts/wicked_vwf.png"
+cell = [8, 16]
+table = "text/ff4fr.tbl"
+output = "assets/wicked_font.dat"
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+kerning-candidates = [
+    "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
+    "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
+    "Vu", "Vé", "Và", "Vâ", "Vè", "Vê", "Vï", "Vîr",
+    "Fa", "Fe", "Fi", "Fo", "Fu", "Fé", "Fà", "Fâ",
+    "Fè", "Fê", "Fï", "Fîr", "Pa", "Pe", "Pi", "Po",
+    "Pu", "Pé", "Pà", "Pâ", "Pè", "Pê", "Pï", "Pîr",
+    "Aa", "Ae", "Ai", "Ao", "Au", "Aé", "Aà", "Aâ",
+    "Aè", "Aê", "Aï", "Aîr", "Wa", "We", "Wi", "Wo",
+    "Wu", "Wé", "Wà", "Wâ", "Wè", "Wê", "Wï", "Wîr",
+    "Ya", "Ye", "Yi", "Yo", "Yu", "Yé", "Yà", "Yâ",
+    "Yè", "Yê", "Yï", "Yîr", "La", "Le", "Li", "Lo",
+    "Lu", "Lé", "Là", "Lâ", "Lè", "Lê", "Lï", "Lîr",
+    "va", "ve", "vi", "vo", "vu", "vé", "và", "vâ",
+    "vè", "vê", "vï", "vîr", "ta", "te", "ti", "to",
+    "tu", "té", "tà", "tâ", "tè", "tê", "tï", "tîr",
+    "fa", "fe", "fi", "fo", "fu", "fé", "fà", "fâ",
+    "fè", "fê", "fï", "fîr", "ra", "re", "ri", "ro",
+    "ru", "ré", "rà", "râ", "rè", "rê", "rï", "rîr",
+    "aj", "ag", "ay", "at", "af", "ej", "eg", "ey",
+    "et", "ef", "ij", "ig", "iy", "it", "if", "oj",
+    "og", "oy", "ot", "of", "uj", "ug", "uy", "ut",
+    "uf", "éj", "ég", "éy", "ét", "éf", "àj", "àg",
+    "ày", "àt", "àf", "âj", "âg", "ây", "ât", "âf",
+    "èj", "èg", "èy", "èt", "èf", "êj", "êg", "êy",
+    "êt", "êf", "ïj", "ïg", "ïy", "ït", "ïf", "îrj",
+    "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
+    "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
+    "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
+    "ïm",
+]
+kerning = { "tt" = 2 }
+
+[fonts.book]
+png = "fonts/book_vwf.png"
+cell = [8, 16]
+table = "text/ff4fr.tbl"
+output = "assets/book_font.dat"
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+kerning-candidates = [
+    "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
+    "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
+    "Vu", "Vé", "Và", "Vâ", "Vè", "Vê", "Vï", "Vîr",
+    "Fa", "Fe", "Fi", "Fo", "Fu", "Fé", "Fà", "Fâ",
+    "Fè", "Fê", "Fï", "Fîr", "Pa", "Pe", "Pi", "Po",
+    "Pu", "Pé", "Pà", "Pâ", "Pè", "Pê", "Pï", "Pîr",
+    "Aa", "Ae", "Ai", "Ao", "Au", "Aé", "Aà", "Aâ",
+    "Aè", "Aê", "Aï", "Aîr", "Wa", "We", "Wi", "Wo",
+    "Wu", "Wé", "Wà", "Wâ", "Wè", "Wê", "Wï", "Wîr",
+    "Ya", "Ye", "Yi", "Yo", "Yu", "Yé", "Yà", "Yâ",
+    "Yè", "Yê", "Yï", "Yîr", "La", "Le", "Li", "Lo",
+    "Lu", "Lé", "Là", "Lâ", "Lè", "Lê", "Lï", "Lîr",
+    "va", "ve", "vi", "vo", "vu", "vé", "và", "vâ",
+    "vè", "vê", "vï", "vîr", "ta", "te", "ti", "to",
+    "tu", "té", "tà", "tâ", "tè", "tê", "tï", "tîr",
+    "fa", "fe", "fi", "fo", "fu", "fé", "fà", "fâ",
+    "fè", "fê", "fï", "fîr", "ra", "re", "ri", "ro",
+    "ru", "ré", "rà", "râ", "rè", "rê", "rï", "rîr",
+    "aj", "ag", "ay", "at", "af", "ej", "eg", "ey",
+    "et", "ef", "ij", "ig", "iy", "it", "if", "oj",
+    "og", "oy", "ot", "of", "uj", "ug", "uy", "ut",
+    "uf", "éj", "ég", "éy", "ét", "éf", "àj", "àg",
+    "ày", "àt", "àf", "âj", "âg", "ây", "ât", "âf",
+    "èj", "èg", "èy", "èt", "èf", "êj", "êg", "êy",
+    "êt", "êf", "ïj", "ïg", "ïy", "ït", "ïf", "îrj",
+    "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
+    "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
+    "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
+    "ïm",
+]
+kerning = { "tt" = 2 }
+
+[fonts.menu]
+png = "fonts/8x8vwf.png"
+cell = [8, 8]
+table = "text/ff4_menus.tbl"
+output = "assets/menu_font.dat"
+widths = { "0xFF" = 3 }
+kerning-candidates = [
+    "Ya", "Pa", "PoFa", "Fe", "Fo", "Fu", "Ta", "Te",
+    "To", "Tu", "Tr", "Ts", "ra", "re", "ro", "Aï",
+    "ïe", "aî", "ît", "pa", "at", "ta", "te", "nt",
+    "fa", "fe", "fo", "fu", "fi", "st", "va",
+]
