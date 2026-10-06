@@ -235,7 +235,7 @@ _frame_positive:
 
 _frame_update_cursor:
     sep #0x20
-    lda.l 0x7E1B19  ; vanilla cursor-row marker
+    lda.l menu_cursor_data + 0x19  ; vanilla cursor-row marker
     beq _frame_no_cursor
     lda.l rolling_x.scroll_direction, x
     bpl _frame_cursor_down

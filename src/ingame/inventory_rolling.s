@@ -681,7 +681,7 @@ start_scroll_down_impl:
 """Field profile: kick scroll-down state machine via the bank-20 engine."""
     php
     rep #0x10
-    lda.l 0x7E1B1A  ; field scroll_pos
+    lda.l inventory_scroll_pos  ; field scroll_pos
     ldx.w #field_menu_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_down
     plp
@@ -691,7 +691,7 @@ start_scroll_up_impl:
 """Field profile: kick scroll-up state machine via the bank-20 engine."""
     php
     rep #0x10
-    lda.l 0x7E1B1A
+    lda.l inventory_scroll_pos
     ldx.w #field_menu_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_up
     plp
@@ -710,7 +710,7 @@ finish_scroll_impl:
 """Field profile: end-of-animation cleanup via the bank-20 engine."""
     php
     rep #0x10
-    lda.l 0x7E1B1A
+    lda.l inventory_scroll_pos
     ldx.w #field_menu_rolling
     jsr.l rolling_engine.rolling_engine_finish_scroll
     plp
@@ -776,7 +776,7 @@ swap_redraw_hook_impl_body:
 """Field profile: post-swap re-render of all 11 slots via the engine."""
     php
     rep #0x10
-    lda.l 0x7E1B1A
+    lda.l inventory_scroll_pos
     ldx.w #field_menu_rolling
     jsr.l rolling_engine.rolling_engine_swap_redraw
     plp
