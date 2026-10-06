@@ -4,6 +4,7 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 """
 .import "preamble"
 .import "battle/render_state"
+.import "vanilla"
 .extern messages_vwf.spell_name_begin
 .extern messages_vwf.draw_spell_name
 .extern messages_vwf.spell_ring_flush
@@ -101,7 +102,7 @@ spell_loop:
     clc
     adc.b current_row_offset
 ; add current row offset
-    sta 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     bra set_second_addr
 
 left_column:
@@ -111,21 +112,21 @@ left_column:
     clc
     adc.b current_row_offset
 ; add current row offset
-    sta 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
 
 set_second_addr:
     adc.w #0x0040
-    sta 0x34
+    sta.b btlgfx_dp.kana_row_ptr
     sep #0x20
     ldy.w #0x00
 ; Y offset
     lda #0x00
 ; tile flags
-    sta 0x36
+    sta.b btlgfx_dp.text_tile_flags
     lda.b spell_enabled_flag
     beq enabled_spell
     lda #0x04
-    sta 0x36
+    sta.b btlgfx_dp.text_tile_flags
 
 enabled_spell:
 ; Get spell ID and load spell name
@@ -157,12 +158,12 @@ enabled_spell:
 
 clear_loop:
     lda.b #0xff
-    sta (0x32), y
-    sta (0x34), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     cpy.w #_SPELL_CELLS * 2
     bne clear_loop
@@ -275,12 +276,12 @@ map_tile:
     ldy.w #2
 
 map_loop:
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     pha
-    lda.b 0x36
+    lda.b btlgfx_dp.text_tile_flags
     ora.b #0x01
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     pla
     iny
     inc
@@ -376,22 +377,22 @@ _rsr_name:
     asl
     asl
     asl
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     lda 1, s
     asl
     asl
     clc
-    adc.b 0x32
+    adc.b btlgfx_dp.dakuten_row_ptr
     clc
     adc.l battle_render_state.spell_list_ptr
     tax
 ; Row pair: column base + row * $80.
-    lda.b 0x32
+    lda.b btlgfx_dp.dakuten_row_ptr
     asl
     asl
     asl
     asl
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     lda 1, s
     beq _rsr_left
     lda.w #_right_column_base
@@ -402,11 +403,11 @@ _rsr_left:
 
 _rsr_base:
     clc
-    adc.b 0x32
-    sta.b 0x32
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.dakuten_row_ptr
     clc
     adc.w #0x0040
-    sta.b 0x34
+    sta.b btlgfx_dp.kana_row_ptr
     sep #0x20
     lda.l 0x7E0000, x
     and.b #0x80
@@ -414,7 +415,7 @@ _rsr_base:
     lda.b #0x04
 
 _rsr_palette:
-    sta.b 0x36
+    sta.b btlgfx_dp.text_tile_flags
 ; Name offset in assets_magic_dat: (spell id & $7F) * 9.
     lda.l 0x7E0001, x
     rep #0x20
@@ -476,11 +477,11 @@ goes on to TAX an 8-bit read with X=16), X, Y and $32-$37.
     pha
     plb
     rep #0x20
-    lda.b 0x32
+    lda.b btlgfx_dp.dakuten_row_ptr
     pha
-    lda.b 0x34
+    lda.b btlgfx_dp.kana_row_ptr
     pha
-    lda.b 0x36
+    lda.b btlgfx_dp.text_tile_flags
     pha
     sep #0x20
 ; row: under 3 words, DBR, Y and X
@@ -489,11 +490,11 @@ goes on to TAX an 8-bit read with X=16), X, Y and $32-$37.
     jsr.w _ring_flush
     rep #0x20
     pla
-    sta.b 0x36
+    sta.b btlgfx_dp.text_tile_flags
     pla
-    sta.b 0x34
+    sta.b btlgfx_dp.kana_row_ptr
     pla
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
 
 _slsr_out:
     plb

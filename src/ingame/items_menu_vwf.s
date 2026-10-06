@@ -52,6 +52,7 @@ Status:
 .import "assets"
 .import "small_vwf/init"
 .import "libmz"
+.import "vanilla"
 
 
 .alloc _items_menu_vwf_block in bank20_reloc {
@@ -145,7 +146,7 @@ _copy_loop:
 ; bit 8 (which `tilemap_write_no_inc` ORs in via $01 on the high
 ; tilemap byte) intact.
     rep #0x20
-    lda.b 0x5D
+    lda.b menu_dp.item_slot
     and.w #0x00FF
     pha
     asl
@@ -248,7 +249,7 @@ _flags_store:
     rep #0x20
     tya
     clc
-    adc.b 0x29
+    adc.b menu_dp.tilemap_offset
     clc
     adc.w #0x0042  ; + $40 (next row) + $02 (past symbol)
     sta.l vwf_cfg.tilemap_base
@@ -261,11 +262,11 @@ _flags_store:
 
 _top_loop:
     lda.b #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
-    lda.b 0xDB
-    ora.b 0x34
-    sta (0x29), y
+    lda.b menu_dp.item_usable
+    ora.b menu_dp.window_attr
+    sta.b (menu_dp.tilemap_offset), y
     iny
     dex
     bne _top_loop
@@ -303,11 +304,11 @@ _top_loop:
 
 _bottom_blank_loop:
     lda.b #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
-    lda.b 0xDB
-    ora.b 0x34
-    sta (0x29), y
+    lda.b menu_dp.item_usable
+    ora.b menu_dp.window_attr
+    sta.b (menu_dp.tilemap_offset), y
     iny
     dex
     bne _bottom_blank_loop
@@ -321,7 +322,7 @@ _bottom_blank_loop:
     sec
     sbc.w #0x0040
     tay
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     clc
     adc.w #0x0040
     sta.b 0x1D
@@ -343,8 +344,8 @@ _bottom_blank_loop:
     lda.l assets_items_unleashed_dat, x
     sta (0x1D), y  ; bottom-row symbol tile
     iny
-    lda.b 0xDB
-    ora.b 0x34
+    lda.b menu_dp.item_usable
+    ora.b menu_dp.window_attr
     sta (0x1D), y  ; bottom-row symbol palette
     iny
 ; --- Run the unified renderer over vwf_text_buffer ---
@@ -420,7 +421,7 @@ draw_equip_item_name:
     sep #0x20
     rep #0x10
     phy
-    lda.b 0x5D
+    lda.b menu_dp.item_slot
     pha
     lda.l vwf_engine.caller_ctx
     pha
@@ -429,7 +430,7 @@ draw_equip_item_name:
     sbc.b #0x30
     clc
     adc.b #DROPS_VWF_TILE_SLOT_OFFSET
-    sta.b 0x5D
+    sta.b menu_dp.item_slot
     lda.b #VWF_CTX_EQUIP
     sta.l vwf_engine.caller_ctx
     lda (0x60), y
@@ -438,7 +439,7 @@ draw_equip_item_name:
     pla
     sta.l vwf_engine.caller_ctx
     pla
-    sta.b 0x5D
+    sta.b menu_dp.item_slot
     ply
     plp
     rtl

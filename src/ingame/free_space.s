@@ -182,16 +182,16 @@ adjust_inventory_pointer:
 
 
 """Adjusts $5a to point to the first visible item based on scroll position"""
-    stz.b 0x5d
+    stz.b menu_dp.item_slot
     stz.b 0x5e
     lda.w inventory_scroll_pos
     asl  ; scroll_pos * Item.__size = byte offset into $1440
     clc
-    adc.b 0x5a
-    sta.b 0x5a
+    adc.b menu_dp.item_ptr
+    sta.b menu_dp.item_ptr
     lda #0x00
-    adc.b 0x5b
-    sta.b 0x5b
+    adc.b menu_dp.item_ptr + 1
+    sta.b menu_dp.item_ptr + 1
     rts
 
 item_use_refresh_hook:

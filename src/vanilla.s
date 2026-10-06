@@ -269,3 +269,53 @@
 
 """Sound interrupt parameter 1."""
 .label sound_interrupt_param = 0x1E01
+
+; --- Vanilla direct pages: bound at 0, so field operands stay direct page under each context's D ---
+
+; Menu direct page (D = $0100), the fields ff4 patches touch.
+.struct MenuDP {
+    byte[0x29] _gap_00
+    word tilemap_offset
+    word window_dest
+    word window_size
+    byte _gap_2f
+    byte window_tile
+    byte window_x
+    byte window_y
+    byte window_top_only
+    byte window_attr
+    word vram_dest
+    byte[0x23] _gap_37
+    word item_ptr
+    byte _gap_5c
+    byte item_slot
+    byte[0x2a] _gap_5e
+    byte brightness
+    byte[0x3] _gap_89
+    long bg2_vscroll
+    byte[0x4c] _gap_8f
+    byte item_usable
+}
+
+; Menu direct page: `lda.b menu_dp.tilemap_offset`. Valid only in menu code (D = $0100).
+menu_dp := (0x0000 as MenuDP)
+
+; Battle graphics direct page (D = $0000), the fields ff4 patches touch.
+.struct BtlGfxDP {
+    byte[0x26] _gap_00
+    word multiplier1
+    word multiplier2
+    word mult8_result
+    word mult16_result
+    byte[0x2] _gap_2e
+    word text_ptr
+    word dakuten_row_ptr
+    word kana_row_ptr
+    byte text_tile_flags
+    byte[0x13] _gap_37
+    byte menu_windows_open
+    byte defend_window_open
+}
+
+; Battle graphics direct page. Valid only in battle graphics code (D = $0000).
+btlgfx_dp := (0x0000 as BtlGfxDP)

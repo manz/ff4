@@ -198,7 +198,7 @@ walker_helper:
     rts
 msg_names_window_gated:
 """Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
 ; Menu-state bit 2 = inventory open (cf. vanilla UpdateMagicList @96ef).
     and.b #0x04
     bne _mnwg_done

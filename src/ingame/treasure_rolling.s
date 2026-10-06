@@ -525,24 +525,24 @@ _treasure_render_item_to_slot:
     pha
     phx  ; Save X (16-bit)
     phy  ; Save Y (16-bit)
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     pha
-    lda.b 0x29  ; Save tilemap buffer pointer
+    lda.b menu_dp.tilemap_offset  ; Save tilemap buffer pointer
     pha
     lda.b 0x45  ; Save $45-$46 (used by game routines)
     pha
-    lda.b 0x33  ; Save $33-$34 (used for tile attributes)
+    lda.b menu_dp.window_top_only  ; Save $33-$34 (used for tile attributes)
     pha
     sep #0x20  ; 8-bit A
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     pha
-    lda.b 0xDB  ; Save tile attribute byte
+    lda.b menu_dp.item_usable  ; Save tile attribute byte
     pha
 
 ; Set $29 = $B600 for BG1 tilemap buffer
     rep #0x20  ; 16-bit A (X/Y still 16-bit)
     lda.w #0xD600  ; BG3 screen buffer (treasure inventory lives on BG3)
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     sep #0x20  ; 8-bit A
 
 ; Calculate item data pointer: $1440 + (edge_row * Item.__size)
@@ -550,14 +550,14 @@ _treasure_render_item_to_slot:
     asl  ; * Item.__size (2 bytes per Item)
     clc
     adc #0x40  ; Low byte of $1440
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     lda #0x14  ; High byte of $1440
     adc #0x00  ; Add carry
-    sta.b 0x5b
+    sta.b menu_dp.item_ptr + 1
 
 ; Load Item.id and Item.qty from ($5A) via long-addressing into WRAM.
     rep #0x20
-    lda.b 0x5a  ; Pointer value = $1440 + edge_row * Item.__size
+    lda.b menu_dp.item_ptr  ; Pointer value = $1440 + edge_row * Item.__size
     tax
     sep #0x20
     lda.l item_x.id, x
@@ -568,13 +568,13 @@ _treasure_render_item_to_slot:
 ; Call CheckCanUseItem to set palette in $DB
 ; Input: A = item ID
 ; Output: $DB = $00 (usable) or $04 (not usable)
-    stz.b 0x34  ; Clear $34 (no priority/flip bits)
+    stz.b menu_dp.window_attr  ; Clear $34 (no priority/flip bits)
     pla  ; Restore item ID
     jsr.l check_can_use_item_trampoline  ; bank-$01 trampoline for original @ $A25D (sets $DB)
 
 ; Set $5d = slot_index (for AND #$01 check, but we patched to AND #$00)
     lda.w treasure_rolling.slot_index
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
 
 ; Calculate Y = slot_index * 128 + $44
 ; Y is the tilemap offset for this slot
@@ -591,7 +591,7 @@ _treasure_render_item_to_slot:
     sep #0x20  ; 8-bit A
 
 ; Check for trash can item ($FF) - needs special 2x2 tile graphic
-    lda (0x5a)  ; Load item ID
+    lda.b (menu_dp.item_ptr)  ; Load item ID
     cmp #0xFF
     bne _t_not_trash_item
     jsr.w _draw_trash_treasure  ; Draw trash icon
@@ -609,18 +609,18 @@ _t_skip_draw_item_slot:
 
 ; Restore direct page variables and registers (reverse order)
     pla
-    sta.b 0xDB  ; Restore tile attribute byte
+    sta.b menu_dp.item_usable  ; Restore tile attribute byte
     pla
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20  ; 16-bit A
     pla
-    sta.b 0x33  ; Restore $33-$34 (tile attributes)
+    sta.b menu_dp.window_top_only  ; Restore $33-$34 (tile attributes)
     pla
     sta.b 0x45  ; Restore $45-$46 (used by game routines)
     pla
-    sta.b 0x29  ; Restore tilemap buffer pointer
+    sta.b menu_dp.tilemap_offset  ; Restore tilemap buffer pointer
     pla
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     rep #0x10  ; 16-bit X/Y for pop (match push)
     ply  ; Restore Y (16-bit)
     plx  ; Restore X (16-bit)
@@ -859,11 +859,11 @@ _clear_treasure_slot:
     pha
     phx
     phy
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
 ; Set $29 = $B600 for BG1 tilemap buffer
     lda.w #0xD600  ; BG3 screen buffer (treasure inventory lives on BG3)
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
 ; Calculate Y = slot_index * 128 + 70
     lda.w treasure_rolling.slot_index
     and.w #0x00FF
@@ -887,11 +887,11 @@ _clear_treasure_slot:
 _t_clear_slot_loop:
     lda #0xFF
 ; Blank tile
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x04
 ; Palette 4 (matches normal items)
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     dex
     bne _t_clear_slot_loop
@@ -899,7 +899,7 @@ _t_clear_slot_loop:
     rep #0x20
 ; 16-bit A for pop (X/Y already 16-bit)
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     ply
     plx
     pla
@@ -918,16 +918,16 @@ _clear_treasure_trash_area:
 ; Save Y
 ; First row: 2 tiles
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
 ; Second row: Y + 64 from start
     ply
 ; Restore original Y
@@ -940,16 +940,16 @@ _clear_treasure_trash_area:
     tay
     sep #0x20
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     ply
 ; Restore Y
     rts
@@ -980,19 +980,19 @@ _draw_trash_treasure:
 ; First row: tiles $04, $05
     lda #0x04
 ; Tile $04 (top-left of trash can)
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute: palette 0, no flip
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x05
 ; Tile $05 (top-right)
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
 ; Clear remaining 13 tiles on first row (10 name + colon + 2 digits)
     ldx.w #13
@@ -1000,11 +1000,11 @@ _draw_trash_treasure:
 _t_clear_row1:
     lda #0xFF
 ; Blank tile
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     dex
     bne _t_clear_row1
@@ -1022,19 +1022,19 @@ _t_clear_row1:
 ; Second row: tiles $06, $07
     lda #0x06
 ; Tile $06 (bottom-left)
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x07
 ; Tile $07 (bottom-right)
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
 ; Clear remaining 13 tiles on second row (10 name + colon + 2 digits)
     ldx.w #13
@@ -1042,11 +1042,11 @@ _t_clear_row1:
 _t_clear_row2:
     lda #0xFF
 ; Blank tile
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0x00
 ; Attribute
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     dex
     bne _t_clear_row2
@@ -1064,7 +1064,7 @@ _t_clear_row2:
 
 treasure_check_and_clear_count_impl:
 """Treasure profile: drop the count column for empty/used slots (impl)."""
-    lda (0x5a)
+    lda.b (menu_dp.item_ptr)
 ; Load item ID
     beq _t_clear_count
 ; If 0, clear and skip
@@ -1079,26 +1079,26 @@ _t_clear_count:
 ; Write $FF (blank tiles) to count area: colon + 2 digits = 3 tiles
     lda #0xFF
 ; Blank tile
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
 ; Colon position
     iny
-    lda.b 0xdb
+    lda.b menu_dp.item_usable
 ; Attribute byte
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
 ; First digit position
     iny
-    lda.b 0xdb
-    sta (0x29), y
+    lda.b menu_dp.item_usable
+    sta.b (menu_dp.tilemap_offset), y
     iny
     lda #0xFF
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
 ; Second digit position
     iny
-    lda.b 0xdb
-    sta (0x29), y
+    lda.b menu_dp.item_usable
+    sta.b (menu_dp.tilemap_offset), y
 
 _t_skip_to_rts:
 ; Replace the entire DrawItemSlot return chain so we land on the RTS at $01:A222
@@ -1149,7 +1149,7 @@ _treasure_circular_slot_calc:
 ; Circular buffer Y calculation
 ; NOTE: Game increments $5D by 2 for each row (0, 2, 4, 6, 8, 10, 12, 14, 16, 18)
 ; We must divide by 2 first to get the visual slot (0-9)
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
 ; Load slot counter (0, 2, 4...)
     lsr
 ; Divide by 2 to get visual slot (0-9)
@@ -1185,7 +1185,7 @@ _t_circ_slot_done:
 
 _t_circ_slot_original:
 ; Original game calculation: Y = ($5D / 2) * 128 + 4
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     lsr
 ; /2
     rep #0x20

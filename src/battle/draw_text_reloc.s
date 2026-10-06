@@ -80,22 +80,22 @@ tables.
 
 _a455:
     lda 0xef55
-    sta 0x36
+    sta.b btlgfx_dp.text_tile_flags
     asl 0xef54
     ldx 0xef50
-    stx 0x30
+    stx.b btlgfx_dp.text_ptr
     ldx 0xef52
-    stx 0x32
-    lda 0x32
+    stx.b btlgfx_dp.dakuten_row_ptr
+    lda.b btlgfx_dp.dakuten_row_ptr
     clc
     adc 0xef54
-    sta 0x34
-    lda 0x33
+    sta.b btlgfx_dp.kana_row_ptr
+    lda.b btlgfx_dp.dakuten_row_ptr + 1
     adc #0x00
-    sta 0x35
+    sta.b btlgfx_dp.kana_row_ptr + 1
     ldy.w #0
 _a478:
-    lda (0x30)  ; for kerning to work great we need to load the next char as well
+    lda.b (btlgfx_dp.text_ptr)  ; for kerning to work great we need to load the next char as well
     beq _a490  ; branch if terminator
     cmp #0x0f
     bcc _a488
@@ -118,7 +118,7 @@ _inc_text_ptr:
 _a491:
     ldx.w 0x30
     inx
-    stx 0x30
+    stx.b btlgfx_dp.text_ptr
     rts
 
 ; ------------------------------------------------------------------------------
@@ -134,13 +134,13 @@ _a497:
 _draw_letter_no_dakuten:
 _a49b:
     phx
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
-    lda 0x36  ; tile flags
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags  ; tile flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     plx
     rts
@@ -153,13 +153,13 @@ _a4ac:
     asl
     tax
     lda.l dakuten_tbl, x  ; dakuten
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     lda.l dakuten_tbl + 1, x  ; kana
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
-    lda 0x36  ; tile flags
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags  ; tile flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     plx
     rts
@@ -192,7 +192,7 @@ _a4c8:
 _text_cmd_06:
 _a4e6:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     bmi _a4ee
     rts
 _a4ee:
@@ -255,9 +255,9 @@ _a53b:
     bcc _a565
     sec
     sbc #0x48
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #0x08
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far
     ldx.w 0x2a
     lda #0x08
@@ -273,9 +273,9 @@ _a554:
 _a564:
     rts
 _a565:
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #0x06
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far
     ldy.w #0
     ldx.w 0x2a
@@ -301,9 +301,9 @@ _a58e:
 _text_var_03:
 _a58f:
     lda 0x359a
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #0x09
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far
     ldy.w #0
     ldx.w 0x2a
@@ -341,9 +341,9 @@ _a5b6:
 
 _draw_char_name:
 _a5d1:
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #0x06
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far
     lda #0x06
     sta 0x00
@@ -442,7 +442,7 @@ _a64e:
 _text_cmd_04:
 _a64f:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     jmp.w _draw_char_name
 
 ; ------------------------------------------------------------------------------
@@ -452,7 +452,7 @@ _a64f:
 _text_cmd_02:
 _a657:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
 
 _draw_char_slot_name:
 _a65c:
@@ -480,10 +480,10 @@ _a672:
     and #0x3f
     tax
     lda.l char_name_tbl, x  ; name for each character
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #0x06
     sta 0x00
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far
     ldx.w 0x2a
 _a698:
@@ -501,7 +501,7 @@ _a698:
 _text_cmd_03:
 _a6a4:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     jmp.w _draw_letter_no_dakuten
 
 ; ------------------------------------------------------------------------------
@@ -511,7 +511,7 @@ _a6a4:
 _text_cmd_05:
 _a6ac:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     sta 0x00
 _a6b3:
     lda #0xff
@@ -580,7 +580,7 @@ _a6dd:
     stx 0x0a
     pha
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     bne _a6eb
 ; 0: character name
     pla
@@ -706,8 +706,8 @@ _a765:
 _text_cmd_0e:
 _a77a:
     jsr.w _inc_text_ptr
-    lda (0x30)
-    sta 0x36
+    lda.b (btlgfx_dp.text_ptr)
+    sta.b btlgfx_dp.text_tile_flags
     rts
 
 ; ------------------------------------------------------------------------------
@@ -717,7 +717,7 @@ _a77a:
 _text_cmd_0d:
 _a782:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     tax
     lda 0x29ca, x
     beq _a7a9
@@ -746,7 +746,7 @@ _a7a9:
 _text_cmd_0c:
 _a7ad:
     jsr.w _inc_text_ptr
-    lda (0x30)
+    lda.b (btlgfx_dp.text_ptr)
     tax
     lda 0x29ca, x
     beq _a7bf
@@ -827,42 +827,42 @@ _at_8750:
 hex_to_dec:
 """Convert the hex value in A/X to decimal digits in the format buffer."""
 _at_86bf:
-    stx 0x26
+    stx.b btlgfx_dp.multiplier1
     ldx #10000
-    stx 0x28
+    stx.b btlgfx_dp.multiplier2
     jsr.l div16_far
-    lda 0x2a
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #0x80
     sta.w hex_digits
     ldx.w 0x2c
-    stx 0x26
+    stx.b btlgfx_dp.multiplier1
     ldx #1000
-    stx 0x28
+    stx.b btlgfx_dp.multiplier2
     jsr.l div16_far
-    lda 0x2a
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #0x80
     sta.w hex_digits + 1
     ldx.w 0x2c
-    stx 0x26
+    stx.b btlgfx_dp.multiplier1
     ldx.w #100
-    stx 0x28
+    stx.b btlgfx_dp.multiplier2
     jsr.l div16_far
-    lda 0x2a
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #0x80
     sta.w hex_digits + 2
     ldx.w 0x2c
-    stx 0x26
+    stx.b btlgfx_dp.multiplier1
     ldx.w #10
-    stx 0x28
+    stx.b btlgfx_dp.multiplier2
     jsr.l div16_far
-    lda 0x2a
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #0x80
     sta.w hex_digits + 3
-    lda 0x2c
+    lda.b btlgfx_dp.mult16_result
     clc
     adc #0x80
     sta.w hex_digits + 4

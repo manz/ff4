@@ -110,7 +110,7 @@ load_next_char:
     xba
     sta.w 0x0040, y
     iny
-    lda.b 0x34
+    lda.b menu_dp.window_attr
     sta.w 0x0000, y
     sta.w 0x0040, y
     inx
@@ -299,7 +299,7 @@ end:
     plb
     lda #0x80
     sta ppu.INIDISP  ; screen off
-    sta 0x88
+    sta.b menu_dp.brightness
     lda #0x80
     sta ppu.VMAIN
     ldx #0x2000  ; ppu 0x2000

@@ -35,6 +35,7 @@ the field menu.
 .import "ingame/vanilla_trampolines"
 .import "libmz"
 .import "lib/rolling_inventory_engine"
+.import "vanilla"
 
 _SELL_VISIBLE_ITEMS := 8
 _SELL_BUFFER_SLOTS := 9
@@ -219,22 +220,22 @@ one slot below the window's top border.
     pha
     phx
     phy
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     pha
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
     lda.b 0x45
     pha
-    lda.b 0x33
+    lda.b menu_dp.window_top_only
     pha
     sep #0x20
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     pha
-    lda.b 0xDB
+    lda.b menu_dp.item_usable
     pha
     rep #0x20
     lda.w #_SELL_BG3_BUFFER
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     jsr.w _sell_blank_slot_rows
     sep #0x20
 
@@ -243,19 +244,19 @@ one slot below the window's top border.
     asl
     clc
     adc #0x40
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     lda #0x14
     adc #0x00
-    sta.b 0x5b
+    sta.b menu_dp.item_ptr + 1
     rep #0x20
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     tax
     sep #0x20
     lda.l item_x.id, x
     pha
     lda.l item_x.qty, x
     sta.b 0x5C
-    stz.b 0x34
+    stz.b menu_dp.window_attr
     pla
     jsr.l check_can_use_item_trampoline
 
@@ -263,7 +264,7 @@ one slot below the window's top border.
 ; primary VWF tile window unshifted: 9 slots * 10 tiles fits the
 ; $0700-byte primary flush descriptor.
     lda.w sell_rolling.slot_index
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     lda.w sell_rolling.slot_index
     and.w #0x00FF
@@ -277,18 +278,18 @@ one slot below the window's top border.
     sep #0x20
     jsr.l draw_item_slot_inner_trampoline
     pla
-    sta.b 0xDB
+    sta.b menu_dp.item_usable
     pla
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     pla
-    sta.b 0x33
+    sta.b menu_dp.window_top_only
     pla
     sta.b 0x45
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     pla
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     rep #0x10
     ply
     plx

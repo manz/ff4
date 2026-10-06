@@ -285,7 +285,7 @@ up again at $00:B144 with `stz $4a`.
     sep #0x20
     lda.b 0xBA
     clc
-    adc.b 0x8C
+    adc.b menu_dp.bg2_vscroll
 
 _cursor_slot_mod:
     cmp.b #_KEY_ITEM_BUFFER_SLOTS
@@ -310,50 +310,50 @@ _key_item_render_item_to_slot:
     pha
     phx
     phy
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     pha
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
     lda.b 0x45
     pha
-    lda.b 0x33
+    lda.b menu_dp.window_top_only
     pha
     sep #0x20
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     pha
-    lda.b 0xDB
+    lda.b menu_dp.item_usable
     pha
     rep #0x20
     lda.w #0xD600
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     jsr.w _key_item_blank_slot_rows
     sep #0x20
     lda.l key_item_rolling.edge_row
     asl
     clc
     adc #0x12
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     lda #0x07
     adc #0x00
-    sta.b 0x5b
+    sta.b menu_dp.item_ptr + 1
     rep #0x20
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     tax
     sep #0x20
     lda.l item_x.id, x
     pha
     lda.l item_x.qty, x
     sta.b 0x5C
-    stz.b 0x34
+    stz.b menu_dp.window_attr
     pla
     jsr.l check_can_use_item_trampoline
     lda.l key_item_rolling.slot_index
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
 ; Attribute byte for the fixed cells the renderer writes (symbol,
 ; colon, quantity): palette 0 + priority, matching the window body.
     lda #_KEY_ITEM_TILEMAP_ATTR
-    sta.b 0xDB
-    stz.b 0x34
+    sta.b menu_dp.item_usable
+    stz.b menu_dp.window_attr
 ; Route this render's CHR flush at the picker's window (BG3 $6800) via
 ; the secondary descriptor: the field map is live underneath, so the
 ; primary window ($2800) is the BG3 tilemap here, not spare CHR.
@@ -377,18 +377,18 @@ _key_item_render_item_to_slot:
     lda #VWF_CTX_PRIMARY
     sta.l vwf_engine.caller_ctx
     pla
-    sta.b 0xDB
+    sta.b menu_dp.item_usable
     pla
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     pla
-    sta.b 0x33
+    sta.b menu_dp.window_top_only
     pla
     sta.b 0x45
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     pla
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     rep #0x10
     ply
     plx
@@ -431,10 +431,10 @@ _clear_key_item_slot:
     pha
     phx
     phy
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
     lda.w #0xD600
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     lda.l key_item_rolling.slot_index
     and.w #0x00FF
     xba
@@ -447,14 +447,14 @@ _clear_key_item_slot:
 
 _clear_key_loop:
     lda #0x00
-    sta (0x29), y
+    sta.b (menu_dp.tilemap_offset), y
     iny
     inx
     cpx.w #0x0040
     bne _clear_key_loop
     rep #0x20
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     rep #0x10
     ply
     plx

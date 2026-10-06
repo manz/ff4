@@ -408,7 +408,7 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
     pha
     txa
     lsr
-    sta.b 0x5D
+    sta.b menu_dp.item_slot
     pla
     jmp.w draw_item_name
 

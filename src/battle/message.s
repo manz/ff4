@@ -708,15 +708,15 @@ cleanly instead of wrapping back into the messages region.
     phy
     ldy.b tilemap_offset
     lda.l render_allocator.allocated_tile_id
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
-    lda 0x36
-    sta (0x32), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     ora.l render_allocator.allocated_tile_id + 1
     ora.b #0x01
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     ply
     rts
 tilemap_write:
@@ -1025,12 +1025,12 @@ _dsn_aligned:
 ; a fresh tile and put it in the next cell. Leave that tile to the next
 ; name and blank the cell instead.
     lda #0xFF
-    sta (0x32), y
-    sta (0x34), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     dey
 
 _dsn_fresh:
@@ -1095,22 +1095,22 @@ Escape codes handled:
 ; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
 ; relies on these for the indirect ($32),y and ($34),y writes.
     lda 0xef55
-    sta.b 0x36
+    sta.b btlgfx_dp.text_tile_flags
     ldx 0xef50
-    stx.b 0x30
+    stx.b btlgfx_dp.text_ptr
     ldx 0xef52
-    stx.b 0x32
+    stx.b btlgfx_dp.dakuten_row_ptr
 ; Row 2 ptr = row 1 ptr + (line_length * 2). DON'T modify $ef54 in
 ; place ; the caller hands us the live line_length each call, and a
 ; persistent asl would double it every render.
     lda 0xef54
     asl
     clc
-    adc.b 0x32
-    sta.b 0x34
-    lda.b 0x33
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.kana_row_ptr
+    lda.b btlgfx_dp.dakuten_row_ptr + 1
     adc #0x00
-    sta.b 0x35
+    sta.b btlgfx_dp.kana_row_ptr + 1
 
 ; Pre-clear both row buffers in the slot with space tiles ($FF) +
 ; palette so an `0xFC NN` goto can skip ahead without leaving stale
@@ -1119,12 +1119,12 @@ Escape codes handled:
     ldy.w #0x0000
 _di_clear:
     lda #0xff
-    sta (0x32), y
-    sta (0x34), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     cpy.w #30
     bne _di_clear
@@ -1174,13 +1174,13 @@ _di_fixed_char:
 ; Fixed-mode raw char: write current byte as tile_id at ($34),y. No
 ; ora #0x01 on the attr -- the +0x100 high bit is only for VWF tiles
 ; in the 0x1xx range, fixed font tiles live in 0x00..0xFF.
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     inx
     jmp.w _di_loop
@@ -1191,13 +1191,13 @@ _di_fixed:
 ; _di_fixed_char (mirror of wram.put_char), no +0x100 bit set.
     inx
     lda.w 0x0000, x
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
-    lda.b 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     inx
     jmp.w _di_loop
@@ -1208,7 +1208,7 @@ _di_pal:
 ; pick up the right palette.
     inx
     lda.w 0x0000, x
-    sta.b 0x36
+    sta.b btlgfx_dp.text_tile_flags
     inx
     jmp.w _di_loop
 
@@ -1712,13 +1712,13 @@ bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
     pha
     asl
     clc
-    adc 0x32
-    sta 0x32
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.dakuten_row_ptr
     sta.l render.tilemap_offset
     pla
     clc
-    adc 0x32
-    sta 0x34
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.kana_row_ptr
     tdc
     tay
     sep #0x20

@@ -56,9 +56,9 @@ _draw_command_list_for_character:
 ; to build {tile_flag}cmd1\n{tile_flag}cmd2\n{tile_flag}cmd3\n{tile_flag}cmd4\n{tile_flag}cmd5\0
 ; to issue a single draw text call to the command list region.
     lda 0x1817  ; battle command slot
-    sta 0x26
+    sta.b btlgfx_dp.multiplier1
     lda.b #command_length * 2
-    sta 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_far  ; command_id * (command_length * 2)
 
 
