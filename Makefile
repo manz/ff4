@@ -6,6 +6,7 @@ M = $(shell if [ "$$(tput colors 2> /dev/null || echo 0)" -ge 8 ]; then printf "
 # Prefer the checkout's venv (`uv sync` creates it), fall back to whatever
 # is on PATH.
 PY ?= $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
+A816 ?= $(shell [ -x .venv/bin/a816 ] && echo .venv/bin/a816 || echo a816)
 
 ROM = build/ff4.sfc
 IPS = build/ff4.ips
@@ -49,13 +50,13 @@ screenshots: $(IPS)  ## Regenerate the README screenshots from the savestates
 .PHONY: check
 check:  ## Verify .s/.i formatting and run the a816 fluff lints
 	$(info $(M) Checking sources...)
-	$(Q) a816 format --check $(SOURCES)
-	$(Q) a816 check $(SOURCES)
+	$(Q) $(A816) format --check $(SOURCES)
+	$(Q) $(A816) check $(SOURCES)
 
 .PHONY: format
 format:  ## Rewrite .s/.i sources in a816 canonical form
 	$(info $(M) Formatting sources...)
-	$(Q) a816 format $(SOURCES)
+	$(Q) $(A816) format $(SOURCES)
 
 .PHONY: clean
 clean:  ## Remove build products, keeping the base ROM

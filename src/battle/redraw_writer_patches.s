@@ -149,13 +149,12 @@ battle_ext_seed:
     jsr.l reset_queue_dirty_bits
     jmp.l exec_battle
 ; ExecBattle
-; --- DrawStatusText gate (hash-based) ---
+; --- DrawStatusText gate ---
 ; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
-; (top remaining hitter after the cmd-window gate). Skip when char
-; status state is unchanged. Hash = XOR of `$2003+slot*$40` for the
-; 5 char slots (status 1 byte). Cached at `_status_hash` ; first call
-; per battle always renders (cache initialized to 0 by Battle_ext
-; seed but state hash != 0 in normal play). Status flicker pulse
+; (top remaining hitter after the cmd-window gate). Skip when none of
+; the 20 status bytes it draws ($7E:F015, 4 per char slot) changed
+; since the last draw; `gate_status_check` keeps the shadow, seeded to
+; $FF per battle so the first check draws. Status flicker pulse
 ; freezes when no status changes ; acceptable trade for ~9M cycles.
 gate_draw_status_text:
 """Bank-02 trampoline  ; JSL gate_status_check, jmp $A2A1 on dirty, rts on clean."""
