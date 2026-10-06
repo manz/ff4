@@ -12,8 +12,6 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .include "config.i"
 .include "src/battle/bank02_trampolines.i"
 .import "vanilla"
-.if BATTLE_ITEMS_VWF {
-}
 
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)

@@ -14,12 +14,6 @@ runs the field-menu NMI DMA check.
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
 
-; externs live at root scope: a816 registers `.extern` only in the scope it is
-; declared in, and an `.alloc` body opens its own scope, so an extern declared
-; inside never resolves at the use site.
-.if BATTLE_ITEMS_VWF {
-}
-
 .scope battle_render {
     """Render-state bytes shared with the battle magic list."""
     .include "render_defs.i"
