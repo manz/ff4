@@ -102,7 +102,7 @@ menu:
     .alloc at 0x018fe3 {
     {
 load_next_char:
-    lda.l assets_classes_dat, x
+    lda.l classes_dat, x
     beq end
 ; dakuten
     jsr.w get_dakuten
@@ -262,19 +262,19 @@ end:
     nop
     nop
 ; nop
-;    adc.w #assets_magic_dat
+;    adc.w #magic_dat
     tay
     pla
     sep #0x20
-    lda.b #assets_magic_dat >> 16
+    lda.b #magic_dat >> 16
 
 ; instead of adding asset_magic_dat to Y move it to the lda to save 3 bytes
 }
 .alloc at 0x1b32b {
-    lda.w assets_magic_dat, y
+    lda.w magic_dat, y
 }
 .alloc at 0x1b349 {
-    lda.w assets_magic_dat, y
+    lda.w magic_dat, y
 
 ; Save / restore covers VRAM byte $4000-$5FFF ($2000 bytes) instead of
 ; vanilla's $1000. The extra $1000 bytes reach past the static-font /

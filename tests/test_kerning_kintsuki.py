@@ -21,8 +21,8 @@ from kintsuki import Emu, SymbolTable
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
 SYM = REPO / "build/ff4.sym"
-FONT = REPO / "assets/font.dat"
-MENU_FONT = REPO / "assets/menu_font.dat"
+FONT = REPO / "build/gen/font.dat"
+MENU_FONT = REPO / "build/gen/menu_font.dat"
 STUB_PATH = Path(__file__).parent / "asm/kerning_stub.s"
 MENU_STUB_PATH = Path(__file__).parent / "asm/kerning_menu_stub.s"
 # Kerning data lives immediately after the bitmap+width section:

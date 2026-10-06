@@ -174,10 +174,10 @@ class DialogParser:
 
                 # Use new interleaved format with correct font order
                 font_files = [
-                    "assets/font.dat",  # Index 0: [normal] (fe 00)
-                    "assets/wicked_font.dat",  # Index 1: [wicked] (fe 01)
-                    "assets/book_font.dat",  # Index 2: [book/force_book] (fe 02)
-                    "assets/bold_font.dat",  # Index 3: [bold] (fe 03)
+                    "build/gen/font.dat",  # Index 0: [normal] (fe 00)
+                    "build/gen/wicked_font.dat",  # Index 1: [wicked] (fe 01)
+                    "build/gen/book_font.dat",  # Index 2: [book/force_book] (fe 02)
+                    "build/gen/bold_font.dat",  # Index 3: [bold] (fe 03)
                 ]
 
                 self.text_metrics = TextMetrics(table, font_files)

@@ -14,7 +14,7 @@ names) and forward to `load_monster_pointer`.
     jsr.l load_monster_pointer
 
 _loop:
-    lda.l assets_monsters_long_dat, x
+    lda.l monsters_long_dat, x
     beq _exit
     jsr.w draw_letter
 ; draw text

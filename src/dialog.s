@@ -13,11 +13,11 @@ parser to load the next message.
 get_bank1_1_pointer:
 """Get a 24-bit dialog pointer for bank 1-1."""
     rep #0x20
-    lda.l assets_bank1_1_ptr, x
+    lda.l bank1_1_ptr, x
     sta.b dialog_ptr
     lda.w #0x0000
     sep #0x20
-    lda.l assets_bank1_1_ptr + 2, x
+    lda.l bank1_1_ptr + 2, x
     sta.b dialog_ptr + 2
     lda.b #0x01
     rtl
@@ -31,11 +31,11 @@ get_bank1_2_pointer:
 
 
     rep #0x20
-    lda.l assets_bank1_1_ptr + 0x300, x
+    lda.l bank1_1_ptr + 0x300, x
     sta.b dialog_ptr
     lda.w #0x0000
     sep #0x20
-    lda.l assets_bank1_1_ptr + 0x300 + 2, x
+    lda.l bank1_1_ptr + 0x300 + 2, x
     sta.b dialog_ptr + 2
     lda #0x01
     rtl
@@ -49,11 +49,11 @@ get_bank3_pointer:
 
 
     rep #0x20
-    lda.l assets_bank1_1_ptr + 0x600, x
+    lda.l bank1_1_ptr + 0x600, x
     sta.b dialog_ptr
     lda.w #0x0000
     sep #0x20
-    lda.l assets_bank1_1_ptr + 0x600 + 2, x
+    lda.l bank1_1_ptr + 0x600 + 2, x
     sta.b dialog_ptr + 2
     lda #0x02
     rtl
@@ -87,11 +87,11 @@ get_bank2_pointer:
     clc
     adc.b dialog_ptr
     tax
-    lda.l assets_bank2_ptr, x
+    lda.l bank2_ptr, x
     sta.b dialog_ptr
     lda.w #0x0000
     sep #0x20
-    lda.l assets_bank2_ptr + 2, x
+    lda.l bank2_ptr + 2, x
     sta.b dialog_ptr + 2
     ldx.b dialog_ptr
     lda.b 0xB2

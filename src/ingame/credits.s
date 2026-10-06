@@ -1,15 +1,15 @@
 """
 In-place patches for the staff credits screen: re-point the credits text loader at our relocated
-`assets_credits_text_bin` block.
+`credits_text_bin` block.
 """
 .import "assets"
 
 
 .alloc at 0x13d7ef {
-    ldx.w #assets_credits_text_bin & 0xffff
+    ldx.w #credits_text_bin & 0xffff
 }
 .alloc at 0x13d7f5 {
-    lda.b #assets_credits_text_bin >> 16
+    lda.b #credits_text_bin >> 16
 
 ; Augments cutscene duration to show the additional text.
 }
@@ -20,5 +20,5 @@ In-place patches for the staff credits screen: re-point the credits text loader 
     lda.b #0x0b
 }
 .alloc at 0x13f016 {
-    .incbin "assets/the_end_gfx.bin"
+    .incbin "the_end_gfx.bin"
 }

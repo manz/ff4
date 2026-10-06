@@ -30,10 +30,10 @@ rolling-buffer code which lives in `inventory_rolling.s`).
 ; patching find description setup bank and offset
 }
 .alloc at 0x01a7f6 {
-    ldx.w #assets_item_descriptions_dat & 0xffff
+    ldx.w #item_descriptions_dat & 0xffff
 }
 .alloc at 0x01a7fc {
-    addr = ( assets_item_descriptions_dat & 0xff0000 )
+    addr = ( item_descriptions_dat & 0xff0000 )
     lda.l addr, x
 }
 .alloc at 0x01a7da {
@@ -49,7 +49,7 @@ item_desc_back:
 ; Hook in the display_item_description function, draw the window and render the string
 }
 .alloc at 0x01a808 {
-    lda.b #assets_item_descriptions_dat >> 16
+    lda.b #item_descriptions_dat >> 16
     ldx.w #0x0054
     jsr.w draw_vwf_message
 }

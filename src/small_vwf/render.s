@@ -271,7 +271,7 @@ get:
     last_drawn_text_ptr = VRAM_SAVE_SRAM_BASE + 2
 init:
 """
-font_ptr = assets_menu_font_dat  ; moved to direct use of assets_menu_font_dat.
+font_ptr = menu_font_dat  ; moved to direct use of menu_font_dat.
 
 Resets the per-render scratch (bits_left_on_tile / temp / counter)
 and zeros the allocator. Clears ONLY the CHR slice owned by the
@@ -502,7 +502,7 @@ VwfConfig fields consumed (matches `src/vwf_state.i`):
                  (DP $1D) by 2 per blit
 
 `font_ptr` / `kerning_ptr` are reserved in the struct but
-display_char still hardcodes `assets_menu_font_dat` for this
+display_char still hardcodes `menu_font_dat` for this
 phase  ; swapping the font fetch to indirect-through-config is the
 next refactor and lets battle keep its own font without forking
 the engine.
@@ -717,7 +717,7 @@ char_line_loop:
     bne _shift
 
 _read_8x8_char:
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
 
     inx
     xba
@@ -726,7 +726,7 @@ _read_8x8_char:
 _shift:
 ; PPU multiplication is being used by the NMI which wrecks char lines once in a while
     phx
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
 _really_shift:
 
 
@@ -791,7 +791,7 @@ _shift:
 
 
     plx
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
     bne _really_shift
     inx
     xba
@@ -834,7 +834,7 @@ _skip_empty_pixel_line:
 
 
 brk_bits_left:
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
 
     sta.b temp
 
@@ -948,7 +948,7 @@ _get_kerning_adjustment_binary_search:
 
     kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
-    lda.w assets_menu_font_dat, y
+    lda.w menu_font_dat, y
     beq not_found
 
     sec
@@ -979,7 +979,7 @@ _loop:
     adc.w #kerning_table_offset + 2
     tay
 
-    lda.w assets_menu_font_dat, y
+    lda.w menu_font_dat, y
     cmp.l prev_char
     beq _found
     bcc _search_upper
@@ -1019,7 +1019,7 @@ _space_skip:
 _found:
     iny
     iny
-    lda.w assets_menu_font_dat, y
+    lda.w menu_font_dat, y
     and.w #0x00FF
     ply
     ply

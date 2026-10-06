@@ -783,7 +783,7 @@ _a7d7:
     {
     jsr.l load_monster_pointer
 _loop:
-    lda.l assets_monsters_long_dat, x
+    lda.l monsters_long_dat, x
     beq _exit
     jsr.w draw_letter  ; draw text
 ;jsr.w _msg_monster_window_trampoline

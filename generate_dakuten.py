@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # print((b"\x20" + normalized[1:]).decode("utf-8"))
     print(b"".join(dakutens[lowest:highest]))
 
-    with open("assets/dakuten.bin", "wb") as f:
+    with open("build/gen/dakuten.bin", "wb") as f:
         f.write(struct.pack("<H", lowest))
         f.write(struct.pack("<H", highest + 1))
         f.write(b"".join(dakutens[lowest : highest + 1]))

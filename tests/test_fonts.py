@@ -32,6 +32,6 @@ def test_fo_is_kerned(dialog: tuple[Atlas, Table]) -> None:
 
 
 def test_dialog_font_keeps_the_hand_tuned_tt_pair() -> None:
-    font = VwfFont.decode((ROOT / "assets" / "font.dat").read_bytes())
+    font = VwfFont.decode((ROOT / "build" / "gen" / "font.dat").read_bytes())
     t, _ = Table(str(ROOT / "text" / "ff4fr.tbl")).to_bytes("tt")
     assert font.kerning[(t, t)] == 2

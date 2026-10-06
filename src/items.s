@@ -20,7 +20,7 @@ pair) plus the BG3 CHR tile-id windows each menu surface owns.
 ; qty + spell) and gets its own struct in a follow-up plan.
 
 
-; Per-item record size in the French-translated assets_items_dat table:
+; Per-item record size in the French-translated items_dat table:
 ; 1-byte symbol prefix + 11-byte name = 12 bytes total. Original FF4-J
 ; used 9 bytes (1 + 8). Use these constants everywhere a code site
 ; walks the item-name table so layouts stay in sync.
@@ -28,7 +28,7 @@ ITEM_NAME_RECORD_SIZE := 0x0C
 ITEM_NAME_TEXT_SIZE := 0x0B
 
 ; Per-item record size in the unleashed (16-char) name table at
-; `assets_items_unleashed_dat`: 1-byte symbol prefix + 16-byte name =
+; `items_unleashed_dat`: 1-byte symbol prefix + 16-byte name =
 ; 17 bytes total. Battle / field / drops / treasure inventory all
 ; render from this table once the BATTLE_ITEMS_VWF + field-menu
 ; switches are on. Keep stride math + loop counters consistent via

@@ -37,13 +37,13 @@ start_splash_screen:
     sta ppu.BG12NBA
 
 ; copy intro map data
-    dma_transfer_to_vram_call(assets_intro_map, 0x0000, assets_intro_map__size, 0x1801)
+    dma_transfer_to_vram_call(intro_map, 0x0000, intro_map__size, 0x1801)
 
 ; copy color palettes
-    dma_transfer_to_palette_call(assets_intro_col, assets_intro_col__size)
+    dma_transfer_to_palette_call(intro_col, intro_col__size)
 
 ; copy intro tile set
-    dma_transfer_to_vram_call(assets_intro_set, 0x1000, assets_intro_set__size, 0x1801)
+    dma_transfer_to_vram_call(intro_set, 0x1000, intro_set__size, 0x1801)
 
     jsr.w _splash_screen_fade_in
 

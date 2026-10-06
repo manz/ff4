@@ -63,7 +63,7 @@ dialog-stream consumer).
     counter = bits_left_on_tile + 6
     prev_char = bits_left_on_tile + 8
     current_char = prev_char + 1
-;font_ptr = assets_menu_font_dat ; moved to direct use of assets_menu_font_dat
+;font_ptr = menu_font_dat ; moved to direct use of menu_font_dat
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
     lda.l battle_render_state.pending_transfer_mask
@@ -376,7 +376,7 @@ _shift_dispatch:
     rep #0x20
     lda.w #0x0000
     sep #0x20
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
     inx
     .if n > 0 {
     rep #0x20
@@ -401,7 +401,7 @@ _shift_dispatch:
     }
 
 _aligned_loop:
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
     inx
     phx
     tyx
@@ -473,7 +473,7 @@ _shift_loop_7_body:
 
 
 brk_bits_left:
-    lda.l assets_menu_font_dat, x
+    lda.l menu_font_dat, x
 
     sta.b temp
 
@@ -564,7 +564,7 @@ _get_kerning_adjustment_binary_search:
 
     kerning_table_offset = 256 * 9
     ldy.w #kerning_table_offset
-    lda.w assets_menu_font_dat, y
+    lda.w menu_font_dat, y
     beq not_found
     dec
 
@@ -602,7 +602,7 @@ _binary_loop:
 
 ; Load char pair at this position
     pha  ; Save mid again
-    lda.w assets_menu_font_dat, y  ; Load 16-bit char pair
+    lda.w menu_font_dat, y  ; Load 16-bit char pair
 
 ; Compare with target
     cmp 0x03, s  ; Compare with target_char
@@ -630,7 +630,7 @@ found_pair_cleanup:
 ; Calculate adjustment offset: Y + 2 (skip char pair)
     iny
     iny
-    lda.w assets_menu_font_dat, y  ; Load adjustment value (8-bit) - matches original
+    lda.w menu_font_dat, y  ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff  ; Ensure high byte is clear
 
 ; Clean up stack - use ply so A (adjustment) is preserved.
@@ -962,7 +962,7 @@ _snb_clear:
 draw_spell_name:
 """
 Render one spell name in the VWF. X = offset of the name in
-assets_magic_dat, Y = cell offset into the ($32) / ($34) row pair,
+magic_dat, Y = cell offset into the ($32) / ($34) row pair,
 $36 = attribute (palette). Trailing $FF padding is dropped: rendered
 past the last glyph it only burns tiles and, at a budget clamp, blits
 over the glyph. Closes the last partial tile so the next name starts on
@@ -990,7 +990,7 @@ _dsn_trim:
     dec
     tax
     sep #0x20
-    lda.l assets_magic_dat, x
+    lda.l magic_dat, x
     cmp #0xFF
     bne _dsn_render
     lda.l battle_render_state.spell_name_left
@@ -1005,7 +1005,7 @@ _dsn_render:
     sep #0x20
 
 _dsn_char:
-    lda.l assets_magic_dat, x
+    lda.l magic_dat, x
     jsr.w battle_render.display_char
     inx
     lda.l battle_render_state.spell_name_left
