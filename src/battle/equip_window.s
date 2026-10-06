@@ -25,6 +25,7 @@ Tilemap dest bases (set by hooks in items_patches.s):
 
 
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _battle_equip_window_block in bank20_reloc {
 tfr_equip_window_new:
@@ -44,7 +45,7 @@ tfr_equip_window_new:
     stx 0x00
     ldx.w #0xD204
     stx 0x02
-    lda 0x1822
+    lda.w battle_selected_char
     asl
     tax
     rep #0x20
@@ -122,8 +123,8 @@ loop_f:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta 0x1825
-    sta 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
     rtl
     }
 }

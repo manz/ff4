@@ -48,6 +48,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 ; because ff4.s composed one translation unit; a module names what it uses.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
+.import "vanilla"
 
 
 DROPS_VISIBLE_ITEMS := 5
@@ -169,18 +170,18 @@ _drops_render_item_to_slot:
     pha
     phx
     phy
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     pha
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
     lda.b 0x45
     pha
-    lda.b 0x33
+    lda.b menu_dp.window_top_only
     pha
     sep #0x20
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     pha
-    lda.b 0xDB
+    lda.b menu_dp.item_usable
     pha
     rep #0x20
 ; Pin $29 = $C600 (BG4 staging). TreasureItemsWindow is already
@@ -188,25 +189,25 @@ _drops_render_item_to_slot:
 ; INTO that same BG4 frame keeps the layout self-contained: one
 ; window + items on one layer, one DMA path to VRAM.
     lda.w #0xC600
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     sep #0x20
     lda.w drops_rolling.edge_row
     asl
     clc
     adc #0x28
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     lda #0xFF
     adc #0x00
-    sta.b 0x5b
+    sta.b menu_dp.item_ptr + 1
     rep #0x20
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     tax
     sep #0x20
     lda.l item_x.id, x
     pha
     lda.l item_x.qty, x
     sta.b 0x5C
-    stz.b 0x34
+    stz.b menu_dp.window_attr
     pla
     jsr.l check_can_use_item_trampoline
 ; --- VWF tile-id offset for drops (disjoint from treasure inventory) ---
@@ -231,7 +232,7 @@ _drops_render_item_to_slot:
     lda.w drops_rolling.slot_index
     clc
     adc #DROPS_VWF_TILE_SLOT_OFFSET
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     lda #0x01
     sta.l vwf_engine.caller_ctx
     rep #0x20
@@ -247,18 +248,18 @@ _drops_render_item_to_slot:
     lda #0x00
     sta.l vwf_engine.caller_ctx
     pla
-    sta.b 0xDB
+    sta.b menu_dp.item_usable
     pla
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     pla
-    sta.b 0x33
+    sta.b menu_dp.window_top_only
     pla
     sta.b 0x45
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     pla
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     rep #0x10
     ply
     plx

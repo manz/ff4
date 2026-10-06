@@ -5,6 +5,7 @@ The message renderer and the `battle/sram` dispatch tables both call these, so t
 """
 .import "preamble"
 .import "dakuten"
+.import "vanilla"
 .include "src/battle/sram.i"
 .include "../bank20.i"
 
@@ -34,13 +35,13 @@ _copy_battle_char:
     """WRAM-mode put-char primitives used by the original battle text renderer."""
 put_char:
     phx
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xFF
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
-    lda 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     plx
     rtl
@@ -52,21 +53,21 @@ put_char_with_dakuten:
     asl
     tax
     lda.l _BATTLE_DAKUTEN_TABLE, x
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     lda.l _BATTLE_DAKUTEN_TABLE + 1, x
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     } else {
     jsr.l lookup_dakuten
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     xba
-    sta (0x34), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0x00
     xba
     }
     iny
-    lda 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     plx
     rtl

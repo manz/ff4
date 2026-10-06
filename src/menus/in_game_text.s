@@ -3,6 +3,7 @@
 .include "../bank20.i"
 .table "text/ff4_menus.tbl"
 .import "dakuten"
+.import "vanilla"
 
 
 .alloc _in_game_text_block in bank20_reloc {
@@ -340,7 +341,7 @@ copy_text_with_dakuten_far:
     rep #0x20
     txa
     clc
-    adc 0x29
+    adc.b menu_dp.tilemap_offset
     tax
     sep #0x20
 _loop:

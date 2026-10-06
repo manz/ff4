@@ -29,6 +29,7 @@ signal arms it, as for sell.
 .import "ingame/vanilla_trampolines"
 .import "libmz"
 .import "lib/rolling_inventory_engine"
+.import "vanilla"
 
 _EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 _EQUIP_BUFFER_SLOTS := _EQUIP_VISIBLE_ITEMS + 1
@@ -221,22 +222,22 @@ $A172 pass did.
     pha
     phx
     phy
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     pha
-    lda.b 0x29
+    lda.b menu_dp.tilemap_offset
     pha
     lda.b 0x45
     pha
-    lda.b 0x33
+    lda.b menu_dp.window_top_only
     pha
     sep #0x20
-    lda.b 0x5d
+    lda.b menu_dp.item_slot
     pha
-    lda.b 0xDB
+    lda.b menu_dp.item_usable
     pha
     rep #0x20
     lda.w #_EQUIP_BG4_BUFFER
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     jsr.w _equip_blank_slot_rows
     sep #0x20
 
@@ -251,26 +252,26 @@ $A172 pass did.
     asl
     clc
     adc #0x40
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     lda #0x14
     adc #0x00
-    sta.b 0x5b
+    sta.b menu_dp.item_ptr + 1
     rep #0x20
-    lda.b 0x5a
+    lda.b menu_dp.item_ptr
     tax
     sep #0x20
     lda.l item_x.id, x
     pha
     lda.l item_x.qty, x
     sta.b 0x5C
-    stz.b 0x34
+    stz.b menu_dp.window_attr
     pla
     jsr.l check_can_use_item_trampoline
 
 ; The list takes the primary VWF tile window ($100..): the equip names
 ; above it borrow the drops region through their own context.
     lda.w equip_rolling.slot_index
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     lda.w equip_rolling.slot_index
     and.w #0x00FF
@@ -285,18 +286,18 @@ $A172 pass did.
 _equip_render_done:
     sep #0x20
     pla
-    sta.b 0xDB
+    sta.b menu_dp.item_usable
     pla
-    sta.b 0x5d
+    sta.b menu_dp.item_slot
     rep #0x20
     pla
-    sta.b 0x33
+    sta.b menu_dp.window_top_only
     pla
     sta.b 0x45
     pla
-    sta.b 0x29
+    sta.b menu_dp.tilemap_offset
     pla
-    sta.b 0x5a
+    sta.b menu_dp.item_ptr
     rep #0x10
     ply
     plx

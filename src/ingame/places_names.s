@@ -4,6 +4,7 @@ pointer table.
 """
 .import "ingame/places_names_window"
 .import "assets"
+.import "vanilla"
 
 {
     place_name_length = 0x1A
@@ -33,12 +34,12 @@ pointer table.
 
 
     .alloc at 0x00B938 {
-    sta.w 0x774 + place_name_length, y
+    sta.w dialog_text_buffer + place_name_length, y
     }
 
 
     .alloc at 0x00B91E {
-    sta.w 0x774 + place_name_length, x
+    sta.w dialog_text_buffer + place_name_length, x
 
 
 ; window transfer related stuff
@@ -63,7 +64,7 @@ pointer table.
 
 
     .alloc at 0x00B98D {
-    lda.w 0x774 + place_name_length, x
+    lda.w dialog_text_buffer + place_name_length, x
     }
 
 

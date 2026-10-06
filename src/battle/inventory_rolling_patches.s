@@ -12,8 +12,6 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .include "config.i"
 .include "src/battle/bank02_trampolines.i"
 .import "vanilla"
-.if BATTLE_ITEMS_VWF {
-}
 
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)
@@ -111,7 +109,7 @@ wrap_and_clear_trampoline:
     jsr.l check_cursor2_visibility_rolling
 
 ; Clear animation state
-    stz.w 0x1820
+    stz.w menu_hdma_pending
     rts
 
 ; Return point for bank $20 functions that need to RTS to bank $02 callers

@@ -190,7 +190,7 @@ _msg_monster_window_trampoline:
 
 _msg_names_window_trampoline:
 ; Skip names rendering if inventory is active (bit 2 of $4A)
-    lda 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     bne _skip_names
     jsr.l messages_vwf.init_names

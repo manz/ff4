@@ -25,15 +25,15 @@ _transfer_white_magic:
     ldx.w #0x0000  ; white magic
     phx
     stx 0x06
-    lda 0x1822
+    lda.w battle_selected_char
     sta 0x00
     jsr.l draw_magic_list_direct
     lda #0x02  ; spell list
     ldy.w #0x0002
     jsr.w load_menu_tfr_data
     lda #0x01
-    sta 0x1825  ; 1 transfer
-    sta 0x1824  ; enable menu tilemap vram transfer
+    sta.w menu_tilemap_tfr_count  ; 1 transfer
+    sta.w menu_tilemap_tfr_enable  ; enable menu tilemap vram transfer
     plx
     rts
 }

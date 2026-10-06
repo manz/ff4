@@ -4,6 +4,7 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 """
 
 .import "preamble"
+.import "vanilla"
 
 ; ===========================================================================
 ; Mult8 Hardware Implementation - Bank 2 version at $8560
@@ -14,9 +15,9 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 
 .alloc at 0x028560 {
     phx  ; Preserve X (original does this)
-    lda 0x26
+    lda.b btlgfx_dp.multiplier1
     sta.l cpu_regs.WRMPYA  ; Multiplicand
-    lda 0x28
+    lda.b btlgfx_dp.multiplier2
     sta.l cpu_regs.WRMPYB  ; Multiplier (triggers multiply)
 ; Wait using bank switch (same as MultHW)
     phb  ; 3 cycles
@@ -24,7 +25,7 @@ trampoline at $83B9 jumping into `_hw_mult16`.
     pha  ; 3 cycles
     plb  ; 4 cycles (DB=0 now, 12 cycles waited)
     ldx cpu_regs.RDMPYL  ; 16-bit X reads RDMPYL/H (X is 16-bit)
-    stx 0x2a  ; Store 16-bit result to $2a/$2b
+    stx.b btlgfx_dp.mult8_result  ; Store 16-bit result to $2a/$2b
     plb  ; Restore data bank
     plx
     rts

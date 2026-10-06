@@ -244,7 +244,7 @@ treasure_scroll_down_trigger:
     jsr.w _treasure_arm_cooldown
     rts
 _t_down_abort:
-    dec.w 0x1BB7
+    dec.w menu_cursor_data + 0xb7
     jsr.w _treasure_wait_vblank
     rts
 
@@ -259,7 +259,7 @@ treasure_scroll_up_trigger:
     jsr.w _treasure_arm_cooldown
     rts
 _t_up_abort:
-    inc.w 0x1BB7
+    inc.w menu_cursor_data + 0xb7
     jsr.w _treasure_wait_vblank
     rts
 
@@ -274,7 +274,7 @@ key-item submenu (e.g. Baron key) is yet another context to add later.
 """
 
 
-    lda.w 0x1BC6
+    lda.w menu_cursor_data + 0xc6
     bne _t_setup_in_treasure
     rts
 _t_setup_in_treasure:
@@ -408,7 +408,7 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
     pha
     txa
     lsr
-    sta.b 0x5D
+    sta.b menu_dp.item_slot
     pla
     jmp.w draw_item_name
 
@@ -423,7 +423,7 @@ the 11-byte vanilla sequence has no room for the extra opcode byte.
 """
 
 
-    lda.w 0x1BB3
+    lda.w menu_cursor_data + 0xb3
     clc
     adc.l drops_scroll_pos
     asl
@@ -470,7 +470,7 @@ _drops_down_busy:
     pla
     rts
 _drops_down_store:
-    sta.w 0x1BB3
+    sta.w menu_cursor_data + 0xb3
     rts
 
 drops_up_handler:
@@ -486,7 +486,7 @@ a fresh top row down.
 
 
     bmi _drops_up_scroll
-    sta.w 0x1BB3
+    sta.w menu_cursor_data + 0xb3
     rts
 _drops_up_scroll:
     pha

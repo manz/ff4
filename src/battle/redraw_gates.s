@@ -28,6 +28,7 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 ; Cross-module LABEL: extern at root scope (`.extern` only registers in its own
 ; scope, and an `.alloc` body opens its own).
 .import "battle/sram"
+.import "vanilla"
 
 .scope battle_render {
     """
@@ -260,7 +261,7 @@ _scp_menu_open:
 ; Save $32/$33 ; walker reuses as scratch indirect-ptr ; NMI
 ; caller's BG / DMA state needs them preserved.
     rep #0x20
-    lda.b 0x32
+    lda.b btlgfx_dp.dakuten_row_ptr
     pha
     sep #0x20
     lda #0x00
@@ -304,7 +305,7 @@ _scp_have_pal:
     adc 1, s  ; *16 + *8 = *24
     clc
     adc.w #0xB966
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     pla  ; balance stack
     sep #0x20
 ; Patch 6 entries on the dakuten line at offsets +1, +3, +5, +7, +9, +B
@@ -312,10 +313,10 @@ _scp_have_pal:
     jsr.w _scp_patch_six
 ; Now the name line at base + $0C
     rep #0x20
-    lda.b 0x32
+    lda.b btlgfx_dp.dakuten_row_ptr
     clc
     adc.w #0x000C
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     ldy.w #1
     jsr.w _scp_patch_six
@@ -331,15 +332,15 @@ _scp_have_pal:
     lsr  ; *128
     clc
     adc.w #0xBEC2
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     ldy.w #1
     jsr.w _scp_patch_six
     rep #0x20
-    lda.b 0x32
+    lda.b btlgfx_dp.dakuten_row_ptr
     clc
     adc.w #0x0040
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     ldy.w #1
     jsr.w _scp_patch_six
@@ -354,7 +355,7 @@ _scp_next_slot:
 _scp_done:
     rep #0x20
     pla
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     plb
     rep #0x20
@@ -390,10 +391,10 @@ _scp_row_visible:
     tax
     rep #0x20
     lda.l 0x02A1CD, x
-    sta.b 0x32
+    sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     plx
-    lda (0x32)  ; first byte of the char's battle data ; $00 = no char
+    lda.b (btlgfx_dp.dakuten_row_ptr)  ; first byte of the char's battle data ; $00 = no char
     beq _scp_row_absent
     sec
     rts
@@ -409,10 +410,10 @@ _scp_patch_six:
     ldx.w #6
 
 _scp_loop_six:
-    lda (0x32), y
+    lda.b (btlgfx_dp.dakuten_row_ptr), y
     and #0xE3
     ora.l battle_render_state.highlight_pal_byte
-    sta (0x32), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
     iny
     iny
     dex

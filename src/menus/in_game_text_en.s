@@ -1,4 +1,5 @@
 """English-language counterpart of `in_game_text.s`."""
+.import "vanilla"
 .include "src/ingame/macros.i"
 
 .scope in_game_menu {
@@ -335,7 +336,7 @@ copy_text_with_dakuten_far:
     rep #0x20
     txa
     clc
-    adc 0x29
+    adc.b menu_dp.tilemap_offset
     tax
     sep #0x20
 _loop:

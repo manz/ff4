@@ -13,12 +13,7 @@ runs the field-menu NMI DMA check.
 .import "battle/magic_reloc"
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
-
-; externs live at root scope: a816 registers `.extern` only in the scope it is
-; declared in, and an `.alloc` body opens its own scope, so an extern declared
-; inside never resolves at the use site.
-.if BATTLE_ITEMS_VWF {
-}
+.import "vanilla"
 
 .scope battle_render {
     """Render-state bytes shared with the battle magic list."""
@@ -205,8 +200,8 @@ _init_row_loop:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
     plb  ; Restore data bank
     rtl
@@ -230,13 +225,13 @@ _render_inventory_item:
 ; Calculate text buffer destination
 ; text_addr = _text_buffer_base + (slot x _TEXT_BYTES_PER_ITEM)
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_text_buffer_base
     sta.w 0xEF52  ; draw_text output destination
@@ -265,7 +260,7 @@ _render_inventory_item:
 
     lda.l battle_inventory.id, x  ; Item ID (WRAM)
     sta.b 0x02  ; Save for later
-    sta.b 0x26  ; For name lookup
+    sta.b btlgfx_dp.multiplier1  ; For name lookup
     lda.l battle_inventory.qty, x  ; Quantity (WRAM)
     pha  ; Save quantity
 
@@ -367,11 +362,11 @@ _has_item:
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
 
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
 
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _finish_format:
     sta.w inv_format_buffer, y
@@ -405,13 +400,13 @@ _render_inventory_item_circular:
 ; Calculate text buffer destination using SLOT (not item index)
 ; text_addr = _text_buffer_base + (slot x _TEXT_BYTES_PER_ITEM)
     lda.w _rolling_slot_index  ; Buffer slot (0-4)
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_text_buffer_base
     sta.w 0xEF52  ; draw_text output destination
@@ -435,7 +430,7 @@ _render_inventory_item_circular:
 
     lda.l battle_inventory.id, x  ; Item ID
     sta.b 0x02
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda.l battle_inventory.qty, x  ; Quantity
     pha
 
@@ -544,11 +539,11 @@ _circ_has_item:
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
 
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
 
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _circ_finish:
     sta.w inv_format_buffer, y
@@ -582,13 +577,13 @@ _copy_item_to_tilemap_circular:
 ; tilemap_addr = _tilemap_buffer_base + (slot x _TILEMAP_BYTES_PER_ROW)
 ; NO content_offset - write to full 128-byte slot
     lda.w _rolling_slot_index  ; Buffer slot (0-4)
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
     sta.b 0x00  ; Tilemap destination
@@ -596,13 +591,13 @@ _copy_item_to_tilemap_circular:
 
 ; Calculate text buffer source using SLOT
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     tax
     sep #0x20
 
@@ -674,14 +669,14 @@ _copy_item_to_tilemap:
 
 ; Calculate tilemap buffer address for this row
 ; tilemap_addr = _tilemap_buffer_base + (row x _TILEMAP_BYTES_PER_ROW)
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
 ; Add content offset (left column position)
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_tilemap_buffer_base + _tilemap_content_offset
     sta.b 0x00  ; Tilemap destination
@@ -689,13 +684,13 @@ _copy_item_to_tilemap:
 
 ; Calculate text buffer source offset
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A  ; Get offset (slot x 60)
+    lda.b btlgfx_dp.mult8_result  ; Get offset (slot x 60)
     tax  ; X = offset into text buffer
     sep #0x20
 
@@ -778,8 +773,8 @@ _bottom_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 ; Advance circular position (top slot advances as we scroll down)
     lda.w _rolling_buffer_pos
@@ -845,8 +840,8 @@ _store_pos_up:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _render_top_done:
     plb  ; Restore data bank
@@ -907,29 +902,29 @@ _render_item_to_circular_slot:
     lda.b 0x0B
     pha
 ; Also save $26-$2B used by mult8_trampoline
-    lda.b 0x26
+    lda.b btlgfx_dp.multiplier1
     pha
-    lda.b 0x27
+    lda.b btlgfx_dp.multiplier1 + 1
     pha
-    lda.b 0x28
+    lda.b btlgfx_dp.multiplier2
     pha
-    lda.b 0x29
+    lda.b btlgfx_dp.multiplier2 + 1
     pha
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     pha
-    lda.b 0x2B
+    lda.b btlgfx_dp.mult8_result + 1
     pha
 
 ; Calculate text buffer destination for this SLOT
 ; text_addr = _text_buffer_base + (slot × _TEXT_BYTES_PER_ITEM)
     lda.w _rolling_slot_index  ; Slot index (0-4)
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM  ; 60 bytes per slot
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_text_buffer_base
     sta.w 0xEF52  ; draw_text output destination
@@ -1078,10 +1073,10 @@ _slot_has_item:
     sep #0x20
     jsr.l hex_to_dec_trampoline
     jsr.l normalize_num_trampoline
-    lda.w 0x180E
+    lda.w hex_digits + 2
     sta.w inv_format_buffer, y
     iny
-    lda.w 0x180F
+    lda.w hex_digits + 3
 
 _slot_finish:
     sta.w inv_format_buffer, y
@@ -1126,17 +1121,17 @@ _slot_render_done:
 ; CRITICAL: Restore zero page variables from stack (reverse order)
 ; First restore $26-$2B (last pushed)
     pla
-    sta.b 0x2B
+    sta.b btlgfx_dp.mult8_result + 1
     pla
-    sta.b 0x2A
+    sta.b btlgfx_dp.mult8_result
     pla
-    sta.b 0x29
+    sta.b btlgfx_dp.multiplier2 + 1
     pla
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     pla
-    sta.b 0x27
+    sta.b btlgfx_dp.multiplier1 + 1
     pla
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
 ; Then restore $00-$0B
     pla
     sta.b 0x0B
@@ -1224,17 +1219,17 @@ _transfer_circular_slot:
     lda.b 0x0B
     pha
 ; Also save $26-$2B used by mult8_trampoline
-    lda.b 0x26
+    lda.b btlgfx_dp.multiplier1
     pha
-    lda.b 0x27
+    lda.b btlgfx_dp.multiplier1 + 1
     pha
-    lda.b 0x28
+    lda.b btlgfx_dp.multiplier2
     pha
-    lda.b 0x29
+    lda.b btlgfx_dp.multiplier2 + 1
     pha
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     pha
-    lda.b 0x2B
+    lda.b btlgfx_dp.mult8_result + 1
     pha
 
 ; Look up VRAM destination from slot table
@@ -1249,13 +1244,13 @@ _transfer_circular_slot:
 ; Calculate tilemap buffer source
 ; source = _tilemap_buffer_base + (slot × 128) - NO content_offset!
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
     sta.b 0x00  ; Source address (low word)
@@ -1268,23 +1263,23 @@ _transfer_circular_slot:
     jsr.l load_menu_tfr_data_trampoline
 
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 ; CRITICAL: Restore zero page variables from stack (reverse order)
 ; First restore $26-$2B (last pushed)
     pla
-    sta.b 0x2B
+    sta.b btlgfx_dp.mult8_result + 1
     pla
-    sta.b 0x2A
+    sta.b btlgfx_dp.mult8_result
     pla
-    sta.b 0x29
+    sta.b btlgfx_dp.multiplier2 + 1
     pla
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     pla
-    sta.b 0x27
+    sta.b btlgfx_dp.multiplier1 + 1
     pla
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
 ; Then restore $00-$0B
     pla
     sta.b 0x0B
@@ -1370,28 +1365,28 @@ _copy_slot_to_tilemap:
     lda.b 0x0B
     pha
 ; Also save $26-$2B used by mult8_trampoline
-    lda.b 0x26
+    lda.b btlgfx_dp.multiplier1
     pha
-    lda.b 0x27
+    lda.b btlgfx_dp.multiplier1 + 1
     pha
-    lda.b 0x28
+    lda.b btlgfx_dp.multiplier2
     pha
-    lda.b 0x29
+    lda.b btlgfx_dp.multiplier2 + 1
     pha
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     pha
-    lda.b 0x2B
+    lda.b btlgfx_dp.mult8_result + 1
     pha
 
 ; Calculate tilemap destination (NO content_offset - write to full slot)
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
     sta.b 0x00
@@ -1399,13 +1394,13 @@ _copy_slot_to_tilemap:
 
 ; Calculate text buffer source
     lda.w _rolling_slot_index
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     tax
     sep #0x20
 
@@ -1433,17 +1428,17 @@ _copy_slot_row2:
 
 ; CRITICAL: Restore zero page variables $26-$2B from stack (reverse order - pushed last, pop first)
     pla
-    sta.b 0x2B
+    sta.b btlgfx_dp.mult8_result + 1
     pla
-    sta.b 0x2A
+    sta.b btlgfx_dp.mult8_result
     pla
-    sta.b 0x29
+    sta.b btlgfx_dp.multiplier2 + 1
     pla
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     pla
-    sta.b 0x27
+    sta.b btlgfx_dp.multiplier1 + 1
     pla
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
 
 ; CRITICAL: Restore zero page variables $00-$0B from stack (reverse order)
     pla
@@ -1567,13 +1562,13 @@ _copy_slots_loop:
 ; Calculate tilemap destination: _tilemap_buffer_base + (slot × 128)
 ; NO content_offset - write to full 128-byte slot
     lda.b 0x06
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW  ; 128
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     clc
     adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
     sta.b 0x00  ; Tilemap dest pointer
@@ -1581,13 +1576,13 @@ _copy_slots_loop:
 
 ; Calculate text buffer source: _text_buffer_base + (slot × 60)
     lda.b 0x06
-    sta.b 0x26
+    sta.b btlgfx_dp.multiplier1
     lda #_TEXT_BYTES_PER_ITEM  ; 60
-    sta.b 0x28
+    sta.b btlgfx_dp.multiplier2
     jsr.l mult8_trampoline
 
     rep #0x20
-    lda.b 0x2A
+    lda.b btlgfx_dp.mult8_result
     tax  ; X = text buffer offset
     sep #0x20
 
@@ -1691,8 +1686,8 @@ _tfr_frame_ok:
     jsr.l load_menu_tfr_data_trampoline
 
     lda #0x01
-    sta.w 0x1825  ; 1 transfer only
-    sta.w 0x1824  ; Enable transfer
+    sta.w menu_tilemap_tfr_count  ; 1 transfer only
+    sta.w menu_tilemap_tfr_enable  ; Enable transfer
 
     plb  ; Restore data bank
     rtl
@@ -1884,8 +1879,8 @@ _refresh_loop:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
     plb
     rtl
@@ -1928,8 +1923,8 @@ _post_up_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _post_up_done:
     plb
@@ -1977,8 +1972,8 @@ _post_down_slot_ok:
     ldy.w #0x0002
     jsr.l load_menu_tfr_data_trampoline
     lda #0x01
-    sta.w 0x1825
-    sta.w 0x1824
+    sta.w menu_tilemap_tfr_count
+    sta.w menu_tilemap_tfr_enable
 
 _post_down_done:
     plb
@@ -1999,7 +1994,7 @@ post_scroll_down_render:
 """Tail of `wrap_and_clear_trampoline` (JSL): post-animation hook for scroll-down."""
 ; Check if this was a scroll DOWN animation (type 2)
 ; $1820 still contains the animation type at this point
-    lda.w 0x1820
+    lda.w menu_hdma_pending
     cmp #0x02
     bne _psd_done
 
@@ -2035,7 +2030,7 @@ scroll_list_down_hook:
 
 ; === GUARD: Only use rolling buffer for inventory menu ===
 ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     bne _sd_is_inventory
 
@@ -2053,7 +2048,7 @@ scroll_list_down_hook:
     lda #0x0C
     sta.w 0xEF64
     lda #0x02
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     jmp.l return_to_bank02
 
 _sd_is_inventory:
@@ -2127,7 +2122,7 @@ _sd_skip_prerender:
     lda #0x0C
     sta.w 0xEF64
     lda #0x02  ; Animation 2 (scroll down)
-    sta.w 0x1820
+    sta.w menu_hdma_pending
 
 ; Advance circular buffer position (top slot moves up, becomes off-screen)
     lda.w _rolling_buffer_pos
@@ -2168,7 +2163,7 @@ scroll_list_up_hook:
 
 ; === GUARD: Only use rolling buffer for inventory menu ===
 ; Check bit 2 of $4A (inventory flag). If not set, use original magic behavior.
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     bne _su_is_inventory
 
@@ -2185,7 +2180,7 @@ scroll_list_up_hook:
     lda #0x0C
     sta.w 0xEF64
     lda #0x03
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     jmp.l return_to_bank02
 
 _su_is_inventory:
@@ -2243,7 +2238,7 @@ _su_pos_ok:
     lda #0x0C
     sta.w 0xEF64
     lda #0x03  ; Animation 3 (scroll up)
-    sta.w 0x1820
+    sta.w menu_hdma_pending
     bra _su_exit
 
 _su_abort:
@@ -2292,7 +2287,7 @@ update_list_scroll_hdma_wrapped:
 
 ; Check if we're in inventory mode (bit 2 of $4A)
 ; If not, use original behavior for other windows
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     bne _use_circular_buffer
 
@@ -2503,7 +2498,7 @@ _cursor_skip_force:
 reset_list_scroll_hdma_rolling:
 """Replacement for `$02AAB8`: fill the Y-scroll bytes of both HDMA tables when the inventory window opens."""
 ; Check if we're in inventory mode (bit 2 of $4A)
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     bne _reset_use_circular
 
@@ -2638,7 +2633,7 @@ check_cursor2_visibility_rolling:
 
 ; Check if we're in inventory mode (bit 2 of $4A)
 ; If not, don't touch cursor 2 state
-    lda.b 0x4A
+    lda.b btlgfx_dp.menu_windows_open
     and #0x04
     beq _cursor2_done
 

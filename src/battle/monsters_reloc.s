@@ -5,6 +5,7 @@ resulting string into the active slot.
 
 
 .import "assets"
+.import "vanilla"
 
 
 .include "../bank20.i"
@@ -43,12 +44,12 @@ _initialize_monster_slot_near:
 
 _draw_spaces:
     lda.b #0xff
-    sta (0x32), y
-    sta (0x34), y
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
-    lda 0x36
-    sta (0x32), y
-    sta (0x34), y
+    lda.b btlgfx_dp.text_tile_flags
+    sta.b (btlgfx_dp.dakuten_row_ptr), y
+    sta.b (btlgfx_dp.kana_row_ptr), y
     iny
     dec 0x00
     bne _draw_spaces

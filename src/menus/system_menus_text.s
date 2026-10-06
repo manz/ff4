@@ -2,6 +2,7 @@
 .include "../bank20.i"
 
 .import "assets"
+.import "vanilla"
 
 .label _copy_text_879d = 0x01879D
 .label _draw_main_menu_8947 = 0x018947
@@ -64,7 +65,7 @@ load_text_with_destination_in_x:
 
     txa
     clc
-    adc 0x29
+    adc.b menu_dp.tilemap_offset
     tax
     sep #0x20
 

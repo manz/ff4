@@ -35,6 +35,7 @@ sites that remain in the per-menu source files.
 
 .include "src/rolling_state.i"
 .include "../bank20.i"
+.import "vanilla"
 
 .alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {
@@ -238,13 +239,13 @@ _frame_update_cursor:
     beq _frame_no_cursor
     lda.l rolling_x.scroll_direction, x
     bpl _frame_cursor_down
-    inc.w 0x0311
-    inc.w 0x0311
+    inc.w sprite_data + 0x11
+    inc.w sprite_data + 0x11
     bra _frame_no_cursor
 
 _frame_cursor_down:
-    dec.w 0x0311
-    dec.w 0x0311
+    dec.w sprite_data + 0x11
+    dec.w sprite_data + 0x11
 
 _frame_no_cursor:
     lda.l rolling_x.scroll_remaining, x
