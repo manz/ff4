@@ -4,14 +4,14 @@ requires-python = ">=3.14"
 
 [[package]]
 name = "a816"
-version = "1.1.0a48"
+version = "1.1.0a51"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "lsprotocol" },
     { name = "pygls" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cc/e1/ee5defa9811a0b82d42faf444d306a9027e7e33f5c5834c7c40fef4cf95d/a816-1.1.0a48-py3-none-any.whl", hash = "sha256:2bc97b0a0ce0ce5f56748638e6e2298f444d516a644d571eb87fa1614953be05", size = 342728, upload-time = "2026-10-06T16:37:50.122Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/68/5128437c58db07be0e5448fb397441baae4234c4d1690ca9da59b8518451/a816-1.1.0a51-py3-none-any.whl", hash = "sha256:c2a295568cbbb88f43d33a9201a99d40438ef128366689f00aa03dee94abe461", size = 357069, upload-time = "2026-10-07T17:07:15.518Z" },
 ]
 
 [[package]]
@@ -61,7 +61,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "a816", specifier = "==1.1.0a48" },
+    { name = "a816", specifier = "==1.1.0a51" },
     { name = "katsuji", specifier = "==0.1.1" },
     { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a17" },
 ]
