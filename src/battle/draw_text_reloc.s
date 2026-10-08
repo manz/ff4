@@ -3,6 +3,7 @@ Relocated battle text-draw helpers and constants (HexToDec / Mult8 / Div16 tramp
 table aliases) consumed by the messages-VWF path.
 """
 .import "vanilla"
+.import "assets"
 .if 1 {
     hex_to_dec_var := 0x2f29c
     mult8_far := 0x2855c
