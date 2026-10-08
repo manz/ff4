@@ -16,20 +16,20 @@ dakuten/handakuten composite tile pair.
     {
     php
     sep #0x20
-    cmp.l dakuten_bin
+    cmp.l dakuten_pairs
     bmi _char_out_of_range
-    cmp.l dakuten_bin + 2
+    cmp.l dakuten_pairs + 2
     bpl _char_out_of_range
 
     phx
     rep #0x20
     and.w #0x00ff
     sec
-    sbc.l dakuten_bin
+    sbc.l dakuten_pairs
     asl
     tax
 
-    lda.l dakuten_bin + 4, x
+    lda.l dakuten_pairs + 4, x
 
     sep #0x20
     plx

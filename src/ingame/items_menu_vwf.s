@@ -123,7 +123,7 @@ _copy_loop:
     lda.l vwf_engine.src_offset
     tax
     sep #0x20
-    lda.l items_unleashed_dat, x
+    lda.l items_unleashed, x
     pha  ; save the byte so the 16-bit src-pointer update does not clobber it
     inx
     rep #0x20
@@ -341,7 +341,7 @@ _bottom_blank_loop:
     tax
     pla
     sep #0x20
-    lda.l items_unleashed_dat, x
+    lda.l items_unleashed, x
     sta (0x1D), y  ; bottom-row symbol tile
     iny
     lda.b menu_dp.item_usable

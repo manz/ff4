@@ -1,6 +1,6 @@
 """
 Item-name expansion for the field-menu (mirror of `battle/items_patches.s`): mul-by-9 -> mul-by-17 stride
-changes, $0F8000 -> `items_unleashed_dat` pointer remaps.
+changes, $0F8000 -> `items_unleashed` pointer remaps.
 Field / drops / treasure rolling inventory all defer to vanilla
 DrawItemSlot at $01:9000, so patching here switches them in one
 go.
@@ -15,7 +15,7 @@ go.
 
 ; Item name expansion for menu system
 ; Patches the multiply-by-9 to multiply-by-17
-; Also redirects $0F8000 references to items_unleashed_dat
+; Also redirects $0F8000 references to items_unleashed
 
 ; --- Patch loop counter ---
 ; Original: 01/903F: A9 08  LDA #$08
@@ -44,13 +44,13 @@ go.
 ; Original: 01/902E: BF 00 80 0F  LDA $0F8000,X
 }
 .alloc at 0x01902E {
-    lda.l items_unleashed_dat, x
+    lda.l items_unleashed, x
 
 ; --- menu: item name (in loop) ---
 ; Original: 01/9043: BF 00 80 0F  LDA $0F8000,X
 }
 .alloc at 0x019043 {
-    lda.l items_unleashed_dat, x
+    lda.l items_unleashed, x
 
 ; ===== DRAWITEMNAME JSL HOOKS =====
 ; Both vanilla entry points relocate to `items_menu_vwf.draw_field_item_name`
