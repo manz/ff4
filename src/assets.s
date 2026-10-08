@@ -22,18 +22,27 @@ plus the `font_table` pointer table indexed by font id.
     .incbin "bank1_2.ptr"
     .incbin "bank2.ptr"
 }
-; Dialog bank 1-1 spans $22 and $23 (the reader follows the 24-bit pointer across).
+; Dialog bank 1-1 spans $22 onwards (the reader follows the 24-bit pointer across banks).
 .pool dialog_bank1_1 {
-    range 0x228000 0x23ffff
+    range 0x228000 0x25ffff
     strategy pack
 }
 .alloc at 0x228000 in dialog_bank1_1 cross_bank {
     .incbin "bank1_1.dat"
 }
-.alloc at 0x24A000 {
+; Dialog text grows with French typography (spaces before ! ? : ;): each bank has room in its own pool.
+.pool dialog_bank1_2 {
+    range 0x2a8000 0x2affff
+    strategy pack
+}
+.alloc at 0x2A8000 in dialog_bank1_2 {
     .incbin "bank1_2.dat"
 }
-.alloc at 0x25A000 {
+.pool dialog_bank2 {
+    range 0x2b8000 0x2dffff
+    strategy pack
+}
+.alloc at 0x2B8000 in dialog_bank2 cross_bank {
     .incbin "bank2.dat"
 }
 .alloc at 0x27B000 {

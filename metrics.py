@@ -11,7 +11,10 @@ FF4_CONTROLS = Controls(
     newline=0x01,
     font_switch=0xFE,
     fixed={
+        0x03: Fixed(arguments=1, width=0),  # [music] n
         0x04: Fixed(arguments=1, width=6 * 8),  # character name
+        0x05: Fixed(arguments=1, width=0),  # [delay] n
+        0x06: Fixed(arguments=0, width=0),  # [close_window]
         0x08: Fixed(arguments=0, width=4 * 8),  # gil count
     },
 )
