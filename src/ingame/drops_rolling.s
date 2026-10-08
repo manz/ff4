@@ -160,7 +160,7 @@ _drops_hdma_already_init:
     rts
 
 _drops_render_item_to_slot:
-"""Render one drops item from $7E:FF28 + edge_row*Item.__size into the BG3 buffer at $7E:D600 + slot_index*128 + 4."""
+"""Render one drops item from $7E:FF28 + edge_row*sizeof(Item) into the BG3 buffer at $7E:D600 + slot_index*128 + 4."""
     php
     phb
     lda #0x7E

@@ -5,6 +5,7 @@ pair) plus the BG3 CHR tile-id windows each menu surface owns.
 """
 
 .include "src/vwf_state.i"
+.include "src/rolling_state.i"
 
 ; Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
 ;
@@ -106,7 +107,7 @@ DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 ;   size       =  7 buffer slots * K=10 * 16 = $460 bytes
 KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
 KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
-KEY_ITEM_VWF_BYTE_COUNT := 0x0460
+KEY_ITEM_VWF_BYTE_COUNT := sizeof(key_item_chr_save)
 
 ; Caller-context values for vwf_engine.caller_ctx (see src/vwf_ram.s).
 VWF_CTX_PRIMARY := 0x00
@@ -176,6 +177,7 @@ DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
     byte id
     byte qty
 }
+.assert sizeof(Item) == 2, "item indexing shifts the row left once (asl) per Item"
 
 ; The field inventory: 48 Items at $7E:1440, indexed `, x` by row * 2.
 FIELD_INVENTORY := 0x1440
@@ -288,7 +290,7 @@ rolling_x := (0x7E0000 as RollingBufferState)
 ; RollingBufferState instance. Non-zero means treasure_scroll_*_trigger aborts and
 ; undoes vanilla's $1BB7 increment, so a press steps one item and
 ; holding DOWN repeats at a fixed cadence.
-treasure_scroll_cooldown := TREASURE_ROLLING_BASE + RollingBufferState.__size
+treasure_scroll_cooldown := TREASURE_ROLLING_BASE + sizeof(RollingBufferState)
 
 ; Last `menu_frame_time` value the treasure loop observed, so the
 ; cooldown above ticks once per frame however often the loop runs.

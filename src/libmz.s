@@ -56,17 +56,17 @@ dma_transfer_to_vram:
     ldx #0x80
     stx ppu.VMAIN
     lda.b source_offset, s
-    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1TL
+    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1TL
     sep #0x10
     lda.b source_bank, s
-    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1B
+    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1B
     rep #0x20
     lda.b vram_pointer, s
     sta.w ppu.VMADDL
     lda.b count, s
-    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DASL
+    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DASL
     lda.b dma_mode, s
-    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DMAP
+    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DMAP
     ldx.b #1 << channel
     stx cpu_regs.MDMAEN
     nop

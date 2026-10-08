@@ -185,7 +185,7 @@ adjust_inventory_pointer:
     stz.b menu_dp.item_slot
     stz.b 0x5e
     lda.w inventory_scroll_pos
-    asl  ; scroll_pos * Item.__size = byte offset into $1440
+    asl  ; scroll_pos * sizeof(Item) = byte offset into $1440
     clc
     adc.b menu_dp.item_ptr
     sta.b menu_dp.item_ptr

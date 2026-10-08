@@ -517,9 +517,9 @@ _menu_render_item_to_slot:
     sta.b menu_dp.tilemap_offset
     sep #0x20  ; 8-bit A
 
-; Calculate item data pointer: $1440 + (edge_row * Item.__size)
+; Calculate item data pointer: $1440 + (edge_row * sizeof(Item))
     lda.w field_menu_rolling.edge_row
-    asl  ; * Item.__size (2 bytes per Item)
+    asl  ; * sizeof(Item) (2 bytes per Item)
     clc
     adc #0x40  ; Low byte of $1440
     sta.b menu_dp.item_ptr
@@ -529,7 +529,7 @@ _menu_render_item_to_slot:
 
 ; Load Item.id and Item.qty from ($5A) via long-addressing into WRAM.
     rep #0x20
-    lda.b menu_dp.item_ptr  ; Pointer value = $1440 + edge_row * Item.__size
+    lda.b menu_dp.item_ptr  ; Pointer value = $1440 + edge_row * sizeof(Item)
     tax
     sep #0x20
     lda.l item_x.id, x
@@ -1198,3 +1198,5 @@ circular_slot_calc_ext:
     rtl
     }
 }
+
+.assert sizeof(Item) == 2, "the item pointer math uses one asl per Item"

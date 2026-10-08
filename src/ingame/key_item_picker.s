@@ -300,7 +300,7 @@ _cursor_slot_done:
     rtl
 
 _key_item_render_item_to_slot:
-"""Render filtered item from $7E:0712 + edge_row*Item.__size into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
+"""Render filtered item from $7E:0712 + edge_row*sizeof(Item) into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
     php
     phb
     lda #0x7E

@@ -35,7 +35,7 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 
 .alloc _battle_redraw_gates_block in bank20_reloc {
     _status_copy := 0x7EF015  ; vanilla DrawStatusText source: 4 status bytes per char slot
-    _STATUS_COPY_BYTES = 5 * 4
+    _STATUS_COPY_BYTES = sizeof(BattleRenderState.status_shadow)
     _obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
     _char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
 

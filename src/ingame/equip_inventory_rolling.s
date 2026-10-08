@@ -247,7 +247,7 @@ $A172 pass did.
     cmp #_EQUIP_TOTAL_ITEMS
     bcs _equip_render_done
 
-; Item pointer = $7E:1440 + edge_row * Item.__size
+; Item pointer = $7E:1440 + edge_row * sizeof(Item)
     lda.w equip_rolling.edge_row
     asl
     clc
