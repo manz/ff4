@@ -263,7 +263,7 @@ if __name__ == "__main__":
             os.path.join(text_root, "bank1-2.xml"),
             "build/gen/bank1_2.dat",
             "build/gen/bank1_2.ptr",
-            0x24A000,
+            0x2A8000,
         ),
         (
             "script",
@@ -271,7 +271,7 @@ if __name__ == "__main__":
             os.path.join(text_root, "bank2.xml"),
             "build/gen/bank2.dat",
             "build/gen/bank2.ptr",
-            0x25A000,
+            0x2B8000,
         ),
         (
             "pointed_16bits_lowrom",
