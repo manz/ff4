@@ -30,16 +30,6 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 .import "battle/sram"
 .import "vanilla"
 
-.scope battle_render {
-    """
-    Render constants shared with message.s.
-
-    Cross-module constants are compile-time, not link symbols, so both
-    modules pull the same definitions in under the same scope name
-    rather than one importing them from the other.
-    """
-    .include "render_defs.i"
-}
 
 .include "../bank20.i"
 

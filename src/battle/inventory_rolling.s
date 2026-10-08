@@ -15,10 +15,6 @@ runs the field-menu NMI DMA check.
 .import "battle/vanilla_trampolines"
 .import "vanilla"
 
-.scope battle_render {
-    """Render-state bytes shared with the battle magic list."""
-    .include "render_defs.i"
-}
 
 .include "../bank20.i"
 

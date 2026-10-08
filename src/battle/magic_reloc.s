@@ -4,15 +4,9 @@ Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-ty
 """
 .import "preamble"
 .import "battle/render_state"
+.import "battle/sram"
 .import "vanilla"
-.extern messages_vwf.spell_name_begin
-.extern messages_vwf.draw_spell_name
-.extern messages_vwf.spell_ring_flush
 
-.scope battle_render {
-    """Render-state bytes shared with the battle items window."""
-    .include "render_defs.i"
-}
 
 ; Spell name length in magic_dat; magic/patches.s imports it too.
 battle_magic_length = battle_render.SPELL_NAME_LENGTH
