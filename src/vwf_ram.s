@@ -17,7 +17,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; helpers each carry today, and lets us swap the source layout
 ; (fixed-stride table vs null-terminated table vs RAM-resident string)
 ; without touching the renderer. Sized for the longest field-menu
-; item slot in `items_unleashed_dat` + 1 terminator + headroom.
+; item slot in `items_unleashed` + 1 terminator + headroom.
 .pool vwf_text_ram {
     bss
     range 0x707000 0x70703F
@@ -38,7 +38,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; src_offset - Long-addressable scratch for VWF callers that need a counter / pointer
 ; without stealing direct-page bytes from the menu loop. The field-items
 ; helper uses src_offset as the 16-bit source index into
-; items_unleashed_dat while X holds the destination index in
+; items_unleashed while X holds the destination index in
 ; vwf_text_buffer (only sta.l abs,x is encoded by a816).
 ;
 ; chr_dirty - Set by `render.display_char` (or `render.render_with_config`) after a

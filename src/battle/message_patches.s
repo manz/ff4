@@ -13,22 +13,22 @@ translated-string tables.
     """Pinned-address overlay scope rewriting original battle-message pointer loads to relocated tables."""
 ; pointers to battle dialog
     .alloc at 0x02c909 {
-    lda.l battle_messages_ptr, x
+    lda.l battle_messages, x
     sta 0x00
-    lda.l battle_messages_ptr + 1, x
+    lda.l battle_messages + 1, x
     sta 0x01
-    lda.w #battle_messages_ptr >> 16
+    lda.w #battle_messages >> 16
     sta 0x02
 ; pointers to battle messages
     }
 
 
     .alloc at 0x02cc07 {
-    lda.l battle_text_ptr, x
+    lda.l battle_texts, x
     sta 0x00
     tdc
     sep #0x20
-    lda.b #battle_text_ptr >> 16
+    lda.b #battle_texts >> 16
     sta 0x02
 ; |tileset 0xb000 -> 0xbfff bg3 tiles
 ; |-------------------

@@ -168,7 +168,7 @@ _continue:
     asl
     tax
     tdc
-    lda.l battle_commands_nul_ptr, x
+    lda.l command_name_pointers, x
     tax
 
     lda #0x00  ; white text
@@ -186,7 +186,7 @@ _active_command:
 _battle_command_loop:
     {
 _loop:
-    lda.l battle_commands_nul_dat, x
+    lda.l command_names, x
     cmp #0
     beq _exit_command_loop
     sta.w 0x0000, y

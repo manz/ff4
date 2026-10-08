@@ -87,16 +87,16 @@ hand_text:
     }
 }
 .alloc at 0x02A51C {
-    lda.l battle_statuses_dat, x
+    lda.l battle_statuses, x
     sta.b 0x00
-    lda.l battle_statuses_dat + 1, x
+    lda.l battle_statuses + 1, x
     sta.b 0x01
-    lda.b #battle_statuses_dat >> 16
+    lda.b #battle_statuses >> 16
 }
 .alloc at 0x02A32A {
-    lda.l battle_statuses_dat, x
+    lda.l battle_statuses, x
     sta.b 0x00
-    lda.l battle_statuses_dat + 1, x
+    lda.l battle_statuses + 1, x
     sta.b 0x01
-    lda.b #battle_statuses_dat >> 16
+    lda.b #battle_statuses >> 16
 }
