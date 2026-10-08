@@ -3,6 +3,7 @@ In-place patches that resize the battle command-window layout when `BATTLE_CMD_V
 stride, command-id base, format-buffer pointer).
 """
 
+.import "assets"
 .include "config.i"
 command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 .if BATTLE_CMD_VWF {
