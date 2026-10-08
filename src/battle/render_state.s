@@ -69,7 +69,7 @@ BATTLE_RENDER_STATE := 0x707100
 ; instead of overrunning.
 .pool battle_render_ram {
     bss
-    range BATTLE_RENDER_STATE ( BATTLE_RENDER_STATE + BattleRenderState.__size - 1 )
+    range BATTLE_RENDER_STATE ( BATTLE_RENDER_STATE + sizeof(BattleRenderState) - 1 )
     strategy order
 }
 .reserve battle_render_state as BattleRenderState in battle_render_ram

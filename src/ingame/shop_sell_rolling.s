@@ -239,7 +239,7 @@ one slot below the window's top border.
     jsr.w _sell_blank_slot_rows
     sep #0x20
 
-; Item pointer = $7E:1440 + edge_row * Item.__size
+; Item pointer = $7E:1440 + edge_row * sizeof(Item)
     lda.w sell_rolling.edge_row
     asl
     clc

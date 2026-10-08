@@ -29,13 +29,13 @@ _positive:
     ldx.w #vram_pointer
     stx ppu.VMADDL
     ldx.w #dma_mode
-    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DMAP
+    stx.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DMAP
     lda.b #source_address >> 16
-    sta.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1B
+    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1B
     ldx.w #source_address
-    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.A1TL
+    stx.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1TL
     ldx.w #count
-    stx.w DMA_BASE + channel * DMAChannel.__size + DMAChannel.DASL
+    stx.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DASL
     lda.b #0x01 << channel
     sta cpu_regs.MDMAEN
     nop

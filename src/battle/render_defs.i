@@ -55,7 +55,7 @@ TILEMAP_PENDING_MAIN = TilemapPendingBits.main.mask
 ; per-region pass.
 CHR_REGION_SPELLS = ChrTransferBits.spells.mask
 SPELL_TILE_BASE = 0xC0
-SPELL_RING_ROWS = BattleRenderState.spell_ring_rows.__size
+SPELL_RING_ROWS = countof(BattleRenderState.spell_ring_rows)
 SPELL_NAME_TILES = 5
 SPELL_ROW_TILES = SPELL_NAME_TILES * 2
 SPELL_RING_TILES = SPELL_ROW_TILES * SPELL_RING_ROWS

@@ -32,7 +32,7 @@ BATTLE_FLAGS = 0x704F00
 .macro battle_flags_clear(value) {
     """AND `~value` into the battle-flags byte at BATTLE_FLAGS."""
     lda.l BATTLE_FLAGS
-    and.b #( ~ value & 0xFF )
+    and.b #( ~value & 0xFF )
     sta.l BATTLE_FLAGS
 }
 

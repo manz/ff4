@@ -103,7 +103,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; `render.render_with_config` ---------------------------------------------
 .pool vwf_cfg_ram {
     bss
-    range 0x707080 ( 0x707080 + VwfConfig.__size - 1 )
+    range 0x707080 ( 0x707080 + sizeof(VwfConfig) - 1 )
     strategy order
 }
 .reserve vwf_cfg as VwfConfig in vwf_cfg_ram
@@ -111,7 +111,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; --- Engine state, long-addressed so no direct-page user can alias it ----
 .pool vwf_engine_ram {
     bss
-    range 0x7070C0 ( 0x7070C0 + VwfEngine.__size - 1 )
+    range 0x7070C0 ( 0x7070C0 + sizeof(VwfEngine) - 1 )
     strategy order
 }
 .reserve vwf_engine as VwfEngine in vwf_engine_ram

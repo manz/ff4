@@ -140,7 +140,7 @@ init_monsters_gated:
     lda.l battle_render_state.region_dirty_bits
     bit.b #REGION_DIRTY_MONSTERS
     beq _gated_skip_near
-    and.b #( ~ REGION_DIRTY_MONSTERS ) & 0xFF
+    and.b #( ~REGION_DIRTY_MONSTERS ) & 0xFF
     sta.l battle_render_state.region_dirty_bits
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #TILEMAP_PENDING_MAIN
@@ -155,7 +155,7 @@ init_names_gated:
     lda.l battle_render_state.region_dirty_bits
     bit.b #REGION_DIRTY_NAMES
     beq _gated_skip_near
-    and.b #( ~ REGION_DIRTY_NAMES ) & 0xFF
+    and.b #( ~REGION_DIRTY_NAMES ) & 0xFF
     sta.l battle_render_state.region_dirty_bits
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #TILEMAP_PENDING_MAIN
@@ -170,7 +170,7 @@ init_commands_list_gated:
     lda.l battle_render_state.region_dirty_bits
     bit.b #REGION_DIRTY_COMMANDS
     beq _gated_skip_near
-    and.b #( ~ REGION_DIRTY_COMMANDS ) & 0xFF
+    and.b #( ~REGION_DIRTY_COMMANDS ) & 0xFF
     sta.l battle_render_state.region_dirty_bits
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #TILEMAP_PENDING_COMMANDS
