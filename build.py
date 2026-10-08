@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import functools
 import io
 import logging
 import math
@@ -25,6 +26,7 @@ from script.pointers import (
 from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from metrics import TextMetrics
+from utils.dialog_layout import DialogLayout, dialog_layout
 from utils.dakutens import generate_dakutens
 
 logger = logging.getLogger(__name__)
@@ -139,8 +141,15 @@ def build_pointed_16bits_lowrom(
     )
 
 
+@functools.cache
+def _dialog_layout() -> DialogLayout:
+    """Built on first use: it measures with the dialog fonts katsuji has just written."""
+    return dialog_layout()
+
+
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
-    pointers = read_pointers_from_xml(input_file, table)
+    # Dialog is laid out here, from the translation as written: windows and line breaks are the build's.
+    pointers = read_pointers_from_xml(input_file, table, formatter=_dialog_layout().layout)
 
     write_pointers_value_as_binary(pointers, binary_text_file)
 
