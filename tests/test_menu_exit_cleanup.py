@@ -37,10 +37,10 @@ def test_field_menu_exit_clears_state():
         tap(e, Button.DOWN)
     pre = _read_state(e, FIELD_STATE_BASE)
     assert any(b for b in pre), "expected non-zero state before exit"
-    # Exit submenu (B back to top-level menu, then a few more to leave field menu).
-    for _ in range(4):
-        tap(e, Button.B, gap=20)
-    e.run_frames(60)
+    # Leave the item list for the main menu. Not further: the world map's mode-7 effects take HDMA channel 5.
+    tap(e, Button.B, gap=20)
+    e.run_frames(150)  # the animated exit took ~80 frames
+    assert e.get_ppu_state().bgmode == 0, "expected to be back on the main menu"
     assert e.read(HDMA_SHADOW) == 0, "HDMA shadow should be cleared on exit"
     assert _read_state(e, FIELD_STATE_BASE) == bytes(12)
     assert _read_hdma_chan(e, HDMA5_BASE) == bytes(5)
