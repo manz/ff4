@@ -62,9 +62,20 @@ def load_emu_from_kss(kss: Path | None = None, *, settle_frames: int = 60) -> Em
     from kintsuki._native import lib
     buf = (ctypes.c_uint8 * len(blob))(*blob)
     assert lib.kintsuki_load_state(e._handle, buf, len(blob)) == 1
+    clear_patch_sram(e)
     if settle_frames:
         e.run_frames(settle_frames)
     return e
+
+
+# SRAM bank $71 holds only the patch's own state (sram_layout.s, pool sram_bank71); the game clears it at boot.
+PATCH_SRAM = range(0x710000, 0x718000)
+
+
+def clear_patch_sram(emu: Emu) -> None:
+    """Zero the patch's SRAM state as a boot would: a savestate from an older build carries whatever that build
+    left there (or nothing at all: $FF), which the current build reads as its own queues and flags."""
+    emu.write_range(PATCH_SRAM.start, bytes(len(PATCH_SRAM)))
 
 
 def tap(emu: Emu, button: int, *, hold: int = 6, gap: int = 8) -> None:
