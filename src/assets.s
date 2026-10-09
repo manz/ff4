@@ -118,6 +118,9 @@ item_descriptions:
     .incbin "item_descriptions.dat"
 dakuten_pairs:
     .incbin "dakuten.bin"
+name_codes:
+"""Menu code -> dialog code of the same letter (utils/name_codes.py): names are stored in menu codes."""
+    .incbin "name_codes.bin"
 }
 
 ; 17-byte records indexed by item id; the pool keeps the table inside one bank.

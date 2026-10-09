@@ -29,6 +29,7 @@ from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
 from utils.bake_names import bake_file
 from utils.dakutens import generate_dakutens
+from utils.name_codes import name_codes
 
 logger = logging.getLogger(__name__)
 
@@ -421,6 +422,8 @@ if __name__ == "__main__":
 
     with open("build/gen/dakuten.bin", "wb") as fd:
         fd.write(generate_dakutens(menu_table))
+    # Names are stored in menu codes; the dialog's name insert maps them to its own table.
+    Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
     exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
     if exit_code:
