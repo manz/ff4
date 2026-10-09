@@ -50,3 +50,7 @@ def test_no_name_straddles_a_lorom_bank(font: VwfFont) -> None:
     blob, table = bake(font, [long_name] * 600)
     for offset, tiles in entries(table):
         assert offset // LOROM_BANK == (offset + tiles * 16 - 1) // LOROM_BANK
+
+
+def test_records_drop_their_leading_symbol() -> None:
+    assert fixed_records(bytes(range(34)), 17, skip=1) == [bytes(range(1, 17)), bytes(range(18, 34))]

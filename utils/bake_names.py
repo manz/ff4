@@ -37,12 +37,15 @@ def bake(font: VwfFont, names: Sequence[bytes]) -> tuple[bytes, bytes]:
     return blob, table
 
 
-def fixed_records(data: bytes, size: int) -> list[bytes]:
-    return [data[i : i + size] for i in range(0, len(data), size)]
+def fixed_records(data: bytes, size: int, skip: int = 0) -> list[bytes]:
+    """The `size`-byte records of `data`, each without its first `skip` bytes (an icon, a symbol)."""
+    return [data[i + skip : i + size] for i in range(0, len(data), size)]
 
 
-def bake_file(font_file: Path, names_file: Path, record_size: int, blob_file: Path, table_file: Path) -> None:
+def bake_file(
+    font_file: Path, names_file: Path, record_size: int, blob_file: Path, table_file: Path, skip: int = 0
+) -> None:
     font = VwfFont.decode(font_file.read_bytes())
-    blob, table = bake(font, fixed_records(names_file.read_bytes(), record_size))
+    blob, table = bake(font, fixed_records(names_file.read_bytes(), record_size, skip))
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)
