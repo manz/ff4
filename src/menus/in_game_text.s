@@ -101,6 +101,18 @@ kokan:
     }
 }
 
+.alloc key_items_warning_text in bank20_reloc {
+    .scope treasure {
+key_items_left_warning:
+"""Drawn over the treasure screen when key items are left behind ($01:DB2E DrawWindowText): window, then text."""
+; one line, the window fitted to it (129 px in 17 cells)
+    menu_window(6, 11, 17, 1)
+    move_to(7, 11)  ; pos text: the glyph row is the one below
+    .text "Il reste des objets importants."
+    .db 0
+    }
+}
+
 .alloc namingway_text in bank20_reloc {
     .scope namingway {
     """Namingway's name-change screen (ingame/namingway.s)."""
@@ -424,14 +436,6 @@ items_window:
 exchange:
     move_to(10, 1)
     .text "Échanger    "
-    .db 0
-key_items_left_warning:
-    menu_window(5, 10, 19, 4)
-    move_to(6, 11)
-    .text "  Il reste des    "
-    .db 1
-    move_to(6, 13)
-    .text "objets importants."
     .db 0
     }
 }
