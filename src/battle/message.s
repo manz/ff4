@@ -1069,6 +1069,7 @@ Escape codes handled:
   0x00: terminator -> return
   0x03 BB: emit fixed tile_id BB at the next tilemap slot
   0x0E PP: set tile-attribute byte to PP for subsequent writes
+  0x0B II: item II's baked name
   any other byte: VWF blit through battle_render.display_char
 """
 
@@ -1152,6 +1153,10 @@ _di_loop:
     beq _di_fixed
     cmp #0x0E
     beq _di_pal
+    cmp #0x0B
+    bne _di_not_baked
+    jmp.w _di_baked
+_di_not_baked:
     cmp #0xFC
     beq _di_pad
     cmp #0xFE
@@ -1252,6 +1257,65 @@ _di_pad:
     tay
     lda #0x08
     sta.b battle_render.bits_left_on_tile
+    jmp.w _di_loop
+
+_di_baked:
+; 0x0B II -> item II's baked name (small_vwf/baked_names.s): its tiles into the CHR buffer at the allocator, its
+; cells written as the renderer writes them.
+    inx
+    lda.w 0x0000, x
+    inx
+    phx
+    sty.b battle_render.tilemap_offset
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    tax
+    lda.l item_names_vwf_tbl + 2, x
+    and.w #0x00FF
+    beq _di_baked_done
+    pha  ; tiles
+    lda.l item_names_vwf_tbl, x
+    tax
+    lda.l render_allocator.allocated_tile_id
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    tay
+    lda 1, s
+    asl
+    asl
+    asl
+    pha  ; words
+_di_baked_copy:
+    lda.l item_names_vwf, x
+    phx
+    tyx
+    sta.l battle_render.buffer_ptr, x
+    plx
+    inx
+    inx
+    iny
+    iny
+    lda 1, s
+    dec
+    sta 1, s
+    bne _di_baked_copy
+    pla
+    pla
+    sep #0x20
+    tax
+_di_baked_cell:
+    jsr.w battle_render.tilemap_write
+    dex
+    bne _di_baked_cell
+_di_baked_done:
+    sep #0x20
+    plx
+    ldy.b battle_render.tilemap_offset
     jmp.w _di_loop
 
 init_inventory_for_current_slot_local:
