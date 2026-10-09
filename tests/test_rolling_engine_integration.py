@@ -31,7 +31,8 @@ def field_menu():
     e = load_emu_from_kss(kss_path("ff4-before-inventory-opens.kss"),
                           settle_frames=60)
     tap(e, Button.A)
-    e.run_frames(60)
+    # The small-VWF labels upload one string per vblank until the DMA queue lands: let the screen finish drawing.
+    e.run_frames(120)
     yield e
     e.close()
 

@@ -46,6 +46,7 @@ gils:
 time:
     .text "Temps"
     .db 0
+strings_end:
     }
 
     .scope items_menu {
@@ -61,6 +62,7 @@ notuse:
     .dw 0x0052
     .text "Impossible à utiliser."
     .db 0
+strings_end:
     }
 
 
@@ -166,13 +168,17 @@ config:
     .text "Mode Combat"
     .db 0x01
     .dw 0x015E
-    .text "Actif  Pause"
+    .text "Actif"
+    col(7)
+    .text "Pause"
     .db 0x01
     .dw 0x01C4
     .text "Vit. Combat"
     .db 0x01
     .dw 0x021E
-    .text "Vite   Lent"
+    .text "Vite"
+    col(7)
+    .text "Lent"
     .db 0x01
     .dw 0x0244
     .text "Vit. Texte"
@@ -181,22 +187,30 @@ config:
     .text "Audio"
     .db 0x01
     .dw 0x02DE
-    .text "Stéréo Mono"
+    .text "Stéréo"
+    col(7)
+    .text "Mono"
     .db 0x01
     .dw 0x0344
     .text "Contrôle"
     .db 0x01
     .dw 0x035E
-    .text "Normal Perso."
+    .text "Normal"
+    col(7)
+    .text "Perso."
     .db 0x01
     .dw 0x03DE
-    .text "Seul   Multiple"
+    .text "Seul"
+    col(7)
+    .text "Multiple"
     .db 0x01
     .dw 0x0444
     .text "Curseur"
     .db 0x01
     .dw 0x045E
-    .text "Reset  Mémoire"
+    .text "Reset"
+    col(7)
+    .text "Mémoire"
     .db 0x01
     .dw 0x04C4
     .text "Couleur"
@@ -223,6 +237,7 @@ controls:
     .dw 0x0484
     .text "Fin"
     .db 0
+strings_end:
     }
 
     .scope equip {
@@ -245,6 +260,7 @@ menu:
     move_to(14, 8 + _text_y)
     .text "Mains"
     .db 0
+strings_end:
     }
 
 
@@ -297,6 +313,7 @@ mp_cost:
 ; move_to(1, 10)
 ; .text 'Sur qui ?'
 ; .db 0
+strings_end:
     }
 
     .scope treasure {

@@ -8,6 +8,7 @@
 .label _copy_text_879d = 0x01879D
 .label _draw_main_menu_8947 = 0x018947
 .label _draw_text_done_8332 = 0x018332
+.label _copy_text_done_87b2 = 0x0187B2  ; CopyText's `plb; rts`
 
 
 .alloc _system_menus_text_block in bank20_reloc {
@@ -93,6 +94,12 @@ display_window_with_text:
 display_time:
 """Trampoline into the original play-time display routine at $01:879D."""
     phb
+    {
+    jsr.w menu_text_vwf.copy_at
+    bcc _vanilla
+    jmp.l _copy_text_done_87b2
+_vanilla:
+    }
     _bank_switch()
     rep #0x20
     jmp.l _copy_text_879d

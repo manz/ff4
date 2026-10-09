@@ -7,6 +7,8 @@ A town or dungeon keeps map tiles in both, so the menu saves them to SRAM on ent
 """
 .import "preamble"
 .import "vanilla"
+.import "small_vwf/menu_text"
+.import "sram_layout"
 .include "config.i"
 .include "src/vwf_state.i"
 .include "../bank20.i"
@@ -16,8 +18,6 @@ _DMA_VRAM_WRITE := 0x01  ; A-bus to VRAM, two registers (VMDATAL/H)
 _FONT_VRAM_WORD := 0x2000  ; $4000: 8x8 font + small-VWF tiles $100-$1FF
 _HIGH_VRAM_WORD := 0x3000  ; $6000: small-VWF tiles $200-$3FF
 _SAVE_BYTES := VRAM_SAVE_BYTE_COUNT
-_HIGH_SRAM := 0x712000  ; $71:0000-$00FF holds the small VWF's saved direct page
-_HIGH_SAVED := 0x711FFE  ; _SAVED_MARK while _HIGH_SRAM holds a save not yet restored
 _SAVED_MARK := 0x5356  ; "VS": blank SRAM ($00 / $FF) never reads as a save
 
 .alloc at 0x14FF62 {
@@ -45,12 +45,13 @@ save:
     lda.b #VRAM_SAVE_SRAM_BASE >> 16
     jsr.w _read_vram
     ldx.w #_HIGH_VRAM_WORD
-    ldy.w #_HIGH_SRAM & 0xFFFF
-    lda.b #_HIGH_SRAM >> 16
+    ldy.w #menu_vram_high & 0xFFFF
+    lda.b #menu_vram_high >> 16
     jsr.w _read_vram
+    jsr.w menu_text_vwf.forget_uploads
     rep #0x20
     lda.w #_SAVED_MARK
-    sta.l _HIGH_SAVED
+    sta.l menu_vram_saved
     sep #0x20
     plb
     rtl
@@ -73,11 +74,11 @@ screen off (the field fades back in), and only when `save` filled the buffer: a 
     ldx.w #_SAVE_BYTES
     stx 0x0122
     rep #0x20
-    lda.l _HIGH_SAVED
+    lda.l menu_vram_saved
     cmp.w #_SAVED_MARK
     bne _not_saved
     lda.w #0x0000
-    sta.l _HIGH_SAVED
+    sta.l menu_vram_saved
     sep #0x20
     lda.b #0x80
     sta ppu.INIDISP
@@ -88,9 +89,9 @@ screen off (the field fades back in), and only when `save` filled the buffer: a 
     sta dma_ch0.DMAP
     lda.b #PPU.VMDATAL
     sta dma_ch0.BBAD
-    ldx.w #_HIGH_SRAM & 0xFFFF
+    ldx.w #menu_vram_high & 0xFFFF
     stx dma_ch0.A1TL
-    lda.b #_HIGH_SRAM >> 16
+    lda.b #menu_vram_high >> 16
     sta dma_ch0.A1B
     ldx.w #_SAVE_BYTES
     stx dma_ch0.DASL
