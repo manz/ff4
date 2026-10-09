@@ -8,6 +8,7 @@ A town or dungeon keeps map tiles in both, so the menu saves them to SRAM on ent
 .import "preamble"
 .import "vanilla"
 .import "small_vwf/menu_text"
+.import "small_vwf/vram_queue"
 .import "sram_layout"
 .include "config.i"
 .include "src/vwf_state.i"
@@ -49,6 +50,7 @@ save:
     lda.b #menu_vram_high >> 16
     jsr.w _read_vram
     jsr.w menu_text_vwf.forget_uploads
+    jsr.w vram_queue.clear
     rep #0x20
     lda.w #_SAVED_MARK
     sta.l menu_vram_saved
@@ -62,6 +64,7 @@ The font half goes back through the field NMI's one-shot transfer, as vanilla do
 screen off (the field fades back in), and only when `save` filled the buffer: a menu opened by an older build
 (a savestate) has nothing there. Leaves DB = 0 like vanilla's RestoreDlgGfx_ext.
 """
+    jsr.w vram_queue.clear  ; nothing queued in the menu may land on the field's tiles
     lda.b #0x00
     pha
     plb

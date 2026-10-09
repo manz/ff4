@@ -28,6 +28,7 @@ from RAM), whose tiles are keyed by name index ($300 + index * 8), so names neve
 .import "menus/in_game_text"
 .import "assets"
 .import "sram_layout"
+.import "small_vwf/vram_queue"
 .import "small_vwf/render"
 .include "config.i"
 .include "src/vwf.i"
@@ -751,15 +752,9 @@ _padded:
     rts
 
 _upload:
-"""DMA the string's tiles at the next vblank: buffer tile N goes to VRAM tile (attribute bits << 8) + N."""
+"""Queue the string's tiles for the next menu vblank: buffer tile N goes to VRAM tile (attribute bits << 8) + N."""
     php
-    phb
-    sep #0x20
-    lda.b #0x00
-    pha
-    plb
-    rep #0x20
-    pea.w _uploaded - 1
+    rep #0x30
     lda.l vwf_cfg.tile_id_base
     asl
     asl
@@ -767,8 +762,7 @@ _upload:
     asl
     clc
     adc.w #VWF_CHR_BUFFER & 0xFFFF
-    pha
-    pea.w VWF_CHR_BUFFER >> 16
+    tax
     lda.l vwf_cfg.flags
     and.w #0x0003
     xba
@@ -778,7 +772,7 @@ _upload:
     asl
     clc
     adc.w #0x4000 >> 1
-    pha
+    tay
     lda.l render_allocator.allocated_tile_id
     sec
     sbc.l vwf_cfg.tile_id_base
@@ -787,13 +781,7 @@ _upload:
     asl
     asl
     asl
-    pha
-    pea.w 0x1801
-    sep #0x20  ; wait_for_vblank reads $4212 alone
-    jsr.w wait_for_vblank
-    jmp.w dma_transfer_to_vram
-_uploaded:
-    plb
+    jsr.w vram_queue.push
     plp
     rts
     }
