@@ -23,3 +23,19 @@ tiles are one DMA from ROM.
 """Per item id: word offset in item_names_vwf, byte tile count, byte 0."""
     .incbin "item_names_vwf.tbl"
 }
+
+.alloc monster_names_vwf in baked_names {
+    .incbin "monster_names_vwf.dat"
+}
+.alloc monster_names_vwf_tbl in baked_names {
+"""Per monster id: word offset in monster_names_vwf, byte tile count, byte 0."""
+    .incbin "monster_names_vwf.tbl"
+}
+
+.alloc command_names_vwf in baked_names {
+    .incbin "command_names_vwf.dat"
+}
+.alloc command_names_vwf_tbl in baked_names {
+"""Per battle command id: word offset in command_names_vwf, byte tile count, byte 0."""
+    .incbin "command_names_vwf.tbl"
+}

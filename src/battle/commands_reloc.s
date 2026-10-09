@@ -9,7 +9,6 @@ loop, called by the patched bank-$02 hook.
 .import "assets"
 .import "battle/commands_patches"
 .import "battle/redraw_gates"
-.extern draw_text_battle_far
 
 mult8_far := 0x2855c
 
@@ -148,7 +147,8 @@ _clear_buffer_loop:
     sta 0xef54
 
     jsr.l messages_vwf.init_commands_list
-    jsr.l draw_text_battle_far
+    jsr.l messages_vwf.draw_commands_baked
+    jsr.l messages_vwf.deinit
     rts
     }
 
@@ -162,11 +162,7 @@ _draw_single_command:
     bne _continue
     bra _exit
 _continue:
-    asl
-    tax
-    tdc
-    lda.l command_name_pointers, x
-    tax
+    pha  ; command id
 
     lda #0x00  ; white text
     and #0x80
@@ -179,23 +175,13 @@ _active_command:
     sta.w 0x0000, y
     iny
     iny
-
-_battle_command_loop:
-    {
-_loop:
-    lda.l command_names, x
-    cmp #0
-    beq _exit_command_loop
+; the name: its baked tiles (messages_vwf.draw_commands_baked)
+    lda #0x0F
     sta.w 0x0000, y
-
-    inx
     iny
-    bra _loop
-    }
-
-_exit_command_loop:
-_pad_loop:
-
+    pla
+    sta.w 0x0000, y
+    iny
 
 _exit:
     rts
