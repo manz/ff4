@@ -113,7 +113,10 @@ class_name_pointers:
 class_names:
     .incbin "classes.dat"
 item_names:
+"""Battle item names: symbol byte, name, $00 each; `item_names_ptrs` holds each one's 16-bit offset here."""
     .incbin "items.dat"
+item_names_ptrs:
+    .incbin "items.ptr"
 item_descriptions:
     .incbin "item_descriptions.dat"
 dakuten_pairs:

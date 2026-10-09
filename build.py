@@ -313,7 +313,7 @@ if __name__ == "__main__":
             "build/gen/battle_text.ptr",
             0x29A000,
         ),
-        ("fixed", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat"),
+        ("pointed_names", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat", "build/gen/items.ptr"),
         (
             "pointed_names",
             menu_table,

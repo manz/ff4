@@ -1,8 +1,9 @@
 """
-Patches for 12-byte (instead of 9-byte) item names in battle: rewrites every `cpx`/`cmp` boundary check and
-every $0F8000 item-data reference to land on `item_names`.
+Battle item names from `item_names` (symbol, name, $00 per item, `item_names_ptrs` offsets): every `lda #9 / sta $28 /
+jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding with spaces to its fixed count.
 """
 .import "items"
+.import "bank20_helpers"
 
 .import "assets"
 .import "battle/equip_window"
@@ -22,7 +23,10 @@ every $0F8000 item-data reference to land on `item_names`.
 ; declared inside one never resolves at the use site.
 
 .alloc at 0x029E1A {
-    lda #ITEM_NAME_RECORD_SIZE
+    jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 
 ; --- item symbol ---
 ; Original: 02/9E44: BF 00 80 0F  LDA 0x0F8000,X
@@ -40,7 +44,7 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/9E5C: BF 01 80 0F  LDA 0x0F8001,X
 }
 .alloc at 0x029E5C {
-    lda.l item_names + 1, x
+    jsr.l battle_item_char_after_symbol
 
 ; ===== BTLGFX/MENU: LOCATION 2 =====
 
@@ -48,7 +52,10 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/9FEF: A9 09  LDA #0x09
 }
 .alloc at 0x029FEF {
-    lda #ITEM_NAME_RECORD_SIZE
+    jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 
 ; --- item symbol ---
 ; Original: 02/A00C: BF 00 80 0F  LDA 0x0F8000,X
@@ -66,7 +73,7 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/A024: BF 01 80 0F  LDA 0x0F8001,X
 }
 .alloc at 0x02A024 {
-    lda.l item_names + 1, x
+    jsr.l battle_item_char_after_symbol
 
 ; ===== TEXTVAR_03: BATTLE MESSAGE ITEM NAME =====
 
@@ -74,7 +81,10 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/A594: A9 09  LDA #0x09
 }
 .alloc at 0x02A594 {
-    lda #ITEM_NAME_RECORD_SIZE
+    jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 
 ; --- loop counter ---
 ; Original: 02/A5A1: A9 08  LDA #0x08
@@ -86,7 +96,7 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/A5A5: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x02A5A5 {
-    lda.l item_names, x
+    jsr.l battle_item_char  ; $FF past the end: TextVar_03's cmp #$FF stops there
 
 ; ===== BTLGFX/BTLGFX: ITEM DISPLAY =====
 
@@ -94,13 +104,16 @@ every $0F8000 item-data reference to land on `item_names`.
 ; Original: 02/CB77: A9 09  LDA #0x09
 }
 .alloc at 0x02CB77 {
-    lda #ITEM_NAME_RECORD_SIZE
+    jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 
 ; --- item name ---
 ; Original: 02/CB83: BF 00 80 0F  LDA 0x0F8000,X
 }
 .alloc at 0x02CB83 {
-    lda.l item_names, x
+    jsr.l battle_item_char
 
 ; --- loop counter ---
 ; Original: 02/CB8C: C0 08 00  CPY #0x0008

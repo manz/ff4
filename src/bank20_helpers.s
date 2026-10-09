@@ -83,4 +83,57 @@ name has ended, with X held on its $00 so the caller's `inx` keeps it there.
     dex
 _char:
     rtl
+
+
+battle_item_offset:
+"""A = item id (low byte) -> A = 16-bit offset of its string in `item_names` (symbol byte, name, $00). X kept."""
+    php
+    rep #0x30
+    phx
+    and.w #0x00FF
+    asl
+    tax
+    lda.l item_names_ptrs, x
+    plx
+    plp
+    rtl
+
+
+battle_item_mult8:
+"""
+Vanilla btlgfx's `lda #9 / sta $28 / jsr Mult8` for an item name: id in $26 -> its `item_names` offset in $2A,
+as Mult8 leaves the product. X, Y kept.
+"""
+    php
+    rep #0x30
+    phx
+    lda.b 0x26
+    and.w #0x00FF
+    asl
+    tax
+    lda.l item_names_ptrs, x
+    sta.b 0x2A
+    plx
+    plp
+    rtl
+
+
+battle_item_char:
+"""The byte at item_names + X, or a space once the name has ended (X held on its $00 for the caller's inx)."""
+    lda.l item_names, x
+    bne _battle_char
+    lda.b #0xFF
+    dex
+_battle_char:
+    rtl
+
+
+battle_item_char_after_symbol:
+"""As battle_item_char, one byte on: X on the symbol, the name after it."""
+    lda.l item_names + 1, x
+    bne _battle_char_after
+    lda.b #0xFF
+    dex
+_battle_char_after:
+    rtl
 }
