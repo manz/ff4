@@ -91,45 +91,73 @@ battle_texts:
     strategy pack
 }
 
-.alloc text_tables in assets {
-attack_name_pointers:
+.alloc attack_name_pointers in assets {
     .incbin "attack_names.ptr"
-attack_name_text:
+}
+
+.alloc attack_name_text in assets {
     .incbin "attack_names.dat"
-monster_name_pointers:
+}
+
+.alloc monster_name_pointers in assets {
     .incbin "monsters_long.ptr"
-monster_names:
+}
+
+.alloc monster_names in assets {
     .incbin "monsters_long.dat"
-command_name_pointers:
+}
+
+.alloc command_name_pointers in assets {
     .incbin "battle_commands_nul.ptr"
-command_names:
+}
+
+.alloc command_names in assets {
     .incbin "battle_commands_nul.dat"
-magic_names:
+}
+
+.alloc magic_names in assets {
 """Spell names: name, $00 each; `magic_names_ptrs` holds each one's 16-bit offset here."""
     .incbin "magic.dat"
-magic_names_ptrs:
+}
+
+.alloc magic_names_ptrs in assets {
     .incbin "magic.ptr"
-place_names:
+}
+
+.alloc place_names in assets {
     .incbin "places_names.dat"
-class_name_pointers:
+}
+
+.alloc class_name_pointers in assets {
     .incbin "classes.ptr"
-class_names:
+}
+
+.alloc class_names in assets {
     .incbin "classes.dat"
-item_names:
+}
+
+.alloc item_names in assets {
 """Battle item names: symbol byte, name, $00 each; `item_names_ptrs` holds each one's 16-bit offset here."""
     .incbin "items.dat"
-item_names_ptrs:
+}
+
+.alloc item_names_ptrs in assets {
     .incbin "items.ptr"
-item_descriptions:
+}
+
+.alloc item_descriptions in assets {
     .incbin "item_descriptions.dat"
-dakuten_pairs:
+}
+
+.alloc dakuten_pairs in assets {
     .incbin "dakuten.bin"
-name_codes:
+}
+
+.alloc name_codes in assets {
 """Menu code -> dialog code of the same letter (utils/name_codes.py): names are stored in menu codes."""
     .incbin "name_codes.bin"
 }
 
-; 17-byte records indexed by item id; the pool keeps the table inside one bank.
 .alloc items_unleashed in assets {
 """Item names: symbol byte, name, $00 each; `items_unleashed_ptrs` holds each one's 16-bit offset here."""
     .incbin "items_unleashed.dat"
