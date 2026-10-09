@@ -125,7 +125,11 @@ name_codes:
 
 ; 17-byte records indexed by item id; the pool keeps the table inside one bank.
 .alloc items_unleashed in assets {
+"""Item names: symbol byte, name, $00 each; `items_unleashed_ptrs` holds each one's 16-bit offset here."""
     .incbin "items_unleashed.dat"
+}
+.alloc items_unleashed_ptrs in assets {
+    .incbin "items_unleashed.ptr"
 }
 
 .if ENABLE_INTRO {

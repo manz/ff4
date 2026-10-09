@@ -8,6 +8,7 @@ runs the field-menu NMI DMA check.
 .import "battle/render_state"
 .include "config.i"
 .import "items"
+.import "bank20_helpers"
 .import "assets"
 .import "small_vwf/init"
 .import "battle/magic_reloc"
@@ -962,20 +963,10 @@ _slot_id_nonzero:
 
 _slot_not_disabled:
 
-; Calculate item name offset into the 17-byte-per-record
-; items_unleashed table: id * 17 = (id << 4) + id.
-    rep #0x20
+; the item's string in items_unleashed: symbol byte, name, $00
     lda.b 0x02
-    and.w #0x00FF
-    sta.b 0x08
-    asl
-    asl
-    asl
-    asl
-    clc
-    adc.b 0x08
+    jsr.l item_name_offset
     tax
-    sep #0x20
 
 ; Build format string. Same fixed-default + 0x0F-toggle pattern the
 ; other two format builders in this file use.
@@ -1027,7 +1018,7 @@ _slot_not_disabled:
 
 _slot_name_loop:
     inx
-    lda.l items_unleashed, x
+    jsr.l item_name_char  ; spaces once the name has ended
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00

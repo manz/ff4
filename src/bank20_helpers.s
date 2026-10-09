@@ -7,6 +7,7 @@ clear and the 17-byte item-record multiplies.
 .include "config.i"
 .include "bank20.i"
 .import "vanilla"
+.import "assets"
 
 .alloc bank20_helpers in bank20_reloc {
 ; --- Inline reloc helpers ------------------------------------------------
@@ -57,48 +58,29 @@ _loop:
     rtl
 
 
-multiply_item_index_17:
-"""
-Relocated multiply-by-ITEM_UNLEASHED_RECORD_SIZE for the items_unleashed
-name offset. Called from $019023 via JSL when the field menu is
-wired to the 17-byte items_unleashed table.
-Input: $43 = item ID (16-bit mode active).
-Output: X = offset into ItemName table.
-"""
-
-
-; ITEM_UNLEASHED_RECORD_SIZE = 17 = (id << 4) + id.
-    lda 0x43
-    pha
+item_name_offset:
+"""A = item id (low byte) -> A = 16-bit offset of its string in `items_unleashed` (symbol byte, name, $00). X kept."""
+    php
+    rep #0x30
+    phx
+    and.w #0x00FF
     asl
-    asl
-    asl
-    asl  ; * 16
-    clc
-    adc 0x01, s  ; * 16 + id = * 17
     tax
-    pla  ; balance stack
+    lda.l items_unleashed_ptrs, x
+    plx
+    plp
     rtl
 
 
-multiply_by_17:
+item_name_char:
 """
-A: value to multiply  ; returns A*17 in A. Sized for the 17-byte items_unleashed stride.
+The key-item picker's name copy ($00:B273, X = 16-bit offset): the byte at items_unleashed + X, or a space once the
+name has ended, with X held on its $00 so the caller's `inx` keeps it there.
 """
-
-
-    php
-    rep #0x20
-    and.w #0x00FF
-    pha
-    asl
-    asl
-    asl
-    asl
-    clc
-    adc 0x01, s  ; * 16 + value = * 17
-    sta 0x01, s
-    pla
-    plp
+    lda.l items_unleashed, x
+    bne _char
+    lda.b #0xFF
+    dex
+_char:
     rtl
 }
