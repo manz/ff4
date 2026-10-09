@@ -165,7 +165,7 @@ title:
 config:
     .dw 0x0102, 0x141C
     .dw 0x0144
-    .text "Mode Combat"
+    .text "Mode de combat"
     .db 0x01
     .dw 0x015E
     .text "Actif"
@@ -173,7 +173,7 @@ config:
     .text "Pause"
     .db 0x01
     .dw 0x01C4
-    .text "Vit. Combat"
+    .text "Vitesse du combat"
     .db 0x01
     .dw 0x021E
     .text "Vite"
@@ -181,7 +181,7 @@ config:
     .text "Lent"
     .db 0x01
     .dw 0x0244
-    .text "Vit. Texte"
+    .text "Vitesse du texte"
     .db 0x01
     .dw 0x02C4
     .text "Audio"
@@ -197,7 +197,7 @@ config:
     .dw 0x035E
     .text "Normal"
     col(7)
-    .text "Perso."
+    .text "Personnalisé"
     .db 0x01
     .dw 0x03DE
     .text "Seul"
@@ -217,7 +217,7 @@ config:
     .db 0
 controls:
     move_to(5, 1)
-    .text "Contrôles Personalisés"
+    .text "Contrôles personnalisés"
     .db 0x01
     .dw 0x0204
     .text "Action"
