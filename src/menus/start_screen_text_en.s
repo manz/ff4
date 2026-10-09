@@ -14,12 +14,6 @@ new_game:
     move_to(1, 1)
     .text "New Game"
     .db 0
-    .if DEBUG {
-build_number:
-    VERSION := 'v1.0.0a0'
-    .text "${BUILD_DATE} ${VERSION}"
-    .db 0
-    }
 time_load_save:
     .dw 0x046E + 2
     .text "Time"
@@ -61,4 +55,11 @@ did_not_save:
     .text "Cancelled "
 ; extra space at the end to clear the previous title.
     .db 0
+strings_end:
+    .if DEBUG {
+build_number:
+    VERSION := 'v1.0.0a0'
+    .text "${BUILD_DATE} ${VERSION}"
+    .db 0
+    }
 }
