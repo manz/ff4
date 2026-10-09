@@ -36,7 +36,8 @@
 ; move controls title window
 }
 .alloc at 0x01E204 {
-    menu_window(4, 0, 22, 2)
+; fits "Contrôles personnalisés" (101 px in the small VWF), centred
+    menu_window(8, 0, 14, 2)
 }
 .alloc at 0x01D487 {
     ldy.w #0xE204
@@ -45,4 +46,21 @@
 }
 .alloc at 0x01D48D {
     load_system_menu_text_pointer(options.controls)
+}
+
+; The button lists of the controls window, vanilla's untranslated BtnList1Text / BtnList2Text.
+.alloc at 0x01D496 {
+    load_system_menu_text_pointer(options.button_actions)
+}
+.alloc at 0x01D49F {
+    load_system_menu_text_pointer(options.button_actions)
+}
+.alloc at 0x01D4A5 {
+    load_system_menu_text_pointer(options.pad_buttons)
+}
+.alloc at 0x01D4AE {
+    load_system_menu_text_pointer(options.pad_buttons)
+}
+.alloc at 0x01D4B7 {
+    load_system_menu_text_pointer(options.pad_buttons)
 }

@@ -4,6 +4,11 @@
     .dw left * 2 + top * 64
 }
 
+.macro col(column) {
+    """Small-VWF strings only: move the pen to `column` cells from where the line started (its position word)."""
+    .db 0x03, column
+}
+
 .macro menu_window(left, top, width, height) {
     """Emit a window descriptor: cursor + width/height byte pair."""
     move_to(left, top)

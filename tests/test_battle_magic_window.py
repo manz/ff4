@@ -25,7 +25,7 @@ import pytest
 from kintsuki import Button
 from PIL import Image
 
-from _ff4kintsuki import BATTLE_MENU_PANEL, PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import CECIL_SLOT, command_row, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, BATTLE_MENU_PANEL, PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
@@ -50,27 +50,19 @@ def _row(emu, row: int) -> list[int]:
 
 
 def _fresh_battle():
-    e = load_emu_from_kss(KSS, settle_frames=60)
-    tap(e, Button.B, gap=20)
-    for i in range(7):
-        button = (Button.LEFT, Button.RIGHT)[i % 2]
-        e.press(0, button)
-        e.run_frames(40)
-        e.release(0, button)
-    e.run_frames(200)  # Cecil's command menu is up
+    e = load_emu_from_kss(KSS, settle_frames=60)  # in the field
+    walk_into_battle(e)
+    wait_for_turn(e, CECIL_SLOT)
     return e
 
 
 def _open_magic(e) -> None:
-    tap(e, Button.DOWN, gap=20)
-    tap(e, Button.A, gap=20)
+    choose_command(e, CMD_MAGIC_WHITE)
     e.run_frames(50)
 
 
 def _open_items(e) -> None:
-    for _ in range(3):
-        tap(e, Button.DOWN, gap=20)
-    tap(e, Button.A, gap=20)
+    choose_command(e, CMD_ITEM)
     e.run_frames(50)
 
 
@@ -100,7 +92,7 @@ def items_after_magic():
     e = _fresh_battle()
     _open_magic(e)
     tap(e, Button.B, gap=30)
-    for _ in range(2):  # B leaves the cursor on Magie
+    for _ in range(command_row(e, CMD_ITEM) - command_row(e, CMD_MAGIC_WHITE)):  # B leaves the hand on Magie
         tap(e, Button.DOWN, gap=20)
     tap(e, Button.A, gap=20)
     e.run_frames(50)
@@ -155,19 +147,6 @@ def test_magic_window_golden(own_magic_emu):
     assert_screenshot_matches_golden(own_magic_emu, GOLDENS / "white_magic.png", region=BATTLE_MENU_PANEL)
 
 
-def _to_turn(e, slot: int) -> None:
-    # Everyone before `slot` attacks; the menu then comes up for `slot`.
-    while e.read(0x7E1822) != slot:
-        current = e.read(0x7E1822)
-        tap(e, Button.A, gap=20)
-        tap(e, Button.A, gap=20)
-        for _ in range(1500):
-            e.run_frames(1)
-            if e.read(0x7E00D7) and e.read(0x7E1822) != current:
-                break
-        e.run_frames(40)
-
-
 @pytest.mark.parametrize(
     ("slot", "downs", "name"),
     [(3, 1, "white"), (2, 1, "ninja"), (4, 1, "black"), (4, 2, "summon")],
@@ -175,7 +154,7 @@ def _to_turn(e, slot: int) -> None:
 def test_spell_list_golden(slot, downs, name):
     e = _fresh_battle()
     try:
-        _to_turn(e, slot)
+        wait_for_turn(e, slot)
         for _ in range(downs):
             tap(e, Button.DOWN, gap=20)
         tap(e, Button.A, gap=20)
@@ -222,7 +201,7 @@ def test_command_glyphs_never_change_with_magic_up():
     # the command window shows on screen at both ends.
     e = _fresh_battle()
     try:
-        _to_turn(e, 3)  # Rosa: the longest list
+        wait_for_turn(e, 3)  # Rosa: the longest list
         tap(e, Button.DOWN, gap=20)
         before = _cmd_glyphs(e)
         changed = []
@@ -243,7 +222,7 @@ def test_command_glyphs_never_change_with_magic_up():
 
 def _rosa_list_scrolled(*buttons) -> object:
     e = _fresh_battle()
-    _to_turn(e, 3)
+    wait_for_turn(e, 3)
     tap(e, Button.DOWN, gap=20)
     tap(e, Button.A, gap=20)
     e.run_frames(50)

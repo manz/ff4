@@ -27,6 +27,7 @@ from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
+from utils.bake_names import bake_file
 from utils.dakutens import generate_dakutens
 
 logger = logging.getLogger(__name__)
@@ -378,6 +379,12 @@ if __name__ == "__main__":
     # Fonts first: the fixed-width string checks measure with menu_font.dat.
     katsuji_build.build(katsuji_config.load(Path("katsuji.toml")))
     build_assets(assets_list)
+    # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
+    bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), 9,
+              Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
+    # Item names (items_unleashed: a symbol byte, then 16 name bytes): the field item lists copy them.
+    bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"), 17,
+              Path("build/gen/item_names_vwf.dat"), Path("build/gen/item_names_vwf.tbl"), skip=1)
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")

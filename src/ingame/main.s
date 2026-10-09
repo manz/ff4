@@ -13,6 +13,7 @@ in-game menu wiring.
 
 .include "src/ingame/macros.i"
 .import "vanilla"
+.import "ingame/menu_vram"
 
 
 {
@@ -99,28 +100,7 @@ menu:
     }
 
 
-    .alloc at 0x018fe3 {
-    {
-load_next_char:
-    lda.l class_names, x
-    beq end
-; dakuten
-    jsr.w get_dakuten
-    sta.w 0x0000, y
-    xba
-    sta.w 0x0040, y
-    iny
-    lda.b menu_dp.window_attr
-    sta.w 0x0000, y
-    sta.w 0x0040, y
-    inx
-    iny
-
-    bra load_next_char
-end:
-    rts
-    }
-    }
+; DrawClassName's copy loop ($01:8FE3) draws in the small VWF: small_vwf/menu_text.s.
 
 
     .alloc at 0x0189b9 {
@@ -186,13 +166,8 @@ end:
     }
 
 
-    .alloc at 0x0183D5 {
-    sta.w 0x0000, y
-    xba
-    sta.w 0x0040, y
-
+; DrawCharName ($01:83AB) draws in the small VWF: small_vwf/menu_text.s.
 ; translate can't fight text
-    }
 
 
     .alloc at 0x018B2A {
@@ -234,110 +209,8 @@ end:
     }
 }
 
-; main menu spells
-
-; length of spells names
-
-.alloc at 0x01B345 {
-    lda.b #0x08
-
-; compute spell pointer
-;01b319 rep #0x20
-;01b31b asl a
-;01b31c sta 0x45
-;01b31e asl a
-;01b31f adc 0x45
-;01b321 adc #0x8900
-;01b324 tay
-;01b325 sep #0x20
-;01b327 lda #0x0f
-}
-.alloc at 0x01b319 {
-    rep #0x20
-    pha
-    asl
-    asl
-    asl
-    adc 1, s
-    nop
-    nop
-; nop
-;    adc.w #magic_names
-    tay
-    pla
-    sep #0x20
-    lda.b #magic_names >> 16
-
-; instead of adding asset_magic_dat to Y move it to the lda to save 3 bytes
-}
-.alloc at 0x1b32b {
-    lda.w magic_names, y
-}
-.alloc at 0x1b349 {
-    lda.w magic_names, y
-
-; Save / restore covers VRAM byte $4000-$5FFF ($2000 bytes) instead of
-; vanilla's $1000. The extra $1000 bytes reach past the static-font /
-
-; vanilla BG3 CHR area to cover the full VWF region union :
-;   Region 1   $5000-$56A0  (field / treasure item-name CHR)
-;   Region 1B  $56E0-$5AA0  (drops item-name CHR, treasure popup)
-;   Region D   $5800-$5FF0  (item description CHR)
-; Without the extension, menu glyph bytes at $5300+ stayed in VRAM
-; forever (overworld never writes those addresses), so any BG tilemap
-; entry referencing VWF tile_ids $100+ rendered the leftover glyphs
-; over the overworld map. SRAM buffer at $70:5000-$70:6FFF stays
-; clear of the battle-magic region at $70:7000.
-}
-{
-    .alloc at 0x14ff62 {
-    sram_buffer = VRAM_SAVE_SRAM_BASE
-    save_size = VRAM_SAVE_BYTE_COUNT
-    phb
-    tdc
-    pha
-    plb
-    lda #0x80
-    sta ppu.INIDISP  ; screen off
-    sta.b menu_dp.brightness
-    lda #0x80
-    sta ppu.VMAIN
-    ldx #0x2000  ; ppu 0x2000
-    stx ppu.VMADDL
-    ldx ppu.VMDATALREAD  ; read "dummy" value
-    lda #0x81  ; single address, auto-increment
-    sta dma_ch0.DMAP
-    lda #PPU.VMDATALREAD  ; B-bus source
-    sta dma_ch0.BBAD
-    ldx.w #sram_buffer & 0xffff  ; destination: 0x7ee600
-    stx dma_ch0.A1TL
-    lda.b #sram_buffer >> 16
-    sta dma_ch0.A1B
-    ldx.w #save_size  ; size: 0x1000
-    stx dma_ch0.DASL
-    lda #0x01
-    sta cpu_regs.MDMAEN
-    plb
-    rtl
-    }
-
-
-    .alloc at 0x14ffd6 {
-;RestoreDlgGfx_ext:
-    lda #0x00
-    pha
-    plb
-    ldx #0x2000
-    stx 0x011d
-    ldx.w #sram_buffer & 0xffff
-    stx 0x011f
-    lda.b #sram_buffer >> 16
-    sta 0x0121
-    ldx.w #save_size
-    stx 0x0122
-    rtl
-    }
-}
+; DrawMagicName's copy loop ($01:B305 on) draws baked spell names: small_vwf/menu_text.s.
+; The save / restore themselves live in src/ingame/menu_vram.s.
 
 .alloc at 0x018E32 {
     jsr.l lookup_dakuten

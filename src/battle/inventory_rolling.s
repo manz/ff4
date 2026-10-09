@@ -1004,34 +1004,13 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    lda #16
-    sta.b 0x00
-
-_slot_name_loop:
-    inx
-    lda.l items_unleashed, x
+    .if BATTLE_ITEMS_VWF {
+; The name: its baked tiles (0x0B id), then back to fixed tiles and on to the quantity column.
+    lda #0x0B
     sta.w inv_format_buffer, y
     iny
-    dec.b 0x00
-    bne _slot_name_loop
-
-    .if BATTLE_ITEMS_VWF {
-; Drop the name field's trailing $FF padding before closing the VWF run.
-; Rendered, those spaces keep advancing past the slot's tile budget, and
-; once the allocator clamps they blit into the last tile over the end of
-; the final glyph. The $FC goto below still lands the quantity column.
-    lda #16
-    sta.b 0x00
-
-_slot_name_trim:
-    dey
-    lda.w inv_format_buffer, y
-    cmp #0xFF
-    bne _slot_name_trimmed
-    dec.b 0x00
-    bne _slot_name_trim
-
-_slot_name_trimmed:
+    lda.b 0x02
+    sta.w inv_format_buffer, y
     iny
     lda #0xFE
     sta.w inv_format_buffer, y
@@ -1042,6 +1021,17 @@ _slot_name_trimmed:
     lda #12
     sta.w inv_format_buffer, y
     iny
+    } else {
+    lda #16
+    sta.b 0x00
+
+_slot_name_loop:
+    inx
+    lda.l items_unleashed, x
+    sta.w inv_format_buffer, y
+    iny
+    dec.b 0x00
+    bne _slot_name_loop
     }
 
     lda.b 0x02

@@ -39,3 +39,38 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 ; overwritten by a save only costs one description redraw.
 .reserve sram_vram_save VRAM_SAVE_BYTE_COUNT at VRAM_SAVE_SRAM_BASE in sram_work.vram_save
 .reserve sram_description_cache 2 at VRAM_SAVE_SRAM_BASE + 2 in sram_work.item_menu
+
+; Bank $71: menu small-VWF state and the second half of the menu's VRAM save.
+.struct MenuTextState {
+    byte resident  ; the string being drawn is resident (small_vwf/menu_text.s)
+    word region_owner  ; the block whose strings hold tiles $200-$2FF
+    word line_start  ; the dakuten-row cell of the line being drawn, for `col`
+    byte[64] vram_bits  ; a bit per tile $200-$3FF: a string starting there is in VRAM
+    byte[84] name_cache  ; 6 bytes per name index: the name last uploaded
+}
+
+.pool sram_bank71 {
+    bss
+    range 0x710000 0x717FFF
+    strategy order
+}
+; The small VWF renderer saves its direct-page variables at $71:0000 + their DP offset (small_vwf/render.s).
+.reserve sram_render_dp 0x100 at 0x710000 in sram_bank71
+.reserve menu_text_state as MenuTextState in sram_bank71
+; VRAM $6000-$7FFF while a menu is up (ingame/menu_vram.s), and its "saved" marker.
+.reserve menu_vram_high VRAM_SAVE_BYTE_COUNT in sram_bank71
+.reserve menu_vram_saved 2 in sram_bank71
+; Non-zero while a menu window change has faded the screen out (ingame/menu_fade.s).
+.reserve menu_faded_out 1 in sram_bank71
+
+; Deferred menu VRAM uploads (small_vwf/vram_queue.s): 16 entries of (VRAM word, source, bytes, source bank).
+VRAM_QUEUE_SLOTS := 16
+.struct VramQueue {
+    word count  ; entries pushed
+    word next  ; entries uploaded
+    word staging_used  ; staging bytes taken
+    word source_bank  ; push_rom's source bank, set by its caller
+    byte[VRAM_QUEUE_SLOTS * 8] entries
+}
+.reserve vram_queue_state as VramQueue in sram_bank71
+.reserve vram_queue_staging 0x1000 in sram_bank71

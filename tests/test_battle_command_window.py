@@ -14,7 +14,7 @@ from __future__ import annotations
 from kintsuki import Button
 from PIL import Image
 
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
 
 FIELD = kss_path("ff4-before-field-inventory.kss")
 BATTLE = kss_path("ff4.kss")
@@ -23,14 +23,9 @@ CMD_WINDOW = (44, 140, 108, 200)
 
 
 def _fresh_battle():
-    e = load_emu_from_kss(FIELD, settle_frames=60)
-    tap(e, Button.B, gap=20)
-    for i in range(7):
-        button = (Button.LEFT, Button.RIGHT)[i % 2]
-        e.press(0, button)
-        e.run_frames(40)
-        e.release(0, button)
-    e.run_frames(200)  # Cecil's command menu is up
+    e = load_emu_from_kss(FIELD, settle_frames=60)  # in the field
+    walk_into_battle(e)
+    wait_for_turn(e, CECIL_SLOT)
     return e
 
 
@@ -43,6 +38,14 @@ def test_commands_render_only_when_marked_dirty():
     try:
         renders, marks = [], []
         entry = e.lookup_symbol_addr("battle_render.init_commands_list")
+        # The menu's first render, marked before we watch, comes a few frames after its flag: let it pass.
+        first = []
+        e.add_exec_callback(entry, entry, lambda _pc, _op: first.append(e.frame_count))
+        for _ in range(120):
+            if first:
+                break
+            e.run_frames(1)
+        e.run_frames(2)
         e.add_exec_callback(entry, entry, lambda _pc, _op: renders.append(e.frame_count))
         e.add_write_callback(
             CMD_DIRTY, CMD_DIRTY, lambda _a, v, *_: marks.append(e.frame_count) if v & CMD_DIRTY_BIT else None

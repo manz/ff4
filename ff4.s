@@ -58,6 +58,7 @@ Final Fantasy IV the new hack.
 .import "ingame/items"
 .import "ingame/magic"
 .import "ingame/windows"
+.import "ingame/instant_windows"
 .import "ingame/options"
 .import "ingame/equip"
 .import "ingame/status"

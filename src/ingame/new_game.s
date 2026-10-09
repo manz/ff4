@@ -22,7 +22,8 @@ geometry and Cecil sprite position that go with them.
 {
 ; new game window
     .alloc at 0x01dfc7 {
-    .db 0x12  ; width
+; 11 columns: "Nouvelle partie" in the small VWF is 62 px, then Cecil
+    .db 11  ; width
     .db 0x02  ; height
 
 ; Cecil sprite position on the new game item
@@ -30,7 +31,7 @@ geometry and Cecil sprite position that go with them.
 
 
     .alloc at 0x019904 {
-    .db 0x85  ; x
+    .db 77  ; x: right edge 3 px inside the 11-column window
     .db 0x04  ; y
 
 
@@ -60,7 +61,8 @@ geometry and Cecil sprite position that go with them.
 
 
     .alloc at 0x019A62 {
-    sta.w 0xC8 - 0x40 + 8, y
+; column 5: "Partie " in the small VWF is 28 px from column 1
+    sta.w 0xC8 - 0x40 + 2, y
     }
 
 

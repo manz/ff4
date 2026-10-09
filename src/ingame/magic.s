@@ -51,12 +51,9 @@ the magic-render path.
 
 ; Grisement des types sorts : 'Blancs' 'Noirs' etc ...
 }
-.alloc at 0x01B419 {
-    ldy.w #0x0007
-    sta.w 0xC5FF + 2, x
+; The type highlight ($01:B418, 7 cells for the French titles) is small_vwf/menu_text.s's tint_cells.
 
 ; Spells type cursor offset
-}
 .alloc at 0x01B0CE {
     lda.b #0x00
 

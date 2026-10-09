@@ -13,6 +13,6 @@ address = "7e-7f:0000-ffff"
 writable = true
 
 [map.3]  # cart SRAM: header patched to 128KB, cleared at boot, ours alone
-address = "70:0000-7fff"
+address = "70-73:0000-7fff"
 mask = 0x8000
 writable = true

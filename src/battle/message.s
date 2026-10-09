@@ -11,6 +11,7 @@ dialog-stream consumer).
 .include "src/battle/sram.i"
 .include "../bank20.i"
 .import "vanilla"
+.import "small_vwf/baked_names"
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
 .extern flying_hdma_trampoline
@@ -961,79 +962,74 @@ _snb_clear:
 
 draw_spell_name:
 """
-Render one spell name in the VWF. X = offset of the name in
-magic_names, Y = cell offset into the ($32) / ($34) row pair,
-$36 = attribute (palette). Trailing $FF padding is dropped: rendered
-past the last glyph it only burns tiles and, at a budget clamp, blits
-over the glyph. Closes the last partial tile so the next name starts on
-a fresh one. M=8, X=16  ; Y comes back past the name.
+One spell name from its baked tiles (small_vwf/baked_names.s). X = offset of the name in magic_names, Y = cell
+offset into the ($32) / ($34) row pair, $36 = attribute (palette). The tiles go into the CHR buffer at the
+allocator (spell_name_begin pointed it at the name's slot and blanked it) and their cells are written as the
+renderer wrote them; the NMI hook transfers the region. M=8, X=16  ; Y comes back past the name.
 """
-
-
     php
     sep #0x20
     rep #0x10
     rep #0x20
     txa
-    sta.l battle_render_state.spell_name_src
-    sep #0x20
-    lda.b #battle_render.SPELL_NAME_LENGTH
-    sta.l battle_render_state.spell_name_left
-
-_dsn_trim:
-    lda.l battle_render_state.spell_name_left
-    beq _dsn_close
-    rep #0x20
-    and.w #0x00FF
-    clc
-    adc.l battle_render_state.spell_name_src
-    dec
-    tax
-    sep #0x20
-    lda.l magic_names, x
-    cmp #0xFF
-    bne _dsn_render
-    lda.l battle_render_state.spell_name_left
-    dec
-    sta.l battle_render_state.spell_name_left
-    bra _dsn_trim
-
-_dsn_render:
-    rep #0x20
-    lda.l battle_render_state.spell_name_src
-    tax
-    sep #0x20
-
-_dsn_char:
-    lda.l magic_names, x
-    jsr.w battle_render.display_char
+    ldx.w #0x0000
+_dsn_spell_id:
+    cmp.w #battle_render.SPELL_NAME_LENGTH
+    bcc _dsn_spell_found
+    sbc.w #battle_render.SPELL_NAME_LENGTH
     inx
-    lda.l battle_render_state.spell_name_left
-    dec
-    sta.l battle_render_state.spell_name_left
-    bne _dsn_char
-
-_dsn_close:
-    lda.b battle_render.bits_left_on_tile
-    cmp #0x08
-    beq _dsn_aligned
-    jsr.w render_allocator.increment
-    bra _dsn_fresh
-
-_dsn_aligned:
-; The last glyph ended on a tile boundary: display_char already moved to
-; a fresh tile and put it in the next cell. Leave that tile to the next
-; name and blank the cell instead.
-    lda #0xFF
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
+    bra _dsn_spell_id
+_dsn_spell_found:
+    txa
+    asl
+    asl
+    tax
+    lda.l spell_names_vwf_tbl + 2, x
+    and.w #0x00FF
+    beq _dsn_done
+    pha  ; 3,s tiles
+    lda.l spell_names_vwf_tbl, x
+    tax  ; source offset in the blob
+    phy  ; 1,s cell offset
+    lda.l render_allocator.allocated_tile_id
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    tay  ; CHR buffer offset
+    lda 3, s
+    asl
+    asl
+    asl  ; words
+    pha
+_dsn_copy:
+    lda.l spell_names_vwf, x
+    phx
+    tyx
+    sta.l battle_render.buffer_ptr, x
+    plx
+    inx
+    inx
     iny
-    lda.b btlgfx_dp.text_tile_flags
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    dey
-
-_dsn_fresh:
+    iny
+    lda 1, s
+    dec
+    sta 1, s
+    bne _dsn_copy
+    pla
+    ply
+    sty.b battle_render.tilemap_offset
+    pla  ; tiles
+    sep #0x20
+    tax
+_dsn_cell:
+    jsr.w battle_render.tilemap_write
+    dex
+    bne _dsn_cell
+    ldy.b battle_render.tilemap_offset
+_dsn_done:
+    sep #0x20
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
     .if ENABLE_KERNING_MENU {
@@ -1073,6 +1069,7 @@ Escape codes handled:
   0x00: terminator -> return
   0x03 BB: emit fixed tile_id BB at the next tilemap slot
   0x0E PP: set tile-attribute byte to PP for subsequent writes
+  0x0B II: item II's baked name
   any other byte: VWF blit through battle_render.display_char
 """
 
@@ -1156,6 +1153,10 @@ _di_loop:
     beq _di_fixed
     cmp #0x0E
     beq _di_pal
+    cmp #0x0B
+    bne _di_not_baked
+    jmp.w _di_baked
+_di_not_baked:
     cmp #0xFC
     beq _di_pad
     cmp #0xFE
@@ -1256,6 +1257,65 @@ _di_pad:
     tay
     lda #0x08
     sta.b battle_render.bits_left_on_tile
+    jmp.w _di_loop
+
+_di_baked:
+; 0x0B II -> item II's baked name (small_vwf/baked_names.s): its tiles into the CHR buffer at the allocator, its
+; cells written as the renderer writes them.
+    inx
+    lda.w 0x0000, x
+    inx
+    phx
+    sty.b battle_render.tilemap_offset
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    tax
+    lda.l item_names_vwf_tbl + 2, x
+    and.w #0x00FF
+    beq _di_baked_done
+    pha  ; tiles
+    lda.l item_names_vwf_tbl, x
+    tax
+    lda.l render_allocator.allocated_tile_id
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    tay
+    lda 1, s
+    asl
+    asl
+    asl
+    pha  ; words
+_di_baked_copy:
+    lda.l item_names_vwf, x
+    phx
+    tyx
+    sta.l battle_render.buffer_ptr, x
+    plx
+    inx
+    inx
+    iny
+    iny
+    lda 1, s
+    dec
+    sta 1, s
+    bne _di_baked_copy
+    pla
+    pla
+    sep #0x20
+    tax
+_di_baked_cell:
+    jsr.w battle_render.tilemap_write
+    dex
+    bne _di_baked_cell
+_di_baked_done:
+    sep #0x20
+    plx
+    ldy.b battle_render.tilemap_offset
     jmp.w _di_loop
 
 init_inventory_for_current_slot_local:
