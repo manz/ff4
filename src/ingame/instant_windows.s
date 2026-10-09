@@ -8,7 +8,7 @@ wiped in one DMA. Shop windows open instantly too: they share these routines. Ea
 first (ingame/menu_fade.s).
 """
 .import "ingame/menu_fade"
-.include "src/ingame/close_window_slack.i"
+.include "src/ingame/bank01_slack.i"
 .label _wait_vblank_818a = 0x01818A
 .label _tfr_vram_8078 = 0x018078
 .label _exec_jump_tbl_834b = 0x01834B
@@ -63,7 +63,7 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
     rts
 }
 
-.alloc _transform_show in close_window_slack {
+.alloc _transform_show in bank01_slack {
 menu_transform_show:
 """TransformWindow's final frame: fade out first, then the BG transfer, sprites and scroll registers."""
     jsr.w menu_fade_out

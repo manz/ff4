@@ -5,7 +5,7 @@ menu fades back in the next time it polls the pad (UpdateCtrlMenu), once the new
 dark (Config and Save fade themselves, the menu opening) is left alone.
 """
 .import "sram_layout"
-.include "src/ingame/close_window_slack.i"
+.include "src/ingame/bank01_slack.i"
 
 .label _fade_in_9464 = 0x019464
 .label _fade_out_947e = 0x01947E
@@ -16,7 +16,7 @@ dark (Config and Save fade themselves, the menu opening) is left alone.
     jsr.w menu_fade_ready
 }
 
-.alloc _menu_fade in close_window_slack {
+.alloc _menu_fade in bank01_slack {
 menu_fade_out:
 """Fade out for a window change unless this transition already did, or the screen is dark ($88 bit 7 or 0)."""
     lda.l menu_faded_out
