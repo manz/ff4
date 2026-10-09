@@ -229,13 +229,35 @@ controls:
     .text "Menu"
     .db 0x01
     .dw 0x0384
-    .text "Left Button"
+    .text "Bouton L"
     .db 0x01
     .dw 0x0404
     .text "Start"
     .db 1
     .dw 0x0484
     .text "Fin"
+    .db 0
+button_actions:
+"""What L and Start can do (vanilla's None / Yes / No / Menu): the cursor stops at columns 0, 5, 10 and 15."""
+    .text "Aucun"
+    col(5)
+    .text "Action"
+    col(10)
+    .text "Annuler"
+    col(15)
+    .text "Menu"
+    .db 0
+pad_buttons:
+"""The buttons an action can take: the cursor stops at columns 0, 3, 6, 9 and 12."""
+    .text "A"
+    col(3)
+    .text "B"
+    col(6)
+    .text "X"
+    col(9)
+    .text "Y"
+    col(12)
+    .text "SELECT"
     .db 0
 strings_end:
     }
