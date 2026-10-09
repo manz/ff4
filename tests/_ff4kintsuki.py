@@ -86,6 +86,56 @@ def tap(emu: Emu, button: int, *, hold: int = 6, gap: int = 8) -> None:
     emu.run_frames(gap)
 
 
+# Battle state (notes/ff4j-sfc-ram-map.txt in ff4decomp).
+BATTLE_MENU_OPEN = 0x7E00D7  # non-zero while a character's command menu is up
+ACTING_SLOT = 0x7E1822  # the character slot the command menu is for
+BATTLE_CHARS = 0x7E2000  # 5 * 128 bytes; byte 0 low 6 bits = character id
+BATTLE_COMMANDS = 0x7E3302  # 5 * 7 commands * 4 bytes; command id at +1
+CMD_MAGIC_WHITE = 0x02
+CMD_ITEM = 0x01
+CECIL_SLOT = 0  # in ff4-before-field-inventory.kss's party
+
+
+def walk_into_battle(emu: Emu, *, max_steps: int = 60) -> None:
+    """Walk left and right from a field savestate until an encounter changes the screen mode."""
+    field_mode = emu.get_ppu_state().bgmode
+    for step in range(max_steps):
+        button = (Button.LEFT, Button.RIGHT)[step % 2]
+        emu.press(0, button)
+        emu.run_frames(40)
+        emu.release(0, button)
+        if emu.get_ppu_state().bgmode != field_mode:
+            return
+    pytest.fail("no encounter")
+
+
+def wait_for_turn(emu: Emu, slot: int, *, limit: int = 3000) -> None:
+    """Run until `slot`'s command menu is up. Whoever acts before it attacks: A until their turn is over."""
+    for _ in range(limit // 10):
+        if emu.read(BATTLE_MENU_OPEN) and emu.read(ACTING_SLOT) == slot:
+            emu.run_frames(40)
+            return
+        if emu.read(BATTLE_MENU_OPEN):
+            tap(emu, Button.A, gap=4)
+        else:
+            emu.run_frames(10)
+    pytest.fail(f"slot {slot}'s command menu never came up")
+
+
+def command_row(emu: Emu, command: int) -> int:
+    """Row of `command` in the acting character's command menu."""
+    base = BATTLE_COMMANDS + emu.read(ACTING_SLOT) * 28
+    ids = [emu.read(base + k * 4 + 1) for k in range(7)]
+    return ids.index(command)
+
+
+def choose_command(emu: Emu, command: int) -> None:
+    """Move the hand from the top of the command menu to `command` and pick it."""
+    for _ in range(command_row(emu, command)):
+        tap(emu, Button.DOWN, gap=20)
+    tap(emu, Button.A, gap=20)
+
+
 def enter_treasure_picker(emu: Emu, *, settle_frames: int = 300) -> None:
     """From the treasure menu's top-level "Tout prendre / Quitter" choice,
     drive into the bottom-inventory exchange picker. Cursor lands on

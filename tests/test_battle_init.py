@@ -17,7 +17,7 @@ from __future__ import annotations
 import pytest
 from kintsuki import Button
 
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
@@ -35,13 +35,9 @@ CHAR_NAMES = range(0x100 + REGION_SIZE * 2, 0x100 + REGION_SIZE * 3)
 
 @pytest.fixture(scope="module")
 def battle_emu():
-    e = load_emu_from_kss(KSS, settle_frames=60)  # in the field: walk into an encounter
-    for i in range(7):
-        button = (Button.LEFT, Button.RIGHT)[i % 2]
-        e.press(0, button)
-        e.run_frames(40)
-        e.release(0, button)
-    e.run_frames(200)  # fresh encounter, first command menu up
+    e = load_emu_from_kss(KSS, settle_frames=60)  # in the field
+    walk_into_battle(e)
+    wait_for_turn(e, CECIL_SLOT)
     e.write(BATTLE_MENU_DIRTY, 0xFF)
     e.write(BATTLE_MONSTER_DIRTY, 0xFF)
     e.write(REGION_DIRTY_BITS, 0xFF)
