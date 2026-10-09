@@ -73,11 +73,6 @@ transform_window_trampoline:
     jmp.l transform_window_far
     }
 
-copy_text_with_dakuten:
-"""Near-call wrapper around `copy_text_with_dakuten_far` for callers in the same bank."""
-    jsr.l copy_text_with_dakuten_far
-    rts
-
     .if DEBUG {
 display_build_number:
 """Render the `BUILD_DATE + version` string at column 1, row 27 of the title screen (DEBUG builds only)."""

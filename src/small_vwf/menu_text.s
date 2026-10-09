@@ -47,6 +47,7 @@ _BLANK_TILE := 0xFF
 .assert sizeof(spell_titles_text) <= 0x40, "spell_titles_text outgrows tiles $200-$23F"
 .assert sizeof(treasure_header_text) <= 0x26, "treasure_header_text outgrows tiles $1AA-$1CF"
 .assert sizeof(exchange_label_text) <= 0x30, "exchange_label_text outgrows tiles $1D0-$1FF"
+.assert sizeof(key_items_warning_text) <= 0x32, "key_items_warning_text outgrows tiles $13C-$16D"
 .assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
 .assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
 .assert sizeof(controls_text) <= 0x80, "controls_text outgrows tiles $180-$1FF"
@@ -507,6 +508,7 @@ _blocks:
     .dw spell_titles_text & 0xFFFF, sizeof(spell_titles_text), 0x00, 0x02
     .dw treasure_header_text & 0xFFFF, sizeof(treasure_header_text), 0xAA, 0x01
     .dw exchange_label_text & 0xFFFF, sizeof(exchange_label_text), 0xD0, 0x01
+    .dw key_items_warning_text & 0xFFFF, sizeof(key_items_warning_text), 0x3C, 0x01
     .dw use_spell_text & 0xFFFF, sizeof(use_spell_text), 0x40, 0x02
     .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
     .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01

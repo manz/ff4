@@ -33,3 +33,9 @@ def test_a_vanilla_pointer_is_left_to_vanilla(menu):
 def test_an_ff4_string_is_drawn_in_the_vwf(menu):
     e, _ = menu
     assert _claims(menu, (e.lookup_symbol_addr("newgame.load_this_save") & 0xFFFF) - 0x8000)
+
+
+def test_the_key_items_warning_is_drawn_in_the_vwf(menu):
+    e, _ = menu
+    warning = e.lookup_symbol_addr("treasure.key_items_left_warning")
+    assert _claims(menu, (warning & 0xFFFF) + 4 - 0x8000)  # DrawWindowText: the text after the window
