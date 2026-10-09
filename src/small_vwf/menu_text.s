@@ -68,6 +68,25 @@ _SHARED_REGION := 0x02  ; attribute bits of tiles $200-$2FF, taken in turns by t
     rts
 }
 
+_SPELL_LENGTH := 9  ; magic_names: 9 characters per spell id
+_SPELL_TILES := 5  ; the widest name, Léviathan, is 40 pixels
+_SCHOOL_SPELLS := 24  ; a school's spells span at most 24 ids: (id - 1) mod 24 is unique within a list
+.assert _SCHOOL_SPELLS * _SPELL_TILES <= 0x80, "spell names outgrow tiles $100-$17F"
+
+.alloc at 0x01B305 {
+; DrawMagicName once it picked the palette ($db): A and X are still on the stack
+    plx
+    pla
+    jsl menu_text_vwf.draw_spell
+    rts
+}
+
+.alloc at 0x01B418 {
+; The magic type highlight: A = attribute, X = cell offset in BG4's buffer
+    jsl menu_text_vwf.tint_cells
+    rts
+}
+
 .alloc at 0x018FE3 {
 ; DrawClassName's copy loop (X = offset in class_names, from load_classes_pointer)
     jsl menu_text_vwf.draw_class
@@ -264,6 +283,124 @@ _copy_name:
     ldy.w #vwf_text_buffer & 0xFFFF
     plx
     jsr.w _draw
+    plb
+    rtl
+
+tint_cells:
+"""
+The magic type highlight ($01:B418): A = palette attribute, X = cell offset in BG4's buffer ($7E:C600). Tints the
+title's 7 cells (vanilla 5) but keeps their tile bits 8-9, or a small-VWF title would fall back onto the 8x8 font's
+tiles. Returns like vanilla: X past the cells, Y = 0, A kept.
+"""
+    pha
+    ldy.w #7
+_tint_cell:
+    lda.l 0x7EC601, x
+    and.b #0x03
+    ora 1, s
+    sta.l 0x7EC601, x
+    inx
+    inx
+    dey
+    bne _tint_cell
+    pla
+    rtl
+
+draw_spell:
+"""
+DrawMagicName ($01:B305): A = spell id, X = tilemap offset, $db = the cells' attribute (grey when the spell can't
+be cast). The name takes tiles $100 + ((id - 1) mod 24) * 5, below the messages' $180-$1FF.
+"""
+    phb
+    phy  ; the caller walks its spell list with Y
+    pha
+    rep #0x20
+    txa
+    clc
+    adc.b menu_dp.tilemap_offset
+    tax
+    sep #0x20
+    phx
+    ldy.w #_SPELL_LENGTH
+_paint_cells:
+    lda.b #0xFF
+    sta.l 0x7E0000, x
+    sta.l 0x7E0040, x
+    lda.b 0xDB
+    sta.l 0x7E0001, x
+    sta.l 0x7E0041, x
+    inx
+    inx
+    dey
+    bne _paint_cells
+    lda 3, s  ; spell id, under the cell offset
+    rep #0x20
+    and.w #0x00FF
+    pha
+    asl
+    asl
+    asl
+    adc 1, s  ; id * 9
+    tax
+    pla
+    sep #0x20
+    ldy.w #0x0000
+_copy_spell:
+    lda.l magic_names, x
+    phx
+    tyx
+    sta.l vwf_text_buffer, x
+    plx
+    inx
+    iny
+    cpy.w #_SPELL_LENGTH
+    bne _copy_spell
+_trim_spell:
+    dey
+    bmi _trimmed
+    tyx
+    lda.l vwf_text_buffer, x
+    cmp.b #0xFF
+    bne _trimmed
+    lda.b #0x00
+    sta.l vwf_text_buffer, x
+    bra _trim_spell
+_trimmed:
+    lda.b #0x00
+    sta.l vwf_text_buffer + _SPELL_LENGTH
+    lda 3, s
+    dec
+_school_index:
+    cmp.b #_SCHOOL_SPELLS
+    bcc _school_indexed
+    sbc.b #_SCHOOL_SPELLS
+    bra _school_index
+_school_indexed:
+    sta.b 0x45
+    asl
+    asl
+    clc
+    adc.b 0x45
+    rep #0x20
+    and.w #0x00FF
+    sta.l vwf_cfg.tile_id_base
+    sep #0x20
+    lda.b #_SPELL_TILES
+    sta.l vwf_cfg.slot_budget
+    lda.b #0x01
+    sta.l vwf_cfg.flags
+    lda.b #0x00
+    sta.l menu_text_state.resident
+    lda.b #vwf_text_buffer >> 16
+    pha
+    plb
+    ldy.w #vwf_text_buffer & 0xFFFF
+    plx
+    phx
+    jsr.w _draw
+    plx  ; X = the cell offset, as vanilla returns it
+    pla
+    ply
     plb
     rtl
 
