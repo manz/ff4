@@ -211,3 +211,19 @@ _continue:
     ldy.w #0xdcd6
     jmp item_desc_back
 }
+
+; なにもありません and the label redrawn after an item message, in the small VWF
+.alloc at 0x01A300 {
+    load_system_menu_text_pointer(items_menu.nothing_here)
+}
+.alloc at 0x01A387 {
+    load_system_menu_text_pointer(items_menu.item + 4)  ; DrawPosText: the label after the window
+}
+.alloc at 0x01A8E4 {
+; a summon learned from its item
+    load_system_menu_text_pointer(items_menu.summon_learned)
+}
+.alloc at 0x01A8F6 {
+; the summon's name, after "a appris"
+    ldx.w #18 * 2 + 12 * 64
+}
