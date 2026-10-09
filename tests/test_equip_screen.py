@@ -29,6 +29,7 @@ NAME_COLS = range(20, 32)
 @pytest.fixture(scope="module")
 def equip_emu():
     e = load_emu_from_kss(KSS, settle_frames=60)
+    tap(e, Button.X, gap=150)  # the savestate is in the field: open the menu
     tap(e, Button.DOWN, gap=20)
     tap(e, Button.DOWN, gap=20)
     tap(e, Button.A, gap=60)  # Equiper

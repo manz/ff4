@@ -50,8 +50,7 @@ def _row(emu, row: int) -> list[int]:
 
 
 def _fresh_battle():
-    e = load_emu_from_kss(KSS, settle_frames=60)
-    tap(e, Button.B, gap=20)
+    e = load_emu_from_kss(KSS, settle_frames=60)  # in the field: walk into an encounter
     for i in range(7):
         button = (Button.LEFT, Button.RIGHT)[i % 2]
         e.press(0, button)
