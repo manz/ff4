@@ -29,6 +29,7 @@ Final Fantasy IV the new hack.
 .import "ingame/items_menu_vwf"
 .import "ingame/places_names"
 .import "ingame/new_game"
+.import "ingame/namingway"
 .import "ingame/credits"
 .import "ingame/places_names_window"
 .import "intro"

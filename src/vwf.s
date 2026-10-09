@@ -427,6 +427,11 @@ next:
     lda #0x00
     xba
     lda.w character_names, x
+; names are stored in menu codes: draw the dialog code of the same letter (B is 0 here)
+    phx
+    tax
+    lda.l name_codes, x
+    plx
     sta.b CURRENT_C
     cmp #0xFF
     beq exit

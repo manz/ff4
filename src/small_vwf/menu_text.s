@@ -511,6 +511,7 @@ _blocks:
     .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
     .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
     .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
+    .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
     .dw 0x0000
 
 forget_uploads:
