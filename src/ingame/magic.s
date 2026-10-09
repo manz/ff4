@@ -6,6 +6,7 @@ the magic-render path.
 .import "ingame/free_space"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
+.import "vanilla"
 .include "config.i"
 .include "src/menus/system_menus_macros.i"
 
@@ -44,9 +45,9 @@ the magic-render path.
     load_system_menu_text_pointer(spells.kokan)
 }
 .alloc at 0x01b0ec {
-    ldx.w #0x020A
-    ldy.w #spells.mp_needed & 0xffff
-    jsr.w copy_text_with_dakuten
+    ldx.w #0x020A + 0x40  ; the glyph row: the VWF has no dakuten row above it
+    load_system_menu_text_pointer(spells.mp_needed)
+    jsr.w copy_text  ; the small VWF's CopyText hook draws it
 
 
 ; Grisement des types sorts : 'Blancs' 'Noirs' etc ...

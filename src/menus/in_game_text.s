@@ -2,7 +2,6 @@
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 .table "text/ff4_menus.tbl"
-.import "dakuten"
 .import "vanilla"
 
 
@@ -84,6 +83,10 @@ summon:
 ninja:
     move_to(24, 5)
     .text "Ninja "
+    .db 0
+mp_needed:
+; copied at the cost row (magic.s)
+    .text "Coût PM"
     .db 0
     }
 }
@@ -395,12 +398,6 @@ take_all:
 }
 
 .alloc _in_game_text_block in bank20_reloc {
-    .scope spells {
-mp_needed:
-    .text "Coût PM"
-    .db 0
-    }
-
     .scope messages {
     """Generic prompt strings."""
 use_on_whom:
@@ -436,34 +433,5 @@ key_items_left_warning:
     move_to(6, 13)
     .text "objets importants."
     .db 0
-    }
-
-
-copy_text_with_dakuten_far:
-"""Far-callable text copier with dakuten composite lookup."""
-    {
-    phb
-    phk
-    plb
-    rep #0x20
-    txa
-    clc
-    adc.b menu_dp.tilemap_offset
-    tax
-    sep #0x20
-_loop:
-    lda.w 0x0000, y
-    beq _exit
-    jsr.l lookup_dakuten
-    sta 0x7e0000, x
-    xba
-    sta 0x7e0040, x
-    inx
-    inx
-    iny
-    bra _loop
-_exit:
-    plb
-    rtl
     }
 }
