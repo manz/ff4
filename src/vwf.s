@@ -572,15 +572,18 @@ _code05:
     asl
     tax
     stx.w dialog_pause_duration
-    ldx 0x0000
+; Count from zero. This was `ldx 0x0000`, a direct-page read (D = $0600 here): whatever sat there, $80 at the
+; intro's third "Soit" dot, started the count past the duration and the equality wait spun until it wrapped.
+    ldx.w #0x0000
     stx.w dialog_pause_counter
     {
     ldx.w dialog_pause_duration
     beq skip
 loop:
+; wait while counter < duration: a counter that overshoots ends the pause instead of waiting for a wrap
     cpx.w dialog_pause_counter
-
-    bne loop
+    beq skip
+    bcs loop
 skip:
     ldx.w #0x0000
     stx.w dialog_pause_duration
