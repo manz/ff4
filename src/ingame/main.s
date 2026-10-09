@@ -13,6 +13,7 @@ in-game menu wiring.
 
 .include "src/ingame/macros.i"
 .import "vanilla"
+.import "ingame/menu_vram"
 
 
 {
@@ -289,55 +290,7 @@ end:
 ; over the overworld map. SRAM buffer at $70:5000-$70:6FFF stays
 ; clear of the battle-magic region at $70:7000.
 }
-{
-    .alloc at 0x14ff62 {
-    sram_buffer = VRAM_SAVE_SRAM_BASE
-    save_size = VRAM_SAVE_BYTE_COUNT
-    phb
-    tdc
-    pha
-    plb
-    lda #0x80
-    sta ppu.INIDISP  ; screen off
-    sta.b menu_dp.brightness
-    lda #0x80
-    sta ppu.VMAIN
-    ldx #0x2000  ; ppu 0x2000
-    stx ppu.VMADDL
-    ldx ppu.VMDATALREAD  ; read "dummy" value
-    lda #0x81  ; single address, auto-increment
-    sta dma_ch0.DMAP
-    lda #PPU.VMDATALREAD  ; B-bus source
-    sta dma_ch0.BBAD
-    ldx.w #sram_buffer & 0xffff  ; destination: 0x7ee600
-    stx dma_ch0.A1TL
-    lda.b #sram_buffer >> 16
-    sta dma_ch0.A1B
-    ldx.w #save_size  ; size: 0x1000
-    stx dma_ch0.DASL
-    lda #0x01
-    sta cpu_regs.MDMAEN
-    plb
-    rtl
-    }
-
-
-    .alloc at 0x14ffd6 {
-;RestoreDlgGfx_ext:
-    lda #0x00
-    pha
-    plb
-    ldx #0x2000
-    stx 0x011d
-    ldx.w #sram_buffer & 0xffff
-    stx 0x011f
-    lda.b #sram_buffer >> 16
-    sta 0x0121
-    ldx.w #save_size
-    stx 0x0122
-    rtl
-    }
-}
+; The save / restore themselves live in src/ingame/menu_vram.s.
 
 .alloc at 0x018E32 {
     jsr.l lookup_dakuten
