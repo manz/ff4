@@ -98,6 +98,47 @@ kokan:
     }
 }
 
+.alloc namingway_text in bank20_reloc {
+    .scope namingway {
+    """Namingway's name-change screen (ingame/namingway.s)."""
+question:
+; ネミングウェイ 「おなまえの ごへんこうで?」
+    move_to(7, 1)
+    .text "Namingway : Changer de nom ?"
+    .db 0
+choice:
+; かえる / かえない, copied at (4, 6); the second cursor stops at column 10
+    .text "Oui"
+    col(6)
+    .text "Non"
+    .db 0
+whose:
+; どなたさまがごへんこうなさいますか?
+    move_to(7, 1)
+    .text "Qui veut changer de nom ?"
+    .db 0
+wiser:
+; そのほうがよろしゅうございますな (B: no change)
+    move_to(7, 1)
+    .text "Sage décision, en effet !"
+    .db 0
+alphabets:
+; ひらがな / カタカナ / ABC / おわり beside the letters window
+    move_to(3, 9)
+    .text "ABC"
+    .db 0x01
+    move_to(3, 11)
+    .text "éèà"
+    .db 0x01
+    move_to(3, 13)
+    .text "123"
+    .db 0x01
+    move_to(3, 23)
+    .text "Fin"
+    .db 0
+    }
+}
+
 .alloc status_text in bank20_reloc {
     .scope status {
     """Status screen labels."""
