@@ -105,7 +105,10 @@ command_name_pointers:
 command_names:
     .incbin "battle_commands_nul.dat"
 magic_names:
+"""Spell names: name, $00 each; `magic_names_ptrs` holds each one's 16-bit offset here."""
     .incbin "magic.dat"
+magic_names_ptrs:
+    .incbin "magic.ptr"
 place_names:
     .incbin "places_names.dat"
 class_name_pointers:

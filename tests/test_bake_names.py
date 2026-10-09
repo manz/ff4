@@ -9,6 +9,7 @@ from utils.bake_names import ENTRY, LOROM_BANK, bake, fixed_records, name_tiles,
 
 FONT = Path("build/gen/menu_font.dat")
 MAGIC = Path("build/gen/magic.dat")
+MAGIC_POINTERS = Path("build/gen/magic.ptr")
 
 
 @pytest.fixture(scope="module")
@@ -27,19 +28,19 @@ def test_an_empty_name_takes_no_tile(font: VwfFont) -> None:
 
 
 def test_trailing_spaces_take_no_tile(font: VwfFont) -> None:
-    soin = bytes(fixed_records(MAGIC.read_bytes(), 9)[0x0E])
+    soin = bytes(pointed_records(MAGIC.read_bytes(), MAGIC_POINTERS.read_bytes())[0x0E])
     assert name_tiles(font, soin) == name_tiles(font, soin.rstrip(b"\xff"))
 
 
 def test_tiles_are_two_bpp_on_paper_colour_one(font: VwfFont) -> None:
-    tiles = name_tiles(font, bytes(fixed_records(MAGIC.read_bytes(), 9)[0x0E]))
+    tiles = name_tiles(font, bytes(pointed_records(MAGIC.read_bytes(), MAGIC_POINTERS.read_bytes())[0x0E]))
     plane0 = tiles[0::2]
     assert len(tiles) % 16 == 0
     assert set(plane0) == {0xFF}  # every pixel is colour 1 (paper) or 3 (ink)
 
 
 def test_each_entry_points_at_its_name(font: VwfFont) -> None:
-    names = fixed_records(MAGIC.read_bytes(), 9)
+    names = pointed_records(MAGIC.read_bytes(), MAGIC_POINTERS.read_bytes())
     blob, table = bake(font, names)
     for codes, (offset, tiles) in zip(names, entries(table), strict=True):
         assert blob[offset : offset + tiles * 16] == name_tiles(font, codes)

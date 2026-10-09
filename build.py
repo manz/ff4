@@ -321,7 +321,7 @@ if __name__ == "__main__":
             "build/gen/items_unleashed.dat",
             "build/gen/items_unleashed.ptr",
         ),
-        ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "build/gen/magic.dat"),
+        ("pointed_names", menu_table, os.path.join(text_root, "magic.xml"), "build/gen/magic.dat", "build/gen/magic.ptr"),
         (
             "fixed",
             menu_table,
@@ -395,8 +395,8 @@ if __name__ == "__main__":
     katsuji_build.build(katsuji_config.load(Path("katsuji.toml")))
     build_assets(assets_list)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
-    bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), 9,
-              Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
+    bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
+                      Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
     # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),

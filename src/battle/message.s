@@ -962,7 +962,7 @@ _snb_clear:
 
 draw_spell_name:
 """
-One spell name from its baked tiles (small_vwf/baked_names.s). X = offset of the name in magic_names, Y = cell
+One spell name from its baked tiles (small_vwf/baked_names.s). X = spell id, Y = cell
 offset into the ($32) / ($34) row pair, $36 = attribute (palette). The tiles go into the CHR buffer at the
 allocator (spell_name_begin pointed it at the name's slot and blanked it) and their cells are written as the
 renderer wrote them; the NMI hook transfers the region. M=8, X=16  ; Y comes back past the name.
@@ -971,15 +971,6 @@ renderer wrote them; the NMI hook transfers the region. M=8, X=16  ; Y comes bac
     sep #0x20
     rep #0x10
     rep #0x20
-    txa
-    ldx.w #0x0000
-_dsn_spell_id:
-    cmp.w #battle_render.SPELL_NAME_LENGTH
-    bcc _dsn_spell_found
-    sbc.w #battle_render.SPELL_NAME_LENGTH
-    inx
-    bra _dsn_spell_id
-_dsn_spell_found:
     txa
     asl
     asl

@@ -136,4 +136,43 @@ battle_item_char_after_symbol:
     dex
 _battle_char_after:
     rtl
+
+
+battle_magic_mult8:
+"""
+Vanilla btlgfx's `lda #6 / sta $28 / jsr Mult8` for a spell name: id in $26 -> its `magic_names` offset in $2A, as
+Mult8 leaves the product. X, Y kept.
+"""
+    php
+    rep #0x30
+    phx
+    lda.b 0x26
+    and.w #0x00FF
+    asl
+    tax
+    lda.l magic_names_ptrs, x
+    sta.b 0x2A
+    plx
+    plp
+    rtl
+
+
+battle_magic_char:
+"""The byte at magic_names + X, or a space once the name has ended (X held on its $00 for the caller's inx)."""
+    lda.l magic_names, x
+    bne _magic_char
+    lda.b #0xFF
+    dex
+_magic_char:
+    rtl
+
+
+battle_magic_char_after_first:
+"""As battle_magic_char, one byte on (TextVar_04 draws the first letter on its own)."""
+    lda.l magic_names + 1, x
+    bne _magic_char_after
+    lda.b #0xFF
+    dex
+_magic_char_after:
+    rtl
 }

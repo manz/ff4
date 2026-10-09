@@ -123,27 +123,6 @@ set_second_addr:
     sta.b btlgfx_dp.text_tile_flags
 
 enabled_spell:
-; Get spell ID and load spell name
-    lda.b spell_id
-; read spell ID
-    rep #0x20
-    and.w #0x007f
-; clear disabled bit
-    sep #0x20
-    sta.l cpu_regs.WRMPYA
-    lda.b #battle_magic_length
-    sta.l cpu_regs.WRMPYB
-    nop
-    nop
-    nop
-    nop
-    rep #0x20
-    lda.l cpu_regs.RDMPYL
-;     asl                 ; spell ID * 8 (8 bytes per name)
-;     asl
-;     asl
-    tax
-    sep #0x20
 ; Blank the spell's cells on both tilemap rows first (one leading cell,
 ; the name, then the rest of the column: what the items window or a
 ; longer previous name left there), then point the name's cells, from
@@ -410,17 +389,11 @@ _rsr_base:
 
 _rsr_palette:
     sta.b btlgfx_dp.text_tile_flags
-; Name offset in magic_names: (spell id & $7F) * 9.
+; the spell id for draw_spell_name
     lda.l 0x7E0001, x
     rep #0x20
     and.w #0x007F
     pha
-    asl
-    asl
-    asl
-    clc
-    adc 1, s
-    sta 1, s
 ; Ring tiles: the slot's base, plus a name's worth for the right column.
     lda.l battle_render_state.spell_slot
     and.w #0x00FF
