@@ -1,6 +1,6 @@
 """
-Item-name expansion for the field-menu (mirror of `battle/items_patches.s`): mul-by-9 -> mul-by-17 stride
-changes, $0F8000 -> `items_unleashed` pointer remaps.
+Field-menu item names: DrawEquipItemName / DrawItemName go to the small VWF, and the colon/quantity column moves
+past the longer French names.
 Field / drops / treasure rolling inventory all defer to vanilla
 DrawItemSlot at $01:9000, so patching here switches them in one
 go.
@@ -13,56 +13,14 @@ go.
 .import "bank20_helpers"
 
 
-; Item name expansion for menu system
-; Patches the multiply-by-9 to multiply-by-17
-; Also redirects $0F8000 references to items_unleashed
-
-; --- Patch loop counter ---
-; Original: 01/903F: A9 08  LDA #$08
-; Name field is ITEM_UNLEASHED_TEXT_SIZE chars in items_unleashed
-; (records are ITEM_UNLEASHED_RECORD_SIZE bytes = symbol + name).
-
-.alloc at 0x01903F {
-    lda #ITEM_UNLEASHED_TEXT_SIZE
-
-; --- Patch multiply logic ---
-
-; Original at $019023-902A (7 bytes):
-;   LDA $43, ASL, ASL, ASL, ADC $43, TAX
-; New: JSL to relocated routine (4 bytes) + 3 NOPs
-}
-.alloc at 0x019023 {
-    jsr.l multiply_item_index_17
-    nop
-    nop
-    nop
-    nop
-
-; ===== ITEM TABLE ADDRESS REDIRECTS =====
-
-; --- menu: item symbol ---
-; Original: 01/902E: BF 00 80 0F  LDA $0F8000,X
-}
-.alloc at 0x01902E {
-    lda.l items_unleashed, x
-
-; --- menu: item name (in loop) ---
-; Original: 01/9043: BF 00 80 0F  LDA $0F8000,X
-}
-.alloc at 0x019043 {
-    lda.l items_unleashed, x
-
 ; ===== DRAWITEMNAME JSL HOOKS =====
-; Both vanilla entry points relocate to `items_menu_vwf.draw_field_item_name`
-; in bank $20. Initial stub mirrors the vanilla fixed-font body so the
-; visible output stays identical; subsequent phases will swap in the
-; small_vwf glyph blit + per-slot CHR allocator.
+; Both vanilla entry points relocate to the bank-$20 VWF item name; the vanilla body they shared ($01:9019-$905F,
+; the 9-byte-record walk) is never reached.
 
 ; DrawEquipItemName ($01:9013): only the equip screen calls it, with Y
 ; on the character record and X on the tilemap, unlike the item lists.
 ; Its own wrapper maps that onto the VWF helper. The vanilla entry is 6
 ; bytes ($9013-$9018), so the JSL + RTS fits.
-}
 .alloc at 0x019013 {
     jsr.l items_menu_vwf.draw_equip_item_name
     rts

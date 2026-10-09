@@ -11,12 +11,13 @@ from pathlib import Path
 import pytest
 
 from _ff4kintsuki import kss_path, load_emu_from_kss
+from utils.bake_names import pointed_records
 
 REPO = Path(__file__).resolve().parents[1]
 NAMES = REPO / "build/gen/items_unleashed.dat"
+NAME_POINTERS = REPO / "build/gen/items_unleashed.ptr"
 BLOB = REPO / "build/gen/item_names_vwf.dat"
 TABLE = REPO / "build/gen/item_names_vwf.tbl"
-RECORD = 17  # a symbol byte, then 16 name bytes
 TILE_ID = 0x100  # the field list's first slot
 BUDGET = 10
 CHR_BUFFER = 0x703000
@@ -56,13 +57,12 @@ def _baked(item: int) -> bytes:
 
 
 def test_runtime_names_match_the_baked_ones(runtime_tiles):
-    data = NAMES.read_bytes()
+    names = pointed_records(NAMES.read_bytes(), NAME_POINTERS.read_bytes(), skip=1)  # past the symbol byte
     differ = []
-    for item in range(len(data) // RECORD):
+    for item, codes in enumerate(names):
         baked = _baked(item)
         if not baked:
             continue
-        codes = data[item * RECORD + 1 : (item + 1) * RECORD].rstrip(b"\xff")
         if runtime_tiles(codes)[: len(baked)] != baked:
             differ.append(item)
     assert differ == []

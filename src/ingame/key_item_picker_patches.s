@@ -145,7 +145,7 @@ Patched:
 
 ; Replace the inline id*9 multiplier at $00:B253-B26C with a
 ; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
-; lda $0712,x at $B24B), returns A = id * ITEM_UNLEASHED_RECORD_SIZE.
+; lda $0712,x at $B24B), returns A = the name's offset in items_unleashed.
 ; Move into X for the existing inner-loop indexed
 ; `lda.l items_unleashed, x` read. The original block was
 ; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
@@ -156,7 +156,7 @@ Patched:
 
     .alloc at 0x00B253 {
     rep #0x10
-    jsr.l multiply_by_17
+    jsr.l item_name_offset
     tax
     inx
     pad_nop(18)
@@ -175,7 +175,8 @@ Patched:
 
 
     .alloc at 0x00B273 {
-    lda.l items_unleashed, x
+; names are NUL-terminated now: past the end, spaces, X held on the $00
+    jsr.l item_name_char
 
 ; Make both column-toggle branches advance Y by 24 (full text-buffer
 ; row, 12 chars). Both → `adc #$18` so every item lands on its own

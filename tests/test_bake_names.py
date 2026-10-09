@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from katsuji import VwfFont
 
-from utils.bake_names import ENTRY, LOROM_BANK, bake, fixed_records, name_tiles
+from utils.bake_names import ENTRY, LOROM_BANK, bake, fixed_records, name_tiles, pointed_records
 
 FONT = Path("build/gen/menu_font.dat")
 MAGIC = Path("build/gen/magic.dat")
@@ -54,3 +54,8 @@ def test_no_name_straddles_a_lorom_bank(font: VwfFont) -> None:
 
 def test_records_drop_their_leading_symbol() -> None:
     assert fixed_records(bytes(range(34)), 17, skip=1) == [bytes(range(1, 17)), bytes(range(18, 34))]
+
+
+def test_pointed_records_stop_at_the_nul():
+    strings = b"\x29AB\x00\xff\x00"
+    assert pointed_records(strings, b"\x00\x00\x04\x00", skip=1) == [b"AB", b""]

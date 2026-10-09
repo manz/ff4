@@ -42,6 +42,7 @@ Status:
 
 
 .import "items"
+.import "bank20_helpers"
 .import "small_vwf/baked_names"
 .import "vwf_ram"
 .include "../bank20.i"
@@ -69,8 +70,7 @@ draw_field_item_name:
 """
     Bank-20 field-menu item-name render driven by `vwf_cfg`.
 
-    Stages the item name in `vwf_text_buffer` with a $00 terminator,
-    fills `vwf_cfg` with per-slot tile budget + tilemap dest,
+    Fills `vwf_cfg` with per-slot tile budget + tilemap dest,
     fills the top tilemap row with $FF blanks (so the 16-pixel-tall
     slot keeps its height), writes the items_unleashed symbol byte
     + palette to the bottom row's first tile, then calls the unified
@@ -89,56 +89,6 @@ draw_field_item_name:
 ; the caller `DrawItemSlot` continues with `tya ; adc #$60 ; tay`
 ; to position the colon glyph, so Y must come back unchanged.
     phy
-; --- X = item id * ITEM_UNLEASHED_RECORD_SIZE (inline mul-by-17) ---
-    rep #0x20
-    lda.b 0x43
-    and.w #0x00FF
-    pha
-    asl
-    asl
-    asl
-    asl  ; * 16
-    clc
-    adc 0x01, s  ; + id = * 17
-    tax
-    pla
-    sep #0x20
-; --- Copy items_unleashed name bytes into vwf_text_buffer, terminate $00 ---
-; Byte 0 of the record is the symbol (rendered separately as fixed
-; tile below) ; bytes 1..ITEM_UNLEASHED_TEXT_SIZE go into the buffer.
-; X is the destination index (only abs,x works with sta.l) ; the
-; source offset rides in long SRAM scratch `vwf_engine.src_offset` so we
-; do not steal a direct-page byte from vanilla's menu loop (the
-; original placement on DP $45 clashed with the items code's row
-; counter and broke the per-slot copy).
-    rep #0x20
-    txa
-    inc  ; skip symbol byte
-    sta.l vwf_engine.src_offset
-    sep #0x20
-    ldx.w #0x0000
-
-_copy_loop:
-    phx
-    rep #0x20
-    lda.l vwf_engine.src_offset
-    tax
-    sep #0x20
-    lda.l items_unleashed, x
-    pha  ; save the byte so the 16-bit src-pointer update does not clobber it
-    inx
-    rep #0x20
-    txa
-    sta.l vwf_engine.src_offset
-    sep #0x20
-    pla
-    plx
-    sta.l vwf_text_buffer, x
-    inx
-    cpx.w #ITEM_UNLEASHED_TEXT_SIZE
-    bne _copy_loop
-    lda.b #0x00
-    sta.l vwf_text_buffer, x  ; null terminator
 ; --- Populate vwf_cfg.tile_id_base = FIELD base + $5D * K ---
 ; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2.
 ; Store the full 16-bit value: slots 6..10 produce tile_id_base
@@ -328,20 +278,10 @@ _bottom_blank_loop:
     adc.w #0x0040
     sta.b 0x1D
     sep #0x20
-; X currently 0 from the top-row loop ; re-fetch items_unleashed offset.
-    rep #0x20
+; the name's symbol byte, first in its items_unleashed string
     lda.b 0x43
-    and.w #0x00FF
-    pha
-    asl
-    asl
-    asl
-    asl
-    clc
-    adc 0x01, s
+    jsr.l item_name_offset
     tax
-    pla
-    sep #0x20
     lda.l items_unleashed, x
     sta (0x1D), y  ; bottom-row symbol tile
     iny

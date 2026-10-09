@@ -49,3 +49,18 @@ def bake_file(
     blob, table = bake(font, fixed_records(names_file.read_bytes(), record_size, skip))
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)
+
+
+def pointed_records(strings: bytes, pointers: bytes, skip: int = 0) -> list[bytes]:
+    """The NUL-terminated strings `pointers` (16-bit offsets) point at in `strings`, without their first `skip` bytes."""
+    offsets = [int.from_bytes(pointers[i : i + 2], "little") for i in range(0, len(pointers), 2)]
+    return [strings[offset : strings.index(0, offset)][skip:] for offset in offsets]
+
+
+def bake_pointed_file(
+    font_file: Path, strings_file: Path, pointers_file: Path, blob_file: Path, table_file: Path, skip: int = 0
+) -> None:
+    font = VwfFont.decode(font_file.read_bytes())
+    blob, table = bake(font, pointed_records(strings_file.read_bytes(), pointers_file.read_bytes(), skip))
+    blob_file.write_bytes(blob)
+    table_file.write_bytes(table)

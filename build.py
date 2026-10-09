@@ -27,7 +27,7 @@ from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
-from utils.bake_names import bake_file
+from utils.bake_names import bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
 
@@ -165,6 +165,18 @@ def build_text_asset(table, input_file, binary_text_file, pointers_file, address
     )
 
 
+def build_pointed_names(table: Table, input_file: str, strings_file: str, pointers_file: str) -> None:
+    """A fixed-length name list as NUL-terminated strings and a table of their 16-bit offsets: no padding."""
+    strings = bytearray()
+    offsets = bytearray()
+    with open(input_file, encoding="utf-8") as datasource:
+        for child in ElementTree.parse(datasource).getroot():
+            offsets += struct.pack("<H", len(strings))
+            strings += (table.to_bytes(child.text) if child.text else b"\xff") + b"\x00"
+    Path(strings_file).write_bytes(strings)
+    Path(pointers_file).write_bytes(offsets)
+
+
 def build_fixed_asset(table, input_file, binary_text_file):
     pointers = read_fixed_from_xml(input_file, table)
     write_pointers_value_as_binary(pointers, binary_text_file)
@@ -242,6 +254,7 @@ assets_builder = {
     "fixed_to_ptr": build_fixed_to_ptr_asset,
     "nullterminated": build_null_terminated,
     "nullterminated_with_base": build_null_terminated_with_base,
+    "pointed_names": build_pointed_names,
 }
 
 
@@ -302,10 +315,11 @@ if __name__ == "__main__":
         ),
         ("fixed", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat"),
         (
-            "fixed",
+            "pointed_names",
             menu_table,
             os.path.join(text_root, "items_unleashed.xml"),
             "build/gen/items_unleashed.dat",
+            "build/gen/items_unleashed.ptr",
         ),
         ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "build/gen/magic.dat"),
         (
@@ -383,9 +397,10 @@ if __name__ == "__main__":
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), 9,
               Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
-    # Item names (items_unleashed: a symbol byte, then 16 name bytes): the field item lists copy them.
-    bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"), 17,
-              Path("build/gen/item_names_vwf.dat"), Path("build/gen/item_names_vwf.tbl"), skip=1)
+    # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
+    bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
+                      Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),
+                      Path("build/gen/item_names_vwf.tbl"), skip=1)
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")
