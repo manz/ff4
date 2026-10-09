@@ -175,4 +175,33 @@ battle_magic_char_after_first:
     dex
 _magic_char_after:
     rtl
+
+
+battle_command_mult8:
+"""
+Vanilla btlgfx's `lda #5 / sta $28 / jsr Mult8` for a command name: id in $26 -> its `command_names` offset in $2A.
+X, Y kept.
+"""
+    php
+    rep #0x30
+    phx
+    lda.b 0x26
+    and.w #0x00FF
+    asl
+    tax
+    lda.l command_name_pointers, x
+    sta.b 0x2A
+    plx
+    plp
+    rtl
+
+
+battle_command_char:
+"""The byte at command_names + X, or a space once the name has ended (X held on its $00 for the caller's inx)."""
+    lda.l command_names, x
+    bne _command_char
+    lda.b #0xFF
+    dex
+_command_char:
+    rtl
 }

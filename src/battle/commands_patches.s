@@ -1,9 +1,10 @@
 """
 In-place patches for the small-VWF battle command window (shorter slot stride, command-id base, format-buffer
-pointer).
+pointer), and the action window's command name read from the pointed `command_names`.
 """
 
 .import "assets"
+.import "bank20_helpers"
 .include "config.i"
 command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 command_length = 6
@@ -42,4 +43,20 @@ cmd_text_buf_ptrs:
     .alloc at 0x02999F {
     ldx.w #battle_data_size
     }
+}
+
+
+; The action window's command name ($02:CB44, a command whose name is shown: Kick, Sauter...): vanilla walked 5-byte
+; Japanese records; the French names are NUL-terminated, up to 10 letters.
+.alloc at 0x02CB49 {
+    jsr.l battle_command_mult8  ; lda #5 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
+}
+.alloc at 0x02CB54 {
+    jsr.l battle_command_char
+}
+.alloc at 0x02CB5D {
+    cpy.w #10
 }
