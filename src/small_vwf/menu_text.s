@@ -22,6 +22,7 @@ come from elsewhere: the class name (DrawClassName, tiles $2E0-$2FF) and the cha
 from RAM), whose tiles are keyed by name index ($300 + index * 8), so names never collide on any screen.
 """
 .import "vanilla"
+.include "src/ingame/bank01_slack.i"
 .import "vwf_ram"
 .import "libmz"
 .import "menus/start_screen_text"
@@ -83,6 +84,36 @@ _SCHOOL_SPELLS := 24  ; a school's spells span at most 24 ids: (id - 1) mod 24 i
     plx
     pla
     jsl menu_text_vwf.draw_spell
+    rts
+}
+
+.alloc at 0x018C54 size 11 {
+; SetTextColor's loop ($01:8C47, the item / spell target windows' palettes): keep the cells' tile bits 8-9
+    jsr.w set_text_color_cells
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+}
+
+.alloc _set_text_color_cells in bank01_slack {
+set_text_color_cells:
+"""
+SetTextColor's loop: $45 into the attribute of $37 cells from X, keeping their tile bits 8-9 (vanilla stored $45
+whole, so the small-VWF names at tiles $300+ fell back onto the 8x8 font's).
+"""
+    lda.w 0x0001, x
+    and.b #0x03
+    ora.b 0x45
+    sta.w 0x0001, x
+    inx
+    inx
+    dec.b 0x37
+    bne set_text_color_cells
     rts
 }
 
