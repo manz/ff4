@@ -329,12 +329,6 @@ if __name__ == "__main__":
             "build/gen/characters_names.dat",
         ),
         (
-            "fixed",
-            menu_table,
-            os.path.join(text_root, "monsters.xml"),
-            "build/gen/monsters.dat",
-        ),
-        (
             "fixed_to_ptr",
             menu_table,
             os.path.join(text_root, "battle_commands.xml"),
