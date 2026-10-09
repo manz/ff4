@@ -31,7 +31,7 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ; Per-item record size in the unleashed (16-char) name table at
 ; `items_unleashed`: 1-byte symbol prefix + 16-byte name =
 ; 17 bytes total. Battle / field / drops / treasure inventory all
-; render from this table once the BATTLE_ITEMS_VWF + field-menu
+; render from this table once the battle-items + field-menu
 ; switches are on. Keep stride math + loop counters consistent via
 ; these two symbols.
 ITEM_UNLEASHED_RECORD_SIZE := 0x11

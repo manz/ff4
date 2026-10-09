@@ -151,12 +151,11 @@ init_inventory_text_buf_rolling:
     sta.l battle_render_state.spell_tiles_live
 ; Note: Game's $4A flag (bit 2) already indicates inventory is active
 
-    .if BATTLE_ITEMS_VWF {
 ; Reset the VWF allocator to tile_id 0xC0 once for the whole pass.
 ; The 6-slot render loop below increments the allocator naturally so
 ; each item owns a distinct tile range (item N at 0xC0 + N * ~9 tiles).
     jsr.l messages_vwf.init_inventory
-    }
+
 
 ; Render 6 rows to circular slots (5 visible + 1 off-screen)
 ; At init, item index = slot index (both 0-5)
@@ -186,11 +185,10 @@ _init_row_loop:
     cmp #BUFFER_SLOTS  ; 6 slots total
     bne _init_row_loop
 
-    .if BATTLE_ITEMS_VWF {
 ; End of inventory rolling pass: clear the VWF battle flag and signal
 ; DMA so the inventory tile slice flushes to VRAM on the next NMI.
     jsr.l messages_vwf.deinit
-    }
+
 
 ; Queue VRAM transfer for initial render
     lda #0x03
@@ -274,19 +272,10 @@ _render_inventory_item:
 
 _not_disabled:
 
-; Calculate item name address: item_names + (id x 13)
-; Must use 16-bit math since id x 13 can exceed 255
-    rep #0x20  ; 16-bit A
-    lda.b 0x02  ; Load (will get $02-$03)
-    and.w #0x00FF  ; Mask to item ID only
-    sta.b 0x08  ; Save original ID
-    asl  ; x2
-    clc
-    adc.b 0x08  ; x3
-    asl
-    asl  ; x12
+; the item's string in item_names: symbol byte, name, $00
+    lda.b 0x02
+    jsr.l battle_item_offset
     tax
-    sep #0x20  ; Back to 8-bit
 
 ; Build format string. Starts in fixed mode ; 0x0F toggles fixed <->
 ; VWF so only the name portion routes through the VWF blitter.
@@ -303,11 +292,10 @@ _not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda #0x0E
     sta.w inv_format_buffer, y
@@ -321,13 +309,12 @@ _not_disabled:
 
 _name_copy_loop:
     inx
-    lda.l item_names, x
+    jsr.l battle_item_char  ; spaces once the name has ended
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00
     bne _name_copy_loop
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
@@ -337,7 +324,7 @@ _name_copy_loop:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda.b 0x02
     bne _has_item
@@ -444,18 +431,10 @@ _render_inventory_item_circular:
 
 _circ_not_disabled:
 
-; Calculate item name address: item_names + (id x 12)
-    rep #0x20
+; the item's string in item_names: symbol byte, name, $00
     lda.b 0x02
-    and.w #0x00FF
-    sta.b 0x08
-    asl
-    clc
-    adc.b 0x08
-    asl
-    asl
+    jsr.l battle_item_offset
     tax
-    sep #0x20
 
 ; Build format string. The custom inventory renderer starts in fixed
 ; mode and uses 0x0F as a fixed<->VWF toggle so only the name routes
@@ -476,11 +455,10 @@ _circ_not_disabled:
     iny
 
 ; Toggle to VWF for the name
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
 ; Tile flags for name
     lda #0x0E
@@ -496,14 +474,13 @@ _circ_not_disabled:
 
 _circ_name_loop:
     inx
-    lda.l item_names, x
+    jsr.l battle_item_char  ; spaces once the name has ended
     sta.w inv_format_buffer, y
     iny
     dec.b 0x00
     bne _circ_name_loop
 
 ; Toggle back to fixed for colon + digits
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
@@ -513,7 +490,7 @@ _circ_name_loop:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    }
+
 
 ; Quantity handling
     lda.b 0x02
@@ -982,11 +959,10 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda #0x0E
     sta.w inv_format_buffer, y
@@ -995,7 +971,6 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
 ; The name: its baked tiles (0x0B id), then back to fixed tiles and on to the quantity column.
     lda #0x0B
     sta.w inv_format_buffer, y
@@ -1012,18 +987,7 @@ _slot_not_disabled:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    } else {
-    lda #16
-    sta.b 0x00
 
-_slot_name_loop:
-    inx
-    jsr.l item_name_char  ; spaces once the name has ended
-    sta.w inv_format_buffer, y
-    iny
-    dec.b 0x00
-    bne _slot_name_loop
-    }
 
     lda.b 0x02
     bne _slot_has_item

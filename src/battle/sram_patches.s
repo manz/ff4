@@ -73,42 +73,38 @@ window) through our messages-VWF init/deinit trampolines.
 ;    nop
 ;    nop
 ;    nop
-.if BATTLE_MONSTERS_VWF {
 ;; monster names vwf try but being clear at every monster
 ;; needs a way to have immortal renders and temporary ones (used only for a few instants)
-    .alloc at 0x02a40d {
+.alloc at 0x02a40d {
     jsr.w msg_monster_window_gated
-    }
-
-
-    .alloc at 0x029486 + 12 {
-    .dw 0x949a  ; noop for monster names
-    }
 }
 
 
-.if BATTLE_NAMES_VWF {
+.alloc at 0x029486 + 12 {
+    .dw 0x949a  ; noop for monster names
+}
+
+
 ; this gets redrawn quite often
 ; char names
-    .alloc at 0x02A29D {
+.alloc at 0x02A29D {
     jsr.w msg_names_window_gated
 ; wait frame runs a shite load of updates
-    }
+}
 
 
-    .alloc at 0x029486 + 2 {
+.alloc at 0x029486 + 2 {
     .dw 0x949a  ; noop for char names
-    }
+}
 
 
-    .alloc at 0x0296c0 {
+.alloc at 0x0296c0 {
     .dw 0x949a  ; noop for periodic names update
-    }
+}
 
 
-    .alloc at 0x02A299 {
+.alloc at 0x02A299 {
     jsr.l gated_clear_names_window_buffer
-    }
 }
 ; that's battle graphics 0xf that's a wait frame
 ;*=0x028517
@@ -130,18 +126,15 @@ window) through our messages-VWF init/deinit trampolines.
 ;*=0x038229
 ;    jsr.l render_allocator.init_battle_far
 
-.if BATTLE_NAMES_VWF + BATTLE_MONSTERS_VWF + BATTLE_CMD_VWF > 0 {
 ; patches the _newline control code handler to clear bitsleft on the current tile,
 ; allowing the monster string to be rendered.
-    .alloc at 0x02a637 {
+.alloc at 0x02a637 {
     jsr.l messages_vwf.new_line_escape_code_handler
     rts
-    }
 }
 
 
-.if BATTLE_CMD_VWF {
-    .alloc at 0x0296b0 + 2 {
+.alloc at 0x0296b0 + 2 {
     .dw 0x949a  ; noop for periodic cmd window
 
 ;*=0x029CBF
@@ -149,28 +142,27 @@ window) through our messages-VWF init/deinit trampolines.
 ;    rts
 
 ; nukes the draw all command list (pre renders all the windows)
-    }
+}
 
 
-    .alloc at 0x029ca1 {
+.alloc at 0x029ca1 {
     rts
 
 ; always use the same buffer for all chars command list,
 ; the buffer shall be updated if before the window is opened
 ; due to those updates being quite costly now, we may want to avoid to re render too often
-    }
+}
 
 
-    .alloc at 0x0299f1 {
+.alloc at 0x0299f1 {
     pha
     lda #0
     nop
-    }
+}
 
 
-    .alloc at 0x029989 {
+.alloc at 0x029989 {
     jsr.w draw_window_render_hook
-    }
 }
 .alloc at 0x02FFC2 {
 draw_window_render_hook:

@@ -3,6 +3,7 @@ ROM patches that wire the battle magic system to the relocated `draw_magic_list_
 long-form attack-name copier.
 """
 .import "assets"
+.import "bank20_helpers"
 .import "battle/magic_reloc"
 .import "vanilla"
 
@@ -63,10 +64,13 @@ _draw_letter_far:
 ; attack name window
 }
 .alloc at 0x02cbcc {
-    lda.b #battle_magic_length
+    jsr.l battle_magic_mult8  ; lda #6 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 }
 .alloc at 0x02cbdd {
-    lda.l magic_names, x
+    jsr.l battle_magic_char  ; spaces once the name has ended
 }
 .alloc at 0x02cbe6 {
     cpy.w #battle_magic_length + 1
@@ -178,13 +182,16 @@ _LIST_CURSOR_Y_NUDGE := 2
     nop
 }
 .alloc at 0x02A567 {
-    lda #9
+    jsr.l battle_magic_mult8  ; lda #6 / sta $28 / jsr Mult8: the name's offset into $2A
+    nop
+    nop
+    nop
 }
 .alloc at 0x02A573 {
     lda.l magic_names, x
 }
 .alloc at 0x02A57E {
-    lda.l magic_names + 1, x
+    jsr.l battle_magic_char_after_first  ; $FF once the name has ended
 }
 .alloc at 0x02A57A {
     lda #9 - 1

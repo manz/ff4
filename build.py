@@ -313,7 +313,7 @@ if __name__ == "__main__":
             "build/gen/battle_text.ptr",
             0x29A000,
         ),
-        ("fixed", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat"),
+        ("pointed_names", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat", "build/gen/items.ptr"),
         (
             "pointed_names",
             menu_table,
@@ -321,24 +321,12 @@ if __name__ == "__main__":
             "build/gen/items_unleashed.dat",
             "build/gen/items_unleashed.ptr",
         ),
-        ("fixed", menu_table, os.path.join(text_root, "magic.xml"), "build/gen/magic.dat"),
-        (
-            "fixed",
-            menu_table,
-            os.path.join(text_root, "monsters.xml"),
-            "build/gen/monsters.dat",
-        ),
+        ("pointed_names", menu_table, os.path.join(text_root, "magic.xml"), "build/gen/magic.dat", "build/gen/magic.ptr"),
         (
             "fixed",
             menu_table,
             os.path.join(text_root, "characters_names.xml"),
             "build/gen/characters_names.dat",
-        ),
-        (
-            "fixed",
-            menu_table,
-            os.path.join(text_root, "battle_commands.xml"),
-            "build/gen/battle_commands.dat",
         ),
         (
             "fixed_to_ptr",
@@ -395,8 +383,8 @@ if __name__ == "__main__":
     katsuji_build.build(katsuji_config.load(Path("katsuji.toml")))
     build_assets(assets_list)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
-    bake_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), 9,
-              Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
+    bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
+                      Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
     # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),

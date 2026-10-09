@@ -18,11 +18,8 @@ mult8_far := 0x2855c
 .import "vanilla"
 
 .alloc _battle_commands_reloc_block in bank20_reloc {
-    .if BATTLE_CMD_VWF {
     command_length = 6
-    } else {
-    command_length = 10
-    }
+
 
 draw_command_list_for_character:
 """

@@ -10,6 +10,7 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 .import "libmz"
 .import "dialog"
 .import "assets"
+.import "bank20_helpers"
 .import "kerning"
 .import "vanilla"
 
@@ -613,19 +614,9 @@ _code07:
     {
     lda.w treasure_item_index
 
-    rep #0x20
-    and.w #0x00FF
-    pha
-    clc
-    adc 0x01, s  ; x2
-    adc 0x01, s  ; x3
-    asl
-    asl  ; x12
+; the item's string in item_names; skip its symbol byte
+    jsr.l battle_item_offset
     tax
-    pla
-    sep #0x20
-
-; skip first char (usually a space or a symbol.)
     inx
     lda #0x0b  ; 11 characters
 
@@ -633,7 +624,7 @@ loop:
     pha
     lda.b #0x00
     xba
-    lda.l item_names, x
+    jsr.l battle_item_char  ; $FF once the name has ended
     cmp #0xFF
     beq cleanup
     _vwf_putchar()
