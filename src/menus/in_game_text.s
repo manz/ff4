@@ -228,7 +228,7 @@ config:
 .alloc controls_text in bank20_reloc {
     .scope options {
 controls:
-    move_to(5, 1)
+    move_to(9, 1)
     .text "Contrôles personnalisés"
     .db 0x01
     .dw 0x0204

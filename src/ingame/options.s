@@ -36,7 +36,8 @@
 ; move controls title window
 }
 .alloc at 0x01E204 {
-    menu_window(4, 0, 22, 2)
+; fits "Contrôles personnalisés" (101 px in the small VWF), centred
+    menu_window(8, 0, 14, 2)
 }
 .alloc at 0x01D487 {
     ldy.w #0xE204
