@@ -42,6 +42,7 @@ Status:
 
 
 .import "items"
+.import "small_vwf/baked_names"
 .import "vwf_ram"
 .include "../bank20.i"
 .include "src/battle/inventory_budget.i"
@@ -348,8 +349,8 @@ _bottom_blank_loop:
     ora.b menu_dp.window_attr
     sta (0x1D), y  ; bottom-row symbol palette
     iny
-; --- Run the unified renderer over vwf_text_buffer ---
-    jsr.l render_with_config_trampoline
+; --- The name's baked tiles into the slot (small_vwf/baked_names.s) ---
+    jsr.w _baked_item_name
 ; render_with_config sets vwf_engine.chr_dirty=1 unconditionally. For drops
 ; (CTX=1) ADDITIONALLY raise DIRTY_B so the NMI's secondary flush
 ; covers drops's region this frame. Treasure's primary DIRTY must
@@ -443,6 +444,108 @@ draw_equip_item_name:
     ply
     plp
     rtl
+
+_baked_item_name:
+"""
+Item $43's baked tiles into its slot: copied from ROM to the CHR buffer at vwf_cfg.tile_id_base, the rest of the
+slot's budget filled with paper, their ids written from vwf_cfg.tilemap_base on (attribute ORed with
+vwf_cfg.flags), then chr_dirty raised: the slot ends as render_with_config left it, without rendering.
+"""
+    php
+    rep #0x30
+    phy
+    lda.b 0x43
+    and.w #0x00FF
+    asl
+    asl
+    tax
+    lda.l item_names_vwf_tbl + 2, x
+    and.w #0x00FF
+    pha  ; 3,s tiles
+    lda.l item_names_vwf_tbl, x
+    pha  ; 1,s offset in the blob
+    lda.l vwf_cfg.tile_id_base
+    asl
+    asl
+    asl
+    asl
+    tay  ; CHR buffer offset
+    lda 3, s
+    asl
+    asl
+    asl  ; words to copy
+    beq _paper
+    plx
+    pha
+_copy_tiles:
+    lda.l item_names_vwf, x
+    phx
+    tyx
+    sta.l VWF_CHR_BUFFER, x
+    plx
+    inx
+    inx
+    iny
+    iny
+    lda 1, s
+    dec
+    sta 1, s
+    bne _copy_tiles
+    pla
+    pha  ; keep the frame: 1,s spare, 3,s tiles
+_paper:
+    sep #0x20
+    lda.l vwf_cfg.slot_budget
+    sec
+    sbc 3, s
+    beq _cells
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    asl  ; words of paper
+    tax
+_paper_word:
+    lda.w #0x00FF  ; plane 0 set, plane 1 clear: colour 1
+    phx
+    tyx
+    sta.l VWF_CHR_BUFFER, x
+    plx
+    iny
+    iny
+    dex
+    bne _paper_word
+_cells:
+    rep #0x30
+    lda.l vwf_cfg.tilemap_base
+    tax
+    lda 3, s
+    tay  ; cells to write
+    beq _cells_done
+    sep #0x20
+    lda.l vwf_cfg.tile_id_base
+_cell:
+    sta.l 0x7E0000, x
+    xba
+    lda.l 0x7E0001, x
+    ora.l vwf_cfg.flags
+    sta.l 0x7E0001, x
+    xba
+    inc
+    inx
+    inx
+    dey
+    bne _cell
+_cells_done:
+    sep #0x20
+    lda.b #0x01
+    sta.l vwf_engine.chr_dirty
+    rep #0x30
+    pla
+    pla
+    ply
+    plp
+    rts
 
 render_with_config_trampoline:
 """
