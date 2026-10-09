@@ -34,8 +34,13 @@ class TextMetrics:
     def measure_bytes(self, binary: bytes) -> int:
         return self.wrapper.measure(binary)
 
-    def measure_string(self, line: str) -> int:
-        return self.measure_bytes(self.table.to_bytes(line))
+    def measure_string(self, line: str, font: int = 0) -> int:
+        """Pixel width of `line` started in font `font`."""
+        return self.wrapper.measure(self.table.to_bytes(line), font)
+
+    def font_after(self, text: str, font: int = 0) -> int:
+        """The font in use once `text`, started in font `font`, is written."""
+        return self.wrapper.wrap(self.table.to_bytes(text), 1 << 30, font)[1]
 
     def word_warp(self, line: str, max_pixel_width: int, start_font_index: int = 0) -> tuple[str, int]:
         """Break `line` into lines narrower than `max_pixel_width`; returns the text and the font in use at its end."""
