@@ -5,7 +5,7 @@ Menu code does its transfers on the main thread right after WaitVblank ($01:818A
 paces itself through that wait. A string's tiles are copied into a staging area when pushed (the render buffer is
 reused by the next string) and uploaded after the next wait, before the caller's own tilemap transfer, oldest
 first, at most _DRAIN_BUDGET bytes a vblank. The oldest entry always goes, so a large one can't starve. A full
-queue falls back to waiting for a vblank and uploading everything.
+queue falls back to waiting for a vblank and uploading everything. Baked tiles (push_rom) go straight from ROM.
 """
 .import "preamble"
 .import "sram_layout"
@@ -13,7 +13,7 @@ queue falls back to waiting for a vblank and uploading everything.
 .include "src/vwf_state.i"
 .include "../bank20.i"
 
-_ENTRY := 6  ; VRAM word, staging offset, bytes
+_ENTRY := 8  ; VRAM word, source address, bytes, source bank
 _STAGING_BYTES := 0x1000
 _DRAIN_BUDGET := 0x0400  ; bytes a vblank, beside the menu's own tilemap transfers
 .assert sizeof(VramQueue.entries) == VRAM_QUEUE_SLOTS * _ENTRY, "one entry per queue slot"
@@ -64,17 +64,17 @@ push:
 _full:
     jsr.w flush
 _room:
-    lda.l vram_queue_state.count
-    asl
-    adc.l vram_queue_state.count
-    asl  ; * _ENTRY
-    tax
+    jsr.w _entry_offset
     lda 1, s
     sta.l vram_queue_state.entries, x
     lda.l vram_queue_state.staging_used
+    clc
+    adc.w #vram_queue_staging & 0xFFFF
     sta.l vram_queue_state.entries + 2, x
     lda 5, s
     sta.l vram_queue_state.entries + 4, x
+    lda.w #vram_queue_staging >> 16
+    sta.l vram_queue_state.entries + 6, x
     lda.l vram_queue_state.staging_used
     tay
     lda 3, s
@@ -110,6 +110,45 @@ _copy_word:
     plp
     rts
 
+push_rom:
+"""Queue A bytes from ROM at X, bank vram_queue_state.source_bank, for VRAM word Y. M = X = 16 bits."""
+    php
+    rep #0x30
+    pha  ; 5,s bytes
+    phx  ; 3,s source
+    phy  ; 1,s VRAM word
+    lda.l vram_queue_state.count
+    cmp.w #VRAM_QUEUE_SLOTS
+    bcc _rom_room
+    jsr.w flush
+_rom_room:
+    jsr.w _entry_offset
+    lda 1, s
+    sta.l vram_queue_state.entries, x
+    lda 3, s
+    sta.l vram_queue_state.entries + 2, x
+    lda 5, s
+    sta.l vram_queue_state.entries + 4, x
+    lda.l vram_queue_state.source_bank
+    sta.l vram_queue_state.entries + 6, x
+    lda.l vram_queue_state.count
+    inc
+    sta.l vram_queue_state.count
+    ply
+    plx
+    pla
+    plp
+    rts
+
+_entry_offset:
+"""X = the next free entry's offset. M = X = 16 bits."""
+    lda.l vram_queue_state.count
+    asl
+    asl
+    asl  ; * _ENTRY
+    tax
+    rts
+
 flush:
 """Wait for a vblank and upload everything queued. M = X = 16 bits."""
     sep #0x20
@@ -125,8 +164,8 @@ _drain_next:
     cmp.l vram_queue_state.count
     bcs _drained
     asl
-    adc.l vram_queue_state.next
     asl
+    asl  ; * _ENTRY
     tax
     lda 1, s
     cmp.l vram_queue_state.entries + 4, x
@@ -163,7 +202,7 @@ clear:
     rts
 
 _dma_entry:
-"""Channel 7: the entry at X, staging to VRAM. M = X = 16 bits."""
+"""Channel 7: the entry at X to VRAM. M = X = 16 bits."""
     sep #0x20
     lda.b #0x80
     sta.l ppu.VMAIN
@@ -171,14 +210,12 @@ _dma_entry:
     sta.l dma_ch7.DMAP
     lda.b #PPU.VMDATAL
     sta.l dma_ch7.BBAD
-    lda.b #vram_queue_staging >> 16
+    lda.l vram_queue_state.entries + 6, x
     sta.l dma_ch7.A1B
     rep #0x20
     lda.l vram_queue_state.entries, x
     sta.l ppu.VMADDL
     lda.l vram_queue_state.entries + 2, x
-    clc
-    adc.w #vram_queue_staging & 0xFFFF
     sta.l dma_ch7.A1TL
     lda.l vram_queue_state.entries + 4, x
     sta.l dma_ch7.DASL

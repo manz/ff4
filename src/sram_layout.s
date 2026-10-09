@@ -63,13 +63,14 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 ; Non-zero while a menu window change has faded the screen out (ingame/menu_fade.s).
 .reserve menu_faded_out 1 in sram_bank71
 
-; Deferred menu VRAM uploads (small_vwf/vram_queue.s): 16 entries of (VRAM word, staging offset, bytes).
+; Deferred menu VRAM uploads (small_vwf/vram_queue.s): 16 entries of (VRAM word, source, bytes, source bank).
 VRAM_QUEUE_SLOTS := 16
 .struct VramQueue {
     word count  ; entries pushed
     word next  ; entries uploaded
     word staging_used  ; staging bytes taken
-    byte[VRAM_QUEUE_SLOTS * 6] entries
+    word source_bank  ; push_rom's source bank, set by its caller
+    byte[VRAM_QUEUE_SLOTS * 8] entries
 }
 .reserve vram_queue_state as VramQueue in sram_bank71
 .reserve vram_queue_staging 0x1000 in sram_bank71

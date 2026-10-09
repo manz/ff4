@@ -29,6 +29,7 @@ from RAM), whose tiles are keyed by name index ($300 + index * 8), so names neve
 .import "assets"
 .import "sram_layout"
 .import "small_vwf/vram_queue"
+.import "small_vwf/baked_names"
 .import "small_vwf/render"
 .include "config.i"
 .include "src/vwf.i"
@@ -69,7 +70,7 @@ _SHARED_REGION := 0x02  ; attribute bits of tiles $200-$2FF, taken in turns by t
     rts
 }
 
-_SPELL_LENGTH := 9  ; magic_names: 9 characters per spell id
+_SPELL_LENGTH := 9  ; magic_names: 9 characters per spell id, the cells a name may cover
 _SPELL_TILES := 5  ; the widest name, Léviathan, is 40 pixels
 _SCHOOL_SPELLS := 24  ; a school's spells span at most 24 ids: (id - 1) mod 24 is unique within a list
 .assert _SCHOOL_SPELLS * _SPELL_TILES <= 0x80, "spell names outgrow tiles $100-$17F"
@@ -310,7 +311,8 @@ _tint_cell:
 draw_spell:
 """
 DrawMagicName ($01:B305): A = spell id, X = tilemap offset, $db = the cells' attribute (grey when the spell can't
-be cast). The name takes tiles $100 + ((id - 1) mod 24) * 5, below the messages' $180-$1FF.
+be cast). The name's tiles are baked (small_vwf/baked_names.s): queued from ROM to tiles $100 + ((id - 1) mod 24)
+* 5, below the messages' $180-$1FF.
 """
     phb
     phy  ; the caller walks its spell list with Y
@@ -321,7 +323,7 @@ be cast). The name takes tiles $100 + ((id - 1) mod 24) * 5, below the messages'
     adc.b menu_dp.tilemap_offset
     tax
     sep #0x20
-    phx
+    phx  ; 1,s cell, 3,s spell id
     ldy.w #_SPELL_LENGTH
 _paint_cells:
     lda.b #0xFF
@@ -334,41 +336,6 @@ _paint_cells:
     inx
     dey
     bne _paint_cells
-    lda 3, s  ; spell id, under the cell offset
-    rep #0x20
-    and.w #0x00FF
-    pha
-    asl
-    asl
-    asl
-    adc 1, s  ; id * 9
-    tax
-    pla
-    sep #0x20
-    ldy.w #0x0000
-_copy_spell:
-    lda.l magic_names, x
-    phx
-    tyx
-    sta.l vwf_text_buffer, x
-    plx
-    inx
-    iny
-    cpy.w #_SPELL_LENGTH
-    bne _copy_spell
-_trim_spell:
-    dey
-    bmi _trimmed
-    tyx
-    lda.l vwf_text_buffer, x
-    cmp.b #0xFF
-    bne _trimmed
-    lda.b #0x00
-    sta.l vwf_text_buffer, x
-    bra _trim_spell
-_trimmed:
-    lda.b #0x00
-    sta.l vwf_text_buffer + _SPELL_LENGTH
     lda 3, s
     dec
 _school_index:
@@ -382,23 +349,59 @@ _school_indexed:
     asl
     clc
     adc.b 0x45
-    rep #0x20
+    sta.b 0x45  ; the name's first tile, past $100
+    rep #0x30
+    lda 3, s
     and.w #0x00FF
-    sta.l vwf_cfg.tile_id_base
+    asl
+    asl
+    tax
+    lda.l spell_names_vwf_tbl + 2, x
+    and.w #0x00FF
+    beq _spell_drawn
+    pha  ; 1,s tiles, 3,s cell
+    lda.l spell_names_vwf_tbl, x
+    clc
+    adc.w #spell_names_vwf & 0xFFFF
+    tax
+    lda.b 0x45
+    and.w #0x00FF
+    ora.w #0x0100
+    asl
+    asl
+    asl
+    clc
+    adc.w #0x4000 >> 1
+    tay
+    lda.w #spell_names_vwf >> 16
+    sta.l vram_queue_state.source_bank
+    lda 1, s
+    asl
+    asl
+    asl
+    asl
+    jsr.w vram_queue.push_rom
+    lda 3, s
+    clc
+    adc.w #_GLYPH_ROW
+    tax
+    ply
     sep #0x20
-    lda.b #_SPELL_TILES
-    sta.l vwf_cfg.slot_budget
-    lda.b #0x01
-    sta.l vwf_cfg.flags
-    lda.b #0x00
-    sta.l menu_text_state.resident
-    lda.b #vwf_text_buffer >> 16
-    pha
-    plb
-    ldy.w #vwf_text_buffer & 0xFFFF
-    plx
-    phx
-    jsr.w _draw
+    lda.b 0x45
+_spell_cell:
+    sta.l 0x7E0000, x
+    xba
+    lda.l 0x7E0001, x
+    ora.b #0x01  ; tile bit 8
+    sta.l 0x7E0001, x
+    xba
+    inc
+    inx
+    inx
+    dey
+    bne _spell_cell
+_spell_drawn:
+    sep #0x20
     plx  ; X = the cell offset, as vanilla returns it
     pla
     ply
