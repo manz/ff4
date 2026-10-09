@@ -166,13 +166,8 @@ menu:
     }
 
 
-    .alloc at 0x0183D5 {
-    sta.w 0x0000, y
-    xba
-    sta.w 0x0040, y
-
+; DrawCharName ($01:83AB) draws in the small VWF: small_vwf/menu_text.s.
 ; translate can't fight text
-    }
 
 
     .alloc at 0x018B2A {
@@ -214,61 +209,7 @@ menu:
     }
 }
 
-; main menu spells
-
-; length of spells names
-
-.alloc at 0x01B345 {
-    lda.b #0x08
-
-; compute spell pointer
-;01b319 rep #0x20
-;01b31b asl a
-;01b31c sta 0x45
-;01b31e asl a
-;01b31f adc 0x45
-;01b321 adc #0x8900
-;01b324 tay
-;01b325 sep #0x20
-;01b327 lda #0x0f
-}
-.alloc at 0x01b319 {
-    rep #0x20
-    pha
-    asl
-    asl
-    asl
-    adc 1, s
-    nop
-    nop
-; nop
-;    adc.w #magic_names
-    tay
-    pla
-    sep #0x20
-    lda.b #magic_names >> 16
-
-; instead of adding asset_magic_dat to Y move it to the lda to save 3 bytes
-}
-.alloc at 0x1b32b {
-    lda.w magic_names, y
-}
-.alloc at 0x1b349 {
-    lda.w magic_names, y
-
-; Save / restore covers VRAM byte $4000-$5FFF ($2000 bytes) instead of
-; vanilla's $1000. The extra $1000 bytes reach past the static-font /
-
-; vanilla BG3 CHR area to cover the full VWF region union :
-;   Region 1   $5000-$56A0  (field / treasure item-name CHR)
-;   Region 1B  $56E0-$5AA0  (drops item-name CHR, treasure popup)
-;   Region D   $5800-$5FF0  (item description CHR)
-; Without the extension, menu glyph bytes at $5300+ stayed in VRAM
-; forever (overworld never writes those addresses), so any BG tilemap
-; entry referencing VWF tile_ids $100+ rendered the leftover glyphs
-; over the overworld map. SRAM buffer at $70:5000-$70:6FFF stays
-; clear of the battle-magic region at $70:7000.
-}
+; DrawMagicName's copy loop ($01:B305 on) draws baked spell names: small_vwf/menu_text.s.
 ; The save / restore themselves live in src/ingame/menu_vram.s.
 
 .alloc at 0x018E32 {
