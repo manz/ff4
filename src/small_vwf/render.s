@@ -877,55 +877,52 @@ coupe:
     .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
     {
+; A kern between the previous glyph and this one adds to the room left in the tile. When that passes the tile's
+; 8 pixels, the glyph starts in the previous tile: step back one tile (allocator, tilemap cursor, CHR destination
+; in Y and oldtilepos) and keep what is left. The glyph then straddles the edge like any other. A glyph starting a
+; fresh tile (room 8) is the same case.
+    lda.b counter
+    cmp.b #0x08
+    bne _later_row  ; once per glyph, on its first row (counter counts the rows down from 8)
     lda.b bits_left_on_tile
-    cmp #8
-    beq _overflow
     sta.b temp
-
     jsr.w get_kerning_adjustment
-    bcc _adjustment
-    bra _end
-_adjustment:
-    pha
-    lda.b temp
+    bcs _room
     clc
-    adc 1, s
+    adc.b temp
     sta.b temp
-    .if 0 {
-    bpl _no_adjustment
-
-    and.b #0x80
-    sta.b bits_left_on_tile
+_room:
+    lda.b temp
+    cmp.b #0x09
+    bcc _set_room
+    sec
+    sbc.b #0x08
     sta.b temp
+    rep #0x20
     lda.l render_allocator.allocated_tile_id
     dec
     sta.l render_allocator.allocated_tile_id
-    jsr.w _refresh_destination_pointer
-    }
-_no_adjustment:
-
-    pla
-_end:
-; Clamp temp to 0..8 before writing bits_left_on_tile : kerning
-; adjustments can push the value past 8 (e.g. when a kerning entry
-; subtracts more than the current tile has left), and the downstream
-; dispatch at $97FC indexes a 9-entry jump table by bits_left * 2.
-; Out-of-range values land off the table end and execute random
-; bytes (BRK $00 on the held-DOWN field-items scroll). Treat any
-; value > 8 as "no bits left in this tile" so the next loop pass
-; allocates a fresh tile_id instead of crashing.
+    lda.l tilemap_offset
+    dec
+    dec
+    sta.l tilemap_offset
+    tya
+    sec
+    sbc.w #0x0010
+    tay
+    lda.b oldtilepos
+    sec
+    sbc.w #0x0010
+    sta.b oldtilepos
+    sep #0x20
     lda.b temp
-    cmp.b #0x09
-    bcc _bits_left_in_range
-    lda.b #0x00
-
-_bits_left_in_range:
+_set_room:
     sta.b bits_left_on_tile
-_overflow:
     pha
     lda.l current_char
     sta.l prev_char
     pla
+_later_row:
     rts
     }
 
