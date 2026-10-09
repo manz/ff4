@@ -60,3 +60,5 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 ; VRAM $6000-$7FFF while a menu is up (ingame/menu_vram.s), and its "saved" marker.
 .reserve menu_vram_high VRAM_SAVE_BYTE_COUNT in sram_bank71
 .reserve menu_vram_saved 2 in sram_bank71
+; Non-zero while a menu window change has faded the screen out (ingame/menu_fade.s).
+.reserve menu_faded_out 1 in sram_bank71

@@ -4,8 +4,11 @@ Instant menu windows: OpenWindow, CloseWindow and TransformWindow (bank $01) rea
 The window art and its scroll offsets end exactly as before: TransformWindow still steps every window edge and
 every scroll rate (the fractional scroll positions and the edge fills come out identical), only the per-frame
 vblank wait, BG transfer and scroll-register write move after the loop. Open and Close transfer the 25 rows they
-wiped in one DMA. Shop windows open instantly too: they share these routines.
+wiped in one DMA. Shop windows open instantly too: they share these routines. Each change fades the screen out
+first (ingame/menu_fade.s).
 """
+.import "ingame/menu_fade"
+.include "src/ingame/close_window_slack.i"
 .label _wait_vblank_818a = 0x01818A
 .label _tfr_vram_8078 = 0x018078
 .label _exec_jump_tbl_834b = 0x01834B
@@ -18,6 +21,7 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
 
 .alloc at 0x0183E3 {
 ; OpenWindow: rows 0-49 of the selected BG's buffer ($29) to its VRAM tilemap ($35), in one vblank
+    jsr.w menu_fade_out
     ldx 0x35
     stx 0x1D
     ldx 0x29
@@ -46,17 +50,27 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
     ldx 0x65
     cpx 0x69
     bne _transform_loop_8526
-    lda.w 0x01C2
+    lda 0xC2
     bne _transform_loop_8526
+    jsr.w menu_transform_show
+    ldx.w #_transform_rts_858c & 0xFFFF
+    stx.w 0x01CD
+    stx.w 0x01D0
+}
+
+.alloc at 0x01858C {
+; the rts TransformWindow's sprite hooks point back to when idle
+    rts
+}
+
+.alloc _transform_show in close_window_slack {
+menu_transform_show:
+"""TransformWindow's final frame: fade out first, then the BG transfer, sprites and scroll registers."""
+    jsr.w menu_fade_out
     jsr.w _wait_vblank_818a
     lda 0xC3
     ldx.w #_tfr_bg_tiles_tbl_85b8 & 0xFFFF
     jsr.w _exec_jump_tbl_834b
     jsr.w 0x01CC
-    jsr.w _update_scroll_regs_far_94a4
-    ldx.w #_transform_rts_858c & 0xFFFF
-    stx.w 0x01CD
-    stx.w 0x01D0
-    rts
+    jmp.w _update_scroll_regs_far_94a4
 }
-.assert 0x01855E + 46 == 0x01858C, "TransformWindow's rts must stay at $01:858C, where its hooks point"
