@@ -100,28 +100,7 @@ menu:
     }
 
 
-    .alloc at 0x018fe3 {
-    {
-load_next_char:
-    lda.l class_names, x
-    beq end
-; dakuten
-    jsr.w get_dakuten
-    sta.w 0x0000, y
-    xba
-    sta.w 0x0040, y
-    iny
-    lda.b menu_dp.window_attr
-    sta.w 0x0000, y
-    sta.w 0x0040, y
-    inx
-    iny
-
-    bra load_next_char
-end:
-    rts
-    }
-    }
+; DrawClassName's copy loop ($01:8FE3) draws in the small VWF: small_vwf/menu_text.s.
 
 
     .alloc at 0x0189b9 {

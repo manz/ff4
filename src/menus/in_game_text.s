@@ -267,6 +267,7 @@ string_3:
 ; りょうきき
     .text "Ambidextre"
     .db 0
+strings_end:
     }
 
     .scope messages {

@@ -5,13 +5,17 @@ The menu text thunks (menus/system_menus_text.s) offer every string here first. 
 gets the tiles at its byte offset in its block: a glyph is at most 8 pixels wide, so no two strings of a block
 share a tile and nothing is allocated. Blocks on screen together need disjoint tiles.
   - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there.
-  - `status`: tiles $200-$2FE, VRAM $6000-$6FEF, free in every menu (ingame/menu_vram.s saves the field's copy).
+  - `status`: tiles $200-$2B7, `dextrality` (handedness): $2B8-$2DF.
+Tiles $200-$3FF are VRAM $6000-$7FFF, free in every menu (ingame/menu_vram.s saves the field's copy). Two strings
+come from elsewhere: the class name (DrawClassName, tiles $2E0-$2FF) and the character names (DrawCharName, read
+from RAM), whose tiles are keyed by name index ($300 + index * 8), so names never collide on any screen.
 """
 .import "vanilla"
 .import "vwf_ram"
 .import "libmz"
 .import "menus/start_screen_text"
 .import "menus/in_game_text"
+.import "assets"
 .import "small_vwf/render"
 .include "config.i"
 .include "src/vwf.i"
@@ -22,7 +26,28 @@ _GLYPH_ROW := 0x40  ; menu text puts the dakuten at +0 and the glyph one row dow
 _BLANK_TILE := 0xFF
 
 .assert newgame.strings_end - newgame.new_game <= 0x80, "the newgame strings outgrow tiles $180-$1FF"
-.assert status.strings_end - status.status <= 0xFF, "the status strings outgrow tiles $200-$2FE"
+.assert status.strings_end - status.status <= 0xB8, "the status strings outgrow tiles $200-$2B7"
+.assert dextrality.strings_end - dextrality.hands <= 0x28, "the handedness strings outgrow tiles $2B8-$2DF"
+
+_CLASS_TILE := 0xE0  ; with attribute bits 2: tiles $2E0-$2FF
+_CLASS_TILES := 0x20
+_NAME_TILES := 8  ; a name has 6 characters
+_NAME_ATTRIBUTE := 0x03  ; tiles $300-$3FF
+_NAME_LENGTH := 6
+.label _char_name_tbl = 0x018457  ; CharNameTbl: character id - 1 to name index
+.label _char_names = 0x7E1500  ; 6 bytes per name index
+
+.alloc at 0x0183B0 {
+; DrawCharName after its zero-id check
+    jsl menu_text_vwf.draw_name
+    rts
+}
+
+.alloc at 0x018FE3 {
+; DrawClassName's copy loop (X = offset in class_names, from load_classes_pointer)
+    jsl menu_text_vwf.draw_class
+    rts
+}
 
 .alloc _small_vwf_menu_text in bank20_reloc {
     .include "src/vwf_state.i"
@@ -113,6 +138,92 @@ _done:
     sec
     rts
 
+draw_name:
+"""
+DrawCharName ($01:83B0): A = character id (non-zero), Y = tilemap offset. The name is copied out of RAM and drawn
+in the tiles of its name index.
+"""
+    phb
+    pha
+    rep #0x20
+    tya
+    clc
+    adc.b menu_dp.tilemap_offset
+    tax
+    sep #0x20
+    pla
+    phx
+    dec
+    rep #0x30
+    and.w #0x003F
+    tax
+    lda.l _char_name_tbl, x
+    and.w #0x00FF
+    pha
+    asl
+    asl
+    asl
+    sta.l vwf_cfg.tile_id_base
+    pla
+    asl
+    pha
+    asl
+    clc
+    adc 1, s
+    tax  ; name index * 6
+    pla
+    sep #0x20
+    ldy.w #0x0000
+_copy_name:
+    lda.l _char_names, x
+    phx
+    tyx
+    sta.l vwf_text_buffer, x
+    plx
+    inx
+    iny
+    cpy.w #_NAME_LENGTH
+    bne _copy_name
+    tyx
+    lda.b #0x00
+    sta.l vwf_text_buffer, x
+    lda.b #_NAME_TILES
+    sta.l vwf_cfg.slot_budget
+    lda.b #_NAME_ATTRIBUTE
+    sta.l vwf_cfg.flags
+    lda.b #vwf_text_buffer >> 16
+    pha
+    plb
+    ldy.w #vwf_text_buffer & 0xFFFF
+    plx
+    jsr.w _draw
+    plb
+    rtl
+
+draw_class:
+"""DrawClassName's copy loop ($01:8FE3): X = offset in class_names, Y = tilemap address ($29 added)."""
+    phb
+    rep #0x20
+    txa
+    clc
+    adc.w #class_names & 0xFFFF
+    phy
+    tay
+    plx
+    lda.w #_CLASS_TILE
+    sta.l vwf_cfg.tile_id_base
+    sep #0x20
+    lda.b #_CLASS_TILES
+    sta.l vwf_cfg.slot_budget
+    lda.b #0x02
+    sta.l vwf_cfg.flags
+    lda.b #class_names >> 16
+    pha
+    plb
+    jsr.w _draw
+    plb
+    rtl
+
 _claim:
 """
 Carry set when Y (string - $8000) lies in a block of `_blocks`: vwf_cfg then holds the string's first tile, its
@@ -168,6 +279,7 @@ _blocks:
 ; first string, end, allocator id of the first tile, attribute bits (tile id bits 8-9)
     .dw newgame.new_game & 0xFFFF, newgame.strings_end & 0xFFFF, 0x80, 0x01
     .dw status.status & 0xFFFF, status.strings_end & 0xFFFF, 0x00, 0x02
+    .dw dextrality.hands & 0xFFFF, dextrality.strings_end & 0xFFFF, 0xB8, 0x02
     .dw 0x0000
 
 _begin_line:
@@ -200,7 +312,7 @@ _counted:
 _pad:
 """
 Blank the VWF cells between the text and the line's 8x8 end: a shorter text hides the longer one drawn
-before. Cells without a VWF tile (attribute bit 0 clear) stay as they are, a narrowed window's outside too.
+before. Cells without a VWF tile (attribute bits 0-1 clear) stay as they are, a narrowed window's outside too.
 """
     php
     phx
@@ -220,9 +332,9 @@ _pad_check:
     sep #0x20
     bcs _padded
     lda.l 0x7E0001, x
-    bit.b #0x01
+    bit.b #0x03
     beq _pad_next
-    and.b #0xFE
+    and.b #0xFC
     sta.l 0x7E0001, x
     lda.b #_BLANK_TILE
     sta.l 0x7E0000, x
