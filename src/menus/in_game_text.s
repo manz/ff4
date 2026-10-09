@@ -62,6 +62,11 @@ notuse:
     .dw 0x0052
     .text "Impossible à utiliser."
     .db 0
+nothing_here:
+; なにもありません: the same empty slot picked twice ($01:A300)
+    move_to(10, 1)
+    .text "Il n'y a rien."
+    .db 0
     }
 }
 
@@ -109,6 +114,65 @@ key_items_left_warning:
     menu_window(6, 11, 17, 1)
     move_to(7, 11)  ; pos text: the glyph row is the one below
     .text "Il reste des objets importants."
+    .db 0
+    }
+}
+
+.alloc fat_chocobo_text in bank20_reloc {
+    .scope fat_chocobo {
+    """
+Fat Chocobo's screen (ingame/fat_chocobo.s). Vanilla writes his name at (7, 2) once and each line at (13, 2);
+    the name does not fit before column 13 in French, so every line carries it from column 7.
+    """
+choice_window:
+; FatChocoChoiceWindow + FatChocoChoicePosText ($01:CD80 DrawWindowText): window, then あずける / ひきだす
+    menu_window(2, 6, 12, 2)
+    move_to(4, 7)
+    .text "Déposer"
+    col(6)
+    .text "Retirer"
+    .db 0
+greens:
+; 「よーお なんかようかーい」
+    move_to(7, 2)
+    .text "Gros Chocobo : Yo ! Tu veux quoi ?"
+    .db 0
+whistle:
+; 「こんなとこでフエふくなよ」
+    move_to(7, 2)
+    .text "Gros Chocobo : Siffle pas ici !"
+    .db 0
+give:
+; 「なにさくれるんだーい」
+    move_to(7, 2)
+    .text "Gros Chocobo : Tu me donnes quoi ?"
+    .db 0
+take:
+; 「なにがほしいんだーい」
+    move_to(7, 2)
+    .text "Gros Chocobo : Tu reprends quoi ?"
+    .db 0
+full:
+; 「うーん もうくえない」
+    move_to(7, 2)
+    .text "Gros Chocobo : Je suis plein !"
+    .db 0
+bag_full:
+; 「にもつさせいりしなー」
+    move_to(7, 2)
+    .text "Gros Chocobo : Range ton sac !"
+    .db 0
+    }
+}
+
+.alloc summon_learned_text in bank20_reloc {
+    .scope items_menu {
+summon_learned:
+; SummonMsgWindow ($01:A8E4 DrawWindowText): "Rydia / a appris Gobelin". The game writes the name at (13, 10) and
+; the summon after "a appris" (items.s moves it to (18, 12)); Flagelleur, the widest, ends in column 22.
+    menu_window(12, 9, 11, 5)
+    move_to(13, 12)
+    .text "a appris"
     .db 0
     }
 }
@@ -278,6 +342,19 @@ config:
     .dw 0x04C4
     .text "Couleur"
     .db 0
+pad_select_title_window:
+; replaces ConfigLabelWindow ($01:D659): fits "Choix des manettes" (83 px), centred like the controls title
+    menu_window(9, 0, 12, 2)
+pad_select:
+; パッドセレクタ ($01:D65F DrawWindowText): window, then title
+    menu_window(5, 7, 20, 11)
+    move_to(10, 1)
+    .text "Choix des manettes"
+    .db 0
+pad:
+; コントローラー, after each name ($01:D685 DrawMenuText)
+    .text "Manette"
+    .db 0
     }
 }
 
@@ -350,6 +427,18 @@ menu:
     .db 0x01
     move_to(14, 8 + _text_y)
     .text "Mains"
+    .db 0
+two_hands:
+; りょうてで つかう アイテムです / ほかはそうびできません ($01:BF81 DrawWindowText): window, then text
+    menu_window(9, 14, 11, 6)
+    move_to(10, 15)
+    .text "Arme à deux mains."
+    .db 1
+    move_to(10, 17)
+    .text "Aucun autre objet"
+    .db 1
+    move_to(10, 19)
+    .text "ne peut s'équiper."
     .db 0
     }
 }

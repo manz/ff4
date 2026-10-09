@@ -48,6 +48,8 @@ _BLANK_TILE := 0xFF
 .assert sizeof(treasure_header_text) <= 0x26, "treasure_header_text outgrows tiles $1AA-$1CF"
 .assert sizeof(exchange_label_text) <= 0x30, "exchange_label_text outgrows tiles $1D0-$1FF"
 .assert sizeof(key_items_warning_text) <= 0x32, "key_items_warning_text outgrows tiles $13C-$16D"
+.assert sizeof(fat_chocobo_text) <= 0x100, "fat_chocobo_text outgrows tiles $200-$2FF"
+.assert sizeof(summon_learned_text) <= 0x30, "summon_learned_text outgrows tiles $240-$26F"
 .assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
 .assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
 .assert sizeof(controls_text) <= 0x80, "controls_text outgrows tiles $180-$1FF"
@@ -514,6 +516,8 @@ _blocks:
     .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
     .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
     .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
+    .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02
+    .dw summon_learned_text & 0xFFFF, sizeof(summon_learned_text), 0x40, 0x02
     .dw 0x0000
 
 forget_uploads:

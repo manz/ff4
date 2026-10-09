@@ -64,3 +64,16 @@
 .alloc at 0x01D4B7 {
     load_system_menu_text_pointer(options.pad_buttons)
 }
+
+.alloc at 0x01D659 {
+; multi-controller title window
+    load_system_menu_text_pointer(options.pad_select_title_window)
+}
+.alloc at 0x01D65F {
+; multi-controller window and title
+    load_system_menu_text_pointer(options.pad_select)
+}
+.alloc at 0x01D685 {
+; the label after each name
+    load_system_menu_text_pointer(options.pad)
+}

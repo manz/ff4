@@ -30,6 +30,7 @@ Final Fantasy IV the new hack.
 .import "ingame/places_names"
 .import "ingame/new_game"
 .import "ingame/namingway"
+.import "ingame/fat_chocobo"
 .import "ingame/credits"
 .import "ingame/places_names_window"
 .import "intro"

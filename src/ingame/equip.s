@@ -49,3 +49,8 @@ character-name row up so it does not collide with the dextrality string.
     .dw ( dextrality.string_2 & 0xFFFF ) - 0x8000
     .dw ( dextrality.string_3 & 0xFFFF ) - 0x8000
 }
+
+.alloc at 0x01BF81 {
+; the two-handed weapon notice
+    load_system_menu_text_pointer(equip.two_hands)
+}
