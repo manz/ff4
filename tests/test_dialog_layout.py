@@ -97,3 +97,23 @@ def test_markup_a_layout_added_is_ignored(layout: DialogLayout) -> None:
 def test_control_codes_take_no_width(layout: DialogLayout) -> None:
     line = "Le Moine Yang a rejoint le groupe !"
     assert layout.measure(line + "[music][0x29][delay][0x28][close_window]") == layout.measure(line)
+
+
+BOOK = 2  # [force_book]: font index
+
+
+def test_a_font_switch_holds_across_lines_and_windows(layout: DialogLayout) -> None:
+    """A `[force_book]` narration is wrapped to the book font on every line, not only the one carrying the tag."""
+    narration = " ".join(["Le pays de Baron devint la plus forte puissance militaire au monde par leurs aéronefs."] * 3)
+    font = 0
+    for window in windows(layout.layout(f"[force_book]{narration}[end]")):
+        for line, width in zip(window, LINE_WIDTHS, strict=False):
+            assert layout.measure(line, font) <= width, line
+            font = layout.metrics.font_after(line, font)
+    assert font == BOOK
+
+
+def test_each_message_starts_in_the_dialog_font(layout: DialogLayout) -> None:
+    long_line = "Le pays de Baron devint la plus forte puissance militaire au monde"
+    out = layout.layout(f"[force_book]Ainsi.[end]\n{long_line}[end]")
+    assert out.split("\n", 1)[1] == layout.layout(f"{long_line}[end]")

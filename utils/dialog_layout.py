@@ -7,7 +7,9 @@ window breaks and line breaks are the build's, never hand-kept. Markup a previou
 
 ff4's script rules: `Name:` opens a speaker, set in bold at the start of each of their windows; a speaker change
 starts a new window; «» speech without a visible speaker gets windows of its own; `[end]` / `[close_window]` close
-the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow).
+the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow). A font switch holds until the
+next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
+use where it starts, so a `[force_book]` narration wraps to the book font's widths.
 
 Inside those rules katsuji does the setting: `typeset` spaces the punctuation the French way, and `TextLayout`
 packs sentences onto a line while they fit and splits a sentence wider than the window over balanced lines.
@@ -20,7 +22,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from katsuji.layout import TextLayout
-from katsuji.typeset import FRENCH, Markup
+from katsuji.typeset import FRENCH, Markup, typeset
 from script import Table
 
 from metrics import TextMetrics
@@ -184,10 +186,32 @@ class DialogLayout:
 
     def __init__(self, metrics: TextMetrics) -> None:
         self.metrics = metrics
-        self.text_layout = Ff4TextLayout(self.measure, WINDOW_WIDTH, FRENCH, MARKUP)
+        self.text_layout = Ff4TextLayout(self._measure_in_text, WINDOW_WIDTH, FRENCH, MARKUP)
+        self.font = 0  # in use at the start of the open window
+        self._setting = ("", 0)  # the text `_set` is wrapping, typeset, and the font it starts in
 
-    def measure(self, line: str) -> int:
-        return self.metrics.measure_string(line)
+    def measure(self, line: str, font: int = 0) -> int:
+        return self.metrics.measure_string(line, font)
+
+    def _measure_in_text(self, line: str) -> int:
+        """`line`, a piece of the text being set, measured in the font in use where it starts in that text."""
+        text, font = self._setting
+        start = text.find(line)
+        if start > 0:
+            font = self.metrics.font_after(text[:start], font)
+        return self.measure(line, font)
+
+    def _line_fonts(self, lines: Sequence[str], font: int) -> list[int]:
+        """The font each of `lines` starts in, the first in `font`."""
+        fonts = []
+        for line in lines:
+            fonts.append(font)
+            font = self.metrics.font_after(line, font)
+        return fonts
+
+    def _end_font(self) -> int:
+        """The font in use after the open window's lines."""
+        return self.metrics.font_after("\n".join(self.lines), self.font)
 
     def layout(self, text: str) -> str:
         """`text` laid out: `[new]` where a window must turn, sentences packed onto 4-line pages."""
@@ -195,6 +219,7 @@ class DialogLayout:
             return text
         self.windows: list[str] = []
         self.lines: list[str] = []
+        self.font = 0
         self.joinable = False  # the last line may take the next sentence of the same speaker
         speaker: str | None = None
         tokens = with_breaks(tokenize(clean(text)))
@@ -224,14 +249,17 @@ class DialogLayout:
         self._finish()
         return "\n".join(self.windows)
 
-    def _set(self, text: str) -> list[str]:
-        """`text` typeset and wrapped to the window, a sentence wider than a line over balanced lines."""
+    def _set(self, text: str, font: int) -> list[str]:
+        """`text`, started in font `font`, typeset and wrapped to the window, a sentence wider than a line over
+        balanced lines."""
+        self._setting = (typeset(text, FRENCH, MARKUP), font)
         return self.text_layout.reflow(text).split("\n")
 
     def _fits(self, lines: Sequence[str]) -> bool:
-        """`lines` fit one window: four lines at most, the fourth short enough for the page-turn arrow."""
+        """`lines` fit the open window: four lines at most, the fourth short enough for the page-turn arrow."""
+        fonts = self._line_fonts(lines, self.font)
         return len(lines) <= len(LINE_WIDTHS) and all(
-            self.measure(line) <= width for line, width in zip(lines, LINE_WIDTHS, strict=False)
+            self.measure(line, font) <= width for line, font, width in zip(lines, fonts, LINE_WIDTHS, strict=False)
         )
 
     def _add(self, sentence: str, speaker: str | None) -> None:
@@ -239,20 +267,20 @@ class DialogLayout:
         lines; when it would cross the page, turn the window first and repeat the speaker."""
         opening = not self.joinable
         if self.lines and self.joinable:
-            joined = self._set(f"{self.lines[-1]} {sentence}")
+            joined = self._set(f"{self.lines[-1]} {sentence}", self._line_fonts(self.lines, self.font)[-1])
             if len(joined) == 1 and self._fits([*self.lines[:-1], joined[0]]):
                 self.lines[-1] = joined[0]
                 return
         text = f"{speaker}: {sentence}" if speaker and opening else sentence
         if self.lines:
-            lines = self._set(text)
+            lines = self._set(text, self._end_font())
             if self._fits([*self.lines, *lines]):
                 self.lines.extend(lines)
                 self.joinable = True
                 return
             self._turn()
             text = f"{speaker}: {sentence}" if speaker else sentence
-        self._fill(self._set(text))
+        self._fill(self._set(text, self.font))
         self.joinable = True
 
     def _fill(self, lines: list[str]) -> None:
@@ -278,6 +306,7 @@ class DialogLayout:
     def _turn(self) -> None:
         """Close the open window with `[new]`: the next text starts a fresh window."""
         if self.lines:
+            self.font = self._end_font()
             self.windows.append("\n".join(self.lines) + NEW_WINDOW)
             self.lines = []
         self.joinable = False
@@ -287,6 +316,7 @@ class DialogLayout:
         if self.lines:
             self.windows.append("\n".join(self.lines))
             self.lines = []
+        self.font = 0  # the next message starts in the dialog font
         self.joinable = False
 
 
