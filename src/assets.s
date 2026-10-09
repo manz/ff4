@@ -11,11 +11,11 @@ plus the `font_table` pointer table indexed by font id.
 .alloc at 0x0AF000 {
     .incbin "fonts/8x8.bin"
 }
-.alloc at 0x0FA710 {
-    .incbin "characters_names.dat"
-}
 .alloc at 0x0E9800 {
     .incbin "monsters.dat"
+}
+.alloc at 0x0FA710 {
+    .incbin "characters_names.dat"
 }
 .alloc at 0x218000 {
 dialog_pointers:
@@ -61,8 +61,6 @@ book_font:
     .incbin "book_font.dat"
 bold_font:
     .incbin "bold_font.dat"
-battle_command_names:
-    .incbin "battle_commands.dat"
 font_table:
 """24-bit pointer table indexed by font id (0=dialog, 1=wicked, 2=book, 3=bold)."""
     .pointer dialog_font
