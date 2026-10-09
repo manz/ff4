@@ -385,6 +385,10 @@ if __name__ == "__main__":
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"))
+    # Battle monster and command names: TextCmd_0C and the command window copy them.
+    for names, baked in (("monsters_long", "monster_names_vwf"), ("battle_commands_nul", "command_names_vwf")):
+        bake_pointed_file(Path("build/gen/menu_font.dat"), Path(f"build/gen/{names}.dat"), Path(f"build/gen/{names}.ptr"),
+                          Path(f"build/gen/{baked}.dat"), Path(f"build/gen/{baked}.tbl"))
     # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),

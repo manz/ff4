@@ -12,9 +12,109 @@ dialog-stream consumer).
 .include "../bank20.i"
 .import "vanilla"
 .import "small_vwf/baked_names"
+.import "battle/monsters_reloc"
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
 .extern flying_hdma_trampoline
+
+
+.macro copy_baked_name(blob, table, resume) {
+    """
+A = name id, Y = cell offset (M = 8, X = 16): the name's baked tiles into the CHR buffer at the allocator, one
+    cell each as the renderer writes them. With `resume`, the renderer is left inside the name's last tile, where the
+    runtime one would be (Y on its cell, bits_left_on_tile = the columns it has left), so the next glyphs join it;
+    otherwise the next glyph starts a fresh tile and Y comes back past the name.
+    """
+    {
+    sty.b battle_render.tilemap_offset
+    pha
+    lda.b battle_render.bits_left_on_tile
+    cmp.b #0x08
+    beq _fresh
+    jsr.w render_allocator.increment  ; a glyph left the current tile part-filled: the name starts on the next one
+_fresh:
+    pla
+    rep #0x20
+    and.w #0x00FF
+    asl
+    asl
+    tax
+    lda.l table + 2, x
+    pha  ; tiles, last tile's columns
+    and.w #0x00FF
+    beq _done
+    lda.l table, x
+    tax
+    lda.l render_allocator.allocated_tile_id
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    asl
+    tay
+    lda 1, s
+    and.w #0x00FF
+    asl
+    asl
+    asl
+    pha  ; words left
+_copy:
+    lda.l blob, x
+    phx
+    tyx
+    sta.l battle_render.buffer_ptr, x
+    plx
+    inx
+    inx
+    iny
+    iny
+    lda 1, s
+    dec
+    sta 1, s
+    bne _copy
+    pla
+    lda 1, s
+    and.w #0x00FF
+    tax
+    sep #0x20
+_cell:
+    jsr.w battle_render.tilemap_write
+    dex
+    bne _cell
+    .if resume {
+    lda 2, s
+    cmp.b #0x08
+    bcs _done
+    lda.b #0x08
+    sec
+    sbc 2, s
+    sta.b battle_render.bits_left_on_tile
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char  ; no kerning pair across the baked name
+    }
+    rep #0x20
+    lda.l render_allocator.allocated_tile_id
+    dec
+    sta.l render_allocator.allocated_tile_id
+    dec.b battle_render.tilemap_offset
+    dec.b battle_render.tilemap_offset
+    sep #0x20
+    bra _state
+    }
+_done:
+    sep #0x20
+    lda.b #0x08  ; the next VWF glyph starts a fresh tile, past the name
+    sta.b battle_render.bits_left_on_tile
+_state:
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    rep #0x20
+    pla
+    lda.w #0x0000  ; no leftover in B: callers transfer A to a 16-bit index
+    sep #0x20
+    ldy.b battle_render.tilemap_offset
+    }
+}
 
 .alloc _battle_message_block in bank20_reloc {
     .include "config.i"
@@ -1251,63 +1351,94 @@ _di_pad:
     jmp.w _di_loop
 
 _di_baked:
-; 0x0B II -> item II's baked name (small_vwf/baked_names.s): its tiles into the CHR buffer at the allocator, its
-; cells written as the renderer writes them.
+; 0x0B II -> item II's baked name (small_vwf/baked_names.s)
     inx
     lda.w 0x0000, x
     inx
     phx
-    sty.b battle_render.tilemap_offset
-    rep #0x20
-    and.w #0x00FF
-    asl
-    asl
-    tax
-    lda.l item_names_vwf_tbl + 2, x
-    and.w #0x00FF
-    beq _di_baked_done
-    pha  ; tiles
-    lda.l item_names_vwf_tbl, x
-    tax
-    lda.l render_allocator.allocated_tile_id
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl
-    tay
-    lda 1, s
-    asl
-    asl
-    asl
-    pha  ; words
-_di_baked_copy:
-    lda.l item_names_vwf, x
-    phx
-    tyx
-    sta.l battle_render.buffer_ptr, x
+    copy_baked_name(item_names_vwf, item_names_vwf_tbl, 0)
     plx
-    inx
-    inx
-    iny
-    iny
-    lda 1, s
-    dec
-    sta 1, s
-    bne _di_baked_copy
-    pla
-    pla
-    sep #0x20
-    tax
-_di_baked_cell:
-    jsr.w battle_render.tilemap_write
-    dex
-    bne _di_baked_cell
-_di_baked_done:
-    sep #0x20
-    plx
-    ldy.b battle_render.tilemap_offset
     jmp.w _di_loop
+
+draw_monster_name_baked:
+"""
+TextCmd_0C's monster name ($02:A7D7): A = monster id, Y = cell offset. The slot blanked, then the name's baked tiles
+(small_vwf/baked_names.s); Y comes back past the name.
+"""
+    pha
+    phy
+    jsr.l initialize_monster_slot
+    ply
+    pla
+    copy_baked_name(monster_names_vwf, monster_names_vwf_tbl, 1)
+    rtl
+
+draw_commands_baked:
+"""
+The command window from the format buffer `_draw_command_list_for_character` built at $EF50 ($0E f: tile flags, $01:
+next line, $0F II: command II's baked name, $00: end), with DrawText's row setup ($EF52 rows, $EF54 cells a line).
+"""
+    php
+    sep #0x20
+    rep #0x10
+    lda.w 0xEF55
+    sta.b btlgfx_dp.text_tile_flags
+    lda.w 0xEF54
+    asl
+    sta.w 0xEF54
+    rep #0x20
+    lda.w 0xEF52
+    sta.b btlgfx_dp.dakuten_row_ptr
+    lda.w 0xEF54
+    and.w #0x00FF
+    clc
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.kana_row_ptr
+    sep #0x20
+    ldx.w 0xEF50
+    ldy.w #0x0000
+_dc_loop:
+    lda.w 0x0000, x
+    bne _dc_code
+    jmp.w _dc_done
+_dc_code:
+    inx
+    cmp.b #0x0E
+    bne _dc_not_flags
+    lda.w 0x0000, x
+    inx
+    sta.b btlgfx_dp.text_tile_flags
+    bra _dc_loop
+_dc_not_flags:
+    cmp.b #0x01
+    bne _dc_not_newline
+    rep #0x20
+    lda.w 0xEF54
+    and.w #0x00FF
+    pha
+    asl
+    clc
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.dakuten_row_ptr
+    pla
+    clc
+    adc.b btlgfx_dp.dakuten_row_ptr
+    sta.b btlgfx_dp.kana_row_ptr
+    sep #0x20
+    ldy.w #0x0000
+    bra _dc_loop
+_dc_not_newline:
+    cmp.b #0x0F
+    bne _dc_loop
+    lda.w 0x0000, x
+    inx
+    phx
+    copy_baked_name(command_names_vwf, command_names_vwf_tbl, 0)
+    plx
+    jmp.w _dc_loop
+_dc_done:
+    plp
+    rtl
 
 init_inventory_for_current_slot_local:
 """

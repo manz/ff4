@@ -1,33 +1,18 @@
 """
-Patches that switch the battle monster-name loader from a fixed-size table to a pointer-indirected one (long
-names) and forward to `load_monster_pointer`.
+Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first.
 """
 .import "assets"
 .import "battle/monsters_reloc"
+.import "battle/message"
 .import "vanilla"
 
 
 ; transform the monster names loading routine from fixed size to pointed.
 
 .alloc at 0x02a7d7 {
-    {
-    jsr.l load_monster_pointer
-
-_loop:
-    lda.l monster_names, x
-    beq _exit
-    jsr.w draw_letter
-; draw text
-; jsr.w _msg_monster_window_trampoline
-    inx
-    bra _loop
-
-_exit:
+; TextCmd_0C: the monster name's baked tiles
+    jsr.l messages_vwf.draw_monster_name_baked
     rts
-
-_end:
-    .debug '{_end} < 0x02A7F0 ?'
-    }
 }
 .alloc at 0x02a7c2 {
     jsr.l initialize_monster_slot

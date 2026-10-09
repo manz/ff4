@@ -4,7 +4,8 @@ Names baked into small-VWF tiles at build time: the game DMAs a name's tiles fro
 Each name is set with katsuji in the menu font (`menu_font.dat`, the font the runtime renderer reads, kerning
 included, so a baked name is byte for byte what the renderer would draw) and encoded 2bpp in the menus' colours:
 ink 3 on paper 1. The blob packs every name's tiles back to back, no name across a 32 KB LoROM bank (a DMA source
-cannot wrap one); the table gives each name its offset in the blob and its tile count.
+cannot wrap one); the table gives each name its offset in the blob, its tile count and how many pixel columns its last tile uses, so a
+renderer can carry on drawing inside that tile.
 """
 
 import struct
@@ -18,7 +19,7 @@ from katsuji.tiles import pad_to_tiles
 LOROM_BANK = 0x8000
 INK, PAPER = 3, 1
 SPACE = 0xFF
-ENTRY = struct.Struct("<HBx")  # offset in the blob, tile count
+ENTRY = struct.Struct("<HBB")  # offset in the blob, tile count, pixel columns the last tile uses (1-8)
 
 
 def name_tiles(font: VwfFont, codes: bytes) -> bytes:
@@ -29,11 +30,22 @@ def name_tiles(font: VwfFont, codes: bytes) -> bytes:
     return encode_tiles(pad_to_tiles(colourize(render(font, list(codes)), INK, PAPER), fill=PAPER), 2)
 
 
+def last_tile_columns(font: VwfFont, codes: bytes) -> int:
+    """The pixel columns `codes` covers in its last tile (1-8), 0 for an empty name."""
+    codes = codes.rstrip(bytes([SPACE]))
+    if not codes:
+        return 0
+    return (render(font, list(codes)).shape[1] - 1) % 8 + 1
+
+
 def bake(font: VwfFont, names: Sequence[bytes]) -> tuple[bytes, bytes]:
     """The blob of every name's tiles and its table, one entry per name."""
     runs = [name_tiles(font, codes) for codes in names]
     blob, offsets = pack_runs(runs, bank_size=LOROM_BANK)
-    table = b"".join(ENTRY.pack(offset, len(run) // 16) for offset, run in zip(offsets, runs, strict=True))
+    table = b"".join(
+        ENTRY.pack(offset, len(run) // 16, last_tile_columns(font, codes))
+        for offset, run, codes in zip(offsets, runs, names, strict=True)
+    )
     return blob, table
 
 

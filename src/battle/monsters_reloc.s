@@ -1,6 +1,5 @@
 """
-Relocated battle monster-name pointer resolver: indexes `monster_name_pointers[A*2]` and renders the
-resulting string into the active slot.
+Battle monster-slot helpers: blank a slot, the tab escape.
 """
 
 
@@ -11,21 +10,6 @@ resulting string into the active slot.
 .include "../bank20.i"
 
 .alloc _battle_monsters_reloc_block in bank20_reloc {
-load_monster_pointer:
-"""Resolve a long-form monster name pointer from `monster_name_pointers[A*2]` and render it into the current slot."""
-    rep #0x20
-;lda.w #127 - 3
-    asl
-    tax
-    lda.l monster_name_pointers, x
-    tax
-    tdc
-    sep #0x20
-    phy
-    jsr.w _initialize_monster_slot_near
-    ply
-    rtl
-
 initialize_monster_slot:
 """Cross-bank (RTL) entry that clears a monster's display slot to spaces."""
     jsr.w _initialize_monster_slot_near
