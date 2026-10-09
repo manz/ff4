@@ -436,9 +436,13 @@ drops_init:
     rts
 
 drops_refresh_slots:
-"""Bank-$01 trampoline: re-render all drops slots (engine refresh path)."""
+"""
+Bank-$01 trampoline: re-render all drops slots (engine refresh path), then send BG4. The drops draw into BG4's
+buffer ($7E:C600) but the redraw it replaces ($01:D929, after Tout prendre) only sends BG1 and BG3: an emptied
+slot kept its colon and count on screen.
+"""
     jsr.l drops_refresh_slots_impl
-    rts
+    jmp.w tfr_bg4_tiles_vblank
 
 drops_down_handler:
 
