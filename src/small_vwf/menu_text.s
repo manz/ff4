@@ -441,12 +441,15 @@ draw_class:
 _claim:
 """
 Carry set when Y (string - $8000) lies in a block of `_blocks`: vwf_cfg then holds the string's first tile, its
-attribute bits and the rest of the region to clear. Keeps A, X, Y.
+attribute bits and the rest of the region to clear. Keeps A, X, Y. Y >= $8000 is a vanilla string in bank $01,
+never one of ours, whatever bank-$20 address its offset happens to share.
 """
     php
     rep #0x30
     pha
     phx
+    cpy.w #0x8000
+    bcs _unclaimed
     ldx.w #0x0000
 _next_block:
     lda.l _blocks, x
