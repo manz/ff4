@@ -6,7 +6,7 @@
 .import "vanilla"
 
 
-.alloc _in_game_text_block in bank20_reloc {
+.alloc in_game_menu_text in bank20_reloc {
     .scope in_game_menu {
     """Main pause-menu strings."""
 cant_fight:
@@ -46,9 +46,10 @@ gils:
 time:
     .text "Temps"
     .db 0
-strings_end:
     }
+}
 
+.alloc items_menu_text in bank20_reloc {
     .scope items_menu {
     """Items submenu strings."""
 items_menu_right:
@@ -62,10 +63,10 @@ notuse:
     .dw 0x0052
     .text "Impossible à utiliser."
     .db 0
-strings_end:
     }
+}
 
-
+.alloc spell_titles_text in bank20_reloc {
     .scope spells {
     """Spell-list headers."""
 white:
@@ -84,15 +85,20 @@ ninja:
     move_to(24, 5)
     .text "Ninja "
     .db 0
+    }
+}
+
+.alloc exchange_label_text in bank20_reloc {
+    .scope spells {
+; the treasure popup's exchange label, drawn at $01:D95E
 kokan:
     move_to(24, 3)
     .text "Echange"
     .db 0
-mp_needed:
-    .text "Coût PM"
-    .db 0
     }
+}
 
+.alloc status_text in bank20_reloc {
     .scope status {
     """Status screen labels."""
 status:
@@ -153,9 +159,10 @@ char_stats:
     .dw 0x05DA
     .text "Déf Mag%"
     .db 0
-strings_end:
     }
+}
 
+.alloc options_text in bank20_reloc {
     .scope options {
     """Options screen text."""
 title:
@@ -215,6 +222,11 @@ config:
     .dw 0x04C4
     .text "Couleur"
     .db 0
+    }
+}
+
+.alloc controls_text in bank20_reloc {
+    .scope options {
 controls:
     move_to(5, 1)
     .text "Contrôles personnalisés"
@@ -259,9 +271,10 @@ pad_buttons:
     col(12)
     .text "SELECT"
     .db 0
-strings_end:
     }
+}
 
+.alloc equip_text in bank20_reloc {
     .scope equip {
     """Equipment menu slot labels."""
 menu:
@@ -282,10 +295,10 @@ menu:
     move_to(14, 8 + _text_y)
     .text "Mains"
     .db 0
-strings_end:
     }
+}
 
-
+.alloc dextrality_text in bank20_reloc {
     .scope dextrality {
     """Handedness labels."""
 hands:
@@ -305,7 +318,46 @@ string_3:
 ; りょうきき
     .text "Ambidextre"
     .db 0
-strings_end:
+    }
+}
+
+.alloc use_spell_text in bank20_reloc {
+    .scope use_spell {
+    """Spell-cast prompt strings."""
+mp_cost:
+    move_to(1, 4)
+    .text "Requis"
+    .db 0
+; use_on_whom:
+; move_to(1, 10)
+; .text 'Sur qui ?'
+; .db 0
+    }
+}
+
+.alloc treasure_header_text in bank20_reloc {
+    .scope treasure {
+header_window:
+    menu_window(0, 0, 6, 2)
+    move_to(1, 1)
+    .text "Butin"
+    .db 1
+exit:
+    move_to(24, 1)
+    .text "Quitter"
+    .db 1
+take_all:
+    move_to(10, 1)
+    .text "Tout prendre"
+    .db 0
+    }
+}
+
+.alloc _in_game_text_block in bank20_reloc {
+    .scope spells {
+mp_needed:
+    .text "Coût PM"
+    .db 0
     }
 
     .scope messages {
@@ -324,20 +376,6 @@ cant_use_magic:
     .db 0
     }
 
-
-    .scope use_spell {
-    """Spell-cast prompt strings."""
-mp_cost:
-    move_to(1, 4)
-    .text "Requis"
-    .db 0
-; use_on_whom:
-; move_to(1, 10)
-; .text 'Sur qui ?'
-; .db 0
-strings_end:
-    }
-
     .scope treasure {
     """Treasure-chest UI text + windows."""
 choice_window:
@@ -345,19 +383,6 @@ choice_window:
     menu_window(8, 0, 22, 2)
 items_window:
     menu_window(0, 3, 30, 10)
-header_window:
-    menu_window(0, 0, 6, 2)
-    move_to(1, 1)
-    .text "Butin"
-    .db 1
-exit:
-    move_to(24, 1)
-    .text "Quitter"
-    .db 1
-take_all:
-    move_to(10, 1)
-    .text "Tout prendre"
-    .db 0
 exchange:
     move_to(10, 1)
     .text "Échanger    "

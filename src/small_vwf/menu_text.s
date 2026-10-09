@@ -37,18 +37,18 @@ from RAM), whose tiles are keyed by name index ($300 + index * 8), so names neve
 _GLYPH_ROW := 0x40  ; menu text puts the dakuten at +0 and the glyph one row down
 _BLANK_TILE := 0xFF
 
-.assert newgame.strings_end - newgame.new_game <= 0x80, "the newgame strings outgrow tiles $180-$1FF"
-.assert in_game_menu.strings_end - in_game_menu.cant_fight <= 0x90, "the main-menu strings outgrow tiles $370-$3FF"
-.assert status.strings_end - status.status <= 0xB8, "the status strings outgrow tiles $200-$2B7"
-.assert equip.strings_end - equip.menu <= 0xB8, "the equip strings outgrow tiles $200-$2B7"
-.assert items_menu.strings_end - items_menu.items_menu_right <= 0x40, "the items strings outgrow tiles $200-$23F"
-.assert spells.kokan - spells.white <= 0x40, "the spell titles outgrow tiles $200-$23F"
-.assert treasure.exchange - treasure.header_window <= 0x26, "the treasure header outgrows tiles $1AA-$1CF"
-.assert spells.mp_needed - spells.kokan <= 0x30, "the treasure exchange label outgrows tiles $1D0-$1FF"
-.assert use_spell.strings_end - use_spell.mp_cost <= 0x20, "the spell prompt outgrows tiles $240-$25F"
-.assert options.controls - options.title <= 0xFF, "the options strings outgrow tiles $200-$2FE"
-.assert options.strings_end - options.controls <= 0x80, "the controls strings outgrow tiles $180-$1FF"
-.assert dextrality.strings_end - dextrality.hands <= 0x28, "the handedness strings outgrow tiles $2B8-$2DF"
+.assert sizeof(newgame_text) <= 0x80, "newgame_text outgrows tiles $180-$1FF"
+.assert sizeof(in_game_menu_text) <= 0x90, "in_game_menu_text outgrows tiles $370-$3FF"
+.assert sizeof(status_text) <= 0xB8, "status_text outgrows tiles $200-$2B7"
+.assert sizeof(equip_text) <= 0xB8, "equip_text outgrows tiles $200-$2B7"
+.assert sizeof(items_menu_text) <= 0x40, "items_menu_text outgrows tiles $200-$23F"
+.assert sizeof(spell_titles_text) <= 0x40, "spell_titles_text outgrows tiles $200-$23F"
+.assert sizeof(treasure_header_text) <= 0x26, "treasure_header_text outgrows tiles $1AA-$1CF"
+.assert sizeof(exchange_label_text) <= 0x30, "exchange_label_text outgrows tiles $1D0-$1FF"
+.assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
+.assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
+.assert sizeof(controls_text) <= 0x80, "controls_text outgrows tiles $180-$1FF"
+.assert sizeof(dextrality_text) <= 0x28, "dextrality_text outgrows tiles $2B8-$2DF"
 
 _CLASS_TILE := 0xE0  ; with attribute bits 2: tiles $2E0-$2FF
 _CLASS_TILES := 0x20
@@ -449,12 +449,11 @@ _next_block:
     beq _unclaimed
     tya
     ora.w #0x8000
-    cmp.l _blocks, x
+    sec
+    sbc.l _blocks, x  ; offset in the block; borrows below its start
     bcc _skip_block
     cmp.l _blocks + 2, x
     bcs _skip_block
-    sec
-    sbc.l _blocks, x
     clc
     adc.l _blocks + 4, x
     sta.l vwf_cfg.tile_id_base
@@ -492,19 +491,19 @@ _unclaimed:
     rts
 
 _blocks:
-; first string, end, allocator id of the first tile, attribute bits (tile id bits 8-9)
-    .dw newgame.new_game & 0xFFFF, newgame.strings_end & 0xFFFF, 0x80, 0x01
-    .dw in_game_menu.cant_fight & 0xFFFF, in_game_menu.strings_end & 0xFFFF, 0x70, 0x03 | _RESIDENT_BIT
-    .dw status.status & 0xFFFF, status.strings_end & 0xFFFF, 0x00, 0x02
-    .dw equip.menu & 0xFFFF, equip.strings_end & 0xFFFF, 0x00, 0x02
-    .dw items_menu.items_menu_right & 0xFFFF, items_menu.strings_end & 0xFFFF, 0x00, 0x02
-    .dw spells.white & 0xFFFF, spells.kokan & 0xFFFF, 0x00, 0x02
-    .dw treasure.header_window & 0xFFFF, treasure.exchange & 0xFFFF, 0xAA, 0x01
-    .dw spells.kokan & 0xFFFF, spells.mp_needed & 0xFFFF, 0xD0, 0x01
-    .dw use_spell.mp_cost & 0xFFFF, use_spell.strings_end & 0xFFFF, 0x40, 0x02
-    .dw options.title & 0xFFFF, options.controls & 0xFFFF, 0x00, 0x02
-    .dw options.controls & 0xFFFF, options.strings_end & 0xFFFF, 0x80, 0x01
-    .dw dextrality.hands & 0xFFFF, dextrality.strings_end & 0xFFFF, 0xB8, 0x02
+; block alloc, its size, allocator id of its first tile, attribute bits (tile id bits 8-9)
+    .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
+    .dw in_game_menu_text & 0xFFFF, sizeof(in_game_menu_text), 0x70, 0x03 | _RESIDENT_BIT
+    .dw status_text & 0xFFFF, sizeof(status_text), 0x00, 0x02
+    .dw equip_text & 0xFFFF, sizeof(equip_text), 0x00, 0x02
+    .dw items_menu_text & 0xFFFF, sizeof(items_menu_text), 0x00, 0x02
+    .dw spell_titles_text & 0xFFFF, sizeof(spell_titles_text), 0x00, 0x02
+    .dw treasure_header_text & 0xFFFF, sizeof(treasure_header_text), 0xAA, 0x01
+    .dw exchange_label_text & 0xFFFF, sizeof(exchange_label_text), 0xD0, 0x01
+    .dw use_spell_text & 0xFFFF, sizeof(use_spell_text), 0x40, 0x02
+    .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
+    .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
+    .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
     .dw 0x0000
 
 forget_uploads:
