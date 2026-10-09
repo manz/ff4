@@ -1475,7 +1475,6 @@ normal length, no visible black strip.
     sta.l ppu.INIDISP
 _no_force_blank:
     plp
-    .if BATTLE_ITEMS_VWF {
 ; Per-NMI BG3 V-scroll footer override.
 ;
 ; Channel 2 (BG3 V-scroll, indirect, $7E:760B -> $7E:7ED2 chunk) is
@@ -1588,7 +1587,7 @@ _inv_dma_find:
 _inv_dma_done:
 _no_inv_dma:
     plp
-    }
+
 ; --- Per-region CHR DMA ---
 ; Flush only the regions flagged dirty this frame (bits 1-4), each a
 ; 0x300-byte 2bpp slice at buffer_ptr + N*0x300 -> VRAM $B000 + N*0x300.

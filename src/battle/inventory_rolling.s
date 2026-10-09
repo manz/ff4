@@ -151,12 +151,11 @@ init_inventory_text_buf_rolling:
     sta.l battle_render_state.spell_tiles_live
 ; Note: Game's $4A flag (bit 2) already indicates inventory is active
 
-    .if BATTLE_ITEMS_VWF {
 ; Reset the VWF allocator to tile_id 0xC0 once for the whole pass.
 ; The 6-slot render loop below increments the allocator naturally so
 ; each item owns a distinct tile range (item N at 0xC0 + N * ~9 tiles).
     jsr.l messages_vwf.init_inventory
-    }
+
 
 ; Render 6 rows to circular slots (5 visible + 1 off-screen)
 ; At init, item index = slot index (both 0-5)
@@ -186,11 +185,10 @@ _init_row_loop:
     cmp #BUFFER_SLOTS  ; 6 slots total
     bne _init_row_loop
 
-    .if BATTLE_ITEMS_VWF {
 ; End of inventory rolling pass: clear the VWF battle flag and signal
 ; DMA so the inventory tile slice flushes to VRAM on the next NMI.
     jsr.l messages_vwf.deinit
-    }
+
 
 ; Queue VRAM transfer for initial render
     lda #0x03
@@ -294,11 +292,10 @@ _not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda #0x0E
     sta.w inv_format_buffer, y
@@ -318,7 +315,6 @@ _name_copy_loop:
     dec.b 0x00
     bne _name_copy_loop
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
@@ -328,7 +324,7 @@ _name_copy_loop:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda.b 0x02
     bne _has_item
@@ -459,11 +455,10 @@ _circ_not_disabled:
     iny
 
 ; Toggle to VWF for the name
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
 ; Tile flags for name
     lda #0x0E
@@ -486,7 +481,6 @@ _circ_name_loop:
     bne _circ_name_loop
 
 ; Toggle back to fixed for colon + digits
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
@@ -496,7 +490,7 @@ _circ_name_loop:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    }
+
 
 ; Quantity handling
     lda.b 0x02
@@ -965,11 +959,10 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
     lda #0xFE
     sta.w inv_format_buffer, y
     iny
-    }
+
 
     lda #0x0E
     sta.w inv_format_buffer, y
@@ -978,7 +971,6 @@ _slot_not_disabled:
     sta.w inv_format_buffer, y
     iny
 
-    .if BATTLE_ITEMS_VWF {
 ; The name: its baked tiles (0x0B id), then back to fixed tiles and on to the quantity column.
     lda #0x0B
     sta.w inv_format_buffer, y
@@ -995,18 +987,7 @@ _slot_not_disabled:
     lda #12
     sta.w inv_format_buffer, y
     iny
-    } else {
-    lda #16
-    sta.b 0x00
 
-_slot_name_loop:
-    inx
-    jsr.l item_name_char  ; spaces once the name has ended
-    sta.w inv_format_buffer, y
-    iny
-    dec.b 0x00
-    bne _slot_name_loop
-    }
 
     lda.b 0x02
     bne _slot_has_item

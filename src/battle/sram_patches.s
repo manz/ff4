@@ -73,42 +73,38 @@ window) through our messages-VWF init/deinit trampolines.
 ;    nop
 ;    nop
 ;    nop
-.if BATTLE_MONSTERS_VWF {
 ;; monster names vwf try but being clear at every monster
 ;; needs a way to have immortal renders and temporary ones (used only for a few instants)
-    .alloc at 0x02a40d {
+.alloc at 0x02a40d {
     jsr.w msg_monster_window_gated
-    }
-
-
-    .alloc at 0x029486 + 12 {
-    .dw 0x949a  ; noop for monster names
-    }
 }
 
 
-.if BATTLE_NAMES_VWF {
+.alloc at 0x029486 + 12 {
+    .dw 0x949a  ; noop for monster names
+}
+
+
 ; this gets redrawn quite often
 ; char names
-    .alloc at 0x02A29D {
+.alloc at 0x02A29D {
     jsr.w msg_names_window_gated
 ; wait frame runs a shite load of updates
-    }
+}
 
 
-    .alloc at 0x029486 + 2 {
+.alloc at 0x029486 + 2 {
     .dw 0x949a  ; noop for char names
-    }
+}
 
 
-    .alloc at 0x0296c0 {
+.alloc at 0x0296c0 {
     .dw 0x949a  ; noop for periodic names update
-    }
+}
 
 
-    .alloc at 0x02A299 {
+.alloc at 0x02A299 {
     jsr.l gated_clear_names_window_buffer
-    }
 }
 ; that's battle graphics 0xf that's a wait frame
 ;*=0x028517
