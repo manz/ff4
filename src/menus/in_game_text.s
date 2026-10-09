@@ -151,6 +151,7 @@ char_stats:
     .dw 0x05DA
     .text "Déf Mag%"
     .db 0
+strings_end:
     }
 
     .scope options {

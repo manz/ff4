@@ -3,8 +3,7 @@
 
 .import "assets"
 .import "vanilla"
-.import "menus/start_screen_text"
-.import "small_vwf/start_screen"
+.import "small_vwf/menu_text"
 
 .label _copy_text_879d = 0x01879D
 .label _draw_main_menu_8947 = 0x018947
@@ -48,12 +47,9 @@ display_text_in_menus:
     ldx.w #0x100
     phx
     pld
-; a `newgame` string (Y = text - $8000) goes to the small VWF
-    cpy.w #newgame.new_game - 0x8000
+; a string of a small-VWF block (Y = text - $8000) is drawn there
+    jsr.w menu_text_vwf.draw_pos
     bcc _vanilla
-    cpy.w #newgame.strings_end - 0x8000
-    bcs _vanilla
-    jsr.w start_screen_text.draw_pos
     jmp.l _draw_text_done_8332
 _vanilla:
     _bank_switch_with_jump(0x01830B)
@@ -79,12 +75,9 @@ load_text_with_destination_in_x:
     tax
     sep #0x20
     {
-; a `newgame` string (Y = text - $8000) goes to the small VWF
-    cpy.w #newgame.new_game - 0x8000
+; a string of a small-VWF block (Y = text - $8000) is drawn there
+    jsr.w menu_text_vwf.draw_at
     bcc _vanilla
-    cpy.w #newgame.strings_end - 0x8000
-    bcs _vanilla
-    jsr.w start_screen_text.draw_at
     jmp.l _draw_text_done_8332
 _vanilla:
     _bank_switch_with_jump(0x018318)
