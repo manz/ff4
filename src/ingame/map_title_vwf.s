@@ -1,44 +1,54 @@
 """
-Map titles (the location window on entering a map) in the small VWF.
+Map titles (the location window on entering a map) in the small VWF, the way the dialogue VWF draws its window.
 
-Vanilla fills two rows of font codes from MapTitle (places_names.dat): the glyph row ($0774) and its dakuten row
-(dialog_text_buffer + _TITLE_CELLS), and TfrMapTitle ($00:B948, in the NMI) writes them into BG3's tilemap. The field
-keeps BG3's tilemap at word $2800, right after the font's 256 tiles at $2000, so there are no spare tiles: the title
-draws into font slots _TITLE_TILE.._TITLE_TILE + _TITLE_TILES - 1, kana no French text uses. The setup renders the
-name there, fills the glyph row with those slots, centred, and blanks the dakuten row; TfrMapTitle uploads the
-slots before writing the rows.
+Vanilla fills two rows of font codes from MapTitle (places_names.dat): the glyph row (dialog_text_buffer) and its
+dakuten row (dialog_text_buffer + _TITLE_CELLS), and TfrMapTitle ($00:B948, in the NMI) writes them into BG3's
+tilemap. The field keeps BG3's tiles at $2000, the font only, so the title does what `vwfinit` does for a dialogue:
+the font copied to $6000, BG3 pointed there, and the text in tiles $100 on ($6800), reached with attribute bit 0.
+LoadMapTitle runs while the map loads, screen off, so the setup uploads directly. Glyph row cells are tile
+_TITLE_BLANK (blank) or the title's tiles; TfrMapTitle writes that row with _TITLE_ATTR.
 """
 .import "preamble"
 .import "vanilla"
 .import "assets"
 .import "vwf_ram"
+.import "libmz"
 .import "small_vwf/render"
 .import "ingame/places_names_window"
 .include "src/vwf_state.i"
+.include "src/libmz.i"
 .include "../bank20.i"
 
-_TITLE_TILE := 0xD8  ; font slots from $D8 (to $E9): no entry in text/ff4_menus.tbl
+_TITLE_BLANK := 0x100  ; a blank tile: the glyph row's cells outside the title
+_TITLE_TILE := 0x101  ; the title's first tile
 _TITLE_CELLS := PLACE_NAME_LENGTH
 _TITLE_TILES := _TITLE_CELLS  ; at most one tile a cell
-_BG3_CHR_WORD := 0x2000  ; the field's BG3 tiles
-_BLANK := 0xFF
-_TITLE_SHOWN := 0xE9  ; DP: TfrMapTitle has a title to write
+_TITLE_ATTR := 0x21  ; vanilla's $20 (priority) with tile bit 8
+_FONT := 0x0AF000  ; the 8x8 font, as vwfinit copies it
+_FONT_WORD := 0x6000  ; BG3 tiles while a title or a dialogue shows
+_BG34NBA := 0x06  ; BG3 tiles at $6000, BG4 at 0 as the field sets it
+_BLANK_CODE := 0xFF  ; the font's space
+_TILES_SOURCE := VWF_CHR_BUFFER + _TITLE_BLANK * 0x10
+_TILES_WORD := _FONT_WORD + _TITLE_BLANK * 8
+_TILES_BYTES := ( _TITLE_TILES + 1 ) * 0x10  ; the blank tile, then the title's
 
 .alloc at 0x00B8FD {
 ; MapTitle's setup, X = the title's offset in place_names: `stx $3d / stz $07`, then the row fill
     jml map_title_vwf.setup
 }
 
-.alloc at 0x00B94D {
-; TfrMapTitle: `stz $e9 / stz $2112`
-    jsl map_title_vwf.upload
-    nop
+.alloc at 0x00B9CC {
+; TfrMapTitle's glyph row: `lda #$20` before each cell's attribute
+    .db _TITLE_ATTR
 }
 
 .alloc _map_title_vwf in bank20_reloc {
     .scope map_title_vwf {
 setup:
-"""Render the title at place_names + X into the title slots and fill the rows. Ends in vanilla's `lda #1 / sta $e9`."""
+"""
+Render the title at place_names + X, upload it with the font, point BG3 at them and fill the rows. Screen off (map
+load). Ends in vanilla's `lda #1 / sta $e9`.
+"""
     php
     phb
     sep #0x20
@@ -55,31 +65,43 @@ _copy:
     cmp.b #0x00
     bne _copy
     rep #0x20
-    lda.w #_TITLE_TILE
+    lda.w #_TITLE_BLANK
     sta.l vwf_cfg.tile_id_base
     lda.w #dialog_text_buffer & 0xFFFF  ; display_char's own tilemap writes land in the rows, overwritten below
     sta.l vwf_cfg.tilemap_base
     sep #0x20
+    lda.b #_TITLE_TILES + 1
+    sta.l vwf_cfg.slot_budget
+    lda.b #0x01
+    sta.l vwf_cfg.flags
+    jsr.w render.init  ; clears _TITLE_BLANK on, keeps the field's direct-page bytes the renderer borrows
+    rep #0x20
+    lda.w #_TITLE_TILE
+    sta.l vwf_cfg.tile_id_base
+    sep #0x20
     lda.b #_TITLE_TILES
     sta.l vwf_cfg.slot_budget
-    lda.b #0x00
-    sta.l vwf_cfg.flags
-    jsr.w render.init  ; keeps the field's direct-page bytes the renderer borrows, until deinit
     jsr.w render.render_with_config
     jsr.w render.deinit
     lda.b #0x00
-    sta.l vwf_engine.chr_dirty  ; no menu flush: TfrMapTitle uploads the slots
+    sta.l vwf_engine.chr_dirty  ; no menu flush: uploaded below
+    dma_transfer_to_vram_call(_FONT, _FONT_WORD, 0x800, 0x1801)
+    dma_transfer_to_vram_call(_FONT + 0x800, _FONT_WORD + 0x400, 0x800, 0x1801)
+    dma_transfer_to_vram_call(_TILES_SOURCE, _TILES_WORD, _TILES_BYTES, 0x1801)
+    lda.b #_BG34NBA
+    sta.l ppu.BG34NBA
     jsr.w _fill_rows
     plb
     plp
     jml 0x00B943
 
 _fill_rows:
-"""Blank both rows, then the slots the name used, centred in the glyph row. M = 8 bits, X = 16 bits."""
+"""Blank both rows, then the tiles the name used, centred in the glyph row. M = 8 bits, X = 16 bits."""
     ldx.w #0x0000
-    lda.b #_BLANK
 _blank:
+    lda.b #_TITLE_BLANK & 0xFF
     sta.l dialog_text_buffer, x
+    lda.b #_BLANK_CODE
     sta.l dialog_text_buffer + _TITLE_CELLS, x
     inx
     cpx.w #_TITLE_CELLS
@@ -87,50 +109,21 @@ _blank:
     rep #0x20
     lda.l render_allocator.allocated_tile_id
     sec
-    sbc.w #_TITLE_TILE - 1  ; the slot the last glyph ended in counts
+    sbc.w #_TITLE_TILE - 1  ; the tile the last glyph ended in counts
     tay
     eor.w #0xFFFF
     sec
     adc.w #_TITLE_CELLS
-    lsr  ; centred: (cells - slots) / 2 blanks first
+    lsr  ; centred: (cells - tiles) / 2 blanks first
     tax
     sep #0x20
-    lda.b #_TITLE_TILE
-_slot:
+    lda.b #_TITLE_TILE & 0xFF
+_tile:
     sta.l dialog_text_buffer, x
     inx
     inc
     dey
-    bne _slot
+    bne _tile
     rts
-
-upload:
-"""TfrMapTitle's first stores (`stz $e9 / stz $2112`), after the title slots go to BG3's tiles. In the NMI."""
-    php
-    sep #0x20
-    rep #0x10
-    stz.b _TITLE_SHOWN
-    lda.b #0x01  ; DMAP: word transfer (VMDATAL / VMDATAH)
-    sta.l dma_ch3.DMAP
-    lda.b #PPU.VMDATAL
-    sta.l dma_ch3.BBAD
-    rep #0x20
-    lda.w #( VWF_CHR_BUFFER + _TITLE_TILE * 0x10 ) & 0xFFFF
-    sta.l dma_ch3.A1TL
-    lda.w #_TITLE_TILES * 0x10
-    sta.l dma_ch3.DASL
-    lda.w #_BG3_CHR_WORD + _TITLE_TILE * 8
-    sta.l ppu.VMADDL
-    sep #0x20
-    lda.b #VWF_CHR_BUFFER >> 16
-    sta.l dma_ch3.A1B
-    lda.b #0x80
-    sta.l ppu.VMAIN
-    lda.b #0x08
-    sta.l cpu_regs.MDMAEN
-    lda.b #0x00
-    sta.l ppu.BG3VOFS
-    plp
-    rtl
     }
 }

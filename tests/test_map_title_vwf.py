@@ -1,7 +1,8 @@
-"""The map title (the location window on entering a map) is drawn in the small VWF.
+"""The map title (the location window on entering a map) is drawn in the small VWF, the way dialogues are.
 
-The setup (ingame/map_title_vwf.s) renders the title into BG3 font slots $D8-$E9 and fills the glyph row with those
-slots, centred; the dakuten row is blank. TfrMapTitle, in the NMI, uploads the slots before writing the rows.
+The setup (ingame/map_title_vwf.s) renders the title into BG3 tiles $101 on, the dialogue VWF's region, and fills
+the glyph row with their low bytes, centred, around blank tile $100 (TfrMapTitle writes that row with tile bit 8); the
+dakuten row is the font's space.
 """
 from __future__ import annotations
 
@@ -15,7 +16,8 @@ TITLE_INDEX = 0x7E0FE6
 GLYPH_ROW = 0x7E0774
 DAKUTEN_ROW = GLYPH_ROW + 18
 CELLS = 18
-FIRST_SLOT = 0xD8
+FIRST_SLOT = 0x01  # tile $101
+BLANK_SLOT = 0x00  # tile $100
 
 
 @pytest.fixture
@@ -37,7 +39,7 @@ def _row(emu, address: int) -> list[int]:
 
 def test_the_glyph_row_holds_consecutive_slots_centred(titled) -> None:
     row = _row(titled, GLYPH_ROW)
-    used = [i for i, tile in enumerate(row) if tile != 0xFF]
+    used = [i for i, tile in enumerate(row) if tile != BLANK_SLOT]
     assert used, "no title slot in the glyph row"
     assert [row[i] for i in used] == list(range(FIRST_SLOT, FIRST_SLOT + len(used)))
     assert abs(used[0] - (CELLS - 1 - used[-1])) <= 1
@@ -46,3 +48,7 @@ def test_the_glyph_row_holds_consecutive_slots_centred(titled) -> None:
 def test_the_dakuten_row_is_blank(titled) -> None:
     assert _row(titled, DAKUTEN_ROW) == [0xFF] * CELLS
 
+
+
+def test_bg3_reads_the_dialogue_tiles(titled) -> None:
+    assert titled.get_ppu_state().bg34nba & 0x0F == 0x06  # BG3 tiles at $6000, as vwfinit sets them
