@@ -36,6 +36,8 @@ wrappers around original bank-$01 helpers used by the rolling code.
 
 .if INVENTORY_ROLLING_BUFFER {
     .if INVENTORY_ROLLING_BUFFER {
+    _SELL_NAME_SLOT := 9  ; tiles $100 + 9 * 10
+
     .alloc _bank01_inventory_trampolines in bank01_trampolines {
 check_and_clear_count:
 """Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $21."""
@@ -413,6 +415,22 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
     pla
     jmp.w draw_item_name
 
+shop_sell_item_name:
+"""
+The sell confirmation's item name (ConfirmSell, $01:CA02) in the last field-item tile window, slot 9 ($15A-$163):
+ConfirmSell leaves the item id in $5D, which the VWF renderer reads as the slot, and the list under the window
+keeps the low slots on screen. A = the item id, kept for DrawItemName; $5D comes back as ConfirmSell left it.
+"""
+    pha
+    lda.b #_SELL_NAME_SLOT
+    sta.b menu_dp.item_slot
+    pla
+    pha
+    jsr.w draw_item_name
+    pla
+    sta.b menu_dp.item_slot
+    rts
+
 drops_swap_index:
 """
 Bank-$01 helper for the drops swap byte-index recompute at $01:DAAC.
@@ -528,10 +546,11 @@ could still chain into $8301 with the slimmed block.
 """
 
 
-    ldy.w #shops.que_desirez_vous
-    jsr.l items_description.draw_trampoline_pos
+; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
     ldy.w #shops.quantity - 0x8000
     jsr.w draw_pos_text  ; draw text at position (= display_text_in_menus thunk)
+    ldy.w #shops.que_desirez_vous
+    jsr.l items_description.draw_trampoline_pos
     rts
 
 shop_welcome_text_hook:
@@ -546,10 +565,12 @@ slimmed `welcome_and_actions` block now holds only the action line.
 """
 
 
+; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
+    ldy.w #shops.welcome_and_actions - 0x8000
+    jsr.w draw_pos_text
     ldy.w #shops.puis_je_vous_aider
     jsr.l items_description.draw_trampoline_pos
-    ldy.w #shops.welcome_and_actions - 0x8000
-    jmp.w draw_pos_text  ; tail-call to draw positioned text
+    rts
 
 shop_thanks_text_hook:
 """

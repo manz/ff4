@@ -28,6 +28,7 @@ Final Fantasy IV the new hack.
 .import "ingame/items_menu"
 .import "ingame/items_menu_vwf"
 .import "ingame/places_names"
+.import "ingame/map_title_vwf"
 .import "ingame/new_game"
 .import "ingame/namingway"
 .import "ingame/fat_chocobo"

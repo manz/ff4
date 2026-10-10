@@ -14,6 +14,8 @@ name whose text changed (renamed) uploads again. Tiles $100-$1FF are shared with
   - One sub-menu at a time in $200-$2FF: `status` $200-$2B7, `equip` $200-$2B7, `dextrality` (handedness, on
     status and equip) $2B8-$2DF, `items_menu` $200-$23F, `spells` $200-$23F with `use_spell` $240-$25F,
     `options` $200-$2FF with its controls window (opened over it) in $180-$1FF, the item-description region.
+  - The shop (`tools_shop_text`) $200-$2FF: it saves the field's VRAM like the menus; its owner's line is the item
+    description ($180-$1FF), its item names the field items ($100-$169).
   - The treasure popup is a field screen: nothing saves $6000-$7FFF there, so its header (Butin, Quitter,
     Tout prendre) takes $1AA-$1CF and its exchange label (`spells.kokan`, drawn at $01:D95E) $1D0-$1D9, after the
     drops' item names ($16E-$1A9).
@@ -27,6 +29,7 @@ from RAM), whose tiles are keyed by name index ($300 + index * 8), so names neve
 .import "libmz"
 .import "menus/start_screen_text"
 .import "menus/in_game_text"
+.import "menus/tools_shop_text"
 .import "assets"
 .import "sram_layout"
 .import "small_vwf/vram_queue"
@@ -51,6 +54,7 @@ _BLANK_TILE := 0xFF
 .assert sizeof(key_items_warning_text) <= 0x32, "key_items_warning_text outgrows tiles $13C-$16D"
 .assert sizeof(fat_chocobo_text) <= 0x100, "fat_chocobo_text outgrows tiles $200-$2FF"
 .assert sizeof(summon_learned_text) <= 0x30, "summon_learned_text outgrows tiles $240-$26F"
+.assert sizeof(tools_shop_text) <= 0x100, "tools_shop_text outgrows tiles $200-$2FF"
 .assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
 .assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
 .assert sizeof(controls_text) <= 0x80, "controls_text outgrows tiles $180-$1FF"
@@ -199,6 +203,7 @@ _draw:
     sec
     rts
 _render:
+    jsr.w _string_budget
     phx
     phy
     jsr.w render.init
@@ -531,6 +536,54 @@ _unclaimed:
     clc
     rts
 
+_string_budget:
+"""
+Lower vwf_cfg.slot_budget (the rest of the block, from _claim) to the tiles the string at Y can take: one per byte,
+a fresh one per move_to / column. render.init clears that many: clearing to the block's end wiped the item
+description's tiles ($800-$FFF of the buffer) before the NMI re-flushed them. DB = the string's bank. Keeps A/X/Y, P.
+"""
+    php
+    rep #0x30
+    pha
+    phy
+    lda.w #0x0001
+    pha  ; 1,s the count
+_budget_next:
+    sep #0x20
+    lda.w 0x0000, y
+    beq _budget_end
+    iny
+    cmp.b #0x01
+    bne _budget_not_move
+    iny  ; move_to's position word
+    iny
+    bra _budget_count
+_budget_not_move:
+    cmp.b #0x03
+    bne _budget_count
+    iny  ; column's argument
+_budget_count:
+    rep #0x20
+    lda 1, s
+    inc
+    sta 1, s
+    bra _budget_next
+_budget_end:
+    rep #0x20
+    pla
+    cmp.w #0x0100
+    bcs _budget_keep
+    sep #0x20
+    cmp.l vwf_cfg.slot_budget
+    bcs _budget_keep
+    sta.l vwf_cfg.slot_budget
+_budget_keep:
+    rep #0x30
+    ply
+    pla
+    plp
+    rts
+
 _blocks:
 ; block alloc, its size, allocator id of its first tile, attribute bits (tile id bits 8-9)
     .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
@@ -549,6 +602,7 @@ _blocks:
     .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
     .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02
     .dw summon_learned_text & 0xFFFF, sizeof(summon_learned_text), 0x40, 0x02
+    .dw tools_shop_text & 0xFFFF, sizeof(tools_shop_text), 0x00, 0x02
     .dw 0x0000
 
 forget_uploads:

@@ -80,7 +80,7 @@ small-VWF item descriptions.
     jsr.w shop_quantity_text_hook
 }
 .alloc at 0x01C568 {
-    load_system_menu_text_pointer(shops.gils + 2)
+    load_system_menu_text_pointer(shops.gils_suffix)
 }
 .alloc at 0x01c74e {
     load_system_menu_text_pointer(shops.thank_you_window)
@@ -156,6 +156,34 @@ small-VWF item descriptions.
 
 ; Shop list rows draw through the hijacked DrawItemName, which needs a
 ; slot index in $5D ; the loop leaves the item id there instead.
+; ConfirmSell's count: right-aligned with the price, on column 16 (vanilla column 12)
+.alloc at 0x01C9D7 {
+    ldy.w #15 * 2 + 14 * 64
+}
+
+; ConfirmSell's price: DrawNum7 fills the 7 columns after Y, so it ends on column 16 too (vanilla 17)
+.alloc at 0x01C9F3 {
+    ldy.w #9 * 2 + 16 * 64
+}
+
+; ConfirmSell's cursor: Oui / Non on row 20 (vanilla 22), the window two rows shorter; Oui at column 11, Non at 16
+.alloc at 0x01CA1A {
+    .db 20 * 8
+}
+
+.alloc at 0x01CA22 {
+    .db 9 * 8
+}
+
+.alloc at 0x01CA26 {
+    .db 14 * 8
+}
+
+; ConfirmSell's item name: `jsr DrawItemName` with the item id in $5D
+.alloc at 0x01CA02 {
+    jsr.w shop_sell_item_name
+}
+
 .alloc at 0x01C580 {
     jsr.w shop_draw_item_name
 }

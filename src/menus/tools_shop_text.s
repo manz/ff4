@@ -2,13 +2,17 @@
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 
-.table "text/ff4_menus.tbl"
+.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 
-.alloc _tools_shop_text_block in bank20_reloc {
+.alloc tools_shop_text in bank20_reloc {
     .scope shops {
     """Shop UI strings."""
 gils:
-    move_to(27, 6)
+    move_to(29, 6)
+    .text "Gils"
+    .db 0
+gils_suffix:
+; after each price in the buy list ($01:C568): its own bytes, so its small-VWF tiles don't overlap the gil window's
     .text "Gils"
     .db 0
 puis_je_vous_aider:
@@ -19,7 +23,12 @@ puis_je_vous_aider:
     .db 0
 welcome_and_actions:
     .dw 0x0148 - 4
-    .text "Achat Vente Sortir"
+; one cursor stop every 6 columns ($01:C37C), as vanilla's かう   うる   でる
+    .text "Achat"
+    col(6)
+    .text "Vente"
+    col(12)
+    .text "Sortir"
     .db 0
 que_desirez_vous:
 """Owner welcome prompt  ; rendered through the small-VWF description region."""
@@ -63,21 +72,23 @@ not_enough_gils:
     .text "de Gils."
     .db 0
 sell_window:
-    menu_window(8, 10, 14, 13)
-    move_to(13, 13)
+; name (DrawItemName $02D4) row 12; count (DrawNum2, $01:C9D7) and price (DrawNum7, $01:C9F3) right-aligned on column 16
+; of rows 14 and 16, their units in one column after them. Text draws on the row under its position.
+    menu_window(8, 10, 14, 11)
+    move_to(17, 13)
     .text " Unités"
     .db 1
-    move_to(19, 15)
-    .text "Gils"
+    move_to(17, 15)
+    .text " Gils"
     .db 1
-    move_to(10, 17)
-    .text "Êtes-vous"
+    move_to(9, 17)
+    .text "Êtes-vous d\'accord ?"
     .db 1
+; the cursor ($01:CA19) stops two columns left of each answer, on row 20
     move_to(11, 19)
-    .text "d\'accord ?"
-    .db 1
-    move_to(12, 21)
-    .text "Oui Non"
+    .text "Oui"
+    col(5)
+    .text "Non"
     .db 0
 weapons_title:
     .text "Armes"

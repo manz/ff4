@@ -189,6 +189,9 @@
 """Sprite data staging for OAM ($0300-$051F)."""
 .label sprite_data = 0x7E0300
 
+"""Map title window: 0 while it shows, 1 to close it, 2 closed ($EA on the field's direct page)."""
+.label map_title_state = 0x7E06EA
+
 """Inventory for the item select window (48 * 2 bytes)."""
 .label item_select_list = 0x7E0712
 
@@ -215,6 +218,9 @@
 
 """Colour palettes (16 * 32 bytes)."""
 .label color_palettes = 0x7E0CDB
+
+"""The map's title in place_names (bit 7: none)."""
+.label map_title_index = 0x7E0FE6
 
 """Character names (14 * 6 bytes)."""
 .label character_names = 0x7E1500
