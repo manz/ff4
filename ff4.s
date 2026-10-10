@@ -73,11 +73,10 @@ Final Fantasy IV the new hack.
     }
     .import "battle/message_patches"
     .import "battle/sram_patches"
-    .if BATTLE_MONSTERS_VWF {
     .import "battle/monsters_patches"
-    }
     .import "battle/items_patches"
     .import "battle/redraw_writer_patches"
+    .import "battle/tasks_patches"
     .if INVENTORY_ROLLING_BUFFER {
     .import "battle/inventory_rolling_patches"
     }

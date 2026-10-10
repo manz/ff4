@@ -29,16 +29,13 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 ; scope, and an `.alloc` body opens its own).
 .import "battle/sram"
 .import "vanilla"
+; root-scope extern: battle/tasks_patches imports this module through inventory_rolling_patches
+.extern signal_commands
 
 
 .include "../bank20.i"
 
 .alloc _battle_redraw_gates_block in bank20_reloc {
-    _status_copy := 0x7EF015  ; vanilla DrawStatusText source: 4 status bytes per char slot
-    _STATUS_COPY_BYTES = sizeof(BattleRenderState.status_shadow)
-    _obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
-    _char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
-
     CMD_DIRTY_BIT := 0x20  ; bit 5 of battle_menu_dirty
     _NAMES_DIRTY_BIT := 0x10  ; bit 4 of battle_menu_dirty (char names region)
     _MONSTER_DIRTY_BIT := 0x01  ; bit 0 of battle_monster_dirty (any monster name)
@@ -53,6 +50,7 @@ _mark_cmd_dirty:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
     rtl
 
 walker_rtl:
@@ -65,62 +63,6 @@ walker_rtl:
 
     lda.l battle_selected_char
     jsr.w set_active_char_palette
-    rtl
-
-gate_status_check:
-"""
-    Bank-20 body for the DrawStatusText gate. Compares the 20 status
-    bytes vanilla DrawStatusText draws ($7E:F015, 4 per char slot)
-    with the shadow copy from the last draw. Sets carry and refreshes
-    the shadow when any byte changed, clears carry when none did.
-    Caller (bank-02 trampoline at $02:97F8) tail-jumps to $A2A1 on
-    dirty, rts on clean. Runs with 8-bit A and 16-bit X/Y (btlgfx).
-"""
-
-
-    phx
-    phy
-    ldy.w #0  ; 0: clean, 1: a status byte changed
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_gsc_loop:
-    lda.l _status_copy, x
-    cmp.l battle_render_state.status_shadow, x
-    beq _gsc_next
-    sta.l battle_render_state.status_shadow, x
-    ldy.w #1
-
-_gsc_next:
-    dex
-    bpl _gsc_loop
-    cpy.w #1  ; carry = changed
-    ply
-    plx
-    rtl
-
-gate_obj_names_check:
-"""
-    Bank-20 body for the DrawObjNames hash gate. XOR of monster slot
-    type bytes ($29B5..$29B8) + active-char index ($1822). Sets
-    carry on dirty (re-render needed), clears carry on clean.
-    Caller (bank-02 trampoline at $02:97C2) tail-jumps to $99D3 on
-    dirty, rts on clean.
-"""
-
-
-    lda.l btl_monster_types
-    eor.l btl_monster_types + 1
-    eor.l btl_monster_types + 2
-    eor.l btl_monster_types + 3
-    eor.l battle_selected_char
-    cmp.l _obj_names_hash
-    beq _goc_clean
-    sta.l _obj_names_hash
-    sec
-    rtl
-
-_goc_clean:
-    clc
     rtl
 
 mark_monsters_dirty_and_init:
@@ -147,6 +89,7 @@ mark_monsters_dirty_and_init:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
     tdc
     tax
     stx.b 0xa9
@@ -162,16 +105,6 @@ _mark_all_dirty:
     lda.b #0xFF
     sta.l battle_menu_dirty
     sta.l battle_monster_dirty
-    php
-    sep #0x20
-    rep #0x10
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_seed_status_shadow:
-    sta.l battle_render_state.status_shadow, x
-    dex
-    bpl _seed_status_shadow
-    plp
     rtl
 
 reset_queue_dirty_bits:
@@ -190,16 +123,6 @@ reset_queue_dirty_bits:
     sta.l battle_render_state.region_dirty_bits
     sta.l battle_menu_dirty
     sta.l battle_monster_dirty
-    php
-    sep #0x20
-    rep #0x10
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_seed_status_shadow:
-    sta.l battle_render_state.status_shadow, x
-    dex
-    bpl _seed_status_shadow
-    plp
     rtl
 
 gated_clear_names_window_buffer:
@@ -477,6 +400,7 @@ _rap_stamp:
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_MAIN
     sta.l battle_render_state.tilemap_pending_mask
+    jsr.l signal_commands  ; the menu opened, closed or changed hands
 
 _rap_done:
     plp
@@ -504,6 +428,7 @@ set_active_char_and_dirty:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
 ; Char-name palette patch (replaces the full names VWF re-render
 ; that used to fire via REGION_DIRTY_NAMES on every rotation).
 ; Walks the `$7E:B966` tilemap, rewrites the palette field of
