@@ -35,6 +35,7 @@ wrappers around original bank-$01 helpers used by the rolling code.
 .import "vanilla"
 
 .if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
     .alloc _bank01_inventory_trampolines in bank01_trampolines {
 check_and_clear_count:
 """Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $21."""
@@ -154,7 +155,7 @@ stays at 3+1 bytes and the vanilla sprite routine is preserved.
 
 
 ; end .alloc _bank01_inventory_trampolines
-}
+    }
 ; end .if INVENTORY_ROLLING_BUFFER
 
 ;; Bank-$01 thunks + wrappers for the treasure exchange rolling buffer.
@@ -162,7 +163,7 @@ stays at 3+1 bytes and the vanilla sprite routine is preserved.
 ;; in src/ingame/treasure_rolling.s. Both menus are mutually exclusive on
 ;; screen so the HDMA channel + tilemap buffer + WRAM shadow tables are
 ;; reused; only the per-menu state RAM differs.
-.if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
     .alloc _bank01_treasure_trampolines in bank01_trampolines {
 _treasure_check_and_clear_count:
     jsr.l treasure_check_and_clear_count_impl
@@ -510,10 +511,10 @@ _drops_up_busy:
 
 
 ; end .alloc _bank01_treasure_trampolines
-}
+    }
 ; end .if TREASURE_INVENTORY_ROLLING
 
-.alloc _bank01_shop_trampolines in bank01_trampolines {
+    .alloc _bank01_shop_trampolines in bank01_trampolines {
 shop_quantity_text_hook:
 """
 Render the owner welcome ('Que désirez vous ?') through the small-VWF
@@ -565,4 +566,5 @@ Called in place of the original `jsr $82FB` at $01:C751. The matching
     ldy.w #shops.merci
     jsr.l items_description.draw_trampoline_pos
     rts
+    }
 }

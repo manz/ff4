@@ -111,7 +111,8 @@ _TREASURE_HDMA_BANK := 0x7E
 .include "../bank20.i"
 .import "vanilla"
 
-.alloc _treasure_rolling_block in bank20_reloc {
+.if TREASURE_INVENTORY_ROLLING {
+    .alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:
 """
     Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
@@ -1206,5 +1207,6 @@ _treasure_circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w _treasure_circular_slot_calc
     rtl
+    }
     }
 }

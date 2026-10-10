@@ -64,48 +64,38 @@ Final Fantasy IV the new hack.
 .import "ingame/options"
 .import "ingame/equip"
 .import "ingame/status"
-.if BATTLE_ENABLED {
-    .import "battle/math_patches"
-    .import "battle/graphics_patches"
-    .if MAGIC_ENABLED {
-    .import "battle/magic/patches"
-    .import "battle/commands_patches"
-    }
-    .import "battle/message_patches"
-    .import "battle/sram_patches"
-    .import "battle/monsters_patches"
-    .import "battle/items_patches"
-    .import "battle/redraw_writer_patches"
-    .import "battle/tasks_patches"
-    .if INVENTORY_ROLLING_BUFFER {
-    .import "battle/inventory_rolling_patches"
-    }
-    .if TREASURE_DEBUG_ALWAYS_DROP {
-    .import "battle/debug_always_drop"
-    }
-}
+; Each module gates its own code on the flags that used to wrap its import here: a816 links every `.import`
+; whatever the `.if` around it.
+.import "battle/math_patches"
+.import "battle/graphics_patches"
+.import "battle/magic/patches"
+.import "battle/commands_patches"
+.import "battle/message_patches"
+.import "battle/sram_patches"
+.import "battle/monsters_patches"
+.import "battle/items_patches"
+.import "battle/redraw_writer_patches"
+.import "battle/tasks_patches"
+.import "battle/inventory_rolling_patches"
+.import "battle/debug_always_drop"
 
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
-.if INVENTORY_ROLLING_BUFFER {
-    .import "ingame/init_bg_scroll_hdma_patches"
-    .import "ingame/inventory_rolling_trampolines"
-}
+.import "ingame/init_bg_scroll_hdma_patches"
+.import "ingame/inventory_rolling_trampolines"
 
-.if TREASURE_INVENTORY_ROLLING {
-    .import "ingame/key_item_picker"
-    .import "ingame/drops_rolling"
-    .import "ingame/inventory_rolling"
-    .import "lib/rolling_inventory_engine"
-    .import "ingame/treasure_rolling"
-    .import "ingame/shop_sell_rolling"
-    .import "ingame/equip_inventory_rolling"
-    .import "ingame/key_item_picker_patches"
-    .import "ingame/shop_sell_rolling_patches"
-    .import "ingame/equip_inventory_rolling_patches"
-}
+.import "ingame/key_item_picker"
+.import "ingame/drops_rolling"
+.import "ingame/inventory_rolling"
+.import "lib/rolling_inventory_engine"
+.import "ingame/treasure_rolling"
+.import "ingame/shop_sell_rolling"
+.import "ingame/equip_inventory_rolling"
+.import "ingame/key_item_picker_patches"
+.import "ingame/shop_sell_rolling_patches"
+.import "ingame/equip_inventory_rolling_patches"
 
 
 .alloc at 0x00FFC0 {

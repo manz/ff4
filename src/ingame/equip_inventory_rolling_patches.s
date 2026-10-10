@@ -17,6 +17,7 @@ cursor and index math collapse to one column.
 
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
 ; List draw on entry.
     .alloc at 0x01BEA6 {
     jsr.w equip_init
@@ -98,5 +99,6 @@ cursor and index math collapse to one column.
 ; Teardown: both ways out of the list return here before BG4 clears.
     .alloc at 0x01BE70 {
     jsr.w equip_leave
+    }
     }
 }

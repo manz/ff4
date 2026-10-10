@@ -41,48 +41,49 @@ _SELL_VISIBLE_ITEMS := 8
 _SELL_BUFFER_SLOTS := 9
 _SELL_TOTAL_ITEMS := 48
 
+.if TREASURE_INVENTORY_ROLLING {
 ; State block in the shared $7E:99xx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
 
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and
 ; cursor row ($1B94). The profile reads them rather than keeping its
 ; own copy so vanilla's bounds checks stay authoritative.
-_SELL_SCROLL_POS := 0x7E1B96
+    _SELL_SCROLL_POS := 0x7E1B96
 
 ; HDMA channel 5 driving BG3VOFS ($2112). Nothing else in the shop
 ; touches HDMA.
-_SELL_HDMA_ENABLE_BIT := 0x20
+    _SELL_HDMA_ENABLE_BIT := 0x20
 
 ; Own table slot in the HDMA scratch area ($9800 treasure, $9880 drops).
-_SELL_HDMA_TABLE_ADDR := 0x9900
-_SELL_HDMA_SHADOW_ADDR := 0x9940
-_SELL_HDMA_BANK := 0x7E
-SELL_HDMA_SHADOW := 0x7E9940
-SELL_HDMA_TABLE := 0x7E9900
+    _SELL_HDMA_TABLE_ADDR := 0x9900
+    _SELL_HDMA_SHADOW_ADDR := 0x9940
+    _SELL_HDMA_BANK := 0x7E
+    SELL_HDMA_SHADOW := 0x7E9940
+    SELL_HDMA_TABLE := 0x7E9900
 
 ; BG3 buffer, and the window vanilla's $A172 draws into it: top border
 ; on buffer slot 0, body from slot 1, bottom border on slot 12. The ring
 ; therefore occupies slots 1..9, one 128-byte slot per item.
-_SELL_BG3_BUFFER := 0xD600
-_SELL_SLOT_ORIGIN := 1
+    _SELL_BG3_BUFFER := 0xD600
+    _SELL_SLOT_ORIGIN := 1
 
 ; Blank window cell, as every drawn window leaves it in the buffer.
-_SELL_BLANK_TILE := 0xFF
-_SELL_TILEMAP_ATTR := 0x00
+    _SELL_BLANK_TILE := 0xFF
+    _SELL_TILEMAP_ATTR := 0x00
 ; Side borders vanilla's window keeps in the first and last columns of
 ; every body row.
-_SELL_BORDER_LEFT_TILE := 0xFA
-_SELL_BORDER_RIGHT_TILE := 0xFB
-_SELL_BORDER_RIGHT_COL := 31
+    _SELL_BORDER_LEFT_TILE := 0xFA
+    _SELL_BORDER_RIGHT_TILE := 0xFB
+    _SELL_BORDER_RIGHT_COL := 31
 
 ; BG3VOFS with the window frame parked where vanilla puts it: vanilla
 ; seeds $9F with $FFB8 at $01:C7C1.
-_SELL_BASE_SCROLL := 0xFFB8
+    _SELL_BASE_SCROLL := 0xFFB8
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
-_SELL_SCROLL_FRAMES := 8
+    _SELL_SCROLL_FRAMES := 8
 
-.alloc _sell_rolling_block in bank20_reloc {
+    .alloc _sell_rolling_block in bank20_reloc {
 _sell_ensure_hdma_initialized:
 """
 Lazy init: park base_scroll and configure ch5 driving BG3VOFS.
@@ -608,4 +609,5 @@ _sell_refresh_slots_impl:
     jsr.l tfr_bg3_tiles_vblank_trampoline
     plp
     rtl
+    }
 }

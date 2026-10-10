@@ -40,6 +40,7 @@ Patched:
 .include "config.i"
 .import "vanilla"
 .if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
 ; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the
 ; WHOLE filtered list into the window band and vanilla then scrolls over
 ; it with $BB ; with the engine drawing its ring into the same band the
@@ -244,5 +245,6 @@ Patched:
 
     .alloc at 0x00AFA5 {
     nop
+    }
     }
 }
