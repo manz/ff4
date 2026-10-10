@@ -125,7 +125,10 @@ wrap_and_clear_trampoline:
 ; Must use JSR (not JSL) since function ends with JMP, not RTL
 
 .alloc at 0x0296CB {
-    jsr.w draw_battle_command_window_relocated
+; RedrawMainMenu's per-pass command window: the battle menu task draws it on SIG_COMMANDS (battle/tasks_patches.s)
+    nop
+    nop
+    nop
 }
 .alloc at 0x029983 {
     jsr.w draw_battle_command_window_relocated

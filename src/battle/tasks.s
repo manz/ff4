@@ -26,6 +26,7 @@ TASK_WAITING := 0xFF
 
 SIG_STATUS := 0x01  ; a character's status bytes changed (UpdateObjBuf's copy)
 SIG_MAIN_MENU := 0x02  ; DrawText wrote into the main menu's text buffers (names, HP)
+SIG_COMMANDS := 0x04  ; the command window's commands, owner or open state changed, or the main view under it
 
 .struct BattleTasks {
     byte[TASK_COUNT] state

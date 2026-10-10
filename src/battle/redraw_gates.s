@@ -29,6 +29,8 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 ; scope, and an `.alloc` body opens its own).
 .import "battle/sram"
 .import "vanilla"
+; root-scope extern: battle/tasks_patches imports this module through inventory_rolling_patches
+.extern signal_commands
 
 
 .include "../bank20.i"
@@ -51,6 +53,7 @@ _mark_cmd_dirty:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
     rtl
 
 walker_rtl:
@@ -114,6 +117,7 @@ mark_monsters_dirty_and_init:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
     tdc
     tax
     stx.b 0xa9
@@ -424,6 +428,7 @@ _rap_stamp:
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_MAIN
     sta.l battle_render_state.tilemap_pending_mask
+    jsr.l signal_commands  ; the menu opened, closed or changed hands
 
 _rap_done:
     plp
@@ -451,6 +456,7 @@ set_active_char_and_dirty:
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
+    jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
 ; Char-name palette patch (replaces the full names VWF re-render
 ; that used to fire via REGION_DIRTY_NAMES on every rotation).
 ; Walks the `$7E:B966` tilemap, rewrites the palette field of

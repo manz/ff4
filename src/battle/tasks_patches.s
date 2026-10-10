@@ -5,6 +5,8 @@ on every pass and every eighth frame.
 """
 .import "vanilla"
 .import "battle/tasks"
+; root-scope extern: inventory_rolling_patches reaches this module back through redraw_gates
+.extern draw_battle_command_window_relocated
 .include "../bank20.i"
 .include "src/battle/bank02_trampolines.i"
 
@@ -25,6 +27,11 @@ battle_frame_tasks:
 draw_status_text_far:
 """DrawStatusText ($02:A2A1) for the status task."""
     jsr.w draw_status_text
+    rtl
+
+draw_command_window_far:
+"""The command window (draw_battle_command_window_relocated): list, mirror of the main view, frame, text, upload."""
+    jsr.w draw_battle_command_window_relocated
     rtl
 
 draw_main_menu_far:
@@ -121,23 +128,6 @@ _raise_status:
     plp
     rts
 
-status_text_task:
-"""
-Draw the status text whenever a character's status bytes change, then queue its transfer once the menu's single
-transfer slot is free.
-"""
-    lda.b #SIG_STATUS
-    jsr.w battle_task.wait
-    jsr.l draw_status_text_far
-_status_tfr:
-    lda.l _MENU_TFR_PENDING
-    beq _status_queue
-    jsr.w battle_task.yield
-    bra _status_tfr
-_status_queue:
-    jsr.l tfr_status_tiles_far
-    bra status_text_task
-
 text_destination_signal:
 """SIG_MAIN_MENU when DrawText's destination ($EF52) lies in the main menu's text buffers. Keeps A/X/Y and P."""
     php
@@ -157,34 +147,67 @@ _not_main_menu:
     plp
     rtl
 
-main_menu_task:
-"""Copy the names and HP into the main view and queue its transfer whenever DrawText rewrote them."""
-    lda.b #SIG_MAIN_MENU
+menu_task:
+"""
+The battle menu windows, redrawn only when something they show changed: the status text (SIG_STATUS), the names and
+HP of the main view (SIG_MAIN_MENU), the command window (SIG_COMMANDS, and after the main view under it changed).
+The status and main view go through vanilla's single menu transfer slot ($1824): wait for it to be free.
+"""
+    lda.b #SIG_STATUS | SIG_MAIN_MENU | SIG_COMMANDS
     jsr.w battle_task.wait
-_main_menu_tfr:
-    lda.l _MENU_TFR_PENDING
-    beq _main_menu_draw
-    jsr.w battle_task.yield
-    bra _main_menu_tfr
-_main_menu_draw:
+    pha  ; the bits that woke the task, kept on its stack across the yields below
+    and.b #SIG_STATUS
+    beq _menu_main
+    jsr.l draw_status_text_far
+    jsr.w _menu_wait_transfer_slot
+    jsr.l tfr_status_tiles_far
+_menu_main:
+    lda 1, s
+    and.b #SIG_MAIN_MENU
+    beq _menu_commands
+    jsr.w _menu_wait_transfer_slot
     jsr.l draw_main_menu_far
-    bra main_menu_task
+    lda 1, s
+    ora.b #SIG_COMMANDS  ; the command window mirrors the main view under it
+    sta 1, s
+_menu_commands:
+    pla
+    and.b #SIG_COMMANDS
+    beq menu_task
+    jsr.l draw_command_window_far
+    bra menu_task
+
+_menu_wait_transfer_slot:
+"""Yield until no menu tilemap transfer is queued."""
+    lda.l _MENU_TFR_PENDING
+    beq _menu_slot_free
+    jsr.w battle_task.yield
+    bra _menu_wait_transfer_slot
+_menu_slot_free:
+    rts
+
+signal_commands:
+"""SIG_COMMANDS for the command-dirty writers (battle/redraw_gates.s). Keeps A and P."""
+    php
+    sep #0x20
+    pha
+    lda.b #SIG_COMMANDS
+    jsr.l battle_task.signal
+    pla
+    plp
+    rtl
 
 battle_tasks_seed:
-"""Battle start: stop leftover tasks, start the status task and draw the status text once. Callable with JSL."""
+"""Battle start: stop leftover tasks, start the menu task and draw every window once. Callable with JSL."""
     php
     sep #0x20
     rep #0x10
     jsr.l battle_task.reset
     lda.b #0x00
-    ldx.w #status_text_task
+    ldx.w #menu_task
     ldy.w #0x0000
     jsr.l battle_task.start
-    lda.b #0x01
-    ldx.w #main_menu_task
-    ldy.w #0x0000
-    jsr.l battle_task.start
-    lda.b #SIG_STATUS | SIG_MAIN_MENU
+    lda.b #SIG_STATUS | SIG_MAIN_MENU | SIG_COMMANDS
     jsr.l battle_task.signal
     plp
     rtl
