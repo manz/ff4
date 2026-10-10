@@ -161,21 +161,6 @@ gate_draw_status_text:
     jsr.l refresh_active_char_palette
 ; the status text itself is the status task's (battle/tasks_patches.s), drawn on SIG_STATUS
     rts
-; --- DrawObjNames gate (hash of monster slots + $1822) ---
-; Bank-20 body returns carry-set when re-render needed ; bank-02
-; trampoline tail-jumps to vanilla DrawObjNames on dirty, rts on
-; clean. Earlier we noop'd UpdateMagicList ($02:96D4) to reclaim
-; 36 bytes for this gate's body, but that broke Rydia's summon
-; menu display (vanilla UpdateMagicList still needed for periodic
-; magic list refresh ; ImmediateMenuUpdate alone doesn't cover
-; all dispatch paths). Restored.
-gate_draw_obj_names:
-"""Bank-02 trampoline  ; JSL gate_obj_names_check, jmp $99D3 on dirty, rts on clean."""
-    jsr.l gate_obj_names_check
-    bcc _gdon_skip
-    jmp.w draw_obj_names
-_gdon_skip:
-    rts
 ; --- Battle-init highlight stamp ---
 ; Reclaim the 3-nop slot at $02:9A69 (previously vanilla `jsr
 ; InitMagicListTextBuf` ; we noop'd that in magic/patches.s since

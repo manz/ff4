@@ -36,9 +36,6 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 .include "../bank20.i"
 
 .alloc _battle_redraw_gates_block in bank20_reloc {
-    _obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
-    _char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
-
     CMD_DIRTY_BIT := 0x20  ; bit 5 of battle_menu_dirty
     _NAMES_DIRTY_BIT := 0x10  ; bit 4 of battle_menu_dirty (char names region)
     _MONSTER_DIRTY_BIT := 0x01  ; bit 0 of battle_monster_dirty (any monster name)
@@ -66,31 +63,6 @@ walker_rtl:
 
     lda.l battle_selected_char
     jsr.w set_active_char_palette
-    rtl
-
-gate_obj_names_check:
-"""
-    Bank-20 body for the DrawObjNames hash gate. XOR of monster slot
-    type bytes ($29B5..$29B8) + active-char index ($1822). Sets
-    carry on dirty (re-render needed), clears carry on clean.
-    Caller (bank-02 trampoline at $02:97C2) tail-jumps to $99D3 on
-    dirty, rts on clean.
-"""
-
-
-    lda.l btl_monster_types
-    eor.l btl_monster_types + 1
-    eor.l btl_monster_types + 2
-    eor.l btl_monster_types + 3
-    eor.l battle_selected_char
-    cmp.l _obj_names_hash
-    beq _goc_clean
-    sta.l _obj_names_hash
-    sec
-    rtl
-
-_goc_clean:
-    clc
     rtl
 
 mark_monsters_dirty_and_init:
