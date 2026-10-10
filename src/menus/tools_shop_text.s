@@ -72,21 +72,23 @@ not_enough_gils:
     .text "de Gils."
     .db 0
 sell_window:
-    menu_window(8, 10, 14, 13)
+; name (DrawItemName $02D4) row 12, count (DrawNum2 $0396) row 14, price (DrawNum7 $0414) row 16; text draws on the
+; row under its position
+    menu_window(8, 10, 14, 11)
     move_to(13, 13)
     .text " Unités"
     .db 1
-    move_to(19, 15)
-    .text "Gils"
+    move_to(18, 15)
+    .text " Gils"
     .db 1
-    move_to(10, 17)
-    .text "Êtes-vous"
+    move_to(9, 17)
+    .text "Êtes-vous d\'accord ?"
     .db 1
-    move_to(11, 19)
-    .text "d\'accord ?"
-    .db 1
-    move_to(12, 21)
-    .text "Oui Non"
+; the cursor ($01:CA19) stops at columns 10 and 14 of row 20
+    move_to(12, 19)
+    .text "Oui"
+    col(4)
+    .text "Non"
     .db 0
 weapons_title:
     .text "Armes"

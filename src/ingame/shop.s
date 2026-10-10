@@ -156,6 +156,11 @@ small-VWF item descriptions.
 
 ; Shop list rows draw through the hijacked DrawItemName, which needs a
 ; slot index in $5D ; the loop leaves the item id there instead.
+; ConfirmSell's cursor row: Oui / Non on row 20 (vanilla 22), the window two rows shorter
+.alloc at 0x01CA1A {
+    .db 20 * 8
+}
+
 ; ConfirmSell's item name: `jsr DrawItemName` with the item id in $5D
 .alloc at 0x01CA02 {
     jsr.w shop_sell_item_name
