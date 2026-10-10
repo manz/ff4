@@ -1,72 +1,70 @@
-"""The DrawStatusText redraw gate must see every status change it would draw.
+"""The battle status text is drawn when, and only when, a status it shows changes.
 
-Vanilla `DrawStatusText` draws each character's 32 status bits from the
-battle-graphics copy at `$7E:F015 + slot * 4`, which the battle code
-refreshes from the character records (`$7E:2003 + slot * $80`, status
-bytes 1-4). `gate_status_check` sets carry when the status text needs a
-redraw; a change it misses leaves the window stale. The battle redraw
-path calls it from the `gate_draw_status_text` trampoline (about every 9
-frames in this battle),
-so these tests watch the carry it returns there. ff4.kss is a battle
-with a 4-char party in slots 0, 2, 3 and 4.
+UpdateObjBuf copies each character's status bytes (`$7E:2003 + slot * $80`, bytes 1-4) into the battle-graphics
+copy DrawStatusText draws from (`$7E:F015 + slot * 4`). Its copy now raises SIG_STATUS on a change
+(battle/tasks_patches.s), and the status task, waiting on that signal, runs DrawStatusText. A change the copy misses
+leaves the window stale; a signal without a change redraws for nothing.
 """
 from __future__ import annotations
 
 import pytest
 
-from _ff4kintsuki import kss_path, load_emu_from_kss
+from _ff4kintsuki import kss_path, load_emu_from_kss, walk_into_battle
 
 CHAR_STATUS = 0x7E2003  # status byte 1 of the slot-0 character record
 CHAR_RECORD = 0x80
-CARRY = 0x01
-JSL = 4  # bytes per `jsr.l`
+WAIT_FRAME_MAIN = 0x028295  # one battle-graphics pass: RedrawMainMenu, then the tasks
+PASSES = 6  # battle-graphics passes to run after a change
 
 
 @pytest.fixture
-def emu():
-    e = load_emu_from_kss(kss_path("ff4.kss"), settle_frames=10)
-    yield e
+def battle():
+    e = load_emu_from_kss(kss_path("ff4-before-field-inventory.kss"), settle_frames=60)
+    walk_into_battle(e)
+    _passes(e, 12)  # past the opening: the status task has drawn once and waits
+    draws = [0]
+    task_draw = e.lookup_symbol_addr("draw_status_text_far")  # the status task's DrawStatusText; UpdateStatusTiles has its own
+    e.add_exec_callback(task_draw, task_draw, lambda *_: draws.__setitem__(0, draws[0] + 1))
+    yield e, draws
     e.close()
 
 
-def _gate_results(emu, calls: int) -> list[bool]:
-    """Carry returned by the next `calls` gate checks the game makes."""
-    trampoline = emu.lookup_symbol_addr("gate_draw_status_text")
-    assert trampoline is not None
-    after_gate = trampoline + 2 * JSL  # past the palette refresh and the gate call
-    results = []
-    for _ in range(calls):
-        assert emu.run_until(after_gate, max_frames=20), "the redraw path stopped calling the gate"
-        results.append(bool(emu.get_state().p & CARRY))
+def _passes(emu, count: int) -> None:
+    """Run `count` battle-graphics passes (a command menu waiting for input makes none)."""
+    for _ in range(count):
+        assert emu.run_until(WAIT_FRAME_MAIN, max_frames=600), "the battle loop stopped passing through WaitFrameMain"
         emu.step()
-    return results
 
 
-def _set_status(emu, slot: int, byte: int, bits: int) -> None:
+def _flip_status(emu, slot: int, byte: int, bits: int) -> None:
     address = CHAR_STATUS + slot * CHAR_RECORD + byte
-    emu.write(address, emu.read(address) | bits)
+    emu.write(address, emu.read(address) ^ bits)
 
 
-def test_gate_stays_clean_when_nothing_changes(emu) -> None:
-    _gate_results(emu, 2)
-    assert not any(_gate_results(emu, 4))
+def test_nothing_changes_nothing_is_drawn(battle) -> None:
+    e, draws = battle
+    _passes(e, PASSES)
+    assert draws[0] == 0
 
 
-@pytest.mark.parametrize("slot", [0, 2, 3, 4])
-def test_status_change_on_any_present_slot_is_dirty(emu, slot: int) -> None:
-    _gate_results(emu, 2)
-    _set_status(emu, slot, 0, 0x01)
-    assert any(_gate_results(emu, 4))
+@pytest.mark.parametrize("slot", [0, 1, 2, 3, 4])
+def test_a_status_change_on_any_slot_redraws(battle, slot: int) -> None:
+    e, draws = battle
+    _flip_status(e, slot, 0, 0x01)
+    _passes(e, PASSES)
+    assert draws[0] >= 1
 
 
-def test_status_change_in_the_second_status_byte_is_dirty(emu) -> None:
-    _gate_results(emu, 2)
-    _set_status(emu, 0, 1, 0x01)
-    assert any(_gate_results(emu, 4))
+def test_a_change_in_the_fourth_status_byte_redraws(battle) -> None:
+    e, draws = battle
+    _flip_status(e, 0, 3, 0x01)
+    _passes(e, PASSES)
+    assert draws[0] >= 1
 
 
-def test_same_status_on_two_slots_in_one_frame_is_dirty(emu) -> None:
-    _gate_results(emu, 2)
-    _set_status(emu, 3, 0, 0x01)
-    _set_status(emu, 4, 0, 0x01)
-    assert any(_gate_results(emu, 4))
+def test_two_slots_changing_together_draw_once(battle) -> None:
+    e, draws = battle
+    _flip_status(e, 0, 0, 0x01)
+    _flip_status(e, 2, 0, 0x01)
+    _passes(e, PASSES)
+    assert draws[0] == 1

@@ -34,8 +34,6 @@ battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 .include "../bank20.i"
 
 .alloc _battle_redraw_gates_block in bank20_reloc {
-    _status_copy := 0x7EF015  ; vanilla DrawStatusText source: 4 status bytes per char slot
-    _STATUS_COPY_BYTES = sizeof(BattleRenderState.status_shadow)
     _obj_names_hash := 0x7EEF9F  ; hash of monster slots + $1822; gates DrawObjNames
     _char_hp_hash := 0x7EEFA0  ; hash of char HP bytes; gates DrawCharHP
 
@@ -65,37 +63,6 @@ walker_rtl:
 
     lda.l battle_selected_char
     jsr.w set_active_char_palette
-    rtl
-
-gate_status_check:
-"""
-    Bank-20 body for the DrawStatusText gate. Compares the 20 status
-    bytes vanilla DrawStatusText draws ($7E:F015, 4 per char slot)
-    with the shadow copy from the last draw. Sets carry and refreshes
-    the shadow when any byte changed, clears carry when none did.
-    Caller (bank-02 trampoline at $02:97F8) tail-jumps to $A2A1 on
-    dirty, rts on clean. Runs with 8-bit A and 16-bit X/Y (btlgfx).
-"""
-
-
-    phx
-    phy
-    ldy.w #0  ; 0: clean, 1: a status byte changed
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_gsc_loop:
-    lda.l _status_copy, x
-    cmp.l battle_render_state.status_shadow, x
-    beq _gsc_next
-    sta.l battle_render_state.status_shadow, x
-    ldy.w #1
-
-_gsc_next:
-    dex
-    bpl _gsc_loop
-    cpy.w #1  ; carry = changed
-    ply
-    plx
     rtl
 
 gate_obj_names_check:
@@ -162,16 +129,6 @@ _mark_all_dirty:
     lda.b #0xFF
     sta.l battle_menu_dirty
     sta.l battle_monster_dirty
-    php
-    sep #0x20
-    rep #0x10
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_seed_status_shadow:
-    sta.l battle_render_state.status_shadow, x
-    dex
-    bpl _seed_status_shadow
-    plp
     rtl
 
 reset_queue_dirty_bits:
@@ -190,16 +147,6 @@ reset_queue_dirty_bits:
     sta.l battle_render_state.region_dirty_bits
     sta.l battle_menu_dirty
     sta.l battle_monster_dirty
-    php
-    sep #0x20
-    rep #0x10
-    ldx.w #_STATUS_COPY_BYTES - 1
-
-_seed_status_shadow:
-    sta.l battle_render_state.status_shadow, x
-    dex
-    bpl _seed_status_shadow
-    plp
     rtl
 
 gated_clear_names_window_buffer:

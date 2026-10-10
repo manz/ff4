@@ -16,6 +16,7 @@ follow-up patches.
 
 
 .import "battle/redraw_gates"
+.import "battle/tasks_patches"
 .import "battle/sram"
 .import "vanilla"
 
@@ -147,26 +148,18 @@ Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
 battle_ext_seed:
 """Battle_ext root tail: seed redraw-gate state then jump ExecBattle."""
     jsr.l reset_queue_dirty_bits
+    jsr.l battle_tasks_seed  ; battle/tasks_patches.s
     jmp.l exec_battle
 ; ExecBattle
-; --- DrawStatusText gate ---
-; RedrawMainMenu @96C8 = `jsr DrawStatusText` ; 9.33M cycles per 60f
-; (top remaining hitter after the cmd-window gate). Skip when none of
-; the 20 status bytes it draws ($7E:F015, 4 per char slot) changed
-; since the last draw; `gate_status_check` keeps the shadow, seeded to
-; $FF per battle so the first check draws. Status flicker pulse
-; freezes when no status changes ; acceptable trade for ~9M cycles.
+; --- Active-char highlight, per pass ---
 gate_draw_status_text:
-"""Bank-02 trampoline  ; JSL gate_status_check, jmp $A2A1 on dirty, rts on clean."""
+"""RedrawMainMenu's DrawStatusText slot: the active-char highlight refresh; the status task draws the text."""
 ; RedrawMainMenu runs every frame and this is its first call, so it is
 ; the per-frame slot for the highlight refresh. DrawCharNames is NOT in
 ; this chain (it fires from the graphics-command dispatch, a handful of
 ; frames per battle), which is why the refresh cannot live there alone.
     jsr.l refresh_active_char_palette
-    jsr.l gate_status_check
-    bcc _gdst_skip
-    jmp.w draw_status_text
-_gdst_skip:
+; the status text itself is the status task's (battle/tasks_patches.s), drawn on SIG_STATUS
     rts
 ; --- DrawObjNames gate (hash of monster slots + $1822) ---
 ; Bank-20 body returns carry-set when re-render needed ; bank-02
