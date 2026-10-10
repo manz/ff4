@@ -221,14 +221,9 @@ _mnwg_done:
 }
 .alloc at 0x0296C8 {
     jsr.w gate_draw_status_text
-
-; Redirect RedrawMainMenu's `jsr DrawObjNames` to our gate.
 }
-.alloc at 0x0296CE {
-    jsr.w gate_draw_obj_names
 
 ; Battle-init palette stamp (replaces noop'd InitMagicListTextBuf jsr).
-}
 .alloc at 0x029A69 {
     jsr.w walker_helper
 }
