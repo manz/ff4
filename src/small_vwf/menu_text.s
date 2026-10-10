@@ -199,6 +199,7 @@ _draw:
     sec
     rts
 _render:
+    jsr.w _string_budget
     phx
     phy
     jsr.w render.init
@@ -529,6 +530,54 @@ _unclaimed:
     pla
     plp
     clc
+    rts
+
+_string_budget:
+"""
+Lower vwf_cfg.slot_budget (the rest of the block, from _claim) to the tiles the string at Y can take: one per byte,
+a fresh one per move_to / column. render.init clears that many: clearing to the block's end wiped the item
+description's tiles ($800-$FFF of the buffer) before the NMI re-flushed them. DB = the string's bank. Keeps A/X/Y, P.
+"""
+    php
+    rep #0x30
+    pha
+    phy
+    lda.w #0x0001
+    pha  ; 1,s the count
+_budget_next:
+    sep #0x20
+    lda.w 0x0000, y
+    beq _budget_end
+    iny
+    cmp.b #0x01
+    bne _budget_not_move
+    iny  ; move_to's position word
+    iny
+    bra _budget_count
+_budget_not_move:
+    cmp.b #0x03
+    bne _budget_count
+    iny  ; column's argument
+_budget_count:
+    rep #0x20
+    lda 1, s
+    inc
+    sta 1, s
+    bra _budget_next
+_budget_end:
+    rep #0x20
+    pla
+    cmp.w #0x0100
+    bcs _budget_keep
+    sep #0x20
+    cmp.l vwf_cfg.slot_budget
+    bcs _budget_keep
+    sta.l vwf_cfg.slot_budget
+_budget_keep:
+    rep #0x30
+    ply
+    pla
+    plp
     rts
 
 _blocks:
