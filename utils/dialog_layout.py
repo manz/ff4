@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from katsuji.layout import TextLayout
-from katsuji.typeset import FRENCH, Markup, typeset
+from katsuji.typeset import FRENCH, Markup
 from script import Table
 
 from metrics import TextMetrics
@@ -45,29 +45,8 @@ MARKUP = Markup(
 
 
 ABBREVIATIONS = ("M.",)
-"""Words ending in a period that never end a sentence: French keeps the title with the name ("M. Rosa")."""
-
-
-@dataclass(frozen=True)
-class Ff4TextLayout(TextLayout):
-    """katsuji's layout with ff4's abbreviations, so a line never breaks between "M." and the name.
-
-    `_ends_sentence` and `_words` are katsuji's extension points for a game's sentence and word rules
-    (katsuji pinned in pyproject.toml; tests/test_dialog_layout.py covers both).
-    """
-
-    def _ends_sentence(self, word: str) -> bool:
-        return not word.endswith(ABBREVIATIONS) and super()._ends_sentence(word)
-
-    def _words(self, text: str) -> list[str]:
-        """Words, an abbreviation kept with the word after it: a line never ends on "M."."""
-        words: list[str] = []
-        for word in super()._words(text):
-            if words and words[-1].endswith(ABBREVIATIONS):
-                words[-1] += f" {word}"
-            else:
-                words.append(word)
-        return words
+"""Words ending in a period that never end a sentence: French keeps the title with the name ("M. Rosa"), and a
+line never ends on one."""
 
 
 @dataclass(frozen=True)
@@ -186,20 +165,18 @@ class DialogLayout:
 
     def __init__(self, metrics: TextMetrics) -> None:
         self.metrics = metrics
-        self.text_layout = Ff4TextLayout(self._measure_in_text, WINDOW_WIDTH, FRENCH, MARKUP)
+        self.text_layout = TextLayout(
+            self.measure, WINDOW_WIDTH, FRENCH, MARKUP, abbreviations=ABBREVIATIONS, measure_after=self._measure_after
+        )
         self.font = 0  # in use at the start of the open window
-        self._setting = ("", 0)  # the text `_set` is wrapping, typeset, and the font it starts in
+        self._start_font = 0  # the font the text `_set` is wrapping starts in
 
     def measure(self, line: str, font: int = 0) -> int:
         return self.metrics.measure_string(line, font)
 
-    def _measure_in_text(self, line: str) -> int:
-        """`line`, a piece of the text being set, measured in the font in use where it starts in that text."""
-        text, font = self._setting
-        start = text.find(line)
-        if start > 0:
-            font = self.metrics.font_after(text[:start], font)
-        return self.measure(line, font)
+    def _measure_after(self, line: str, before: str) -> int:
+        """`line` measured in the font in use after `before`, the text laid out ahead of it."""
+        return self.measure(line, self.metrics.font_after(before, self._start_font))
 
     def _line_fonts(self, lines: Sequence[str], font: int) -> list[int]:
         """The font each of `lines` starts in, the first in `font`."""
@@ -252,7 +229,7 @@ class DialogLayout:
     def _set(self, text: str, font: int) -> list[str]:
         """`text`, started in font `font`, typeset and wrapped to the window, a sentence wider than a line over
         balanced lines."""
-        self._setting = (typeset(text, FRENCH, MARKUP), font)
+        self._start_font = font
         return self.text_layout.reflow(text).split("\n")
 
     def _fits(self, lines: Sequence[str]) -> bool:

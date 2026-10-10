@@ -62,7 +62,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "a816", specifier = "==1.1.0rc3" },
-    { name = "katsuji", specifier = "==0.2.2" },
+    { name = "katsuji", specifier = "==0.2.3" },
     { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a18" },
 ]
 
@@ -80,16 +80,16 @@ wheels = [
 
 [[package]]
 name = "katsuji"
-version = "0.2.2"
+version = "0.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "a816" },
     { name = "numpy" },
     { name = "pillow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/03/78/4336cd4c1a7d327161b986494b7158991674812ba3d6715ce443be643c89/katsuji-0.2.2.tar.gz", hash = "sha256:dd4c715fdb654be6f5382a0ccb98ff9ef21fc60140bf7b2d482da43d710c749d", size = 97516, upload-time = "2026-10-09T20:53:07.011Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/39/96/a8e1524a286435bd9b8e4b28a4cb2eb3306e2f473511e773698087ed041b/katsuji-0.2.3.tar.gz", hash = "sha256:c3808db673a29a18a8b0c7e8e94300f80347df51a2128a38cd3a5a5e28bc26f8", size = 98316, upload-time = "2026-10-10T06:25:42.428Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0d/a9/baecd6eaf11b9cf37de4159f06029ca4ad84b7844929b1824b5492b34720/katsuji-0.2.2-py3-none-any.whl", hash = "sha256:512dd294d7ceec1ff0a0515af31ae7e2c4dc6ed1523fbdc219d332534a246948", size = 28155, upload-time = "2026-10-09T20:53:05.976Z" },
+    { url = "https://files.pythonhosted.org/packages/d9/13/febbd67903c0dd5537506bc096875300a7ba1217db731fc99185fa5fa589/katsuji-0.2.3-py3-none-any.whl", hash = "sha256:3d403f710e8241da56e76b867385dfb348284e98c462dfc98d5107b77011b854", size = 28595, upload-time = "2026-10-10T06:25:43.256Z" },
 ]
 
 [[package]]
