@@ -528,10 +528,11 @@ could still chain into $8301 with the slimmed block.
 """
 
 
-    ldy.w #shops.que_desirez_vous
-    jsr.l items_description.draw_trampoline_pos
+; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
     ldy.w #shops.quantity - 0x8000
     jsr.w draw_pos_text  ; draw text at position (= display_text_in_menus thunk)
+    ldy.w #shops.que_desirez_vous
+    jsr.l items_description.draw_trampoline_pos
     rts
 
 shop_welcome_text_hook:
@@ -546,10 +547,12 @@ slimmed `welcome_and_actions` block now holds only the action line.
 """
 
 
+; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
+    ldy.w #shops.welcome_and_actions - 0x8000
+    jsr.w draw_pos_text
     ldy.w #shops.puis_je_vous_aider
     jsr.l items_description.draw_trampoline_pos
-    ldy.w #shops.welcome_and_actions - 0x8000
-    jmp.w draw_pos_text  ; tail-call to draw positioned text
+    rts
 
 shop_thanks_text_hook:
 """

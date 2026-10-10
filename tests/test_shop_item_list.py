@@ -79,11 +79,17 @@ def test_rows_own_disjoint_tiles(shop_emu) -> None:
 
 # Vanilla draws each row's price digits and the "Gils" suffix before the
 # name, at these cells of the name row (counted from the row's first
-# cell, which the rows-shifted-left patch moved to column 2).
+# cell, which the rows-shifted-left patch moved to column 2). The suffix
+# is a small-VWF string: its first cell shows the string's first tile,
+# its offset in the shop's text block (tiles $200 + offset).
 PRICE_DIGIT_COLS = (14, 15, 16)
 PRICE_SUFFIX_COL = 17
 DIGIT_TILES = range(0x80, 0x8A)
-GLYPH_G = 0x48
+
+
+def _suffix_tile(emu) -> int:
+    """Low byte of the price suffix's first tile."""
+    return (emu.lookup_symbol_addr("shops.gils_suffix") - emu.lookup_symbol_addr("tools_shop_text")) & 0xFF
 
 
 def test_price_survives_the_name_render(shop_emu) -> None:
@@ -100,7 +106,7 @@ def test_price_survives_the_name_render(shop_emu) -> None:
         assert any(d in DIGIT_TILES for d in digits), (
             f"row {row} has no price digits, got "
             + " ".join(f"${d:02x}" for d in digits))
-        assert cells[PRICE_SUFFIX_COL] == GLYPH_G, (
+        assert cells[PRICE_SUFFIX_COL] == _suffix_tile(shop_emu), (
             f"row {row} lost the 'G' of Gils, got ${cells[PRICE_SUFFIX_COL]:02x}")
 
 
@@ -130,7 +136,7 @@ def test_name_render_never_writes_into_the_price_field() -> None:
         for base, row in rows.items():
             col = (addr - base) // 2
             if 0 <= col < 20 and addr >= base:
-                if col >= PRICE_FIELD_FIRST_COL:
+                if PRICE_FIELD_FIRST_COL <= col < PRICE_SUFFIX_COL:  # the suffix draws its own cells
                     bad.append((row, col, val, pc))
 
     lo = min(rows) - 0x40

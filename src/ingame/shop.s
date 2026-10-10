@@ -80,7 +80,7 @@ small-VWF item descriptions.
     jsr.w shop_quantity_text_hook
 }
 .alloc at 0x01C568 {
-    load_system_menu_text_pointer(shops.gils + 2)
+    load_system_menu_text_pointer(shops.gils_suffix)
 }
 .alloc at 0x01c74e {
     load_system_menu_text_pointer(shops.thank_you_window)

@@ -4,11 +4,15 @@
 
 .table "text/ff4_menus.tbl"
 
-.alloc _tools_shop_text_block in bank20_reloc {
+.alloc tools_shop_text in bank20_reloc {
     .scope shops {
     """Shop UI strings."""
 gils:
     move_to(27, 6)
+    .text "Gils"
+    .db 0
+gils_suffix:
+; after each price in the buy list ($01:C568): its own bytes, so its small-VWF tiles don't overlap the gil window's
     .text "Gils"
     .db 0
 puis_je_vous_aider:
@@ -19,7 +23,12 @@ puis_je_vous_aider:
     .db 0
 welcome_and_actions:
     .dw 0x0148 - 4
-    .text "Achat Vente Sortir"
+; one cursor stop every 6 columns ($01:C37C), as vanilla's かう   うる   でる
+    .text "Achat"
+    col(6)
+    .text "Vente"
+    col(12)
+    .text "Sortir"
     .db 0
 que_desirez_vous:
 """Owner welcome prompt  ; rendered through the small-VWF description region."""
