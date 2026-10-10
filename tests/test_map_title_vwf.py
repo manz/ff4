@@ -1,6 +1,6 @@
 """The map title (the location window on entering a map) is drawn in the small VWF.
 
-The setup (ingame/map_title_vwf.s) renders the title into BG3 font slots $D8-$F1 and fills the glyph row with those
+The setup (ingame/map_title_vwf.s) renders the title into BG3 font slots $D8-$E9 and fills the glyph row with those
 slots, centred; the dakuten row is blank. TfrMapTitle, in the NMI, uploads the slots before writing the rows.
 """
 from __future__ import annotations
@@ -13,8 +13,8 @@ STUB = 0x1E00  # bank-0 WRAM: rep #$10, sep #$20, D = $0600 and DB = 0 as in the
 STUB_CODE = bytes([0xC2, 0x10, 0xE2, 0x20, 0xF4, 0x00, 0x06, 0x2B, 0xF4, 0x00, 0x00, 0xAB, 0xAB, 0x20, 0xD9, 0xB8, 0x6B])
 TITLE_INDEX = 0x7E0FE6
 GLYPH_ROW = 0x7E0774
-DAKUTEN_ROW = GLYPH_ROW + 0x1A
-CELLS = 0x1A
+DAKUTEN_ROW = GLYPH_ROW + 18
+CELLS = 18
 FIRST_SLOT = 0xD8
 
 

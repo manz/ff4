@@ -13,11 +13,12 @@ slots before writing the rows.
 .import "assets"
 .import "vwf_ram"
 .import "small_vwf/render"
+.import "ingame/places_names_window"
 .include "src/vwf_state.i"
 .include "../bank20.i"
 
-_TITLE_TILE := 0xD8  ; font slots from $D8 (to $F1): no entry in text/ff4_menus.tbl
-_TITLE_CELLS := 0x1A  ; ingame/places_names.s place_name_length
+_TITLE_TILE := 0xD8  ; font slots from $D8 (to $E9): no entry in text/ff4_menus.tbl
+_TITLE_CELLS := PLACE_NAME_LENGTH
 _TITLE_TILES := _TITLE_CELLS  ; at most one tile a cell
 _BG3_CHR_WORD := 0x2000  ; the field's BG3 tiles
 _BLANK := 0xFF

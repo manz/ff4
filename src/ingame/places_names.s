@@ -7,7 +7,7 @@ rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
 .import "vanilla"
 
 {
-    place_name_length = 0x1A
+    place_name_length = PLACE_NAME_LENGTH
 
     .alloc at 0x00B8F1 {
     lda.l place_names, x
@@ -22,7 +22,7 @@ rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
     }
 
     .alloc at 0x00B973 {
-    cpx.w #0x003C  ; place_name_length * 2 + 8
+    cpx.w #PLACE_WINDOW_WIDTH * 2
 
 ;.00:B98D                 LDA     $780,X
     }
@@ -48,9 +48,9 @@ rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
     }
 
     .alloc at 0x00BA06 {
-    cpx.w #0x003C  ; place_name_length * 2 + 8
+    cpx.w #PLACE_WINDOW_WIDTH * 2
 
-    vram_ptr = 0x2840 + 1
+    vram_ptr = 0x2840 + ( 32 - PLACE_WINDOW_WIDTH ) / 2  ; centred on the screen
     }
 
     .alloc at 0x00B95A {
