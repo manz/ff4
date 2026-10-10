@@ -47,6 +47,7 @@ menu:
 
     .alloc at 0x0187CE {
     load_system_menu_text_pointer(in_game_menu.gils)
+    ldx.w #28 * 2 + 25 * 64  ; one column right of vanilla's (27, 25): clear of the number
 
 ; moves gils two chars on the right
     }

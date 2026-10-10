@@ -8,7 +8,7 @@
     .scope shops {
     """Shop UI strings."""
 gils:
-    move_to(27, 6)
+    move_to(28, 6)
     .text "Gils"
     .db 0
 gils_suffix:
