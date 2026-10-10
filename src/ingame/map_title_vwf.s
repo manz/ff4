@@ -7,6 +7,9 @@ tilemap. The field keeps BG3's tiles at $2000, the font only, so the title does 
 the font copied to $6000, BG3 pointed there, and the text in tiles $100 on ($6800), reached with attribute bit 0.
 LoadMapTitle runs while the map loads, screen off, so the setup uploads directly. Glyph row cells are tile
 _TITLE_BLANK (blank) or the title's tiles; TfrMapTitle writes that row with _TITLE_ATTR.
+
+The field menu's BG2 tilemap sits on those tiles and its exit (FadeInMenu's InitHWRegs) points BG3 back at $2000: a
+title still open is drawn and uploaded again there, screen still off.
 """
 .import "preamble"
 .import "vanilla"
@@ -37,6 +40,11 @@ _TILES_BYTES := ( _TITLE_TILES + 1 ) * 0x10  ; the blank tile, then the title's
     jml map_title_vwf.setup
 }
 
+.alloc at 0x008A40 {
+; FadeInMenu, back from the field menu: `jsl InitHWRegs`
+    jsl map_title_vwf.restore
+}
+
 .alloc at 0x00B9CC {
 ; TfrMapTitle's glyph row: `lda #$20` before each cell's attribute
     .db _TITLE_ATTR
@@ -53,6 +61,56 @@ load). Ends in vanilla's `lda #1 / sta $e9`.
     phb
     sep #0x20
     rep #0x10
+    jsr.w _draw
+    jsr.w _fill_rows
+    plb
+    plp
+    jml 0x00B943
+
+restore:
+"""
+FadeInMenu's InitHWRegs, then the map's title again while its window is open: the menu's BG2 tilemap took its
+tiles and BG3 is back on $2000. A title LoadMapTitle skipped is drawn for nothing: no cell shows its tiles, and BG3
+reads the same font at $6000. Screen off, NMI still disabled.
+"""
+    jsl.l init_hw_regs
+    php
+    phb
+    sep #0x20
+    rep #0x10
+    lda.l map_title_state
+    bne _restored
+    lda.l map_title_index
+    bmi _restored  ; a map without a title
+    lda.b #0x00
+    pha
+    plb
+    rep #0x20
+    lda.l map_title_index
+    and.w #0x00FF
+    tay
+    sep #0x20
+    ldx.w #0x0000
+_find:
+; X past Y titles, as LoadMapTitle finds it
+    cpy.w #0x0000
+    beq _found
+_skip:
+    lda.l place_names, x
+    inx
+    cmp.b #0x00
+    bne _skip
+    dey
+    bra _find
+_found:
+    jsr.w _draw
+_restored:
+    plb
+    plp
+    rtl
+
+_draw:
+"""Render the title at place_names + X, upload it with the font and point BG3 at them. M = 8 bits, X = 16 bits."""
     ldy.w #0x0000
 _copy:
     lda.l place_names, x
@@ -90,10 +148,7 @@ _copy:
     dma_transfer_to_vram_call(_TILES_SOURCE, _TILES_WORD, _TILES_BYTES, 0x1801)
     lda.b #_BG34NBA
     sta.l ppu.BG34NBA
-    jsr.w _fill_rows
-    plb
-    plp
-    jml 0x00B943
+    rts
 
 _fill_rows:
 """Blank both rows, then the tiles the name used, centred in the glyph row. M = 8 bits, X = 16 bits."""
