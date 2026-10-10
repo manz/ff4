@@ -35,64 +35,65 @@ _EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 _EQUIP_BUFFER_SLOTS := _EQUIP_VISIBLE_ITEMS + 1
 _EQUIP_TOTAL_ITEMS := EQUIP_LIST_TOTAL_ITEMS
 
+.if TREASURE_INVENTORY_ROLLING {
 ; State block in the shared $7E:9Cxx arena, after sell ($9CC0). The
 ; engine addresses every instance as bank $7E + X, so it cannot live in
 ; the cart-RAM rolling_state pool.
 
 ; Vanilla's own equip-list scroll position ("first visible row"), the
 ; byte its ($57) pointer resolves to on this screen.
-_EQUIP_SCROLL_POS := 0x7E1B2A
+    _EQUIP_SCROLL_POS := 0x7E1B2A
 
 ; HDMA channel 5 driving BG4VOFS ($2114).
-_EQUIP_HDMA_ENABLE_BIT := 0x20
+    _EQUIP_HDMA_ENABLE_BIT := 0x20
 
 ; Own table slot in the HDMA scratch area ($9800 field, $9880 drops,
 ; $9900 sell / key items).
-_EQUIP_HDMA_TABLE_ADDR := 0x9980
-_EQUIP_HDMA_BANK := 0x7E
-EQUIP_HDMA_SHADOW := 0x7E99C0
+    _EQUIP_HDMA_TABLE_ADDR := 0x9980
+    _EQUIP_HDMA_BANK := 0x7E
+    EQUIP_HDMA_SHADOW := 0x7E99C0
 
 ; BG4 buffer and the window vanilla's $A172 draws into it: top border on
 ; tile row 0, body rows 1..23, bottom border on row 24 (off screen). The
 ; ring's 7 slots take rows 1..14, the rows vanilla's own list used.
-_EQUIP_BG4_BUFFER := 0xC600
-_EQUIP_SLOT_BYTES := 0x80  ; two 32-tile tilemap rows
-_EQUIP_SLOT_ORIGIN := EQUIP_LIST_ORIGIN_LINES * 8  ; byte offset of slot 0: a tile row is 8 lines, $40 bytes
-_EQUIP_SLOT_PIXELS := 16
-_EQUIP_NAME_OFFSET := 0x0004  ; icon at tile column 2
+    _EQUIP_BG4_BUFFER := 0xC600
+    _EQUIP_SLOT_BYTES := 0x80  ; two 32-tile tilemap rows
+    _EQUIP_SLOT_ORIGIN := EQUIP_LIST_ORIGIN_LINES * 8  ; byte offset of slot 0: a tile row is 8 lines, $40 bytes
+    _EQUIP_SLOT_PIXELS := 16
+    _EQUIP_NAME_OFFSET := 0x0004  ; icon at tile column 2
 
 ; Blank window cell and the side borders vanilla's window keeps in the
 ; first and last columns of every body row.
-_EQUIP_BLANK_TILE := 0xFF
-_EQUIP_TILEMAP_ATTR := 0x00
-_EQUIP_BORDER_LEFT_TILE := 0xFA
-_EQUIP_BORDER_RIGHT_TILE := 0xFB
-_EQUIP_BORDER_RIGHT_COL := 31
+    _EQUIP_BLANK_TILE := 0xFF
+    _EQUIP_TILEMAP_ATTR := 0x00
+    _EQUIP_BORDER_LEFT_TILE := 0xFA
+    _EQUIP_BORDER_RIGHT_TILE := 0xFB
+    _EQUIP_BORDER_RIGHT_COL := 31
 
 ; BG4VOFS with the window frame parked where vanilla puts it: vanilla
 ; seeds $99 with scroll * 16 + $FF98 at $01:BE95. The header covers the
 ; screen down to the end of the window's top border.
-_EQUIP_BASE_SCROLL := EQUIP_LIST_BASE_SCROLL
-_EQUIP_HEADER_LINES := EQUIP_LIST_FIRST_ROW_Y
+    _EQUIP_BASE_SCROLL := EQUIP_LIST_BASE_SCROLL
+    _EQUIP_HEADER_LINES := EQUIP_LIST_FIRST_ROW_Y
 ; What is left of the 224-line screen below the six rows. It pins the
 ; window's bottom border right under the last visible row: vanilla's
 ; DrawWindow makes this window 25 tile rows, so its border (row 24) sat
 ; off screen. The footer scrolls so its first line shows buffer row 24,
 ; then the empty row below it; the pre-render slot never shows.
-_EQUIP_WINDOW_BOTTOM_ROW := 24
-_EQUIP_FOOTER_TOP := _EQUIP_HEADER_LINES + _EQUIP_VISIBLE_ITEMS * _EQUIP_SLOT_PIXELS
-_EQUIP_FOOTER_LINES := 224 - _EQUIP_FOOTER_TOP
-_EQUIP_FOOTER_SCROLL := _EQUIP_WINDOW_BOTTOM_ROW * 8 - _EQUIP_FOOTER_TOP + 0x10000 - _EQUIP_BASE_SCROLL
+    _EQUIP_WINDOW_BOTTOM_ROW := 24
+    _EQUIP_FOOTER_TOP := _EQUIP_HEADER_LINES + _EQUIP_VISIBLE_ITEMS * _EQUIP_SLOT_PIXELS
+    _EQUIP_FOOTER_LINES := 224 - _EQUIP_FOOTER_TOP
+    _EQUIP_FOOTER_SCROLL := _EQUIP_WINDOW_BOTTOM_ROW * 8 - _EQUIP_FOOTER_TOP + 0x10000 - _EQUIP_BASE_SCROLL
 ; header + 6 row bands + footer + terminator, rounded to words.
-EQUIP_HDMA_TABLE_SIZE := 26
+    EQUIP_HDMA_TABLE_SIZE := 26
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
-_EQUIP_SCROLL_FRAMES := 8
+    _EQUIP_SCROLL_FRAMES := 8
 
 ; The window $01:A172 draws (InventoryWindow), as sell redraws it too.
-_INVENTORY_WINDOW := 0xDCCE
+    _INVENTORY_WINDOW := 0xDCCE
 
-.alloc _equip_rolling_block in bank20_reloc {
+    .alloc _equip_rolling_block in bank20_reloc {
 _equip_ensure_hdma_initialized:
 """
 Lazy init: park base_scroll and configure ch5 driving BG4VOFS.
@@ -583,4 +584,5 @@ equip_scroll_up_impl:
     jsr.w _equip_run_scroll
     plp
     rtl
+    }
 }

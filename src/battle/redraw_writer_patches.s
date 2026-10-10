@@ -19,7 +19,9 @@ follow-up patches.
 .import "battle/tasks_patches"
 .import "battle/sram"
 .import "vanilla"
+.include "config.i"
 
+.if BATTLE_ENABLED {
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
 
 ; Original `battle/char.asm:UpdateMenu` at @a472..@a488 contains:
@@ -34,7 +36,7 @@ follow-up patches.
 ; monsters at $703C01 so the queue-gated init paths re-render after
 ; an ATB rotation.
 
-.alloc at 0x03A482 {
+    .alloc at 0x03A482 {
     jsr.l set_active_char_and_dirty
     .db 0xEA  ; nop padding so $03:A487 still aligns to `jsr ValidateArrows`
 
@@ -45,8 +47,8 @@ follow-up patches.
 ; vanilla. Fires every time the engine applies dead-status to a
 ; battle slot (post-attack, regen tick, etc.)  ; the gated monster-
 ; name trampoline picks up the dirty bit on the next frame.
-}
-.alloc at 0x03B1A0 {
+    }
+    .alloc at 0x03B1A0 {
     jsr.l mark_monsters_dirty_and_init
 
 ; --- Phase 2: NMI-safe UpdateFlyingHDMA ---
@@ -57,8 +59,8 @@ follow-up patches.
 ; avoid hanging when called from NMI (the IRQ won't fire while we're
 ; in vblank). NOP out the 5 bytes  ; main-loop callers still work
 ; (just take the wait-loop hit one less time per frame).
-}
-.alloc at 0x0282E8 {
+    }
+    .alloc at 0x0282E8 {
     nop
     nop
     nop
@@ -70,8 +72,8 @@ follow-up patches.
 ; $02:82BC ; our NMI hook in `messages_vwf.dma_transfer` already
 ; fires it every vblank, so the main-loop call is redundant.
 ; NOP the 3-byte JSR to reclaim ~5K cycles/NMI.
-}
-.alloc at 0x0282BC {
+    }
+    .alloc at 0x0282BC {
     nop
     nop
     nop
@@ -88,8 +90,8 @@ follow-up patches.
     range 0x0297AB 0x029824
     strategy order
     }
-}
-.alloc _battle_redraw_helpers in bank02_battle_redraw_helpers {
+    }
+    .alloc _battle_redraw_helpers in bank02_battle_redraw_helpers {
 ; --- Names + monster gated trampolines (slice 2, queue-side bits) ---
 ; The init -> DrawText -> deinit pipeline still fires every frame so
 ; battle_flags symmetry is preserved (other VWF callers like HP/MP
@@ -192,23 +194,24 @@ _mnwg_after_draw:
     jsr.l refresh_active_char_palette
 _mnwg_done:
     rts
-}
+    }
 ; end .alloc _battle_redraw_helpers
 
 ; --- Fixed-address hooks pointing into the pool helpers ---
 
 ; Redirect `Battle_ext` entry to our seed helper.
 
-.alloc at 0x038000 {
+    .alloc at 0x038000 {
     jmp.l battle_ext_seed
 
 ; Redirect RedrawMainMenu's `jsr DrawStatusText` to our gate.
-}
-.alloc at 0x0296C8 {
+    }
+    .alloc at 0x0296C8 {
     jsr.w gate_draw_status_text
-}
+    }
 
 ; Battle-init palette stamp (replaces noop'd InitMagicListTextBuf jsr).
-.alloc at 0x029A69 {
+    .alloc at 0x029A69 {
     jsr.w walker_helper
+    }
 }

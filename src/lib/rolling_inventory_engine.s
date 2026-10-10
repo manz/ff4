@@ -36,8 +36,10 @@ sites that remain in the per-menu source files.
 .include "src/rolling_state.i"
 .include "../bank20.i"
 .import "vanilla"
+.include "config.i"
 
-.alloc _rolling_inventory_engine_block in bank20_reloc {
+.if TREASURE_INVENTORY_ROLLING {
+    .alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {
     """Bank-20 rolling-inventory engine entry points (phase 1 stubs)."""
 rolling_engine_init:
@@ -894,6 +896,7 @@ rolling_engine_shutdown:
     sta.l rolling_x.base_scroll + 1, x
     plp
     rtl
+    }
     }
     }
 }

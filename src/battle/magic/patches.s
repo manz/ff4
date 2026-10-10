@@ -6,22 +6,24 @@ long-form attack-name copier.
 .import "bank20_helpers"
 .import "battle/magic_reloc"
 .import "vanilla"
+.include "config.i"
 
 
+.if BATTLE_ENABLED & MAGIC_ENABLED {
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
 ; redraw_writer_patches.s; the two-column display drives its own buffer.
-.alloc at 0x029834 {
+    .alloc at 0x029834 {
     ldx.w #24 * 4
-}
-.alloc at 0x02982F {
+    }
+    .alloc at 0x02982F {
     ldx.w #24 * 4 * 2
-}
-.alloc at 0x16fe1c {
+    }
+    .alloc at 0x16fe1c {
 ; Spell-list tilemap upload length (vanilla 0x400): rows 1-24 of spells
 ; plus the bottom-edge row 25 `draw_magic_list_direct` draws.
     .dw 0x640
-}
-.alloc at 0x029839 {
+    }
+    .alloc at 0x029839 {
 _transfer_white_magic:
     ldx.w #0x0000  ; white magic
     phx
@@ -37,8 +39,8 @@ _transfer_white_magic:
     sta.w menu_tilemap_tfr_enable  ; enable menu tilemap vram transfer
     plx
     rts
-}
-.alloc at 0x029ead {
+    }
+    .alloc at 0x029ead {
 _draw_magic_list:
     lda 0x00  ; character slot
     asl
@@ -62,20 +64,20 @@ _draw_letter_far:
     rtl
 
 ; attack name window
-}
-.alloc at 0x02cbcc {
+    }
+    .alloc at 0x02cbcc {
     jsr.l battle_magic_mult8  ; lda #6 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
     nop
-}
-.alloc at 0x02cbdd {
+    }
+    .alloc at 0x02cbdd {
     jsr.l battle_magic_char  ; spaces once the name has ended
-}
-.alloc at 0x02cbe6 {
+    }
+    .alloc at 0x02cbe6 {
     cpy.w #battle_magic_length + 1
-}
-.alloc at 0x02cba2 {
+    }
+    .alloc at 0x02cba2 {
     sec
     sbc #0x48
 
@@ -106,62 +108,62 @@ exit:
     jmp.w draw_attack_name_window  ; display monster? attack name window
 
 ; attack window position
-}
-.alloc at 0x029369 {
+    }
+    .alloc at 0x029369 {
     ldx.w #0x0009
 
 ; attack window size
-}
-.alloc at 0x02936f {
+    }
+    .alloc at 0x02936f {
     ldx.w #0x040e
-}
-.alloc at 0x029382 {
+    }
+    .alloc at 0x029382 {
     ldx.w #0xdb50 - 4 - 2 - 16
 
 
 ; cursor and scrolling
-}
-.alloc at 0x02B72B {
+    }
+    .alloc at 0x02B72B {
     cmp #11
-}
-.alloc at 0x02B781 {
+    }
+    .alloc at 0x02B781 {
     cmp #1
-}
-.alloc at 0x02B712 {
+    }
+    .alloc at 0x02B712 {
     nop
     nop
-}
-.alloc at 0x02B71C {
+    }
+    .alloc at 0x02B71C {
     nop
     nop
-}
-.alloc at 0x02B751 {
+    }
+    .alloc at 0x02B751 {
 ;    INC     D,$63
     nop
     nop
-}
-.alloc at 0x02B742 {
+    }
+    .alloc at 0x02B742 {
     nop
     nop
-}
+    }
 ; Battle list hand Y per visible row ($16:FC5B), read by both the item
 ; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists now draw
 ; VWF names on each 16-px row's bottom tile line, lower in the cell than
 ; the 8x8 font's glyphs, so the hand comes down _LIST_CURSOR_Y_NUDGE
 ; pixels to point at the middle of the name.
-_LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
-_LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
-_LIST_CURSOR_Y_NUDGE := 2
-.alloc at 0x16FC5B {
+    _LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
+    _LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
+    _LIST_CURSOR_Y_NUDGE := 2
+    .alloc at 0x16FC5B {
     .for row := 0, 5 {
     .db _LIST_CURSOR_Y_FIRST + _LIST_CURSOR_Y_NUDGE + row * _LIST_CURSOR_Y_PITCH
     }
-}
-.alloc at 0x16FC56 {
+    }
+    .alloc at 0x16FC56 {
     .db 8 - 8
     .db 0x3C + 8 * 3 + 4 - 8
-}
-.alloc at 0x02B764 {
+    }
+    .alloc at 0x02B764 {
     inc 0x5F
 ;inc 0x5F
     nop
@@ -170,8 +172,8 @@ _LIST_CURSOR_Y_NUDGE := 2
 ;inc 0x63
     nop
     nop
-}
-.alloc at 0x02B785 {
+    }
+    .alloc at 0x02B785 {
     dec 0x5F
 ;dec 0x5F
     nop
@@ -180,19 +182,20 @@ _LIST_CURSOR_Y_NUDGE := 2
 ;dec 0x63
     nop
     nop
-}
-.alloc at 0x02A567 {
+    }
+    .alloc at 0x02A567 {
     jsr.l battle_magic_mult8  ; lda #6 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
     nop
-}
-.alloc at 0x02A573 {
+    }
+    .alloc at 0x02A573 {
     lda.l magic_names, x
-}
-.alloc at 0x02A57E {
+    }
+    .alloc at 0x02A57E {
     jsr.l battle_magic_char_after_first  ; $FF once the name has ended
-}
-.alloc at 0x02A57A {
+    }
+    .alloc at 0x02A57A {
     lda #9 - 1
+    }
 }

@@ -4,14 +4,16 @@ piggyback on `defend_row` data.
 """
 .import "assets"
 .import "battle/graphics"
+.include "config.i"
 
 
+.if BATTLE_ENABLED {
 ; MISS sprite graphics
 
-.alloc at 0x0cfc60 {
+    .alloc at 0x0cfc60 {
     .incbin "fonts/miss.bin"
-}
-.alloc at 0x16fb87 {
+    }
+    .alloc at 0x16fb87 {
     {
 ; chars to copy from the font to the 4bpp tileset in battle
 
@@ -24,45 +26,45 @@ piggyback on `defend_row` data.
     .db 0x80, 0x81, 0x82
     .db 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x16, 0x17, 0x18, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff
     }
-}
-.alloc at 0x02975d {
+    }
+    .alloc at 0x02975d {
 ; PM Needed
     .db 223, 226, 230, 233, 228, 232, 0xff
 
 ; Defend / Row window content
 ; moves the row destination back a few bytes
-}
-.alloc at 0x29a90 {
+    }
+    .alloc at 0x29a90 {
     ldx.w #0xd618
-}
-.alloc at 0x29a8b {
+    }
+    .alloc at 0x29a8b {
     ldx.w #0xd5e8
-}
-.alloc at 0x029a98 {
+    }
+    .alloc at 0x029a98 {
     lda.l defend_row.defend_text, x
-}
-.alloc at 0x029a9e {
+    }
+    .alloc at 0x029a9e {
     lda.l defend_row.row_text, x
-}
-.alloc at 0x029aa7 {
+    }
+    .alloc at 0x029aa7 {
     cpx.w #defend_row.defend_row_length * 2
-}
-.alloc at 0x029aac {
+    }
+    .alloc at 0x029aac {
     cpx.w #defend_row.defend_row_length
-}
-.alloc at 0x02b96a {
+    }
+    .alloc at 0x02b96a {
     lda.b #0x0c
-}
-.alloc at 0x16fe5a + 6 * 8 {
+    }
+    .alloc at 0x16fe5a + 6 * 8 {
     .db 0x00, 0x09, 0x08, 0x04
-}
-.alloc at 0x16fe5a + 6 * 9 {
+    }
+    .alloc at 0x16fe5a + 6 * 9 {
 ; row window
     .db 0x18, 0x09, 0x08, 0x04
 
 ; switches around small mp to pm in the MP Needed battle window.
-}
-.alloc at 0x02a1e3 {
+    }
+    .alloc at 0x02a1e3 {
     lda #0xdc
     sta 0xba94, y
     dec
@@ -71,8 +73,8 @@ piggyback on `defend_row` data.
 
 ; Hands text
 ; (Layout handled by relocated tfr_equip_window_new in src/battle/equip_window.s)
-}
-.alloc at 0x16fed5 {
+    }
+    .alloc at 0x16fed5 {
     {
     .table "text/ff4_menus.tbl"
 hand_text:
@@ -85,18 +87,19 @@ hand_text:
     .text "Principale"
     .text "Principale"
     }
-}
-.alloc at 0x02A51C {
+    }
+    .alloc at 0x02A51C {
     lda.l battle_statuses, x
     sta.b 0x00
     lda.l battle_statuses + 1, x
     sta.b 0x01
     lda.b #battle_statuses >> 16
-}
-.alloc at 0x02A32A {
+    }
+    .alloc at 0x02A32A {
     lda.l battle_statuses, x
     sta.b 0x00
     lda.l battle_statuses + 1, x
     sta.b 0x01
     lda.b #battle_statuses >> 16
+    }
 }

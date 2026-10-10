@@ -5,7 +5,9 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 
 .import "preamble"
 .import "vanilla"
+.include "config.i"
 
+.if BATTLE_ENABLED {
 ; ===========================================================================
 ; Mult8 Hardware Implementation - Bank 2 version at $8560
 ; Input: $26, $28 → Output: $2a = $26 * $28
@@ -13,7 +15,7 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 ; Uses same pattern as existing MultHW at $85D2 (26 bytes, fits in 28)
 ; ===========================================================================
 
-.alloc at 0x028560 {
+    .alloc at 0x028560 {
     phx  ; Preserve X (original does this)
     lda.b btlgfx_dp.multiplier1
     sta.l cpu_regs.WRMPYA  ; Multiplicand
@@ -29,4 +31,5 @@ trampoline at $83B9 jumping into `_hw_mult16`.
     plb  ; Restore data bank
     plx
     rts
+    }
 }

@@ -19,10 +19,11 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 .include "config.i"
 
+.if BATTLE_ENABLED {
 ; root-scope extern: `.alloc` bodies open their own scope, so an extern
 ; declared inside one never resolves at the use site.
 
-.alloc at 0x029E1A {
+    .alloc at 0x029E1A {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
@@ -30,28 +31,28 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- item symbol ---
 ; Original: 02/9E44: BF 00 80 0F  LDA 0x0F8000,X
-}
-.alloc at 0x029E44 {
+    }
+    .alloc at 0x029E44 {
     lda.l item_names, x
 
 ; --- loop counter ---
 ; Original: 02/9E58: A9 08  LDA #0x08
-}
-.alloc at 0x029E58 {
+    }
+    .alloc at 0x029E58 {
     lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name (+1 skip symbol) ---
 ; Original: 02/9E5C: BF 01 80 0F  LDA 0x0F8001,X
-}
-.alloc at 0x029E5C {
+    }
+    .alloc at 0x029E5C {
     jsr.l battle_item_char_after_symbol
 
 ; ===== BTLGFX/MENU: LOCATION 2 =====
 
 ; --- multiplier ---
 ; Original: 02/9FEF: A9 09  LDA #0x09
-}
-.alloc at 0x029FEF {
+    }
+    .alloc at 0x029FEF {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
@@ -59,28 +60,28 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- item symbol ---
 ; Original: 02/A00C: BF 00 80 0F  LDA 0x0F8000,X
-}
-.alloc at 0x02A00C {
+    }
+    .alloc at 0x02A00C {
     lda.l item_names, x
 
 ; --- loop counter ---
 ; Original: 02/A020: A9 08  LDA #0x08
-}
-.alloc at 0x02A020 {
+    }
+    .alloc at 0x02A020 {
     lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name (+1 skip symbol) ---
 ; Original: 02/A024: BF 01 80 0F  LDA 0x0F8001,X
-}
-.alloc at 0x02A024 {
+    }
+    .alloc at 0x02A024 {
     jsr.l battle_item_char_after_symbol
 
 ; ===== TEXTVAR_03: BATTLE MESSAGE ITEM NAME =====
 
 ; --- multiplier ---
 ; Original: 02/A594: A9 09  LDA #0x09
-}
-.alloc at 0x02A594 {
+    }
+    .alloc at 0x02A594 {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
@@ -88,22 +89,22 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- loop counter ---
 ; Original: 02/A5A1: A9 08  LDA #0x08
-}
-.alloc at 0x02A5A1 {
+    }
+    .alloc at 0x02A5A1 {
     lda #ITEM_NAME_TEXT_SIZE
 
 ; --- item name ---
 ; Original: 02/A5A5: BF 00 80 0F  LDA 0x0F8000,X
-}
-.alloc at 0x02A5A5 {
+    }
+    .alloc at 0x02A5A5 {
     jsr.l battle_item_char  ; $FF past the end: TextVar_03's cmp #$FF stops there
 
 ; ===== BTLGFX/BTLGFX: ITEM DISPLAY =====
 
 ; --- multiplier ---
 ; Original: 02/CB77: A9 09  LDA #0x09
-}
-.alloc at 0x02CB77 {
+    }
+    .alloc at 0x02CB77 {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
     nop
@@ -111,34 +112,34 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- item name ---
 ; Original: 02/CB83: BF 00 80 0F  LDA 0x0F8000,X
-}
-.alloc at 0x02CB83 {
+    }
+    .alloc at 0x02CB83 {
     jsr.l battle_item_char
 
 ; --- loop counter ---
 ; Original: 02/CB8C: C0 08 00  CPY #0x0008
-}
-.alloc at 0x02CB8C {
+    }
+    .alloc at 0x02CB8C {
     cpy #0x000b
 
 ; ===== EQUIPPED ITEMS DISPLAY WIDTH =====
 
 ; --- equipped items width 1 ---
 ; Original: 02/AB47: A9 09  LDA #0x09
-}
-.alloc at 0x02AB47 {
+    }
+    .alloc at 0x02AB47 {
     lda #ITEM_NAME_RECORD_SIZE
 
 ; --- equipped items width 2 ---
 ; Original: 02/B442: A9 09  LDA #0x09
-}
-.alloc at 0x02B442 {
+    }
+    .alloc at 0x02B442 {
     lda #ITEM_NAME_RECORD_SIZE
 
 ; --- equipped items width 3 ---
 ; Original: 02/B698: A9 09  LDA #0x09
-}
-.alloc at 0x02B698 {
+    }
+    .alloc at 0x02B698 {
     lda #ITEM_NAME_RECORD_SIZE
 
 ; ===== INVENTORY BUFFER STRIDE EXPANSION =====
@@ -147,19 +148,19 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- DrawInventoryItemText: buffer stride ---
 ; Original: 02/9FAF: A9 30  LDA #0x30
-}
-.alloc at 0x029FAF {
+    }
+    .alloc at 0x029FAF {
     lda #0x3c  ; 60 bytes per item instead of 48
 
 ; --- DrawInventoryItemText: line length ---
 ; Original: 02/9FC4: A9 0C  LDA #0x0C
-}
-.alloc at 0x029FC4 {
+    }
+    .alloc at 0x029FC4 {
     lda #0x0f  ; 15 tiles per line instead of 12
-}
+    }
 ; ===== TfrInventoryList PATCHES =====
 ; Skip when rolling buffer enabled - it has its own transfer routine
-.if INVENTORY_ROLLING_BUFFER == 0 {
+    .if INVENTORY_ROLLING_BUFFER == 0 {
 ; --- right column buffer offset ---
 ; Original: 02/9923: BD D6 8E  LDA 0x8ED6,X
     .alloc at 0x029923 {
@@ -197,7 +198,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
     .alloc at 0x029947 {
     adc #0x003c  ; advance 60 bytes instead of 48
     }
-}
+    }
 
 ; end !INVENTORY_ROLLING_BUFFER
 
@@ -205,57 +206,57 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- tile count (using item) ---
 ; Original: 02/9F2B: A9 0C  LDA #0x0C
-.alloc at 0x029F2B {
+    .alloc at 0x029F2B {
     lda #0x0f  ; 15 tiles instead of 12
 
 ; --- row 2 attribute offset (using item) ---
 ; Original: 02/9F47: 99 BF 8E  STA 0x8EBF,Y
-}
-.alloc at 0x029F47 {
+    }
+    .alloc at 0x029F47 {
     sta.w 0x8EC5, y  ; 0x8EA7 + 0x1E = 0x8EC5
 
 ; --- Y stride (using item) ---
 ; Original: 02/9F54: 69 18 00  ADC #0x0018
-}
-.alloc at 0x029F54 {
+    }
+    .alloc at 0x029F54 {
     adc #0x001e  ; advance 30 bytes instead of 24
 
 ; ===== UpdateEnabledItems PATCHES (throw mode) =====
 
 ; --- tile count (throw) ---
 ; Original: 02/9F68: A9 0C  LDA #0x0C
-}
-.alloc at 0x029F68 {
+    }
+    .alloc at 0x029F68 {
     lda #0x0f  ; 15 tiles instead of 12
 
 ; --- row 2 attribute offset (throw) ---
 ; Original: 02/9F86: 99 BF 8E  STA 0x8EBF,Y
-}
-.alloc at 0x029F86 {
+    }
+    .alloc at 0x029F86 {
     sta.w 0x8EC5, y
 
 ; --- Y stride (throw) ---
 ; Original: 02/9F93: 69 18 00  ADC #0x0018
-}
-.alloc at 0x029F93 {
+    }
+    .alloc at 0x029F93 {
     adc #0x001e  ; advance 30 bytes instead of 24
-}
+    }
 ; ===== INVENTORY WINDOW SIZE =====
 ; MenuWindowTbl entry 5 (inventory) at 0x16FE5A + 5*6 = 0x16FE78
 ; Format: x, y, width, height
 ; Original: 0x01, 0x00, 0x1E, 0x33
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
     .alloc at 0x16FE78 {
     .db 0x00, 0x00, 0x20, 0x0F  ; x=0, y=0, width=32, height=15 (6 items × 2 + 3 border)
     }
-} else {
+    } else {
     .alloc at 0x16FE78 {
     .db 0x00, 0x00, 0x20, 0x33  ; x=0 (edge), y=0, width=32, height=51
     }
-}
+    }
 ; ===== TILEMAP BASE POINTERS =====
 ; Skip when rolling buffer enabled - these addresses are used for hooks/trampoline
-.if INVENTORY_ROLLING_BUFFER == 0 {
+    .if INVENTORY_ROLLING_BUFFER == 0 {
 ; Shift item drawing 1 tile left by adjusting base pointers
 ; Y offsets stay at 2/0x42 to preserve loop mechanics
 
@@ -289,7 +290,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
     .alloc at 0x029902 {
     ldx #0xC544  ; 1 tile left
     }
-}
+    }
 ; end !INVENTORY_ROLLING_BUFFER
 
 ; ===== CURSOR SPRITE POSITIONS =====
@@ -297,20 +298,20 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; --- Hand cursor X positions ---
 ; Original: 16/FC59: 0x0C, 0x7C (left=12px, right=124px)
 
-.alloc at 0x16FC59 {
+    .alloc at 0x16FC59 {
     .db 0x0C, 0x7C  ; Keep original positions (left=12px, right=124px)
 
 ; --- Arrow sprite positions (X, Y, tile, attr) ---
 ; Original: 16/FC3C
-}
-.alloc at 0x16FC3C {
+    }
+    .alloc at 0x16FC3C {
     .db 0xec + 10, 0x90, 0x4f, 0xb1  ; up arrow 1 (X was 0xec)
     .db 0xec + 10, 0x98, 0x4e, 0xb1  ; up arrow 2
     .db 0xec + 10, 0xcc, 0x4e, 0x31  ; down arrow 1
     .db 0xec + 10, 0xd4, 0x4f, 0x31  ; down arrow 2
-}
+    }
 ; ===== 1D CURSOR NAVIGATION (ROLLING BUFFER ONLY) =====
-.if INVENTORY_ROLLING_BUFFER {
+    .if INVENTORY_ROLLING_BUFFER {
 ; Disable left/right button handling for single-column scrolling mode
 ; Original at $02B541: CMP #$02 / BNE $B55A (left button check)
 ; Replace with BRA to common exit at $B579
@@ -327,49 +328,49 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; UP button - scroll case: $02B500-B503 has DEC $63 / DEC $63
     }
-}
+    }
 
-.alloc at 0x02B502 {
+    .alloc at 0x02B502 {
     nop  ; NOP second DEC $63
     nop
 
 ; UP button - non-scroll case: $02B508-B50B has DEC $63 / DEC $63
-}
+    }
 
 
-.alloc at 0x02B50A {
+    .alloc at 0x02B50A {
     nop  ; NOP second DEC $63
     nop
 
 ; DOWN button - scroll case: $02B530-B533 has INC $63 / INC $63
-}
+    }
 
 
-.alloc at 0x02B532 {
+    .alloc at 0x02B532 {
     nop  ; NOP second INC $63
     nop
 
 ; DOWN button - non-scroll case: $02B538-B53B has INC $63 / INC $63
-}
+    }
 
 
-.alloc at 0x02B53A {
+    .alloc at 0x02B53A {
     nop  ; NOP second INC $63
     nop
-}
+    }
 
 ; ===== REMOVE 8PX SPRITE CLIPPING BANDS =====
 ; Original window masks sprites in 8px bands on left (0-7) and right (249-255)
 
 ; --- Window 1 left edge: 8 → 0 ---
 ; Original: 02/8A1D: A9 08  LDA #$08
-.alloc at 0x028A1D {
+    .alloc at 0x028A1D {
     lda #0x00  ; left edge at pixel 0
 
 ; --- Window 1 right edge: 248 → 255 ---
 ; Original: 02/8A22: A9 F8  LDA #$F8
-}
-.alloc at 0x028A22 {
+    }
+    .alloc at 0x028A22 {
     lda #0xff  ; right edge at pixel 255
 
 ; ===== EQUIPPED ITEMS BUFFER EXPANSION =====
@@ -378,31 +379,31 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; --- DrawEquipItemText: tile count ---
 ; Original: 02/9DD3: A9 0C  LDA #$0C
-}
-.alloc at 0x029DD3 {
+    }
+    .alloc at 0x029DD3 {
     lda #0x0f  ; 15 tiles instead of 12
 
 ; --- TfrEquipWindow: replace entire body with JSL to relocated routine ---
 ; Vanilla body $0297A6..$029824 (126 bytes) hard-coded a side-by-side dual-write
 ; pattern. New routine in bank $20 walks label/item per hand row-by-row.
 ; Trampoline overwrites the entry; obsolete in-body patches removed.
-}
-.alloc at 0x0297A6 {
+    }
+    .alloc at 0x0297A6 {
     jsr.l tfr_equip_window_new
     rts
 
 ; --- EquipHandPtrs: item offset within buffer ---
 ; Original: 02/9D67: 00 30 (item 1 at 0, item 2 at 48)
-}
-.alloc at 0x029D67 {
+    }
+    .alloc at 0x029D67 {
     .db 0x00, 0x3c  ; item 1 at 0, item 2 at 60
 
 ; --- EquipTextBufPtrs: relocate to freed magic buffer space ---
 ; Original buffer at $BC86 is too small (96 bytes per char)
 ; New: 120 bytes per char (2 items × 60 bytes) at $9A00
 ; Original: 16/FEC1: BC86, BCE6, BD46, BDA6, BE06 (stride $60)
-}
-.alloc at 0x16FEC1 {
+    }
+    .alloc at 0x16FEC1 {
     .dw 0x9A00  ; char 0
     .dw 0x9A00 + 0x78  ; char 1 ($9A78)
     .dw 0x9A00 + 0x78 * 2  ; char 2 ($9AF0)
@@ -415,7 +416,8 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; MenuWindowTbl entry 6 (equipped items) at 0x16FE5A + 6*6 = 0x16FE7E
 ; Format: x, y, width, height
 ; Original: 0x01, 0x00, 0x1E, 0x07
-}
-.alloc at 0x16FE7E {
+    }
+    .alloc at 0x16FE7E {
     .db 0x00, 0x00, 0x20, 0x07  ; x=0 (edge), y=0, width=32, height=7
+    }
 }

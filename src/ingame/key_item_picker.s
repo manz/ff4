@@ -141,8 +141,10 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 
 .include "../bank20.i"
 .import "vanilla"
+.include "config.i"
 
-.alloc _key_item_picker_block in bank20_reloc {
+.if TREASURE_INVENTORY_ROLLING {
+    .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
 """
     Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the
@@ -1270,4 +1272,5 @@ _key_item_refresh_slots_impl:
     jsr.l rolling_engine.rolling_engine_refresh_slots
     plp
     rtl
+    }
 }

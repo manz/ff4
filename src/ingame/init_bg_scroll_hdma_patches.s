@@ -3,12 +3,15 @@ Caller-side patches retargeting `JSL $01EBD2` (original `InitBGScrollHDMA`) to t
 after the original's ROM space is reclaimed.
 """
 .import "ingame/init_bg_scroll_hdma"
+.include "config.i"
 
+.if INVENTORY_ROLLING_BUFFER {
 ;; Caller patches for init_bg_scroll_hdma after relocation to bank $21.
 ;; Original `JSL $01EBD2` at $02:818A becomes `JSL $21EBD2`.
 ;; (In LoROM bank $21 is the only thing that changes; offset $EBD2 within
 ;; the bank is identical so internal in-bank JSR/JMP targets stay valid.)
 
-.alloc at 0x02818A {
+    .alloc at 0x02818A {
     jsr.l init_bg_scroll_hdma
+    }
 }

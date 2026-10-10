@@ -83,7 +83,8 @@ _MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
 .include "../bank20.i"
 .import "vanilla"
 
-.alloc _inventory_rolling_block in bank20_reloc {
+.if TREASURE_INVENTORY_ROLLING {
+    .alloc _inventory_rolling_block in bank20_reloc {
 _init_menu_inventory_hdma:
 """
     Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
@@ -1197,6 +1198,7 @@ circular_slot_calc_ext:
     jsr.w _circular_slot_calc
     rtl
     }
-}
+    }
 
-.assert sizeof(Item) == 2, "the item pointer math uses one asl per Item"
+    .assert sizeof(Item) == 2, "the item pointer math uses one asl per Item"
+}

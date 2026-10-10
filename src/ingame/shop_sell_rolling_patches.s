@@ -16,6 +16,7 @@ length.
 
 .include "config.i"
 .if TREASURE_INVENTORY_ROLLING {
+    .if TREASURE_INVENTORY_ROLLING {
 ; Sell list draw, on entry and after a sale changes quantities.
     .alloc at 0x01C7F0 {
     jsr.w sell_init
@@ -53,5 +54,6 @@ length.
 ; Shop teardown: hand ch5 back before the shop returns.
     .alloc at 0x01C304 {
     jsr.w sell_leave
+    }
     }
 }
