@@ -201,6 +201,52 @@ _init_row_loop:
     plb  ; Restore data bank
     rtl
 
+
+    .macro _save_text_params() {
+    """
+    Push vanilla btlgfx's DrawText parameters ($EF50 text, $EF52 destination, $EF54/$EF55 lengths) and its working
+    pointers ($30-$37, direct page 0). The renderer runs in the middle of other windows' draws, even inside one (from
+    the NMI): left on the format buffer, they made the next message decode inventory rows and hang in DrawCharVar.
+    """
+    rep #0x20
+    lda.w 0xEF54
+    pha
+    lda.w 0xEF52
+    pha
+    lda.w 0xEF50
+    pha
+    lda.b 0x30
+    pha
+    lda.b 0x32
+    pha
+    lda.b 0x34
+    pha
+    lda.b 0x36
+    pha
+    sep #0x20
+    }
+
+    .macro _restore_text_params() {
+    """Pull what `_save_text_params` pushed; A left 0 (its high byte included: vanilla's `tax` would carry it)."""
+    rep #0x20
+    pla
+    sta.b 0x36
+    pla
+    sta.b 0x34
+    pla
+    sta.b 0x32
+    pla
+    sta.b 0x30
+    pla
+    sta.w 0xEF50
+    pla
+    sta.w 0xEF52
+    pla
+    sta.w 0xEF54
+    lda.w #0x0000
+    sep #0x20
+    }
+
 ; ============================================================================
 ; _render_inventory_item
 ; ============================================================================
@@ -216,6 +262,7 @@ _render_inventory_item:
     lda #0x7E
     pha
     plb
+    _save_text_params()
 
 ; Calculate text buffer destination
 ; text_addr = _text_buffer_base + (slot x _TEXT_BYTES_PER_ITEM)
@@ -361,6 +408,7 @@ _finish_format:
 
 ; Call draw_text to render formatted text to text buffer
     jsr.l draw_text_rolling_trampoline
+    _restore_text_params()
 
     plb  ; Restore data bank
     rts
@@ -380,6 +428,7 @@ _render_inventory_item_circular:
     lda #0x7E
     pha
     plb
+    _save_text_params()
 
 ; Calculate text buffer destination using SLOT (not item index)
 ; text_addr = _text_buffer_base + (slot x _TEXT_BYTES_PER_ITEM)
@@ -527,6 +576,7 @@ _circ_finish:
     sta.w inv_format_buffer, y
 
     jsr.l draw_text_rolling_trampoline
+    _restore_text_params()
 
     plb
     rts
@@ -888,6 +938,7 @@ _render_item_to_circular_slot:
     pha
     lda.b btlgfx_dp.mult8_result + 1
     pha
+    _save_text_params()
 
 ; Calculate text buffer destination for this SLOT
 ; text_addr = _text_buffer_base + (slot × _TEXT_BYTES_PER_ITEM)
@@ -1054,6 +1105,7 @@ _empty_fill_loop:
     bne _empty_fill_loop
 
 _slot_render_done:
+    _restore_text_params()
 
 ; draw_text fills text buffer - tilemap copy is done separately by:
 ; - _copy_all_slots_to_tilemap in tfr_inventory_list_rolling (for init)
