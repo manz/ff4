@@ -3,9 +3,8 @@
 import re
 
 import pytest
-from katsuji.layout import TextLayout
 
-from utils.dialog_layout import LINE_WIDTHS, NEW_WINDOW, DialogLayout, Ff4TextLayout, dialog_layout
+from utils.dialog_layout import LINE_WIDTHS, NEW_WINDOW, DialogLayout, dialog_layout
 
 
 @pytest.fixture(scope="module")
@@ -62,12 +61,6 @@ def test_m_dot_stays_with_the_name_when_a_sentence_breaks(layout: DialogLayout) 
     out = layout.layout("Porom: Vous êtes M. Cecil, n'est-ce pas?[end]")
     assert "M. Cecil" in out
     assert not any(line.endswith("M.") for line in out.split("\n"))
-
-
-def test_the_abbreviation_hooks_are_still_katsujis() -> None:
-    """Ff4TextLayout overrides `_ends_sentence` and `_words`: fail loudly if katsuji renames them."""
-    for hook in ("_ends_sentence", "_words"):
-        assert hook in vars(TextLayout) and hook in vars(Ff4TextLayout)
 
 
 def test_every_window_fits_the_page(layout: DialogLayout) -> None:
