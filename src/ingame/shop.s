@@ -156,6 +156,11 @@ small-VWF item descriptions.
 
 ; Shop list rows draw through the hijacked DrawItemName, which needs a
 ; slot index in $5D ; the loop leaves the item id there instead.
+; ConfirmSell's item name: `jsr DrawItemName` with the item id in $5D
+.alloc at 0x01CA02 {
+    jsr.w shop_sell_item_name
+}
+
 .alloc at 0x01C580 {
     jsr.w shop_draw_item_name
 }
