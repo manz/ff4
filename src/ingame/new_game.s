@@ -18,7 +18,7 @@ geometry and Cecil sprite position that go with them.
 .import "vanilla"
 
 
-.table "text/ff4_menus.tbl"
+.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 {
 ; new game window
     .alloc at 0x01dfc7 {

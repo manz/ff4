@@ -11,7 +11,7 @@ configuration, not linked together.
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 
-.table "text/ff4_menus.tbl"
+.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 
 .alloc newgame_text in bank20_reloc {
     .scope newgame {

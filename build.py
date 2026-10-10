@@ -258,6 +258,27 @@ assets_builder = {
 }
 
 
+# The small VWF draws one 8-pixel glyph per code: the 8x8 font's accented capitals were an accent tile over the
+# letter, which it can't draw, so they encode as the bare letter.
+SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A"}
+SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
+
+
+def write_small_vwf_table(source: str, destination: str) -> None:
+    """The menu table with SMALL_VWF_FOLDS: each folded capital takes its letter's code, listed before the letter so
+    the code still decodes to the letter."""
+    lines = Path(source).read_text(encoding="utf-8").splitlines(keepends=True)
+    codes = {}
+    for line in lines:
+        code, _, text = line.rstrip("\n").partition("=")
+        if text in SMALL_VWF_FOLDS.values():
+            codes[text] = code
+    kept = [line for line in lines if line.rstrip("\n").partition("=")[2] not in SMALL_VWF_FOLDS]
+    folds = [f"{codes[letter]}={capital}\n" for capital, letter in SMALL_VWF_FOLDS.items()]
+    Path(destination).parent.mkdir(parents=True, exist_ok=True)
+    Path(destination).write_text("".join(folds + kept), encoding="utf-8")
+
+
 def build_assets(assets):
     for asset in assets:
         print(asset)
@@ -268,7 +289,8 @@ def build_assets(assets):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s - %(message)s")
     dialog_table = Table("text/ff4fr.tbl")
-    menu_table = Table("text/ff4_menus.tbl")
+    write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
+    menu_table = Table(SMALL_VWF_TABLE)
     lang = "fr"
     text_root = "text/{lang}".format(lang=lang)
 
