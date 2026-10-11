@@ -2,9 +2,9 @@
 Battle redraw-gate state + writer helpers.
 
 FF6-style dirty-bit gating for the battle redraw chain. One byte at
-`$7E:EF9A` tracks which per-frame renderables (cmd window, char menus,
+`battle_menu_dirty` tracks which per-frame renderables (cmd window, char menus,
 status strip, main-menu chrome) actually need rebuilding. A sibling
-byte `$EF9B` does the same per-monster-slot for `DrawMonsterNames`.
+`battle_monster_dirty` does the same per-monster-slot for `DrawMonsterNames`.
 
 Render-side code reads the byte and short-circuits when its bit is
 clear. Writer-side code (state changes: ATB pick, cursor move,
@@ -18,17 +18,19 @@ that prompted the work.
 
 
 .import "battle/render_state"
+.import "wram_layout"
 
-
-battle_menu_dirty := 0x7EEF9A  ; bit 5 = cmd window, bit 6 = status strip,
-; bits 0-4 = per-char menu (HP/MP/name),
-; bit 7 = main-menu chrome
-battle_monster_dirty := 0x7EEF9B  ; bits 0-7 = per-monster-slot name redraw
 
 ; Cross-module LABEL: extern at root scope (`.extern` only registers in its own
 ; scope, and an `.alloc` body opens its own).
 .import "battle/sram"
 .import "vanilla"
+
+; bit 5 = cmd window, bit 6 = status strip, bits 0-4 = per-char menu (HP/MP/name), bit 7 = main-menu chrome.
+; Reserved, not vanilla's $EF9A it used to sit on: the item menu reads $EF9A (the equip popup's A: non-zero picks
+; "use" over "swap"), so a dirty command list turned the popup's A into an item use.
+.reserve battle_menu_dirty 1 in battle_text_ram
+.reserve battle_monster_dirty 1 in battle_text_ram  ; bits 0-7 = per-monster-slot name redraw
 ; root-scope extern: battle/tasks_patches imports this module through inventory_rolling_patches
 .extern signal_commands
 

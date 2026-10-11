@@ -6,7 +6,7 @@ from _ff4kintsuki import kss_path, load_emu_from_kss
 e = load_emu_from_kss(kss_path("ff4-battle.kss"), settle_frames=0)
 
 def snap(label):
-    cmd_dirty = e.read(0x7EEF9A)
+    cmd_dirty = e.read(e.lookup_symbol_addr("battle_menu_dirty"))
     tile_pending = e.read(0x703C00)
     map_pending = e.read(0x703C03)
     char_slot = e.read(0x7E1822)
@@ -33,7 +33,7 @@ for i in [10, 60, 120, 240]:
     e.run_frames(i)
     snap(f"+{i}f")
 # Force dirty + run more.
-e.write(0x7EEF9A, 0xFF)
+e.write(e.lookup_symbol_addr("battle_menu_dirty"), 0xFF)
 snap("forced")
 e.run_frames(2)
 snap("post2")

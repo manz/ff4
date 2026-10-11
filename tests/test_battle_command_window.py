@@ -29,7 +29,6 @@ def _fresh_battle():
     return e
 
 
-CMD_DIRTY = 0x7EEF9A
 CMD_DIRTY_BIT = 0x20
 
 
@@ -47,8 +46,9 @@ def test_commands_render_only_when_marked_dirty():
             e.run_frames(1)
         e.run_frames(2)
         e.add_exec_callback(entry, entry, lambda _pc, _op: renders.append(e.frame_count))
+        dirty = e.lookup_symbol_addr("battle_menu_dirty")  # a battle WRAM reservation (redraw_gates.s)
         e.add_write_callback(
-            CMD_DIRTY, CMD_DIRTY, lambda _a, v, *_: marks.append(e.frame_count) if v & CMD_DIRTY_BIT else None
+            dirty, dirty, lambda _a, v, *_: marks.append(e.frame_count) if v & CMD_DIRTY_BIT else None
         )
         e.run_frames(240)
         assert len(renders) <= len(marks)

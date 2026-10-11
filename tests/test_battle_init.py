@@ -21,8 +21,6 @@ from _ff4kintsuki import CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, 
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
-BATTLE_MENU_DIRTY = 0x7EEF9A  # bit 5 cmd window, bit 6 status, 0-4 char rows
-BATTLE_MONSTER_DIRTY = 0x7EEF9B  # per-monster-slot name redraw
 REGION_DIRTY_BITS = 0x707101  # BATTLE_RENDER_STATE + 1, slice-2 queue
 
 # Battle VWF regions (src/battle/message.s): tile t is BG3 tile $100 + t,
@@ -38,8 +36,8 @@ def battle_emu():
     e = load_emu_from_kss(KSS, settle_frames=60)  # in the field
     walk_into_battle(e)
     wait_for_turn(e, CECIL_SLOT)
-    e.write(BATTLE_MENU_DIRTY, 0xFF)
-    e.write(BATTLE_MONSTER_DIRTY, 0xFF)
+    e.write(e.lookup_symbol_addr("battle_menu_dirty"), 0xFF)  # cmd window, status, char rows
+    e.write(e.lookup_symbol_addr("battle_monster_dirty"), 0xFF)  # per-monster-slot name redraw
     e.write(REGION_DIRTY_BITS, 0xFF)
     e.run_frames(600)
     yield e
