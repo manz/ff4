@@ -7,6 +7,7 @@ runs the field-menu NMI DMA check.
 .import "vwf_ram"
 .import "battle/render_state"
 .include "config.i"
+.include "battle/render_save.i"
 .import "items"
 .import "bank20_helpers"
 .import "assets"
@@ -939,6 +940,7 @@ _render_item_to_circular_slot:
     lda.b btlgfx_dp.mult8_result + 1
     pha
     _save_text_params()
+    save_render_state()
 
 ; Calculate text buffer destination for this SLOT
 ; text_addr = _text_buffer_base + (slot × _TEXT_BYTES_PER_ITEM)
@@ -1105,6 +1107,7 @@ _empty_fill_loop:
     bne _empty_fill_loop
 
 _slot_render_done:
+    restore_render_state()
     _restore_text_params()
 
 ; draw_text fills text buffer - tilemap copy is done separately by:

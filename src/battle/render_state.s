@@ -54,7 +54,7 @@ BATTLE_RENDER_STATE := 0x707100
     byte items_frame_dirty
     byte spell_tiles_live
     byte spell_name_left
-    word spell_name_src
+    word free_0d
     byte free_0f
     byte dma_dirty_slots
     word spell_list_ptr
