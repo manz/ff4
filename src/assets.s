@@ -9,7 +9,7 @@ plus the `font_table` pointer table indexed by font id.
 
 .include "config.i"
 .alloc at 0x0AF000 {
-    .incbin "fonts/8x8.bin"
+    .incbin "font_8x8.bin"  ; build.py: fonts/8x8.bin with the battle ATB gauge tiles
 }
 .alloc at 0x0FA710 {
     .incbin "characters_names.dat"
