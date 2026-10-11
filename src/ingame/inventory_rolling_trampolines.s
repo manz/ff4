@@ -33,6 +33,7 @@ wrappers around original bank-$01 helpers used by the rolling code.
 
 .include "src/ingame/bank01_trampolines.i"
 .import "vanilla"
+.include "../bank20.i"
 
 .if INVENTORY_ROLLING_BUFFER {
     .if INVENTORY_ROLLING_BUFFER {
@@ -242,7 +243,7 @@ treasure_scroll_down_trigger:
     bne _t_down_abort
     lda.w treasure_scroll_cooldown
     bne _t_down_abort
-    jsr.w _treasure_force_hdma_setup
+    jsr.l treasure_force_hdma_setup_far
     jsr.w _treasure_start_scroll_down
     jsr.w _treasure_arm_cooldown
     rts
@@ -257,62 +258,13 @@ treasure_scroll_up_trigger:
     bne _t_up_abort
     lda.w treasure_scroll_cooldown
     bne _t_up_abort
-    jsr.w _treasure_force_hdma_setup
+    jsr.l treasure_force_hdma_setup_far
     jsr.w _treasure_start_scroll_up
     jsr.w _treasure_arm_cooldown
     rts
 _t_up_abort:
     inc.w menu_cursor_data + 0xb7
     jsr.w _treasure_wait_vblank
-    rts
-
-_treasure_force_hdma_setup:
-
-
-"""
-Reconfigure HDMA channel 5 for BG3 only when we're inside the treasure
-menu (original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
-exit). Field-menu Items uses BG1 and reconfigures channel 5 itself  ; the
-key-item submenu (e.g. Baron key) is yet another context to add later.
-"""
-
-
-    lda.w menu_cursor_data + 0xc6
-    bne _t_setup_in_treasure
-    rts
-_t_setup_in_treasure:
-    sep #0x20
-    lda #0x02
-    sta.l dma_ch6.DMAP  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
-    lda #PPU.BG3VOFS
-    sta.l dma_ch6.BBAD
-    rep #0x20
-    lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
-    sta.l dma_ch6.A1TL  ; HDMA6 src lo/hi
-    sep #0x20
-    lda #0x7E
-    sta.l dma_ch6.A1B  ; HDMA6 src bank
-    rep #0x20
-; Capture original BG3VOFS shadow ($9F) - original treasure draws inventory
-; rows starting at screen scanline ~120 with $9F = -120, which keeps the
-; existing window/dialog tilemap content visible on the header band.
-    lda.l 0x7E019F
-    sta.w treasure_rolling.base_scroll
-    sep #0x20
-; Original treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
-; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
-; the drops-band parallax. Even with our scroll moved to ch6 (which
-; iterates after ch2 and should "win" the BG3VOFS at scanlines past
-; the drops band), the rolling buffer scroll never takes effect while
-; ch2 is enabled - likely because ch2 keeps reloading entries via its
-; indirect table past scanline 128. Mask ch2 entirely; the drops-band
-; original parallax is purely cosmetic and the drops list still lands
-; at the right scanline without it.
-    lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
-; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
-; (src/small_vwf/render.s) and was never configured as an HDMA
-; channel, so arming it fed the PPU a garbage table.
-    sta.l field_menu_rolling.hdma_enable
     rts
 
 treasure_main_loop_scroll_check:
@@ -325,65 +277,8 @@ downstream `and #JOY_*` input checks all branch out, freezing
 cursor / button handling until the animation settles. Always ends
 by calling the original $82C0 so original per-frame work still runs.
 """
-
-
-; Cooldown tick, gated on vanilla's per-frame game-time byte. This
-; loop runs once per frame while input flows but ~20 times inside the
-; frame that ends a scroll animation (blocking input with `stz $01`
-; costs the vanilla loop its pacing), and a per-call `dec` drained the
-; whole debounce in that one frame - so one held DOWN scrolled twice.
-    sep #0x20
-    lda.l menu_frame_time
-    cmp.w treasure_scroll_frame_seen
-    beq _t_main_cd_done
-    sta.w treasure_scroll_frame_seen
-    lda.w treasure_scroll_cooldown
-    beq _t_main_cd_done
-    dec.w treasure_scroll_cooldown
-
-_t_main_cd_done:
-    lda.w treasure_rolling.scroll_state
-    beq _treasure_main_check_drops_tick
-    jsr.w _treasure_update_scroll_frame
-    lda.w treasure_rolling.scroll_remaining
-    bne _treasure_main_block_input
-    jsr.w _treasure_finish_scroll
-_treasure_main_check_drops_tick:
-; Drops scroll state machine shares the treasure menu's per-frame
-; tick. While drops is animating, zero $01 (input mask) so cursor
-; input is frozen until the scroll lands - same shape as the
-; treasure-inventory branch above.
-    lda.w drops_rolling.scroll_state
-    beq _treasure_main_check_xfer
-    jsr.l drops_update_scroll_frame_impl
-    lda.w drops_rolling.scroll_remaining
-    bne _treasure_main_block_input
-    jsr.l drops_finish_scroll_impl
-_treasure_main_check_xfer:
-; Drain treasure_rolling.transfer_pending - the rolling buffer renderer writes
-; to the BG3 staging buffer at $7E:D600, but original's treasure main
-; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
-; tilemap to VRAM ourselves whenever a slot was just re-rendered.
-    lda.w treasure_rolling.transfer_pending
-    beq _treasure_main_after_bg3
-    jsr.l tfr_bg3_tiles_vblank_trampoline
-    stz.w treasure_rolling.transfer_pending
-_treasure_main_after_bg3:
-; Drain drops_rolling.transfer_pending - drops render into BG4 staging at
-; $7E:C600 (alongside TreasureItemsWindow), so push BG4 to VRAM
-; whenever drops re-rendered.
-    lda.w drops_rolling.transfer_pending
-    beq _treasure_main_after_xfer
-    jsr.l tfr_bg4_tiles_vblank_trampoline
-    stz.w drops_rolling.transfer_pending
-_treasure_main_after_xfer:
-    lda.w treasure_rolling.scroll_state
-    beq _treasure_main_call_orig
-_treasure_main_block_input:
-    stz.b 0x01
-_treasure_main_call_orig:
-    jsr.w update_ctrl_menu
-    rts
+    jsr.l treasure_main_loop_far  ; the per-frame work lives in bank $20: bank $01 has no room
+    jmp.w update_ctrl_menu
 
 _treasure_menu_entry_hook:
     jsr.l treasure_menu_entry_hook_impl
@@ -464,8 +359,6 @@ slot kept its colon and count on screen.
     jmp.w tfr_bg4_tiles_vblank
 
 drops_down_handler:
-
-
 """
 Bank-$01 cursor-row store + DOWN-scroll trigger. Called from the
 hijacked clamp site at $01:D9E0 with the candidate cursor row in A
@@ -473,6 +366,137 @@ hijacked clamp site at $01:D9E0 with the candidate cursor row in A
 fires the engine scroll-down state machine so items past row 4
 reveal. Returns with the row stored or an animation kicked.
 """
+    jsr.l drops_down_handler_far
+    rts
+
+drops_up_handler:
+"""
+Bank-$01 cursor-row store + UP-scroll trigger. Called from the
+hijacked clamp site at $01:D9D1 with the decremented row in A
+(= $1BB3 - 1). Stores the row when non-negative  ; if it underflowed
+(N flag set, row was 0) fires the scroll-up state machine to pull
+a fresh top row down.
+"""
+    jsr.l drops_up_handler_far
+    rts
+    }
+
+
+; end .alloc _bank01_treasure_trampolines
+    .alloc _bank01_treasure_bodies in bank20_reloc {
+"""
+The treasure trampolines' bodies, called long from their bank-$01 stubs: bank $01 has only the 400 bytes the
+relocated InitScrollHDMA left ($01:EBD2-$01:ED61). Past them is vanilla battle-animation code (SetMonsterScroll,
+TeleportPalAnim, the summon animations) that battle still `jsl`s.
+"""
+treasure_main_loop_far:
+; Cooldown tick, gated on vanilla's per-frame game-time byte. This
+; loop runs once per frame while input flows but ~20 times inside the
+; frame that ends a scroll animation (blocking input with `stz $01`
+; costs the vanilla loop its pacing), and a per-call `dec` drained the
+; whole debounce in that one frame - so one held DOWN scrolled twice.
+    sep #0x20
+    lda.l menu_frame_time
+    cmp.w treasure_scroll_frame_seen
+    beq _t_main_cd_done
+    sta.w treasure_scroll_frame_seen
+    lda.w treasure_scroll_cooldown
+    beq _t_main_cd_done
+    dec.w treasure_scroll_cooldown
+
+_t_main_cd_done:
+    lda.w treasure_rolling.scroll_state
+    beq _treasure_main_check_drops_tick
+    jsr.l treasure_update_scroll_frame_impl
+    lda.w treasure_rolling.scroll_remaining
+    bne _treasure_main_block_input
+    jsr.l treasure_finish_scroll_impl
+_treasure_main_check_drops_tick:
+; Drops scroll state machine shares the treasure menu's per-frame
+; tick. While drops is animating, zero $01 (input mask) so cursor
+; input is frozen until the scroll lands - same shape as the
+; treasure-inventory branch above.
+    lda.w drops_rolling.scroll_state
+    beq _treasure_main_check_xfer
+    jsr.l drops_update_scroll_frame_impl
+    lda.w drops_rolling.scroll_remaining
+    bne _treasure_main_block_input
+    jsr.l drops_finish_scroll_impl
+_treasure_main_check_xfer:
+; Drain treasure_rolling.transfer_pending - the rolling buffer renderer writes
+; to the BG3 staging buffer at $7E:D600, but original's treasure main
+; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
+; tilemap to VRAM ourselves whenever a slot was just re-rendered.
+    lda.w treasure_rolling.transfer_pending
+    beq _treasure_main_after_bg3
+    jsr.l tfr_bg3_tiles_vblank_trampoline
+    stz.w treasure_rolling.transfer_pending
+_treasure_main_after_bg3:
+; Drain drops_rolling.transfer_pending - drops render into BG4 staging at
+; $7E:C600 (alongside TreasureItemsWindow), so push BG4 to VRAM
+; whenever drops re-rendered.
+    lda.w drops_rolling.transfer_pending
+    beq _treasure_main_after_xfer
+    jsr.l tfr_bg4_tiles_vblank_trampoline
+    stz.w drops_rolling.transfer_pending
+_treasure_main_after_xfer:
+    lda.w treasure_rolling.scroll_state
+    beq _treasure_main_call_orig
+_treasure_main_block_input:
+    stz.b 0x01
+_treasure_main_call_orig:
+    rtl
+
+treasure_force_hdma_setup_far:
+
+
+"""
+Reconfigure HDMA channel 5 for BG3 only when we're inside the treasure
+menu (original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
+exit). Field-menu Items uses BG1 and reconfigures channel 5 itself  ; the
+key-item submenu (e.g. Baron key) is yet another context to add later.
+"""
+
+
+    lda.w menu_cursor_data + 0xc6
+    bne _t_setup_in_treasure
+    rtl
+_t_setup_in_treasure:
+    sep #0x20
+    lda #0x02
+    sta.l dma_ch6.DMAP  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
+    lda #PPU.BG3VOFS
+    sta.l dma_ch6.BBAD
+    rep #0x20
+    lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
+    sta.l dma_ch6.A1TL  ; HDMA6 src lo/hi
+    sep #0x20
+    lda #0x7E
+    sta.l dma_ch6.A1B  ; HDMA6 src bank
+    rep #0x20
+; Capture original BG3VOFS shadow ($9F) - original treasure draws inventory
+; rows starting at screen scanline ~120 with $9F = -120, which keeps the
+; existing window/dialog tilemap content visible on the header band.
+    lda.l 0x7E019F
+    sta.w treasure_rolling.base_scroll
+    sep #0x20
+; Original treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
+; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
+; the drops-band parallax. Even with our scroll moved to ch6 (which
+; iterates after ch2 and should "win" the BG3VOFS at scanlines past
+; the drops band), the rolling buffer scroll never takes effect while
+; ch2 is enabled - likely because ch2 keeps reloading entries via its
+; indirect table past scanline 128. Mask ch2 entirely; the drops-band
+; original parallax is purely cosmetic and the drops list still lands
+; at the right scanline without it.
+    lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
+; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
+; (src/small_vwf/render.s) and was never configured as an HDMA
+; channel, so arming it fed the PPU a garbage table.
+    sta.l field_menu_rolling.hdma_enable
+    rtl
+
+drops_down_handler_far:
 
 
     cmp #DROPS_VISIBLE_ITEMS
@@ -488,29 +512,21 @@ reveal. Returns with the row stored or an animation kicked.
     sta.l drops_scroll_pos
     pla
     jsr.l drops_start_scroll_down_impl
-    rts
+    rtl
 _drops_down_busy:
     pla
-    rts
+    rtl
 _drops_down_store:
     sta.w menu_cursor_data + 0xb3
-    rts
-
-drops_up_handler:
+    rtl
 
 
-"""
-Bank-$01 cursor-row store + UP-scroll trigger. Called from the
-hijacked clamp site at $01:D9D1 with the decremented row in A
-(= $1BB3 - 1). Stores the row when non-negative  ; if it underflowed
-(N flag set, row was 0) fires the scroll-up state machine to pull
-a fresh top row down.
-"""
+drops_up_handler_far:
 
 
     bmi _drops_up_scroll
     sta.w menu_cursor_data + 0xb3
-    rts
+    rtl
 _drops_up_scroll:
     pha
     lda.l drops_rolling.scroll_state
@@ -521,15 +537,14 @@ _drops_up_scroll:
     sta.l drops_scroll_pos
     pla
     jsr.l drops_start_scroll_up_impl
-    rts
+    rtl
 _drops_up_busy:
     pla
-    rts
+    rtl
+    }
     }
 
 
-; end .alloc _bank01_treasure_trampolines
-    }
 ; end .if TREASURE_INVENTORY_ROLLING
 
     .alloc _bank01_shop_trampolines in bank01_trampolines {
