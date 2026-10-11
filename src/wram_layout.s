@@ -55,3 +55,8 @@ MENU_HDMA_SPAN := 0x40  ; one table, then its shadow right after
 MONSTER_LINE_CELLS := 11
 MONSTER_TEXT_SIZE := 8 * MONSTER_LINE_CELLS * 2
 .reserve monster_names_text MONSTER_TEXT_SIZE in battle_text_ram
+
+; The battle inventory's footer pinning (message.s dma_transfer): vanilla's 7 border-row scroll entries of the BG3
+; HDMA table, active copy then swap copy, saved when the pinning starts and put back when the list loses the cursor.
+INVENTORY_FOOTER_ENTRIES := 7
+.reserve inventory_footer_saved INVENTORY_FOOTER_ENTRIES * 4 * 2 in battle_text_ram  ; the table's 4-byte stride

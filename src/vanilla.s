@@ -358,3 +358,9 @@ btlgfx_dp := (0x0000 as BtlGfxDP)
 .label battle_oam_scroll_arrows = 0x7E0318
 """Battle OAM shadow, high table: x bit 8 and size of four sprites a byte."""
 .label battle_oam_high = 0x7E0500
+
+"""Battle cursor type: 1 command list, 5 inventory list, 4/7/$0C/$0F target select."""
+.label battle_cursor_type = 0x7E1823
+BATTLE_CURSOR_INVENTORY := 0x05
+BATTLE_CURSOR_SPELLS := 0x06
+BATTLE_CURSOR_MP_COST := 0x09  ; the MP cost window opening over the spell list

@@ -45,7 +45,7 @@ BATTLE_RENDER_STATE := 0x707100
     RegionDirtyBits region_dirty_bits
     byte render_skipped
     TilemapPendingBits tilemap_pending_mask
-    byte free_04
+    byte inventory_footer_pinned  ; dma_transfer: the inventory footer pinning is on (message.s)
     byte highlight_active_slot
     byte highlight_pal_byte
     byte highlight_row

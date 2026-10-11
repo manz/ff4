@@ -1596,6 +1596,23 @@ _wait:
     bne _wait
     rts
     }
+_footer_rows:
+""" The border-row scrolls the lists pin below their body: item list, then spell list (7 words each). """
+    .dw 0x0193, 0x0193, 0x0193, 0x019B, 0x019B, 0x019B, 0x019B
+    .dw 0x01F7, 0x01F7, 0x01F7, 0x0026, 0x0025, 0x0024, 0x0023
+
+_is_footer_row:
+"""Carry set if A (16-bit) is one of the item list's pinned rows (spell list rows are vanilla's own values)."""
+    cmp.w #0x0193
+    beq _ifr_yes
+    cmp.w #0x019B
+    beq _ifr_yes
+    clc
+    rts
+_ifr_yes:
+    sec
+    rts
+
 dma_transfer:
 """
 Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render_state.pending_transfer_mask`,
@@ -1635,56 +1652,105 @@ _no_force_blank:
 ;
 ; Channel 2 (BG3 V-scroll, indirect, $7E:760B -> $7E:7ED2 chunk) is
 ; multiplexed across the BG3 layer (cmd / status / inventory share).
-; Vanilla 0x02BB at $7E:8068..$8081 leaves 2 rows of black below
-; inv body where the window's bottom border should be.
-;
-; While inv is open: write border-row scrolls every NMI (vanilla
-; state-1 swap at $02:A8FE would otherwise overwrite within a frame).
-; On the close edge: one-shot restore 0x02BB so cmd/status menus
-; that share ch2 stop rendering inventory's border tiles.
-;
-; Open-state shadow at $703F04 (next free past battle_render_state.tilemap_pending_mask).
+; With the item list up, vanilla scrolls its two rows below the body
+; ($8068..$8081) to black (0x02BB) where the window's bottom border
+; should be: pin the border rows every NMI while the list has the
+; cursor (item or spell list; vanilla's state-1 swap at $02:A8FE would otherwise put its
+; values back within a frame). Anywhere else, leave them to vanilla:
+; it writes its own on every window change (command menu 0x01F7..,
+; item target 0x02DF.., menus closed 0x018F..). The inventory flag
+; alone ($4A bit 2) also stays set through the item's target select.
     php
     sep #0x30
+    lda.l battle_cursor_type
+    ldx.b #0x00  ; the item list's border rows
+    cmp.b #BATTLE_CURSOR_INVENTORY
+    bne _inv_footer_not_items
     lda.l (0x7E0000 as BtlGfxDP).menu_windows_open
     and.b #0x04
-    beq _inv_footer_closed
-; OPEN: pin the two bottom-border tile rows past body. $8068+ is
-; past ch2's HDMA chunk (240-byte count terminates at $7FC2) ;
-; these writes don't drive HDMA but mirror to the swap table via
-; the vanilla state-1 routine which the inventory code reads. Real
-; mid-scroll leak fix needs to patch INSIDE chunk 2 ($7F74-$7FBF)
-; where vanilla rewrites body-row scrolls per _rolling_buffer_pos.
+    bne _inv_footer_list_up
+    bra _inv_footer_unpin
+_inv_footer_not_items:
+    ldx.b #INVENTORY_FOOTER_ENTRIES * 2  ; the spell list's
+    cmp.b #BATTLE_CURSOR_SPELLS
+    beq _inv_footer_list_up
+    cmp.b #BATTLE_CURSOR_MP_COST
+    bne _inv_footer_unpin
+_inv_footer_list_up:
+    phx
+    lda.l battle_render_state.inventory_footer_pinned
+    bne _inv_footer_pin
+    lda.b #0x01
+    sta.l battle_render_state.inventory_footer_pinned
+; first pinned frame: keep vanilla's values, both copies
     rep #0x30
-    lda #0x0193
-    sta.l btl_bg3_scroll_hdma + 0x356
-    sta.l btl_bg3_scroll_hdma + 0x35a
-    sta.l btl_bg3_scroll_hdma + 0x35e
-    lda #0x019B
-    sta.l btl_bg3_scroll_hdma + 0x362
-    sta.l btl_bg3_scroll_hdma + 0x366
-    sta.l btl_bg3_scroll_hdma + 0x36a
-    sta.l btl_bg3_scroll_hdma + 0x36e
+    ldx.w #0x0000
+_inv_save_loop:
+    lda.l btl_bg3_scroll_hdma + 0x356, x
+    sta.l inventory_footer_saved, x
+    lda.l btl_bg3_scroll_hdma + 0x356 + 0x280, x
+    sta.l inventory_footer_saved + INVENTORY_FOOTER_ENTRIES * 4, x
+    inx
+    inx
+    inx
+    inx
+    cpx.w #INVENTORY_FOOTER_ENTRIES * 4
+    bne _inv_save_loop
+_inv_footer_pin:
+    sep #0x20
+    pla  ; the 8-bit X pushed above: the list's rows in _footer_rows
+    rep #0x30
+    and.w #0x00FF
+    tay
+    ldx.w #0x0000
+_inv_pin_loop:
+    tya
+    phx
+    tax
+    lda.l _footer_rows, x
+    plx
+    sta.l btl_bg3_scroll_hdma + 0x356, x
+    iny
+    iny
+    inx
+    inx
+    inx
+    inx
+    cpx.w #INVENTORY_FOOTER_ENTRIES * 4
+    bne _inv_pin_loop
     bra _inv_footer_done
-_inv_footer_closed:
-; CLOSED: write vanilla idle pattern every frame so state-1 swap
-; can't bring our open values back. Trace at battle-settle:
-;   $8064 = 0x0187 (vanilla "slot 5" transition entry, static)
-;   $8068/6C/70 = 0x01F7
-;   $8074..$80 = 0x0026, 0x0025, 0x0024, 0x0023 (decreasing)
+_inv_footer_unpin:
+; The list lost the cursor: vanilla double-buffers this table (active
+; $7F74.. and its swap copy 0x280 on), so our border values sit in
+; either. Put vanilla's saved values back where ours still are;
+; entries vanilla already rewrote for the next window keep theirs.
+    lda.l battle_render_state.inventory_footer_pinned
+    beq _inv_footer_done
+    lda.b #0x00
+    sta.l battle_render_state.inventory_footer_pinned
     rep #0x30
-    lda #0x01F7
-    sta.l btl_bg3_scroll_hdma + 0x356
-    sta.l btl_bg3_scroll_hdma + 0x35a
-    sta.l btl_bg3_scroll_hdma + 0x35e
-    lda.w #0x0026
-    sta.l btl_bg3_scroll_hdma + 0x362
-    lda.w #0x0025
-    sta.l btl_bg3_scroll_hdma + 0x366
-    lda.w #0x0024
-    sta.l btl_bg3_scroll_hdma + 0x36a
-    lda.w #0x0023
-    sta.l btl_bg3_scroll_hdma + 0x36e
+    ldx.w #0x0000
+_inv_unpin_loop:
+    lda.l btl_bg3_scroll_hdma + 0x356, x
+    jsr.w _is_footer_row
+    bcc _inv_unpin_swap
+_inv_unpin_active:
+    lda.l inventory_footer_saved, x
+    sta.l btl_bg3_scroll_hdma + 0x356, x
+_inv_unpin_swap:
+    lda.l btl_bg3_scroll_hdma + 0x356 + 0x280, x
+    jsr.w _is_footer_row
+    bcc _inv_unpin_next
+_inv_unpin_swap_write:
+    lda.l inventory_footer_saved + INVENTORY_FOOTER_ENTRIES * 4, x
+    sta.l btl_bg3_scroll_hdma + 0x356 + 0x280, x
+_inv_unpin_next:
+    inx
+    inx
+    inx
+    inx
+    cpx.w #INVENTORY_FOOTER_ENTRIES * 4
+    bne _inv_unpin_loop
 _inv_footer_done:
     plp
 ; --- Inventory CHR partial DMA ---
