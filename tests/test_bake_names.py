@@ -92,3 +92,22 @@ def test_auto_kerning_never_widens_a_name(font: VwfFont) -> None:
     kerned = auto_kern(font, Atlas.open(Path("fonts/8x8vwf.png"), 8, 8), names)
     widths = [(render(kerned, list(n)).shape[1], render(font, list(n)).shape[1]) for n in names]
     assert all(tight <= plain for tight, plain in widths) and any(tight < plain for tight, plain in widths)
+
+
+MONSTERS = Path("build/gen/monsters_long.dat")
+MONSTER_POINTERS = Path("build/gen/monsters_long.ptr")
+MONSTER_LINE_PX = 72  # the battle monster window clips a line past 9 tiles
+WIDEST_COUNT = bytes([0xFF, 0x89])  # " 9": the count the window appends to a group
+
+
+def test_every_monster_name_fits_its_line_with_a_count(font: VwfFont) -> None:
+    from katsuji import render
+    from katsuji.atlas import Atlas
+
+    from utils.bake_names import SPACE, auto_kern
+
+    names = [n.rstrip(bytes([SPACE])) for n in pointed_records(MONSTERS.read_bytes(), MONSTER_POINTERS.read_bytes())]
+    kerned = auto_kern(font, Atlas.open(Path("fonts/8x8vwf.png"), 8, 8), names)
+    count = render(font, list(WIDEST_COUNT)).shape[1]
+    too_wide = [n for n in names if n and render(kerned, list(n)).shape[1] + count > MONSTER_LINE_PX]
+    assert too_wide == []
