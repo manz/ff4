@@ -25,7 +25,8 @@ Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first
 ; DrawMonsterNames' format ($16:FF63, 4 lines of name, gap, count, newline): a thin gap (THIN_SPACE: blank,
 ; no width of its own, katsuji.toml) instead of the space fits the long names with their count.
     THIN_SPACE := 0x10
-    .for entry := 0, 4 {  ; end exclusive: the 4 lines
+    .for entry := 0, 4 {
+; end exclusive: the 4 lines
     .alloc at 0x16FF63 + entry * 6 + 2 size 1 {
     .db THIN_SPACE
     }
