@@ -14,6 +14,8 @@ IPS = build/ff4.ips
 # too, so the .s files a816 ships stay out. -o binds looser than -not, so
 # the extension test needs its own group or pruned paths come along.
 SOURCES = $(shell find . -path './.*' -prune -o \( -name '*.s' -o -name '*.i' \) -print)
+# What build.py turns into assets: text, tables, fonts, the generators.
+ASSET_INPUTS = build.py a816.toml katsuji.toml $(shell find text fonts utils -type f -not -name '*.pyc')
 
 .SUFFIXES:
 .PHONY: all
@@ -26,7 +28,7 @@ build: $(IPS)  ## Assemble the IPS patch
 # something `make -B` tries to remake, and it is an input we can only ask
 # the user to provide. CI decrypts ff4.sfc.gz.gpg into place with a
 # secret passphrase.
-$(IPS): $(SOURCES)
+$(IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(Q) test -s $(ROM) || { \
 		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
 		exit 1; }

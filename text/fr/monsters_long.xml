@@ -18,7 +18,7 @@
     <sn:fixed>Zombie</sn:fixed>
     <sn:fixed>Tue-mouches</sn:fixed>
     <sn:fixed>Fleur de sang</sn:fixed>
-    <sn:fixed>Crapaud organique</sn:fixed>
+    <sn:fixed>Crapaud bio</sn:fixed>
     <sn:fixed>Guimauve rouge</sn:fixed>
     <sn:fixed>Gelée jaune</sn:fixed>
     <sn:fixed>Sahuagin</sn:fixed>
@@ -26,7 +26,7 @@
     <sn:fixed>Chrysalide</sn:fixed>
     <sn:fixed>Gobelin casqué</sn:fixed>
     <sn:fixed>Lézard noir</sn:fixed>
-    <sn:fixed>Tortue d'adamant</sn:fixed>
+    <sn:fixed>Tortue adamant</sn:fixed>
     <sn:fixed>Domo Boy</sn:fixed>
     <sn:fixed>Bavarois violet</sn:fixed>
     <sn:fixed>Soldat de Baron</sn:fixed>
@@ -53,7 +53,7 @@
     <sn:fixed>Revenant</sn:fixed>
     <sn:fixed>Dame Dracula</sn:fixed>
     <sn:fixed>Ahriman</sn:fixed>
-    <sn:fixed>Dragon squelette</sn:fixed>
+    <sn:fixed>Dragon d'os</sn:fixed>
     <sn:fixed>Poisson-éclair</sn:fixed>
     <sn:fixed>Gigantogator</sn:fixed>
     <sn:fixed>Hydre</sn:fixed>
@@ -63,22 +63,22 @@
     <sn:fixed>Aiguille infernale</sn:fixed>
     <sn:fixed>Serpent jumeau</sn:fixed>
     <sn:fixed>Esprit de foudre</sn:fixed>
-    <sn:fixed>Flagelleur mental</sn:fixed>
+    <sn:fixed>Flagelleur</sn:fixed>
     <sn:fixed>Naga</sn:fixed>
     <sn:fixed>Ogre</sn:fixed>
     <sn:fixed>Cait Sith</sn:fixed>
     <sn:fixed>Chevalier noir</sn:fixed>
-    <sn:fixed>Chevalier centaure</sn:fixed>
-    <sn:fixed>Demoiselle vampire</sn:fixed>
+    <sn:fixed>Chev. centaure</sn:fixed>
+    <sn:fixed>Dame vampire</sn:fixed>
     <sn:fixed>Marionnettiste</sn:fixed>
     <sn:fixed>Marionnette</sn:fixed>
     <sn:fixed>Aile funeste</sn:fixed>
     <sn:fixed>Filet de mort</sn:fixed>
     <sn:fixed>Marid</sn:fixed>
     <sn:fixed>Chevalier diable</sn:fixed>
-    <sn:fixed>Mammouth blindé</sn:fixed>
+    <sn:fixed>Mammouth-tank</sn:fixed>
     <sn:fixed>Dame gardienne</sn:fixed>
-    <sn:fixed>Chevalier spectral</sn:fixed>
+    <sn:fixed>Chev. spectral</sn:fixed>
     <sn:fixed>Naga raja</sn:fixed>
     <sn:fixed>Méduse</sn:fixed>
     <sn:fixed>Zombie saurus</sn:fixed>
@@ -88,7 +88,7 @@
     <sn:fixed>Bombe</sn:fixed>
     <sn:fixed>Mini-bombe</sn:fixed>
     <sn:fixed>Chimère</sn:fixed>
-    <sn:fixed>Tortue des enfers</sn:fixed>
+    <sn:fixed>Tortue d'enfer</sn:fixed>
     <sn:fixed>Robe de fer</sn:fixed>
     <sn:fixed>Chien de feu</sn:fixed>
     <sn:fixed>Gorgone</sn:fixed>
@@ -104,22 +104,22 @@
     <sn:fixed>Chauve-sang</sn:fixed>
     <sn:fixed>Alchimiste</sn:fixed>
     <sn:fixed>Chevalier de feu</sn:fixed>
-    <sn:fixed>Canon mécanique</sn:fixed>
-    <sn:fixed>Bombe soignante</sn:fixed>
+    <sn:fixed>Méca-canon</sn:fixed>
+    <sn:fixed>Bombe-soin</sn:fixed>
     <sn:fixed>Grenade noire</sn:fixed>
     <sn:fixed>Fléau</sn:fixed>
     <sn:fixed>Bras ultime</sn:fixed>
     <sn:fixed>Coeurl</sn:fixed>
-    <sn:fixed>Dragon mécanique</sn:fixed>
+    <sn:fixed>Méca-dragon</sn:fixed>
     <sn:fixed>Alraune</sn:fixed>
     <sn:fixed>Praticien</sn:fixed>
     <sn:fixed>Grands-fonds</sn:fixed>
     <sn:fixed>Ver des abysses</sn:fixed>
     <sn:fixed>Rouge sanglant</sn:fixed>
-    <sn:fixed>Demoiselle leader</sn:fixed>
+    <sn:fixed>Dame-chef</sn:fixed>
     <sn:fixed>Lézard glacial</sn:fixed>
     <sn:fixed>Batteur infernal</sn:fixed>
-    <sn:fixed>Tête démoniaque</sn:fixed>
+    <sn:fixed>Tête démon</sn:fixed>
     <sn:fixed>Bête des vents</sn:fixed>
     <sn:fixed>Invocateur</sn:fixed>
     <sn:fixed>Dame sorcière</sn:fixed>
@@ -136,7 +136,7 @@
     <sn:fixed>Dragon vert</sn:fixed>
     <sn:fixed>Princesse flan</sn:fixed>
     <sn:fixed>Yeux</sn:fixed>
-    <sn:fixed>Soldat mécanique</sn:fixed>
+    <sn:fixed>Méca-soldat</sn:fixed>
     <sn:fixed>Soldat géant</sn:fixed>
     <sn:fixed>Déesse de la lune</sn:fixed>
     <sn:fixed>Morbol</sn:fixed>
@@ -146,7 +146,7 @@
     <sn:fixed>Eucaryote</sn:fixed>
     <sn:fixed>Phase</sn:fixed>
     <sn:fixed>Soldat de fer</sn:fixed>
-    <sn:fixed>Soldat démoniaque</sn:fixed>
+    <sn:fixed>Soldat démon</sn:fixed>
     <sn:fixed>Golem d'acier</sn:fixed>
     <sn:fixed>Ahriman</sn:fixed>
     <sn:fixed>Lunasaurus</sn:fixed>
@@ -193,8 +193,8 @@
     <sn:fixed>Bahamut</sn:fixed>
     <sn:fixed>Mur des démons</sn:fixed>
     <sn:fixed>Asura</sn:fixed>
-    <sn:fixed>Quatre archifiends</sn:fixed>
-    <sn:fixed>Quatre archifiends</sn:fixed>
+    <sn:fixed>Les 4 archifiends</sn:fixed>
+    <sn:fixed>Les 4 archifiends</sn:fixed>
     <sn:fixed>Dragon noir</sn:fixed>
     <sn:fixed>Sahuagin</sn:fixed>
     <sn:fixed>Sys. de contrôle</sn:fixed>
@@ -202,7 +202,7 @@
     <sn:fixed>Zemus</sn:fixed>
     <sn:fixed>Zeromus</sn:fixed>
     <sn:fixed>Zeromus</sn:fixed>
-    <sn:fixed>Chevalier dragon</sn:fixed>
+    <sn:fixed>Chev. dragon</sn:fixed>
     <sn:fixed>Barde lunaire</sn:fixed>
     <sn:fixed>Moine</sn:fixed>
     <sn:fixed>Chevalier noir</sn:fixed>
@@ -213,15 +213,15 @@
     <sn:fixed>Brina</sn:fixed>
     <sn:fixed>Skulnant</sn:fixed>
     <sn:fixed>Mecha fusionné</sn:fixed>
-    <sn:fixed>Système d'attaque</sn:fixed>
+    <sn:fixed>Syst. d'attaque</sn:fixed>
     <sn:fixed>Monstre 214</sn:fixed>
-    <sn:fixed>Higuchi Katsuhisa</sn:fixed>
+    <sn:fixed>Higuchi K.</sn:fixed>
     <sn:fixed>Zeromus</sn:fixed>
     <sn:fixed>Itou Hiroyuki</sn:fixed>
     <sn:fixed>Matsui Akihiko</sn:fixed>
     <sn:fixed>Aoki Kazuhiko</sn:fixed>
     <sn:fixed>Nakada Hiromi</sn:fixed>
     <sn:fixed>Yoshii Kiyoshi</sn:fixed>
-    <sn:fixed>Takahashi Tetsuya</sn:fixed>
+    <sn:fixed>Takahashi T.</sn:fixed>
     <sn:fixed>Mistéleg</sn:fixed>
 </sn:fixedlist>
