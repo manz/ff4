@@ -114,7 +114,12 @@ _exit:
 ; (and blank the buffer first) only when CMD_DIRTY_BIT says it moved.
     lda.l battle_menu_dirty
     and.b #CMD_DIRTY_BIT
-    bne _render_commands
+    beq _keep_commands
+; The equip popup (A bit 3) borrows the command list's tiles: render once it closes.
+    lda.l btlgfx_dp.menu_windows_open
+    and.b #0x08
+    beq _render_commands
+_keep_commands:
     rts
 
 _render_commands:

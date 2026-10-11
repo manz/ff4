@@ -286,3 +286,18 @@ def assert_bytes_match_golden(snapshot: bytes, golden_path: Path) -> None:
         f"({len(snapshot)} vs {len(expected)} bytes). "
         f"Re-record with UPDATE_GOLDENS=1 if intended."
     )
+
+
+LATE_FORMATION = 0x85  # two Mech Soldiers: a long fight from the late save
+_FORMATION, _BATTLE_PENDING = 0x7E1800, 0x7E0685  # the field starts the battle in $1800 once $0685 is set
+
+
+def fresh_late_battle(formation: int = LATE_FORMATION) -> Emu:
+    """A battle started from ff4-late-field.kss (a save room: no encounters), up to Cain's first command menu. Its
+    battle state comes from this build's battle init, not from an older build's savestate."""
+    emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=10)
+    emu.write(_FORMATION, formation)
+    emu.write(_FORMATION + 1, 0x00)
+    emu.write(_BATTLE_PENDING, 1)
+    wait_for_turn(emu, 0)
+    return emu

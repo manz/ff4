@@ -23,7 +23,7 @@ print("== active char $1822 ==", hex(e.read(0x7E1822)))
 # Rotate to slot 1, see what changes
 e.write(0x7E1822, 0x01)
 e.write(0x7E00D0, 0x01)
-e.write(0x7EEF9A, 0xFF)  # force re-render
+e.write(e.lookup_symbol_addr("battle_menu_dirty"), 0xFF)  # force re-render
 e.run_frames(2)
 print()
 print("== after $1822 := 1, +2 frames ==")
