@@ -353,3 +353,8 @@ btlgfx_dp := (0x0000 as BtlGfxDP)
 
 """Battle NMI frame counter: every battle NMI ends with `inc $1813` ($02:83D7), whichever path it took."""
 .label battle_frame_counter = 0x7E1813
+
+"""Battle OAM shadow: the list scroll arrows are sprites 6-9 ($02:BAD2 copies them from $16:FC3C every frame)."""
+.label battle_oam_scroll_arrows = 0x7E0318
+"""Battle OAM shadow, high table: x bit 8 and size of four sprites a byte."""
+.label battle_oam_high = 0x7E0500
