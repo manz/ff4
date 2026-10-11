@@ -329,7 +329,11 @@ menu_dp := (0x0000 as MenuDP)
 
 ; Battle graphics direct page (D = $0000), the fields ff4 patches touch.
 .struct BtlGfxDP {
-    byte[0x26] _gap_00
+    byte[0x1C] _gap_00
+    word hw_multiplicand  ; MultHW ($02:85D2): hw_product = hw_multiplicand * hw_multiplier
+    word hw_multiplier
+    word hw_product
+    byte[0x4] _gap_22
     word multiplier1
     word multiplier2
     word mult8_result
@@ -346,3 +350,6 @@ menu_dp := (0x0000 as MenuDP)
 
 ; Battle graphics direct page. Valid only in battle graphics code (D = $0000).
 btlgfx_dp := (0x0000 as BtlGfxDP)
+
+"""Battle NMI frame counter: every battle NMI ends with `inc $1813` ($02:83D7), whichever path it took."""
+.label battle_frame_counter = 0x7E1813
