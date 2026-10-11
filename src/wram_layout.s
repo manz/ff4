@@ -60,3 +60,10 @@ MONSTER_TEXT_SIZE := 8 * MONSTER_LINE_CELLS * 2
 ; HDMA table, active copy then swap copy, saved when the pinning starts and put back when the list loses the cursor.
 INVENTORY_FOOTER_ENTRIES := 7
 .reserve inventory_footer_saved INVENTORY_FOOTER_ENTRIES * 4 * 2 in battle_text_ram  ; the table's 4-byte stride
+
+; The battle equip popup (battle/equip_window.s): a hand label's DrawText output (two 15-cell rows, 2 bytes a cell),
+; and what the popup's glyphs were last rendered for (character, then each hand's flags, id and quantity).
+EQUIP_LABEL_TEXT_SIZE := 2 * 15 * 2
+.reserve equip_label_text EQUIP_LABEL_TEXT_SIZE in battle_text_ram
+EQUIP_POPUP_KEY_SIZE := 1 + 2 * 3
+.reserve equip_popup_key EQUIP_POPUP_KEY_SIZE in battle_text_ram
