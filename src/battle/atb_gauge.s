@@ -4,14 +4,15 @@ where vanilla showed the max HP ("4079/4079" becomes "4079 [gauge]").
 
 Each character's HP text (vanilla's, $7E:B9DE) is two rows of 9 cells: the top one blank (the "PV" header on the first
 character's), the bottom one the current HP (4), "/" and the max HP (4). Vanilla redraws it whenever the HP changes; a
-bottom row with its "/" back gets the gauge over "/max" here: a left cap, 3 fill cells (24 px) and a right cap.
+bottom row with its "/" back gets the gauge over "/max" here: a left cap and 4 fill cells (32 px); the right cap goes
+in the main view's free cell after the row (vanilla copies 9 cells, the window's border is one further), every pass.
 The tiles live in the 8x8 font (utils/atb_gauge.py merges fonts/atb_gauge.png into blank kana slots).
 
 The action timer ($2A07, 21 bytes a fighter) counts battle-main passes down to the turn: 4-6 a turn late in the game.
-Its full value is what it was last reset to, seen here as a rise; the gauge shows how much of it has run out, full
-(the highlight palette) once it reaches 0. Between two ticks (battle main ticks every timer at once, about every 10
-frames, none during an animation) the fill moves on with the frames since the last tick, at the last ticks' pace, up to
-one tick's worth: 24 one-pixel steps a turn instead of 4-6 jumps.
+Its full value is what it was last reset to, seen here as a rise; the gauge shows how much of it has run out: grey
+(palette 1) while it fills, the text's white (palette 0) once it reaches 0. Between two ticks (battle main ticks every
+timer at once, about every 10 frames, none during an animation) the fill moves on with the frames since the last tick,
+at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn instead of 4-6 jumps.
 """
 .import "battle/tasks"
 .import "wram_layout"
@@ -28,17 +29,19 @@ _BOTTOM := 9 * 2  ; the bottom row: the current HP (4 cells), "/", the max HP (4
 _SLASH := _BOTTOM + 4 * 2
 _LAST_DIGIT := _BOTTOM + 3 * 2  ; a digit when the row shows a character
 _GAUGE := _SLASH
+_MAIN_VIEW_HP := 0x7EBED0  ; the HP rows' place in the main view (vanilla's text update): a character per 2 rows of 64
+_CAP_CELL := 64 + 9 * 2  ; the cell after the bottom row
 _SLASH_TILE := 0xC7
 _DIGIT_0 := 0x80
 _FILL_0 := 0xE1  ; utils/atb_gauge.py: fill 0-8 px, then the caps
 _CAP_LEFT := 0xEB
 _CAP_RIGHT := 0xEC
-_FILL_CELLS := 3
+_FILL_CELLS := 4
 _MAX_PERIOD := 40  ; passes: a longer gap between ticks (an animation) paces as this
 _MAX_PACED_TIME := 40  ; ticks: longer timers (sleep, paralysis) fill without pacing
 _GAUGE_PX := _FILL_CELLS * 8
 _PALETTE_MASK := 0x1C
-_FULL_PALETTE := 0x08  ; palette 2: the active character's highlight
+_FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back to the text's white (palette 0)
 
 .struct AtbGauge {
     word[_PARTY] timer  ; the action timer last seen
@@ -135,6 +138,16 @@ _row:
     inx
     bra _row
 _rows_drawn:
+    txa
+    cmp.b #_PARTY
+    beq _caps_done
+    stx.b 0x0A
+    phx
+    jsr.w _clear_cap
+    plx
+    inx
+    bra _rows_drawn
+_caps_done:
     lda.w atb_gauge_state.changed & 0xFFFF
     beq _done
     lda.b #SIG_MAIN_MENU
@@ -271,8 +284,9 @@ _row_ready:
     lda.b #0x01
     sta.w atb_gauge_state.changed & 0xFFFF
 _unchanged:
+    jmp.w _draw_cap
 _no_character:
-    rts
+    jmp.w _clear_cap
 
 _fill_px:
 """
@@ -369,7 +383,7 @@ _tp_add:
     rts
 
 _draw_gauge:
-"""Fill A8 into the gauge cells of row `atb_gauge_state.row`, in the HP digits' palette, the highlight's when full."""
+"""Fill A8 into the gauge cells of row `atb_gauge_state.row`: grey while it fills, the HP digits' white when full."""
     sta.b 0x06
     ldy.w atb_gauge_state.row & 0xFFFF
     lda.w _LAST_DIGIT + 1, y
@@ -377,9 +391,9 @@ _draw_gauge:
     sta.b 0x07
     lda.b 0x06
     cmp.b #_GAUGE_PX
-    bne _attr_set
+    beq _attr_set
     lda.b 0x07
-    ora.b #_FULL_PALETTE
+    ora.b #_FILLING_PALETTE
     sta.b 0x07
 _attr_set:
     lda.b #_CAP_LEFT
@@ -408,10 +422,39 @@ _partial:
     sta.b 0x06
     dex
     bne _cell
+    rts
+
+_cap_cell:
+"""Y = the main view's cell after row $0A's bottom row (A16 on return)."""
+    rep #0x20
+    lda.b 0x0A
+    and.w #0x00FF
+    xba
+    lsr  ; row * 128
+    clc
+    adc.w #( _MAIN_VIEW_HP & 0xFFFF ) + _CAP_CELL
+    tay
+    rts
+
+_draw_cap:
+"""The right cap of row $0A, in its gauge's palette (A8 X16, DB $7E)."""
+    jsr.w _cap_cell
+    sep #0x20
+    ldx.w atb_gauge_state.row & 0xFFFF
+    lda.w _GAUGE + 1, x  ; the left cap's attribute: the gauge's palette
+    xba
     lda.b #_CAP_RIGHT
-    sta.w _GAUGE + 2, y
-    lda.b 0x07
-    sta.w _GAUGE + 3, y
+    rep #0x20
+    sta.w 0x0000, y
+    sep #0x20
+    rts
+
+_clear_cap:
+"""No character on row $0A: a blank where its right cap goes (A8 X16, DB $7E)."""
+    jsr.w _cap_cell
+    lda.w #0x00FF
+    sta.w 0x0000, y
+    sep #0x20
     rts
     }
 }

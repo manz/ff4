@@ -28,7 +28,8 @@ ROW = 36
 BOTTOM = 18
 ACTING = 0x7E1822
 MENU_OPEN = 0x7E00D7
-FULL_PALETTE = 0x08
+FILLING_PALETTE = 0x04  # grey while it fills, the text's white (palette 0) when full
+MAIN_VIEW_HP = 0x7EBED0  # a character per 2 rows of 64 bytes; the right cap goes in the cell after the 9
 DISPLAY_ORDER = (1, 3, 0, 4, 2)
 DIGITS = range(0x80, 0x8A)
 
@@ -45,7 +46,11 @@ def _row_of(emu, slot: int) -> int:
 
 
 def _fill(cells: list[tuple[int, int]]) -> int:
-    return sum(tile - atb_gauge.FILL_TILES.start for tile, _ in cells[5:8])
+    return sum(tile - atb_gauge.FILL_TILES.start for tile, _ in cells[5:9])
+
+
+def _right_cap(emu, row: int) -> int:
+    return emu.read(MAIN_VIEW_HP + row * 128 + 64 + 9 * 2)
 
 
 def test_merge_puts_the_strip_in_blank_slots() -> None:
@@ -75,14 +80,15 @@ def test_the_rows_keep_the_hp_and_show_a_gauge(battle) -> None:
     for row in range(5):
         cells = _bottom_cells(battle, row)
         assert cells[3][0] in DIGITS  # the current HP's last digit
-        assert [tile for tile, _ in cells[4:]][0::4] == [atb_gauge.CAP_LEFT, atb_gauge.CAP_RIGHT]
-        assert all(tile in atb_gauge.FILL_TILES for tile, _ in cells[5:8])
+        assert cells[4][0] == atb_gauge.CAP_LEFT
+        assert all(tile in atb_gauge.FILL_TILES for tile, _ in cells[5:9])
+        assert _right_cap(battle, row) == atb_gauge.CAP_RIGHT
 
 
 def test_the_deciding_character_s_gauge_is_full(battle) -> None:
     cells = _bottom_cells(battle, _row_of(battle, battle.read(ACTING)))
-    assert _fill(cells) == 24
-    assert all(attr & FULL_PALETTE for _, attr in cells[4:])
+    assert _fill(cells) == 32
+    assert not any(attr & FILLING_PALETTE for _, attr in cells[4:])
 
 
 def test_acting_empties_the_gauge(battle) -> None:
@@ -90,7 +96,7 @@ def test_acting_empties_the_gauge(battle) -> None:
     row = _row_of(battle, actor)
     tap(battle, Button.A, gap=20)  # Attack
     tap(battle, Button.A, gap=20)  # the first monster
-    lowest = 24
+    lowest = 32
     for _ in range(400):
         battle.run_frames(1)
         lowest = min(lowest, _fill(_bottom_cells(battle, row)))
