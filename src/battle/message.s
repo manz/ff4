@@ -1203,6 +1203,25 @@ Escape codes handled:
 ; Init VWF state via the slot helper. It resets the allocator to
 ; (0xC0 + slot * 10), bits_left_on_tile = 8, etc.
     jsr.w init_inventory_for_current_slot_local
+    bra _di_body
+
+draw_inventory_text_at:
+"""
+`draw_inventory_text` into a caller-chosen tile range instead of the current inventory slot's: A8 = first tile id
+(the 0x1xx page's low byte), Y16 = tiles it may use. The range's CHR is blanked first; the caller queues its flush.
+"""
+    php
+    rep #0x10
+    sep #0x20
+    phb
+    pha
+    lda.b #0x7E
+    pha
+    plb
+    pla
+    jsr.w _init_glyphs_at
+
+_di_body:
 
 ; Vanilla draw_text prologue: stash src ptr / dest row-1 ptr / dest
 ; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
@@ -1464,6 +1483,52 @@ _dc_not_newline:
 _dc_done:
     plp
     rtl
+
+_init_glyphs_at:
+"""Blank Y16 tiles of CHR from tile id A8, aim the allocator there (clamped to the range) and reset the glyph state."""
+    php
+    rep #0x30
+    and.w #0x00FF
+    sta.b 0x02
+    tya
+    sta.b 0x04
+    asl
+    asl
+    asl
+    tay  ; words to blank: 8 a tile
+    lda.b 0x02
+    asl
+    asl
+    asl
+    asl
+    clc
+    adc.w #battle_render.buffer_ptr & 0xffff
+    tax
+_ig_chr_clear:
+    lda.w #0x00ff
+    sta 0x700000, x
+    inx
+    inx
+    dey
+    bne _ig_chr_clear
+    sep #0x20
+    jsr.l battle_flags.set_vwf_render
+    lda.b 0x02
+    jsr.w battle_render.render_allocator_init_with_tile_id_thunk
+    lda.b 0x02
+    clc
+    adc.b 0x04
+    dec
+    sta.l render_allocator.slot_limit_low
+    .if ENABLE_KERNING_MENU {
+    stz.b battle_render.prev_char
+    }
+    lda.b #0x08
+    sta.b battle_render.bits_left_on_tile
+    stz.b battle_render.temp
+    stz.b battle_render.counter
+    plp
+    rts
 
 init_inventory_for_current_slot_local:
 """
