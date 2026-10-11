@@ -978,7 +978,7 @@ _render_item_to_circular_slot:
 
 _slot_id_nonzero:
     lda.l battle_inventory.qty, x  ; Quantity
-    pha
+    sta.b 0x03
 
 ; Palette selection
     lda #0x00
@@ -992,7 +992,16 @@ _slot_id_nonzero:
     sta.b 0x01
 
 _slot_not_disabled:
+    jsr.w _build_item_format
 
+    jsr.l draw_text_rolling_trampoline
+    jmp.w _slot_render_done
+
+_build_item_format:
+"""
+Build an item row's format string in `inv_format_buffer`: symbol, the name's baked tiles (0x0B id), the quantity
+column. In: $00 name palette, $01 symbol palette, $02 item id, $03 quantity (A8, X/Y16, D=0, DB=$7E).
+"""
 ; the item's string in items_unleashed: symbol byte, name, $00
     lda.b 0x02
     jsr.l item_name_offset
@@ -1043,24 +1052,21 @@ _slot_not_disabled:
 
 
     lda.b 0x02
-    bne _slot_has_item
-    pla
+    bne _bif_has_item
     lda #0x05
     sta.w inv_format_buffer, y
     iny
     lda #0x03
-    bra _slot_finish
+    bra _bif_finish
 
-_slot_has_item:
+_bif_has_item:
     lda #0xC8
     sta.w inv_format_buffer, y
     iny
-    pla
-; M=8 pla loads A.lo only; A.hi retains a leaked byte from the
-; preceding 16-bit arithmetic. With X=16 the next `tax` would copy
-; that garbage into X.hi and hex_to_dec would emit BCD for the
-; wider value (qty 1 + leaked $06 -> X=$0601 -> "37"). Zero-extend
-; A explicitly before transfer.
+    lda.b 0x03
+; Zero-extend A before `tax`: A.hi holds a leaked byte from earlier 16-bit
+; arithmetic, and with X=16 hex_to_dec would emit BCD for the wider value
+; (qty 1 + leaked $06 -> X=$0601 -> "37").
     rep #0x20
     and.w #0x00ff
     tax
@@ -1072,14 +1078,17 @@ _slot_has_item:
     iny
     lda.w hex_digits + 3
 
-_slot_finish:
+_bif_finish:
     sta.w inv_format_buffer, y
     iny
     lda #0x00
     sta.w inv_format_buffer, y
+    rts
 
-    jsr.l draw_text_rolling_trampoline
-    jmp.w _slot_render_done
+build_item_format_far:
+"""`_build_item_format` for other banks' callers (the battle equip popup). Callable with JSL."""
+    jsr.w _build_item_format
+    rtl
 
 _empty_slot_fast:
 """
