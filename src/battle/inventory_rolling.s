@@ -1682,6 +1682,12 @@ _tfr_frame_ok:
     sta.w menu_tilemap_tfr_count  ; 1 transfer only
     sta.w menu_tilemap_tfr_enable  ; Enable transfer
 
+; Back to vanilla with A's high byte clear: the 16-bit work above leaves it set ($012C from the slot copy), and
+; vanilla's later `and #7 / asl / tax` ($02:9702) carries it into a jump-table index (-> BRK at $02:0860).
+    xba
+    lda.b #0x00
+    xba
+
     plb  ; Restore data bank
     rtl
 
