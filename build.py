@@ -25,10 +25,9 @@ from script.pointers import (
 
 from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
-from katsuji.atlas import Atlas
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
-from utils.bake_names import bake_file, bake_pointed_file
+from utils.bake_names import Glyphs, bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
 
@@ -403,21 +402,22 @@ if __name__ == "__main__":
 
     Path("build/gen").mkdir(parents=True, exist_ok=True)  # generated assets; a816 include path
     # Fonts first: the fixed-width string checks measure with menu_font.dat.
-    katsuji_build.build(katsuji_config.load(Path("katsuji.toml")))
+    fonts = katsuji_config.load(Path("katsuji.toml"))
+    katsuji_build.build(fonts)
     build_assets(assets_list)
     # Baked names are kerned pair by pair on the menu font's glyphs (bake_names.auto_kern).
-    menu_atlas = Atlas.open(Path("fonts/8x8vwf.png"), 8, 8)
+    menu_glyphs = Glyphs.of(fonts.fonts["menu"])
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
-                      Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), atlas=menu_atlas)
+                      Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
     # Battle monster and command names: TextCmd_0C and the command window copy them.
     for names, baked in (("monsters_long", "monster_names_vwf"), ("battle_commands_nul", "command_names_vwf")):
         bake_pointed_file(Path("build/gen/menu_font.dat"), Path(f"build/gen/{names}.dat"), Path(f"build/gen/{names}.ptr"),
-                          Path(f"build/gen/{baked}.dat"), Path(f"build/gen/{baked}.tbl"), atlas=menu_atlas)
+                          Path(f"build/gen/{baked}.dat"), Path(f"build/gen/{baked}.tbl"), glyphs=menu_glyphs)
     # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),
-                      Path("build/gen/item_names_vwf.tbl"), skip=1, atlas=menu_atlas)
+                      Path("build/gen/item_names_vwf.tbl"), skip=1, glyphs=menu_glyphs)
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")
