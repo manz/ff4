@@ -1032,7 +1032,7 @@ spill into its neighbour's. M=8, X=16.
     tax
     clc
     adc.w #battle_render.SPELL_NAME_TILES * 0x10
-    sta.l battle_render_state.spell_name_src
+    pha  ; the clear's end, on the stack: an NMI row render starts its own name in between
 
 _snb_clear:
     lda.w #0x00FF
@@ -1040,8 +1040,9 @@ _snb_clear:
     inx
     inx
     txa
-    cmp.l battle_render_state.spell_name_src
+    cmp 1, s
     bne _snb_clear
+    pla
     sep #0x20
     pla
     pha

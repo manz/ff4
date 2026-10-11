@@ -26,6 +26,7 @@ _frame_bottom_row = _frame_first_row + _FRAME_SIDE_ROWS * 0x40
 
 
 .include "../bank20.i"
+.include "battle/render_save.i"
 
 .alloc _battle_magic_reloc_block in bank20_reloc {
 draw_magic_list_direct:
@@ -451,10 +452,12 @@ goes on to TAX an 8-bit read with X=16), X, Y and $32-$37.
     lda.b btlgfx_dp.text_tile_flags
     pha
     sep #0x20
-; row: under 3 words, DBR, Y and X
-    lda 12, s
+    save_render_state()
+; row: under the saved render state, 3 words, DBR, Y and X
+    lda RENDER_STATE_BYTES + 12, s
     jsr.w _render_spell_row
     jsr.w _ring_flush
+    restore_render_state()
     rep #0x20
     pla
     sta.b btlgfx_dp.text_tile_flags
