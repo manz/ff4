@@ -23,10 +23,7 @@ on every pass and every eighth frame.
 
     .alloc _battle_tasks_bank02 in bank02_trampolines {
 battle_frame_tasks:
-"""
-WaitFrameMain's RedrawMainMenu, then the ATB gauges (before the menu task copies the HP rows), then this pass's
-tasks.
-"""
+"""WaitFrameMain's RedrawMainMenu, the ATB gauges over the HP text it may have redrawn, then this pass's tasks."""
     jsr.w _redraw_main_menu_96c8
     jsr.l atb_gauge.update
     jsr.l battle_task.run_far

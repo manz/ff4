@@ -107,3 +107,29 @@ def test_acting_empties_the_gauge(battle) -> None:
 
 def test_the_party_window_golden(battle) -> None:
     assert_screenshot_matches_golden(battle, GOLDENS / "party.png", region=BATTLE_MENU_PANEL)
+
+
+def _main_view_fill(emu, row: int) -> int | None:
+    """Row's gauge fill as the main view shows it (what the NMI uploads), None when it shows none."""
+    base = MAIN_VIEW_HP + row * 128 + 64 + 5 * 2
+    tiles = [emu.read(base + 2 * c) for c in range(4)]
+    if not all(t in atb_gauge.FILL_TILES for t in tiles):
+        return None
+    return sum(t - atb_gauge.FILL_TILES.start for t in tiles)
+
+
+def test_the_gauges_never_step_back(battle) -> None:
+    """Fills only grow between turns: the pace is per character (a tick of one did not restart another's), its clock
+    a word (a wait of 256 updates wrapped it), a chosen command keeps the gauge full until the turn is over."""
+    last: list[int | None] = [None] * 5
+    steps_back = []
+    for frame in range(1500):
+        if battle.read(MENU_OPEN) and frame % 4 == 0:
+            tap(battle, Button.A, hold=2, gap=0)  # Attack, the first monster
+        battle.run_frames(1)
+        for row in range(5):
+            fill = _main_view_fill(battle, row)
+            if fill is not None and last[row] is not None and 0 < fill < last[row]:
+                steps_back.append((frame, row, last[row], fill))
+            last[row] = fill
+    assert steps_back == []

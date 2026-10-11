@@ -15,8 +15,10 @@ timer at once, about every 10 frames, none during an animation) the fill moves o
 at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn instead of 4-6 jumps.
 """
 .import "battle/tasks"
+.import "battle/render_state"
 .import "wram_layout"
 .include "../bank20.i"
+.include "src/battle/bank02_trampolines.i"
 
 _PARTY := 5
 _TIMERS := 0x7E2A07  ; the action timer, a word, per fighter
@@ -24,6 +26,8 @@ _DISPLAY_ORDER := 0x02A1F3  ; vanilla: the party window's rows list the slots in
 _RECORDS := 0x7E2000  ; a character per $80, +0 0 for nobody
 _HIDDEN := 0x7EF2C1  ; per slot: non-zero hides its name and HP
 _TIMER_STRIDE := 21
+_TIMER_FLAGS := 0x7E2A09  ; the action timer's flags: $08 = act when it expires (a command was chosen)
+_COMMAND_DELAY := 0x08
 _HP_TEXT := 0x7EB9DE  ; vanilla's HP text: a row per character
 _BOTTOM := 9 * 2  ; the bottom row: the current HP (4 cells), "/", the max HP (4)
 _SLASH := _BOTTOM + 4 * 2
@@ -31,6 +35,9 @@ _LAST_DIGIT := _BOTTOM + 3 * 2  ; a digit when the row shows a character
 _GAUGE := _SLASH
 _MAIN_VIEW_HP := 0x7EBED0  ; the HP rows' place in the main view (vanilla's text update): a character per 2 rows of 64
 _CAP_CELL := 64 + 9 * 2  ; the cell after the bottom row
+_GAUGE_CELL := 64 + 4 * 2  ; the gauge's first cell in the main view
+_NMI_WAIT := 0x7E1811  ; vanilla: the frame wait's flag
+_MIRROR := 0xC1A5 - 0xBE65  ; the command window's copy of the main view (redraw_gates mirror_main_to_cmd)
 _SLASH_TILE := 0xC7
 _DIGIT_0 := 0x80
 _FILL_0 := 0xE1  ; utils/atb_gauge.py: fill 0-8 px, then the caps
@@ -51,10 +58,10 @@ _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back
     byte rows  ; rows showing a character (scratch)
     word row  ; its HP row (scratch)
     byte changed  ; a row was redrawn this pass
-    byte frames  ; passes counted, for the ticks' pace
-    byte last_tick  ; `frames` at the timers' last tick
-    byte period  ; passes between the last two ticks, 0 before the second
-    byte ticked  ; a timer ticked this pass
+    word frames  ; updates counted, for the ticks' pace (a word: a timer can go 256 updates without a tick)
+    word[_PARTY] last_tick  ; per slot: `frames` at its timer's last tick
+    byte[_PARTY] period  ; per slot: updates between its last two ticks, 0 before the second
+    byte[_PARTY] pending  ; per slot: a command waits for its timer (the gauge stays full until it acts)
 }
 
 .reserve atb_gauge_state as AtbGauge in battle_text_ram
@@ -81,8 +88,45 @@ _reset_drawn:
     plp
     rtl
 
+frame:
+"""
+Vanilla's wait for vblank ($02:851E), its `inc $1811` moved here after the gauges: once a frame, whatever
+battle-graphics loop is waiting (its spin on $1811 stays vanilla's, where savestates catch the CPU). Keeps A, X, Y, D
+and the data bank as vanilla's did (its callers rely on them: $02:9472 indexes a jump table with A's high byte left
+over); the update runs on direct page 0. Callable with JSL.
+"""
+    php
+    rep #0x30
+    pha
+    phx
+    phy
+    phd
+    lda.w #0x0000
+    tcd
+    lda.l atb_gauge_state.frames  ; the pace's clock: frame waits only (update also runs per pass)
+    inc
+    sta.l atb_gauge_state.frames
+    jsr.l update
+    rep #0x30
+    pld
+    ply
+    plx
+    pla
+    plp
+    php
+    sep #0x20
+    lda.l _NMI_WAIT
+    inc
+    sta.l _NMI_WAIT
+    plp
+    rtl
+
 update:
-"""Each battle-graphics pass, before the menu task copies the HP rows: every gauge whose fill changed, redrawn."""
+"""
+Every gauge whose fill changed, redrawn in the HP text, the main view and its copy: once a frame (`frame`), and on each
+battle-graphics pass before the menu task copies the HP text (vanilla redraws it with "/max", the menu shows it next).
+Callable with JSL.
+"""
     php
     phb
     rep #0x30
@@ -103,8 +147,6 @@ update:
     pha
     plb
     stz.w atb_gauge_state.changed & 0xFFFF
-    stz.w atb_gauge_state.ticked & 0xFFFF
-    inc.w atb_gauge_state.frames & 0xFFFF
     ldx.w #0x0000
 _watch:
     phx
@@ -113,18 +155,6 @@ _watch:
     inx
     cpx.w #_PARTY
     bne _watch
-    lda.w atb_gauge_state.ticked & 0xFFFF
-    beq _paced
-    lda.w atb_gauge_state.frames & 0xFFFF
-    sec
-    sbc.w atb_gauge_state.last_tick & 0xFFFF
-    cmp.b #_MAX_PERIOD
-    bcc _period
-    lda.b #_MAX_PERIOD
-_period:
-    sta.w atb_gauge_state.period & 0xFFFF
-    lda.w atb_gauge_state.frames & 0xFFFF
-    sta.w atb_gauge_state.last_tick & 0xFFFF
 _paced:
     jsr.w _map_rows
     ldx.w #0x0000
@@ -150,8 +180,9 @@ _rows_drawn:
 _caps_done:
     lda.w atb_gauge_state.changed & 0xFFFF
     beq _done
-    lda.b #SIG_MAIN_MENU
-    jsr.l battle_task.signal
+    lda.l battle_render_state.tilemap_pending_mask  ; the NMI uploads both views this frame
+    ora.b #TilemapPendingBits.main.mask | TilemapPendingBits.commands.mask
+    sta.l battle_render_state.tilemap_pending_mask
 _done:
     rep #0x20
     pla
@@ -188,8 +219,17 @@ _slot_index:
     rts
 
 _watch_timer:
-"""Character X's action timer: a rise is a new turn (its full length), a drop is a tick (A8 X16, DB $7E)."""
+"""
+Character X's action timer: a rise is a new turn (its full length), a drop is a tick (its pace: the updates since its
+last one); its flags say whether a chosen command waits on it (A8 X16, DB $7E).
+"""
     jsr.w _slot_index
+    sep #0x20
+    lda.l _TIMER_FLAGS, x
+    and.b #_COMMAND_DELAY
+    ldy.b 0x00
+    sta.w atb_gauge_state.pending & 0xFFFF, y
+    rep #0x20
     lda.l _TIMERS, x
     ldx.b 0x02
     cmp.w atb_gauge_state.timer & 0xFFFF, x
@@ -197,11 +237,24 @@ _watch_timer:
     beq _watched
     bcc _dropped
     sta.w atb_gauge_state.full_time & 0xFFFF, x
+    lda.w atb_gauge_state.frames & 0xFFFF  ; a new turn: its pace counts from now
+    sta.w atb_gauge_state.last_tick & 0xFFFF, x
     bra _watched
 _dropped:
+    lda.w atb_gauge_state.frames & 0xFFFF
+    sec
+    sbc.w atb_gauge_state.last_tick & 0xFFFF, x
+    cmp.w #_MAX_PERIOD
+    bcc _period
+    lda.w #_MAX_PERIOD
+_period:
+    pha
+    lda.w atb_gauge_state.frames & 0xFFFF
+    sta.w atb_gauge_state.last_tick & 0xFFFF, x
+    pla
     sep #0x20
-    lda.b #0x01
-    sta.w atb_gauge_state.ticked & 0xFFFF
+    ldx.b 0x00
+    sta.w atb_gauge_state.period & 0xFFFF, x
 _watched:
     sep #0x20
     rts
@@ -281,6 +334,7 @@ _row_ready:
     beq _unchanged
     sta.w atb_gauge_state.drawn_px & 0xFFFF, x
     jsr.w _draw_gauge
+    jsr.w _publish_gauge
     lda.b #0x01
     sta.w atb_gauge_state.changed & 0xFFFF
 _unchanged:
@@ -293,6 +347,10 @@ _fill_px:
 A8 = the fill in pixels (0-24) of character $00: the share of its turn's timer run out, plus the frames since the last
 tick at the ticks' pace (up to one tick); full once the timer is 0.
 """
+    sep #0x20
+    ldx.b 0x00
+    lda.w atb_gauge_state.pending & 0xFFFF, x
+    bne _fill_full  ; a command waits: the turn is still on
     rep #0x20
     ldx.b 0x02
     lda.w atb_gauge_state.full_time & 0xFFFF, x
@@ -310,23 +368,22 @@ _running:
     adc.b 0x06  ; run out = full - timer
     sta.b 0x08
 ; the pace: frames since the tick (at most a period) over the period; none before two ticks or on a long timer
-    lda.w atb_gauge_state.period & 0x00FF
+    ldx.b 0x00
+    lda.w atb_gauge_state.period & 0xFFFF, x
     and.w #0x00FF
     beq _no_pace
     ldy.b 0x06
     cpy.w #_MAX_PACED_TIME
     bcs _no_pace
     sta.b 0x04  ; period
-    sep #0x20
+    ldx.b 0x02
     lda.w atb_gauge_state.frames & 0xFFFF
     sec
-    sbc.w atb_gauge_state.last_tick & 0xFFFF
+    sbc.w atb_gauge_state.last_tick & 0xFFFF, x
     cmp.b 0x04
     bcc _elapsed
     lda.b 0x04
 _elapsed:
-    rep #0x20
-    and.w #0x00FF
     pha  ; elapsed
     lda.b 0x08
     jsr.w _times_period
@@ -424,6 +481,30 @@ _partial:
     bne _cell
     rts
 
+_publish_gauge:
+"""Row $0A's gauge cells (its HP text's cells 4-8) into the main view and the command window's copy (A8 X16)."""
+    jsr.w _cap_cell  ; Y = the cap cell: the gauge starts 5 cells before
+    rep #0x20
+    tya
+    sec
+    sbc.w #_CAP_CELL - _GAUGE_CELL
+    tay
+    ldx.w atb_gauge_state.row & 0xFFFF
+    lda.w #5
+    sta.b 0x08
+_pg_cell:
+    lda.w _GAUGE, x
+    sta.w 0x0000, y
+    sta.w _MIRROR, y
+    inx
+    inx
+    iny
+    iny
+    dec.b 0x08
+    bne _pg_cell
+    sep #0x20
+    rts
+
 _cap_cell:
 """Y = the main view's cell after row $0A's bottom row (A16 on return)."""
     rep #0x20
@@ -446,6 +527,7 @@ _draw_cap:
     lda.b #_CAP_RIGHT
     rep #0x20
     sta.w 0x0000, y
+    sta.w _MIRROR, y
     sep #0x20
     rts
 
@@ -454,7 +536,20 @@ _clear_cap:
     jsr.w _cap_cell
     lda.w #0x00FF
     sta.w 0x0000, y
+    sta.w _MIRROR, y
     sep #0x20
     rts
     }
+}
+
+.alloc _battle_atb_gauge_bank02 in bank02_trampolines {
+atb_gauge_frame:
+"""Vanilla's wait for vblank calls in here instead of its `inc $1811` (atb_gauge.frame does it)."""
+    jsr.l atb_gauge.frame
+    rts
+}
+
+.alloc at 0x02851E size 3 {
+; vanilla's wait for vblank: `inc $1811`, then its own spin (left as it is)
+    jsr.w atb_gauge_frame
 }
