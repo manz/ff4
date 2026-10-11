@@ -1,0 +1,103 @@
+"""The battle ATB gauge (battle/atb_gauge.s): each character's action timer as an FF6-style gauge over "/max HP".
+
+The party window's rows list the characters in vanilla's display order (slots 1, 3, 0, 4, 2, present ones only), not
+in slot order: a gauge drawn by slot showed one character's turn on another's row.
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+import pytest
+from _ff4kintsuki import (
+    BATTLE_MENU_PANEL,
+    assert_screenshot_matches_golden,
+    fresh_late_battle,
+    tap,
+)
+from kintsuki import Button
+
+sys.path.insert(0, str(Path(__file__).parents[1]))
+from utils import atb_gauge
+
+GOLDENS = Path(__file__).parent / "goldens" / "battle_atb"
+FONT = Path(__file__).parents[1] / "fonts" / "8x8.bin"
+STRIP = Path(__file__).parents[1] / "fonts" / "atb_gauge.png"
+HP_TEXT = 0x7EB9DE  # two 9-cell rows per character, the bottom one "HHHH/MMMM"
+ROW = 36
+BOTTOM = 18
+ACTING = 0x7E1822
+MENU_OPEN = 0x7E00D7
+FULL_PALETTE = 0x08
+DISPLAY_ORDER = (1, 3, 0, 4, 2)
+DIGITS = range(0x80, 0x8A)
+
+
+def _bottom_cells(emu, row: int) -> list[tuple[int, int]]:
+    base = HP_TEXT + row * ROW + BOTTOM
+    return [(emu.read(base + 2 * c), emu.read(base + 2 * c + 1)) for c in range(9)]
+
+
+def _row_of(emu, slot: int) -> int:
+    """The party window row showing `slot` (vanilla's packing; every slot present in the late save)."""
+    present = [s for s in DISPLAY_ORDER if emu.read(0x7E2000 + s * 0x80)]
+    return present.index(slot)
+
+
+def _fill(cells: list[tuple[int, int]]) -> int:
+    return sum(tile - atb_gauge.FILL_TILES.start for tile, _ in cells[5:8])
+
+
+def test_merge_puts_the_strip_in_blank_slots() -> None:
+    merged = atb_gauge.merge(FONT.read_bytes(), STRIP)
+    font = FONT.read_bytes()
+    changed = {i // 16 for i in range(len(font)) if merged[i] != font[i]}
+    assert changed == set(atb_gauge.SLOTS)
+
+
+def test_merge_refuses_a_glyph_slot() -> None:
+    font = bytearray(FONT.read_bytes())
+    font[atb_gauge.CAP_LEFT * 16] ^= 0xFF
+    with pytest.raises(ValueError, match="not blank"):
+        atb_gauge.merge(bytes(font), STRIP)
+
+
+@pytest.fixture
+def battle():
+    emu = fresh_late_battle()
+    try:
+        yield emu
+    finally:
+        emu.close()
+
+
+def test_the_rows_keep_the_hp_and_show_a_gauge(battle) -> None:
+    for row in range(5):
+        cells = _bottom_cells(battle, row)
+        assert cells[3][0] in DIGITS  # the current HP's last digit
+        assert [tile for tile, _ in cells[4:]][0::4] == [atb_gauge.CAP_LEFT, atb_gauge.CAP_RIGHT]
+        assert all(tile in atb_gauge.FILL_TILES for tile, _ in cells[5:8])
+
+
+def test_the_deciding_character_s_gauge_is_full(battle) -> None:
+    cells = _bottom_cells(battle, _row_of(battle, battle.read(ACTING)))
+    assert _fill(cells) == 24
+    assert all(attr & FULL_PALETTE for _, attr in cells[4:])
+
+
+def test_acting_empties_the_gauge(battle) -> None:
+    actor = battle.read(ACTING)
+    row = _row_of(battle, actor)
+    tap(battle, Button.A, gap=20)  # Attack
+    tap(battle, Button.A, gap=20)  # the first monster
+    lowest = 24
+    for _ in range(400):
+        battle.run_frames(1)
+        lowest = min(lowest, _fill(_bottom_cells(battle, row)))
+        if lowest < 8:
+            break
+    assert lowest < 8
+
+
+def test_the_party_window_golden(battle) -> None:
+    assert_screenshot_matches_golden(battle, GOLDENS / "party.png", region=BATTLE_MENU_PANEL)
