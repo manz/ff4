@@ -5,7 +5,7 @@ Pivots the per-character equip popup from `R-label  L-label / R-item  L-item` (t
 label-over-item) to `R-label  R-item / L-label  L-item` (label and item on the same row, per hand).
 
 Layout in the 32x7 window:
-    Row 0: slot-1 label (10 tiles, cols 0-9)  | slot-1 item top (15 tiles, cols 14-28)
+    Row 0: slot-1 label (8 tiles, cols 3-10)   | slot-1 item top (15 tiles, cols 11-25)
     Row 1: <blank>                             | slot-1 item bot
     Row 2: slot-2 label                        | slot-2 item top
     Row 3: <blank>                             | slot-2 item bot
@@ -16,8 +16,8 @@ Driven by:
                                  bytes $3C..$77 = slot-2 item ($3C..$59 top, $5A..$77 bot)
 
 Tilemap dest bases (set by hooks in items_patches.s):
-    $00 = $D1E8 (label column)
-    $02 = $D204 (item column, $00 + $1C)
+    $00 = $D1EE (label column: the inventory's name column, right of the cursor)
+    $02 = $D1FE (item column, $00 + $10; its ":" column follows the inventory row format)
 
 The labels and item names are VWF glyphs, rendered when the popup opens into the command list's tiles: the inventory
 under the popup holds the item tiles, and the command window is hidden while it shows. The command list re-renders
@@ -377,9 +377,9 @@ tfr_equip_window_new:
     {
     rep #0x10  ; X/Y 16-bit at runtime (caller may have X=1)
     jsr.w _render_popup_text
-    ldx.w #0xD1E8
+    ldx.w #0xD1EE
     stx 0x00
-    ldx.w #0xD204
+    ldx.w #0xD1FE
     stx 0x02
     lda.w battle_selected_char
     asl
@@ -391,24 +391,28 @@ tfr_equip_window_new:
     tax
     sep #0x20
 
-; --- Pass A: slot-1 label -> LEFT col row 1 (buf[0..$13]) ---
+; --- Pass A: slot-1 label -> LEFT col row 1 (buf[0..$0F]: its 8 glyph cells of 10) ---
     ldy.w #0x0040
 loop_a:
     lda.w 0x0000, x
     sta (0x00), y
     inx
     iny
-    cpy.w #0x0054
+    cpy.w #0x0050
     bne loop_a
 
-; --- Pass B: slot-2 label -> LEFT col row 3 (buf[$14..$27]) ---
+; --- Pass B: slot-2 label -> LEFT col row 3 (buf[$14..$23]) ---
+    inx
+    inx
+    inx
+    inx
     ldy.w #0x00C0
 loop_b:
     lda.w 0x0000, x
     sta (0x00), y
     inx
     iny
-    cpy.w #0x00D4
+    cpy.w #0x00D0
     bne loop_b
 
 ; --- Switch to EquipBuf ---
