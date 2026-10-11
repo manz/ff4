@@ -18,6 +18,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; Original: 02/9E1A: A9 09  LDA #0x09
 
 .include "config.i"
+.include "../bank20.i"
 
 .if BATTLE_ENABLED {
 ; root-scope extern: `.alloc` bodies open their own scope, so an extern
@@ -310,6 +311,28 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
     .db 0xec + 10, 0xcc, 0x4e, 0x31  ; down arrow 1
     .db 0xec + 10, 0xd4, 0x4f, 0x31  ; down arrow 2
     }
+; The up arrows (sprites 6-7, 16x16) hide by their x bit 8: at our x of $F6 that parks them at -10, their right six
+; columns on screen left of the monster window. The hide path also drops them below the screen; the table copy puts
+; their y back every frame.
+    .alloc at 0x02BAE7 size 7 {
+    jsr.l park_up_scroll_arrows
+    bra _arrows_parked  ; $BAF6, the down arrows
+    nop
+    }
+    .label _arrows_parked = 0x02BAF6
+
+    .alloc _park_up_scroll_arrows in bank20_reloc {
+park_up_scroll_arrows:
+"""Vanilla's hide (x bit 8 of sprites 6-7) and their y off screen. M = 8."""
+    lda.l battle_oam_high + 1
+    ora.b #0x50
+    sta.l battle_oam_high + 1
+    lda.b #0xF0
+    sta.l battle_oam_scroll_arrows + 1
+    sta.l battle_oam_scroll_arrows + 4 + 1
+    rtl
+    }
+
 ; ===== 1D CURSOR NAVIGATION (ROLLING BUFFER ONLY) =====
     .if INVENTORY_ROLLING_BUFFER {
 ; Disable left/right button handling for single-column scrolling mode
