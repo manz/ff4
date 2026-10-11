@@ -161,7 +161,7 @@ png = "fonts/8x8vwf.png"
 cell = [8, 8]
 table = "text/ff4_menus.tbl"
 output = "build/gen/menu_font.dat"
-widths = { "0xFF" = 3 }
+widths = { "0xFF" = 3, "0x10" = 0 }  # 0x10: thin space, the battle monster window's name-count gap
 kerning-candidates = [
     "Ya", "Pa", "PoFa", "Fe", "Fo", "Fu", "Ta", "Te",
     "To", "Tu", "Tr", "Ts", "ra", "re", "ro", "Aï",
