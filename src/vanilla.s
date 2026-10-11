@@ -364,3 +364,6 @@ btlgfx_dp := (0x0000 as BtlGfxDP)
 BATTLE_CURSOR_INVENTORY := 0x05
 BATTLE_CURSOR_SPELLS := 0x06
 BATTLE_CURSOR_MP_COST := 0x09  ; the MP cost window opening over the spell list
+
+"""Battle: the acting monster's action script commands for this turn ($03:B53A builds them, $FF/$FE end them)."""
+.label monster_action_commands = 0x7E361D
