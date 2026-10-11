@@ -98,3 +98,30 @@ def test_the_command_list_gets_its_tiles_back() -> None:
         assert _command_chr(emu) == before
     finally:
         emu.close()
+
+
+HAND = 0x7E005F  # the popup cursor's hand
+PICKED = 0x7EEF94  # non-zero once A picked a hand (vanilla's swap: cursor 2 stays on it)
+TARGET_SELECT = (4, 7, 0x0C, 0x0F)
+
+
+def test_a_picks_the_hand_instead_of_using_it(popup) -> None:
+    """Vanilla's item menu reads $EF9A on A: non-zero uses the hand's item. The redraw gates' dirty byte sat there."""
+    tap(popup, Button.A, gap=20)
+    assert (popup.read(PICKED), popup.read(CURSOR_TYPE)) == (1, 0x0B)
+
+
+def test_up_and_down_move_between_the_hands(popup) -> None:
+    assert popup.read(HAND) == 0
+    tap(popup, Button.DOWN, gap=16)
+    assert popup.read(HAND) == 1
+    tap(popup, Button.RIGHT, gap=16)
+    assert popup.read(HAND) == 1
+    tap(popup, Button.UP, gap=16)
+    assert popup.read(HAND) == 0
+
+
+def test_down_from_the_lower_hand_goes_back_to_the_list(popup) -> None:
+    tap(popup, Button.DOWN, gap=16)
+    tap(popup, Button.DOWN, gap=30)
+    assert (popup.read(CURSOR_TYPE), popup.read(WINDOWS_OPEN) & 0x08, popup.read(HAND)) == (5, 0, 0)

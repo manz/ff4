@@ -17,7 +17,7 @@ Driven by:
 
 Tilemap dest bases (set by hooks in items_patches.s):
     $00 = $D1EE (label column: the inventory's name column, right of the cursor)
-    $02 = $D1FE (item column, $00 + $10; its ":" column follows the inventory row format)
+    $02 = $D1FE (item column, $00 + $10, the cursor left of it; its ":" column follows the inventory row format)
 
 The labels and item names are VWF glyphs, rendered when the popup opens into the command list's tiles: the inventory
 under the popup holds the item tiles, and the command window is hidden while it shows. The command list re-renders
@@ -491,4 +491,54 @@ equip_popup_close_edge:
 
 .alloc at 0x02AB4D {
     jsr.w equip_popup_close_edge
+}
+
+; The popup stacks the hands, one row each (layout above), where vanilla put them side by side: its cursor handler
+; ($0B, $02:B302) moved between them with LEFT/RIGHT. Now UP/DOWN do, DOWN from the lower hand goes back to the item
+; list (vanilla's DOWN), and LEFT/RIGHT do nothing.
+_POPUP_CURSOR_X := 12 * 8 - 16  ; on the item: left of its symbol (screen column 12)
+.label _popup_close = 0x02B32F  ; back to the item list
+.label _popup_none = 0x02B33E
+.label _popup_cursor = 0x02B341
+
+.alloc at 0x02B305 size 0x2A {
+    lda.b 0x38
+    and.b #0x0F
+    cmp.b #0x04  ; DOWN
+    bne _popup_up
+    lda.b 0x5F  ; the hand
+    bne _popup_leave
+    inc.b 0x5F
+    inc.b 0x63
+    bra _popup_cursor
+_popup_up:
+    cmp.b #0x08  ; UP
+    bne _popup_none
+    lda.b 0x5F
+    beq _popup_none
+    dec.b 0x5F
+    dec.b 0x63
+    bra _popup_cursor
+_popup_leave:
+    dec.b 0x5F  ; the item list's cursor reads it too: back to the first hand, as vanilla's RIGHT-out does
+    dec.b 0x63
+    .for pad := 0, 6 {
+    nop
+    }
+}
+
+.alloc at 0x02B341 size 17 {
+    ldx.w #_POPUP_CURSOR_X
+    stx.w 0xEF6B  ; menu cursor 1 x
+    lda.b 0x5F
+    tax
+    lda.l equip_popup_cursor_y, x
+    tax
+    stx.w 0xEF6D  ; menu cursor 1 y
+}
+
+.alloc _equip_popup_cursor in bank20_reloc {
+equip_popup_cursor_y:
+"""The popup cursor's y per hand: the label rows."""
+    .db 0x9E, 0x9E + 12  ; 12 px apart, as the item list's rows
 }
