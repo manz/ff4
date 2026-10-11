@@ -9,13 +9,16 @@ cannot wrap one); the table gives each name its offset in the blob, its tile cou
 renderer can carry on drawing inside that tile.
 """
 
+from __future__ import annotations
+
 import dataclasses
 import struct
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 
 from katsuji import VwfFont, colourize, encode_tiles, render
 from katsuji.atlas import Atlas
+from katsuji.config import FontConfig
 from katsuji.kerning import find_kerning
 from katsuji.strings import pack_runs
 from katsuji.tiles import pad_to_tiles
@@ -53,11 +56,25 @@ def bake(font: VwfFont, names: Sequence[bytes]) -> tuple[bytes, bytes]:
     return blob, table
 
 
-def auto_kern(font: VwfFont, atlas: Atlas, names: Sequence[bytes]) -> VwfFont:
-    """`font` with every pair the `names` put side by side kerned on the glyphs, the font's own pairs kept."""
+@dataclasses.dataclass(frozen=True)
+class Glyphs:
+    """A font's glyph sheet and its width overrides (katsuji.toml `widths`): what `auto_kern` measures on."""
+
+    atlas: Atlas
+    widths: Mapping[int, int]
+
+    @classmethod
+    def of(cls, font: FontConfig) -> Glyphs:
+        return cls(Atlas.open(font.png, font.cell_width, font.cell_height, font.grid), font.widths)
+
+
+def auto_kern(font: VwfFont, glyphs: Glyphs, names: Sequence[bytes]) -> VwfFont:
+    """`font` with every pair the `names` put side by side kerned on the glyphs, the font's own pairs kept. A glyph
+    with a width override keeps its spacing: its declared width is not on the sheet (the space is blank, so measured
+    on the glyphs its gap was kerned away: "Ver desabysses")."""
     codes = [codes.rstrip(bytes([SPACE])) for codes in names]
-    pairs = {pair for name in codes for pair in zip(name, name[1:])}
-    return dataclasses.replace(font, kerning={**find_kerning(atlas, pairs), **font.kerning})
+    pairs = {pair for name in codes for pair in zip(name, name[1:]) if not set(pair) & glyphs.widths.keys()}
+    return dataclasses.replace(font, kerning={**find_kerning(glyphs.atlas, pairs), **font.kerning})
 
 
 def fixed_records(data: bytes, size: int, skip: int = 0) -> list[bytes]:
@@ -67,12 +84,12 @@ def fixed_records(data: bytes, size: int, skip: int = 0) -> list[bytes]:
 
 def bake_file(
     font_file: Path, names_file: Path, record_size: int, blob_file: Path, table_file: Path, skip: int = 0,
-    atlas: Atlas | None = None,
+    glyphs: Glyphs | None = None,
 ) -> None:
-    """`atlas`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`)."""
+    """`glyphs`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`)."""
     font = VwfFont.decode(font_file.read_bytes())
     names = fixed_records(names_file.read_bytes(), record_size, skip)
-    blob, table = bake(auto_kern(font, atlas, names) if atlas else font, names)
+    blob, table = bake(auto_kern(font, glyphs, names) if glyphs else font, names)
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)
 
@@ -85,11 +102,11 @@ def pointed_records(strings: bytes, pointers: bytes, skip: int = 0) -> list[byte
 
 def bake_pointed_file(
     font_file: Path, strings_file: Path, pointers_file: Path, blob_file: Path, table_file: Path, skip: int = 0,
-    atlas: Atlas | None = None,
+    glyphs: Glyphs | None = None,
 ) -> None:
-    """`atlas`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`)."""
+    """`glyphs`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`)."""
     font = VwfFont.decode(font_file.read_bytes())
     names = pointed_records(strings_file.read_bytes(), pointers_file.read_bytes(), skip)
-    blob, table = bake(auto_kern(font, atlas, names) if atlas else font, names)
+    blob, table = bake(auto_kern(font, glyphs, names) if glyphs else font, names)
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)

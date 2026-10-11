@@ -5,6 +5,7 @@ on every pass and every eighth frame.
 """
 .import "vanilla"
 .import "battle/tasks"
+.import "wram_layout"
 ; root-scope extern: inventory_rolling_patches reaches this module back through redraw_gates
 .extern draw_battle_command_window_relocated
 .include "../bank20.i"
@@ -15,8 +16,8 @@ on every pass and every eighth frame.
     .label _redraw_main_menu_96c8 = 0x0296C8
     .label _tfr_status_tiles_99b9 = 0x0299B9
     .label _draw_main_menu_99ca = 0x0299CA
-    _MAIN_MENU_TEXT_START := 0xB966  ; character names, then HP ($B9DE), then monster names ($BB1E, 8 x $14 x 2)
-    _MAIN_MENU_TEXT_END := 0xBB1E + 8 * 0x14 * 2
+    _PARTY_TEXT_START := 0xB966  ; character names, then HP ($B9DE), then MP ($BA92)
+    _PARTY_TEXT_END := 0xBB1E
     _MENU_TFR_PENDING := 0x7E1824  ; vanilla: a menu tilemap transfer is queued
 
     .alloc _battle_tasks_bank02 in bank02_trampolines {
@@ -136,10 +137,16 @@ text_destination_signal:
     rep #0x20
     pha
     lda.l 0x7EEF52
-    cmp.w #_MAIN_MENU_TEXT_START
+    cmp.w #_PARTY_TEXT_START
+    bcc _not_party_text
+    cmp.w #_PARTY_TEXT_END
+    bcc _main_menu_text
+_not_party_text:
+    cmp.w #monster_names_text & 0xFFFF
     bcc _not_main_menu
-    cmp.w #_MAIN_MENU_TEXT_END
+    cmp.w #( monster_names_text + MONSTER_TEXT_SIZE ) & 0xFFFF
     bcs _not_main_menu
+_main_menu_text:
     sep #0x20
     lda.b #SIG_MAIN_MENU
     jsr.l battle_task.signal
