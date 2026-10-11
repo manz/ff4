@@ -68,6 +68,7 @@ Final Fantasy IV the new hack.
 ; Each module gates its own code on the flags that used to wrap its import here: a816 links every `.import`
 ; whatever the `.if` around it.
 .import "battle/math_patches"
+.import "battle/monster_ai_patches"
 .import "battle/graphics_patches"
 .import "battle/magic/patches"
 .import "battle/commands_patches"
