@@ -12,6 +12,7 @@ dialog-stream consumer).
 .include "../bank20.i"
 .import "vanilla"
 .import "small_vwf/baked_names"
+.import "wram_layout"
 .import "battle/monsters_reloc"
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
@@ -167,11 +168,32 @@ _state:
 ;font_ptr = menu_font ; moved to direct use of menu_font
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
+    jsr.w _clear_monster_text
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_MONSTERS
     sta.l battle_render_state.pending_transfer_mask
     lda.b #region_size
     brl _init
+_clear_monster_text:
+"""
+Blank the monster window's text (monster_names_text, wram_layout): it sits in freed RAM no battle init clears, and
+DrawMonsterNames only writes the lines of the monster types in play.
+"""
+    php
+    rep #0x30
+    pha
+    phx
+    ldx.w #MONSTER_TEXT_SIZE - 2
+    lda.w #0x00FF  ; the window's blank cell
+_cmt_loop:
+    sta.l monster_names_text, x
+    dex
+    dex
+    bpl _cmt_loop
+    plx
+    pla
+    plp
+    rts
 init_names:
 """Initialize the renderer targeting the name region."""
     lda.l battle_render_state.pending_transfer_mask
@@ -243,6 +265,7 @@ init_monsters_gated:
     beq _gated_skip_near
     and.b #( ~REGION_DIRTY_MONSTERS ) & 0xFF
     sta.l battle_render_state.region_dirty_bits
+    jsr.w _clear_monster_text
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #TILEMAP_PENDING_MAIN
     sta.l battle_render_state.tilemap_pending_mask
@@ -879,6 +902,7 @@ init_monsters:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_monsters
     rtl
+
 init_names:
     jsr.l battle_flags.set_vwf_render
     jsr.w battle_render.init_names

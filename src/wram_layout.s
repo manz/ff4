@@ -41,3 +41,17 @@ MENU_HDMA_SPAN := 0x40  ; one table, then its shadow right after
 
 .reserve equip_hdma_table MENU_HDMA_SPAN at 0x7E9980 in menu_ram.equip
 .reserve equip_hdma_shadow MENU_HDMA_SPAN at 0x7E99C0 in menu_ram.equip
+
+; The spell-list text buffers ($7E:97A6-$7E:B965) vanilla prebuilt every list into: the direct magic renderer and
+; the rolling inventory left most of them free. Battle only.
+.pool battle_text_ram {
+    bss
+    range 0x7EA000 0x7EB965
+    strategy order
+}
+
+; The monster window's text, one cell wider than vanilla's ($BB1E, 10 cells): the window takes the free column on
+; its left. 4 lines of name and count, a kana and a dakuten row each, 2 bytes a cell.
+MONSTER_LINE_CELLS := 11
+MONSTER_TEXT_SIZE := 8 * MONSTER_LINE_CELLS * 2
+.reserve monster_names_text MONSTER_TEXT_SIZE in battle_text_ram
