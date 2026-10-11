@@ -247,6 +247,50 @@ _init_row_loop:
     sep #0x20
     }
 
+    .macro _save_render_state() {
+    """
+    Push the battle glyph renderer's state (direct page `bits_left_on_tile` .. `current_char`) and the tile
+    allocator. Only for the NMI renderer: it runs in the middle of a main-thread glyph, which reloads
+    `bits_left_on_tile` after its aligned check; left at 8, the shift dispatch jumped past its table into a BRK.
+    """
+    rep #0x20
+    lda.b battle_render.bits_left_on_tile
+    pha
+    lda.b battle_render.tilemap_offset
+    pha
+    lda.b battle_render.temp
+    pha
+    lda.b battle_render.counter
+    pha
+    lda.b battle_render.prev_char  ; and current_char
+    pha
+    lda.l render_allocator.allocated_tile_id
+    pha
+    lda.l render_allocator.slot_limit_low
+    pha
+    sep #0x20
+    }
+
+    .macro _restore_render_state() {
+    """Pull what `_save_render_state` pushed."""
+    rep #0x20
+    pla
+    sta.l render_allocator.slot_limit_low
+    pla
+    sta.l render_allocator.allocated_tile_id
+    pla
+    sta.b battle_render.prev_char
+    pla
+    sta.b battle_render.counter
+    pla
+    sta.b battle_render.temp
+    pla
+    sta.b battle_render.tilemap_offset
+    pla
+    sta.b battle_render.bits_left_on_tile
+    sep #0x20
+    }
+
 ; ============================================================================
 ; _render_inventory_item
 ; ============================================================================
@@ -939,6 +983,7 @@ _render_item_to_circular_slot:
     lda.b btlgfx_dp.mult8_result + 1
     pha
     _save_text_params()
+    _save_render_state()
 
 ; Calculate text buffer destination for this SLOT
 ; text_addr = _text_buffer_base + (slot × _TEXT_BYTES_PER_ITEM)
@@ -1105,6 +1150,7 @@ _empty_fill_loop:
     bne _empty_fill_loop
 
 _slot_render_done:
+    _restore_render_state()
     _restore_text_params()
 
 ; draw_text fills text buffer - tilemap copy is done separately by:
