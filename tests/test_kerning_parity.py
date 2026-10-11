@@ -1,8 +1,9 @@
-"""The runtime small VWF against the baked names: same tiles, kerning included.
+"""The runtime small VWF against katsuji: same tiles, the font's kerning included.
 
-The baked names (utils/bake_names.py) are katsuji's rendering of menu_font.dat, so they are the reference. Each
-item name goes through the game's own render_with_config from the field item menu's state; the call ends on a BRK
-sentinel that ff4's brk_handler turns into STP, so every name starts from a fresh copy of the state.
+katsuji's rendering of menu_font.dat (`name_tiles` with the font as built) is the reference. The baked blobs are
+kerned tighter (every pair on the glyphs, bake_names.auto_kern), so they no longer are. Each item name goes through
+the game's own render_with_config from the field item menu's state; the call ends on a BRK sentinel that ff4's
+brk_handler turns into STP, so every name starts from a fresh copy of the state.
 """
 from __future__ import annotations
 
@@ -11,13 +12,14 @@ from pathlib import Path
 import pytest
 
 from _ff4kintsuki import kss_path, load_emu_from_kss
-from utils.bake_names import pointed_records
+from katsuji import VwfFont
+
+from utils.bake_names import name_tiles, pointed_records
 
 REPO = Path(__file__).resolve().parents[1]
 NAMES = REPO / "build/gen/items_unleashed.dat"
 NAME_POINTERS = REPO / "build/gen/items_unleashed.ptr"
-BLOB = REPO / "build/gen/item_names_vwf.dat"
-TABLE = REPO / "build/gen/item_names_vwf.tbl"
+FONT = REPO / "build/gen/menu_font.dat"
 TILE_ID = 0x100  # the field list's first slot
 BUDGET = 10
 CHR_BUFFER = 0x703000
@@ -25,7 +27,7 @@ CHR_BUFFER = 0x703000
 
 @pytest.fixture(scope="module")
 def runtime_tiles():
-    if not (NAMES.exists() and BLOB.exists()):
+    if not (NAMES.exists() and FONT.exists()):
         pytest.skip("assets not built")
     e = load_emu_from_kss(kss_path("ff4-field-inventory-open.kss"), settle_frames=60)
     buf = e.lookup_symbol_addr("vwf_text_buffer")
@@ -50,19 +52,14 @@ def runtime_tiles():
     e.close()
 
 
-def _baked(item: int) -> bytes:
-    table = TABLE.read_bytes()
-    offset, tiles = int.from_bytes(table[item * 4 : item * 4 + 2], "little"), table[item * 4 + 2]
-    return BLOB.read_bytes()[offset : offset + tiles * 16]
-
-
-def test_runtime_names_match_the_baked_ones(runtime_tiles):
+def test_runtime_names_match_katsuji(runtime_tiles):
+    font = VwfFont.decode(FONT.read_bytes())
     names = pointed_records(NAMES.read_bytes(), NAME_POINTERS.read_bytes(), skip=1)  # past the symbol byte
     differ = []
     for item, codes in enumerate(names):
-        baked = _baked(item)
-        if not baked:
+        reference = name_tiles(font, codes)
+        if not reference:
             continue
-        if runtime_tiles(codes)[: len(baked)] != baked:
+        if runtime_tiles(codes)[: len(reference)] != reference:
             differ.append(item)
     assert differ == []

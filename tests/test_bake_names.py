@@ -70,3 +70,25 @@ def test_the_last_tile_columns_complete_the_width(font: VwfFont) -> None:
         assert columns == last_tile_columns(font, codes)
         assert (tiles == 0) == (columns == 0)
         assert 0 <= columns <= 8
+
+
+def test_auto_kerning_keeps_the_fonts_own_pairs(font: VwfFont) -> None:
+    from katsuji.atlas import Atlas
+
+    from utils.bake_names import auto_kern
+
+    names = pointed_records(MAGIC.read_bytes(), MAGIC_POINTERS.read_bytes())
+    kerned = auto_kern(font, Atlas.open(Path("fonts/8x8vwf.png"), 8, 8), names)
+    assert all(kerned.kerning[pair] == value for pair, value in font.kerning.items())
+
+
+def test_auto_kerning_never_widens_a_name(font: VwfFont) -> None:
+    from katsuji import render
+    from katsuji.atlas import Atlas
+
+    from utils.bake_names import auto_kern
+
+    names = [n.rstrip(b"\xff") for n in pointed_records(MAGIC.read_bytes(), MAGIC_POINTERS.read_bytes()) if n.strip(b"\xff")]
+    kerned = auto_kern(font, Atlas.open(Path("fonts/8x8vwf.png"), 8, 8), names)
+    widths = [(render(kerned, list(n)).shape[1], render(font, list(n)).shape[1]) for n in names]
+    assert all(tight <= plain for tight, plain in widths) and any(tight < plain for tight, plain in widths)
