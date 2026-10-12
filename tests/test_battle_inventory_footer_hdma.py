@@ -9,7 +9,7 @@ change).
 """
 from __future__ import annotations
 
-from _ff4kintsuki import choose_command, fresh_late_battle, tap
+from _ff4kintsuki import command_row, choose_command, fresh_late_battle, tap
 from kintsuki import Button
 
 ITEM = 0x01
@@ -20,6 +20,8 @@ VANILLA_ITEM_TARGET = [0x2DF] * 4 + [0x2E3] + [0x2E7] * 3
 VANILLA_MENUS_CLOSED = [0x18F] * 4 + [0x026, 0x025, 0x024, 0x023]
 PINNED_LIST = [0x187] + [0x193] * 3 + [0x19B] * 4
 MENU_OPEN = 0x7E00D7  # non-zero while a character's command menu is up
+WINDOW_SWAPPING = 0x7E1820  # menu_hdma_pending: 1 while a window change swaps its rows in, one a frame
+ROWS_LEFT = 0x7E1843  # menu_hdma_rows
 
 
 def _footer(emu) -> list[int]:
@@ -78,5 +80,25 @@ def test_back_from_the_list_the_command_menu_gets_its_footer_back() -> None:
         assert _wait(emu, (1,)) == 1
         emu.run_frames(10)
         assert _footer(emu) == VANILLA_COMMAND_MENU
+    finally:
+        emu.close()
+
+
+def test_the_list_pins_its_border_once_its_window_is_up() -> None:
+    """Opening the list, vanilla swaps the window's rows in one a frame: pinned before, the footer rows showed the
+    party window's PV header and a stray border under a window not yet there."""
+    emu = fresh_late_battle()
+    try:
+        for _ in range(command_row(emu, ITEM)):
+            tap(emu, Button.DOWN, gap=20)
+        tap(emu, Button.A, hold=2, gap=0)
+        growing = 0
+        for _ in range(60):
+            emu.run_frames(1)
+            if emu.read(WINDOW_SWAPPING) == 1 and emu.read(ROWS_LEFT) >= 2:
+                growing += 1
+                assert _footer(emu) == VANILLA_COMMAND_MENU
+        assert growing > 0
+        assert _footer(emu) == PINNED_LIST
     finally:
         emu.close()
