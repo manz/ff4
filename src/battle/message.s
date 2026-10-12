@@ -91,9 +91,7 @@ _cell:
     sec
     sbc 2, s
     sta.b battle_render.bits_left_on_tile
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char  ; no kerning pair across the baked name
-    }
     rep #0x20
     lda.l render_allocator.allocated_tile_id
     dec
@@ -225,9 +223,7 @@ overrun the shared buffer into the state words at $703C00+.
 ; here would corrupt the region bits). A = tile_id base for the allocator.
     lda.b #region_size * 4
     jsr.w render_allocator.init_with_tile_id
-    .if ENABLE_KERNING_MENU {
     stz.b prev_char
-    }
     lda.b #0x08
     sta.b bits_left_on_tile
     stz.b temp
@@ -324,9 +320,7 @@ init:
     pla
     jsr.w render_allocator.init
 _internal_init:
-    .if ENABLE_KERNING_MENU {
     stz.b prev_char
-    }
     jsr.w clear_buffer
     pha
     lda.b #0x08
@@ -431,11 +425,9 @@ _display_char:
     jsr.w make_pointers
 
 ; vwf8_lookup_kerning there:
-    .if ENABLE_KERNING_MENU {
     pha
     jsr.w _adjust_bits_left_for_kerning
     pla
-    }
 
 ; Space ($FF) renders blank ; the 8-row loop only OR-stores zeros (no
 ; visible effect) and reads 8 glyph bytes plus 8 inx ops we can skip.
@@ -629,7 +621,6 @@ coupe:
     jsr.w tilemap_write
     bra loopdec
     }
-    .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
     {
     lda.b bits_left_on_tile
@@ -816,7 +807,6 @@ get_kerning_adjustment:
 battle_msg_kerning_binary_ext:
     jsr.w get_kerning_adjustment
     rtl
-    }
 tilemap_write_no_inc:
 """
 Write a 10-bit tile_id reference at tilemap_offset.
@@ -985,9 +975,7 @@ _chr_clear_loop:
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
-    }
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
     stz.b battle_render.temp
@@ -1076,9 +1064,7 @@ _snb_clear:
     clc
     adc.b #battle_render.SPELL_NAME_TILES - 1
     sta.l render_allocator.slot_limit_low
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
-    }
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
     stz.b battle_render.temp
@@ -1149,9 +1135,7 @@ _dsn_done:
     sep #0x20
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
-    }
     plp
     rtl
 
@@ -1521,9 +1505,7 @@ _ig_chr_clear:
     adc.b 0x04
     dec
     sta.l render_allocator.slot_limit_low
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
-    }
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
     stz.b battle_render.temp
@@ -1592,9 +1574,7 @@ _dis_chr_clear:
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
-    .if ENABLE_KERNING_MENU {
     stz.b battle_render.prev_char
-    }
     lda.b #0x08
     sta.b battle_render.bits_left_on_tile
     stz.b battle_render.temp
