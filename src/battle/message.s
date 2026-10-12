@@ -1747,14 +1747,12 @@ _inv_footer_list_up:
     bne _inv_footer_pin
     lda.b #0x01
     sta.l battle_render_state.inventory_footer_pinned
-; first pinned frame: keep vanilla's values, both copies
+; first pinned frame: keep vanilla's values, the active copy's (the unpin puts them in both)
     rep #0x30
     ldx.w #0x0000
 _inv_save_loop:
     lda.l btl_bg3_scroll_hdma + 0x356, x
     sta.l inventory_footer_saved, x
-    lda.l btl_bg3_scroll_hdma + 0x356 + 0x280, x
-    sta.l inventory_footer_saved + INVENTORY_FOOTER_ENTRIES * 4, x
     inx
     inx
     inx
@@ -1787,8 +1785,12 @@ _inv_pin_loop:
 _inv_footer_unpin:
 ; The list lost the cursor: vanilla double-buffers this table (active
 ; $7F74.. and its swap copy 0x280 on), so our border values sit in
-; either. Put vanilla's saved values back where ours still are;
-; entries vanilla already rewrote for the next window keep theirs.
+; either. Put the active copy's saved values back in both where ours
+; still are; entries vanilla already rewrote for the next window keep
+; theirs. Both: closing the list, vanilla swaps the copies right after
+; this ($02:A943), and the swap copy's values from before the list
+; (the list's own, $02BB) scrolled a stale party row into the bottom
+; lines.
     lda.l battle_render_state.inventory_footer_pinned
     beq _inv_footer_done
     lda.b #0x00
@@ -1807,7 +1809,7 @@ _inv_unpin_swap:
     jsr.w _is_footer_row
     bcc _inv_unpin_next
 _inv_unpin_swap_write:
-    lda.l inventory_footer_saved + INVENTORY_FOOTER_ENTRIES * 4, x
+    lda.l inventory_footer_saved, x
     sta.l btl_bg3_scroll_hdma + 0x356 + 0x280, x
 _inv_unpin_next:
     inx

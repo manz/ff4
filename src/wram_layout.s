@@ -57,9 +57,9 @@ MONSTER_TEXT_SIZE := 8 * MONSTER_LINE_CELLS * 2
 .reserve monster_names_text MONSTER_TEXT_SIZE in battle_text_ram
 
 ; The battle inventory's footer pinning (message.s dma_transfer): vanilla's 7 border-row scroll entries of the BG3
-; HDMA table, active copy then swap copy, saved when the pinning starts and put back when the list loses the cursor.
+; HDMA table's active copy, saved when the pinning starts and put back (in both copies) when the list loses the cursor.
 INVENTORY_FOOTER_ENTRIES := 7
-.reserve inventory_footer_saved INVENTORY_FOOTER_ENTRIES * 4 * 2 in battle_text_ram  ; the table's 4-byte stride
+.reserve inventory_footer_saved INVENTORY_FOOTER_ENTRIES * 4 in battle_text_ram  ; the table's 4-byte stride
 
 ; The battle equip popup (battle/equip_window.s): a hand label's DrawText output (two 15-cell rows, 2 bytes a cell),
 ; and what the popup's glyphs were last rendered for (character, then each hand's flags, id and quantity).
