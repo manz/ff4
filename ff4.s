@@ -131,11 +131,7 @@ Final Fantasy IV the new hack.
 
 ; déroutage pour ajouter le splash screen
 .alloc at 0x008031 {
-    .if ENABLE_INTRO {
     jsr.l start_splash_screen
-    } else {
-    jsr.l clear_ram
-    }
 }
 
 
