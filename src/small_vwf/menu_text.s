@@ -20,7 +20,7 @@ name whose text changed (renamed) uploads again. Tiles $100-$1FF are shared with
   - The shop (`tools_shop_text`) $200-$2FF: it saves the field's VRAM like the menus; its owner's line is the item
     description ($180-$1FF), its item names the field items ($100-$169).
   - The treasure popup is a field screen: nothing saves $6000-$7FFF there, so its header (Butin, Quitter,
-    Tout prendre) takes $1AA-$1CF and its exchange label (`spells.kokan`, drawn at $01:D95E) $1D0-$1D9, after the
+    Tout prendre) takes $1AA-$1CF and its exchange label (`spells.kokan`, drawn at $01:D95E) $1D0-$1DE, after the
     drops' item names ($16E-$1A9).
 Tiles $200-$3FF are VRAM $6000-$7FFF, free in every menu (ingame/menu_vram.s saves the field's copy). Two strings
 come from elsewhere: the class name (DrawClassName, tiles $2E0-$2FF) and the character names (DrawCharName, read
