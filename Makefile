@@ -37,9 +37,9 @@ $(IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(Q) test -s $(IPS)
 
 .PHONY: tests
-tests: $(IPS)  ## Run the full suite against a freshly built patch
+tests: $(IPS)  ## Run the full suite against a freshly built patch, one worker per core
 	$(info $(M) Running tests...)
-	$(Q) $(PY) -m pytest
+	$(Q) $(PY) -m pytest -n auto
 
 .PHONY: test
 test: tests  ## Alias for `tests`
