@@ -89,7 +89,7 @@ def assets_need_refresh(source, destination):
         return True
 
 
-RELEASE_DEFINES = {"DEBUG": 0}  # over a816.toml's [defines]: no build stamp
+RELEASE_DEFINES = {"DEBUG": 0, "TREASURE_DEBUG_ALWAYS_DROP": 0}  # over a816.toml's [defines]: no stamp, no cheat
 
 
 def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):

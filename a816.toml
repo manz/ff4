@@ -21,6 +21,7 @@ writable = true
 [defines]
 LANG = "fr"
 DEBUG = 1  # the build stamp on the title and load screens
+TREASURE_DEBUG_ALWAYS_DROP = 1  # every won battle drops an item: hunts and playtests reach the treasure screens
 ENABLE_BRK_HANDLER = 1  # a BRK halts on a trap screen instead of running into garbage
 TRIGGER_ENDING_CUTSCENE = 0  # boot straight into the ending
 DEBUG_SHOW_ITEM_WINDOW = 0
