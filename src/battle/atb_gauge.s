@@ -15,6 +15,7 @@ timer at once, about every 10 frames, none during an animation) the fill moves o
 at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn instead of 4-6 jumps.
 """
 .import "battle/tasks"
+.import "vanilla"
 .import "battle/render_state"
 .import "wram_layout"
 .include "../bank20.i"
@@ -44,7 +45,7 @@ _FILL_0 := 0xE1  ; utils/atb_gauge.py: fill 0-8 px, then the caps
 _CAP_LEFT := 0xEB
 _CAP_RIGHT := 0xEC
 _FILL_CELLS := 4
-_MAX_PERIOD := 40  ; passes: a longer gap between ticks (an animation) paces as this
+_MAX_PERIOD := 40  ; frames: a longer gap between ticks (an animation) paces as this
 _MAX_PACED_TIME := 40  ; ticks: longer timers (sleep, paralysis) fill without pacing
 _GAUGE_PX := _FILL_CELLS * 8
 _PALETTE_MASK := 0x1C
@@ -58,9 +59,9 @@ _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back
     byte rows  ; rows showing a character (scratch)
     word row  ; its HP row (scratch)
     byte changed  ; a row was redrawn this pass
-    word frames  ; updates counted, for the ticks' pace (a word: a timer can go 256 updates without a tick)
+    word frames  ; the NMI's frame count (battle_frame_counter) as this update saw it: the pace's clock
     word[_PARTY] last_tick  ; per slot: `frames` at its timer's last tick
-    byte[_PARTY] period  ; per slot: updates between its last two ticks, 0 before the second
+    byte[_PARTY] period  ; per slot: frames between its last two ticks, 0 before the second
     byte[_PARTY] pending  ; per slot: a command waits for its timer (the gauge stays full until it acts)
 }
 
@@ -103,9 +104,6 @@ over); the update runs on direct page 0. Callable with JSL.
     phd
     lda.w #0x0000
     tcd
-    lda.l atb_gauge_state.frames  ; the pace's clock: frame waits only (update also runs per pass)
-    inc
-    sta.l atb_gauge_state.frames
     jsr.l update
     rep #0x30
     pld
@@ -147,6 +145,10 @@ Callable with JSL.
     pha
     plb
     stz.w atb_gauge_state.changed & 0xFFFF
+    rep #0x20
+    lda.l battle_frame_counter  ; real time: the updates come every frame or every other one, the NMI every frame
+    sta.w atb_gauge_state.frames & 0xFFFF
+    sep #0x20
     ldx.w #0x0000
 _watch:
     phx
