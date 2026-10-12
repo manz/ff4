@@ -4,6 +4,7 @@ piggyback on `defend_row` data.
 """
 .import "assets"
 .import "battle/graphics"
+.include "battle_labels.i"  ; build/gen: utils/battle_labels.py
 
 
 ; MISS sprite graphics
@@ -19,15 +20,15 @@ piggyback on `defend_row` data.
     .table "text/ff4_menus.tbl"
     .db 0x76, 0x77
     .text "/"
-    .text "GRadeginqrsu"
+    battle_label_font_codes()  ; Garde, Rang and Coût PM, pre-rendered in the small VWF
     .db 0x8c, 0x90, 0x7f
     .db 0x80, 0x81, 0x82
     .db 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x16, 0x17, 0x18, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff
     }
 }
 .alloc at 0x02975d {
-; PM Needed
-    .db 223, 226, 230, 233, 228, 232, 0xff
+; the MP cost window's label
+    battle_label_mp_cost()
 
 ; Defend / Row window content
 ; moves the row destination back a few bytes
