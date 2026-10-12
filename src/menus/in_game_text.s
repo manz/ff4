@@ -350,7 +350,7 @@ config:
     .text "Curseur"
     .db 0x01
     .dw 0x045E
-    .text "Reset"
+    .text "Défaut"
     col(7)
     .text "Mémoire"
     .db 0x01
