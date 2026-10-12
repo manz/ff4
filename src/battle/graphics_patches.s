@@ -95,11 +95,4 @@ hand_text:
     sta.b 0x01
     lda.b #battle_statuses >> 16
     }
-    .alloc at 0x02A32A {
-    lda.l battle_statuses, x
-    sta.b 0x00
-    lda.l battle_statuses + 1, x
-    sta.b 0x01
-    lda.b #battle_statuses >> 16
-    }
 }

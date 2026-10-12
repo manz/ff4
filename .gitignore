@@ -29,3 +29,4 @@ ff4.kintsuki/dma_log.tsv
 
 # editable-install metadata
 *.egg-info/
+GLOSSARY.md

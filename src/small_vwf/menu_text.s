@@ -4,7 +4,8 @@ Small-VWF menu text: whole string blocks drawn in the 8-pixel VWF instead of the
 The menu text thunks (menus/system_menus_text.s) offer every string here first. A string inside one of `_blocks`
 gets the tiles at its byte offset in its block: a glyph is at most 8 pixels wide, so no two strings of a block
 share a tile and nothing is allocated. Blocks on screen together need disjoint tiles.
-  - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there.
+  - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there; the save
+    screen's cancel message (`save_cancelled`) $200-$21F.
   - `in_game_menu` (commands, Gils, Temps, KO): $370-$3FF, its own for good. It stays on screen under the
     sub-menus, and Gils / Temps are drawn every frame, so it is *resident*: a string whose first cell already
     shows its first tile is not drawn again.
@@ -12,7 +13,8 @@ Only this module draws tiles $200-$3FF, so a bit per tile says which strings are
 session: drawing one again only rewrites the tilemap. A block taking over $200-$2FF forgets that range's bits; a
 name whose text changed (renamed) uploads again. Tiles $100-$1FF are shared with the item renderers: always uploaded.
   - One sub-menu at a time in $200-$2FF: `status` $200-$2B7, `equip` $200-$2B7, `dextrality` (handedness, on
-    status and equip) $2B8-$2DF, `items_menu` $200-$23F, `spells` $200-$23F with `use_spell` $240-$25F,
+    status and equip) $2B8-$2DF, `items_menu` $200-$23F with its refusals (`item_refusal`) $270-$2B7,
+    `spells` $200-$23F with `use_spell` $240-$25F,
     `options` $200-$2FF with its controls window (opened over it) in $180-$1FF, the item-description region, and its
     ATB gauge row (`options_gauge`) in $100-$13B, the item names' (no item list on that screen).
   - The shop (`tools_shop_text`) $200-$2FF: it saves the field's VRAM like the menus; its owner's line is the item
@@ -45,6 +47,7 @@ _GLYPH_ROW := 0x40  ; menu text puts the dakuten at +0 and the glyph one row dow
 _BLANK_TILE := 0xFF
 
 .assert sizeof(newgame_text) <= 0x80, "newgame_text outgrows tiles $180-$1FF"
+.assert sizeof(save_cancelled_text) <= 0x20, "save_cancelled_text outgrows tiles $200-$21F"
 .assert sizeof(in_game_menu_text) <= 0x90, "in_game_menu_text outgrows tiles $370-$3FF"
 .assert sizeof(status_text) <= 0xB8, "status_text outgrows tiles $200-$2B7"
 .assert sizeof(equip_text) <= 0xB8, "equip_text outgrows tiles $200-$2B7"
@@ -55,6 +58,7 @@ _BLANK_TILE := 0xFF
 .assert sizeof(key_items_warning_text) <= 0x32, "key_items_warning_text outgrows tiles $13C-$16D"
 .assert sizeof(fat_chocobo_text) <= 0x100, "fat_chocobo_text outgrows tiles $200-$2FF"
 .assert sizeof(summon_learned_text) <= 0x30, "summon_learned_text outgrows tiles $240-$26F"
+.assert sizeof(item_refusal_text) <= 0x48, "item_refusal_text outgrows tiles $270-$2B7"
 .assert sizeof(tools_shop_text) <= 0x100, "tools_shop_text outgrows tiles $200-$2FF"
 .assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
 .assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
@@ -589,6 +593,7 @@ _budget_keep:
 _blocks:
 ; block alloc, its size, allocator id of its first tile, attribute bits (tile id bits 8-9)
     .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
+    .dw save_cancelled_text & 0xFFFF, sizeof(save_cancelled_text), 0x00, 0x02
     .dw in_game_menu_text & 0xFFFF, sizeof(in_game_menu_text), 0x70, 0x03 | _RESIDENT_BIT
     .dw status_text & 0xFFFF, sizeof(status_text), 0x00, 0x02
     .dw equip_text & 0xFFFF, sizeof(equip_text), 0x00, 0x02
@@ -605,6 +610,7 @@ _blocks:
     .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
     .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02
     .dw summon_learned_text & 0xFFFF, sizeof(summon_learned_text), 0x40, 0x02
+    .dw item_refusal_text & 0xFFFF, sizeof(item_refusal_text), 0x70, 0x02
     .dw tools_shop_text & 0xFFFF, sizeof(tools_shop_text), 0x00, 0x02
     .dw 0x0000
 

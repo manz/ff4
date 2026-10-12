@@ -165,6 +165,21 @@ bag_full:
     }
 }
 
+.alloc item_refusal_text in bank20_reloc {
+    .scope items_menu {
+no_effect:
+; うまくいかないようです ($01:A5D6, $01:A6F2): an item on a target it cannot help
+    move_to(6, 11)
+    .text "Ça ne marche pas..."
+    .db 0
+not_needed:
+; そのひつようはありません ($01:A6BF, $01:A7BF): a cure the target does not need
+    move_to(6, 11)
+    .text "Ce n'est pas nécessaire."
+    .db 0
+    }
+}
+
 .alloc summon_learned_text in bank20_reloc {
     .scope items_menu {
 summon_learned:
@@ -335,7 +350,7 @@ config:
     .text "Curseur"
     .db 0x01
     .dw 0x045E
-    .text "Reset"
+    .text "Défaut"
     col(7)
     .text "Mémoire"
     .db 0x01
@@ -464,7 +479,7 @@ two_hands:
 hands:
 string_0:
 ; ぶきよう
-    .text "String 0"
+    .text "Maladroit"
     .db 0
 string_1:
 ; ひだりきき
@@ -485,7 +500,7 @@ string_3:
     .scope use_spell {
     """Spell-cast prompt strings."""
 mp_cost:
-    move_to(1, 4)
+    move_to(2, 4)
     .text "Requis"
     .db 0
 ; use_on_whom:

@@ -52,6 +52,13 @@ def test_a_long_quote_turns_windows_between_its_sentences(layout: DialogLayout) 
         assert re.search(r"(\.\.\.|!|») ?(\[end\])?$", window.strip()), window
 
 
+def test_a_balanced_sentence_keeps_its_lines_wide(layout: DialogLayout) -> None:
+    """Balancing narrows a sentence just over a line no further than two thirds of the window: "Yang: Rydia a été /
+    avalée par Léviathan.", not "Yang: Rydia a / été avalée par Léviathan."."""
+    out = layout.layout("Yang: Rydia a été avalée par Léviathan.[end]")
+    assert windows(out)[0][0] == "[bold]Yang[normal]: Rydia a été"
+
+
 def test_m_dot_stays_with_the_name_inside_a_line(layout: DialogLayout) -> None:
     out = layout.layout("Cecil: Bonjour M. Rosa, comment allez-vous? Nous devons partir maintenant.[end]")
     assert "M. Rosa" in out

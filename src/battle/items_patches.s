@@ -1,6 +1,9 @@
 """
-Battle item names from `item_names` (symbol, name, $00 per item, `item_names_ptrs` offsets): every `lda #9 / sta $28 /
-jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding with spaces to its fixed count.
+Battle item names from `items_unleashed` (symbol, name, $00 per item, `items_unleashed_ptrs` offsets): every
+`lda #9 / sta $28 / jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding with spaces to its
+fixed count.
+The equip and inventory lists' vanilla fills keep 11 cells (their buffers' width): the popup and the rolling list draw
+the names again in the VWF.
 """
 .import "items"
 .import "bank20_helpers"
@@ -10,7 +13,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 
 ; Item name expansion patches for battle graphics
 ; Changes 9-byte items to 12-byte items
-; Redirects 0x0F8000 references to item_names
+; Redirects 0x0F8000 references to items_unleashed
 
 ; ===== BTLGFX/MENU: LOCATION 1 =====
 
@@ -34,7 +37,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; Original: 02/9E44: BF 00 80 0F  LDA 0x0F8000,X
     }
     .alloc at 0x029E44 {
-    lda.l item_names, x
+    lda.l items_unleashed, x
 
 ; --- loop counter ---
 ; Original: 02/9E58: A9 08  LDA #0x08
@@ -63,7 +66,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; Original: 02/A00C: BF 00 80 0F  LDA 0x0F8000,X
     }
     .alloc at 0x02A00C {
-    lda.l item_names, x
+    lda.l items_unleashed, x
 
 ; --- loop counter ---
 ; Original: 02/A020: A9 08  LDA #0x08
@@ -92,7 +95,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; Original: 02/A5A1: A9 08  LDA #0x08
     }
     .alloc at 0x02A5A1 {
-    lda #ITEM_NAME_TEXT_SIZE
+    lda #ITEM_UNLEASHED_TEXT_SIZE
 
 ; --- item name ---
 ; Original: 02/A5A5: BF 00 80 0F  LDA 0x0F8000,X
@@ -121,7 +124,7 @@ jsr Mult8` becomes the offset lookup, every name copy a NUL-aware fetch padding 
 ; Original: 02/CB8C: C0 08 00  CPY #0x0008
     }
     .alloc at 0x02CB8C {
-    cpy #0x000b
+    cpy #ITEM_UNLEASHED_TEXT_SIZE
 
 ; ===== EQUIPPED ITEMS DISPLAY WIDTH =====
 

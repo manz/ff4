@@ -28,7 +28,7 @@ from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
 from utils import atb_gauge
-from utils.bake_names import Glyphs, bake_file, bake_pointed_file
+from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
 
@@ -261,8 +261,11 @@ assets_builder = {
 
 # The small VWF draws one 8-pixel glyph per code: the 8x8 font's accented capitals were an accent tile over the
 # letter, which it can't draw, so they encode as the bare letter.
-SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A"}
+SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A", "Ç": "C"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
+STATUSES_BASE = 0x27B000  # battle_statuses (src/assets.s): its pointers hold addresses in that bank
+STATUS_COUNT = 32  # one per status bit
+STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
 
 
 def write_small_vwf_table(source: str, destination: str) -> None:
@@ -336,7 +339,6 @@ if __name__ == "__main__":
             "build/gen/battle_text.ptr",
             0x29A000,
         ),
-        ("pointed_names", menu_table, os.path.join(text_root, "items.xml"), "build/gen/items.dat", "build/gen/items.ptr"),
         (
             "pointed_names",
             menu_table,
@@ -397,7 +399,7 @@ if __name__ == "__main__":
             menu_table,
             os.path.join(text_root, "battle_statuses.xml"),
             "build/gen/battle_statuses.dat",
-            0x27B000,
+            STATUSES_BASE,
         ),
     ]
 
@@ -421,6 +423,11 @@ if __name__ == "__main__":
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),
                       Path("build/gen/item_names_vwf.tbl"), skip=1, glyphs=menu_glyphs)
+
+    # Battle status names: the target window's status column copies a row's tiles into its window (battle/status_names.s).
+    bake_based_file(Path("build/gen/menu_font.dat"), Path("build/gen/battle_statuses.dat"), STATUS_COUNT,
+                    STATUSES_BASE, Path("build/gen/status_names_vwf.dat"), Path("build/gen/status_names_vwf.tbl"),
+                    max_tiles=STATUS_NAME_TILES, glyphs=menu_glyphs)
 
     credits_file = Path(f"./text/{lang}/credits.txt")
     menu_table.parse_table_line("0A=.")

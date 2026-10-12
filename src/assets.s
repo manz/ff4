@@ -131,15 +131,6 @@ battle_texts:
     .incbin "classes.dat"
 }
 
-.alloc item_names in assets {
-"""Battle item names: symbol byte, name, $00 each; `item_names_ptrs` holds each one's 16-bit offset here."""
-    .incbin "items.dat"
-}
-
-.alloc item_names_ptrs in assets {
-    .incbin "items.ptr"
-}
-
 .alloc item_descriptions in assets {
     .incbin "item_descriptions.dat"
 }

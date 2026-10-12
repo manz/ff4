@@ -64,6 +64,16 @@ did_not_save:
     }
 }
 
+.alloc save_cancelled_text in bank20_reloc {
+    .scope newgame {
+save_cancelled:
+; ちゅうし ($01:CC33): "Non" on the chosen slot, in the save-completed window
+    move_to(8, 11)
+    .text "Sauvegarde annulée"
+    .db 0
+    }
+}
+
 .if DEBUG {
     .alloc _build_number_text in bank20_reloc {
     .scope newgame {

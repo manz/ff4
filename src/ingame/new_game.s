@@ -144,6 +144,17 @@ geometry and Cecil sprite position that go with them.
     }
 
 
+    .alloc at 0x01CC33 {
+    load_system_menu_text_pointer(newgame.save_cancelled)
+    }
+
+
+    .alloc at 0x019801 {
+; the confirmed slot is empty: "VIDE" at X, no position word
+    load_system_menu_text_pointer(newgame.empty_save + 2)
+    }
+
+
     .alloc at 0x1cc12 {
     load_system_menu_text_pointer(newgame.did_not_save)
     }

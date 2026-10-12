@@ -79,6 +79,7 @@ Final Fantasy IV the new hack.
 .import "battle/items_patches"
 .import "battle/redraw_writer_patches"
 .import "battle/tasks_patches"
+.import "battle/status_names"
 .import "battle/inventory_rolling_patches"
 .import "battle/debug_always_drop"
 
