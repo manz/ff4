@@ -81,7 +81,6 @@ Final Fantasy IV the new hack.
 .import "battle/tasks_patches"
 .import "battle/status_names"
 .import "battle/inventory_rolling_patches"
-.import "battle/debug_always_drop"
 
 
 ; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).

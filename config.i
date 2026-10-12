@@ -2,7 +2,6 @@
 
 DEBUG := 1
 ; Feature Flips
-TREASURE_DEBUG_ALWAYS_DROP := 1  ; force every win to drop an item (testing)
 ; Debug flags
 TRIGGER_ENDING_CUTSCENE := 0
 DEBUG_SHOW_ITEM_WINDOW := 0
