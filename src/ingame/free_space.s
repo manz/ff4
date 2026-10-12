@@ -67,11 +67,6 @@ _draw_vwf_message_pos:
     jsr.l items_description.draw_trampoline_pos
     rts
 
-    .if 0 {
-transform_window_trampoline:
-"""JML trampoline into `transform_window_far`."""
-    jmp.l transform_window_far
-    }
 
     .if DEBUG {
 display_build_number:

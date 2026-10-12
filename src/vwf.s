@@ -665,7 +665,6 @@ _boucle2:
     bra _store
 
 _shift:
-    .if 1 {
     plx
     phy
     txy
@@ -717,31 +716,6 @@ _mul_0:
     plx
     sep #0x20
     inx
-    } else {
-    tax  ; using math multiplication
-    lda.l vwf_shift_table, x
-    sta.l cpu_regs.WRMPYA  ; MULTPILIER
-
-
-    plx
-
-    phy
-    txy
-    lda.b [font_addr], y
-    tyx
-    ply
-    inx
-
-    sta.l cpu_regs.WRMPYB  ; MULTIPLICAND
-
-    rep #0x20
-    nop
-    nop
-    nop
-    nop
-    lda.l cpu_regs.RDMPYL  ; the result is stored in 0x4216-0x4217
-    sep #0x20
-    }
 
 _store:
 

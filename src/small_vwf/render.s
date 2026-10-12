@@ -771,34 +771,6 @@ _mul_0:
     sep #0x20
     plx
     inx
-    .if 0 {
-_shift:
-; expects bitsleft in A
-    phx
-    tax
-    lda.l vwf_shift_table, x
-    sta.l cpu_regs.WRMPYA
-
-
-    plx
-    lda.l menu_font, x
-    bne _really_shift
-    inx
-    xba
-    bra _skip_empty_pixel_line
-_really_shift:
-    inx
-
-    sta.l cpu_regs.WRMPYB  ; MULTIPLICAND
-
-    rep #0x20
-    nop
-    nop
-    nop
-    nop
-    lda.l cpu_regs.RDMPYL  ; the result is stored in 0x4216-0x4217
-    sep #0x20
-    }
 _store:
 
     xba

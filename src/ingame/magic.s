@@ -87,47 +87,6 @@ the magic-render path.
     ldx.w #0x0044
 }
 ; move character blocks one tile back
-.if 0 {
-    .alloc at 0x01b4c5 {
-    ldx.w #0x02e0 - 2
-    }
-
-
-    .alloc at 0x01b4ce {
-    ldx.w #0x0060 - 2
-    }
-
-
-    .alloc at 0x01b4d7 {
-    ldx.w #0x0560 - 2
-    }
-
-
-    .alloc at 0x01b4e0 {
-    ldx.w #0x01a0 - 2
-    }
-
-
-    .alloc at 0x01b4e9 {
-    ldx.w #0x0420 - 2
-; moves character portrait 8 pixels back
-    }
-
-
-    .alloc at 0x1efea9 {
-    delta = 8
-    .db 0x58 - delta, 0x68
-    .db 0x58 - delta, 0x18
-    .db 0x58 - delta, 0xb8
-    .db 0x60 - delta, 0x40
-    .db 0x60 - delta, 0x90  ; 3 front/2 back
-    .db 0x60 - delta, 0x68
-    .db 0x60 - delta, 0x18
-    .db 0x60 - delta, 0xb8
-    .db 0x58 - delta, 0x40
-    .db 0x58 - delta, 0x90  ; 2 front/3 back
-    }
-}
 
 ; do not display on whom window
 .alloc at 0x01b498 {
