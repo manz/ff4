@@ -6,7 +6,6 @@ rolling buffer can take over rendering.
 .import "ingame/free_space"
 .include "config.i"
 
-.if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Single Column Inventory Patches for Main Menu
 ; ============================================================================
@@ -21,9 +20,9 @@ rolling buffer can take over rendering.
 ; ============================================================================
 ; CONSTANTS
 ; ============================================================================
-    VISIBLE_ITEMS := 10  ; Items visible at once
+VISIBLE_ITEMS := 10  ; Items visible at once
 ;_TOTAL_ITEMS             := 48       ; Total inventory items
-    SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
+SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
 ; File is being processed - patches below should apply
 
@@ -51,7 +50,7 @@ rolling buffer can take over rendering.
 ; Original: lda #$30 at A17D-A17E (a9 30)
 ; Just patch the operand byte at A17E, not the full instruction
 
-    .alloc at 0x01A17E {
+.alloc at 0x01A17E {
     .db VISIBLE_ITEMS + 1  ; Draw 11 items (10 visible + 1 pre-render slot)
 
 ; ============================================================================
@@ -67,8 +66,8 @@ rolling buffer can take over rendering.
 ;           bne     @a223           ; Branch if right column
 ;
 ; Patch: Always use left column code path (never branch)
-    }
-    .alloc at 0x01A1EF {
+}
+.alloc at 0x01A1EF {
 ; Change BNE to BRA skip (effectively disable right-column branch)
 ; Original: AND #$01 / BNE @a223
 ; New: AND #$00 / BNE @a223 (always zero, never branches)
@@ -86,10 +85,10 @@ rolling buffer can take over rendering.
 ;
 ; For single column, each item needs its own row, so remove the LSR.
 ; This makes Y = item_index * 128 + 2 instead of (item_index/2) * 128 + 2
-    }
+}
 ; $01:A1BC is covered by the slot hook at $01:A1BA (inventory_rolling_patches.s).
 ; $01:A077 (scroll limit) is covered by the scroll hook at $01:A076 (inventory_rolling_patches.s).
-    .alloc at 0x01A114 {
+.alloc at 0x01A114 {
     lda #0x00  ; Always 0 (left column) - replaces LDA $1B22 (3 bytes)
     nop  ; Was high byte of $1B22 address
     nop  ; Skip BEQ opcode
@@ -117,10 +116,10 @@ rolling buffer can take over rendering.
 ; Right button handler similar at @a003
 ;
 ; Patch: Make left/right do nothing (skip to down button check)
-    }
+}
 ; $01:9FF4 (left button) is covered by the main loop hook at $01:9FF2
 ; (inventory_rolling_patches.s), which replaces the whole input check.
-    .alloc at 0x01A005 {
+.alloc at 0x01A005 {
 ; Change AND #JOY_RIGHT to AND #0x00 (never matches)
     and #0x00
 
@@ -140,8 +139,8 @@ rolling buffer can take over rendering.
 ; The pointer $5a = $1440 + (scroll_pos * 2)
 ;
 ; Add patch to adjust $5a before the loop
-    }
-    .alloc at 0x01A181 {
+}
+.alloc at 0x01A181 {
     jsr.w adjust_inventory_pointer
     nop
 
@@ -171,8 +170,8 @@ rolling buffer can take over rendering.
 
 ; $1B25 stores absolute position (scroll + cursor) - keep original storage
 ; Just patch $A2CD to store 0 for X position
-    }
-    .alloc at 0x01A2CD {
+}
+.alloc at 0x01A2CD {
     lda #0x00  ; Always 0 for single column X (was LDA $1B22)
     nop  ; Pad to 3 bytes
 
@@ -187,24 +186,24 @@ rolling buffer can take over rendering.
 ; Original: ASL / ADC $1B22 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B22 / ASL -> (val+col)*2
 ; MUST use CLC because the previous CMP leaves carry set!
-    }
-    .alloc at 0x01A398 {
+}
+.alloc at 0x01A398 {
     clc  ; Clear carry (was ASL which also clears carry)
 
 ; Second item (swap target) at $A3A6
 ; $1B25 already has absolute position
 ; Original: ASL / ADC $1B24 / ASL -> ((val*2)+col)*2
 ; New: CLC / ADC $1B24 / ASL -> (val+col)*2
-    }
-    .alloc at 0x01A3A6 {
+}
+.alloc at 0x01A3A6 {
     clc  ; Clear carry (was ASL which also clears carry)
 
 ; Another second item calculation at $A320
 ; Used when selecting same item twice to use it
 ; CRITICAL: CMP $1B24 at $A318 sets carry if $1B22 >= $1B24 (always true when both are 0)
 ; Original ASL would clear carry, but NOP leaves carry SET, causing ADC to add +1!
-    }
-    .alloc at 0x01A320 {
+}
+.alloc at 0x01A320 {
     clc  ; Clear carry (was ASL which also clears carry)
 ; Original calculates: (scroll_pos + cursor_y) * 2 + cursor_x * 2
 ; For single column: (scroll_pos + cursor_y) * 2
@@ -246,8 +245,8 @@ rolling buffer can take over rendering.
 ;
 ; For single column: remove first ASL at $A7CF
 ; This matches the patches at $A398, $A3A6, $A320
-    }
-    .alloc at 0x01A7CF {
+}
+.alloc at 0x01A7CF {
     nop  ; Remove first ASL for single column
 
 ; ============================================================================
@@ -257,5 +256,4 @@ rolling buffer can take over rendering.
 ; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
 ; We already have adjust_inventory_pointer at $A181, so add $1b22 init there.
 ; Actually, we'll add it to the menu_entry_hook_impl in inventory_rolling.s
-    }
 }

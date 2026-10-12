@@ -111,8 +111,7 @@ _TREASURE_HDMA_BANK := 0x7E
 .include "../bank20.i"
 .import "vanilla"
 
-.if TREASURE_INVENTORY_ROLLING {
-    .alloc _treasure_rolling_block in bank20_reloc {
+.alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:
 """
     Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
@@ -777,7 +776,6 @@ treasure_finish_scroll_impl:
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.
 
-    .if INVENTORY_ROLLING_BUFFER {
 treasure_menu_entry_hook_impl:
 """Treasure profile: menu-entry implementation (HDMA capture + flush)."""
     stz.w inventory_menu_mode
@@ -1207,6 +1205,4 @@ _treasure_circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w _treasure_circular_slot_calc
     rtl
-    }
-    }
 }

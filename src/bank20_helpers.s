@@ -15,7 +15,6 @@ clear and the 17-byte item-record multiplies.
 ; Conditional BG1VOFS write for HDMA inventory scrolling.
 ; Called from UpdateScrollRegs at $14FF2D via JSL.
 ; Skips BG1VOFS write when menu HDMA is active.
-    .if INVENTORY_ROLLING_BUFFER {
 conditional_bg1_vofs:
     lda.l field_menu_rolling.hdma_enable
     bne _cond_skip_bg1vofs
@@ -28,7 +27,6 @@ conditional_bg1_vofs:
 
 _cond_skip_bg1vofs:
     rtl
-    }
 
 
 clear_ram:

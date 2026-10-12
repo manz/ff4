@@ -7,7 +7,6 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 .include "config.i"
 .import "items"
 
-.if TREASURE_INVENTORY_ROLLING {
 ; Treasure inventory rolling-buffer ROM patches.
 ;
 
@@ -24,42 +23,41 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;
 ; Flag-gated off until the entry/exit/trigger thunks are wired up.
 
-    .if TREASURE_INVENTORY_ROLLING {
 ; Cursor sprite X, both lists. Vanilla picks between two columns -
 ; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the
 ; inventory. Single-column rows have one: the hand goes flush left of
 ; the item icon (TREASURE_CURSOR_X, items.s). Both branches load it,
 ; which also makes the column byte irrelevant.
-    .alloc at 0x01D977 {
+.alloc at 0x01D977 {
     lda #TREASURE_CURSOR_X
-    }
+}
 
 
-    .alloc at 0x01D97B {
+.alloc at 0x01D97B {
     lda #TREASURE_CURSOR_X
-    }
+}
 
 
-    .alloc at 0x01D9FE {
+.alloc at 0x01D9FE {
     lda #TREASURE_CURSOR_X
-    }
+}
 
 
 ; Kill 2-col navigation in the inventory picker (JOY_RIGHT / JOY_LEFT).
-    .alloc at 0x01DA23 {
+.alloc at 0x01DA23 {
     .db 0x00
-    }
+}
 
 
-    .alloc at 0x01DA34 {
+.alloc at 0x01DA34 {
     .db 0x00
 
 ; Force inventory cursor X to always 0 (left column).
 ; Original $01D9F5: `lda $1BB6` (AD B6 1B) → `lda #$00 / nop`.
-    }
+}
 
 
-    .alloc at 0x01D9F5 {
+.alloc at 0x01D9F5 {
     lda #0x00
     nop
 
@@ -72,17 +70,17 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; even-numbered items only and half the inventory becomes unreachable.
 ; NOP the second `asl` at $01DAC2 so the offset becomes
 ; ($1bb5 + $1bb7) * 2 = byte index into $1440.
-    }
+}
 
 
-    .alloc at 0x01DAC2 {
+.alloc at 0x01DAC2 {
     nop
 
 ; Extend $1BB7 max from $14 (20) to $2B (43 = 48 - 5).
-    }
+}
 
 
-    .alloc at 0x01DA86 {
+.alloc at 0x01DA86 {
     .db 0x2B
 
 ; Drops swap byte-index recompute. Original at $01:DAAC computes
@@ -94,10 +92,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; and the vanilla sequence at $01:DAAC..$01:DAB6 is exactly 11
 ; bytes with $01:DAB7 already holding the next instruction, so it
 ; goes through drops_swap_index and the rest is padded out.
-    }
+}
 
 
-    .alloc at 0x01DAAC {
+.alloc at 0x01DAAC {
     jsr.w drops_swap_index
     nop
     nop
@@ -117,25 +115,25 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow. Otherwise
 ;     swapping with an item past visible row 4 snaps the scroll back to
 ;     the top, because init re-zeroes the rolling state.
-    }
+}
 
 
-    .alloc at 0x01D81D {
+.alloc at 0x01D81D {
     jsr.w init_treasure_rolling_buffer
-    }
+}
 
 
-    .alloc at 0x01D933 {
+.alloc at 0x01D933 {
     jsr.w treasure_refresh_slots
-    }
+}
 
 
-    .alloc at 0x01D80E {
+.alloc at 0x01D80E {
     jsr.w drops_init
-    }
+}
 
 
-    .alloc at 0x01D92D {
+.alloc at 0x01D92D {
     jsr.w drops_refresh_slots
 
 ; drops_init draws TreasureItemsWindow on BG4 itself (via its
@@ -146,10 +144,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; block, since drops_init has already done both steps. SelectBG3 at
 ; $01:D81A still runs and primes $29=$D600 for treasure_init at
 ; $01:D81D.
-    }
+}
 
 
-    .alloc at 0x01D811 {
+.alloc at 0x01D811 {
     nop
     nop
     nop
@@ -164,10 +162,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; the hand for the legacy 4x2 grid. The single-column band starts at
 ; DROPS_FIRST_ITEM_ROW, and the hand sits one pixel above the row the
 ; same way the inventory's does (DROPS_CURSOR_Y_BASE, items.s).
-    }
+}
 
 
-    .alloc at 0x01D96F {
+.alloc at 0x01D96F {
     .db DROPS_CURSOR_Y_BASE
 
 ; Drops cursor row clamp + UP/DOWN scroll triggers. Original at
@@ -180,28 +178,28 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; for the cursor-on-drops mode (counterpart to the picker loop's
 ; $01:DA08). Replace with our combined main-loop check so the drops
 ; scroll state machine advances while DOWN/UP are held.
-    }
+}
 
 
-    .alloc at 0x01D98B {
+.alloc at 0x01D98B {
     jsr.w treasure_main_loop_scroll_check
 
 ; UP clamp -> drops_up_handler (handler reads N flag from preceding
 ; `dec`, scrolls when row underflowed).
-    }
+}
 
 
-    .alloc at 0x01D9D1 {
+.alloc at 0x01D9D1 {
     jsr.w drops_up_handler
     nop
     nop
 
 ; DOWN clamp -> drops_down_handler (handler reads A = row+1, scrolls
 ; when at or past the visible cap).
-    }
+}
 
 
-    .alloc at 0x01D9E0 {
+.alloc at 0x01D9E0 {
     .db 0xEA  ; nop (was cmp #$05 byte 1)
     .db 0xEA  ; nop (was cmp #$05 byte 2)
     jsr.w drops_down_handler
@@ -210,10 +208,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 
 ; Replace the up-scroll blocking 8-frame loop ($01:DA57-$01:DA66 = 16
 ; bytes) with our state-machine trigger.
-    }
+}
 
 
-    .alloc at 0x01DA57 {
+.alloc at 0x01DA57 {
     jsr.w treasure_scroll_up_trigger
     nop
     nop
@@ -230,10 +228,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     nop
 
 ; Same for the down-scroll loop at $01:DA8C-$01:DA9B.
-    }
+}
 
 
-    .alloc at 0x01DA8C {
+.alloc at 0x01DA8C {
     jsr.w treasure_scroll_down_trigger
     nop
     nop
@@ -253,10 +251,10 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; per-frame scroll animation, freezes input via `stz $01` while
 ; animating, and forwards to the original $82C0 so original per-frame
 ; work still runs.
-    }
+}
 
 
-    .alloc at 0x01DA08 {
+.alloc at 0x01DA08 {
     jsr.w treasure_main_loop_scroll_check
 
 ; Same hook at $01:DA9C. The down/up scroll branch ends with
@@ -267,20 +265,20 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; never ticks. Replacing the second $82C0 with our hook drives the
 ; state machine on the held-button inner loop too, matching the
 ; field-menu scroll cadence (every frame).
-    }
+}
 
 
-    .alloc at 0x01DA9C {
+.alloc at 0x01DA9C {
     jsr.w treasure_main_loop_scroll_check
 
 ; Up-scroll branch: same pattern as the down branch, ends with
 ;   $DA67 jsr $82C0 / ldx $02 / stx $00 / $DA6E bra $DA0B
 ; Tick the state machine here too so held-UP scroll animates at the
 ; same cadence as held-DOWN.
-    }
+}
 
 
-    .alloc at 0x01DA67 {
+.alloc at 0x01DA67 {
     jsr.w treasure_main_loop_scroll_check
 
 ; Treasure menu exit. Original: `stz $1BC6` (3 bytes) clears the in-menu flag.
@@ -288,11 +286,9 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ; additionally tears down the rolling-buffer state + HDMA ch6 registers so
 ; the next menu mode (field, key-item picker, battle) starts from a clean
 ; slate. The hook itself re-runs the `stz $1BC6` to preserve original contract.
-    }
+}
 
 
-    .alloc at 0x01D7E6 {
+.alloc at 0x01D7E6 {
     jsr.w treasure_menu_exit_hook
-    }
-    }
 }

@@ -8,18 +8,17 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 .include "config.i"
 .include "../bank20.i"
 
-.if BATTLE_ENABLED {
 ; ===========================================================================
 ; Mult8 at $8560 ($2a = $26 * $28) on the hardware multiplier, NMI-safe. Called via mult8_far ($855C) which does
 ; JSR Mult8; RTL.
 ; ===========================================================================
 
-    .alloc at 0x028560 {
+.alloc at 0x028560 {
     jsr.l mult8_nmi_safe
     rts
-    }
+}
 
-    .alloc _mult8_nmi_safe in bank20_reloc {
+.alloc _mult8_nmi_safe in bank20_reloc {
 mult8_nmi_safe:
 """
 $2a/$2b = $26 * $28 on the hardware multiplier (M = 8, X = 16; X, Y and DB kept, A = 0).
@@ -75,10 +74,9 @@ _mult_hw_retry:
     bne _mult_hw_retry
     tdc  ; A = 0 as vanilla leaves it (D = 0 in battle graphics)
     rtl
-    }
+}
 
-    .alloc at 0x0285D2 {
+.alloc at 0x0285D2 {
     jsr.l mult_hw_nmi_safe
     rts
-    }
 }

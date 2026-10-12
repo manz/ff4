@@ -16,12 +16,10 @@ cursor and index math collapse to one column.
 
 
 .include "config.i"
-.if TREASURE_INVENTORY_ROLLING {
-    .if TREASURE_INVENTORY_ROLLING {
 ; List draw on entry.
-    .alloc at 0x01BEA6 {
+.alloc at 0x01BEA6 {
     jsr.w equip_init
-    }
+}
 
 
 ; Cursor sprite X. Vanilla picks one of two columns from ($54)
@@ -30,28 +28,28 @@ cursor and index math collapse to one column.
 ;   BEC4 A9 68     lda #$68
 ;   BEC6 69 08   + adc #$08
 ; and single-column rows have one, flush left of the item icon.
-    .alloc at 0x01BEC0 {
+.alloc at 0x01BEC0 {
     lda #EQUIP_LIST_CURSOR_X
     pad_nop(6)
-    }
+}
 
 
 ; Cursor sprite Y base (`adc #$76` at $01:BEBC): vanilla's names sat on
 ; the slot's top tile row, VWF rows draw them on the bottom one.
-    .alloc at 0x01BEBD {
+.alloc at 0x01BEBD {
     .db EQUIP_LIST_CURSOR_Y_BASE
-    }
+}
 
 
 ; Kill the RIGHT / LEFT column toggles (`and #$01` / `and #$02`).
-    .alloc at 0x01BED6 {
+.alloc at 0x01BED6 {
     .db 0x00
-    }
+}
 
 
-    .alloc at 0x01BEE5 {
+.alloc at 0x01BEE5 {
     .db 0x00
-    }
+}
 
 
 ; Scroll up. Vanilla's loop moves $99 2px per frame for the 8 frames
@@ -64,24 +62,24 @@ cursor and index math collapse to one column.
 ;   BF0D 20 A1 94  jsr $94a1
 ;   BF10 3A        dec
 ;   BF11 D0 F2     bne $bf05
-    .alloc at 0x01BF03 {
+.alloc at 0x01BF03 {
     jsr.w equip_scroll_up
     pad_nop(13)
-    }
+}
 
 
 ; Scroll-down bound on the first visible row (vanilla: $13 for 24
 ; two-item rows).
-    .alloc at 0x01BF2D {
+.alloc at 0x01BF2D {
     .db EQUIP_LIST_SCROLL_LIMIT
-    }
+}
 
 
 ; Scroll down, the same shape with `inc $99`.
-    .alloc at 0x01BF32 {
+.alloc at 0x01BF32 {
     jsr.w equip_scroll_down
     pad_nop(13)
-    }
+}
 
 
 ; Item index on A. Vanilla: ((row + scroll) * 2 + col) * 2
@@ -90,15 +88,13 @@ cursor and index math collapse to one column.
 ;   BF5D 0A        asl
 ; One column: (row + scroll) * 2. `clc` keeps the add carry-free, and
 ; the column byte may still hold a 1 from a vanilla save.
-    .alloc at 0x01BF5A {
+.alloc at 0x01BF5A {
     clc
     adc #0x00
-    }
+}
 
 
 ; Teardown: both ways out of the list return here before BG4 clears.
-    .alloc at 0x01BE70 {
+.alloc at 0x01BE70 {
     jsr.w equip_leave
-    }
-    }
 }

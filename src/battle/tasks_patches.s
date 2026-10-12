@@ -13,15 +13,14 @@ on every pass and every eighth frame.
 .include "src/battle/bank02_trampolines.i"
 .include "config.i"
 
-.if BATTLE_ENABLED {
-    .label _redraw_main_menu_96c8 = 0x0296C8
-    .label _tfr_status_tiles_99b9 = 0x0299B9
-    .label _draw_main_menu_99ca = 0x0299CA
-    _PARTY_TEXT_START := 0xB966  ; character names, then HP ($B9DE), then MP ($BA92)
-    _PARTY_TEXT_END := 0xBB1E
-    _MENU_TFR_PENDING := 0x7E1824  ; vanilla: a menu tilemap transfer is queued
+.label _redraw_main_menu_96c8 = 0x0296C8
+.label _tfr_status_tiles_99b9 = 0x0299B9
+.label _draw_main_menu_99ca = 0x0299CA
+_PARTY_TEXT_START := 0xB966  ; character names, then HP ($B9DE), then MP ($BA92)
+_PARTY_TEXT_END := 0xBB1E
+_MENU_TFR_PENDING := 0x7E1824  ; vanilla: a menu tilemap transfer is queued
 
-    .alloc _battle_tasks_bank02 in bank02_trampolines {
+.alloc _battle_tasks_bank02 in bank02_trampolines {
 battle_frame_tasks:
 """WaitFrameMain's RedrawMainMenu, the ATB gauges over the HP text it may have redrawn, then this pass's tasks."""
     jsr.w _redraw_main_menu_96c8
@@ -54,14 +53,14 @@ tfr_status_tiles_far:
 """TfrStatusTiles ($02:99B9): queue the status tilemap's transfer (one pending transfer at a time, $1824)."""
     jsr.w _tfr_status_tiles_99b9
     rtl
-    }
+}
 
-    .alloc at 0x02A455 {
+.alloc at 0x02A455 {
 ; DrawText: `lda $EF55`
     jsr.w draw_text_entry
-    }
+}
 
-    .alloc at 0x0296CE {
+.alloc at 0x0296CE {
 ; RedrawMainMenu: `jsr DrawObjNames` (gated) and `jmp DrawCharHP` every pass; the main menu task copies them on
 ; SIG_MAIN_MENU
     nop
@@ -70,29 +69,29 @@ tfr_status_tiles_far:
     rts
     nop
     nop
-    }
+}
 
-    .alloc at 0x0296B0 {
+.alloc at 0x0296B0 {
 ; PeriodicMenuUpdate's two DrawMainMenu slots (every fourth frame)
     .dw 0x949A  ; rts
-    }
+}
 
-    .alloc at 0x0296B0 + 6 * 2 {
+.alloc at 0x0296B0 + 6 * 2 {
     .dw 0x949A  ; rts
-    }
+}
 
-    .alloc at 0x0296B0 + 5 * 2 {
+.alloc at 0x0296B0 + 5 * 2 {
 ; PeriodicMenuUpdate's UpdateStatusTiles slot: the status task draws and transfers on SIG_STATUS instead of every
 ; eighth frame
     .dw 0x949A  ; rts
-    }
+}
 
-    .alloc at 0x0282A1 {
+.alloc at 0x0282A1 {
 ; WaitFrameMain: `jsr RedrawMainMenu`
     jsr.w battle_frame_tasks
-    }
+}
 
-    .alloc at 0x02893D size 12 {
+.alloc at 0x02893D size 12 {
 ; UpdateObjBuf: the 4 status bytes of a character slot, copied with a change check that raises SIG_STATUS
     jsr.l status_copy_signal
     nop
@@ -103,9 +102,9 @@ tfr_status_tiles_far:
     nop
     nop
     nop
-    }
+}
 
-    .alloc _battle_status_task in bank20_reloc {
+.alloc _battle_status_task in bank20_reloc {
 status_copy_signal:
 """
 UpdateObjBuf's status copy ($02:893D, M = X = 16 bits): $7E:2003,X and $2005,X into $F015,Y and $F017,Y, raising
@@ -223,5 +222,4 @@ battle_tasks_seed:
     jsr.l battle_task.signal
     plp
     rtl
-    }
 }

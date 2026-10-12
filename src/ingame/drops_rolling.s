@@ -98,8 +98,7 @@ _DROPS_SCROLL_STATE_SCROLLING := 1
 .include "config.i"
 
 
-.if TREASURE_INVENTORY_ROLLING {
-    .alloc _drops_rolling_block in bank20_reloc {
+.alloc _drops_rolling_block in bank20_reloc {
 _drops_ensure_hdma_initialized:
 """Lazy init: pin BG4VOFS shadow to 0 + configure ch4 driving BG4VOFS on first scroll."""
 ; Long addressing on every state read/write - engine `_engine_call_hook`
@@ -575,5 +574,4 @@ _drops_swap_redraw_impl:
     jsr.l rolling_engine.rolling_engine_swap_redraw
     plp
     rtl
-    }
 }

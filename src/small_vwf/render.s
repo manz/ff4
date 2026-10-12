@@ -26,10 +26,8 @@ vwf_state.i).
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern
 ; declared inside never resolves at the use site.
-.if BATTLE_ENABLED {
-    .extern battle_render
-    .extern battle_render.clear_buffer
-}
+.extern battle_render
+.extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
     .include "config.i"
@@ -217,13 +215,11 @@ init:
     sta.l slot_limit_low
     pla
     rts
-    .if BATTLE_ENABLED {
 init_battle_far:
     jsr.l play_battle_song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl
-    }
 increment:
 """
 Advance the 16-bit allocator by 1. Preserves M / A state.
@@ -284,10 +280,8 @@ their slot.
 """
 
 
-    .if ENABLE_KERNING_MENU {
     lda.b #0x00
     sta.l prev_char
-    }
     initialize(bits_left_on_tile)
     jsr.w render_allocator.init
     pha
@@ -524,10 +518,8 @@ M=8, X=16 on entry. Stack-balanced, RTS.
 ; slot would start with bits_left=0 and burn its first tile.
 ; Symptom before this reset : treasure-inventory slot 0 rendered as
 ; "le d'or" (Aigu chopped) right after drops finished rendering.
-    .if ENABLE_KERNING_MENU {
     lda.b #0x00
     sta.l prev_char
-    }
     lda.b #0x08
     sta.b bits_left_on_tile
 ; Allocator base + clamp via the 16-bit `init_with_tile_id_wide`
@@ -708,9 +700,7 @@ char_line_loop:
     rep #0x20
     lda.w #0x0000
     sep #0x20
-    .if ENABLE_KERNING_MENU {
     jsr.w _adjust_bits_left_for_kerning
-    }
     lda.b bits_left_on_tile
 
     cmp #0x08
@@ -781,34 +771,6 @@ _mul_0:
     sep #0x20
     plx
     inx
-    .if 0 {
-_shift:
-; expects bitsleft in A
-    phx
-    tax
-    lda.l vwf_shift_table, x
-    sta.l cpu_regs.WRMPYA
-
-
-    plx
-    lda.l menu_font, x
-    bne _really_shift
-    inx
-    xba
-    bra _skip_empty_pixel_line
-_really_shift:
-    inx
-
-    sta.l cpu_regs.WRMPYB  ; MULTIPLICAND
-
-    rep #0x20
-    nop
-    nop
-    nop
-    nop
-    lda.l cpu_regs.RDMPYL  ; the result is stored in 0x4216-0x4217
-    sep #0x20
-    }
 _store:
 
     xba
@@ -874,7 +836,6 @@ coupe:
     {{ code }}
     sep #0x20
     }
-    .if ENABLE_KERNING_MENU {
 _adjust_bits_left_for_kerning:
     {
 ; A kern between the previous glyph and this one adds to the room left in the tile. When that passes the tile's
@@ -1042,7 +1003,6 @@ get_kerning_adjustment:
 small_vwf_kerning_binary_ext:
     jsr.w get_kerning_adjustment
     rtl
-    }
 tilemap_write_no_inc:
 """
 Write `allocated_tile_id` low byte to `(tilemap_offset)` and OR

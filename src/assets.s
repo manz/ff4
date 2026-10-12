@@ -152,14 +152,12 @@ battle_texts:
     .incbin "items_unleashed.ptr"
 }
 
-.if ENABLE_INTRO {
-    .alloc intro_tilemap in assets {
+.alloc intro_tilemap in assets {
     .incbin "intro.map"
-    }
-    .alloc intro_palette in assets {
+}
+.alloc intro_palette in assets {
     .incbin "intro.col"
-    }
-    .alloc intro_tiles in assets {
+}
+.alloc intro_tiles in assets {
     .incbin "intro.set"
-    }
 }

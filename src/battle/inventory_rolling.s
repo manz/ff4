@@ -2360,7 +2360,6 @@ _equip_nmi_hdma_copy_done:
     sta.w cpu_regs.MDMAEN
 
 _field_nmi_check_treasure:
-    .if TREASURE_INVENTORY_ROLLING {
 ; === Tilemap DMA transfer (treasure menu = BG3) ===
     lda.l treasure_rolling.transfer_pending
     beq _field_nmi_done
@@ -2386,7 +2385,6 @@ _field_nmi_check_treasure:
     sep #0x20
     lda #0x01
     sta.w cpu_regs.MDMAEN
-    }
 
 _field_nmi_done:
 ; --- VWF CHR flush (DMA channel 6) ---

@@ -47,23 +47,12 @@ put_char:
     rtl
 put_char_with_dakuten:
     phx
-    .if 0 {
-    sec
-    sbc #0xF
-    asl
-    tax
-    lda.l _BATTLE_DAKUTEN_TABLE, x
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    lda.l _BATTLE_DAKUTEN_TABLE + 1, x
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    } else {
     jsr.l lookup_dakuten
     sta.b (btlgfx_dp.dakuten_row_ptr), y
     xba
     sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0x00
     xba
-    }
     iny
     lda.b btlgfx_dp.text_tile_flags
     sta.b (btlgfx_dp.dakuten_row_ptr), y

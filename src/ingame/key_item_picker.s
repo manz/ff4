@@ -19,7 +19,7 @@ The picker is mutually exclusive with the field menu and the treasure
 menu, so it can reuse HDMA channel 5 (the field-menu BG1 channel)
 once we route it onto BG3 like the other picker profiles. Sliding
 open/close is replaced by the engine's scroll state machine  ; original
-IRQ handler at $01:B0CF can be NOP'd out under TREASURE_INVENTORY_ROLLING.
+IRQ handler at $01:B0CF can be NOP'd out.
 
 Wiring (TODO, separate commit):
   - Replace the 4x4 grid render in ShowItemWindow with key_item_init.
@@ -143,8 +143,7 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 .import "vanilla"
 .include "config.i"
 
-.if TREASURE_INVENTORY_ROLLING {
-    .alloc _key_item_picker_block in bank20_reloc {
+.alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
 """
     Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the
@@ -1272,5 +1271,4 @@ _key_item_refresh_slots_impl:
     jsr.l rolling_engine.rolling_engine_refresh_slots
     plp
     rtl
-    }
 }

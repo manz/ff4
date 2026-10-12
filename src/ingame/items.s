@@ -88,11 +88,6 @@ item_desc_back:
     adc.w #0x001c + 2
 }
 ; $01:A1C4 sits inside the slot hook at $01:A1BA when the rolling buffer is on.
-.if INVENTORY_ROLLING_BUFFER == 0 {
-    .alloc at 0x01a1c4 {
-    adc.w #0x0006  ; +2 tiles to the right
-    }
-}
 .alloc at 0x1efd7d {
     _delta_l = 0
     _delta_r = 2
@@ -158,11 +153,6 @@ item_desc_back:
 ;01D897  4C 81 82       JMP $8281
 }
 ; The rolling treasure screen NOPs $01:D811-$01:D819 (treasure_rolling_patches.s).
-.if TREASURE_INVENTORY_ROLLING == 0 {
-    .alloc at 0x01D814 {
-    load_system_menu_text_pointer(treasure.items_window)
-    }
-}
 .alloc at 0x1d792 {
 _treasure_menu_entry:
 }
@@ -173,11 +163,9 @@ _treasure_menu_entry:
 ; starts the menu
 ; set 0xee to 0x1804 (Key item baron key.)
 
-.if INVENTORY_ROLLING_BUFFER {
 ; Swap redraw resets the rolling buffer.
-    .alloc at 0x01A401 {
+.alloc at 0x01A401 {
     jmp.w swap_redraw_trampoline  ; Replace JSR $A172
-    }
 }
 
 .alloc _item_description_skip_check in bank01_slack {
