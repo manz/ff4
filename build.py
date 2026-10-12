@@ -464,7 +464,8 @@ if __name__ == "__main__":
         translated_gfx.write_bytes(output_buffer)
 
     with open("build/gen/dakuten.bin", "wb") as fd:
-        fd.write(generate_dakutens(menu_table))
+        # the 8x8 font's accent-over-letter pairs (Namingway's grids, names): its own codes, not the small VWF's folds
+        fd.write(generate_dakutens(Table("text/ff4_menus.tbl")))
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
