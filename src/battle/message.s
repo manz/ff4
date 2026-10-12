@@ -1742,6 +1742,17 @@ _inv_footer_list_up:
     phx
     lda.l battle_render_state.inventory_footer_pinned
     bne _inv_footer_pin
+; not before the window is up: while vanilla still swaps its rows in (menu_hdma_pending = 1, a row a frame,
+; menu_hdma_rows left) the pinned rows showed the party window's PV header and a stray border under a window not
+; yet there. From the NMI before the last row's swap: the pin shows from the next frame, the window's first whole one.
+    lda.l menu_hdma_pending
+    beq _inv_footer_first_pin
+    lda.l menu_hdma_rows
+    cmp.b #0x02
+    bcc _inv_footer_first_pin
+    plx
+    bra _inv_footer_done
+_inv_footer_first_pin:
     lda.b #0x01
     sta.l battle_render_state.inventory_footer_pinned
 ; first pinned frame: keep vanilla's values, the active copy's (the unpin puts them in both)

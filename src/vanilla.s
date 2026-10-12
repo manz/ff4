@@ -242,6 +242,8 @@
 
 """Pending menu HDMA update."""
 .label menu_hdma_pending = 0x7E1820
+"""Rows a window change still has to swap in, one a frame, while `menu_hdma_pending` is 1."""
+.label menu_hdma_rows = 0x7E1843
 
 """Selected character (battle menu)."""
 .label battle_selected_char = 0x7E1822
