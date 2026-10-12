@@ -219,6 +219,22 @@ _continue:
 .alloc at 0x01A387 {
     load_system_menu_text_pointer(items_menu.item + 4)  ; DrawPosText: the label after the window
 }
+; the item refusals' window ($01:A5E0 is its only reader) and texts, in the small VWF
+.alloc at 0x01DCDA {
+    menu_window(5, 10, 20, 2)
+}
+.alloc at 0x01A5D6 {
+    load_system_menu_text_pointer(items_menu.no_effect)
+}
+.alloc at 0x01A6F2 {
+    load_system_menu_text_pointer(items_menu.no_effect)
+}
+.alloc at 0x01A6BF {
+    load_system_menu_text_pointer(items_menu.not_needed)
+}
+.alloc at 0x01A7BF {
+    load_system_menu_text_pointer(items_menu.not_needed)
+}
 .alloc at 0x01A8E4 {
 ; a summon learned from its item
     load_system_menu_text_pointer(items_menu.summon_learned)

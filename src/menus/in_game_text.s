@@ -165,6 +165,21 @@ bag_full:
     }
 }
 
+.alloc item_refusal_text in bank20_reloc {
+    .scope items_menu {
+no_effect:
+; うまくいかないようです ($01:A5D6, $01:A6F2): an item on a target it cannot help
+    move_to(6, 11)
+    .text "Ça ne marche pas..."
+    .db 0
+not_needed:
+; そのひつようはありません ($01:A6BF, $01:A7BF): a cure the target does not need
+    move_to(6, 11)
+    .text "Ce n'est pas nécessaire."
+    .db 0
+    }
+}
+
 .alloc summon_learned_text in bank20_reloc {
     .scope items_menu {
 summon_learned:

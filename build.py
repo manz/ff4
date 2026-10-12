@@ -261,7 +261,7 @@ assets_builder = {
 
 # The small VWF draws one 8-pixel glyph per code: the 8x8 font's accented capitals were an accent tile over the
 # letter, which it can't draw, so they encode as the bare letter.
-SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A"}
+SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A", "Ç": "C"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
 
 
