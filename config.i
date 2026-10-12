@@ -3,7 +3,6 @@
 DEBUG := 1
 ; Feature Flips
 ENABLE_VWF_ATTACK_NAMES := 1
-ENABLE_BUTTON_DISPLAY := 1
 TREASURE_INVENTORY_ROLLING := 1  ; WIP, treasure rolling-buffer scaffolding only
 TREASURE_DEBUG_ALWAYS_DROP := 1  ; force every win to drop an item (testing)
 ; Debug flags

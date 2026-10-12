@@ -29,7 +29,6 @@ wait_for_action_button:
     jsr.w _waitpad
     rtl
 
-    .if ENABLE_BUTTON_DISPLAY {
 _get_action_button_id:
     lda.l button_mapping
     bne _custom_mapping
@@ -42,7 +41,6 @@ _custom_mapping:
     xba
     lda.l confirm_button  ; action button id location
     rts
-    }
 
     .macro _make_color(r, g, b) {
     red := ( r >> 3 ) & 0b11111
@@ -83,7 +81,7 @@ _button_colors:
 update_palette:
 """
     Refresh menu/dialog palette entries from the configured colour at $16AA.
-    With ENABLE_BUTTON_DISPLAY, also pulls the action-button id and writes
+    Also pulls the action-button id and writes
     the matching colour + shadow pair from `_button_colors` into $0CEF/$0CF1.
 """
 
@@ -91,7 +89,6 @@ update_palette:
     ldx.w window_color
     stx.w color_palettes + 2
     stx.w color_palettes + 0xa
-    .if ENABLE_BUTTON_DISPLAY {
     stx.w color_palettes + 0x12
 ; black for the shadow but it could be a darker version of the color
     ldx.w #0x0000
@@ -116,7 +113,6 @@ _proceed:
     lda #0x00
     xba
     pla
-    }
     rtl
 
 window_palette:
@@ -266,9 +262,7 @@ parse:
     bne _nxt1
     lda #0x01
     sta 0xDE
-    .if ENABLE_BUTTON_DISPLAY {
     jsr.w _draw_button
-    }
     jmp.w _fin
 
 _nxt1:
@@ -500,9 +494,7 @@ _suit2:
 _suit3:
 ; that's where new ends up
 
-    .if ENABLE_BUTTON_DISPLAY {
     jsr.w _draw_button
-    }
     lda.b #0x08
     sta.b BITSLEFT
 
@@ -1114,11 +1106,7 @@ no_char_wait:
 
 _winmap:
     .if _TEXT_SHADOW {
-    .if ENABLE_BUTTON_DISPLAY {
     _last_character_palette := 2
-    } else {
-    _last_character_palette := 1
-    }
     .dw 0x2000, 0x2000, 0x2019, 0x2500, 0x2502, 0x2504, 0x2506, 0x2508, 0x250A, 0x250C, 0x250E, 0x2510, 0x2512, 0x2514, 0x2516, 0x2518, 0x251A, 0x251C, 0x251E, 0x2520, 0x2522, 0x2524, 0x2526, 0x2528, 0x252A, 0x252C, 0x252E, 0x2530, 0x2532, 0x201A, 0x2000, 0x2000  ; noqa: E501
     .dw 0x2000, 0x2000, 0x2019, 0x2501, 0x2503, 0x2505, 0x2507, 0x2509, 0x250B, 0x250D, 0x250F, 0x2511, 0x2513, 0x2515, 0x2517, 0x2519, 0x251B, 0x251D, 0x251F, 0x2521, 0x2523, 0x2525, 0x2527, 0x2529, 0x252B, 0x252D, 0x252F, 0x2531, 0x2533, 0x201A, 0x2000, 0x2000  ; noqa: E501
     .dw 0x2000, 0x2000, 0x2019, 0x2534, 0x2536, 0x2538, 0x253A, 0x253C, 0x253E, 0x2540, 0x2542, 0x2544, 0x2546, 0x2548, 0x254A, 0x254C, 0x254E, 0x2550, 0x2552, 0x2554, 0x2556, 0x2558, 0x255A, 0x255C, 0x255E, 0x2560, 0x2562, 0x2564, 0x2566, 0x201A, 0x2000, 0x2000  ; noqa: E501
