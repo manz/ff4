@@ -262,7 +262,7 @@ assets_builder = {
 
 # The small VWF draws one 8-pixel glyph per code: the 8x8 font's accented capitals were an accent tile over the
 # letter, which it can't draw, so they encode as the bare letter.
-SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "À": "A", "Ç": "C"}
+SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "Ë": "E", "À": "A", "Â": "A", "Ç": "C", "Î": "I", "Ï": "I", "Ô": "O", "Ù": "U"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
 STATUSES_BASE = 0x27B000  # battle_statuses (src/assets.s): its pointers hold addresses in that bank
 STATUS_COUNT = 32  # one per status bit
