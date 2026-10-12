@@ -153,11 +153,6 @@ item_desc_back:
 ;01D897  4C 81 82       JMP $8281
 }
 ; The rolling treasure screen NOPs $01:D811-$01:D819 (treasure_rolling_patches.s).
-.if TREASURE_INVENTORY_ROLLING == 0 {
-    .alloc at 0x01D814 {
-    load_system_menu_text_pointer(treasure.items_window)
-    }
-}
 .alloc at 0x1d792 {
 _treasure_menu_entry:
 }

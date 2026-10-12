@@ -115,8 +115,7 @@ reset_sprites_trampoline:
     rtl
 }
 
-.if TREASURE_INVENTORY_ROLLING {
-    .alloc _bank01_treasure_windows in bank01_trampolines {
+.alloc _bank01_treasure_windows in bank01_trampolines {
 ; Custom InventoryWindow data for the treasure inventory list. Built
 ; via menu_window(left, top, width, height) so the layout matches
 ; original window blobs (cursor word + width/height byte pair).
@@ -144,5 +143,4 @@ the bottom border at screen y=112..120 (just below the 5th item).
 
 
     menu_window(0, 0, 30, 12)
-    }
 }

@@ -162,8 +162,7 @@ stays at 3+1 bytes and the vanilla sprite routine is preserved.
 ;; in src/ingame/treasure_rolling.s. Both menus are mutually exclusive on
 ;; screen so the HDMA channel + tilemap buffer + WRAM shadow tables are
 ;; reused; only the per-menu state RAM differs.
-.if TREASURE_INVENTORY_ROLLING {
-    .alloc _bank01_treasure_trampolines in bank01_trampolines {
+.alloc _bank01_treasure_trampolines in bank01_trampolines {
 _treasure_check_and_clear_count:
     jsr.l treasure_check_and_clear_count_impl
     rts
@@ -375,11 +374,11 @@ a fresh top row down.
 """
     jsr.l drops_up_handler_far
     rts
-    }
+}
 
 
 ; end .alloc _bank01_treasure_trampolines
-    .alloc _bank01_treasure_bodies in bank20_reloc {
+.alloc _bank01_treasure_bodies in bank20_reloc {
 """
 The treasure trampolines' bodies, called long from their bank-$01 stubs: bank $01 has only the 400 bytes the
 relocated InitScrollHDMA left ($01:EBD2-$01:ED61). Past them is vanilla battle-animation code (SetMonsterScroll,
@@ -537,11 +536,8 @@ _drops_up_scroll:
 _drops_up_busy:
     pla
     rtl
-    }
 }
 
-
-; end .if TREASURE_INVENTORY_ROLLING
 
 .alloc _bank01_shop_trampolines in bank01_trampolines {
 shop_quantity_text_hook:
