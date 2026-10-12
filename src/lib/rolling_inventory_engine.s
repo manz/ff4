@@ -36,7 +36,6 @@ sites that remain in the per-menu source files.
 .include "src/rolling_state.i"
 .include "../bank20.i"
 .import "vanilla"
-.include "config.i"
 
 .alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {

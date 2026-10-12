@@ -10,7 +10,6 @@ rolling-buffer code which lives in `inventory_rolling.s`).
 .import "small_vwf/init"
 .include "src/menus/system_menus_macros.i"
 
-.include "config.i"
 .include "src/ingame/bank01_slack.i"
 .include "src/ingame/macros.i"
 

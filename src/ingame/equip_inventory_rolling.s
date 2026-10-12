@@ -23,7 +23,6 @@ signal arms it, as for sell.
 
 .import "preamble"
 .include "../bank20.i"
-.include "config.i"
 .import "items"
 
 .import "ingame/vanilla_trampolines"

@@ -6,7 +6,6 @@ long-form attack-name copier.
 .import "bank20_helpers"
 .import "battle/magic_reloc"
 .import "vanilla"
-.include "config.i"
 
 
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in

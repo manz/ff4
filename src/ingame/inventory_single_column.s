@@ -4,7 +4,6 @@ rolling buffer can take over rendering.
 """
 .import "preamble"
 .import "ingame/free_space"
-.include "config.i"
 
 ; ============================================================================
 ; Single Column Inventory Patches for Main Menu

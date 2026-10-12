@@ -6,7 +6,6 @@ the import graph acyclic.
 """
 .import "preamble"
 .import "battle/sram"
-.include "config.i"
 .include "src/battle/bank02_trampolines.i"
 .import "vanilla"
 

@@ -10,7 +10,6 @@ A town or dungeon keeps map tiles in both, so the menu saves them to SRAM on ent
 .import "small_vwf/menu_text"
 .import "small_vwf/vram_queue"
 .import "sram_layout"
-.include "config.i"
 .include "src/vwf_state.i"
 .include "../bank20.i"
 

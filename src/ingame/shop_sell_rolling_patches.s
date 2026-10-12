@@ -14,7 +14,6 @@ length.
 .include "src/libmz.i"
 
 
-.include "config.i"
 ; Sell list draw, on entry and after a sale changes quantities.
 .alloc at 0x01C7F0 {
     jsr.w sell_init

@@ -20,7 +20,6 @@ wrappers around original bank-$01 helpers used by the rolling code.
 ; these fields binds its own view over the same addresses, the way
 ; battle/inventory_rolling.s already does.
 
-.include "config.i"
 .include "src/ingame/macros.i"
 
 

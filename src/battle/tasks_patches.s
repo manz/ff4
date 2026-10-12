@@ -11,7 +11,6 @@ on every pass and every eighth frame.
 .extern draw_battle_command_window_relocated
 .include "../bank20.i"
 .include "src/battle/bank02_trampolines.i"
-.include "config.i"
 
 .label _redraw_main_menu_96c8 = 0x0296C8
 .label _tfr_status_tiles_99b9 = 0x0299B9

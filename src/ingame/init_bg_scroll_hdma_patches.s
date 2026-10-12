@@ -3,7 +3,6 @@ Caller-side patches retargeting `JSL $01EBD2` (original `InitBGScrollHDMA`) to t
 after the original's ROM space is reclaimed.
 """
 .import "ingame/init_bg_scroll_hdma"
-.include "config.i"
 
 ;; Caller patches for init_bg_scroll_hdma after relocation to bank $21.
 ;; Original `JSL $01EBD2` at $02:818A becomes `JSL $21EBD2`.

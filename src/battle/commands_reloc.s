@@ -4,7 +4,6 @@ loop, called by the patched bank-$02 hook.
 """
 
 
-.include "config.i"
 .import "battle/sram"
 .import "assets"
 .import "battle/commands_patches"

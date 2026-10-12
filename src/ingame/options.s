@@ -2,7 +2,6 @@
 .import "preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "config.i"
 .include "src/ingame/macros.i"
 .include "src/menus/system_menus_macros.i"
 .include "../bank20.i"

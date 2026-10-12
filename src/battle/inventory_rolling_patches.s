@@ -9,7 +9,6 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
 
-.include "config.i"
 .include "src/battle/bank02_trampolines.i"
 .import "vanilla"
 

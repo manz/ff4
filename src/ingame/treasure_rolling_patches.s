@@ -4,7 +4,6 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 """
 .import "preamble"
 .import "ingame/inventory_rolling_trampolines"
-.include "config.i"
 .import "items"
 
 ; Treasure inventory rolling-buffer ROM patches.

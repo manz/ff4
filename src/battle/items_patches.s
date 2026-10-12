@@ -20,7 +20,6 @@ the names again in the VWF.
 ; --- multiplier ---
 ; Original: 02/9E1A: A9 09  LDA #0x09
 
-.include "config.i"
 .include "../bank20.i"
 
 ; root-scope extern: `.alloc` bodies open their own scope, so an extern

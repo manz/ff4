@@ -4,7 +4,6 @@ piggyback on `defend_row` data.
 """
 .import "assets"
 .import "battle/graphics"
-.include "config.i"
 
 
 ; MISS sprite graphics

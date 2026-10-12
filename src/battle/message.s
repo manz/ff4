@@ -117,7 +117,6 @@ _state:
 }
 
 .alloc _battle_message_block in bank20_reloc {
-    .include "config.i"
     .include "src/battle/inventory_budget.i"
     .include "src/vwf_state.i"
 

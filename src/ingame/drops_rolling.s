@@ -95,7 +95,6 @@ _DROPS_SCROLL_STATE_SCROLLING := 1
 ;     drops geometry + tilemap layout work) -----------------------------------
 
 .include "../bank20.i"
-.include "config.i"
 
 
 .alloc _drops_rolling_block in bank20_reloc {

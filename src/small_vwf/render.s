@@ -18,7 +18,6 @@ vwf_state.i).
 .import "items"
 .import "battle/render_state"
 .import "libmz"
-.include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
 .include "src/libmz.i"
@@ -30,7 +29,6 @@ vwf_state.i).
 .extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
-    .include "config.i"
     .include "src/vwf_state.i"
 
     _VARS_BUFFER = 0x710000

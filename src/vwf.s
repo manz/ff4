@@ -3,7 +3,6 @@ Dialog/text VWF rendering engine: control-code parser (`parse`), per-glyph blit 
 tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
 """
 .import "preamble"
-.include "config.i"
 .include "bank20.i"
 .include "src/libmz.i"
 .table "text/ff4_menus.tbl"
