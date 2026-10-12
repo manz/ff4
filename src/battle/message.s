@@ -170,6 +170,8 @@ init_monsters:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_MONSTERS
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_MONSTERS
+    sta.l battle_render_state.render_region
     lda.b #region_size
     brl _init
 _clear_monster_text:
@@ -197,6 +199,8 @@ init_names:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_NAMES
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_NAMES
+    sta.l battle_render_state.render_region
     lda.b #region_size * 2
     brl _init
 init_commands_list:
@@ -204,6 +208,8 @@ init_commands_list:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_COMMANDS
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_COMMANDS
+    sta.l battle_render_state.render_region
     lda.b #region_size * 3
     brl _init
 init_inventory_region:
@@ -268,6 +274,8 @@ init_monsters_gated:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_MONSTERS
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_MONSTERS
+    sta.l battle_render_state.render_region
     lda.b #region_size
     brl _init_continue
 init_names_gated:
@@ -283,6 +291,8 @@ init_names_gated:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_NAMES
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_NAMES
+    sta.l battle_render_state.render_region
     lda.b #region_size * 2
     brl _init_continue
 init_commands_list_gated:
@@ -298,6 +308,8 @@ init_commands_list_gated:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_COMMANDS
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_COMMANDS
+    sta.l battle_render_state.render_region
     lda.b #region_size * 3
 _init_continue:
     pha
@@ -316,6 +328,8 @@ init:
     lda.l battle_render_state.pending_transfer_mask
     ora.b #CHR_REGION_MESSAGES
     sta.l battle_render_state.pending_transfer_mask
+    lda.b #CHR_REGION_MESSAGES
+    sta.l battle_render_state.render_region
     pla
     jsr.w render_allocator.init
 _internal_init:
@@ -1612,9 +1626,11 @@ disables messages renderer falling back to fixed mode.
 
 
     jsr.l battle_flags.clear_vwf_render
-; vram transfer was moved to a trampoline in the battle nmi.
+; vram transfer was moved to a trampoline in the battle nmi. The region again with it: a render spanning frames had
+; its region bit taken by an NMI between its init (buffer cleared) and its glyphs, which then never went up.
     lda.l battle_render_state.pending_transfer_mask
-    ora #1
+    ora.b #battle_render.CHR_PENDING
+    ora.l battle_render_state.render_region
     sta.l battle_render_state.pending_transfer_mask
     rtl
 deinit_gated:
@@ -1629,7 +1645,8 @@ init actually rendered. Reads `battle_render_state.render_skipped` to decide.
     lda.l battle_render_state.render_skipped
     bne _deinit_gated_done
     lda.l battle_render_state.pending_transfer_mask
-    ora #1
+    ora.b #battle_render.CHR_PENDING
+    ora.l battle_render_state.render_region  ; see `deinit`
     sta.l battle_render_state.pending_transfer_mask
 _deinit_gated_done:
     rtl
