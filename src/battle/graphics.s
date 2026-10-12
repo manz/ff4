@@ -5,6 +5,7 @@ from ROM.
 
 
 .include "../bank20.i"
+.include "battle_labels.i"  ; build/gen: utils/battle_labels.py
 
 .alloc battle_graphics_block in bank20_reloc {
     .scope defend_row {
@@ -12,9 +13,9 @@ from ROM.
     defend_row_length = 6
 defend_text:
     .db 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-    .db 222, 224, 231, 225, 226, 255
+    battle_label_garde()
 row_text:
     .db 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-    .db 223, 224, 229, 227, 255, 255
+    battle_label_rang()
     }
 }

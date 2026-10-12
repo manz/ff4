@@ -27,7 +27,7 @@ from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
-from utils import atb_gauge
+from utils import atb_gauge, battle_labels
 from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
@@ -413,6 +413,9 @@ if __name__ == "__main__":
     build_assets(assets_list)
     # Baked names are kerned pair by pair on the menu font's glyphs (bake_names.auto_kern).
     menu_glyphs = Glyphs.of(fonts.fonts["menu"])
+    # The battle's 8x8 labels (Garde, Rang, Coût PM), pre-rendered in the small VWF into the 8x8 font's free kana slots.
+    battle_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
+                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"))
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
