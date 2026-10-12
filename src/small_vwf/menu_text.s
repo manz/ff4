@@ -4,7 +4,8 @@ Small-VWF menu text: whole string blocks drawn in the 8-pixel VWF instead of the
 The menu text thunks (menus/system_menus_text.s) offer every string here first. A string inside one of `_blocks`
 gets the tiles at its byte offset in its block: a glyph is at most 8 pixels wide, so no two strings of a block
 share a tile and nothing is allocated. Blocks on screen together need disjoint tiles.
-  - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there.
+  - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there; the save
+    screen's cancel message (`save_cancelled`) $200-$21F.
   - `in_game_menu` (commands, Gils, Temps, KO): $370-$3FF, its own for good. It stays on screen under the
     sub-menus, and Gils / Temps are drawn every frame, so it is *resident*: a string whose first cell already
     shows its first tile is not drawn again.
@@ -46,6 +47,7 @@ _GLYPH_ROW := 0x40  ; menu text puts the dakuten at +0 and the glyph one row dow
 _BLANK_TILE := 0xFF
 
 .assert sizeof(newgame_text) <= 0x80, "newgame_text outgrows tiles $180-$1FF"
+.assert sizeof(save_cancelled_text) <= 0x20, "save_cancelled_text outgrows tiles $200-$21F"
 .assert sizeof(in_game_menu_text) <= 0x90, "in_game_menu_text outgrows tiles $370-$3FF"
 .assert sizeof(status_text) <= 0xB8, "status_text outgrows tiles $200-$2B7"
 .assert sizeof(equip_text) <= 0xB8, "equip_text outgrows tiles $200-$2B7"
@@ -591,6 +593,7 @@ _budget_keep:
 _blocks:
 ; block alloc, its size, allocator id of its first tile, attribute bits (tile id bits 8-9)
     .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
+    .dw save_cancelled_text & 0xFFFF, sizeof(save_cancelled_text), 0x00, 0x02
     .dw in_game_menu_text & 0xFFFF, sizeof(in_game_menu_text), 0x70, 0x03 | _RESIDENT_BIT
     .dw status_text & 0xFFFF, sizeof(status_text), 0x00, 0x02
     .dw equip_text & 0xFFFF, sizeof(equip_text), 0x00, 0x02
