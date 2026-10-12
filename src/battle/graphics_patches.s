@@ -55,11 +55,12 @@ piggyback on `defend_row` data.
     lda.b #0x0c
 }
 .alloc at 0x16fe5a + 6 * 8 {
-    .db 0x00, 0x09, 0x08, 0x04
+; defend window: Garde's baked tiles and a cell (vanilla 6 wide)
+    .db 0x00, 0x09, 0x05, 0x04
 }
 .alloc at 0x16fe5a + 6 * 9 {
-; row window
-    .db 0x18, 0x09, 0x08, 0x04
+; row window: Rang two cells in, clear of the hand cursor (vanilla 6 wide)
+    .db 0x18, 0x09, 0x06, 0x04
 
 ; switches around small mp to pm in the MP Needed battle window.
 }
