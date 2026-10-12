@@ -21,10 +21,8 @@ pair) plus the BG3 CHR tile-id windows each menu surface owns.
 ; qty + spell) and gets its own struct in a follow-up plan.
 
 
-; Per-item record size in the French-translated item_names table:
-; 1-byte symbol prefix + 11-byte name = 12 bytes total. Original FF4-J
-; used 9 bytes (1 + 8). Use these constants everywhere a code site
-; walks the item-name table so layouts stay in sync.
+; Battle's vanilla item-name cells: 1-byte symbol + 11 name cells = 12. Original FF4-J used 9 (1 + 8). The equip and
+; inventory windows' vanilla fills keep this width; the names come from `items_unleashed` and the VWF redraws them.
 ITEM_NAME_RECORD_SIZE := 0x0C
 ITEM_NAME_TEXT_SIZE := 0x0B
 

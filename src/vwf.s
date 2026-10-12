@@ -614,11 +614,11 @@ _code07:
     {
     lda.w treasure_item_index
 
-; the item's string in item_names; skip its symbol byte
-    jsr.l battle_item_offset
+; the item's string in items_unleashed; skip its symbol byte
+    jsr.l item_name_offset
     tax
     inx
-    lda #0x0b  ; 11 characters
+    lda #ITEM_UNLEASHED_TEXT_SIZE
 
 loop:
     pha

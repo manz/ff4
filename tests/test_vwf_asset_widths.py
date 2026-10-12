@@ -39,7 +39,6 @@ def _load(asset_xml: Path) -> tuple[list, TextMetrics, Table]:
 @pytest.mark.parametrize(
     "asset_xml, vwf_tile_budget, kind",
     [
-        ("text/fr/items.xml",            10, "battle inventory items"),
         ("text/fr/items_unleashed.xml",  10, "battle inventory items_unleashed"),
     ],
 )
