@@ -17,22 +17,14 @@ import sys
 
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
+from _rolling_state import symbols
 
 PROFILE_FRAMES = 60
 WARMUP_FRAMES = 30
 
-# Pull display_char neighbourhood from build/ff4.sym so the bench
+# Pull display_char neighbourhood from the build's debug info so the bench
 # follows allocator address shifts.
-SYM = {}
-for line in open("build/ff4.sym"):
-    parts = line.strip().split(" ", 1)
-    if len(parts) != 2:
-        continue
-    bank, _, off = parts[0].partition(":")
-    try:
-        SYM[parts[1]] = (int(bank, 16) << 16) | int(off, 16)
-    except ValueError:
-        pass
+SYM = {name: address & 0xFFFFFF for name, address in symbols().items()}
 
 
 def label(pc: int) -> str:

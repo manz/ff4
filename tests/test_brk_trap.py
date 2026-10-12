@@ -10,22 +10,14 @@ import pytest
 
 from a816.program import Program
 from a816.writers import Writer
-from kintsuki import Emu, SymbolTable
+from kintsuki import Emu
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
-SYM = REPO / "build/ff4.sym"
 STUB_PATH = Path(__file__).parent / "asm/brk_stub.s"
 
 STUB_BASE = 0x7E0000
 BRK_OFFSET = 0xA  # clc + xce + rep #$30 + ldx + ldy = 1+1+2+3+3 = 10
-
-
-@pytest.fixture(scope="session")
-def syms() -> SymbolTable:
-    if not SYM.exists():
-        pytest.skip(f"ff4.sym not built at {SYM}")
-    return SymbolTable(SYM)
 
 
 @pytest.fixture
@@ -58,7 +50,7 @@ def _assemble(src: str) -> bytes:
     return b"".join(b for _, b in w.blocks)
 
 
-def test_brk_trap_captures_pc_and_halts(cold_emu, syms):
+def test_brk_trap_captures_pc_and_halts(cold_emu):
     stub = _assemble(STUB_PATH.read_text())
     cold_emu.rearm_cpu()
     cold_emu.write_range(STUB_BASE, stub)

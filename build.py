@@ -119,9 +119,6 @@ def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
         logger.error("Build reported success but %s was not produced.", out_path)
         return 1
 
-    if result.program is not None:
-        result.program.exports_symbol_file(str(out_path.with_suffix(".sym")))
-
 
 def word_low_rom_pointer(base: int) -> Callable[[int], bytes]:
     def inner_func(pointer: int) -> bytes:
