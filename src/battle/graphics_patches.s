@@ -34,7 +34,8 @@ piggyback on `defend_row` data.
 ; moves the row destination back a few bytes
 }
 .alloc at 0x29a90 {
-    ldx.w #0xd618
+; the Row label's first cell: vanilla's, its window back at vanilla's x
+    ldx.w #0xd61c
 }
 .alloc at 0x29a8b {
     ldx.w #0xd5e8
@@ -55,12 +56,12 @@ piggyback on `defend_row` data.
     lda.b #0x0c
 }
 .alloc at 0x16fe5a + 6 * 8 {
-; defend window: Garde's baked tiles and a cell (vanilla 6 wide)
+; defend window: 3 cells inside, Garde's baked tiles (vanilla 6 wide, 4 inside)
     .db 0x00, 0x09, 0x05, 0x04
 }
 .alloc at 0x16fe5a + 6 * 9 {
-; row window: Rang two cells in, clear of the hand cursor (vanilla 6 wide)
-    .db 0x18, 0x09, 0x06, 0x04
+; row window: 3 cells inside, Rang's baked tiles; vanilla's x, right of the hand cursor
+    .db 0x1A, 0x09, 0x05, 0x04
 
 ; switches around small mp to pm in the MP Needed battle window.
 }
