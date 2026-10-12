@@ -30,6 +30,7 @@ from metrics import TextMetrics
 TABLE = Path("text/ff4fr.tbl")
 FONTS = ["build/gen/font.dat", "build/gen/wicked_font.dat", "build/gen/book_font.dat", "build/gen/bold_font.dat"]
 WINDOW_WIDTH = 208
+MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines this wide: no "Rydia a / été avalée"
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
 NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
@@ -166,7 +167,13 @@ class DialogLayout:
     def __init__(self, metrics: TextMetrics) -> None:
         self.metrics = metrics
         self.text_layout = TextLayout(
-            self.measure, WINDOW_WIDTH, FRENCH, MARKUP, abbreviations=ABBREVIATIONS, measure_after=self._measure_after
+            self.measure,
+            WINDOW_WIDTH,
+            FRENCH,
+            MARKUP,
+            abbreviations=ABBREVIATIONS,
+            measure_after=self._measure_after,
+            min_balanced_width=MIN_BALANCED_WIDTH,
         )
         self.font = 0  # in use at the start of the open window
         self._start_font = 0  # the font the text `_set` is wrapping starts in
