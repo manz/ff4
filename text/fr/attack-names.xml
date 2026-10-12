@@ -2,7 +2,7 @@
 <sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="19" padding=" ">
     <sn:fixed>Flèche Magique</sn:fixed>
     <sn:fixed>Soin</sn:fixed>
-    <sn:fixed>Basuna</sn:fixed>
+    <sn:fixed>Esuna</sn:fixed>
     <sn:fixed>Antidote</sn:fixed>
     <sn:fixed>Dague</sn:fixed>
     <sn:fixed>Coup de Poing</sn:fixed>
