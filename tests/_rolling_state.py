@@ -35,3 +35,11 @@ def addr(instance: str, field: str) -> int:
     if name not in syms:
         raise AssertionError(f"{name} missing from {ADBG.name} symbol table")
     return syms[name]
+
+
+def symbol(name: str) -> int:
+    """The 24-bit address of `name` in the build's debug info."""
+    syms = symbols()
+    if name not in syms:
+        raise AssertionError(f"{name} missing from {ADBG.name} symbol table")
+    return syms[name] & 0xFFFFFF

@@ -56,7 +56,7 @@ BATTLE_RENDER_STATE := 0x707100
     byte spell_tiles_live
     byte spell_name_left
     word free_0d
-    byte free_0f
+    byte render_region  ; the CHR region bit of the render in progress: its deinit flags it again (message.s)
     byte dma_dirty_slots
     word spell_list_ptr
     byte spell_row
