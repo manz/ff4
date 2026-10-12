@@ -16,3 +16,7 @@ writable = true
 address = "70-73:0000-7fff"
 mask = 0x8000
 writable = true
+
+# Names the sources may test; build.py's `-D`/symbols override them.
+[defines]
+LANG = "fr"
