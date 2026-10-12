@@ -17,11 +17,12 @@ address = "70-73:0000-7fff"
 mask = 0x8000
 writable = true
 
-# Names the sources may test; build.py's symbols override them (`make release`: DEBUG=0).
+# Names the sources may test, at their release values: a bare build ships clean. Dev builds (`make`,
+# `build.py --dev`) override them (build.py DEV_DEFINES).
 [defines]
 LANG = "fr"
-DEBUG = 1  # the build stamp on the title and load screens
-TREASURE_DEBUG_ALWAYS_DROP = 1  # every won battle drops an item: hunts and playtests reach the treasure screens
+DEBUG = 0  # 1: the build stamp on the title and load screens
+TREASURE_DEBUG_ALWAYS_DROP = 0  # 1: every won battle drops an item, so hunts and playtests reach the treasure screens
 ENABLE_BRK_HANDLER = 1  # a BRK halts on a trap screen instead of running into garbage
-TRIGGER_ENDING_CUTSCENE = 0  # boot straight into the ending
+TRIGGER_ENDING_CUTSCENE = 0  # 1: boot straight into the ending
 DEBUG_SHOW_ITEM_WINDOW = 0

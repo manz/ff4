@@ -36,7 +36,7 @@ $(IPS): $(SOURCES) $(ASSET_INPUTS)
 		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
 		exit 1; }
 	$(info $(M) Building patch...)
-	$(Q) $(PY) ./build.py
+	$(Q) $(PY) ./build.py --dev
 	$(Q) test -s $(IPS)
 
 .PHONY: release
@@ -47,7 +47,7 @@ $(RELEASE_IPS): $(SOURCES) $(ASSET_INPUTS)
 		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
 		exit 1; }
 	$(info $(M) Building release patch...)
-	$(Q) $(PY) ./build.py --release
+	$(Q) $(PY) ./build.py
 	$(Q) test -s $(RELEASE_IPS)
 
 .PHONY: tests

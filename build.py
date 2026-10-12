@@ -89,7 +89,7 @@ def assets_need_refresh(source, destination):
         return True
 
 
-RELEASE_DEFINES = {"DEBUG": 0, "TREASURE_DEBUG_ALWAYS_DROP": 0}  # over a816.toml's [defines]: no stamp, no cheat
+DEV_DEFINES = {"DEBUG": 1, "TREASURE_DEBUG_ALWAYS_DROP": 1}  # over a816.toml's release [defines]: stamp, cheat
 
 
 def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
@@ -468,9 +468,9 @@ if __name__ == "__main__":
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
-    if "--release" in sys.argv[1:]:
-        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, RELEASE_DEFINES, "build/release/obj")
+    if "--dev" in sys.argv[1:]:
+        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, DEV_DEFINES)
     else:
-        exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
+        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, obj_dir="build/release/obj")
     if exit_code:
         sys.exit(exit_code)
