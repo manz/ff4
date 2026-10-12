@@ -13,7 +13,8 @@ session: drawing one again only rewrites the tilemap. A block taking over $200-$
 name whose text changed (renamed) uploads again. Tiles $100-$1FF are shared with the item renderers: always uploaded.
   - One sub-menu at a time in $200-$2FF: `status` $200-$2B7, `equip` $200-$2B7, `dextrality` (handedness, on
     status and equip) $2B8-$2DF, `items_menu` $200-$23F, `spells` $200-$23F with `use_spell` $240-$25F,
-    `options` $200-$2FF with its controls window (opened over it) in $180-$1FF, the item-description region.
+    `options` $200-$2FF with its controls window (opened over it) in $180-$1FF, the item-description region, and its
+    ATB gauge row (`options_gauge`) in $100-$13B, the item names' (no item list on that screen).
   - The shop (`tools_shop_text`) $200-$2FF: it saves the field's VRAM like the menus; its owner's line is the item
     description ($180-$1FF), its item names the field items ($100-$169).
   - The treasure popup is a field screen: nothing saves $6000-$7FFF there, so its header (Butin, Quitter,
@@ -58,6 +59,7 @@ _BLANK_TILE := 0xFF
 .assert sizeof(use_spell_text) <= 0x20, "use_spell_text outgrows tiles $240-$25F"
 .assert sizeof(options_text) <= 0xFF, "options_text outgrows tiles $200-$2FE"
 .assert sizeof(controls_text) <= 0x80, "controls_text outgrows tiles $180-$1FF"
+.assert sizeof(options_gauge_text) <= 0x3C, "options_gauge_text outgrows tiles $100-$13B"
 .assert sizeof(dextrality_text) <= 0x28, "dextrality_text outgrows tiles $2B8-$2DF"
 
 _CLASS_TILE := 0xE0  ; with attribute bits 2: tiles $2E0-$2FF
@@ -598,6 +600,7 @@ _blocks:
     .dw use_spell_text & 0xFFFF, sizeof(use_spell_text), 0x40, 0x02
     .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
     .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
+    .dw options_gauge_text & 0xFFFF, sizeof(options_gauge_text), 0x00, 0x01
     .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
     .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
     .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02

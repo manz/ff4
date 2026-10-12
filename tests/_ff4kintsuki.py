@@ -7,6 +7,7 @@ WRAM / VRAM snapshots so individual tests stay focused on assertions.
 from __future__ import annotations
 
 import ctypes
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -292,10 +293,13 @@ LATE_FORMATION = 0x85  # two Mech Soldiers: a long fight from the late save
 _FORMATION, _BATTLE_PENDING = 0x7E1800, 0x7E0685  # the field starts the battle in $1800 once $0685 is set
 
 
-def fresh_late_battle(formation: int = LATE_FORMATION) -> Emu:
+def fresh_late_battle(formation: int = LATE_FORMATION, before_battle: Callable[[Emu], None] | None = None) -> Emu:
     """A battle started from ff4-late-field.kss (a save room: no encounters), up to Cain's first command menu. Its
-    battle state comes from this build's battle init, not from an older build's savestate."""
+    battle state comes from this build's battle init, not from an older build's savestate. `before_battle` can set
+    the field state up first (an option, say)."""
     emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=10)
+    if before_battle is not None:
+        before_battle(emu)
     emu.write(_FORMATION, formation)
     emu.write(_FORMATION + 1, 0x00)
     emu.write(_BATTLE_PENDING, 1)

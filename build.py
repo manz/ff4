@@ -27,6 +27,7 @@ from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
+from utils import atb_gauge
 from utils.bake_names import Glyphs, bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
@@ -401,6 +402,8 @@ if __name__ == "__main__":
     ]
 
     Path("build/gen").mkdir(parents=True, exist_ok=True)  # generated assets; a816 include path
+    # The 8x8 font with the battle ATB gauge's tiles in blank kana slots (utils/atb_gauge.py).
+    atb_gauge.build(Path("fonts/8x8.bin"), Path("fonts/atb_gauge.png"), Path("build/gen/font_8x8.bin"))
     # Fonts first: the fixed-width string checks measure with menu_font.dat.
     fonts = katsuji_config.load(Path("katsuji.toml"))
     katsuji_build.build(fonts)

@@ -5,6 +5,7 @@ on every pass and every eighth frame.
 """
 .import "vanilla"
 .import "battle/tasks"
+.import "battle/atb_gauge"
 .import "wram_layout"
 ; root-scope extern: inventory_rolling_patches reaches this module back through redraw_gates
 .extern draw_battle_command_window_relocated
@@ -22,8 +23,9 @@ on every pass and every eighth frame.
 
     .alloc _battle_tasks_bank02 in bank02_trampolines {
 battle_frame_tasks:
-"""WaitFrameMain's RedrawMainMenu, then this pass's tasks."""
+"""WaitFrameMain's RedrawMainMenu, the ATB gauges over the HP text it may have redrawn, then this pass's tasks."""
     jsr.w _redraw_main_menu_96c8
+    jsr.l atb_gauge.update
     jsr.l battle_task.run_far
     rts
 
@@ -212,6 +214,7 @@ battle_tasks_seed:
     sep #0x20
     rep #0x10
     jsr.l battle_task.reset
+    jsr.l atb_gauge.reset
     lda.b #0x00
     ldx.w #menu_task
     ldy.w #0x0000

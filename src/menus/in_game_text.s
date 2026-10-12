@@ -290,7 +290,7 @@ title:
     .text "Options"
     .db 0
 config:
-    .dw 0x0102, 0x141C
+    .dw 0x0102, 0x161C  ; two rows taller than vanilla's: the ATB gauge row
     .dw 0x0144
     .text "Mode de combat"
     .db 0x01
@@ -354,6 +354,21 @@ pad_select:
 pad:
 ; コントローラー, after each name ($01:D685 DrawMenuText)
     .text "Manette"
+    .db 0
+    }
+}
+
+.alloc options_gauge_text in bank20_reloc {
+    .scope options_gauge {
+    """The options screen's ATB gauge row (ingame/options.s), its own block: options_text fills its tiles."""
+row:
+    .dw 0x0644  ; row 10, under the colour sliders
+    .text "Jauge ATB"
+    .db 0x01
+    .dw 0x065E
+    .text "Oui"
+    col(7)
+    .text "Non"
     .db 0
     }
 }
