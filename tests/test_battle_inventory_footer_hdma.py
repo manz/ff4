@@ -64,3 +64,19 @@ def test_the_list_pins_its_border_and_its_target_select_does_not() -> None:
         assert _footer(emu) == VANILLA_MENUS_CLOSED
     finally:
         emu.close()
+
+
+def test_back_from_the_list_the_command_menu_gets_its_footer_back() -> None:
+    """B from the item list: vanilla swaps the table's copies right after the unpin ($02:A943); the swap copy's values
+    from before the list ($02BB) scrolled a stale party row into the bottom lines."""
+    emu = fresh_late_battle()
+    try:
+        choose_command(emu, ITEM)
+        assert _wait(emu, (5,)) == 5
+        emu.run_frames(10)
+        tap(emu, Button.B, gap=20)
+        assert _wait(emu, (1,)) == 1
+        emu.run_frames(10)
+        assert _footer(emu) == VANILLA_COMMAND_MENU
+    finally:
+        emu.close()
