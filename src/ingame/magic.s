@@ -83,7 +83,8 @@ the magic-render path.
 ; [use spell] Magic name position.
 }
 .alloc at 0x01b4a7 {
-    ldx.w #0x0042
+; the spell name in the cast window ($01:DD75): its first inside column, 2
+    ldx.w #0x0044
 }
 ; move character blocks one tile back
 .if 0 {

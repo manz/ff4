@@ -500,7 +500,7 @@ string_3:
     .scope use_spell {
     """Spell-cast prompt strings."""
 mp_cost:
-    move_to(1, 4)
+    move_to(2, 4)
     .text "Requis"
     .db 0
 ; use_on_whom:
