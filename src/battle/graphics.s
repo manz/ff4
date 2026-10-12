@@ -9,13 +9,13 @@ from ROM.
 
 .alloc battle_graphics_block in bank20_reloc {
     .scope defend_row {
-    """Two glyph rows for the Defend / Row battle command labels."""
-    defend_row_length = 6
+    """Two rows each (the blank one above, the label's) for the Defend / Row windows: their inside width."""
+    defend_row_length = 3
 defend_text:
-    .db 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+    .db 0xff, 0xff, 0xff
     battle_label_garde()
 row_text:
-    .db 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+    .db 0xff, 0xff, 0xff
     battle_label_rang()
     }
 }

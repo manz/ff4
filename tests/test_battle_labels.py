@@ -45,8 +45,8 @@ def test_a_used_slot_is_refused() -> None:
 
 
 @pytest.mark.parametrize(("presses", "region", "golden"), [
-    ((Button.LEFT,), (0, 136, 128, 168), "rang.png"),
-    ((Button.RIGHT, Button.RIGHT), (40, 136, 168, 168), "garde.png"),
+    ((Button.LEFT,), (0, 128, 96, 176), "rang.png"),
+    ((Button.RIGHT, Button.RIGHT), (64, 128, 160, 176), "garde.png"),
     ((Button.DOWN, Button.A), (168, 136, 256, 224), "mp_cost.png"),
 ])
 def test_the_label_golden(presses, region, golden) -> None:
