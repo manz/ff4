@@ -89,10 +89,14 @@ def assets_need_refresh(source, destination):
         return True
 
 
-def build_patch(input, output, lang):
+RELEASE_DEFINES = {"DEBUG": 0}  # over a816.toml's [defines]: no build stamp
+
+
+def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
     from a816.module_builder import build_with_imports
 
     out_path = Path(output)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     if out_path.exists():
         out_path.unlink()
 
@@ -100,9 +104,9 @@ def build_patch(input, output, lang):
         main_source=Path(input),
         output_file=Path(output),
         output_format="ips",
-        module_paths=[Path("build/obj"), Path("src")],
-        output_dir=Path("build/obj"),
-        symbols={"LANG": lang},
+        module_paths=[Path(obj_dir), Path("src")],
+        output_dir=Path(obj_dir),
+        symbols={"LANG": lang, **(defines or {})},
         include_paths=[Path("src"), Path("."), Path("build/gen"), Path("src_assets")],
         overlap_mode="error",
     )
@@ -116,7 +120,7 @@ def build_patch(input, output, lang):
         return 1
 
     if result.program is not None:
-        result.program.exports_symbol_file("./build/ff4.sym")
+        result.program.exports_symbol_file(str(out_path.with_suffix(".sym")))
 
 
 def word_low_rom_pointer(base: int) -> Callable[[int], bytes]:
@@ -467,6 +471,9 @@ if __name__ == "__main__":
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
-    exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
+    if "--release" in sys.argv[1:]:
+        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, RELEASE_DEFINES, "build/release/obj")
+    else:
+        exit_code = build_patch("ff4.s", "build/ff4.ips", lang)
     if exit_code:
         sys.exit(exit_code)

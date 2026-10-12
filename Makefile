@@ -10,6 +10,9 @@ A816 ?= $(shell [ -x .venv/bin/a816 ] && echo .venv/bin/a816 || echo a816)
 
 ROM = build/ff4.sfc
 IPS = build/ff4.ips
+RELEASE_IPS = build/release/ff4.ips
+# BUILD_DATE (the DEBUG stamp) from the last commit, not the clock: two builds of one commit are byte-identical.
+export SOURCE_DATE_EPOCH ?= $(shell git log -1 --format=%ct 2>/dev/null || echo 0)
 # Prune hidden directories: they never hold our sources, and .venv matches
 # too, so the .s files a816 ships stay out. -o binds looser than -not, so
 # the extension test needs its own group or pruned paths come along.
@@ -35,6 +38,17 @@ $(IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(info $(M) Building patch...)
 	$(Q) $(PY) ./build.py
 	$(Q) test -s $(IPS)
+
+.PHONY: release
+release: $(RELEASE_IPS)  ## Assemble the release patch: DEBUG=0, no build stamp
+
+$(RELEASE_IPS): $(SOURCES) $(ASSET_INPUTS)
+	$(Q) test -s $(ROM) || { \
+		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
+		exit 1; }
+	$(info $(M) Building release patch...)
+	$(Q) $(PY) ./build.py --release
+	$(Q) test -s $(RELEASE_IPS)
 
 .PHONY: tests
 tests: $(IPS)  ## Run the full suite against a freshly built patch, one worker per core
