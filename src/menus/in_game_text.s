@@ -83,7 +83,7 @@ black:
     .db 0
 summon:
     move_to(26, 7)
-    .text "Chimere"
+    .text "Chimère"
     .db 0
 ninja:
     move_to(26, 5)  ; over Rituel's cells, its trailing space included
