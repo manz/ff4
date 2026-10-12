@@ -320,10 +320,10 @@ _rl_tiles:
     sep #0x20
 _rl_dest:
     rep #0x20
-    ldx.w #_TEXT_CELLS * 2  ; the second row
+    ldx.w #0x0000
     ldy.w #0x0000
 _rl_copy:
-    lda.w equip_label_text, x
+    lda.w equip_label_text + _TEXT_CELLS * 2, x  ; the second row
     sta (0x00), y
     inx
     inx
