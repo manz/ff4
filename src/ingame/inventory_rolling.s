@@ -720,7 +720,6 @@ finish_scroll_impl:
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.
 
-    .if INVENTORY_ROLLING_BUFFER {
 menu_entry_hook_impl:
 """Field-menu entry hook: lazy-init HDMA + force shadow flush before first frame."""
     stz.w inventory_menu_mode
@@ -1197,7 +1196,6 @@ circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w _circular_slot_calc
     rtl
-    }
     }
 
     .assert sizeof(Item) == 2, "the item pointer math uses one asl per Item"

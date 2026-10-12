@@ -26,10 +26,8 @@ vwf_state.i).
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern
 ; declared inside never resolves at the use site.
-.if BATTLE_ENABLED {
-    .extern battle_render
-    .extern battle_render.clear_buffer
-}
+.extern battle_render
+.extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
     .include "config.i"
@@ -217,13 +215,11 @@ init:
     sta.l slot_limit_low
     pla
     rts
-    .if BATTLE_ENABLED {
 init_battle_far:
     jsr.l play_battle_song
     jsr.w init
     jsr.w battle_render.clear_buffer
     rtl
-    }
 increment:
 """
 Advance the 16-bit allocator by 1. Preserves M / A state.

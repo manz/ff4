@@ -10,8 +10,7 @@ translated-string tables.
 .include "config.i"
 
 
-.if BATTLE_ENABLED {
-    .scope message_patches {
+.scope message_patches {
     """Pinned-address overlay scope rewriting original battle-message pointer loads to relocated tables."""
 ; pointers to battle dialog
     .alloc at 0x02c909 {
@@ -127,21 +126,20 @@ translated-string tables.
     stx 0xEF52
     jsr.w msg_window_draw_text_trampoline
     }
-    }
+}
 
 
 ; patch the battle nmi routine to transfer the battle render buffer.
 
-    .alloc at 0x02836e {
+.alloc at 0x02836e {
     jsr.l messages_vwf.dma_transfer
 
 ; make the message window bigger
-    }
-    .alloc at 0x0292DF {
+}
+.alloc at 0x0292DF {
 ; (0, 3) (26, 4)
     ldx.w #0x0000
     stx.w 0xEF56
     ldx.w #0x041A + 6
     stx.w 0xEF58
-    }
 }

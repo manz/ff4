@@ -94,7 +94,6 @@ display_build_number:
 ; Inventory Rolling Buffer Trampolines and Handlers
 ; ============================================================================
 .alloc _bank01_slack_inventory in bank01_slack {
-    .if INVENTORY_ROLLING_BUFFER {
 swap_redraw_trampoline:
 """JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
     jsr.w swap_redraw_hook_impl
@@ -200,7 +199,6 @@ Re-renders all visible slots to show updated quantity or empty slot
 
     jsr.w swap_redraw_hook_impl
     rts
-    }
 }
 
 

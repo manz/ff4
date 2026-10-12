@@ -13,11 +13,9 @@ NOPing the random-roll gate at $03:ED0D.
 ; "no item" treasure prompt instead of an actual drop.
 
 .include "config.i"
-.if BATTLE_ENABLED {
-    .if TREASURE_DEBUG_ALWAYS_DROP {
+.if TREASURE_DEBUG_ALWAYS_DROP {
     .alloc at 0x03ED0D {
     nop
     nop
-    }
     }
 }

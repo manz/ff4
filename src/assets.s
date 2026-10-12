@@ -153,11 +153,11 @@ battle_texts:
 }
 
 .alloc intro_tilemap in assets {
-.incbin "intro.map"
+    .incbin "intro.map"
 }
 .alloc intro_palette in assets {
-.incbin "intro.col"
+    .incbin "intro.col"
 }
 .alloc intro_tiles in assets {
-.incbin "intro.set"
+    .incbin "intro.set"
 }

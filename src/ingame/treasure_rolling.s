@@ -777,7 +777,6 @@ treasure_finish_scroll_impl:
 ; Inventory Rolling Buffer Patches - Relocated to Bank $20
 ; These routines are called via JSL from bank $01 hooks.
 
-    .if INVENTORY_ROLLING_BUFFER {
 treasure_menu_entry_hook_impl:
 """Treasure profile: menu-entry implementation (HDMA capture + flush)."""
     stz.w inventory_menu_mode
@@ -1207,6 +1206,5 @@ _treasure_circular_slot_calc_ext:
 """Trampoline to call CircularSlotCalc from bank $01 patch at $A1BA"""
     jsr.w _treasure_circular_slot_calc
     rtl
-    }
     }
 }

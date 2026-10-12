@@ -12,7 +12,6 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 .label _select_item_a066 = 0x01A066
 .label _select_item_a0bc = 0x01A0BC
 
-.if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; Inventory Rolling Buffer Patches for Main Menu
 ; ============================================================================
@@ -24,70 +23,69 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ;
 ; ============================================================================
 
-    .if INVENTORY_ROLLING_BUFFER {
 ; ============================================================================
 ; MAIN LOOP HOOK - Process scroll animation frames
 ; ============================================================================
 ; Hook at $019FF2 - the start of the input processing loop in SelectItem.
-    .alloc at 0x019FF2 {
+.alloc at 0x019FF2 {
     jmp.w main_loop_scroll_check
 ; 3 bytes - replaces LDA $01
-    }
+}
 
 
-    .alloc at 0x019FF5 {
+.alloc at 0x019FF5 {
     nop
     nop
     nop
 ; ============================================================================
 ; SCROLL DOWN - Replace blocking loop with state machine
 ; ============================================================================
-    }
+}
 
 
-    .alloc at 0x01A076 {
+.alloc at 0x01A076 {
     jsr.w scroll_down_trigger
     jmp.w _select_item_a0bc
 ; Skip to after scroll block (A button check)
 ; ============================================================================
 ; SCROLL UP - Replace blocking loop with state machine
 ; ============================================================================
-    }
+}
 
 
-    .alloc at 0x01A01F {
+.alloc at 0x01A01F {
     jsr.w scroll_up_trigger
     jmp.w _select_item_a066
 ; Skip to after scroll block (down button check)
 ; ============================================================================
 ; Menu Entry/Exit Hooks
 ; ============================================================================
-    }
+}
 
 
-    .alloc at 0x019F27 {
+.alloc at 0x019F27 {
     jsr.w menu_entry_hook
-    }
+}
 
 
-    .alloc at 0x019F87 {
+.alloc at 0x019F87 {
     jsr.w menu_exit_hook
 ; ============================================================================
 ; NMI HDMA Hook
 ; ============================================================================
-    }
+}
 
 
-    .alloc at 0x018081 {
+.alloc at 0x018081 {
     jsr.w hdma_enable_hook
     nop
 ; ============================================================================
 ; UpdateScrollRegs BG1VOFS Hook - Skip when menu HDMA is active
 ; ============================================================================
-    }
+}
 
 
-    .alloc at 0x14FF2D {
+.alloc at 0x14FF2D {
     jsr.l conditional_bg1_vofs
     nop
     nop
@@ -102,15 +100,15 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ; display. For swaps, swap_redraw_hook_impl already handled it. For item use,
 ; we need to refresh the current slot to show updated quantity.
 ; Call our refresh hook instead of the original DrawInventoryList.
-    }
+}
 
 
-    .alloc at 0x01A0D2 {
+.alloc at 0x01A0D2 {
     jsr.w item_use_refresh_hook
 ; ============================================================================
 ; DrawItemSlot Column Check Patch - Force single column mode
 ; ============================================================================
-    }
+}
 
 
 ; $01:A1F0 (the AND operand) is zeroed by inventory_single_column.s at $01:A1EF.
@@ -119,7 +117,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ; ============================================================================
 
 
-    .alloc at 0x019F7B {
+.alloc at 0x019F7B {
     jsr.w init_menu_rolling_buffer
 ; Replace JSR DrawInventoryList
 ; ============================================================================
@@ -128,10 +126,10 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ; Original code at $A202: lda ($5a); cmp #$fe; beq @a222
 ; We replace with JSR that handles clearing for empty slots
 ; Original bytes: B2 5A C9 FE F0 1A (6 bytes at $A202-$A207)
-    }
+}
 
 
-    .alloc at 0x01A202 {
+.alloc at 0x01A202 {
     jsr.w check_and_clear_count
 ; 3 bytes - checks item, clears if empty
     nop
@@ -148,10 +146,10 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
 ; Replace with JSL to CircularSlotCalc_ext trampoline + NOPs
 ;
-    }
+}
 
 
-    .alloc at 0x01A1BA {
+.alloc at 0x01A1BA {
     jsr.l circular_slot_calc_ext
 ; 4 bytes
     nop
@@ -164,6 +162,4 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
     nop
     nop
     nop
-    }
-    }
 }
