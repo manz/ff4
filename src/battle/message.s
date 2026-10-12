@@ -1834,19 +1834,13 @@ _inv_dma_find:
     asl
     tax
     sep #0x20
-; LUT reads use `.l` (24-bit long) since DBR in NMI isn't bank-20.
-    lda.l _dma_slot_vram_lut, x
-    sta.b 0x0c
-    lda.l _dma_slot_vram_lut + 1, x
-    sta.b 0x0d
-    lda.l _dma_slot_src_lut, x
-    sta.b 0x0a
-    lda.l _dma_slot_src_lut + 1, x
-    sta.b 0x0b
+; LUT reads use `.l` (24-bit long) since DBR in NMI isn't bank-20. The addresses go straight to Y and X: the NMI
+; lands anywhere in the main loop, whose direct page holds live values (the monster draw's type index at $0A:
+; staging these in $0A-$0D wiped it, the draw took a zero width and overran RAM). Only $0E, vanilla's NMI scratch.
     rep #0x20
-    lda.b 0x0c
+    lda.l _dma_slot_vram_lut, x
     tay
-    lda.b 0x0a
+    lda.l _dma_slot_src_lut, x
     tax
     lda.w #0x00A0
     sta.b 0x0e
