@@ -75,12 +75,14 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 .alloc at 0x01DAC2 {
     nop
 
-; Extend $1BB7 max from $14 (20) to $2B (43 = 48 - 5).
+; Extend the $1BB7 limit from $14 to $2C: vanilla increments, then stops on the limit, so the top row reaches
+; limit - 1: 43 = 48 - 5, the last of the 48 rows at the bottom of the window ($2B stopped one short: slot 47 could
+; never be picked for an exchange).
 }
 
 
 .alloc at 0x01DA86 {
-    .db 0x2B
+    .db 0x2C
 
 ; Drops swap byte-index recompute. Original at $01:DAAC computes
 ;   X = (($1BB3 * 2) + $1BB4) * 2

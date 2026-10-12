@@ -47,15 +47,18 @@ def _seed(emu) -> None:
         emu.write(INVENTORY + i * 2 + 1, qty)
 
 
+SCROLL_GAP = 16  # frames after a DOWN: a press during the list's 8-frame scroll is dropped
+
+
 def _do_swap(emu, *, top_row: int, bottom_row: int) -> None:
     """DOWN to drops list → UP `top_row` times → A (Echange) → DOWN
     `bottom_row` times → A (confirm swap)."""
     tap(emu, Button.DOWN)               # cursor on drops list, row 0
     for _ in range(top_row):
-        tap(emu, Button.DOWN)           # walk down through drops
+        tap(emu, Button.DOWN, gap=SCROLL_GAP)  # walk down through drops
     tap(emu, Button.A)                  # select drop, jump to inventory row 0
     for _ in range(bottom_row):
-        tap(emu, Button.DOWN)           # walk down through inventory
+        tap(emu, Button.DOWN, gap=SCROLL_GAP)  # walk down through inventory
     tap(emu, Button.A)                  # confirm swap
     emu.run_frames(30)                  # let the post-swap redraw settle
 
@@ -75,3 +78,26 @@ def test_swap_drop0_with_inventory_row(picker_emu, bottom_row: int) -> None:
         f"before drop=${drop0_before:02X} inv=${inv_before:02X}, "
         f"after drop=${drop0_after:02X} inv=${inv_after:02X}"
     )
+
+
+def _seed_full(emu) -> None:
+    """Eight drops and a full 48-row inventory, every item distinct, so any swap shows where it landed."""
+    for i in range(8):
+        emu.write(DROPS + i * 2, 0xC0 + i)
+        emu.write(DROPS + i * 2 + 1, 1)
+    for i in range(48):
+        emu.write(INVENTORY + i * 2, 0x60 + i)
+        emu.write(INVENTORY + i * 2 + 1, 1)
+
+
+@pytest.mark.parametrize(("top_row", "bottom_row"), [(0, 7), (0, 12), (0, 20), (0, 47), (5, 9), (7, 30)])
+def test_swap_past_the_scroll_seam(picker_emu, top_row: int, bottom_row: int) -> None:
+    """Both lists scrolled past their rolling seam (5 visible rows): the swap still trades exactly the drop and the
+    inventory row the cursors were on, nothing else moves."""
+    _seed_full(picker_emu)
+    drops = [picker_emu.read(DROPS + i * 2) for i in range(8)]
+    inventory = [picker_emu.read(INVENTORY + i * 2) for i in range(48)]
+    _do_swap(picker_emu, top_row=top_row, bottom_row=bottom_row)
+    drops[top_row], inventory[bottom_row] = inventory[bottom_row], drops[top_row]
+    assert [picker_emu.read(DROPS + i * 2) for i in range(8)] == drops
+    assert [picker_emu.read(INVENTORY + i * 2) for i in range(48)] == inventory
