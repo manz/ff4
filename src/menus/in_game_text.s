@@ -479,7 +479,7 @@ two_hands:
 hands:
 string_0:
 ; ぶきよう
-    .text "String 0"
+    .text "Maladroit"
     .db 0
 string_1:
 ; ひだりきき
