@@ -98,10 +98,11 @@ mp_needed:
 
 .alloc exchange_label_text in bank20_reloc {
     .scope spells {
-; the treasure popup's exchange label, drawn at $01:D95E
+; the treasure popup's exchange label, drawn at $01:D95E: over the header's Tout prendre while a drop is being
+; exchanged, as vanilla's こうかん over 全部とる; its spaces blank the rest of Tout prendre's cells
 kokan:
-    move_to(24, 3)
-    .text "Echange"
+    move_to(10, 1)
+    .text "Echange     "
     .db 0
     }
 }
