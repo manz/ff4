@@ -126,6 +126,53 @@ whole, so the small-VWF names at tiles $300+ fell back onto the 8x8 font's).
     rts
 }
 
+.label _clear_text = 0x018779  ; ClearText: A cells of both rows at Y (+$29), low bytes only
+
+.alloc at 0x01B051 {
+; leaving the magic screen: ClearText over the "Coût PM" row
+    jsr.w clear_text_cells
+}
+
+.alloc _clear_text_cells in bank01_slack {
+clear_text_cells:
+"""
+ClearText for the magic screen's cost row. ClearText stores the low bytes only, so its small-VWF cells (attribute
+bits 0-1) kept pointing at tiles $200-$3FF and showed whatever they held next over the main menu ("MMMMMM:" on
+the second character's PV and PM). Their tile bits are cleared too: the low byte ClearText wrote is that BG's
+blank. ClearText's other callers keep vanilla's behaviour.
+"""
+    pha
+    phy
+    jsr.w _clear_text
+    rep #0x20
+    pla
+    clc
+    adc.b 0x29
+    tax
+    sep #0x20
+    pla
+    pha
+    xba
+    lda.b #0x00
+    xba
+    tay
+    beq _cleared
+_cell:
+    lda.l 0x7E0001, x
+    and.b #0xFC
+    sta.l 0x7E0001, x
+    lda.l 0x7E0000 + _GLYPH_ROW + 1, x
+    and.b #0xFC
+    sta.l 0x7E0000 + _GLYPH_ROW + 1, x
+    inx
+    inx
+    dey
+    bne _cell
+_cleared:
+    pla
+    rts
+}
+
 .alloc at 0x01B418 {
 ; The magic type highlight: A = attribute, X = cell offset in BG4's buffer
     jsl menu_text_vwf.tint_cells
