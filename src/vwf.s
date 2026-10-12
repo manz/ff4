@@ -1015,9 +1015,7 @@ _waitpad:
     lda.b no_wait_for_action
     bne nowaitpad
 
-    .if ENABLE_DIALOG_SKIP {
     jsr.w _wait_key_up
-    }
     jsr.w _wait_key_down
     bra end
 
