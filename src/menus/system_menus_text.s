@@ -104,20 +104,20 @@ _vanilla:
     rep #0x20
     jmp.l _copy_text_879d
 
+    _SAVE_GREY := 0x24
+
 disable_save:
 """
-    Overwrite the 'Sauver' menu label with $24 (space tile) glyphs to grey out the save option, then continue at
-    $01:8947.
+Where saving isn't allowed: grey the 'Sauver' label's 6 cells (vanilla's $24 attribute, palette 1) and continue at
+$01:8947. Their tile bits 8-9 stay: the label is small-VWF text in tiles $3xx, and vanilla's whole $24 sent it to
+the 8x8 font's tiles, blank there.
 """
-
-
-    lda.b #0x24
-    sta 0xCA31  ; S
-    sta 0xCA33  ; a
-    sta 0xCA35  ; u
-    sta 0xCA37  ; v
-    sta 0xCA39  ; e
-    sta 0xCA3B  ; r
+    .for cell := 0, 6 {
+    lda 0xCA31 + cell * 2
+    and.b #0x03
+    ora.b #_SAVE_GREY
+    sta 0xCA31 + cell * 2
+    }
     jmp.l _draw_main_menu_8947
 
 load_classes_pointer:
