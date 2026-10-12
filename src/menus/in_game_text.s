@@ -501,7 +501,7 @@ string_3:
     """Spell-cast prompt strings."""
 mp_cost:
     move_to(2, 4)
-    .text "Requis"
+    .text "Coût PM"  ; as on the spell list screen
     .db 0
 ; use_on_whom:
 ; move_to(1, 10)
