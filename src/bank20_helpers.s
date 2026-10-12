@@ -4,7 +4,6 @@ clear and the 17-byte item-record multiplies.
 """
 .import "preamble"
 .import "items"
-.include "config.i"
 .include "bank20.i"
 .import "vanilla"
 .import "assets"

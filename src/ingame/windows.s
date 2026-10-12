@@ -3,7 +3,6 @@ Field-menu window-descriptor data (equip / status / options main windows) emitte
 at fixed bank-$01 addresses.
 """
 .import "preamble"
-.include "config.i"
 .include "src/ingame/macros.i"
 
 ; equip main window

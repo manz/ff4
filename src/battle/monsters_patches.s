@@ -6,7 +6,6 @@ Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first
 .import "battle/message"
 .import "vanilla"
 .import "wram_layout"
-.include "config.i"
 
 
 ; transform the monster names loading routine from fixed size to pointed.

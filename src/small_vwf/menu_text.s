@@ -38,7 +38,6 @@ from RAM), whose tiles are keyed by name index ($300 + index * 8), so names neve
 .import "small_vwf/vram_queue"
 .import "small_vwf/baked_names"
 .import "small_vwf/render"
-.include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
 .include "src/libmz.i"

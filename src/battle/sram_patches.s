@@ -3,7 +3,6 @@ ROM patches that route every battle-text draw call (commands, monster names, cha
 window) through our messages-VWF init/deinit trampolines.
 """
 
-.include "config.i"
 .import "battle/commands_reloc"
 .import "battle/sram"
 .import "battle/redraw_writer_patches"

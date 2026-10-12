@@ -15,7 +15,6 @@ cursor and index math collapse to one column.
 .import "ingame/inventory_rolling_trampolines"
 
 
-.include "config.i"
 ; List draw on entry.
 .alloc at 0x01BEA6 {
     jsr.w equip_init

@@ -5,7 +5,6 @@ The rolling list modules, the shared engine and the instance trampolines all cal
 nothing above them, which keeps the import graph acyclic.
 """
 .import "preamble"
-.include "config.i"
 .include "src/ingame/macros.i"
 .include "src/ingame/bank01_trampolines.i"
 .import "vanilla"

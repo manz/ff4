@@ -5,7 +5,6 @@ attributes).
 .import "preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "config.i"
 .include "src/menus/system_menus_macros.i"
 
 .label _status_menu_main_aac9 = 0x01AAC9

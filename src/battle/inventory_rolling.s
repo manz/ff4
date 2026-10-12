@@ -6,7 +6,6 @@ runs the field-menu NMI DMA check.
 .import "preamble"
 .import "vwf_ram"
 .import "battle/render_state"
-.include "config.i"
 .include "battle/render_save.i"
 .import "items"
 .import "bank20_helpers"

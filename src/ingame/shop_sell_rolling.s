@@ -26,7 +26,6 @@ the field menu.
 
 .import "preamble"
 .include "../bank20.i"
-.include "config.i"
 .import "items"
 
 ; Labels this module borrows from its neighbours. As an include these

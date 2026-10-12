@@ -8,7 +8,6 @@ in-game menu wiring.
 .import "assets"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "config.i"
 .include "src/menus/system_menus_macros.i"
 
 .include "src/ingame/macros.i"

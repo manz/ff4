@@ -13,7 +13,6 @@ geometry and Cecil sprite position that go with them.
 .import "menus/start_screen_text"
 
 
-.include "config.i"
 .include "src/ingame/macros.i"
 .import "vanilla"
 

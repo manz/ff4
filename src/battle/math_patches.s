@@ -5,7 +5,6 @@ trampoline at $83B9 jumping into `_hw_mult16`.
 
 .import "preamble"
 .import "vanilla"
-.include "config.i"
 .include "../bank20.i"
 
 ; ===========================================================================

@@ -37,7 +37,6 @@ Patched:
 .include "src/libmz.i"
 
 
-.include "config.i"
 .import "vanilla"
 ; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the
 ; WHOLE filtered list into the window band and vanilla then scrolls over

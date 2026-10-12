@@ -5,7 +5,6 @@
 .import "items"
 .import "battle/render_state"
 .import "libmz"
-.include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
 .include "src/libmz.i"

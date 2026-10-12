@@ -5,7 +5,6 @@ character-name row up so it does not collide with the dextrality string.
 .import "preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "config.i"
 .include "src/menus/system_menus_macros.i"
 
 

@@ -6,7 +6,6 @@ long-form attack-name copier.
 .import "bank20_helpers"
 .import "battle/magic_reloc"
 .import "vanilla"
-.include "config.i"
 
 
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
@@ -118,6 +117,21 @@ exit:
 }
 .alloc at 0x029382 {
     ldx.w #0xdb50 - 4 - 2 - 16
+}
+
+; one centred window: vanilla drew it on the left ($02:9304, a 10-cell box) on surprise and back attacks ($6CC0)
+.label _message_window_centred = 0x029360
+.alloc at 0x02BCA2 size 8 {
+    jmp.w _message_window_centred
+    nop
+    nop
+    nop
+    nop
+    nop
+}
+.alloc at 0x02CAF7 {
+; TextVar 0, the attacker's name (unused by the script)
+    jmp.w _message_window_centred
 
 
 ; cursor and scrolling

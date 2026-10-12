@@ -45,8 +45,6 @@ Final Fantasy IV the new hack.
 .import "small_vwf/init"
 .import "vwf"
 
-.include "config.i"
-
 
 .include "src/libmz.i"
 .import "items"

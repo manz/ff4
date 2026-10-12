@@ -19,10 +19,10 @@ jobs:
         enable-cache: true
     - name: Install Requirements
       run: uv sync --locked
-    - name: Build patch
+    - name: Build release patch
       run: uv run ./build.py
     - name: Create Release
       uses: softprops/action-gh-release@v3
       with:
-        files: build/ff4.ips
+        files: build/release/ff4.ips
         generate_release_notes: true

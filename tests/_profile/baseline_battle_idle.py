@@ -3,20 +3,10 @@ import sys
 sys.path.insert(0, "tests")
 from kintsuki import Button
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _rolling_state import symbols
 
 # Load symbol table for human-readable PC names
-SYM = {}
-for line in open("build/ff4.sym"):
-    line = line.strip()
-    if not line or ':' not in line:
-        continue
-    addr, _, name = line.partition(' ')
-    bank, _, off = addr.partition(':')
-    try:
-        snes_pc = (int(bank, 16) << 16) | int(off, 16)
-        SYM[snes_pc] = name
-    except ValueError:
-        pass
+SYM = {address & 0xFFFFFF: name for name, address in symbols().items()}
 
 def label(pc: int) -> str:
     if pc in SYM:

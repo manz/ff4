@@ -16,7 +16,6 @@ relocating other code.
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
 
-.include "config.i"
 .include "src/ingame/bank01_slack.i"
 .import "vanilla"
 

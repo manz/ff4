@@ -5,7 +5,6 @@ pointer), and the action window's command name read from the pointed `command_na
 
 .import "assets"
 .import "bank20_helpers"
-.include "config.i"
 command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
 command_length = 6
 ; Command window

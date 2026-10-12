@@ -21,7 +21,8 @@ ADBG = Path(__file__).resolve().parents[1] / "build" / "ff4.ips.adbg"
 
 
 @cache
-def _symbols() -> dict[str, int]:
+def symbols() -> dict[str, int]:
+    """Every symbol of the build's debug info, by name."""
     if not ADBG.exists():
         pytest.skip(f"debug info not built at {ADBG}")
     return {s.name: s.address for s in debug_info.read(ADBG).symbols}
@@ -30,7 +31,7 @@ def _symbols() -> dict[str, int]:
 def addr(instance: str, field: str) -> int:
     """Absolute WRAM address of `field` in the named rolling instance."""
     name = f"{instance}.{field}"
-    syms = _symbols()
+    syms = symbols()
     if name not in syms:
         raise AssertionError(f"{name} missing from {ADBG.name} symbol table")
     return syms[name]

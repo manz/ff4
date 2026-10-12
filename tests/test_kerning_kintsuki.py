@@ -16,11 +16,12 @@ import pytest
 
 from a816.program import Program
 from a816.writers import Writer
-from kintsuki import Emu, SymbolTable
+from kintsuki import Emu
+
+from _rolling_state import symbols
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
-SYM = REPO / "build/ff4.sym"
 FONT = REPO / "build/gen/font.dat"
 MENU_FONT = REPO / "build/gen/menu_font.dat"
 STUB_PATH = Path(__file__).parent / "asm/kerning_stub.s"
@@ -37,14 +38,7 @@ MENU_KERNING_OFFSET = 256 * 9   # within the menu font asset
 # long store reaches with D = 0.
 def _smallvwf_prev_char() -> int:
     """Resolve small_vwf's prev_char from the build's debug info."""
-    from a816 import debug_info
-    adbg = REPO / "build" / "ff4.ips.adbg"
-    if not adbg.exists():
-        pytest.skip(f"debug info not built at {adbg}")
-    for sym in debug_info.read(adbg).symbols:
-        if sym.name == "vwf_engine.prev_char":
-            return sym.address & 0xFFFFFF
-    raise AssertionError("vwf_engine.prev_char missing from the symbol table")
+    return symbols()["vwf_engine.prev_char"] & 0xFFFFFF
 
 
 SMALLVWF_PREV_CHAR = _smallvwf_prev_char()
@@ -74,10 +68,8 @@ def _read_menu_kerning_table() -> list[tuple[int, int]]:
 
 
 @pytest.fixture(scope="session")
-def syms() -> SymbolTable:
-    if not SYM.exists():
-        pytest.skip(f"ff4.sym not built at {SYM}")
-    return SymbolTable(SYM)
+def syms() -> dict[str, int]:
+    return {name: address & 0xFFFFFF for name, address in symbols().items()}
 
 
 @pytest.fixture

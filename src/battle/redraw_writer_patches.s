@@ -19,7 +19,6 @@ follow-up patches.
 .import "battle/tasks_patches"
 .import "battle/sram"
 .import "vanilla"
-.include "config.i"
 
 ; --- ATB active-char update (slice 1 cmd-gate writer) ---
 

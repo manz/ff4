@@ -7,7 +7,6 @@ configuration, not linked together.
 """
 
 
-.include "config.i"
 .include "src/ingame/macros.i"
 .include "../bank20.i"
 

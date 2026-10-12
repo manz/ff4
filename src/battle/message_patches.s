@@ -7,7 +7,6 @@ translated-string tables.
 .import "battle/sram_patches"
 .import "assets"
 .import "battle/sram"
-.include "config.i"
 
 
 .scope message_patches {

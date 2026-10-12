@@ -5,7 +5,6 @@ Counterpart of start_screen_text.s, selected by build configuration.
 """
 
 
-.include "config.i"
 .include "src/ingame/macros.i"
 
 .scope newgame {

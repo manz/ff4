@@ -7,7 +7,6 @@ the magic-render path.
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
 .import "vanilla"
-.include "config.i"
 .include "src/menus/system_menus_macros.i"
 
 .include "src/ingame/macros.i"

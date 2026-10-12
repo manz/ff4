@@ -7,7 +7,6 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 .import "ingame/inventory_rolling"
 .import "ingame/inventory_rolling_trampolines"
 .import "bank20_helpers"
-.include "config.i"
 
 .label _select_item_a066 = 0x01A066
 .label _select_item_a0bc = 0x01A0BC

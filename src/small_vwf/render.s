@@ -18,11 +18,11 @@ vwf_state.i).
 .import "items"
 .import "battle/render_state"
 .import "libmz"
-.include "config.i"
 .include "src/vwf.i"
 .include "../bank20.i"
 .include "src/libmz.i"
 .import "vanilla"
+.import "sram_layout"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern
 ; declared inside never resolves at the use site.
@@ -30,33 +30,18 @@ vwf_state.i).
 .extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
-    .include "config.i"
     .include "src/vwf_state.i"
 
-    _VARS_BUFFER = 0x710000
-
     .macro initialize(var) {
-    """Mirror a direct-page byte to the global save area."""
+    """Save a borrowed direct-page byte (sram_layout's `sram_render_dp`, one byte per direct-page address)."""
     lda.b var
-    sta.l _VARS_BUFFER + var
-    }
-
-    .macro _initialize_long(var) {
-    initialize(var)
-    initialize(var + 1)
-    initialize(var + 2)
+    sta.l sram_render_dp + var
     }
 
     .macro restore(var) {
-    """Pull the previously-saved value back into direct page."""
-    lda.b _VARS_BUFFER + var
+    """Give a borrowed direct-page byte its saved value back."""
+    lda.l sram_render_dp + var
     sta.b var
-    }
-
-    .macro _restore_long(var) {
-    restore(var)
-    restore(var + 1)
-    restore(var + 2)
     }
 
     .macro _set_var_value(var, value) {
@@ -641,7 +626,6 @@ _dtb_done:
     }
 deinit:
     {
-    _restore_long(buffer_ptr)
     restore(bits_left_on_tile)
     restore(temp)
     restore(counter)

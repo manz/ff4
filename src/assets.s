@@ -7,7 +7,6 @@ plus the `font_table` pointer table indexed by font id.
 ; Pinned binary blobs (fonts, scripts, tilemaps).
 ; ----------------------------------------------------------------
 
-.include "config.i"
 .alloc at 0x0AF000 {
     .incbin "font_8x8.bin"  ; build.py: fonts/8x8.bin with the battle ATB gauge tiles
 }
