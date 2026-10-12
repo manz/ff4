@@ -825,14 +825,9 @@ _store:
 _exit:
 
     rep #0x20
-    .if ENABLE_KERNING {
 ; Routine reads the pair from CURRENT_C (DP), no need to load A.
     jsr.w dialog_get_kerning_adjustment_binary_search
     pha
-    } else {
-    lda.w #0x0000
-    pha
-    }
 
     txy
     lda.b [font_addr], y
