@@ -12,8 +12,12 @@ def pytest_sessionfinish(session, exitstatus):
     """After every pytest run, regenerate tests/goldens/index.html — a
     flat gallery showing every golden / actual / diff / prev image
     side-by-side so reviewers can eyeball regressions without firing
-    up an emulator."""
+    up an emulator. Under pytest-xdist only the controller writes it,
+    once the workers are done."""
     from html import escape
+
+    if hasattr(session.config, "workerinput"):  # an xdist worker
+        return
 
     goldens_root = Path(__file__).parent / "goldens"
     if not goldens_root.exists():

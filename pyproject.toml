@@ -18,8 +18,9 @@ dependencies = [
 dynamic = ["version"]
 
 [dependency-groups]
-# `make tests` invokes pytest; uv installs the dev group by default.
-dev = ["pytest"]
+# `make tests` invokes pytest, on every core (pytest-xdist: each test boots its own emulator); uv installs the dev
+# group by default.
+dev = ["pytest", "pytest-xdist"]
 
 [build-system]
 requires = ["hatchling"]
