@@ -36,6 +36,36 @@ def kss_path(name: str = "ff4-before-battle-inventory.kss") -> Path:
     return SAVESTATES / name
 
 
+def _new_emu() -> Emu:
+    """The patched ROM in a fresh emulator, its debug info loaded. Tests want deterministic state: no .srm sidecar
+    (`kintsuki_load_rom` would seed cart SRAM with it)."""
+    e = Emu(load_srm_sidecar=False)
+    e.load_rom(str(ROM))
+    adbg = ROM.parent / "ff4.ips.adbg"
+    if adbg.exists():
+        e.load_adbg(str(adbg))
+    return e
+
+
+_STATES: dict[tuple, bytes] = {}
+
+
+def cached_emu(key: tuple, build: Callable[[], Emu]) -> Emu:
+    """An emulator in the state `build` reaches, built once per process: the first call runs `build` and keeps a
+    savestate of it under `key`, the next ones restore that (a fresh emulator, no frames run). For starting points
+    that take hundreds of frames to reach (a battle's opening, a menu walk) and that several tests share. Both ways
+    run one frame past the snapshot: a restored emulator has no picture until it renders one."""
+    state = _STATES.get(key)
+    if state is None:
+        emu = build()
+        _STATES[key] = emu.save_state()
+    else:
+        emu = _new_emu()
+        emu.load_state(state)
+    emu.run_frames(1)
+    return emu
+
+
 def load_emu_from_kss(kss: Path | None = None, *, settle_frames: int = 60) -> Emu:
     """Load the patched ROM + a kintsuki savestate, optionally settle for
     `settle_frames` (default 60 ≈ 1 game-second).
@@ -52,13 +82,7 @@ def load_emu_from_kss(kss: Path | None = None, *, settle_frames: int = 60) -> Em
     kss = kss or kss_path()
     if not kss.exists():
         pytest.skip(f"{kss.name} missing — drop one at tests/savestates/")
-    # Tests want deterministic state — skip the .srm sidecar that
-    # `kintsuki_load_rom` would otherwise seed cart SRAM with.
-    e = Emu(load_srm_sidecar=False)
-    e.load_rom(str(ROM))
-    adbg = ROM.parent / "ff4.ips.adbg"
-    if adbg.exists():
-        e.load_adbg(str(adbg))
+    e = _new_emu()
     blob = kss.read_bytes()
     from kintsuki._native import lib
     buf = (ctypes.c_uint8 * len(blob))(*blob)
@@ -293,13 +317,17 @@ LATE_FORMATION = 0x85  # two Mech Soldiers: a long fight from the late save
 _FORMATION, _BATTLE_PENDING = 0x7E1800, 0x7E0685  # the field starts the battle in $1800 once $0685 is set
 
 
-def fresh_late_battle(formation: int = LATE_FORMATION, before_battle: Callable[[Emu], None] | None = None) -> Emu:
+def fresh_late_battle(formation: int = LATE_FORMATION, settings: tuple[tuple[int, int], ...] = ()) -> Emu:
     """A battle started from ff4-late-field.kss (a save room: no encounters), up to Cain's first command menu. Its
-    battle state comes from this build's battle init, not from an older build's savestate. `before_battle` can set
-    the field state up first (an option, say)."""
+    battle state comes from this build's battle init, not from an older build's savestate. `settings`: (address,
+    value) bytes written in the field first (an option, say). Built once per process (`cached_emu`)."""
+    return cached_emu(("late battle", formation, settings), lambda: _late_battle(formation, settings))
+
+
+def _late_battle(formation: int, settings: tuple[tuple[int, int], ...]) -> Emu:
     emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=10)
-    if before_battle is not None:
-        before_battle(emu)
+    for address, value in settings:
+        emu.write(address, value)
     emu.write(_FORMATION, formation)
     emu.write(_FORMATION + 1, 0x00)
     emu.write(_BATTLE_PENDING, 1)

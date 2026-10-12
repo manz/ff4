@@ -72,7 +72,7 @@ SETTING = 0x7E16B3  # Options, "Jauge ATB": bit 0 (saved; 0, off, in every save)
 
 @pytest.fixture
 def battle():
-    emu = fresh_late_battle(before_battle=lambda e: e.write(SETTING, 1))
+    emu = fresh_late_battle(settings=((SETTING, 1),))
     try:
         yield emu
     finally:

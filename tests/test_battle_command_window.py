@@ -14,7 +14,7 @@ from __future__ import annotations
 from kintsuki import Button
 from PIL import Image
 
-from _ff4kintsuki import CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import cached_emu, CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
 
 FIELD = kss_path("ff4-before-field-inventory.kss")
 BATTLE = kss_path("ff4.kss")
@@ -23,6 +23,10 @@ CMD_WINDOW = (44, 140, 108, 200)
 
 
 def _fresh_battle():
+    return cached_emu(("command window battle",), _walk_into_battle)
+
+
+def _walk_into_battle():
     e = load_emu_from_kss(FIELD, settle_frames=60)  # in the field
     walk_into_battle(e)
     wait_for_turn(e, CECIL_SLOT)
