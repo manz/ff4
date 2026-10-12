@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
-    <sn:string>Rez-de-chaussé</sn:string>
+    <sn:string>Rez-de-chaussée</sn:string>
     <sn:string>1er Étage</sn:string>
-    <sn:string>2eme Étage</sn:string>
-    <sn:string>3eme Étage</sn:string>
-    <sn:string>4eme Étage</sn:string>
-    <sn:string>5eme Étage</sn:string>
-    <sn:string>6eme Étage</sn:string>
-    <sn:string>7eme Étage</sn:string>
+    <sn:string>2e Étage</sn:string>
+    <sn:string>3e Étage</sn:string>
+    <sn:string>4e Étage</sn:string>
+    <sn:string>5e Étage</sn:string>
+    <sn:string>6e Étage</sn:string>
+    <sn:string>7e Étage</sn:string>
     <sn:string>1er Sous-Sol</sn:string>
-    <sn:string>2eme Sous-Sol</sn:string>
-    <sn:string>3eme Sous-Sol</sn:string>
-    <sn:string>4eme Sous-Sol</sn:string>
-    <sn:string>5eme Sous-Sol</sn:string>
-    <sn:string>6eme Sous-Sol</sn:string>
-    <sn:string>7eme Sous-Sol</sn:string>
-    <sn:string>8eme Sous-Sol</sn:string>
+    <sn:string>2e Sous-Sol</sn:string>
+    <sn:string>3e Sous-Sol</sn:string>
+    <sn:string>4e Sous-Sol</sn:string>
+    <sn:string>5e Sous-Sol</sn:string>
+    <sn:string>6e Sous-Sol</sn:string>
+    <sn:string>7e Sous-Sol</sn:string>
+    <sn:string>8e Sous-Sol</sn:string>
     <sn:string>Auberge</sn:string>
     <sn:string>Armurerie</sn:string>
     <sn:string>Boutique d'armures</sn:string>
@@ -24,33 +24,33 @@
     <sn:string>Camp</sn:string>
     <sn:string>Chambre Royale</sn:string>
     <sn:string>Donjon</sn:string>
-    <sn:string>Chambre du Crystal</sn:string>
+    <sn:string>Salle du Cristal</sn:string>
     <sn:string>Forêt Chocobo</sn:string>
     <sn:string>Village Chocobo</sn:string>
     <sn:string>Boutique d'Armes et d'Armures</sn:string>
     <sn:string>Tour Ouest</sn:string>
     <sn:string>Tour Est</sn:string>
-    <sn:string>Piece Cachée</sn:string>
-    <sn:string>Salle d'entrainement</sn:string>
+    <sn:string>Pièce Cachée</sn:string>
+    <sn:string>Salle d'entraînement</sn:string>
     <sn:string>Château de Baron</sn:string>
     <sn:string>Classe de Magie Blanche</sn:string>
     <sn:string>Classe de Magie Noire</sn:string>
     <sn:string>Ta Chambre</sn:string>
     <sn:string>Village de Baron</sn:string>
     <sn:string>Lac Souterrain</sn:string>
-    <sn:string>Underground Channel -N.</sn:string>
+    <sn:string>Rivière Souterraine - Nord</sn:string>
     <sn:string>Grotte de Mist</sn:string>
     <sn:string>Village de Mist</sn:string>
     <sn:string>Maison</sn:string>
     <sn:string>Oasis de Kaipo</sn:string>
-    <sn:string>Underground Channel -S.</sn:string>
-    <sn:string>Underground Waterfall</sn:string>
+    <sn:string>Rivière Souterraine - Sud</sn:string>
+    <sn:string>Cascade Souterraine</sn:string>
     <sn:string>Château de Damcyan</sn:string>
     <sn:string>Donjon de Damcyan</sn:string>
     <sn:string>Sous-sol de l'Antlion - Étage 1</sn:string>
     <sn:string>Nid de l'Antlion</sn:string>
     <sn:string>Mont Hobs - Ouest</sn:string>
-    <sn:string>Summit</sn:string>
+    <sn:string>Sommet</sn:string>
     <sn:string>Fabul</sn:string>
     <sn:string>Mont Hobs - Est</sn:string>
     <sn:string>Port de Fabul</sn:string>
@@ -60,7 +60,7 @@
     <sn:string>Tour des Prières</sn:string>
     <sn:string>Chemin du Diable</sn:string>
     <sn:string>Salle de Prière</sn:string>
-    <sn:string>Mont Ordeal - Entrée</sn:string>
+    <sn:string>Mont de l'Épreuve - Entrée</sn:string>
     <sn:string>Ville de Mithril</sn:string>
     <sn:string>Plage</sn:string>
     <sn:string>Dummy</sn:string>
@@ -78,23 +78,23 @@
     <sn:string>Tour de Zott</sn:string>
     <sn:string>Bouche du Géant</sn:string>
     <sn:string>Château des Nains</sn:string>
-    <sn:string>Back Room</sn:string>
+    <sn:string>Arrière-salle</sn:string>
     <sn:string>Passage vers Babil</sn:string>
-    <sn:string>Mt. Ordeals -3rd Station</sn:string>
-    <sn:string>Mt. Ordeals -7th Station</sn:string>
-    <sn:string>Under Eblana Castle</sn:string>
+    <sn:string>Mont de l'Épreuve - 3e Palier</sn:string>
+    <sn:string>Mont de l'Épreuve - 7e Palier</sn:string>
+    <sn:string>Sous le Château d'Eblana</sn:string>
     <sn:string>Red Cap</sn:string>
     <sn:string>Enterprise</sn:string>
-    <sn:string>Magical Ship</sn:string>
-    <sn:string>'King' Pub</sn:string>
+    <sn:string>Vaisseau Magique</sn:string>
+    <sn:string>Pub 'Le Roi'</sn:string>
     <sn:string>Maison du Forgeron Kukuro</sn:string>
-    <sn:string>Village of Tomera</sn:string>
-    <sn:string>Cave to Phantom World</sn:string>
-    <sn:string>Sealed Cave</sn:string>
-    <sn:string>Adamant Cave</sn:string>
+    <sn:string>Village de Toméra</sn:string>
+    <sn:string>Grotte des Chimères</sn:string>
+    <sn:string>Grotte Scellée</sn:string>
+    <sn:string>Grotte de l'Île d'Adamant</sn:string>
     <sn:string>Base Militaire des Nains</sn:string>
     <sn:string>Canon Gigantesque</sn:string>
-    <sn:string>Cave of the Phantom God</sn:string>
+    <sn:string>Grotte du Dieu des Chimères</sn:string>
     <sn:string>Maison des Sélénites</sn:string>
     <sn:string>Grotte des Sylphes</sn:string>
     <sn:string>Souterrain Lunaire - Niveau 1</sn:string>
@@ -108,12 +108,12 @@
     <sn:string>Passage Lunaire Souterrain</sn:string>
     <sn:string>Zeromus</sn:string>
     <sn:string>Sous Babil</sn:string>
-    <sn:string>'Laliho' Pub</sn:string>
-    <sn:string>Music Room</sn:string>
-    <sn:string>Upper Room</sn:string>
-    <sn:string>Phantom World</sn:string>
-    <sn:string>A Few Books</sn:string>
-    <sn:string>A Residence</sn:string>
+    <sn:string>Pub 'Lali-ho!'</sn:string>
+    <sn:string>Salle de Musique</sn:string>
+    <sn:string>Dortoir</sn:string>
+    <sn:string>Cité des Chimères</sn:string>
+    <sn:string>Bibliothèque des Chimères</sn:string>
+    <sn:string>Maison de Rydia</sn:string>
     <sn:string>Cou du Géant</sn:string>
     <sn:string>Poitrine du Géant</sn:string>
     <sn:string>Estomac du Géant</sn:string>
