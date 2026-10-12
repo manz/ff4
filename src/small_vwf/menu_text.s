@@ -83,7 +83,6 @@ _SHARED_REGION := 0x02  ; attribute bits of tiles $200-$2FF, taken in turns by t
     rts
 }
 
-_SPELL_LENGTH := 9  ; magic_names: 9 characters per spell id, the cells a name may cover
 _SPELL_TILES := 5  ; the widest name, Léviathan, is 40 pixels
 _SCHOOL_SPELLS := 24  ; a school's spells span at most 24 ids: (id - 1) mod 24 is unique within a list
 .assert _SCHOOL_SPELLS * _SPELL_TILES <= 0x80, "spell names outgrow tiles $100-$17F"
@@ -415,18 +414,8 @@ be cast). The name's tiles are baked (small_vwf/baked_names.s): queued from ROM 
     tax
     sep #0x20
     phx  ; 1,s cell, 3,s spell id
-    ldy.w #_SPELL_LENGTH
-_paint_cells:
-    lda.b #0xFF
-    sta.l 0x7E0000, x
-    sta.l 0x7E0040, x
-    lda.b 0xDB
-    sta.l 0x7E0001, x
-    sta.l 0x7E0041, x
-    inx
-    inx
-    dey
-    bne _paint_cells
+    ldy.w #_SPELL_TILES
+    jsr.w _paint_spell_cells
     lda 3, s
     dec
 _school_index:
@@ -498,6 +487,28 @@ _spell_drawn:
     ply
     plb
     rtl
+
+_paint_spell_cells:
+"""
+Y cells from X, both rows: blank tiles in the $db attribute (grey when the spell can't be cast). Every slot gets
+_SPELL_TILES, the widest baked name, empty ones too: a list redrawn over another (Rituel to Chimère) loses the
+previous names, and a window narrower than vanilla's 9-cell names (the cast window, the spell list beside the
+party) keeps its border. Keeps X. M = 8 bits, X/Y = 16 bits.
+"""
+    phx
+_paint_spell_cells_next:
+    lda.b #0xFF
+    sta.l 0x7E0000, x
+    sta.l 0x7E0000 + _GLYPH_ROW, x
+    lda.b 0xDB
+    sta.l 0x7E0001, x
+    sta.l 0x7E0000 + _GLYPH_ROW + 1, x
+    inx
+    inx
+    dey
+    bne _paint_spell_cells_next
+    plx
+    rts
 
 draw_class:
 """DrawClassName's copy loop ($01:8FE3): X = offset in class_names, Y = tilemap address ($29 added)."""
