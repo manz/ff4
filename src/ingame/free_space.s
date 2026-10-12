@@ -7,6 +7,7 @@ relocating other code.
 .import "ingame/inventory_rolling_trampolines"
 .import "small_vwf/init"
 .import "ingame/inventory_rolling"
+.import "ingame/menu_fade"
 .import "menus/in_game_text"
 .import "menus/start_screen_text"
 .import "menus/system_menus_text"
@@ -141,7 +142,11 @@ menu_entry_hook:
     rts
 
 menu_exit_hook:
-"""--- menu_exit_hook ---"""
+"""
+Leaving Objets: fade out before the teardown drops the list's scroll HDMA, or the window jumps up a couple of tiles
+on screen first; the main menu fades back in once rebuilt (ingame/menu_fade.s).
+"""
+    jsr.w menu_fade_out
     jsr.l menu_exit_hook_impl
     rts
 
