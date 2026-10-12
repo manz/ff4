@@ -5,6 +5,7 @@ Final Fantasy IV the new hack.
 """
 
 ; Auto-prepended: imports must precede .include'd patches
+.import "@std/snes/header"
 .import "assets"
 .import "sram_layout"
 .import "wram_layout"
@@ -100,17 +101,13 @@ Final Fantasy IV the new hack.
 .import "ingame/equip_inventory_rolling_patches"
 
 
-.alloc at 0x00FFC0 {
-; patch snes cartridge type
-; original PCB: SHVC-1A3B  ;  target PCB: SHVC-1A5B
-    .ascii "Final Fantasy IV     "
-}
-
-.alloc at 0x00FFD6 {
-; FFD5 20H / 30H Map Mode
-    .db 0x02  ; Cartridge Type
-    .db 0x0B  ; ~ 0BH ROM Size
-    .db 0x07  ; RAM Size
+; The cartridge header: the title, and the board grown from SHVC-1A3B to SHVC-1A5B (the vanilla map mode, region,
+; maker and checksum fields stay as the ROM has them).
+.patch SnesHeader at SNES_HEADER_BASE {
+    title = "Final Fantasy IV     "
+    cartridge_type = 0x02  ; ROM + RAM + battery
+    rom_size = 0x0B  ; 2^11 KiB = 2 MB
+    sram_size = 0x07  ; 2^7 KiB = 128 KB
 }
 
 .if ENABLE_BRK_HANDLER {

@@ -10,9 +10,6 @@ around their draw, and the clear keeps its end on the stack.
 """
 from __future__ import annotations
 
-import re
-from pathlib import Path
-
 from _ff4kintsuki import choose_command, kss_path, load_emu_from_kss, tap, wait_for_turn
 from kintsuki import Button
 
@@ -21,17 +18,16 @@ CURSOR_TYPE = 0x7E1823  # 5: inventory
 NMI_RTI = 0x0283E0  # vanilla battle NMI's rti
 GLYPH_STATE = range(0x0000A9, 0x0000B3)  # bits_left_on_tile .. current_char
 ALLOCATOR = range(0x702F00, 0x702F04)  # allocated_tile_id, slot_limit_low
-ADBG = Path(__file__).resolve().parents[1] / "build/ff4.ips.adbg"
 BATTLE_FLAGS = 0x704F00  # right after the CHR buffer: indexes battle_display_dakuten_char's 4-entry table
 ROSA_SLOT, WHITE_MAGIC = 3, 0x02  # ff4-late-field.kss: Rosa, a long white magic list
 FORMATION, BATTLE_PENDING = 0x7E1800, 0x7E0685  # the field starts the battle in $1800 once $0685 is set
 
 
-def _private(emu, name: str) -> int:
-    """A module-private label's address: the .adbg keeps it under its scope's mangled name."""
-    mangled = re.search(rb"__sc\d+__" + name.encode() + rb"\b", ADBG.read_bytes())
-    assert mangled, f"{name} not in the .adbg"
-    return emu.lookup_symbol_addr(mangled.group().decode())
+def _private(emu, module: str, name: str) -> int:
+    """A module-private label's address: the .adbg names it `module._name` (a816 1.1.1)."""
+    address = emu.lookup_symbol_addr(f"{module}.{name}")
+    assert address is not None, f"{module}.{name} not in the .adbg"
+    return address
 
 
 def _state(emu) -> bytes:
@@ -63,7 +59,7 @@ class _Watch:
 
 def test_the_nmi_render_keeps_the_glyph_state() -> None:
     emu = load_emu_from_kss(kss_path("ff4-battle-monsters-item.kss"), settle_frames=10)
-    watch = _Watch(emu, _private(emu, "_render_item_to_circular_slot"))
+    watch = _Watch(emu, _private(emu, "battle/inventory_rolling", "_render_item_to_circular_slot"))
     choose_command(emu, ITEM)
     for _ in range(60):
         if emu.read(CURSOR_TYPE) == 5:
