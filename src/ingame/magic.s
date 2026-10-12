@@ -55,7 +55,7 @@ the magic-render path.
 
 ; Spells type cursor offset
 .alloc at 0x01B0CE {
-    lda.b #0x00
+    lda.b #0x10  ; two tiles in, left of the centred titles
 
 ; Spells cost before char
 }

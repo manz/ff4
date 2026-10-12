@@ -48,7 +48,7 @@ empty_save:
     .text "VIDE"
     .db 0
 saves:
-    move_to(1, 1)
+    move_to(3, 1)  ; centred in its window, by whole tiles
     .text "Sauvegardes"
     .db 0
 save_completed:
@@ -56,7 +56,7 @@ save_completed:
     .text "Sauvegarde terminée"
     .db 0
 did_not_save:
-    move_to(1, 1)
+    move_to(3, 1)  ; over Sauvegardes, from its first cell
     .text "Annulation "
 ; extra space at the end to clear the previous title.
     .db 0

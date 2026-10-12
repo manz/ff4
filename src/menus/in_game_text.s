@@ -55,7 +55,7 @@ items_menu_right:
     menu_window(22, 0, 7, 3)
 item:
     menu_window(0, 0, 7, 3)
-    .dw 0x0044
+    .dw 0x0046  ; centred in its window, by whole tiles
     .text "Objets"
     .db 0
 notuse:
@@ -74,19 +74,19 @@ nothing_here:
     .scope spells {
     """Spell-list headers."""
 white:
-    move_to(24, 3)
+    move_to(26, 3)  ; the school titles: centred in their window, by whole tiles
     .text "Magie"
     .db 0
 black:
-    move_to(24, 5)
+    move_to(26, 5)
     .text "Rituel"
     .db 0
 summon:
-    move_to(24, 7)
+    move_to(26, 7)
     .text "Chimere"
     .db 0
 ninja:
-    move_to(24, 5)
+    move_to(26, 5)  ; over Rituel's cells, its trailing space included
     .text "Ninja "
     .db 0
 mp_needed:
@@ -301,7 +301,7 @@ char_stats:
     .scope options {
     """Options screen text."""
 title:
-    .dw 0x0096
+    .dw 0x009A  ; centred in its window, by whole tiles
     .text "Options"
     .db 0
 config:
@@ -363,7 +363,7 @@ pad_select_title_window:
 pad_select:
 ; パッドセレクタ ($01:D65F DrawWindowText): window, then title
     menu_window(5, 7, 20, 11)
-    move_to(10, 1)
+    move_to(11, 1)  ; centred in its window, by whole tiles
     .text "Choix des manettes"
     .db 0
 pad:
@@ -514,7 +514,7 @@ mp_cost:
     .scope treasure {
 header_window:
     menu_window(0, 0, 6, 2)
-    move_to(1, 1)
+    move_to(3, 1)  ; centred in its window, by whole tiles
     .text "Butin"
     .db 1
 exit:
