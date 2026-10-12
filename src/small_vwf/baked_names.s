@@ -39,3 +39,11 @@ tiles are one DMA from ROM.
 """Per battle command id: word offset in command_names_vwf, byte tile count, byte 0."""
     .incbin "command_names_vwf.tbl"
 }
+
+.alloc status_names_vwf in baked_names {
+    .incbin "status_names_vwf.dat"
+}
+.alloc status_names_vwf_tbl in baked_names {
+"""Per status bit: word offset in status_names_vwf, byte tile count, byte last tile's columns."""
+    .incbin "status_names_vwf.tbl"
+}

@@ -110,3 +110,29 @@ def bake_pointed_file(
     blob, table = bake(auto_kern(font, glyphs, names) if glyphs else font, names)
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)
+
+
+def based_records(data: bytes, count: int, base: int) -> list[bytes]:
+    """The NUL-terminated strings of a `count`-pointer table at the start of `data`, each pointer the string's address
+    in a bank with `data` at `base` (its low 16 bits)."""
+    offsets = [int.from_bytes(data[i : i + 2], "little") - (base & 0xFFFF) for i in range(0, count * 2, 2)]
+    return [data[offset : data.index(0, offset)] for offset in offsets]
+
+
+def bake_based_file(
+    font_file: Path, names_file: Path, count: int, base: int, blob_file: Path, table_file: Path, max_tiles: int,
+    glyphs: Glyphs | None = None,
+) -> None:
+    """As `bake_pointed_file`, for a based pointer table (`based_records`); a name wider than `max_tiles` tiles fails
+    the build: its window has no more."""
+    font = VwfFont.decode(font_file.read_bytes())
+    names = based_records(names_file.read_bytes(), count, base)
+    if glyphs:
+        font = auto_kern(font, glyphs, names)
+    for index, codes in enumerate(names):
+        tiles = len(name_tiles(font, codes)) // 16
+        if tiles > max_tiles:
+            raise ValueError(f"{names_file} name {index}: {tiles} tiles, its window has {max_tiles}")
+    blob, table = bake(font, names)
+    blob_file.write_bytes(blob)
+    table_file.write_bytes(table)

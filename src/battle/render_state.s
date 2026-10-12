@@ -19,7 +19,8 @@ BATTLE_RENDER_STATE := 0x707100
     u1 names
     u1 commands
     u1 spells
-    u2 free
+    u1 status  ; the target window's status names (battle/status_names.s)
+    u1 free
 }
 
 ; region_dirty_bits: regions whose text changed (1 = dirty).

@@ -12,6 +12,7 @@ dialog-stream consumer).
 .include "../bank20.i"
 .import "vanilla"
 .import "small_vwf/baked_names"
+.import "battle/status_names"
 .import "wram_layout"
 .import "battle/monsters_reloc"
 
@@ -1950,6 +1951,18 @@ _chr_no_cmds:
     lda.b #0x70
     jsr.w _sram_dma_transfer_7
 _chr_no_spells:
+    lda.l battle_render_state.pending_transfer_mask
+    bit.b #ChrTransferBits.status.mask
+    beq _chr_no_status
+    ldy.w #STATUS_VRAM_WORD
+    ldx.w #status_name_tiles & 0xFFFF
+    rep #0x20
+    lda.w #STATUS_STAGING_BYTES
+    sta.b 0x0e
+    sep #0x20
+    lda.b #status_name_tiles >> 16
+    jsr.w _sram_dma_transfer_7
+_chr_no_status:
     lda.b #0x00
     sta.l battle_render_state.pending_transfer_mask
 _chr_dma_skip:
