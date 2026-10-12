@@ -26,7 +26,7 @@ LABEL_ENTRIES = range(3, 15)  # the copy list's entries the labels take
 LABELS = {  # label: its text, the cells of its row, the blank cells before it (the rest of the row blank)
     "garde": ("Garde", 6, 0),
     "rang": ("Rang", 6, 2),  # the hand cursor sits over the Row window's first cells
-    "mp_cost": ("Coût PM", 7, 0),
+    "mp_cost": ("Coût PM", 7, 1),  # centred by whole tiles in the MP cost window
 }
 
 
