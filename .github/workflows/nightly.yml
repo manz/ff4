@@ -20,7 +20,7 @@ jobs:
     - name: Install Requirements
       run: uv sync --locked
     - name: Build patch
-      run: uv run ./build.py --dev
+      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run ./build.py --dev
     - name: Create Nightly Release
       uses: softprops/action-gh-release@v3
       with:

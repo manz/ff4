@@ -26,7 +26,7 @@ jobs:
         gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
 
     - name: Build patch
-      run: uv run ./build.py --dev
+      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run ./build.py --dev
 
     - name: Verify IPS produced
       run: test -s build/ff4.ips
