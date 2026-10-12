@@ -25,7 +25,7 @@ import pytest
 from kintsuki import Button
 from PIL import Image
 
-from _ff4kintsuki import CECIL_SLOT, command_row, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, BATTLE_MENU_PANEL, PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import cached_emu, CECIL_SLOT, command_row, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, BATTLE_MENU_PANEL, PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
@@ -50,6 +50,10 @@ def _row(emu, row: int) -> list[int]:
 
 
 def _fresh_battle():
+    return cached_emu(("magic window battle",), _walk_into_battle)
+
+
+def _walk_into_battle():
     e = load_emu_from_kss(KSS, settle_frames=60)  # in the field
     walk_into_battle(e)
     wait_for_turn(e, CECIL_SLOT)
