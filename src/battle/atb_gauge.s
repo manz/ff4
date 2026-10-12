@@ -22,6 +22,8 @@ at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn inste
 .include "src/battle/bank02_trampolines.i"
 
 _PARTY := 5
+_SETTING := 0x7E16B3  ; ingame/options.s ATB_GAUGE_SETTING: bit 0 shows the gauges (saved, 0 by default)
+_SETTING_ON := 0x01
 _TIMERS := 0x7E2A07  ; the action timer, a word, per fighter
 _DISPLAY_ORDER := 0x02A1F3  ; vanilla: the party window's rows list the slots in this order, present ones only
 _RECORDS := 0x7E2000  ; a character per $80, +0 0 for nobody
@@ -144,6 +146,11 @@ Callable with JSL.
     lda.b #0x7E
     pha
     plb
+    lda.l _SETTING  ; Options, "Jauge ATB": off leaves vanilla's "/max HP"
+    and.b #_SETTING_ON
+    bne _on
+    jmp.w _done
+_on:
     stz.w atb_gauge_state.changed & 0xFFFF
     rep #0x20
     lda.l battle_frame_counter  ; real time: the updates come every frame or every other one, the NMI every frame

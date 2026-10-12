@@ -67,9 +67,12 @@ def test_merge_refuses_a_glyph_slot() -> None:
         atb_gauge.merge(bytes(font), STRIP)
 
 
+SETTING = 0x7E16B3  # Options, "Jauge ATB": bit 0 (saved; 0, off, in every save)
+
+
 @pytest.fixture
 def battle():
-    emu = fresh_late_battle()
+    emu = fresh_late_battle(before_battle=lambda e: e.write(SETTING, 1))
     try:
         yield emu
     finally:
@@ -133,3 +136,15 @@ def test_the_gauges_never_step_back(battle) -> None:
                 steps_back.append((frame, row, last[row], fill))
             last[row] = fill
     assert steps_back == []
+
+
+def test_off_by_default_the_rows_keep_their_max_hp() -> None:
+    emu = fresh_late_battle()
+    try:
+        assert emu.read(SETTING) & 1 == 0
+        for row in range(5):
+            cells = _bottom_cells(emu, row)
+            assert cells[4][0] == 0xC7  # vanilla's "/"
+            assert all(tile in DIGITS for tile, _ in cells[5:9])
+    finally:
+        emu.close()
