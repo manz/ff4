@@ -6,7 +6,8 @@ window breaks and line breaks are the build's, never hand-kept. Markup a previou
 `[bold]`/`[normal]` around speakers) is stripped first, so laying out twice changes nothing.
 
 ff4's script rules: `Name:` opens a speaker, set in bold at the start of each of their windows; a speaker change
-starts a new window; «» speech without a visible speaker gets windows of its own; `[end]` / `[close_window]` close
+starts a new window; «» speech without a visible speaker gets windows of its own, and so does an announcement, a
+whole sentence set in `[force_bold]` ("L'invocatrice Rydia se joint à toi !"); `[end]` / `[close_window]` close
 the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow). A font switch holds until the
 next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
 use where it starts, so a `[force_book]` narration wraps to the book font's widths.
@@ -36,6 +37,7 @@ NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"(\w+(?:\s+\w+)*):")
 QUOTE = re.compile(r"«[^»]*»")
+ANNOUNCEMENT = re.compile(r"\[force_bold\][^\[]*[.!?]\s*\[force_normal\]")  # its punctuation inside: not a bold word
 CONTROL = re.compile(r"\[[^\]]*\]")
 LAYOUT_MARKUP = ("[bold]", "[normal]", "[book]", "[wicked]")
 MARKUP = Markup(
@@ -52,7 +54,7 @@ line never ends on one."""
 
 @dataclass(frozen=True)
 class Token:
-    kind: str  # SPEAKER, QUOTE, SENTENCE, END, BREAK
+    kind: str  # SPEAKER, QUOTE, ANNOUNCEMENT, SENTENCE, END, BREAK
     value: str
 
 
@@ -79,6 +81,9 @@ def tokenize(text: str) -> list[Token]:
         elif quote := QUOTE.match(text, i):
             tokens.append(Token("QUOTE", quote.group(0)))
             i = quote.end()
+        elif announcement := ANNOUNCEMENT.match(text, i):
+            tokens.append(Token("ANNOUNCEMENT", announcement.group(0)))
+            i = announcement.end()
         elif speaker := SPEAKER.match(text, i):
             tokens.append(Token("SPEAKER", speaker.group(1)))
             i = speaker.end()
@@ -92,7 +97,12 @@ def tokenize(text: str) -> list[Token]:
 
 
 def _interrupts(text: str, i: int) -> bool:
-    return text.startswith("«", i) or bool(SPEAKER.match(text, i)) or any(text.startswith(e, i) for e in ENDS)
+    return (
+        text.startswith("«", i)
+        or bool(SPEAKER.match(text, i))
+        or bool(ANNOUNCEMENT.match(text, i))
+        or any(text.startswith(e, i) for e in ENDS)
+    )
 
 
 def _sentence(text: str, i: int) -> tuple[str, int]:
@@ -144,11 +154,22 @@ def _control_only(text: str) -> bool:
 
 
 def with_breaks(tokens: Sequence[Token]) -> list[Token]:
-    """A break after a quote followed by more speech, and before a quote answering a speaker."""
+    """A break after a quote followed by more speech, and before a quote answering a speaker; one on either side of
+    an announcement."""
     out: list[Token] = []
     speaking = False
     for index, token in enumerate(tokens):
+        if token.kind == "ANNOUNCEMENT" and out and out[-1].kind not in ("BREAK", "END"):
+            out.append(Token("BREAK", ""))
         out.append(token)
+        if token.kind == "ANNOUNCEMENT":
+            following = tokens[index + 1] if index + 1 < len(tokens) else None
+            if following is not None and following.kind != "END" and not (
+                following.kind == "SENTENCE" and _control_only(following.value)
+            ):
+                out.append(Token("BREAK", ""))
+            speaking = False
+            continue
         speaking = token.kind == "SPEAKER" or (speaking and token.kind not in ("QUOTE", "END"))
         following = tokens[index + 1] if index + 1 < len(tokens) else None
         if following is None:
@@ -224,6 +245,11 @@ class DialogLayout:
                 self.joinable = False
                 for sentence in _quote_sentences(token.value):
                     self._add(sentence, None)
+                speaker = None
+                self.joinable = False
+            elif token.kind == "ANNOUNCEMENT":
+                self.joinable = False
+                self._add(token.value, None)
                 speaker = None
                 self.joinable = False
             else:  # END: the message ends; another one in the same pointer starts afresh
