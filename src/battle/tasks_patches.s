@@ -1,7 +1,7 @@
 """
-Battle tasks wired into the battle graphics loop: run_tasks after RedrawMainMenu in WaitFrameMain, and the first
-task, the status text: drawn and transferred when UpdateObjBuf's copy of the status bytes sees a change, instead of
-on every pass and every eighth frame.
+Battle tasks wired into the battle graphics loop: run_tasks after RedrawMainMenu in WaitFrameMain, and the menu task:
+the status text, the main view and the command window, drawn and transferred when a signal says what they show
+changed, instead of on every pass and every eighth frame.
 """
 .import "vanilla"
 .import "battle/tasks"
@@ -28,7 +28,7 @@ battle_frame_tasks:
     rts
 
 draw_status_text_far:
-"""DrawStatusText ($02:A2A1) for the status task."""
+"""DrawStatusText ($02:A2A1) for the menu task."""
     jsr.w draw_status_text
     rtl
 
@@ -80,7 +80,7 @@ tfr_status_tiles_far:
 }
 
 .alloc at 0x0296B0 + 5 * 2 {
-; PeriodicMenuUpdate's UpdateStatusTiles slot: the status task draws and transfers on SIG_STATUS instead of every
+; PeriodicMenuUpdate's UpdateStatusTiles slot: the menu task draws and transfers on SIG_STATUS instead of every
 ; eighth frame
     .dw 0x949A  ; rts
 }

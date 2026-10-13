@@ -5,7 +5,7 @@ pointer), and the action window's command name read from the pointed `command_na
 
 .import "assets"
 .import "bank20_helpers"
-command_buffer_ptr = 0x97a6 + 0x601  ; old spell lists buffers
+command_buffer_ptr = 0x97a6 + 0x601  ; vanilla spell-list buffer area
 command_length = 6
 ; Command window
 .alloc at 0x16fe5a + 6 * 2 {

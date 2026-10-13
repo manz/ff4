@@ -29,8 +29,6 @@ runs the field-menu NMI DMA check.
 ;
 ; Key insight: Render BEFORE scroll animation starts (not after).
 ;
-; See docs/ff6_rolling_inventory_analysis.md for design rationale.
-;
 ; ============================================================================
 
 ; ============================================================================
@@ -43,7 +41,7 @@ runs the field-menu NMI DMA check.
     _TOTAL_ITEMS := 48  ; Total inventory items
     .include "src/battle/inventory_budget.i"
     .include "../bank20.i"
-    _TOTAL_ROWS := 48  ; One item per row now
+    _TOTAL_ROWS := 48  ; One item per row
 
 ; Buffer sizes
     _TEXT_BYTES_PER_ITEM := 60  ; 30 tiles x 2 bytes (dakuten + main rows)
@@ -59,7 +57,7 @@ runs the field-menu NMI DMA check.
 _ITEMS_FRAME_FIRST_ROW := 1  ; Buffer rows of the items window frame:
     _ITEMS_FRAME_BOTTOM_ROW := 14  ; sides on 1-13, bottom edge on 14,
     _ITEMS_FRAME_CLEAR_END_ROW := 26  ; rows 15-25 blank (magic frame area)
-    _tilemap_content_offset := 0x46  ; Was $44 ($C52A, col 2). +2 = 1 tiles right ($C52E, col 2).
+    _tilemap_content_offset := 0x46  ; $C52C: one tile right of vanilla's $44 ($C52A, col 2)
 
 ; ============================================================================
 ; RAM VARIABLES (Using unused battle RAM)
@@ -254,7 +252,7 @@ _init_row_loop:
 ; Uses circular buffer - writes to the slot that's scrolling OUT (top slot)
 ; After scroll, that slot will appear at the bottom
 ;
-; Called via JSL from bank 02
+; Not called: scroll_list_down_hook renders its edge row itself
 
 _render_bottom_edge_row:
 ; Disable interrupts to prevent NMI from corrupting _rolling_slot_index
@@ -317,7 +315,7 @@ _store_pos_down:
 _render_bottom_done:
     plb  ; Restore data bank
     cli  ; re-enable interrupts
-    rts  ; Called from within bank $20 now
+    rts
 
 ; ============================================================================
 ; _render_top_edge_row
@@ -326,7 +324,7 @@ _render_bottom_done:
 ; Uses circular buffer - writes to the slot that's scrolling OUT (bottom slot)
 ; After scroll, that slot will appear at the top
 ;
-; Called via JSL from bank 02
+; Not called: scroll_list_up_hook renders its edge row itself
 
 _render_top_edge_row:
 ; Disable interrupts to prevent NMI from corrupting _rolling_slot_index
@@ -374,7 +372,7 @@ _store_pos_up:
 _render_top_done:
     plb  ; Restore data bank
     cli  ; re-enable interrupts
-    rts  ; Called from within bank $20 now
+    rts
 
 ; ============================================================================
 ; _render_item_to_circular_slot
@@ -750,7 +748,7 @@ _transfer_circular_slot:
     sep #0x20
 
 ; Calculate tilemap buffer source
-; source = _tilemap_buffer_base + (slot × 128) - NO content_offset!
+; source = _TILEMAP_SLOT_BASE + (slot × 128)
     lda.w _rolling_slot_index
     sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
@@ -760,7 +758,7 @@ _transfer_circular_slot:
     rep #0x20
     lda.b btlgfx_dp.mult8_result
     clc
-    adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
+    adc #_tilemap_buffer_base + _tilemap_content_offset  ; _TILEMAP_SLOT_BASE
     sta.b 0x00  ; Source address (low word)
     sep #0x20
 
@@ -886,7 +884,7 @@ _copy_slot_to_tilemap:
     lda.b btlgfx_dp.mult8_result + 1
     pha
 
-; Calculate tilemap destination (NO content_offset - write to full slot)
+; Calculate tilemap destination: _TILEMAP_SLOT_BASE + (slot × 128)
     lda.w _rolling_slot_index
     sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW
@@ -896,7 +894,7 @@ _copy_slot_to_tilemap:
     rep #0x20
     lda.b btlgfx_dp.mult8_result
     clc
-    adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
+    adc #_tilemap_buffer_base + _tilemap_content_offset  ; _TILEMAP_SLOT_BASE
     sta.b 0x00
     sep #0x20
 
@@ -1067,8 +1065,7 @@ _copy_all_slots_to_tilemap:
     sta.b 0x06  ; Slot counter (0-5)
 
 _copy_slots_loop:
-; Calculate tilemap destination: _tilemap_buffer_base + (slot × 128)
-; NO content_offset - write to full 128-byte slot
+; Calculate tilemap destination: _TILEMAP_SLOT_BASE + (slot × 128)
     lda.b 0x06
     sta.b btlgfx_dp.multiplier1
     lda #_TILEMAP_BYTES_PER_ROW  ; 128
@@ -1078,7 +1075,7 @@ _copy_slots_loop:
     rep #0x20
     lda.b btlgfx_dp.mult8_result
     clc
-    adc #_tilemap_buffer_base + _tilemap_content_offset  ; NO +_tilemap_content_offset!
+    adc #_tilemap_buffer_base + _tilemap_content_offset  ; _TILEMAP_SLOT_BASE
     sta.b 0x00  ; Tilemap dest pointer
     sep #0x20
 
@@ -1150,8 +1147,8 @@ tfr_inventory_list_rolling:
 ; RE-RENDER all visible items only when something invalidated them
 ; (open / item swap). Scroll-edge hooks paint the new hidden slot
 ; before animation, so steady-state scroll requires zero re-render
-; here. The flag was the per-frame full rebuild that was clobbering
-; the pre-rendered hidden slot.
+; here; a per-frame full rebuild would clobber the pre-rendered
+; hidden slot.
 ; The magic list renders its names into this window's tiles: once it
 ; has, paint every visible slot again. Exactly 1: cart RAM a build never
 ; wrote (old savestates carry $FF) must not force a repaint.
@@ -1211,7 +1208,7 @@ _recolour_visible_slots:
     Set the palette of every visible slot from its item's disabled bit
     ($321A bit 7: grey, palette 1). Only the tile attribute bytes change:
     vanilla's UpdateEnabledItems recolours its own 48-row buffer, which
-    the rolling list no longer shows. The hidden slot keeps the palette
+    the rolling list does not show. The hidden slot keeps the palette
     it was rendered with, from the flags of the time it was rendered.
 """
 
@@ -1343,11 +1340,10 @@ _refresh_slot_ok:
 ; ============================================================================
 ; _refresh_visible_items - Re-render all visible items after scroll
 ; ============================================================================
-; Simpler approach: instead of circular buffer tricks, just redraw the 5
-; visible items to fixed slot positions (0-4) after each scroll.
-; EF65 is reset to 0 by the caller.
+; Redraws the 5 visible items to fixed slot positions (0-4), without
+; the circular buffer. Expects EF65 reset to 0.
 ;
-; Called via JSL from wrap_and_clear_trampoline
+; Not called
 
 _refresh_visible_items:
     phb
@@ -1400,12 +1396,12 @@ _refresh_loop:
     rtl
 
 ; ============================================================================
-; _post_render_up - Called after scroll UP animation completes
+; _post_render_up - after a scroll UP animation
 ; ============================================================================
 ; Renders the next item (for potential next scroll UP) to the off-screen slot
 ; Off-screen slot after scroll UP = (pos - 1) mod 6 (above top)
 ;
-; Called via JSL from wrap_and_clear_trampoline
+; Not called
 
 _post_render_up:
     phb
@@ -1445,12 +1441,12 @@ _post_up_done:
     rtl
 
 ; ============================================================================
-; _post_render_down - Called after scroll DOWN animation completes
+; _post_render_down - after a scroll DOWN animation
 ; ============================================================================
 ; Renders the previous item (for potential scroll UP back) to the off-screen slot
 ; Off-screen slot after scroll DOWN = (pos + 5) mod 6 (below bottom)
 ;
-; Called via JSL from wrap_and_clear_trampoline
+; Not called
 
 _post_render_down:
     phb
@@ -1501,8 +1497,7 @@ _post_down_done:
 ; For scroll DOWN: Pre-render happened BEFORE animation (in scroll_list_down_hook)
 ; so the newly visible slot already has correct content.
 ;
-; We check if it was a scroll DOWN and optionally prepare the NEXT off-screen
-; slot for future scroll UP operations.
+; Nothing to post-render: scroll_list_up_hook pre-renders its own row.
 
 post_scroll_down_render:
 """Tail of `wrap_and_clear_trampoline` (JSL): post-animation hook for scroll-down."""
@@ -1514,10 +1509,6 @@ post_scroll_down_render:
 
 ; For scroll DOWN, the pre-render already happened in scroll_list_down_hook.
 ; The slot that scrolled into view (at bottom) has correct content.
-;
-; Optionally, we could prepare the slot that's now off-screen (at top)
-; for a potential scroll UP. But since scroll_list_up_hook does pre-render,
-; this isn't strictly necessary.
 
 _psd_done:
     rtl
@@ -1526,7 +1517,7 @@ _psd_done:
 ; scroll_list_down_hook
 ; ============================================================================
 ; Called via JMP.L from $02A8B8
-; Starts scroll animation. Pre-rendering happens AFTER animation in post_scroll_down_render.
+; Pre-renders the new bottom row, then starts the scroll animation.
 ; Returns via JMP.L to return_to_bank02 (which has RTS)
 ;
 
@@ -2065,7 +2056,7 @@ _reset_use_circular:
 ; This ensures VRAM has correct items even after closing/reopening
     jsr.l init_inventory_text_buf_rolling
 
-; _rolling_buffer_pos is now set by init_inventory_text_buf_rolling
+; _rolling_buffer_pos is set by init_inventory_text_buf_rolling
 
 ; Fill Y scroll in both tables using circular buffer formula
     stz.b 0x02  ; Row counter low byte (8-bit mode)
@@ -2132,7 +2123,7 @@ _reset_scanline_loop:
 ;   - Else:
 ;       Hide cursor 2 ($EF6A = 1)
 ;
-; Called via JSR from wrap_and_clear_trampoline (bank $02)
+; Called via JSL from wrap_and_clear_trampoline (bank $02)
 
     _swap_mode_flag := 0xEF94  ; Non-zero = swap mode active
     _first_selected_item := 0xEF95  ; First selected item index (bit 7 may be set)
@@ -2391,7 +2382,7 @@ _field_nmi_done:
 ; and reads VRAM dest + size from `VwfConfig`. Drives ch6, which
 ; the FF4 DMA audit shows untouched by vanilla btlgfx / menu and
 ; by every engine we ship (ch7 is the shared battle / libmz /
-; field-NMI-tilemap channel, ch3 was the WRAM mirror experiment).
+; field-NMI-tilemap channel).
 ; `flush_chr_to_vram` lives in the same bank-20 reloc region as
 ; this impl ; use a short JSR so the return stays balanced with
 ; the RTS the engine routine ends with.

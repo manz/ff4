@@ -12,7 +12,7 @@ submenu enter, status flip, …) sets the matching bit via the
 `mark_*` helpers below.
 
 See `tests/_profile/baseline_battle_idle.py` for the cycle measurement
-that prompted the work.
+behind the gating.
 """
 
 
@@ -20,14 +20,12 @@ that prompted the work.
 .import "wram_layout"
 
 
-; Cross-module LABEL: extern at root scope (`.extern` only registers in its own
-; scope, and an `.alloc` body opens its own).
 .import "battle/sram"
 .import "vanilla"
 
 ; bit 5 = cmd window, bit 6 = status strip, bits 0-4 = per-char menu (HP/MP/name), bit 7 = main-menu chrome.
-; Reserved, not vanilla's $EF9A it used to sit on: the item menu reads $EF9A (the equip popup's A: non-zero picks
-; "use" over "swap"), so a dirty command list turned the popup's A into an item use.
+; Reserved, not vanilla's $EF9A: the item menu reads $EF9A (the equip popup's A: non-zero picks "use" over
+; "swap"), so a dirty command list there would turn the popup's A into an item use.
 .reserve battle_menu_dirty 1 in battle_text_ram
 .reserve battle_monster_dirty 1 in battle_text_ram  ; bits 0-7 = per-monster-slot name redraw
 ; root-scope extern: battle/tasks_patches imports this module through inventory_rolling_patches
@@ -99,7 +97,6 @@ mark_monsters_dirty_and_init:
 _mark_all_dirty:
 """
     Reset both dirty bytes to $FF so the next frame renders everything.
-    Called once at battle init.
 """
 
 
@@ -111,7 +108,7 @@ _mark_all_dirty:
 reset_queue_dirty_bits:
 """
     Seed all redraw-gate state for a fresh battle. Called once per
-    battle from the InitMenuWindows hook ($02:9A63). Normal sense
+    battle from `battle_ext_seed` (the `Battle_ext` hook, $03:8000). Normal sense
     everywhere: 1 = dirty, 0 = clean. Seed all bytes to $FF so the
     first frame renders everything  ; the per-region gates clear their
     own bits after rendering, and writer sites re-arm on state change.
@@ -174,7 +171,7 @@ set_active_char_palette:
     M=8, X=8. Preserves the caller's full 16-bit C: vanilla callers
     run `tax` with X=16 and rely on the hidden B byte (e.g. the
     `asl  ; tax` dispatch at $02:800E), so leaking the high byte of
-    our `$32` restore sent that dispatch through a garbage jump table
+    the `$32` restore sends that dispatch through a garbage jump table
     entry into `brk #$21`.
 """
 
@@ -263,7 +260,7 @@ _scp_have_pal:
     ldy.w #1
     jsr.w _scp_patch_six
 ; The staging buffer only reaches VRAM when the names region
-; re-renders, which the slice-2 gate skips on an ATB rotation. Stamp
+; re-renders, which the names-region gate skips on an ATB rotation. Stamp
 ; the live main-view tilemap as well so the TILEMAP_PENDING_MAIN DMA
 ; carries the highlight on the next NMI: dakuten line at
 ; $BEC2 + row * $80, name line $40 further on.
@@ -370,8 +367,8 @@ refresh_active_char_palette:
 
     - A names re-render rebuilds `$B966` through vanilla
       `UpdateCharNames`, which writes palette 0 for every row whenever
-      `$D7` is clear. That wipes the walker's stamp mid-turn, which is
-      what made the highlight look erratic. `battle_render_state.render_skipped` is $00
+      `$D7` is clear. That wipes the walker's stamp mid-turn.
+      `battle_render_state.render_skipped` is $00
       exactly when DrawText ran, so re-stamp on that edge.
     - `$1822` / `$D7` can also move without a render (ATB rotation is
       covered by the writer shim, but the menu open/close edge is not),
@@ -411,8 +408,8 @@ set_active_char_and_dirty:
 """
     Writer-site shim for the active-char store (`sta $1822` at $03:A482,
     followed by `sta $d0`). Original 5 bytes replaced by JSL + NOP. Shim
-    performs both stores then unconditionally marks cmd + names +
-    monsters dirty. The vanilla site fires only when the battle-menu
+    performs both stores, unconditionally marks cmd dirty and
+    invalidates the highlight cache. The vanilla site fires only when the battle-menu
     queue pops a new char (`check if menu needs to open` path in
     `battle/char.asm:464`), so re-arming on every call is correct  ;
     a compare-against-current would mis-skip when the popped char
@@ -430,12 +427,8 @@ set_active_char_and_dirty:
     ora.b #CMD_DIRTY_BIT
     sta.l battle_menu_dirty
     jsr.l signal_commands  ; battle/tasks_patches.s: the command window task redraws
-; Char-name palette patch (replaces the full names VWF re-render
-; that used to fire via REGION_DIRTY_NAMES on every rotation).
-; Walks the `$7E:B966` tilemap, rewrites the palette field of
-; each char's 6 max tiles on both pointer mirrors ; ~300 cycles
-; vs ~3M for the VWF re-render. Also flip names tilemap dirty
-; so the unified-DMA path uploads the patched tilemap to VRAM.
+; A rotation only changes the char-name palette, so no names VWF
+; re-render (~3M cycles): the walker rewrites the palette field instead.
 ; Invalidate the highlight cache rather than walking here: this runs
 ; at the $1822 store, before the engine has populated the hidden-name
 ; flags the walker reads. `refresh_active_char_palette` re-stamps on

@@ -18,7 +18,7 @@ REGION_DIRTY_MONSTERS = RegionDirtyBits.monsters.mask
 REGION_DIRTY_NAMES = RegionDirtyBits.names.mask
 REGION_DIRTY_COMMANDS = RegionDirtyBits.commands.mask
 
-; Transient marker: $FF if `init_*_with_gate` short-circuited because the
+; Transient marker: $FF if `init_*_gated` short-circuited because the
 ; region was clean; $00 if it ran the full init.
 
 ; Per-region tilemap-DMA pending bitmask. Set by `init_*_gated` on the render

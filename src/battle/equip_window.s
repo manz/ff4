@@ -15,7 +15,7 @@ Driven by:
     EquipBuf   (120 bytes/char): bytes 0..$3B = slot-1 item (top 0..$1D, bot $1E..$3B)
                                  bytes $3C..$77 = slot-2 item ($3C..$59 top, $5A..$77 bot)
 
-Tilemap dest bases (set by hooks in items_patches.s):
+Tilemap dest bases (set by `tfr_equip_window_new`):
     $00 = $D1EE (label column: the inventory's name column, right of the cursor)
     $02 = $D1FE (item column, $00 + $10, the cursor left of it; its ":" column follows the inventory row format)
 
@@ -494,7 +494,7 @@ equip_popup_close_edge:
 }
 
 ; The popup stacks the hands, one row each (layout above), where vanilla put them side by side: its cursor handler
-; ($0B, $02:B302) moved between them with LEFT/RIGHT. Now UP/DOWN do, DOWN from the lower hand goes back to the item
+; ($0B, $02:B302) moves between them with LEFT/RIGHT. Here UP/DOWN do, DOWN from the lower hand goes back to the item
 ; list (vanilla's DOWN), and LEFT/RIGHT do nothing.
 _POPUP_CURSOR_X := 12 * 8 - 16  ; on the item: left of its symbol (screen column 12)
 .label _popup_close = 0x02B32F  ; back to the item list

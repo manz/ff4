@@ -160,7 +160,7 @@ exit:
     nop
 }
 ; Battle list hand Y per visible row ($16:FC5B), read by both the item
-; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists now draw
+; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists draw
 ; VWF names on each 16-px row's bottom tile line, lower in the cell than
 ; the 8x8 font's glyphs, so the hand comes down _LIST_CURSOR_Y_NUDGE
 ; pixels to point at the middle of the name.

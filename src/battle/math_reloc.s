@@ -1,7 +1,6 @@
 """
 Relocated 16x16 -> 32 multiply (`_hw_mult16`) using the SNES hardware multiplier,
-plus shorta / shorta0 size-toggle helpers.
-Called from JMP trampoline at $83B9 (in `math_patches.s`).
+plus shorta / shorta0 size-toggle helpers. No patch calls `_hw_mult16`.
 Input:  $393D (16-bit) * $393F (16-bit). Output: $3941 (low 16-bit), $3943 (high 16-bit).
 """
 .import "preamble"
@@ -27,9 +26,9 @@ _hw_mult16:
     sep #0x20  ; 8-bit A for hardware multiply registers
 
 ; The SNES hardware multiplier only does 8x8->16
-; For 16x16->32, we need: (AH*256 + AL) * (BH*256 + BL)
+; For 16x16->32: (AH*256 + AL) * (BH*256 + BL)
 ;   = AH*BH*65536 + AH*BL*256 + AL*BH*256 + AL*BL
-; We compute 4 partial products and add them with proper alignment.
+; 4 partial products, added with proper alignment.
 
 ; 1. Low(A) * Low(B) -> result bytes 0-1
     lda 0x393d  ; A low byte

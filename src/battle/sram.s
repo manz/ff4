@@ -1,7 +1,6 @@
 """
-Battle SRAM dispatch + per-mode put-char primitives: `battle_flags` toggles, `wram`
-put_char/put_char_with_dakuten, `battle_display_char` jump-table dispatch and the `clear_names_window_buffer`
-helper.
+Battle put-char dispatch: `battle_display_char` / `battle_display_dakuten_char` jump tables over `battle_flags`
+(WRAM put_char from battle/put_char or messages_vwf), and the `clear_names_window_buffer` helper.
 """
 .import "preamble"
 .include "src/battle/sram.i"
@@ -13,8 +12,6 @@ helper.
 .import "battle/render_state"
 .import "battle/message"
 .import "battle/put_char"
-
-; root-scope extern for the included message.s (an .alloc body can't host one).
 
 .alloc _battle_sram_block in bank20_reloc {
 battle_display_char:

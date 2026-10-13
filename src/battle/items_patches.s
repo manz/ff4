@@ -22,9 +22,6 @@ the names again in the VWF.
 
 .include "../bank20.i"
 
-; root-scope extern: `.alloc` bodies open their own scope, so an extern
-; declared inside one never resolves at the use site.
-
 .alloc at 0x029E1A {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
@@ -161,7 +158,7 @@ the names again in the VWF.
     lda #0x0f  ; 15 tiles per line instead of 12
 }
 ; ===== TfrInventoryList PATCHES =====
-; Skip when rolling buffer enabled - it has its own transfer routine
+; None: battle/inventory_rolling_patches.s replaces it with the rolling buffer's transfer routine
 
 
 ; ===== UpdateEnabledItems PATCHES (using item mode) =====
@@ -211,7 +208,7 @@ the names again in the VWF.
     .db 0x00, 0x00, 0x20, 0x0F  ; x=0, y=0, width=32, height=15 (6 items × 2 + 3 border)
 }
 ; ===== TILEMAP BASE POINTERS =====
-; Skip when rolling buffer enabled - these addresses are used for hooks/trampoline
+; None: the rolling buffer's hooks/trampolines use these addresses
 
 ; ===== CURSOR SPRITE POSITIONS =====
 
@@ -325,8 +322,8 @@ park_up_scroll_arrows:
 
 ; --- TfrEquipWindow: replace entire body with JSL to relocated routine ---
 ; Vanilla body $0297A6..$029824 (126 bytes) hard-coded a side-by-side dual-write
-; pattern. New routine in bank $20 walks label/item per hand row-by-row.
-; Trampoline overwrites the entry; obsolete in-body patches removed.
+; pattern. The bank-$20 routine walks label/item per hand row-by-row.
+; The JSL overwrites the entry.
 }
 .alloc at 0x0297A6 {
     jsr.l tfr_equip_window_new

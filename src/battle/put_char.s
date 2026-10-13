@@ -15,7 +15,7 @@ _BATTLE_DAKUTEN_TABLE = 0x16FA40
     .scope battle_flags {
     """Battle-flags toggles for switching the message renderer between WRAM tiles and VWF."""
 set_vwf_render:
-"""NOTE: set_sram_copy and clear_sram_copy removed - SRAM mode no longer used"""
+"""Set battle_flags bit $02: fixed-width char draws go through messages_vwf."""
     battle_flags_set(0x02)
     rtl
 clear_vwf_render:
@@ -61,7 +61,4 @@ put_char_with_dakuten:
     plx
     rtl
     }
-
-; NOTE: sram scope removed - SRAM mode no longer used
-; .scope sram { put_char, put_char_with_dakuten }
 }

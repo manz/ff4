@@ -22,10 +22,9 @@ mult8_far := 0x2855c
 draw_command_list_for_character:
 """
     Public RTL entry: render the per-character battle command list for the active character.
-    Dirty-bit gating moved up to the bank-02 thunk
-    (`draw_battle_command_window_relocated`) which clears CMD_DIRTY_BIT
-    before calling here  ; gating twice would leave the inner buffer
-    filled with $00FF blanks. Inventory-open short-circuit stays.
+    The command list is rebuilt on every call; the VWF re-render is gated
+    on CMD_DIRTY_BIT inside `_draw_command_list_for_character`. Skipped
+    while the inventory is open.
 """
 
 

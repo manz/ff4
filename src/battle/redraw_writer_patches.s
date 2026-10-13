@@ -3,12 +3,11 @@ Writer-site patches that mark the cmd-window dirty bit when battle state
 changes. Counterpart to the reader gate in `commands_reloc.s` and the
 shim helpers in `redraw_gates.s`.
 
-Slice 1 of the redraw-gate work: patches the ATB "pick new active char"
-site that writes `$1822`. Battle init and any per-turn rotation flow
-through this site, so this single patch is enough to keep the cmd
-window rendering correctly while gating idle frames. Additional writer
-sites (cursor scroll, submenu enter/exit, status flips, ...) land in
-follow-up patches.
+The main writer is the ATB "pick new active char" site that writes
+`$1822`: battle init and every per-turn rotation flow through it, so the
+cmd window stays correct while idle frames are gated. Also here: the
+monster-death hook, the NMI-safe UpdateFlyingHDMA patches and the bank-02
+helper pool for the gated trampolines.
 """
 
 
@@ -20,7 +19,7 @@ follow-up patches.
 .import "battle/sram"
 .import "vanilla"
 
-; --- ATB active-char update (slice 1 cmd-gate writer) ---
+; --- ATB active-char update (cmd-gate writer) ---
 
 ; Original `battle/char.asm:UpdateMenu` at @a472..@a488 contains:
 ;   $03:A481  68             pla
@@ -30,9 +29,8 @@ follow-up patches.
 ;
 ; We replace the 5 bytes at $03:A482..$03:A486 with `jsr.l ... ; nop`.
 ; The shim performs the two original stores then sets the cmd-window
-; dirty bit AND clears the slice-2 region-clean bits for names +
-; monsters at $703C01 so the queue-gated init paths re-render after
-; an ATB rotation.
+; dirty bit and invalidates the active-char highlight cache so the
+; per-frame refresh re-stamps the names palette after an ATB rotation.
 
 .alloc at 0x03A482 {
     jsr.l set_active_char_and_dirty
@@ -49,7 +47,7 @@ follow-up patches.
 .alloc at 0x03B1A0 {
     jsr.l mark_monsters_dirty_and_init
 
-; --- Phase 2: NMI-safe UpdateFlyingHDMA ---
+; --- NMI-safe UpdateFlyingHDMA ---
 ; Vanilla `UpdateFlyingHDMA` ($02:82E1) spin-waits on the IRQ flag
 ; `$f353` at $02:82E8 (5 bytes: `lda $f353; beq -5`) to avoid HDMA
 ; mid-fetch tearing in main-loop context. In NMI/vblank the HDMA
@@ -65,7 +63,7 @@ follow-up patches.
     nop
     nop
 
-; --- Phase 5: deduplicate UpdateFlyingHDMA ---
+; --- Deduplicate UpdateFlyingHDMA ---
 ; Main-loop `UpdateObjPos` ($02:82B9) calls UpdateFlyingHDMA at
 ; $02:82BC ; our NMI hook in `messages_vwf.dma_transfer` already
 ; fires it every vblank, so the main-loop call is redundant.
@@ -90,18 +88,18 @@ follow-up patches.
     }
 }
 .alloc _battle_redraw_helpers in bank02_battle_redraw_helpers {
-; --- Names + monster gated trampolines (slice 2, queue-side bits) ---
+; --- Names + monster gated trampolines ---
 ; The init -> DrawText -> deinit pipeline still fires every frame so
 ; battle_flags symmetry is preserved (other VWF callers like HP/MP
 ; digits keep seeing a consistent dispatcher state). The gating is
 ; INSIDE `init_*_gated`: it reads the region's clean bit from
-; `battle_render_state.region_dirty_bits` at $703C01. If clean, it sets `battle_render_state.render_skipped`
-; ($703C02) to $FF; the trampoline reads that and skips DrawText, and
+; `battle_render_state.region_dirty_bits`. If clean, it sets `battle_render_state.render_skipped`
+; to $FF; the trampoline reads that and skips DrawText, and
 ; `deinit_gated` skips the DMA-signal. The WRAM tile buffer is left
 ; untouched, no DMA fires from this region's deinit, and the VRAM
 ; tilemap persists from the previous render.
 msg_monster_window_gated:
-"""Gated DrawMonsterNames trampoline (slice-2 queue-side bit)."""
+"""Gated DrawMonsterNames trampoline (monsters region dirty bit)."""
     jsr.l messages_vwf.init_monsters_gated
     lda.l battle_render_state.render_skipped
     bne _mmwg_after_draw
@@ -112,7 +110,7 @@ _mmwg_after_draw:
     rts
 ; --- Bank-02 trampoline for NMI-side UpdateFlyingHDMA ---
 ; `dma_transfer` (bank-20) calls this via JSL ; trampoline JSR's
-; into UpdateFlyingHDMA ($02:82E1, phase-2 spin-wait nopped) and
+; into UpdateFlyingHDMA ($02:82E1, spin-wait nopped above) and
 ; RTLs back. Matches the JSL push/pop convention ; the vanilla
 ; function ends in rts, our trampoline rtl's instead.
 flying_hdma_trampoline:
@@ -136,11 +134,10 @@ Bank-02 RTL wrapper around vanilla `UpdateFlyingHDMA` ($02:82E1).
 ; --- Battle-init seed: zero/seed all redraw-gate state at the
 ; `Battle_ext` root entry ($03:8000). Runs exactly once per battle
 ; (from field.asm:1005 `jsl Battle_ext` and menu.asm:163
-; `jml Battle_ext`  ; no other callers per ff4decomp). Earlier we
-; tried `InitMenuWindows` ($02:9A63) but that ran INSIDE the
-; UpdateCharNames per-char loop entry, and a 2nd-battle kss restore
-; mid-state could skip it entirely. The root entry is the only
-; correct seed point.
+; `jml Battle_ext`  ; no other callers per ff4decomp). Not
+; `InitMenuWindows` ($02:9A63): it runs INSIDE the UpdateCharNames
+; per-char loop entry, and a 2nd-battle kss restore mid-state can skip
+; it entirely. The root entry is the only correct seed point.
 ;
 ; Original `Battle_ext` was `jmp ExecBattle` (3 bytes). JML is 4
 ; bytes so we clobber 1 byte of `Battle_ext2` at $03:8003. Decomp
@@ -153,18 +150,18 @@ battle_ext_seed:
 ; ExecBattle
 ; --- Active-char highlight, per pass ---
 gate_draw_status_text:
-"""RedrawMainMenu's DrawStatusText slot: the active-char highlight refresh; the status task draws the text."""
+"""RedrawMainMenu's DrawStatusText slot: the active-char highlight refresh; the menu task draws the text."""
 ; RedrawMainMenu runs every frame and this is its first call, so it is
 ; the per-frame slot for the highlight refresh. DrawCharNames is NOT in
 ; this chain (it fires from the graphics-command dispatch, a handful of
 ; frames per battle), which is why the refresh cannot live there alone.
     jsr.l refresh_active_char_palette
-; the status text itself is the status task's (battle/tasks_patches.s), drawn on SIG_STATUS
+; the status text itself is the menu task's (battle/tasks_patches.s), drawn on SIG_STATUS
     rts
 ; --- Battle-init highlight stamp ---
-; Reclaim the 3-nop slot at $02:9A69 (previously vanilla `jsr
-; InitMagicListTextBuf` ; we noop'd that in magic/patches.s since
-; our two-column magic display drives its own buffer). Insert
+; Take over the 3-byte slot at $02:9A69 (vanilla `jsr
+; InitMagicListTextBuf`, not needed: the two-column magic display
+; drives its own buffer). Insert
 ; `jsr walker_helper` so the active-char palette gets stamped
 ; right after UpdateCharNames built $B966 ; subsequent init steps
 ; (DrawHPText, DrawMonsterNames, etc.) target different WRAM
@@ -174,7 +171,7 @@ walker_helper:
     jsr.l walker_rtl
     rts
 msg_names_window_gated:
-"""Gated DrawCharNames trampoline (slice-2 queue-side bit)."""
+"""Gated DrawCharNames trampoline (names region dirty bit)."""
     lda.b btlgfx_dp.menu_windows_open
 ; Menu-state bit 2 = inventory open (cf. vanilla UpdateMagicList @96ef).
     and.b #0x04
@@ -208,7 +205,7 @@ _mnwg_done:
     jsr.w gate_draw_status_text
 }
 
-; Battle-init palette stamp (replaces noop'd InitMagicListTextBuf jsr).
+; Battle-init palette stamp (replaces the InitMagicListTextBuf jsr).
 .alloc at 0x029A69 {
     jsr.w walker_helper
 }

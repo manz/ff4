@@ -1,6 +1,6 @@
 """
 Battle inventory buffer layout: relocated buffer base + size constants for the expanded 12-byte item names
-(was 9-byte in stock FF4).
+(9 bytes in vanilla).
 """
 .import "wram_layout"
 ; ============================================================================
@@ -32,7 +32,7 @@ Battle inventory buffer layout: relocated buffer base + size constants for the e
 ;   [symbol:1][name:11][colon:1][tens:1][ones:1] = 15 tiles
 
 item_buffer_base := 0x97A6  ; Ring buffer in freed spell list buffer 1
-item_buffer_stride := 60  ; Bytes per slot (was 48)
+item_buffer_stride := 60  ; Bytes per slot (vanilla 48)
 item_buffer_slots := 6  ; Ring buffer slots (5 visible + 1 pre-render)
 item_buffer_size := sizeof(battle_item_text_ring)
 item_line2_offset := 30  ; Offset to second tilemap row within slot

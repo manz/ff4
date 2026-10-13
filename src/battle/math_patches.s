@@ -1,6 +1,6 @@
 """
-Patches that re-point the bank-2 hardware multiplier (`Mult8` at $8560) at our reimplementation, plus the JMP
-trampoline at $83B9 jumping into `_hw_mult16`.
+Patches that route the bank-2 multipliers (`Mult8` at $8560, `MultHW` at $85D2) through NMI-safe hardware-multiplier
+versions.
 """
 
 .import "preamble"

@@ -22,8 +22,6 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 ; IMPORTANT: Bank $02 free space is limited ($98FF-$9982 = 131 bytes)
 ; Only small trampolines go here. Large functions go in bank $20.
 ;
-; See docs/ff6_rolling_inventory_analysis.md for design rationale.
-;
 ; ============================================================================
 
 ; ============================================================================
@@ -58,18 +56,18 @@ _update_enabled_items_trampoline:
 ; Original function was overwritten. This must fit in bank $02 free space.
 
 draw_battle_command_window_relocated:
-; Drop the CMD_DIRTY_BIT gate. The cmd-window tilemap region at
+; No CMD_DIRTY_BIT gate on the mirror. The cmd-window tilemap region at
 ; $C1A5+ is a mirror of the main view ($BE65+) overlaid with cmd
 ; tiles. ATB rotation / monster death / HP ticks etc. only write to
-; main, never re-mirror, so gating left the cmd region frozen at
-; battle-init state (and we kept seeing empty char-name + monster
-; rows behind the cmd window). Mirror is now a single ch3 WRAM DMA
-; (~400 cycles), small enough to run every frame; total cost is in
-; the same ballpark as vanilla's per-frame DrawCmdWindow.
-    jsr.w draw_window_render_hook  ; Draw command list (X side-effect unused now)
+; main, never re-mirror, so a gated mirror leaves the cmd region frozen
+; at battle-init state (empty char-name + monster rows behind the cmd
+; window). The mirror is one MVN block move (~5800 cycles), cheap
+; enough to run every frame; total cost is in the same ballpark as
+; vanilla's per-frame DrawCmdWindow.
+    jsr.w draw_window_render_hook  ; Draw command list (X side-effect unused)
 
-; Mirror main-view tilemap $BE65..$C1A4 -> $C1A5..$C4E4 via WRAM DMA
-; ch3 (replaces a $340-iter lda/sta loop ; ~10K cycles -> ~400).
+; Mirror main-view tilemap $BE65..$C1A4 -> $C1A5..$C4E4 via MVN
+; (vanilla: a $340-iter lda/sta loop, ~10K cycles).
     jsr.l messages_vwf.mirror_main_to_cmd
     lda #0x02
     jsr.w load_menu_window_data  ; Load menu window data
@@ -79,7 +77,7 @@ draw_battle_command_window_relocated:
     jsr.w draw_cmd_list_text
 ; Queue the cmd tilemap upload only now that mirror + overlay are both
 ; in: queued earlier, an NMI between the two pushed the bare mirror (or
-; a half-copied overlay) to VRAM. The VWF render used to fill that gap.
+; a half-copied overlay) to VRAM.
     lda.l battle_render_state.tilemap_pending_mask
     ora.b #battle_render.TILEMAP_PENDING_COMMANDS
     sta.l battle_render_state.tilemap_pending_mask
@@ -88,19 +86,14 @@ draw_battle_command_window_relocated:
 ; ============================================================================
 ; WRAP/CLEAR TRAMPOLINE (small, stays in bank $02)
 ; ============================================================================
-; After scroll animation completes, we need to post-render for scroll DOWN.
-; For scroll down: the slot that just scrolled off-screen needs to be updated
-; with the NEXT item for future scrolls.
-; For scroll up: pre-rendering was already done before animation.
+; After the scroll animation: both scroll hooks pre-render their edge row
+; before the animation starts, so nothing is left to render here.
 
 wrap_and_clear_trampoline:
 """Bank-$02 tail of the scroll animation: post-render and cursor visibility check."""
 ; FF6-style circular scroll - no reset needed!
 ; The wrap function in update_list_scroll_hdma_wrapped handles coordinate conversion.
 ;
-; After scroll down, we need to post-render the next item to prepare for
-; future scrolls. The off-screen slot that just scrolled off should be
-; updated with the next item in the list.
     jsr.l post_scroll_down_render  ; Post-render if scroll down
 
 ; Check cursor 2 visibility for swap mode
@@ -110,8 +103,6 @@ wrap_and_clear_trampoline:
 ; Clear animation state
     stz.w menu_hdma_pending
     rts
-
-; Return point for bank $20 functions that need to RTS to bank $02 callers
 }
 
 ; end .alloc _bank02_trampolines_block
@@ -121,7 +112,7 @@ wrap_and_clear_trampoline:
 ; ============================================================================
 
 ; Redirect callers of $9989 to relocated function
-; Must use JSR (not JSL) since function ends with JMP, not RTL
+; Must use JSR (not JSL) since the function ends with RTS, not RTL
 
 .alloc at 0x0296CB {
 ; RedrawMainMenu's per-pass command window: the battle menu task draws it on SIG_COMMANDS (battle/tasks_patches.s)
@@ -133,7 +124,7 @@ wrap_and_clear_trampoline:
     jsr.w draw_battle_command_window_relocated
 
 ; ============================================================================
-; PATCHES in ascending address order (assembler requires this)
+; SCROLL ANIMATION PATCHES
 ; ============================================================================
 
 ; Scroll animation end - wrap $EF65 (4 bytes each)

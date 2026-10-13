@@ -39,20 +39,20 @@ window) through our messages-VWF init/deinit trampolines.
     cmp #0xA0
     bcs 0x02A4AC
 
-; patch normal display_char to include 7FFFFF based switch
+; patch normal display_char to include the battle_flags switch
 }
 .alloc at 0x02A49B {
     jsr.l battle_display_char
     rts
 
-; patch normal display_dakuten_char to include 7FFFFF based switch
+; patch normal display_dakuten_char to include the battle_flags switch
 }
 .alloc at 0x02A4AC {
     jsr.l battle_display_dakuten_char
     rts
 
 ; enclose jsr build_tileset_function
-; with 7FFFFF switch in the items related stuff.
+; with the battle_flags switch in the items related stuff.
 ;*=0x02A06C
 ;   jsr.w sram_draw_text
 
@@ -72,8 +72,7 @@ window) through our messages-VWF init/deinit trampolines.
 ;    nop
 ;    nop
 ;    nop
-;; monster names vwf try but being clear at every monster
-;; needs a way to have immortal renders and temporary ones (used only for a few instants)
+; monster names: gated trampoline, renders only when the monsters region is dirty
 .alloc at 0x02a40d {
     jsr.w msg_monster_window_gated
 }
@@ -149,7 +148,7 @@ window) through our messages-VWF init/deinit trampolines.
 
 ; always use the same buffer for all chars command list,
 ; the buffer shall be updated if before the window is opened
-; due to those updates being quite costly now, we may want to avoid to re render too often
+; the updates are costly, so CMD_DIRTY_BIT gates the re-render (battle/commands_reloc.s)
 }
 
 
@@ -175,7 +174,7 @@ _draw_command_list:
     rts
 
 _msg_monster_window_trampoline:
-"""Trampoline patched into the monster-name window draw."""
+"""Ungated monster-name window draw; the $02:A40D patch site calls `msg_monster_window_gated` instead."""
     jsr.l messages_vwf.init_monsters
     bra _draw_text_battle
 

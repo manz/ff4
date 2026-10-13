@@ -163,7 +163,6 @@ _state:
     counter = bits_left_on_tile + 6
     prev_char = bits_left_on_tile + 8
     current_char = prev_char + 1
-;font_ptr = menu_font ; moved to direct use of menu_font
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
     jsr.w _clear_monster_text
@@ -458,11 +457,10 @@ _display_char:
     jmp.w brk_bits_left
 _not_space:
 
-; Tier-2 hoist: classify bits_left_on_tile once per glyph, dispatch to
-; one of 8 specialized 8-iteration loops (aligned + shift_0..shift_7).
-; Each loop bakes the asl count into its body so the per-row
-; cmp/jmp-table/mul-ladder dance disappears. Loops jump to brk_bits_left
-; on completion.
+; Classify bits_left_on_tile once per glyph, dispatch to one of 8
+; specialized 8-iteration loops (aligned + shift_0..shift_7). Each loop
+; bakes the asl count into its body, so no per-row cmp/jmp-table/mul
+; ladder runs. Loops jump to brk_bits_left on completion.
 ;
 ; X holds the font pointer at entry. The shift dispatch clobbers X for
 ; the indirect jump, so the font pointer is stashed in `temp` first and
@@ -794,8 +792,7 @@ _space_skip:
     rts
 
 found_pair:
-; This label kept for compatibility but shouldn't be reached
-; in binary search version
+; Unreferenced: the binary search exits through found_pair_cleanup
     clc
     plb
     plb
@@ -879,7 +876,7 @@ put_fixed_char_no_dakuten:
 put_fixed_char_dakuten:
     jmp.w battle_render.display_char
 put_fixed_char_far:
-"""far calls for the new implementation"""
+"""Far (RTL) entries for the put_fixed_char routines."""
     jsr.w put_fixed_char
     rtl
 put_fixed_char_dakuten_far:
@@ -914,7 +911,7 @@ init_names:
 init_inventory_for_current_slot:
 """
 Compute tile_id base from the live _rolling_slot_index (0..5),
-allocate 9 tile_ids per slot starting at 0xC0, and reset allocator
+allocate ITEM_VWF_TILE_BUDGET tile_ids per slot starting at 0xC0, and reset allocator
 state. Saves the bank-02 trampoline ~20 bytes by keeping the math
 here.
 """
@@ -970,15 +967,13 @@ _chr_clear_loop:
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-; A = this slot's tile_id base, for the allocator thunk below. It used to
-; also get stored into battle_render_state.pending_transfer_mask, back when that byte held the
-; tile base; now the mask is a dirty-region bitmask, so the store wrote
-; ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...) over
-; CHR_PENDING and every region bit -- each inventory slot pre-render wiped
-; the pending flush of whatever region had just rendered. The battle names
-; region renders once per battle, so losing that one flush left the
-; glyphs in WRAM and black tiles on screen for the whole fight. Inventory
-; CHR flushes via battle_render_state.dma_dirty_slots, not this mask.
+; A = this slot's tile_id base, for the allocator thunk below. Never store
+; it into battle_render_state.pending_transfer_mask: that byte is a dirty-region
+; bitmask, and ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...)
+; over it wipes CHR_PENDING and every region bit. The battle names region
+; renders once per battle, so a lost flush leaves its glyphs in WRAM and
+; black tiles on screen for the whole fight. Inventory CHR flushes via
+; battle_render_state.dma_dirty_slots, not this mask.
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
 ; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
 ; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
@@ -1010,17 +1005,17 @@ mirror_main_to_cmd:
 Block-mirror the main-view BG3 tilemap region $7E:BE65..$C1A4
 ($340 bytes covering entry-0 + window frame) onto the cmd-window
 region $7E:C1A5..$C4E4 via the 65816 `MVN` block move. ~7 cycles
-per byte  ; ~5800 cycles total, roughly half the cost of the
-original $340-iter lda/sta loop that this replaces.
+per byte  ; ~5800 cycles total, roughly half the cost of
+vanilla's $340-iter lda/sta loop.
 
-First pass tried WRAM->WRAM GP-DMA via $2180 (WMDATA). It writes
-zeros: the A-bus read of source WRAM contends with the B-bus
-write into WRAM through $2180, the WRAM controller can not serve
+Not WRAM->WRAM GP-DMA via $2180 (WMDATA): it writes zeros. The
+A-bus read of source WRAM contends with the B-bus write into WRAM
+through $2180, the WRAM controller can not serve
 both halves of the cycle, and the destination ends up cleared.
 MVN routes bytes through the CPU one at a time so the bus stays
 single-master and the move actually lands.
 
-Caller assumed P with M=8 X=16 on entry, restored on exit.
+Caller has M=8 X=16; P is restored on exit.
 """
 
 
@@ -1352,8 +1347,7 @@ _di_done:
     jsr.l battle_flags.clear_vwf_render
 ; Mark this slot's CHR slice dirty in battle_render_state.dma_dirty_slots. NMI
 ; dma_transfer picks it up and DMAs the 160-byte slice to VRAM.
-; Replaces the old full-4KB DMA trigger ; partial DMA fits in
-; vblank without forced blank.
+; The partial DMA fits in vblank without forced blank.
     php
     sep #0x30
     lda 0x7EEF82  ; slot index (low byte only ; M=8)
@@ -1569,15 +1563,13 @@ _dis_chr_clear:
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-; A = this slot's tile_id base, for the allocator thunk below. It used to
-; also get stored into battle_render_state.pending_transfer_mask, back when that byte held the
-; tile base; now the mask is a dirty-region bitmask, so the store wrote
-; ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...) over
-; CHR_PENDING and every region bit -- each inventory slot pre-render wiped
-; the pending flush of whatever region had just rendered. The battle names
-; region renders once per battle, so losing that one flush left the
-; glyphs in WRAM and black tiles on screen for the whole fight. Inventory
-; CHR flushes via battle_render_state.dma_dirty_slots, not this mask.
+; A = this slot's tile_id base, for the allocator thunk below. Never store
+; it into battle_render_state.pending_transfer_mask: that byte is a dirty-region
+; bitmask, and ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...)
+; over it wipes CHR_PENDING and every region bit. The battle names region
+; renders once per battle, so a lost flush leaves its glyphs in WRAM and
+; black tiles on screen for the whole fight. Inventory CHR flushes via
+; battle_render_state.dma_dirty_slots, not this mask.
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
 ; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
 ; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
@@ -1620,14 +1612,13 @@ init_commands_list_gated:
     rtl
 deinit:
 """
-the renderer
-disables messages renderer falling back to fixed mode.
+Deinit the renderer: battle_flags back to fixed mode, and queue the rendered region's CHR flush for the NMI.
 """
 
 
     jsr.l battle_flags.clear_vwf_render
-; vram transfer was moved to a trampoline in the battle nmi. The region again with it: a render spanning frames had
-; its region bit taken by an NMI between its init (buffer cleared) and its glyphs, which then never went up.
+; The VRAM transfer is the battle NMI's. Flag the region again here: a render spanning frames can lose its region bit
+; to an NMI between its init (buffer cleared) and its glyphs, which then never go up.
     lda.l battle_render_state.pending_transfer_mask
     ora.b #battle_render.CHR_PENDING
     ora.l battle_render_state.render_region
@@ -1743,8 +1734,9 @@ _inv_footer_list_up:
     lda.l battle_render_state.inventory_footer_pinned
     bne _inv_footer_pin
 ; not before the window is up: while vanilla still swaps its rows in (menu_hdma_pending = 1, a row a frame,
-; menu_hdma_rows left) the pinned rows showed the party window's PV header and a stray border under a window not
-; yet there. From the NMI before the last row's swap: the pin shows from the next frame, the window's first whole one.
+; menu_hdma_rows left) the pinned rows would show the party window's PV header and a stray border under a window
+; not yet there. From the NMI before the last row's swap: the pin shows from the next frame, the window's first whole
+; one.
     lda.l menu_hdma_pending
     beq _inv_footer_first_pin
     lda.l menu_hdma_rows
@@ -1797,8 +1789,8 @@ _inv_footer_unpin:
 ; still are; entries vanilla already rewrote for the next window keep
 ; theirs. Both: closing the list, vanilla swaps the copies right after
 ; this ($02:A943), and the swap copy's values from before the list
-; (the list's own, $02BB) scrolled a stale party row into the bottom
-; lines.
+; (the list's own, $02BB) would scroll a stale party row into the
+; bottom lines.
     lda.l battle_render_state.inventory_footer_pinned
     beq _inv_footer_done
     lda.b #0x00
@@ -1830,9 +1822,9 @@ _inv_footer_done:
     plp
 ; --- Inventory CHR partial DMA ---
 ; Pop one bit from battle_render_state.dma_dirty_slots and DMA that slot's 160-byte CHR
-; slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0). Replaces
-; the old full-4KB DMA path for inventory. Non-inv VWF regions still
-; flow through the legacy battle_render_state.pending_transfer_mask check below.
+; slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0). Non-inv
+; VWF regions flow through the battle_render_state.pending_transfer_mask
+; check below.
     php
     sep #0x20
     rep #0x10
@@ -1864,7 +1856,8 @@ _inv_dma_find:
     sep #0x20
 ; LUT reads use `.l` (24-bit long) since DBR in NMI isn't bank-20. The addresses go straight to Y and X: the NMI
 ; lands anywhere in the main loop, whose direct page holds live values (the monster draw's type index at $0A:
-; staging these in $0A-$0D wiped it, the draw took a zero width and overran RAM). Only $0E, vanilla's NMI scratch.
+; staging these in $0A-$0D would wipe it, the draw taking a zero width and overrunning RAM). Only $0E, vanilla's NMI
+; scratch.
     rep #0x20
     lda.l _dma_slot_vram_lut, x
     tay
@@ -1882,9 +1875,8 @@ _no_inv_dma:
 ; --- Per-region CHR DMA ---
 ; Flush only the regions flagged dirty this frame (bits 1-4), each a
 ; 0x300-byte 2bpp slice at buffer_ptr + N*0x300 -> VRAM $B000 + N*0x300.
-; Worst case (all four) = 0xC00 = ~18 lines, comfortably inside vblank,
-; so the screen no longer tears / needs forced-blank for text. Inventory
-; CHR rides the separate battle_render_state.dma_dirty_slots path above.
+; Worst case (all four) = 0xC00 = ~18 lines. Inventory CHR rides the
+; separate battle_render_state.dma_dirty_slots path above.
     php
     sep #0x20
     rep #0x10
@@ -1970,8 +1962,8 @@ _chr_dma_skip:
     plp
 _no_transfer:
 ; --- Per-region tilemap DMA pass ---
-; Reads `battle_render_state.tilemap_pending_mask` (set by `init_*_gated` on render paths
-; and by the cmd-window thunk on its dirty render) and fires a WRAM
+; Reads `battle_render_state.tilemap_pending_mask` (set by `init_*_gated` on render paths,
+; the cmd-window thunk, the highlight refresh and the ATB gauge) and fires a WRAM
 ; tilemap -> BG VRAM DMA for each pending region. Replaces the
 ; vanilla `TfrCmdWindow` / `TfrMainMenu` queue so cmd-window tilemap
 ; stays in sync with the tile-data DMA above.
@@ -2019,10 +2011,10 @@ _no_tilemap_dma:
     ply
     plx
     pla
-; Phase-1: NMI-side anim. Bank-02 trampoline does
+; NMI-side anim. Bank-02 trampoline does
 ; `jsr UpdateFlyingHDMA; rtl` so the bank-02 routine ends in rts
-; while our cross-bank JSL gets a matching RTL pop. Float-monster
-; BG1 vscroll table now updates every vblank.
+; while our cross-bank JSL gets a matching RTL pop. The float-monster
+; BG1 vscroll table updates every vblank.
     jsr.l flying_hdma_trampoline
     jsr.l btlgfx_tfr_sprites
     rtl
@@ -2048,12 +2040,11 @@ _sram_dma_transfer_7:
     rts
 new_line_escape_code_handler:
 """
-Handler for the ` ` text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset
-bits_left_on_tile to 8, and advance the tilemap offset by one row (16 tiles).
+Handler for the $01 newline text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset
+bits_left_on_tile to 8, and move both row pointers down one line ($EF54 cells).
 """
 
 
-; we might have something of interest in Y we might know where we are in the previous iteration ?
     pha
 ;jsr.w battle_render.tilemap_write
     jsr.w render_allocator.increment
