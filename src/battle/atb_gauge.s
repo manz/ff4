@@ -74,7 +74,7 @@ reset:
     php
     sep #0x20
     rep #0x10
-    ldx.w #AtbGauge.__size - 1
+    ldx.w #sizeof(AtbGauge) - 1
     lda.b #0x00
 _reset_byte:
     sta.l atb_gauge_state, x
