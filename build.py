@@ -284,6 +284,17 @@ def write_small_vwf_table(source: str, destination: str) -> None:
     Path(destination).write_text("".join(folds + kept), encoding="utf-8")
 
 
+def battle_text_table(menu: str, dialog: str) -> Table:
+    """The battle messages' table: the small VWF's, and the dialog's character names as their name codes ($04 n,
+    "0401=Caïn"), so a line shows the character's current name like vanilla's did: a renamed Caïn reads renamed."""
+    table = Table(menu)
+    for line in Path(dialog).read_text(encoding="utf-8").splitlines():
+        code, _, text = line.partition("=")
+        if len(code) == 4 and code.startswith("04") and text:
+            table.parse_table_line(line)
+    return table
+
+
 def build_assets(assets):
     for asset in assets:
         print(asset)
@@ -296,6 +307,7 @@ if __name__ == "__main__":
     dialog_table = Table("text/ff4fr.tbl")
     write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
     menu_table = Table(SMALL_VWF_TABLE)
+    battle_table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
     lang = "fr"
     text_root = "text/{lang}".format(lang=lang)
 
@@ -326,7 +338,7 @@ if __name__ == "__main__":
         ),
         (
             "pointed_16bits_lowrom",
-            menu_table,
+            battle_table,
             os.path.join(text_root, "battle_messages.xml"),
             "build/gen/battle_messages.dat",
             "build/gen/battle_messages.ptr",
@@ -334,7 +346,7 @@ if __name__ == "__main__":
         ),
         (
             "pointed_16bits_lowrom",
-            menu_table,
+            battle_table,
             os.path.join(text_root, "battle_text.xml"),
             "build/gen/battle_text.dat",
             "build/gen/battle_text.ptr",
