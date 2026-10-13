@@ -1,5 +1,5 @@
 """
-Dakuten composite-glyph table + `lookup_dakuten` helper that maps a (prev_char, current_char) pair to the
+Dakuten composite-glyph table + `lookup_dakuten` helper that maps a character code to its
 dakuten/handakuten composite tile pair.
 """
 

@@ -98,10 +98,6 @@ _return_addr:
 }
 
 .macro _save_16_bit_var(var, mirror_addr) {
-;    lda.b var
-;    sta.l mirror_addr + var
-;    lda.b var + 1
-;    sta.l mirror_addr + var + 1
     stz.b var
     stz.b var + 1
 }
@@ -149,10 +145,10 @@ _return_addr:
 
 .macro raise(code) {
     """
-    Crude exception. Triggers `BRK #code`, which our `brk_handler`
-    captures into extended SRAM ($710100..$710103) then `STP`s. Use
-    `code` as a per-site signature so the captured P/PC/PB tells you
-    which assertion fired. Pair with a comment naming the invariant.
+    Crude exception. Triggers `BRK #code`; `brk_handler` (ff4.s, with
+    ENABLE_BRK_HANDLER) loads the signature byte into A then `STP`s. Use
+    `code` as a per-site signature so A tells you which assertion
+    fired. Pair with a comment naming the invariant.
     """
     brk #code
 }

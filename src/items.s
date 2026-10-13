@@ -10,7 +10,6 @@ pair) plus the BG3 CHR tile-id windows each menu surface owns.
 ; Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
 ;
 ; Used by every menu surface that shows player items in single-column
-
 ; rolling-buffer form:
 ;   - Field menu Items submenu       at $7E:1440 (48 slots)
 ;   - Treasure menu inventory list   at $7E:1440 (same 48-slot array)
@@ -18,7 +17,7 @@ pair) plus the BG3 CHR tile-id windows each menu surface owns.
 ;   - Key-item picker filter buffer  at $7E:0712 (filtered subset of $1440)
 ;
 ; Battle inventory at $321A is a separate 4-byte layout (flags + id +
-; qty + spell) and gets its own struct in a follow-up plan.
+; qty + spare): `BattleItemSlot` below.
 
 
 ; Battle's vanilla item-name cells: 1-byte symbol + 11 name cells = 12. Original FF4-J used 9 (1 + 8). The equip and
@@ -29,9 +28,8 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ; Per-item record size in the unleashed (16-char) name table at
 ; `items_unleashed`: 1-byte symbol prefix + 16-byte name =
 ; 17 bytes total. Battle / field / drops / treasure inventory all
-; render from this table once the battle-items + field-menu
-; switches are on. Keep stride math + loop counters consistent via
-; these two symbols.
+; render from this table. Keep stride math + loop counters consistent
+; via these two symbols.
 ITEM_UNLEASHED_RECORD_SIZE := 0x11
 ITEM_UNLEASHED_TEXT_SIZE := 0x10
 
@@ -58,7 +56,7 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; VwfConfig without touching the existing regions.
 ;
 ;   Region 0  $000..$0FF  vanilla menu font CHR (untouched)
-;   Region 1  $100..$169  field / treasure inventory item-name buffer
+;   Region 1  $100..$16D  field / treasure inventory item-name buffer
 ;                         (FIELD_ITEM_VWF_TILE_BASE + K * slot,
 ;                          11 slots * K=10 tile_ids)
 ;   Region 1B $16E..$1A9  drops item-name buffer (treasure popup only),
@@ -72,9 +70,8 @@ FIELD_VWF_VRAM_DEST_WORD := FIELD_VWF_VRAM_DEST_BYTE >> 1
 ; patched `DrawItemName` JSL hook in `items_menu_vwf.draw_field_item_name`
 ; which computes tile_id_base from DP $5D. Drops's render hook offsets
 ; $5D by +11 before calling the vanilla trampoline chain so its CHR
-; lands at $16E.. instead of $100.. ; items_menu_vwf bumps chr_byte_count
-; from $700 to $B00 so the NMI DMA flush covers both regions across
-; all 6 buffer slots per panel.
+; lands at $16E.. instead of $100..; its CHR goes through the secondary
+; flush descriptor below, so each panel's slice is flushed on its own.
 ;
 ; Pushing the VWF region into 9-bit tile_id territory ($100+) keeps
 ; it disjoint from the static font window ; the combined treasure +
@@ -136,10 +133,10 @@ DROPS_VWF_BYTE_COUNT := 0x03C0
 ; primary DMA overshoots its region by a few tiles, but the extra
 ; bytes flush into the start of drops's CHR window ($16E..$170)
 ; whose secondary DMA overwrites them with the correct drops CHR
-; immediately afterwards. Was briefly $400 (treasure-only sized)
-; after the two-descriptor split, which cut field-items' last 5
-; buffer slots out of the flush window and tripped a BRK during
-; field scroll once tilemap entries pointed at unflushed tile_ids.
+; immediately afterwards. Sizing it for treasure alone ($400) cuts
+; field-items' last 5 buffer slots out of the flush window and trips
+; a BRK during field scroll once tilemap entries point at unflushed
+; tile_ids.
 FIELD_VWF_PRIMARY_BYTE_COUNT := 0x0700
 
 
@@ -211,7 +208,7 @@ battle_inventory := (0x7E321A as BattleItemSlot)
 ; magic-direct-render rewrite freed (see battle/inventory_rolling.s
 ; comment: "freed by magic direct rendering: $97A6, $9E66, …"). Battle
 ; reuses the low end ($97A6 ring + $9DA7 command buffer), leaving the
-; $990E..$9DA7 gap free - that's where our four rolling states sit.
+; $990E..$9DA7 gap free - that's where the six rolling states sit.
 ; Menus are mutually exclusive with battle, and init re-seeds the
 ; struct on every menu open, so battle-side overwrites don't matter.
 TREASURE_ROLLING_BASE := 0x7E9C00

@@ -24,7 +24,7 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 
 .alloc _vwf_block in bank20_reloc {
 wait_for_action_button:
-"""RTL trampoline that polls the gamepad until any action button is pressed (delegates to original `_waitpad`)."""
+"""RTL trampoline that polls the gamepad until the action button is pressed (delegates to `_waitpad`)."""
     jsr.w _waitpad
     rtl
 
@@ -116,14 +116,14 @@ _proceed:
 
 window_palette:
 """4 dialog/menu sub-palettes (4 colours each, BGR15)."""
-; Menu color palette I probably need to add one color
+; Menu color palette
 ; Palette 1, normal text
     .db 0x00, 0x00
     .db 0x00, 0x40
     .db 0xCE, 0x39
     .db 0xFF, 0x7F
 
-; Palette 2, greyed out text patched replaced the grey with black
+; Palette 2, greyed out text: the grey is replaced with black
     .db 0x00, 0x00
     .db 0x00, 0x40
     .db 0x00, 0x00
@@ -141,8 +141,6 @@ window_palette:
     .db 0xFF, 0x40
     .db 0x7F, 0x2E
 
-;current_pos = 0x3d
-;current_text_pointer = 0x0772
 ; 0x07 used for loop counter
 
 ; ******************
@@ -155,20 +153,20 @@ window_palette:
 
 vwfinit:
 """
-    One-shot dialog VWF initialisation: clear the WRAM scratch area,
+    One-shot dialog VWF initialisation: clear the dialog tile buffer,
     DMA the VWF tile buffer + the original font tileset into VRAM,
     and point BG3 at the new $6000 tile-set base.
 """
 
 
-    jsr.w _clr  ; on efface un peu de Wram
+    jsr.w _clr  ; clear the dialog tile buffer
 
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer + 0x348, 0x0690, 0x1801)
 
-; copy the old font tileset
+; copy the 8x8 font tileset
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(0x0AF000, 0x6000, 0x800, 0x1801)
     jsr.w wait_for_vblank
@@ -183,11 +181,11 @@ vwfinit:
     sta ppu.BG34NBA
 
     rtl
-;** routine principale
+;** main routine
 
 vwfstart:
 """
-    Main entry for dialog VWF rendering: sets 8-bit A / 16-bit X-Y, enables HDMA, and falls into the parser loop
+    Main entry for dialog VWF rendering: sets 8-bit A / 16-bit X-Y, enables FastROM, and falls into the parser loop
     that consumes the dialog text stream.
 """
 
@@ -275,13 +273,13 @@ _nxt2:
     jmp.w space
 
 _nxt3:
-;Changement de Musique
+; Music change
     cmp #0x03
     bne _nxt4
     jmp.w _musique
 
 _nxt4:
-; Nom des personages
+; Character names
     cmp #0x04
     bne _nxt5
     jmp.w _display_character_name
@@ -347,7 +345,7 @@ space:
     jmp.w main
 
 ;******************
-;Cout en gils
+;Gil amount
 ;******************
 
 _code08:
@@ -374,7 +372,7 @@ _loop_b5d2:
     lda #0x00
     xba
     lda.b 0x36, x
-; Old code
+; Vanilla:
 ;00B5D4 STA 0x0774,Y
 ;00B5D7 LDA #0xFF
 ;00B5D9 STA 0x0834,Y
@@ -382,7 +380,7 @@ _loop_b5d2:
     phx
     phy
 
-    sta.b CURRENT_C  ; appel de la vwf
+    sta.b CURRENT_C  ; draw through the VWF
 
     jsr.w _makeptr
     jsr.w _shift_new
@@ -449,7 +447,7 @@ exit:
     jmp.w main
     }
 ;********************
-;** Nouvelle ligne **
+;**    New line    **
 ;********************
 
 _newline:
@@ -482,7 +480,7 @@ _suit:
 
 _suit2:
 
-;Forth Line
+;Fourth Line
     cmp #0x4E + 1
     bcs _suit3
 
@@ -491,7 +489,7 @@ _suit2:
     bra end
 
 _suit3:
-; that's where new ends up
+; past the fourth line (or code $FC): new page
 
     jsr.w _draw_button
     lda.b #0x08
@@ -547,7 +545,7 @@ _draw_ending_symbol:
 
 
 ;*************
-;** Musique **
+;** Music   **
 ;*************
 
 _musique:
@@ -569,8 +567,8 @@ _code05:
     asl
     tax
     stx.w dialog_pause_duration
-; Count from zero. This was `ldx 0x0000`, a direct-page read (D = $0600 here): whatever sat there, $80 at the
-; intro's third "Soit" dot, started the count past the duration and the equality wait spun until it wrapped.
+; Count from zero with an immediate: `ldx 0x0000` is a direct-page read (D = $0600 here), and whatever sits there
+; ($80 at the intro's third "Soit" dot) starts the count past the duration and skips the pause.
     ldx.w #0x0000
     stx.w dialog_pause_counter
     {
@@ -653,7 +651,6 @@ _boucle2:
     cmp #0x08
     bne _shift
     plx
-; LDA.L dialog_font,X
     phy
     txy
     lda.b [font_addr], y
@@ -718,11 +715,6 @@ _mul_0:
 
 _store:
 
-; ff
-; notre bidule
-; 0b11111111 A
-; 0b00000001 B
-; roll B and B xor A ?
 ; 0b11 = white
 ; 0b10 = black
 ; 0b01 = window background
@@ -832,7 +824,7 @@ coupe:
 
 vwf_shift_table:
 """8-bit shift mask table indexed by BITSLEFT."""
-    .db 0b00000000  ; dummy entrie =0
+    .db 0b00000000  ; dummy entry = 0
     .db 0b00000010  ; 1
     .db 0b00000100  ; 2
     .db 0b00001000  ; 3
@@ -916,7 +908,7 @@ _makeptr:
 
 
 ;===================================
-;Clear Wram
+;Clear the dialog tile buffer
 ;
 ;===================================
 
@@ -1018,7 +1010,7 @@ _wdisplay:
     pha
 
     lda.b oldtilepos
-    lsr  ; addresse vram /2
+    lsr  ; VRAM word address
     clc
     adc.w #_vram_tile_set_pointer
     sta.w ppu.VMADDL

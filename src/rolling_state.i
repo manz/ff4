@@ -8,16 +8,15 @@ bodies, and placement directives cannot nest.
 
 ; --- Rolling-menu state pool -------------------------------------------
 ;
-; Hand-picking scratch addresses has cost us repeatedly: bank-$00
-; aliases that wrote to ROM, a 256-byte buffer running past the free
-; gap, engine scratch landing on live field state. Reserve out of a pool
-; instead and let the assembler place things and check for overlap.
+; Hand-picked scratch addresses go wrong silently: bank-$00 aliases that
+; write to ROM, a 256-byte buffer running past the free gap, engine
+; scratch landing on live field state. Reserve out of a pool instead and
+; let the assembler place things and check for overlap.
 ;
 ; The pool lives in the cart's SRAM, past the VWF buffers. The header is
 ; patched to 128KB and the boot path clears it, so bank $70 is ours
 ; alone - no vanilla code, no menu/field context switch, nothing to
-; collide with. ff4.s declares the bank in the memory map so a bss pool
-; can be placed here.
+; collide with. a816.toml maps the bank so a bss pool can be placed here.
 ;
 ; In use below $7200: VWF CHR buffer ($3000), VRAM save window ($5000),
 ; VWF text buffer + config + flags ($7000..$70CC), battle render state
@@ -28,16 +27,14 @@ bodies, and placement directives cannot nest.
     strategy order
 }
 
-; Engine scratch for the refresh loop's scroll_pos / buffer_slots. Was
-; $00:1F88, i.e. WRAM the field engine is free to use.
+; Engine scratch for the refresh loop's scroll_pos / buffer_slots. Not
+; $00:1F88: that is WRAM the field engine is free to use.
 .reserve rolling_engine_scratch 2 in rolling_state
 
 
 ; --- Key-item picker ---------------------------------------------------
-; Snapshot of the caller's direct page while the picker renders: the menu
-; VWF renderer scratches bytes the field engine owns.
 ; Caller's direct-page register, held while the picker renders on its
-; own page.
+; own page: the menu VWF renderer scratches bytes the field engine owns.
 .reserve key_item_dp_prev 2 in rolling_state
 
 ; How many key items the filter actually accepted. Vanilla hardcoded a
@@ -56,7 +53,7 @@ bodies, and placement directives cannot nest.
 ; VRAM the picker overwrites while it is open, saved so the map gets it
 ; back on close: its glyph CHR window and the window band of BG3's
 ; tilemap. Both are live map data on maps that use high BG3 tile ids -
-; nothing else saves them, and the leftovers showed as scrambled map.
+; nothing else saves them, and the leftovers show as scrambled map.
 .reserve key_item_chr_save 0x0460 in rolling_state
 .reserve key_item_map_save 0x0200 in rolling_state
 

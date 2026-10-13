@@ -7,7 +7,7 @@ the VWF layer kicks in without rewriting the message window.
 .include "src/libmz.i"
 
 ;=====================================================================
-; Les Fonctions de chargement de pointeur de dialogue
+; Dialog pointer-loading hooks
 ;=====================================================================
 
 .include "src/vwf.i"
@@ -49,15 +49,13 @@ the VWF layer kicks in without rewriting the message window.
     sta.b dialog_ptr + 1
     jsr.l get_bank2_pointer
     rts
-
+}
 ; nukes the first call of display_script because the text
 ; has to be rendered before animating the window display
-}
 .alloc at 0x00B32C {
     jsr.w first_window
-
-; Replace the display_script function by the vwfed one.
 }
+; Replace the display_script function by the vwfed one.
 .alloc at 0x00B463 {
     jsr.l vwfstart
     rts
@@ -90,9 +88,8 @@ _wait_for_open_animation:
     sta ppu.BG34NBA
 
     jmp.w end_of_animation
-
-; do not scroll between text blocks
 }
+; do not scroll between text blocks
 .alloc at 0x00B370 {
     lda #0x00
     sta 0x07
@@ -105,7 +102,7 @@ end_of_animation:
     jmp.w _text_cmd_07_b369  ; skip_wait_for_action_button
 }
 {
-; Oui
+; Yes / No window
 
 
     .table "text/ff4_menus.tbl"
@@ -137,7 +134,6 @@ end_of_animation:
     .dw 0x20ff
     .dw 0x201a
     .dw 0x0000
-; Non
     }
 
 
@@ -182,9 +178,8 @@ end_of_animation:
 }
 .alloc at 0x00ae51 {
     ldx.w #0x2904 - 1
-
-; Palette changes for allowing shadows
 }
+; Palette changes for allowing shadows
 .alloc at 0x15c229 {
 ; 15/C229: BF D0 87 0D  LDA $0D87D0,X   ; window palette
     lda.l window_palette, x
@@ -193,9 +188,8 @@ end_of_animation:
     jsr.l update_palette
     nop
     nop
-
-; Update secondary palette window background
 }
+; Update secondary palette window background
 .alloc at 0x00823B {
     jsr.l update_palette
     nop
@@ -204,9 +198,8 @@ end_of_animation:
 ;AE AA 16       LDX $16AA
 ;00823E  8E DD 0C       STX $0CDD
 ;008241  20 13 8A       JSR $8A13
-
-; update the text palette used in the intro
 }
+; update the text palette used in the intro
 .alloc at 0x8ff04 {
     .dw 0x0463
 }
@@ -245,14 +238,12 @@ end_of_animation:
 }
 .alloc at 0x00ad81 {
     ldx.w #( gils_window_tilemap_4_end - gils_window_tilemap_4 ) & 0xffff
-
-; clear up longer gils window
 }
+; clear up longer gils window
 .alloc at 0x00addd {
     ldx.w #0x100 + 0x80
-
-; gils value vram position
 }
+; gils value vram position
 .alloc at 0x00ad8a {
     ldx.w #0x28d3 + 2
 }

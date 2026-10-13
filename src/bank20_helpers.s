@@ -30,14 +30,12 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-Clear the dialog VWF tile buffer + engine scratch at $702000-$7070FF
-(includes VWF_CONFIG_BASE, VWF_CHR_DIRTY / DIRTY_B, VWF_CALLER_CTX, and
-the secondary descriptor fields) after letting the boot ROM init at
-$15C9AA. Range was $5000 bytes pre-secondary-descriptor  ; bumped to
-$5100 so the new dirty / vram_word / byte_count / src_offset bytes
-land zero on cold boot instead of inheriting random SRAM and
-triggering a bogus secondary flush on the very first NMI (which trashed
-the save-selection sprite CHR).
+Clear the dialog VWF tile buffer + engine state at $702000-$7070FF
+(includes `vwf_text_buffer`, `vwf_cfg` and `vwf_engine` with its
+secondary flush descriptor) after the vanilla RAM init at $15C9AA
+(`field_clear_ram`). The range must reach `vwf_engine`: its flush_b
+bytes inherited from random SRAM trigger a bogus secondary flush on the
+very first NMI, which trashes the save-selection sprite CHR.
 """
 
 

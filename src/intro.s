@@ -59,7 +59,7 @@ start_splash_screen:
 
     rtl
 
-; TODO: rewrite as HDMA table would make it look less hacky.
+; TODO: drive the fade's INIDISP / MOSAIC ramp from an HDMA table instead of per-vblank register writes.
 
 _splash_screen_fade_out:
     {
@@ -125,8 +125,8 @@ _gamepad_interruptable_loop:
     jsr.w enable_gamepad
     jsr.w wait_for_vblank
 
-    ldx cpu_regs.PAD1L  ; lecture depuis joystick
-    bne exit  ; si on appuye sur quelque chose on sort du delay
+    ldx cpu_regs.PAD1L  ; read joypad 1
+    bne exit  ; any button pressed ends the delay
     dec
     bne _gamepad_interruptable_loop
 exit:

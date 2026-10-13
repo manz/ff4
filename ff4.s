@@ -4,7 +4,6 @@ Final Fantasy IV the new hack.
 ----------------
 """
 
-; Auto-prepended: imports must precede .include'd patches
 .import "@std/snes/header"
 .import "assets"
 .import "sram_layout"
@@ -64,8 +63,7 @@ Final Fantasy IV the new hack.
 .import "ingame/options"
 .import "ingame/equip"
 .import "ingame/status"
-; Each module gates its own code on the flags that used to wrap its import here: a816 links every `.import`
-; whatever the `.if` around it.
+; Each module gates its own code on its feature flags: a816 links every `.import` whatever the `.if` around it.
 .import "battle/math_patches"
 .import "battle/monster_ai_patches"
 .import "battle/graphics_patches"
@@ -82,7 +80,7 @@ Final Fantasy IV the new hack.
 .import "battle/debug_always_drop"
 
 
-; Relocated init_bg_scroll_hdma (was at $01:EBD2, frees 566 bytes in bank $01).
+; Relocated init_bg_scroll_hdma (vanilla $01:EBD2; frees 566 bytes in bank $01).
 ; Blob with internal absolute references - pinned to offset $EBD2 within an
 ; expansion bank. Caller patch retargets the single JSL at $02:818A.
 .import "ingame/init_bg_scroll_hdma_patches"
@@ -127,7 +125,7 @@ Final Fantasy IV the new hack.
 }
 
 
-; déroutage pour ajouter le splash screen
+; Hook to show the splash screen
 .alloc at 0x008031 {
     jsr.l start_splash_screen
 }
@@ -138,8 +136,8 @@ Final Fantasy IV the new hack.
 ;
 ; Pool spans $20:8000..$20:FFFF (32 KB). `strategy order` keeps symbols in
 ; declaration order so cross-bank `jsr.l` / `jmp.l` callers resolve to
-; stable addresses. Mirrors the bank-01 pool pattern from
-; `src/ingame/inventory_rolling_trampolines.s`.
+; stable addresses. Mirrors the bank-01 pool pattern in
+; `src/ingame/bank01_trampolines.i`.
 ; ============================================================================
 
 .pool bank20_reloc {
@@ -152,11 +150,11 @@ brk_handler:
 """
 BRK trap: mask interrupts, disable NMI, fetch the BRK signature byte
 (the imm operand of `brk #$NN`) into A, then STP. Kintsuki halts on
-STP  ; tooling reads the signature via `emu.get_state().a` and the
+STP: tooling reads the signature via `emu.get_state().a` and the
 crash site via `emu.callstack()`.
 
 CPU push order on BRK: PB, PC.hi, PC.lo, P (PCH/PCL packed as a
-16-bit push by the CPU). Pulled in reverse. Pushed PC = BRK + 2  ;
+16-bit push by the CPU). Pulled in reverse. Pushed PC = BRK + 2:
 signature byte sits at PB:(PC - 1).
 """
 

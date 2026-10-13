@@ -130,7 +130,7 @@ _enable_display:
     rts
 
 enable_gamepad:
-"""Enable auto-joypad-read + vblank NMI by writing 1 to $4200."""
+"""Enable auto-joypad-read (NMI stays off) by writing 1 to $4200."""
     pha
     lda #0x01
     sta cpu_regs.NMITIMEN
@@ -147,7 +147,7 @@ disable_gamepad:
 initialize_snes:
 """
     Reset PPU, DMA, and CPU registers to a known idle state at boot.
-    8-bit M/X  ; clears OBJ/BG registers, neutralises mode-7 matrix to identity,
+    8-bit M/X: clears OBJ/BG registers, neutralises mode-7 matrix to identity,
     disables NMI/HDMA/joypad, leaves screen forced-blank.
 """
 
@@ -234,8 +234,8 @@ initialize_snes:
     lda #0x00
     sta cpu_regs.WRMPYA  ; multiplicand A
     sta cpu_regs.WRMPYB  ; multiplier B
-    sta cpu_regs.WRDIVL  ; multiplier C
-    sta cpu_regs.WRDIVH  ; multiplicand C
+    sta cpu_regs.WRDIVL  ; dividend C (low)
+    sta cpu_regs.WRDIVH  ; dividend C (high)
     sta cpu_regs.WRDIVB  ; divisor B
     sta cpu_regs.HTIMEL  ; horizontal count timer
     sta cpu_regs.HTIMEH  ; horizontal count timer MSB

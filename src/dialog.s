@@ -44,7 +44,7 @@ get_bank3_pointer:
 """
     Compute pointer for NPC dialogs.
 
-    Organized per room  ; a linear lookup inside the room finds the start of the string.
+    Organized per room: a linear lookup inside the room finds the start of the string.
 """
 
 

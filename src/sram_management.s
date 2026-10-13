@@ -107,7 +107,7 @@ _clear_2kb:
     cpy #0x0400  ; 2KB = 1024 words = $400 words
     bne _clear_2kb
 
-; Check if we need to switch banks (X >= $8000)
+; Switch banks once X reaches $8000
     cpx #0x8000
     bcc _same_bank  ; Stay in same bank if X < $8000
 
@@ -115,8 +115,8 @@ _clear_2kb:
     sep #0x20  ; Switch to 8-bit for bank operations
     lda.b 0x01, s  ; Peek at stack to get current bank
     inc  ; Next bank
-    cmp.b #0x7E  ; Check if we've gone past SRAM banks
-    bcs _done_with_bank  ; If >= $7E, we're done
+    cmp.b #0x7E  ; Past the last SRAM bank?
+    bcs _done_with_bank  ; $7E and up: done
     pha  ; Push new bank
     plb  ; Set new data bank
     rep #0x20  ; Back to 16-bit
