@@ -1,6 +1,6 @@
 """English-language counterpart of `in_game_text.s`."""
-.import "vanilla"
-.include "src/ingame/macros.i"
+.import "core/vanilla"
+.include "ingame/macros.i"
 
 .scope in_game_menu {
     """Main pause-menu strings."""

@@ -1,6 +1,6 @@
 """Dev-build switches (a816.toml [defines], off in release): jump straight to the ending, or to the item picker."""
-.import "preamble"
-.import "vanilla"
+.import "core/preamble"
+.import "core/vanilla"
 
 
 .if TRIGGER_ENDING_CUTSCENE {

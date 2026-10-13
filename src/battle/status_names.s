@@ -7,11 +7,11 @@ A row's window is `STATUS_TILES` tiles from `STATUS_FIRST_TILE + row * STATUS_TI
 name's tiles from ROM into `status_name_tiles` and flags the NMI's CHR pass (battle/message.s), which uploads the
 whole staging block. DrawStatusText's own name copy ($02:A32A, pointers into battle_statuses) is never reached.
 """
-.import "preamble"
-.import "wram_layout"
+.import "core/preamble"
+.import "core/wram_layout"
 .import "battle/render_state"
 .import "small_vwf/baked_names"
-.include "../bank20.i"
+.include "core/bank20.i"
 
 STATUS_ROWS := 5
 STATUS_TILES := 6  ; build.py STATUS_NAME_TILES: the build fails on a wider name

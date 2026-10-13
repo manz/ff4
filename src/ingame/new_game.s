@@ -5,7 +5,7 @@ Rewires the screen's text table and pointer setup at the strings this
 project relocated out of their original home, and adjusts the window
 geometry and Cecil sprite position that go with them.
 """
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 ; The macro above expands to a call into the menus text module, and the
 ; strings it points at live in the start-screen text module.
 .import "menus/system_menus_text"
@@ -13,8 +13,8 @@ geometry and Cecil sprite position that go with them.
 .import "menus/start_screen_text"
 
 
-.include "src/ingame/macros.i"
-.import "vanilla"
+.include "ingame/macros.i"
+.import "core/vanilla"
 
 
 .table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded

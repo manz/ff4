@@ -24,15 +24,15 @@ the field menu.
 """
 
 
-.import "preamble"
-.include "../bank20.i"
-.import "items"
+.import "core/preamble"
+.include "core/bank20.i"
+.import "core/items"
 
 ; Labels this module borrows from its neighbours.
 .import "ingame/vanilla_trampolines"
-.import "libmz"
+.import "core/libmz"
 .import "lib/rolling_inventory_engine"
-.import "vanilla"
+.import "core/vanilla"
 
 _SELL_VISIBLE_ITEMS := 8
 _SELL_BUFFER_SLOTS := 9

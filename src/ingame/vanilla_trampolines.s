@@ -4,10 +4,10 @@ Bank-$01 RTL wrappers around vanilla menu routines, plus the rolling lists' wind
 The rolling list modules, the shared engine and the instance trampolines all call these; they depend on
 nothing above them, which keeps the import graph acyclic.
 """
-.import "preamble"
-.include "src/ingame/macros.i"
-.include "src/ingame/bank01_trampolines.i"
-.import "vanilla"
+.import "core/preamble"
+.include "ingame/macros.i"
+.include "ingame/bank01_trampolines.i"
+.import "core/vanilla"
 
 .alloc _bank01_vanilla_wrappers in bank01_trampolines {
 draw_window_trampoline:

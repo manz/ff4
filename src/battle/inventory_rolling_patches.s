@@ -9,8 +9,8 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
 
-.include "src/battle/bank02_trampolines.i"
-.import "vanilla"
+.include "battle/bank02_trampolines.i"
+.import "core/vanilla"
 
 ; ============================================================================
 ; Rolling Inventory Buffer - ROM Patches (Single Column)

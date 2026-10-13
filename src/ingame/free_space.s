@@ -2,7 +2,7 @@
 Bank $01 free-space landing pad ($01:FF35+): tiny utility routines that fit in the slack reclaimed by
 relocating other code.
 """
-.import "preamble"
+.import "core/preamble"
 .import "battle/inventory_rolling"
 .import "ingame/inventory_rolling_trampolines"
 .import "small_vwf/init"
@@ -11,14 +11,14 @@ relocating other code.
 .import "menus/in_game_text"
 .import "menus/start_screen_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
 ; ============================================================================
 ; Bank $01 Free Space - starts at $01FF35
 ; ============================================================================
 
-.include "src/ingame/bank01_slack.i"
-.import "vanilla"
+.include "ingame/bank01_slack.i"
+.import "core/vanilla"
 
 .label _select_item_9ff8 = 0x019FF8
 .label _select_item_a003 = 0x01A003

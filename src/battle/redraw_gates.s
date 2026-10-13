@@ -17,11 +17,11 @@ behind the gating.
 
 
 .import "battle/render_state"
-.import "wram_layout"
+.import "core/wram_layout"
 
 
 .import "battle/sram"
-.import "vanilla"
+.import "core/vanilla"
 
 ; bit 5 = cmd window, bit 6 = status strip, bits 0-4 = per-char menu (HP/MP/name), bit 7 = main-menu chrome.
 ; Reserved, not vanilla's $EF9A: the item menu reads $EF9A (the equip popup's A: non-zero picks "use" over
@@ -32,7 +32,7 @@ behind the gating.
 .extern signal_commands
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 .alloc _battle_redraw_gates_block in bank20_reloc {
     CMD_DIRTY_BIT := 0x20  ; bit 5 of battle_menu_dirty

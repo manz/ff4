@@ -5,7 +5,7 @@ Counterpart of start_screen_text.s, selected by build configuration.
 """
 
 
-.include "src/ingame/macros.i"
+.include "ingame/macros.i"
 
 .scope newgame {
     """Title-screen + save-slot strings."""

@@ -8,7 +8,7 @@ same time). The rolling-list states at $7E:9C00+ sit past this window.
 """
 
 
-.import "preamble"
+.import "core/preamble"
 
 MENU_HDMA_SPAN := 0x40  ; one table, then its shadow right after
 

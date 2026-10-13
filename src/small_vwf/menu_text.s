@@ -26,21 +26,21 @@ Tiles $200-$3FF are VRAM $6000-$7FFF, free in every menu (ingame/menu_vram.s sav
 come from elsewhere: the class name (DrawClassName, tiles $2E0-$2FF) and the character names (DrawCharName, read
 from RAM), whose tiles are keyed by name index ($300 + index * 8), so names never collide on any screen.
 """
-.import "vanilla"
-.include "src/ingame/bank01_slack.i"
-.import "vwf_ram"
-.import "libmz"
+.import "core/vanilla"
+.include "ingame/bank01_slack.i"
+.import "core/vwf_ram"
+.import "core/libmz"
 .import "menus/start_screen_text"
 .import "menus/in_game_text"
 .import "menus/tools_shop_text"
-.import "assets"
-.import "sram_layout"
+.import "core/assets"
+.import "core/sram_layout"
 .import "small_vwf/vram_queue"
 .import "small_vwf/baked_names"
 .import "small_vwf/render"
-.include "src/vwf.i"
-.include "../bank20.i"
-.include "src/libmz.i"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
+.include "core/libmz.i"
 
 _GLYPH_ROW := 0x40  ; menu text puts the dakuten at +0 and the glyph one row down
 _BLANK_TILE := 0xFF
@@ -185,7 +185,7 @@ _cleared:
 }
 
 .alloc _small_vwf_menu_text in bank20_reloc {
-    .include "src/vwf_state.i"
+    .include "core/vwf_state.i"
 
     .scope menu_text_vwf {
     """Entry points called by the menu text thunks, D = $0100, the vanilla routine's frame on the stack."""

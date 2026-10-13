@@ -3,8 +3,8 @@ The cartridge: its header (title, the board grown to 2 MB ROM + 128 KB SRAM) and
 trap every `raise` lands in.
 """
 .import "@std/snes/header"
-.import "preamble"
-.include "bank20.i"
+.import "core/preamble"
+.include "core/bank20.i"
 
 
 ; The cartridge header: the title, and the board grown from SHVC-1A3B to SHVC-1A5B (the vanilla map mode, region,

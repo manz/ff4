@@ -28,12 +28,12 @@ once the popup closes (CMD_DIRTY_BIT, and `equip_popup_closed`'s signal).
 .import "battle/inventory_rolling_patches"
 .import "battle/inventory_rolling"
 .import "battle/redraw_gates"
-.import "wram_layout"
+.import "core/wram_layout"
 
 
-.include "../bank20.i"
-.import "vanilla"
-.include "src/battle/bank02_trampolines.i"
+.include "core/bank20.i"
+.import "core/vanilla"
+.include "battle/bank02_trampolines.i"
 ; root-scope extern: battle/tasks_patches imports this module's importers
 .extern signal_commands
 

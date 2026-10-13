@@ -21,14 +21,14 @@ signal arms it, as for sell.
 """
 
 
-.import "preamble"
-.include "../bank20.i"
-.import "items"
+.import "core/preamble"
+.include "core/bank20.i"
+.import "core/items"
 
 .import "ingame/vanilla_trampolines"
-.import "libmz"
+.import "core/libmz"
 .import "lib/rolling_inventory_engine"
-.import "vanilla"
+.import "core/vanilla"
 
 _EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 _EQUIP_BUFFER_SLOTS := _EQUIP_VISIBLE_ITEMS + 1

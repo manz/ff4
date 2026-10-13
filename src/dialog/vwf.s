@@ -2,16 +2,16 @@
 Dialog/text VWF rendering engine: control-code parser (`parse`), per-glyph blit (`vwf_putchar`), tile-position
 tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
 """
-.import "preamble"
-.include "bank20.i"
-.include "src/libmz.i"
+.import "core/preamble"
+.include "core/bank20.i"
+.include "core/libmz.i"
 .table "text/ff4_menus.tbl"
-.import "libmz"
-.import "dialog"
-.import "assets"
-.import "bank20_helpers"
-.import "kerning"
-.import "vanilla"
+.import "core/libmz"
+.import "dialog/pointers"
+.import "core/assets"
+.import "core/bank20_helpers"
+.import "dialog/kerning"
+.import "core/vanilla"
 
 .scope field_vwf {
     """

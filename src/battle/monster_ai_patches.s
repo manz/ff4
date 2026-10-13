@@ -2,9 +2,9 @@
 Monster AI fixes in vanilla's battle logic (bank $03).
 """
 
-.import "preamble"
-.import "vanilla"
-.include "../bank20.i"
+.import "core/preamble"
+.import "core/vanilla"
+.include "core/bank20.i"
 
 ; A monster whose script for the chosen condition is empty ($FF first) gets one "do nothing" command ($E1) in
 ; monster_action_commands, but no end: the walk at $03:B582 runs on through whatever the buffer held. Late in a

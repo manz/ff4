@@ -11,17 +11,17 @@ Its scratch lives in SRAM rather than on the direct page: the menus have
 a page to spare, but on the field those direct-page bytes are live engine
 state (see `vwf_engine.prev_char` and friends in vwf_ram.s).
 """
-.import "preamble"
-.import "vwf_ram"
-.import "assets"
-.import "items"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/assets"
+.import "core/items"
 .import "battle/render_state"
-.import "libmz"
-.include "src/vwf.i"
-.include "../bank20.i"
-.include "src/libmz.i"
-.import "vanilla"
-.import "sram_layout"
+.import "core/libmz"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
+.include "core/libmz.i"
+.import "core/vanilla"
+.import "core/sram_layout"
 
 ; root-scope externs: `.alloc` bodies open their own scope, so an extern
 ; declared inside never resolves at the use site.
@@ -29,7 +29,7 @@ state (see `vwf_engine.prev_char` and friends in vwf_ram.s).
 .extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
-    .include "src/vwf_state.i"
+    .include "core/vwf_state.i"
 
     .macro initialize(var) {
     """Save a borrowed direct-page byte (sram_layout's `sram_render_dp`, one byte per direct-page address)."""
@@ -242,8 +242,8 @@ get:
     temp = bits_left_on_tile + 1
     counter = temp + 1
     prev_char = vwf_engine.prev_char  ; long, off the field's MOSAIC shadow
-    current_char = vwf_engine.current_char  ; (see src/vwf_ram.s)
-    tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/vwf_ram.s)
+    current_char = vwf_engine.current_char  ; (see src/core/vwf_ram.s)
+    tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/core/vwf_ram.s)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
 ; Item-description cache, in the VRAM save window (see sram_layout.s).
@@ -466,7 +466,7 @@ Config-driven VWF entry: reads `vwf_cfg`,
 sets up the allocator + render state from it, then walks
 vwf_text_buffer through `draw_text_buffer`.
 
-VwfConfig fields consumed (see `src/vwf_ram.s`):
+VwfConfig fields consumed (see `src/core/vwf_ram.s`):
   tile_id_base   first tile_id this slot owns
   slot_budget    +K-1 clamp  ; $FF = no clamp
   tilemap_base   absolute WRAM byte index of the destination

@@ -4,8 +4,8 @@ transition (OpenWindow, CloseWindow or TransformWindow, ingame/instant_windows.s
 menu fades back in the next time it polls the pad (UpdateCtrlMenu), once the new screen is built. A screen already
 dark (Config and Save fade themselves, the menu opening) is left alone.
 """
-.import "sram_layout"
-.include "src/ingame/bank01_slack.i"
+.import "core/sram_layout"
+.include "ingame/bank01_slack.i"
 
 .label _fade_in_9464 = 0x019464
 .label _fade_out_947e = 0x01947E

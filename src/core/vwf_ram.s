@@ -7,7 +7,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 """
 
 
-.import "preamble"
+.import "core/preamble"
 
 ; --- Null-terminated text-staging buffer ------------------------------
 ; Callers copy the source string (from items_unleashed, monster names,

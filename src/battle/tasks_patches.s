@@ -3,14 +3,14 @@ Battle tasks wired into the battle graphics loop: run_tasks after RedrawMainMenu
 the status text, the main view and the command window, drawn and transferred when a signal says what they show
 changed, instead of on every pass and every eighth frame.
 """
-.import "vanilla"
+.import "core/vanilla"
 .import "battle/tasks"
 .import "battle/atb_gauge"
-.import "wram_layout"
+.import "core/wram_layout"
 ; root-scope extern: inventory_rolling_patches reaches this module back through redraw_gates
 .extern draw_battle_command_window_relocated
-.include "../bank20.i"
-.include "src/battle/bank02_trampolines.i"
+.include "core/bank20.i"
+.include "battle/bank02_trampolines.i"
 
 .label _redraw_main_menu_96c8 = 0x0296C8
 .label _tfr_status_tiles_99b9 = 0x0299B9

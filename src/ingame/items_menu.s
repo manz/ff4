@@ -5,12 +5,12 @@ Field / drops / treasure rolling inventory all defer to vanilla
 DrawItemSlot at $01:9000, so patching here switches them in one
 go.
 """
-.import "items"
+.import "core/items"
 
 .import "ingame/inventory_rolling_trampolines"
-.import "assets"
+.import "core/assets"
 .import "ingame/items_menu_vwf"
-.import "bank20_helpers"
+.import "core/bank20_helpers"
 
 
 ; ===== DRAWITEMNAME JSL HOOKS =====

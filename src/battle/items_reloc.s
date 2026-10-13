@@ -2,7 +2,7 @@
 Battle inventory buffer layout: relocated buffer base + size constants for the expanded 12-byte item names
 (9 bytes in vanilla).
 """
-.import "wram_layout"
+.import "core/wram_layout"
 ; ============================================================================
 ; Battle Inventory Buffer Layout
 ; ============================================================================

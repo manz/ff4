@@ -18,18 +18,18 @@ so drops drives BG4VOFS through ch4 over its scanline band.
 Wiring (treasure_rolling_patches.s): `jsr $A15C` at $01:D80E (entry)
 and $01:D92D (redraw helper) call `drops_init` / `drops_refresh_slots`.
 
-State: `drops_rolling`, a RollingBufferState at $7E:9C30 (src/items.s).
+State: `drops_rolling`, a RollingBufferState at $7E:9C30 (src/core/items.s).
 """
 
 
-.import "preamble"
-.import "vwf_ram"
-.import "items"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/items"
 
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
-.import "vanilla"
+.import "core/vanilla"
 
 
 DROPS_VISIBLE_ITEMS := 5
@@ -73,7 +73,7 @@ _DROPS_SCROLL_STATE_SCROLLING := 1
 
 ; --- Profile hooks -----------------------------------------------------------
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 
 .alloc _drops_rolling_block in bank20_reloc {

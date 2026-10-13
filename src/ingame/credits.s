@@ -2,7 +2,7 @@
 In-place patches for the staff credits screen: re-point the credits text loader at our relocated
 `credits_text` block.
 """
-.import "assets"
+.import "core/assets"
 
 
 .alloc at 0x13d7ef {

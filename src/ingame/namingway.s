@@ -6,11 +6,11 @@ in the small VWF. The three letter grids (hiragana, katakana, latin in the Japan
 lowercase, lowercase accents, then digits and punctuation: every one a letter the 8x8 font has (no ç) and the
 dialog can draw too (utils/name_codes.py), since a name shows up in both. Accented capitals are not name letters.
 """
-.include "src/menus/system_menus_macros.i"
-.include "src/ingame/bank01_slack.i"
+.include "menus/system_menus_macros.i"
+.include "ingame/bank01_slack.i"
 .import "menus/system_menus_text"
 .import "menus/in_game_text"
-.import "vanilla"
+.import "core/vanilla"
 
 .table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 

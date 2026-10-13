@@ -11,7 +11,7 @@ fn_update_hdma, fn_draw_window).
 """
 
 
-.import "items"
+.import "core/items"
 
 ; The profiles call into the engine and the engine dispatches back into
 ; their HDMA builders, so the two sides are mutually dependent. That is
@@ -27,9 +27,9 @@ fn_update_hdma, fn_draw_window).
 .import "ingame/vanilla_trampolines"
 
 
-.include "src/rolling_state.i"
-.include "../bank20.i"
-.import "vanilla"
+.include "core/rolling_state.i"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {

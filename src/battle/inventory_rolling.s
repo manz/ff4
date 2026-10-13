@@ -3,21 +3,21 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 `InitInventoryTextBuf` / `TfrInventoryList`, hooks scroll up/down, rebuilds the wrapped HDMA scroll table and
 runs the field-menu NMI DMA check.
 """
-.import "preamble"
-.import "vwf_ram"
+.import "core/preamble"
+.import "core/vwf_ram"
 .import "battle/render_state"
 .include "battle/render_save.i"
-.import "items"
-.import "bank20_helpers"
-.import "assets"
+.import "core/items"
+.import "core/bank20_helpers"
+.import "core/assets"
 .import "small_vwf/init"
 .import "battle/magic_reloc"
 .import "battle/sram"
 .import "battle/vanilla_trampolines"
-.import "vanilla"
+.import "core/vanilla"
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 .alloc _battle_inventory_rolling_block in bank20_reloc {
 ; ============================================================================
@@ -39,8 +39,8 @@ runs the field-menu NMI DMA check.
     VISIBLE_ROWS := 5  ; Rows visible on screen
     BUFFER_SLOTS := 6  ; 6 slots for 5 visible (1 off-screen for pre-render)
     _TOTAL_ITEMS := 48  ; Total inventory items
-    .include "src/battle/inventory_budget.i"
-    .include "../bank20.i"
+    .include "battle/inventory_budget.i"
+    .include "core/bank20.i"
     _TOTAL_ROWS := 48  ; One item per row
 
 ; Buffer sizes

@@ -7,13 +7,13 @@ and chains into the title screen.
 ; Splash-screen routine, hooked at $00:8031.
 ; ----------------------------------------------------------------
 
-.include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
-.import "preamble"
-.include "bank20.i"
-.import "libmz"
-.import "assets"
-.import "bank20_helpers"
-.import "vanilla"
+.include "core/libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
+.import "core/preamble"
+.include "core/bank20.i"
+.import "core/libmz"
+.import "core/assets"
+.import "core/bank20_helpers"
+.import "core/vanilla"
 
 
 ; Hook to show the splash screen

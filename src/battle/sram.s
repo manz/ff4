@@ -2,12 +2,12 @@
 Battle put-char dispatch: `battle_display_char` / `battle_display_dakuten_char` jump tables over `battle_flags`
 (WRAM put_char from battle/put_char or messages_vwf), and the `clear_names_window_buffer` helper.
 """
-.import "preamble"
-.include "src/battle/sram.i"
-.include "../bank20.i"
+.import "core/preamble"
+.include "battle/sram.i"
+.include "core/bank20.i"
 
-.import "assets"
-.import "dakuten"
+.import "core/assets"
+.import "dialog/dakuten"
 .import "small_vwf/init"
 .import "battle/render_state"
 .import "battle/message"

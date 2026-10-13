@@ -2,18 +2,18 @@
 Battle-message tile renderer + VWF parser scopes (`battle_render` low-level blitter, `messages_vwf` high-level
 dialog-stream consumer).
 """
-.import "preamble"
-.import "assets"
-.import "dakuten"
+.import "core/preamble"
+.import "core/assets"
+.import "dialog/dakuten"
 .import "small_vwf/init"
 .import "battle/render_state"
 .import "battle/put_char"
-.include "src/battle/sram.i"
-.include "../bank20.i"
-.import "vanilla"
+.include "battle/sram.i"
+.include "core/bank20.i"
+.import "core/vanilla"
 .import "small_vwf/baked_names"
 .import "battle/status_names"
-.import "wram_layout"
+.import "core/wram_layout"
 .import "battle/monsters_reloc"
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
@@ -117,8 +117,8 @@ _state:
 }
 
 .alloc _battle_message_block in bank20_reloc {
-    .include "src/battle/inventory_budget.i"
-    .include "src/vwf_state.i"
+    .include "battle/inventory_budget.i"
+    .include "core/vwf_state.i"
 
     .scope battle_render {
     """

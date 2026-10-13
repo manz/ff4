@@ -2,16 +2,16 @@
 Top-level field-menu patches (entry point fixups, palette setup, frame timing) that drive the rest of the
 in-game menu wiring.
 """
-.import "preamble"
-.import "items"
-.import "dakuten"
-.import "assets"
+.import "core/preamble"
+.import "core/items"
+.import "dialog/dakuten"
+.import "core/assets"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
-.include "src/ingame/macros.i"
-.import "vanilla"
+.include "ingame/macros.i"
+.import "core/vanilla"
 .import "ingame/menu_vram"
 
 

@@ -5,15 +5,15 @@ loop, called by the patched bank-$02 hook.
 
 
 .import "battle/sram"
-.import "assets"
+.import "core/assets"
 .import "battle/commands_patches"
 .import "battle/redraw_gates"
 
 mult8_far := 0x2855c
 
 
-.include "../bank20.i"
-.import "vanilla"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _battle_commands_reloc_block in bank20_reloc {
     command_length = 6

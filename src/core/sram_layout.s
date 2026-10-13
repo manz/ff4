@@ -9,9 +9,9 @@ treasure, battle (items + magic) and dialog.
 """
 
 
-.import "preamble"
-.include "src/vwf_state.i"
-.include "src/battle/sram.i"
+.import "core/preamble"
+.include "core/vwf_state.i"
+.include "battle/sram.i"
 
 ; Dialog VWF tiles. The dialog renderer stays below $70:2F00.
 DIALOG_TILE_BUFFER := 0x702000

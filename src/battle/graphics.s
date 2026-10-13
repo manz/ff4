@@ -4,7 +4,7 @@ from ROM.
 """
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 .include "battle_labels.i"  ; build/gen: utils/battle_labels.py
 
 .alloc battle_graphics_block in bank20_reloc {

@@ -1,8 +1,8 @@
 """Shared low-level helpers: vblank spinner + DMA transfer routines for VRAM / palette + small bank-trampolines."""
 
-.import "preamble"
-.include "libmz.i"
-.include "bank20.i"
+.import "core/preamble"
+.include "core/libmz.i"
+.include "core/bank20.i"
 
 
 .alloc _libmz_block in bank20_reloc {

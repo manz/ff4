@@ -5,10 +5,10 @@ fixed count.
 The equip and inventory lists' vanilla fills keep 11 cells (their buffers' width): the popup and the rolling list draw
 the names again in the VWF.
 """
-.import "items"
-.import "bank20_helpers"
+.import "core/items"
+.import "core/bank20_helpers"
 
-.import "assets"
+.import "core/assets"
 .import "battle/equip_window"
 
 ; Item name expansion patches for battle graphics
@@ -20,7 +20,7 @@ the names again in the VWF.
 ; --- multiplier ---
 ; Original: 02/9E1A: A9 09  LDA #0x09
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 .alloc at 0x029E1A {
     jsr.l battle_item_mult8  ; lda #9 / sta $28 / jsr Mult8: the name's offset into $2A

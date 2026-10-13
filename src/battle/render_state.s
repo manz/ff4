@@ -7,7 +7,7 @@ meaning and the bit constants built from the bit-field structs below.
 """
 
 
-.import "preamble"
+.import "core/preamble"
 
 BATTLE_RENDER_STATE := 0x707100
 

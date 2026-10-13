@@ -2,10 +2,10 @@
 Status-screen patches: reposition character name/labels to make room for translated strings (XP, level,
 attributes).
 """
-.import "preamble"
+.import "core/preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
 .label _status_menu_main_aac9 = 0x01AAC9
 

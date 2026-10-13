@@ -2,10 +2,10 @@
 ROM patches that wire the battle magic system to the relocated `draw_magic_list_direct` renderer + the
 long-form attack-name copier.
 """
-.import "assets"
-.import "bank20_helpers"
+.import "core/assets"
+.import "core/bank20_helpers"
 .import "battle/magic_reloc"
-.import "vanilla"
+.import "core/vanilla"
 
 
 ; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in

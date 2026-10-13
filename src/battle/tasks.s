@@ -17,8 +17,8 @@ NMI when vblank lands mid-task (about 29 bytes measured).
 
 The kernel state is SRAM (`battle_tasks`); the stacks must be bank-0 WRAM, in `$1847-$18FF`, unused by vanilla.
 """
-.include "../bank20.i"
-.import "sram_layout"
+.include "core/bank20.i"
+.import "core/sram_layout"
 
 TASK_COUNT := 2
 TASK_STACK_SIZE := 0x5C

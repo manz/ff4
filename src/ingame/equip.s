@@ -2,10 +2,10 @@
 In-place patches for the equip menu: load the system-menu text pointer for the equip header and bump the
 character-name row up so it does not collide with the dextrality string.
 """
-.import "preamble"
+.import "core/preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
 
 .alloc at 0x01bd0f {

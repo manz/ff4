@@ -2,7 +2,7 @@
 Dialog-VWF shared header: zero-page variable addresses + macro definitions consumed by every module that
 touches dialog VWF state.
 """
-; src/vwf.i - VWF module shared definitions
+; src/dialog/vwf.i - VWF module shared definitions
 ; This header defines zero-page variable addresses used by the VWF system
 ; Include this in any file that needs to access VWF state
 

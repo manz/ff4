@@ -16,16 +16,16 @@ EventCmd_f7 ($00:ED96) flow:
 ShowItemWindow itself is left in place: vanilla still opens, scrolls
 and closes the window, and the hooks below put the engine's ring in it.
 """
-.import "items"
+.import "core/items"
 
 
-.import "assets"
+.import "core/assets"
 .import "ingame/key_item_picker"
-.import "bank20_helpers"
-.include "src/libmz.i"
+.import "core/bank20_helpers"
+.include "core/libmz.i"
 
 
-.import "vanilla"
+.import "core/vanilla"
 ; Silence vanilla's own list draw. UpdateItemText ($00:B22B) lays the
 ; WHOLE filtered list into the window band and vanilla then scrolls over
 ; it with $BB ; with the engine drawing its ring into the same band the

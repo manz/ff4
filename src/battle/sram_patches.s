@@ -7,7 +7,7 @@ window) through our messages-VWF init/deinit trampolines.
 .import "battle/sram"
 .import "battle/redraw_writer_patches"
 .import "battle/redraw_gates"
-.import "vanilla"
+.import "core/vanilla"
 
 ; inventory buffer
 ;*=0x02991E

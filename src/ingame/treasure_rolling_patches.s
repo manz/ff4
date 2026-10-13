@@ -2,9 +2,9 @@
 ROM patches that wire the treasure inventory rolling buffer in: hooks the treasure menu entry/exit, replaces
 `DrawInventoryList` calls and drives HDMA channel 6.
 """
-.import "preamble"
+.import "core/preamble"
 .import "ingame/inventory_rolling_trampolines"
-.import "items"
+.import "core/items"
 
 ; Treasure inventory rolling-buffer ROM patches.
 ;

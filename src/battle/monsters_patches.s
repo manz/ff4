@@ -1,11 +1,11 @@
 """
 Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first.
 """
-.import "assets"
+.import "core/assets"
 .import "battle/monsters_reloc"
 .import "battle/message"
-.import "vanilla"
-.import "wram_layout"
+.import "core/vanilla"
+.import "core/wram_layout"
 
 
 ; transform the monster names loading routine from fixed size to pointed.

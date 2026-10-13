@@ -2,14 +2,14 @@
 Field-menu magic screen patches: column-offset tweaks, per-character spell-list pointer setup and hooks into
 the magic-render path.
 """
-.import "preamble"
+.import "core/preamble"
 .import "ingame/free_space"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.import "vanilla"
-.include "src/menus/system_menus_macros.i"
+.import "core/vanilla"
+.include "menus/system_menus_macros.i"
 
-.include "src/ingame/macros.i"
+.include "ingame/macros.i"
 
 ; Columns offsets
 

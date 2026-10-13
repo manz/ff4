@@ -3,8 +3,8 @@ Place-name window patches: increase the window length to fit French names and fi
 rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
 """
 .import "ingame/places_names_window"
-.import "assets"
-.import "vanilla"
+.import "core/assets"
+.import "core/vanilla"
 
 {
     place_name_length = PLACE_NAME_LENGTH

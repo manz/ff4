@@ -36,20 +36,20 @@ Glyphs:
 """
 
 
-.import "items"
-.import "bank20_helpers"
+.import "core/items"
+.import "core/bank20_helpers"
 .import "small_vwf/baked_names"
-.import "vwf_ram"
-.include "../bank20.i"
-.include "src/battle/inventory_budget.i"
+.import "core/vwf_ram"
+.include "core/bank20.i"
+.include "battle/inventory_budget.i"
 
-.include "src/libmz.i"
-.include "src/vwf_state.i"
+.include "core/libmz.i"
+.include "core/vwf_state.i"
 
-.import "assets"
+.import "core/assets"
 .import "small_vwf/init"
-.import "libmz"
-.import "vanilla"
+.import "core/libmz"
+.import "core/vanilla"
 
 
 .alloc _items_menu_vwf_block in bank20_reloc {

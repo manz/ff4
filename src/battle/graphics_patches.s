@@ -2,7 +2,7 @@
 Battle graphics asset patches: MISS sprite glyphs, defend/row text overrides and other small tile fixups that
 piggyback on `defend_row` data.
 """
-.import "assets"
+.import "core/assets"
 .import "battle/graphics"
 .include "battle_labels.i"  ; build/gen: utils/battle_labels.py
 

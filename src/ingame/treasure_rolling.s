@@ -3,9 +3,9 @@ Treasure inventory rolling-buffer engine (single column, 5 visible, 6 buffer slo
 from `inventory_rolling.s` and tuned for the chest UI.
 """
 
-.import "preamble"
-.import "items"
-.include "src/lib/rolling_buffer.i"
+.import "core/preamble"
+.import "core/items"
+.include "lib/rolling_buffer.i"
 
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
@@ -41,7 +41,7 @@ _TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 ; RAM VARIABLES
 ; Treasure rolling-buffer state: `treasure_rolling` at $7E:9C00. Same
 ; struct layout as the field-menu state block - fields resolved via
-; `RollingBufferState` from src/items.s so any layout change applies
+; `RollingBufferState` from src/core/items.s so any layout change applies
 ; uniformly across profiles. Kept out of $1B00-$1BFF, which vanilla
 ; menu / sprite code writes to via indexed STA past $1BEB  ; the engine
 ; needs the full struct (state + config + hook far-ptrs). Both menus are
@@ -87,7 +87,7 @@ _TREASURE_HDMA_SHADOW_ADDR := 0x9840
 _TREASURE_HDMA_SHADOW := 0x7E9840
 _TREASURE_HDMA_TABLE_SIZE := 40
 _TREASURE_HDMA_BANK := 0x7E
-; Shared menu HDMA signals defined in src/items.s - referenced here as
+; Shared menu HDMA signals defined in src/core/items.s - referenced here as
 ; field_menu_rolling.hdma_enable / field_menu_rolling.hdma_copy_pending.
 
 ; HDMA channel 6 for the treasure rolling buffer. Original treasure
@@ -98,8 +98,8 @@ _TREASURE_HDMA_BANK := 0x7E
 ; in original treasure, so ch2 keeps driving its drops-band scroll
 ; untouched.
 
-.include "../bank20.i"
-.import "vanilla"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:

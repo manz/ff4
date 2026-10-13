@@ -11,16 +11,16 @@ _TITLE_BLANK (blank) or the title's tiles; TfrMapTitle writes that row with _TIT
 The field menu's BG2 tilemap sits on those tiles and its exit (FadeInMenu's InitHWRegs) points BG3 back at $2000: a
 title still open is drawn and uploaded again there, screen still off.
 """
-.import "preamble"
-.import "vanilla"
-.import "assets"
-.import "vwf_ram"
-.import "libmz"
+.import "core/preamble"
+.import "core/vanilla"
+.import "core/assets"
+.import "core/vwf_ram"
+.import "core/libmz"
 .import "small_vwf/render"
 .import "ingame/places_names_window"
-.include "src/vwf_state.i"
-.include "src/libmz.i"
-.include "../bank20.i"
+.include "core/vwf_state.i"
+.include "core/libmz.i"
+.include "core/bank20.i"
 
 _TITLE_BLANK := 0x100  ; a blank tile: the glyph row's cells outside the title
 _TITLE_TILE := 0x101  ; the title's first tile

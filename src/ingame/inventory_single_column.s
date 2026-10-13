@@ -2,7 +2,7 @@
 Single-column inventory layout patches: collapse the original 2-column items list to one column so the
 rolling buffer can take over rendering.
 """
-.import "preamble"
+.import "core/preamble"
 .import "ingame/free_space"
 
 ; ============================================================================

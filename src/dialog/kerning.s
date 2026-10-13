@@ -2,8 +2,8 @@
 Dialog-VWF kerning helpers: long-form (RTL) wrapper around the binary-search backend used to look up per-pair
 kerning offsets.
 """
-.include "src/vwf.i"
-.include "bank20.i"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
 
 
 .alloc _kerning_block in bank20_reloc {

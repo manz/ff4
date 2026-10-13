@@ -15,11 +15,11 @@ timer at once, about every 10 frames, none during an animation) the fill moves o
 at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn instead of 4-6 jumps.
 """
 .import "battle/tasks"
-.import "vanilla"
+.import "core/vanilla"
 .import "battle/render_state"
-.import "wram_layout"
-.include "../bank20.i"
-.include "src/battle/bank02_trampolines.i"
+.import "core/wram_layout"
+.include "core/bank20.i"
+.include "battle/bank02_trampolines.i"
 
 _PARTY := 5
 _SETTING := 0x7E16B3  ; ingame/options.s ATB_GAUGE_SETTING: bit 0 shows the gauges (saved, 0 by default)

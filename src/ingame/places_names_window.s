@@ -1,7 +1,7 @@
 """Tilemap rows for the top + bottom edges of the location-name window."""
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 PLACE_NAME_LENGTH := 18  ; cells for the title: the widest one takes 17 small-VWF tiles
 PLACE_WINDOW_WIDTH := PLACE_NAME_LENGTH + 4  ; the borders and a blank cell inside each

@@ -3,11 +3,11 @@ Battle put-char primitives: the `battle_flags` render-mode toggles and the WRAM-
 
 The message renderer and the `battle/sram` dispatch tables both call these, so they live below both.
 """
-.import "preamble"
-.import "dakuten"
-.import "vanilla"
-.include "src/battle/sram.i"
-.include "../bank20.i"
+.import "core/preamble"
+.import "dialog/dakuten"
+.import "core/vanilla"
+.include "battle/sram.i"
+.include "core/bank20.i"
 
 _BATTLE_DAKUTEN_TABLE = 0x16FA40
 

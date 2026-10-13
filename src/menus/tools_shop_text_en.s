@@ -1,5 +1,5 @@
 """English-language counterpart of `tools_shop_text.s`."""
-.include "src/ingame/macros.i"
+.include "ingame/macros.i"
 
 .scope shops {
     """Shop UI strings."""

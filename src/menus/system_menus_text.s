@@ -1,8 +1,8 @@
 """Relocated implementations of the original system-menu text routines."""
-.include "../bank20.i"
+.include "core/bank20.i"
 
-.import "assets"
-.import "vanilla"
+.import "core/assets"
+.import "core/vanilla"
 .import "small_vwf/menu_text"
 
 .label _copy_text_879d = 0x01879D

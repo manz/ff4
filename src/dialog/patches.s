@@ -3,17 +3,17 @@ Minimal dialog-VWF wiring: pointer-loading helpers + entry hooks called from the
 the VWF layer kicks in without rewriting the message window.
 """
 
-.import "preamble"
-.include "src/libmz.i"
+.import "core/preamble"
+.include "core/libmz.i"
 
 ;=====================================================================
 ; Dialog pointer-loading hooks
 ;=====================================================================
 
-.include "src/vwf.i"
-.import "dialog"
-.import "vwf"
-.import "vanilla"
+.include "dialog/vwf.i"
+.import "dialog/pointers"
+.import "dialog/vwf"
+.import "core/vanilla"
 
 .label _text_cmd_07_b369 = 0x00B369
 .label _text_cmd_08_b398 = 0x00B398

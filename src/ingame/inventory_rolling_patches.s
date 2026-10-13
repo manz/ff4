@@ -2,11 +2,11 @@
 ROM patches wiring the field-menu inventory rolling-buffer engine in (FF6-style non-blocking scroll state
 machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 """
-.import "preamble"
+.import "core/preamble"
 .import "ingame/free_space"
 .import "ingame/inventory_rolling"
 .import "ingame/inventory_rolling_trampolines"
-.import "bank20_helpers"
+.import "core/bank20_helpers"
 
 .label _select_item_a066 = 0x01A066
 .label _select_item_a0bc = 0x01A0BC

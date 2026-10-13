@@ -3,10 +3,10 @@ Field-menu inventory rolling-buffer engine (single column, 10 visible rows + 1 p
 approach for the main menu items list with HDMA-based circular scrolling.
 """
 
-.import "preamble"
-.import "vwf_ram"
-.import "items"
-.include "src/lib/rolling_buffer.i"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/items"
+.include "lib/rolling_buffer.i"
 
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
@@ -79,8 +79,8 @@ _MENU_HDMA_SHADOW := 0x7E9840  ; Full 24-bit address
 _MENU_HDMA_TABLE_SIZE := 40  ; Max table size in bytes (13 entries × 3 bytes + padding)
 _MENU_HDMA_BANK := 0x7E  ; Using WRAM bank
 
-.include "../bank20.i"
-.import "vanilla"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _inventory_rolling_block in bank20_reloc {
 _init_menu_inventory_hdma:

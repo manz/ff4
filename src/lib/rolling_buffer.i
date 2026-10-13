@@ -3,7 +3,7 @@
 """
 Shared rolling-buffer scroll cadence.
 
-Profile state uses the `RollingBufferState` struct (src/items.s); the
+Profile state uses the `RollingBufferState` struct (src/core/items.s); the
 shared scroll code is src/lib/rolling_inventory_engine.s.
 """
 

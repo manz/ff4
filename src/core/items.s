@@ -4,8 +4,8 @@ drops, and key-item menus. Defines the `Item` struct (2-byte id + qty
 pair) plus the BG3 CHR tile-id windows each menu surface owns.
 """
 
-.include "src/vwf_state.i"
-.include "src/rolling_state.i"
+.include "core/vwf_state.i"
+.include "core/rolling_state.i"
 
 ; Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
 ;
@@ -104,7 +104,7 @@ KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
 KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
 KEY_ITEM_VWF_BYTE_COUNT := sizeof(key_item_chr_save)
 
-; Caller-context values for vwf_engine.caller_ctx (see src/vwf_ram.s).
+; Caller-context values for vwf_engine.caller_ctx (see src/core/vwf_ram.s).
 VWF_CTX_PRIMARY := 0x00
 VWF_CTX_DROPS := 0x01
 VWF_CTX_KEY_ITEM := 0x02

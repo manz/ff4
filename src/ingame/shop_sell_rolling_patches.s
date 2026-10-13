@@ -11,7 +11,7 @@ length.
 
 
 .import "ingame/inventory_rolling_trampolines"
-.include "src/libmz.i"
+.include "core/libmz.i"
 
 
 ; Sell list draw, on entry and after a sale changes quantities.

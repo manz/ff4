@@ -4,10 +4,10 @@ Bank-$02 RTL wrappers around vanilla battle routines, plus the text-draw trampol
 `battle/inventory_rolling` and its ROM patches both call these. They depend on nothing above them, which keeps
 the import graph acyclic.
 """
-.import "preamble"
+.import "core/preamble"
 .import "battle/sram"
-.include "src/battle/bank02_trampolines.i"
-.import "vanilla"
+.include "battle/bank02_trampolines.i"
+.import "core/vanilla"
 
 .alloc _bank02_vanilla_wrappers in bank02_trampolines {
 draw_text_rolling_trampoline:

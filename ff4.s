@@ -7,7 +7,7 @@ each module gates its own code on its feature flags (a816.toml [defines]).
 
 .import "system"
 .import "intro"
-.import "minimal_vwf_patches"
+.import "dialog"
 .import "ingame"
 .import "battle"
 .import "debug"

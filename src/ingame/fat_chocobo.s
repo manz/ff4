@@ -1,6 +1,6 @@
 """Fat Chocobo's screen ($01:CD69 InitFatChocoboMenu, ChooseFatChocoCommand) in French, in the small VWF."""
-.include "src/menus/system_menus_macros.i"
-.include "src/ingame/macros.i"
+.include "menus/system_menus_macros.i"
+.include "ingame/macros.i"
 .import "menus/system_menus_text"
 .import "menus/in_game_text"
 

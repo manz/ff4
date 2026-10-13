@@ -10,8 +10,8 @@ cursor and index math collapse to one column.
 """
 
 
-.include "src/libmz.i"
-.import "items"
+.include "core/libmz.i"
+.import "core/items"
 .import "ingame/inventory_rolling_trampolines"
 
 

@@ -3,7 +3,7 @@ Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live
 wrappers around original bank-$01 helpers used by the rolling code.
 """
 
-.import "preamble"
+.import "core/preamble"
 .import "ingame/vanilla_trampolines"
 .import "ingame/drops_rolling"
 .import "ingame/treasure_rolling"
@@ -13,9 +13,9 @@ wrappers around original bank-$01 helpers used by the rolling code.
 .import "ingame/equip_inventory_rolling"
 .import "ingame/inventory_rolling"
 .import "ingame/items_menu_vwf"
-.import "items"
+.import "core/items"
 
-.include "src/ingame/macros.i"
+.include "ingame/macros.i"
 
 
 ;; Bank-$01 trampolines for inventory rolling routines living in bank $20.
@@ -25,9 +25,9 @@ wrappers around original bank-$01 helpers used by the rolling code.
 ;; Bank-$01 callers (inventory_rolling_patches.s, free_space.s) jsr.w these
 ;; bank-$01 names; the trampoline JSLs into the bank-$20 implementation.
 
-.include "src/ingame/bank01_trampolines.i"
-.import "vanilla"
-.include "../bank20.i"
+.include "ingame/bank01_trampolines.i"
+.import "core/vanilla"
+.include "core/bank20.i"
 
 _SELL_NAME_SLOT := 9  ; tiles $100 + 9 * 10
 

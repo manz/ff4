@@ -3,9 +3,9 @@ Patches that route the bank-2 multipliers (`Mult8` at $8560, `MultHW` at $85D2) 
 versions.
 """
 
-.import "preamble"
-.import "vanilla"
-.include "../bank20.i"
+.import "core/preamble"
+.import "core/vanilla"
+.include "core/bank20.i"
 
 ; ===========================================================================
 ; Mult8 at $8560 ($2a = $26 * $28) on the hardware multiplier, NMI-safe. Called via mult8_far ($855C) which does

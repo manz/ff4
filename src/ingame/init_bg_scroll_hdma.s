@@ -1,7 +1,7 @@
 """Relocated `InitBGScrollHDMA` (from $01:EBD2): builds the BG2/BG3 V-scroll HDMA tables in WRAM."""
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 .alloc _init_bg_scroll_hdma_block in bank20_reloc {
 init_bg_scroll_hdma:

@@ -21,17 +21,17 @@ the ring once the window is open, the scroll routines step it, and
 `key_item_close_impl` restores the map's VRAM on close. The HDMA scroll
 table on channel 4 is built but the channel is not armed.
 
-State: `key_item_rolling`, a RollingBufferState at $7E:9C60 (src/items.s).
+State: `key_item_rolling`, a RollingBufferState at $7E:9C60 (src/core/items.s).
 """
 
 
-.import "preamble"
-.import "vwf_ram"
-.import "items"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/items"
 
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
-.import "libmz"
+.import "core/libmz"
 .import "lib/rolling_inventory_engine"
 .import "small_vwf/init"
 
@@ -111,10 +111,10 @@ _KEY_ITEM_BORDER_RIGHT_COL := 29
 
 _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 
-.include "src/rolling_state.i"
+.include "core/rolling_state.i"
 
-.include "../bank20.i"
-.import "vanilla"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:

@@ -1,17 +1,17 @@
 """Small-VWF item-description renderer."""
-.import "preamble"
-.import "vwf_ram"
-.import "assets"
-.import "items"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/assets"
+.import "core/items"
 .import "battle/render_state"
-.import "libmz"
-.include "src/vwf.i"
-.include "../bank20.i"
-.include "src/libmz.i"
+.import "core/libmz"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
+.include "core/libmz.i"
 .import "small_vwf/render"
 
 .alloc _small_vwf_item_description in bank20_reloc {
-    .include "src/vwf_state.i"
+    .include "core/vwf_state.i"
 
     .scope items_description {
     """Small-VWF item-description renderer entry-points."""

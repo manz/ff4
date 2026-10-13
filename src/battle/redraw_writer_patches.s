@@ -17,7 +17,7 @@ helper pool for the gated trampolines.
 .import "battle/redraw_gates"
 .import "battle/tasks_patches"
 .import "battle/sram"
-.import "vanilla"
+.import "core/vanilla"
 
 ; --- ATB active-char update (cmd-gate writer) ---
 

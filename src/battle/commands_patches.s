@@ -3,8 +3,8 @@ In-place patches for the small-VWF battle command window (shorter slot stride, c
 pointer), and the action window's command name read from the pointed `command_names`.
 """
 
-.import "assets"
-.import "bank20_helpers"
+.import "core/assets"
+.import "core/bank20_helpers"
 command_buffer_ptr = 0x97a6 + 0x601  ; vanilla spell-list buffer area
 command_length = 6
 ; Command window

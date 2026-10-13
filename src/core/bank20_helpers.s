@@ -2,11 +2,11 @@
 Small bank-$20 helpers the vanilla code reaches by JSL: the HDMA-aware BG1VOFS write, the cold-boot SRAM
 clear and the 17-byte item-record multiplies.
 """
-.import "preamble"
-.import "items"
-.include "bank20.i"
-.import "vanilla"
-.import "assets"
+.import "core/preamble"
+.import "core/items"
+.include "core/bank20.i"
+.import "core/vanilla"
+.import "core/assets"
 
 .alloc bank20_helpers in bank20_reloc {
 ; --- Inline reloc helpers ------------------------------------------------

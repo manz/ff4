@@ -7,11 +7,11 @@ reused by the next string) and uploaded after the next wait, before the caller's
 first, at most _DRAIN_BUDGET bytes a vblank. The oldest entry always goes, so a large one can't starve. A full
 queue falls back to waiting for a vblank and uploading everything. Baked tiles (push_rom) go straight from ROM.
 """
-.import "preamble"
-.import "sram_layout"
-.import "libmz"
-.include "src/vwf_state.i"
-.include "../bank20.i"
+.import "core/preamble"
+.import "core/sram_layout"
+.import "core/libmz"
+.include "core/vwf_state.i"
+.include "core/bank20.i"
 
 _ENTRY := 8  ; VRAM word, source address, bytes, source bank
 _STAGING_BYTES := 0x1000

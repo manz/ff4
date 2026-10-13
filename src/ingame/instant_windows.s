@@ -8,7 +8,7 @@ wiped in one DMA. Shop windows open instantly too: they share these routines. Ea
 first (ingame/menu_fade.s).
 """
 .import "ingame/menu_fade"
-.include "src/ingame/bank01_slack.i"
+.include "ingame/bank01_slack.i"
 .label _wait_vblank_818a = 0x01818A
 .label _tfr_vram_8078 = 0x018078
 .label _exec_jump_tbl_834b = 0x01834B

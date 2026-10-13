@@ -2,10 +2,10 @@
 Relocated battle spell-list renderer (`draw_magic_list_direct`) and per-magic-type pointer table
 (`magic_list_ptrs`).
 """
-.import "preamble"
+.import "core/preamble"
 .import "battle/render_state"
 .import "battle/sram"
-.import "vanilla"
+.import "core/vanilla"
 
 
 ; Spell name length in magic_names; magic/patches.s imports it too.
@@ -25,7 +25,7 @@ _list_top_row = 0x7EEF86
 _frame_bottom_row = _frame_first_row + _FRAME_SIDE_ROWS * 0x40
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 .include "battle/render_save.i"
 
 .alloc _battle_magic_reloc_block in bank20_reloc {

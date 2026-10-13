@@ -4,8 +4,8 @@ dakuten/handakuten composite tile pair.
 """
 
 
-.include "bank20.i"
-.import "assets"
+.include "core/bank20.i"
+.import "core/assets"
 .alloc lookup_dakuten in bank20_reloc {
 """
     input: A 8bit: current char

@@ -3,9 +3,9 @@ Pinned-address overlay rewiring original battle-message pointer loads ($02C909, 
 translated-string tables.
 """
 
-.import "preamble"
+.import "core/preamble"
 .import "battle/sram_patches"
-.import "assets"
+.import "core/assets"
 .import "battle/sram"
 
 
