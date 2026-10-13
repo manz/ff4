@@ -364,7 +364,7 @@ _clear_key_loop:
 _key_item_init_filter:
 """
     Port of InitItemList ($00:B2D5): copies (id, qty) of key items [$CE..$E6] u [$EB..$FD] from $1440 to $0712.
-    Sets key_item_count.
+    Sets key_item_picker.count.
 """
 
 
@@ -411,7 +411,7 @@ _filter_next:
 ; Y = 2 * count.
     tya
     lsr
-    sta.l key_item_count
+    sta.l key_item_picker.count
     plb
     plp
     rts
@@ -555,7 +555,7 @@ _key_item_init_impl:
     sta.l key_item_rolling.item_list_ptr + 1
     lda.b #0x7E
     sta.l key_item_rolling.item_list_ptr + 2
-    lda.l key_item_count
+    lda.l key_item_picker.count
     sta.l key_item_rolling.item_count
     lda.b #0x04
     sta.l key_item_rolling.hdma_channel
@@ -608,14 +608,14 @@ changing (refresh). Leave vanilla's `jsr $912F` before the hook alone: replacing
     lda #0x01
     sta.b 0x7D  ; the store this hook displaced
     lda.b 0xDA  ; DP-relative: the caller's direct page, whatever it is
-    cmp.l key_item_open_slide_seen
+    cmp.l key_item_picker.open_slide_seen
     beq _check_scroll
-    sta.l key_item_open_slide_seen
+    sta.l key_item_picker.open_slide_seen
     cmp.b #_KEY_ITEM_SLIDE_OPEN_DONE
     bne _after_open_done
     lda.b 0xBA
-    sta.l key_item_last_scroll
-    sta.l key_item_scroll_pos
+    sta.l key_item_picker.last_scroll
+    sta.l key_item_picker.scroll_pos
     jsr.w _key_item_save_vram
     jsr.w _key_item_enter_render
     rep #0x30
@@ -624,10 +624,10 @@ changing (refresh). Leave vanilla's `jsr $912F` before the hook alone: replacing
 
 _check_scroll:
     lda.b 0xBA
-    cmp.l key_item_last_scroll
+    cmp.l key_item_picker.last_scroll
     beq _after_open_done
-    sta.l key_item_last_scroll
-    sta.l key_item_scroll_pos
+    sta.l key_item_picker.last_scroll
+    sta.l key_item_picker.scroll_pos
 ; Refresh only if init ran (menu_id matches): the slide marker survives a close, so a later open can reach
 ; this edge with stale hook far-pointers.
     lda.l key_item_rolling.menu_id
@@ -670,7 +670,7 @@ interrupt handlers set their own D ($0600).
     jsr.w _key_item_save_dma
     rep #0x30
     tdc
-    sta.l key_item_dp_prev
+    sta.l key_item_picker.dp_prev
     tax
     ldy.w #_KEY_ITEM_RENDER_DP
     lda.w #0x00FF
@@ -685,7 +685,7 @@ interrupt handlers set their own D ($0600).
 _key_item_leave_render:
 """Restores the caller's D, DMA ch3 and NMI."""
     rep #0x20
-    lda.l key_item_dp_prev
+    lda.l key_item_picker.dp_prev
     tcd
     sep #0x20
     rep #0x10
@@ -703,7 +703,7 @@ Entry: 8-bit A, caller's D. Exit: Z set when $BA is already at the bottom (teste
 """
 
 
-    lda.l key_item_count
+    lda.l key_item_picker.count
     sec
     sbc.b #_KEY_ITEM_VISIBLE_ITEMS
     bcs _limit_ready
@@ -725,7 +725,7 @@ the ring at the new scroll position.
     sep #0x20
     rep #0x10
     lda #_KEY_ITEM_SCROLL_FRAMES
-    sta.l key_item_scroll_frames
+    sta.l key_item_picker.scroll_frames
 
 _scroll_down_loop:
     jsr.l wait_for_vblank_long
@@ -734,9 +734,9 @@ _scroll_down_loop:
     clc
     adc.b #_KEY_ITEM_SCROLL_STEP_PX
     sta.b 0xBB
-    lda.l key_item_scroll_frames
+    lda.l key_item_picker.scroll_frames
     dec
-    sta.l key_item_scroll_frames
+    sta.l key_item_picker.scroll_frames
     bne _scroll_down_loop
     lda.b 0xBB
     sec
@@ -752,7 +752,7 @@ key_item_scroll_up_impl:
     sep #0x20
     rep #0x10
     lda #_KEY_ITEM_SCROLL_FRAMES
-    sta.l key_item_scroll_frames
+    sta.l key_item_picker.scroll_frames
 
 _scroll_up_loop:
     jsr.l wait_for_vblank_long
@@ -761,9 +761,9 @@ _scroll_up_loop:
     sec
     sbc.b #_KEY_ITEM_SCROLL_STEP_PX
     sta.b 0xBB
-    lda.l key_item_scroll_frames
+    lda.l key_item_picker.scroll_frames
     dec
-    sta.l key_item_scroll_frames
+    sta.l key_item_picker.scroll_frames
     bne _scroll_up_loop
     lda.b 0xBB
     clc
@@ -786,7 +786,7 @@ Saves DMA ch3's registers: the picker's transfers reprogram ch3, which a map HDM
 
 _save_dma_loop:
     lda.l dma_ch3.DMAP, x
-    sta.l key_item_dma_save, x
+    sta.l key_item_picker.dma_save, x
     inx
     cpx.w #0x000B
     bne _save_dma_loop
@@ -801,7 +801,7 @@ _key_item_restore_dma:
     ldx.w #0x0000
 
 _restore_dma_loop:
-    lda.l key_item_dma_save, x
+    lda.l key_item_picker.dma_save, x
     sta.l dma_ch3.DMAP, x
     inx
     cpx.w #0x000B
@@ -811,7 +811,7 @@ _restore_dma_loop:
 
 _key_item_vram_to_sram:
 """
-Copies a VRAM slice to the `key_item_chr_save` bank. A = VRAM word address, X = SRAM address, Y = byte count.
+Copies a VRAM slice to the `key_item_picker.chr_save` bank. A = VRAM word address, X = SRAM address, Y = byte count.
 Must run in vblank.
 """
 
@@ -831,7 +831,7 @@ Must run in vblank.
     txa
     sta.l dma_ch3.A1TL
     sep #0x20
-    lda #key_item_chr_save >> 16
+    lda #key_item_picker.chr_save >> 16
     sta.l dma_ch3.A1B
     rep #0x20
     tya
@@ -858,7 +858,7 @@ _key_item_sram_to_vram:
     txa
     sta.l dma_ch3.A1TL
     sep #0x20
-    lda #key_item_chr_save >> 16
+    lda #key_item_picker.chr_save >> 16
     sta.l dma_ch3.A1B
     rep #0x20
     tya
@@ -879,7 +879,7 @@ _key_item_save_vram:
     jsr.l wait_for_vblank_long
     rep #0x20
     lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
-    ldx.w #key_item_chr_save & 0xFFFF
+    ldx.w #key_item_picker.chr_save & 0xFFFF
     ldy.w #KEY_ITEM_VWF_BYTE_COUNT
     jsr.w _key_item_vram_to_sram
     jsr.w _key_item_restore_dma
@@ -899,7 +899,7 @@ Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of 
     jsr.l wait_for_vblank_long
     rep #0x20
     lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
-    ldx.w #key_item_chr_save & 0xFFFF
+    ldx.w #key_item_picker.chr_save & 0xFFFF
     ldy.w #KEY_ITEM_VWF_BYTE_COUNT
     jsr.w _key_item_sram_to_vram
     jsr.w _key_item_restore_dma
@@ -914,8 +914,8 @@ _key_item_rerender:
     sep #0x20
     rep #0x10
     lda.b 0xBA
-    sta.l key_item_last_scroll
-    sta.l key_item_scroll_pos
+    sta.l key_item_picker.last_scroll
+    sta.l key_item_picker.scroll_pos
     jsr.w _key_item_enter_render
     rep #0x30
     jsr.l _key_item_refresh_slots_impl
@@ -1033,7 +1033,7 @@ _key_item_start_scroll_down_impl:
 """Starts the engine's scroll-down."""
     php
     rep #0x10
-    lda.l key_item_scroll_pos
+    lda.l key_item_picker.scroll_pos
     ldx.w #key_item_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_down
     plp
@@ -1043,7 +1043,7 @@ _key_item_start_scroll_up_impl:
 """Starts the engine's scroll-up."""
     php
     rep #0x10
-    lda.l key_item_scroll_pos
+    lda.l key_item_picker.scroll_pos
     ldx.w #key_item_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_up
     plp
@@ -1062,7 +1062,7 @@ _key_item_finish_scroll_impl:
 """Finishes the engine scroll."""
     php
     rep #0x10
-    lda.l key_item_scroll_pos
+    lda.l key_item_picker.scroll_pos
     ldx.w #key_item_rolling
     jsr.l rolling_engine.rolling_engine_finish_scroll
     plp
@@ -1073,7 +1073,7 @@ _key_item_refresh_slots_impl:
     php
     sep #0x20
     rep #0x10
-    lda.l key_item_scroll_pos
+    lda.l key_item_picker.scroll_pos
     ldx.w #key_item_rolling
     jsr.l rolling_engine.rolling_engine_refresh_slots
     plp
