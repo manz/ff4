@@ -69,7 +69,7 @@ tard!
 On va mourir si on ne se magne pas![end]</sn:pointer>
     <sn:pointer id="19">[bold]Rosa[normal]: Vite![end]</sn:pointer>
     <sn:pointer id="20">Toi!!![end]</sn:pointer>
-    <sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cur du géant, le
+    <sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cœur du géant, le
 système de contrôle![new]
 [bold]Edge[normal]: La vache, c'est [wicked]Énorme[normal]![new]
 [bold]FuSoYa[normal]: Avant d'attaquer le système
@@ -81,7 +81,7 @@ tout seul![end]</sn:pointer>
     <sn:pointer id="23">[bold]Golbez[normal]: Comment avez-vous osé arrêter
 le géant!![new]
 [bold]FuSoYa[normal]: Toi!![end]</sn:pointer>
-    <sn:pointer id="24">[bold]Golbez[normal]: Mais..!?
+    <sn:pointer id="24">[bold]Golbez[normal]: Mais...!?
 Mais qui es-tu!?[new]
 [bold]FuSoYa[normal]: Toi!
 Ne sais-tu donc même pas qui tu es!?[new]
@@ -154,7 +154,7 @@ servi du sang lunien de Golbez.[new]
 accompagné FuSoYa sur la lune pour
 anéantir Zémus.[new]
 [bold]Caïn[normal]: Golbez est.... le frère de
-Cecil..?[end]</sn:pointer>
+Cecil...?[end]</sn:pointer>
     <sn:pointer id="38">[bold]Edge[normal]: Alors j'y vais aussi!
 Tant que je ne lui aurai pas collé au
 moins un coup, je ne serai pas tranquille![new]
@@ -211,11 +211,11 @@ céleste![end]</sn:pointer>
     <sn:pointer id="51">Je suis.... la matière noire absolue...
 La haine de Zémus, devenue démesurée...[end]</sn:pointer>
     <sn:pointer id="52">[bold]Cecil[normal]: Fr... frère...![end]</sn:pointer>
-    <sn:pointer id="53">[bold]Cecil[normal]: Zéromus....![new]
+    <sn:pointer id="53">[bold]Cecil[normal]: Zéromus...![new]
 Je ne peux pas...
 Je ne peux pas perdre...![end]</sn:pointer>
     <sn:pointer id="54">«....Je.... ne... périrai pas... ....Tant que...le...
-mal.... ...hantera...le... cur...des...hommes...
+mal.... ...hantera...le... cœur...des...hommes...
 Urgh...Gyaa... Gyaaaaaaaaammmmmmm!!!!»[end]</sn:pointer>
     <sn:pointer id="55">[bold]FuSoYa[normal]: Incroyable![end]</sn:pointer>
     <sn:pointer id="56">[bold]FuSoYa[normal]: Dire que vous aviez autant de
@@ -451,7 +451,7 @@ En punition, tu vas recopier des
 formules! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="84">[bold]Palom[normal]: Oh nooon! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="85">[bold]Porom[normal]: Tu l'as bien cherché![delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="86">[bold]Chambellan[normal]: ...En, outre, vous manquez
+    <sn:pointer id="86">[bold]Chambellan[normal]: ...En outre, vous manquez
 de discipline pour être un dirigeant
 efficace... [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="87">[bold]Edge[normal]: Je sais, je sais! [delay][0x10][close_window][end]</sn:pointer>
@@ -583,8 +583,8 @@ Allez, allez!
 On se dépêche![new]
 [bold]Rosa[normal]: J'arrive![delay][0x20][close_window][end]</sn:pointer>
     <sn:pointer id="123">[bold]Golbez[normal]: Cecil...
-Prends...Prends ceci!
-Utilise...le![end]</sn:pointer>
+Prends... Prends ceci!
+Utilise-le...![end]</sn:pointer>
     <sn:pointer id="124">[bold]Rosa[normal]: Ça faisait tellement longtemps
 que nous n'avions pas vu tout le monde. [delay][0x18]
 Ils ne vont plus tarder![new]
@@ -626,8 +626,8 @@ Combattez pour la Terre![end]</sn:pointer>
     <sn:pointer id="142">[bold]Luca[normal]: Relevez-vous![end]</sn:pointer>
     <sn:pointer id="143">«Nous prions aussi pour vous!»[end]</sn:pointer>
     <sn:pointer id="144">«Revenez vivants!»[end]</sn:pointer>
-    <sn:pointer id="145">[bold]Ancien[normal]: Lune..!
-Reçois nos prières..!![end]</sn:pointer>
+    <sn:pointer id="145">[bold]Ancien[normal]: Lune...!
+Reçois nos prières...!![end]</sn:pointer>
     <sn:pointer id="146">[bold]Palom[normal]: Tiens bon, mon pote![end]</sn:pointer>
     <sn:pointer id="147">[bold]Cecil[normal]: Ces deux-là!?[new]
 [bold]Ancien[normal]: En effet.
@@ -764,7 +764,7 @@ manipuler par Baron![end]</sn:pointer>
     <sn:pointer id="233">T[end]</sn:pointer>
     <sn:pointer id="234">T[end]</sn:pointer>
     <sn:pointer id="235">T[end]</sn:pointer>
-    <sn:pointer id="236">UT[end]</sn:pointer>
+    <sn:pointer id="236">T[end]</sn:pointer>
     <sn:pointer id="237">T[end]</sn:pointer>
     <sn:pointer id="238">T[end]</sn:pointer>
     <sn:pointer id="239">T[end]</sn:pointer>
