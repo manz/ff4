@@ -78,9 +78,7 @@ geometry and Cecil sprite position that go with them.
     .alloc at 0x01962E {
     load_system_menu_text_pointer(newgame.new_game)
 
-    .if DEBUG {
     jsr.w display_build_number
-    }
     }
 
 

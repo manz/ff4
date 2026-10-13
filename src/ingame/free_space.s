@@ -68,9 +68,8 @@ _draw_vwf_message_pos:
     rts
 
 
-    .if DEBUG {
 display_build_number:
-"""Render the `BUILD_DATE + version` string at column 1, row 27 of the title screen (DEBUG builds only)."""
+"""Render the version (after the build date in DEBUG builds) at column 1, row 27 of the title screen."""
     {
     jsr.w draw_pos_text  ; draw text at position.
     load_system_menu_text_pointer(newgame.build_number)
@@ -79,7 +78,6 @@ display_build_number:
     ldx.w #left * 2 + top * 64
     jsr.w copy_text  ; copy text at position.
     rts
-    }
     }
 }
 

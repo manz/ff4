@@ -73,13 +73,14 @@ save_cancelled:
     }
 }
 
-.if DEBUG {
-    .alloc _build_number_text in bank20_reloc {
+.alloc _build_number_text in bank20_reloc {
     .scope newgame {
 build_number:
-    VERSION := 'v1.0.0a0'
+    .if DEBUG {
     .text "${BUILD_DATE} ${VERSION}"
-    .db 0
+    } else {
+    .text "${VERSION}"
     }
+    .db 0
     }
 }

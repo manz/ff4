@@ -54,10 +54,11 @@ did_not_save:
     .text "Cancelled "
 ; extra space at the end to clear the previous title.
     .db 0
-    .if DEBUG {
 build_number:
-    VERSION := 'v1.0.0a0'
+    .if DEBUG {
     .text "${BUILD_DATE} ${VERSION}"
-    .db 0
+    } else {
+    .text "${VERSION}"
     }
+    .db 0
 }

@@ -484,9 +484,10 @@ if __name__ == "__main__":
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
+    version = {"VERSION": os.environ["FF4_VERSION"]} if os.environ.get("FF4_VERSION") else {}
     if "--dev" in sys.argv[1:]:
-        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, DEV_DEFINES)
+        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, {**DEV_DEFINES, **version})
     else:
-        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, obj_dir="build/release/obj")
+        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, version, obj_dir="build/release/obj")
     if exit_code:
         sys.exit(exit_code)
