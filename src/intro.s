@@ -2,10 +2,6 @@
 Boot-time splash screen, hooked at $00:8031: sets up SNES + graphics mode 3, blits the intro tilemap
 and chains into the title screen.
 """
-; ----------------------------------------------------------------
-; Module: intro
-; Splash-screen routine, hooked at $00:8031.
-; ----------------------------------------------------------------
 
 .include "core/libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
 .import "core/preamble"

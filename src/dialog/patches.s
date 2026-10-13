@@ -5,11 +5,6 @@ the VWF layer kicks in without rewriting the message window.
 
 .import "core/preamble"
 .include "core/libmz.i"
-
-;=====================================================================
-; Dialog pointer-loading hooks
-;=====================================================================
-
 .include "dialog/vwf.i"
 .import "dialog/pointers"
 .import "dialog/vwf"

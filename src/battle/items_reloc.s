@@ -4,15 +4,6 @@ Battle inventory buffer layout: relocated buffer base + size constants for the e
 """
 .import "core/wram_layout"
 ; ============================================================================
-; Battle Inventory Buffer Layout
-; ============================================================================
-;
-; Defines buffer sizes and addresses for the expanded 12-byte item names.
-; Original FF4 uses 9-byte item names; we expand to 12 for translations.
-;
-; ============================================================================
-
-; ============================================================================
 ; TEXT BUFFER ($8EA6) - RING BUFFER
 ; ============================================================================
 ;

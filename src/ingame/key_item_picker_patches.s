@@ -3,7 +3,7 @@
 """
 Key-item picker ROM patches.
 
-Hijack original ShowItemWindow at $00:AF4D (NOT $00:AF4B — the
+Hijack original ShowItemWindow at $00:AF4D (NOT $00:AF4B: the
 ff4decomp notes file is off by 2 bytes  ; the real entry verified via
 EventCmd_f7's `JSR $AF4D` opcode at $00:ED9B-$ED9D in original bytes).
 

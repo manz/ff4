@@ -1,6 +1,8 @@
 """
 Field-menu inventory rolling-buffer engine (single column, 10 visible rows + 1 prefetch): adapts the battle
 approach for the main menu items list with HDMA-based circular scrolling.
+
+Layout: 10 visible items out of 48.
 """
 
 .import "core/preamble"
@@ -11,17 +13,6 @@ approach for the main menu items list with HDMA-based circular scrolling.
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
-
-; Rolling Buffer Implementation for Main Menu Inventory (Single Column)
-;
-; HDMA-based circular buffer scrolling for single-column menu inventory.
-; Adapts the battle inventory rolling approach for the menu context.
-;
-; Layout: Single column, 10 visible items, 48 total items
-; Uses same HDMA technique as battle inventory for smooth scrolling.
-;
-
-; CONSTANTS
 
 ; Layout (single column)
 MENU_VISIBLE_ITEMS := 10  ; Visible items at once

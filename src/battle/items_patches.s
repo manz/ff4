@@ -11,10 +11,6 @@ the names again in the VWF.
 .import "core/assets"
 .import "battle/equip_window"
 
-; Item name expansion patches for battle graphics
-; Changes 9-byte items to 12-byte items
-; Redirects 0x0F8000 references to items_unleashed
-
 ; ===== BTLGFX/MENU: LOCATION 1 =====
 
 ; --- multiplier ---

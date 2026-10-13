@@ -1,6 +1,13 @@
 """
 Treasure inventory rolling-buffer engine (single column, 5 visible, 6 buffer slots, scroll limit 43)  ; cloned
 from `inventory_rolling.s` and tuned for the chest UI.
+
+Differences from the field menu:
+- Its own engine state (`treasure_rolling`); vanilla's treasure UI keeps its cursor and scroll at $1BB3..$1BB7.
+- Scroll position read from $1BB7 instead of $1B1A.
+
+The HDMA shadow tables ($7E9800/$7E9840) are shared with the field-menu rolling buffer because the two menus are
+mutually exclusive on screen.
 """
 
 .import "core/preamble"
@@ -10,16 +17,6 @@ from `inventory_rolling.s` and tuned for the chest UI.
 ; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
-
-; Treasure inventory rolling buffer (single-column, 5 visible).
-;
-
-; Cloned from src/ingame/inventory_rolling.s with:
-;   - VISIBLE_ITEMS = 5, BUFFER_SLOTS = 6, SCROLL_LIMIT = 43.
-;   - Own state block (original treasure UI owns $1BB3..$1BB7).
-;   - Scroll position read from $1BB7 instead of $1B1A.
-; The HDMA shadow tables ($7E9800/$7E9840) are shared with field-menu
-; rolling because the two menus are mutually exclusive on screen.
 
 ; Layout (single column)
 

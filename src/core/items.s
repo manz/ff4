@@ -2,23 +2,20 @@
 Inventory item layout + VWF region map shared across field, treasure,
 drops, and key-item menus. Defines the `Item` struct (2-byte id + qty
 pair) plus the BG3 CHR tile-id windows each menu surface owns.
+
+`Item` is the layout of every menu that lists player items in a
+single-column rolling buffer:
+  - field menu Items submenu at $7E:1440 (48 slots)
+  - treasure menu inventory list at $7E:1440 (same 48-slot array)
+  - treasure menu drops list at $7E:FF28 (8 drop slots)
+  - key-item picker filter buffer at $7E:0712 (filtered subset of $1440)
+
+Battle inventory at $7E:321A is a separate 4-byte layout (flags, id,
+qty, spare): `BattleItemSlot`.
 """
 
 .include "core/vwf_state.i"
 .include "core/rolling_state.i"
-
-; Standard FF4 inventory item layout: 2-byte (id, qty) pairs.
-;
-; Used by every menu surface that shows player items in single-column
-; rolling-buffer form:
-;   - Field menu Items submenu       at $7E:1440 (48 slots)
-;   - Treasure menu inventory list   at $7E:1440 (same 48-slot array)
-;   - Treasure menu drops list       at $7E:FF28 (8 drop slots)
-;   - Key-item picker filter buffer  at $7E:0712 (filtered subset of $1440)
-;
-; Battle inventory at $321A is a separate 4-byte layout (flags + id +
-; qty + spare): `BattleItemSlot` below.
-
 
 ; Battle's vanilla item-name cells: 1-byte symbol + 11 name cells = 12. Original FF4-J used 9 (1 + 8). The equip and
 ; inventory windows' vanilla fills keep this width; the names come from `items_unleashed` and the VWF redraws them.

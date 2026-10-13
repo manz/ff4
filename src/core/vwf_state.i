@@ -20,8 +20,6 @@ the config, then call `render.render_with_config`.
 """
 
 
-; --- VWF CHR buffer (shared across battle + menu renderers) -----------
-
 VWF_CHR_BUFFER := 0x703000
 ; Sized to cover tile_ids $000..$1EF. The field menu rolling buffer
 ; has 11 slots * K=10 tiles from base $100 (FIELD_ITEM_VWF_TILE_BASE),

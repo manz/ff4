@@ -1,24 +1,21 @@
 """
 ROM patches that wire the treasure inventory rolling buffer in: hooks the treasure menu entry/exit, replaces
 `DrawInventoryList` calls and drives HDMA channel 6.
+
+ROM landmarks (original, confirmed via xdds):
+- $01D792 TreasureMenu entry
+- $01D929 redraw helper (DrawTreasureList + DrawInventoryList)
+- $01D967 exchange-picker top-cursor input loop
+- $01D9EA inventory-picker submenu (scrolls $1440)
+- $01DA22 `lda $01 / and #$01` JOY_RIGHT
+- $01DA33 `lda $01 / and #$02` JOY_LEFT
+- $01DA59 up-scroll blocking loop (`dec $9f` x 8)
+- $01DA85 `cmp #$14` scroll-down limit (original 20)
+- $01DA8E down-scroll blocking loop (`inc $9f` x 8)
 """
 .import "core/preamble"
 .import "ingame/inventory_rolling_trampolines"
 .import "core/items"
-
-; Treasure inventory rolling-buffer ROM patches.
-;
-
-; ROM landmarks (original, confirmed via xdds):
-;   $01D792 TreasureMenu entry
-;   $01D929 redraw helper (DrawTreasureList + DrawInventoryList)
-;   $01D967 exchange-picker top-cursor input loop
-;   $01D9EA inventory-picker submenu (scrolls $1440)
-;   $01DA22 `lda $01 / and #$01` JOY_RIGHT
-;   $01DA33 `lda $01 / and #$02` JOY_LEFT
-;   $01DA59 up-scroll blocking loop (`dec $9f` × 8)
-;   $01DA85 `cmp #$14` scroll-down limit (original 20)
-;   $01DA8E down-scroll blocking loop (`inc $9f` × 8)
 
 ; Cursor sprite X, both lists. Vanilla picks between two columns -
 ; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the

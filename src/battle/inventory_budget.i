@@ -4,7 +4,7 @@ Shared inventory VWF tile-budget constants. Included by both
 clamp) and `src/battle/message.s` (NMI partial-DMA path tables).
 
 The runtime budget is validated against the items XML assets by
-`tests/test_vwf_asset_widths.py`  ; bumping ITEM_VWF_TILE_BUDGET also
+`tests/test_vwf_asset_widths.py`; bumping ITEM_VWF_TILE_BUDGET also
 requires updating the per-slot tile_id tables to stay disjoint.
 """
 

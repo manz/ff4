@@ -1,6 +1,10 @@
 """
 Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $20, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
+
+The trampolines live in the space reclaimed at $01:EBD2 by the init_bg_scroll_hdma relocation; each is 5 bytes.
+Bank-$01 callers (inventory_rolling_patches.s, free_space.s) `jsr.w` these names and the trampoline JSLs into the
+bank-$20 implementation.
 """
 
 .import "core/preamble"
@@ -16,14 +20,6 @@ wrappers around original bank-$01 helpers used by the rolling code.
 .import "core/items"
 
 .include "ingame/macros.i"
-
-
-;; Bank-$01 trampolines for inventory rolling routines living in bank $20.
-;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
-;; Each trampoline = jsr.l + rts = 5 bytes.
-;;
-;; Bank-$01 callers (inventory_rolling_patches.s, free_space.s) jsr.w these
-;; bank-$01 names; the trampoline JSLs into the bank-$20 implementation.
 
 .include "ingame/bank01_trampolines.i"
 .import "core/vanilla"

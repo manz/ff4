@@ -1,6 +1,9 @@
 """
 ROM patches that wire the battle magic system to the relocated `draw_magic_list_direct` renderer + the
 long-form attack-name copier.
+
+$02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in redraw_writer_patches.s; the
+two-column display drives its own buffer.
 """
 .import "core/assets"
 .import "core/bank20_helpers"
@@ -8,8 +11,6 @@ long-form attack-name copier.
 .import "core/vanilla"
 
 
-; $02:9A69 (vanilla JSR $A070, InitMagicListTextBuf) is replaced by the walker hook in
-; redraw_writer_patches.s; the two-column display drives its own buffer.
 .alloc at 0x029834 {
     ldx.w #24 * 4
 }

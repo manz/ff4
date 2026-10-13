@@ -1,24 +1,14 @@
 """
 Single-column inventory layout patches: collapse the original 2-column items list to one column so the
 rolling buffer can take over rendering.
+
+- Visible items go from 20 (10 per column) to 10.
+- Left/right cursor handling is removed.
+- Scroll limits cover 48 items.
 """
 .import "core/preamble"
 .import "ingame/free_space"
 
-; ============================================================================
-; Single Column Inventory Patches for Main Menu
-; ============================================================================
-;
-; Convert 2-column inventory to single column
-; - Changes visible items from 20 (10 per column) to 10 (single column)
-; - Removes left/right cursor handling
-; - Updates scroll limits for 48 items
-;
-; ============================================================================
-
-; ============================================================================
-; CONSTANTS
-; ============================================================================
 VISIBLE_ITEMS := 10  ; Items visible at once
 ;_TOTAL_ITEMS             := 48       ; Total inventory items
 SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)

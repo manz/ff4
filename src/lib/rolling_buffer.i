@@ -1,5 +1,3 @@
-
-
 """
 Shared rolling-buffer scroll cadence.
 

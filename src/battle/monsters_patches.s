@@ -8,8 +8,6 @@ Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first
 .import "core/wram_layout"
 
 
-; transform the monster names loading routine from fixed size to pointed.
-
 .alloc at 0x02a7d7 {
 ; TextCmd_0C: the monster name's baked tiles
     jsr.l messages_vwf.draw_monster_name_baked

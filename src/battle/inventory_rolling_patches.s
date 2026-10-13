@@ -1,6 +1,10 @@
 """
 ROM patches that wire the battle inventory rolling-buffer engine into bank $02 (JSL trampolines for cross-bank
 calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
+
+Single-column rolling buffer: the scroll hook fires on scroll start (not completion) to pre-render the edge rows.
+Bank $02 free space is limited ($98FF-$9982, 131 bytes, freed by the TfrInventoryList patch): only small
+trampolines go there, larger functions live in bank $20.
 """
 .import "battle/sram_patches"
 .import "battle/inventory_rolling"
@@ -11,18 +15,6 @@ calls, JML hooks for the scroll animation, surgical NOPs / RTS overrides).
 
 .include "battle/bank02_trampolines.i"
 .import "core/vanilla"
-
-; ============================================================================
-; Rolling Inventory Buffer - ROM Patches (Single Column)
-; ============================================================================
-;
-; Patches for single-column rolling inventory buffer.
-; Key change: Hook scroll START (not completion) to pre-render edge rows.
-;
-; IMPORTANT: Bank $02 free space is limited ($98FF-$9982 = 131 bytes)
-; Only small trampolines go here. Large functions go in bank $20.
-;
-; ============================================================================
 
 ; ============================================================================
 ; PATCH: InitInventoryTextBuf ($029E9C)

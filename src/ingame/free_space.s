@@ -13,10 +13,6 @@ relocating other code.
 .import "menus/system_menus_text"
 .include "menus/system_menus_macros.i"
 
-; ============================================================================
-; Bank $01 Free Space - starts at $01FF35
-; ============================================================================
-
 .include "ingame/bank01_slack.i"
 .import "core/vanilla"
 
