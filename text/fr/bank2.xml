@@ -1754,7 +1754,7 @@ sûr![end]
 Quand le jeune maître était absent, le roi
 et la reine ont été capturés...[end]
 Je vais protéger ma maman!
-Elle a mon petit frère ou ma petite sur
+Elle a mon petit frère ou ma petite sœur
 dans son ventre![end]
 Eblana est une nation de puissants
 guerriers ninjas...
@@ -1821,14 +1821,14 @@ T[end]
 Un misérable chevalier noir comme toi ne
 peut même pas toucher la marchandise
 que nous vendons ici![end]
-Si tu revenais en un morceau, tu pourras
+Si tu reviens en un morceau, tu pourras
 utiliser ces armes-là... mais c'est
 impossible.[end]
 Je t'ai déjà dit que tu ne pouvais pas
 utiliser.... un paladin?
 TOI...?[end]</sn:pointer>
     <sn:pointer id="231">T[end]</sn:pointer>
-    <sn:pointer id="232">Je suis la plus belle de la ville!
+    <sn:pointer id="232">Je suis la plus belle du village!
 Je suis trop petite pour que tu le voies?
 Regarde de trèèèèès près![end]
 Laisse-moi te dire, avoir une belle fille,
@@ -1879,7 +1879,7 @@ Il l'est?
 C'est dégoûtant![end]</sn:pointer>
     <sn:pointer id="258">C'est la maison du meilleur forgeron du
 monde, maître Kukuro, Lali.[end]
-Le maître n'a plus le cur à l'ouvrage, et
+Le maître n'a plus le cœur à l'ouvrage, et
 passe son temps à dormir, Lali.[end]
 Le maître a retrouvé toute son énergie,
 Lali![end]
@@ -1891,7 +1891,7 @@ C'est fait!
 L'épée sacrée Excalibur!
 Manie-la avec respect![new]
 Tu as obtenu Excalibur![music][0x29][delay][0xc][end]
-Grâce à toi, j'ai enfin retrouvé le cur à
+Grâce à toi, j'ai enfin retrouvé le cœur à
 l'ouvrage.[end]
 Wow!
 Le maître pouvait même faire une épée
@@ -1908,7 +1908,7 @@ Zzz....[end]</sn:pointer>
     <sn:pointer id="260">Il y a des Sylphes dans la grotte qui est
 loin dans le nord-ouest![end]
 Les Sylphes sont si timides!
-Malgré que nous soyons gentils![end]</sn:pointer>
+Pourtant, on est gentils![end]</sn:pointer>
     <sn:pointer id="261">Un client?
 Comme c'est inhabituel![end]</sn:pointer>
     <sn:pointer id="262">Wow, bravo pour être arrivés si loin!
@@ -1971,8 +1971,8 @@ C'est pourquoi j'ai une faveur à vous
 demander![new]
 [bold]Cecil[normal]: C'est notre faute si nous
 avons perdu le cristal!
-S'il y a rien que nous puissions faire pour
-aider...[new]
+Si nous pouvons vous aider en quoi
+que ce soit...[new]
 [bold]Giotto[normal]: Pendant que Golbez est
 occupé à la grotte scellée...[new]
 Pourriez-vous vous introduire dans la
@@ -2014,7 +2014,7 @@ mains![end]
 On dit que ce collier est un souvenir
 de sa défunte mère.[end]
 Près de la grotte scellée se trouve
-la continent de Toméra où vivent d'autres
+le continent de Toméra où vivent d'autres
 nains![new]
 Mais on ne peut pas y aller à cause de la
 lave![end]
@@ -2183,7 +2183,7 @@ Je suis Taka, le metteur de Points!
 Dès que j'aurai fini ce jeu, je deviendrai
 probablement un Super Pointeur![end]
 Graphismes -
-[bold]Ryuko Tanaka[normal]: Ce sera ma toute
+[bold]Ryoko Tanaka[normal]: Ce sera ma toute
 dernière production.
 J'espère que tu l'aimes![end]
 Graphismes -
@@ -2292,7 +2292,7 @@ Comment ça se fait que vous ne me
 preniez pas avec vous!
 Vraiment...
 Écoutez, vous![new]
-Vous revenez vivant![end]
+Revenez vivants![end]
 M. Cecil, revenez sain et sauf![end]
 Sans vous, M. Cecil, le patron est de
 mauvaise humeur![end]
@@ -2324,7 +2324,7 @@ l'autre monde ne se tiennent pas bien.[end]
 On dit que si vous ne pouvez pas vaincre
 Dame Asura, le roi ne vous écoutera même
 pas![end]
-«Lut, Rydia!
+Salut, Rydia!
 Quoi?
 C'est bizarre que je parle?[end]
 C'est la bibliothèque de notre monde.
@@ -2354,7 +2354,7 @@ Mais sa colère appelle les nuages
 sombres et châtie par la foudre.[end]
 La reine des Glaces, Shiva...
 Ceux qui la mettent en colère se font
-geler le cur.[end]
+geler le cœur.[end]
 Chocobo...
 Pour fuir et pour charmer, il n'a pas
 d'égal.[end]
@@ -2448,7 +2448,7 @@ Nous voulons juste vivre en paix.[end]</sn:pointer>
 Ils vivent tous ici...[end]
 Cet Ifrit!
 Une tête brûlée, comme toujours.[end]
-Si tu lances le sort Lévite, tu échapperas
+Si tu lances le sort Léviter, tu échapperas
 à la colère de Titan![end]</sn:pointer>
     <sn:pointer id="324">T[end]</sn:pointer>
     <sn:pointer id="325">T[end]</sn:pointer>
@@ -2506,7 +2506,7 @@ Je viens aussi..!![new]
 Nous allons les aider![end]
 [bold]Yang[normal]: ?[new]
 [bold]Sylphe[normal]: Cette personne est bien une
-Invocatrice, n'est-ce pas?
+invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
 Nous combattrons à ta place![new]
 [bold]Rydia[normal]: Heureuse de faire votre
@@ -2611,7 +2611,7 @@ des surnoms...[end]</sn:pointer>
     <sn:pointer id="360">T[end]</sn:pointer>
     <sn:pointer id="361">Tu as obtenu la Murasame![music][0x29][delay][0xc][end]</sn:pointer>
     <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">Tu as obtenu Ragnark![music][0x29][delay][0xc][end]</sn:pointer>
+    <sn:pointer id="363">Tu as obtenu Ragnarok![music][0x29][delay][0xc][end]</sn:pointer>
     <sn:pointer id="364">T[end]</sn:pointer>
     <sn:pointer id="365">T[end]</sn:pointer>
     <sn:pointer id="366">Tu as obtenu la Masamune![music][0x29][delay][0xc][end]
@@ -2630,7 +2630,7 @@ Masamune!?[end]</sn:pointer>
     <sn:pointer id="375">T[end]</sn:pointer>
     <sn:pointer id="376">T[end]</sn:pointer>
     <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">Tu as obtenu la Lance Sacrée![music][0x29][delay][0xc][end]</sn:pointer>
+    <sn:pointer id="378">Tu as obtenu la Lance sacrée![music][0x29][delay][0xc][end]</sn:pointer>
     <sn:pointer id="379">T[end]</sn:pointer>
     <sn:pointer id="380">T[end]</sn:pointer>
     <sn:pointer id="381">T[end]</sn:pointer>
