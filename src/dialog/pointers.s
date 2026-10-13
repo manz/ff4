@@ -14,11 +14,11 @@ get_bank1_1_pointer:
 """Get a 24-bit dialog pointer for bank 1-1."""
     rep #0x20
     lda.l dialog_pointers, x
-    sta.b dialog_ptr
+    sta.b dialog_vwf.text_ptr
     lda.w #0x0000
     sep #0x20
     lda.l dialog_pointers + 2, x
-    sta.b dialog_ptr + 2
+    sta.b dialog_vwf.text_ptr + 2
     lda.b #0x01
     rtl
 
@@ -28,11 +28,11 @@ get_bank1_2_pointer:
 
     rep #0x20
     lda.l dialog_pointers + 0x300, x
-    sta.b dialog_ptr
+    sta.b dialog_vwf.text_ptr
     lda.w #0x0000
     sep #0x20
     lda.l dialog_pointers + 0x300 + 2, x
-    sta.b dialog_ptr + 2
+    sta.b dialog_vwf.text_ptr + 2
     lda #0x01
     rtl
 
@@ -42,24 +42,24 @@ get_bank3_pointer:
 
     rep #0x20
     lda.l dialog_pointers + 0x600, x
-    sta.b dialog_ptr
+    sta.b dialog_vwf.text_ptr
     lda.w #0x0000
     sep #0x20
     lda.l dialog_pointers + 0x600 + 2, x
-    sta.b dialog_ptr + 2
+    sta.b dialog_vwf.text_ptr + 2
     lda #0x02
     rtl
 
 compute_dialog_text_offset:
 """Compute index into dialog pointer table from current text id ($B2)."""
     lda.b 0xB2
-    sta.b dialog_ptr
-    stz.b dialog_ptr + 1
+    sta.b dialog_vwf.text_ptr
+    stz.b dialog_vwf.text_ptr + 1
     rep #0x20
-    lda.b dialog_ptr
+    lda.b dialog_vwf.text_ptr
     clc
     asl
-    adc.b dialog_ptr
+    adc.b dialog_vwf.text_ptr
     tax
     sep #0x20
     rtl
@@ -70,18 +70,18 @@ get_bank2_pointer:
 
     {
     rep #0x20
-    lda.b dialog_ptr
+    lda.b dialog_vwf.text_ptr
     asl
     clc
-    adc.b dialog_ptr
+    adc.b dialog_vwf.text_ptr
     tax
     lda.l dialog_bank2_pointers, x
-    sta.b dialog_ptr
+    sta.b dialog_vwf.text_ptr
     lda.w #0x0000
     sep #0x20
     lda.l dialog_bank2_pointers + 2, x
-    sta.b dialog_ptr + 2
-    ldx.b dialog_ptr
+    sta.b dialog_vwf.text_ptr + 2
+    ldx.b dialog_vwf.text_ptr
     lda.b 0xB2
     beq _end
     tay
@@ -111,27 +111,27 @@ _end:
     rtl
 
 _load_letter_dec:
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     dex
     bmi _ok
-    dec.b dialog_ptr + 2
+    dec.b dialog_vwf.text_ptr + 2
     ldx.w #0xFFFF
     bra _ok
 
 _load_letter_inc:
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     inx
     bmi _ok
-    inc.b dialog_ptr + 2
+    inc.b dialog_vwf.text_ptr + 2
     ldx.w #0x8000
 
 _ok:
-    stx.b dialog_ptr
+    stx.b dialog_vwf.text_ptr
 
 _load_letter:
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     phb
-    lda.b dialog_ptr + 2
+    lda.b dialog_vwf.text_ptr + 2
     pha
     plb
     lda.w 0x0000, x
@@ -148,7 +148,7 @@ _incpointer:
     ldx.w dialog_text_ptr
     inx
     bne _no_overflow
-    inc.b dialog_ptr + 2
+    inc.b dialog_vwf.text_ptr + 2
     ldx.w #0x8000
 
 _no_overflow:
@@ -165,7 +165,7 @@ load_letter_inc:
     inx
     cpx.w #0x0000
     bne _no_overflow
-    inc.b dialog_ptr + 2
+    inc.b dialog_vwf.text_ptr + 2
     ldx.w #0x8000
 
 _no_overflow:
@@ -174,10 +174,10 @@ _no_overflow:
 
 
 load_letter:
-"""Peek the current character from the dialog stream into CURRENT_C."""
+"""Peek the current character from the dialog stream into dialog_vwf.current_char."""
     ldx.w dialog_text_ptr
     phb
-    lda.b dialog_ptr + 2
+    lda.b dialog_vwf.text_ptr + 2
     pha
     plb
     lda.b #0x00
@@ -185,7 +185,7 @@ load_letter:
     lda.b #0x00
     rep #0x20
     lda.w 0x0000, x
-    sta.b CURRENT_C
+    sta.b dialog_vwf.current_char
 
     sep #0x20
     plb

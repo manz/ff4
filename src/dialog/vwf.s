@@ -1,10 +1,11 @@
 """
 Dialog/text VWF rendering engine: control-code parser (`parse`), per-glyph blit (`vwf_putchar`), tile-position
-tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
+tracking (`dialog_vwf.tile_pos`, `.bits_left`), button-glyph + ending-symbol drawing, and the gil-window tilemaps.
 """
 .import "core/preamble"
 .include "core/bank20.i"
 .include "core/libmz.i"
+.include "dialog/vwf.i"
 .table "text/ff4_menus.tbl"
 .import "core/libmz"
 .import "dialog/pointers"
@@ -172,17 +173,6 @@ vwfstart:
     lda.b #0x01
     sta.w cpu_regs.MEMSEL
 
-    var_base = 0x23
-    CNTR = var_base
-    CURRENT_C = var_base + 2
-    BITSLEFT = var_base + 4
-    font_addr = var_base + 6
-    oldtilepos = var_base + 9
-    TILEPOS = var_base + 11
-    dialog_ptr = 0x20
-
-    no_wait_for_action = 0xcb
-
     lda #0
     jsr.w setup_font
 
@@ -192,15 +182,15 @@ vwfstart:
     stz.b var
     stz.b var + 1
     }
-    _clear_16_bit(CNTR)
-    _clear_16_bit(CURRENT_C)
-    _clear_16_bit(BITSLEFT)
-    _clear_16_bit(oldtilepos)
-    _clear_16_bit(TILEPOS)
+    _clear_16_bit(dialog_vwf.counter)
+    _clear_16_bit(dialog_vwf.current_char)
+    _clear_16_bit(dialog_vwf.bits_left)
+    _clear_16_bit(dialog_vwf.old_tile_pos)
+    _clear_16_bit(dialog_vwf.tile_pos)
     plp
 
     lda.b #0x08
-    sta.b BITSLEFT
+    sta.b dialog_vwf.bits_left
 
     jsr.l vwfinit
 
@@ -312,7 +302,7 @@ space:
 """Space control code ($02): advance tile cursor."""
     jsr.w load_letter_inc
     clc
-    adc.b TILEPOS
+    adc.b dialog_vwf.tile_pos
     jmp.w main
 
 ; Gil amount
@@ -344,7 +334,7 @@ _loop_b5d2:
     phx
     phy
 
-    sta.b CURRENT_C  ; draw through the VWF
+    sta.b dialog_vwf.current_char  ; draw through the VWF
 
     jsr.w _makeptr
     jsr.w _shift_new
@@ -386,7 +376,7 @@ next:
     tax
     lda.l name_codes, x
     plx
-    sta.b CURRENT_C
+    sta.b dialog_vwf.current_char
     cmp #0xFF
     beq exit
 
@@ -411,31 +401,31 @@ exit:
 ; New line
 
 _newline:
-"""Newline control code ($01): reset BITSLEFT and snap TILEPOS."""
+"""Newline control code ($01): reset dialog_vwf.bits_left and snap dialog_vwf.tile_pos."""
     rep #0x20
     lda.w #8
     sep #0x20
 
-    sta.b BITSLEFT
+    sta.b dialog_vwf.bits_left
 
-    lda.b TILEPOS
+    lda.b dialog_vwf.tile_pos
     clc
 ;Second line
     cmp #0x1A + 1
     bcs _suit
 
     lda.b #0x1A
-    sta.b TILEPOS
+    sta.b dialog_vwf.tile_pos
     bra end
 
 _suit:
-"""Snap TILEPOS to line 3 ($34)."""
+"""Snap dialog_vwf.tile_pos to line 3 ($34)."""
 
 ;Third Line
     cmp #0x34 + 1
     bcs _suit2
     lda.b #0x34
-    sta.b TILEPOS
+    sta.b dialog_vwf.tile_pos
     bra end
 
 _suit2:
@@ -445,7 +435,7 @@ _suit2:
     bcs _suit3
 
     lda.b #0x4E
-    sta.b TILEPOS
+    sta.b dialog_vwf.tile_pos
     bra end
 
 _suit3:
@@ -453,10 +443,10 @@ _suit3:
 
     jsr.w _draw_button
     lda.b #0x08
-    sta.b BITSLEFT
+    sta.b dialog_vwf.bits_left
 
-    stz.b CURRENT_C
-    stz.b TILEPOS
+    stz.b dialog_vwf.current_char
+    stz.b dialog_vwf.tile_pos
     jsr.w _clr
     jsr.w _waitpad
     jsr.w _wdisplay
@@ -476,7 +466,7 @@ _draw_button:
 _normal_button:
     lda #0xa4
 _store:
-    sta.b CURRENT_C
+    sta.b dialog_vwf.current_char
     jsr.w _draw_ending_symbol
 
     rts
@@ -486,12 +476,12 @@ _draw_ending_symbol:
     pha
 
     lda #0x08
-    sta.b BITSLEFT
+    sta.b dialog_vwf.bits_left
     lda #0x4E + 24
-    sta.b oldtilepos
+    sta.b dialog_vwf.old_tile_pos
 
     lda #0x4E + 25
-    sta.b TILEPOS
+    sta.b dialog_vwf.tile_pos
 
 
     ldx.w #0xa2 * 17
@@ -547,7 +537,7 @@ skip:
     .macro _vwf_putchar() {
     phx
     phy
-    sta.b CURRENT_C
+    sta.b dialog_vwf.current_char
     jsr.w _makeptr
     jsr.w _shift_new
     jsr.w _wdisplay
@@ -594,7 +584,7 @@ end:
 _shift_new:
     rep #0x20
     lda.w #0x0010
-    sta.b CNTR
+    sta.b dialog_vwf.counter
     sep #0x20
 
 _boucle2:
@@ -602,14 +592,14 @@ _boucle2:
     lda.w #0x0000
     sep #0x20
     phx
-    lda.b BITSLEFT
+    lda.b dialog_vwf.bits_left
 
     cmp #0x08
     bne _shift
     plx
     phy
     txy
-    lda.b [font_addr], y
+    lda.b [dialog_vwf.font_addr], y
     tyx
     ply
     inx
@@ -620,7 +610,7 @@ _shift:
     plx
     phy
     txy
-    lda.b [font_addr], y
+    lda.b [dialog_vwf.font_addr], y
     tyx
     ply
 
@@ -631,7 +621,7 @@ _shift:
 ; make jump_table_pointer
     phx
     pha
-    lda.b BITSLEFT
+    lda.b dialog_vwf.bits_left
     asl
     tax
     pla
@@ -728,26 +718,26 @@ _store:
     iny
     iny
 
-    dec.b CNTR
+    dec.b dialog_vwf.counter
     beq _exit
     jmp.w _boucle2
 
 _exit:
 
     rep #0x20
-; the pair is read from CURRENT_C (DP)
+; the pair is read from dialog_vwf.current_char (DP)
     jsr.w dialog_get_kerning_adjustment_binary_search
     pha
 
     txy
-    lda.b [font_addr], y
+    lda.b [dialog_vwf.font_addr], y
     tyx
 
 
     sep #0x20
     pha
 
-    lda.b BITSLEFT
+    lda.b dialog_vwf.bits_left
 
     clc
     sbc.b 0x01, s
@@ -761,22 +751,22 @@ loopdec:
     bmi coupe
     beq coupe
 
-    sta.b BITSLEFT
+    sta.b dialog_vwf.bits_left
     pla
     pla
     pla
     rts
 
 coupe:
-"""Glyph crossed a tile boundary: bump TILEPOS."""
+"""Glyph crossed a tile boundary: bump dialog_vwf.tile_pos."""
     clc
     adc #0x08
-    inc.b TILEPOS
+    inc.b dialog_vwf.tile_pos
     bra loopdec
 
 
 vwf_shift_table:
-"""8-bit shift mask table indexed by BITSLEFT."""
+"""8-bit shift mask table indexed by dialog_vwf.bits_left."""
     .db 0b00000000  ; dummy entry = 0
     .db 0b00000010  ; 1
     .db 0b00000100  ; 2
@@ -809,11 +799,11 @@ setup_font:
 
     rep #0x20
     lda.l font_table, x
-    sta.b font_addr
+    sta.b dialog_vwf.font_addr
     sep #0x20
 
     lda.l font_table + 2, x
-    sta.b font_addr + 2
+    sta.b dialog_vwf.font_addr + 2
     plx
     rts
     }
@@ -825,7 +815,7 @@ _makeptr:
 
     ldx.w #0x0000
     ldy.w #0x0000
-    lda.b CURRENT_C
+    lda.b dialog_vwf.current_char
     xba
     lda #0x00
     xba
@@ -841,15 +831,15 @@ _makeptr:
     lda.w #0x0000
     sep #0x20
 
-    lda.b TILEPOS
-    sta.b oldtilepos
+    lda.b dialog_vwf.tile_pos
+    sta.b dialog_vwf.old_tile_pos
     rep #0x20
     asl
     asl
     asl
     asl
     asl
-    sta.b oldtilepos
+    sta.b dialog_vwf.old_tile_pos
     tay
     sep #0x20
     pla
@@ -952,14 +942,14 @@ _wdisplay:
     rep #0x20
     pha
 
-    lda.b oldtilepos
+    lda.b dialog_vwf.old_tile_pos
     lsr  ; VRAM word address
     clc
     adc.w #_vram_tile_set_pointer
     sta.w ppu.VMADDL
 
 
-    lda.b oldtilepos
+    lda.b dialog_vwf.old_tile_pos
     clc
     adc.w #WRAM & 0xFFFF
     sta.w dma_ch7.A1TL
@@ -999,7 +989,7 @@ _nowindow:
 window:
 """Post-DMA window-display tail."""
     {
-    lda.b CURRENT_C
+    lda.b dialog_vwf.current_char
     cmp #0xFF
     beq no_char_wait
     wai  ; wait for interrupts

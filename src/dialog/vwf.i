@@ -1,21 +1,14 @@
-"""
-Dialog-VWF shared header: zero-page variable addresses + macro definitions consumed by every module that
-touches dialog VWF state.
-"""
+"""Dialog VWF direct page: the script pointer and the glyph state at $20-$2F, and the skip-wait flag."""
 
-; Base address for VWF variables in zero-page
-var_base = 0x23
+.struct DialogVwf {
+    long text_ptr  ; 24-bit pointer into the script
+    word counter  ; shift loop counter
+    word current_char
+    word bits_left  ; bits left in the current tile
+    long font_addr  ; 24-bit pointer to the glyph
+    word old_tile_pos
+    word tile_pos
+}
+dialog_vwf := (0x20 as DialogVwf)
 
-; VWF state variables
-CNTR = var_base  ; Counter for shift routine
-CURRENT_C = var_base + 2  ; Current character code (16-bit)
-BITSLEFT = var_base + 4  ; Remaining bits in current tile
-font_addr = var_base + 6  ; Font data pointer (24-bit: +6, +7, +8)
-oldtilepos = var_base + 9  ; Previous tile position
-TILEPOS = var_base + 11  ; Current tile position
-
-; Dialog pointer (used by dialog.s)
-dialog_ptr = 0x20  ; 24-bit pointer to dialog text
-
-; Control flag
-no_wait_for_action = 0xcb  ; If non-zero, skip action button wait
+no_wait_for_action = 0xcb  ; non-zero: don't wait for the action button
