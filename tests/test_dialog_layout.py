@@ -117,3 +117,16 @@ def test_each_message_starts_in_the_dialog_font(layout: DialogLayout) -> None:
     long_line = "Le pays de Baron devint la plus forte puissance militaire au monde"
     out = layout.layout(f"[force_book]Ainsi.[end]\n{long_line}[end]")
     assert out.split("\n", 1)[1] == layout.layout(f"{long_line}[end]")
+
+
+def test_an_announcement_gets_its_own_window(layout: DialogLayout) -> None:
+    """A whole sentence in [force_bold] (a party join) is not the speaker's: it doesn't share their window."""
+    out = layout.layout("Cecil: Merci... Rydia. [force_bold]L'invocatrice Rydia se joint à toi![force_normal][end]")
+    assert out == (
+        "[bold]Cecil[normal]: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi ![force_normal][end]"
+    )
+
+
+def test_a_bold_word_stays_in_its_sentence(layout: DialogLayout) -> None:
+    out = layout.layout("Garde: Prends ça! [force_bold]Crapaud[force_normal]![end]")
+    assert NEW_WINDOW not in out
