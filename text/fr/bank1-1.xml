@@ -74,7 +74,7 @@ n'opposent aucune résistance![new]
 Le cristal est absolument nécessaire à la
 prospérité de notre royaume de Baron.[new]
 Sa Majesté a jugé que les habitants de
-Mythidia en savaient trop sur les secrets
+Mysidia en savaient trop sur les secrets
 du cristal.[new]
 Nous sommes l'escadron des Ailes Rouges
 de Baron, et les ordres de Sa Majesté
@@ -99,7 +99,7 @@ Baron![new]
 [bold]Cecil[normal]: Préparez-vous à atterrir.[end]</sn:pointer>
     <sn:pointer id="38">[bold]Beigan[normal]: Ah!
 Vous avez le Cristal![new]
-[bold]Cecil[normal]: Mais les Mythidiens n'ont
+[bold]Cecil[normal]: Mais les Mysidiens n'ont
 opposé aucune résistance...[new]
 [bold]Beigan[normal]: Que voulez-vous dire par là?
 Par ici, Cecil, sa Majesté attend.[end]</sn:pointer>
@@ -219,15 +219,15 @@ courage et sa bonté.[new]
 Caïn et moi étions orphelins, mais il
 nous a élevés comme ses propres fils.
 Mais maintenant...
-Le cristal de Mythidia...[new]
+Le cristal de Mysidia...[new]
 Revêt-il donc une telle importance qu'il
 faille l'arracher à d'innocents villageois?
 Et dire que nous avons dû commettre un
 tel acte, sur ordre royal!![end]</sn:pointer>
     <sn:pointer id="60">[bold]Rosa[normal]: Que s'est-il passé?
-D'abord, tu es envoyé à Mythidia, puis
-soudain, tu es envoyé éliminer d'horribles
-créatures.[new]
+D'abord, tu es envoyé à Mysidia, puis
+soudain, tu es envoyé éliminer une
+Chimère.[new]
 Et tu te comportes de manière si étrange
 depuis ton retour.[new]
 [bold]Cecil[normal]: Non...
@@ -451,7 +451,7 @@ Depuis qu'il est arrivé, le Roi lui a donné
 de plus en plus de pouvoir...
 C'est sûrement Golbez qui influence le
 roi pour réunir les quatre cristaux.[new]
-Le cristal de l'eau de Mythidia...
+Le cristal de l'eau de Mysidia...
 Le cristal du feu de Damcyan...
 Le cristal du vent de Fabul... et le cristal
 de la terre de Troia.[end]</sn:pointer>
@@ -785,9 +785,9 @@ Laisse-moi le tuer![end]</sn:pointer>
 que dis-tu là!
 Tu n'as qu'à surveiller Rosa![end]</sn:pointer>
     <sn:pointer id="185">[bold]Tellah[normal]: Alors vous êtes aussi ici pour
-chercher Météor?[new]
-[bold]Cecil[normal]: Météor?[new]
-[bold]Porom[normal]: Météor?
+chercher Météore?[new]
+[bold]Cecil[normal]: Météore?[new]
+[bold]Porom[normal]: Météore?
 Vous êtes...[new]
 [bold]Palom[normal]: Hé le vieux!
 C'est toi, Tellah?[end]</sn:pointer>
@@ -797,7 +797,7 @@ Tu es d'un grossier![end]</sn:pointer>
     <sn:pointer id="187">[bold]Porom[normal]: Nous sommes honorés de vous
 rencontrer, maître Tellah.
 Nous avons été envoyés ici par l'Ancien
-de Mythidia pour...[new]
+de Mysidia pour...[new]
 [bold]Palom[normal]: Surveiller Cecil...[end]</sn:pointer>
     <sn:pointer id="188">PAF![delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="189">[bold]Porom[normal]: Hum, nous guidons Cecil
@@ -805,9 +805,9 @@ vers la Montagne de l'Épreuve.
 Je m'appelle Porom.[new]
 [bold]Palom[normal]: Et moi, c'est Palom!
 Alors comme ça, tu es Tellah!
-T'es hyper célèbre à Mythidia![end]</sn:pointer>
+T'es hyper célèbre à Mysidia![end]</sn:pointer>
     <sn:pointer id="190">[bold]Tellah[normal]: Ainsi ce sont des enfants de
-Mythidia.
+Mysidia.
 Qu'est-il arrivé à Edward et
 Rydia?[new]
 [bold]Cecil[normal]: Alors que nous voguions vers
@@ -826,7 +826,7 @@ vaincre quelqu'un d'aussi puissant que lui
 avec la magie dont je dispose
 actuellement.[new]
 Je recherchais la légendaire magie
-scellée, Météor...
+scellée, Météore...
 Et j'ai senti une forte aura émise de cette
 montagne.[new]
 Serait-ce possible, après toutes ces
@@ -994,7 +994,7 @@ courageux...[new]
 [bold]Edward[normal]: Tellah...[new]
 [bold]Tellah[normal]: Pour l'instant, concentrez-vous
 juste sur votre guérison.
-Je vengerai Anna avec Météor!
+Je vengerai Anna avec Météore!
 Edward... pour vous aussi.[new]
 [bold]Edward[normal]: ...Merci.[new]
 [bold]Cecil[normal]: Edward, vous êtes... un
@@ -1057,14 +1057,14 @@ De quoi parles-tu?[new]
 vieillard.[new]
 [bold]Tellah[normal]: Mais moi, j'ai des comptes à
 régler avec toi![end]</sn:pointer>
-    <sn:pointer id="238">[bold]Golbez[normal]: Utiliser Météor...
+    <sn:pointer id="238">[bold]Golbez[normal]: Utiliser Météore...
 Gagh![new]
 [bold]Cecil[normal]: Tellah![end]</sn:pointer>
     <sn:pointer id="239">[bold]Golbez[normal]: Qu'importe...
 J'ai le cristal.
 Retirons-nous, Caïn![end]</sn:pointer>
     <sn:pointer id="240">[bold]Caïn[normal]: ...[new]
-[bold]Golbez[normal]: Ce Météor a brisé mon sort!
+[bold]Golbez[normal]: Ce Météore a brisé mon sort!
 Peu importe, tu ne me servais plus à
 rien.
 Cette dette, je la rembourserai![end]</sn:pointer>
@@ -1084,7 +1084,7 @@ terminé![end]</sn:pointer>
     <sn:pointer id="244">[bold]Yang[normal]: Cecil![new]
 [bold]Cid[normal]: Ça va!?[new]
 [bold]Cecil[normal]: Ou...ouais...
-On dirait que Météor a fait effet...
+On dirait que Météore a fait effet...
 Mais Tellah![end]</sn:pointer>
     <sn:pointer id="245">[bold]Tellah[normal]: Je n'ai pas pu le tuer...[new]
 [bold]Cid[normal]: Ne parle pas![new]
@@ -1148,7 +1148,7 @@ Barbariccia![new]
 familièrement!
 J'aurais dû vous éliminer, toi et
 Rosa![new]
-Mais l'utilisateur de Météor n'est plus.
+Mais l'utilisateur de Météore n'est plus.
 Maintenant que vous êtes tous réunis, je
 vais vous enterrer ensemble![new]
 [bold]Caïn[normal]: Les combats aériens ne sont
@@ -1207,7 +1207,7 @@ réunis, le chemin vers la Lune s'ouvrirait.[new]
 ça veut dire... mais apparemment cet objet
 servirait dans notre quête.
 Tiens, prends-le.[end]</sn:pointer>
-    <sn:pointer id="267">[0xfa]Tu reçois la Pierre du Magma.
+    <sn:pointer id="267">[0xfa]Tu reçois la Pierre de magma.
 [bold]Cecil[normal]: Qu'est-ce que c'est?[new]
 [bold]Caïn[normal]: Quand on la brandit quelque
 part, cette pierre ouvre apparemment le
@@ -1216,10 +1216,10 @@ passage vers le monde souterrain.[new]
 [bold]Rosa[normal]: Où est-ce que ça pourrait
 bien être?[new]
 [bold]Caïn[normal]: Je ne sais pas...[end]</sn:pointer>
-    <sn:pointer id="268">[bold]Cecil[normal]: La Pierre de Magma rougeoie![end]</sn:pointer>
+    <sn:pointer id="268">[bold]Cecil[normal]: La Pierre de magma rougeoie![end]</sn:pointer>
     <sn:pointer id="269">[bold]Cecil[normal]: Qu'est-ce que c'est!?[new]
 [bold]Caïn[normal]: Les Ailes Rouges![end]</sn:pointer>
-    <sn:pointer id="270">[bold]Cid[normal]: Ça fait mal, Entreprise?
+    <sn:pointer id="270">[bold]Cid[normal]: Ça fait mal, Enterprise?
 Tiens bon![new]
 [bold]Cecil[normal]: Nous allons nous écraser![end]</sn:pointer>
     <sn:pointer id="271">[bold]Roi Nain[normal]: Oh, vous êtes saufs![new]
@@ -1279,7 +1279,7 @@ vous dire pourquoi je rassemble les
 cristaux.[new]
 Lumière et ténèbres réunies... 8 cristaux...
 C'est la clé pour faire revivre la Tour de
-Babel, le chemin scellé vers la Lune.[new]
+Babil, le chemin scellé vers la Lune.[new]
 On dit qu'il y a sur la Lune un pouvoir qui
 dépasse notre imagination.
 Avec ce cristal, j'en ai maintenant sept...
@@ -1295,16 +1295,16 @@ Rydia! ...Tu es si différente...[new]
 [bold]Cecil[normal]: Comment... pourquoi...
 quand...tu as grandi?[new]
 [bold]Rydia[normal]: Léviathan m'a avalée et m'a
-emmené dans le Monde Fantôme.[new]
-[bold]Cecil[normal]: Le Monde Fantôme?[new]
+emmené dans le Monde des Chimères.[new]
+[bold]Cecil[normal]: Le Monde des Chimères?[new]
 [bold]Rydia[normal]: C'est le monde où vivent les
-Bêtes Fantômes.
+Chimères.
 Là-bas, elles sont devenues mes amies.[new]
 Je ne peux plus utiliser la magie blanche,
 mais en contrepartie, mes pouvoirs
 d'invocation et de magie noire se sont
 développés![new]
-Mais dans le Monde Fantôme, le temps
+Mais dans le Monde des Chimères, le temps
 s'écoule différemment...[new]
 [bold]Rosa[normal]: Et c'est pourquoi tu as grandi
 si vite?[new]
@@ -1317,7 +1317,7 @@ Mist.[new]
 [bold]Cecil[normal]: Mais pourquoi nous aides-tu...?
 J'ai tué ta mère...[new]
 [bold]Rydia[normal]: Ne dis rien!
-La Reine du Monde Fantôme m'a dit qu'un
+La Reine du Monde des Chimères m'a dit qu'un
 destin bien plus grand était en
 mouvement...[new]
 Que nous devons nous dresser contre
@@ -1363,7 +1363,7 @@ Rydia.[end]</sn:pointer>
 Prends les commandes, Cecil![end]</sn:pointer>
     <sn:pointer id="292">[bold]Rosa[normal]: Cid![new]
 [bold]Cecil[normal]: Où vas-tu?![end]</sn:pointer>
-    <sn:pointer id="293">[bold]Cid[normal]: Quand l'Entreprise arrivera à
+    <sn:pointer id="293">[bold]Cid[normal]: Quand l'Enterprise arrivera à
 la surface, je scellerai le trou avec cette
 bombe![end]</sn:pointer>
     <sn:pointer id="294">[bold]Cid[normal]: Golbez!
@@ -1378,16 +1378,16 @@ monde...[new]
 tous vers la mort![end]</sn:pointer>
     <sn:pointer id="297">Cecil!
 Le patron nous a demandé de fixer ce
-crochet à l'Entreprise!
+crochet à l'Enterprise!
 Ne t'inquiète pas, ça ne sera pas long![end]</sn:pointer>
     <sn:pointer id="298">Maintenant tu peux soulever
 l'aéroglisseur et le transporter avec
 l'aéronef![new]
-Pendant que tu pilotes l'Entreprise,
+Pendant que tu pilotes l'Enterprise,
 presse le bouton d'action au-dessus de
 l'aéroglisseur![new]
 Maintenant tu peux aller à la grotte
-d'Eblana près de la Tour de Babel!
+d'Eblana près de la Tour de Babil!
 Dépose l'aéroglisseur dans les eaux peu
 profondes du continent et monte à bord![end]</sn:pointer>
     <sn:pointer id="299">[bold]Cecil[normal]: Pour être franc, Cid
@@ -1432,7 +1432,7 @@ Oncle Cid aussi!
 Tout le monde... tout le monde![new]
 [bold]Edge[normal]: H... hé...[end]</sn:pointer>
     <sn:pointer id="303">[bold]Cecil[normal]: ...L'adversaire est le plus
-puissant des Quatre Élémentaux.
+puissant des quatre Empereurs.
 On ne sait même pas si on a une chance![new]
 Mais nous devons récupérer les cristaux![new]
 [bold]Edge[normal]: ...
@@ -1604,17 +1604,17 @@ seulement la vôtre![new]
 C'est le combat de toutes les créatures
 vivantes de cette terre![end]</sn:pointer>
     <sn:pointer id="330">[bold]Rydia[normal]: Aaaaaah![new]
-[bold]Cecil[normal]: La tour de Babel!?[end]</sn:pointer>
+[bold]Cecil[normal]: La tour de Babil!?[end]</sn:pointer>
     <sn:pointer id="331">[bold]FuSoYa[normal]: Non!
 Trop tard![end]</sn:pointer>
     <sn:pointer id="332">[bold]Edge[normal]: Quoi!?[new]
 [bold]FuSoYa[normal]: Voyez!
-La naissance du géant de Babel![end]</sn:pointer>
+La naissance du géant de Babil![end]</sn:pointer>
     <sn:pointer id="333">[bold]Edge[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="334">[bold]FuSoYa[normal]: Venez!
 C'est le moment ou jamais![end]</sn:pointer>
     <sn:pointer id="335">[bold]Rydia[normal]: Quand je suis venue du
-Monde Fantôme, je suis passée par ici!
+Monde des Chimères, je suis passée par ici!
 Ah oui![new]
 Demandons aussi à Léviathan et aux
 autres de nous prêter leur force![end]</sn:pointer>
@@ -1627,7 +1627,7 @@ chose d'utile par ici.[end]</sn:pointer>
 pouvoirs![new]
 [bold]Asura[normal]: Alors je voudrais vous aider...
 mais je dois d'abord évaluer votre force.
-C'est la loi du Monde des Bêtes Fantômes.[new]
+C'est la loi du Monde des Chimères.[new]
 Avez-vous le courage de me défier et la
 force de me vaincre?[end]</sn:pointer>
     <sn:pointer id="338">Rydia...
@@ -1653,7 +1653,7 @@ Que fais-tu!?[new]
 pouvoirs...
 Mais peu importe!
 J'attendais ce moment![new]
-Maintenant la tour de Babel sera
+Maintenant la tour de Babil sera
 complète!
 Je peux aller sur la Lune!
 Viens, Caïn![new]
@@ -1716,9 +1716,9 @@ Vous êtes vengés![end]</sn:pointer>
 cristaux?[new]
 [bold]Cecil[normal]: Pour être franc...[new]
 [bold]Giotto[normal]: Je vois...
-Afin d'avoir le dernier cristal, Golbez
-doit briser le sceau de la grotte située au
-sud-ouest.[new]
+Golbez tente de forcer l'entrée de la
+grotte scellée pour s'emparer du dernier
+cristal![new]
 Ce n'est qu'une question de temps avant
 qu'il n'y parvienne.
 Je veux que vous preniez le cristal avant.
@@ -1757,10 +1757,10 @@ Ce sort légendaire a été descellé ?![new]
 Je vengerai Anna avec ça ![new]
 [bold]Ancien[normal]: Anna ?[new]
 [bold]Tellah[normal]: Golbez l'a tuée !
-Je le vaincrai avec Météor![new]
+Je le vaincrai avec Météore![new]
 [bold]Ancien[normal]: Tellah!
 Se battre avec haine détruit l'âme!
-Et dans ton état, Météor est trop
+Et dans ton état, Météore est trop
 dangereux ![new]
 [bold]Tellah[normal]: Même si cela doit me détruire !
 Je ne peux pardonner à ce monstre ![new]
@@ -1821,7 +1821,7 @@ Mais il a tous les cristaux sauf un...[new]
 au sud-ouest, de l'autre côté du magma...[new]
 [bold]Caïn[normal]: On a piqué un aéronef à
 l'ennemi, mais il n'a pas les modifications
-de l'Entreprise.[new]
+de l'Enterprise.[new]
 [bold]Cid[normal]: Pffff...
 Vous ne pouvez rien faire sans moi![end]</sn:pointer>
     <sn:pointer id="369">[bold]Cid[normal]: Vous aussi, vous êtes des
@@ -1859,9 +1859,9 @@ le cristal...[new]
 [bold]Giotto[normal]: Quoi!?
 Il les a tous![new]
 Nous n'avons plus d'espoir... à moins que
-la légende du vaisseau magique ne soit
+la légende du vaisseau céleste ne soit
 vraie...[new]
-[bold]Cecil[normal]: Vaisseau magique!?[music][0x0][new]
+[bold]Cecil[normal]: Vaisseau céleste!?[music][0x0][new]
 [bold]Giotto[normal]: Un immense vaisseau qui existait
 dans un lointain passé.
 Il y a cette légende...[new]
@@ -1888,14 +1888,14 @@ Dépêchez-vous d'aller à Mysidia![new]
 surface est bouché![new]
 [bold]Edge[normal]: Et avec tous les cristaux
 réunis, impossible d'approcher la tour de
-Babel![end]</sn:pointer>
+Babil![end]</sn:pointer>
     <sn:pointer id="379">«Je vais m'en occuper!»[end]</sn:pointer>
     <sn:pointer id="380">[bold]Cecil[normal]: ...Cette lumière m'a appelé fils.
 Qu'était cette lumière?[new]
 [bold]Ancien[normal]: Je ne sais pas ce qu'était la
 lumière sur la Montagne de l'Épreuve, ni ce
 que signifie la légende.[new]
-Mais nous, Mythidiens devons prier pour
+Mais nous, Mysidiens devons prier pour
 cette légende.
 Prier pour celui qui possède la Lumière
 Sacrée...[new]
@@ -1925,7 +1925,7 @@ Mais cela aurait pu se faire sans le
 pouvoir de la Lumière.[new]
 Le jugement final pour savoir si la vraie
 Lumière réside en vous... sera rendu par le
-Dieu des Bêtes Fantômes...
+Dieu des Chimères...
 Bahamut![end]</sn:pointer>
     <sn:pointer id="384">[0xfa]Rydia a appris Bahamut![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="385">[bold]Beigan[normal]: Cecil!
@@ -2069,7 +2069,7 @@ Cecil?[end]</sn:pointer>
 pour ton ancien ami...
 Mais je lui ai envoyé Scarmiglione...[new]
 Scarmiglione est un des quatre
-Empereurs des Éléments.
+Empereurs.
 Il nous a promis un divertissant spectacle.
 Qu'en penses-tu, Rosa?[end]</sn:pointer>
     <sn:pointer id="426">[bold]Caïn[normal]: Oui, maître![new]
@@ -2103,7 +2103,7 @@ Qui es-tu?[end]</sn:pointer>
     <sn:pointer id="436">[bold]Tellah[normal]: !?
 Mé... ...téor?[new]
 Cette lumière m'a donné l'ultime magie
-noire, Météor! [0xfa]Tellah apprend Météor![music][0x29][delay][0x28][end]</sn:pointer>
+noire, Météore! [0xfa]Tellah apprend Météore![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="437">[bold]Palom[normal]: Hé, tiens bon![end]</sn:pointer>
     <sn:pointer id="438">[bold]Porom[normal]: Allons-y, monsieur Cecil![new]
 [bold]Cecil[normal]: Ou...ouais![end]</sn:pointer>
@@ -2117,7 +2117,7 @@ Piller des gens innocents est un acte de
 lâcheté![end]</sn:pointer>
     <sn:pointer id="442">[0xfa]Tu as le cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="443">[bold]Cid[normal]: Pas d'inquiétude!
-Moi et mon Entreprise, on va les aider!
+Moi et mon Enterprise, on va les aider!
 Alors c'est toi Edward...
 J'ai entendu parler de toi.[new]
 Je vais prendre soin de Cecil et
@@ -2172,7 +2172,7 @@ dragon Caïn [0xfa]ont rejoint l'équipe![music][0x29][delay][0x28][end]</sn:poi
     <sn:pointer id="458">Ha Ha Ha...[end]</sn:pointer>
     <sn:pointer id="459">[bold]Rosa[normal]: Accrochez-vous à moi![end]</sn:pointer>
     <sn:pointer id="460">[bold]Cid[normal]: De quoi vous vous inquiétez?
-On a l'Entreprise!
+On a l'Enterprise!
 On peut aller partout sur terre en un
 éclair![end]</sn:pointer>
     <sn:pointer id="461">[bold]Cecil[normal]: Mais elle est restée à la tour
@@ -2182,7 +2182,7 @@ Toujours à nous sous-estimer, nous les
 vieux...[new]
 Je vous ai dit que c'était le modèle
 dernier cri![new]
-L'Entreprise a une télécommande et elle
+L'Enterprise a une télécommande et elle
 nous attend bien sagement à l'extérieur
 de Baron![new]
 [bold]Yang[normal]: Bien, c'est dit![new]
@@ -2257,7 +2257,7 @@ tu en es revenu vivant.[new]
 Tu dois avoir une destinée bien plus
 importante que je ne peux l'entrevoir...
 Je voudrais bien vous accompagner, mais
-je ne peux quitter Mythidia.[new]
+je ne peux quitter Mysidia.[new]
 Cecil, Tellah...
 Prenez soin de ces deux enfants pour
 moi![end]</sn:pointer>
@@ -2281,7 +2281,7 @@ Nous devons vaincre Golbez!![new]
 Ils ont dû aussi modifier les Ailes Rouges!
 Qui est-ce qu'ils ont pris pour faire ça?[end]</sn:pointer>
     <sn:pointer id="477">[bold]Rydia[normal]: Ils approchent![new]
-[bold]Cid[normal]: Tiens bon, Entreprise![end]</sn:pointer>
+[bold]Cid[normal]: Tiens bon, Enterprise![end]</sn:pointer>
     <sn:pointer id="478">[bold]Rosa[normal]: Cid, pas toi aussi![new]
 [bold]Cid[normal]: Hehe...
 Je voulais voir vos enfants, Rosa...
@@ -2394,7 +2394,7 @@ nains... Hyahyahya![end]</sn:pointer>
     <sn:pointer id="510">«Allez-y donc avant de prendre ce
 katana! En enfer...!»[end]</sn:pointer>
     <sn:pointer id="511">[bold]Yang[normal]: Ça veut donc dire qu'ils vont
-essayer de voler le cristal de l'air ![new]
+essayer de voler le cristal du vent ![new]
 [bold]Edward[normal]: Sûrement.
 Damcyan a déjà été attaqué et le
 cristal volé.[new]

@@ -493,7 +493,7 @@ Nous continuerons de prier![end]
 Hâtez-vous vers la Lune![end]
 [bold]Ancien[normal]: Le vaisseau céleste est un
 vaisseau qui va vers la Lune![new]
-D'après les archives de Mythidia,
+D'après les archives de Mysidia,
 place-toi près d'une commande pour
 contrôler le vol standard...
 Il y a un cristal de vol.[new]
@@ -635,7 +635,7 @@ ne peut y aller, ni par la terre, ni par les
 airs.[end]
 Il y a une ancienne légende...
 Quand nous retournons la Pierre de
-Magma à son lieu de naissance, le chemin
+magma à son lieu de naissance, le chemin
 vers le soleil souterrain s'ouvrira.[end]
 L'absence de lumière, c'est l'obscurité.
 Le froid de la nuit doit suivre la lumière
@@ -767,7 +767,7 @@ Sa majesté?[new]
 Est-ce que ça pourrait être... une
 malédiction?[end]
 J'ai entendu dire que tu as apporté le
-cristal de Mythidia![end]
+cristal de Mysidia![end]
 Les soldats qui travaillaient pour
 Golbez n'étaient pas humains...[end]
 ...!?
@@ -862,11 +862,11 @@ J'ai pas encore un pied dans la tombe![end]
 [bold]Porom[normal]: Bon, bon, bon...
 Vous êtes M. Cid, n'est-ce pas?
 Voici maître Tellah.
-C'est un grand sage de Mythidia.[end]
+C'est un grand sage de Mysidia.[end]
 [bold]Porom[normal]: Voici M. Yang, à la tête
 des moines de Fabul.
 Et je suis Porom, apprentie mage de
-Mythidia.[end]
+Mysidia.[end]
 [bold]Palom[normal]: Et je suis une... superstar![new]
 [bold]Porom[normal]: Ce grossier personnage, c'est
 mon frère jumeau, Palom.[new]
@@ -893,7 +893,7 @@ fais!
 Ça va, j'ai pigé!
 Allez, c'est par là![end]
 [bold]Roi Baron[normal]: En effet!
-Je suis l'un des Quatre Empereurs de
+Je suis l'un des quatre Empereurs de
 Golbez, Cagnazzo de l'Eau![end]
 Obtenu la Bague Bombe.[end]</sn:pointer>
     <sn:pointer id="45">T[end]</sn:pointer>
@@ -911,7 +911,7 @@ Le trésor de Baron est entreposé ici!
 C'est interdit![end]</sn:pointer>
     <sn:pointer id="47">T[end]</sn:pointer>
     <sn:pointer id="48">Nous avons emprisonné dans ce donjon
-les magiciens Mythidiens qui ont résisté.
+les magiciens Mysidiens qui ont résisté.
 Tu peux leur parler à travers les
 barreaux.[end]
 J'espère que nous n'aurons plus jamais à
@@ -919,7 +919,7 @@ utiliser ce donjon.[end]
 Tu es ce chevalier noir!
 Tu crois t'en tirer comme ça!?[end]
 Nous nous fichons de ce qui nous arrive.
-Rendez juste le cristal à Mythidia![end]
+Rendez juste le cristal à Mysidia![end]
 Tu ne comprends rien!
 Le cristal n'est pas qu'un joyau ordinaire![end]</sn:pointer>
     <sn:pointer id="49">Aïe!
@@ -931,7 +931,7 @@ Oh, je vais beaucoup mieux![end]
 Capitaine...[end]
 Vous étiez vivant, en fin de compte![end]
 Je vais me saouler pour essayer d'oublier
-ce qui s'est passé à Mythidia...[end]
+ce qui s'est passé à Mysidia...[end]
 Sa majesté morte, tu es le seul qui
 puisse diriger Baron![end]
 Ce boulot m'a laissé une mauvaise
@@ -1360,7 +1360,7 @@ Certains monstres sont immunisés aux
 magies basiques de Feu, Gel, et Foudre.
 Il y avait autrefois des magies plus
 puissantes que ça, paraît-il...[end]
-Alors la légendaire magie Météor existe![end]
+Alors la légendaire magie Météore existe![end]
 Dodo!
 Hein?
 Tu ne t'es pas endormi?
@@ -1607,7 +1607,7 @@ propre volonté...[end]
 [bold]Cid[normal]: C'est maintenant un combat
 de vengeance!
 Lamentez-vous jusqu'à ce que je ramène
-mon Entreprise![end]
+mon Enterprise![end]
 [bold]Tellah[normal]: Quelle folie!!
 Laissez-moi voir ce que je peux faire...
 Esuna![end]
@@ -1645,16 +1645,16 @@ JE VAIS VOUS TUER!![end]</sn:pointer>
     <sn:pointer id="149">T[end]</sn:pointer>
     <sn:pointer id="150">T[end]</sn:pointer>
     <sn:pointer id="151">C'est la Route du Démon, qui mène à
-Mythidia.[new]
+Mysidia.[new]
 Nous l'utilisions pour faire du commerce
-avec Mythidia... mais elle a été scellée du
-côté de Mythidia, maintenant c'est
+avec Mysidia... mais elle a été scellée du
+côté de Mysidia, maintenant c'est
 impossible de passer.[new]
 En dessous d'ici se trouve la salle
 d'entraînement.[end]
-Ainsi le sceau de Mythidia a été brisé de
+Ainsi le sceau de Mysidia a été brisé de
 leur côté![end]
-La Route est scellée du côté de Mythidia,
+La Route est scellée du côté de Mysidia,
 alors tu ne peux pas l'utiliser.[end]</sn:pointer>
     <sn:pointer id="152">T[end]</sn:pointer>
     <sn:pointer id="153">T[end]</sn:pointer>
@@ -1750,7 +1750,7 @@ brevetée![end]
 «Le Géant ne s'arrêtera pas!»[end]
 «Ha ha ha! Vous...»[end]
 «Allez mourir ici!»[end]
-[bold]Cecil[normal]: Les Quatre Empereurs![new]
+[bold]Cecil[normal]: Les quatre Empereurs![new]
 [bold]Scarmiglione[normal]: Seigneur Zémus...[new]
 [bold]Cagnazzo[normal]: Nous a donné une nouvelle
 vie...[new]
@@ -1776,7 +1776,7 @@ C'est impossible...[end]
     <sn:pointer id="195">[bold]Yang[normal]: Et dire qu'elle était cachée ici...[new]
 [bold]Tellah[normal]: Prodigieux![new]
 [bold]Cid[normal]: Désolé de t'avoir fait attendre,
-Entreprise!
+Enterprise!
 Allons-y![end]
 [bold]Cecil[normal]: C'est...!![end]</sn:pointer>
     <sn:pointer id="196">[bold]Cecil[normal]: Caïn![end]
@@ -1809,7 +1809,7 @@ Oh, vous êtes humains![end]
 C'est ici que tous les survivants se
 cachent.[end]
 C'est la route vers le quartier général de
-Rubicante, la tour de Bab-Ilu.[end]
+Rubicante, la tour de Babil.[end]
 Nous avons perdu notre château...
 C'est notre maison, maintenant.[end]
 Nous sommes le fier peuple d'Eblana![end]
@@ -1854,7 +1854,7 @@ Je suis le premier ministre d'Eblana.
 Notre maître est mal embouché et
 emporté, mais honorable...[new]
 Il creuse un passage vers la tour de
-Bab-Ilu pour venger le roi et la Reine.
+Babil pour venger le roi et la Reine.
 Mais je m'inquiète pour lui.
 Il est sûrement encore parti trop loin...[end]
 Tiens bon, chérie![end]
@@ -2074,9 +2074,9 @@ aider...[new]
 [bold]Giotto[normal]: Pendant que Golbez est
 occupé à la grotte scellée...[new]
 Pourriez-vous vous introduire dans la
-tour de Bab-Ilu et rapporter les sept
+tour de Babil et rapporter les sept
 autres cristaux?[new]
-[bold]Caïn[normal]: La tour de Bab-Ilu![new]
+[bold]Caïn[normal]: La tour de Babil![new]
 [bold]Yang[normal]: Cette immense tour!?[new]
 [bold]Giotto[normal]: Ne vous inquiétez pas!
 Je fais ordonner à la force des chars
@@ -2107,7 +2107,7 @@ Je suis si furieuse que j'en crierais![end]
 gros des forces ennemies!
 Vous, vous allez à la grotte scellée au
 sud-ouest![end]
-[bold]Giotto[normal]: Allez à Mythidia!
+[bold]Giotto[normal]: Allez à Mysidia!
 Le sort de toute chose est entre vos
 mains![end]
 [bold]Giotto[normal]: Papa dit que ce collier
@@ -2142,7 +2142,7 @@ Alors vous pouvez passer![end]</sn:pointer>
     <sn:pointer id="267">Lali-ho![end]
 Soyez prudents![end]
 Il y a une saleté de canon vraiment
-puissant dans la tour de Bab-Ilu![end]
+puissant dans la tour de Babil![end]
 Les monstres du monde d'en bas sont
 forts!
 Ne baissez pas la garde![end]</sn:pointer>
@@ -2160,8 +2160,8 @@ Revenez en un morceau![end]
 Si ça devient trop dangereux, n'abusez
 pas de votre chance... fuyez![end]
 Même si Golbez n'est pas dans la tour
-de Bab-Ilu... le plus fort des quatre
-empereurs, Rubicante du Feu, y est
+de Babil... le plus fort des quatre
+Empereurs, Rubicante du Feu, y est
 encore![end]
 Notre force des chars va distraire
 l'attention du canon géant!
@@ -2676,12 +2676,12 @@ Seul notre pouvoir garde Zémus scellé
 dans le noyau de la lune.[end]
 Zémus a utilisé Golbez pour réunir les
 cristaux de la Planète Bleue... et a amplifié
-leur puissance avec la tour de Bab-Ilu.[end]
+leur puissance avec la tour de Babil.[end]
 Dès à présent, nous sentons ses
 tentatives pour détruire le sceau.[end]
 Le sol du centre de la salle mène au
 noyau de la lune... le royaume de Zémus...[end]
-Quand la tour de Bab-Ilu a été détruite,
+Quand la tour de Babil a été détruite,
 notre sceau a été affaibli![end]
 Dormant avec les Luniens, au-dessous, se
 trouvent des armes puissantes.[end]
