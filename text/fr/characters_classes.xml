@@ -2,16 +2,16 @@
 <sn:stringarray xmlns:sn="http://snes.ninja/ScriptNS" eos="0x00">
     <sn:string>Chevalier noir</sn:string>
     <sn:string>Chevalier dragon</sn:string>
-    <sn:string>Invocateur</sn:string>
+    <sn:string>Invocatrice</sn:string>
     <sn:string>Sage</sn:string>
     <sn:string>Menestrel</sn:string>
-    <sn:string>Sorcier Blanc</sn:string>
+    <sn:string>Mage Blanche</sn:string>
     <sn:string>Moine</sn:string>
-    <sn:string>Sorcier Noir</sn:string>
-    <sn:string>Sorcier Blanc</sn:string>
+    <sn:string>Mage Noir</sn:string>
+    <sn:string>Mage Blanche</sn:string>
     <sn:string>Paladin</sn:string>
     <sn:string>Mécanicien</sn:string>
-    <sn:string>Invocateur</sn:string>
+    <sn:string>Invocatrice</sn:string>
     <sn:string>Ninja</sn:string>
     <sn:string>Sélénite</sn:string>
 </sn:stringarray>
