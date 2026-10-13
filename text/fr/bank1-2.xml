@@ -278,7 +278,7 @@ Je vais t'adjoindre des mages.
 Palom![new]
 Porom![end]</sn:pointer>
     <sn:pointer id="58">«Bienvenue!»[end]</sn:pointer>
-    <sn:pointer id="59">[bold]Cecil[normal]: Qui es-tu...?[new]
+    <sn:pointer id="59">[bold]Cecil[normal]: Qui êtes-vous...?[new]
 [bold]Vieil Homme[normal]: Je suis FuSoYa, gardien
 du peuple endormi de la Lune, les Luniens.[new]
 [bold]Rosa[normal]: Luniens?[new]
@@ -405,7 +405,7 @@ Vous avez des amis merveilleux.
 J'attendrai avec impatience le jour où
 nous nous reverrons.[end]</sn:pointer>
     <sn:pointer id="73">[bold]Golbez[normal]: Pourrais-je...
-Pourrais-je partir avec toi?[new]
+Pourrais-je partir avec vous?[new]
 [bold]FuSoYa[normal]: Toi?[new]
 [bold]Golbez[normal]: Oui...
 Je...ne puis rentrer.
@@ -665,11 +665,10 @@ que Chimère qui terrasse d'un seul coup.[new]
 Mais la loi du Monde des Chimères veut
 que je mette ta force à l'épreuve.
 Ne faiblis pas...![end]</sn:pointer>
-    <sn:pointer id="156">[bold]Roi Baron[normal]: Vous êtes devenus forts...
-Combattez pour Baron... non, combattez
-pour le monde![new]
-Je combattrai à vos côtés en tant
-qu'Odin![new]
+    <sn:pointer id="156">[bold]Roi Baron[normal]: Tu es devenu fort...
+Je te confie Baron... non, le monde![new]
+Moi aussi, en tant qu'Odin, je
+combattrai à tes côtés![new]
 [bold]Cecil[normal]: Majesté!
 Rydia a appris Odin![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="157">[bold]Cecil[normal]: Caïn?[end]</sn:pointer>
