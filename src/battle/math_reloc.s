@@ -25,10 +25,7 @@ _hw_mult16:
     stz 0x3943  ; Clear result high
     sep #0x20  ; 8-bit A for hardware multiply registers
 
-; The SNES hardware multiplier only does 8x8->16
-; For 16x16->32: (AH*256 + AL) * (BH*256 + BL)
-;   = AH*BH*65536 + AH*BL*256 + AL*BH*256 + AL*BL
-; 4 partial products, added with proper alignment.
+; 16x16->32 from four 8x8 hardware products: AH*BH << 16 + (AH*BL + AL*BH) << 8 + AL*BL
 
 ; 1. Low(A) * Low(B) -> result bytes 0-1
     lda 0x393d  ; A low byte

@@ -1,27 +1,12 @@
 
 
 """
-Key-item picker rolling buffer (single column).
+Key-item picker (EventCmd_f7 -> ShowItemWindow $00:AF4D) as a single-column rolling buffer: 4 visible rows over
+5 slots. Vanilla keeps the window, slide, cursor and scroll position; the engine owns the row contents.
 
-Triggered from event scripts via EventCmd_f7 ($00:ED96), which routes
-through ShowItemWindow ($00:AF4D). Vanilla renders the filtered key-item
-list (`InitItemList`, $00:B2D5) as a 4x4 grid on BG3, animated open/close
-via an IRQ-driven slide. The list is rendered instead as a single-column
-rolling buffer driven by the shared engine  ; vanilla keeps the window,
-the slide, the cursor and the scroll position.
-
-Item source: $7E:0712, the filtered Item-array buffer (96 bytes / 48
-slots). InitItemList copies entries from $1440 whose IDs fall in
-[$CE..$E6] ∪ [$EB..$FD], i.e. key items + a few specials  ;
-`_key_item_init_filter` ports it. The ring shows 4 rows over 5 buffer
-slots.
-
-Wiring (key_item_picker_patches.s): `key_item_after_open_impl` renders
-the ring once the window is open, the scroll routines step it, and
-`key_item_close_impl` restores the map's VRAM on close. The HDMA scroll
-table on channel 4 is built but the channel is not armed.
-
-State: `key_item_rolling`, a RollingBufferState at $7E:9C60 (src/core/items.s).
+Items: $7E:0712, the filtered list (48 x 2 bytes) of key-item ids [$CE..$E6] u [$EB..$FD] from $1440.
+State: `key_item_rolling` at $7E:9C60. Hooks in key_item_picker_patches.s.
+The HDMA scroll table on channel 4 is built but never armed.
 """
 
 
@@ -29,26 +14,19 @@ State: `key_item_rolling`, a RollingBufferState at $7E:9C60 (src/core/items.s).
 .import "core/vwf_ram"
 .import "core/items"
 
-; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "core/libmz"
 .import "lib/rolling_inventory_engine"
 .import "small_vwf/init"
 
 
-; Four rows on screen, matching the window vanilla draws ; the engine
-; adds the prefetch slot itself.
+; Four rows on screen; the engine adds the prefetch slot itself.
 _KEY_ITEM_VISIBLE_ITEMS := 4
 _KEY_ITEM_BUFFER_SLOTS := 5
 _KEY_ITEM_TOTAL_ITEMS := 48
 _KEY_ITEM_SCROLL_LIMIT := 42
 _KEY_ITEM_SCROLL_PIXELS_PER_FRAME := 8
 _KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
-
-; Key-item picker state lives at $7E:9C60, outside $1B00-$1BFF, for
-; the same reason as treasure ($9C00) + drops ($9C30) : engine path
-; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
-; sprite code stomps past $1BEB.
 
 
 _KEY_ITEM_SLIDE_OPEN_DONE := 0x08
@@ -58,11 +36,9 @@ _KEY_ITEM_SCROLL_FRAMES := 8
 _KEY_ITEM_SCROLL_STEP_PX := 2
 _KEY_ITEM_ROW_HEIGHT_PX := 16
 
-; NMITIMEN while the picker is up: vanilla's InitItemWindowIRQ arms
-; $A1 = NMI + V-IRQ + auto-joypad, and the V-IRQ is what draws the
-; window. Rendering drops NMI and keeps the IRQ.
 ; Direct page the picker renders on, off the field's own $0600.
 _KEY_ITEM_RENDER_DP := 0x1D00
+; NMITIMEN: $A1 = NMI + V-IRQ + joypad while open; rendering drops NMI only (the V-IRQ draws the window).
 _KEY_ITEM_NMITIMEN_PICKER := 0xA1
 _KEY_ITEM_NMITIMEN_RENDER := 0x21
 
@@ -76,33 +52,20 @@ _KEY_ITEM_HDMA_TABLE_SIZE := 40
 
 _KEY_ITEM_FILTER_BUFFER := 0x0712
 
-; BG3 staging page for the picker's window body. The rendered page is
-; DMA'd to BG3 plane 1 at VRAM word $2C00, where vanilla draws the
-; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
+; BG3 staging page for the window body, DMA'd to BG3 plane 1 at VRAM word $2C00 (item text on rows 1/3/5/7,
+; cursor in column 2).
 _KEY_ITEM_STAGING_ADDR := 0xD600
-; BG3 plane 1 is the map's own tilemap, and vanilla only saves and
-; restores the rows its window covers - anything written past them is
-; map content that never gets put back, which shows up as blocks of
-; scrambled map after paging through the list.
-; The whole ring: _KEY_ITEM_BUFFER_SLOTS slots of two 32-cell tilemap
-; rows at 2 bytes a cell, so the fifth slot, the one a scroll rotates
-; into view, reaches VRAM too.
+; The whole ring (5 slots x 2 rows x 32 cells x 2 bytes). Plane 1 is the map's tilemap and vanilla restores
+; only its window rows, so never write past this.
 _KEY_ITEM_STAGING_SIZE := _KEY_ITEM_BUFFER_SLOTS * 0x80
-; Vanilla's item-window IRQ points BG3 at the right screen (plane 1) for
-; the window's scanlines and sets BG3VOFS from $BB, which rests at $70.
-; The band starts around screen line 144, so it shows BG line 144 + 112
-; = 256, which wraps to plane row 0: the ring belongs at the top of the
-; plane, and each $10 of $BB steps it one item further in.
+; The window IRQ shows plane 1 with BG3VOFS = $BB (rests at $70): screen line 144 + 112 wraps to plane row 0,
+; so the ring sits at the top of the plane and each $10 of $BB is one item.
 _KEY_ITEM_TILEMAP_VRAM_WORD := 0x2C00
-; Attribute byte vanilla writes for every cell of this window: palette
-; 0 with the priority bit, so the body draws above the map.
+; Palette 0 + priority, so the body draws above the map.
 _KEY_ITEM_TILEMAP_ATTR := 0x20
-; Blank cell the menu windows are filled with (see any drawn window in
-; the BG3 buffer: every empty cell reads $FF).
+; Blank window cell.
 _KEY_ITEM_BLANK_TILE := 0xFF
-; Every row of vanilla's window in BG3 plane 1: $00 outside the box in
-; columns 0-1 and 30-31, the side borders $19 / $1A in columns 2 and 29,
-; blank body between.
+; Window row in plane 1: $00 in columns 0-1 / 30-31, borders $19 / $1A in columns 2 / 29, blank body between.
 _KEY_ITEM_OUTSIDE_TILE := 0x00
 _KEY_ITEM_BORDER_LEFT_TILE := 0x19
 _KEY_ITEM_BORDER_RIGHT_TILE := 0x1A
@@ -119,9 +82,8 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
 """
-    Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. Leaves the HDMA channel disabled:
-    ch4 enabled here corrupts the field BG3 layer (Cecil walks on a split screen) since the picker returns to the
-    field via EventCmd_f7 without any teardown.
+    Captures $9F (BG3VOFS shadow) into base_scroll on first call. Never arms ch4: the picker returns to the field
+    without teardown, and a live ch4 splits the field's BG3.
 """
 
 
@@ -132,11 +94,7 @@ _key_item_ensure_hdma_initialized:
     lda.l 0x7E019F
     sta.l key_item_rolling.base_scroll
     sep #0x20
-; Build the scroll table so the shadow is ready, but do NOT arm the
-; channel. Driving BG3VOFS here overrides the scroll vanilla uses to
-; place this window and leaves the register parked at the picker's value
-; after it closes ; the bands are not matched to the window's real
-; position on screen.
+; Build the table only; driving BG3VOFS would fight vanilla's window placement.
     jsr.w update_key_item_scroll_hdma
     rts
 
@@ -164,17 +122,10 @@ _key_item_init_hdma_channel:
 
 _key_item_blank_slot_rows:
 """
-Fill this slot's two tilemap rows with the window's blank cell.
+Fills this slot's two tilemap rows with the blank window cell; the renderer writes only the cells it draws, so
+the map would show through the rest.
 
-The renderer only writes the cells it draws - the name, the colon and
-the two quantity digits - so every other cell in the row keeps whatever
-the field left in the BG3 tilemap underneath. On a dark room that
-passed for a window body  ; on a bright one the map's own tiles show
-straight through the list, including the gap between a short name and
-its quantity. Wipe the whole 2-row slot first and let the draw fill it
-back in.
-
-Entry: 16-bit A/X/Y, DB = $7E. X and Y are caller-saved already.
+Entry: 16-bit A/X/Y, DB = $7E. Clobbers X/Y.
 """
 
 
@@ -199,9 +150,7 @@ _blank_cell:
 
 _key_item_window_cell:
 """
-Blank window cell for the staging byte at X: outside tile, side border
-or body, by column. The staging page is row-aligned, so X's low six
-bits are the byte offset within its row.
+Blank window cell (outside, border or body) for the staging byte offset X; X's low 6 bits are the row offset.
 
 Entry/exit: 16-bit A/X. Returns the cell word (attr << 8 | tile) in A.
 """
@@ -235,22 +184,10 @@ _cell_body:
 
 key_item_cursor_slot_impl:
 """
-Give vanilla's cursor draw a ring slot instead of an absolute row.
+Cursor row for `DrawItemSelectCursor` ($00:B11A) as a ring slot: $4B = ($BA + $8C) mod _KEY_ITEM_BUFFER_SLOTS.
+Vanilla's unbounded row walks the hand off the window once the ring wraps.
 
-`DrawItemSelectCursor` ($00:B11A) computes the cursor's VRAM address
-from `$BA + $8C` - scroll position plus cursor row - because vanilla
-drew the whole filtered list as one tall strip and scrolled the window
-over it, so an item's address grew without bound as the list scrolled.
-Our ring re-renders in place and wraps $BB instead, so past the first
-screenful that address walked off the end of the window and drew the
-hand into unrelated tilemap rows.
-
-Fold it into the ring: the item at cursor row r lives in slot
-(top_row + r) mod _KEY_ITEM_BUFFER_SLOTS, which is what the rest of the
-routine wants in $4B.
-
-Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D  ; vanilla picks
-up again at $00:B144 with `stz $4a`.
+Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla resumes at $00:B144.
 """
 
 
@@ -273,7 +210,7 @@ _cursor_slot_done:
     rtl
 
 _key_item_render_item_to_slot:
-"""Render filtered item from $7E:0712 + edge_row*sizeof(Item) into BG3 buffer at $7E:D600 + slot_index*128 + 0x44."""
+"""Renders item $7E:0712 + edge_row * 2 into the staging page at $7E:D600 + slot_index * 128."""
     php
     phb
     lda #0x7E
@@ -322,14 +259,11 @@ _key_item_render_item_to_slot:
     jsr.l check_can_use_item_trampoline
     lda.l key_item_rolling.slot_index
     sta.b menu_dp.item_slot
-; Attribute byte for the fixed cells the renderer writes (symbol,
-; colon, quantity): palette 0 + priority, matching the window body.
+; Attr for the fixed cells (symbol, colon, quantity), matching the window body.
     lda #_KEY_ITEM_TILEMAP_ATTR
     sta.b menu_dp.item_usable
     stz.b menu_dp.window_attr
-; Route this render's CHR flush at the picker's window (BG3 $6800) via
-; the secondary descriptor: the field map is live underneath, so the
-; primary window ($2800) is the BG3 tilemap here, not spare CHR.
+; Secondary flush (BG3 $6800): on the field map the primary target ($2800) is the BG3 tilemap.
     lda #VWF_CTX_KEY_ITEM
     sta.l vwf_engine.caller_ctx
     rep #0x20
@@ -337,11 +271,7 @@ _key_item_render_item_to_slot:
     and.w #0x00FF
     xba
     lsr
-; Y = slot * 128 + 6 : two staging rows (2 * 64 bytes) per slot, six
-; bytes in so the symbol lands in column 3 and the name from column 4,
-; where vanilla puts them - column 2 belongs to the cursor.
-; draw_field_item_name blanks the row at Y and writes glyphs at Y + $40,
-; so slot N's name lands on staging row 2N+1: rows 1/3/5/7.
+; Y = slot * 128 + 6: symbol in column 3, name from column 4 (column 2 is the cursor), on row 2N+1.
     clc
     adc.w #0x0006
     tay
@@ -372,8 +302,7 @@ _key_item_render_item_to_slot:
 
 _key_item_render_all:
 """
-    Init the ring from scratch and keep HDMA off. Unreferenced: the picker renders from
-    `key_item_after_open_impl`, with vanilla UpdateItemText ($00:B22B) silenced.
+    Inits the ring and keeps HDMA off. Unreferenced: the picker renders from `key_item_after_open_impl`.
 """
 
 
@@ -381,8 +310,7 @@ _key_item_render_all:
     rep #0x10
     sep #0x20
     jsr.l _key_item_init_impl
-; Clear the HDMA enables so vanilla NMI doesn't drive HDMA whose
-; per-scanline bands don't match the picker rows.
+; HDMA off: its bands don't match the picker rows.
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
     lda #0x00
@@ -435,9 +363,8 @@ _clear_key_loop:
 
 _key_item_init_filter:
 """
-    Filter $1440 -> $0712. Faithful inline port of original InitItemList ($00:B2D5 in actual ROM, off-by-2 from
-    ff4decomp notes). Clears the 96-byte filter buffer, walks 48 inventory items, copies (id, qty) pairs whose IDs
-    are key items: [$CE..$E6] u [$EB..$FD].
+    Port of InitItemList ($00:B2D5): copies (id, qty) of key items [$CE..$E6] u [$EB..$FD] from $1440 to $0712.
+    Sets key_item_count.
 """
 
 
@@ -481,9 +408,7 @@ _filter_next:
     inx
     cpx.w #0x0060
     bne _filter_walk
-; Y advanced by two per accepted item, so it ends at twice the count.
-; Everything downstream - the ring's item_count and the scroll ceiling -
-; needs that number, and this is the only place that knows it.
+; Y = 2 * count.
     tya
     lsr
     sta.l key_item_count
@@ -493,7 +418,6 @@ _filter_next:
 
 update_key_item_scroll_hdma:
 """Build the key-item HDMA shadow table."""
-; Inlined per menu for the same reason as treasure (treasure_rolling.s).
     {
     php
     rep #0x30
@@ -575,7 +499,7 @@ _row_loop_done:
     }
 
 _key_item_hdma_header:
-"""Picker HDMA header - 112 lines at BASE (top half = field map preserved)."""
+"""HDMA header: 112 lines at base scroll (field map above the window)."""
     sep #0x20
     lda #112
     sta.l _KEY_ITEM_HDMA_SHADOW, x
@@ -588,7 +512,7 @@ _key_item_hdma_header:
     rts
 
 _key_item_hdma_footer:
-"""Picker HDMA footer - 16 lines at BASE+16 to hide prefetch slot."""
+"""HDMA footer: 16 lines at base + 16, hiding the prefetch slot."""
     sep #0x20
     lda #16
     sta.l _KEY_ITEM_HDMA_SHADOW, x
@@ -603,7 +527,7 @@ _key_item_hdma_footer:
     rts
 
 _key_item_hdma_signal:
-"""NMI shadow-copy signal - set the picker's hdma_copy_pending."""
+"""Sets hdma_copy_pending."""
     sep #0x20
     lda #0x01
     sta.l key_item_rolling.hdma_copy_pending
@@ -611,8 +535,7 @@ _key_item_hdma_signal:
 
 _key_item_init_impl:
 """
-    Init key-item picker (filter $1440 -> $0712 then engine init). State
-    + hook far-ptrs live at $7E:9C60.
+    Filters the list, fills `key_item_rolling` ($7E:9C60) and inits the engine.
 """
 
 
@@ -620,13 +543,12 @@ _key_item_init_impl:
     php
     rep #0x30
     sep #0x20
-; VISIBLE rows, not buffer slots - the engine adds the prefetch slot
-; itself (`buffer_slots = visible_rows + 1`).
+; Visible rows, not slots: the engine adds the prefetch slot.
     lda.b #_KEY_ITEM_VISIBLE_ITEMS
     sta.l key_item_rolling.visible_rows
     lda.b #0x02
     sta.l key_item_rolling.slot_height_tiles
-; item_list_ptr = $7E:0712 (filtered key-item array)
+; item_list_ptr = $7E:0712
     lda.b #0x12
     sta.l key_item_rolling.item_list_ptr
     lda.b #0x07
@@ -673,22 +595,10 @@ _key_item_init_impl:
 
 key_item_after_open_impl:
 """
-Keep the picker's list drawn, once per frame.
+Per-frame picker hook over `lda #$01 / sta $7D` at $00:AF7E (top of the input loop). Must stay cheap.
 
-Hooked over `lda #$01  ; sta $7D` at $00:AF7E, just past the top of the
-picker's input loop. Vanilla's own `jsr $912F` right before it is left
-alone: standing in for that wait cost the loop its frame pacing and the
-picker never drew. Every cursor branch jumps back to the loop top, so
-this runs once per frame and must stay cheap - it renders on two edges
-only:
-
-  - vanilla's slide counter $DA reaching its fully-open value, i.e. the
-    window has just finished opening, so build config and render  ;
-  - vanilla's scroll position $BA changing, i.e. the list scrolled
-    under the cursor, so re-render the slots at the new position.
-
-Vanilla owns the scroll and the cursor  ; the engine owns the row
-contents.
+Renders only on two edges: slide counter $DA reaching fully open (init + render) and scroll position $BA
+changing (refresh). Leave vanilla's `jsr $912F` before the hook alone: replacing it breaks the frame pacing.
 """
 
 
@@ -718,12 +628,8 @@ _check_scroll:
     beq _after_open_done
     sta.l key_item_last_scroll
     sta.l key_item_scroll_pos
-; Only refresh against a struct this profile actually armed. The slide
-; marker lives in WRAM and survives the picker closing, so a later open
-; can reach the scroll edge without the open edge having run init -
-; refreshing then dispatches whatever far-pointers happen to be in the
-; struct, and the engine's hook call lands in the middle of unrelated
-; code. menu_id is the cheapest proof that init has run.
+; Refresh only if init ran (menu_id matches): the slide marker survives a close, so a later open can reach
+; this edge with stale hook far-pointers.
     lda.l key_item_rolling.menu_id
     cmp.b #ROLLING_MENU_ID_KEY_ITEM
     bne _render_from_scratch
@@ -749,35 +655,16 @@ _after_open_done:
 
 _key_item_enter_render:
 """
-Make the field safe for a menu-context render: NMI off, and the render
-moved onto a direct page of its own.
+Field-safe render setup: NMI off, DMA ch3 saved, and D moved to a copy of the field page at $1D00 (free RAM).
 
-The menu VWF renderer scratches a wide set of direct-page bytes - $1D,
-$29/$2A, $33, $34, $43, $5A-$5D, $DB and its own $63-$79 block - which
-is free real estate in the menus but live field state here: the field
-engine writes those same bytes every frame. Snapshotting the field page
-and putting it back does not fix that: the window V-IRQ keeps running
-across the render (it is what draws the window at all), so a restore
-also rewinds whatever the IRQ advanced meanwhile, and the frame it
-misses drags the window's band across the map.
-
-So the render gets its own page instead. $1D00 is free - the decomp RAM
-map has $1BEC-$1DFF unassigned, and no read or write lands there in any
-of our savestates. The live field page is copied in first, so anything
-the render reads still sees the caller's values  ; anything it writes
-lands in the copy and is dropped. Both interrupt handlers load their own
-D ($00:9480 and $00:92A5 both do `ldx #$0600 / phx / pld`), so they are
-unaffected by ours. NMI stays off across the render the way vanilla
-brackets its own unsafe field work (field.asm InitMapRAM).
+The menu renderer scratches DP bytes the field uses every frame. A snapshot/restore of the field page would
+also rewind what the window V-IRQ advanced meanwhile, so the render writes a throwaway copy instead. Both
+interrupt handlers set their own D ($0600).
 """
 
 
     sep #0x20
-; Drop NMI only. The picker's window is drawn BY the V-IRQ
-; (InitItemWindowIRQ arms $A1 = NMI + V-IRQ + auto-joypad), so clearing
-; the whole register blanked the window for the frames we render in:
-; it looked like the window closed and reopened on every scroll, and the
-; cursor lost its per-frame draw with it.
+; Drop NMI only: the V-IRQ draws the window, so clearing it blinks the window on every scroll.
     lda #_KEY_ITEM_NMITIMEN_RENDER
     sta.l cpu_regs.NMITIMEN
     jsr.w _key_item_save_dma
@@ -787,8 +674,7 @@ brackets its own unsafe field work (field.asm InitMapRAM).
     tax
     ldy.w #_KEY_ITEM_RENDER_DP
     lda.w #0x00FF
-; MVN leaves DB on its destination bank; the caller's is not ours to
-; change.
+; MVN changes DB.
     phb
     mvn 0x7E, 0x7E
     plb
@@ -797,7 +683,7 @@ brackets its own unsafe field work (field.asm InitMapRAM).
     rts
 
 _key_item_leave_render:
-"""Hand the caller its own direct page back and re-enable NMI."""
+"""Restores the caller's D, DMA ch3 and NMI."""
     rep #0x20
     lda.l key_item_dp_prev
     tcd
@@ -811,20 +697,9 @@ _key_item_leave_render:
 
 key_item_scroll_limit_impl:
 """
-Stop the list where it actually ends, not where vanilla's did.
+Scroll ceiling from the real item count: replaces `lda $ba / cmp #$11` at $00:B00D (vanilla's fixed 17).
 
-Replaces `lda $ba / cmp #$11` at $00:B00D. Vanilla drew the whole
-filtered list and let the window slide over it, so a fixed ceiling of 17
-matched the longest list it could build. Ours is built per save: with 16
-key items held, that ceiling let the window scroll five rows past the
-last item into blanks before it refused to move at all.
-
-Returns with Z set when the window is already at the bottom, which is
-what the `bne $B016` right after this site tests. Vanilla left $BA in A
-here  ; nothing reads it, since $B075 loads its own A first.
-
-Entered with an 8-bit accumulator and the caller's direct page, so $BA
-stays a direct-page read.
+Entry: 8-bit A, caller's D. Exit: Z set when $BA is already at the bottom (tested by `bne $B016`).
 """
 
 
@@ -841,13 +716,8 @@ _limit_ready:
 
 key_item_scroll_down_impl:
 """
-Scroll the picker's window down one item, over the engine's ring.
-
-Replaces vanilla ScrollItemListDown ($00:B09E), which animated $BB by 2
-per frame for 8 frames and relied on the WHOLE list being present in the
-tilemap. The engine keeps five slots, so after the animation $BB comes
-back by one item's worth and the ring is re-rendered at the new scroll
-position: the window walks the list while the tilemap stays put.
+Replaces ScrollItemListDown ($00:B09E): animates $BB +2 px x 8 frames, steps it back one row and re-renders
+the ring at the new scroll position.
 """
 
 
@@ -868,7 +738,6 @@ _scroll_down_loop:
     dec
     sta.l key_item_scroll_frames
     bne _scroll_down_loop
-; Back onto the ring, then redraw it where the list now sits.
     lda.b 0xBB
     sec
     sbc.b #_KEY_ITEM_ROW_HEIGHT_PX
@@ -878,7 +747,7 @@ _scroll_down_loop:
     rtl
 
 key_item_scroll_up_impl:
-"""Scroll the window up one item  ; mirror of the down path."""
+"""Mirror of `key_item_scroll_down_impl`."""
     php
     sep #0x20
     rep #0x10
@@ -906,12 +775,7 @@ _scroll_up_loop:
 
 _key_item_save_dma:
 """
-Stash DMA channel 3's registers.
-
-Every transfer the picker runs - tilemap push, CHR flush, the VRAM
-save/restore - reprograms channel 3, which steals it from any HDMA the
-map has armed there. A mosaic/pixelate effect loses its table mid
-animation and never gets it back, so put the registers where they were.
+Saves DMA ch3's registers: the picker's transfers reprogram ch3, which a map HDMA effect (mosaic) may own.
 """
 
 
@@ -947,11 +811,8 @@ _restore_dma_loop:
 
 _key_item_vram_to_sram:
 """
-Copy one VRAM slice into SRAM. A = VRAM word address (16-bit), X = SRAM
-address low+mid, Y = byte count  ; bank of the destination is fixed to
-the reservation's.
-
-Must run inside vblank: VRAM reads outside blanking return garbage.
+Copies a VRAM slice to the `key_item_chr_save` bank. A = VRAM word address, X = SRAM address, Y = byte count.
+Must run in vblank.
 """
 
 
@@ -1009,16 +870,12 @@ _key_item_sram_to_vram:
     rts
 
 _key_item_save_vram:
-"""Stash the two slices the picker is about to overwrite."""
+"""Saves the glyph CHR the picker is about to overwrite."""
     php
     jsr.w _key_item_save_dma
     sep #0x20
     rep #0x10
-; Only the glyph CHR: the window band of the tilemap belongs to vanilla,
-; which draws its window there during the slide-open - before this hook
-; ever runs - and puts the map back itself on close. Snapshotting it
-; here would capture the window, not the map, and restoring that would
-; be worse than leaving it alone.
+; Not the tilemap: vanilla has already drawn its window there and restores the map itself on close.
     jsr.l wait_for_vblank_long
     rep #0x20
     lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
@@ -1031,11 +888,7 @@ _key_item_save_vram:
 
 key_item_close_impl:
 """
-Give the map its VRAM back as the picker closes.
-
-Hooked over `lda #$01  ; sta $ec` at the tail of vanilla's close
-animation ($00:B05D block), the last thing that runs before
-ShowItemWindow returns.
+Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of the close animation ($00:B05D).
 """
 
 
@@ -1095,13 +948,7 @@ _key_item_fn_draw_window_trampoline:
 
 _key_item_draw_window:
 """
-Prime the BG3 staging buffer with the picker's blank window body.
-
-Vanilla draws the picker's box on BG1 and writes only item text, the
-side borders and blank fill into BG3 plane 1, so the body is cheap to
-rebuild (see `_key_item_window_cell`). The engine then renders item
-names over it and the whole page is pushed to VRAM in one DMA, which
-keeps us off VRAM reads entirely.
+Fills the staging page with the blank window body (rebuilt, so no VRAM reads).
 """
 
 
@@ -1128,10 +975,8 @@ _draw_window_loop:
 
 _key_item_push_window:
 """
-DMA the staging page to the picker's BG3 tilemap slice ($2C00).
-
-The picker overlays a live map, so unlike the menus there is no vanilla
-BG3 push to piggyback on: drain `transfer_pending` through here.
+On `transfer_pending`, flushes the glyph CHR, DMAs the staging page to BG3 $2C00 and copies the HDMA table, in
+one vblank. No vanilla NMI push exists on the field.
 """
 
 
@@ -1143,9 +988,6 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     lda #0x00
     sta.l key_item_rolling.transfer_pending
     jsr.l wait_for_vblank_long
-; No vanilla NMI hook runs the VWF flush in field the way the menus do,
-; so push the picker's glyph CHR here, in the same vblank as the
-; tilemap it belongs to.
     jsr.w render.flush_chr_to_vram  ; RTS-ending, same bank-20 region
     rep #0x20
     lda.w #_KEY_ITEM_TILEMAP_VRAM_WORD
@@ -1170,10 +1012,7 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
     lda #0x08
     sta.l cpu_regs.MDMAEN  ; MDMAEN ch3
 
-; Publish the scroll table. The menus let the field NMI hook copy
-; shadow -> active, but that hook only runs while a menu owns the
-; screen, so the picker copies in the same vblank as its tilemap. The
-; channel itself is not armed.
+; Publish the scroll table (shadow -> active).
     rep #0x30
     ldx.w #0x0000
 
@@ -1191,7 +1030,7 @@ _push_window_done:
     rts
 
 _key_item_start_scroll_down_impl:
-"""Picker: kick scroll-down state machine via the engine."""
+"""Starts the engine's scroll-down."""
     php
     rep #0x10
     lda.l key_item_scroll_pos
@@ -1201,7 +1040,7 @@ _key_item_start_scroll_down_impl:
     rtl
 
 _key_item_start_scroll_up_impl:
-"""Picker: kick scroll-up state machine via the engine."""
+"""Starts the engine's scroll-up."""
     php
     rep #0x10
     lda.l key_item_scroll_pos
@@ -1211,7 +1050,7 @@ _key_item_start_scroll_up_impl:
     rtl
 
 _key_item_update_scroll_frame_impl:
-"""Picker: per-frame scroll animation tick."""
+"""Per-frame scroll tick."""
     php
     rep #0x10
     ldx.w #key_item_rolling
@@ -1220,7 +1059,7 @@ _key_item_update_scroll_frame_impl:
     rtl
 
 _key_item_finish_scroll_impl:
-"""Picker: end-of-animation cleanup via the bank-20 engine."""
+"""Finishes the engine scroll."""
     php
     rep #0x10
     lda.l key_item_scroll_pos
@@ -1230,7 +1069,7 @@ _key_item_finish_scroll_impl:
     rtl
 
 _key_item_refresh_slots_impl:
-"""Picker: re-render all slots via the bank-20 engine."""
+"""Re-renders all slots."""
     php
     sep #0x20
     rep #0x10

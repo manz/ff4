@@ -1,11 +1,9 @@
 """
 Instant menu windows: OpenWindow, CloseWindow and TransformWindow (bank $01) reach their last frame at once.
 
-The window art and its scroll offsets end exactly as before: TransformWindow still steps every window edge and
-every scroll rate (the fractional scroll positions and the edge fills come out identical), only the per-frame
-vblank wait, BG transfer and scroll-register write move after the loop. Open and Close transfer the 25 rows they
-wiped in one DMA. Shop windows open instantly too: they share these routines. Each change fades the screen out
-first (ingame/menu_fade.s).
+The end state is unchanged: TransformWindow still runs every edge and scroll step, only the per-frame vblank
+wait, BG transfer and scroll write move after the loop. Open and Close transfer their 25 rows in one DMA.
+Each change fades the screen out first (ingame/menu_fade.s).
 """
 .import "ingame/menu_fade"
 .include "ingame/bank01_slack.i"

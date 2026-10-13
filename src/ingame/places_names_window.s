@@ -5,7 +5,7 @@
 
 PLACE_NAME_LENGTH := 18  ; cells for the title: the widest one takes 17 small-VWF tiles
 PLACE_WINDOW_WIDTH := PLACE_NAME_LENGTH + 4  ; the borders and a blank cell inside each
-; each row: a corner, PLACE_WINDOW_WIDTH - 2 edges (.for stops before its upper bound), a corner
+; Each row: a corner, PLACE_WINDOW_WIDTH - 2 edges, a corner.
 
 .alloc places_names_window_block in bank20_reloc {
 places_top_window:

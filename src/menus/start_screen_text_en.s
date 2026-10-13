@@ -1,8 +1,4 @@
-"""
-English text for the start screen and save selection.
-
-Counterpart of start_screen_text.s, selected by build configuration.
-"""
+"""English text for the start screen and save selection (counterpart of start_screen_text.s)."""
 
 
 .include "ingame/macros.i"
@@ -52,7 +48,7 @@ save_completed:
 did_not_save:
     move_to(1, 1)
     .text "Cancelled "
-; extra space at the end to clear the previous title.
+; trailing space clears the previous title
     .db 0
 build_number:
     .if DEBUG {

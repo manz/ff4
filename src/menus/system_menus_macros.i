@@ -1,7 +1,4 @@
-"""
-System-menu text macros. Header only: no code, no placement, safe to include
-from any module that loads a system-menu text pointer.
-"""
+"""System-menu text macros. Header only (no code, no placement): safe to include anywhere."""
 
 
 .macro load_system_menu_text_pointer(pointer) {

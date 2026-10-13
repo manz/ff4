@@ -1,23 +1,9 @@
 """
-Equip screen inventory list rolling buffer (single column, 6 visible).
+Equip-screen inventory list rolling buffer: 7-slot ring (6 visible + 1 prefetch) in the BG4 buffer at $7E:C600,
+BG4VOFS driven per scanline by HDMA ch5. Same shape as shop_sell_rolling.s.
 
-Once a slot is picked, the field equip screen lists the inventory under
-it: vanilla `SelectItemFromInventory` ($01:BE89) draws the whole list
-once with `DrawInventoryList` ($01:A172) into the BG4 buffer at
-$7E:C600, then scrolls BG4VOFS ($99) over it in blocking 8-frame loops.
-
-That breaks the same way the shop sell list does (see
-src/ingame/shop_sell_rolling.s): `DrawItemSlot` is globally patched to
-single-column 128-byte rows while $A172 still walks the array two items
-at a time, so only every second item would render, the draw would stop
-after a page, and scrolling would just move BG4 over blank rows.
-
-So equip gets its own profile, same shape as sell: a 7-slot ring
-(6 visible + 1 pre-render) in the BG4 buffer, with BG4VOFS driven per
-scanline by HDMA so the ring wraps invisibly. The equip screen arms no
-HDMA of its own and never shows alongside the field items list or a
-shop, so channel 5 is free and the shared `field_menu_rolling.hdma_enable`
-signal arms it, as for sell.
+Replaces vanilla `DrawInventoryList` ($01:A172), which draws the whole list two items per row. The equip
+screen uses no HDMA and never shows with the items list or a shop, so ch5 is free.
 """
 
 
@@ -34,50 +20,36 @@ _EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 _EQUIP_BUFFER_SLOTS := _EQUIP_VISIBLE_ITEMS + 1
 _EQUIP_TOTAL_ITEMS := EQUIP_LIST_TOTAL_ITEMS
 
-; State block in the shared $7E:9Cxx arena, after sell ($9CC0). The
-; engine addresses every instance as bank $7E + X, so it cannot live in
-; the cart-RAM rolling_state pool.
-
-; Vanilla's own equip-list scroll position ("first visible row"), the
-; byte its ($57) pointer resolves to on this screen.
+; Vanilla's equip-list scroll position (first visible row), where its ($57) pointer resolves on this screen.
 _EQUIP_SCROLL_POS := 0x7E1B2A
 
-; HDMA channel 5 driving BG4VOFS ($2114).
+; HDMA ch5 driving BG4VOFS.
 _EQUIP_HDMA_ENABLE_BIT := 0x20
 
-; Own table slot in the HDMA scratch area ($9800 field, $9880 drops,
-; $9900 sell / key items).
+; HDMA table ($9800 field, $9880 drops, $9900 sell / key items).
 _EQUIP_HDMA_TABLE_ADDR := 0x9980
 _EQUIP_HDMA_BANK := 0x7E
 EQUIP_HDMA_SHADOW := 0x7E99C0
 
-; BG4 buffer and the window vanilla's $A172 draws into it: top border on
-; tile row 0, body rows 1..23, bottom border on row 24 (off screen). The
-; ring's 7 slots take rows 1..14, the rows vanilla's own list used.
+; Window in the BG4 buffer: top border on tile row 0, ring on rows 1..14, bottom border on row 24.
 _EQUIP_BG4_BUFFER := 0xC600
 _EQUIP_SLOT_BYTES := 0x80  ; two 32-tile tilemap rows
 _EQUIP_SLOT_ORIGIN := EQUIP_LIST_ORIGIN_LINES * 8  ; byte offset of slot 0: a tile row is 8 lines, $40 bytes
 _EQUIP_SLOT_PIXELS := 16
 _EQUIP_NAME_OFFSET := 0x0004  ; icon at tile column 2
 
-; Blank window cell and the side borders vanilla's window keeps in the
-; first and last columns of every body row.
+; Blank window cell and the side borders in the first and last columns.
 _EQUIP_BLANK_TILE := 0xFF
 _EQUIP_TILEMAP_ATTR := 0x00
 _EQUIP_BORDER_LEFT_TILE := 0xFA
 _EQUIP_BORDER_RIGHT_TILE := 0xFB
 _EQUIP_BORDER_RIGHT_COL := 31
 
-; BG4VOFS with the window frame parked where vanilla puts it: vanilla
-; seeds $99 with scroll * 16 + $FF98 at $01:BE95. The header covers the
-; screen down to the end of the window's top border.
+; Vanilla's BG4VOFS for the window ($99 = scroll * 16 + $FF98 at $01:BE95). The header ends after the top border.
 _EQUIP_BASE_SCROLL := EQUIP_LIST_BASE_SCROLL
 _EQUIP_HEADER_LINES := EQUIP_LIST_FIRST_ROW_Y
-; What is left of the 224-line screen below the six rows. It pins the
-; window's bottom border right under the last visible row: vanilla's
-; DrawWindow makes this window 25 tile rows, so its border (row 24) sat
-; off screen. The footer scrolls so its first line shows buffer row 24,
-; then the empty row below it; the pre-render slot never shows.
+; Footer: the rest of the 224 lines, scrolled to show buffer row 24 (the off-screen bottom border) right under
+; the last row, so the prefetch slot never shows.
 _EQUIP_WINDOW_BOTTOM_ROW := 24
 _EQUIP_FOOTER_TOP := _EQUIP_HEADER_LINES + _EQUIP_VISIBLE_ITEMS * _EQUIP_SLOT_PIXELS
 _EQUIP_FOOTER_LINES := 224 - _EQUIP_FOOTER_TOP
@@ -85,19 +57,16 @@ _EQUIP_FOOTER_SCROLL := _EQUIP_WINDOW_BOTTOM_ROW * 8 - _EQUIP_FOOTER_TOP + 0x100
 ; header + 6 row bands + footer + terminator, rounded to words.
 EQUIP_HDMA_TABLE_SIZE := 26
 
-; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
+; Vanilla's cadence: 8 frames of 2 px per item.
 _EQUIP_SCROLL_FRAMES := 8
 
-; The window $01:A172 draws (InventoryWindow), as sell redraws it too.
+; InventoryWindow, the window $01:A172 draws.
 _INVENTORY_WINDOW := 0xDCCE
 
 .alloc _equip_rolling_block in bank20_reloc {
 _equip_ensure_hdma_initialized:
 """
-Lazy init: park base_scroll and configure ch5 driving BG4VOFS.
-
-Long addressing throughout - the engine's `_engine_call_hook` enters
-with the caller's DB, so absolute reads would land in ROM.
+One-shot: sets base_scroll, configures ch5 -> BG4VOFS and arms it. Long addressing: entered with the caller's DB.
 """
 
 
@@ -120,8 +89,7 @@ with the caller's DB, so absolute reads would land in ROM.
     lda #_EQUIP_HDMA_BANK
     sta.l dma_ch5.A1B
 
-; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
-; $420C, and mark this profile's own gate.
+; Arm ch5 via the shared signal the NMI hook ORs into $420C.
     lda.l field_menu_rolling.hdma_enable
     ora #_EQUIP_HDMA_ENABLE_BIT
     sta.l field_menu_rolling.hdma_enable
@@ -134,7 +102,7 @@ _equip_hdma_already_init:
     rts
 
 equip_disable_hdma:
-"""Drop ch5 again when the list closes."""
+"""Disarms ch5 when the list closes."""
     php
     sep #0x20
     lda.l field_menu_rolling.hdma_enable
@@ -150,10 +118,7 @@ equip_disable_hdma:
 
 _equip_blank_slot_rows:
 """
-Wipe this slot's two tilemap rows to the window's blank cell, keeping
-the side borders, so a shorter name never trails the previous one.
-
-Entry: 16-bit A/X/Y, DB = $7E.
+Blanks this slot's two tilemap rows (borders kept). Entry: 16-bit A/X/Y, DB = $7E.
 """
 
 
@@ -178,8 +143,7 @@ _equip_blank_cell:
 
 _equip_window_cell:
 """
-Blank window cell for the buffer byte at X: side border in the first
-and last columns, body elsewhere. Entry/exit: 16-bit A/X.
+Blank window cell (border or body) for buffer offset X. Entry/exit: 16-bit A/X; returns the cell word in A.
 """
 
 
@@ -202,13 +166,8 @@ _equip_cell_right:
 
 _equip_render_item_to_slot:
 """
-Render inventory item `edge_row` into ring slot `slot_index`.
-
-Item data comes from the vanilla inventory array at $7E:1440  ; the
-tilemap goes to the BG4 buffer at $7E:C600 + _EQUIP_SLOT_ORIGIN +
-slot * 128 + 4, starting one tile row below the window's top border. `check_can_use_item` sets the
-greyed palette for items this character cannot equip, as vanilla's
-$A172 pass did.
+Renders inventory item `edge_row` ($7E:1440) into $7E:C600 + _EQUIP_SLOT_ORIGIN + slot * 128 + 4, greyed when
+the character cannot equip it.
 """
 
 
@@ -240,13 +199,12 @@ $A172 pass did.
     jsr.w _equip_blank_slot_rows
     sep #0x20
 
-; The pre-render slot runs one row past the list at the bottom scroll
-; position; past the inventory there is nothing to draw.
+; At the bottom the prefetch slot is past the list: nothing to draw.
     lda.w equip_rolling.edge_row
     cmp #_EQUIP_TOTAL_ITEMS
     bcs _equip_render_done
 
-; Item pointer = $7E:1440 + edge_row * sizeof(Item)
+; Item pointer = $7E:1440 + edge_row * 2
     lda.w equip_rolling.edge_row
     asl
     clc
@@ -267,8 +225,7 @@ $A172 pass did.
     pla
     jsr.l check_can_use_item_trampoline
 
-; The list takes the primary VWF tile window ($100..): the equip names
-; above it borrow the drops region through their own context.
+; Primary VWF tile window ($100..); the equip names above use the drops region.
     lda.w equip_rolling.slot_index
     sta.b menu_dp.item_slot
     rep #0x20
@@ -307,12 +264,7 @@ _equip_render_done:
 
 update_equip_scroll_hdma:
 """
-Build the equip HDMA shadow table: one band per visible row.
-
-Row r shows ring slot (buffer_pos + r) mod 7, whose content sits at BG
-line origin + slot * 16 while the row is on screen line header + r * 16  ;
-header = origin - base_scroll, so the band's BG4VOFS is
-`base_scroll + slot * 16 - r * 16`, the sell/drops body math.
+Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 7 at BG4VOFS base_scroll + (slot - r) * 16.
 """
 
 
@@ -409,8 +361,7 @@ _equip_row_loop_done:
 
 _equip_hdma_base_band:
 """
-One band of A lines held at base_scroll (the header above the list).
-Entry: 16-bit A = line count, X = shadow offset.
+One band of A lines at base_scroll. Entry: 16-bit A = line count, X = shadow offset.
 """
 
 
@@ -425,7 +376,7 @@ Entry: 16-bit A = line count, X = shadow offset.
     rts
 
 _equip_draw_window:
-"""Pre-render hook: SelectBG4 + DrawWindow(inventory window) so $29 = $C600 holds a fresh frame."""
+"""Pre-render hook: SelectBG4 + DrawWindow so $C600 holds a fresh window."""
     sep #0x20
     jsr.l equip_select_bg4_trampoline
     rep #0x10
@@ -436,9 +387,8 @@ _equip_draw_window:
 
 equip_init_impl:
 """
-Replace vanilla `DrawInventoryList` for the equip list: configure the
-profile, let the engine draw the ring, then re-render it from the
-scroll position the screen kept from its last visit.
+Replaces `DrawInventoryList` for the equip list: configures the profile, inits the ring, then re-renders it at
+the scroll position kept from the last visit.
 """
 
 
@@ -494,8 +444,7 @@ scroll position the screen kept from its last visit.
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_init
     jsr.w _equip_ensure_hdma_initialized
-; The engine's init draws items 0..5; the screen keeps its scroll
-; position between visits, so lay the ring down from there instead.
+; Init draws items 0..5; redraw from the kept scroll position.
     sep #0x20
     rep #0x10
     lda.l _EQUIP_SCROLL_POS
@@ -514,7 +463,7 @@ _equip_fn_render_slot_trampoline:
     rtl
 
 _equip_fn_update_hdma_trampoline:
-"""Bank-20 RTL wrapper: arm ch5 on the first call, rebuild the band table on every one."""
+"""Bank-20 RTL wrapper: arms ch5 once, rebuilds the band table on every call."""
     php
     jsr.w _equip_ensure_hdma_initialized
     jsr.w update_equip_scroll_hdma
@@ -530,9 +479,7 @@ _equip_fn_draw_window_trampoline:
 
 _equip_run_scroll:
 """
-Run one item's worth of scroll animation to completion, in the 8
-frames vanilla's own loop took, then push BG4 (see sell's
-`_sell_run_scroll` for why the frame count is kept in `_pad`).
+Runs one item's scroll to completion in vanilla's 8 frames, then pushes BG4. Frame count in `_pad`, as for sell.
 """
 
 
@@ -562,7 +509,7 @@ _equip_scroll_frame:
     rts
 
 equip_scroll_down_impl:
-"""Equip profile: scroll the list down one item."""
+"""Scrolls the list down one item."""
     php
     rep #0x10
     lda.l _EQUIP_SCROLL_POS
@@ -573,7 +520,7 @@ equip_scroll_down_impl:
     rtl
 
 equip_scroll_up_impl:
-"""Equip profile: scroll the list up one item."""
+"""Scrolls the list up one item."""
     php
     rep #0x10
     lda.l _EQUIP_SCROLL_POS

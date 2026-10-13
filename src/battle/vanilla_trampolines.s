@@ -15,11 +15,6 @@ draw_text_rolling_trampoline:
 Bank-$02 trampoline around draw_text for inventory rendering: the custom draw_inventory_text walks the format
 string itself, VWF blits included.
 """
-
-
-; Custom draw_inventory_text owns the format walk end-to-end (escape
-; codes 0x00 / 0x03 / 0x0E plus VWF blits for raw chars). No need to
-; toggle battle_flags here ; it manages its own VWF state.
     jsr.l messages_vwf.draw_inventory_text
     rtl
 

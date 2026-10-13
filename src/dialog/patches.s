@@ -45,12 +45,11 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l get_bank2_pointer
     rts
 }
-; nukes the first call of display_script because the text
-; has to be rendered before animating the window display
+; Skip display_script's first call: the text must render before the window opens.
 .alloc at 0x00B32C {
     jsr.w first_window
 }
-; Replace the display_script function by the vwfed one.
+; Replace display_script with the VWF one.
 .alloc at 0x00B463 {
     jsr.l vwfstart
     rts
@@ -165,8 +164,7 @@ end_of_animation:
 }
 
 
-; yes/no cursor positions
-; 0x28c4 0x2904
+; Yes / No cursor positions
 
 .alloc at 0x00ae38 {
     ldx.w #0x28c4 - 1
@@ -176,7 +174,6 @@ end_of_animation:
 }
 ; Palette changes for allowing shadows
 .alloc at 0x15c229 {
-; 15/C229: BF D0 87 0D  LDA $0D87D0,X   ; window palette
     lda.l window_palette, x
 }
 .alloc at 0x15c236 {
@@ -189,10 +186,6 @@ end_of_animation:
     jsr.l update_palette
     nop
     nop
-
-;AE AA 16       LDX $16AA
-;00823E  8E DD 0C       STX $0CDD
-;008241  20 13 8A       JSR $8A13
 }
 ; update the text palette used in the intro
 .alloc at 0x8ff04 {
@@ -208,7 +201,6 @@ end_of_animation:
 }
 .alloc at 0x00ad28 {
     lda.b #gils_window_tilemap_1 >> 16
-;00/AD26: A9 14        LDA #$14
 }
 .alloc at 0x00ad2d {
     ldx.w #gils_window_tilemap_1 & 0xffff

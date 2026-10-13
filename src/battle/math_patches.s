@@ -7,10 +7,7 @@ versions.
 .import "core/vanilla"
 .include "core/bank20.i"
 
-; ===========================================================================
-; Mult8 at $8560 ($2a = $26 * $28) on the hardware multiplier, NMI-safe. Called via mult8_far ($855C) which does
-; JSR Mult8; RTL.
-; ===========================================================================
+; Mult8 ($8560, $2a = $26 * $28), reached via mult8_far ($855C: jsr Mult8; rtl), on the NMI-safe multiplier.
 
 .alloc at 0x028560 {
     jsr.l mult8_nmi_safe

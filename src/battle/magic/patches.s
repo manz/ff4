@@ -61,9 +61,8 @@ _draw_letter_far:
     pla
     jsr.w draw_letter  ; Original draw_letter
     rtl
-
-; attack name window
 }
+; attack name window
 .alloc at 0x02cbcc {
     jsr.l battle_magic_mult8  ; lda #6 / sta $28 / jsr Mult8: the name's offset into $2A
     nop
@@ -84,8 +83,6 @@ _draw_letter_far:
     and.w #0x00ff
     asl
     tax
-; force the longest one.
-; ldx.w #51* 2
     lda.l attack_name_pointers, x
     tax
     sep #0x20
@@ -104,15 +101,13 @@ loop:
 
 exit:
 """Tail of `loop`: jump to original attack-name window display."""
-    jmp.w draw_attack_name_window  ; display monster? attack name window
-
-; attack window position
+    jmp.w draw_attack_name_window
 }
+; attack window position
 .alloc at 0x029369 {
     ldx.w #0x0009
-
-; attack window size
 }
+; attack window size
 .alloc at 0x02936f {
     ldx.w #0x040e
 }
@@ -133,10 +128,8 @@ exit:
 .alloc at 0x02CAF7 {
 ; TextVar 0, the attacker's name (unused by the script)
     jmp.w _message_window_centred
-
-
-; cursor and scrolling
 }
+; spell list cursor and scrolling
 .alloc at 0x02B72B {
     cmp #11
 }
@@ -152,7 +145,7 @@ exit:
     nop
 }
 .alloc at 0x02B751 {
-;    INC     D,$63
+; drop the second inc $63
     nop
     nop
 }
@@ -160,11 +153,8 @@ exit:
     nop
     nop
 }
-; Battle list hand Y per visible row ($16:FC5B), read by both the item
-; cursor ($02:B594) and the spell cursor ($02:B7B9). Both lists draw
-; VWF names on each 16-px row's bottom tile line, lower in the cell than
-; the 8x8 font's glyphs, so the hand comes down _LIST_CURSOR_Y_NUDGE
-; pixels to point at the middle of the name.
+; Battle list hand Y per visible row ($16:FC5B; item cursor $02:B594, spell cursor $02:B7B9): VWF names sit on
+; the row's bottom tile line, so the hand comes down _LIST_CURSOR_Y_NUDGE px to point at the middle of the name.
 _LIST_CURSOR_Y_FIRST := 0x9C  ; vanilla row 0
 _LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
 _LIST_CURSOR_Y_NUDGE := 2
@@ -179,21 +169,17 @@ _LIST_CURSOR_Y_NUDGE := 2
 }
 .alloc at 0x02B764 {
     inc 0x5F
-;inc 0x5F
     nop
     nop
     inc 0x63
-;inc 0x63
     nop
     nop
 }
 .alloc at 0x02B785 {
     dec 0x5F
-;dec 0x5F
     nop
     nop
     dec 0x63
-;dec 0x63
     nop
     nop
 }

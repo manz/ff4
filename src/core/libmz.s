@@ -29,20 +29,12 @@ wait_for_vblank_long:
 
 dma_transfer_to_vram:
 """
-    DMA-transfer a block from ROM/RAM into VRAM via channel 7.
-    Stack args (caller pushes in order): source_offset, source_bank,
-    vram_pointer, count, dma_mode. All five args are pulled before RTS.
+DMA a block into VRAM on channel 7. Stack args, pushed in order: source_offset, source_bank, vram_pointer, count,
+dma_mode. All five are pulled before RTS.
 """
 
 
     {
-; on the stack:
-; return address
-; source offset
-; source bank
-; vram pointer
-; count
-; mode
     arg_count = 5
     stack_ptr = arg_count * 2 - 1
     source_offset = stack_ptr
@@ -81,19 +73,10 @@ dma_transfer_to_vram:
 
 
 dma_transfer_to_palette:
-"""
-    DMA-transfer a block into CGRAM (palette) via channel 7.
-    Stack args (caller-pushed): source_offset, source_bank, count.
-    All three pulled before RTS.
-"""
+"""DMA a block into CGRAM on channel 7. Stack args, pushed in order: source_offset, source_bank, count; pulled."""
 
 
     {
-; on the stack:
-; return address
-; source offset
-; source bank
-; count
     arg_count = 3
     stack_ptr = arg_count * 2 - 1
     source_offset = stack_ptr
@@ -145,104 +128,100 @@ disable_gamepad:
 
 
 initialize_snes:
-"""
-    Reset PPU, DMA, and CPU registers to a known idle state at boot.
-    8-bit M/X: clears OBJ/BG registers, neutralises mode-7 matrix to identity,
-    disables NMI/HDMA/joypad, leaves screen forced-blank.
-"""
+"""Reset PPU, DMA and CPU registers to idle at boot (mode-7 matrix identity, NMI/HDMA/joypad off, forced blank)."""
 
 
     sep #0x30  ; make X, Y, A all 8-bits
     lda #0x80  ; screen off, no brightness
-    sta ppu.INIDISP  ; brightness & screen enable register
+    sta ppu.INIDISP
     lda #0x00
-    sta ppu.OBSEL  ; sprite register (size & address in VRAM)
-    sta ppu.OAMADDL  ; sprite registers (address of sprite memory [OAM])
-    sta ppu.OAMADDH  ; sprite registers (address of sprite memory [OAM])
-    sta ppu.BGMODE  ; graphic mode register
-    sta ppu.MOSAIC  ; mosaic register
-    sta ppu.BG1SC  ; plane 0 map VRAM location
-    sta ppu.BG2SC  ; plane 1 map VRAM location
-    sta ppu.BG3SC  ; plane 2 map VRAM location
-    sta ppu.BG4SC  ; plane 3 map VRAM location
-    sta ppu.BG12NBA  ; plane 0 & 1 Tile data location
-    sta ppu.BG34NBA  ; plane 2 & 3 Tile data location
-    sta ppu.BG1HOFS  ; plane 0 scroll x (first 8 bits)
-    sta ppu.BG1HOFS  ; plane 0 scroll x (last 3 bits)
-    sta ppu.BG1VOFS  ; plane 0 scroll y (first 8 bits)
-    sta ppu.BG1VOFS  ; plane 0 scroll y (last 3 bits)
-    sta ppu.BG2HOFS  ; plane 1 scroll x (first 8 bits)
-    sta ppu.BG2HOFS  ; plane 1 scroll x (last 3 bits)
-    sta ppu.BG2VOFS  ; plane 1 scroll y (first 8 bits)
-    sta ppu.BG2VOFS  ; plane 1 scroll y (last 3 bits)
-    sta ppu.BG3HOFS  ; plane 2 scroll x (first 8 bits)
-    sta ppu.BG3HOFS  ; plane 2 scroll x (last 3 bits)
-    sta ppu.BG3VOFS  ; plane 2 scroll y (first 8 bits)
-    sta ppu.BG3VOFS  ; plane 2 scroll y (last 3 bits)
-    sta ppu.BG4HOFS  ; plane 3 scroll x (first 8 bits)
-    sta ppu.BG4HOFS  ; plane 3 scroll x (last 3 bits)
-    sta ppu.BG4VOFS  ; plane 3 scroll y (first 8 bits)
-    sta ppu.BG4VOFS  ; plane 3 scroll y (last 3 bits)
+    sta ppu.OBSEL
+    sta ppu.OAMADDL
+    sta ppu.OAMADDH
+    sta ppu.BGMODE
+    sta ppu.MOSAIC
+    sta ppu.BG1SC
+    sta ppu.BG2SC
+    sta ppu.BG3SC
+    sta ppu.BG4SC
+    sta ppu.BG12NBA
+    sta ppu.BG34NBA
+    sta ppu.BG1HOFS
+    sta ppu.BG1HOFS
+    sta ppu.BG1VOFS
+    sta ppu.BG1VOFS
+    sta ppu.BG2HOFS
+    sta ppu.BG2HOFS
+    sta ppu.BG2VOFS
+    sta ppu.BG2VOFS
+    sta ppu.BG3HOFS
+    sta ppu.BG3HOFS
+    sta ppu.BG3VOFS
+    sta ppu.BG3VOFS
+    sta ppu.BG4HOFS
+    sta ppu.BG4HOFS
+    sta ppu.BG4VOFS
+    sta ppu.BG4VOFS
     lda #0x80  ; increase VRAM address after writing to 0x2119
-    sta ppu.VMAIN  ; VRAM address increment register
+    sta ppu.VMAIN
     lda #0x00
-    sta ppu.VMADDL  ; VRAM address low
-    sta ppu.VMADDH  ; VRAM address high
-    sta ppu.M7SEL  ; initial mode 7 setting register
-    sta ppu.M7A  ; mode 7 matrix parameter A register (low)
+    sta ppu.VMADDL
+    sta ppu.VMADDH
+    sta ppu.M7SEL
+    sta ppu.M7A
     lda #0x01
-    sta ppu.M7A  ; mode 7 matrix parameter A register (high)
+    sta ppu.M7A
     lda #0x00
-    sta ppu.M7B  ; mode 7 matrix parameter B register (low)
-    sta ppu.M7B  ; mode 7 matrix parameter B register (high)
-    sta ppu.M7C  ; mode 7 matrix parameter C register (low)
-    sta ppu.M7C  ; mode 7 matrix parameter C register (high)
-    sta ppu.M7D  ; mode 7 matrix parameter D register (low)
+    sta ppu.M7B
+    sta ppu.M7B
+    sta ppu.M7C
+    sta ppu.M7C
+    sta ppu.M7D
     lda #0x01
-    sta ppu.M7D  ; mode 7 matrix parameter D register (high)
+    sta ppu.M7D
     lda #0x00
-    sta ppu.M7X  ; mode 7 center position X register (low)
-    sta ppu.M7X  ; mode 7 center position X register (high)
-    sta ppu.M7Y  ; mode 7 center position Y register (low)
-    sta ppu.M7Y  ; mode 7 center position Y register (high)
-    sta ppu.CGADD  ; color number register (0x00-0xff)
-    sta ppu.W12SEL  ; bg1 & bg2 window mask setting register
-    sta ppu.W34SEL  ; bg3 & bg4 window mask setting register
-    sta ppu.WOBJSEL  ; obj & color window mask setting register
-    sta ppu.WH0  ; window 1 left position register
-    sta ppu.WH1  ; window 2 left position register
-    sta ppu.WH2  ; window 3 left position register
-    sta ppu.WH3  ; window 4 left position register
-    sta ppu.WBGLOG  ; bg1, bg2, bg3, bg4 window logic register
-    sta ppu.WOBJLOG  ; obj, color window logic register (or, and, xor, xnor)
+    sta ppu.M7X
+    sta ppu.M7X
+    sta ppu.M7Y
+    sta ppu.M7Y
+    sta ppu.CGADD
+    sta ppu.W12SEL
+    sta ppu.W34SEL
+    sta ppu.WOBJSEL
+    sta ppu.WH0
+    sta ppu.WH1
+    sta ppu.WH2
+    sta ppu.WH3
+    sta ppu.WBGLOG
+    sta ppu.WOBJLOG
     lda #0x01
-    sta ppu.TM  ; main screen designation (planes, sprites enable)
+    sta ppu.TM
     lda #0x00
-    sta ppu.TS  ; sub screen designation
-    sta ppu.TMW  ; window mask for main screen
-    sta ppu.TSW  ; window mask for sub screen
+    sta ppu.TS
+    sta ppu.TMW
+    sta ppu.TSW
     lda #0x30
-    sta ppu.CGWSEL  ; color addition & screen addition init setting
+    sta ppu.CGWSEL
     lda #0x00
-    sta ppu.CGADSUB  ; add/sub sub designation for screen, sprite, color
+    sta ppu.CGADSUB
     lda #0xE0
-    sta ppu.COLDATA  ; color data for addition/subtraction
-    stz ppu.SETINI  ; screen setting (interlace x,y/enable SFX data)
-    stz cpu_regs.NMITIMEN  ; disable v-blank, interrupt, joypad register
+    sta ppu.COLDATA
+    stz ppu.SETINI
+    stz cpu_regs.NMITIMEN
     lda #0xFF
-    sta cpu_regs.WRIO  ; programmable I/O port
+    sta cpu_regs.WRIO
     lda #0x00
-    sta cpu_regs.WRMPYA  ; multiplicand A
-    sta cpu_regs.WRMPYB  ; multiplier B
-    sta cpu_regs.WRDIVL  ; dividend C (low)
-    sta cpu_regs.WRDIVH  ; dividend C (high)
-    sta cpu_regs.WRDIVB  ; divisor B
-    sta cpu_regs.HTIMEL  ; horizontal count timer
-    sta cpu_regs.HTIMEH  ; horizontal count timer MSB
-    sta cpu_regs.VTIMEL  ; vertical count timer
-    sta cpu_regs.VTIMEH  ; vertical count timer MSB
-    sta cpu_regs.MDMAEN  ; general DMA enable (bits 0-7)
-    sta cpu_regs.HDMAEN  ; horizontal DMA (HDMA) enable (bits 0-7)
-    sta cpu_regs.MEMSEL  ; access cycle designation (slow/fast rom)
+    sta cpu_regs.WRMPYA
+    sta cpu_regs.WRMPYB
+    sta cpu_regs.WRDIVL
+    sta cpu_regs.WRDIVH
+    sta cpu_regs.WRDIVB
+    sta cpu_regs.HTIMEL
+    sta cpu_regs.HTIMEH
+    sta cpu_regs.VTIMEL
+    sta cpu_regs.VTIMEH
+    sta cpu_regs.MDMAEN
+    sta cpu_regs.HDMAEN
+    sta cpu_regs.MEMSEL
     rts
 }

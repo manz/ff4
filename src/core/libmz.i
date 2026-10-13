@@ -134,10 +134,7 @@ _return_addr:
 }
 
 .macro pad_nop(count) {
-    """
-    Emit `count` NOP bytes. Used after surgical patches that replace a longer instruction sequence with a
-    shorter one — keeps downstream call-sites and addresses anchored.
-    """
+    """Emit `count` NOP bytes, padding a patch shorter than the code it replaces."""
     .for k := 0, count {
     nop
     }
@@ -145,10 +142,8 @@ _return_addr:
 
 .macro raise(code) {
     """
-    Crude exception. Triggers `BRK #code`; `brk_handler` (system.s, with
-    ENABLE_BRK_HANDLER) loads the signature byte into A then `STP`s. Use
-    `code` as a per-site signature so A tells you which assertion
-    fired. Pair with a comment naming the invariant.
+    `BRK #code`: brk_handler (system.s, ENABLE_BRK_HANDLER) halts with `code` in A. Use a per-site code and a comment
+    naming the invariant.
     """
     brk #code
 }

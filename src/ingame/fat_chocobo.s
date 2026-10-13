@@ -33,6 +33,6 @@
 }
 
 .alloc at 0x01E0D8 {
-; the item list's frame (FatChocoListWindow): as wide as the inventory window it frames ($01:DCCE, ingame/items.s)
+; FatChocoListWindow: as wide as the inventory window it frames ($01:DCCE, ingame/items.s)
     menu_window(0, 10, 30, 15)
 }

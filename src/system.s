@@ -7,8 +7,7 @@ trap every `raise` lands in.
 .include "core/bank20.i"
 
 
-; The cartridge header: the title, and the board grown from SHVC-1A3B to SHVC-1A5B (the vanilla map mode, region,
-; maker and checksum fields stay as the ROM has them).
+; Board grown from SHVC-1A3B to SHVC-1A5B; the other header fields stay vanilla.
 .patch SnesHeader at SNES_HEADER_BASE {
     title = "Final Fantasy IV     "
     cartridge_type = 0x02  ; ROM + RAM + battery
@@ -37,14 +36,8 @@ trap every `raise` lands in.
 .alloc _brk_trap in bank20_reloc {
 brk_handler:
 """
-BRK trap: mask interrupts, disable NMI, fetch the BRK signature byte
-(the imm operand of `brk #$NN`) into A, then STP. Kintsuki halts on
-STP: tooling reads the signature via `emu.get_state().a` and the
-crash site via `emu.callstack()`.
-
-CPU push order on BRK: PB, PC.hi, PC.lo, P (PCH/PCL packed as a
-16-bit push by the CPU). Pulled in reverse. Pushed PC = BRK + 2:
-signature byte sits at PB:(PC - 1).
+BRK trap: disable NMI, load the signature byte (`brk #$NN` operand) into A, then STP. Kintsuki halts on STP;
+tooling reads A and the callstack. The CPU pushed PB, PC (= BRK + 2), P, so the signature is at PB:(PC - 1).
 """
 
 

@@ -1,30 +1,20 @@
 """
 Small-VWF menu text: whole string blocks drawn in the 8-pixel VWF instead of the 8x8 font.
 
-The menu text thunks (menus/system_menus_text.s) offer every string here first. A string inside one of `_blocks`
-gets the tiles at its byte offset in its block: a glyph is at most 8 pixels wide, so no two strings of a block
-share a tile and nothing is allocated. Blocks on screen together need disjoint tiles.
-  - `newgame` (load and save screens): tiles $180-$1FF, the item-description region, unused there; the save
-    screen's cancel message (`save_cancelled`) $200-$21F.
-  - `in_game_menu` (commands, Gils, Temps, KO): $370-$3FF, its own for good. It stays on screen under the
-    sub-menus, and Gils / Temps are drawn every frame, so it is *resident*: a string whose first cell already
-    shows its first tile is not drawn again.
-Only this module draws tiles $200-$3FF, so a bit per tile says which strings are already in VRAM this menu
-session: drawing one again only rewrites the tilemap. A block taking over $200-$2FF forgets that range's bits; a
-name whose text changed (renamed) uploads again. Tiles $100-$1FF are shared with the item renderers: always uploaded.
-  - One sub-menu at a time in $200-$2FF: `status` $200-$2B7, `equip` $200-$2B7, `dextrality` (handedness, on
-    status and equip) $2B8-$2DF, `items_menu` $200-$23F with its refusals (`item_refusal`) $270-$2B7,
-    `spells` $200-$23F with `use_spell` $240-$25F,
-    `options` $200-$2FF with its controls window (opened over it) in $180-$1FF, the item-description region, and its
-    ATB gauge row (`options_gauge`) in $100-$13B, the item names' (no item list on that screen).
-  - The shop (`tools_shop_text`) $200-$2FF: it saves the field's VRAM like the menus; its owner's line is the item
-    description ($180-$1FF), its item names the field items ($100-$169).
-  - The treasure popup is a field screen: nothing saves $6000-$7FFF there, so its header (Butin, Quitter,
-    Tout prendre) takes $1AA-$1CF and its exchange label (`spells.kokan`, drawn at $01:D95E) $1D0-$1DE, after the
-    drops' item names ($16E-$1A9).
-Tiles $200-$3FF are VRAM $6000-$7FFF, free in every menu (ingame/menu_vram.s saves the field's copy). Two strings
-come from elsewhere: the class name (DrawClassName, tiles $2E0-$2FF) and the character names (DrawCharName, read
-from RAM), whose tiles are keyed by name index ($300 + index * 8), so names never collide on any screen.
+The menu text thunks (menus/system_menus_text.s) offer every string here first. A string in a `_blocks` entry uses
+the tiles at its byte offset in the block (a glyph is at most 8 px), so nothing is allocated. Blocks on screen
+together need disjoint tiles:
+  - `newgame` (load/save): $180-$1FF; `save_cancelled` $200-$21F.
+  - `in_game_menu`: $370-$3FF, resident (stays under the sub-menus; a string whose first cell already shows its
+    first tile is not redrawn).
+  - one sub-menu at a time in $200-$2FF: `status`, `equip` $200-$2B7; `dextrality` $2B8-$2DF; `items_menu`
+    $200-$23F + `item_refusal` $270-$2B7; `spells` $200-$23F + `use_spell` $240-$25F; `options` $200-$2FF +
+    controls $180-$1FF + `options_gauge` $100-$13B; the shop $200-$2FF.
+  - treasure popup (field screen, $6000-$7FFF not saved): header $1AA-$1CF, `spells.kokan` $1D0-$1DE.
+  - class name $2E0-$2FF; character names $300 + name index * 8.
+Tiles $200-$3FF (VRAM $6000-$7FFF, saved by ingame/menu_vram.s) are ours alone: a bit per tile records what is
+already uploaded this session, so a redraw only rewrites the tilemap. A new owner of $200-$2FF clears that range's
+bits; a renamed character uploads again. Tiles $100-$1FF are shared with the item renderers and always uploaded.
 """
 .import "core/vanilla"
 .include "ingame/bank01_slack.i"
@@ -490,10 +480,8 @@ _spell_drawn:
 
 _paint_spell_cells:
 """
-Y cells from X, both rows: blank tiles in the $db attribute (grey when the spell can't be cast). Every slot gets
-_SPELL_TILES, the widest baked name, empty ones too: a list redrawn over another (Rituel to Chimère) loses the
-previous names, and a window narrower than vanilla's 9-cell names (the cast window, the spell list beside the
-party) keeps its border. Keeps X. M = 8 bits, X/Y = 16 bits.
+Y cells from X, both rows: blank tiles in the $db attribute. Every slot gets _SPELL_TILES, empty ones too, so a list
+redrawn over another loses the old names and a narrower window keeps its border. Keeps X. M = 8, X/Y = 16 bits.
 """
     phx
 _paint_spell_cells_next:

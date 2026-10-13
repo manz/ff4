@@ -23,11 +23,7 @@ get_bank1_1_pointer:
     rtl
 
 get_bank1_2_pointer:
-"""
-    Get a 24-bit dialog pointer for bank 1-2.
-
-    > Note: bank 1-1 is only 0x100 pointers long, not 0x200 as the text dump suggests.
-"""
+"""Get a 24-bit dialog pointer for bank 1-2 (bank 1-1 has $100 pointers, not the $200 the text dump suggests)."""
 
 
     rep #0x20
@@ -41,11 +37,7 @@ get_bank1_2_pointer:
     rtl
 
 get_bank3_pointer:
-"""
-    Compute pointer for NPC dialogs.
-
-    Organized per room: a linear lookup inside the room finds the start of the string.
-"""
+"""Compute the pointer for NPC dialogs: a linear lookup inside the room finds the string."""
 
 
     rep #0x20
@@ -73,11 +65,7 @@ compute_dialog_text_offset:
     rtl
 
 get_bank2_pointer:
-"""
-    Get a 24-bit dialog pointer for bank 2.
-
-    Walks the string character-by-character to handle variable-length encoding.
-"""
+"""Get a 24-bit dialog pointer for bank 2, walking the variable-length string encoding."""
 
 
     {

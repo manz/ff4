@@ -1,13 +1,7 @@
 """
-New-game / save-slot screen patches.
-
-Rewires the screen's text table and pointer setup at the strings this
-project relocated out of their original home, and adjusts the window
-geometry and Cecil sprite position that go with them.
+New-game / save-slot screen patches: text pointers to the relocated strings, window geometry, Cecil's position.
 """
 .include "menus/system_menus_macros.i"
-; The macro above expands to a call into the menus text module, and the
-; strings it points at live in the start-screen text module.
 .import "menus/system_menus_text"
 .import "ingame/free_space"
 .import "menus/start_screen_text"
@@ -19,46 +13,40 @@ geometry and Cecil sprite position that go with them.
 
 .table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 {
-; new game window
+; New game window
     .alloc at 0x01dfc7 {
 ; 11 columns: "Nouvelle partie" in the small VWF is 62 px, then Cecil
     .db 11  ; width
     .db 0x02  ; height
-
-; Cecil sprite position on the new game item
     }
 
 
+; Cecil sprite on the new game item
     .alloc at 0x019904 {
     .db 77  ; x: right edge 3 px inside the 11-column window
     .db 0x04  ; y
-
-
-; load game message window
     }
 
 
+; Load game message window
     .alloc at 0x01dfdc {
     menu_window(23, 0, 7, 8)
-
-; LoadTimeWindow:
     }
 
 
+; LoadTimeWindow
     .alloc at 0x01dfe0 {
     menu_window(23, 16, 7, 5)
-
-; LoadGilWindow:
     }
 
 
+; LoadGilWindow
     .alloc at 0x01dfe4 {
     menu_window(23, 23, 7, 3)
-
-; save number display
     }
 
 
+; Save number
     .alloc at 0x019A62 {
 ; column 5: "Partie " in the small VWF is 28 px from column 1
     sta.w 0xC8 - 0x40 + 2, y
@@ -84,11 +72,10 @@ geometry and Cecil sprite position that go with them.
 
     .alloc at 0x019826 {
     load_system_menu_text_pointer(newgame.load_this_save)
-
-; the save menu uses the same string.
     }
 
 
+; The save menu uses the same string.
     .alloc at 0x01981E {
     load_system_menu_text_pointer(newgame.load_this_save)
     }
@@ -106,16 +93,13 @@ geometry and Cecil sprite position that go with them.
 
     .alloc at 0x01984D {
     load_system_menu_text_pointer(newgame.gils_load_game)
-; gils text position
-    ldx.w #0x676
-    jsr.w draw_menu_text  ; menu_draw_text
-; gils count position
-    ldy #0x062c + 2
-
-; Time position
+    ldx.w #0x676  ; gil text position
+    jsr.w draw_menu_text
+    ldy #0x062c + 2  ; gil count position
     }
 
 
+; Time position
     .alloc at 0x019838 {
     ldy.w #0xcb2e + 2
     }

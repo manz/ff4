@@ -14,11 +14,7 @@ tracking (`TILEPOS`/`BITSLEFT`), button-glyph + ending-symbol drawing, and the g
 .import "core/vanilla"
 
 .scope field_vwf {
-    """
-    S-RAM layout: $70:0000-1FFF save data, $70:2000-6FFF sram_layout.s,
-    $70:7000-70FF vwf_ram.s, $70:7100 battle/render_state.s, $70:7200-7FFF
-    rolling_state.i.
-    """
+    """SRAM: $70:0000 save, $2000 sram_layout.s, $7000 vwf_ram.s, $7100 battle render state, $7200 rolling_state.i."""
     tile_buffer = 0x702000
 }
 
@@ -55,33 +51,27 @@ _custom_mapping:
 
 
 _button_colors:
-; 0
-; A Button
+; 0: A button
     _make_color(0xeb, 0x1a, 0x1d)
     _make_color(120, 10, 12)
-; 1
-; B Button
+; 1: B button
     _make_color(0xfe, 0xce, 0x15)
     _make_color(136, 108, 0)
-; 2
-; X Button
+; 2: X button
     _make_color(0x07, 0x49, 0xb4)
     _make_color(0, 53, 144)
-; 3
-; Y Button
+; 3: Y button
     _make_color(0x00, 0x8d, 0x45)
     _make_color(0, 70, 34)
-; 4
-; Select Buttons
+; 4: Select
     .dw 0b0011110111101111
     .dw 0b0001110011100111
 
 
 update_palette:
 """
-    Refresh menu/dialog palette entries from the configured colour at $16AA.
-    Also pulls the action-button id and writes
-    the matching colour + shadow pair from `_button_colors` into $0CEF/$0CF1.
+Refresh the dialog/menu palettes from the window colour ($16AA), and the action button's colour + shadow pair
+from `_button_colors`.
 """
 
 
@@ -89,7 +79,7 @@ update_palette:
     stx.w color_palettes + 2
     stx.w color_palettes + 0xa
     stx.w color_palettes + 0x12
-; black for the shadow but it could be a darker version of the color
+; shadow: black
     ldx.w #0x0000
     stx.w color_palettes + 0x14
     pha
@@ -116,7 +106,6 @@ _proceed:
 
 window_palette:
 """4 dialog/menu sub-palettes (4 colours each, BGR15)."""
-; Menu color palette
 ; Palette 1, normal text
     .db 0x00, 0x00
     .db 0x00, 0x40
@@ -141,25 +130,16 @@ window_palette:
     .db 0xFF, 0x40
     .db 0x7F, 0x2E
 
-; 0x07 used for loop counter
-
-; ******************
-; ** Declarations **
-; ******************
     _vram_tile_set_pointer = 0x6800
     _vram_tile_map_pointer = 0x2C00
     WRAM = field_vwf.tile_buffer
 
 
 vwfinit:
-"""
-    One-shot dialog VWF initialisation: clear the dialog tile buffer,
-    DMA the VWF tile buffer + the original font tileset into VRAM,
-    and point BG3 at the new $6000 tile-set base.
-"""
+"""Dialog VWF init: clear the tile buffer, upload it and the 8x8 font to VRAM, point BG3 CHR at $6000."""
 
 
-    jsr.w _clr  ; clear the dialog tile buffer
+    jsr.w _clr
 
     jsr.w wait_for_vblank
     dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
@@ -173,7 +153,7 @@ vwfinit:
     dma_transfer_to_vram_call(0x0AF000 + 0x800, 0x6000 + 0x400, 0x800, 0x1801)
     jsr.w wait_for_vblank
 
-; Sets the BG3 vram pointer to 0x6000
+; BG3 CHR at $6000
     lda ppu.BG34NBA
     and #0xF0
     clc
@@ -181,13 +161,9 @@ vwfinit:
     sta ppu.BG34NBA
 
     rtl
-;** main routine
 
 vwfstart:
-"""
-    Main entry for dialog VWF rendering: sets 8-bit A / 16-bit X-Y, enables FastROM, and falls into the parser loop
-    that consumes the dialog text stream.
-"""
+"""Dialog VWF entry: A = 8, X/Y = 16 bits, FastROM on, then the parser loop over the dialog stream."""
 
 
     sep #0x20
@@ -196,12 +172,11 @@ vwfstart:
     lda.b #0x01
     sta.w cpu_regs.MEMSEL
 
-; 0x04-0x4F
     var_base = 0x23
     CNTR = var_base
     CURRENT_C = var_base + 2
     BITSLEFT = var_base + 4
-    font_addr = var_base + 6  ; 7 8
+    font_addr = var_base + 6
     oldtilepos = var_base + 9
     TILEPOS = var_base + 11
     dialog_ptr = 0x20
@@ -241,15 +216,13 @@ _firstrun:
     bra main
 
 _fin:
-; this fixes a subtle issue where NPCs sprites positions and their collision table would be corrupted
+; clear B: NPC sprite positions and collision tables get corrupted otherwise
     xba
     lda.b #0
     xba
     rtl
 
-;******************
-;** Parsing code **
-;******************
+; Parsing
 
 parse:
 """Dialog control-code dispatcher."""
@@ -333,9 +306,7 @@ _nxt_fe:
     jmp.w main
 
 
-;***********
-;** Space **
-;***********
+; Space
 
 space:
 """Space control code ($02): advance tile cursor."""
@@ -344,9 +315,7 @@ space:
     adc.b TILEPOS
     jmp.w main
 
-;******************
-;Gil amount
-;******************
+; Gil amount
 
 _code08:
     lda.w gil_amount
@@ -372,11 +341,6 @@ _loop_b5d2:
     lda #0x00
     xba
     lda.b 0x36, x
-; Vanilla:
-;00B5D4 STA 0x0774,Y
-;00B5D7 LDA #0xFF
-;00B5D9 STA 0x0834,Y
-;00B5DC INY
     phx
     phy
 
@@ -395,9 +359,7 @@ _loop_b5d2:
 
     jmp.w main
 
-;****************
-;** printfname **
-;****************
+; Character name
 
 _display_character_name:
     {
@@ -446,9 +408,7 @@ suite:
 exit:
     jmp.w main
     }
-;********************
-;**    New line    **
-;********************
+; New line
 
 _newline:
 """Newline control code ($01): reset BITSLEFT and snap TILEPOS."""
@@ -544,9 +504,7 @@ _draw_ending_symbol:
     rts
 
 
-;*************
-;** Music   **
-;*************
+; Music
 
 _musique:
     jsr.w load_letter_inc
@@ -631,9 +589,7 @@ end:
     jmp.w main
     }
 
-;*******************
-;** Shift Routine **
-;*******************
+; Shift routine
 
 _shift_new:
     rep #0x20
@@ -715,10 +671,7 @@ _mul_0:
 
 _store:
 
-; 0b11 = white
-; 0b10 = black
-; 0b01 = window background
-; 0b00 = transparent
+; 2bpp colours: %11 white, %10 black, %01 window background, %00 transparent
     _TEXT_SHADOW := 1
 
     xba
@@ -782,7 +735,7 @@ _store:
 _exit:
 
     rep #0x20
-; Routine reads the pair from CURRENT_C (DP), no need to load A.
+; the pair is read from CURRENT_C (DP)
     jsr.w dialog_get_kerning_adjustment_binary_search
     pha
 
@@ -834,8 +787,6 @@ vwf_shift_table:
     .db 0b10000000  ; 7
     .db 0b10000000  ; 8
 
-; Long-form (RTL) wrapper for cross-bank callers and Python tests.
-
 setup_font_ext:
 """RTL wrapper around setup_font for cross-bank callers."""
     jsr.w setup_font
@@ -867,9 +818,7 @@ setup_font:
     rts
     }
 
-;************************
-;** build font pointer **
-;************************
+; Build font pointer
 
 _makeptr:
     pha
@@ -907,10 +856,7 @@ _makeptr:
     rts
 
 
-;===================================
-;Clear the dialog tile buffer
-;
-;===================================
+; Clear the dialog tile buffer
 
 _clr:
     {
@@ -959,7 +905,7 @@ exit:
     rts
     }
 
-;Wait for joypad 1
+; Wait for joypad 1
 
 _waitpad:
     {
@@ -991,13 +937,10 @@ end:
     }
 
 _wdisplay:
-; wait for vblank to transfer
     jsr.w wait_for_vblank
 
     sep #0x20
 
-
-;macro expansion
 
     php
     pha

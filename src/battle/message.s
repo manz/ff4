@@ -22,10 +22,9 @@ dialog-stream consumer).
 
 .macro copy_baked_name(blob, table, resume) {
     """
-A = name id, Y = cell offset (M = 8, X = 16): the name's baked tiles into the CHR buffer at the allocator, one
-    cell each as the renderer writes them. With `resume`, the renderer is left inside the name's last tile, where the
-    runtime one would be (Y on its cell, bits_left_on_tile = the columns it has left), so the next glyphs join it;
-    otherwise the next glyph starts a fresh tile and Y comes back past the name.
+    A = name id, Y = cell offset (M = 8, X = 16): copy the name's baked tiles into the CHR buffer at the allocator.
+    With `resume`, the renderer is left inside the name's last tile (Y on its cell, bits_left_on_tile = columns
+    left) so the next glyphs join it; otherwise the next glyph starts a fresh tile past the name.
     """
     {
     sty.b battle_render.tilemap_offset
@@ -132,30 +131,17 @@ _state:
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = 8 * ( 128 + 32 ) * 2
     region_size = 48
-; Gate state lives at BATTLE_RENDER_STATE ($70:7100), outside the CHR
-; buffer entirely. The inventory slot slices run $70:3C00..$70:4240, so
-; any 'past the inventory tile slice' address inside the buffer gets
-; overwritten by rendered item CHR -- see vwf_state.i for the detail.
-; Bit 0 (CHR_PENDING) = "a CHR transfer is queued" (set by deinit /
-; deinit_gated). Bits 1-4 = which VWF region was (re)rendered this frame
-; and needs its 0x300-byte CHR slice flushed. dma_transfer DMAs only the
-; flagged regions (<= 0xC00 total = ~18 lines, fits vblank) instead of
-; blasting the whole 0x1000 buffer every dirty frame. Region N's slice
-; lives at buffer_ptr + N*0x300 and targets VRAM $B000 + N*0x300.
-;   N=0 messages, N=1 monsters, N=2 names, N=3 commands.
+; Gate state lives at BATTLE_RENDER_STATE ($70:7100), outside the CHR buffer, which inventory slot CHR overwrites
+; ($70:3C00..$70:4240, see vwf_state.i). CHR_PENDING = a CHR transfer is queued (deinit). Region bits = regions
+; re-rendered this frame: dma_transfer flushes only their 0x300-byte slices (buffer_ptr + N*0x300 to VRAM
+; $B000 + N*0x300) instead of the whole buffer. N=0 messages, 1 monsters, 2 names, 3 commands.
     CHR_PENDING = ChrTransferBits.pending.mask
     CHR_REGION_MESSAGES = ChrTransferBits.messages.mask
     CHR_REGION_MONSTERS = ChrTransferBits.monsters.mask
     CHR_REGION_NAMES = ChrTransferBits.names.mask
     CHR_REGION_COMMANDS = ChrTransferBits.commands.mask
-; Per-slot CHR dirty bitmask for the inventory rolling buffer. Bit N
-; set when slot N's CHR slice at $703000 + (slot_base + N*10)*16 has
-; been touched and needs a VRAM flush. NMI `dma_transfer` consumes
-; one or more bits per frame and DMAs only the dirty slot's 160-byte
-; slice instead of the full 4KB CHR region, fits in vblank without
-; forced blank.
-; Dirty-bit / render-skipped / tilemap-pending interface: shared with
-; redraw_gates.s and the writer-site shims via a compile-time include.
+; Inventory slots flush per slot (160-byte slices). render_defs.i: dirty / render-skipped / tilemap-pending
+; interface shared with redraw_gates.s and the writer-site shims.
     .include "render_defs.i"
     bits_left_on_tile = 0xA9
     tilemap_offset = bits_left_on_tile + 2
@@ -213,18 +199,12 @@ init_commands_list:
     brl _init
 init_inventory_region:
 """
-Reset the allocator to the inventory tile_id base (0xC0) once per
-rolling render pass. Subsequent per-item DrawText calls let the
-allocator increment naturally, so each item owns its own tile range
-(item N uses 0xC0 + N * width_in_tiles). Skips clear_buffer for the
-reasons noted on the other inventory entry - tile_id 0xC0+ would
-overrun the shared buffer into the state words at $703C00+.
+Reset the allocator to the inventory tile base (0xC0) once per rolling pass; each item's DrawText then advances
+it, so item N owns its own tile range. No clear_buffer: tiles 0xC0+ would overrun the buffer into $703C00+.
 """
 
 
-; Inventory CHR flushes via battle_render_state.dma_dirty_slots (per-slot 160B DMA), not the
-; region blast, so it must NOT touch battle_render_state.pending_transfer_mask (a base store
-; here would corrupt the region bits). A = tile_id base for the allocator.
+; Inventory CHR flushes per slot (dma_dirty_slots): pending_transfer_mask must stay untouched here.
     lda.b #region_size * 4
     jsr.w render_allocator.init_with_tile_id
     stz.b prev_char
@@ -234,10 +214,7 @@ overrun the shared buffer into the state words at $703C00+.
     stz.b counter
     rts
 render_allocator_init_with_tile_id_thunk:
-"""
-In-scope thunk so messages_vwf can reach the allocator via jsr.w
-across scope boundaries. A on entry = tile_id base.
-"""
+"""In-scope thunk to `render_allocator.init_with_tile_id` (jsr.w across scopes). A = tile_id base."""
 
 
     jmp.w render_allocator.init_with_tile_id
@@ -245,20 +222,11 @@ _init:
 ; Region bit already set by the caller; A = tile_id base for the allocator.
     jsr.w render_allocator.init_with_tile_id
     brl _internal_init
-; Near trampoline: the per-region CHR-bit sets grew the gated bodies past
-; the 8-bit branch range to _gated_skip, so the clean-path branches hop
-; here and jmp the rest of the way.
+; Hop for the gated inits: _gated_skip is past the 8-bit branch range.
 _gated_skip_near:
     jmp.w _gated_skip
-; --- Region-gated init variants ---
-; Mirror the public init_X paths but check the matching region-dirty
-; bit in `battle_render_state.region_dirty_bits` first. When the bit is CLEAR (= clean), set
-; `battle_render_state.render_skipped = $FF` and short-circuit (no clear_buffer, no
-; allocator init, no `_internal_init` setup). The caller (gated
-; trampoline) reads `battle_render_state.render_skipped` after the init returns to decide
-; whether to call DrawText. On the dirty path: do the full work and
-; CLEAR the region's bit to mark clean for next frame; `battle_render_state.render_skipped`
-; stays at $00 so DrawText runs.
+; Gated inits: like init_X, but a clean region (dirty bit clear) sets render_skipped = $FF and returns with no
+; setup, so the gated trampoline skips DrawText. A dirty region clears its bit and does the full init.
 init_monsters_gated:
 """Gated init for the monsters region."""
     lda.l battle_render_state.region_dirty_bits
@@ -343,8 +311,7 @@ _internal_init:
     rts
 clear_buffer:
 """
-Wipe the 16×region_size 4bpp tile buffer for the currently-allocated VWF tile id (sets each plane row to
-$FF/$00).
+Fill the region_size-tile 4bpp buffer at the current allocator tile with $FF/$00 plane rows.
 """
 
 
@@ -397,7 +364,6 @@ make_pointers:
     adc 1, s
     tax
     pla
-;lda.w #0x0000
     sep #0x20
 _refresh_destination_pointer:
     lda.l render_allocator.allocated_tile_id
@@ -414,10 +380,7 @@ _refresh_destination_pointer:
     rts
     }
 display_char:
-"""
-Render `A` (char) at tilemap offset `Y` into the message VWF buffer  ; preserves A/X/Y, returns Y =
-`tilemap_offset`.
-"""
+"""Render `A` (char) at tilemap offset `Y` into the VWF buffer; preserves A/X/Y, returns Y = `tilemap_offset`."""
 
 
     pha
@@ -436,15 +399,12 @@ _display_char:
 
     jsr.w make_pointers
 
-; vwf8_lookup_kerning there:
+; kerning
     pha
     jsr.w _adjust_bits_left_for_kerning
     pla
 
-; Space ($FF) renders blank ; the 8-row loop only OR-stores zeros (no
-; visible effect) and reads 8 glyph bytes plus 8 inx ops we can skip.
-; Bump X past the glyph rows so `brk_bits_left` reads the width byte
-; from the right offset, then jump straight to the width-update tail.
+; Space ($FF) is blank: skip the 8 glyph rows, X past them so brk_bits_left reads the width byte.
     lda.b current_char
     cmp #0xff
     bne _not_space
@@ -457,15 +417,8 @@ _display_char:
     jmp.w brk_bits_left
 _not_space:
 
-; Classify bits_left_on_tile once per glyph, dispatch to one of 8
-; specialized 8-iteration loops (aligned + shift_0..shift_7). Each loop
-; bakes the asl count into its body, so no per-row cmp/jmp-table/mul
-; ladder runs. Loops jump to brk_bits_left on completion.
-;
-; X holds the font pointer at entry. The shift dispatch clobbers X for
-; the indirect jump, so the font pointer is stashed in `temp` first and
-; each shift loop restores X from there on entry. The aligned path
-; keeps X untouched so it bypasses the save / restore.
+; One specialised 8-row loop per bits_left_on_tile (aligned + shift_0..7), asl count baked in; all end at
+; brk_bits_left. The shift dispatch clobbers X, so the font pointer goes to `temp` (the aligned path keeps X).
     rep #0x20
     lda.w #0x0008
     sta.b counter
@@ -673,9 +626,7 @@ _finalize:
 
 _get_kerning_adjustment_binary_search:
     {
-; Space ($FF) never appears in any font's kerning pair table; bail out
-; before the bank push so external callers (battle_msg_kerning_binary_ext
-; and Python tooling) skip the search too. Caller is in 16-bit M.
+; Space ($FF) is in no kerning table: bail before the bank push (external callers too). Caller in M=16.
     sep #0x20
     lda.b prev_char
     cmp #0xff
@@ -695,8 +646,7 @@ _get_kerning_adjustment_binary_search:
     beq not_found
     dec
 
-; Setup binary search bounds on stack
-; Stack layout (from top): [high] [low] [target_char]
+; Search bounds on stack, top down: [high] [low] [target_char]
     pha  ; Push high bound (count-1)
     lda.w #0x0000  ; Low bound = 0
     pha  ; Push low bound
@@ -704,20 +654,17 @@ _get_kerning_adjustment_binary_search:
     pha  ; Push target for comparison
 
 _binary_loop:
-; Check if low > high (search finished)
     lda 0x05, s  ; Load high bound
     cmp 0x03, s  ; Compare with low bound
     bcc not_found_cleanup  ; If high < low, not found
 
-; Calculate mid = (low + high) / 2
     lda 0x03, s  ; Load low
     clc
     adc 0x05, s  ; Add high
     lsr  ; Divide by 2
     tax  ; X = mid index
 
-; Calculate address: mid * 3 + kerning_table_offset + 2
-; (each entry is 3 bytes: 2 bytes char pair + 1 byte adjustment)
+; entry = mid * 3 + kerning_table_offset + 2 (2-byte char pair, 1-byte adjustment)
     pha  ; Save mid
     asl  ; mid * 2
     clc
@@ -727,16 +674,14 @@ _binary_loop:
     tay  ; Y = address of entry
     pla  ; Restore mid to A
 
-; Load char pair at this position
     pha  ; Save mid again
     lda.w menu_font, y  ; Load 16-bit char pair
 
-; Compare with target
     cmp 0x03, s  ; Compare with target_char
     beq found_pair_cleanup  ; Found exact match!
     bcc search_upper_half  ; If entry < target, search upper half
 
-; Search lower half: high = mid - 1
+; high = mid - 1
     pla  ; Get mid
     sec
     sbc.w #0x0001  ; mid - 1
@@ -745,7 +690,7 @@ _binary_loop:
     bra _binary_loop
 
 search_upper_half:
-; Search upper half: low = mid + 1
+; low = mid + 1
     pla  ; Get mid
     inc  ; mid + 1
     sta 0x03, s  ; Update low bound
@@ -754,13 +699,12 @@ search_upper_half:
 found_pair_cleanup:
     pla  ; Remove mid from stack
 
-; Calculate adjustment offset: Y + 2 (skip char pair)
     iny
     iny
     lda.w menu_font, y  ; Load adjustment value (8-bit) - matches original
     and.w #0x00ff  ; Ensure high byte is clear
 
-; Clean up stack - use ply so A (adjustment) is preserved.
+; ply keeps A (adjustment)
     ply  ; Remove target_char
     ply  ; Remove low bound
     ply  ; Remove high bound
@@ -771,7 +715,6 @@ found_pair_cleanup:
     rts
 
 not_found_cleanup:
-; Clean up stack
     pla  ; Remove target_char
     pla  ; Remove low bound
     pla  ; Remove high bound
@@ -784,8 +727,7 @@ not_found:
     rts
 
 _space_skip:
-; Space-pair early-out: 8-bit M from the entry check, no bank push or
-; search bounds were pushed yet. Just signal "not found" and return.
+; M=8 from the entry check and nothing pushed yet: return not found
     rep #0x20
     lda.w #0x0000
     sec
@@ -819,14 +761,8 @@ battle_msg_kerning_binary_ext:
     rtl
 tilemap_write_no_inc:
 """
-Write a 10-bit tile_id reference at tilemap_offset.
-
-Low 8 bits of tile_id go in the entry's low byte  ; bits 8-9 ride
-the entry's high byte alongside the palette / flip / priority bits.
-With the 16-bit allocator, the entry's high byte is just
-(palette | allocator_high_byte) - no hardcoded +0x100 shift, so
-inventory tile_ids past 0xFF reach the upper half of BG3 CHR
-cleanly instead of wrapping back into the messages region.
+Write the allocator's 10-bit tile_id at tilemap_offset: low 8 bits in the entry's low byte, bits 8-9 OR'd into the
+high byte with the palette bits, so inventory tile_ids past 0xFF reach the upper half of BG3 CHR.
 """
 
 
@@ -862,11 +798,7 @@ tilemap_write:
     """High-level battle-message VWF parser: consumes the dialog stream and feeds glyphs into battle_render."""
     dakuten_table = 0x16fa40
 put_fixed_char:
-"""
-put char
-write to the tilemap if needed
-maintain counters
-"""
+"""Render a char (A) through `battle_render.display_char`."""
 
 
     cmp #0x42
@@ -886,10 +818,7 @@ put_fixed_char_no_dakuten_far:
     jsr.w put_fixed_char_no_dakuten
     rtl
 init:
-"""
-inits the renderer for the messages window
-flips the flag for enabling the messages renderer.
-"""
+"""Set the VWF render flag and init the renderer for the messages window."""
 
 
     jsr.l battle_flags.set_vwf_render
@@ -910,10 +839,8 @@ init_names:
     rtl
 init_inventory_for_current_slot:
 """
-Compute tile_id base from the live _rolling_slot_index (0..5),
-allocate ITEM_VWF_TILE_BUDGET tile_ids per slot starting at 0xC0, and reset allocator
-state. Saves the bank-02 trampoline ~20 bytes by keeping the math
-here.
+Init the VWF for inventory slot _rolling_slot_index ($EF82, 0..5): tile base 0xC0 + slot * ITEM_VWF_TILE_BUDGET,
+slice cleared, allocator clamped to the slot.
 """
 
 
@@ -924,10 +851,8 @@ here.
     and.w #0x00FF
     sta.b 0x00
 
-; Tile_id base = slot_index * ITEM_VWF_TILE_BUDGET + ITEM_VWF_TILE_BASE.
-; With K=10 and BUFFER_SLOTS=6 that's 60 tiles in $C0..$FB, leaving 4
-; tiles of slack before the 8-bit wrap point. Math below assumes K=10
-; (asl x3 = *8, then +slot twice = *10) ; bump together if K changes.
+; tile base = slot * ITEM_VWF_TILE_BUDGET + ITEM_VWF_TILE_BASE, 6 x 10 tiles in $C0..$FB.
+; The *10 is hardcoded (asl x3 + slot twice): change it with K.
     asl
     asl
     asl
@@ -939,11 +864,7 @@ here.
     adc.w #ITEM_VWF_TILE_BASE
     sta.b 0x02
 
-; Clear the slot's CHR slice (ITEM_VWF_CHR_BYTES bytes) at
-; buffer_ptr + tile_id_base * 16. Stale bits would OR into the new
-; render via the VWF blitter's ora-then-store path. Pattern $FF $00
-; alternates the 2 bitplanes (empty tile in 4bpp). Loop count =
-; ITEM_VWF_CHR_WORDS = K * 8.
+; Clear the slot's CHR slice: stale bits would OR into the new render. $FF $00 = empty 4bpp plane pair.
     lda.b 0x02
     asl
     asl
@@ -961,24 +882,15 @@ _chr_clear_loop:
     dey
     bne _chr_clear_loop
 
-; Restore tile_id base into A for the allocator init.
     lda.b 0x02
     sep #0x20
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-; A = this slot's tile_id base, for the allocator thunk below. Never store
-; it into battle_render_state.pending_transfer_mask: that byte is a dirty-region
-; bitmask, and ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...)
-; over it wipes CHR_PENDING and every region bit. The battle names region
-; renders once per battle, so a lost flush leaves its glyphs in WRAM and
-; black tiles on screen for the whole fight. Inventory CHR flushes via
-; battle_render_state.dma_dirty_slots, not this mask.
+; A = slot tile base. Never store it into pending_transfer_mask (a dirty-region bitmask): $C0, $CA, ... wipe
+; CHR_PENDING and every region bit, and the names region (rendered once per battle) stays black all fight.
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
-; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
-; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
-; to 0xFF). Overflow freezes at the last tile instead of bleeding into
-; the next slot's CHR / tile_id range.
+; Clamp the allocator to the slot's last tile, AFTER init_with_tile_id (which resets slot_limit_low to $FF).
     lda.b 0x02
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
@@ -991,10 +903,7 @@ _chr_clear_loop:
     plp
     rtl
 init_inventory:
-"""
-Wrap battle_render.init_inventory_region with set_vwf_render so the
-message renderer routes char dispatch through the VWF put_char path.
-"""
+"""`init_inventory_region` with set_vwf_render, so char dispatch goes through the VWF put_char path."""
 
 
     jsr.l battle_flags.set_vwf_render
@@ -1002,20 +911,8 @@ message renderer routes char dispatch through the VWF put_char path.
     rtl
 mirror_main_to_cmd:
 """
-Block-mirror the main-view BG3 tilemap region $7E:BE65..$C1A4
-($340 bytes covering entry-0 + window frame) onto the cmd-window
-region $7E:C1A5..$C4E4 via the 65816 `MVN` block move. ~7 cycles
-per byte  ; ~5800 cycles total, roughly half the cost of
-vanilla's $340-iter lda/sta loop.
-
-Not WRAM->WRAM GP-DMA via $2180 (WMDATA): it writes zeros. The
-A-bus read of source WRAM contends with the B-bus write into WRAM
-through $2180, the WRAM controller can not serve
-both halves of the cycle, and the destination ends up cleared.
-MVN routes bytes through the CPU one at a time so the bus stays
-single-master and the move actually lands.
-
-Caller has M=8 X=16; P is restored on exit.
+Copy the main-view BG3 tilemap $7E:BE65..$C1A4 ($340 bytes) to the cmd window $7E:C1A5..$C4E4 with MVN (~5800
+cycles, half vanilla's loop). Not GP-DMA via $2180: a WRAM-to-WRAM DMA writes zeros. M=8 X=16 in, P restored.
 """
 
 
@@ -1033,10 +930,8 @@ Caller has M=8 X=16; P is restored on exit.
     rtl
 spell_name_begin:
 """
-Start one battle spell name in the VWF: A = the name's first tile id in
-the spell ring. Blanks its SPELL_NAME_TILES tiles in the CHR buffer and
-points the allocator at them, clamped to the last one so a name can't
-spill into its neighbour's. M=8, X=16.
+Start one spell name in the VWF: A = its first tile id in the spell ring. Blanks its SPELL_NAME_TILES tiles and
+points the allocator at them, clamped to the last one so a name can't spill. M=8, X=16.
 """
 
 
@@ -1082,10 +977,9 @@ _snb_clear:
 
 draw_spell_name:
 """
-One spell name from its baked tiles (small_vwf/baked_names.s). X = spell id, Y = cell
-offset into the ($32) / ($34) row pair, $36 = attribute (palette). The tiles go into the CHR buffer at the
-allocator (spell_name_begin pointed it at the name's slot and blanked it) and their cells are written as the
-renderer wrote them; the NMI hook transfers the region. M=8, X=16  ; Y comes back past the name.
+One spell name from its baked tiles (small_vwf/baked_names.s): X = spell id, Y = cell offset into the ($32)/($34)
+row pair, $36 = palette. Tiles go to the CHR buffer at the allocator (set by spell_name_begin), cells written as the
+renderer would; the NMI hook transfers the region. M=8, X=16; Y comes back past the name.
 """
     php
     sep #0x20
@@ -1161,25 +1055,12 @@ spell_ring_flush:
 
 draw_inventory_text:
 """
-Custom inventory text renderer that walks a format buffer ourselves
-instead of going through the vanilla draw_text dispatch. Owns the
-escape interpretation end-to-end so we can mix VWF-rendered name
-chars with fixed-width symbol / colon / digit / type tiles without
-toggling battle_flags mid-stream.
-
-Caller setup mirrors the vanilla draw_text contract:
-  $EF50: 16-bit format buffer ptr (source bytes)
-  $EF52: 16-bit destination tilemap-buffer ptr (in bank $7E)
-  $EF54: line length (tiles per row, currently 15)
-  $EF55: palette
-  $7EEF82: _rolling_slot_index (0..5) for VWF allocator base
-
-Escape codes handled:
-  0x00: terminator -> return
-  0x03 BB: emit fixed tile_id BB at the next tilemap slot
-  0x0E PP: set tile-attribute byte to PP for subsequent writes
-  0x0B II: item II's baked name
-  any other byte: VWF blit through battle_render.display_char
+Inventory text renderer walking the format buffer itself (no vanilla draw_text dispatch), so VWF name chars mix
+with fixed symbol / digit tiles without toggling battle_flags mid-stream.
+In (vanilla draw_text contract): $EF50 format ptr, $EF52 destination (bank $7E), $EF54 line length (15),
+$EF55 palette, $7EEF82 slot index (0..5) for the allocator base.
+Codes: 0x00 end, 0x03 BB fixed tile BB, 0x0E PP attribute byte, 0x0B II item II's baked name, 0xFC NN goto cell
+NN, 0xFE fixed <-> VWF toggle; any other byte is a glyph in the current mode.
 """
 
 
@@ -1187,14 +1068,13 @@ Escape codes handled:
     rep #0x10
     sep #0x20
 
-; Set DBR to $7E so 16-bit absolute,Y / abs,X writes target WRAM.
+; DBR = $7E: abs,X / abs,Y writes target WRAM
     phb
     lda.b #0x7E
     pha
     plb
 
-; Init VWF state via the slot helper. It resets the allocator to
-; (0xC0 + slot * 10), bits_left_on_tile = 8, etc.
+; allocator at 0xC0 + slot * 10, glyph state reset
     jsr.w init_inventory_for_current_slot_local
     bra _di_body
 
@@ -1216,18 +1096,14 @@ draw_inventory_text_at:
 
 _di_body:
 
-; Vanilla draw_text prologue: stash src ptr / dest row-1 ptr / dest
-; row-2 ptr / palette into DP $30 / $32 / $34 / $36. tilemap_write
-; relies on these for the indirect ($32),y and ($34),y writes.
+; Vanilla draw_text prologue: src / row-1 / row-2 / palette into DP $30 / $32 / $34 / $36 (tilemap_write)
     lda 0xef55
     sta.b btlgfx_dp.text_tile_flags
     ldx 0xef50
     stx.b btlgfx_dp.text_ptr
     ldx 0xef52
     stx.b btlgfx_dp.dakuten_row_ptr
-; Row 2 ptr = row 1 ptr + (line_length * 2). DON'T modify $ef54 in
-; place ; the caller hands us the live line_length each call, and a
-; persistent asl would double it every render.
+; row 2 = row 1 + line_length * 2. Don't asl $ef54 in place: it would double every render.
     lda 0xef54
     asl
     clc
@@ -1237,10 +1113,7 @@ _di_body:
     adc #0x00
     sta.b btlgfx_dp.kana_row_ptr + 1
 
-; Pre-clear both row buffers in the slot with space tiles ($FF) +
-; palette so an `0xFC NN` goto can skip ahead without leaving stale
-; tile_ids on the way. 15 tiles per row, 2 bytes per entry = 30 byte
-; pairs per row.
+; Pre-clear both rows (15 cells each) to space + palette so a 0xFC goto leaves no stale tiles behind.
     ldy.w #0x0000
 _di_clear:
     lda #0xff
@@ -1254,23 +1127,12 @@ _di_clear:
     cpy.w #30
     bne _di_clear
 
-; X = src (format buffer ptr), Y = dest offset (0-relative into the
-; tilemap buffer pointed to by $32 / $34).
+; X = format ptr, Y = cell offset into ($32)/($34)
     ldx 0xEF50
     ldy.w #0x0000
 
-; Control codes:
-;   0x00         -> terminate
-;   0x03 BB      -> fixed tile_id BB at current pos
-;   0x0E PP      -> set palette / tile-flag byte
-;   0xFC NN      -> goto tile slot NN in the slot tilemap (no fill ;
-;                  init pre-clears the slot to space tiles)
-;   0xFE         -> toggle fixed <-> VWF dispatch for subsequent chars
-; Default mode at entry = fixed so the leading symbol byte lands as a
-; literal tile_id without an explicit escape. Stash the mode flag in
-; scratch DP $1F: $37/$38/$39/$3A are controller-1/2 button shadows
-; and writing $80 to $37 set the A-bit, which cursor.asm @b5a6 then
-; latched as a phantom A press, toggling swap mode every scroll.
+; Start in fixed mode (the leading symbol byte is a tile_id). Mode flag in DP $1F, not $37: $37-$3A are
+; joypad shadows, and $80 there latched as a phantom A press (cursor.asm @b5a6), toggling swap mode every scroll.
     lda.b #0x80
     sta.b 0x1F
 
@@ -1291,8 +1153,7 @@ _di_not_baked:
     beq _di_vwf_toggle
     bit.b 0x1F
     bmi _di_fixed_char
-; VWF char -> battle_render.display_char (uses Y as tilemap_offset,
-; advances both source X and dest Y as it allocates).
+; VWF char: display_char advances Y (tilemap_offset) as it allocates
     inx
     sty.b battle_render.tilemap_offset
     jsr.w battle_render.display_char
@@ -1300,9 +1161,7 @@ _di_not_baked:
     jmp.w _di_loop
 
 _di_fixed_char:
-; Fixed-mode raw char: write current byte as tile_id at ($34),y. No
-; ora #0x01 on the attr -- the +0x100 high bit is only for VWF tiles
-; in the 0x1xx range, fixed font tiles live in 0x00..0xFF.
+; Fixed char: tile_id at ($34),y, no +0x100 bit (that is only for VWF tiles in 0x1xx)
     sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
     sta.b (btlgfx_dp.dakuten_row_ptr), y
@@ -1316,8 +1175,7 @@ _di_fixed_char:
 
 
 _di_fixed:
-; 0x03 BB -> write fixed tile_id BB at ($34),y. Same shape as
-; _di_fixed_char (mirror of wram.put_char), no +0x100 bit set.
+; 0x03 BB: fixed tile_id BB, as _di_fixed_char
     inx
     lda.w 0x0000, x
     sta.b (btlgfx_dp.kana_row_ptr), y
@@ -1332,9 +1190,7 @@ _di_fixed:
     jmp.w _di_loop
 
 _di_pal:
-; 0x0E PP -> stash PP as the tile flags byte. Vanilla draw_text
-; stores it at $36 ; mirror that so subsequent fixed / VWF writes
-; pick up the right palette.
+; 0x0E PP: tile flags byte, as vanilla draw_text's $36
     inx
     lda.w 0x0000, x
     sta.b btlgfx_dp.text_tile_flags
@@ -1342,12 +1198,9 @@ _di_pal:
     jmp.w _di_loop
 
 _di_done:
-; Clear the VWF battle_flag so later non-inventory renders (monster HP
-; refresh, status text, etc.) go back to the WRAM put_char path.
+; Clear the VWF flag so later renders (monster HP, status text) use the WRAM put_char path
     jsr.l battle_flags.clear_vwf_render
-; Mark this slot's CHR slice dirty in battle_render_state.dma_dirty_slots. NMI
-; dma_transfer picks it up and DMAs the 160-byte slice to VRAM.
-; The partial DMA fits in vblank without forced blank.
+; Mark the slot's 160-byte CHR slice dirty; the NMI flushes it within vblank
     php
     sep #0x30
     lda 0x7EEF82  ; slot index (low byte only ; M=8)
@@ -1373,10 +1226,7 @@ _di_vwf_toggle:
     jmp.w _di_loop
 
 _di_pad:
-; 0xFC NN -> goto tile slot NN (jump Y to NN * 2). The slot tilemap is
-; pre-cleared to space tiles in init, so intermediate slots already
-; show as blank without an explicit fill. Also resets bits_left so the
-; next VWF char starts on a clean tile column.
+; 0xFC NN: goto cell NN (Y = NN * 2; cells are pre-cleared); the next VWF char starts a fresh tile
     inx
     lda.w 0x0000, x
     inx
@@ -1521,10 +1371,7 @@ _ig_chr_clear:
     rts
 
 init_inventory_for_current_slot_local:
-"""
-Local jsr.w-reachable copy of init_inventory_for_current_slot that
-returns via rts (the public entry returns rtl).
-"""
+"""`init_inventory_for_current_slot` for jsr.w callers (returns with rts)."""
 
 
     php
@@ -1563,18 +1410,9 @@ _dis_chr_clear:
     pha
     jsr.l battle_flags.set_vwf_render
     pla
-; A = this slot's tile_id base, for the allocator thunk below. Never store
-; it into battle_render_state.pending_transfer_mask: that byte is a dirty-region
-; bitmask, and ITEM_VWF_TILE_BASE + N*ITEM_VWF_TILE_BUDGET ($C0, $CA, $D4, ...)
-; over it wipes CHR_PENDING and every region bit. The battle names region
-; renders once per battle, so a lost flush leaves its glyphs in WRAM and
-; black tiles on screen for the whole fight. Inventory CHR flushes via
-; battle_render_state.dma_dirty_slots, not this mask.
+; A = slot tile base; never into pending_transfer_mask (see init_inventory_for_current_slot).
     jsr.w battle_render.render_allocator_init_with_tile_id_thunk
-; Slot owns ITEM_VWF_TILE_BUDGET tile_ids. Set the allocator clamp at
-; slot_base + (K-1) AFTER init_with_tile_id (which resets slot_limit_low
-; to 0xFF). Overflow freezes at the last tile instead of bleeding into
-; the next slot's CHR / tile_id range.
+; Clamp to the slot's last tile, AFTER init_with_tile_id (which resets slot_limit_low).
     lda.b 0x02
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
@@ -1588,12 +1426,8 @@ _dis_chr_clear:
     rts
 init_monsters_gated:
 """
-Gated counterpart to `init_monsters`. Always flips the VWF flag
-(symmetry preserved with `deinit_gated`)  ; skips clear_buffer +
-allocator setup when the monsters region's clean bit is already
-set. Writes `$FF` to `battle_render_state.render_skipped` so the gated trampoline can
-short-circuit DrawText and the matching `deinit_gated` skips the
-DMA signal.
+Gated `init_monsters`: always sets the VWF flag (paired with `deinit_gated`). A clean region skips clear_buffer and
+allocator setup and leaves render_skipped = $FF, so the trampoline skips DrawText and deinit_gated the DMA signal.
 """
 
 
@@ -1611,9 +1445,7 @@ init_commands_list_gated:
     jsr.w battle_render.init_commands_list_gated
     rtl
 deinit:
-"""
-Deinit the renderer: battle_flags back to fixed mode, and queue the rendered region's CHR flush for the NMI.
-"""
+"""Deinit the renderer: battle_flags back to fixed mode, and queue the rendered region's CHR flush for the NMI."""
 
 
     jsr.l battle_flags.clear_vwf_render
@@ -1625,11 +1457,7 @@ Deinit the renderer: battle_flags back to fixed mode, and queue the rendered reg
     sta.l battle_render_state.pending_transfer_mask
     rtl
 deinit_gated:
-"""
-Companion to `init_*_gated`: always flips the flag back, only
-signals DMA (sets bit 0 of battle_render_state.pending_transfer_mask) if the matching
-init actually rendered. Reads `battle_render_state.render_skipped` to decide.
-"""
+"""Companion to `init_*_gated`: always clears the flag; queues the CHR flush only if the init rendered."""
 
 
     jsr.l battle_flags.clear_vwf_render
@@ -1668,29 +1496,16 @@ _ifr_yes:
 
 dma_transfer:
 """
-Vblank-time DMA flush for the battle-message VWF tile buffer  ; reads `battle_render_state.pending_transfer_mask`,
-transfers the dirty regions to VRAM, and clears the mask bits.
-
-Sets forced-blank (`$2100 = $80`) when any DMA work is queued so
-the DMA window extends past actual vblank into the first ~5 lines
-of normal scan  ; restored to `$6cc1` brightness by the vanilla
-INIDISP write at `$02:837F` after the NMI DMA chain. On idle
-frames (nothing queued) forced-blank is NOT set  ; vblank stays
-normal length, no visible black strip.
+Vblank DMA flush for the battle VWF: transfers the regions flagged in `pending_transfer_mask` and clears them.
+Forces blank ($2100 = $80) when work is queued; the vanilla INIDISP write at $02:837F restores brightness.
 """
 
 
     pha
     phx
     phy
-; --- Forced-blank for the over-vblank DMA window ---
-; The VWF tile + tilemap + inventory-CHR DMA below can run ~40 scanlines
-; of transfer and starts late in the NMI (after OAM DMA + the flying-HDMA
-; chain), so the tail spills past the ~37-line vblank into active scan and
-; tears VRAM. Set forced-blank ($2100=$80) whenever any DMA work is queued
-; so those first active lines stay blanked while the DMA finishes; the
-; vanilla NMI tail at $02:837F restores brightness from $6CC1. Idle frames
-; (nothing queued) skip the blank, so there's no visible black strip.
+; The DMA below (~40 lines) starts late in the NMI (after OAM DMA + flying-HDMA chain) and spills past the
+; ~37-line vblank, tearing VRAM: force blank whenever work is queued. Idle frames skip it (no black strip).
     php
     sep #0x20
     lda.l battle_render_state.pending_transfer_mask
@@ -1701,18 +1516,10 @@ normal length, no visible black strip.
     sta.l ppu.INIDISP
 _no_force_blank:
     plp
-; Per-NMI BG3 V-scroll footer override.
-;
-; Channel 2 (BG3 V-scroll, indirect, $7E:760B -> $7E:7ED2 chunk) is
-; multiplexed across the BG3 layer (cmd / status / inventory share).
-; With the item list up, vanilla scrolls its two rows below the body
-; ($8068..$8081) to black (0x02BB) where the window's bottom border
-; should be: pin the border rows every NMI while the list has the
-; cursor (item or spell list; vanilla's state-1 swap at $02:A8FE would otherwise put its
-; values back within a frame). Anywhere else, leave them to vanilla:
-; it writes its own on every window change (command menu 0x01F7..,
-; item target 0x02DF.., menus closed 0x018F..). The inventory flag
-; alone ($4A bit 2) also stays set through the item's target select.
+; BG3 V-scroll footer pin (ch2 table, shared by cmd / status / inventory). With a list up, vanilla scrolls its
+; two rows below the body ($8068..$8081) to black ($02BB) where the bottom border belongs: pin the border rows
+; every NMI while the item or spell list has the cursor (vanilla's state-1 swap at $02:A8FE would undo it within
+; a frame). Elsewhere vanilla writes its own on every window change. $4A bit 2 stays set through target select.
     php
     sep #0x30
     lda.l battle_cursor_type
@@ -1733,10 +1540,8 @@ _inv_footer_list_up:
     phx
     lda.l battle_render_state.inventory_footer_pinned
     bne _inv_footer_pin
-; not before the window is up: while vanilla still swaps its rows in (menu_hdma_pending = 1, a row a frame,
-; menu_hdma_rows left) the pinned rows would show the party window's PV header and a stray border under a window
-; not yet there. From the NMI before the last row's swap: the pin shows from the next frame, the window's first whole
-; one.
+; Not while vanilla still swaps the window's rows in (menu_hdma_pending = 1, a row a frame): the pin would show
+; the party window's PV header under a window not yet there. Start from the NMI before the last row's swap.
     lda.l menu_hdma_pending
     beq _inv_footer_first_pin
     lda.l menu_hdma_rows
@@ -1783,14 +1588,9 @@ _inv_pin_loop:
     bne _inv_pin_loop
     bra _inv_footer_done
 _inv_footer_unpin:
-; The list lost the cursor: vanilla double-buffers this table (active
-; $7F74.. and its swap copy 0x280 on), so our border values sit in
-; either. Put the active copy's saved values back in both where ours
-; still are; entries vanilla already rewrote for the next window keep
-; theirs. Both: closing the list, vanilla swaps the copies right after
-; this ($02:A943), and the swap copy's values from before the list
-; (the list's own, $02BB) would scroll a stale party row into the
-; bottom lines.
+; The list lost the cursor. Vanilla double-buffers this table (active $7F74.., swap copy +$280): put the saved
+; values back in both where ours remain (rewritten entries keep theirs). The swap copy too: closing the list
+; swaps them right after ($02:A943), and its stale $02BB values would scroll a party row into the bottom lines.
     lda.l battle_render_state.inventory_footer_pinned
     beq _inv_footer_done
     lda.b #0x00
@@ -1820,11 +1620,7 @@ _inv_unpin_next:
     bne _inv_unpin_loop
 _inv_footer_done:
     plp
-; --- Inventory CHR partial DMA ---
-; Pop one bit from battle_render_state.dma_dirty_slots and DMA that slot's 160-byte CHR
-; slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0). Non-inv
-; VWF regions flow through the battle_render_state.pending_transfer_mask
-; check below.
+; Inventory CHR: DMA one dirty slot's 160-byte slice ($703000 + (0xC0 + N*10)*16 -> VRAM $BC00 + N*$A0).
     php
     sep #0x20
     rep #0x10
@@ -1872,11 +1668,7 @@ _inv_dma_done:
 _no_inv_dma:
     plp
 
-; --- Per-region CHR DMA ---
-; Flush only the regions flagged dirty this frame (bits 1-4), each a
-; 0x300-byte 2bpp slice at buffer_ptr + N*0x300 -> VRAM $B000 + N*0x300.
-; Worst case (all four) = 0xC00 = ~18 lines. Inventory CHR rides the
-; separate battle_render_state.dma_dirty_slots path above.
+; Per-region CHR: flush the regions flagged this frame, 0x300 bytes each, buffer_ptr + N*0x300 -> VRAM $B000 + N*0x300.
     php
     sep #0x20
     rep #0x10
@@ -1961,20 +1753,12 @@ _chr_no_status:
 _chr_dma_skip:
     plp
 _no_transfer:
-; --- Per-region tilemap DMA pass ---
-; Reads `battle_render_state.tilemap_pending_mask` (set by `init_*_gated` on render paths,
-; the cmd-window thunk, the highlight refresh and the ATB gauge) and fires a WRAM
-; tilemap -> BG VRAM DMA for each pending region. Replaces the
-; vanilla `TfrCmdWindow` / `TfrMainMenu` queue so cmd-window tilemap
-; stays in sync with the tile-data DMA above.
-; Save+restore P and X/Y around the DMA pass: NMI caller may leave
-; M/X flags in any state, and `ldy.w` / `ldx.w` need X-flag = 16
-; to load full word operands.
+; Per-region tilemap DMA (WRAM -> BG VRAM) for `tilemap_pending_mask` (gated inits, cmd-window thunk, highlight
+; refresh, ATB gauge); replaces vanilla's TfrCmdWindow / TfrMainMenu queue to stay in sync with the CHR DMA above.
     php
     sep #0x20
-; M = 8-bit (bit instructions use 8-bit immediates)
+; M=8, X=16: the NMI caller may leave any M/X
     rep #0x10
-; X = 16-bit (ldy.w / ldx.w load full word)
     lda.l battle_render_state.tilemap_pending_mask
     beq _no_tilemap_dma
     pha
@@ -2011,10 +1795,7 @@ _no_tilemap_dma:
     ply
     plx
     pla
-; NMI-side anim. Bank-02 trampoline does
-; `jsr UpdateFlyingHDMA; rtl` so the bank-02 routine ends in rts
-; while our cross-bank JSL gets a matching RTL pop. The float-monster
-; BG1 vscroll table updates every vblank.
+; Flying-monster BG1 V-scroll table, every vblank (bank-02 trampoline: jsr UpdateFlyingHDMA; rtl)
     jsr.l flying_hdma_trampoline
     jsr.l btlgfx_tfr_sprites
     rtl
@@ -2046,7 +1827,6 @@ bits_left_on_tile to 8, and move both row pointers down one line ($EF54 cells).
 
 
     pha
-;jsr.w battle_render.tilemap_write
     jsr.w render_allocator.increment
     lda #8
     sta.b battle_render.bits_left_on_tile
@@ -2067,28 +1847,9 @@ bits_left_on_tile to 8, and move both row pointers down one line ($EF54 cells).
     tay
     sep #0x20
     rtl
-; escape code $01: _newline
-;02/A637: AD 54 EF     LDA $EF54
-;02/A63A: C2 20        REP #$20
-;02/A63C: 48           PHA
-;02/A63D: 0A           ASL
-;02/A63E: 18           CLC
-;02/A63F: 65 32        ADC $32
-;02/A641: 85 32        STA $32
-;02/A643: 68           PLA
-;02/A644: 18           CLC
-;02/A645: 65 32        ADC $32
-;02/A647: 85 34        STA $34
-;02/A649: 7B           TDC
-;02/A64A: A8           TAY
-;02/A64B: E2 20        SEP #$20
-;02/A64D: 60           RTS
 
-; Per-slot inventory CHR DMA tables. Auto-generated via .for.
-; - bit_lut[N]    = 1 << N (slot N's dirty-mask bit)
-; - vram_lut[N]   = ($BC00 + N*$A0) >> 1 (word-address into BG3 CHR upper half)
-; - src_lut[N]    = $3000 + (0xC0 + N*10)*16 = $3C00 + N*$A0 (bank-70 offset)
-; Slot N owns 10 tile_ids starting at low byte (0xC0 + N*10), so 160-byte slice.
+; Per-slot inventory CHR DMA tables: dirty bit 1 << N, VRAM word ($BC00 + N*$A0) >> 1, bank-70 source
+; $3C00 + N*$A0 (10 tiles from 0xC0 + N*10 = 160 bytes).
 _dma_slot_bit_lut:
     .for k := 0, 6 {
     .db ( 1 << k )

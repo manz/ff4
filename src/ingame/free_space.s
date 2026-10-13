@@ -1,6 +1,5 @@
 """
-Bank $01 free-space landing pad ($01:FF35+): tiny utility routines that fit in the slack reclaimed by
-relocating other code.
+Bank-$01 slack routines: VWF message helpers, build number, and the field inventory's rolling-buffer hooks.
 """
 .import "core/preamble"
 .import "battle/inventory_rolling"
@@ -24,19 +23,17 @@ relocating other code.
 
 .alloc _bank01_slack_pre_inventory in bank01_slack {
 draw_vwf_message:
-"""Render the VWF message at the current text pointer via the items_description trampoline."""
+"""Renders the VWF message at the current text pointer."""
     jsr.l items_description.draw_trampoline
     rts
 
 draw_window_and_vwf_message:
 """
-Open a menu window at the cursor and render its VWF message  ; advances Y past the window header before
-delegating to `_draw_vwf_message_pos`.
+Draws the window at Y, then its VWF message right after the window header.
 """
 
 
     jsr.w draw_window
-; NOTE: quirks from the hardcore bank switching can be solved by loading the bank in A before the call.
     pha
     rep #0x20
     tya
@@ -52,8 +49,7 @@ delegating to `_draw_vwf_message_pos`.
 
 draw_vwf_message_pos_with_bank:
 """
-Like `_draw_vwf_message_pos` but pre-loads the menu-strings bank into A so the trampoline can pick the right
-asset bank.
+`_draw_vwf_message_pos` with A = the menu strings' bank.
 """
 
 
@@ -67,39 +63,34 @@ _draw_vwf_message_pos:
 display_build_number:
 """Render the version (after the build date in DEBUG builds) at column 1, row 27 of the title screen."""
     {
-    jsr.w draw_pos_text  ; draw text at position.
+    jsr.w draw_pos_text
     load_system_menu_text_pointer(newgame.build_number)
     left = 1
     top = 27
     ldx.w #left * 2 + top * 64
-    jsr.w copy_text  ; copy text at position.
+    jsr.w copy_text
     rts
     }
 }
 
-; end .alloc _bank01_slack_pre_inventory
-
-; ============================================================================
-; Inventory Rolling Buffer Trampolines and Handlers
-; ============================================================================
 .alloc _bank01_slack_inventory in bank01_slack {
 swap_redraw_trampoline:
-"""JML trampoline into `swap_redraw_hook_impl` for the inventory swap redraw path."""
+"""After a swap: rolling redraw, hide the second cursor, skip vanilla's redraw ($84BA)."""
     jsr.w swap_redraw_hook_impl
-    jsr.w hide_item_cursor2  ; Clear second cursor (from original $A404)
-    jmp.w _select_item2_a40a  ; Skip $84BA (game's sequential redraw), go to RTS
+    jsr.w hide_item_cursor2
+    jmp.w _select_item2_a40a
 
 main_loop_scroll_check:
 
 
-"""Called from $019FF2 via jmp.w"""
+"""SelectItem input loop ($01:9FF2): runs a scroll frame, skipping input while scrolling."""
     lda.w field_menu_rolling.scroll_state
     beq _main_loop_do_input
     jsr.w update_scroll_frame
     lda.w field_menu_rolling.scroll_remaining
     bne _main_loop_skip_input
     jsr.w finish_scroll
-    jmp.w _main_loop_skip_input  ; Skip input on the frame scroll finishes
+    jmp.w _main_loop_skip_input  ; also on the frame the scroll finishes
 _main_loop_do_input:
     lda.b 0x01
     and #0x80
@@ -111,7 +102,7 @@ _main_loop_skip_input:
     jmp.w _select_item_a0ff
 
 scroll_down_trigger:
-"""--- scroll_down_trigger ---"""
+"""A = scroll position; starts a scroll down unless at the limit."""
     cmp #MENU_SCROLL_LIMIT
     beq _scroll_down_at_max
     inc
@@ -121,7 +112,7 @@ _scroll_down_at_max:
     rts
 
 scroll_up_trigger:
-"""--- scroll_up_trigger ---"""
+"""Starts a scroll up unless at the top."""
     lda.w inventory_scroll_pos
     beq _scroll_up_at_top
     dec
@@ -131,48 +122,44 @@ _scroll_up_at_top:
     rts
 
 menu_entry_hook:
-"""--- menu_entry_hook ---"""
+"""Item menu entry."""
     jsr.l menu_entry_hook_impl
     rts
 
 menu_exit_hook:
 """
-Leaving Objets: fade out before the teardown drops the list's scroll HDMA, or the window jumps up a couple of tiles
-on screen first; the main menu fades back in once rebuilt (ingame/menu_fade.s).
+Item menu exit: fade out before the teardown drops the scroll HDMA, or the window visibly jumps first.
 """
     jsr.w menu_fade_out
     jsr.l menu_exit_hook_impl
     rts
 
 _nmi_dma_transfer_check:
-"""--- _nmi_dma_transfer_check ---"""
-    jsr.l field_menu_nmi_dma_transfer_check_impl  ; In bank $20 (battle/inventory_rolling.s)
+"""Pending HDMA shadow -> active copy."""
+    jsr.l field_menu_nmi_dma_transfer_check_impl
     rts
 
 hdma_enable_hook:
 
 
-"""
-Called during NMI before HDMA enable
-Must copy shadow -> active HDMA table BEFORE enabling HDMA
-"""
+"""NMI: copy the HDMA shadow table to active, then write HDMAEN from the shadow."""
 
 
-    jsr.w _nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
-    .db 0xAF  ; LDA.L opcode
+    jsr.w _nmi_dma_transfer_check
+    .db 0xAF  ; lda.l field_menu_rolling.hdma_enable
     .dw field_menu_rolling.hdma_enable
-    .db 0x7E  ; Bank $7E
+    .db 0x7E
     sta.w cpu_regs.HDMAEN
     rts
 
 adjust_inventory_pointer:
 
 
-"""Adjusts $5a to point to the first visible item based on scroll position"""
+"""Points $5A at the first visible item."""
     stz.b menu_dp.item_slot
     stz.b 0x5e
     lda.w inventory_scroll_pos
-    asl  ; scroll_pos * sizeof(Item) = byte offset into $1440
+    asl  ; 2 bytes per item
     clc
     adc.b menu_dp.item_ptr
     sta.b menu_dp.item_ptr
@@ -184,15 +171,9 @@ adjust_inventory_pointer:
 item_use_refresh_hook:
 
 
-"""
-Called after SelectItem2 to refresh display after item use
-Re-renders all visible slots to show updated quantity or empty slot
-"""
+"""After SelectItem2: re-render the visible slots (new quantity or empty slot)."""
 
 
     jsr.w swap_redraw_hook_impl
     rts
 }
-
-
-; end .alloc _bank01_slack_inventory

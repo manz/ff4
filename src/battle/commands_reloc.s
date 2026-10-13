@@ -21,15 +21,12 @@ mult8_far := 0x2855c
 
 draw_command_list_for_character:
 """
-    Public RTL entry: render the per-character battle command list for the active character.
-    The command list is rebuilt on every call; the VWF re-render is gated
-    on CMD_DIRTY_BIT inside `_draw_command_list_for_character`. Skipped
-    while the inventory is open.
+    Public RTL entry: rebuild the active character's battle command list (the VWF re-render is gated on
+    CMD_DIRTY_BIT). Skipped while the inventory is open.
 """
 
 
-; Skip command rendering if inventory is active (bit 2 of $4A)
-; This prevents format buffer ($74FD) conflicts with inventory code
+; Inventory open ($4A bit 2): skip, its code shares the $74FD format buffer
     lda.l (0x7E0000 as BtlGfxDP).menu_windows_open
     and #0x04
     bne _skip_commands
@@ -46,9 +43,8 @@ _skip_commands:
 _draw_command_list_for_character:
     {
     stz.w 0x1817
-    ldy #0x74FD  ; keep the pointer in Y this will allow to run _draw_single_command multiple times
-; to build {tile_flag}cmd1\n{tile_flag}cmd2\n{tile_flag}cmd3\n{tile_flag}cmd4\n{tile_flag}cmd5\0
-; to issue a single draw text call to the command list region.
+    ldy #0x74FD  ; Y stays the format pointer across _draw_single_command calls
+; builds {tile_flag}cmd1\n...{tile_flag}cmd5\0 for a single draw text call
     lda 0x1817  ; battle command slot
     sta.b btlgfx_dp.multiplier1
     lda.b #command_length * 2
@@ -61,15 +57,6 @@ _draw_command_list_for_character:
     asl
     tax
     stx 0x00
-
-;lda     0x1816       ; character id
-;asl
-;tax
-
-;rep #0x20
-;ldx.w #command_buffer_ptr - 10
-;lda.l     0x16fead,x ;cmd_text_buf_ptrs,x
-;stx     0xef52 ; destination ptr ?
 
 _loop:
     tdc
@@ -105,11 +92,8 @@ _exit:
     sta.w 0x0000, y
 
     sta 0xef55
-; The list above (and $1817's count) feeds the menu's cursor logic, so it
-; is rebuilt on every call. The VWF render below only changes with
-; the command set: vanilla redraws the window every few frames and the
-; overlay is re-copied from command_buffer_ptr each time, so re-render
-; (and blank the buffer first) only when CMD_DIRTY_BIT says it moved.
+; The list (and $1817's count) feeds the cursor logic, so it is rebuilt every call; the VWF render only changes
+; with the command set, so re-render (blank buffer first) only when CMD_DIRTY_BIT is set.
     lda.l battle_menu_dirty
     and.b #CMD_DIRTY_BIT
     beq _keep_commands

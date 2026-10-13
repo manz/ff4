@@ -1,15 +1,12 @@
 """
 Map titles (the location window on entering a map) in the small VWF, the way the dialogue VWF draws its window.
 
-Vanilla fills two rows of font codes from MapTitle (places_names.dat): the glyph row (dialog_text_buffer) and its
-dakuten row (dialog_text_buffer + _TITLE_CELLS), and TfrMapTitle ($00:B948, in the NMI) writes them into BG3's
-tilemap. The field keeps BG3's tiles at $2000, the font only, so the title does what `vwfinit` does for a dialogue:
-the font copied to $6000, BG3 pointed there, and the text in tiles $100 on ($6800), reached with attribute bit 0.
-LoadMapTitle runs while the map loads, screen off, so the setup uploads directly. Glyph row cells are tile
-_TITLE_BLANK (blank) or the title's tiles; TfrMapTitle writes that row with _TITLE_ATTR.
+Vanilla fills a glyph row (dialog_text_buffer) and a dakuten row (+ _TITLE_CELLS) that TfrMapTitle ($00:B948,
+NMI) writes to BG3's tilemap. Like `vwfinit`, the title copies the font to $6000, points BG3 there and renders
+into tiles $100 on ($6800, attr bit 0). LoadMapTitle runs screen off, so uploads are direct.
 
-The field menu's BG2 tilemap sits on those tiles and its exit (FadeInMenu's InitHWRegs) points BG3 back at $2000: a
-title still open is drawn and uploaded again there, screen still off.
+The field menu's BG2 tilemap overwrites those tiles and its exit points BG3 back at $2000, so `restore` redraws
+an open title.
 """
 .import "core/preamble"
 .import "core/vanilla"

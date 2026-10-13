@@ -1,10 +1,9 @@
 """
 Namingway's name-change screen ($01:BA2E NamingwayYesNo, $01:9B4F NameMenu) in French.
 
-The prompts, the yes/no choice and the alphabet labels point at menus/in_game_text's `namingway` strings, drawn
-in the small VWF. The three letter grids (hiragana, katakana, latin in the Japanese ROM) become capitals and
-lowercase, lowercase accents, then digits and punctuation: every one a letter the 8x8 font has (no ç) and the
-dialog can draw too (utils/name_codes.py), since a name shows up in both. Accented capitals are not name letters.
+Prompts and alphabet labels are menus/in_game_text's `namingway` strings, in the small VWF. The three letter grids
+become capitals + lowercase, lowercase accents, then digits and punctuation: only letters both the 8x8 font and
+the dialog can draw (utils/name_codes.py; no ç, no accented capitals).
 """
 .include "menus/system_menus_macros.i"
 .include "ingame/bank01_slack.i"

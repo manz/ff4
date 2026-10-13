@@ -16,10 +16,9 @@ gils_suffix:
     .text "Gils"
     .db 0
 puis_je_vous_aider:
-"""Owner welcome greeting  ; rendered through the small-VWF description region."""
+"""Owner greeting, drawn in the small-VWF description region."""
     .dw 0x0054 - 2
     .text "Puis-je vous aider ?"
-;.text 'いらっしゃい! どんなごようけんで?'
     .db 0
 welcome_and_actions:
     .dw 0x0148 - 4
@@ -31,12 +30,11 @@ welcome_and_actions:
     .text "Sortir"
     .db 0
 que_desirez_vous:
-"""Owner welcome prompt  ; rendered through the small-VWF description region."""
+"""Owner prompt, drawn in the small-VWF description region."""
     .dw 0x0052
     .text "Que désirez vous ?  "
     .db 0
 quantity:
-""".text 'かう   うる   でる'"""
     .dw 0x0144
     .text "Quantité"
     .db 1
@@ -45,13 +43,11 @@ quantity:
     .db 0
 thank_you_window:
     menu_window(5, 10, 11, 2)
-; Trailing empty-text block keeps the vanilla `$82FB` (draw window + text)
-; happy when called via shop_thanks_text_hook ; the actual "Merci !" copy
-; is rendered separately through the small-VWF description region.
+; Empty text for vanilla's $82FB (window + text) via shop_thanks_text_hook; "Merci !" is drawn by the small VWF.
     .dw 0x0000
     .db 0
 merci:
-"""Owner thank-you message  ; rendered through the small-VWF description region."""
+"""Owner thank-you, drawn in the small-VWF description region."""
     move_to(6, 11)
     .text "Merci !"
     .db 0

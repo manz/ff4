@@ -31,11 +31,8 @@ _frame_bottom_row = _frame_first_row + _FRAME_SIDE_ROWS * 0x40
 .alloc _battle_magic_reloc_block in bank20_reloc {
 draw_magic_list_direct:
 """
-Relocated battle spell-list renderer: walks the per-character spell-list
-pointer table. Every row's cells point at its ring slot's tiles (see
-render_defs.i), but only the visible rows render glyphs, and only those
-the ring doesn't hold yet. Vanilla calls this on open and every few frames
-while the list is up, so the repeat calls cost a tilemap rewrite.
+Relocated battle spell-list renderer. Every row's cells point at its ring slot's tiles (render_defs.i); only the
+visible rows not yet in the ring render glyphs. Vanilla calls this on open and every few frames while the list is up.
 """
 
 
@@ -58,13 +55,11 @@ while the list is up, so the repeat calls cost a tilemap rewrite.
 ; add magic type offset
     sta 0x00
     stz.b current_row_offset
-; start at row 0 (0x0000)
     sep #0x20
     jsr.w _ring_validate
     lda #0x18
-; 24 spells total (12 rows x 2 columns)
+; 24 spells (12 rows x 2 columns)
     sta.b spell_counter
-; spell counter
     lda #0x00
 ; current spell index (0-23)
     sta.b current_spell_index
@@ -85,28 +80,22 @@ spell_loop:
     sta.b spell_id
     pla
     plx
-; Fast column selection using precomputed addresses
     lda.b current_spell_index
-; spell index
     and #0x01
-; check if odd
+; odd: right column
     beq left_column
-; Right column
     rep #0x20
     lda.w #_right_column_base
     clc
     adc.b current_row_offset
-; add current row offset
     sta.b btlgfx_dp.dakuten_row_ptr
     bra set_second_addr
 
 left_column:
-; Left column
     rep #0x20
     lda.w #_left_column_base
     clc
     adc.b current_row_offset
-; add current row offset
     sta.b btlgfx_dp.dakuten_row_ptr
 
 set_second_addr:
@@ -114,7 +103,6 @@ set_second_addr:
     sta.b btlgfx_dp.kana_row_ptr
     sep #0x20
     ldy.w #0x00
-; Y offset
     lda #0x00
 ; tile flags
     sta.b btlgfx_dp.text_tile_flags
@@ -124,10 +112,7 @@ set_second_addr:
     sta.b btlgfx_dp.text_tile_flags
 
 enabled_spell:
-; Blank the spell's cells on both tilemap rows first (one leading cell,
-; the name, then the rest of the column: what the items window or a
-; longer previous name left there), then point the name's cells, from
-; cell 1, at its ring tiles.
+; Blank the spell's cells on both rows (leading cell, name, rest of the column), then map the name to its ring tiles.
     ldy.w #0
 
 clear_loop:
@@ -144,19 +129,16 @@ clear_loop:
     jsr.w _map_name_cells
 
 next_spell:
-; Advance pointer by 4 bytes like original
+; next entry (4 bytes)
     rep #0x20
     lda 0x00
     clc
     adc.w #0x0004
     sta 0x00
-; Increment row offset after right column (odd spell index)
+; next row after the right column (odd index)
     lda.b current_spell_index
-; current spell index
     and.w #0x0001
-; check if odd (right column)
     beq same_row
-; Just finished right column - move to next row
     lda.b current_row_offset
     clc
     adc.w #0x0080
@@ -175,9 +157,7 @@ ring_next:
 same_row:
     sep #0x20
     inc 0x0a
-; next spell index
     dec.b spell_counter
-; decrement spell counter
     beq render_rows
     jmp.w spell_loop
 
@@ -197,9 +177,7 @@ row_loop:
     bne row_loop
 
 draw_frame:
-; The 12 spell rows fill buffer rows 1-24, past the 15-row frame the
-; shared menu buffer carries from battle start, and the list's scroll
-; HDMA shows row 25 as the window's bottom edge. Draw that frame here.
+; The 12 rows fill buffer rows 1-24, past the shared 15-row frame; the scroll HDMA shows row 25 as the bottom edge.
     rep #0x20
     ldx.w #0
 
@@ -228,8 +206,7 @@ bottom_loop:
     lda.w #0x000F
     sta.l _frame_bottom_row + 0x3E
     sep #0x20
-; The items window shares this buffer and only draws its frame at
-; battle start; have its next transfer rebuild it.
+; The items window draws its frame only at battle start: have its next transfer rebuild it.
     lda.b #0x01
     sta.l battle_render_state.items_frame_dirty
     jsr.w _ring_flush

@@ -16,12 +16,10 @@ Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first
 .alloc at 0x02a7c2 {
     jsr.l initialize_monster_slot
     rts
-
-; escape code 0x05 tab followed by a number of chars
 }
 ; The monster window takes the free tile column on its left (x 1 -> 0, 12 -> 13 wide) and the name window the one
-; on its right (18 -> 19 wide). MenuWindowTbl ($16:FE5A): x, y, width,
-; height, buffer; entries 0/1 in the command window's buffer, 3/4 in the main window's.
+; on its right (18 -> 19 wide). MenuWindowTbl ($16:FE5A): x, y, width, height, buffer; entries 0/1 in the command
+; window's buffer, 3/4 in the main window's.
 .alloc at 0x16FE5A + 0 * 6 size 3 {
     .db 0x00, 0x00, 0x0D
 }
@@ -49,14 +47,13 @@ Battle monster names (TextCmd_0C) from their baked tiles, the slot blanked first
     .db MONSTER_LINE_CELLS
 }
 
+; 0x05 tab escape (a count follows); its dec / bne loop goes
 .alloc at 0x02A6B3 {
     jsr.l tab_escape_code
     nop
 
-; dec 0
     nop
     nop
-; bne a6b3
     nop
     nop
 }

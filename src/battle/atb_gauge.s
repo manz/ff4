@@ -1,18 +1,16 @@
 """
-The battle ATB gauge, FF6 style: in the party window, each character's action timer filling up to their next turn,
+The battle ATB gauge, FF6 style: in the party window each character's action timer fills up to their next turn,
 where vanilla showed the max HP ("4079/4079" becomes "4079 [gauge]").
 
-Each character's HP text (vanilla's, $7E:B9DE) is two rows of 9 cells: the top one blank (the "PV" header on the first
-character's), the bottom one the current HP (4), "/" and the max HP (4). Vanilla redraws it whenever the HP changes; a
-bottom row with its "/" back gets the gauge over "/max" here: a left cap and 4 fill cells (32 px); the right cap goes
-in the main view's free cell after the row (vanilla copies 9 cells, the window's border is one further), every pass.
-The tiles live in the 8x8 font (utils/atb_gauge.py merges fonts/atb_gauge.png into blank kana slots).
+HP text ($7E:B9DE): per character two rows of 9 cells, the bottom one the current HP (4), "/" and the max HP (4).
+When vanilla redraws a bottom row with its "/" back, the gauge goes over "/max": a left cap and 4 fill cells
+(32 px); the right cap goes in the main view's free cell after the row, every pass. The tiles live in the 8x8
+font's blank kana slots (utils/atb_gauge.py).
 
-The action timer ($2A07, 21 bytes a fighter) counts battle-main passes down to the turn: 4-6 a turn late in the game.
-Its full value is what it was last reset to, seen here as a rise; the gauge shows how much of it has run out: grey
-(palette 1) while it fills, the text's white (palette 0) once it reaches 0. Between two ticks (battle main ticks every
-timer at once, about every 10 frames, none during an animation) the fill moves on with the frames since the last tick,
-at the last ticks' pace, up to one tick's worth: 32 one-pixel steps a turn instead of 4-6 jumps.
+The action timer ($2A07, 21 bytes a fighter) counts battle-main passes down to the turn (4-6 a turn late game); its
+full value is what it was last reset to. The fill is the share run out: grey (palette 1) while filling, white once
+at 0. Between ticks (all timers at once, ~10 frames apart, none during animations) it moves on with the frames
+since the last tick at the last ticks' pace, up to one tick: 32 one-pixel steps a turn instead of 4-6 jumps.
 """
 .import "battle/tasks"
 .import "core/vanilla"

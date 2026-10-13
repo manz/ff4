@@ -29,7 +29,7 @@ _moved_text:
     pla
     phk
 _jump_to_original:
-"""this assumes that the text lives in the same bank as this routine."""
+"""Assumes the text lives in this routine's bank."""
     plb
     }
 
@@ -136,10 +136,7 @@ load_classes_pointer:
     rtl
 
 load_dextrelity_pointer:
-"""
-    Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9  ; returns
-    24-bit pointer in Y.
-"""
+"""Pick a dexterity-text pointer from $01:E2D9 by the high two bits of ($60): Y = 24-bit pointer."""
 
 
     rep #0x20

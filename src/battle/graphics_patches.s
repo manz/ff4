@@ -14,9 +14,7 @@ piggyback on `defend_row` data.
 }
 .alloc at 0x16fb87 {
     {
-; chars to copy from the font to the 4bpp tileset in battle
-
-
+; chars copied from the font to the battle 4bpp tileset
     .table "text/ff4_menus.tbl"
     .db 0x76, 0x77
     .text "/"
@@ -29,10 +27,8 @@ piggyback on `defend_row` data.
 .alloc at 0x02975d {
 ; the MP cost window's label
     battle_label_mp_cost()
-
-; Defend / Row window content
-; moves the row destination back a few bytes
 }
+; Defend / Row window content
 .alloc at 0x29a90 {
 ; the Row label's first cell: vanilla's, its window back at vanilla's x
     ldx.w #0xd61c
@@ -62,19 +58,15 @@ piggyback on `defend_row` data.
 .alloc at 0x16fe5a + 6 * 9 {
 ; row window: 3 cells inside, Rang's baked tiles; vanilla's x, right of the hand cursor
     .db 0x1A, 0x09, 0x05, 0x04
-
-; switches around small mp to pm in the MP Needed battle window.
 }
+; MP cost window: small "MP" swapped to "PM"
 .alloc at 0x02a1e3 {
     lda #0xdc
     sta 0xba94, y
     dec
     sta 0xba96, y
-
-
-; Hands text
-; (Layout handled by relocated tfr_equip_window_new in src/battle/equip_window.s)
 }
+; Hands text (layout: tfr_equip_window_new, equip_window.s)
 .alloc at 0x16fed5 {
     {
     .table "text/ff4_menus.tbl"

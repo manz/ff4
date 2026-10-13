@@ -7,10 +7,7 @@ dakuten/handakuten composite tile pair.
 .include "core/bank20.i"
 .import "core/assets"
 .alloc lookup_dakuten in bank20_reloc {
-"""
-    input: A 8bit: current char
-    output: A 16bits: the resolved char
-"""
+"""A = current char (8 bits) -> A = the resolved char (16 bits)."""
 
 
     {
@@ -53,10 +50,6 @@ _skip:
 
     sta.l 0x7E0040, x
 
-;0187A9  9F 00 00 7E    STA $7E0000,X
-;0187AD  E8             INX
-;0187AE  E8             INX
-;0187AF  C8             INY
     rtl
     }
 }

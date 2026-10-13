@@ -9,16 +9,11 @@ clear and the 17-byte item-record multiplies.
 .import "core/assets"
 
 .alloc bank20_helpers in bank20_reloc {
-; --- Inline reloc helpers ------------------------------------------------
-
-; Conditional BG1VOFS write for HDMA inventory scrolling.
-; Called from UpdateScrollRegs at $14FF2D via JSL.
-; Skips BG1VOFS write when menu HDMA is active.
+; UpdateScrollRegs ($14:FF2D, JSL): write BG1VOFS unless the menu HDMA drives it.
 conditional_bg1_vofs:
     lda.l field_menu_rolling.hdma_enable
     bne _cond_skip_bg1vofs
-; HDMA not active - do original BG1VOFS writes
-; Menu context: D=$0100, so $93 reads from $0193
+; D = $0100: $93 is $0193
     lda.b 0x93
     sta.w ppu.BG1VOFS
     lda.b 0x94
@@ -30,12 +25,8 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-Clear the dialog VWF tile buffer + engine state at $702000-$7070FF
-(includes `vwf_text_buffer`, `vwf_cfg` and `vwf_engine` with its
-secondary flush descriptor) after the vanilla RAM init at $15C9AA
-(`field_clear_ram`). The range must reach `vwf_engine`: its flush_b
-bytes inherited from random SRAM trigger a bogus secondary flush on the
-very first NMI, which trashes the save-selection sprite CHR.
+After vanilla's RAM init ($15:C9AA), clear SRAM $702000-$7070FF: dialog tiles, vwf_text_buffer, vwf_cfg and
+vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and trash the save-select sprite CHR.
 """
 
 

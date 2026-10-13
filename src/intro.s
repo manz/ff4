@@ -21,10 +21,8 @@ and chains into the title screen.
 .alloc _intro_block in bank20_reloc {
 start_splash_screen:
 """Boot-time splash-screen entry point."""
-; initialise SNES
     jsr.w initialize_snes
 
-; set register modes
     rep #0x10  ; make X & Y 16-bits
     sep #0x20  ; make A 8-bits
 
@@ -38,13 +36,10 @@ start_splash_screen:
     lda #0x01  ; set plane 0 character set to 0x1000
     sta ppu.BG12NBA
 
-; copy intro map data
     dma_transfer_to_vram_call(intro_tilemap, 0x0000, sizeof(intro_tilemap), 0x1801)
 
-; copy color palettes
     dma_transfer_to_palette_call(intro_palette, sizeof(intro_palette))
 
-; copy intro tile set
     dma_transfer_to_vram_call(intro_tiles, 0x1000, sizeof(intro_tiles), 0x1801)
 
     jsr.w _splash_screen_fade_in
@@ -55,7 +50,7 @@ start_splash_screen:
     jsr.w _splash_screen_fade_out
 
     jsr.l clear_ram
-; runs the original jsl routines
+; vanilla's boot calls
     jsr.l init_hw_regs
     jsr.l field_clear_ram
 

@@ -1,14 +1,9 @@
 """
-Cooperative tasks for battle graphics, woken by signals.
-
-After cacheguard's src/task.s (itself after Bahamut Lagoon's scheduler): a task is bank-$20 code on its own stack
-that gives the CPU back with `task_yield` (next frame), `task_sleep` (N frames) or `task_wait` (until a signal).
-`run_tasks` runs once per battle-graphics pass, from WaitFrameMain, and resumes every task that can run.
-
-Signals are what FF4 lacks: vanilla redraws its windows on every pass (RedrawMainMenu) and keeps a single update
-request ($181F). Here the code that changes what a window shows raises a bit with `task_signal`; a task waiting on
-that bit wakes, draws once, and waits again. FF6's battle menu does a poor man's version with a 16-deep queue of
-window states ($7E7BF0), one step a frame.
+Cooperative tasks for battle graphics, woken by signals (after cacheguard's src/task.s): a task is bank-$20 code
+on its own stack that gives the CPU back with `task_yield` (next frame), `task_sleep` (N frames) or `task_wait`
+(until a signal). `run_tasks` runs once per battle-graphics pass, from WaitFrameMain, and resumes every task that can
+run. Vanilla redraws its windows on every pass (RedrawMainMenu); here the code that changes what a window shows
+raises a bit with `task_signal`, and the task waiting on it draws once and waits again.
 
 Slot state: 0 stopped, 1 runnable, 2..$FE asleep (one frame closer each pass), $FF waiting for a signal in its mask.
 A suspended task's registers sit on its own stack, top down: return address, P, A, X, Y, DB, D. Tasks share the

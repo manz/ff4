@@ -1,6 +1,6 @@
 """
-ROM patches wiring the field-menu inventory rolling-buffer engine in (FF6-style non-blocking scroll state
-machine, scroll up/down hooks, redraw and exit-cleanup hooks).
+Field-menu inventory hooks: the blocking 8-frame scroll loops become a per-frame scroll state machine over the
+rolling buffer (free_space.s, inventory_rolling.s).
 """
 .import "core/preamble"
 .import "ingame/free_space"
@@ -11,24 +11,9 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 .label _select_item_a066 = 0x01A066
 .label _select_item_a0bc = 0x01A0BC
 
-; ============================================================================
-; Inventory Rolling Buffer Patches for Main Menu
-; ============================================================================
-;
-; FF6-style non-blocking scroll with state machine.
-; Replaces FF4's blocking 8-frame scroll loops with per-frame updates.
-;
-; ROM hooks only - implementations are in free_space.s and inventory_rolling.s
-;
-; ============================================================================
-
-; ============================================================================
-; MAIN LOOP HOOK - Process scroll animation frames
-; ============================================================================
-; Hook at $019FF2 - the start of the input processing loop in SelectItem.
+; SelectItem input loop start: run the scroll animation frame.
 .alloc at 0x019FF2 {
     jmp.w main_loop_scroll_check
-; 3 bytes - replaces LDA $01
 }
 
 
@@ -36,32 +21,24 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
     nop
     nop
     nop
-; ============================================================================
-; SCROLL DOWN - Replace blocking loop with state machine
-; ============================================================================
 }
 
 
+; Scroll down, then skip to the A button check.
 .alloc at 0x01A076 {
     jsr.w scroll_down_trigger
     jmp.w _select_item_a0bc
-; Skip to after scroll block (A button check)
-; ============================================================================
-; SCROLL UP - Replace blocking loop with state machine
-; ============================================================================
 }
 
 
+; Scroll up, then skip to the down button check.
 .alloc at 0x01A01F {
     jsr.w scroll_up_trigger
     jmp.w _select_item_a066
-; Skip to after scroll block (down button check)
-; ============================================================================
-; Menu Entry/Exit Hooks
-; ============================================================================
 }
 
 
+; Menu entry / exit
 .alloc at 0x019F27 {
     jsr.w menu_entry_hook
 }
@@ -69,21 +46,17 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 
 .alloc at 0x019F87 {
     jsr.w menu_exit_hook
-; ============================================================================
-; NMI HDMA Hook
-; ============================================================================
 }
 
 
+; NMI HDMAEN write
 .alloc at 0x018081 {
     jsr.w hdma_enable_hook
     nop
-; ============================================================================
-; UpdateScrollRegs BG1VOFS Hook - Skip when menu HDMA is active
-; ============================================================================
 }
 
 
+; UpdateScrollRegs: skip BG1VOFS while the menu HDMA drives it.
 .alloc at 0x14FF2D {
     jsr.l conditional_bg1_vofs
     nop
@@ -92,65 +65,36 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
     nop
     nop
     nop
-; ============================================================================
-; Refresh inventory after SelectItem2 (swap OR use)
-; ============================================================================
-; After SelectItem2 completes (swap or use item), the display needs a
-; refresh. For swaps, swap_redraw_hook_impl already handled it. For item use,
-; the current slot is refreshed to show the updated quantity.
-; Calls the refresh hook instead of the original DrawInventoryList.
 }
 
 
+; After SelectItem2 (swap or use): refresh the used slot's quantity instead of DrawInventoryList.
 .alloc at 0x01A0D2 {
     jsr.w item_use_refresh_hook
-; ============================================================================
-; DrawItemSlot Column Check Patch - Force single column mode
-; ============================================================================
 }
 
 
-; $01:A1F0 (the AND operand) is zeroed by inventory_single_column.s at $01:A1EF.
-; ============================================================================
-; Replace DrawInventoryList with the rolling buffer init
-; ============================================================================
+; $01:A1F0 (the DrawItemSlot column mask) is zeroed by inventory_single_column.s.
 
 
+; DrawInventoryList -> rolling buffer init
 .alloc at 0x019F7B {
     jsr.w init_menu_rolling_buffer
-; Replace JSR DrawInventoryList
-; ============================================================================
-; DrawItemSlot - Clear count display for item ID 0 (empty slot)
-; ============================================================================
-; Original code at $A202: lda ($5a); cmp #$fe; beq @a222
-; Replaced with a JSR that handles clearing for empty slots
-; Original bytes: B2 5A C9 FE F0 1A (6 bytes at $A202-$A207)
 }
 
 
+; DrawItemSlot $A202 (`lda ($5a) / cmp #$fe / beq`, 6 bytes): clear the count of an empty slot.
 .alloc at 0x01A202 {
     jsr.w check_and_clear_count
-; 3 bytes - checks item, clears if empty
     nop
-; 1 byte - padding
     nop
-; 1 byte - padding
     nop
-; 1 byte - padding
-; ============================================================================
-; Patch $A1BA: Replace sequential Y calculation with circular buffer version
-; ============================================================================
-
-; Original code at $A1BA-$A1C7 (14 bytes):
-;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
-; Replace with JSL to circular_slot_calc_ext + NOPs
-;
 }
 
 
+; DrawItemSlot $A1BA-$A1C7: tilemap Y from the circular slot instead of `$5D * 128 + 4`.
 .alloc at 0x01A1BA {
     jsr.l circular_slot_calc_ext
-; 4 bytes
     nop
     nop
     nop
