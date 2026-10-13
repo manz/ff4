@@ -520,7 +520,7 @@ make_pointers:
     asl
     asl
     asl  ; tile_id * 16, 16-bit result
-    sta.b oldtilepos
+    sta.b dialog_vwf.old_tile_pos
     tay
     sep #0x20
     pla
@@ -670,7 +670,7 @@ coupe:
 _adjust_bits_left_for_kerning:
     {
 ; A kern that pushes the room past 8 pixels starts the glyph in the previous tile: step back one tile
-; (allocator, tilemap cursor, Y and oldtilepos) and keep the remainder.
+; (allocator, tilemap cursor, Y and dialog_vwf.old_tile_pos) and keep the remainder.
     lda.b counter
     cmp.b #0x08
     bne _later_row  ; once per glyph, on its first row (counter counts the rows down from 8)
@@ -700,10 +700,10 @@ _room:
     sec
     sbc.w #0x0010
     tay
-    lda.b oldtilepos
+    lda.b dialog_vwf.old_tile_pos
     sec
     sbc.w #0x0010
-    sta.b oldtilepos
+    sta.b dialog_vwf.old_tile_pos
     sep #0x20
     lda.b temp
 _set_room:

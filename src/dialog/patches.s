@@ -17,7 +17,7 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l compute_dialog_text_offset
     jsr.l get_bank1_1_pointer
     sta 0xDD
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     stx.w dialog_text_ptr
     rts
 }
@@ -25,7 +25,7 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l compute_dialog_text_offset
     jsr.l get_bank1_2_pointer
     sta 0xDD
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     stx.w dialog_text_ptr
     rts
 }
@@ -33,15 +33,15 @@ the VWF layer kicks in without rewriting the message window.
     jsr.l compute_dialog_text_offset
     jsr.l get_bank3_pointer
     sta 0xDD
-    ldx.b dialog_ptr
+    ldx.b dialog_vwf.text_ptr
     stx.w dialog_text_ptr
     rts
 }
 .alloc at 0x00B3BB {
     lda.w map_id
-    sta.b dialog_ptr
+    sta.b dialog_vwf.text_ptr
     lda.w world_id
-    sta.b dialog_ptr + 1
+    sta.b dialog_vwf.text_ptr + 1
     jsr.l get_bank2_pointer
     rts
 }

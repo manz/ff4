@@ -17,8 +17,8 @@ dialog_get_kerning_adjustment_binary_search_ext:
 
 dialog_get_kerning_adjustment_binary_search:
 """
-    Binary-search the dialog font's kerning table for the pair in CURRENT_C (DP $25). Hit: A = adjustment, carry
-    clear; miss: A = 0, carry set. Trashes A/Y, keeps X. M = 16.
+    Binary-search the dialog font's kerning table for the pair in dialog_vwf.current_char (DP $25).
+    Hit: A = adjustment, carry clear; miss: A = 0, carry set. Trashes A/Y, keeps X. M = 16.
 """
 
 
@@ -30,17 +30,17 @@ dialog_get_kerning_adjustment_binary_search:
 _dialog_get_kerning_adjustment_binary_search:
     {
 ; Space ($FF) is never in a kerning pair.
-    lda.b CURRENT_C
+    lda.b dialog_vwf.current_char
     and.w #0x00ff
     cmp.w #0x00ff
     beq _return_zero
-    lda.b CURRENT_C
+    lda.b dialog_vwf.current_char
     and.w #0xff00
     cmp.w #0xff00
     beq _return_zero
 
     ldy.w #0x1100
-    lda.b [font_addr], y  ; NumKerningPairs (16-bit)
+    lda.b [dialog_vwf.font_addr], y  ; NumKerningPairs (16-bit)
     beq _return_zero
 
     sec
@@ -71,8 +71,8 @@ _loop:
     adc.w #0x1102
     tay
 
-    lda.b [font_addr], y  ; load kerning key
-    cmp.b CURRENT_C
+    lda.b [dialog_vwf.font_addr], y  ; load kerning key
+    cmp.b dialog_vwf.current_char
     beq _found
     bcc _search_upper  ; table key < target -> raise low
 
@@ -103,7 +103,7 @@ _return_zero:
 _found:
     iny
     iny
-    lda.b [font_addr], y
+    lda.b [dialog_vwf.font_addr], y
     and.w #0x00FF
     ply  ; drop mid  (PLY/X preserve A)
     ply  ; drop low
