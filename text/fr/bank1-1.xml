@@ -1712,7 +1712,7 @@ cristaux?[new]
 [bold]Cecil[normal]: Pour être franc...[new]
 [bold]Giotto[normal]: Je vois...
 Golbez tente de forcer l'entrée de la
-grotte scellée pour s'emparer du dernier
+Grotte Scellée pour s'emparer du dernier
 cristal![new]
 Ce n'est qu'une question de temps avant
 qu'il n'y parvienne.
@@ -1783,7 +1783,7 @@ Paladin Cecil ![new]
 [bold]Giotto[normal]: Apporte-moi ton collier.[new]
 [bold]Luca[normal]: Celui-ci?[new]
 [bold]Giotto[normal]: Ce collier est la clé
-qui ouvre l'entrée de la grotte scellée!
+qui ouvre l'entrée de la Grotte Scellée!
 Sans cela, la grotte n'accepte personne![new]
 Il faut absolument protéger le dernier
 cristal![end]</sn:pointer>
@@ -1838,7 +1838,7 @@ Mais merde![end]</sn:pointer>
     <sn:pointer id="374">[bold]Cecil[normal]: Le mur![new]
 [bold]Rydia[normal]: Il bouge![new]
 [bold]Caïn[normal]: Comme on pouvait s'y attendre
-de la grotte scellée - même après avoir
+de la Grotte Scellée - même après avoir
 pris le cristal, on ne peut pas se sentir en
 sécurité![new]
 [bold]Edge[normal]: Alors on va le démolir![end]</sn:pointer>
