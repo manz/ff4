@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 from _ff4kintsuki import (
-    PICTURE,
+    FULL_PICTURE,
     assert_screenshot_matches_golden,
     kss_path,
     load_emu_from_kss,
@@ -45,7 +45,7 @@ def options():
 
 
 def test_the_options_golden(options) -> None:
-    assert_screenshot_matches_golden(options, GOLDENS / "options.png", region=PICTURE)
+    assert_screenshot_matches_golden(options, GOLDENS / "options.png", region=FULL_PICTURE)
 
 
 def test_up_from_the_first_row_reaches_the_gauge_row(options) -> None:

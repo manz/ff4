@@ -245,6 +245,8 @@ def _stash_previous_golden(golden_path: Path) -> None:
 
 # The 256x224 picture inside kintsuki's letterboxed framebuffer.
 PICTURE = (13, 9, 13 + 256, 9 + 224)
+# The whole picture as a `region` (picture coordinates, like every region): PICTURE is in framebuffer ones.
+FULL_PICTURE = (0, 0, 256, 224)
 # Battle menu panel (item list, magic window, commands) in picture
 # coordinates: everything below the battlefield.
 BATTLE_MENU_PANEL = (0, 140, 256, 224)
