@@ -148,19 +148,17 @@ grenouilles le raffinent, et les nabots le
 forgent.[new]
 Nous faisons même des armes que vous,
 les humains, pouvez utiliser![end]
-J'ai fait une longue route depuis la
-Montagne de Mithril au nord.
-Même si vous pouvez y aller en une
-minute avec vos longues jambes...[new]
-Pour nous ça fait une sacrée trotte![end]
-Ouais, baby!
+La Montagne de Mithril est loin au nord.
+Avec vos longues jambes, vous y seriez
+en une minute...[new]
+Mais pour nous, ça fait une sacrée
+trotte![end]
+Baby![end]
 Ouais![end]
-Vous pouvez creuser ça?[end]
+On va vous montrer une danse d'enfer!
+Allez, les frères![end]
 Nous sommes les Frères Mithril!
-Allez, tout le monde!
-Bougez votre corps![end]
-Bougez bien votre corps!
-Le Mithril est de retour, ouais![end]
+Que la danse commence![end]
 Merci à vous![end]</sn:pointer>
     <sn:pointer id="5">Ohé, salut!
 Vous voulez nager avec moi?[end]
@@ -254,15 +252,15 @@ Mais vous êtes qui, vous!?[end]</sn:pointer>
     <sn:pointer id="13">[bold]Cid[normal]: Zzz...Zzz...
 J'ai fini le nouveau modèle de moteur!
 rrron...rrron...[end]
-[bold]Cid[normal]: Papa a encore passé une nuit
-blanche!
-Il se croit encore jeune....[new]
-Et en plus, tout le monde en ville peste
+Papa a encore passé une nuit blanche!
+Il se croit encore jeune...
+Dites-le-lui, vous aussi, seigneur Cecil.[new]
+Tout le monde en ville peste
 contre les soldats et le roi, mais il y a plein
 de gens bien, comme vous...[new]
 Papa se chamaille sans cesse avec les
 habitants de la ville à ce sujet...[end]
-[bold]Cid[normal]: Principes de la Flottaison[end]
+Principes de la Flottaison[end]
 Histoire de la Construction Navale[end]
 Un Guide sur les Oiseaux du Monde[end]
 Seigneur Cecil!?
@@ -344,8 +342,7 @@ contre la fièvre du désert...»[end]
 [bold]Rosa[normal]: ... [music][0x13] Ooh...
 Cecil...
 Ne m'abandonne pas, Cecil![end]
-[bold]Rosa[normal]: Je suis content que tu ailles
-mieux.
+Je suis content qu'elle aille mieux.
 L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
 Reviens nous voir bientôt![end]</sn:pointer>
@@ -387,10 +384,9 @@ Vous allez gravir la montagne de
 l'Épreuve![end]
 Wow, tu es vraiment splendide![end]
 [bold]Cecil[normal]: Argl![end]
-[bold]Cecil[normal]: J'ai mis un petit peu de poison
-dans ton verre!
-Zut!
-Pas assez fort![end]</sn:pointer>
+J'ai mis un petit peu de poison dans ton
+verre!
+C'est pour venger les nôtres![end]</sn:pointer>
     <sn:pointer id="20">T[end]</sn:pointer>
     <sn:pointer id="21">T[end]</sn:pointer>
     <sn:pointer id="22">T[end]
@@ -438,9 +434,8 @@ connaissance.[end]
 aussi![end]
 [bold]Palom[normal]: Content de te rencontrer, mon
 pote![end]
-[bold]Palom[normal]: Le mage noir Palom et le
-mage blanc Porom se sont joints à toi!
-[music][0x29][delay][0x28][end]
+Le mage noir Palom et la mage blanche
+Porom ont rejoint l'équipe![music][0x29][delay][0x28][end]
 [bold]Ancien[normal]: Maintenant, va sur la Montagne
 de l'Épreuve!
 Palom!
@@ -731,7 +726,7 @@ démon..?[end]
 [bold]Caïn[normal]: Tu es prêt, Cecil?[new]
 [bold]Cecil[normal]: Je compte sur toi, Caïn.[new]
 [bold]Caïn[normal]: Laisse-moi m'occuper de tout![end]
-[bold]Cecil[normal]: M. Cecil![end]
+[bold]Beigan[normal]: Seigneur Cecil![end]
 [bold]Cecil[normal]: Qu'est-ce qui ne va pas?[new]
 [bold]Palom[normal]: Ça sent...[new]
 [bold]Porom[normal]: Ça sent le monstre![end]
@@ -831,7 +826,7 @@ Tu connais vraiment les bonnes manières![end]
 [bold]Cecil[normal]: Cid, où est le nouveau
 modèle d'aéronef?[new]
 [bold]Cid[normal]: Héhéhé...[end]
-[bold]Cid[normal]: Nous ne laisserons plus les
+Nous ne laisserons plus jamais les
 monstres prendre le château![end]
 [bold]Cid[normal]: Là où personne n'aurait jamais
 pensé mettre son nez!
@@ -1004,9 +999,10 @@ Une étrange rumeur court parmi les
 marins.
 Quelque chose à propos du maître de
 l'océan se mettant en colère...[end]
-Tu vas bien![end]
-Tu es revenu, maître Yang![end]</sn:pointer>
-    <sn:pointer id="72">Vous devez être fatigués.
+Vous allez bien![end]</sn:pointer>
+    <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
+Seigneur Cecil, vous devez tous être
+fatigués.
 Reposez-vous à l'auberge.[end]
 Pour une raison inconnue, il y a eu
 beaucoup de naufrages, dernièrement.
@@ -1073,8 +1069,7 @@ Vaincs Golbez![end]
 rassemblés, le monde entier sera dans une
 crise sans précédent!
 Je compte sur toi![end]
-[bold]Roi Fabul[normal]: C'est la chambre de sa
-majesté![end]
+C'est la chambre de Sa Majesté![end]
 Sa majesté était aussi un Moine, alors ne
 vous inquiétez pas pour sa santé.[end]
 [bold]Roi Fabul[normal]: Dès que vous serez prêts,
@@ -1083,7 +1078,7 @@ Il devrait y avoir un navire qui vous y
 attend.[end]
 [bold]Cecil[normal]: Je crois que je vais faire un
 somme dans le lit du roi![end]
-[bold]Cecil[normal]: Obtenu Mortifère![end]</sn:pointer>
+Obtenu Mortifère![end]</sn:pointer>
     <sn:pointer id="80">T[end]</sn:pointer>
     <sn:pointer id="81">C'est l'infirmerie du château..[end]
 Si seulement j'avais autant de puissance
@@ -1113,34 +1108,27 @@ je lui ai fichu un coup de ma poêle à frire
 sur la tête![end]
 [bold]Yang[normal]: Ne reste pas là comme ça!
 Va battre les méchants et reviens![end]
-[bold]Yang[normal]: Yang est mort?
-Certainement!
-Ce n'est pas quelqu'un qui meurt
-facilement![new]
-Non...Il n'est pas...[end]
-[bold]Yang[normal]: Alors c'est là qu'il était...
-Oh, ces oignons...
-Ils me piquent tellement les yeux...[end]
-[bold]Yang[normal]: Il ne devrait pas être dans un
-état pareil!
-S'il te plaît...[new]
-Donne-lui un bon coup de ça sur la tête![end]
-[bold]Yang[normal]: Obtenu la Poêle à frire de
-l'Amour![end]
-[bold]Yang[normal]: Yang?!
-Il est sous terre?[end]
-[bold]Yang[normal]: Désolée, je suis bloquée ici à
-faire les travaux ménagers tout le temps.
-C'est tout ce que j'ai pour vous
-remercier, mais ça pourrait bien servir.[end]
-[bold]Yang[normal]: Obtenu le Hachoir à Viande![end]
-[bold]Yang[normal]: Ne vous inquiétez pas pour
-moi!
-Dites à Yang de se remettre vite et
-de se battre pour l'avenir du monde![new]
-Et...que je l'aime.[end]</sn:pointer>
+Mon mari?
+Qu'est-ce que vous racontez!
+Ce n'est pas ça qui va le tuer![new]
+Il est...[end]
+Vraiment, aller traîner là-bas...
+Oh, j'ai une poussière dans l'œil...[end]
+Mais quelle mauviette!
+Allez lui remettre les idées en place
+avec ça![end]
+Obtenu la Poêle d'amour![end]
+Hein?
+Il est dans le monde souterrain?[end]
+Oh, merci d'être venus jusqu'ici.
+Je n'ai que ça, mais ça pourra sûrement
+servir.[end]
+Obtenu le Couperet![end]
+Ne vous inquiétez pas pour moi!
+Dites-lui de se remettre vite et de
+se battre![end]</sn:pointer>
     <sn:pointer id="83">T[end]</sn:pointer>
-    <sn:pointer id="84">[bold]Cecil[normal]: Bien, reposons-nous ici.[end]
+    <sn:pointer id="84">[bold]Tellah[normal]: Bien, reposons-nous ici.[end]
 [bold]Tellah[normal]: Si nous nous reposons sur
 cette rune magique, un champ de force
 nous entourera de façon à ce que les
@@ -1447,7 +1435,7 @@ S'il te plaît... essaye d'être courageuse![new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: .... .... ....[end]
 [bold]Rydia[normal]: Feu!![end]
-[bold]Rydia[normal]: Rydia a appris Feu![music][0x29][delay][0x28][end]
+Rydia a appris Feu![music][0x29][delay][0x28][end]
 [bold]Edward[normal]: C'est incroyable, Rydia![new]
 [bold]Rydia[normal]: Je l'ai fait...[new]
 [bold]Rosa[normal]: Merci, Rydia![new]
@@ -1500,8 +1488,7 @@ Allons-y![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]
-[bold]Yang[normal]: Le Moine Yang a rejoint le
-groupe! [music][0x29][delay][0xc][end]</sn:pointer>
+Le Moine Yang a rejoint le groupe![music][0x29][delay][0xc][end]</sn:pointer>
     <sn:pointer id="128">T[end]</sn:pointer>
     <sn:pointer id="129">T[end]</sn:pointer>
     <sn:pointer id="130">T[end]</sn:pointer>
@@ -1581,9 +1568,9 @@ Nous avons toujours ma magie![end]</sn:pointer>
 mon épée...!![end]
 [bold]Cecil[normal]: Je comprends...
 Edward![end]
-[bold]Cecil[normal]: Scellé par le pouvoir magique
-de l'Elfe Noir.[end]
-[bold]Cecil[normal]: ARGH...SOYEZ MAUDITS!
+Scellé par le pouvoir magique de l'Elfe
+Noir.[end]
+GAGOGO... SOYEZ MAUDITS!
 JE VAIS VOUS TUER!![end]</sn:pointer>
     <sn:pointer id="149">T[end]</sn:pointer>
     <sn:pointer id="150">T[end]</sn:pointer>
@@ -1607,7 +1594,7 @@ alors tu ne peux pas l'utiliser.[end]</sn:pointer>
     <sn:pointer id="157">T[end]</sn:pointer>
     <sn:pointer id="158">T[end]</sn:pointer>
     <sn:pointer id="159">[bold]Golbez[normal]: Ainsi, il a même tué Cagnazzo...
-Il est devenu bien plus fort.[new]
+Il est devenu bien plus fort.[end]
 [bold]Caïn[normal]: À propos du dernier cristal...[new]
 [bold]Golbez[normal]: Je sais... ça va être délicat de
 le récupérer où il est maintenant.[new]
