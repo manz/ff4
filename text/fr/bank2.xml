@@ -8,8 +8,8 @@ Et tous ceux qui s'opposent à lui finissent
 comme Cid...[end]
 Seigneur Cecil!
 Vengez le roi![end]
-Pourquoi le roi enseignait-t-il la lame
-noire à ses hommes?[end]
+Enseigner la lame noire aux soldats!
+À quoi pense donc le roi?[end]
 Le roi nous a fait tant de mal...
 Il n'était jamais comme ça, avant.
 Pourquoi a-t-il changé?[end]
@@ -44,7 +44,7 @@ Non...m-m-monsieur, je n'ai rien dit
 contre le roi!
 Je...je danserai pour vous.[new]
 Ça vous va?[end]
-Le roi a été vraiment dur, dernièrement,...
+Le roi a été vraiment dur, dernièrement...
 Et je n'ai pas le droit de danser.
 Déçu?[end]
 C'était vous, ce chevalier noir!
@@ -121,7 +121,7 @@ Tu es devenu un paladin?
 Tu plaisantes, hein?[end]
 Oh!
 Hé, tu es... ...un paladin?
-Pour une surprise..![end]
+Quelle surprise![end]
 T[end]
 C'est la Route du Démon qui mène vers
 Baron.
@@ -239,7 +239,7 @@ C'était toi, ce chevalier noir, là, hein?
 Je te trouve bien mieux comme ça.[end]
 T[end]
 Vous êtes costauds!
-Vous avez vraiment rossé de ces soldats!
+Vous avez rossé les gardes royaux!
 Vous me plaisez!
 Cette nuit, restez ici gratuitement![end]
 Hé, les boissons sont toujours pas prêtes?
@@ -284,13 +284,13 @@ Tu es sauve![new]
 [bold]Mère de Rosa[normal]: Maintenant, tu ne
 pars plus nulle part![new]
 Je n'aurais jamais dû te laisser devenir
-mage blanc.[new]
+mage blanche.[new]
 [bold]Rosa[normal]: Non, Maman!
 J'ai bien fait!
 Cecil est un guerrier, alors je peux
 l'assister![new]
 Et tu as combattu aux côtés de papa en
-tant que mage blanc, autrefois![new]
+tant que mage blanche, autrefois![new]
 [bold]Mère de Rosa[normal]: ...
 Rosa...
 Ton père... c'était un grand chevalier... je
@@ -323,10 +323,8 @@ Si les gens ordinaires y étaient autorisés,
 ça remonterait vraiment les affaires.[end]</sn:pointer>
     <sn:pointer id="18">Une fille de Baron s'est effondrée juste à
 l'entrée du village.
-Sa fièvre la faisait délirer et appelait sans
-arrêt
-«Cecil, Cecil...»[new]
-.[end]
+La pauvre, la fièvre la fait délirer et elle
+répète sans arrêt «Cecil, Cecil...»[end]
 Ainsi, tu es le Cecil qu'elle appelait.
 Prends soin d'elle![end]
 Afin de guérir la fièvre du désert, il te
@@ -781,7 +779,7 @@ Elle a couru à ta recherche...[new]
 [bold]Cecil[normal]: Golbez l'a enlevée...[new]
 [bold]Cid[normal]: Quoi?!
 Alors que tu étais là pour la protéger?
-Mais ce Golbez....[new]
+Mais ce Golbez...[new]
 Non seulement il abuse de mes aéronefs,
 mais de Rosa aussi!?[end]
 [bold]Tellah[normal]: Cette fille est en danger.
@@ -828,7 +826,7 @@ Allez, c'est par là![end]
 [bold]Roi Baron[normal]: En effet!
 Je suis l'un des quatre Empereurs de
 Golbez, Cagnazzo de l'Eau![end]
-Obtenu la Bague Bombe.[end]</sn:pointer>
+Obtenu l'Anneau Bombe.[end]</sn:pointer>
     <sn:pointer id="45">T[end]</sn:pointer>
     <sn:pointer id="46">T[end]
 T[end]
@@ -920,7 +918,7 @@ Fabul...[new]
 Mais le chemin de Fabul par le mont Hobs
 a été bloqué par une épaisse couche de
 glace apportée par les vents glaciaux.[end]
-[bold]Tellah[normal]: ....Qui est ce Golbez!?[new]
+[bold]Tellah[normal]: ...Qui est ce Golbez!?[new]
 [bold]Edward[normal]: Il est venu à Baron il y a peu
 et a pris le contrôle des Ailes Rouges.[new]
 Tout ce que je peux imaginer, c'est qu'il
@@ -974,7 +972,7 @@ compter pour vous...
 Vous ne devriez pas perdre celle que
 vous aimez...[end]</sn:pointer>
     <sn:pointer id="66">Mes yeux... oh, mes yeux...
-Est-tu un ami?
+Es-tu un ami?
 Ne les laisse pas prendre ce trésor...!![end]</sn:pointer>
     <sn:pointer id="67">T[end]</sn:pointer>
     <sn:pointer id="68">T[end]</sn:pointer>
@@ -1087,7 +1085,7 @@ soit le moment de traîner par ici?[end]
 sauvée.[new]
 [bold]Femme de Yang[normal]: Vous avez
 beaucoup fait pour nous.
-Nous vous remercions du fond du cur...[new]
+Nous vous remercions du fond du cœur...[new]
 [bold]Yang[normal]: Personne ne t'a fait de mal,
 hein?[new]
 [bold]Femme de Yang[normal]: Bien sûr que non!
@@ -1152,7 +1150,7 @@ T[end]
 Troia n'a encore jamais été en guerre.
 Si nous entrons en guerre, que devrons
 nous faire pour protéger notre pays?..[end]</sn:pointer>
-    <sn:pointer id="86">Les clercs sont huit surs.
+    <sn:pointer id="86">Les clercs sont huit sœurs.
 Des générations durant, elles ont été les
 gardiennes du cristal.[end]
 Si nous perdons le cristal, cette région
@@ -1222,7 +1220,7 @@ Oh non!
 Ce n'est pas seulement Troia.
 Le monde entier est en danger, à
 présent![end]
-[bold]Clercs[normal]: C'est..!!![end]
+[bold]Clercs[normal]: C'est...![end]
 [bold]Clercs[normal]: C'est le cristal de la terre!
 Vous l'avez ramené!
 Bien joué![end]
@@ -1254,7 +1252,7 @@ Si...si seulement j'étais plus fort...[end]
 [bold]Edward[normal]: Ah bon, alors Yang va
 bien...
 Est-ce que vous l'avez dit à sa femme?[end]
-C'est la harpe de Edward...[end]</sn:pointer>
+C'est la harpe d'Edward...[end]</sn:pointer>
     <sn:pointer id="89">T[end]</sn:pointer>
     <sn:pointer id="90">C'était une prison souterraine, mais
 maintenant c'est notre salle au trésor.[end]
@@ -1280,15 +1278,15 @@ Nous ne pouvions pas le sentir...
 Il doit encore nous rester beaucoup à
 apprendre.[end]
 Certains monstres sont immunisés aux
-magies basiques de Feu, Gel, et Foudre.
+magies basiques Feu, Glace et Foudre.
 Il y avait autrefois des magies plus
 puissantes que ça, paraît-il...[end]
 Alors la légendaire magie Météore existe![end]
-Dodo!
+Sommeil!
 Hein?
 Tu ne t'es pas endormi?
 Bizarre...[end]
-Porc!
+Cochon!
 Arg!
 Oups...[end]
 Désolé, c'était Minimum![end]</sn:pointer>
@@ -1319,7 +1317,7 @@ Si tu appuies sur droite, tu vas rester en
 garde![new]
 Aussi, si tu veux utiliser une arme en
 tant qu'objet dans un combat, sélectionne
-«Objet»[new]
+«Objets»[new]
 et déplace le curseur tout en haut pour
 sélectionner ton arme![new]
 Utilise ça aussi pour changer d'arme ou
@@ -1363,7 +1361,7 @@ entier de cette même manière sur l'écran
 de menu![end]</sn:pointer>
     <sn:pointer id="106">T[end]</sn:pointer>
     <sn:pointer id="107">T[end]</sn:pointer>
-    <sn:pointer id="108">«Arrière....»[new]
+    <sn:pointer id="108">«Arrière...»[new]
 [bold]Cecil[normal]: Qui est là?![end]
 «Partez immédiatement...»[new]
 [bold]Caïn[normal]: C'est une Chimère, ça?[end]
@@ -1403,10 +1401,10 @@ cette chute d'eau![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="125">T[end]</sn:pointer>
     <sn:pointer id="126">Le passage est bloqué par une épaisse
 couche de glace.[end]
-[bold]Rosa[normal]: Rydia, essaie d'invoquer le
-feu.[new]
-[bold]Rydia[normal]: ....[end]
-[bold]Rydia[normal]: ....Non.[new]
+[bold]Rosa[normal]: Rydia, essaie de lancer
+Feu.[new]
+[bold]Rydia[normal]: ...[end]
+[bold]Rydia[normal]: ...Non.[new]
 [bold]Rosa[normal]: ?[new]
 [bold]Rydia[normal]: Je déteste le feu![new]
 [bold]Cecil[normal]: Je vois...
@@ -1415,16 +1413,16 @@ détruit Mist...[end]
 [bold]Rosa[normal]: Écoute, Rydia.
 Tu es la seule ici à avoir le pouvoir de
 faire fondre cette glace.[new]
-[bold]Rydia[normal]: ....[new]
+[bold]Rydia[normal]: ...[new]
 [bold]Rosa[normal]: Si nous ne franchissons pas
 cette glace pour aller à Fabul, beaucoup de
 gens seront en danger!
 S'il te plaît... essaye d'être courageuse![new]
-[bold]Edward[normal]: Courageuse....[new]
+[bold]Edward[normal]: Courageuse...[new]
 [bold]Rosa[normal]: Rydia, s'il te plaît![new]
 [bold]Edward[normal]: Allez, Rydia![new]
 [bold]Cecil[normal]: ...[new]
-[bold]Rydia[normal]: .... .... ....[end]
+[bold]Rydia[normal]: ... ... ...[end]
 [bold]Rydia[normal]: Feu!![end]
 Rydia a appris Feu![music][0x29][delay][0x28][end]
 [bold]Edward[normal]: C'est incroyable, Rydia![new]
@@ -1615,10 +1613,10 @@ une autre affaire![end]
 C...c'est la queue de rat que je cherchais!
 D'accord, je vais vous donner un bout de
 ce minerai!
-Obtenu l'Adamant![music][0x29][delay][0xc][end]
+Obtenu l'Adamantite![music][0x29][delay][0xc][end]
 C..c'est...la légendaire queue rose!
 D'accord, je vais aussi vous donner ça!
-Obtenu l'Armure d'Adamant![music][0x29][delay][0xc][end]</sn:pointer>
+Obtenu l'Armure adamant![music][0x29][delay][0xc][end]</sn:pointer>
     <sn:pointer id="161">T[end]</sn:pointer>
     <sn:pointer id="162">T[end]</sn:pointer>
     <sn:pointer id="163">[bold]FuSoYa[normal]: Monte près de sa bouche![new]
@@ -1636,7 +1634,7 @@ monde![end]</sn:pointer>
     <sn:pointer id="164">T[end]</sn:pointer>
     <sn:pointer id="165">T[end]</sn:pointer>
     <sn:pointer id="166">T[end]</sn:pointer>
-    <sn:pointer id="167">[bold]Cecil[normal]: Comment on va entrer![new]
+    <sn:pointer id="167">[bold]Cecil[normal]: Comment on va entrer?[new]
 [bold]Edge[normal]: Laissez-moi faire!
 C'est ma[new]
 «technique trans-murale»[new]
