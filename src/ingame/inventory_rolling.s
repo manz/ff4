@@ -1,5 +1,5 @@
 """
-Field-menu inventory rolling-buffer engine (single column, 5 visible rows + 1 prefetch): adapts the battle
+Field-menu inventory rolling-buffer engine (single column, 10 visible rows + 1 prefetch): adapts the battle
 approach for the main menu items list with HDMA-based circular scrolling.
 """
 
@@ -8,7 +8,7 @@ approach for the main menu items list with HDMA-based circular scrolling.
 .import "items"
 .include "src/lib/rolling_buffer.i"
 
-; Borrowed from neighbouring modules; inlining used to supply them.
+; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
 
@@ -17,7 +17,7 @@ approach for the main menu items list with HDMA-based circular scrolling.
 ; HDMA-based circular buffer scrolling for single-column menu inventory.
 ; Adapts the battle inventory rolling approach for the menu context.
 ;
-; Layout: Single column, 5 visible items, 48 total items
+; Layout: Single column, 10 visible items, 48 total items
 ; Uses same HDMA technique as battle inventory for smooth scrolling.
 ;
 
@@ -44,9 +44,9 @@ _MENU_ITEM_LIST_HEIGHT := 160  ; 10 items × 16 pixels = 160 scanlines
 ; RAM VARIABLES
 ; Using menu RAM area (unused bytes)
 
-; Field rolling-buffer state: `field_menu_rolling` (items.s). Previously at
-; $7E:1BA8 where it collided with vanilla DrawItemCharSelect scratch
-; ($1BC1 / $1BC3) - char-target screen during item-use stomped
+; Field rolling-buffer state: `field_menu_rolling` (items.s). Not at
+; $7E:1BA8: it collides with vanilla DrawItemCharSelect scratch
+; ($1BC1 / $1BC3) - char-target screen during item-use stomps
 ; dirty_mask and fn_render_slot mid byte, sending the hook into ROM
 ; padding.
 
@@ -116,7 +116,7 @@ _init_menu_inventory_hdma:
     lda #_MENU_HDMA_BANK  ; $7E
     sta.l dma_ch5.A1B
 
-; HDMA channel 5 is now enabled via shadow variable (field_menu_rolling.hdma_enable)
+; HDMA channel 5 is enabled via shadow variable (field_menu_rolling.hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
 
     plp
@@ -168,7 +168,7 @@ _init_menu_hdma_table:
     inx
 
 ; Entries 1-10: Item rows - 16 scanlines each at BASE scroll (initial)
-; For init, all rows use BASE (no circular buffer offset yet)
+; For init, all rows use BASE (no circular buffer offset)
     lda.w #0x0000
     sta.b 0x40  ; Row counter
 
@@ -221,9 +221,8 @@ _init_item_rows:
     rts
 
 update_menu_scroll_hdma:
-"""Build the field-menu HDMA scroll table via the shared engine."""
-; Build field-menu HDMA scroll table. Inlined from the former
-; engine_update_scroll_hdma macro for the same reason as treasure.
+"""Build the field-menu HDMA scroll table."""
+; Inlined per menu for the same reason as treasure (treasure_rolling.s).
     {
     php
     rep #0x30
@@ -343,12 +342,8 @@ init_menu_rolling_buffer_impl:
 """
     Init field rolling buffer (10 visible, lazy 11th slot).
 
-    Populates the phase-1 engine config + hook fields so the bank-20
-    `rolling_engine_*` entries can drive the same instance the macro
-    expansion below already manages. Engine consumers stay inert until
-    phase 2 swaps the macro for the JSL path  ; populating now lets the
-    integration tests assert real config values and gives us a stable
-    ABI surface to port against.
+    Populates the engine config + hook fields, then runs the bank-20
+    `rolling_engine_init` on `field_menu_rolling`.
 """
 
 
@@ -433,10 +428,8 @@ _menu_fn_update_hdma_trampoline:
     Bank-20 RTL wrapper around `_ensure_hdma_initialized`.
 
     Named fn_update_hdma in the struct but semantically the
-    "arm-HDMA-channel + first-frame setup" hook for init. Phase 3 may
-    split into ensure-once vs per-scroll-update if scroll-tick needs a
-    distinct entry, but the existing field-menu macro chain treats
-    ensure as idempotent so reusing it for both is fine.
+    "arm-HDMA-channel + first-frame setup" hook for init. Ensure is
+    idempotent, so the same hook also serves per-scroll updates.
 
     php/plp guards the engine's X-flag = 16 from inner sep/rep.
 """
@@ -453,7 +446,7 @@ _menu_fn_draw_window_trampoline:
 
     php/plp protects the engine's X-flag = 16  ; the inner draw does
     `rep #$10  ; jsr ; sep #$10` for its own 8-bit-X dance and would
-    otherwise leave X-flag = 8 when we return, corrupting `,X` indexed
+    otherwise leave X-flag = 8 on return, corrupting `,X` indexed
     state writes downstream of the hook in the engine_init body.
 """
 
@@ -625,11 +618,11 @@ _ensure_hdma_initialized:
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
     jsr.w _init_menu_inventory_hdma
 
-; NOW enable HDMA via shadow variable (channel is configured)
-; Force long addressing: STA.L $7E1BAE
+; Enable HDMA via shadow variable now that the channel is configured
+; Force long addressing: STA.L field_menu_rolling.hdma_enable
     lda #0x20  ; Channel 5
     .db 0x8F  ; STA.L opcode
-    .dw field_menu_rolling.hdma_enable  ; $1BAE
+    .dw field_menu_rolling.hdma_enable
     .db 0x7E  ; Bank $7E
     rts
 
@@ -738,7 +731,7 @@ menu_entry_hook_impl:
 ; This ensures $1b22 is always 0 even if it had a value from previous menu
     stz.w inventory_cursor1_x
 ; cursor_x = 0
-; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
+; init_menu_rolling_buffer_impl runs later via the patched JSR at $01:9F7B
     rtl
 
 menu_exit_hook_impl:

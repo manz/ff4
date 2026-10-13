@@ -37,7 +37,7 @@ rolling-buffer code which lives in `inventory_rolling.s`).
 }
 .alloc at 0x01a7da {
 ; In the original code the item description is rendered multiple times (once per tick ?)
-; rendering the variable width font that often cause noticeable slowdowns, we are trying to render the text only
+; rendering the variable width font that often cause noticeable slowdowns, so the text renders only
 ; when the description should change. Because the draw window clears the tilemap the check must happen before it.
     jmp.w check_if_description_was_rendered
     nop

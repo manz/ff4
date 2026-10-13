@@ -7,8 +7,7 @@ from `inventory_rolling.s` and tuned for the chest UI.
 .import "items"
 .include "src/lib/rolling_buffer.i"
 
-; Labels borrowed from neighbouring modules. As an include these resolved
-; because ff4.s composed one translation unit; a module names what it uses.
+; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
 
@@ -17,12 +16,10 @@ from `inventory_rolling.s` and tuned for the chest UI.
 
 ; Cloned from src/ingame/inventory_rolling.s with:
 ;   - VISIBLE_ITEMS = 5, BUFFER_SLOTS = 6, SCROLL_LIMIT = 43.
-;   - State RAM relocated to $1BD0..$1BDE (original treasure UI owns
-;     $1BB3..$1BB7).
+;   - Own state block (original treasure UI owns $1BB3..$1BB7).
 ;   - Scroll position read from $1BB7 instead of $1B1A.
-; HDMA channel 5, BG1 tilemap buffer ($7EB600), and shadow tables
-; ($7E9800/$7E9840) are shared with field-menu rolling because the two
-; menus are mutually exclusive on screen.
+; The HDMA shadow tables ($7E9800/$7E9840) are shared with field-menu
+; rolling because the two menus are mutually exclusive on screen.
 
 ; Layout (single column)
 
@@ -42,20 +39,14 @@ _TREASURE_ITEM_LIST_Y_START := 48
 _TREASURE_ITEM_LIST_HEIGHT := 80  ; 5 items × 16 pixels
 
 ; RAM VARIABLES
-; Treasure rolling state lives at $1BD0..$1BDE so it does not collide with
-; original treasure UI bytes ($1BB3..$1BB7) nor field-menu rolling state at
-; $1BA8..$1BB6. Both menus are mutually exclusive on screen so the HDMA
-; channel + tilemap buffer + shadow table are shared (re-init on entry).
-
-; Treasure rolling-buffer state RAM block (12 bytes from $1BD0). Same
+; Treasure rolling-buffer state: `treasure_rolling` at $7E:9C00. Same
 ; struct layout as the field-menu state block - fields resolved via
-; `RollingBufferState` from src/items.i so any layout change applies
-; uniformly across profiles.
-; Treasure rolling state moved out of $1B00-$1BFF (which vanilla menu /
-; sprite code writes to via indexed STA past $1BEB) to a clean $7E:9C00
-; region. Engine path needs the full 35-byte struct (state + config +
-; hook far-ptrs) ; the macro path only ever touched the first 12 bytes
-; so the original $1BD0 base worked despite vanilla's later collisions.
+; `RollingBufferState` from src/items.s so any layout change applies
+; uniformly across profiles. Kept out of $1B00-$1BFF, which vanilla
+; menu / sprite code writes to via indexed STA past $1BEB  ; the engine
+; needs the full struct (state + config + hook far-ptrs). Both menus are
+; mutually exclusive on screen so the shadow table is shared (re-init on
+; entry).
 
 TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/UP is held
 
@@ -89,23 +80,23 @@ _TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 ; Active (read by HDMA channel 5): $7E:9800
 ; Shadow (written by game): $7E:9840
 ; NMI hook copies shadow → active during VBlank when `field_menu_rolling.hdma_copy_pending`
-; ($1BB6) is set, gated on `field_menu_rolling.hdma_enable` ($1BAE) being non-zero.
+; is set, gated on `field_menu_rolling.hdma_enable` being non-zero.
 _TREASURE_HDMA_TABLE_ADDR := 0x9800
 _TREASURE_HDMA_TABLE := 0x7E9800
 _TREASURE_HDMA_SHADOW_ADDR := 0x9840
 _TREASURE_HDMA_SHADOW := 0x7E9840
 _TREASURE_HDMA_TABLE_SIZE := 40
 _TREASURE_HDMA_BANK := 0x7E
-; Shared menu HDMA signals defined in src/items.i - referenced here as
+; Shared menu HDMA signals defined in src/items.s - referenced here as
 ; field_menu_rolling.hdma_enable / field_menu_rolling.hdma_copy_pending.
 
 ; HDMA channel 6 for the treasure rolling buffer. Original treasure
 ; enables HDMAEN=$AD (ch7|ch5|ch3|ch2|ch0); ch2 in particular is an
 ; INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for the drops-
-; band parallax. Sharing ch5 fought ch2's per-scanline BG3VOFS writes
-; until we masked ch2 entirely, which then dropped the drops parallax
-; effect. Move our writes to ch6 (free in original treasure) so ch2
-; can keep driving its drops-band scroll untouched.
+; band parallax. On ch5 the treasure writes fight ch2's per-scanline
+; BG3VOFS writes, and masking ch2 drops the parallax effect. ch6 is free
+; in original treasure, so ch2 keeps driving its drops-band scroll
+; untouched.
 
 .include "../bank20.i"
 .import "vanilla"
@@ -113,11 +104,11 @@ _TREASURE_HDMA_BANK := 0x7E
 .alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:
 """
-    Sets up HDMA channel 5 for per-scanline BG1 vertical scroll control
-    Called when entering the item menu
+    Sets up HDMA channel 6 for per-scanline BG3 vertical scroll control
+    Called when entering the treasure menu
 
     HDMA mode: $02 = write 2 bytes to same register, DIRECT mode (like FF6)
-    Register: $210E (BG1VOFS)
+    Register: $2112 (BG3VOFS)
     Table format: count_byte, lo_byte, hi_byte per entry, $00 to end
 """
 
@@ -143,7 +134,7 @@ _init_treasure_inventory_hdma:
     sep #0x20  ; 8-bit A
     lda #_TREASURE_HDMA_BANK  ; $7E
     sta.l dma_ch6.A1B
-; HDMA channel 5 is now enabled via shadow variable (treasure_rolling.hdma_enable)
+; HDMA channel 6 is enabled via shadow variable (treasure_rolling.hdma_enable)
 ; The NMI hook at $8083 reads the shadow and writes to HDMAEN
 
     plp
@@ -151,7 +142,7 @@ _init_treasure_inventory_hdma:
 
 _disable_treasure_inventory_hdma:
 """
-    Disables HDMA channel 5 when leaving item menu
+    Disables HDMA channel 6 when leaving the treasure menu
     The shadow variable is cleared by menu_exit_hook
 """
 
@@ -195,7 +186,7 @@ _init_treasure_hdma_table:
     inx
 
 ; Entries 1-10: Item rows - 16 scanlines each at BASE scroll (initial)
-; For init, all rows use BASE (no circular buffer offset yet)
+; For init, all rows use BASE (no circular buffer offset)
     lda.w #0x0000
     sta.b 0x40  ; Row counter
 
@@ -248,13 +239,11 @@ _t_init_item_rows:
     rts
 
 update_treasure_scroll_hdma:
-"""Build the treasure-menu HDMA scroll table via the shared engine."""
-; Build treasure HDMA scroll table. Inlined from the former
-; `engine_update_scroll_hdma` macro since its per-row writes use
-; compile-time state_base + hdma_shadow_addr ; routing through the
-; bank-20 engine would need menu_id dispatch at every state read,
-; which costs more than the modest 80-line duplication across the
-; four menus.
+"""Build the treasure-menu HDMA scroll table."""
+; Inlined per menu since the per-row writes use compile-time
+; state_base + hdma_shadow_addr ; routing through the bank-20 engine
+; would need menu_id dispatch at every state read, which costs more
+; than the modest 80-line duplication across the four menus.
     {
     php
     rep #0x30
@@ -377,7 +366,7 @@ _treasure_hdma_footer:
     rts
 
 _treasure_hdma_signal:
-"""Treasure profile signal: set both treasure flag and shared $1BB6 mirror."""
+"""Treasure profile signal: set both treasure flag and shared field_menu_rolling.hdma_copy_pending."""
     sep #0x20
     lda #0x01
     sta.l treasure_rolling.hdma_copy_pending
@@ -663,26 +652,25 @@ _treasure_ensure_hdma_initialized:
     sep #0x20  ; Back to 8-bit for InitMenuInventoryHDMA
     jsr.w _init_treasure_inventory_hdma
 
-; Enable HDMA via the SHARED field-menu shadow at $1BAE. The existing
+; Enable HDMA via the SHARED field-menu shadow (field_menu_rolling.hdma_enable). The
 ; field NMI hook (`field_menu_nmi_dma_transfer_check_impl`) reads this
 ; byte and copies the HDMA shadow→active table each frame.
-; Treasure-only `treasure_rolling.hdma_enable` ($1BD6) is kept as a tracking
+; Treasure-only `treasure_rolling.hdma_enable` is kept as a tracking
 ; flag but isn't read by the NMI path.
 ; OR-in ch6 enable bit ($40) so drops's ch4 bit ($10) - set by
 ; _drops_ensure_hdma_initialized at menu open - survives. Plain
 ; `sta` would clobber the drops enable; same lazy-init order issue
-; as treasure_force_hdma_setup which uses $F9 (= ch7|ch6|ch5|ch4|ch3|ch0).
+; as treasure_force_hdma_setup which uses $F1 (= ch7|ch6|ch5|ch4|ch0).
     lda.l field_menu_rolling.hdma_enable
     ora #0x40  ; Channel 6 enable (treasure rolling buffer)
     sta.l field_menu_rolling.hdma_enable
     sta.l treasure_rolling.hdma_enable
 ; Push the enable straight to HDMAEN ($420C) so the very first frame
 ; after popup-open has ch6 active. Without this immediate write, the
-; field NMI hook only copies $1BAE -> $420C on the NEXT vblank, which
-; left the first rendered frame with HDMA off and BG3VOFS at whatever
-; the previous menu left in $93 / $9F. Treasure inventory items then
-; rendered at the WRONG vertical scanline and looked like garbled
-; stride for a frame before settling.
+; field NMI hook only copies the shadow -> $420C on the NEXT vblank,
+; leaving the first rendered frame with HDMA off and BG3VOFS at
+; whatever the previous menu left in $93 / $9F: treasure inventory
+; items render at the wrong scanline for a frame before settling.
     lda.l cpu_regs.HDMAEN
     ora #0x40
     sta.l cpu_regs.HDMAEN
@@ -795,7 +783,7 @@ treasure_menu_entry_hook_impl:
 ; This ensures $1b22 is always 0 even if it had a value from previous menu
     stz.w inventory_cursor1_x
 ; cursor_x = 0
-; InitMenuRollingBuffer_Impl is called later via patched JSR at $9F7B
+; init_treasure_rolling_buffer_impl runs later via the patched JSR at $01:D81D
     rtl
 
 treasure_menu_exit_hook_impl:

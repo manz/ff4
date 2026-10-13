@@ -6,37 +6,19 @@ Treasure-menu drops list rolling buffer (single column, 4 visible).
 Drops are the 8-item array at $7E:FF28 shown in the upper window of
 the treasure menu (Tente / Baguette / etc.). Original renders them as
 a 4-row x 2-col grid via DrawTreasureList ($01:A15C). Item names in
-French don't fit two columns, so drops moves to a single-column
-rolling buffer matching the treasure inventory below it - engine
-configured with 4 visible / 8 total / 5 buffer slots.
+French don't fit two columns, so drops uses a single-column rolling
+buffer matching the treasure inventory below it - engine configured
+with 5 visible / 8 total / 6 buffer slots.
 
-The drops buffer lives on BG3 alongside the treasure inventory  ; both
-share VRAM tilemap $7000 with separate row bands. HDMA channel 4 is
-free in original treasure (original uses ch7|ch5|ch3|ch2|ch0  ; ch6 is
-ours for inventory) so drops drives BG3VOFS through ch4 over its
-scanline band.
+The drops items render into the BG4 staging page ($7E:C600) inside
+TreasureItemsWindow, which the draw_window hook draws there first. HDMA channel 4 is free in original treasure
+(original uses ch7|ch5|ch3|ch2|ch0  ; ch6 drives the treasure inventory)
+so drops drives BG4VOFS through ch4 over its scanline band.
 
-Wiring (TODO, separate commit):
-  - Replace `jsr $A15C` at $01:D80E (entry) and $01:D92D (redraw
-    helper) with `jsr.w drops_init` / `jsr.w drops_refresh_slots`.
-  - Kill the BG2 window draw at $01:D7FC region (drops window
-    becomes part of the BG3 single-layer flatten).
-  - Re-record screenshot goldens once geometry settles.
+Wiring (treasure_rolling_patches.s): `jsr $A15C` at $01:D80E (entry)
+and $01:D92D (redraw helper) call `drops_init` / `drops_refresh_slots`.
 
-State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
-  $1BE0  top_row
-  $1BE1  buffer_pos
-  $1BE2  edge_row
-  $1BE3  slot_index
-  $1BE4  base_scroll (word)
-  $1BE6  hdma_enable
-  $1BE7  _pad
-  $1BE8  scroll_state
-  $1BE9  scroll_remaining
-  $1BEA  scroll_direction
-  $1BEB  transfer_pending
-  $1BEC  scroll_anim_offset (word)
-  $1BEE  hdma_copy_pending
+State: `drops_rolling`, a RollingBufferState at $7E:9C30 (src/items.s).
 """
 
 
@@ -44,8 +26,7 @@ State RAM layout (12 bytes from $1BE0, struct: RollingBufferState):
 .import "vwf_ram"
 .import "items"
 
-; Labels borrowed from neighbouring modules. As an include these resolved
-; because ff4.s composed one translation unit; a module names what it uses.
+; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "lib/rolling_inventory_engine"
 .import "vanilla"
@@ -58,24 +39,23 @@ _DROPS_SCROLL_LIMIT := 3
 _DROPS_SCROLL_PIXELS_PER_FRAME := 8
 _DROPS_SCROLL_TOTAL_PIXELS := 16
 
-; Drops rolling state moved out of $1B00-$1BFF (vanilla menu / sprite
-; code writes to bytes past $1BEB) to clean $7E:9C30. Engine path needs
-; the full 35-byte struct ; the macro path only ever touched the first
-; 12 bytes so the original $1BE0 base worked there.
+; Drops rolling state lives at $7E:9C30, outside $1B00-$1BFF (vanilla
+; menu / sprite code writes to bytes past $1BEB)  ; the engine needs the
+; full struct.
 
-; Drops scroll position lives one byte past the state block so it
+; Drops scroll position lives in the last byte of the drops slot so it
 ; doesn't collide with the engine's RollingBufferState fields. Other
 ; profiles read scroll_pos from a original menu byte ($1B1A field /
 ; $1BB7 treasure inventory); drops has no original equivalent.
 ;
 ; Full 24-bit address: every access is `lda.l` / `sta.l`, and a bare
-; 16-bit constant made those assemble against bank $00 - i.e. ROM - so
-; the scroll position silently never persisted and drops stayed pinned
-; at the top of the list no matter how far DOWN was held.
+; 16-bit constant would assemble against bank $00 - i.e. ROM - so the
+; scroll position would never persist and drops would stay pinned at the
+; top of the list.
 drops_scroll_pos := 0x7E9C5F
 
 ; HDMA channel 4 (free in original treasure: enabled mask is $AD =
-; ch7|ch5|ch3|ch2|ch0). Treasure inventory took ch6.
+; ch7|ch5|ch3|ch2|ch0). Treasure inventory uses ch6.
 
 ; Drops HDMA tables share field-menu/treasure-inventory shadow region
 ; ($7E:9800 / $7E:9840). The active table for drops is built into a
@@ -91,8 +71,7 @@ _DROPS_HDMA_BANK := 0x7E
 _DROPS_SCROLL_STATE_IDLE := 0
 _DROPS_SCROLL_STATE_SCROLLING := 1
 
-; --- Profile hooks (stubs, real implementations land alongside the
-;     drops geometry + tilemap layout work) -----------------------------------
+; --- Profile hooks -----------------------------------------------------------
 
 .include "../bank20.i"
 
@@ -112,9 +91,7 @@ _drops_ensure_hdma_initialized:
 ; treasure_drops_window is anchored at BG (0, 0): top border at BG
 ; row 0 = BG line 0. The HDMA header band offsets BG4VOFS so the
 ; window appears on screen at y=24 (matching where the original
-; TreasureItemsWindow at $01:E275 lived). Items render at staging
-; rows 4,6,8,10 - engine body math uses base_scroll=0 so screen
-; y=32..95 reads exactly those rows.
+; TreasureItemsWindow at $01:E275 sits).
     lda.w #0xFFE8
 ; -24: drops band starts at screen y=24. Items render at staging
 ; rows 2,4,6,8 (DrawItemName lays glyphs into the row pointed at by
@@ -140,9 +117,9 @@ _drops_ensure_hdma_initialized:
     sta.l dma_ch4.A1B
 
 ; Enable ch4 (BG4VOFS) only. TM HDMA mask via ch1 disabled - writes
-; to $212C per-scanline blank the screen for reasons not yet
-; understood (probably PPU/HDMA timing quirk in BGMODE 0). For now
-; rely on BG4 staging being zero-filled past the drops content (tile
+; to $212C per-scanline blank the screen for reasons not
+; understood (probably PPU/HDMA timing quirk in BGMODE 0), so this
+; relies on BG4 staging being zero-filled past the drops content (tile
 ; 0 = transparent if CHR slot 0 is blank); residual bleed is the
 ; trade-off.
     lda.l field_menu_rolling.hdma_enable
@@ -160,7 +137,7 @@ _drops_hdma_already_init:
     rts
 
 _drops_render_item_to_slot:
-"""Render one drops item from $7E:FF28 + edge_row*sizeof(Item) into the BG3 buffer at $7E:D600 + slot_index*128 + 4."""
+"""Render one drops item from $7E:FF28 + edge_row*sizeof(Item) into BG4 staging $7E:C600 + slot_index*128 + $44."""
     php
     phb
     lda #0x7E
@@ -220,7 +197,7 @@ _drops_render_item_to_slot:
 ; visible in the chest-with-monster-drop screen). Offset by 11 so
 ; drops slots 0..5 land at tile_ids $16E..$1A9 (CHR $56E0..$5A90),
 ; past treasure's 6-buffer-slot region at $100..$13B. drops's tilemap
-; target stays at $7E:C600 (its own BG3 staging surface) so the offset
+; target stays at $7E:C600 (its own BG4 staging surface) so the offset
 ; only affects CHR allocation, not where the glyphs land on screen.
 ;
 ; vwf_engine.caller_ctx=1 also tells items_menu_vwf to write the SECONDARY
@@ -269,13 +246,12 @@ _drops_render_item_to_slot:
     rts
 
 _clear_drops_slot:
-"""Blank a single drops tilemap slot. STUB."""
+"""Blank a single drops tilemap slot. No-op."""
     rts
 
 update_drops_scroll_hdma:
-"""Build the drops HDMA shadow table via the shared engine."""
-; Build drops HDMA scroll table. Inlined from the former
-; engine_update_scroll_hdma macro for the same reason as treasure.
+"""Build the drops HDMA shadow table."""
+; Inlined per menu for the same reason as treasure (treasure_rolling.s).
     {
     php
     rep #0x30
@@ -423,7 +399,7 @@ _drops_hdma_signal:
 drops_init_impl:
 """
     Init drops rolling buffer via the bank-20 engine. State + hook
-    far-ptrs live at $7E:9C30 (relocated out of $1B00-$1BFF). Drops render
+    far-ptrs live at $7E:9C30. Drops render
     onto BG4 staging ($7E:C600) alongside TreasureItemsWindow ($01:E275
     def_window 1, 3, 27, 10) which the draw_window hook redraws first so
     the engine can write items into the just-drawn frame without the

@@ -6,11 +6,11 @@ it: vanilla `SelectItemFromInventory` ($01:BE89) draws the whole list
 once with `DrawInventoryList` ($01:A172) into the BG4 buffer at
 $7E:C600, then scrolls BG4VOFS ($99) over it in blocking 8-frame loops.
 
-That breaks the same way the shop sell list did (see
+That breaks the same way the shop sell list does (see
 src/ingame/shop_sell_rolling.s): `DrawItemSlot` is globally patched to
 single-column 128-byte rows while $A172 still walks the array two items
-at a time, so only every second item rendered, the draw stopped after a
-page, and scrolling just moved BG4 over blank rows.
+at a time, so only every second item would render, the draw would stop
+after a page, and scrolling would just move BG4 over blank rows.
 
 So equip gets its own profile, same shape as sell: a 7-slot ring
 (6 visible + 1 pre-render) in the BG4 buffer, with BG4VOFS driven per

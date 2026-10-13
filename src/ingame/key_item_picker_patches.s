@@ -13,20 +13,8 @@ EventCmd_f7 ($00:ED96) flow:
   $00:ED9B: JSR $AF4D  ; <-- ShowItemWindow entry
   $00:ED9E: JSR ...
 
-Replace 4 bytes at $00:AF4D-$00:AF50 with `JSL _key_item_init_impl`.
-init_impl ends with RTL (from engine_init_rolling_buffer macro), pops
-24-bit return = $00:AF51, where we stash an RTS to bail back to
-EventCmd_f7's $00:ED9E continuation.
-
-Original bytes at $00:AF4D-$00:AF52:
-  A5 CC      LDA $CC  ; wait-loop: $CC = player gfx flag
-  D0 FC      BNE $AF4D
-  A9 01      LDA #$01
-
-Patched:
-  22 LL MM HH JSL _key_item_init_impl
-  60          RTS
-  A9 01       (original LDA #$01 stays — never reached after RTS)
+ShowItemWindow itself is left in place: vanilla still opens, scrolls
+and closes the window, and the hooks below put the engine's ring in it.
 """
 .import "items"
 
@@ -71,7 +59,7 @@ Patched:
 }
 
 
-; Scroll ceiling, from the list we actually built. Replaces exactly the
+; Scroll ceiling, from the list actually built. Replaces exactly the
 ; four bytes of `lda $ba / cmp #$11` at $00:B00D; the `bne $B016` that
 ; follows still decides whether to scroll.
 ;   B00D A5 BA     lda $ba
@@ -104,33 +92,14 @@ Patched:
 }
 
 
-; TODO : wire `jsr.l _key_item_render_all` at $00:AF4D once the picker
-; has a VRAM strategy that doesn't garble the room/map underneath. The
-; picker triggers from event scripts mid-map (EventCmd_f7), so unlike
-; the field menu we cannot blow away the BG3 CHR slice the room is
-; using. Two viable paths : (a) save/restore around picker entry/exit,
-; (b) reserve picker-only VRAM that the map provably never touches.
-; Engine code at `_key_item_render_all` + `_key_item_init_impl` is in
-; place but currently unreachable.
-; UpdateItemText at $00:B22B reads scroll pos $BA, multiplies by 4
-; (asl asl) for 2-col x 2-byte stride into $0712. Single-col layout
-; needs stride = 2, so replace the 2nd `asl` at $00:B232 with NOP.
+; UpdateItemText at $00:B22B reads scroll pos $BA and multiplies by 4
+; (asl asl, 2 cols x 2 bytes) to index $0712. Single-col needs stride 2
+; (1 col x 2 bytes), so NOP the 2nd asl at $00:B23C.
 ;
-; Items per page: $07 init at $00:B23C = 8 (4 rows x 2 cols).
-; For single-col we render N rows (visible items in the picker
-; window). Original window is 4 rows; replace #$08 with #$04.
-;
-; Both patches surgical 1-byte: keep original layout, change scroll
-; stride + per-page count so it walks $0712 as single-col.
-; UpdateItemText scroll stride: original `lda $ba / asl asl / tax`
-; means scroll-step indexes 4 bytes (2 cols × 2 bytes). Single-col
-; needs stride 2 (1 col × 2 bytes). NOP the 2nd asl at $00:B23C.
-;
-; Layout still 2-col due to the +#$0D / +#$0B col-toggle at $00:B2B5
-; / $00:B2BF — those would need a wider single-row stride patch
-; (text buffer is 13 chars/half-row × 2 = 26 wide) which is more
-; invasive. Keep 2-col layout for now, single-stride scroll lets
-; us walk the filtered $0712 in step with the engine's worldview.
+; Layout stays 2-col: the +#$0D / +#$0B col-toggle at $00:B2B5 / $00:B2BF
+; stays. A single-row stride would need a wider patch (the text buffer is
+; 13 chars per half-row x 2 = 26 wide). The single-stride scroll walks the
+; filtered $0712 in step with the engine.
 .alloc at 0x00B23C {
     nop
 
@@ -142,11 +111,11 @@ Patched:
     lda #0x04
 
 ; Replace the inline id*9 multiplier at $00:B253-B26C with a
-; jsl multiply_by_17 chain. A is item-id on entry (just loaded via
+; call to item_name_offset. A is item-id on entry (just loaded via
 ; lda $0712,x at $B24B), returns A = the name's offset in items_unleashed.
 ; Move into X for the existing inner-loop indexed
 ; `lda.l items_unleashed, x` read. The original block was
-; 26 bytes ($B253..$B26C); replacement uses 9 bytes, padded with NOP
+; 26 bytes ($B253..$B26C); replacement uses 8 bytes, padded with NOP
 ; to keep downstream instruction addresses ($B26F lda#, $B273 lda.l
 ; ...) anchored.
 }
@@ -173,14 +142,14 @@ Patched:
 
 
 .alloc at 0x00B273 {
-; names are NUL-terminated now: past the end, spaces, X held on the $00
+; names are NUL-terminated: past the end, spaces, X held on the $00
     jsr.l item_name_char
 
 ; Make both column-toggle branches advance Y by 24 (full text-buffer
 ; row, 12 chars). Both → `adc #$18` so every item lands on its own
-; row regardless of which column the toggle picks. Keep at 24
-; for now ; widening to fit a 16-char name + colon + qty requires
-; revisiting the picker's tilemap row stride too.
+; row regardless of which column the toggle picks. Widening to fit a
+; 16-char name + colon + qty requires the picker's tilemap row stride
+; to change too.
 }
 
 

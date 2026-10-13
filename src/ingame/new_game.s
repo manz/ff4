@@ -85,7 +85,7 @@ geometry and Cecil sprite position that go with them.
     .alloc at 0x019826 {
     load_system_menu_text_pointer(newgame.load_this_save)
 
-; for save menu we use the same string.
+; the save menu uses the same string.
     }
 
 

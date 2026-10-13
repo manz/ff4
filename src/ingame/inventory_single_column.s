@@ -1,5 +1,5 @@
 """
-Phase-1 single-column inventory layout patches: collapse the original 2-column items list to one column so the
+Single-column inventory layout patches: collapse the original 2-column items list to one column so the
 rolling buffer can take over rendering.
 """
 .import "preamble"
@@ -9,7 +9,7 @@ rolling buffer can take over rendering.
 ; Single Column Inventory Patches for Main Menu
 ; ============================================================================
 ;
-; Phase 1: Convert 2-column inventory to single column
+; Convert 2-column inventory to single column
 ; - Changes visible items from 20 (10 per column) to 10 (single column)
 ; - Removes left/right cursor handling
 ; - Updates scroll limits for 48 items
@@ -23,13 +23,11 @@ VISIBLE_ITEMS := 10  ; Items visible at once
 ;_TOTAL_ITEMS             := 48       ; Total inventory items
 SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 
-; File is being processed - patches below should apply
-
 ; ============================================================================
 ; DrawInventoryList Patch
 ; ============================================================================
 ; Original at $01A172 draws 48 items (all items)
-; New version draws only 10 visible items based on scroll position
+; Patched to draw only 10 visible items based on scroll position
 ;
 
 ; Original code:
@@ -99,7 +97,7 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; Input Handling - Disable Left/Right Toggle
 ; ============================================================================
 ; Original at $01A003 and $01A014 handle left/right button presses
-; to switch columns. We disable this for single column.
+; to switch columns, disabled for single column.
 ;
 
 ; Left button handler at @9ff2:
@@ -133,9 +131,8 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ;   _a181:  stz     $5d             ; item counter = 0
 ;           stz     $5e
 ;
-; We need to initialize $5d to scroll_pos * 2 (since items are 2 bytes each)
-; But actually, the loop uses $5a as a pointer, and $5d as a counter
-; The pointer $5a = $1440 + (scroll_pos * 2)
+; The loop uses $5a as a pointer and $5d as a counter, so the pointer
+; starts at $5a = $1440 + (scroll_pos * 2) (items are 2 bytes each)
 ;
 ; Add patch to adjust $5a before the loop
 }
@@ -251,8 +248,6 @@ SCROLL_LIMIT := 38  ; 48 - 10 = 38 (max scroll position)
 ; ============================================================================
 ; Initialize $1B22 (cursor column) to 0 on menu entry
 ; ============================================================================
-; Ensure $1b22 starts at 0 even if it had a value from a previous menu.
-; Patch at $01A181 which runs after SelectClearBG1 and before DrawInventoryList.
-; We already have adjust_inventory_pointer at $A181, so add $1b22 init there.
-; Actually, we'll add it to the menu_entry_hook_impl in inventory_rolling.s
+; $1b22 must start at 0 even if it had a value from a previous menu:
+; menu_entry_hook_impl (inventory_rolling.s) clears it.
 }

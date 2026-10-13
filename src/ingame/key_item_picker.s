@@ -4,44 +4,24 @@
 Key-item picker rolling buffer (single column).
 
 Triggered from event scripts via EventCmd_f7 ($00:ED96), which routes
-through ShowItemWindow ($01:B354 in the disassembly). Original renders
-the filtered key-item list (`InitItemList`, $01:B2D3) as a 4x4 grid
-on BG3, animated open/close via an IRQ-driven slide. We collapse
-that to a single-column rolling buffer driven by the shared engine.
+through ShowItemWindow ($00:AF4D). Vanilla renders the filtered key-item
+list (`InitItemList`, $00:B2D5) as a 4x4 grid on BG3, animated open/close
+via an IRQ-driven slide. The list is rendered instead as a single-column
+rolling buffer driven by the shared engine  ; vanilla keeps the window,
+the slide, the cursor and the scroll position.
 
 Item source: $7E:0712, the filtered Item-array buffer (96 bytes / 48
 slots). InitItemList copies entries from $1440 whose IDs fall in
-[$CE..$E6] ∪ [$EB..$FD], i.e. key items + a few specials. Realistic
-player counts cap at ~10-15 distinct key items  ; the rolling buffer
-is sized for 6 visible / 7 buffer slots / 16 total cap.
+[$CE..$E6] ∪ [$EB..$FD], i.e. key items + a few specials  ;
+`_key_item_init_filter` ports it. The ring shows 4 rows over 5 buffer
+slots.
 
-The picker is mutually exclusive with the field menu and the treasure
-menu, so it can reuse HDMA channel 5 (the field-menu BG1 channel)
-once we route it onto BG3 like the other picker profiles. Sliding
-open/close is replaced by the engine's scroll state machine  ; original
-IRQ handler at $01:B0CF can be NOP'd out.
+Wiring (key_item_picker_patches.s): `key_item_after_open_impl` renders
+the ring once the window is open, the scroll routines step it, and
+`key_item_close_impl` restores the map's VRAM on close. The HDMA scroll
+table on channel 4 is built but the channel is not armed.
 
-Wiring (TODO, separate commit):
-  - Replace the 4x4 grid render in ShowItemWindow with key_item_init.
-  - Port InitItemList into the engine's pre-init filter step.
-  - Drop the IRQ slide animation  ; rely on the engine's scroll states.
-  - Trigger entry via either a user-supplied event savestate or the
-    TREASURE_DEBUG_TRIGGER_KEY_ITEM_F7 flag described in the plan.
-
-State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
-  $1BF0  top_row
-  $1BF1  buffer_pos
-  $1BF2  edge_row
-  $1BF3  slot_index
-  $1BF4  base_scroll (word)
-  $1BF6  hdma_enable
-  $1BF7  _pad
-  $1BF8  scroll_state
-  $1BF9  scroll_remaining
-  $1BFA  scroll_direction
-  $1BFB  transfer_pending
-  $1BFC  scroll_anim_offset (word)
-  $1BFE  hdma_copy_pending
+State: `key_item_rolling`, a RollingBufferState at $7E:9C60 (src/items.s).
 """
 
 
@@ -49,8 +29,7 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
 .import "vwf_ram"
 .import "items"
 
-; Labels borrowed from neighbouring modules. As an include these resolved
-; because ff4.s composed one translation unit; a module names what it uses.
+; Labels borrowed from neighbouring modules.
 .import "ingame/vanilla_trampolines"
 .import "libmz"
 .import "lib/rolling_inventory_engine"
@@ -58,8 +37,7 @@ State RAM layout (12 bytes from $1BF0, struct: RollingBufferState):
 
 
 ; Four rows on screen, matching the window vanilla draws ; the engine
-; adds the prefetch slot itself, and it stays inside the staging page
-; without being pushed.
+; adds the prefetch slot itself.
 _KEY_ITEM_VISIBLE_ITEMS := 4
 _KEY_ITEM_BUFFER_SLOTS := 5
 _KEY_ITEM_TOTAL_ITEMS := 48
@@ -67,7 +45,7 @@ _KEY_ITEM_SCROLL_LIMIT := 42
 _KEY_ITEM_SCROLL_PIXELS_PER_FRAME := 8
 _KEY_ITEM_SCROLL_TOTAL_PIXELS := 16
 
-; Key-item picker state moved out of $1B00-$1BFF to clean $7E:9C60 for
+; Key-item picker state lives at $7E:9C60, outside $1B00-$1BFF, for
 ; the same reason as treasure ($9C00) + drops ($9C30) : engine path
 ; needs 35 bytes per instance, $1B00-$1BFF is too small and vanilla
 ; sprite code stomps past $1BEB.
@@ -101,18 +79,14 @@ _KEY_ITEM_FILTER_BUFFER := 0x0712
 ; BG3 staging page for the picker's window body. The rendered page is
 ; DMA'd to BG3 plane 1 at VRAM word $2C00, where vanilla draws the
 ; picker's item rows (text on plane rows 1/3/5/7, cursor in column 2).
-; 16 rows x 32 entries x 2 bytes covers the whole visible window.
 _KEY_ITEM_STAGING_ADDR := 0xD600
-; Eight rows: the four rows the window shows, at two rows each.
-;
 ; BG3 plane 1 is the map's own tilemap, and vanilla only saves and
-; restores the rows its window covers - anything we write past them is
-; map content that never gets put back, which showed up as blocks of
-; scrambled map after paging through the list. The engine's fifth
-; (prefetch) slot stays in the staging page and is not pushed.
+; restores the rows its window covers - anything written past them is
+; map content that never gets put back, which shows up as blocks of
+; scrambled map after paging through the list.
 ; The whole ring: _KEY_ITEM_BUFFER_SLOTS slots of two 32-cell tilemap
-; rows at 2 bytes a cell. This was 0x200 - four slots - so the fifth,
-; the one a scroll rotates into view, never reached VRAM.
+; rows at 2 bytes a cell, so the fifth slot, the one a scroll rotates
+; into view, reaches VRAM too.
 _KEY_ITEM_STAGING_SIZE := _KEY_ITEM_BUFFER_SLOTS * 0x80
 ; Vanilla's item-window IRQ points BG3 at the right screen (plane 1) for
 ; the window's scanlines and sets BG3VOFS from $BB, which rests at $70.
@@ -145,10 +119,9 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
 """
-    Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. HDMA channel enable deferred until the
-    picker has its own window draw + visible loop wired - leaving ch4 enabled here corrupts the field BG3 layer
-    (Cecil walks on a split screen) since the engine's RTL goes back to the field via EventCmd_f7 without any
-    teardown.
+    Lazy-capture $9F (BG3VOFS shadow) on first call, stash in base_scroll. Leaves the HDMA channel disabled:
+    ch4 enabled here corrupts the field BG3 layer (Cecil walks on a split screen) since the picker returns to the
+    field via EventCmd_f7 without any teardown.
 """
 
 
@@ -160,10 +133,10 @@ _key_item_ensure_hdma_initialized:
     sta.l key_item_rolling.base_scroll
     sep #0x20
 ; Build the scroll table so the shadow is ready, but do NOT arm the
-; channel yet. Driving BG3VOFS here overrides the scroll vanilla uses to
-; place this window and leaves the register parked at our value after
-; the picker closes ; arming lands with the scroll wiring, once the
-; bands are matched to the window's real position on screen.
+; channel. Driving BG3VOFS here overrides the scroll vanilla uses to
+; place this window and leaves the register parked at the picker's value
+; after it closes ; the bands are not matched to the window's real
+; position on screen.
     jsr.w update_key_item_scroll_hdma
     rts
 
@@ -399,10 +372,8 @@ _key_item_render_item_to_slot:
 
 _key_item_render_all:
 """
-    Replacement for original UpdateItemText. Original just clears $0774 (text-buffer scratch) and walks $0712 to lay
-    out 4x4 grid into the BG3 buffer at $7E:D600. We replace with engine_init_rolling_buffer which renders 6
-    single-col slots from $0712 into the same buffer. Original NMI's BG3 transfer then pushes them to VRAM as part
-    of the existing item-window flow ($EB=$01 latched by original preamble at $00:AF53).
+    Init the ring from scratch and keep HDMA off. Unreferenced: the picker renders from
+    `key_item_after_open_impl`, with vanilla UpdateItemText ($00:B22B) silenced.
 """
 
 
@@ -410,9 +381,8 @@ _key_item_render_all:
     rep #0x10
     sep #0x20
     jsr.l _key_item_init_impl
-; engine's ensure_hdma turned $1BAE bit 4 on; clear so original NMI
-; doesn't try to drive HDMA we haven't fully wired (per-scanline
-; bands not yet matched to the picker rows).
+; Clear the HDMA enables so vanilla NMI doesn't drive HDMA whose
+; per-scanline bands don't match the picker rows.
     lda #0x00
     sta.l field_menu_rolling.hdma_enable
     lda #0x00
@@ -522,9 +492,8 @@ _filter_next:
     rts
 
 update_key_item_scroll_hdma:
-"""Build the key-item HDMA shadow table via the shared engine."""
-; Build key-item picker HDMA scroll table. Inlined from the former
-; engine_update_scroll_hdma macro for the same reason as treasure.
+"""Build the key-item HDMA shadow table."""
+; Inlined per menu for the same reason as treasure (treasure_rolling.s).
     {
     php
     rep #0x30
@@ -634,7 +603,7 @@ _key_item_hdma_footer:
     rts
 
 _key_item_hdma_signal:
-"""NMI shadow-copy signal - set both picker copy_pending + shared $1BB6 mirror."""
+"""NMI shadow-copy signal - set the picker's hdma_copy_pending."""
     sep #0x20
     lda #0x01
     sta.l key_item_rolling.hdma_copy_pending
@@ -643,7 +612,7 @@ _key_item_hdma_signal:
 _key_item_init_impl:
 """
     Init key-item picker (filter $1440 -> $0712 then engine init). State
-    + hook far-ptrs live at $7E:9C60 (relocated out of $1B00-$1BFF).
+    + hook far-ptrs live at $7E:9C60.
 """
 
 
@@ -1204,7 +1173,7 @@ BG3 push to piggyback on: drain `transfer_pending` through here.
 ; Publish the scroll table. The menus let the field NMI hook copy
 ; shadow -> active, but that hook only runs while a menu owns the
 ; screen, so the picker copies in the same vblank as its tilemap. The
-; channel itself stays disarmed until the scroll wiring lands.
+; channel itself is not armed.
     rep #0x30
     ldx.w #0x0000
 

@@ -1,5 +1,5 @@
 """
-Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
+Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $20, plus small
 wrappers around original bank-$01 helpers used by the rolling code.
 """
 
@@ -15,20 +15,15 @@ wrappers around original bank-$01 helpers used by the rolling code.
 .import "ingame/items_menu_vwf"
 .import "items"
 
-; Typed views over the profiles' state blocks. A cast is compile-time,
-; so it cannot be imported the way a label is: each module that reads
-; these fields binds its own view over the same addresses, the way
-; battle/inventory_rolling.s already does.
-
 .include "src/ingame/macros.i"
 
 
-;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
+;; Bank-$01 trampolines for inventory rolling routines living in bank $20.
 ;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
 ;; Each trampoline = jsr.l + rts = 5 bytes.
 ;;
 ;; Bank-$01 callers (inventory_rolling_patches.s, free_space.s) jsr.w these
-;; bank-$01 names; the trampoline JSLs into the bank-$21 implementation.
+;; bank-$01 names; the trampoline JSLs into the bank-$20 implementation.
 
 .include "src/ingame/bank01_trampolines.i"
 .import "vanilla"
@@ -38,17 +33,17 @@ _SELL_NAME_SLOT := 9  ; tiles $100 + 9 * 10
 
 .alloc _bank01_inventory_trampolines in bank01_trampolines {
 check_and_clear_count:
-"""Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $21."""
+"""Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $20."""
     jsr.l check_and_clear_count_impl
     rts
 
 init_menu_rolling_buffer:
-"""Bank-$01 trampoline: initialise the rolling-buffer state held in bank $21."""
+"""Bank-$01 trampoline: initialise the field rolling buffer (body in bank $20)."""
     jsr.l init_menu_rolling_buffer_impl
     rts
 
 swap_redraw_hook_impl:
-"""Bank-$01 trampoline into `swap_redraw_hook_impl_body` (bank $21)."""
+"""Bank-$01 trampoline into `swap_redraw_hook_impl_body` (bank $20)."""
     jsr.l swap_redraw_hook_impl_body
     rts
 
@@ -72,8 +67,8 @@ finish_scroll:
     jsr.l finish_scroll_impl
     rts
 ; --- Bank-$01 original call trampolines ---
-; Bank-$21 code can't `jsr.w` into bank $01 original routines; these trampolines
-; wrap a original `JSR` so bank-$21 callers can `jsr.l` and get a clean RTL
+; Bank-$20 code can't `jsr.w` into bank $01 original routines; these trampolines
+; wrap a original `JSR` so bank-$20 callers can `jsr.l` and get a clean RTL
 ; back without stack imbalance.
 
 sell_init:
@@ -141,11 +136,11 @@ Bank-$01 JSR-callable wrapper around the bank-20
 `DrawItemName` patch at $01:9060 / `DrawEquipItemName` at $01:9013
 must stay 4 bytes (jsr.w + rts) so the very next byte at $01:9064
 keeps holding the vanilla sprite-render sub-routine's `phx` opcode :
-overrunning into $01:9064 with a JSL + RTS (5 bytes) replaced that
-phx with the wrapper's RTS, which short-circuited the save-selection
-sprite path's `jsr $9064` and parked every sprite off-screen on the
-title-screen-press-A entry. Use this trampoline so the call site
-stays at 3+1 bytes and the vanilla sprite routine is preserved.
+overrunning into $01:9064 with a JSL + RTS (5 bytes) would replace
+that phx with the wrapper's RTS, short-circuiting the save-selection
+sprite path's `jsr $9064` and parking every sprite off-screen on the
+title-screen-press-A entry. This trampoline keeps the call site at
+3+1 bytes and the vanilla sprite routine intact.
 """
 
 
@@ -198,7 +193,7 @@ _treasure_finish_scroll:
 
 ; Original treasure already updated $1BB7 before reaching the patch site,
 ; so the triggers just kick off the state-machine animation.
-; Force the field-menu HDMA shadow ($1BAE) ON before kicking the state
+; Force the field-menu HDMA shadow (field_menu_rolling.hdma_enable) ON before kicking the state
 ; machine so the existing field NMI hook copies the shadow→active table
 ; even when the rolling-buffer init at $01:D933 never ran (some treasure
 ; flows skip the redraw helper).
@@ -220,7 +215,7 @@ Burn one frame on the debounced-abort path (vanilla `WaitVblank`,
 $01:818A).
 
 Vanilla scrolled inside a blocking 8-frame loop, which also paced the
-surrounding input loop. Our trigger returns immediately instead, so
+surrounding input loop. The rolling trigger returns immediately, so
 while the debounce holds a press off, the loop spins with no vblank
 wait at all: game time ($16A3) freezes, the cooldown never ticks and
 hold-to-scroll dies after the first item. One wait per aborted
@@ -419,8 +414,8 @@ _treasure_main_check_drops_tick:
 _treasure_main_check_xfer:
 ; Drain treasure_rolling.transfer_pending - the rolling buffer renderer writes
 ; to the BG3 staging buffer at $7E:D600, but original's treasure main
-; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
-; tilemap to VRAM ourselves whenever a slot was just re-rendered.
+; loop only DMAs BG2 + sprites each frame, so this pushes the BG3
+; tilemap to VRAM whenever a slot was just re-rendered.
     lda.w treasure_rolling.transfer_pending
     beq _treasure_main_after_bg3
     jsr.l tfr_bg3_tiles_vblank_trampoline
@@ -445,10 +440,9 @@ treasure_force_hdma_setup_far:
 
 
 """
-Reconfigure HDMA channel 5 for BG3 only when we're inside the treasure
-menu (original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
-exit). Field-menu Items uses BG1 and reconfigures channel 5 itself  ; the
-key-item submenu (e.g. Baron key) is yet another context to add later.
+Configure HDMA channel 6 for BG3 only when inside the treasure menu
+(original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
+exit). Field-menu Items uses BG1 and reconfigures channel 5 itself.
 """
 
 
@@ -476,7 +470,7 @@ _t_setup_in_treasure:
     sep #0x20
 ; Original treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
 ; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
-; the drops-band parallax. Even with our scroll moved to ch6 (which
+; the drops-band parallax. Even with the treasure scroll on ch6 (which
 ; iterates after ch2 and should "win" the BG3VOFS at scanlines past
 ; the drops band), the rolling buffer scroll never takes effect while
 ; ch2 is enabled - likely because ch2 keeps reloading entries via its
@@ -485,8 +479,8 @@ _t_setup_in_treasure:
 ; at the right scanline without it.
     lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
 ; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
-; (src/small_vwf/render.s) and was never configured as an HDMA
-; channel, so arming it fed the PPU a garbage table.
+; (src/small_vwf/render.s) and is not configured as an HDMA channel,
+; so arming it feeds the PPU a garbage table.
     sta.l field_menu_rolling.hdma_enable
     rtl
 
@@ -567,7 +561,7 @@ engine for the remaining `Achat Vente Sortir` action labels.
 
 Called in place of the original `jmp $8301` at $01:C353. The matching
 `LDY #shops.welcome_and_actions` at $01:C350 is left in place  ; the
-slimmed `welcome_and_actions` block now holds only the action line.
+slimmed `welcome_and_actions` block holds only the action line.
 """
 
 

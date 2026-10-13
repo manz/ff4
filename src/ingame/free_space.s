@@ -164,7 +164,7 @@ Must copy shadow -> active HDMA table BEFORE enabling HDMA
 
     jsr.w _nmi_dma_transfer_check  ; Copy shadow table to active (if pending)
     .db 0xAF  ; LDA.L opcode
-    .dw field_menu_rolling.hdma_enable  ; $1BAE
+    .dw field_menu_rolling.hdma_enable
     .db 0x7E  ; Bank $7E
     sta.w cpu_regs.HDMAEN
     rts

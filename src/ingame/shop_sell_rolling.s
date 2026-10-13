@@ -10,8 +10,8 @@ That model cannot survive single-column VWF rows: ours are 128 bytes
 each (two 32-tile tilemap rows), so 48 of them want 6 KB against a
 2 KB buffer. Worse, `DrawItemSlot` is globally patched to single-column
 (`$01:A1F0` col mask, `$01:A1BA` slot calc) while $A172 still walks the
-array two items at a time, so the sell list rendered every second item
-and stopped after six.
+array two items at a time, so the sell list would render every second
+item and stop after six.
 
 So sell gets its own profile, same shape as the other three: a 9-slot
 ring (8 visible + 1 pre-render) in the BG3 buffer, with BG3VOFS driven
@@ -28,9 +28,7 @@ the field menu.
 .include "../bank20.i"
 .import "items"
 
-; Labels this module borrows from its neighbours. As an include these
-; resolved because ff4.s composed one translation unit; a module has to
-; name what it uses.
+; Labels this module borrows from its neighbours.
 .import "ingame/vanilla_trampolines"
 .import "libmz"
 .import "lib/rolling_inventory_engine"
@@ -40,7 +38,7 @@ _SELL_VISIBLE_ITEMS := 8
 _SELL_BUFFER_SLOTS := 9
 _SELL_TOTAL_ITEMS := 48
 
-; State block in the shared $7E:99xx arena, past drops ($9C30) and the
+; State block in the shared $7E:9Cxx arena, past drops ($9C30) and the
 ; key-item picker ($9C60); the field profile sits at $9C90.
 
 ; Vanilla's own sell scroll position ($1B96, "first visible row") and

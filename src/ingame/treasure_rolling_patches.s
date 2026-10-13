@@ -1,6 +1,6 @@
 """
 ROM patches that wire the treasure inventory rolling buffer in: hooks the treasure menu entry/exit, replaces
-`DrawInventoryList` calls and re-uses HDMA channel 4.
+`DrawInventoryList` calls and drives HDMA channel 6.
 """
 .import "preamble"
 .import "ingame/inventory_rolling_trampolines"
@@ -19,8 +19,6 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;   $01DA59 up-scroll blocking loop (`dec $9f` × 8)
 ;   $01DA85 `cmp #$14` scroll-down limit (original 20)
 ;   $01DA8E down-scroll blocking loop (`inc $9f` × 8)
-;
-; Flag-gated off until the entry/exit/trigger thunks are wired up.
 
 ; Cursor sprite X, both lists. Vanilla picks between two columns -
 ; `lda $1bb4 / beq + / lda #$70` for drops, the same shape for the
@@ -64,8 +62,8 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;   index = ((($1bb5 + $1bb7) << 1 + $1bb6) << 1
 ; for the 2-column inventory ($1bb5 = visible row, $1bb7 = scroll row,
 ; $1bb6 = column 0/1). The double-shift assumes 2 cols × 2 bytes/item;
-; with our forced single-column ($1bb6=0) it multiplies by 4 instead of
-; the 2 bytes/item we actually need, so the swap reads/writes
+; with the forced single-column ($1bb6=0) it multiplies by 4 instead of
+; the 2 bytes/item actually needed, so the swap reads/writes
 ; even-numbered items only and half the inventory becomes unreachable.
 ; NOP the second `asl` at $01DAC2 so the offset becomes
 ; ($1bb5 + $1bb7) * 2 = byte index into $1440.
@@ -76,7 +74,7 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     nop
 
 ; Extend the $1BB7 limit from $14 to $2C: vanilla increments, then stops on the limit, so the top row reaches
-; limit - 1: 43 = 48 - 5, the last of the 48 rows at the bottom of the window ($2B stopped one short: slot 47 could
+; limit - 1: 43 = 48 - 5, the last of the 48 rows at the bottom of the window ($2B stops one short: slot 47 could
 ; never be picked for an exchange).
 }
 
@@ -111,8 +109,8 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
 ;   - $01:D81D, treasure menu entry (`_01d7f2` flow), fires once on enter
 ;     → full init (zero state, render slots 0..5).
 ;   - $01:D933, the `_01d929` redraw helper, fires after every successful
-;     swap. Original rebuilds the whole 48-item list here; we only need
-;     to re-render the 6 buffer slots from the mutated $1440. Crucially
+;     swap. Original rebuilds the whole 48-item list here; only the 6
+;     buffer slots need re-rendering from the mutated $1440. Crucially
 ;     this MUST NOT reset buffer_pos / $1BB7 / HDMA shadow. Otherwise
 ;     swapping with an item past visible row 4 snaps the scroll back to
 ;     the top, because init re-zeroes the rolling state.
@@ -160,7 +158,7 @@ ROM patches that wire the treasure inventory rolling buffer in: hooks the treasu
     nop
 
 ; Drops cursor sprite Y base: original `adc #$30` at $01D96F places
-; the hand for the legacy 4x2 grid. The single-column band starts at
+; the hand for the vanilla 4x2 grid. The single-column band starts at
 ; DROPS_FIRST_ITEM_ROW, and the hand sits one pixel above the row the
 ; same way the inventory's does (DROPS_CURSOR_Y_BASE, items.s).
 }

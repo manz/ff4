@@ -95,10 +95,10 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ; ============================================================================
 ; Refresh inventory after SelectItem2 (swap OR use)
 ; ============================================================================
-; After SelectItem2 completes (swap or use item), we need to refresh the
-; display. For swaps, swap_redraw_hook_impl already handled it. For item use,
-; we need to refresh the current slot to show updated quantity.
-; Call our refresh hook instead of the original DrawInventoryList.
+; After SelectItem2 completes (swap or use item), the display needs a
+; refresh. For swaps, swap_redraw_hook_impl already handled it. For item use,
+; the current slot is refreshed to show the updated quantity.
+; Calls the refresh hook instead of the original DrawInventoryList.
 }
 
 
@@ -112,7 +112,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 
 ; $01:A1F0 (the AND operand) is zeroed by inventory_single_column.s at $01:A1EF.
 ; ============================================================================
-; Replace DrawInventoryList with our rolling buffer init
+; Replace DrawInventoryList with the rolling buffer init
 ; ============================================================================
 
 
@@ -123,7 +123,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 ; DrawItemSlot - Clear count display for item ID 0 (empty slot)
 ; ============================================================================
 ; Original code at $A202: lda ($5a); cmp #$fe; beq @a222
-; We replace with JSR that handles clearing for empty slots
+; Replaced with a JSR that handles clearing for empty slots
 ; Original bytes: B2 5A C9 FE F0 1A (6 bytes at $A202-$A207)
 }
 
@@ -143,7 +143,7 @@ machine, scroll up/down hooks, redraw and exit-cleanup hooks).
 
 ; Original code at $A1BA-$A1C7 (14 bytes):
 ;   LDA $5D / LSR / ASL×7 / ADC #$0004 / TAY
-; Replace with JSL to CircularSlotCalc_ext trampoline + NOPs
+; Replace with JSL to circular_slot_calc_ext + NOPs
 ;
 }
 

@@ -27,7 +27,7 @@ go.
 
 ; DrawItemName ($01:9060): vanilla `phy ; phy ; bra _9017` -> caller already
 ; passed A = item_id. Use the bank-01 jsr.w trampoline (3 bytes) + rts
-; (1 byte) so the FIVE-byte JSL.L + RTS no longer spills into the
+; (1 byte): a FIVE-byte JSL.L + RTS would spill into the
 ; sprite-render sub-routine at $01:9064 (the save-screen sprite path
 ; jsr's $9064 directly).
 }
