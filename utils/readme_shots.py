@@ -22,6 +22,8 @@ OUT = REPO / "screenshots"
 SCALE = 2
 # kintsuki pads the 256x224 picture with ares' letterbox border.
 PICTURE = (13, 9, 13 + 256, 9 + 224)
+# SRAM bank $71 holds only the patch's own state; a savestate carries an older build's, so it is zeroed as a boot would.
+PATCH_SRAM = range(0x710000, 0x718000)
 
 
 @dataclass(frozen=True)
@@ -50,7 +52,9 @@ INTRO = [
     for i in range(58)
     for step in ["*60", *(["START" if i < 12 else "A"] if i % 3 == 0 and i < 57 else [])]
 ]
-FRESH_BATTLE = ["B", *(["LEFT:40", "RIGHT:40"] * 3), "LEFT:40", "*200"]
+FRESH_BATTLE = ["B", *(["LEFT:40", "RIGHT:40"] * 3), "LEFT:40", "*500"]
+# The savestate stands on the map: X opens the field menu.
+MENU = ["X", "*60"]
 
 SCENES = [
     Scene("battle-menu", FIELD, steps=FRESH_BATTLE),
@@ -59,10 +63,10 @@ SCENES = [
     Scene("two-columns-magic", FIELD, steps=[*FRESH_BATTLE, "DOWN", "A", "*30"]),
     Scene("dialog-vwf", None, 0, INTRO, gap=0),
     Scene("key-item-picker", "ff4-key-inventory.kss", steps=["A", "A", "*60"], gap=30),
-    Scene("main-menu", FIELD),
-    Scene("load-save-menu", FIELD, steps=["UP", "A", "*60"]),
-    Scene("menu-description-vwf", FIELD, steps=["A", "*60", "DOWN"]),
-    Scene("field-inventory-scroll", FIELD, steps=["A", "*60", *(["DOWN"] * 14)]),
+    Scene("main-menu", FIELD, steps=MENU),
+    Scene("load-save-menu", FIELD, steps=[*MENU, "UP", "A", "*60"]),
+    Scene("menu-description-vwf", FIELD, steps=[*MENU, "A", "*60", "DOWN"]),
+    Scene("field-inventory-scroll", FIELD, steps=[*MENU, "A", "*60", *(["DOWN"] * 14)]),
     Scene("shop-sell", "ff4-buggy-item-shop-press-a.kss", steps=["RIGHT", "A"], gap=40),
     Scene("drops", "ff4-before-battle-inventory.kss", settle=600),
 ]
@@ -77,6 +81,7 @@ def load(kss: Path | None) -> Emu:
     buf = (ctypes.c_uint8 * len(blob))(*blob)
     if lib.kintsuki_load_state(emu._handle, buf, len(blob)) != 1:
         raise RuntimeError(f"failed to load {kss.name}")
+    emu.write_range(PATCH_SRAM.start, bytes(len(PATCH_SRAM)))
     return emu
 
 
