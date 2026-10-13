@@ -25,7 +25,7 @@ from script.pointers import (
 
 from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
-from metrics import TextMetrics
+from utils.metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
 from utils import atb_gauge, battle_labels
 from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file

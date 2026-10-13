@@ -26,7 +26,7 @@ from katsuji.layout import TextLayout
 from katsuji.typeset import FRENCH, Markup
 from script import Table
 
-from metrics import TextMetrics
+from utils.metrics import TextMetrics
 
 TABLE = Path("text/ff4fr.tbl")
 FONTS = ["build/gen/font.dat", "build/gen/wicked_font.dat", "build/gen/book_font.dat", "build/gen/bold_font.dat"]
