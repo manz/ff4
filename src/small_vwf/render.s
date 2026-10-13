@@ -21,6 +21,14 @@ field the direct-page bytes are live engine state (see vwf_engine in vwf_ram.s).
 .extern battle_render
 .extern battle_render.clear_buffer
 
+
+; The menu VWF blitter's state, direct page $73-$75.
+.struct MenuGlyph {
+    byte bits_left_on_tile
+    byte temp
+    byte counter
+}
+
 .alloc _small_vwf_render in bank20_reloc {
     .include "core/vwf_state.i"
 
@@ -207,10 +215,7 @@ get:
     .scope render {
     """Core 8x8 menu-VWF render scope."""
 ; variables
-    _var_base = 0x63
-    bits_left_on_tile = _var_base + 0x10
-    temp = bits_left_on_tile + 1
-    counter = temp + 1
+    glyph := (0x73 as MenuGlyph)
     prev_char = vwf_engine.prev_char  ; long, off the field's MOSAIC shadow
     current_char = vwf_engine.current_char  ; (see src/core/vwf_ram.s)
     tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/core/vwf_ram.s)
@@ -227,15 +232,15 @@ Reset the per-render scratch and the allocator, and clear only this region's CHR
 
     lda.b #0x00
     sta.l prev_char
-    initialize(bits_left_on_tile)
+    initialize(glyph.bits_left_on_tile)
     jsr.w render_allocator.init
     pha
-    _set_var_value(bits_left_on_tile, 0x08)
-    lda.b bits_left_on_tile
+    _set_var_value(glyph.bits_left_on_tile, 0x08)
+    lda.b glyph.bits_left_on_tile
 _brk_init_bits:
     pla
-    initialize(temp)
-    stz.b temp
+    initialize(glyph.temp)
+    stz.b glyph.temp
     pha
 ; --- Per-region CHR clear from VwfConfig ---
     php
@@ -270,8 +275,8 @@ _init_clear_loop:
 
 _init_skip_clear:
     plp
-    pla  ; balances the `pha` after `stz.b temp`, or the rts returns into a BRK
-    initialize(counter)
+    pla  ; balances the `pha` after `stz.b glyph.temp`, or the rts returns into a BRK
+    initialize(glyph.counter)
     rts
 flush_chr_to_vram:
 """
@@ -398,7 +403,7 @@ core/vwf_ram.s), then mark the CHR dirty for the NMI flush. M = 8, X = 16 on ent
     lda.b #0x00
     sta.l prev_char
     lda.b #0x08
-    sta.b bits_left_on_tile
+    sta.b glyph.bits_left_on_tile
 ; 16-bit init: tile_id_base is 9 bits, the 8-bit init would wrap slots past $FF into the font CHR.
     rep #0x20
     lda.l vwf_cfg.tile_id_base
@@ -444,9 +449,9 @@ _chr_clear_loop:
     bne _chr_clear_loop
     plp
     lda.b #0x08
-    sta.b bits_left_on_tile
-    stz.b temp
-    stz.b counter
+    sta.b glyph.bits_left_on_tile
+    stz.b glyph.temp
+    stz.b glyph.counter
     rep #0x20
     lda.l vwf_cfg.tilemap_base
     sta.l tilemap_offset
@@ -462,8 +467,8 @@ _chr_clear_loop:
 draw_text_buffer:
 """
 Blit the null-terminated vwf_text_buffer through display_char. The caller (render_with_config) sets the
-allocator, slot_limit_low, bits_left_on_tile = 8, temp = counter = 0 and tilemap_offset (bottom tilemap row,
-+2 per blit). Keeps X.
+allocator, slot_limit_low, glyph (bits_left_on_tile = 8, temp = counter = 0) and tilemap_offset (bottom tilemap
+row, +2 per blit). Keeps X.
 """
 
 
@@ -486,9 +491,9 @@ _dtb_done:
     }
 deinit:
     {
-    restore(bits_left_on_tile)
-    restore(temp)
-    restore(counter)
+    restore(glyph.bits_left_on_tile)
+    restore(glyph.temp)
+    restore(glyph.counter)
     rts
     }
 make_pointers:
@@ -534,7 +539,7 @@ display_char:
 
     rep #0x20
     lda.w #0x0008
-    sta.b counter
+    sta.b glyph.counter
     sep #0x20
 
 char_line_loop:
@@ -542,7 +547,7 @@ char_line_loop:
     lda.w #0x0000
     sep #0x20
     jsr.w _adjust_bits_left_for_kerning
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
 
     cmp #0x08
     bne _shift
@@ -565,7 +570,7 @@ _really_shift:
     xba
 
     pha
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
     asl
     tax
     pla
@@ -617,11 +622,11 @@ _store:
 _skip_empty_pixel_line:
     iny
     iny
-    dec.b counter
+    dec.b glyph.counter
     bne char_line_loop
 
     rep #0x20
-    stz.b temp
+    stz.b glyph.temp
     lda.w #0x0000
     sep #0x20
 
@@ -629,7 +634,7 @@ _skip_empty_pixel_line:
 brk_bits_left:
     lda.l menu_font, x
 
-    sta.b temp
+    sta.b glyph.temp
 
     rep #0x20
     clc
@@ -637,17 +642,17 @@ brk_bits_left:
     lda.w #0x0000
     sep #0x20
 
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
 
     clc
-    sbc.b temp
+    sbc.b glyph.temp
 
 loopdec:
     cmp #0x00
     bmi coupe
     beq coupe
 
-    sta.b bits_left_on_tile
+    sta.b glyph.bits_left_on_tile
     jsr.w tilemap_write_no_inc
     rts
 
@@ -671,23 +676,23 @@ _adjust_bits_left_for_kerning:
     {
 ; A kern that pushes the room past 8 pixels starts the glyph in the previous tile: step back one tile
 ; (allocator, tilemap cursor, Y and dialog_vwf.old_tile_pos) and keep the remainder.
-    lda.b counter
+    lda.b glyph.counter
     cmp.b #0x08
-    bne _later_row  ; once per glyph, on its first row (counter counts the rows down from 8)
-    lda.b bits_left_on_tile
-    sta.b temp
+    bne _later_row  ; once per glyph, on its first row (glyph.counter counts the rows down from 8)
+    lda.b glyph.bits_left_on_tile
+    sta.b glyph.temp
     jsr.w get_kerning_adjustment
     bcs _room
     clc
-    adc.b temp
-    sta.b temp
+    adc.b glyph.temp
+    sta.b glyph.temp
 _room:
-    lda.b temp
+    lda.b glyph.temp
     cmp.b #0x09
     bcc _set_room
     sec
     sbc.b #0x08
-    sta.b temp
+    sta.b glyph.temp
     rep #0x20
     lda.l render_allocator.allocated_tile_id
     dec
@@ -705,9 +710,9 @@ _room:
     sbc.w #0x0010
     sta.b dialog_vwf.old_tile_pos
     sep #0x20
-    lda.b temp
+    lda.b glyph.temp
 _set_room:
-    sta.b bits_left_on_tile
+    sta.b glyph.bits_left_on_tile
     pha
     lda.l current_char
     sta.l prev_char
