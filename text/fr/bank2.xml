@@ -171,7 +171,7 @@ Je me demande où est passé mon mari...[end]
 Vous connaissez le Murmure?
 C'est une herbe étonnante qui peut
 porter la voix très loin![end]
-....
+...
 Laissez-moi tranquille.
 Je prends un bain de soleil![end]
 J'ai emporté mon coffre-fort pour aller
@@ -190,9 +190,9 @@ J'aimerais bien descendre d'un Ogre..[end]
 Hein?
 Nos ancêtres?
 Comment ils sont arrivés ici?
-Hé bien c'est une longue histoire....[new]
+Hé bien c'est une longue histoire...[new]
 Euh?
-Je crois que je l'ai oubliée....[end]
+Je crois que je l'ai oubliée...[end]
 Je ne peux pas vivre sans le soleil.
 Mais mes ancêtres étaient différents.[end]
 Je suis très fort!
@@ -268,7 +268,7 @@ Tu n'as plus l'âge de faire des folies!
 Prenez soin de mon père, je vous prie.[end]
 Je vous confie mon père.
 Il bricole encore son aéronef, c'est ça?[end]
-[bold]Cid[normal]: Zzz...Zzz....[end]</sn:pointer>
+[bold]Cid[normal]: Zzz...Zzz...[end]</sn:pointer>
     <sn:pointer id="14">[bold]Mère de Rosa[normal]: Qu'est-ce que le roi
 mijote, ces temps-ci...
 Il paraît que vous avez fait des choses
@@ -1825,7 +1825,7 @@ Si tu reviens en un morceau, tu pourras
 utiliser ces armes-là... mais c'est
 impossible.[end]
 Je t'ai déjà dit que tu ne pouvais pas
-utiliser.... un paladin?
+utiliser... un paladin?
 TOI...?[end]</sn:pointer>
     <sn:pointer id="231">T[end]</sn:pointer>
     <sn:pointer id="232">Je suis la plus belle du village!
@@ -1904,7 +1904,7 @@ Très bien, en remerciement, je vais
 rendre ton épée encore meilleure que si
 elle était neuve![end]
 Tu as donné l'Épée Légendaire.[end]
-Zzz....[end]</sn:pointer>
+Zzz...[end]</sn:pointer>
     <sn:pointer id="260">Il y a des Sylphes dans la grotte qui est
 loin dans le nord-ouest![end]
 Les Sylphes sont si timides!
@@ -2150,7 +2150,7 @@ Je suis Lugeie!
 Je défendrai cette Tour de Babil, mon
 honneur en dépend![new]
 [bold]Caïn[normal]: Ne me fais pas rire![end]
-[bold]Docteur Lugeie[normal]: Grr....
+[bold]Docteur Lugeie[normal]: Grr...
 Mon fils adoré va m'apporter vos têtes![end]
 [bold]Rydia[normal]: Ils vont tuer les nains![end]
 [bold]Yang[normal]: Le super canon![end]
@@ -2173,7 +2173,7 @@ Dessin des Cartes -
 Hoshiya, Kuwahara, ça faisait longtemps!
 Qu'est-ce qui ne va pas? ...Hein?
 Ce n'est pas les bonnes personnes!?[new]
-Oups....[end]
+Oups...[end]
 Graphismes -
 [bold]Masanori Hoshino[normal]: C'est moi qui ai
 dessiné tous les monstres que tu combats.
@@ -2382,9 +2382,9 @@ Il y a tellement de livres qu'il faudrait une
 éternité pour tous les lire![end]
 Même les monstres qui résistent à
 Libra... le Dictionnaire des Monstres
-révélera leur véritable nature....[end]
+révélera leur véritable nature...[end]
 Chimère, Monstre, Humain...
-D'où sont-ils venus et où vont-ils....
+D'où sont-ils venus et où vont-ils...
 Le mystère de l'éternité...[end]
 Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
@@ -2516,7 +2516,7 @@ Rydia a appris Sylphe![music][0x29][delay][0x28][end]
 Arrêtez![end]
 [bold]Sylphe[normal]: Yang va beaucoup mieux![end]
 [bold]Sylphe[normal]: C'est bien vide sans Yang...[end]
-[bold]Sylphe[normal]: Il est marié, alors.... enfin bon![end]
+[bold]Sylphe[normal]: Il est marié, alors... enfin bon![end]
 [bold]Sylphe[normal]: Dites bonjour à Yang de
 notre part![end]</sn:pointer>
     <sn:pointer id="330">T[end]</sn:pointer>
@@ -2598,7 +2598,7 @@ du noyau![end]</sn:pointer>
     <sn:pointer id="356">T[end]</sn:pointer>
     <sn:pointer id="357">Changer de nom?
 Que voulez-vous dire?[end]
-Hm, Hm hm Hmmm....[end]
+Hm, Hm hm Hmmm...[end]
 Nous sommes la famille Humingway.[end]
 À bien y réfléchir...
 Un de nos amis avait construit un

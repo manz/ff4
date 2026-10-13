@@ -105,7 +105,7 @@ Deux frères qui se combattent...![end]</sn:pointer>
     <sn:pointer id="26">[bold]Edge[normal]: Hé, le vieux![new]
 [bold]Cecil[normal]: J'ai haï mon propre frère...
 je l'ai combattu...[new]
-[bold]Golbez[normal]: Tu es mon....[new]
+[bold]Golbez[normal]: Tu es mon...[new]
 [bold]Cecil[normal]: Mais les rôles auraient pu être
 inversés...
 Si c'était moi qui avais reçu la
@@ -120,21 +120,21 @@ moi-même![end]</sn:pointer>
     <sn:pointer id="28">[bold]FuSoYa[normal]: Attends![end]</sn:pointer>
     <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est aussi de notre race!
 Je vais venir avec toi...!![end]</sn:pointer>
-    <sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil....[end]</sn:pointer>
+    <sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil...[end]</sn:pointer>
     <sn:pointer id="31">[bold]Edge[normal]: Tu vas le laisser partir,
 Cecil?[new]
 [bold]Rosa[normal]: Golbez...
 Il va là-bas pour mourir...[new]
-[bold]Cecil[normal]: ....[new]
+[bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: C'est ton frère, non?[new]
 [bold]Cecil[normal]: ...Frère...[new]
 [bold]Rydia[normal]: Oui![new]
-[bold]Cecil[normal]: ....[end]</sn:pointer>
+[bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="32">[bold]Edge[normal]: Bordel de merde!
 C'est mauvais, ça![new]
 [bold]Rydia[normal]: Nous devons sortir de là![new]
 [bold]Rosa[normal]: Cecil![new]
-[bold]Cecil[normal]: .....[end]</sn:pointer>
+[bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="33">[bold]Edge[normal]: Mais qu'est-ce que tu fous!?[new]
 [bold]Rydia[normal]: Comment on va sortir d'ici!?[new]
 «Par ici!»[end]</sn:pointer>
@@ -153,7 +153,7 @@ servi du sang lunien de Golbez.[new]
 [bold]Rydia[normal]: Et alors Golbez a
 accompagné FuSoYa sur la lune pour
 anéantir Zémus.[new]
-[bold]Caïn[normal]: Golbez est.... le frère de
+[bold]Caïn[normal]: Golbez est... le frère de
 Cecil...?[end]</sn:pointer>
     <sn:pointer id="38">[bold]Edge[normal]: Alors j'y vais aussi!
 Tant que je ne lui aurai pas collé au
@@ -171,7 +171,7 @@ Caïn!
 Edge![end]</sn:pointer>
     <sn:pointer id="42">[bold]Edge[normal]: ...Pfff.[end]</sn:pointer>
     <sn:pointer id="43">[bold]Cecil[normal]: Allons-y![end]</sn:pointer>
-    <sn:pointer id="44">[bold]Rosa[normal]: ....[new]
+    <sn:pointer id="44">[bold]Rosa[normal]: ...[new]
 [bold]Cecil[normal]: Écarte-toi de mon chemin...[new]
 [bold]Rosa[normal]: Non!
 Tant que tu ne me prends pas avec toi,
@@ -208,18 +208,18 @@ céleste![end]</sn:pointer>
     <sn:pointer id="48">[bold]Caïn[normal]: Rosa![end]</sn:pointer>
     <sn:pointer id="49">[bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="50">[bold]Rosa[normal]: Cecil...[end]</sn:pointer>
-    <sn:pointer id="51">Je suis.... la matière noire absolue...
+    <sn:pointer id="51">Je suis... la matière noire absolue...
 La haine de Zémus, devenue démesurée...[end]</sn:pointer>
     <sn:pointer id="52">[bold]Cecil[normal]: Fr... frère...![end]</sn:pointer>
     <sn:pointer id="53">[bold]Cecil[normal]: Zéromus...![new]
 Je ne peux pas...
 Je ne peux pas perdre...![end]</sn:pointer>
-    <sn:pointer id="54">«....Je.... ne... périrai pas... ....Tant que...le...
-mal.... ...hantera...le... cœur...des...hommes...
+    <sn:pointer id="54">«...Je... ne... périrai pas... ...Tant que...le...
+mal... ...hantera...le... cœur...des...hommes...
 Urgh...Gyaa... Gyaaaaaaaaammmmmmm!!!!»[end]</sn:pointer>
     <sn:pointer id="55">[bold]FuSoYa[normal]: Incroyable![end]</sn:pointer>
     <sn:pointer id="56">[bold]FuSoYa[normal]: Dire que vous aviez autant de
-puissance....
+puissance...
 Les habitants de la Planète Bleue nous
 ont peut-être déjà dépassés, nous, les
 Luniens.[new]
@@ -419,7 +419,7 @@ Mais ce sera un long sommeil.[new]
 [bold]Golbez[normal]: Je le sais.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Golbez[normal]: Tu m'as appelé ton frère...
 Cecil.[new]
-[bold]Cecil[normal]: ....[new]
+[bold]Cecil[normal]: ...[new]
 [bold]Golbez[normal]: ...Mais tu ne saurais me
 pardonner.
 Moi qui vous ai tant fait souffrir...[end]</sn:pointer>
@@ -497,7 +497,7 @@ reconstruit, n'est-ce pas? [delay][0x10][close_window][end]</sn:pointer>
 Anna.[new]
 Moi, j'ai encore le peuple de Damcyan...!
 [delay][0x18] Entends-toi bien avec Tella...[delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="100">[bold]Femme de Yang[normal]: Chéri....[delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="100">[bold]Femme de Yang[normal]: Chéri...[delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="101">[bold]Yang[normal]: Tu es reine, maintenant!
 Arrête de m'appeler chéri!
 [delay][0x18]
@@ -597,7 +597,7 @@ Au revoir... [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="127">[bold]Yang[normal]: Allons-y![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="128">«Mon nom est Zéromus... je hais... tout!!!»[new]
 [music][0xb][end]</sn:pointer>
-    <sn:pointer id="129">[bold]FuSoYa[normal]: ....Zémus?!
+    <sn:pointer id="129">[bold]FuSoYa[normal]: ...Zémus?!
 La mort n'a fait que décupler sa haine![end]</sn:pointer>
     <sn:pointer id="130">[bold]Golbez[normal]: Zémus...
 Non, Zéromus!
@@ -676,7 +676,7 @@ Rydia a appris Odin![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
 Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
     <sn:pointer id="160">[bold]Tella[normal]: J'obtiendrai vengeance![end]</sn:pointer>
-    <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir....
+    <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir...
 Golbez...![end]</sn:pointer>
     <sn:pointer id="162">[bold]Rosa[normal]: Téléport![end]</sn:pointer>
     <sn:pointer id="163">[bold]Cecil[normal]: Non, ce n'est rien...
