@@ -3,7 +3,7 @@
     <sn:pointer id="0">[0xfa]L'inventaire est plein.[end]</sn:pointer>
     <sn:pointer id="1">[0xfa]Tu reçois [item]![end]</sn:pointer>
     <sn:pointer id="2">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
-    <sn:pointer id="3">Des monstres![end]</sn:pointer>
+    <sn:pointer id="3">Un monstre dans le coffre![end]</sn:pointer>
     <sn:pointer id="4">[0xfa]Le coffre est vide.[end]</sn:pointer>
     <sn:pointer id="5">[0xfa]La porte est verrouillée.[end]</sn:pointer>
     <sn:pointer id="6">[0xfa]La porte est ouverte.[end]</sn:pointer>
