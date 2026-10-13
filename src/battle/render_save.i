@@ -12,15 +12,15 @@ after its aligned check and its shift dispatch jumps past its table into a BRK, 
 the tiles the NMI's render pointed the allocator at.
     """
     rep #0x20
-    lda.b battle_render.bits_left_on_tile
+    lda.b battle_render.glyph.bits_left_on_tile
     pha
-    lda.b battle_render.tilemap_offset
+    lda.b battle_render.glyph.tilemap_offset
     pha
-    lda.b battle_render.temp
+    lda.b battle_render.glyph.temp
     pha
-    lda.b battle_render.counter
+    lda.b battle_render.glyph.counter
     pha
-    lda.b battle_render.prev_char  ; and current_char
+    lda.b battle_render.glyph.prev_char  ; and current_char
     pha
     lda.l render_allocator.allocated_tile_id
     pha
@@ -37,14 +37,14 @@ the tiles the NMI's render pointed the allocator at.
     pla
     sta.l render_allocator.allocated_tile_id
     pla
-    sta.b battle_render.prev_char
+    sta.b battle_render.glyph.prev_char
     pla
-    sta.b battle_render.counter
+    sta.b battle_render.glyph.counter
     pla
-    sta.b battle_render.temp
+    sta.b battle_render.glyph.temp
     pla
-    sta.b battle_render.tilemap_offset
+    sta.b battle_render.glyph.tilemap_offset
     pla
-    sta.b battle_render.bits_left_on_tile
+    sta.b battle_render.glyph.bits_left_on_tile
     sep #0x20
 }

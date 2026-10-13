@@ -23,13 +23,13 @@ dialog-stream consumer).
 .macro copy_baked_name(blob, table, resume) {
     """
     A = name id, Y = cell offset (M = 8, X = 16): copy the name's baked tiles into the CHR buffer at the allocator.
-    With `resume`, the renderer is left inside the name's last tile (Y on its cell, bits_left_on_tile = columns
+    With `resume`, the renderer is left inside the name's last tile (Y on its cell, glyph.bits_left_on_tile = columns
     left) so the next glyphs join it; otherwise the next glyph starts a fresh tile past the name.
     """
     {
-    sty.b battle_render.tilemap_offset
+    sty.b battle_render.glyph.tilemap_offset
     pha
-    lda.b battle_render.bits_left_on_tile
+    lda.b battle_render.glyph.bits_left_on_tile
     cmp.b #0x08
     beq _fresh
     jsr.w render_allocator.increment  ; a glyph left the current tile part-filled: the name starts on the next one
@@ -89,31 +89,42 @@ _cell:
     lda.b #0x08
     sec
     sbc 2, s
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.prev_char  ; no kerning pair across the baked name
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.prev_char  ; no kerning pair across the baked name
     rep #0x20
     lda.l render_allocator.allocated_tile_id
     dec
     sta.l render_allocator.allocated_tile_id
-    dec.b battle_render.tilemap_offset
-    dec.b battle_render.tilemap_offset
+    dec.b battle_render.glyph.tilemap_offset
+    dec.b battle_render.glyph.tilemap_offset
     sep #0x20
     bra _state
     }
 _done:
     sep #0x20
     lda.b #0x08  ; the next VWF glyph starts a fresh tile, past the name
-    sta.b battle_render.bits_left_on_tile
+    sta.b battle_render.glyph.bits_left_on_tile
 _state:
-    stz.b battle_render.temp
-    stz.b battle_render.counter
+    stz.b battle_render.glyph.temp
+    stz.b battle_render.glyph.counter
     rep #0x20
     pla
     lda.w #0x0000  ; no leftover in B: callers transfer A to a 16-bit index
     sep #0x20
-    ldy.b battle_render.tilemap_offset
+    ldy.b battle_render.glyph.tilemap_offset
     }
 }
+
+; The glyph blitter's state, direct page $A9-$B2.
+.struct BattleGlyph {
+    word bits_left_on_tile
+    word tilemap_offset
+    word temp
+    word counter
+    byte prev_char
+    byte current_char
+}
+
 
 .alloc _battle_message_block in bank20_reloc {
     .include "battle/inventory_budget.i"
@@ -143,12 +154,7 @@ _state:
 ; Inventory slots flush per slot (160-byte slices). render_defs.i: dirty / render-skipped / tilemap-pending
 ; interface shared with redraw_gates.s and the writer-site shims.
     .include "render_defs.i"
-    bits_left_on_tile = 0xA9
-    tilemap_offset = bits_left_on_tile + 2
-    temp = bits_left_on_tile + 4
-    counter = bits_left_on_tile + 6
-    prev_char = bits_left_on_tile + 8
-    current_char = prev_char + 1
+    glyph := (0xA9 as BattleGlyph)
 init_monsters:
 """Initialize the renderer targeting the monsters region."""
     jsr.w _clear_monster_text
@@ -207,11 +213,11 @@ it, so item N owns its own tile range. No clear_buffer: tiles 0xC0+ would overru
 ; Inventory CHR flushes per slot (dma_dirty_slots): pending_transfer_mask must stay untouched here.
     lda.b #region_size * 4
     jsr.w render_allocator.init_with_tile_id
-    stz.b prev_char
+    stz.b glyph.prev_char
     lda.b #0x08
-    sta.b bits_left_on_tile
-    stz.b temp
-    stz.b counter
+    sta.b glyph.bits_left_on_tile
+    stz.b glyph.temp
+    stz.b glyph.counter
     rts
 render_allocator_init_with_tile_id_thunk:
 """In-scope thunk to `render_allocator.init_with_tile_id` (jsr.w across scopes). A = tile_id base."""
@@ -300,14 +306,14 @@ init:
     pla
     jsr.w render_allocator.init
 _internal_init:
-    stz.b prev_char
+    stz.b glyph.prev_char
     jsr.w clear_buffer
     pha
     lda.b #0x08
-    sta.b bits_left_on_tile
+    sta.b glyph.bits_left_on_tile
     pla
-    stz.b temp
-    stz.b counter
+    stz.b glyph.temp
+    stz.b glyph.counter
     rts
 clear_buffer:
 """
@@ -352,7 +358,7 @@ make_pointers:
 
     ldx.w #0x0000
     ldy.w #0x0000
-    lda.b current_char
+    lda.b glyph.current_char
     xba
     lda.b #0x00
     xba
@@ -380,7 +386,7 @@ _refresh_destination_pointer:
     rts
     }
 display_char:
-"""Render `A` (char) at tilemap offset `Y` into the VWF buffer; preserves A/X/Y, returns Y = `tilemap_offset`."""
+"""Render `A` (char) at tilemap offset `Y` into the VWF buffer; preserves A/X/Y, returns Y = `glyph.tilemap_offset`."""
 
 
     pha
@@ -390,12 +396,12 @@ display_char:
     ply
     plx
     pla
-    ldy.b tilemap_offset
+    ldy.b glyph.tilemap_offset
     rts
 _display_char:
     {
-    sta.b current_char
-    sty.b tilemap_offset
+    sta.b glyph.current_char
+    sty.b glyph.tilemap_offset
 
     jsr.w make_pointers
 
@@ -405,7 +411,7 @@ _display_char:
     pla
 
 ; Space ($FF) is blank: skip the 8 glyph rows, X past them so brk_bits_left reads the width byte.
-    lda.b current_char
+    lda.b glyph.current_char
     cmp #0xff
     bne _not_space
     rep #0x20
@@ -417,24 +423,24 @@ _display_char:
     jmp.w brk_bits_left
 _not_space:
 
-; One specialised 8-row loop per bits_left_on_tile (aligned + shift_0..7), asl count baked in; all end at
-; brk_bits_left. The shift dispatch clobbers X, so the font pointer goes to `temp` (the aligned path keeps X).
+; One specialised 8-row loop per glyph.bits_left_on_tile (aligned + shift_0..7), asl count baked in; all end at
+; brk_bits_left. The shift dispatch clobbers X, so the font pointer goes to `glyph.temp` (the aligned path keeps X).
     rep #0x20
     lda.w #0x0008
-    sta.b counter
+    sta.b glyph.counter
     sep #0x20
 
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
     cmp #0x08
     beq _aligned_loop
 
     phx
     rep #0x20
     pla
-    sta.b temp
+    sta.b glyph.temp
     sep #0x20
 
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
     asl
     pha
     lda #0x00
@@ -478,7 +484,7 @@ _shift_dispatch:
     plx
     iny
     iny
-    dec.b counter
+    dec.b glyph.counter
     }
 
 _aligned_loop:
@@ -492,61 +498,61 @@ _aligned_loop:
     plx
     iny
     iny
-    dec.b counter
+    dec.b glyph.counter
     bne _aligned_loop
     jmp.w brk_bits_left
 
 _shift_loop_0:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_0_body:
     vwf_row_body(0)
     bne _shift_loop_0_body
     jmp.w brk_bits_left
 
 _shift_loop_1:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_1_body:
     vwf_row_body(1)
     bne _shift_loop_1_body
     jmp.w brk_bits_left
 
 _shift_loop_2:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_2_body:
     vwf_row_body(2)
     bne _shift_loop_2_body
     jmp.w brk_bits_left
 
 _shift_loop_3:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_3_body:
     vwf_row_body(3)
     bne _shift_loop_3_body
     jmp.w brk_bits_left
 
 _shift_loop_4:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_4_body:
     vwf_row_body(4)
     bne _shift_loop_4_body
     jmp.w brk_bits_left
 
 _shift_loop_5:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_5_body:
     vwf_row_body(5)
     bne _shift_loop_5_body
     jmp.w brk_bits_left
 
 _shift_loop_6:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_6_body:
     vwf_row_body(6)
     bne _shift_loop_6_body
     jmp.w brk_bits_left
 
 _shift_loop_7:
-    ldx.b temp
+    ldx.b glyph.temp
 _shift_loop_7_body:
     vwf_row_body(7)
     bne _shift_loop_7_body
@@ -556,7 +562,7 @@ _shift_loop_7_body:
 brk_bits_left:
     lda.l menu_font, x
 
-    sta.b temp
+    sta.b glyph.temp
 
     rep #0x20
     clc
@@ -564,17 +570,17 @@ brk_bits_left:
     lda.w #0x0000
     sep #0x20
 
-    lda.b bits_left_on_tile
+    lda.b glyph.bits_left_on_tile
 
     clc
-    sbc.b temp
+    sbc.b glyph.temp
 
 loopdec:
     cmp #0x00
     bmi coupe
     beq coupe
 
-    sta.b bits_left_on_tile
+    sta.b glyph.bits_left_on_tile
     jsr.w tilemap_write_no_inc
 
     rts
@@ -587,15 +593,15 @@ coupe:
     }
 _adjust_bits_left_for_kerning:
     {
-    lda.b bits_left_on_tile
-    sta.b temp
+    lda.b glyph.bits_left_on_tile
+    sta.b glyph.temp
 
     jsr.w get_kerning_adjustment
     bcc _adjustment
     bra _end
 _adjustment:
     pha
-    lda.b temp
+    lda.b glyph.temp
     clc
     adc 1, s
     cmp #0x9
@@ -604,22 +610,22 @@ _adjustment:
 _overflow:
     pla
     lda #0x08
-    sta.b temp
+    sta.b glyph.temp
     pha
     bra _no_adjustment
 _no_overflow:
-    sta.b temp
+    sta.b glyph.temp
 _no_adjustment:
 
     pla
 _end:
-    lda.b temp
-    sta.b bits_left_on_tile
+    lda.b glyph.temp
+    sta.b glyph.bits_left_on_tile
 
 _finalize:
     pha
-    lda.b current_char
-    sta.b prev_char
+    lda.b glyph.current_char
+    sta.b glyph.prev_char
     pla
     rts
     }
@@ -628,10 +634,10 @@ _get_kerning_adjustment_binary_search:
     {
 ; Space ($FF) is in no kerning table: bail before the bank push (external callers too). Caller in M=16.
     sep #0x20
-    lda.b prev_char
+    lda.b glyph.prev_char
     cmp #0xff
     beq _space_skip
-    lda.b current_char
+    lda.b glyph.current_char
     cmp #0xff
     beq _space_skip
     rep #0x20
@@ -650,7 +656,7 @@ _get_kerning_adjustment_binary_search:
     pha  ; Push high bound (count-1)
     lda.w #0x0000  ; Low bound = 0
     pha  ; Push low bound
-    lda.b prev_char  ; Load target character
+    lda.b glyph.prev_char  ; Load target character
     pha  ; Push target for comparison
 
 _binary_loop:
@@ -767,7 +773,7 @@ high byte with the palette bits, so inventory tile_ids past 0xFF reach the upper
 
 
     phy
-    ldy.b tilemap_offset
+    ldy.b glyph.tilemap_offset
     lda.l render_allocator.allocated_tile_id
     sta.b (btlgfx_dp.kana_row_ptr), y
     lda #0xff
@@ -785,8 +791,8 @@ tilemap_write:
     jsr.w tilemap_write_no_inc
     jsr.w render_allocator.increment
     rep #0x20
-    inc.b tilemap_offset
-    inc.b tilemap_offset
+    inc.b glyph.tilemap_offset
+    inc.b glyph.tilemap_offset
     sep #0x20
     tdc
     pla
@@ -895,11 +901,11 @@ _chr_clear_loop:
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
-    stz.b battle_render.prev_char
+    stz.b battle_render.glyph.prev_char
     lda.b #0x08
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.temp
-    stz.b battle_render.counter
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.temp
+    stz.b battle_render.glyph.counter
     plp
     rtl
 init_inventory:
@@ -967,11 +973,11 @@ _snb_clear:
     clc
     adc.b #battle_render.SPELL_NAME_TILES - 1
     sta.l render_allocator.slot_limit_low
-    stz.b battle_render.prev_char
+    stz.b battle_render.glyph.prev_char
     lda.b #0x08
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.temp
-    stz.b battle_render.counter
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.temp
+    stz.b battle_render.glyph.counter
     plp
     rtl
 
@@ -1024,7 +1030,7 @@ _dsn_copy:
     bne _dsn_copy
     pla
     ply
-    sty.b battle_render.tilemap_offset
+    sty.b battle_render.glyph.tilemap_offset
     pla  ; tiles
     sep #0x20
     tax
@@ -1032,12 +1038,12 @@ _dsn_cell:
     jsr.w battle_render.tilemap_write
     dex
     bne _dsn_cell
-    ldy.b battle_render.tilemap_offset
+    ldy.b battle_render.glyph.tilemap_offset
 _dsn_done:
     sep #0x20
     lda.b #0x08
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.prev_char
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.prev_char
     plp
     rtl
 
@@ -1153,11 +1159,11 @@ _di_not_baked:
     beq _di_vwf_toggle
     bit.b 0x1F
     bmi _di_fixed_char
-; VWF char: display_char advances Y (tilemap_offset) as it allocates
+; VWF char: display_char advances Y (glyph.tilemap_offset) as it allocates
     inx
-    sty.b battle_render.tilemap_offset
+    sty.b battle_render.glyph.tilemap_offset
     jsr.w battle_render.display_char
-    ldy.b battle_render.tilemap_offset
+    ldy.b battle_render.glyph.tilemap_offset
     jmp.w _di_loop
 
 _di_fixed_char:
@@ -1233,7 +1239,7 @@ _di_pad:
     asl
     tay
     lda #0x08
-    sta.b battle_render.bits_left_on_tile
+    sta.b battle_render.glyph.bits_left_on_tile
     jmp.w _di_loop
 
 _di_baked:
@@ -1362,11 +1368,11 @@ _ig_chr_clear:
     adc.b 0x04
     dec
     sta.l render_allocator.slot_limit_low
-    stz.b battle_render.prev_char
+    stz.b battle_render.glyph.prev_char
     lda.b #0x08
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.temp
-    stz.b battle_render.counter
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.temp
+    stz.b battle_render.glyph.counter
     plp
     rts
 
@@ -1417,11 +1423,11 @@ _dis_chr_clear:
     clc
     adc.b #( ITEM_VWF_TILE_BUDGET - 1 )
     sta.l render_allocator.slot_limit_low
-    stz.b battle_render.prev_char
+    stz.b battle_render.glyph.prev_char
     lda.b #0x08
-    sta.b battle_render.bits_left_on_tile
-    stz.b battle_render.temp
-    stz.b battle_render.counter
+    sta.b battle_render.glyph.bits_left_on_tile
+    stz.b battle_render.glyph.temp
+    stz.b battle_render.glyph.counter
     plp
     rts
 init_monsters_gated:
@@ -1822,14 +1828,14 @@ _sram_dma_transfer_7:
 new_line_escape_code_handler:
 """
 Handler for the $01 newline text-stream escape: allocate a fresh tile via `render_allocator.increment`, reset
-bits_left_on_tile to 8, and move both row pointers down one line ($EF54 cells).
+glyph.bits_left_on_tile to 8, and move both row pointers down one line ($EF54 cells).
 """
 
 
     pha
     jsr.w render_allocator.increment
     lda #8
-    sta.b battle_render.bits_left_on_tile
+    sta.b battle_render.glyph.bits_left_on_tile
     pla
     lda 0xef54
     rep #0x20

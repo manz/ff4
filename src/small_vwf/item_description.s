@@ -137,7 +137,7 @@ _newline:
     sep #0x20
 _reset_render:
     lda #0x08
-    sta.b render.bits_left_on_tile
+    sta.b render.glyph.bits_left_on_tile
     jsr.w render_allocator.increment
     bra _char_loop
 _transfer_item_description:

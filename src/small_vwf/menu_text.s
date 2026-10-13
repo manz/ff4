@@ -824,7 +824,7 @@ _not_on_screen:
 _fresh_tile:
 """The next glyph starts a tile of its own."""
     lda.b #0x08
-    sta.b render.bits_left_on_tile
+    sta.b render.glyph.bits_left_on_tile
     jmp.w render_allocator.increment
 
 _start_line:
@@ -876,7 +876,7 @@ before. Cells without a VWF tile (attribute bits 0-1 clear) stay as they are, a 
     lda.l render.tilemap_offset
     tax
     sep #0x20
-    lda.b render.bits_left_on_tile
+    lda.b render.glyph.bits_left_on_tile
     cmp #0x08
     beq _pad_check  ; the current cell holds no pixel yet
     inx
