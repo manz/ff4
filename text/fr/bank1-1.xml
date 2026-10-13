@@ -436,7 +436,7 @@ Désert sur Rosa![end]</sn:pointer>
     <sn:pointer id="104">[bold]Rosa[normal]: Cecil!
 Tu es là!
 Je suis si heureuse![new]
-[bold]Cecil[normal]: Tu as fait une folie...[new]
+[bold]Cecil[normal]: Tu as fait une folie...[music][0x13][new]
 [bold]Rosa[normal]: On m'a dit que tu étais mort
 dans le séisme à Mist...
 Mais je ne voulais pas y croire...[new]
@@ -880,7 +880,7 @@ surmonter ma propre noirceur![end]</sn:pointer>
 Prends-la... ma... lumière finale! Mon fils...
 arrête Golbez!»[new]
 [bold]Cecil[normal]: A... attendez![end]</sn:pointer>
-    <sn:pointer id="205">[0xfa]Cecil est devenu un paladin![end]</sn:pointer>
+    <sn:pointer id="205">[0xfa]Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
     <sn:pointer id="206">[bold]Porom[normal]: Est-ce que vous allez bien?[new]
 [bold]Palom[normal]: T'es vraiment...[new]
 [bold]Porom[normal]: Shh![new]
@@ -1096,7 +1096,7 @@ Caïn![end]</sn:pointer>
 Où est Rosa!?[end]</sn:pointer>
     <sn:pointer id="249">[bold]Rosa[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="250">[bold]Cecil[normal]: Rosa..[new]
-[bold]Rosa[normal]: Je savais que tu viendrais...[end]</sn:pointer>
+[bold]Rosa[normal]: Je savais que tu viendrais...[music][0x13][end]</sn:pointer>
     <sn:pointer id="251">[bold]Cecil[normal]: Sans toi...
 Je me suis aperçu que... je...[new]
 [bold]Rosa[normal]: Cecil...[new]
@@ -1173,7 +1173,7 @@ les cristaux.[new]
 les cristaux...?[new]
 [bold]Cid[normal]: J'en ai entendu parler![new]
 [bold]Rosa[normal]: Ce ne peut pas être...[new]
-[bold]Caïn[normal]: Si... les Cristaux d'Obscurité![end]</sn:pointer>
+[bold]Caïn[normal]: Si... les Cristaux d'Obscurité![music][0x2d][end]</sn:pointer>
     <sn:pointer id="266">[bold]Cid[normal]: Il y a quatre cristaux sur la
 face externe de la Terre.[new]
 [bold]Yang[normal]: Alors il y a des cristaux de
@@ -1453,7 +1453,7 @@ J'étais si inquiet...[new]
 Viens...[new]
 [bold]Roi[normal]: Oui, viens avec nous.[new]
 [bold]Edge[normal]: Où ça?[new]
-[bold]Reine[normal]: En enfer![new]
+[bold]Reine[normal]: En enfer![music][0x1f][new]
 [bold]Cecil[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="307">[bold]Sylphe[normal]: Tu es une invocatrice.
 Si tu es invocatrice, tu peux nous
@@ -1640,7 +1640,7 @@ Alors, veux-tu te mesurer à moi?[end]</sn:pointer>
 le cristal et reviens à moi...»[new]
 [bold]Cecil[normal]: Golbez![end]</sn:pointer>
     <sn:pointer id="340">[bold]Cecil[normal]: Ooh! [0xfa]Caïn a volé le
-cristal d'Obscurité![music][0x1f][delay][0x50][end]</sn:pointer>
+cristal d'Obscurité![music][0x1f][delay][0x1d][end]</sn:pointer>
     <sn:pointer id="341">[bold]Edge[normal]: Misérable![new]
 [bold]Rosa[normal]: Caïn!
 Que fais-tu!?[new]
@@ -1667,7 +1667,7 @@ Nos prières...
 Ont été entendues![end]</sn:pointer>
     <sn:pointer id="345">[bold]Ancien[normal]: Ce doit être...
 Le légendaire vaisseau de lumière...
-Le vaisseau céleste![end]</sn:pointer>
+Le vaisseau céleste![music][0xe][end]</sn:pointer>
     <sn:pointer id="346">[bold]Ancien[normal]: Pendant ma prière, j'ai entendu
 une voix chaleureuse.[new]
 «Venez sur la Lune... Il y a ceux qui vous
@@ -1818,7 +1818,7 @@ au sud-ouest, de l'autre côté du magma...[new]
 l'ennemi, mais il n'a pas les modifications
 de l'Enterprise.[new]
 [bold]Cid[normal]: Pffff...
-Vous ne pouvez rien faire sans moi![end]</sn:pointer>
+Vous ne pouvez rien faire sans moi![music][0x24][end]</sn:pointer>
     <sn:pointer id="369">[bold]Cid[normal]: Vous êtes des vieux, vous
 aussi!
 On n'a pas le temps de traîner![new]
@@ -2327,7 +2327,7 @@ entrer![end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
     <sn:pointer id="496">[0xfa]Tu as trouvé le Livre de la Connaissance![end]</sn:pointer>
-    <sn:pointer id="497">[0xfa]Tu as trouvé un magazine coquin![end]</sn:pointer>
+    <sn:pointer id="497">[0xfa]Tu as trouvé un magazine coquin![delay][0x30][end]</sn:pointer>
     <sn:pointer id="498">[bold]Roi Baron[normal]: Baron?
 Hé, hé... qui est-ce?
 Ah oui, je me souviens![new]

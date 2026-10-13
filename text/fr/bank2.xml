@@ -1424,7 +1424,7 @@ S'il te plaît... essaye d'être courageuse![new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: ... ... ...[end]
 [bold]Rydia[normal]: Feu!![end]
-Rydia a appris Feu![music][0x29][delay][0x28][end]
+Rydia a appris Feu![delay][0x28][end]
 [bold]Edward[normal]: C'est incroyable, Rydia![new]
 [bold]Rydia[normal]: Héhé...[new]
 [bold]Rosa[normal]: Merci, Rydia![new]
@@ -1477,7 +1477,7 @@ Allons-y![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]
-Le Moine Yang a rejoint le groupe![music][0x29][delay][0xc][end]</sn:pointer>
+Le Moine Yang a rejoint le groupe![delay][0x28][end]</sn:pointer>
     <sn:pointer id="128">T[end]</sn:pointer>
     <sn:pointer id="129">T[end]</sn:pointer>
     <sn:pointer id="130">T[end]</sn:pointer>
@@ -1521,7 +1521,7 @@ Prenez soin de Cecil![end]
 [bold]Cecil[normal]: ARRÊTEZ!!![new]
 [bold]Palom et Porom[normal]: Pétrifier!![end]
 [bold]Cecil[normal]: Palom...
-Porom!!![music][0x2a][delay][0xc][end]
+Porom!!![music][0x2a][delay][0x28][end]
 Ils se sont pétrifiés de leur propre
 volonté... Ça n'a aucun effet...[end]
 [bold]Yang[normal]: Des enfants si jeunes...![end]
@@ -1613,10 +1613,10 @@ une autre affaire![end]
 C...c'est la queue de rat que je cherchais!
 D'accord, je vais vous donner un bout de
 ce minerai!
-Obtenu l'Adamantite![music][0x29][delay][0xc][end]
+Obtenu l'Adamantite![music][0x29][delay][0x28][end]
 C..c'est...la légendaire queue rose!
 D'accord, je vais aussi vous donner ça!
-Obtenu l'Armure adamant![music][0x29][delay][0xc][end]</sn:pointer>
+Obtenu l'Armure adamant![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="161">T[end]</sn:pointer>
     <sn:pointer id="162">T[end]</sn:pointer>
     <sn:pointer id="163">[bold]FuSoYa[normal]: Monte près de sa bouche![new]
@@ -1890,7 +1890,7 @@ Ne sois pas si impatient![end]
 C'est fait!
 L'épée sacrée Excalibur!
 Manie-la avec respect![new]
-Tu as obtenu Excalibur![music][0x29][delay][0xc][end]
+Tu as obtenu Excalibur![music][0x29][delay][0x28][end]
 Grâce à toi, j'ai enfin retrouvé le cœur à
 l'ouvrage.[end]
 Wow!
@@ -2511,7 +2511,7 @@ Elle pourra nous appeler!
 Nous combattrons à ta place![new]
 [bold]Rydia[normal]: Heureuse de faire votre
 connaissance, mesdemoiselles Sylphes!
-Rydia a appris Sylphe![music][0x29][delay][0xc][end]
+Rydia a appris Sylphe![music][0x29][delay][0x28][end]
 [bold]Sylphe[normal]: Ah!
 Arrêtez![end]
 [bold]Sylphe[normal]: Yang va beaucoup mieux![end]
@@ -2609,12 +2609,12 @@ des surnoms...[end]</sn:pointer>
     <sn:pointer id="358">T[end]</sn:pointer>
     <sn:pointer id="359">T[end]</sn:pointer>
     <sn:pointer id="360">T[end]</sn:pointer>
-    <sn:pointer id="361">Tu as obtenu la Murasame![music][0x29][delay][0xc][end]</sn:pointer>
+    <sn:pointer id="361">Tu as obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">Tu as obtenu Ragnarok![music][0x29][delay][0xc][end]</sn:pointer>
+    <sn:pointer id="363">Tu as obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="364">T[end]</sn:pointer>
     <sn:pointer id="365">T[end]</sn:pointer>
-    <sn:pointer id="366">Tu as obtenu la Masamune![music][0x29][delay][0xc][end]
+    <sn:pointer id="366">Tu as obtenu la Masamune![music][0x29][delay][0x28][end]
 Pensiez-vous réellement que des gens de
 la Planète Bleue pourraient être capables
 d'utiliser cette...
@@ -2630,7 +2630,7 @@ Masamune!?[end]</sn:pointer>
     <sn:pointer id="375">T[end]</sn:pointer>
     <sn:pointer id="376">T[end]</sn:pointer>
     <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">Tu as obtenu la Lance sacrée![music][0x29][delay][0xc][end]</sn:pointer>
+    <sn:pointer id="378">Tu as obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="379">T[end]</sn:pointer>
     <sn:pointer id="380">T[end]</sn:pointer>
     <sn:pointer id="381">T[end]</sn:pointer>
