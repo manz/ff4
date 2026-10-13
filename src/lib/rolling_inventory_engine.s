@@ -1,8 +1,8 @@
 """
 Unified rolling-inventory engine - bank-20 entry points.
 
-Phase 1 skeleton : declares the JSL-callable entry points specified in
-plans/rolling_inventory_engine.md. Each entry currently delegates to
+Phase 1 skeleton : declares the JSL-callable entry points. Each entry
+currently delegates to
 the existing macro-driven `engine_*` machinery in
 `src/lib/rolling_buffer.s`, so callers can opt-in incrementally.
 

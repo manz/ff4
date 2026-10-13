@@ -1,7 +1,7 @@
 """Phase-1 smoke for the unified rolling-inventory engine.
 
-Each entry currently RTLs immediately (plans/rolling_inventory_engine.md
-phase 1 stub) so the harness only verifies:
+Each entry currently RTLs immediately (phase 1 stub) so the harness
+only verifies:
 
 * All eight bank-20 symbols resolve via the .adbg debug info.
 * Each entry, when JSL'd from a fresh emulator with X = a sentinel
