@@ -11,8 +11,7 @@ clear. Writer-side code (state changes: ATB pick, cursor move,
 submenu enter, status flip, …) sets the matching bit via the
 `mark_*` helpers below.
 
-See `todo/battle-text-redraw.md` for the architecture rationale and
-`tests/_profile/baseline_battle_idle.py` for the cycle measurement
+See `tests/_profile/baseline_battle_idle.py` for the cycle measurement
 that prompted the work.
 """
 
