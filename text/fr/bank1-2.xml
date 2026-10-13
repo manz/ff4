@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">Une force mystérieuse entoure ce lieu.
-Tu peux utiliser une tente ou une cabine,
+Tu peux utiliser une tente ou un chalet,
 et sauvegarder.[end]</sn:pointer>
     <sn:pointer id="1">[bold]Golbez[normal]: C'est terminé...[new]
 [bold]FuSoYa[normal]: Pauvre fou...
@@ -357,9 +357,9 @@ pour déjouer les plans de Zémus...
 Nous devons l'arrêter![new]
 Pour la Planète Bleue et pour les
 Luniens!
-Hâtons-nous vers la tour de Babil
+Hâtons-nous vers la Tour de Babil
 d'Eblana![new]
-[bold]Edge[normal]: La tour de Babil!?
+[bold]Edge[normal]: La Tour de Babil!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
     <sn:pointer id="64">[bold]FuSoYa[normal]: J'ai des pouvoirs qui peuvent
 neutraliser la barrière!
@@ -470,7 +470,7 @@ qu'elle reviendrait parmi nous... [delay][0x18][new]
 [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="91">[bold]Rydia[normal]: N'est-ce pas vrai...
 Cecil![delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="92">[bold]Enfant Monstre[normal]: Hé, Rydia.
+    <sn:pointer id="92">[bold]Enfant Chimère[normal]: Hé, Rydia.
 Comment ça se fait que j'aie des crocs et
 pas toi?
 J'aimerais être comme toi.[delay][0x8][close_window][end]</sn:pointer>
@@ -508,7 +508,7 @@ guindées! [delay][0x18][new]
 C'est l'heure de l'entraînement! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="102">[bold]Ancien Roi[normal]: Allons, ne dis pas cela.
 Yang saura bâtir un nouveau Fabul! [delay][0xd][close_window][end]</sn:pointer>
-    <sn:pointer id="103">Lali-Ho![delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="103">Lali-ho![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="104">[bold]Giotto[normal]: Bien!
 Mettons-nous au travail et restaurons ce
 château! [delay][0x18][close_window][end]</sn:pointer>
@@ -678,7 +678,7 @@ Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
     <sn:pointer id="160">[bold]Tellah[normal]: J'obtiendrai vengeance![end]</sn:pointer>
     <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir....
 Golbez...![end]</sn:pointer>
-    <sn:pointer id="162">[bold]Rosa[normal]: Issue![end]</sn:pointer>
+    <sn:pointer id="162">[bold]Rosa[normal]: Téléport![end]</sn:pointer>
     <sn:pointer id="163">[bold]Cecil[normal]: Non, ce n'est rien...
 Allons dormir...[end]</sn:pointer>
     <sn:pointer id="164">[bold]Cecil[normal]: Est-ce que tout le monde va
