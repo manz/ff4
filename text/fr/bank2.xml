@@ -1695,12 +1695,11 @@ Allons-y![end]
     <sn:pointer id="196">[bold]Cecil[normal]: Caïn![end]
 [bold]Caïn[normal]: Ainsi tu es vivant, Cecil.[end]
 [bold]Cid[normal]: Caïn, qu'est-ce que tu
-crois faire!?
-C'est quoi, que tu veux?[end]
+crois faire!?[end]
 [bold]Cecil[normal]: Mieux vaut que Rosa...
 soit à l'abri... elle l'est?[new]
-[bold]Caïn[normal]: Alors tu t'inquiètes vraiment
-pour ta petite pute, hein?[new]
+[bold]Caïn[normal]: Alors tu t'inquiètes pour
+elle, hein?[new]
 Si tu veux la revoir... vivante... tu devras
 l'échanger contre le cristal de la terre de
 Troia.[new]
@@ -1711,7 +1710,7 @@ contacterai...
 Tu as intérêt à l'obtenir, compris?[new]
 Si tu tiens vraiment à Rosa, bien
 sûr...[new]
-[bold]Yang[normal]: Sale fils de pute![end]
+[bold]Yang[normal]: Espèce de...![end]
 [bold]Cecil[normal]: Réveille-toi, Caïn![end]
 [bold]Caïn[normal]: C'est tout ce que j'ai à dire.[end]</sn:pointer>
     <sn:pointer id="197">T[end]</sn:pointer>
@@ -1728,8 +1727,7 @@ C'est notre maison, maintenant.[end]
 Nous sommes le fier peuple d'Eblana![end]
 Notre jeune maître est parti vérifier
 quelque chose, mais ça fait bien longtemps
-qu'il est parti...
-J'espère qu'il ne fait rien d'irréfléchi...[end]
+qu'il est parti...[end]
 T[end]
 Il ne reste plus beaucoup de vivres.
 Je me demande combien de temps nous
@@ -1776,17 +1774,14 @@ Cet enfant est désespérant...[end]
 Le jeune maître a dit qu'il allait tuer les
 méchants!
 On va bientôt pouvoir rentrer au
-château, hein?[new]
-Hein?[end]
+château, hein?[end]
 Je vais m'occuper de tout, ici!
 Sois prudent!
 Si tu meurs aussi, Eblana va...[end]</sn:pointer>
     <sn:pointer id="207">T[end]</sn:pointer>
-    <sn:pointer id="208">[bold]Cid[normal]: Dès qu'on la sort tourner, elle
-étale ce qu'elle sait faire!
-T'en dis quoi, poulette?[new]
-On va leur montrer ce que t'as dans le
-ventre![end]
+    <sn:pointer id="208">[bold]Cid[normal]: Les voilà déjà!
+On va leur montrer la puissance de
+l'Enterprise![end]
 [bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
 [bold]Tellah[normal]: Un drapeau blanc?[end]
@@ -1837,9 +1832,7 @@ TOI...?[end]</sn:pointer>
 Je suis trop petite pour que tu le voies?
 Regarde de trèèèèès près![end]
 Laisse-moi te dire, avoir une belle fille,
-c'est rien que des embêtements!
-Il me faut un fusil pour éloigner les
-garçons d'elle.[end]</sn:pointer>
+c'est rien que des embêtements![end]</sn:pointer>
     <sn:pointer id="233">T[end]</sn:pointer>
     <sn:pointer id="234">T[end]</sn:pointer>
     <sn:pointer id="235">T[end]</sn:pointer>
@@ -1867,10 +1860,8 @@ potions, antidotes, et tentes![end]</sn:pointer>
     <sn:pointer id="255">T[end]</sn:pointer>
     <sn:pointer id="256">T[end]</sn:pointer>
     <sn:pointer id="257">Hé, d'où vous sortez?[end]
-«Lali-ho?
-Je croyais que tous les nains disaient
-«Hey-ho'!
-Bien, je dois retourner au boulot.[end]
+Lali-ho?
+Nan, ici, on dit Hey-ho![end]
 Hey-ho!
 Il y a eu beaucoup de remue-ménage au
 château, récemment... il s'est passé
@@ -1906,7 +1897,6 @@ Wow!
 Le maître pouvait même faire une épée
 aussi puissante que celle-ci, Lali![end]</sn:pointer>
     <sn:pointer id="259">Je ne fais plus d'épées!
-Quel raté je fais...
 Je ne peux même pas trouver le
 légendaire minerai d'Adamant...[end]
 C'est l'Adamant!
@@ -1942,10 +1932,9 @@ Lali-ho![end]
 Lali-ho!
 Content que vous alliez bien![end]
 Le roi Giotto vous attend![end]
-Nous sommes des dames de la cour!
-Oui, nous avons une barbe.
-Ici, la pilosité faciale est un critère de
-beauté![end]
+Nous sommes l'équipe de secours!
+On n'en a pas l'air, mais on est des
+filles![end]
 Il y a peu de temps, le trou vers la
 surface s'est effondré!
 Dans le même coin, nous avons sauvé un
@@ -1967,7 +1956,7 @@ J'espère que vous pouvez rester ici un
 moment, Lali![end]
 [bold]Cecil[normal]: Je suis désolé.
 Golbez a pris le cristal...[new]
-[bold]Giotto[normal]: Merde...
+[bold]Giotto[normal]: On n'y peut rien...
 Tout ce que nous pouvons faire, à
 présent, c'est de protéger le dernier
 cristal.[new]
@@ -1977,9 +1966,8 @@ Golbez y est allé, mais ne vous
 inquiétez pas.[new]
 Sans la clef pour briser le sceau,
 personne ne peut y entrer.[new]
-Par ailleurs, nous avons un plan d'attaque,
-mais nous avons besoin de votre
-assistance![new]
+C'est pourquoi j'ai une faveur à vous
+demander![new]
 [bold]Cecil[normal]: C'est notre faute si nous
 avons perdu le cristal!
 S'il y a rien que nous puissions faire pour
@@ -2011,8 +1999,7 @@ maintenant vu que Golbez est ailleurs.[new]
 [bold]Cecil[normal]: Nous le ferons![end]
 [bold]Giotto[normal]: Merci!
 Il y a un passage secret sous le château!
-Normalement, c'est interdit, mais vous
-pouvez l'utiliser![new]
+Partez dès que vous serez prêts![new]
 Je prie pour votre bonne fortune![end]
 [bold]Giotto[normal]: Mes poupées étaient maléfiques?
 Je suis si furieuse que j'en crierais![end]
@@ -2088,17 +2075,16 @@ utiliser?[end]</sn:pointer>
     <sn:pointer id="274">C'est l'infirmerie![end]
 Parfois, même les nains se blessent![end]
 Cet homme est vraiment énergique pour
-un vieux râleur![end]
-Quel vieux grincheux!
-Il ne fait rien et se plaint de la nourriture,
-mais il mange comme quatre![end]
+un vieux![end]
+Quel glouton, ce vieux!
+Il dit que c'est mauvais, mais il mange
+comme quatre![end]
 Rien de tel qu'une bonne nuit de sommeil
 pour se sentir mieux, Lali![end]
 Zzz...Zzz[end]
 Le corps de ce vieux n'est pas assez
 solide pour faire ça![end]
-Si vous mettez de côté son tempérament,
-ses plaintes et ses ronflements, c'est un
+Ce vieux est brutal, mais c'est un
 chouette gars![end]
 Zzz... rrron ...Zzz[end]
 Ce vieux est surprenant![end]
@@ -2150,28 +2136,26 @@ absence.[end]
 Ni le seigneur Golbez ni Rubicante ne
 sont là!
 C'est moi le patron, maintenant![new]
-Je peux mener mes expériences en paix...[new]
-[bold]Rydia[normal]: Quel drôle de...[end]
+[bold]Rydia[normal]: Quel drôle de vieux...[end]
 [bold]Docteur[normal]: Qui est là!!?[end]
-[bold]Caïn[normal]: Qu'est-ce que ça peut faire?
-Tu ferais mieux d'appeler de l'aide, doc.
-Rubicante n'est pas là pour te protéger![end]
-[bold]Docteur[normal]: Vous ne me prenez vraiment
-que pour un souffreteux?
-C'est moi le cerveau de toute cette
-opération![new]
+[bold]Caïn[normal]: Heh. Rubicante n'est pas là!
+Tu crois pouvoir nous battre, toi?[end]
+[bold]Docteur[normal]: Ne vous moquez pas de moi!
+Je ne suis pas des quatre Empereurs,
+mais on m'appelle le cerveau du
+seigneur Golbez![new]
 Je suis Lugeie!
-Les armes sont inutiles à côté de mon
-intellect supérieur![new]
+Je défendrai cette Tour de Babil, mon
+honneur en dépend![new]
 [bold]Caïn[normal]: Ne me fais pas rire![end]
 [bold]Docteur Lugeie[normal]: Grr....
 Mon fils adoré va m'apporter vos têtes![end]
 [bold]Rydia[normal]: Ils vont tuer les nains![end]
 [bold]Yang[normal]: Le super canon![end]
 [bold]Caïn[normal]: Il faut le détruire![end]
-[bold]Lugeie[normal]: Prosternez-vous!
-Je vais vous montrer la puissance de la
-science![end]
+[bold]Lugeie[normal]: Comment osez-vous!
+Vous allez découvrir ce dont je suis
+vraiment capable![end]
 [bold]Rosa[normal]: Shh!![end]
 [bold]Cecil[normal]: Zut![new]
 [bold]Docteur[normal]: Toi!
@@ -2250,8 +2234,8 @@ Je peux te jouer de la clarinette?[end]
 [bold]Kenji Ito[normal]: Une fois que tu auras terminé
 Final Fantasy IV, essaie Seiken Densetsu![end]</sn:pointer>
     <sn:pointer id="299">Jusqu'ici, les jeux ne sont pas autorisés![end]
-Rosa et Rydia sont vraiment
-chaudes!
+Rosa et Rydia, hein?
+Pas mal, ces filles!
 Vous trouverez mes pouvoirs utiles![new]
 L'ingénieur du jeu Tokita Takahashi a
 rejoint l'équipe![music][0x29][delay][0x28] Par pitié...prenez-moi avec
@@ -2269,12 +2253,12 @@ c'est possible![end]
 [bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>
     <sn:pointer id="301">«Wahaha! Crevez, nains
 minables![end]Cecil: Vous n'irez pas plus
-loin![end]«Salopards! «Comment vous êtes
+loin![end]«Vous! «Comment vous êtes
 entrés!? «Attrapez-les![end]«Merde! Tenez,
 prenez ça![end]«Maintenant, plus personne ne
 peut arrêter le super canon!»[end]
-[bold]Cecil[normal]: Merde![new]
-[bold]Caïn[normal]: Bon Dieu![end]
+[bold]Cecil[normal]: Zut![new]
+[bold]Caïn[normal]: Qu'ont-ils fait![end]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rosa[normal]: Qu'est-ce que tu fais!?[end]
 [bold]Yang[normal]: Je vais m'occuper de tout ça!
@@ -2365,9 +2349,8 @@ n'importe quoi.[end]
 Il paraît qu'il y a des magies d'invocation
 dont personne n'a encore entendu parler...[end]
 Le doux vieil homme Ramuh...
-Long à la colère, prompt à juger...
-Il appelle des nuages de tempêtes et de
-féroces éclairs.[end]
+Mais sa colère appelle les nuages
+sombres et châtie par la foudre.[end]
 La reine des Glaces, Shiva...
 Ceux qui la mettent en colère se font
 geler le cur.[end]
@@ -2387,10 +2370,9 @@ Seuls ceux qui ont un corps forts et un
 esprit pur peuvent passer...[end]
 Les Chimères sont des animaux
 fantastiques...[new]
-Quand leur pouvoir est manié par
-quelqu'un qui a une lumière directrice... ils
-frappent un coup puissant pour la cause
-de la Justice...[end]
+Aux méchants, elles paraissent
+terrifiantes... aux justes, elles
+apparaissent comme des dieux...[end]
 Y a-t-il aussi de la littérature dans le
 monde des humains?[end]</sn:pointer>
     <sn:pointer id="319">On ne s'ennuie jamais, ici.
@@ -2425,19 +2407,18 @@ Le roi Chimère...
 Il est apparu dans l'océan du nord.
 On dit de lui qu'il est maître des océans
 et sans rival.[end]
-Odin, le chevalier des grands guerriers
-du passé...[new]
+Odin, fier de son Zantetsuken qui tue
+d'un seul coup...[new]
 La seule fois qu'il a jamais été vaincu,
 c'était quand un éclair s'est abattu sur son
 épée.[end]
 Les douces et sveltes Sylphes...
-Quand elles unissent leurs forces, elles
-canalisent l'énergie vitale de leurs ennemis
-vers elles-mêmes....[end]
-La loi du Monde des Chimères... ...est
-d'avoir de la force et un cur pur...
-Affirmez cette force, et testez leur âme
-par un combat![end]</sn:pointer>
+C'est en unissant leurs forces qu'elles
+révèlent leur pouvoir...[end]
+La loi du Monde des Chimères...
+La force, c'est un cœur juste.
+Ne jamais accorder son pouvoir à la
+légère, sans avoir jaugé cette force.[end]</sn:pointer>
     <sn:pointer id="320">C'est la salle du roi et de la reine des
 Chimères.[end]
 Pour parler au roi Chimère, vous avez
