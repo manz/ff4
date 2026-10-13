@@ -1,10 +1,10 @@
 """
-Boot-time splash-screen routine: imported by `ff4.s`, sets up SNES + graphics mode 3, blits the intro tilemap
+Boot-time splash screen, hooked at $00:8031: sets up SNES + graphics mode 3, blits the intro tilemap
 and chains into the title screen.
 """
 ; ----------------------------------------------------------------
 ; Module: intro
-; Splash-screen routine. Imported by ff4.s at boot time.
+; Splash-screen routine, hooked at $00:8031.
 ; ----------------------------------------------------------------
 
 .include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
@@ -14,6 +14,12 @@ and chains into the title screen.
 .import "assets"
 .import "bank20_helpers"
 .import "vanilla"
+
+
+; Hook to show the splash screen
+.alloc at 0x008031 {
+    jsr.l start_splash_screen
+}
 
 
 .alloc _intro_block in bank20_reloc {
