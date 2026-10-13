@@ -1,82 +1,40 @@
 """
-Field-menu item-name VWF renderer.
+Field-menu item-name VWF renderer, replacing vanilla `DrawEquipItemName` / `DrawItemName` ($01:9013 / $01:9060).
 
-Replaces vanilla `DrawItemName` / `DrawEquipItemName` at $01:9013 /
-$01:9060. The vanilla routine wrote 16-pixel-tall fixed-font tile
-ids across two tilemap rows ($29) (dakuten / top half) and
-($1D = $29 + $40) (kana / bottom half). We keep the 16-pixel-tall
-slot layout but render the name as 8-pixel-tall variable-width
-glyphs in the BOTTOM tile row only  ; the TOP row is filled with
-blank ($FF) tiles + the menu palette byte ($DB) so the slot still
-takes two tilemap rows of vertical space.
+The slot keeps its two tilemap rows: the top row ($29) is blank $FF tiles, the bottom row ($29+$40) holds the
+8px-tall VWF name.
 
-Inputs (caller convention preserved):
-  A   = item id (8-bit), set by either entry point.
-  Y   = tilemap byte offset within the row (set by the rolling
-        engine before each row render).
-  $29 = top-row tilemap pointer (16-bit, in WRAM bank $7E).
-  $5D = slot index 0..N-1 (set by `_menu_render_item_to_slot` in
-        `src/ingame/inventory_rolling.s` before each per-row call).
-  $DB = palette / attribute byte for fixed cells.
-
-Outputs:
-  Top row at ($29),y..($29),y+31     filled with $FF + ($DB|$34).
-  Bottom row at ($29+$40),y..        filled with VWF glyphs +
-                                     palette via small_vwf.
-  X   = `items_unleashed` offset for the last byte consumed.
-
-Tile-id allocation:
-  Each visible slot owns ITEM_VWF_TILE_BUDGET (=10) tile ids
-  starting at ITEM_VWF_TILE_BASE + slot * budget, same scheme the
-  battle inventory uses. The render_allocator clamp at
-  slot_limit_low keeps overflow contained to the slot.
-
-Status:
-  Wiring scaffold. The bank-20 entry point is in place and the
-  $01:9013 / $01:9060 hooks JSL into it, but the body still falls
-  back to the fixed-font path so the visible output matches what
-  vanilla DrawItemName produced before the switch. Subsequent
-  phases will swap the loop body to `small_vwf.render.display_char`
-  + per-slot CHR clear + top-row blanking.
+Entry: A = item id, Y = tilemap byte offset (16-bit), $29 = top-row tilemap pointer (bank $7E),
+       $5D = slot index, $DB = palette/attr byte.
+Exit:  X = `items_unleashed` offset of the last byte consumed.
+Each slot owns FIELD_ITEM_VWF_TILE_BUDGET (10) tile ids from FIELD_ITEM_VWF_TILE_BASE + slot * budget.
 """
 
 
-.import "items"
-.import "bank20_helpers"
+.import "core/items"
+.import "core/bank20_helpers"
 .import "small_vwf/baked_names"
-.import "vwf_ram"
-.include "../bank20.i"
-.include "src/battle/inventory_budget.i"
+.import "core/vwf_ram"
+.include "core/bank20.i"
+.include "battle/inventory_budget.i"
 
-.include "src/libmz.i"
-.include "src/vwf_state.i"
+.include "core/libmz.i"
+.include "core/vwf_state.i"
 
-.import "assets"
+.import "core/assets"
 .import "small_vwf/init"
-.import "libmz"
-.import "vanilla"
+.import "core/libmz"
+.import "core/vanilla"
 
 
 .alloc _items_menu_vwf_block in bank20_reloc {
     .scope items_menu_vwf {
     """
-    VWF render path for field-menu / treasure / drops item-name slots.
-    Hijacks vanilla `DrawItemName` ($01:9060) to populate `vwf_cfg`
-    and dispatch through `render.render_with_config`, so
-    the patched menu chrome keeps the slot layout while the glyphs go
-    through the variable-width font engine.
+    VWF item-name slots for the field menu, treasure, drops, equip and key-item picker.
     """
 draw_field_item_name:
 """
-    Bank-20 field-menu item-name render driven by `vwf_cfg`.
-
-    Fills `vwf_cfg` with per-slot tile budget + tilemap dest,
-    fills the top tilemap row with $FF blanks (so the 16-pixel-tall
-    slot keeps its height), writes the items_unleashed symbol byte
-    + palette to the bottom row's first tile, then calls the unified
-    `render.render_with_config` to blit the rest. Field uses K=5
-    tiles/slot (FIELD_ITEM_VWF_TILE_BUDGET) so 11 slots fit inside the
-    $C0..$F6 tile-id window.
+    Fills `vwf_cfg`, blanks the top row, writes the symbol to the bottom row, then copies the baked name tiles.
 """
 
 
@@ -84,18 +42,9 @@ draw_field_item_name:
     php
     sep #0x20
     rep #0x10
-; Preserve caller's Y. Vanilla `DrawEquipItemName` (`$01:9013`) and
-; `DrawItemName` (`$01:9060`) each phy at entry and ply before rts ;
-; the caller `DrawItemSlot` continues with `tya ; adc #$60 ; tay`
-; to position the colon glyph, so Y must come back unchanged.
+; Y must come back unchanged: the caller `DrawItemSlot` positions the colon glyph from it.
     phy
-; --- Populate vwf_cfg.tile_id_base = FIELD base + $5D * K ---
-; K = FIELD_ITEM_VWF_TILE_BUDGET (=10). slot * 10 = slot*8 + slot*2.
-; Store the full 16-bit value: slots 6..10 produce tile_id_base
-; $C0 + 10*K = $C0 + 100 = $124 which the 8-bit allocator wrapped
-; back into the menu font CHR range. The wide init keeps tile_id
-; bit 8 (which `tilemap_write_no_inc` ORs in via $01 on the high
-; tilemap byte) intact.
+; tile_id_base = FIELD base + slot * 10, stored 16-bit: the base is $100, so bit 8 must survive.
     rep #0x20
     lda.b menu_dp.item_slot
     and.w #0x00FF
@@ -114,22 +63,8 @@ draw_field_item_name:
     sep #0x20
     lda.b #FIELD_ITEM_VWF_TILE_BUDGET
     sta.l vwf_cfg.slot_budget
-; CHR -> VRAM flush descriptor. Menu PPU runs in Mode 0
-; (BGMODE = $00 at `ff4decomp/menu/menu.asm:3878`) with BG34NBA = $22
-; -> BG3 CHR at VRAM word $2000 (byte $4000). Two descriptors live in
-; SRAM so the NMI flush can DMA treasure (primary) and drops (secondary)
-; in disjoint slices without one panel's range trampling the other's
-; through a single combined DMA. vwf_engine.caller_ctx (set by drops_rolling
-; around its vanilla JSR chain) picks which descriptor this call's
-; flush targets ; tile_id_base / slot_budget / tilemap_base / flags
-; stay primary regardless since they are per-call render inputs, not
-; per-region flush params.
-; Tight `== 1` check so stale SRAM from old savestates (or any future
-; CTX value not yet defined) falls back to the primary path instead
-; of misrouting to drops. Without this, savestates captured before
-; the secondary descriptor existed carried random bytes at
-; vwf_engine.caller_ctx and any non-zero value sent the very first render
-; into the drops branch on the wrong inventory.
+; Flush descriptor: primary (treasure / field items) or secondary (drops, equip, key items), picked by
+; vwf_engine.caller_ctx. Exact matches only, so a garbage ctx from an old savestate falls back to primary.
     sep #0x20
     lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_DROPS
@@ -159,8 +94,7 @@ _write_secondary_desc:
 
 _write_key_item_desc:
 ; --- Key-item picker (BG3 CHR $6800, the dialogue VWF window) ---
-; Shares the secondary slot: the picker is an event-script overlay
-; on the field map and never coexists with the treasure popup.
+; Shares the secondary slot: the picker never coexists with the treasure popup.
     rep #0x20
     lda.w #KEY_ITEM_VWF_VRAM_DEST_WORD
     sta.l vwf_engine.flush_b.vram_word
@@ -171,14 +105,8 @@ _write_key_item_desc:
 
 _desc_done:
     sep #0x20
-; Tilemap attr OR mask. Field VWF tile_ids live in the 9-bit
-; window ($100..$169) so bit 0 of the attr byte (= tile_id bit 8)
-; must be set ; the allocator stores $0100+, the tilemap entry
-; writes the low byte to the tile_id slot and ORs `$01` into the
-; attr byte to give the PPU the full 9-bit tile_id.
-; The picker overlays the field map, where the window body carries
-; the priority bit ($20) ; without it the glyph cells fall behind
-; the map tiles the window is drawn over.
+; Attr OR mask: $01 = tile_id bit 8 (ids are $100..$169). The picker over the field map also needs
+; priority ($20) or the glyphs fall behind the map.
     lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_KEY_ITEM
     beq _flags_key_item
@@ -190,13 +118,7 @@ _flags_key_item:
 
 _flags_store:
     sta.l vwf_cfg.flags
-; --- vwf_cfg.tilemap_base = $29 + $40 + Y + 2 (skip symbol slot) ---
-; Caller's Y is the 16-bit byte offset of the top row tile we are
-; about to write the symbol into ; VWF chars start two bytes later.
-; X-flag is 16-bit (we did rep #$10 at entry) so `tya` returns the
-; full Y. An earlier version of this helper masked Y to its low
-; byte with `and #$00FF`, which made every slot past slot 1
-; collapse onto slot 0's tilemap base (slot 2's Y = $0144 -> $44).
+; vwf_cfg.tilemap_base = $29 + $40 + Y + 2 (past the symbol cell). Y is 16-bit: slot 2's Y is $0144.
     rep #0x20
     tya
     clc
@@ -205,9 +127,7 @@ _flags_store:
     adc.w #0x0042  ; + $40 (next row) + $02 (past symbol)
     sta.l vwf_cfg.tilemap_base
     sep #0x20
-; --- Top row: $FF tile + palette across the full slot width
-; (1 symbol + ITEM_UNLEASHED_TEXT_SIZE name + trailing blanks fit
-; into the same Y window the vanilla loop walked) ---
+; Top row: $FF tile + palette across the slot width.
     phy
     jsr.w _top_row_cells
 
@@ -221,21 +141,7 @@ _top_loop:
     iny
     dex
     bne _top_loop
-; --- Bottom row: $FF blank pre-fill across the slot width so any
-; tilemap entries past the new glyph count stop showing PREVIOUS
-; frame's tile_ids. display_char rewrites the front-of-row entries
-; as it allocates new tile_ids per glyph ; the leftover positions
-; stay $FF blank instead of pointing at stale CHR (e.g. before this
-; pre-fill, drops slot 1's bottom row kept references to slot 0's
-; tile range whenever the previous frame had a longer name, which
-; rendered the start of "Aiguille d'or" inside the next slot's row
-; as soon as drops + treasure stopped sharing a single tile region).
-;
-; Y enters this block at Y_orig + (1+ITEM_UNLEASHED_TEXT_SIZE)*2,
-; pointing past the top-row run ; advance to the bottom-row start
-; (next BG row = +$40 from top-row base = +$40 - run_size from
-; current Y), blank 17 cells, then restore Y back to Y_orig for the
-; symbol-write block below.
+; Bottom row: blank first so cells past a shorter name don't show the previous name's tiles.
     rep #0x20
     pla
     clc
@@ -243,14 +149,8 @@ _top_loop:
     tay
     sep #0x20
     phy  ; bottom-row start, so the restore below ignores the run length
-; Blank only what a VWF name can actually occupy: the symbol cell
-; plus FIELD_ITEM_VWF_TILE_BUDGET glyph cells. This used to clear
-; 1 + ITEM_UNLEASHED_TEXT_SIZE (17) cells, the width of the old
-; fixed-width 16-char field, but no name is wider than the tile
-; budget it is given: the widest item name measures 75px = 10 tiles.
-; Those 6 surplus cells belonged to whatever the caller drew to the
-; right of the name, and the shop draws each row's price there
-; BEFORE the name, so a 4-digit price came back as 000.
+; Blank only symbol + tile budget cells (widest name is 75px = 10 tiles). The shop draws the price to the
+; right BEFORE the name, so blanking all 17 cells would eat a 4-digit price.
     ldx.w #( 1 + FIELD_ITEM_VWF_TILE_BUDGET )
 
 _bottom_blank_loop:
@@ -264,10 +164,7 @@ _bottom_blank_loop:
     dex
     bne _bottom_blank_loop
     ply
-; --- Restore caller's Y to point at the symbol slot, write symbol +
-; palette to the bottom row first tile. Y came back off the stack as
-; the bottom-row start (Y_orig + $40), so one subtraction lands on
-; Y_orig whatever the blank run length was.
+; Back to Y_orig (bottom-row start - $40), then symbol + palette into the bottom row's first cell.
     rep #0x20
     tya
     sec
@@ -289,16 +186,9 @@ _bottom_blank_loop:
     ora.b menu_dp.window_attr
     sta (0x1D), y  ; bottom-row symbol palette
     iny
-; --- The name's baked tiles into the slot (small_vwf/baked_names.s) ---
     jsr.w _baked_item_name
-; render_with_config sets vwf_engine.chr_dirty=1 unconditionally. For drops
-; (CTX=1) ADDITIONALLY raise DIRTY_B so the NMI's secondary flush
-; covers drops's region this frame. Treasure's primary DIRTY must
-; stay set untouched : treasure rendered its own slots earlier in the
-; same frame and clearing here would skip its flush, leaking last-
-; frame's CHR back into the treasure inventory band. Leaving DIRTY=1
-; is harmless on drops-only frames: the primary DMA covers treasure
-; VRAM range only ($5000..$5400) which drops never writes into.
+; Drops also raise the secondary dirty flag. The primary flag stays set: treasure drew its slots earlier
+; this frame and clearing it would skip that flush.
     sep #0x20
     lda.l vwf_engine.caller_ctx
     beq _dirty_done
@@ -313,14 +203,8 @@ _bottom_blank_loop:
     bra _dirty_done
 
 _dirty_key_item:
-; Equip shares this path: its names only touch the secondary region, and
-; the primary flush would push the item list's region over whatever the
-; equip screen keeps at $5000 while no list is open.
-; The picker owns the secondary descriptor ONLY. Its primary dirty
-; bit must be cleared, not left set: the primary flush targets
-; FIELD_VWF_VRAM_DEST_WORD ($2800), which is spare CHR in the menu's
-; mode 0 but the BG3 TILEMAP once the field map is up - flushing it
-; would spray glyph bytes over the map's BG3 tilemap.
+; Picker and equip use the secondary flush only; the primary dirty flag must be cleared. Its target ($2800)
+; is the BG3 tilemap on the field map, and equip keeps other data at $5000.
     lda.b #0x01
     sta.l vwf_engine.flush_b.dirty
     lda.b #0x00
@@ -332,8 +216,7 @@ _dirty_done:
     rtl
 
 _top_row_cells:
-; X = cells the top (blank) row covers: the full fixed-width slot, or
-; just the equip name cells (its names start too far right for 17).
+; X = top-row cells: the full slot, or EQUIP_NAME_CELLS (equip names start too far right for 17).
     ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
     lda.l vwf_engine.caller_ctx
     cmp.b #VWF_CTX_EQUIP
@@ -345,16 +228,11 @@ _row_cells_done:
 
 draw_equip_item_name:
 """
-    `DrawEquipItemName` ($01:9013) replacement: equipped item names in
-    the VWF.
+    `DrawEquipItemName` ($01:9013) replacement.
 
-    Vanilla convention: Y = equipment byte offset in the character
-    record at ($60) ($30..$35), X = tilemap byte offset of the slot,
-    $29 = BG2 buffer. The equip screen runs alongside the inventory
-    list, so the names take the drops tile region (slots 11..16 via
-    $5D) and its flush descriptor instead of the list's slots.
-    Preserves Y (the caller INYs to the next slot), $5D and
-    vwf_engine.caller_ctx.
+    Entry: Y = equipment offset in the record at ($60) ($30..$35), X = slot tilemap offset, $29 = BG2 buffer.
+    Uses the drops tile region (slots 11..16) so it coexists with the inventory list.
+    Preserves Y, $5D and vwf_engine.caller_ctx.
 """
 
 
@@ -387,9 +265,8 @@ draw_equip_item_name:
 
 _baked_item_name:
 """
-Item $43's baked tiles into its slot: copied from ROM to the CHR buffer at vwf_cfg.tile_id_base, the rest of the
-slot's budget filled with paper, their ids written from vwf_cfg.tilemap_base on (attribute ORed with
-vwf_cfg.flags), then chr_dirty raised: the slot ends as render_with_config left it, without rendering.
+Copies item $43's baked tiles to the CHR buffer at vwf_cfg.tile_id_base, pads the budget with paper, writes the
+tile ids from vwf_cfg.tilemap_base (attr ORed with vwf_cfg.flags) and raises chr_dirty.
 """
     php
     rep #0x30
@@ -489,8 +366,7 @@ _cells_done:
 
 render_with_config_trampoline:
 """
-    Trampoline that pops the bank then jsr's the bank-local entry
-    in small_vwf, paired RTL so callers stay long-jmp clean.
+    Long-call entry to `render.render_with_config`.
 """
 
 

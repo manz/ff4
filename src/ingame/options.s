@@ -1,25 +1,20 @@
-"""Options-menu patches: rename palette colours (RGB → RVB), reposition labels and adjust slider offsets."""
-.import "preamble"
+"""Options-menu patches: RGB -> RVB, label and cursor positions, controls window, and the ATB gauge row."""
+.import "core/preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/ingame/macros.i"
-.include "src/menus/system_menus_macros.i"
-.include "../bank20.i"
-.include "src/ingame/bank01_slack.i"
+.include "ingame/macros.i"
+.include "menus/system_menus_macros.i"
+.include "core/bank20.i"
+.include "ingame/bank01_slack.i"
 
 
-;RGB -> RVB :o)
-
+; RGB -> RVB
 .alloc at 0x01D1BB {
     lda.b #0x57
-
-; déplacement du curseur principal des options
 }
-; Cursor offset in controls menu (x)
+; Controls menu cursor x, then y
 .alloc at 0x01D4E6 {
     lda.b #0x03
-
-; cursor y
 }
 .alloc at 0x01D4E2 {
     adc.b #0x4C
@@ -29,18 +24,16 @@
 }
 .alloc at 0x01D1A4 {
     load_system_menu_text_pointer(options.config)
-
-; move controls title window
 }
+; Controls title window
 .alloc at 0x01E204 {
 ; fits "Contrôles personnalisés" (101 px in the small VWF), centred
     menu_window(8, 0, 14, 2)
 }
 .alloc at 0x01D487 {
     ldy.w #0xE204
-
-; controles
 }
+; Controls text
 .alloc at 0x01D48D {
     load_system_menu_text_pointer(options.controls)
 }
@@ -75,10 +68,8 @@
     load_system_menu_text_pointer(options.pad)
 }
 
-; ===== Row 10: "Jauge ATB  Oui  Non" (battle/atb_gauge.s reads it) =====
-; Vanilla's rows: 0-6 toggles and speeds, 7-9 the window colour sliders (cursor y = $30 + row * 16). The gauge's row
-; goes under the sliders, the window two rows taller (menus/in_game_text.s). Its setting is $16B3 bit 0, a byte of the
-; saved block ($1000-$17FF) vanilla leaves unused: 0 in every save and on a new game, the gauge off.
+; Row 10: "Jauge ATB  Oui  Non" (read by battle/atb_gauge.s), under the colour sliders (rows 7-9).
+; Setting: $16B3 bit 0, a saved byte vanilla leaves 0, so the gauge defaults to off.
 ATB_GAUGE_SETTING := 0x7E16B3
 ATB_GAUGE_ON := 0x01
 _ROWS := 11

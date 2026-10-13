@@ -1,17 +1,12 @@
 """
-Status-screen patches: reposition character name/labels to make room for translated strings (XP, level,
-attributes).
+Status-screen patches: text pointers and positions for the translated labels (XP, level, attributes).
 """
-.import "preamble"
+.import "core/preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
 .label _status_menu_main_aac9 = 0x01AAC9
-
-;décalage du nom vers le haut
-;*=0x01A9B7
-;    ldy.w #0x0044
 
 .alloc at 0x01A99E {
     load_system_menu_text_pointer(status.status)

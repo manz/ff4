@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from _ff4kintsuki import PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import FULL_PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "save_confirm"
@@ -40,13 +40,13 @@ def empty_slot():
 
 
 def test_an_empty_preview_says_vide(empty_slot) -> None:
-    assert_screenshot_matches_golden(empty_slot, GOLDENS / "empty.png", region=PICTURE)
+    assert_screenshot_matches_golden(empty_slot, GOLDENS / "empty.png", region=FULL_PICTURE)
 
 
 def test_oui_says_the_save_is_done() -> None:
     emu = _confirm(empty=False)
     try:
         tap(emu, Button.A, hold=4, gap=30)
-        assert_screenshot_matches_golden(emu, GOLDENS / "saved.png", region=PICTURE)
+        assert_screenshot_matches_golden(emu, GOLDENS / "saved.png", region=FULL_PICTURE)
     finally:
         emu.close()

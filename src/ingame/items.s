@@ -1,33 +1,29 @@
 """
-Field-menu item screen patches: scroll-region tweaks, layout fixes and entry-point hooks (separate from
-rolling-buffer code which lives in `inventory_rolling.s`).
+Field-menu item screen patches: windows, text pointers, VWF descriptions and messages (the list itself is
+`inventory_rolling.s`).
 """
-.import "preamble"
-.import "assets"
+.import "core/preamble"
+.import "core/assets"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
 .import "ingame/free_space"
 .import "small_vwf/init"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
-.include "src/ingame/bank01_slack.i"
-.include "src/ingame/macros.i"
+.include "ingame/bank01_slack.i"
+.include "ingame/macros.i"
 
-; during scroll
-
+; Item label: during scroll, after scroll, and on redraw
 .alloc at 0x01A814 {
     load_system_menu_text_pointer(items_menu.item)
-
-; when scroll done
 }
 .alloc at 0x019F56 {
     load_system_menu_text_pointer(items_menu.item)
 }
 .alloc at 0x1a750 {
     load_system_menu_text_pointer(items_menu.item)
-
-; patching find description setup bank and offset
 }
+; Description table bank and offset
 .alloc at 0x01a7f6 {
     ldx.w #item_descriptions & 0xffff
 }
@@ -36,17 +32,14 @@ rolling-buffer code which lives in `inventory_rolling.s`).
     lda.l addr, x
 }
 .alloc at 0x01a7da {
-; In the original code the item description is rendered multiple times (once per tick ?)
-; rendering the variable width font that often cause noticeable slowdowns, we are trying to render the text only
-; when the description should change. Because the draw window clears the tilemap the check must happen before it.
+; Vanilla redraws the description every frame, too slow for the VWF: render only when it changes. The check
+; must come before DrawWindow, which clears the tilemap.
     jmp.w check_if_description_was_rendered
     nop
 
 item_desc_back:
-
-
-; Hook in the display_item_description function, draw the window and render the string
 }
+; display_item_description: draw the window and render the string
 .alloc at 0x01a808 {
     lda.b #item_descriptions >> 16
     ldx.w #0x0054
@@ -59,30 +52,24 @@ item_desc_back:
 .alloc at 0x1a36f {
     ldy.w #messages.cantuse
     jsr.w draw_vwf_message_pos_with_bank
-
-
-; inventory window (22 rows tall for 10 visible items + borders)
 }
+; Inventory window: 10 visible items + borders
 .alloc at 0x01dcce {
     menu_window(0, 0, 30, 23)
-
-;
 }
+; Description window
 .alloc at 0x01dcd6 {
     menu_window(9, 0, 21, 3)
-
-; item select character on the left side (selected item in the right column)
 }
+; Character select on the left (item in the right column)
 .alloc at 0x01dd38 {
     menu_window(0, 5, 16, 21)
-
-; item select character on the right side (selected item in the left column)
 }
+; Character select on the right (item in the left column)
 .alloc at 0x01dd3c {
     menu_window(14, 5, 16, 21)
-
-; moves the right item column one tile to the right
 }
+; Right item column one tile right
 .alloc at 0x01a227 {
     adc.w #0x001c + 2
 }
@@ -115,14 +102,12 @@ item_desc_back:
 .alloc at 0x01aed6 {
     ldy.w #messages.cant_use_magic - 0x8000
     jsr.w draw_window_and_vwf_message
-
-; choice window
 }
+; Treasure choice window
 .alloc at 0x01db40 {
     load_system_menu_text_pointer(treasure.choice_window)
-
-; label window
 }
+; Treasure label window
 .alloc at 0x01db46 {
     load_system_menu_text_pointer(treasure.header_window)
 }
@@ -140,38 +125,21 @@ item_desc_back:
 }
 .alloc at 0x1d88f {
     lda.b #0xb8 - 8
-
-;01D887  A5 60          LDA $60
-;01D889  D0 04          BNE $01D88F
-;01D88B  A9 48          LDA #$48
-;01D88D  80 02          BRA $01D891
-;01D88F  A9 B8          LDA #$B8
-;01D891  85 45          STA $45
-;01D893  A9 0E          LDA #$0E
-;01D895  85 46          STA $46
-;01D897  4C 81 82       JMP $8281
 }
 ; The rolling treasure screen NOPs $01:D811-$01:D819 (treasure_rolling_patches.s).
 .alloc at 0x1d792 {
 _treasure_menu_entry:
 }
 
-; Test Overrides:
-; would be nice to automate that
-; open menu, set PC to 01d792
-; starts the menu
-; set 0xee to 0x1804 (Key item baron key.)
-
 ; Swap redraw resets the rolling buffer.
 .alloc at 0x01A401 {
-    jmp.w swap_redraw_trampoline  ; Replace JSR $A172
+    jmp.w swap_redraw_trampoline  ; was `jsr $A172`
 }
 
 .alloc _item_description_skip_check in bank01_slack {
 check_if_description_was_rendered:
 """
-Skip redrawing an item description if its text pointer matches `render.last_drawn_text_ptr` and the
-auto-counter ($4218/$4219) is non-zero.
+Skips the description redraw while a pad button is held or when A matches `render.last_drawn_text_ptr`.
 """
 
 

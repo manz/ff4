@@ -1,9 +1,5 @@
 """Named vanilla ROM routines (`.label`): no bytes, but `ff4.sym`, xdds and the LSP symbolicate them."""
 
-; Original ROM call sites referenced by rolling-buffer / treasure-menu patches.
-; Captured here as `.label` declarations so symbol exports land in `ff4.sym`
-; (xdds + tracer can pretty-print them) and so search/replace stays mechanical.
-
 """DrawItemName: glyph + attr render via ($1d) + ($29)."""
 .label draw_item_name = 0x019060
 

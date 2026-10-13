@@ -1,81 +1,52 @@
 """
-Shop sell-list rolling buffer (single column, 8 visible).
+Shop sell-list rolling buffer: 9-slot ring (8 visible + 1 prefetch) in the BG3 buffer at $7E:D600, BG3VOFS
+driven per scanline by HDMA ch5.
 
-The sell list is the player's own inventory, drawn by vanilla
-`DrawInventoryList` ($01:A172) into the BG3 buffer at $7E:D600 and
-scrolled by moving BG3VOFS ($9F) over it - vanilla lays the whole
-48-item list down once, two items per 16-byte row, and never redraws.
-
-That model cannot survive single-column VWF rows: ours are 128 bytes
-each (two 32-tile tilemap rows), so 48 of them want 6 KB against a
-2 KB buffer. Worse, `DrawItemSlot` is globally patched to single-column
-(`$01:A1F0` col mask, `$01:A1BA` slot calc) while $A172 still walks the
-array two items at a time, so the sell list rendered every second item
-and stopped after six.
-
-So sell gets its own profile, same shape as the other three: a 9-slot
-ring (8 visible + 1 pre-render) in the BG3 buffer, with BG3VOFS driven
-per scanline by HDMA so the ring wraps invisibly. The shop enables no
-HDMA of its own - `hdma_enable_hook` at $01:8081 is the only writer of
-$420C while a shop is open, and it runs 128 times across an open/sell
-round trip - so channel 5 is free and the shared
-`field_menu_rolling.hdma_enable` signal arms it exactly as it does for
-the field menu.
+Replaces vanilla `DrawInventoryList` ($01:A172), which draws all 48 items once: 48 single-column VWF rows
+(128 bytes each) do not fit the 2 KB buffer. The shop uses no HDMA itself, so ch5 is armed through the shared
+`field_menu_rolling.hdma_enable`.
 """
 
 
-.import "preamble"
-.include "../bank20.i"
-.import "items"
+.import "core/preamble"
+.include "core/bank20.i"
+.import "core/items"
 
-; Labels this module borrows from its neighbours. As an include these
-; resolved because ff4.s composed one translation unit; a module has to
-; name what it uses.
 .import "ingame/vanilla_trampolines"
-.import "libmz"
+.import "core/libmz"
 .import "lib/rolling_inventory_engine"
-.import "vanilla"
+.import "core/vanilla"
 
 _SELL_VISIBLE_ITEMS := 8
 _SELL_BUFFER_SLOTS := 9
 _SELL_TOTAL_ITEMS := 48
 
-; State block in the shared $7E:99xx arena, past drops ($9C30) and the
-; key-item picker ($9C60); the field profile sits at $9C90.
-
-; Vanilla's own sell scroll position ($1B96, "first visible row") and
-; cursor row ($1B94). The profile reads them rather than keeping its
-; own copy so vanilla's bounds checks stay authoritative.
+; Vanilla's sell scroll position (first visible row), read directly so its bounds checks stay authoritative.
 _SELL_SCROLL_POS := 0x7E1B96
 
-; HDMA channel 5 driving BG3VOFS ($2112). Nothing else in the shop
-; touches HDMA.
+; HDMA ch5 driving BG3VOFS.
 _SELL_HDMA_ENABLE_BIT := 0x20
 
-; Own table slot in the HDMA scratch area ($9800 treasure, $9880 drops).
+; HDMA tables ($9800 treasure, $9880 drops).
 _SELL_HDMA_TABLE_ADDR := 0x9900
 _SELL_HDMA_SHADOW_ADDR := 0x9940
 _SELL_HDMA_BANK := 0x7E
 SELL_HDMA_SHADOW := 0x7E9940
 SELL_HDMA_TABLE := 0x7E9900
 
-; BG3 buffer, and the window vanilla's $A172 draws into it: top border
-; on buffer slot 0, body from slot 1, bottom border on slot 12. The ring
-; therefore occupies slots 1..9, one 128-byte slot per item.
+; Window in the BG3 buffer: top border on slot 0, ring on slots 1..9 (128 bytes each), bottom border on 12.
 _SELL_BG3_BUFFER := 0xD600
 _SELL_SLOT_ORIGIN := 1
 
-; Blank window cell, as every drawn window leaves it in the buffer.
+; Blank window cell.
 _SELL_BLANK_TILE := 0xFF
 _SELL_TILEMAP_ATTR := 0x00
-; Side borders vanilla's window keeps in the first and last columns of
-; every body row.
+; Side borders in the first and last columns.
 _SELL_BORDER_LEFT_TILE := 0xFA
 _SELL_BORDER_RIGHT_TILE := 0xFB
 _SELL_BORDER_RIGHT_COL := 31
 
-; BG3VOFS with the window frame parked where vanilla puts it: vanilla
-; seeds $9F with $FFB8 at $01:C7C1.
+; Vanilla's BG3VOFS for the window ($9F seeded at $01:C7C1).
 _SELL_BASE_SCROLL := 0xFFB8
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
@@ -84,10 +55,7 @@ _SELL_SCROLL_FRAMES := 8
 .alloc _sell_rolling_block in bank20_reloc {
 _sell_ensure_hdma_initialized:
 """
-Lazy init: park base_scroll and configure ch5 driving BG3VOFS.
-
-Long addressing throughout - the engine's `_engine_call_hook` enters
-with the caller's DB, so absolute reads would land in ROM.
+One-shot: sets base_scroll, configures ch5 -> BG3VOFS and arms it. Long addressing: entered with the caller's DB.
 """
 
 
@@ -110,8 +78,7 @@ with the caller's DB, so absolute reads would land in ROM.
     lda #_SELL_HDMA_BANK
     sta.l dma_ch5.A1B
 
-; Arm ch5 through the shared menu-HDMA signal the NMI hook ORs into
-; $420C, and mark this profile's own gate.
+; Arm ch5 via the shared signal the NMI hook ORs into $420C.
     lda.l field_menu_rolling.hdma_enable
     ora #_SELL_HDMA_ENABLE_BIT
     sta.l field_menu_rolling.hdma_enable
@@ -124,7 +91,7 @@ _sell_hdma_already_init:
     rts
 
 sell_disable_hdma:
-"""Drop ch5 again on the way out of the sell list."""
+"""Disarms ch5 when leaving the sell list."""
     php
     sep #0x20
     lda.l field_menu_rolling.hdma_enable
@@ -140,13 +107,7 @@ sell_disable_hdma:
 
 _sell_blank_slot_rows:
 """
-Wipe this slot's two tilemap rows to the window's blank cell.
-
-`DrawItemSlot` writes only the cells it draws - the name, the colon and
-the quantity digits - so anything else in the row keeps what the
-previous occupant left there. On a rolling ring that is the item that
-used to live in this slot, which shows up as fragments of a longer name
-trailing a shorter one.
+Blanks this slot's two tilemap rows; `DrawItemSlot` writes only the cells it draws.
 
 Entry: 16-bit A/X/Y, DB = $7E.
 """
@@ -175,9 +136,7 @@ _sell_blank_cell:
 
 _sell_window_cell:
 """
-Blank window cell for the buffer byte at X: side border in the first
-and last columns, body elsewhere. The buffer is row-aligned, so X's low
-six bits are the byte offset within its row.
+Blank window cell (border or body) for buffer offset X; X's low 6 bits are the row offset.
 
 Entry/exit: 16-bit A/X. Returns the cell word (attr << 8 | tile) in A.
 """
@@ -202,11 +161,7 @@ _sell_cell_right:
 
 _sell_render_item_to_slot:
 """
-Render inventory item `edge_row` into ring slot `slot_index`.
-
-Item data comes from the vanilla inventory array at $7E:1440  ; the
-tilemap goes to the BG3 buffer at ($7E:D600) + (slot + 1) * 128 + 4,
-one slot below the window's top border.
+Renders inventory item `edge_row` ($7E:1440) into $7E:D600 + (slot + 1) * 128 + 4.
 """
 
 
@@ -238,7 +193,7 @@ one slot below the window's top border.
     jsr.w _sell_blank_slot_rows
     sep #0x20
 
-; Item pointer = $7E:1440 + edge_row * sizeof(Item)
+; Item pointer = $7E:1440 + edge_row * 2
     lda.w sell_rolling.edge_row
     asl
     clc
@@ -259,9 +214,7 @@ one slot below the window's top border.
     pla
     jsr.l check_can_use_item_trampoline
 
-; The sell list is the only rolling menu on screen, so it takes the
-; primary VWF tile window unshifted: 9 slots * 10 tiles fits the
-; $0700-byte primary flush descriptor.
+; Primary VWF tile window, unshifted: 9 slots * 10 tiles fit the $0700-byte primary flush.
     lda.w sell_rolling.slot_index
     sta.b menu_dp.item_slot
     rep #0x20
@@ -299,12 +252,7 @@ one slot below the window's top border.
 
 update_sell_scroll_hdma:
 """
-Build the sell HDMA shadow table: one band per visible row.
-
-Row r shows ring slot (buffer_pos + r) mod 9, whose content sits at BG
-line (slot + 1) * 16. The band's BG3VOFS is therefore
-`base_scroll + slot * 16 - r * 16`, the same body math the drops and
-treasure profiles use.
+Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 9 at BG3VOFS base_scroll + (slot - r) * 16.
 """
 
 
@@ -388,7 +336,7 @@ _sell_row_loop_done:
     }
 
 _sell_hdma_header:
-"""Header: the 88 lines above the list - offscreen rows plus the window's top border - held at base_scroll."""
+"""Header: 88 lines above the list at base_scroll."""
     sep #0x20
     lda #88
     sta.l SELL_HDMA_SHADOW, x
@@ -401,7 +349,7 @@ _sell_hdma_header:
     rts
 
 _sell_hdma_footer:
-"""Footer: 16 lines back at base_scroll so the window's bottom border lands where vanilla drew it."""
+"""Footer: 16 lines at base_scroll for the bottom border."""
     sep #0x20
     lda #16
     sta.l SELL_HDMA_SHADOW, x
@@ -414,14 +362,14 @@ _sell_hdma_footer:
     rts
 
 _sell_hdma_signal:
-"""Ask the menu NMI hook to copy shadow to active during the next vblank."""
+"""Sets hdma_copy_pending for the NMI shadow copy."""
     sep #0x20
     lda #0x01
     sta.l sell_rolling.hdma_copy_pending
     rts
 
 _sell_draw_window:
-"""Pre-render hook: SelectBG3 + DrawWindow(inventory window) so $29 = $D600 holds a fresh frame."""
+"""Pre-render hook: SelectBG3 + DrawWindow so $D600 holds a fresh window."""
     sep #0x20
     jsr.l sell_select_bg3_trampoline
     rep #0x10
@@ -432,8 +380,7 @@ _sell_draw_window:
 
 sell_init_impl:
 """
-Replace vanilla `DrawInventoryList` for the sell list: configure the
-profile and let the engine draw the ring.
+Replaces `DrawInventoryList` for the sell list: configures the profile and lets the engine draw the ring.
 """
 
 
@@ -503,13 +450,7 @@ _sell_fn_render_slot_trampoline:
 
 _sell_fn_update_hdma_trampoline:
 """
-Bank-20 RTL wrapper: arm ch5 on the first call, rebuild the band table
-on every one.
-
-`_sell_ensure_hdma_initialized` is a one-shot - it bails as soon as
-base_scroll is set - so calling only that left the table holding the
-offsets from the frame the list opened on, and the ring rolled
-underneath a scroll that never moved.
+Bank-20 RTL wrapper: arms ch5 once, rebuilds the band table on every call.
 """
 
 
@@ -528,21 +469,10 @@ _sell_fn_draw_window_trampoline:
 
 _sell_run_scroll:
 """
-Run one item's worth of scroll animation to completion.
+Runs one item's scroll to completion, blocking 8 frames like vanilla ($01:C8E3 / $01:C91C).
 
-Vanilla's own loops at $01:C8E3 / $01:C91C spend 8 frames moving $9F by
-2px  ; the engine's state machine keeps that cadence, so the replacement
-blocks for the same 8 frames and the shop's input loop sees no change
-in timing.
-
-The frame count lives in the profile's own spare byte rather than in
-the SRAM pool - the loop has to survive whatever the engine leaves in
-the registers, and a counter that reads back wrong never terminates.
-It is kept here rather than read back off the engine:
-`rolling_engine_update_scroll_frame` only winds `scroll_remaining`
-down and leaves `scroll_state` set for `rolling_engine_finish_scroll`
-to clear, so a loop waiting on the state never exits and one waiting on
-`scroll_remaining` has to know the per-frame step anyway.
+The frame counter lives in `_pad`: `scroll_state` stays set until `rolling_engine_finish_scroll`, so it cannot
+end the loop.
 """
 
 
@@ -561,9 +491,7 @@ _sell_scroll_frame:
     dec
     sta.l sell_rolling._pad
     bne _sell_scroll_frame
-; 8-bit A from here on: the engine takes the scroll position in A, and
-; `TfrBG3TilesVblank` is vanilla bank-$01 code that runs its chunked DMA
-; with an 8-bit accumulator - handing either a 16-bit A wedges the loop.
+; 8-bit A required: a 16-bit A wedges the engine and `TfrBG3TilesVblank`.
     sep #0x20
     rep #0x10
     lda.l _SELL_SCROLL_POS
@@ -575,7 +503,7 @@ _sell_scroll_frame:
     rts
 
 sell_scroll_down_impl:
-"""Sell profile: scroll the list down one item."""
+"""Scrolls the list down one item."""
     php
     rep #0x10
     lda.l _SELL_SCROLL_POS
@@ -586,7 +514,7 @@ sell_scroll_down_impl:
     rtl
 
 sell_scroll_up_impl:
-"""Sell profile: scroll the list up one item."""
+"""Scrolls the list up one item."""
     php
     rep #0x10
     lda.l _SELL_SCROLL_POS
@@ -597,7 +525,7 @@ sell_scroll_up_impl:
     rtl
 
 _sell_refresh_slots_impl:
-"""Sell profile: re-render every slot (after a sale changes quantities)."""
+"""Re-renders every slot (after a sale changes quantities)."""
     php
     sep #0x20
     rep #0x10

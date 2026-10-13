@@ -1,10 +1,10 @@
 """
-Place-name window patches: increase the window length to fit French names and find the title in our table. The
-rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
+Place-name window patches: wider window for French names, titles from our table. ingame/map_title_vwf.s draws
+the rows in the small VWF.
 """
 .import "ingame/places_names_window"
-.import "assets"
-.import "vanilla"
+.import "core/assets"
+.import "core/vanilla"
 
 {
     place_name_length = PLACE_NAME_LENGTH
@@ -23,8 +23,6 @@ rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
 
     .alloc at 0x00B973 {
     cpx.w #PLACE_WINDOW_WIDTH * 2
-
-;.00:B98D                 LDA     $780,X
     }
 
     .alloc at 0x00B98D {
@@ -54,32 +52,32 @@ rows themselves are filled by ingame/map_title_vwf.s, in the small VWF.
     }
 
     .alloc at 0x00B95A {
-;.00:B95A                 LDX     #$2848 ; top window
+; top edge (vanilla $2848)
     ldx.w #vram_ptr
     }
 
     .alloc at 0x00B978 {
-;.00:B978                 LDX     #$2868 ; left window piece
+; left edge, row 1
     ldx.w #vram_ptr + 0x20
     }
 
     .alloc at 0x00B99E {
-;.00:B99E                 LDX     #$2876 ; right window piece
+; right edge, row 1
     ldx.w #vram_ptr + 0x20 + place_name_length + 2
     }
 
     .alloc at 0x00B9B0 {
-;.00:B9B0                 LDX     #$2888 ; left window piece
+; left edge, row 2
     ldx.w #vram_ptr + 0x40
     }
 
     .alloc at 0x00B9D6 {
-;.00:B9D6                 LDX     #$2896 ; right window piece
+; right edge, row 2
     ldx.w #vram_ptr + 0x40 + place_name_length + 2
     }
 
     .alloc at 0x00B9ED {
-;.00:B9ED                 LDX     #$28A8 ; bottom window
+; bottom edge
     ldx.w #vram_ptr + 0x60
     }
 }

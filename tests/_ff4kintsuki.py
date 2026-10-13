@@ -245,6 +245,8 @@ def _stash_previous_golden(golden_path: Path) -> None:
 
 # The 256x224 picture inside kintsuki's letterboxed framebuffer.
 PICTURE = (13, 9, 13 + 256, 9 + 224)
+# The whole picture as a `region` (picture coordinates, like every region): PICTURE is in framebuffer ones.
+FULL_PICTURE = (0, 0, 256, 224)
 # Battle menu panel (item list, magic window, commands) in picture
 # coordinates: everything below the battlefield.
 BATTLE_MENU_PANEL = (0, 140, 256, 224)
@@ -259,19 +261,14 @@ def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
     pixel-match thereafter).
 
     `region` (left, top, right, bottom in picture coordinates) compares
-    only that box. Battle goldens use it to pin the window under test:
+    only that box; by default the whole picture, without the emulator's border. Battle goldens use it to pin the window under test:
     the battlefield above runs on the ATB, so its frame shifts whenever
     a change makes the battle loop faster or slower."""
     import os
     if os.environ.get("UPDATE_GOLDENS") == "1":
         _stash_previous_golden(golden_path)
     golden_path.parent.mkdir(parents=True, exist_ok=True)
-    if region is None:
-        from kintsuki.visual import golden
-        golden(emu, golden_path,
-               threshold=threshold, max_diff_pixels=max_diff_pixels)
-        return
-    _assert_region_matches_golden(emu, golden_path, region, threshold, max_diff_pixels)
+    _assert_region_matches_golden(emu, golden_path, region or FULL_PICTURE, threshold, max_diff_pixels)
 
 
 def _assert_region_matches_golden(emu: Emu, golden_path: Path, region: tuple[int, int, int, int],

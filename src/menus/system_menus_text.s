@@ -1,8 +1,8 @@
 """Relocated implementations of the original system-menu text routines."""
-.include "../bank20.i"
+.include "core/bank20.i"
 
-.import "assets"
-.import "vanilla"
+.import "core/assets"
+.import "core/vanilla"
 .import "small_vwf/menu_text"
 
 .label _copy_text_879d = 0x01879D
@@ -16,7 +16,7 @@
     cpy.w #0x8000
     bmi _moved_text
     lda.b #0x01
-; this assumes we shoud load data from bank 1
+; Y >= $8000: the text is in bank 1
     pha
     bra _jump_to_original
 _moved_text:
@@ -29,7 +29,7 @@ _moved_text:
     pla
     phk
 _jump_to_original:
-"""this assumes that the text lives in the same bank as this routine."""
+"""Assumes the text lives in this routine's bank."""
     plb
     }
 
@@ -136,10 +136,7 @@ load_classes_pointer:
     rtl
 
 load_dextrelity_pointer:
-"""
-    Read the high two bits of (DP),$60 to pick a dexterity-text pointer from the table at $01:E2D9  ; returns
-    24-bit pointer in Y.
-"""
+"""Pick a dexterity-text pointer from $01:E2D9 by the high two bits of ($60): Y = 24-bit pointer."""
 
 
     rep #0x20
@@ -157,4 +154,27 @@ load_dextrelity_pointer:
     tay
     sep #0x20
     rtl
+}
+
+
+; JML thunks: the bank-01 text entry points jump to the relocated routines above.
+{
+    .alloc at 0x018301 {
+    jmp.l display_text_in_menus
+    }
+
+
+    .alloc at 0x0182CD {
+    jmp.l load_text_with_destination_in_x
+    }
+
+
+    .alloc at 0x0180D9 {
+    jmp.l display_window_with_text
+    }
+
+
+    .alloc at 0x018798 {
+    jmp.l display_time
+    }
 }

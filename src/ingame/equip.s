@@ -1,24 +1,21 @@
 """
-In-place patches for the equip menu: load the system-menu text pointer for the equip header and bump the
-character-name row up so it does not collide with the dextrality string.
+Equip-menu patches: header text, character name one row up (clear of the dextrality text), equipped-name columns.
 """
-.import "preamble"
+.import "core/preamble"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
 
 .alloc at 0x01bd0f {
     load_system_menu_text_pointer(equip.menu)
-
-; Moves Character name one line up to avoid colision with dextrality text.
 }
+; Character name one row up, clear of the dextrality text.
 .alloc at 0x01bd54 {
     ldy.w #0x01c6 - 0x40 - 2
 
-; Equipped names start two cells right of vanilla (col 20): the slot
-; labels sit at col 14, one cell clear of the hand cursor, and are six
-; cells wide. Icon + the widest VWF name then end at col 30.
+; Equipped names two cells right of vanilla (col 20), after the 6-cell slot labels at col 14; the widest name ends
+; at col 30.
     item_delta = 4
 }
 .alloc at 0x01bd7b {

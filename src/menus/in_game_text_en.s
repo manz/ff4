@@ -1,6 +1,6 @@
 """English-language counterpart of `in_game_text.s`."""
-.import "vanilla"
-.include "src/ingame/macros.i"
+.import "core/vanilla"
+.include "ingame/macros.i"
 
 .scope in_game_menu {
     """Main pause-menu strings."""
@@ -287,15 +287,10 @@ mp_cost:
     move_to(1, 4)
     .text "Requis"
     .db 0
-; use_on_whom:
-; move_to(1, 10)
-; .text 'Sur qui ?'
-; .db 0
 }
 .scope treasure {
     """Treasure-chest UI text + windows."""
 choice_window:
-"""patch them in place"""
     menu_window(8, 0, 22, 2)
 items_window:
     menu_window(0, 3, 30, 10)

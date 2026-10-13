@@ -1,28 +1,15 @@
 """
-Unified rolling-inventory engine - bank-20 entry points.
+Rolling-inventory engine: bank-$20 JSL entry points shared by the field items, treasure, drops, key-item, sell and
+equip profiles.
 
-Phase 1 skeleton : declares the JSL-callable entry points specified in
-plans/rolling_inventory_engine.md. Each entry currently delegates to
-the existing macro-driven `engine_*` machinery in
-`src/lib/rolling_buffer.s`, so callers can opt-in incrementally.
-
-ABI : `X` (16-bit, bank $7E implied) holds the pointer to a
-`RollingBufferState` instance. Hooks live in bank-01 as far-callable
-trampolines and are resolved through the struct's per-instance far
-pointers (`vwf_cfg_ptr`, hook ptrs, ...).
-
-Phases 2..5 will port field-items / shop / key-items / drops + treasure
-through these entries one by one  ; phase 6 deletes the duplicated macro
-sites that remain in the per-menu source files.
+ABI: X (16-bit, bank $7E) points at a `RollingBufferState`. Hooks are RTL trampolines reached through the state's
+far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
 """
 
 
-.import "items"
+.import "core/items"
 
-; The profiles call into the engine and the engine dispatches back into
-; their HDMA builders, so the two sides are mutually dependent. That is
-; fine across modules: each compiles against the names it declares here
-; and the linker resolves them.
+; The engine and the profiles call each other; the linker resolves the names declared here.
 .extern update_menu_scroll_hdma
 .extern update_treasure_scroll_hdma
 .extern update_drops_scroll_hdma
@@ -33,34 +20,19 @@ sites that remain in the per-menu source files.
 .import "ingame/vanilla_trampolines"
 
 
-.include "src/rolling_state.i"
-.include "../bank20.i"
-.import "vanilla"
+.include "core/rolling_state.i"
+.include "core/bank20.i"
+.import "core/vanilla"
 
 .alloc _rolling_inventory_engine_block in bank20_reloc {
     .scope rolling_engine {
-    """Bank-20 rolling-inventory engine entry points (phase 1 stubs)."""
+    """Bank-20 rolling-inventory engine entry points."""
 rolling_engine_init:
 """
-    Cold init for a rolling-inventory instance.
-
-    Zeroes the 12-byte engine scratch portion of `RollingBufferState`
-    (everything from top_row through transfer_pending plus the
-    scroll_anim_offset word + hdma_copy_pending byte) and stamps
-    `base_scroll = $FFFF` as the "not-yet-HDMA-initialised" sentinel
-    the per-menu ensure_hdma_hook checks. dirty_mask is cleared too so
-    the first vblank flush has nothing to fire.
-
-    Caller-managed config fields (visible_rows, slot_height_tiles,
-    item_list_ptr, item_count, hdma_channel, vwf_cfg_ptr) are NOT
-    touched  ; callers fill them in before invoking this entry and the
-    phase-2 render path will read them back.
-
-    In/out :
-      X = state ptr (16-bit, bank $7E implied)
-      Y = initial top_row (unused in phase 1  ; phase 2 will route this
-          into the scroll-position pre-render)
-      All registers clobbered.
+    Cold init: zero the engine scratch (top_row..transfer_pending, scroll_anim_offset, hdma_copy_pending,
+    dirty_mask) and set base_scroll = $FFFF ("HDMA not armed", checked by fn_update_hdma). Config fields
+    (visible_rows, slot_height_tiles, item_list_ptr, item_count, hdma_channel, vwf_cfg_ptr) must be filled first.
+    In: X = state ptr. All registers clobbered.
 """
 
 
@@ -69,16 +41,12 @@ rolling_engine_init:
     sep #0x20
     rep #0x10
     lda.b #0x00
-; Zero engine scratch (top_row..transfer_pending + anim offset bytes +
-; hdma_copy_pending + dirty_mask).
     sta.l rolling_x.top_row, x
     sta.l rolling_x.buffer_pos, x
     sta.l rolling_x.edge_row, x
     sta.l rolling_x.slot_index, x
     sta.l rolling_x.hdma_enable, x
-; _pad byte (offset 7, struct-defined as `byte _pad`) ; a816 hides
-; leading-underscore field names from outer scopes, so write through
-; the literal offset rather than the symbolic name.
+; _pad (offset 7): a816 hides leading-underscore fields from outer scopes, so use the literal offset.
     sta.l 0x7E0007, x
     sta.l rolling_x.scroll_state, x
     sta.l rolling_x.scroll_remaining, x
@@ -88,22 +56,16 @@ rolling_engine_init:
     sta.l rolling_x.scroll_anim_offset + 1, x
     sta.l rolling_x.hdma_copy_pending, x
     sta.l rolling_x.dirty_mask, x
-; base_scroll = $FFFF sentinel ("HDMA not yet armed").
     lda.b #0xFF
     sta.l rolling_x.base_scroll, x
     sta.l rolling_x.base_scroll + 1, x
-; Fire fn_draw_window hook when armed.
     rep #0x10
     ldy.w #RollingBufferState.fn_draw_window
     jsr.w _engine_call_hook
-; Fire fn_update_hdma hook (= per-menu _ensure_hdma_initialized in the
-; field-items wiring). Phase 3+ may split this into ensure-once vs
-; per-scroll-update hooks ; for now both share the slot.
+; fn_update_hdma = the profile's *_ensure_hdma_initialized
     ldy.w #RollingBufferState.fn_update_hdma
     jsr.w _engine_call_hook
-; Loop `visible_rows` times, calling fn_render_slot for each row.
-; Each iteration plants edge_row + slot_index = loop counter before
-; firing the hook so the per-menu render reads the right values.
+; fn_render_slot for each of visible_rows, with edge_row = slot_index = the counter.
     sep #0x20
     lda.b #0x00
 
@@ -118,12 +80,8 @@ _engine_init_render_loop:
     cmp.l rolling_x.visible_rows, x
     bcc _engine_init_render_loop
 
-; Stamp transfer_pending so the per-menu main-loop hook pushes the
-; freshly-rendered staging buffer to VRAM on the next vblank - same
-; contract as rolling_engine_refresh_slots. Without it the init
-; render sat in WRAM until the first scroll, leaving VRAM showing
-; whatever vanilla's window-open upload wrote (drops came up with a
-; staircased window + a clobbered treasure row 0).
+; Push the init render to VRAM next vblank, or VRAM keeps vanilla's window-open upload until the first scroll
+; (staircased drops window, clobbered treasure row 0).
     lda.b #0x01
     sta.l rolling_x.transfer_pending, x
 
@@ -133,17 +91,9 @@ _engine_init_render_loop:
 
 rolling_engine_refresh_slots:
 """
-    Re-render every slot in the rolling buffer from the current `buffer_pos`
-    without resetting scroll state. Mirrors the legacy `engine_refresh_slots`
-    macro : iterates `(visible_rows + 1)` times (visible window + prefetch
-    slot), each iteration setting edge_row = scroll_pos + counter and
-    slot_index = (buffer_pos + counter) % buffer_slots, then firing
-    fn_render_slot. Stamps `transfer_pending = 1` on exit so the per-menu
-    NMI hook DMAs the BG staging buffer next vblank.
-
-    In : X = state ptr (16-bit, bank $7E implied)
-         A = current scroll_pos value (8-bit)
-    Out: all `visible_rows + 1` slots re-rendered, transfer_pending set.
+    Re-render the visible_rows + 1 slots from buffer_pos without resetting the scroll state: edge_row =
+    scroll_pos + n, slot_index = (buffer_pos + n) % buffer_slots. Sets transfer_pending.
+    In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -190,26 +140,10 @@ _engine_refresh_mod_done:
 
 rolling_engine_update_scroll_frame:
 """
-    Advance the scroll animation one frame. Mirrors the legacy
-    `engine_update_scroll_frame` macro :
-      - scroll_anim_offset += (scroll_direction < 0 ? -8 : +8)
-      - if vanilla cursor-row marker $1B19 != 0, bump cursor sprite Y at
-        $0311 by 2 pixels in the matching direction (down for negative
-        direction, up for positive)
-      - scroll_remaining -= 8 (animation timer countdown)
-      - per-menu update_scroll_hdma trampoline rebuilds the HDMA shadow
-        table (dispatched via state.menu_id)
-      - tfr_sprites_vblank_trampoline + tfr_bg2_tiles_vblank_trampoline
-        push sprite OAM + BG2 tiles into VRAM so the animation frame
-        becomes visible.
-
-    Pixels-per-frame hardcoded at 8  ; every existing caller
-    (INVENTORY_SCROLL_PIXELS_PER_FRAME / TREASURE / DROPS / KEY_ITEM) uses
-    that value, so the constant moves into the engine.
-
-    In : X = state ptr (16-bit, bank $7E implied)
-    Out: scroll_anim_offset / scroll_remaining advanced, HDMA shadow +
-         sprite / BG2 VRAM uploads driven by the per-menu trampolines.
+    Advance the scroll animation one frame: scroll_anim_offset +-= 8, the cursor sprite Y ($0311) by 2 when the
+    cursor-row marker $1B19 is set, scroll_remaining -= 8, then the profile's HDMA shadow rebuild and the sprite /
+    BG2 VRAM uploads. 8 px per frame matches every profile's *_SCROLL_PIXELS_PER_FRAME.
+    In: X = state ptr.
 """
 
 
@@ -252,12 +186,8 @@ _frame_no_cursor:
     sec
     sbc.b #8
     sta.l rolling_x.scroll_remaining, x
-; Dispatch per-menu update_scroll_hdma via menu_id branch. The
-; profiles' update_*_scroll_hdma functions live in bank-20 alongside
-; this engine, so jsr.w (3-byte) reaches them cleanly. Every id needs
-; its own branch: the tail is the key-item builder, not a generic
-; one, so a profile that falls through here scribbles the picker's
-; table instead of its own.
+; Per-profile HDMA builder by menu_id. Every id needs its own branch: the fall-through is the key-item builder,
+; so a missing branch scribbles the picker's table.
     lda.l rolling_x.menu_id, x
     beq _frame_hdma_field
     cmp.b #ROLLING_MENU_ID_TREASURE
@@ -299,15 +229,9 @@ _frame_hdma_done:
 
 rolling_engine_start_scroll_down:
 """
-    Kick off a non-blocking scroll-down animation. Advances buffer_pos
-    with wrap, pre-renders the new bottom slot via fn_render_slot, configures
-    the scroll FSM (state = 1, remaining = 16 pixels, direction = +8 =
-    positive = down, anim_offset = -16), stamps transfer_pending, and
-    dispatches the per-menu update_scroll_hdma to seed the first frame's
-    HDMA shadow.
-
-    In : X = state ptr, A = current scroll_pos (8-bit)
-    Out: scroll state machine armed for the next 2 frames of animation.
+    Start a scroll-down: advance buffer_pos (wrapping), pre-render the new bottom slot, arm the FSM (state 1,
+    remaining 16, direction +8, anim_offset -16), set transfer_pending and seed the HDMA shadow.
+    In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -373,15 +297,9 @@ _start_dn_mod_done:
 
 rolling_engine_start_scroll_up:
 """
-    Kick off a non-blocking scroll-up animation. Walks buffer_pos backwards
-    (wrap to visible_rows = buffer_slots - 1), pre-renders the new top
-    slot, configures the FSM (state = 1, remaining = 16, direction = -2 =
-    $FE = negative = up, anim_offset = +16), stamps transfer_pending,
-    dispatches update_scroll_hdma.
-
-    In : X = state ptr, A = current scroll_pos (8-bit, already decremented
-         by the caller)
-    Out: scroll state machine armed for next 2 frames of animation.
+    Start a scroll-up: step buffer_pos back (wrapping to visible_rows), pre-render the new top slot, arm the FSM
+    (state 1, remaining 16, direction $FE, anim_offset +16), set transfer_pending and seed the HDMA shadow.
+    In: X = state ptr, A = scroll_pos (8-bit, already decremented by the caller).
 """
 
 
@@ -427,21 +345,11 @@ _start_up_wrap_done:
 
 rolling_engine_finish_scroll:
 """
-    End-of-animation : pre-render the next-direction edge slot (the one
-    that becomes the new prefetch after the current animation lands),
-    reset scroll_state + anim_offset, refresh the HDMA shadow, fire the
-    vanilla cursor + post-scroll cleanup trampolines.
-
-    For scroll-down (direction = +N): slot_index = buffer_pos - 1 (with
-    wrap to buffer_slots - 1)  ; edge_row = scroll_pos + visible_rows ;
-    skip render when scroll_pos + visible_rows >= item_count (past tail).
-
-    For scroll-up (direction < 0, $FE) : slot_index = (buffer_pos + visible)
-    mod buffer_slots  ; edge_row = scroll_pos - 1 ; skip render when
-    scroll_pos == 0 (past head).
-
-    In : X = state ptr, A = current scroll_pos (8-bit)
-    Out: scroll FSM cleared, prefetch slot rendered, HDMA refreshed.
+    End of animation: pre-render the next prefetch slot, clear scroll_state and anim_offset, refresh the HDMA
+    shadow and run vanilla's cursor and post-scroll trampolines.
+      down: slot_index = buffer_pos - 1 (wrapping), edge_row = scroll_pos + visible_rows, skipped past the tail
+      up:   slot_index = (buffer_pos + visible_rows) % buffer_slots, edge_row = scroll_pos - 1, skipped at 0
+    In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -520,16 +428,9 @@ _finish_skip:
 
 rolling_engine_swap_redraw:
 """
-    Re-render all `visible_rows + 1` slots from current buffer_pos after
-    an item swap. Slots whose item index >= item_count are cleared via
-    the built-in field-items clear path (other profiles' clear stubs were
-    RTS no-ops, so we skip the call entirely for them). Resets scroll
-    state so a mid-animation swap doesn't trigger spurious finish_scroll
-    re-renders.
-
-    In : X = state ptr, A = current scroll_pos (8-bit)
-    Out: all `visible_rows + 1` slots refreshed, transfer_pending = 1,
-         HDMA shadow rebuilt via per-menu update_scroll_hdma.
+    Re-render all visible_rows + 1 slots after an item swap; slots past item_count are cleared (field items
+    only). Resets the scroll state so a mid-animation swap triggers no finish_scroll re-render.
+    In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -577,8 +478,7 @@ _swap_mod_done:
     bra _swap_next
 
 _swap_clear:
-; Only field-items has a real clear ; other menus' clear stubs were
-; RTS no-ops, so skip the call entirely unless menu_id == 0.
+; Only field-items has a real clear ; skip the call unless menu_id == 0.
     lda.l rolling_x.menu_id, x
     bne _swap_next
     jsr.w clear_inventory_slot
@@ -596,12 +496,7 @@ _swap_next:
     }
 
 _engine_dispatch_update_scroll_hdma:
-"""
-    Branches to the per-menu update_*_scroll_hdma function based on
-    state.menu_id. Every id needs its own branch (see the per-frame
-    dispatch above). The functions live in bank-20 alongside the engine
-    so a 16-bit jsr.w is enough.
-"""
+"""Jump to the profile's update_*_scroll_hdma by menu_id (bank $20, jsr.w). Every id needs its own branch."""
 
 
     {
@@ -641,25 +536,16 @@ _dispatch_drops:
 
 _engine_call_hook:
 """
-    Internal helper. JSLs through a hook far-ptr stored at
-    `state[X + Y]`.
-
-    In  : X = state ptr (16-bit, bank $7E implied)
-          Y = struct offset of the 3-byte hook field
-          M = 8 (caller-managed)
-    Out : hook RTLs back to caller of _engine_call_hook. A clobbered.
-          Hook is skipped if all three bytes are zero  ; null-safe.
+    JSL through the 3-byte hook at state + Y; skipped when all three bytes are zero.
+    In: X = state ptr, Y = hook field offset, M = 8. A clobbered.
 """
 
 
     {
     phx
     phy
-; Stash hook-field offset at $00:1F83 (next to the $1F80-82 jmp-vec
-; cell). Direct-page `sty.b 0x90` looked tempting but FF4's menu code
-; sets DP=$0100 before calling our patch, so the store actually
-; landed at $0190 = the BG1HOFS shadow ; vanilla NMI then scrolled
-; BG1 by the hook offset (26 px for fn_render_slot) on every render.
+; Hook offset at $00:1F83, not DP: menu code runs with D = $0100, so DP $90 is the BG1HOFS shadow and NMI would
+; scroll BG1 by the offset.
     rep #0x20
     tya
     sta.l 0x001F83
@@ -692,22 +578,8 @@ _engine_call_hook_null:
 
 rolling_engine_tick:
 """
-    Per-frame state-machine tick.
-
-    Advances the scroll animation by one frame when scroll_state != 0 :
-    decrements scroll_remaining and, when it hits zero, clears
-    scroll_state and stamps transfer_pending = 1 so the next vblank
-    flush picks up the final frame. Returns immediately when
-    scroll_state is idle.
-
-    Phase 1.3 scope. Phase 2 will additionally drive scroll_anim_offset,
-    read the pad-down bits in A.b to start fresh scrolls, and route the
-    new edge slot through fn_render_slot once that hook lands in the
-    struct.
-
-    In  : X = state ptr
-    Out : scroll_remaining decremented (if scrolling), scroll_state
-          cleared + transfer_pending set when animation completes.
+    Per-frame tick: while scroll_state != 0, decrement scroll_remaining; at zero, clear scroll_state and set
+    transfer_pending. No ROM caller (engine tests only). In: X = state ptr.
 """
 
 
@@ -733,22 +605,7 @@ _tick_idle:
     }
 
 rolling_engine_vblank_flush:
-"""
-    NMI-time flush.
-
-    Phase 1.4 scope : reads `state.dirty_mask`, returns immediately on
-    $00, otherwise clears the mask so the next vblank starts clean.
-    Phase 2 will wedge the real DMA-from-VWF-stage-to-VRAM dance in
-    between, driven by the `vwf_cfg_ptr` config and a small bank-01
-    trampoline  ; the dirty-mask gate + clear stays valid regardless of
-    how the DMA path lands.
-
-    Must run inside force-blank or the HDMA gap window so the DMA
-    doesn't tear visible scanlines (phase 2 concern).
-
-    In  : X = state ptr
-    Out : state.dirty_mask = 0 if it was non-zero, A clobbered.
-"""
+"""Clear state.dirty_mask if set; no DMA. No ROM caller (engine tests only). In: X = state ptr. A clobbered."""
 
 
     {
@@ -765,12 +622,7 @@ _flush_clean:
     }
 
 rolling_engine_cursor_up:
-"""
-    Decrement slot_index, wrapping to (visible_rows - 1) at zero.
-
-    In  : X = state ptr (bank $7E implied)
-    Out : state.slot_index updated, A clobbered
-"""
+"""Decrement slot_index, wrapping to visible_rows - 1. In: X = state ptr. A clobbered."""
 
 
     {
@@ -788,12 +640,7 @@ _cursor_up_dec:
     }
 
 rolling_engine_cursor_down:
-"""
-    Increment slot_index, wrapping to 0 when it would equal visible_rows.
-
-    In  : X = state ptr
-    Out : state.slot_index updated, A clobbered
-"""
+"""Increment slot_index, wrapping to 0 at visible_rows. In: X = state ptr. A clobbered."""
 
 
     {
@@ -812,20 +659,14 @@ _cursor_dn_store:
     }
 
 rolling_engine_invalidate_slot:
-"""
-    Mark one slot dirty for the next vblank flush.
-
-    In : X = state ptr, A.b = slot index 0..visible_rows-1
-    Out : state.dirty_mask gets bit (1 << A) set
-"""
+"""Set bit A (slot 0..visible_rows-1, 8-bit) in state.dirty_mask. In: X = state ptr."""
 
 
     {
     php
     sep #0x20
     pha
-; X stays state ptr ; use Y for the shift-left tally so we can keep
-; X bound to the struct base for the dirty_mask write below.
+; Y counts the shift so X stays on the state.
     phx
     tay
     lda.b #0x01
@@ -847,12 +688,7 @@ _inv_slot_done:
     }
 
 rolling_engine_invalidate_all:
-"""
-    Mark every visible slot dirty by setting dirty_mask = $FF.
-
-    In : X = state ptr
-    Out : state.dirty_mask = $FF, A clobbered
-"""
+"""Mark every slot dirty (dirty_mask = $FF). In: X = state ptr. A clobbered."""
 
 
     {
@@ -866,16 +702,8 @@ rolling_engine_invalidate_all:
 
 rolling_engine_shutdown:
 """
-    Tear down state on menu close.
-
-    Zeroes `state.hdma_enable` + `state.dirty_mask` and resets
-    `state.base_scroll` to the $FFFF sentinel so the next cold-init
-    ensure_hdma_hook re-arms cleanly. Does not touch HDMAEN ($420C) :
-    the per-menu exit hook owns that bit (it knows which channel mask
-    to clear via `hdma_channel`).
-
-    In : X = state ptr
-    Out : engine state half-reset, A clobbered.
+    Menu close: clear hdma_enable and dirty_mask, base_scroll = $FFFF so the next init re-arms. HDMAEN is left to
+    the profile's exit hook, which knows its channel. In: X = state ptr. A clobbered.
 """
 
 

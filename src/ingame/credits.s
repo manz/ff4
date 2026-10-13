@@ -1,8 +1,7 @@
 """
-In-place patches for the staff credits screen: re-point the credits text loader at our relocated
-`credits_text` block.
+Staff credits: points the text loader at `credits_text` and lengthens the cutscene for the extra text.
 """
-.import "assets"
+.import "core/assets"
 
 
 .alloc at 0x13d7ef {
@@ -10,9 +9,8 @@ In-place patches for the staff credits screen: re-point the credits text loader 
 }
 .alloc at 0x13d7f5 {
     lda.b #credits_text >> 16
-
-; Augments cutscene duration to show the additional text.
 }
+; Longer cutscene for the additional text.
 .alloc at 0x13d61d {
     lda.b #0x20
 }

@@ -1,9 +1,9 @@
 """
-Bank-$01 trampolines (jsr.l + rts) into the inventory rolling routines that live in bank $21, plus small
-wrappers around original bank-$01 helpers used by the rolling code.
+Bank-$01 trampolines (`jsr.l` + `rts`, 5 bytes) into the bank-$20 rolling code, in the space freed at $01:EBD2 by
+the init_bg_scroll_hdma relocation. Bank-$01 patches `jsr.w` these names.
 """
 
-.import "preamble"
+.import "core/preamble"
 .import "ingame/vanilla_trampolines"
 .import "ingame/drops_rolling"
 .import "ingame/treasure_rolling"
@@ -13,92 +13,71 @@ wrappers around original bank-$01 helpers used by the rolling code.
 .import "ingame/equip_inventory_rolling"
 .import "ingame/inventory_rolling"
 .import "ingame/items_menu_vwf"
-.import "items"
+.import "core/items"
 
-; Typed views over the profiles' state blocks. A cast is compile-time,
-; so it cannot be imported the way a label is: each module that reads
-; these fields binds its own view over the same addresses, the way
-; battle/inventory_rolling.s already does.
+.include "ingame/macros.i"
 
-.include "src/ingame/macros.i"
-
-
-;; Bank-$01 trampolines for inventory rolling routines living in bank $21.
-;; Reclaimed space: $01:EBD2 onwards (from init_bg_scroll_hdma relocation).
-;; Each trampoline = jsr.l + rts = 5 bytes.
-;;
-;; Bank-$01 callers (inventory_rolling_patches.s, free_space.s) jsr.w these
-;; bank-$01 names; the trampoline JSLs into the bank-$21 implementation.
-
-.include "src/ingame/bank01_trampolines.i"
-.import "vanilla"
-.include "../bank20.i"
+.include "ingame/bank01_trampolines.i"
+.import "core/vanilla"
+.include "core/bank20.i"
 
 _SELL_NAME_SLOT := 9  ; tiles $100 + 9 * 10
 
 .alloc _bank01_inventory_trampolines in bank01_trampolines {
 check_and_clear_count:
-"""Bank-$01 trampoline: bridge to `check_and_clear_count_impl` in bank $21."""
+"""Trampoline to `check_and_clear_count_impl`."""
     jsr.l check_and_clear_count_impl
     rts
 
 init_menu_rolling_buffer:
-"""Bank-$01 trampoline: initialise the rolling-buffer state held in bank $21."""
+"""Trampoline to `init_menu_rolling_buffer_impl`."""
     jsr.l init_menu_rolling_buffer_impl
     rts
 
 swap_redraw_hook_impl:
-"""Bank-$01 trampoline into `swap_redraw_hook_impl_body` (bank $21)."""
+"""Trampoline to `swap_redraw_hook_impl_body`."""
     jsr.l swap_redraw_hook_impl_body
     rts
 
 start_scroll_down:
-"""Bank-$01 trampoline: kick off a scroll-down animation."""
+"""Trampoline to `start_scroll_down_impl`."""
     jsr.l start_scroll_down_impl
     rts
 
 start_scroll_up:
-"""Bank-$01 trampoline: kick off a scroll-up animation."""
+"""Trampoline to `start_scroll_up_impl`."""
     jsr.l start_scroll_up_impl
     rts
 
 update_scroll_frame:
-"""Bank-$01 trampoline: advance the rolling buffer by one animation frame."""
+"""Trampoline to `update_scroll_frame_impl`."""
     jsr.l update_scroll_frame_impl
     rts
 
 finish_scroll:
-"""Bank-$01 trampoline: settle the rolling buffer at the end of a scroll."""
+"""Trampoline to `finish_scroll_impl`."""
     jsr.l finish_scroll_impl
     rts
-; --- Bank-$01 original call trampolines ---
-; Bank-$21 code can't `jsr.w` into bank $01 original routines; these trampolines
-; wrap a original `JSR` so bank-$21 callers can `jsr.l` and get a clean RTL
-; back without stack imbalance.
 
 sell_init:
-"""Bank-$01 trampoline: replace DrawInventoryList for the sell list."""
+"""Trampoline to `sell_init_impl` (replaces DrawInventoryList)."""
     jsr.l sell_init_impl
     rts
 
 sell_scroll_up:
-"""Bank-$01 trampoline: sell list scroll up, in place of vanilla's $9F loop."""
+"""Sell list scroll up, replacing vanilla's $9F loop."""
     jsr.l sell_scroll_up_impl
     rts
 
 sell_scroll_down:
-"""Bank-$01 trampoline: sell list scroll down, in place of vanilla's $9F loop."""
+"""Sell list scroll down, replacing vanilla's $9F loop."""
     jsr.l sell_scroll_down_impl
     rts
 
 sell_leave:
 """
-Shop teardown: restore the dialogue window graphics, then drop ch5.
-
-Hooked over the `JSR $873F` at $01:C304, the last call the shop menu
-makes before returning - the displaced call is reissued here. The sell
-list's HDMA bit lives in the shared `field_menu_rolling.hdma_enable`,
-so leaving it set would arm ch5 over the field's own BG3.
+Shop teardown over `jsr $873F` at $01:C304: reissues the displaced call, then disarms ch5 (left set, the shared
+`field_menu_rolling.hdma_enable` would arm it over the field's BG3).
 """
 
 
@@ -107,26 +86,23 @@ so leaving it set would arm ch5 over the field's own BG3.
     rts
 
 equip_init:
-"""Bank-$01 trampoline: replace DrawInventoryList for the equip list."""
+"""Trampoline to `equip_init_impl` (replaces DrawInventoryList)."""
     jsr.l equip_init_impl
     rts
 
 equip_scroll_up:
-"""Bank-$01 trampoline: equip list scroll up, in place of vanilla's $99 loop."""
+"""Equip list scroll up, replacing vanilla's $99 loop."""
     jsr.l equip_scroll_up_impl
     rts
 
 equip_scroll_down:
-"""Bank-$01 trampoline: equip list scroll down, in place of vanilla's $99 loop."""
+"""Equip list scroll down, replacing vanilla's $99 loop."""
     jsr.l equip_scroll_down_impl
     rts
 
 equip_leave:
 """
-Equip list teardown: drop ch5, then reissue the displaced call.
-
-Hooked over the `JSR $A2DC` at $01:BE70, where both ways out of the
-list (B, or an equip/remove) land before the screen clears BG4.
+Equip list teardown over `jsr $A2DC` at $01:BE70 (both exits of the list): disarms ch5, reissues the call.
 """
 
 
@@ -136,16 +112,8 @@ list (B, or an equip/remove) land before the screen clears BG4.
 
 draw_field_item_name_trampoline:
 """
-Bank-$01 JSR-callable wrapper around the bank-20
-`items_menu_vwf.draw_field_item_name` RTL helper. The vanilla
-`DrawItemName` patch at $01:9060 / `DrawEquipItemName` at $01:9013
-must stay 4 bytes (jsr.w + rts) so the very next byte at $01:9064
-keeps holding the vanilla sprite-render sub-routine's `phx` opcode :
-overrunning into $01:9064 with a JSL + RTS (5 bytes) replaced that
-phx with the wrapper's RTS, which short-circuited the save-selection
-sprite path's `jsr $9064` and parked every sprite off-screen on the
-title-screen-press-A entry. Use this trampoline so the call site
-stays at 3+1 bytes and the vanilla sprite routine is preserved.
+Trampoline to `items_menu_vwf.draw_field_item_name`. The $01:9060 patch must stay 4 bytes (`jsr.w` + `rts`):
+$01:9064 is the entry of a vanilla sprite routine, and overwriting it hides the save-select sprites.
 """
 
 
@@ -154,25 +122,19 @@ stays at 3+1 bytes and the vanilla sprite routine is preserved.
 }
 
 
-; end .alloc _bank01_inventory_trampolines
-
-;; Bank-$01 thunks + wrappers for the treasure exchange rolling buffer.
-;; Mirror the field-menu set above but call the treasure_-prefixed bodies
-;; in src/ingame/treasure_rolling.s. Both menus are mutually exclusive on
-;; screen so the HDMA channel + tilemap buffer + WRAM shadow tables are
-;; reused; only the per-menu state RAM differs.
+; Treasure-menu trampolines (bodies in treasure_rolling.s).
 .alloc _bank01_treasure_trampolines in bank01_trampolines {
 _treasure_check_and_clear_count:
     jsr.l treasure_check_and_clear_count_impl
     rts
 
 init_treasure_rolling_buffer:
-"""Treasure profile: trampoline into `init_treasure_rolling_buffer_impl`."""
+"""Trampoline to `init_treasure_rolling_buffer_impl`."""
     jsr.l init_treasure_rolling_buffer_impl
     rts
 
 treasure_refresh_slots:
-"""Treasure profile: trampoline into `treasure_refresh_slots_impl`."""
+"""Trampoline to `treasure_refresh_slots_impl`."""
     jsr.l treasure_refresh_slots_impl
     rts
 
@@ -196,17 +158,6 @@ _treasure_finish_scroll:
     jsr.l treasure_finish_scroll_impl
     rts
 
-; Original treasure already updated $1BB7 before reaching the patch site,
-; so the triggers just kick off the state-machine animation.
-; Force the field-menu HDMA shadow ($1BAE) ON before kicking the state
-; machine so the existing field NMI hook copies the shadow→active table
-; even when the rolling-buffer init at $01:D933 never ran (some treasure
-; flows skip the redraw helper).
-; Original writes $1BB7 each frame DOWN/UP is held - no built-in debounce
-; once the blocking scroll loop is gone. Gate the trigger on
-; `treasure_rolling.scroll_state == 0` and undo original's $1BB7 update when an
-; animation is still in flight, so the rolling buffer steps once per
-; press instead of advancing dozens of times per held button.
 _treasure_arm_cooldown:
 """Reload the held-DOWN debounce after a scroll trigger fired."""
     sep #0x20
@@ -216,15 +167,8 @@ _treasure_arm_cooldown:
 
 _treasure_wait_vblank:
 """
-Burn one frame on the debounced-abort path (vanilla `WaitVblank`,
-$01:818A).
-
-Vanilla scrolled inside a blocking 8-frame loop, which also paced the
-surrounding input loop. Our trigger returns immediately instead, so
-while the debounce holds a press off, the loop spins with no vblank
-wait at all: game time ($16A3) freezes, the cooldown never ticks and
-hold-to-scroll dies after the first item. One wait per aborted
-trigger restores vanilla's pacing.
+Waits one vblank on a debounced abort. Without it the input loop spins unpaced: game time ($16A3) and the
+cooldown freeze, and hold-to-scroll stops after one item.
 """
 
 
@@ -232,7 +176,10 @@ trigger restores vanilla's pacing.
     rts
 
 treasure_scroll_down_trigger:
-"""Treasure profile: input-driven scroll-down trigger."""
+"""
+Scroll-down trigger. Vanilla already moved $1BB7; while a scroll or the cooldown is running, undo that and wait a
+frame, so a held button steps once per cooldown. Forces HDMA setup since some flows skip the init at $01:D933.
+"""
     lda.w treasure_rolling.scroll_state
     bne _t_down_abort
     lda.w treasure_scroll_cooldown
@@ -247,7 +194,7 @@ _t_down_abort:
     rts
 
 treasure_scroll_up_trigger:
-"""Treasure profile: input-driven scroll-up trigger."""
+"""Mirror of `treasure_scroll_down_trigger`."""
     lda.w treasure_rolling.scroll_state
     bne _t_up_abort
     lda.w treasure_scroll_cooldown
@@ -262,16 +209,11 @@ _t_up_abort:
     rts
 
 treasure_main_loop_scroll_check:
-
-
 """
-Replaces the original `jsr $82C0` at $01:DA08. Drives the scroll
-state machine each frame  ; while scrolling it zeroes $01 so the
-downstream `and #JOY_*` input checks all branch out, freezing
-cursor / button handling until the animation settles. Always ends
-by calling the original $82C0 so original per-frame work still runs.
+Replaces `jsr $82C0` at $01:DA08: ticks the scroll state machines, zeroing the input mask $01 while one runs,
+then tail-jumps to $82C0.
 """
-    jsr.l treasure_main_loop_far  ; the per-frame work lives in bank $20: bank $01 has no room
+    jsr.l treasure_main_loop_far
     jmp.w update_ctrl_menu
 
 _treasure_menu_entry_hook:
@@ -279,21 +221,14 @@ _treasure_menu_entry_hook:
     rts
 
 treasure_menu_exit_hook:
-"""Treasure profile: menu-exit hook trampoline."""
+"""Trampoline to `treasure_menu_exit_hook_impl`."""
     jsr.l treasure_menu_exit_hook_impl
     rts
 
 shop_draw_item_name:
 """
-Hand the shop's row index to the VWF renderer, then draw the name.
-
-`items_menu_vwf.draw_field_item_name` reads DP $5D as the slot index and
-gives each slot its own tile-id window. The shop's list loop
-($01:C4A0) keeps the item id in $5D instead, so a high id asked for a
-tile base past the CHR buffer and rows shared or overran each other's
-tiles. At the call site X holds row * 2 (index into the tilemap-offset
-table at $01:C58E) and A holds the item id, which must reach vanilla
-`DrawItemName` untouched.
+Sets $5D = row (the VWF slot) before DrawItemName; the shop list loop ($01:C4A0) keeps the item id there.
+Entry: X = row * 2, A = item id (passed through).
 """
 
 
@@ -306,9 +241,8 @@ table at $01:C58E) and A holds the item id, which must reach vanilla
 
 shop_sell_item_name:
 """
-The sell confirmation's item name (ConfirmSell, $01:CA02) in the last field-item tile window, slot 9 ($15A-$163):
-ConfirmSell leaves the item id in $5D, which the VWF renderer reads as the slot, and the list under the window
-keeps the low slots on screen. A = the item id, kept for DrawItemName; $5D comes back as ConfirmSell left it.
+ConfirmSell ($01:CA02) item name in VWF slot 9 (tiles $15A-$163), clear of the list's slots.
+Entry: A = item id (passed through). Preserves $5D.
 """
     pha
     lda.b #_SELL_NAME_SLOT
@@ -322,12 +256,7 @@ keeps the low slots on screen. A = the item id, kept for DrawItemName; $5D comes
 
 drops_swap_index:
 """
-Bank-$01 helper for the drops swap byte-index recompute at $01:DAAC.
-
-X = (cursor_row + drops_scroll_pos) * 2, the byte index into the
-drops array at $7E:FF28. Lives here rather than inline at the patch
-site because `drops_scroll_pos` needs long addressing ($7E:9C5F) and
-the 11-byte vanilla sequence has no room for the extra opcode byte.
+Drops swap index for $01:DAAC: X = (cursor_row + drops_scroll_pos) * 2 into $7E:FF28.
 """
 
 
@@ -335,60 +264,44 @@ the 11-byte vanilla sequence has no room for the extra opcode byte.
     clc
     adc.l drops_scroll_pos
     asl
-    jsr.w tax16  ; A -> X via scratch $43
+    jsr.w tax16
     rts
 
 drops_init:
-"""Bank-$01 trampoline: kick the drops rolling buffer init (filter+render via engine)."""
+"""Trampoline to `drops_init_impl`."""
     jsr.l drops_init_impl
     rts
 
 drops_refresh_slots:
 """
-Bank-$01 trampoline: re-render all drops slots (engine refresh path), then send BG4. The drops draw into BG4's
-buffer ($7E:C600) but the redraw it replaces ($01:D929, after Tout prendre) only sends BG1 and BG3: an emptied
-slot kept its colon and count on screen.
+Re-renders the drops slots, then sends BG4: the replaced redraw ($01:D929, after Tout prendre) sends only BG1/BG3.
 """
     jsr.l drops_refresh_slots_impl
     jmp.w tfr_bg4_tiles_vblank
 
 drops_down_handler:
 """
-Bank-$01 cursor-row store + DOWN-scroll trigger. Called from the
-hijacked clamp site at $01:D9E0 with the candidate cursor row in A
-(= $1BB3 + 1). Stores the row when below the visible cap  ; otherwise
-fires the engine scroll-down state machine so items past row 4
-reveal. Returns with the row stored or an animation kicked.
+Clamp site $01:D9E0, A = $1BB3 + 1: stores the row if visible, else starts a drops scroll-down.
 """
     jsr.l drops_down_handler_far
     rts
 
 drops_up_handler:
 """
-Bank-$01 cursor-row store + UP-scroll trigger. Called from the
-hijacked clamp site at $01:D9D1 with the decremented row in A
-(= $1BB3 - 1). Stores the row when non-negative  ; if it underflowed
-(N flag set, row was 0) fires the scroll-up state machine to pull
-a fresh top row down.
+Clamp site $01:D9D1, A = $1BB3 - 1: stores the row if non-negative (N clear), else starts a drops scroll-up.
 """
     jsr.l drops_up_handler_far
     rts
 }
 
 
-; end .alloc _bank01_treasure_trampolines
 .alloc _bank01_treasure_bodies in bank20_reloc {
 """
-The treasure trampolines' bodies, called long from their bank-$01 stubs: bank $01 has only the 400 bytes the
-relocated InitScrollHDMA left ($01:EBD2-$01:ED61). Past them is vanilla battle-animation code (SetMonsterScroll,
-TeleportPalAnim, the summon animations) that battle still `jsl`s.
+Treasure trampoline bodies, in bank $20: the bank-$01 space ($01:EBD2-$01:ED61) is only 400 bytes, and past it is
+vanilla battle-animation code that is still called.
 """
 treasure_main_loop_far:
-; Cooldown tick, gated on vanilla's per-frame game-time byte. This
-; loop runs once per frame while input flows but ~20 times inside the
-; frame that ends a scroll animation (blocking input with `stz $01`
-; costs the vanilla loop its pacing), and a per-call `dec` drained the
-; whole debounce in that one frame - so one held DOWN scrolled twice.
+; Cooldown ticks once per frame (game-time byte), not per call: the loop runs ~20 times in the frame a scroll ends.
     sep #0x20
     lda.l menu_frame_time
     cmp.w treasure_scroll_frame_seen
@@ -406,10 +319,7 @@ _t_main_cd_done:
     bne _treasure_main_block_input
     jsr.l treasure_finish_scroll_impl
 _treasure_main_check_drops_tick:
-; Drops scroll state machine shares the treasure menu's per-frame
-; tick. While drops is animating, zero $01 (input mask) so cursor
-; input is frozen until the scroll lands - same shape as the
-; treasure-inventory branch above.
+; Drops scroll tick, input blocked the same way.
     lda.w drops_rolling.scroll_state
     beq _treasure_main_check_xfer
     jsr.l drops_update_scroll_frame_impl
@@ -417,18 +327,13 @@ _treasure_main_check_drops_tick:
     bne _treasure_main_block_input
     jsr.l drops_finish_scroll_impl
 _treasure_main_check_xfer:
-; Drain treasure_rolling.transfer_pending - the rolling buffer renderer writes
-; to the BG3 staging buffer at $7E:D600, but original's treasure main
-; loop only DMAs BG2 + sprites each frame, so we have to push the BG3
-; tilemap to VRAM ourselves whenever a slot was just re-rendered.
+; Re-rendered slots: push BG3 ($7E:D600); vanilla's loop only sends BG2 and sprites.
     lda.w treasure_rolling.transfer_pending
     beq _treasure_main_after_bg3
     jsr.l tfr_bg3_tiles_vblank_trampoline
     stz.w treasure_rolling.transfer_pending
 _treasure_main_after_bg3:
-; Drain drops_rolling.transfer_pending - drops render into BG4 staging at
-; $7E:C600 (alongside TreasureItemsWindow), so push BG4 to VRAM
-; whenever drops re-rendered.
+; Drops: push BG4 ($7E:C600).
     lda.w drops_rolling.transfer_pending
     beq _treasure_main_after_xfer
     jsr.l tfr_bg4_tiles_vblank_trampoline
@@ -442,13 +347,8 @@ _treasure_main_call_orig:
     rtl
 
 treasure_force_hdma_setup_far:
-
-
 """
-Reconfigure HDMA channel 5 for BG3 only when we're inside the treasure
-menu (original sets $1BC6 at $01:D80B on entry, clears it at $01:D7E6 on
-exit). Field-menu Items uses BG1 and reconfigures channel 5 itself  ; the
-key-item submenu (e.g. Baron key) is yet another context to add later.
+Configures HDMA ch6 -> BG3VOFS from $7E:9800, only in the treasure menu ($1BC6 set at $01:D80B, cleared at $01:D7E6).
 """
 
 
@@ -458,47 +358,32 @@ key-item submenu (e.g. Baron key) is yet another context to add later.
 _t_setup_in_treasure:
     sep #0x20
     lda #0x02
-    sta.l dma_ch6.DMAP  ; HDMA6 ctrl: DIRECT mode, 2 bytes / scanline
+    sta.l dma_ch6.DMAP  ; direct, 2 bytes
     lda #PPU.BG3VOFS
     sta.l dma_ch6.BBAD
     rep #0x20
-    lda.w #0x9800  ; shared field-menu HDMA active table at $7E:9800
-    sta.l dma_ch6.A1TL  ; HDMA6 src lo/hi
+    lda.w #0x9800  ; shared active table
+    sta.l dma_ch6.A1TL
     sep #0x20
     lda #0x7E
-    sta.l dma_ch6.A1B  ; HDMA6 src bank
+    sta.l dma_ch6.A1B
     rep #0x20
-; Capture original BG3VOFS shadow ($9F) - original treasure draws inventory
-; rows starting at screen scanline ~120 with $9F = -120, which keeps the
-; existing window/dialog tilemap content visible on the header band.
+; base_scroll = vanilla's BG3VOFS shadow ($9F, -120).
     lda.l 0x7E019F
     sta.w treasure_rolling.base_scroll
     sep #0x20
-; Original treasure ROM enables HDMAEN=$AD = ch7|ch5|ch3|ch2|ch0. ch2
-; is an HDMA INDIRECT mode-3 channel that writes BG3HOFS+BG3VOFS for
-; the drops-band parallax. Even with our scroll moved to ch6 (which
-; iterates after ch2 and should "win" the BG3VOFS at scanlines past
-; the drops band), the rolling buffer scroll never takes effect while
-; ch2 is enabled - likely because ch2 keeps reloading entries via its
-; indirect table past scanline 128. Mask ch2 entirely; the drops-band
-; original parallax is purely cosmetic and the drops list still lands
-; at the right scanline without it.
-    lda #0xF1  ; $AD & ~0x04 | $40 | $10, minus ch3 = ch7|ch6|ch5|ch4|ch0
-; ch3 stays out of the mask: it carries the one-shot VWF CHR flush
-; (src/small_vwf/render.s) and was never configured as an HDMA
-; channel, so arming it fed the PPU a garbage table.
+; Vanilla's $AD (ch7|ch5|ch3|ch2|ch0) + ch6 + ch4, minus ch2 (its BG3VOFS parallax overrides the ring scroll)
+; and ch3 (the VWF CHR flush's DMA channel, no HDMA table).
+    lda #0xF1
     sta.l field_menu_rolling.hdma_enable
     rtl
 
 drops_down_handler_far:
-
-
     cmp #DROPS_VISIBLE_ITEMS
     bcc _drops_down_store
     pha
     lda.l drops_rolling.scroll_state
     bne _drops_down_busy
-; Clamp scroll_pos at TOTAL - VISIBLE (3 for 8-total / 5-visible).
     lda.l drops_scroll_pos
     cmp #DROPS_TOTAL_ITEMS - DROPS_VISIBLE_ITEMS
     bcs _drops_down_busy
@@ -516,8 +401,6 @@ _drops_down_store:
 
 
 drops_up_handler_far:
-
-
     bmi _drops_up_scroll
     sta.w menu_cursor_data + 0xb3
     rtl
@@ -541,37 +424,25 @@ _drops_up_busy:
 .alloc _bank01_shop_trampolines in bank01_trampolines {
 shop_quantity_text_hook:
 """
-Render the owner welcome ('Que désirez vous ?') through the small-VWF
-description region, then fall through to the vanilla menu-text engine
-for the rest of the quantity block (Quantité + initial '1' digit).
-
-Called in place of the original `jsr $8301` at the buy ($01:C442) and
-sell ($01:C7E7) entry points  ; the matching `LDY #shops.quantity` at
-$01:C43F / $01:C7E4 is left in place so an unrelated future caller
-could still chain into $8301 with the slimmed block.
+Replaces `jsr $8301` at $01:C442 (buy) / $01:C7E7 (sell): draws the quantity block, then 'Que désirez vous ?'
+in the small-VWF description region.
 """
 
 
-; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
+; Menu text first: its render resets the engine state the description's upload waits in.
     ldy.w #shops.quantity - 0x8000
-    jsr.w draw_pos_text  ; draw text at position (= display_text_in_menus thunk)
+    jsr.w draw_pos_text
     ldy.w #shops.que_desirez_vous
     jsr.l items_description.draw_trampoline_pos
     rts
 
 shop_welcome_text_hook:
 """
-Render the shop owner's greeting ('Puis-je vous aider ?') through the
-small-VWF description region, then tail-jump to the vanilla menu-text
-engine for the remaining `Achat Vente Sortir` action labels.
-
-Called in place of the original `jmp $8301` at $01:C353. The matching
-`LDY #shops.welcome_and_actions` at $01:C350 is left in place  ; the
-slimmed `welcome_and_actions` block now holds only the action line.
+Replaces `jmp $8301` at $01:C353: draws the action labels, then 'Puis-je vous aider ?' in the description region.
 """
 
 
-; the small-VWF menu text first: its render resets the engine state the description's upload is waiting in
+; Menu text first: its render resets the engine state the description's upload waits in.
     ldy.w #shops.welcome_and_actions - 0x8000
     jsr.w draw_pos_text
     ldy.w #shops.puis_je_vous_aider
@@ -580,16 +451,11 @@ slimmed `welcome_and_actions` block now holds only the action line.
 
 shop_thanks_text_hook:
 """
-Draw the thank-you window via the vanilla `$82FB` (which expects an
-empty trailing text block  ; see `thank_you_window` data), then render
-the actual 'Merci !' copy through the small-VWF description region.
-
-Called in place of the original `jsr $82FB` at $01:C751. The matching
-`LDY #shops.thank_you_window` at $01:C74E is left in place.
+Replaces `jsr $82FB` at $01:C751: draws the window (empty text block), then 'Merci !' in the description region.
 """
 
 
-    jsr.w draw_window_text  ; draw window + (empty) text
+    jsr.w draw_window_text
     ldy.w #shops.merci
     jsr.l items_description.draw_trampoline_pos
     rts

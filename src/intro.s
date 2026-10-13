@@ -1,28 +1,28 @@
 """
-Boot-time splash-screen routine: imported by `ff4.s`, sets up SNES + graphics mode 3, blits the intro tilemap
+Boot-time splash screen, hooked at $00:8031: sets up SNES + graphics mode 3, blits the intro tilemap
 and chains into the title screen.
 """
-; ----------------------------------------------------------------
-; Module: intro
-; Splash-screen routine. Imported by ff4.s at boot time.
-; ----------------------------------------------------------------
 
-.include "libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
-.import "preamble"
-.include "bank20.i"
-.import "libmz"
-.import "assets"
-.import "bank20_helpers"
-.import "vanilla"
+.include "core/libmz.i"  ; macros (dma_transfer_to_vram_call, etc.)
+.import "core/preamble"
+.include "core/bank20.i"
+.import "core/libmz"
+.import "core/assets"
+.import "core/bank20_helpers"
+.import "core/vanilla"
+
+
+; Hook to show the splash screen
+.alloc at 0x008031 {
+    jsr.l start_splash_screen
+}
 
 
 .alloc _intro_block in bank20_reloc {
 start_splash_screen:
 """Boot-time splash-screen entry point."""
-; initialise SNES
     jsr.w initialize_snes
 
-; set register modes
     rep #0x10  ; make X & Y 16-bits
     sep #0x20  ; make A 8-bits
 
@@ -36,13 +36,10 @@ start_splash_screen:
     lda #0x01  ; set plane 0 character set to 0x1000
     sta ppu.BG12NBA
 
-; copy intro map data
     dma_transfer_to_vram_call(intro_tilemap, 0x0000, sizeof(intro_tilemap), 0x1801)
 
-; copy color palettes
     dma_transfer_to_palette_call(intro_palette, sizeof(intro_palette))
 
-; copy intro tile set
     dma_transfer_to_vram_call(intro_tiles, 0x1000, sizeof(intro_tiles), 0x1801)
 
     jsr.w _splash_screen_fade_in
@@ -53,13 +50,13 @@ start_splash_screen:
     jsr.w _splash_screen_fade_out
 
     jsr.l clear_ram
-; runs the original jsl routines
+; vanilla's boot calls
     jsr.l init_hw_regs
     jsr.l field_clear_ram
 
     rtl
 
-; TODO: rewrite as HDMA table would make it look less hacky.
+; TODO: drive the fade's INIDISP / MOSAIC ramp from an HDMA table instead of per-vblank register writes.
 
 _splash_screen_fade_out:
     {
@@ -125,8 +122,8 @@ _gamepad_interruptable_loop:
     jsr.w enable_gamepad
     jsr.w wait_for_vblank
 
-    ldx cpu_regs.PAD1L  ; lecture depuis joystick
-    bne exit  ; si on appuye sur quelque chose on sort du delay
+    ldx cpu_regs.PAD1L  ; read joypad 1
+    bne exit  ; any button pressed ends the delay
     dec
     bne _gamepad_interruptable_loop
 exit:

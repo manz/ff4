@@ -3,11 +3,11 @@ Battle monster-slot helpers: blank a slot, the tab escape.
 """
 
 
-.import "assets"
-.import "vanilla"
+.import "core/assets"
+.import "core/vanilla"
 
 
-.include "../bank20.i"
+.include "core/bank20.i"
 
 .alloc _battle_monsters_reloc_block in bank20_reloc {
 initialize_monster_slot:

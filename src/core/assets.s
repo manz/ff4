@@ -2,10 +2,6 @@
 Pinned binary blobs (fonts, scripts, tilemaps, intro graphics) included via `.incbin` at fixed ROM addresses,
 plus the `font_table` pointer table indexed by font id.
 """
-; ----------------------------------------------------------------
-; Module: assets
-; Pinned binary blobs (fonts, scripts, tilemaps).
-; ----------------------------------------------------------------
 
 .alloc at 0x0AF000 {
     .incbin "font_8x8.bin"  ; build.py: fonts/8x8.bin with the battle ATB gauge tiles

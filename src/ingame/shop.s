@@ -1,74 +1,60 @@
 """
-Shop-screen patches: move the gil window, adjust title positions, hook into the relocated shop text +
-small-VWF item descriptions.
+Shop-screen patches: window layout, text pointers, small-VWF owner messages, list and cursor positions.
 """
-.import "preamble"
+.import "core/preamble"
 .import "ingame/inventory_rolling_trampolines"
 .import "menus/tools_shop_text"
-.import "assets"
+.import "core/assets"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
-.include "src/menus/system_menus_macros.i"
+.include "menus/system_menus_macros.i"
 
-.include "src/ingame/macros.i"
-.import "vanilla"
+.include "ingame/macros.i"
+.import "core/vanilla"
 
-; move gils window
-
+; Gil window
 .alloc at 0x1dea6 {
     menu_window(23, 4, 7, 3)
-
-; move character 1 tile below
 }
+; Party window, one tile lower
 .alloc at 0x1deba {
     menu_window(23, 9, 7, 11)
-
-; message window
 }
+; Message window
 .alloc at 0x01deb2 {
     menu_window(8, 0, 20, 2)
-
-; shop title
 }
+; Shop title
 .alloc at 0x01deae {
     menu_window(0, 0, 8, 2)
-
-; actions window
 }
+; Actions window
 .alloc at 0x01deaa {
     menu_window(1, 4, 20, 3)
-
-; list window
 }
+; List window
 .alloc at 0x01deb6 {
     menu_window(0, 8, 22, 17)
-
-
-; Moves gils 7 digits 2 tiles to the right.
 }
+; Gil amount (7 digits) 2 tiles right
 .alloc at 0x1c3f5 {
     ldy.w #0x01a6 + 8
-
-; ギル : gils
 }
+; ギル label
 .alloc at 0x01C3EC {
     load_system_menu_text_pointer(shops.gils)
 }
 .alloc at 0x01C350 {
     load_system_menu_text_pointer(shops.welcome_and_actions)
-; Route the owner greeting ("Puis-je vous aider ?") through the small-VWF
-; description region ; the slimmed welcome_and_actions block holds only the
-; "Achat Vente Sortir" action labels rendered by the vanilla engine.
 }
+; The owner greeting goes through the small-VWF description; welcome_and_actions holds only the action labels.
 .alloc at 0x01C353 {
     jmp.w shop_welcome_text_hook
 }
 .alloc at 0x01C43F {
     load_system_menu_text_pointer(shops.quantity)
-; Route the buy-flow welcome ("Que désirez vous ?") through the small-VWF
-; description region ; vanilla quantity block (Quantité + "1") continues to
-; render via $8301 inside the hook.
 }
+; The buy prompt goes through the small-VWF description; the hook still draws the quantity block via $8301.
 .alloc at 0x01C442 {
     jsr.w shop_quantity_text_hook
 }
@@ -83,9 +69,8 @@ small-VWF item descriptions.
 }
 .alloc at 0x01c74e {
     load_system_menu_text_pointer(shops.thank_you_window)
-; Route the owner thank-you ("Merci !") through the small-VWF description
-; region ; the window itself still draws via vanilla $82FB inside the hook.
 }
+; The thank-you goes through the small-VWF description; the hook still draws the window via $82FB.
 .alloc at 0x01C751 {
     jsr.w shop_thanks_text_hook
 }
@@ -97,20 +82,13 @@ small-VWF item descriptions.
 }
 .alloc at 0x01c700 {
     load_system_menu_text_pointer(shops.not_enough_gils)
-
-
-; Buy menu
-; quantity hand pointer position "10"
 }
+; Quantity cursor on "10" and on "1": buy menu, then sell menu
 .alloc at 0x01cb12 {
     ldx #0x3058 + 48
-
-; quantity hand pointer position "1"
 }
 .alloc at 0x01cb17 {
     ldx.w #0x3040 + 54
-
-; Sell menu
 }
 .alloc at 0x01c80b {
     ldx.w #0x3058 + 48
@@ -119,16 +97,12 @@ small-VWF item descriptions.
     ldx.w #0x3040 + 54
 }
 {
-; the 10 is drawn using a draw number function while the 1 is in the text.
-; the 10 is dynamic if you place the cursor on 10 and press X it'll increase the number (10 increments)
-
+; The "10" is a drawn number (it steps by 10), the "1" is text.
     _quantity_10_position = 0x019a + 12
 
-; Sell menu
+; Sell menu, then buy menu
     .alloc at 0x01c81e {
     ldy.w #_quantity_10_position
-
-; Buy menu
     }
 
 
@@ -138,23 +112,16 @@ small-VWF item descriptions.
 }
 
 
-; Buy-list cursor X. Vanilla parks the hand at 16px, one column left of
-; the names at column 3 ; the rows moved a column left, so the cursor
-; follows. SelectItemSell is untouched: it lists the player's own
-; inventory through a different draw path.
+; Buy-list cursor X: 16 -> 8 px, following the names one column left.
 .alloc at 0x01C5C0 {
     lda #0x08
 }
 
-; Row positions for the item names, one column left of vanilla's so the
-; names regain the column the price field needs. Original table at
-; $01:C58E held $0246, $02C6, ... (column 3 of each row).
+; Buy-list name positions, one column left of vanilla's (column 3) to leave room for the price.
 .alloc at 0x01C58E {
     .dw 0x0244, 0x02C4, 0x0344, 0x03C4, 0x0444, 0x04C4, 0x0544, 0x05C4
 }
 
-; Shop list rows draw through the hijacked DrawItemName, which needs a
-; slot index in $5D ; the loop leaves the item id there instead.
 ; ConfirmSell's count: right-aligned with the price, on column 16 (vanilla column 12)
 .alloc at 0x01C9D7 {
     ldy.w #15 * 2 + 14 * 64
@@ -183,11 +150,12 @@ small-VWF item descriptions.
     jsr.w shop_sell_item_name
 }
 
+; Buy-list names: the hijacked DrawItemName needs a slot index in $5D, where the loop leaves the item id.
 .alloc at 0x01C580 {
     jsr.w shop_draw_item_name
 }
 
-; Changes the offset of the hand pointer
+; Hand cursor offset
 
 .alloc at 0x01C37C {
     lda.w menu_cursor_data + 0x79
@@ -203,15 +171,14 @@ small-VWF item descriptions.
     sta 0x45
 }
 .alloc at 0x01920a {
-; shop party sprite positions
-; Attack formation 3 front, 2 back
+; Party sprite positions. Attack formation: 3 front, 2 back
     .db 0x00 + 8, 0x1c + 8
     .db 0x00 + 8, 0x00 + 8
     .db 0x00 + 8, 0x38 + 8
     .db 0x18 + 8, 0x0c + 8
     .db 0x18 + 8, 0x2c + 8
 
-; Defense formation 3 back, 2 front
+; Defense formation: 3 back, 2 front
     .db 0x18 + 8, 0x1c + 8
     .db 0x18 + 8, 0x00 + 8
     .db 0x18 + 8, 0x38 + 8

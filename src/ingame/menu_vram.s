@@ -5,13 +5,13 @@ The menus read their BG tiles from VRAM $4000-$7FFF. $4000-$5FFF holds the 8x8 f
 tiles $100-$1FF; $6000-$7FFF (tiles $200-$3FF) is never drawn by vanilla menus and is free for the small VWF.
 A town or dungeon keeps map tiles in both, so the menu saves them to SRAM on entry and puts them back on exit.
 """
-.import "preamble"
-.import "vanilla"
+.import "core/preamble"
+.import "core/vanilla"
 .import "small_vwf/menu_text"
 .import "small_vwf/vram_queue"
-.import "sram_layout"
-.include "src/vwf_state.i"
-.include "../bank20.i"
+.import "core/sram_layout"
+.include "core/vwf_state.i"
+.include "core/bank20.i"
 
 _DMA_VRAM_READ := 0x81  ; VRAM to A-bus, one register (VMDATALREAD), A-bus incrementing
 _DMA_VRAM_WRITE := 0x01  ; A-bus to VRAM, two registers (VMDATAL/H)

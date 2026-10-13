@@ -151,25 +151,26 @@ M.SHIMOJI
 T.SUZUKI
 S.SANO
 
+
+
+
 EQUIPE DE TRADUCTION FRANCAISE
 
+
+
+
 TRADUCTION
-.......
+Hrothgar SCRB
 
 PROGRAMMATION
 ManZ
 
 REMERCIEMENTS
-FlashPV GreatSkaori Meradrin
-Metallines Pixel S.O.R
-  SkeuD TiDragon Yaz0r
-
-
-
-
-
-
-
+Dark Force F.H FlashPV
+GreatSkaori Meradrin
+Metallines Nemesis Pixel
+Ryusan S.O.R SkeuD
+TiDragon Yaz0r
 
 
 

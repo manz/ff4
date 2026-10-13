@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from _ff4kintsuki import PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import FULL_PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "item_refusals"
@@ -43,6 +43,6 @@ def _use(item: int, *, on_ko_cecil: bool):
 def test_the_refusal_golden(item: int, on_ko_cecil: bool, golden: str) -> None:
     emu = _use(item, on_ko_cecil=on_ko_cecil)
     try:
-        assert_screenshot_matches_golden(emu, GOLDENS / golden, region=PICTURE)
+        assert_screenshot_matches_golden(emu, GOLDENS / golden, region=FULL_PICTURE)
     finally:
         emu.close()

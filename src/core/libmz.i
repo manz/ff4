@@ -2,7 +2,7 @@
 Reusable assembly helpers (`dma_transfer_to_*` macros, `_wait_for_vblank_inline`, save/restore variable
 mirrors, padding macros) shared across the patch sources.
 """
-.import "preamble"
+.import "core/preamble"
 .macro _wait_for_vblank_inline() {
     pha
 _negative:
@@ -98,10 +98,6 @@ _return_addr:
 }
 
 .macro _save_16_bit_var(var, mirror_addr) {
-;    lda.b var
-;    sta.l mirror_addr + var
-;    lda.b var + 1
-;    sta.l mirror_addr + var + 1
     stz.b var
     stz.b var + 1
 }
@@ -138,10 +134,7 @@ _return_addr:
 }
 
 .macro pad_nop(count) {
-    """
-    Emit `count` NOP bytes. Used after surgical patches that replace a longer instruction sequence with a
-    shorter one — keeps downstream call-sites and addresses anchored.
-    """
+    """Emit `count` NOP bytes, padding a patch shorter than the code it replaces."""
     .for k := 0, count {
     nop
     }
@@ -149,10 +142,8 @@ _return_addr:
 
 .macro raise(code) {
     """
-    Crude exception. Triggers `BRK #code`, which our `brk_handler`
-    captures into extended SRAM ($710100..$710103) then `STP`s. Use
-    `code` as a per-site signature so the captured P/PC/PB tells you
-    which assertion fired. Pair with a comment naming the invariant.
+    `BRK #code`: brk_handler (system.s, ENABLE_BRK_HANDLER) halts with `code` in A. Use a per-site code and a comment
+    naming the invariant.
     """
     brk #code
 }

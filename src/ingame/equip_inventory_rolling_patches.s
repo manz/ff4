@@ -1,17 +1,11 @@
 """
-ROM patches wiring the equip screen's inventory list to its rolling buffer.
-
-Vanilla `SelectItemFromInventory` ($01:BE89) draws the whole inventory
-with `DrawInventoryList` ($01:A172) as two items per row and scrolls
-BG4VOFS over it in blocking 8-frame loops. The list becomes a ring
-init, each scroll loop becomes one engine-driven animation of the same
-length (see src/ingame/equip_inventory_rolling.s), and the two-column
-cursor and index math collapse to one column.
+Equip-screen inventory list (`SelectItemFromInventory`, $01:BE89) on its rolling buffer: ring init, engine
+scrolls in place of the blocking loops, single-column cursor and index math.
 """
 
 
-.include "src/libmz.i"
-.import "items"
+.include "core/libmz.i"
+.import "core/items"
 .import "ingame/inventory_rolling_trampolines"
 
 
@@ -21,20 +15,14 @@ cursor and index math collapse to one column.
 }
 
 
-; Cursor sprite X. Vanilla picks one of two columns from ($54)
-;   BEC0 B2 54     lda ($54)
-;   BEC2 F0 02     beq +
-;   BEC4 A9 68     lda #$68
-;   BEC6 69 08   + adc #$08
-; and single-column rows have one, flush left of the item icon.
+; Cursor sprite X: one column, flush left of the item icon (replaces the 8-byte column pick from ($54)).
 .alloc at 0x01BEC0 {
     lda #EQUIP_LIST_CURSOR_X
     pad_nop(6)
 }
 
 
-; Cursor sprite Y base (`adc #$76` at $01:BEBC): vanilla's names sat on
-; the slot's top tile row, VWF rows draw them on the bottom one.
+; Cursor sprite Y base (`adc #$76` at $01:BEBC): VWF names sit on the slot's bottom tile row.
 .alloc at 0x01BEBD {
     .db EQUIP_LIST_CURSOR_Y_BASE
 }
@@ -51,42 +39,28 @@ cursor and index math collapse to one column.
 }
 
 
-; Scroll up. Vanilla's loop moves $99 2px per frame for the 8 frames
-; counted down in A, calling $94A1 to push the scroll shadow:
-;   BF03 A9 08     lda #$08
-;   BF05 C2 20     rep #$20
-;   BF07 C6 99     dec $99
-;   BF09 C6 99     dec $99
-;   BF0B E2 20     sep #$20
-;   BF0D 20 A1 94  jsr $94a1
-;   BF10 3A        dec
-;   BF11 D0 F2     bne $bf05
+; Scroll up: replaces the 16-byte loop moving $99 2 px x 8 frames.
 .alloc at 0x01BF03 {
     jsr.w equip_scroll_up
     pad_nop(13)
 }
 
 
-; Scroll-down bound on the first visible row (vanilla: $13 for 24
-; two-item rows).
+; Scroll-down bound on the first visible row (vanilla $13).
 .alloc at 0x01BF2D {
     .db EQUIP_LIST_SCROLL_LIMIT
 }
 
 
-; Scroll down, the same shape with `inc $99`.
+; Scroll down, same with `inc $99`.
 .alloc at 0x01BF32 {
     jsr.w equip_scroll_down
     pad_nop(13)
 }
 
 
-; Item index on A. Vanilla: ((row + scroll) * 2 + col) * 2
-;   BF5A 0A        asl
-;   BF5B 72 54     adc ($54)
-;   BF5D 0A        asl
-; One column: (row + scroll) * 2. `clc` keeps the add carry-free, and
-; the column byte may still hold a 1 from a vanilla save.
+; Item index (row + scroll) * 2, replacing `asl / adc ($54) / asl`. Ignores the column byte (may be 1 from a
+; vanilla save).
 .alloc at 0x01BF5A {
     clc
     adc #0x00

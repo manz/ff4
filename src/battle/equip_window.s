@@ -1,39 +1,31 @@
 """
-Relocated battle equipped-items window transfer routine.
+Relocated battle equipped-items window transfer: per hand, label and item on one row (`R-label R-item / L-label
+L-item`) instead of vanilla's two stacked columns.
 
-Pivots the per-character equip popup from `R-label  L-label / R-item  L-item` (two columns of stacked
-label-over-item) to `R-label  R-item / L-label  L-item` (label and item on the same row, per hand).
+32x7 window:
+    Row 0: slot-1 label (8 tiles, cols 3-10) | slot-1 item top (15 tiles, cols 11-25)
+    Row 1: <blank>                           | slot-1 item bot
+    Row 2: slot-2 label                      | slot-2 item top
+    Row 3: <blank>                           | slot-2 item bot
+Sources: RLHand buf (40 bytes/char: tile entries 0..9 slot-1 label, 10..19 slot-2) and EquipBuf (120 bytes/char:
+slot-1 item $00..$3B, slot-2 $3C..$77, each top half then bottom). Destinations: $00 = $D1EE label column (right of
+the cursor), $02 = $D1FE item column.
 
-Layout in the 32x7 window:
-    Row 0: slot-1 label (8 tiles, cols 3-10)   | slot-1 item top (15 tiles, cols 11-25)
-    Row 1: <blank>                             | slot-1 item bot
-    Row 2: slot-2 label                        | slot-2 item top
-    Row 3: <blank>                             | slot-2 item bot
-
-Driven by:
-    RLHand buf (40 bytes/char) : tile entries 0..9 = slot-1 label, 10..19 = slot-2 label
-    EquipBuf   (120 bytes/char): bytes 0..$3B = slot-1 item (top 0..$1D, bot $1E..$3B)
-                                 bytes $3C..$77 = slot-2 item ($3C..$59 top, $5A..$77 bot)
-
-Tilemap dest bases (set by hooks in items_patches.s):
-    $00 = $D1EE (label column: the inventory's name column, right of the cursor)
-    $02 = $D1FE (item column, $00 + $10, the cursor left of it; its ":" column follows the inventory row format)
-
-The labels and item names are VWF glyphs, rendered when the popup opens into the command list's tiles: the inventory
-under the popup holds the item tiles, and the command window is hidden while it shows. The command list re-renders
-once the popup closes (CMD_DIRTY_BIT, and `equip_popup_closed`'s signal).
+Labels and item names are VWF glyphs rendered on open into the command list's tiles (the inventory below holds the
+item tiles, the command window is hidden meanwhile); the command list re-renders once the popup closes
+(CMD_DIRTY_BIT, `equip_popup_closed`).
 """
 
 
 .import "battle/inventory_rolling_patches"
 .import "battle/inventory_rolling"
 .import "battle/redraw_gates"
-.import "wram_layout"
+.import "core/wram_layout"
 
 
-.include "../bank20.i"
-.import "vanilla"
-.include "src/battle/bank02_trampolines.i"
+.include "core/bank20.i"
+.import "core/vanilla"
+.include "battle/bank02_trampolines.i"
 ; root-scope extern: battle/tasks_patches imports this module's importers
 .extern signal_commands
 
@@ -365,12 +357,8 @@ equip_popup_closed:
 
 tfr_equip_window_new:
 """
-    Relocated replacement for vanilla `TfrEquipWindow` at $02:97A6.
-
-    Walks 6 per-block transfer passes: slot-1 / slot-2 labels into the
-    left column (rows 1 and 3), slot-1 / slot-2 item top+bot halves into
-    the right column (rows 0-1 and 2-3 respectively). Caller is the
-    bank-02 trampoline that JSLs here  ; return via RTL.
+    Replacement for vanilla `TfrEquipWindow` ($02:97A6), JSL'd from the bank-02 trampoline: 6 transfer passes, the
+    two labels into the left column, the two items' top/bottom halves into the right one.
 """
 
 
@@ -494,7 +482,7 @@ equip_popup_close_edge:
 }
 
 ; The popup stacks the hands, one row each (layout above), where vanilla put them side by side: its cursor handler
-; ($0B, $02:B302) moved between them with LEFT/RIGHT. Now UP/DOWN do, DOWN from the lower hand goes back to the item
+; ($0B, $02:B302) moves between them with LEFT/RIGHT. Here UP/DOWN do, DOWN from the lower hand goes back to the item
 ; list (vanilla's DOWN), and LEFT/RIGHT do nothing.
 _POPUP_CURSOR_X := 12 * 8 - 16  ; on the item: left of its symbol (screen column 12)
 .label _popup_close = 0x02B32F  ; back to the item list

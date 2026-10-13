@@ -1,8 +1,8 @@
 """French translated text data for the in-game menus."""
-.include "src/ingame/macros.i"
-.include "../bank20.i"
+.include "ingame/macros.i"
+.include "core/bank20.i"
 .table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
-.import "vanilla"
+.import "core/vanilla"
 
 
 .alloc in_game_menu_text in bank20_reloc {
@@ -504,10 +504,6 @@ mp_cost:
     move_to(2, 4)
     .text "Coût PM"  ; as on the spell list screen
     .db 0
-; use_on_whom:
-; move_to(1, 10)
-; .text 'Sur qui ?'
-; .db 0
     }
 }
 
@@ -549,7 +545,6 @@ cant_use_magic:
     .scope treasure {
     """Treasure-chest UI text + windows."""
 choice_window:
-"""patch them in place"""
     menu_window(8, 0, 22, 2)
 items_window:
     menu_window(0, 3, 30, 10)

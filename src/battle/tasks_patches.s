@@ -1,16 +1,16 @@
 """
-Battle tasks wired into the battle graphics loop: run_tasks after RedrawMainMenu in WaitFrameMain, and the first
-task, the status text: drawn and transferred when UpdateObjBuf's copy of the status bytes sees a change, instead of
-on every pass and every eighth frame.
+Battle tasks wired into the battle graphics loop: run_tasks after RedrawMainMenu in WaitFrameMain, and the menu task:
+the status text, the main view and the command window, drawn and transferred when a signal says what they show
+changed, instead of on every pass and every eighth frame.
 """
-.import "vanilla"
+.import "core/vanilla"
 .import "battle/tasks"
 .import "battle/atb_gauge"
-.import "wram_layout"
+.import "core/wram_layout"
 ; root-scope extern: inventory_rolling_patches reaches this module back through redraw_gates
 .extern draw_battle_command_window_relocated
-.include "../bank20.i"
-.include "src/battle/bank02_trampolines.i"
+.include "core/bank20.i"
+.include "battle/bank02_trampolines.i"
 
 .label _redraw_main_menu_96c8 = 0x0296C8
 .label _tfr_status_tiles_99b9 = 0x0299B9
@@ -28,7 +28,7 @@ battle_frame_tasks:
     rts
 
 draw_status_text_far:
-"""DrawStatusText ($02:A2A1) for the status task."""
+"""DrawStatusText ($02:A2A1) for the menu task."""
     jsr.w draw_status_text
     rtl
 
@@ -80,7 +80,7 @@ tfr_status_tiles_far:
 }
 
 .alloc at 0x0296B0 + 5 * 2 {
-; PeriodicMenuUpdate's UpdateStatusTiles slot: the status task draws and transfers on SIG_STATUS instead of every
+; PeriodicMenuUpdate's UpdateStatusTiles slot: the menu task draws and transfers on SIG_STATUS instead of every
 ; eighth frame
     .dw 0x949A  ; rts
 }

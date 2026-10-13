@@ -2,23 +2,18 @@
 Small bank-$20 helpers the vanilla code reaches by JSL: the HDMA-aware BG1VOFS write, the cold-boot SRAM
 clear and the 17-byte item-record multiplies.
 """
-.import "preamble"
-.import "items"
-.include "bank20.i"
-.import "vanilla"
-.import "assets"
+.import "core/preamble"
+.import "core/items"
+.include "core/bank20.i"
+.import "core/vanilla"
+.import "core/assets"
 
 .alloc bank20_helpers in bank20_reloc {
-; --- Inline reloc helpers ------------------------------------------------
-
-; Conditional BG1VOFS write for HDMA inventory scrolling.
-; Called from UpdateScrollRegs at $14FF2D via JSL.
-; Skips BG1VOFS write when menu HDMA is active.
+; UpdateScrollRegs ($14:FF2D, JSL): write BG1VOFS unless the menu HDMA drives it.
 conditional_bg1_vofs:
     lda.l field_menu_rolling.hdma_enable
     bne _cond_skip_bg1vofs
-; HDMA not active - do original BG1VOFS writes
-; Menu context: D=$0100, so $93 reads from $0193
+; D = $0100: $93 is $0193
     lda.b 0x93
     sta.w ppu.BG1VOFS
     lda.b 0x94
@@ -30,14 +25,8 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-Clear the dialog VWF tile buffer + engine scratch at $702000-$7070FF
-(includes VWF_CONFIG_BASE, VWF_CHR_DIRTY / DIRTY_B, VWF_CALLER_CTX, and
-the secondary descriptor fields) after letting the boot ROM init at
-$15C9AA. Range was $5000 bytes pre-secondary-descriptor  ; bumped to
-$5100 so the new dirty / vram_word / byte_count / src_offset bytes
-land zero on cold boot instead of inheriting random SRAM and
-triggering a bogus secondary flush on the very first NMI (which trashed
-the save-selection sprite CHR).
+After vanilla's RAM init ($15:C9AA), clear SRAM $702000-$7070FF: dialog tiles, vwf_text_buffer, vwf_cfg and
+vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and trash the save-select sprite CHR.
 """
 
 

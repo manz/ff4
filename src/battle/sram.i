@@ -56,7 +56,6 @@ BATTLE_FLAGS = 0x704F00
     sta 0x04
     lda.l jump_table + 1, x
     sta 0x05
-;    sep #0x20
     plx
     pla
     jmp.w (0x0004)

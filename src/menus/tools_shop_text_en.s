@@ -1,5 +1,5 @@
 """English-language counterpart of `tools_shop_text.s`."""
-.include "src/ingame/macros.i"
+.include "ingame/macros.i"
 
 .scope shops {
     """Shop UI strings."""
@@ -8,22 +8,20 @@ gils:
     .text "GP"
     .db 0
 puis_je_vous_aider:
-"""Owner welcome greeting  ; rendered through the small-VWF description region."""
+"""Owner greeting, drawn in the small-VWF description region."""
     .dw 0x0054 - 2
     .text "Welcome!"
-;.text 'いらっしゃい! どんなごようけんで?'
     .db 0
 welcome_and_actions:
     .dw 0x0148 - 4
     .text "Buy Sell Exit"
     .db 0
 que_desirez_vous:
-"""Owner welcome prompt  ; rendered through the small-VWF description region."""
+"""Owner prompt, drawn in the small-VWF description region."""
     .dw 0x0052
     .text "What do you want?   "
     .db 0
 quantity:
-""".text 'かう   うる   でる'"""
     .dw 0x0144
     .text "Quantity"
     .db 1
@@ -35,7 +33,7 @@ thank_you_window:
     .dw 0x0000
     .db 0
 merci:
-"""Owner thank-you message  ; rendered through the small-VWF description region."""
+"""Owner thank-you, drawn in the small-VWF description region."""
     move_to(6, 11)
     .text "Thank you!"
     .db 0

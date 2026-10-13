@@ -1,6 +1,6 @@
 """Fat Chocobo's screen ($01:CD69 InitFatChocoboMenu, ChooseFatChocoCommand) in French, in the small VWF."""
-.include "src/menus/system_menus_macros.i"
-.include "src/ingame/macros.i"
+.include "menus/system_menus_macros.i"
+.include "ingame/macros.i"
 .import "menus/system_menus_text"
 .import "menus/in_game_text"
 
@@ -33,6 +33,6 @@
 }
 
 .alloc at 0x01E0D8 {
-; the item list's frame (FatChocoListWindow): as wide as the inventory window it frames ($01:DCCE, ingame/items.s)
+; FatChocoListWindow: as wide as the inventory window it frames ($01:DCCE, ingame/items.s)
     menu_window(0, 10, 30, 15)
 }

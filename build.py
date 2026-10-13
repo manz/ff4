@@ -25,7 +25,7 @@ from script.pointers import (
 
 from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
-from metrics import TextMetrics
+from utils.metrics import TextMetrics
 from utils.dialog_layout import DialogLayout, dialog_layout
 from utils import atb_gauge, battle_labels
 from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file
@@ -264,7 +264,7 @@ assets_builder = {
 # letter, which it can't draw, so they encode as the bare letter.
 SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "Ë": "E", "À": "A", "Â": "A", "Ç": "C", "Î": "I", "Ï": "I", "Ô": "O", "Ù": "U"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
-STATUSES_BASE = 0x27B000  # battle_statuses (src/assets.s): its pointers hold addresses in that bank
+STATUSES_BASE = 0x27B000  # battle_statuses (src/core/assets.s): its pointers hold addresses in that bank
 STATUS_COUNT = 32  # one per status bit
 STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
 
@@ -484,9 +484,10 @@ if __name__ == "__main__":
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
+    version = {"VERSION": os.environ["FF4_VERSION"]} if os.environ.get("FF4_VERSION") else {}
     if "--dev" in sys.argv[1:]:
-        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, DEV_DEFINES)
+        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, {**DEV_DEFINES, **version})
     else:
-        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, obj_dir="build/release/obj")
+        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, version, obj_dir="build/release/obj")
     if exit_code:
         sys.exit(exit_code)

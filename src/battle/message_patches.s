@@ -3,9 +3,9 @@ Pinned-address overlay rewiring original battle-message pointer loads ($02C909, 
 translated-string tables.
 """
 
-.import "preamble"
+.import "core/preamble"
 .import "battle/sram_patches"
-.import "assets"
+.import "core/assets"
 .import "battle/sram"
 
 
@@ -19,10 +19,10 @@ translated-string tables.
     sta 0x01
     lda.w #battle_messages >> 16
     sta 0x02
-; pointers to battle messages
     }
 
 
+; pointers to battle messages
     .alloc at 0x02cc07 {
     lda.l battle_texts, x
     sta 0x00
@@ -30,41 +30,29 @@ translated-string tables.
     sep #0x20
     lda.b #battle_texts >> 16
     sta 0x02
-; |tileset 0xb000 -> 0xbfff bg3 tiles
-; |-------------------
-; |tilemap bg2 64*32
-; |0xb000, 0x1000
-; |-------------------
-; |tile map bg1 64*64
-; |0xc0000, 0x2000
-; |-------------------
-; |tilemap bg3 64*64
-; |0xe0000, 0x2000
-; |-------------------
-; resize bg1 to 32x64 and moves it to v:0xd000
     }
 
 
+; Vanilla VRAM: BG3 tiles $B000-$BFFF, BG2 map 64x32 at $B000 ($1000), BG1 map 64x64 at $C000 ($2000),
+; BG3 map 64x64 at $E000 ($2000). BG1 shrinks to 32x64 and moves to $D000.
     .alloc at 0x0382f5 {
-; bg 1
     lda.b #( 0xd000 >> 9 | 0b01 )
     sta ppu.BG1SC
     lda.b #( 0xc000 >> 9 | 0b01 )
     sta ppu.BG2SC
-; Fix teleport resizing bg 1 & 2, that reverted them to their original addresses.
     }
 
 
+; teleport resized BG1 & 2 back to their original addresses
     .alloc at 0x02f11a {
-; bg 1
     lda.b #( 0xd000 >> 9 | 0b01 )
     sta.l ppu.BG1SC
     lda.b #( 0xc000 >> 9 | 0b01 )
     sta.l ppu.BG2SC
-; bg1 move
     }
 
 
+; BG1 move
     .alloc at 0x028B3B {
     ldy.w #0x6000 + 0x800
     }
@@ -77,39 +65,35 @@ translated-string tables.
 
     .alloc at 0x02BCB2 {
     ldy.w #0x6400 + 0x800
-; 029429  A0 39 5F       LDY #$5F39
-; MP cost transfer destination
     }
 
 
+; MP cost transfer destination, was ldy #$5F39
     .alloc at 0x029429 {
     ldy.w #0x5f39 + 0x800
-; kick animation
-; 02/C6A8: A0 40 61     LDY #$6140
     }
 
 
+; kick animation, was ldy #$6140
     .alloc at 0x02c6a8 {
     ldy.w #0x6140 + 0x800
-; bg1 move
-;02/91FE: A0 00 58     LDY #$5800
     }
 
 
+; BG1 move, was ldy #$5800
     .alloc at 0x0291FE {
     ldy.w #0x6000
-;02/921F: A0 00 5C     LDY #$5C00
     }
 
 
+; was ldy #$5C00
     .alloc at 0x02921F {
     ldy.w #0x6400
-; Menu defend row mp cost init
     }
 
 
+; Menu defend / row / MP cost init: wram, vram, size
     .alloc at 0x16fdd6 + 6 * 6 {
-;   wram    vram    size
     .dw 0xd366, 0x6400 + 0x260, 0x0340
     }
 
@@ -128,13 +112,11 @@ translated-string tables.
 }
 
 
-; patch the battle nmi routine to transfer the battle render buffer.
-
+; Battle NMI: transfer the battle render buffer
 .alloc at 0x02836e {
     jsr.l messages_vwf.dma_transfer
-
-; make the message window bigger
 }
+; Bigger message window
 .alloc at 0x0292DF {
 ; (0, 3) (26, 4)
     ldx.w #0x0000

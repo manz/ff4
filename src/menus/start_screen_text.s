@@ -1,14 +1,11 @@
 """
-French text for the start screen and save selection.
-
-Laid out in bank 20 alongside the other relocated strings  ; the English
-counterpart is start_screen_text_en.s and the two are selected by build
-configuration, not linked together.
+French text for the start screen and save selection, in bank $20. start_screen_text_en.s is the English
+counterpart, picked by build configuration.
 """
 
 
-.include "src/ingame/macros.i"
-.include "../bank20.i"
+.include "ingame/macros.i"
+.include "core/bank20.i"
 
 .table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
 
@@ -58,7 +55,7 @@ save_completed:
 did_not_save:
     move_to(3, 1)  ; over Sauvegardes, from its first cell
     .text "Annulation "
-; extra space at the end to clear the previous title.
+; trailing space clears the previous title
     .db 0
     }
 }
@@ -73,13 +70,14 @@ save_cancelled:
     }
 }
 
-.if DEBUG {
-    .alloc _build_number_text in bank20_reloc {
+.alloc _build_number_text in bank20_reloc {
     .scope newgame {
 build_number:
-    VERSION := 'v1.0.0a0'
+    .if DEBUG {
     .text "${BUILD_DATE} ${VERSION}"
-    .db 0
+    } else {
+    .text "${VERSION}"
     }
+    .db 0
     }
 }

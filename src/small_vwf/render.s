@@ -1,36 +1,28 @@
 """
 Small (8x8) menu VWF renderer.
 
-Draws proportional text into a CHR staging buffer a glyph at a time,
-packing each character against the previous one by its measured width
-plus any kerning pair, then flushing the dirty tiles to VRAM by DMA.
-Callers hand it a string and a slot  ; the tile ids it allocates start at
-$100, so the tilemap entries carry bit 8 in their attribute byte.
-
-Its scratch lives in SRAM rather than on the direct page: the menus have
-a page to spare, but the field does not, and the bytes this used to
-borrow there were live engine state (see `vwf_engine.prev_char` and friends in
-vwf_state.i).
+Packs glyphs into a CHR staging buffer by measured width plus kerning, then DMAs the dirty tiles to VRAM.
+Tile ids start at $100, so tilemap entries carry bit 8 in the attribute byte. Scratch lives in SRAM: on the
+field the direct-page bytes are live engine state (see vwf_engine in vwf_ram.s).
 """
-.import "preamble"
-.import "vwf_ram"
-.import "assets"
-.import "items"
+.import "core/preamble"
+.import "core/vwf_ram"
+.import "core/assets"
+.import "core/items"
 .import "battle/render_state"
-.import "libmz"
-.include "src/vwf.i"
-.include "../bank20.i"
-.include "src/libmz.i"
-.import "vanilla"
-.import "sram_layout"
+.import "core/libmz"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
+.include "core/libmz.i"
+.import "core/vanilla"
+.import "core/sram_layout"
 
-; root-scope externs: `.alloc` bodies open their own scope, so an extern
-; declared inside never resolves at the use site.
+; Root-scope externs: one declared inside an `.alloc` body never resolves at the use site.
 .extern battle_render
 .extern battle_render.clear_buffer
 
 .alloc _small_vwf_render in bank20_reloc {
-    .include "src/vwf_state.i"
+    .include "core/vwf_state.i"
 
     .macro initialize(var) {
     """Save a borrowed direct-page byte (sram_layout's `sram_render_dp`, one byte per direct-page address)."""
@@ -50,9 +42,7 @@ vwf_state.i).
     }
 
     .scope _vram_copy {
-; Moved from $704000 to $705000 so the CHR buffer at $703000 can
-; grow to $1000 bytes (cover tile_ids $00..$FF) without trampling
-; the vram-save staging.
+; $705000, past the CHR buffer at $703000.
     buffer = VRAM_SAVE_SRAM_BASE
 save_dialog_vram_far:
     jsr.l save_dlg_gfx_ext
@@ -99,7 +89,7 @@ restore_dialog_gfx_far:
 ; original restore
     rtl
 _transfer_to_vram:
-"""clone of the original copy to be able to call it from the 0x20 bank."""
+"""Copy of vanilla's VRAM transfer, callable from bank $20."""
     phb
     tdc
     pha
@@ -130,32 +120,21 @@ _transfer_to_vram:
 
     .scope render_allocator {
     """
-    Tile-id allocator for the small-VWF. Stored as a 16-bit word at
-    $702F00..$702F01 so callers can reach the full 10-bit BG3
-    tile_id range (0..0x3FF) instead of being capped at 8 bits.
-    All accessors operate in 16-bit M and write both bytes  ; callers
-    that only need the low byte can still do an 8-bit lda.l at the
-    same address.
+    Tile-id allocator: a 16-bit word at $702F00 covering the full 10-bit tile id range (8-bit callers can read the
+    low byte). All accessors run with M = 16.
     """
     allocated_tile_id = 0x702F00
     slot_limit_low = 0x702F02
 """
-Inventory clamp. When the allocator's low byte reaches this value,
-`increment` freezes it  ; the blitter happily keeps reading the same
-tile_id and overwrites the slot's last tile instead of bleeding into
-the next slot's CHR. Set to 0xFF (no clamp) by every non-inventory
-init. Inventory slot init writes slot_base + K-1 here.
+Inventory clamp: `increment` stops when the allocator's low byte reaches it, so an overflowing name overwrites its
+slot's last tile. Inventory init writes slot_base + K-1; every other init writes $FF (no clamp).
 """
 
 
 init_with_tile_id:
 """
-8-bit caller convention: A.lo = tile_id (0..0xFF), M = 8.
-Zero-extends to 16-bit so the high byte at $702F01 is clean.
-tilemap_write_no_inc adds the hardcoded +0x100 bit shift. 16-bit
-callers needing tile_ids outside the 0x100-0x1FF window should use
-init_with_tile_id_wide. Also resets slot_limit_low to 0xFF so the
-clamp is a no-op for non-inventory regions.
+A = tile id (0..$FF), M = 8. Zero-extends to 16 bits and resets slot_limit_low to $FF. Bit 8 comes from
+vwf_cfg.flags at tilemap write time; use init_with_tile_id_wide for larger ids.
 """
 
 
@@ -174,12 +153,7 @@ clamp is a no-op for non-inventory regions.
     plp
     rts
 init_with_tile_id_wide:
-"""
-16-bit caller convention: A = full tile_id (0..0x3FF), M = 16.
-Stores both bytes verbatim. Use this for inventory / future regions
-that go past tile_id 0xFF. Also resets slot_limit_low to 0xFF so the
-clamp is a no-op until the inventory slot init opts in.
-"""
+"""A = tile id (0..$3FF), M = 16. Resets slot_limit_low to $FF."""
 
 
     sta.l allocated_tile_id
@@ -206,13 +180,7 @@ init_battle_far:
     jsr.w battle_render.clear_buffer
     rtl
 increment:
-"""
-Advance the 16-bit allocator by 1. Preserves M / A state.
-Clamps the low byte at `slot_limit_low` so an inventory slot whose
-name overflows K tiles keeps overwriting its last tile instead of
-bleeding into the next slot's tile_id range. Non-inventory regions
-set slot_limit_low = 0xFF so the clamp never fires.
-"""
+"""Advance the allocator by 1, clamped at slot_limit_low. Keeps M and A."""
 
 
     php
@@ -244,24 +212,16 @@ get:
     temp = bits_left_on_tile + 1
     counter = temp + 1
     prev_char = vwf_engine.prev_char  ; long, off the field's MOSAIC shadow
-    current_char = vwf_engine.current_char  ; (see src/vwf_state.i)
-    tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/vwf_state.i)
+    current_char = vwf_engine.current_char  ; (see src/core/vwf_ram.s)
+    tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/core/vwf_ram.s)
     buffer_ptr = VWF_CHR_BUFFER
     buffer_size = VWF_CHR_BUFFER_SIZE
 ; Item-description cache, in the VRAM save window (see sram_layout.s).
     last_drawn_text_ptr = VRAM_SAVE_SRAM_BASE + 2
 init:
 """
-font_ptr = menu_font  ; moved to direct use of menu_font.
-
-Resets the per-render scratch (bits_left_on_tile / temp / counter)
-and zeros the allocator. Clears ONLY the CHR slice owned by the
-current region (`vwf_cfg.tile_id_base * 16` for
-`vwf_cfg.slot_budget * 16` bytes), mirror of the per-slot clear
-in battle's `init_inventory_for_current_slot`. Wiping the whole
-buffer here clobbered other regions' CHR mid-frame, so callers
-populate config first and `init` confines its $FF/$00 fill to
-their slot.
+Reset the per-render scratch and the allocator, and clear only this region's CHR slice
+(vwf_cfg.slot_budget tiles from vwf_cfg.tile_id_base): other regions' CHR may be mid-flush.
 """
 
 
@@ -310,25 +270,14 @@ _init_clear_loop:
 
 _init_skip_clear:
     plp
-    pla  ; balances the `pha` after `stz.b temp` ; without this the
-; `rts` popped the saved A byte as the high byte of the
-; return address and item_description.draw_trampoline ran
-; off into a BRK opcode on every menu open.
+    pla  ; balances the `pha` after `stz.b temp`, or the rts returns into a BRK
     initialize(counter)
     rts
 flush_chr_to_vram:
 """
-NMI-callable VWF CHR flush. Gates on `vwf_engine.chr_dirty`  ; if set,
-reads `vwf_cfg.chr_vram_word` / `vwf_cfg.chr_byte_count` and DMAs the
-slice from `VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET` to VRAM word
-`chr_vram_word`. Clears the dirty
-byte on the way out.
-
-Designed to hang off the field NMI hook  ; running in vblank means
-the DMA does not tear visible scanlines and we drop the explicit
-`wait_for_vblank` the synchronous tail-of-render flush needed.
-Battle-side equivalent of the partial CHR DMA in
-`messages_vwf.dma_transfer`.
+NMI-side VWF CHR flush. When vwf_engine.chr_dirty is set, DMA vwf_cfg.chr_byte_count bytes from
+VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET to VRAM word vwf_cfg.chr_vram_word, then the flush_b descriptor; clears
+the dirty flags.
 """
 
 
@@ -340,10 +289,8 @@ Battle-side equivalent of the partial CHR DMA in
     beq _flush_skip_a
     lda.b #0x00
     sta.l vwf_engine.chr_dirty
-; Only fire against the one descriptor anything writes (items_menu_vwf:
-; FIELD_VWF_VRAM_DEST_WORD, at most $B00 bytes). Cart RAM from a build
-; that never set it - savestates carry $FF here - otherwise turns this
-; into a 64K DMA over all of VRAM, the menu cursor's sprite CHR with it.
+; Only the one known descriptor (FIELD_VWF_VRAM_DEST_WORD, at most $B00 bytes): stale cart RAM ($FF from a
+; savestate) would otherwise DMA 64K over all of VRAM.
     rep #0x20
     lda.l vwf_cfg.chr_vram_word
     cmp.w #FIELD_VWF_VRAM_DEST_WORD
@@ -353,20 +300,9 @@ Battle-side equivalent of the partial CHR DMA in
     cmp #0x0B01
     bcs _flush_bad_a
     sep #0x20
-; Channel 3: the one channel no context drives HDMA on (field items
-; runs HDMAEN $20, the treasure popup $50 = treasure ch6 + drops ch4,
-; battle $87 = ch0/1/2/7). A one-shot DMA leaves its descriptor behind
-; in the channel registers, and this used to run on ch6 - the same
-; channel the treasure rolling buffer arms for per-scanline BG3VOFS.
-; Clearing HDMAEN bit 6 around the transfer kept the scanline writes
-; from firing, but the restore re-armed ch6 HDMA over the VWF flush
-; descriptor left in $4360..$4365: treasure's scroll table was never
-; read again, so the window's bottom border stopped being anchored and
-; the prefetch slot leaked past the footer once the list scrolled.
-; Source = VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET (engine constant,
-; identical for battle + field). Dest VRAM word + size come from
-; VwfConfig so each caller targets its own CHR slot without forking
-; the upload path.
+; Channel 3: no context runs HDMA on it (field $20, treasure $50 = ch6 + ch4, battle $87). A one-shot DMA leaves
+; its descriptor in the channel registers, and on ch6 the treasure rolling buffer's BG3VOFS HDMA would re-arm over
+; it and lose its scroll table.
     lda.b #0x01  ; DMAP: word transfer (2 byte regs, alt low/high)
     sta.l dma_ch3.DMAP
     lda.b #PPU.VMDATAL
@@ -394,29 +330,13 @@ _flush_bad_a:
     sep #0x20
 
 _flush_skip_a:
-; --- Secondary descriptor flush (region 1B, drops in the treasure
-; popup). Shares DMA channel 6 with the primary flush ; runs after
-; the primary descriptor's DMA finishes so we never re-arm a busy
-; channel. Each descriptor covers a disjoint slice of VRAM so two
-; sequential DMAs land at distinct dest addresses without conflict.
-; Secondary source offset is its OWN word so drops can DMA only its
-; CHR slice ; primary keeps starting at VWF_CHR_FLUSH_OFFSET.
-;
-; Guard against savestates captured before the secondary descriptor
-; existed : their SRAM at $7070C4..$7070CA carries random bytes, so
-; before firing the DMA we whitelist vwf_engine.flush_b.vram_word against the
-; two known arming targets ($2B70 drops, $2C00 description) and
-; reject anything else as uninitialised. Stale SRAM almost certainly
-; will not match either constant, so the secondary DMA stays dormant
-; until items_menu_vwf or item_description explicitly arms it. Stops
-; the save-selection sprite CHR from being trashed by random garbage
-; on the very first NMI after a stale load.
+; Secondary descriptor (flush_b: drops, description, key-item picker), same channel 3 after the primary DMA.
+; flush_b.vram_word is whitelisted ($2B70, $2C00, $6800) so stale SRAM never fires a DMA.
     sep #0x20
     lda.l vwf_engine.flush_b.dirty
     beq _flush_skip_b
-; A frame whose vanilla buffer transfers ran long (the equip screen
-; pushes several 4K tilemaps) reaches this point after vblank; a VRAM
-; DMA during active display is dropped. Keep the flag for next NMI.
+; A frame whose vanilla transfers ran long (equip screen) gets here after vblank, where a VRAM DMA is dropped.
+; Keep the flag for the next NMI.
     lda.l cpu_regs.HVBJOY  ; HVBJOY: bit 7 = in vblank
     bpl _flush_skip_b
     lda.b #0x00
@@ -432,9 +352,6 @@ _flush_skip_a:
 
 _vram_word_b_ok:
     sep #0x20
-; Same channel 3 as the primary flush, and likewise sequential: the
-; one-shot DMA above has completed before this one re-arms the
-; channel, and the two descriptors target disjoint VRAM slices.
     lda.b #0x01
     sta.l dma_ch3.DMAP
     lda.b #PPU.VMDATAL
@@ -467,26 +384,8 @@ _flush_skip_b:
     }
 render_with_config:
 """
-Config-driven VWF entry: reads `vwf_cfg`,
-sets up the allocator + render state from it, then walks
-vwf_text_buffer through `draw_text_buffer`. Single call site
-replaces the bespoke init / display_char loops that the field-
-items helper and the battle inventory text walker each carry.
-
-VwfConfig fields consumed (matches `src/vwf_state.i`):
-  tile_id_base   first tile_id this slot owns
-  slot_budget    +K-1 clamp  ; $FF = no clamp
-  tilemap_base   absolute WRAM byte index of the destination
-                 tilemap row  ; display_char advances tilemap_offset
-                 (DP $1D) by 2 per blit
-
-`font_ptr` / `kerning_ptr` are reserved in the struct but
-display_char still hardcodes `menu_font` for this
-phase  ; swapping the font fetch to indirect-through-config is the
-next refactor and lets battle keep its own font without forking
-the engine.
-
-M=8, X=16 on entry. Stack-balanced, RTS.
+Render vwf_text_buffer with the settings in vwf_cfg (tile_id_base, slot_budget, tilemap_base; see
+core/vwf_ram.s), then mark the CHR dirty for the NMI flush. M = 8, X = 16 on entry.
 """
 
 
@@ -494,30 +393,17 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     php
     sep #0x20
     rep #0x10
-; Reset per-glyph carry state so each slot's first char starts fresh.
-; prev_char carries over from the previous slot's last char ; without
-; a reset the new slot's first kerning lookup pairs against an
-; unrelated glyph and shifts the allocator several tiles. Same goes
-; for bits_left_on_tile : if a prior render ended with the value
-; pinned by the $09 clamp at _end (kerning overshoot path), the new
-; slot would start with bits_left=0 and burn its first tile.
-; Symptom before this reset : treasure-inventory slot 0 rendered as
-; "le d'or" (Aigu chopped) right after drops finished rendering.
+; Reset kerning and tile room: a previous slot's last char or a clamped bits_left would shift this slot's first
+; glyph (treasure slot 0 rendered as "le d'or" after the drops).
     lda.b #0x00
     sta.l prev_char
     lda.b #0x08
     sta.b bits_left_on_tile
-; Allocator base + clamp via the 16-bit `init_with_tile_id_wide`
-; entry. tile_id_base is a 9-bit value (0..$1FF) so we need the
-; full word ; the 8-bit init zero-extends and caps at $FF which
-; would have wrapped field-menu slots 6..10 (base $C0 + 10*10 =
-; $124) back into the menu font CHR range.
+; 16-bit init: tile_id_base is 9 bits, the 8-bit init would wrap slots past $FF into the font CHR.
     rep #0x20
     lda.l vwf_cfg.tile_id_base
     jsr.w render_allocator.init_with_tile_id_wide
-; Belt + braces: re-stash allocated_tile_id verbatim so any
-; interleaved render.init can not zero it on us before display_char
-; reads it back.
+; Re-stash the base so an interleaved render.init cannot zero it.
     lda.l vwf_cfg.tile_id_base
     sta.l render_allocator.allocated_tile_id
     sep #0x20
@@ -527,11 +413,7 @@ M=8, X=16 on entry. Stack-balanced, RTS.
     sec
     sbc.b #0x01
     sta.l render_allocator.slot_limit_low
-; --- Clear this slot's CHR slice to $FF $00 (blank 2bpp / 4bpp
-; tile) so the new blit does not pile pixels onto the previous
-; tenant. Mirror of `messages_vwf.init_inventory_for_current_slot`
-; in `src/battle/message.s` ; clear loop spans
-; (slot_budget * 16) bytes at VWF_CHR_BUFFER + tile_id_base * 16.
+; Clear this slot's CHR to $FF $00 (blank tile): slot_budget * 16 bytes at VWF_CHR_BUFFER + tile_id_base * 16.
     php
     rep #0x30
     lda.l vwf_cfg.tile_id_base
@@ -561,21 +443,16 @@ _chr_clear_loop:
     dey
     bne _chr_clear_loop
     plp
-; Render scratch state.
     lda.b #0x08
     sta.b bits_left_on_tile
     stz.b temp
     stz.b counter
-; tilemap_offset = config.tilemap_base (16-bit).
     rep #0x20
     lda.l vwf_cfg.tilemap_base
     sta.l tilemap_offset
     sep #0x20
     jsr.w draw_text_buffer
-; Tell the NMI flush hook this slot needs a VRAM upload. Mirror of
-; `battle_render_state.dma_dirty_slots` ; engine-side so every consumer
-; (field items, item descriptions, treasure list, ...) signals dirty
-; without knowing about VRAM addresses.
+; Ask the NMI flush hook for a VRAM upload.
     lda.b #0x01
     sta.l vwf_engine.chr_dirty
     plp
@@ -584,26 +461,9 @@ _chr_clear_loop:
 
 draw_text_buffer:
 """
-Unified entry: walk a null-terminated string at vwf_text_buffer
-and blit each byte via display_char.
-
-Caller responsibilities (read from `vwf_cfg` in
-the next phase  ; for now the field-items helper hand-sets these
-directly):
-  - render_allocator.allocated_tile_id    set via init_with_tile_id
-  - render_allocator.slot_limit_low       set per slot budget
-  - render.bits_left_on_tile              set to 8
-  - render.temp, render.counter           cleared
-  - render.tilemap_offset (long scratch)  absolute WRAM byte index
-                                          of the bottom tilemap row
-                                          start  ; display_char auto-
-                                          increments by 2 per blit
-  - X, Y                                  free for caller use
-
-Each iteration reads the next byte from `vwf_text_buffer + Y` (Y
-caller-zeroed on entry), exits on $00. display_char writes both
-the CHR slice and the tile_id at tilemap_offset, and increments
-the allocator (clamped at slot_limit_low).
+Blit the null-terminated vwf_text_buffer through display_char. The caller (render_with_config) sets the
+allocator, slot_limit_low, bits_left_on_tile = 8, temp = counter = 0 and tilemap_offset (bottom tilemap row,
++2 per blit). Keeps X.
 """
 
 
@@ -653,10 +513,7 @@ make_pointers:
     lda.w #0x0000
     sep #0x20
 
-; Read full 16-bit allocated_tile_id so 9-bit tile_ids ($100+) keep
-; their high bit in oldtilepos. The previous 8-bit read masked bit
-; 8 and field-menu VWF blits (tile_id_base $100) landed at SRAM
-; offset 0, stomping the static font region.
+; 16-bit read: an 8-bit one drops tile id bit 8 and $100+ blits land on the font at offset 0.
     rep #0x20
     lda.l render_allocator.allocated_tile_id
     asl
@@ -698,25 +555,15 @@ _read_8x8_char:
     bra _store
 
 _shift:
-; PPU multiplication is being used by the NMI which wrecks char lines once in a while
+; PPU multiplication is shared with the NMI, which corrupts char lines, so shift by hand
     phx
     lda.l menu_font, x
 _really_shift:
-
-
-"""
-bne _really_shift
-inx
-xba
-bra _skip_empty_pixel_line
-"""
-
 
     xba
     lda #0x00
     xba
 
-; make jump_table_pointer
     pha
     lda.b bits_left_on_tile
     asl
@@ -822,10 +669,8 @@ coupe:
     }
 _adjust_bits_left_for_kerning:
     {
-; A kern between the previous glyph and this one adds to the room left in the tile. When that passes the tile's
-; 8 pixels, the glyph starts in the previous tile: step back one tile (allocator, tilemap cursor, CHR destination
-; in Y and oldtilepos) and keep what is left. The glyph then straddles the edge like any other. A glyph starting a
-; fresh tile (room 8) is the same case.
+; A kern that pushes the room past 8 pixels starts the glyph in the previous tile: step back one tile
+; (allocator, tilemap cursor, Y and oldtilepos) and keep the remainder.
     lda.b counter
     cmp.b #0x08
     bne _later_row  ; once per glyph, on its first row (counter counts the rows down from 8)
@@ -873,8 +718,7 @@ _later_row:
 
 _get_kerning_adjustment_binary_search:
     {
-; Space ($FF) never appears in any font's kerning pair table; bail
-; before the bank push so callers skip the binary search entirely.
+; Space ($FF) is never in a kerning pair.
     sep #0x20
     lda.l prev_char
     cmp #0xff
@@ -989,16 +833,8 @@ small_vwf_kerning_binary_ext:
     rtl
 tilemap_write_no_inc:
 """
-Write `allocated_tile_id` low byte to `(tilemap_offset)` and OR
-`vwf_cfg.flags` into the next (palette/attr) byte. The flag
-mask used to be hard-coded `$01` (the 9-bit tile_id bit for the
-512-tile dialog window) but the field-menu items live in 2bpp
-BG3 where bit 0 of the attr byte is tile_id bit 8  ; an always-on
-OR pushed all our tile_ids into the +256 half of CHR and the
-high inventory slots wrapped past $FF in unpredictable ways.
-Letting the caller pick the OR value via the config struct keeps
-dialog (set `flags = $01`) working without forcing the menu items
-to honour a bit they do not own.
+Write the allocator's low byte at tilemap_offset and OR vwf_cfg.flags into the attribute byte. Bit 0 there is
+tile id bit 8: only callers owning the 512-tile window set flags = $01.
 """
 
 

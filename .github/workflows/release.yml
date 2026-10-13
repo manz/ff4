@@ -20,9 +20,17 @@ jobs:
     - name: Install Requirements
       run: uv sync --locked
     - name: Build release patch
-      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run ./build.py
+      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) FF4_VERSION=${{ github.ref_name }} uv run ./build.py
+    - name: Package
+      run: |
+        mkdir -p dist
+        cp build/release/ff4.ips dist/
+        uv run python -m utils.lisezmoi release/LISEZMOI.txt ${{ github.ref_name }} > dist/LISEZMOI.txt
+        (cd dist && zip -X ../ff4-fr-${{ github.ref_name }}.zip ff4.ips LISEZMOI.txt)
     - name: Create Release
       uses: softprops/action-gh-release@v3
       with:
-        files: build/release/ff4.ips
+        name: Final Fantasy IV FR ${{ github.ref_name }}
+        files: ff4-fr-${{ github.ref_name }}.zip
+        prerelease: ${{ contains(github.ref_name, 'a') || contains(github.ref_name, 'b') || contains(github.ref_name, 'rc') }}
         generate_release_notes: true

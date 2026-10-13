@@ -2,16 +2,13 @@
 Dialog-VWF kerning helpers: long-form (RTL) wrapper around the binary-search backend used to look up per-pair
 kerning offsets.
 """
-.include "src/vwf.i"
-.include "bank20.i"
+.include "dialog/vwf.i"
+.include "core/bank20.i"
 
 
 .alloc _kerning_block in bank20_reloc {
 dialog_get_kerning_adjustment_binary_search_ext:
-"""
-    Long-form (RTL) wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and Python
-    tests.
-"""
+"""RTL wrapper around `dialog_get_kerning_adjustment_binary_search` for cross-bank callers and tests."""
 
 
     jsr.w dialog_get_kerning_adjustment_binary_search
@@ -20,8 +17,8 @@ dialog_get_kerning_adjustment_binary_search_ext:
 
 dialog_get_kerning_adjustment_binary_search:
 """
-    Binary-search the dialog font's kerning table for the pair in DP $25 (CURRENT_C)  ; returns adjustment in A or
-    A=0+sec on miss. Trashes A/Y/flags, preserves X.
+    Binary-search the dialog font's kerning table for the pair in CURRENT_C (DP $25). Hit: A = adjustment, carry
+    clear; miss: A = 0, carry set. Trashes A/Y, keeps X. M = 16.
 """
 
 
@@ -32,9 +29,7 @@ dialog_get_kerning_adjustment_binary_search:
 
 _dialog_get_kerning_adjustment_binary_search:
     {
-; Space ($FF) never appears in any font's kerning pair table; bail
-; before reading the count when either side of the pair is a space.
-; Caller is in 16-bit M.
+; Space ($FF) is never in a kerning pair.
     lda.b CURRENT_C
     and.w #0x00ff
     cmp.w #0x00ff
