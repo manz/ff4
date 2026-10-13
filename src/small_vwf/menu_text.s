@@ -136,7 +136,7 @@ whole, so the small-VWF names at tiles $300+ fell back onto the 8x8 font's).
 clear_text_cells:
 """
 ClearText for the magic screen's cost row. ClearText stores the low bytes only, so its small-VWF cells (attribute
-bits 0-1) kept pointing at tiles $200-$3FF and showed whatever they held next over the main menu ("MMMMMM:" on
+bits 0-1) keep pointing at tiles $200-$3FF and show whatever they hold next over the main menu ("MMMMMM:" on
 the second character's PV and PM). Their tile bits are cleared too: the low byte ClearText wrote is that BG's
 blank. ClearText's other callers keep vanilla's behaviour.
 """
@@ -602,8 +602,8 @@ _unclaimed:
 _string_budget:
 """
 Lower vwf_cfg.slot_budget (the rest of the block, from _claim) to the tiles the string at Y can take: one per byte,
-a fresh one per move_to / column. render.init clears that many: clearing to the block's end wiped the item
-description's tiles ($800-$FFF of the buffer) before the NMI re-flushed them. DB = the string's bank. Keeps A/X/Y, P.
+a fresh one per move_to / column. render.init clears that many: clearing to the block's end would wipe the item
+description's tiles ($800-$FFF of the buffer) before the NMI re-flushes them. DB = the string's bank. Keeps A/X/Y, P.
 """
     php
     rep #0x30

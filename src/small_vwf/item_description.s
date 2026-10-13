@@ -66,9 +66,8 @@ draw_string:
 ; Region config: description CHR lives in tile_id range $180..$1FF
 ; (allocator base $80, with attr-byte OR $01 -> effective tile_id
 ; $180 ; VRAM byte $5800..$5FF0). Disjoint from the field-items
-; window at $100..$169 -> VRAM $5000..$56A0 ; the two regions used
-; to fight for VRAM $5000 (both DMAs targeted there) and the last
-; render stomped the other.
+; window at $100..$169 -> VRAM $5000..$56A0 ; if both DMAs targeted
+; VRAM $5000, the last render would stomp the other.
 ;
 ;   Region map (BG3 CHR at VRAM $4000)
 ;     $00..$FF   static menu font ($4000..$4FF0)
@@ -94,9 +93,7 @@ draw_string:
 ;   vram dest  = ($5000 + $800) / 2   = $2C00 word
 ;   size       = $80 tiles * 16       = $0800 bytes
 ;
-; DIRTY_B is set at the tail of draw_string ; display_char also sets
-; primary DIRTY which the field-items renderer covers in its own
-; flush, so no clearing is needed here.
+; flush_b.dirty is set at the tail of draw_string.
     rep #0x20
     lda #0x0800
     sta.l vwf_engine.flush_b.src_offset
@@ -107,9 +104,9 @@ draw_string:
     sep #0x20
 ; Preserve Y across render.init: the per-region CHR clear loop
 ; tays the budget word count and lands Y=$0000 on exit, which
-; collapsed _char_loop into an immediate _char_loop_exit (the loop
+; collapses _char_loop into an immediate _char_loop_exit (the loop
 ; reads `lda.w $0000,y` -> $20:0000 = $00 terminator) and the
-; description never rendered a single glyph.
+; description never renders a single glyph.
     phy
     jsr.w render.init
     rep #0x20

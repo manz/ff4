@@ -16,7 +16,7 @@
     cpy.w #0x8000
     bmi _moved_text
     lda.b #0x01
-; this assumes we shoud load data from bank 1
+; Y >= $8000: the text is in bank 1
     pha
     bra _jump_to_original
 _moved_text:
