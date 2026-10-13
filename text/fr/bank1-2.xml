@@ -390,7 +390,7 @@ je finirais presque par rougir![end]</sn:pointer>
 C'est presque un miracle que quelqu'un
 comme toi n'ait pas été manipulé par
 Zémus![end]</sn:pointer>
-    <sn:pointer id="68">Le sage Tellah a rejoint l'équipe![delay][0x28][close_window][end]</sn:pointer>
+    <sn:pointer id="68">Le sage Tella a rejoint l'équipe![delay][0x28][close_window][end]</sn:pointer>
     <sn:pointer id="69">Attends!![end]</sn:pointer>
     <sn:pointer id="70">[bold]Edge[normal]: Hé hé, c'est que j'aime la
 justice, moi![new]
@@ -445,7 +445,7 @@ Glace, sur la Montagne de l'Épreuve...[delay][0x10][close_window][end]</sn:poin
 L'ancien est furieux![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="83">[bold]Ancien[normal]: Combien de fois faudra-t-il te
 le répéter! [delay][0x18] Avec une telle attitude,
-viser le niveau de Tellah?
+viser le niveau de Tella?
 Reviens dans dix ans![new]
 En punition, tu vas recopier des
 formules! [delay][0x18][close_window][end]</sn:pointer>
@@ -496,7 +496,7 @@ reconstruit, n'est-ce pas? [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="99">[bold]Edward[normal]: Veille sur moi de là-haut,
 Anna.[new]
 Moi, j'ai encore le peuple de Damcyan...!
-[delay][0x18] Entends-toi bien avec Tellah...[delay][0x18][close_window][end]</sn:pointer>
+[delay][0x18] Entends-toi bien avec Tella...[delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="100">[bold]Femme de Yang[normal]: Chéri....[delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="101">[bold]Yang[normal]: Tu es reine, maintenant!
 Arrête de m'appeler chéri!
@@ -675,7 +675,7 @@ Rydia a appris Odin![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
     <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
 Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
-    <sn:pointer id="160">[bold]Tellah[normal]: J'obtiendrai vengeance![end]</sn:pointer>
+    <sn:pointer id="160">[bold]Tella[normal]: J'obtiendrai vengeance![end]</sn:pointer>
     <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir....
 Golbez...![end]</sn:pointer>
     <sn:pointer id="162">[bold]Rosa[normal]: Téléport![end]</sn:pointer>

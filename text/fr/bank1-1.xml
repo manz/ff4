@@ -20,7 +20,7 @@ FuSoYa![end]</sn:pointer>
     <sn:pointer id="15">[0xfa]Il y a comme une odeur de chocobo...[end]</sn:pointer>
     <sn:pointer id="16">[0xfa]Trouvé un chocobo blanc![end]</sn:pointer>
     <sn:pointer id="17">Place au Gros Chocobo![end]</sn:pointer>
-    <sn:pointer id="18">[bold]Tellah[normal]: Anna... tu es encore en
+    <sn:pointer id="18">[bold]Tella[normal]: Anna... tu es encore en
 vie...[new]
 [bold]Anna[normal]: Père... il...
 Edward est le prince de Damcyan...
@@ -268,7 +268,7 @@ Tu ne me reconnais pas!?[new]
 [bold]Yang[normal]: Si, je te reconnais, criminel![end]</sn:pointer>
     <sn:pointer id="73">[bold]Yang[normal]: Cecil!
 Léviathan m'a...[new]
-[bold]Tellah[normal]: Apparemment, Baron se
+[bold]Tella[normal]: Apparemment, Baron se
 servait de vous pendant votre amnésie.[new]
 [bold]Yang[normal]: ...Merci... je suis confus.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Yang[normal]: Rydia a été avalée par
@@ -283,9 +283,9 @@ Allons préparer un plan dans une
 chambre! [0xfa]Le Moine Yang a rejoint le
 groupe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="76">[bold]Yang[normal]: Et qui est ce monsieur?[new]
-[bold]Cecil[normal]: Tellah, le sage.
+[bold]Cecil[normal]: Tella, le sage.
 Edward a...[new]
-[bold]Tellah[normal]: Ma fille a donné sa vie... pour
+[bold]Tella[normal]: Ma fille a donné sa vie... pour
 protéger cet homme qu'elle aimait...[new]
 [bold]Yang[normal]: Je vois...
 Je suis Yang, capitaine des moines
@@ -294,7 +294,7 @@ de Fabul.[end]</sn:pointer>
 [bold]Yang[normal]: J'ai honte...[new]
 [bold]Cecil[normal]: Peu importe, il faut sauver
 Cid.[new]
-[bold]Tellah[normal]: Mais ce ne sera pas facile
+[bold]Tella[normal]: Mais ce ne sera pas facile
 d'entrer dans le château...[end]</sn:pointer>
     <sn:pointer id="78">[bold]Cecil[normal]: C'est la clef de Baron!
 Bien sûr!
@@ -498,31 +498,31 @@ la Terre.[end]</sn:pointer>
     <sn:pointer id="113">[bold]Edward[normal]: Oui, Anna, je me battrai...
 Mais le courage...
 Que dois-je faire, Anna?[end]</sn:pointer>
-    <sn:pointer id="114">[bold]Tellah[normal]: Elle s'est bien vite endormie...
+    <sn:pointer id="114">[bold]Tella[normal]: Elle s'est bien vite endormie...
 Ç'a dû être une journée éprouvante pour
 quelqu'un de si jeune...
 Cette petite est-elle...[new]
 [bold]Cecil[normal]: Une invocatrice de Mist.[new]
-[bold]Tellah[normal]: Je ressens en elle un grand
+[bold]Tella[normal]: Je ressens en elle un grand
 potentiel.
 Elle pourrait devenir une sorcière très
 douée... ...[new]
 Un visage si paisible...
 Comme Anna quand elle était petite.[new]
 [bold]Cecil[normal]: Anna est...[new]
-[bold]Tellah[normal]: Ma fille unique.
+[bold]Tella[normal]: Ma fille unique.
 Elle s'est sauvée à Damcyan avec un
 barde parce que je n'ai pas consenti à
 leur mariage...[end]</sn:pointer>
-    <sn:pointer id="115">[bold]Tellah[normal]: Pourquoi vous y rendez-vous?[new]
+    <sn:pointer id="115">[bold]Tella[normal]: Pourquoi vous y rendez-vous?[new]
 [bold]Cecil[normal]: J'ai une amie à Kaïpo qui
 souffre d'une fièvre terrible.[new]
-[bold]Tellah[normal]: Alors il vous faut la Lumière
+[bold]Tella[normal]: Alors il vous faut la Lumière
 du Désert.
 Sans quoi, il n'y a guère d'espoir...[new]
 [bold]Cecil[normal]: Quel est le monstre de cette
 caverne?[new]
-[bold]Tellah[normal]: C'est une immense créature
+[bold]Tella[normal]: C'est une immense créature
 avec huit énormes pattes.
 Il nous faudra le battre si nous voulons
 sauver Anna et ton amie...[new]
@@ -783,18 +783,18 @@ Laisse-moi le tuer![end]</sn:pointer>
     <sn:pointer id="184">[bold]Golbez[normal]: Après l'échec de l'autre jour,
 que dis-tu là!
 Tu n'as qu'à surveiller Rosa![end]</sn:pointer>
-    <sn:pointer id="185">[bold]Tellah[normal]: Alors toi aussi, tu es ici pour
+    <sn:pointer id="185">[bold]Tella[normal]: Alors toi aussi, tu es ici pour
 chercher Météore?[new]
 [bold]Cecil[normal]: Météore?[new]
 [bold]Porom[normal]: Météore?
 Vous êtes...[new]
 [bold]Palom[normal]: Hé le vieux!
-C'est toi, Tellah?[end]</sn:pointer>
+C'est toi, Tella?[end]</sn:pointer>
     <sn:pointer id="186">[bold]Porom[normal]: Palom!
-Appelle-le maître Tellah!
+Appelle-le maître Tella!
 Tu es d'un grossier![end]</sn:pointer>
     <sn:pointer id="187">[bold]Porom[normal]: Nous sommes honorés de vous
-rencontrer, maître Tellah.
+rencontrer, maître Tella.
 Nous avons été envoyés ici par l'Ancien
 de Mysidia pour...[new]
 [bold]Palom[normal]: Surveiller Cecil...[end]</sn:pointer>
@@ -803,16 +803,16 @@ de Mysidia pour...[new]
 vers la Montagne de l'Épreuve.
 Je m'appelle Porom.[new]
 [bold]Palom[normal]: Et moi, c'est Palom!
-Alors comme ça, tu es Tellah!
+Alors comme ça, tu es Tella!
 T'es hyper célèbre à Mysidia![end]</sn:pointer>
-    <sn:pointer id="190">[bold]Tellah[normal]: Ainsi ce sont des enfants de
+    <sn:pointer id="190">[bold]Tella[normal]: Ainsi ce sont des enfants de
 Mysidia.
 Qu'est-il arrivé à Edward et
 Rydia?[new]
 [bold]Cecil[normal]: Alors que nous voguions vers
 Baron, nous avons été attaqués par
 Léviathan...[new]
-[bold]Tellah[normal]: ...Ils sont morts!?[new]
+[bold]Tella[normal]: ...Ils sont morts!?[new]
 [bold]Cecil[normal]: Oui...
 Et Rosa a été capturée par
 Golbez...[end]</sn:pointer>
@@ -820,7 +820,7 @@ Golbez...[end]</sn:pointer>
     <sn:pointer id="192">[bold]Porom[normal]: Chut![new]
 [bold]Cecil[normal]: Mais ne deviez-vous pas aller
 affronter Golbez?[end]</sn:pointer>
-    <sn:pointer id="193">[bold]Tellah[normal]: Je ne suis pas en mesure de
+    <sn:pointer id="193">[bold]Tella[normal]: Je ne suis pas en mesure de
 vaincre quelqu'un d'aussi puissant que lui
 avec la magie dont je dispose
 actuellement.[new]
@@ -832,7 +832,7 @@ Météore serait-il caché ici...?[new]
 [bold]Porom[normal]: Ce sort est dangereux!
 Si quelqu'un qui a vécu aussi longtemps
 que vous essaie de le lancer...[new]
-[bold]Tellah[normal]: Oui, je suis vieux!
+[bold]Tella[normal]: Oui, je suis vieux!
 Mais même au prix de ma vie...
 Golbez... c'est moi qui dois l'abattre![new]
 [bold]Cecil[normal]: ......[end]</sn:pointer>
@@ -843,7 +843,7 @@ casse-pieds![end]</sn:pointer>
 [bold]Porom[normal]: Quel ignare tu fais!
 C'est l'homme qui contrôle Baron![end]</sn:pointer>
     <sn:pointer id="196">«Gargl...»[new]
-[bold]Tellah[normal]: ...Une présence maléfique!![new]
+[bold]Tella[normal]: ...Une présence maléfique!![new]
 «Heureux... très heureux... de pouvoir vous
 enterrer...»[new]
 [bold]Cecil[normal]: Qui est là!?[end]</sn:pointer>
@@ -869,7 +869,7 @@ Purifie ton âme avec la lumière sacrée! Tu
 dois le faire! Pour recevoir cette force
 sacrée, combats et détruis ton double
 obscur en tant que chevalier noir!»[end]</sn:pointer>
-    <sn:pointer id="202">[bold]Tellah[normal]: Deux Cecil?[new]
+    <sn:pointer id="202">[bold]Tella[normal]: Deux Cecil?[new]
 [bold]Palom[normal]: Que se passe-t-il?[new]
 [bold]Porom[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="203">[bold]Cecil[normal]: Ne vous en mêlez pas!
@@ -887,36 +887,36 @@ arrête Golbez!»[new]
 [bold]Cecil[normal]: Qu'est-ce qui m'arrive?
 Ça semble si...familier...
 Quelle était cette voix..?[new]
-[bold]Tellah[normal]: Oh...Oh!![new]
-[bold]Porom[normal]: Maître Tellah?[end]</sn:pointer>
-    <sn:pointer id="207">[bold]Tellah[normal]: Je commence à me souvenir...
+[bold]Tella[normal]: Oh...Oh!![new]
+[bold]Porom[normal]: Maître Tella?[end]</sn:pointer>
+    <sn:pointer id="207">[bold]Tella[normal]: Je commence à me souvenir...
 Tous mes sorts commencent à me revenir!
-[0xfa]Tellah a retrouvé tous les [0xfa]sorts qu'il
+[0xfa]Tella a retrouvé tous les [0xfa]sorts qu'il
 avait oubliés![end]</sn:pointer>
     <sn:pointer id="208">[bold]Porom[normal]: Comme on pouvait s'y attendre
-de Maître Tellah...[new]
+de Maître Tella...[new]
 [bold]Palom[normal]: Hé, Porom...[end]</sn:pointer>
     <sn:pointer id="209">[bold]Porom[normal]: Cecil..[new]
 [bold]Palom[normal]: Eh bien en fait, nous...[end]</sn:pointer>
-    <sn:pointer id="210">[bold]Tellah[normal]: Parfait!
+    <sn:pointer id="210">[bold]Tella[normal]: Parfait!
 Je suis prêt!
 Allons trouver Golbez![end]</sn:pointer>
-    <sn:pointer id="211">[bold]Tellah[normal]: Que fais-tu, Cecil?
+    <sn:pointer id="211">[bold]Tella[normal]: Que fais-tu, Cecil?
 Allons-y![new]
 [bold]Cecil[normal]: Ouais...[end]</sn:pointer>
     <sn:pointer id="212">[bold]Cecil[normal]: Edward![end]</sn:pointer>
     <sn:pointer id="213">[bold]Edward[normal]: C'est vous, Cecil...
 Vous êtes en vie....Dieu merci...
 Je vais aussi... combattre...[new]
-[bold]Tellah[normal]: Que pouvez-vous faire dans
+[bold]Tella[normal]: Que pouvez-vous faire dans
 votre état?
 Restez au lit![new]
-[bold]Edward[normal]: Maître Tellah...
+[bold]Edward[normal]: Maître Tella...
 Pardonnez-moi...
 Je suis désolé... pour ma faiblesse... si je
 n'étais pas si...[new]
 Anna...serait en vie...[new]
-[bold]Tellah[normal]: ...[end]</sn:pointer>
+[bold]Tella[normal]: ...[end]</sn:pointer>
     <sn:pointer id="214">[bold]Yang[normal]: Prince Edward, vous devez
 vous reposer, maintenant.[end]</sn:pointer>
     <sn:pointer id="215">[bold]Edward[normal]: Yang...
@@ -934,7 +934,7 @@ MAIS VOUS N'AUREZ PAS LE CRISTAL.
 VOUS NE POUVEZ PAS RÉSISTER À MA
 MAGIE AVEC CET ÉQUIPEMENT![new]
 [bold]Yang[normal]: Cecil![new]
-[bold]Tellah[normal]: Nous allons l'avoir![end]</sn:pointer>
+[bold]Tella[normal]: Nous allons l'avoir![end]</sn:pointer>
     <sn:pointer id="220">[bold]Edward[normal]: Cecil et les autres...sont
 en danger![end]</sn:pointer>
     <sn:pointer id="221">«Restez au lit! Vous ne pouvez bouger!»[new]
@@ -950,7 +950,7 @@ Cecil et les autres![end]</sn:pointer>
     <sn:pointer id="222">[0xfa]La musique d'Edward peut être
 entendue [0xfa]à travers Murmure!
 [bold]Yang[normal]: Oh...[new]
-[bold]Tellah[normal]: Cette douce mélodie...[new]
+[bold]Tella[normal]: Cette douce mélodie...[new]
 [bold]Cecil[normal]: La harpe d'Edward![new]
 [bold]Elfe Noir[normal]: QUOI!?
 QUEL EST CE BRUIT DÉSAGRÉABLE?
@@ -982,12 +982,12 @@ Alors j'ai pensé que peut-être...[new]
 avez sauvés.[new]
 [bold]Edward[normal]: Non... ce n'était pas moi...
 Ooh![end]</sn:pointer>
-    <sn:pointer id="228">[bold]Edward[normal]: Maître Tellah...[new]
-[bold]Tellah[normal]: Anna était heureuse...
+    <sn:pointer id="228">[bold]Edward[normal]: Maître Tella...[new]
+[bold]Tella[normal]: Anna était heureuse...
 D'être aimée par quelqu'un de si
 courageux...[new]
-[bold]Edward[normal]: Tellah...[new]
-[bold]Tellah[normal]: Pour l'instant, concentrez-vous
+[bold]Edward[normal]: Tella...[new]
+[bold]Tella[normal]: Pour l'instant, concentrez-vous
 juste sur votre guérison.
 Je vengerai Anna avec Météore!
 Edward... pour vous aussi.[new]
@@ -1002,10 +1002,10 @@ commencer à comprendre...[end]</sn:pointer>
 [bold]Caïn[normal]: Ne soyez pas si nerveux.
 Golbez veut vous remercier en
 personne.[new]
-[bold]Tellah[normal]: Golbez![end]</sn:pointer>
+[bold]Tella[normal]: Golbez![end]</sn:pointer>
     <sn:pointer id="231">[bold]Golbez[normal]: Je suis heureux que vous ayez
 tenu votre promesse...[new]
-[bold]Tellah[normal]: Montre-toi![new]
+[bold]Tella[normal]: Montre-toi![new]
 [bold]Golbez[normal]: Je comprends votre
 impatience, mais j'aimerais vous remercier.[new]
 [bold]Yang[normal]: Nous remercier?[new]
@@ -1034,7 +1034,7 @@ adieu! Vous n'atteindrez pas Rosa!»[end]</sn:pointer>
 «Vous avez déjoué notre attaque delta...»[new]
 «Grande sœur! Non...»[end]</sn:pointer>
     <sn:pointer id="236">[bold]Golbez[normal]: Bien joué, messieurs.[new]
-[bold]Tellah[normal]: Golbez![new]
+[bold]Tella[normal]: Golbez![new]
 [bold]Cecil[normal]: Où est Rosa?![new]
 [bold]Golbez[normal]: Le cristal d'abord.[new]
 [bold]Cecil[normal]: Rosa n'a rien, j'espère?[new]
@@ -1047,14 +1047,14 @@ Golbez!
 De quoi parles-tu?[new]
 [bold]Cecil[normal]: Quoi!?[new]
 [bold]Cid[normal]: Ce n'était pas l'accord![new]
-[bold]Tellah[normal]: Quel sale type![new]
+[bold]Tella[normal]: Quel sale type![new]
 [bold]Golbez[normal]: Je n'ai rien à faire avec toi,
 vieillard.[new]
-[bold]Tellah[normal]: Mais moi, j'ai des comptes à
+[bold]Tella[normal]: Mais moi, j'ai des comptes à
 régler avec toi![end]</sn:pointer>
     <sn:pointer id="238">[bold]Golbez[normal]: Utiliser Météore...
 Gagh![new]
-[bold]Cecil[normal]: Tellah![end]</sn:pointer>
+[bold]Cecil[normal]: Tella![end]</sn:pointer>
     <sn:pointer id="239">[bold]Golbez[normal]: Qu'importe...
 J'ai le cristal.
 Retirons-nous, Caïn![end]</sn:pointer>
@@ -1080,16 +1080,16 @@ terminé![end]</sn:pointer>
 [bold]Cid[normal]: Ça va!?[new]
 [bold]Cecil[normal]: Ou...ouais...
 On dirait que Météore a fait effet...
-Mais Tellah![end]</sn:pointer>
-    <sn:pointer id="245">[bold]Tellah[normal]: Je n'ai pas pu le tuer...[new]
+Mais Tella![end]</sn:pointer>
+    <sn:pointer id="245">[bold]Tella[normal]: Je n'ai pas pu le tuer...[new]
 [bold]Cid[normal]: Ne parle pas![new]
-[bold]Tellah[normal]: C'est peut-être... la rétribution
+[bold]Tella[normal]: C'est peut-être... la rétribution
 pour avoir combattu... consumé par la
 haine...
 La vengeance d'Anna... je vous en...[end]</sn:pointer>
-    <sn:pointer id="246">[bold]Cecil[normal]: Tellah![new]
+    <sn:pointer id="246">[bold]Cecil[normal]: Tella![new]
 [bold]Yang[normal]: ![new]
-[bold]Tellah[normal]: ...[end]</sn:pointer>
+[bold]Tella[normal]: ...[end]</sn:pointer>
     <sn:pointer id="247">[bold]Cecil[normal]: Caïn..!
 Caïn![end]</sn:pointer>
     <sn:pointer id="248">[bold]Cecil[normal]: !
@@ -1422,7 +1422,7 @@ ninjas...
 Nous sommes bien plus forts que vous![new]
 [bold]Rydia[normal]: Ça suffit!
 Je ne veux plus que personne meure![end]</sn:pointer>
-    <sn:pointer id="302">[bold]Rydia[normal]: Grand-père Tellah aussi...
+    <sn:pointer id="302">[bold]Rydia[normal]: Grand-père Tella aussi...
 Yang aussi...
 Oncle Cid aussi!
 Tout le monde... tout le monde![new]
@@ -1547,7 +1547,7 @@ Que la bonne fortune soit avec vous![new]
     <sn:pointer id="319">[bold]Edge[normal]: Aïe...![new]
 [bold]Caïn[normal]: On dirait qu'on est tombés
 jusqu'au monde souterrain...[end]</sn:pointer>
-    <sn:pointer id="320">[bold]Tellah[normal]: Je suis Tellah!
+    <sn:pointer id="320">[bold]Tella[normal]: Je suis Tella!
 Inquiet, je me rendais à Damcyan, mais
 dans le lac souterrain, plus loin, il y a un
 énorme monstre.[new]
@@ -1559,7 +1559,7 @@ Cette fille est une invocatrice, hein?
 Je sens qu'elle a du talent.[new]
 [bold]Cecil[normal]: On est aussi en route pour
 Damcyan![new]
-[bold]Tellah[normal]: Bien, alors c'est d'accord!
+[bold]Tella[normal]: Bien, alors c'est d'accord!
 Allons ensemble à Damcyan![end]</sn:pointer>
     <sn:pointer id="321">[bold]Cecil[normal]: Une fosse!?[delay][0xc][close_window][end]</sn:pointer>
     <sn:pointer id="322">[bold]Caïn[normal]: ...[end]</sn:pointer>
@@ -1748,20 +1748,20 @@ sera bénie [0xfa]avec clémence et salut.[end]</sn:pointer>
     <sn:pointer id="363">[bold]Palom[normal]: Ce vieux a appris Météore ![new]
 [bold]Ancien[normal]: Météore...!
 Ce sort légendaire a été descellé ?![new]
-[bold]Tellah[normal]: Il semblerait...
+[bold]Tella[normal]: Il semblerait...
 Je vengerai Anna avec ça ![new]
 [bold]Ancien[normal]: Anna ?[new]
-[bold]Tellah[normal]: Golbez l'a tuée !
+[bold]Tella[normal]: Golbez l'a tuée !
 Je le vaincrai avec Météore![new]
-[bold]Ancien[normal]: Tellah!
+[bold]Ancien[normal]: Tella!
 Se battre avec haine détruit l'âme!
 Et dans ton état, Météore est trop
 dangereux ![new]
-[bold]Tellah[normal]: Même si cela doit me détruire !
+[bold]Tella[normal]: Même si cela doit me détruire !
 Je ne peux pardonner à ce monstre ![new]
 [bold]Ancien[normal]: Comme je m'y attendais.
 Tu n'as pas changé.[new]
-[bold]Tellah[normal]: Toi non plus...[new]
+[bold]Tella[normal]: Toi non plus...[new]
 [bold]Ancien[normal]: Mais Cecil est devenu
 Paladin.
 Si vous unissez vos forces...![new]
@@ -2072,36 +2072,36 @@ Qu'en penses-tu, Rosa?[end]</sn:pointer>
     <sn:pointer id="426">[bold]Caïn[normal]: Oui, maître![new]
 [bold]Rosa[normal]: Cecil...
 Fais attention![end]</sn:pointer>
-    <sn:pointer id="427">[bold]Cecil[normal]: Tellah![end]</sn:pointer>
-    <sn:pointer id="428">[bold]Tellah[normal]: Cecil![end]</sn:pointer>
+    <sn:pointer id="427">[bold]Cecil[normal]: Tella![end]</sn:pointer>
+    <sn:pointer id="428">[bold]Tella[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="429">[bold]Porom[normal]: Mais tais-toi donc![new]
-[bold]Tellah[normal]: Et toi, Cecil?[new]
+[bold]Tella[normal]: Et toi, Cecil?[new]
 [bold]Cecil[normal]: Je suis venu pour devenir
 paladin.
 Il paraît que la lame noire ne peut pas
 vaincre Golbez...[new]
 Et je veux me défaire de cette maudite
 lame noire...![end]</sn:pointer>
-    <sn:pointer id="430">[bold]Tellah[normal]: Golbez est à l'origine de
+    <sn:pointer id="430">[bold]Tella[normal]: Golbez est à l'origine de
 tout le mal![end]</sn:pointer>
-    <sn:pointer id="431">[bold]Tellah[normal]: Un paladin..?
+    <sn:pointer id="431">[bold]Tella[normal]: Un paladin..?
 C'est bien ce que je sentais, il doit y
 avoir un pouvoir mystérieux caché dans
 cette montagne![new]
 Si vous cherchez à contrer Golbez, je
-me joins à vous! [0xfa]Le sage Tellah a
+me joins à vous! [0xfa]Le sage Tella a
 rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="432">[bold]Scarmiglione[normal]: GRRRR-BAAAH![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
 Qui êtes-vous?[end]</sn:pointer>
-    <sn:pointer id="434">[bold]Tellah[normal]: Cecil![end]</sn:pointer>
+    <sn:pointer id="434">[bold]Tella[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="435">[bold]Palom[normal]: Derrière toi![new]
 [bold]Porom[normal]: Il attaque![end]</sn:pointer>
-    <sn:pointer id="436">[bold]Tellah[normal]: !?
+    <sn:pointer id="436">[bold]Tella[normal]: !?
 Mé... ...téor?[new]
 Cette lumière m'a donné l'ultime magie
-noire, Météore! [0xfa]Tellah apprend Météore![music][0x29][delay][0x28][end]</sn:pointer>
+noire, Météore! [0xfa]Tella apprend Météore![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="437">[bold]Palom[normal]: Hé! Attends![end]</sn:pointer>
     <sn:pointer id="438">[bold]Porom[normal]: Allons-y, monsieur Cecil![new]
 [bold]Cecil[normal]: Ou...ouais![end]</sn:pointer>
@@ -2135,14 +2135,14 @@ Où est Rosa!?[new]
 [bold]Caïn[normal]: Hmph, ne te précipite pas.
 Suivez mon aéronef.[end]</sn:pointer>
     <sn:pointer id="448">[bold]Cecil[normal]: Tiens, le voilà![end]</sn:pointer>
-    <sn:pointer id="449">[bold]Tellah[normal]: Je te rendrai les souffrances
+    <sn:pointer id="449">[bold]Tella[normal]: Je te rendrai les souffrances
 d'Anna au centuple![end]</sn:pointer>
     <sn:pointer id="450">[0xfa]Pendant ce temps..[end]</sn:pointer>
     <sn:pointer id="451">[bold]Golbez[normal]: ..!?[end]</sn:pointer>
     <sn:pointer id="452">[bold]Cid[normal]: Ouvre tes yeux, Allez, vieil
 idiot!
 Ne nous meurs pas dessus![new]
-[bold]Yang[normal]: Maître Tellah...
+[bold]Yang[normal]: Maître Tella...
 Il est...[new]
 [bold]Cid[normal]: Repose en paix... avec ta fille...[end]</sn:pointer>
     <sn:pointer id="453">[bold]Caïn[normal]: ...Cecil!
@@ -2156,7 +2156,7 @@ Je...
 Rosa...[end]</sn:pointer>
     <sn:pointer id="454">[bold]Caïn[normal]: Elle est au-dessus!
 Pas une seconde à perdre![end]</sn:pointer>
-    <sn:pointer id="455">[bold]Cecil[normal]: Tellah...
+    <sn:pointer id="455">[bold]Cecil[normal]: Tella...
 Nous vengerons Anna... et vous![end]</sn:pointer>
     <sn:pointer id="456">[bold]Caïn[normal]: Cecil...[new]
 [bold]Cecil[normal]: On a besoin de tes pouvoirs
@@ -2235,7 +2235,7 @@ Bon, ben, j'y vais![end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
 [bold]Palom[normal]: Tu nous as vus à l'œuvre, non?[new]
 [bold]Porom[normal]: Oui![new]
-[bold]Tellah[normal]: Pas d'inquiétude.
+[bold]Tella[normal]: Pas d'inquiétude.
 Je suis avec vous![new]
 [bold]Cecil[normal]: Bien...
 Je compte sur vous![end]</sn:pointer>
@@ -2248,7 +2248,7 @@ Si la Montagne de l'Épreuve vous a
 acceptés, c'est peut-être aussi votre
 destin...[new]
 Moi, je ne peux pas quitter Mysidia.[new]
-Cecil, Tellah...
+Cecil, Tella...
 Prenez soin de ces deux enfants pour
 moi![end]</sn:pointer>
     <sn:pointer id="470">[bold]Ancien[normal]: Palom!
@@ -2261,10 +2261,10 @@ pouvez pas entrer![end]</sn:pointer>
 Montagne de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">[bold]Rosa[normal]: Rydia...[new]
 [bold]Rydia[normal]: Sniff... sniff...[end]</sn:pointer>
-    <sn:pointer id="475">[bold]Tellah[normal]: Vite!
+    <sn:pointer id="475">[bold]Tella[normal]: Vite!
 Nous devons vaincre Golbez!![new]
-[bold]Ancien[normal]: Oh, Tellah![new]
-[bold]Tellah[normal]: Ça faisait un bail.[end]</sn:pointer>
+[bold]Ancien[normal]: Oh, Tella![new]
+[bold]Tella[normal]: Ça faisait un bail.[end]</sn:pointer>
     <sn:pointer id="476">[bold]Caïn[normal]: Tu ne peux pas les semer!?[new]
 [bold]Cid[normal]: Merde, cet aéronef devrait
 être plus rapide que les leurs!
@@ -2310,9 +2310,9 @@ Bon travail, Palom et Porom![end]</sn:pointer>
     <sn:pointer id="486">[bold]Ancien[normal]: Oh!
 Tu es..!![end]</sn:pointer>
     <sn:pointer id="487">[bold]Edward[normal]: Anna![new]
-[bold]Tellah[normal]: Anna!
+[bold]Tella[normal]: Anna!
 Anna![delay][0x2b][end]</sn:pointer>
-    <sn:pointer id="488">[bold]Tellah[normal]: Il représentait tant que ça pour
+    <sn:pointer id="488">[bold]Tella[normal]: Il représentait tant que ça pour
 toi..?[new]
 [bold]Anna[normal]: Père... pardonne-moi...
 J'aime Edward..![end]</sn:pointer>
@@ -2320,7 +2320,7 @@ J'aime Edward..![end]</sn:pointer>
 Anna![end]</sn:pointer>
     <sn:pointer id="490">[bold]Edward[normal]: Allons, dépêchons-nous! [0xfa]Le
 prince Edward a rejoint le groupe![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="491">[bold]Tellah[normal]: Il est en bas![end]</sn:pointer>
+    <sn:pointer id="491">[bold]Tella[normal]: Il est en bas![end]</sn:pointer>
     <sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort pour
 entrer![end]</sn:pointer>
     <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
@@ -2355,7 +2355,7 @@ un barde et est partie pour Damcyan!
 Et...
 Je sens le mal dans cette direction![new]
 [bold]Cecil[normal]: Alors vous êtes le sage
-Tellah![end]</sn:pointer>
+Tella![end]</sn:pointer>
     <sn:pointer id="501">[bold]Golbez[normal]: Oui.[end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
     <sn:pointer id="503">[bold]Femme de Yang[normal]: Idem pour toi![delay][0xa][end]</sn:pointer>

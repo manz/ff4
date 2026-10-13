@@ -70,7 +70,7 @@ récemment...
 Elle a été emmenée chez un voisin pour
 être soignée.[end]
 Anna est tombée amoureuse.
-Mais maître Tellah s'y est opposé, alors
+Mais maître Tella s'y est opposé, alors
 elle s'est enfuie de Kaïpo...[end]
 Je veux être danseuse à Damcyan, mais il
 y a beaucoup de monstres qui rôdent
@@ -301,7 +301,7 @@ Cecil, prends bien soin d'elle.[end]</sn:pointer>
 T[end]
 T[end]
 T[end]
-Le sage Tellah et sa fille Anna
+Le sage Tella et sa fille Anna
 vivaient heureux ensemble, et puis
 Anna s'est sauvée de chez elle...[end]</sn:pointer>
     <sn:pointer id="17">Salut, je suis un savant itinérant.[new]
@@ -446,7 +446,7 @@ L'Ancien prie dans la tour des Prières
 depuis ce jour-là.[end]
 Nous allons aussi prier, pour toutes les
 créatures vivantes.[end]
-Tellah aussi!?
+Tella aussi!?
 Je l'avais prévenu de ne pas se battre
 ainsi avec haine...
 L'imbécile...[end]
@@ -782,16 +782,16 @@ Alors que tu étais là pour la protéger?
 Mais ce Golbez...[new]
 Non seulement il abuse de mes aéronefs,
 mais de Rosa aussi!?[end]
-[bold]Tellah[normal]: Cette fille est en danger.
+[bold]Tella[normal]: Cette fille est en danger.
 Vite, emmenez-nous à l'aéronef![end]
 [bold]Cid[normal]: C'est qui, cette épave?[new]
-[bold]Tellah[normal]: Regardez qui parle![new]
+[bold]Tella[normal]: Regardez qui parle![new]
 [bold]Cid[normal]: Qu'est-ce que tu me chantes
 là?
 J'ai pas encore un pied dans la tombe![end]
 [bold]Porom[normal]: Bon, bon, bon...
 Vous êtes M. Cid, n'est-ce pas?
-Voici maître Tellah.
+Voici maître Tella.
 C'est un grand sage.[end]
 [bold]Porom[normal]: Voici M. Yang, à la tête
 des moines de Fabul.
@@ -816,7 +816,7 @@ monstres prendre le château![end]
 [bold]Cid[normal]: Là où personne n'aurait jamais
 pensé mettre son nez!
 J'ai bricolé un petit quelque chose![end]
-[bold]Tellah[normal]: Nous n'avons pas le temps
+[bold]Tella[normal]: Nous n'avons pas le temps
 pour ça!
 La vie de Rosa ne tient qu'à un fil![end]
 [bold]Cid[normal]: Bon sang, quel grincheux tu
@@ -890,10 +890,10 @@ Reposez-vous bien, cette nuit.[end]</sn:pointer>
 Le cristal... volé...[end]</sn:pointer>
     <sn:pointer id="64">Je... je dois atteindre le pot de soin
 au-dessus...![end]</sn:pointer>
-    <sn:pointer id="65">[bold]Tellah[normal]: C'est...
+    <sn:pointer id="65">[bold]Tella[normal]: C'est...
 Oh mon Dieu!!
 Anna!![end]
-[bold]Tellah[normal]: C'est... c'est vous, ce Barde!
+[bold]Tella[normal]: C'est... c'est vous, ce Barde!
 Misérable!
 Anna est morte à cause de vous!![new]
 [bold]Barde[normal]: !?[end]
@@ -918,23 +918,23 @@ Fabul...[new]
 Mais le chemin de Fabul par le mont Hobs
 a été bloqué par une épaisse couche de
 glace apportée par les vents glaciaux.[end]
-[bold]Tellah[normal]: ...Qui est ce Golbez!?[new]
+[bold]Tella[normal]: ...Qui est ce Golbez!?[new]
 [bold]Edward[normal]: Il est venu à Baron il y a peu
 et a pris le contrôle des Ailes Rouges.[new]
 Tout ce que je peux imaginer, c'est qu'il
 les utilise pour rassembler les cristaux...
 sniff...[new]
-[bold]Tellah[normal]: Pitoyable fou!
+[bold]Tella[normal]: Pitoyable fou!
 Pleurer ne ramènera pas Anna!
 Golbez de Baron..!!
 Je vengerai Anna![end]
-[bold]Cecil[normal]: Tellah, vous ne pouvez
+[bold]Cecil[normal]: Tella, vous ne pouvez
 pas faire ça tout seul![end]
-[bold]Tellah[normal]: Je n'ai besoin de l'aide de
+[bold]Tella[normal]: Je n'ai besoin de l'aide de
 personne!
 Je vais tuer Golbez de mes propres
 mains![end]
-Tellah a quitté le groupe.[end]
+Tella a quitté le groupe.[end]
 [bold]Edward[normal]: A...
 Anna... -sniff-...-snif-...[end]
 [bold]Rydia[normal]: Pleurnicheur![end]
@@ -1115,8 +1115,8 @@ Ne vous inquiétez pas pour moi!
 Dites-lui de se remettre vite et de
 se battre![end]</sn:pointer>
     <sn:pointer id="83">T[end]</sn:pointer>
-    <sn:pointer id="84">[bold]Tellah[normal]: Bien, reposons-nous ici.[end]
-[bold]Tellah[normal]: Si nous nous reposons sur
+    <sn:pointer id="84">[bold]Tella[normal]: Bien, reposons-nous ici.[end]
+[bold]Tella[normal]: Si nous nous reposons sur
 cette rune magique, un champ de force
 nous entourera de façon à ce que les
 monstres ne puissent pas entrer.[new]
@@ -1243,7 +1243,7 @@ Tu dois sauver Rosa![end]
 Nous avons un patient blessé, ici.
 Tenez-vous tranquilles![end]
 [bold]Edward[normal]: S'il vous plaît...pour moi, aussi.[end]
-[bold]Edward[normal]: Tellah est mort!?
+[bold]Edward[normal]: Tella est mort!?
 Pourquoi..?
 Pourquoi tous ceux que j'aime
 meurent-ils?..[end]
@@ -1379,16 +1379,16 @@ Rentrez à Kaïpo![end]</sn:pointer>
     <sn:pointer id="112">T[end]</sn:pointer>
     <sn:pointer id="113">T[end]</sn:pointer>
     <sn:pointer id="114">T[end]</sn:pointer>
-    <sn:pointer id="115">[bold]Tellah[normal]: Nous sortirons par ici.
+    <sn:pointer id="115">[bold]Tella[normal]: Nous sortirons par ici.
 Le monstre se trouve au-dessous de la
 chute d'eau qui nous attend![new]
 Il serait avisé de nous reposer dans une
 tente dehors, juste au cas où![end]</sn:pointer>
     <sn:pointer id="116">T[end]</sn:pointer>
     <sn:pointer id="117">T[end]</sn:pointer>
-    <sn:pointer id="118">[bold]Tellah[normal]: Il arrive![end]
-[bold]Tellah[normal]: C'est Octomammouth![end]
-[bold]Tellah[normal]: Maintenant, nous pouvons
+    <sn:pointer id="118">[bold]Tella[normal]: Il arrive![end]
+[bold]Tella[normal]: C'est Octomammouth![end]
+[bold]Tella[normal]: Maintenant, nous pouvons
 continuer vers Damcyan!
 Il y a une issue vers la surface après
 cette chute d'eau![music][0x29][delay][0x28][end]</sn:pointer>
@@ -1502,19 +1502,19 @@ vaincre... Mais voyez-vous, je n'aime pas
 Cagnazzo de l'Eau reste redoutable!
 Goûtez-en la terreur et mourez! Je vous
 attends en Enfer! Héhéhé!»[end]
-[bold]Tellah[normal]: Les murs![end]
+[bold]Tella[normal]: Les murs![end]
 [bold]Cid[normal]: C'est fermé![music][0x23][new]
-[bold]Tellah[normal]: Cette porte aussi![end]
+[bold]Tella[normal]: Cette porte aussi![end]
 [bold]Cecil[normal]: Palom!
 Porom![end]
 [bold]Palom[normal]: Merci, mon pote![new]
 [bold]Porom[normal]: J'étais si heureuse, c'était
 comme avoir un grand frère![new]
-[bold]Tellah[normal]: Que faites-vous, tous les
+[bold]Tella[normal]: Que faites-vous, tous les
 deux![new]
 [bold]Palom[normal]: Nous ne pouvons pas vous
 laisser mourir ici![new]
-[bold]Porom[normal]: Maître Tellah!
+[bold]Porom[normal]: Maître Tella!
 Prenez soin de Cecil![end]
 [bold]Palom[normal]: Faisons-le, Porom![new]
 [bold]Porom[normal]: Oui![end]
@@ -1527,13 +1527,13 @@ volonté... Ça n'a aucun effet...[end]
 [bold]Yang[normal]: Des enfants si jeunes...![end]
 [bold]Cid[normal]: C'est l'heure de les venger!
 En route avec l'Enterprise!![end]
-[bold]Tellah[normal]: Quelle folie!!
+[bold]Tella[normal]: Quelle folie!!
 Laissez-moi voir ce que je peux faire...
 Esuna![end]
 Sa majesté est en colère après vous.
 Il refusera de vous voir tant que vous
 n'aurez pas livré l'Anneau Bombe à Mist.[end]
-[bold]Tellah[normal]: Petits fous!
+[bold]Tella[normal]: Petits fous!
 C'est ce vieux croûton qui aurait dû
 mourir, pas eux![end]</sn:pointer>
     <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
@@ -1542,7 +1542,7 @@ Quel magnétisme!
 On pourra même pas remuer si on porte
 des armures métalliques![new]
 [bold]Yang[normal]: Mes griffes, ça a l'air d'aller.[new]
-[bold]Tellah[normal]: Ne vous inquiétez pas!
+[bold]Tella[normal]: Ne vous inquiétez pas!
 Nous avons toujours ma magie![end]</sn:pointer>
     <sn:pointer id="141">T[end]</sn:pointer>
     <sn:pointer id="142">T[end]</sn:pointer>
@@ -1687,7 +1687,7 @@ votre force![end]
     <sn:pointer id="193">T[end]</sn:pointer>
     <sn:pointer id="194">T[end]</sn:pointer>
     <sn:pointer id="195">[bold]Yang[normal]: Et dire qu'elle était cachée ici...[new]
-[bold]Tellah[normal]: Prodigieux![new]
+[bold]Tella[normal]: Prodigieux![new]
 [bold]Cid[normal]: Désolé de t'avoir fait attendre,
 Enterprise!
 Allons-y![end]
@@ -1704,7 +1704,7 @@ Si tu veux la revoir... vivante... tu devras
 l'échanger contre le cristal de la terre de
 Troia.[new]
 [bold]Cecil[normal]: Quoi!?[end]
-[bold]Tellah[normal]: Lâche![new]
+[bold]Tella[normal]: Lâche![new]
 [bold]Caïn[normal]: Quand tu l'auras, je te
 contacterai...
 Tu as intérêt à l'obtenir, compris?[new]
@@ -1785,7 +1785,7 @@ On va leur montrer la puissance de
 l'Enterprise![end]
 [bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
-[bold]Tellah[normal]: Un drapeau blanc?[end]
+[bold]Tella[normal]: Un drapeau blanc?[end]
 [bold]Yang[normal]: M. Cecil.[new]
 [bold]Cid[normal]: Ce Caïn...![end]
 [bold]Cecil[normal]: Allons à Troia...
@@ -2284,7 +2284,7 @@ Ce que nous avons fait ce jour-là n'était
 pas une erreur![end]
 Le sort de tout ce qui vit sur cette terre
 repose entre vos mains![end]
-Battez-vous pour moi... et pour Tellah![end]
+Battez-vous pour moi... et pour Tella![end]
 Il semble que c'était votre destinée de
 l'affronter.
 Je prie pour votre bonne fortune![end]
