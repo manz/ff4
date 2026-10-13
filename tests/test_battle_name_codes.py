@@ -2,7 +2,11 @@
 so a renamed Caïn reads renamed in "Pourquoi, Caïn !?"."""
 from __future__ import annotations
 
+import re
+from collections import Counter
 from pathlib import Path
+
+import pytest
 
 from script import Table
 from test_battle_message_text_pointer import _use_monsters
@@ -76,3 +80,25 @@ def test_a_battle_line_draws_the_current_name() -> None:
         assert_screenshot_matches_golden(emu, GOLDEN, region=MESSAGE_WINDOW)
     finally:
         emu.close()
+
+
+def _name_codes(data: bytes) -> Counter:
+    return Counter(data[i + 1] for i in range(len(data) - 1) if data[i] == 0x04 and data[i + 1] < 0x0E)
+
+
+def _pointers(path: str) -> dict[str, str]:
+    text = Path(path).read_text(encoding="utf-8")
+    return dict(re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.S))
+
+
+@pytest.mark.parametrize("name", ["battle_messages.xml", "battle_text.xml"])
+def test_no_name_code_of_the_japanese_is_lost(name: str) -> None:
+    """Every name the Japanese line names by code ($04 n), the French line does too (it may add Golbez and Anna,
+    the Japanese wrote in kana: their name slots hold them)."""
+    japanese, french = _pointers(f"text/jp/{name}"), _pointers(f"text/fr/{name}")
+    jp_table, fr_table = Table("text/ff4_jap.tbl"), battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
+    lost = {
+        pointer: dict(_name_codes(jp_table.to_bytes(line.replace("\n", ""))) - _name_codes(fr_table.to_bytes(french[pointer])))
+        for pointer, line in japanese.items()
+    }
+    assert {pointer: codes for pointer, codes in lost.items() if codes} == {}
