@@ -341,7 +341,7 @@ Ne m'abandonne pas, Cecil![end]
 Je suis content qu'elle aille mieux.
 L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
-Reviens nous voir bientôt![end]</sn:pointer>
+Revenez nous voir bientôt![end]</sn:pointer>
     <sn:pointer id="19">Que veux-tu nous voler, cette fois![end]
 La Montagne de l'Épreuve?
 Inutile d'y aller![end]
@@ -376,7 +376,7 @@ P-p-p-pitié, épar...
 Hein?
 Vous allez gravir la montagne de
 l'Épreuve![end]
-Wow, tu es vraiment splendide![end]
+Ouah, quelle noble allure![end]
 [bold]Cecil[normal]: Argl![end]
 J'ai mis un petit peu de poison dans ton
 verre!
@@ -393,23 +393,26 @@ Mon premier
 T[end]
 T[end]
 L'ancien pardonne tout.
-Mais je ne te pardonnerai pas...[end]
-Si tu deviens un paladin, j'aurai confiance
-en toi.[end]
-Nous avons confiance en toi![end]
+Mais moi, je ne compte pas vous
+pardonner...[end]
+Si vous devenez paladin, j'aurai confiance
+en vous.[end]
+Nous allons essayer d'avoir confiance en
+vous![end]
 C'est la Maison des Prières.
-L'ancien va écouter ton histoire.[end]
-Va découvrir... découvrir si tu peux
-accepter la lumière...[end]
-Ta lumière intérieure a grandi, passant
-d'une faible lueur à une lumière radieuse![end]
+L'ancien va écouter votre histoire.[end]
+Allez découvrir si vous pouvez accepter
+la lumière...[end]
+Votre lumière intérieure a grandi,
+passant d'une faible lueur à une lumière
+radieuse![end]
 D'où viennent les cœurs maléfiques?
 Tout commence à partir d'un innocent
 bébé...[end]
 Le paladin est un chevalier sacré,
 l'opposé d'un chevalier noir.[end]
-Tu es un paladin! ...Peut-être que c'était le
-destin.[end]
+Vous avez tout d'un paladin!
+...Peut-être était-ce le destin.[end]
 [bold]Fille[normal]: Qu'est-ce qui ne va pas?[new]
 [bold]Ancien[normal]: Où est Palom?[new]
 [bold]Fille[normal]: Pfff...
@@ -433,9 +436,9 @@ de l'Épreuve!
 Palom!
 Porom![new]
 Je compte sur vous![end]</sn:pointer>
-    <sn:pointer id="23">Tu es maître de ton destin.
+    <sn:pointer id="23">Le destin est entre vos mains.
 Tout ce que je peux faire à présent, c'est
-prier pour toi...[new]
+prier...[new]
 Palom, Porom, tenez-vous bien,
 et essayez de ne pas gêner M. Cecil.[end]
 Palom et Porom...!
@@ -515,7 +518,7 @@ T[end]
 Biologie des Chocobos[end]
 Vous aussi pouvez faire éclore des
 Chocobos[end]</sn:pointer>
-    <sn:pointer id="29">En as-tu déjà vu?
+    <sn:pointer id="29">Vous en avez déjà vu?
 Ce sont des chocobos noirs.[new]
 Comme ces chocobos ont été
 domestiqués par les humains, ils ne
@@ -611,7 +614,7 @@ ordonné de ne pas vous laisser entrer![end]
 Qui diable es-tu?
 Tu as un passe pour entrer?[end]
 Il se fait tard...
-Tu ne devrais pas partir maintenant.[end]
+Vous ne devriez pas sortir maintenant.[end]
 J'ai entendu dire qu'il y a des moments où
 les Chimères sont immunisées aux
 attaques.[end]
@@ -689,18 +692,19 @@ Dieu.
 Veuillez vous comporter convenablement.[end]</sn:pointer>
     <sn:pointer id="40">T[end]</sn:pointer>
     <sn:pointer id="41">T[end]</sn:pointer>
-    <sn:pointer id="42">Tu devrais prendre le trésor dans cette
-salle pour t'aider à vaincre les Chimères.
-Si tu presses l'interrupteur, la porte
-s'ouvrira.[end]
+    <sn:pointer id="42">Vous pouvez prendre le trésor de cette
+salle pour vous aider à vaincre les
+Chimères.
+Si vous pressez l'interrupteur au mur, la
+porte s'ouvrira.[end]
 J'ai entendu des complaintes venant de
 dessous le château.
 Ça ne pourrait pas être...
 Sa majesté?[new]
 Est-ce que ça pourrait être... une
 malédiction?[end]
-J'ai entendu dire que tu as apporté le
-cristal de Mysidia![end]
+J'ai entendu dire que vous avez apporté
+le cristal de Mysidia![end]
 Les soldats qui travaillaient pour
 Golbez n'étaient pas humains...[end]
 ...!?
@@ -841,7 +845,7 @@ C'est interdit![end]</sn:pointer>
     <sn:pointer id="47">T[end]</sn:pointer>
     <sn:pointer id="48">Nous avons emprisonné dans ce donjon
 les magiciens Mysidiens qui ont résisté.
-Tu peux leur parler à travers les
+Vous pouvez leur parler à travers les
 barreaux.[end]
 J'espère que nous n'aurons plus jamais à
 utiliser ce donjon.[end]
@@ -859,7 +863,7 @@ Capitaine...[end]
 Vous étiez vivant, en fin de compte![end]
 Je vais me saouler pour essayer d'oublier
 ce qui s'est passé à Mysidia...[end]
-Sa majesté morte, tu es le seul qui
+Sa majesté morte, vous êtes le seul qui
 puisse diriger Baron![end]
 Ce boulot m'a laissé une mauvaise
 impression...[end]
@@ -1011,8 +1015,8 @@ contre-attaquer![end]
 Je ne dors pas.
 Je médite![end]
 Soyez prudents![end]</sn:pointer>
-    <sn:pointer id="78">Es-tu de retour de l'entraînement, maître
-Yang?[end]
+    <sn:pointer id="78">Êtes-vous de retour de l'entraînement,
+maître Yang?[end]
 Wow, ça, c'était une attaque de la mort![end]
 Nous irons bien quoi qu'il arrive dans le
 château!
@@ -1570,7 +1574,7 @@ d'entraînement.[end]
 Ainsi le sceau de Mysidia a été brisé de
 leur côté![end]
 La Route est scellée du côté de Mysidia,
-alors tu ne peux pas l'utiliser.[end]</sn:pointer>
+on ne peut pas l'utiliser.[end]</sn:pointer>
     <sn:pointer id="152">T[end]</sn:pointer>
     <sn:pointer id="153">T[end]</sn:pointer>
     <sn:pointer id="154">T[end]</sn:pointer>
