@@ -15,20 +15,25 @@ make            # assembles build/ff4.ips, then runs the tests
 
 ## Screenshots
 
-`make screenshots` regenerates these from the test savestates.
+These are the test goldens (`tests/goldens/`): each is pinned by a test, so they show the current build.
 
 ### Variable width fonts
-![battle-messages-vwf.png](screenshots/battle-messages-vwf.png)
-![dialog-vwf.png](screenshots/dialog-vwf.png)
-![menu-description-vwf.png](screenshots/menu-description-vwf.png)
+<img src="tests/goldens/showcase/dialogue.png" alt="Opening dialogue" width="512">
+<img src="tests/goldens/battle_messages/renamed_cain.png" alt="Battle dialogue with a renamed character" width="512">
+<img src="tests/goldens/field_inventory/scroll_0.png" alt="Item list with its description" width="512">
+
 ### Menus
-![battle-menu.png](screenshots/battle-menu.png)
-![main-menu.png](screenshots/main-menu.png)
-![load-save-menu.png](screenshots/load-save-menu.png)
-![two-columns-magic.png](screenshots/two-columns-magic.png)
+<img src="tests/goldens/showcase/field_menu.png" alt="Field menu" width="512">
+<img src="tests/goldens/battle_status_names/statuses.png" alt="Battle status names" width="512">
+<img src="tests/goldens/battle_magic/white.png" alt="Battle magic in two columns" width="512">
+<img src="tests/goldens/save_confirm/saved.png" alt="Save confirmation" width="512">
+<img src="tests/goldens/options/options.png" alt="Options" width="512">
+
 ### Rolling inventories
-![field-inventory-scroll.png](screenshots/field-inventory-scroll.png)
-![battle-items.png](screenshots/battle-items.png)
-![shop-sell.png](screenshots/shop-sell.png)
-![drops.png](screenshots/drops.png)
-![key-item-picker.png](screenshots/key-item-picker.png)
+<img src="tests/goldens/field_inventory/scroll_5.png" alt="Field inventory, scrolled" width="512">
+<img src="tests/goldens/battle_inventory/top.png" alt="Battle inventory" width="512">
+<img src="tests/goldens/equip_inventory/open.png" alt="Equipment inventory" width="512">
+<img src="tests/goldens/showcase/shop_sell.png" alt="Shop, selling" width="512">
+<img src="tests/goldens/treasure/drops_full_8.png" alt="Spoils after a battle" width="512">
+<img src="tests/goldens/showcase/key_item_picker.png" alt="Key-item picker" width="512">
+<img src="tests/goldens/fat_chocobo/deposit.png" alt="Fat Chocobo deposit" width="512">
