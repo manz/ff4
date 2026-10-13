@@ -38,7 +38,7 @@
 
 <sn:pointer id="18">まほうのちから アップ![end]</sn:pointer>
 
-<sn:pointer id="19">まものさ あわてさせた[end]</sn:pointer>
+<sn:pointer id="19">まものを あわてさせた[end]</sn:pointer>
 
 <sn:pointer id="20">じゃくてんは とくにない[end]</sn:pointer>
 
@@ -58,19 +58,19 @@
 
 <sn:pointer id="28">モンスターにみつかった[end]</sn:pointer>
 
-<sn:pointer id="29">[0x6]3さ ぬすんだ[end]</sn:pointer>
+<sn:pointer id="29">[0x6]3を ぬすんだ[end]</sn:pointer>
 
 <sn:pointer id="30">[0x6]0/[0x6]1[end]</sn:pointer>
 
 <sn:pointer id="31">[0x6]0 ギルてにいれた[end]</sn:pointer>
 
-<sn:pointer id="32">[0x6]1 のけいけんちさえた[end]</sn:pointer>
+<sn:pointer id="32">[0x6]1 のけいけんちをえた[end]</sn:pointer>
 
 <sn:pointer id="33">[0x6]2は レベルがあがった[end]</sn:pointer>
 
 <sn:pointer id="34">にげられない![end]</sn:pointer>
 
-<sn:pointer id="35">[0x6]4さ おぼえた![end]</sn:pointer>
+<sn:pointer id="35">[0x6]4を おぼえた![end]</sn:pointer>
 
 <sn:pointer id="36">パーティは ぜんめつした‥‥[end]</sn:pointer>
 
@@ -88,7 +88,7 @@
 
 <sn:pointer id="43">くらやみに おおわれた![end]</sn:pointer>
 
-<sn:pointer id="44">どくさ うけた![end]</sn:pointer>
+<sn:pointer id="44">どくを うけた![end]</sn:pointer>
 
 <sn:pointer id="45">のろいに かかった![end]</sn:pointer>
 
@@ -112,8 +112,8 @@
 
 <sn:pointer id="55">[0x6]0ギル おっことした![end]</sn:pointer>
 
-<sn:pointer id="56">じょじょに たいりょくさうばわれ ちからつきた[end]</sn:pointer>
+<sn:pointer id="56">じょじょに たいりょくをうばわれ ちからつきた[end]</sn:pointer>
 
-<sn:pointer id="57">ちからさためて こうげきりょく 2ばい![end]</sn:pointer>
+<sn:pointer id="57">ちからをためて こうげきりょく 2ばい![end]</sn:pointer>
 
 </sn:script>
