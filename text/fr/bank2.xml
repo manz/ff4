@@ -2001,8 +2001,8 @@ maintenant vu que Golbez est ailleurs.[new]
 Il y a un passage secret sous le château!
 Partez dès que vous serez prêts![new]
 Je prie pour votre bonne fortune![end]
-[bold]Giotto[normal]: Mes poupées étaient maléfiques?
-Je suis si furieuse que j'en crierais![end]
+Se servir de mes poupées pour ça!
+Je ne le pardonnerai jamais![end]
 [bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
 Vous, vous allez à la grotte scellée au
@@ -2010,25 +2010,25 @@ sud-ouest![end]
 [bold]Giotto[normal]: Allez à Mysidia!
 Le sort de toute chose est entre vos
 mains![end]
-[bold]Giotto[normal]: Papa dit que ce collier
-appartenait à ma mère, l'ancienne reine.[end]
-[bold]Giotto[normal]: Près de la grotte scellée se trouve
+On dit que ce collier est un souvenir
+de sa défunte mère.[end]
+Près de la grotte scellée se trouve
 la continent de Toméra où vivent d'autres
 nains![new]
 Mais on ne peut pas y aller à cause de la
 lave![end]
-[bold]Giotto[normal]: Si vous pouvez voler, vous
+Si vous pouvez voler, vous
 devriez pouvoir aller à la grotte scellée.
 Mais les Nains ne peuvent pas voler!
 Nous devons nous fier à vous![end]
-[bold]Giotto[normal]: La rumeur dit qu'il y aurait un
+La rumeur dit qu'il y aurait un
 chemin vers le Monde des Chimères
 quelque part dans le monde souterrain![end]
-[bold]Giotto[normal]: Vous ne pouvez pas voler
-au-dessus de la lave?
+Vous ne pouvez pas voler au-dessus de
+la lave?
 Le vieux aux aéronefs ne pourrait pas
 vous arranger ça?[end]
-[bold]Giotto[normal]: Revenez me voir.
+Revenez me voir.
 Promettez-le![end]</sn:pointer>
     <sn:pointer id="266">Gros Chocobo!?
 Grossier personnage!!
@@ -2166,49 +2166,47 @@ téléporteur, mais on ne peut pas
 l'utiliser...[end]</sn:pointer>
     <sn:pointer id="297">Producteur -
 [bold]Hironobu Sakaguchi[normal]: Bienvenue![end]
-[bold]Hironobu Sakaguchi[normal]: Dessin des
-Cartes -[new]
+Dessin des Cartes -
 [bold]Yasushi Matsumura[normal]: Eru, Naito, Naoshi,
 Hoshiya, Kuwahara, ça faisait longtemps!
 Qu'est-ce qui ne va pas? ...Hein?
 Ce n'est pas les bonnes personnes!?[new]
 Oups....[end]
-[bold]Yasushi Matsumura[normal]: Graphismes -[new]
+Graphismes -
 [bold]Masanori Hoshino[normal]: C'est moi qui ai
 dessiné tous les monstres que tu combats.
 S'il y en a un que tu préfères, dis-moi
 lequel![end]
-[bold]Masanori Hoshino[normal]: Je suis Taka, le
-metteur de Points!
+Je suis Taka, le metteur de Points!
 Dès que j'aurai fini ce jeu, je deviendrai
 probablement un Super Pointeur![end]
-[bold]Masanori Hoshino[normal]: Graphismes -[new]
+Graphismes -
 [bold]Ryuko Tanaka[normal]: Ce sera ma toute
 dernière production.
 J'espère que tu l'aimes![end]
-[bold]Ryuko Tanaka[normal]: Graphismes -[new]
+Graphismes -
 [bold]Hiromi Nakada[normal]: ...Donc, il ne reste au
 fond que moi comme femme dans l'équipe
 de Final Fantasy!
 Vous pouvez compter sur moi![end]
-[bold]Hiromi Nakada[normal]: Programme des Menus
--[new]
+Programme des Menus -
 [bold]Keitaro Adachi[normal]: Héhé...
 On ne sue pas, on ne sue pas![end]
-[bold]Nouveau Toshio Endo[normal]: Mon épaule est
+Nouveau -
+[bold]Toshio Endo[normal]: Mon épaule est
 bloquée!
 J'ai mal aux yeux!
 J'ai mal aux oreilles![end]
-[bold]Nouveau Shinichi Tanaka[normal]: ...
-À partir de notre prochaine sortie, je
+Nouveau -
+[bold]Shinichi Tanaka[normal]: À partir de notre prochaine sortie, je
 serai dans l'équipe de programmation.[new]
 Content de vous rencontrer! ...Je veux
 avoir bientôt mon bureau personnel...[end]
-[bold]Nouveau Shinichi Tanaka[normal]: Ikuya
-Dobashi -[new]
-[bold]Un autre Nouveau[normal]: Laissez-moi sortir
-de là!
+Nouveau -
+[bold]Ikuya Dobashi[normal]: Pitié, laissez-moi
+partir!
 Je n'ai rien volé!![end]
+Nouveau -
 [bold]Kyoji Koizumi[normal]: Heh...
 Si tu sais dès le début que tu n'as pas de
 vacances, faire des jeux, ce n'est pas si
@@ -2219,18 +2217,18 @@ Sakaguchi?[end]</sn:pointer>
 [bold]Minoru Akao[normal]: Pfff...
 Alors, qu'est-ce que je devrais faire,
 maintenant?[end]
-[bold]Minoru Akao[normal]: Effets Sonores -[new]
+Effets Sonores -
 [bold]Akira Ueda[normal]: M. Aki Yama, Takemotchi
 Shin-kun, Kas-kun, et tous les autres,
 vous regardez?
 J'ai fait plein de sons.[new]
 Écoutez-les![end]
-[bold]Akira Ueda[normal]: Compositeur-[new]
+Compositeur -
 [bold]Nobuo Uematsu[normal]: Hm!
 À te voir comme ça... tu as l'air d'avoir
 un penchant caché pour la musique.
 Je peux te jouer de la clarinette?[end]
-[bold]Nobuo Uematsu[normal]: Effets Sonores -[new]
+Effets Sonores -
 [bold]Kenji Ito[normal]: Une fois que tu auras terminé
 Final Fantasy IV, essaie Seiken Densetsu![end]</sn:pointer>
     <sn:pointer id="299">Jusqu'ici, les jeux ne sont pas autorisés![end]
@@ -2247,7 +2245,7 @@ d'événements!!
 Arrêtez de trouver encore des bugs![new]
 Vache, je risque de devoir lâcher
 l'université![end]
-[bold]Ken Narita[normal]: Zzz..Zzz..[end]</sn:pointer>
+Zzz..Zzz..[end]</sn:pointer>
     <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
 c'est possible![end]
 [bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>
@@ -2292,9 +2290,9 @@ preniez pas avec vous!
 Vraiment...
 Écoutez, vous![new]
 Vous revenez vivant![end]
-«Parce que si tu n'est pas dans le coin, le
-patron fait la tronche!»[end]
-M. Cecil, revenez bientôt![end]
+M. Cecil, revenez sain et sauf![end]
+Sans vous, M. Cecil, le patron est de
+mauvaise humeur![end]
 Prince Edward pense tout le temps à
 vous![end]
 Même dans mes rêves, les choses ne se
@@ -2456,24 +2454,24 @@ Si tu lances le sort Lévite, tu échapperas
     <sn:pointer id="327">T[end]</sn:pointer>
     <sn:pointer id="328">T[end]</sn:pointer>
     <sn:pointer id="329">[bold]Yang[normal]: ...Combattez pour moi![end]
-[bold]Yang[normal]: AAH!
+[bold]Sylphe[normal]: AAH!
 Des humains!![end]
-[bold]Yang[normal]: Laissez-nous nous occuper de
+[bold]Sylphe[normal]: Laissez-nous nous occuper de
 Yang![end]
-[bold]Yang[normal]: Qu'est-ce que vous fichez ici!
+[bold]Sylphe[normal]: Qu'est-ce que vous fichez ici!
 Dehors!
 Tout de suite![end]
-[bold]Yang[normal]: N'emportez pas Yang![end]
-[bold]Yang[normal]: Nous ne vous laisserons pas
+[bold]Sylphe[normal]: N'emportez pas Yang![end]
+[bold]Sylphe[normal]: Nous ne vous laisserons pas
 Yang![end]
-[bold]Yang[normal]: Vous, les humains, vous êtes si
+[bold]Sylphe[normal]: Vous, les humains, vous êtes si
 violents![end]
-[bold]Yang[normal]: Nous l'avons trouvé évanoui
+[bold]Sylphe[normal]: Nous l'avons trouvé évanoui
 au-dehors de notre trou.
 Mais il ne s'est pas réveillé...
 Depuis lors, nous restons à ses côtés...[new]
 Notre amour n'y suffit-il pas...?[end]
-[bold]Yang[normal]: Que feriez-vous si Yang
+[bold]Sylphe[normal]: Que feriez-vous si Yang
 mourait!?[end]
 [bold]Yang[normal]: Uuuh...
 Uhh...est-ce déjà l'heure de
