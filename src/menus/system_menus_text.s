@@ -158,3 +158,26 @@ load_dextrelity_pointer:
     sep #0x20
     rtl
 }
+
+
+; JML thunks: the bank-01 text entry points jump to the relocated routines above.
+{
+    .alloc at 0x018301 {
+    jmp.l display_text_in_menus
+    }
+
+
+    .alloc at 0x0182CD {
+    jmp.l load_text_with_destination_in_x
+    }
+
+
+    .alloc at 0x0180D9 {
+    jmp.l display_window_with_text
+    }
+
+
+    .alloc at 0x018798 {
+    jmp.l display_time
+    }
+}
