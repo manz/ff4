@@ -24,7 +24,7 @@
     <sn:fixed>[0x2b]Bâton runique</sn:fixed>
     <sn:fixed>[0x2c]Epée ténébreuse</sn:fixed>
     <sn:fixed>[0x2c]Lame de l'ombre</sn:fixed>
-    <sn:fixed>[0x2c]Death Bringer</sn:fixed>
+    <sn:fixed>[0x2c]Mortifère</sn:fixed>
     <sn:fixed>[0x2e]Epée légendaire</sn:fixed>
     <sn:fixed>[0x2e]Epée de lumière</sn:fixed>
     <sn:fixed>[0x2e]Excalibur</sn:fixed>
@@ -250,7 +250,7 @@
     <sn:fixed>[0xff]Adamantite</sn:fixed>
     <sn:fixed>[0xff]Poêle d'amour</sn:fixed>
     <sn:fixed>[0xff]Queue rose</sn:fixed>
-    <sn:fixed>[0xff]Clé de Lugae</sn:fixed>
+    <sn:fixed>[0xff]Clé de Lugeie</sn:fixed>
     <sn:fixed>[0xff]Matière sombre</sn:fixed>
     <sn:fixed>[0xff]Scénario 0015</sn:fixed>
     <sn:fixed>[0xff]Scénario 0016</sn:fixed>

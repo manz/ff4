@@ -27,6 +27,8 @@ from _ff4kintsuki import load_emu_from_kss, kss_path
 RBS_SLOT_INDEX = 3
 RBS_VISIBLE_ROWS = 15
 RBS_DIRTY_MASK = 25
+RBS_HOOKS = (26, 29, 32)  # fn_render_slot, fn_update_hdma, fn_draw_window: long pointers
+RTL_STUB = 0x7E0540  # a lone RTL in the same filler area, past the state
 
 # WRAM scratch region for engine state during unit tests. Sits in the
 # vanilla "$AAAA filler" area at $7E:0500 -- never touched by the rest
@@ -175,7 +177,6 @@ INIT_ZERO_BYTES = [
     8,   # scroll_state
     9,   # scroll_remaining
     10,  # scroll_direction
-    11,  # transfer_pending
     12,  # scroll_anim_offset lo
     13,  # scroll_anim_offset hi
     14,  # hdma_copy_pending
@@ -186,20 +187,37 @@ INIT_ZERO_BYTES = [
 def _fill_state_with_pattern(emu, byte: int = 0xAA, length: int = 32) -> None:
     """Pre-fill 32 bytes at SCRATCH_STATE with a known sentinel so init's
     zero-out and base_scroll = $FFFF stamping is visible against the
-    pattern."""
+    pattern. The hooks point at an RTL: init calls them (the render one
+    once per visible row), and left at $AAAAAA they ran ROM data at
+    $2A:AAAA, bank1-2's dialogue, so the result hung on the script's bytes."""
     for i in range(length):
         emu.write(SCRATCH_STATE + i, byte)
+    emu.write(RTL_STUB, 0x6B)
+    for hook in RBS_HOOKS:
+        emu.write_range(SCRATCH_STATE + hook, RTL_STUB.to_bytes(3, "little"))
 
 
 def test_init_zeroes_engine_scratch(emu) -> None:
     """rolling_engine_init clears the 14 engine-scratch + dirty_mask bytes."""
     _fill_state_with_pattern(emu)
+    # init's render loop leaves edge_row and slot_index at the last row
+    # it drew: with one visible row, that's row 0
+    emu.write(SCRATCH_STATE + RBS_VISIBLE_ROWS, 1)
     fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
     emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
     for off in INIT_ZERO_BYTES:
         val = emu.read(SCRATCH_STATE + off)
         assert val == 0x00, (
             f"offset {off} expected zero after init, got ${val:02X}")
+
+
+def test_init_stamps_transfer_pending(emu) -> None:
+    """init renders the rows into the staging buffer and stamps
+    transfer_pending, so the next vblank pushes them to VRAM."""
+    _fill_state_with_pattern(emu)
+    fn = emu.lookup_symbol_addr("rolling_engine.rolling_engine_init")
+    emu.call(fn, x=SCRATCH_STATE & 0xFFFF)
+    assert emu.read(SCRATCH_STATE + 11) == 0x01
 
 
 def test_init_stamps_base_scroll_sentinel(emu) -> None:

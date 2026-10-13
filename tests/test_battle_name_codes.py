@@ -2,17 +2,16 @@
 so a renamed Caïn reads renamed in "Pourquoi, Caïn !?"."""
 from __future__ import annotations
 
-import re
 from collections import Counter
 from pathlib import Path
 
 import pytest
-
+from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss
 from script import Table
 from test_battle_message_text_pointer import _use_monsters
 
-from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss
 from build import SMALL_VWF_TABLE, battle_text_table
+from utils.script_xml import pointer_texts
 
 
 def test_a_name_is_its_name_code() -> None:
@@ -87,8 +86,7 @@ def _name_codes(data: bytes) -> Counter:
 
 
 def _pointers(path: str) -> dict[str, str]:
-    text = Path(path).read_text(encoding="utf-8")
-    return dict(re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.S))
+    return pointer_texts(Path(path))
 
 
 @pytest.mark.parametrize("name", ["battle_messages.xml", "battle_text.xml"])
