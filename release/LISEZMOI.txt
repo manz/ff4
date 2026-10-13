@@ -1,0 +1,135 @@
+@DATE@
+
+FINAL FANTASY IV @VERSION@
+
+----------------------------------------------------------------
+***********************Table des matières***********************
+----------------------------------------------------------------
+
+1.	L'HISTOIRE DE FINAL FANTASY IV
+2.	L'HISTORIQUE DE LA TRADUCTION
+3.	CONTENU DE L'ARCHIVE ET UTILISATION
+4.	TOUT CE QUI A ÉTÉ FAIT
+5.	L'ÉQUIPE DE LA TRADUCTION
+6.	CONTACTS
+7.	REMARQUES LÉGALES
+
+----------------------------------------------------------------
+1.  L'HISTOIRE DE FINAL FANTASY IV
+----------------------------------------------------------------
+
+Le royaume de Baron domine le monde grâce à sa flotte
+d'aéronefs, les Ailes Rouges. Leur capitaine, le chevalier noir
+Cecil, revient de Mysidia avec le cristal de l'eau, arraché par
+la force à des mages sans défense sur l'ordre de son roi.
+Rongé par le doute, il ose questionner ces ordres. Le roi lui
+retire alors son commandement et l'envoie, avec son ami Caïn,
+porter un mystérieux anneau au village de Mist...
+
+----------------------------------------------------------------
+2.  L'HISTORIQUE DE LA TRADUCTION
+----------------------------------------------------------------
+
+Le projet commence fin 2000 chez Terminus Traduction : ManZ à
+la programmation, Ryusan à la traduction. Aucun patch ne sort
+à l'époque. Les sources et la police à chasse variable des
+dialogues arrivent sur GitHub en 2011 (github.com/manz/ff4fr),
+puis le dépôt actuel démarre en 2014. Le projet reprend en
+2024 et s'étend aux menus, aux combats et à tous les écrans du
+jeu, puis à une relecture complète du script sur le japonais.
+Le script français vient de la traduction de Hrothgar SCRB
+(Final Translation) ; la traduction anglaise amateur de J2e a
+servi de référence.
+Cette version est une bêta : le jeu se termine, mais il reste
+sans doute des coquilles et des bugs. Signalez-les (voir 6).
+
+----------------------------------------------------------------
+3.  CONTENU DE L'ARCHIVE ET UTILISATION
+----------------------------------------------------------------
+
+Normalement, l'archive ZIP doit contenir :
+
+ff4.ips		- Le patch IPS de FF4 version française @VERSION@
+		  à appliquer sur la rom japonaise originale.
+
+LISEZMOI.txt	- Le fichier que vous êtes en train de lire
+
+Utilisez le patch sur la rom japonaise Final Fantasy IV
+(sans en-tête, 1 Mo) UNIQUEMENT :
+  CRC32  CAA15E97
+
+La version du patch s'affiche en bas à gauche du menu
+Nouvelle partie.
+
+----------------------------------------------------------------
+4.  TOUT CE QUI A ÉTÉ FAIT
+----------------------------------------------------------------
+
+@VERSION@ :
+
+- Traduction intégrale : dialogues, menus, objets, magies,
+  monstres, lieux, combats, écrans de fin.
+- Script relu entièrement sur le japonais (les ajouts de
+  l'ancienne traduction anglaise amateur sont retirés).
+- Police à chasse variable dans les dialogues, les menus et
+  les combats.
+- Noms complets des objets, magies et monstres partout.
+- Listes d'objets déroulantes : inventaire, équipement,
+  magasins, coffres, combat.
+- Accents, tutoiement et vouvoiement, noms suivant un
+  glossaire unique.
+- Correction de bugs d'affichage et de plantages.
+
+La liste complète des changements accompagne la publication
+sur GitHub.
+
+----------------------------------------------------------------
+5.  L'ÉQUIPE DE LA TRADUCTION
+----------------------------------------------------------------
+
+   Hrothgar SCRB : Traduction française (Final Translation).
+   ManZ          : Hacking, outils, relecture sur le japonais.
+   Ryusan        : Traduction de la première version (2000).
+   Nemesis       : Soutien psychologique.
+
+Remerciements à FlashPV, GreatSkaori, Meradrin, Metallines,
+Pixel, S.O.R, SkeuD, TiDragon et Yaz0r, à Frank Hughes (F.H)
+et Dark Force (DeJap) pour les macros IPS de la première
+version, ainsi qu'à J2e pour la traduction anglaise d'origine.
+
+----------------------------------------------------------------
+6.  CONTACTS
+----------------------------------------------------------------
+
+Une remarque, une question ou une correction à apporter à la
+traduction de Final Fantasy IV @VERSION@ (indiquez la version,
+l'endroit du jeu et, si possible, une capture ou une
+sauvegarde) :
+
+Bugs et coquilles - https://github.com/manz/ff4/issues
+
+Le projet - https://github.com/manz/ff4
+
+----------------------------------------------------------------
+7.  REMARQUES LÉGALES
+----------------------------------------------------------------
+
+Le patch de traduction française de Final Fantasy IV n'est pas
+officiel et n'est pas supporté par les concepteurs du jeu.
+
+Ce patch est gratuit et peut être distribué gratuitement tant
+qu'il n'est pas modifié, appliqué ou distribué avec une rom,
+et que l'archive originale n'est pas modifiée non plus. Ni
+argent, biens ou services ne peuvent être demandés pour ce
+patch, dans sa forme originale ou appliquée.
+
+Tous ceux qui utilisent ce patch le font à leurs propres
+risques. Aucune personne citée dans cette documentation ne
+pourra être tenue responsable de n'importe quels dommages
+provenant de son usage.
+
+----------------------------------------------------------------
+
+Merci d'avoir lu jusqu'au bout et à bientôt !
+
+ManZ
