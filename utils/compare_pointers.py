@@ -81,9 +81,11 @@ def sugoi(japanese: str, cache: Path) -> str:
 
 
 def compare(name: str, pointer: str, texts: dict[str, dict[str, str]], lost: list[str], reading: str | None) -> str:
+    """The pointer in each language of `texts` (Japanese, English draft, French; one left out is skipped)."""
     out = [f"POINTER {name} #{pointer}"]
     for lang, label in (("jp", "JAPANESE"), ("en", "ENGLISH (draft)"), ("fr", "FRENCH")):
-        out += ["", f"{label}:", texts[lang].get(pointer, "(none)").strip() or "(empty)"]
+        if lang in texts:
+            out += ["", f"{label}:", texts[lang].get(pointer, "(none)").strip() or "(empty)"]
     if reading is not None:
         out += ["", "SUGOI (second opinion):", reading]
     if lost:
@@ -96,10 +98,12 @@ def main() -> None:
     parser.add_argument("file", help="a script file, e.g. bank1-1.xml or battle_messages.xml")
     parser.add_argument("ids", nargs="+", help="pointer ids or ranges (100-110)")
     parser.add_argument("--text", type=Path, default=Path("text"))
+    parser.add_argument("--no-english", action="store_true", help="leave the English draft out: Japanese and French only")
     parser.add_argument("--sugoi", action="store_true", help="add Sugoi-14B-Ultra's English (Ollama)")
     parser.add_argument("--cache", type=Path, default=Path("local/sugoi"))
     args = parser.parse_args()
-    texts = {lang: pointer_texts(args.text / lang / args.file) for lang in LANGUAGES}
+    languages = [lang for lang in LANGUAGES if not (args.no_english and lang == "en")]
+    texts = {lang: pointer_texts(args.text / lang / args.file) for lang in languages}
     jp_table = Table(str(args.text / "ff4_jap.tbl"))
     fr_table = Table(str(args.text / "ff4fr.tbl"))
     blocks = []
