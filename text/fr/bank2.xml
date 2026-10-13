@@ -49,8 +49,7 @@ Le roi a été vraiment dur, dernièrement,...
 Et je n'ai pas le droit de danser.
 Déçu?[end]
 C'était vous, ce chevalier noir!
-Vous êtes bien mieux sans cette armure
-lugubre et toute pleine de sueur!
+Je ne savais pas que vous étiez si charmant!
 Allez, dansons![end]</sn:pointer>
     <sn:pointer id="1">Non seulement ce feu mystérieux a tué
 de puissants invocateurs... mais aussi des
@@ -73,12 +72,8 @@ récemment...
 Elle a été emmenée chez un voisin pour
 être soignée.[end]
 Anna est tombée amoureuse.
-Qui est Anna?
-C'est une fille qui vivait ici, elle est
-tombée amoureuse d'un barde errant.[new]
-Son père, maître Tellah, n'acceptait
-pas qu'ils se fréquentent, alors ils se sont
-enfuis de Kaïpo.[end]
+Mais maître Tellah s'y est opposé, alors
+elle s'est enfuie de Kaïpo...[end]
 Je veux être danseuse à Damcyan, mais il
 y a beaucoup de monstres qui rôdent
 dans le canal souterrain.
@@ -105,21 +100,18 @@ Sais-tu combien nous avons souffert à
 cause de toi?[end]
 Oh, bonjour Palom et Porom.
 La Montagne de l'Épreuve se situe à l'est.[end]
-J'ai senti que tu peinais sous le poids de
-tes péchés...
-Je prierai pour toi aussi.[end]
-Je n'ai rien à te dire!
-Fiche-moi la paix![end]
+Vous aussi, vous avez souffert...
+Je prierai pour vous, moi aussi.[end]
+Je n'ai rien à te dire![end]
 Les morts-vivants grouillent sur la
 Montagne de l'Épreuve!
 Ta lame noire ne sert à rien![end]
 Toi... un paladin!?[end]
 Pourquoi les hommes font-ils du mal à
 d'autres hommes?[end]
-Endure le jugement et accepte la lumière
-sacrée![end]
-N'oublie pas l'esprit du paladin.[end]
-Sale fumier!
+Endurez l'épreuve et renoncez à cette
+apparence![end]
+N'oubliez pas l'esprit du paladin.[end]
 T'en as du cran de venir ici![end]
 Nombreux sont ceux qui se sont mesurés
 à la Montagne de l'Épreuve, mais aucun
@@ -149,9 +141,8 @@ Faites gaffe de ne marcher sur personne![end]
 Il doit vous falloir énormément de
 nourriture pour remplir vos énormes
 estomacs!
-Ça vous dit, un steak de fourmi?[new]
-Non?
-Une tourte à la sauterelle, alors?[end]
+Vous mangez des steaks de fourmi, pas
+vrai?[end]
 Nous extrayons le minerai de mithril, les
 grenouilles le raffinent, et les nabots le
 forgent.[new]
@@ -176,9 +167,7 @@ Vous voulez nager avec moi?[end]
 Bienvenue à Troia, la cité de l'eau et des
 forêts![end]
 Pourquoi nagez-vous en armure?
-Elle va rouiller!
-Enlevez-la, idiots![end]
-Hé, celle-là est drôlement bien roulée...
+Elle va rouiller![end]
 Hé!!
 Qu..qu'est-ce que...
 Tu m'as fait peur![new]
@@ -232,11 +221,9 @@ Et puis aussi il y a des soldats qui font
 peur, au comptoir...[end]
 On recherche danseuses!
 Beauté et talents de danse exigés! -
-L'aubergiste de Baron - Un employeur
-pour l'égalité des chances[end]
+Le patron du bar de l'auberge de Baron[end]
 Ah, le chevalier noir du château!
-Buvez donc un coup.
-Hein?...
+Payer?
 Oh, non, monsieur.[new]
 Votre argent n'est pas bon, ici.[end]
 On dit que Cid a été enfermé dans
@@ -244,7 +231,6 @@ le château!
 Et il a aussi caché le nouveau modèle
 d'aéronef![end]
 M. Cecil, voulez-vous un verre?
-Comme vous êtes splendide, maintenant!
 Asseyez-vous, c'est pour la maison![end]
 C'est... c'est Cecil des Ailes Rouges!
 Je n'ai rien fait de mal!
@@ -282,18 +268,12 @@ Un Guide sur les Oiseaux du Monde[end]
 Seigneur Cecil!?
 Vous êtes en vie!
 Papa n'est pas revenu du château depuis
-longtemps.[new]
-Il paraît qu'il aurait été emprisonné!
-Oh, mon Dieu, je suis si inquiète...
-S'il vous plaît, trouvez-le[end]
+longtemps.[end]
 Papa!
-Tu vas bien!
-Comment ça?
-Tu pars avec Cecil?[new]
-Papa, tu n'as plus tout d'un jeune coq![end]
-[bold]Cid[normal]: Cecil, veillez sur lui.
-Et évitez qu'il s'attire des ennuis!
-Est-ce qu'il retravaille sur l'aéronef?[end]
+Tu n'as plus l'âge de faire des folies!
+Prenez soin de mon père, je vous prie.[end]
+Je vous confie mon père.
+Il bricole encore son aéronef, c'est ça?[end]
 [bold]Cid[normal]: Zzz...Zzz....[end]</sn:pointer>
     <sn:pointer id="14">[bold]Mère de Rosa[normal]: Qu'est-ce que le roi
 mijote, ces temps-ci...
@@ -307,9 +287,8 @@ Où est-elle, maintenant?[end]
 [bold]Mère de Rosa[normal]: Rosa!
 Tu es sauve![new]
 [bold]Rosa[normal]: Je suis désolée...[new]
-[bold]Mère de Rosa[normal]: Il y a de quoi,
-inquiéter ta vieille mère comme ça.
-Maintenant, tu restes ici![new]
+[bold]Mère de Rosa[normal]: Maintenant, tu ne
+pars plus nulle part![new]
 Je n'aurais jamais dû te laisser devenir
 mage blanc.[new]
 [bold]Rosa[normal]: Non, Maman!
@@ -330,8 +309,7 @@ T[end]
 T[end]
 Le sage Tellah et sa fille Anna
 vivaient heureux ensemble, et puis
-Anna s'est sauvée de chez elle...
-Je me demande bien pourquoi...[end]</sn:pointer>
+Anna s'est sauvée de chez elle...[end]</sn:pointer>
     <sn:pointer id="17">Salut, je suis un savant itinérant.[new]
 Je veux faire des recherches à Fabul, une
 ville à l'est de Damcyan, mais au canal
@@ -342,15 +320,13 @@ Un client...[new]
 À cause de tous les monstres, nous
 voyons de moins en moins de clients, de
 nos jours.[end]
-Apaise ta cuisante soif du désert avec
-une micro infusion spéciale de Kaïpo!
-Carte d'identité valide obligatoire.[end]
+Apaisez votre soif du désert avec
+la bière spéciale de Kaïpo![end]
 Seule la famille royale peut pénétrer dans
 la grotte du Fourmilion qui est à l'est de
 Damcyan.[new]
 Si les gens ordinaires y étaient autorisés,
-ça remonterait vraiment les affaires.
-Tu te rends compte...tous ces joyaux..![end]</sn:pointer>
+ça remonterait vraiment les affaires.[end]</sn:pointer>
     <sn:pointer id="18">Une fille de Baron s'est effondrée juste à
 l'entrée du village.
 Sa fièvre la faisait délirer et appelait sans
@@ -396,17 +372,14 @@ Hi hi hi!
 Ha ha ha ha ha![end]
 Ouaah!
 Un vrai paladin?[end]
-Oh, voyez donc qui est entré dans mon
-bar...
-Le chevalier noir de Baron.[new]
-Hé, prends-en une aux frais de la
-maison.[end]
+Vous devez être fatigué par ce long
+voyage.
+Buvez donc ceci![end]
 Toi, un paladin?
 Hm!
 Ha, la vache, je peux aussi en être un![end]
-Tu es vraiment devenu un paladin!
-Prends-en une à mes frais, sans poison,
-ce coup-ci.[end]
+Ça alors!
+Tu es vraiment devenu un paladin![end]
 P-p-p-pitié, épargnez-moi![end]
 P-p-p-pitié, épar...
 Hein?
@@ -500,36 +473,32 @@ Il y a un cristal de vol.[new]
 Si tu lui parles, tu devrais pouvoir aller
 sur la Lune![new]
 [bold]Cecil[normal]: Je vais tenter le coup![end]</sn:pointer>
-    <sn:pointer id="24">L'ambiance est super, ici!
-En plus de ça, plein de gars passent ici,
-c'est pourquoi nos soirées sont chaudes...
-si tu vois ce que je veux dire.[end]
-Bien!
-Aujourd'hui, J'ai eu un rencard au
-comptoir![new]
-Demain, c'est au-dessus que ça se passe![end]
-Salut, chéri! -clin d'œil[end]
+    <sn:pointer id="24">L'air est bon, la nourriture aussi, et
+surtout il y a plein de femmes, alors on
+est tranquilles![end]
+Ouais!
+Aujourd'hui, j'ai eu une place au
+comptoir![end]
+Oh, mon petit!
+T'es plutôt mignon, toi![end]
 Je suis content d'avoir vécu si longtemps!
 Je préfère cet endroit au Paradis![end]
-Tu as l'air de vouloir passer un bon
-moment avec une femme plus âgée, et plus
-mature...
+C'est moi qui vais vous tenir compagnie.
 Non mais c'est quoi ce regard!?[end]
 Oh, ma poupée!
 Je crois que je craque pour toi!
 Aaah!
 T'es un mec!![end]
 T[end]
-Quelle que soit la façon dont tu les
-regardes, et je le fais souvent, les filles ici
-sont terribles![end]
-Bonjour!
-Quel est ton désir?[end]
+Les filles d'ici sont toujours aussi
+terribles![end]
+Bonjour, monsieur!
+Revenez souvent![end]
 Menteur!
 Sors de là![end]</sn:pointer>
-    <sn:pointer id="25">La prochaine fois, donnez-moi un mec
-sans poils sur la poitrine.[end]
-As-tu assez d'argent?
+    <sn:pointer id="25">La prochaine fois, je veux un manteau de
+fourrure.[end]
+Vous avez assez d'argent?
 À partir d'ici, ça devient plutôt cher.[end]
 Ce vieux ne raconte que des vieilles
 histoires de guerres...
@@ -539,23 +508,19 @@ J'ai tué le gobelin d'un puissant coup de
 mon bâton, et...[end]
 Hé, c'est réservé aux membres.
 Sortez d'ici tout de suite![end]
-Putain, ce vieux dégoûtant!
-Il a ma Jennifer![end]
+Bon sang, ce vieux schnock!
+Il me pique ma Jennifer![end]
 T[end]
-Bon, Bon!
-Je vais te dire qui est ton père![end]
+Bon, bon!
+Je t'offre tout ce que tu veux![end]
 Je dois servir les repas![end]</sn:pointer>
     <sn:pointer id="26">Iiiiii!
-Non mais dis donc, tu ne nous as pas
-assez vues pendant le spectacle?
-Hors de la loge![end]
+N'entrez pas dans la loge![end]
 T[end]
 Bienvenue.
-Ça va bientôt être l'heure du spectacle.
-Si tu apprécies, pense à être généreux
-avec le pourboire.[end]
-Ha dis donc, qu'est-ce que j'aimerais être
-aussi jeune que toi...[end]</sn:pointer>
+Ça va bientôt être l'heure du spectacle.[end]
+En plein jour, en plus!
+Toi aussi, t'aimes ça, hein![end]</sn:pointer>
     <sn:pointer id="27">T[end]</sn:pointer>
     <sn:pointer id="28">Grâce à l'eau pure et au sol fertile, nous
 pouvons avoir de nombreux légumes frais.
@@ -598,11 +563,9 @@ ils ont toujours peur quand je m'approche.
 Est-ce que je ne les aime pas assez?[end]</sn:pointer>
     <sn:pointer id="30">C'est l'observatoire de Colliro.
 Le seul télescope au monde se trouve ici.
-Il y a peu, phénomènes étranges ont eu
-lieu sur la lune.[new]
-Nous avons fait tout notre possible pour
-les observer.
-Qu'est-ce qui se passe, là- bas..?[end]
+Depuis peu, la lune a un comportement
+étrange, et nous sommes très occupés à
+l'observer.[end]
 Mon mari est tellement absorbé par ses
 observations qu'il en oublie de boire et
 manger![end]
@@ -709,23 +672,16 @@ Patron!
 Et M. Cecil![end]
 On dirait que le patron fait comme à son
 habitude, non?[end]
-Quoi, on doit ENCORE passer une nuit
-blanche sur ce projet?
-Si ce n'était pas un soudard pareil, on y
-prendrait du plaisir.[new]
-Ah!
-N...ne le dis pas au patron!
-D...dis-lui que... heu... le travail, c'est
-amusant![end]
+Ah là là, encore une nuit blanche...
+N...ne le dites pas au patron!
+L...le travail, c'est amusant![end]
 Aah!
-Un f-f-f-f-fantôme!
-Eh, c'est vraiment toi?
-Merci mon Dieu![new]
-Je croyais que tu me prenais en chasse
-ou quelque chose comme ça![end]
-Ouaip...Je suis devenu aussi bon que le
-patron à ça...
-N...Ne va pas lui répéter ça![end]</sn:pointer>
+Le f-f-f-fantôme du patron!
+Hein, c'est vraiment vous?
+Au travail, au travail![end]
+Je suis devenu presque aussi bon que le
+patron, non?
+N...ne le lui répétez pas![end]</sn:pointer>
     <sn:pointer id="37">Est-ce...est-ce que le Prince Edward va
 bien...[end]</sn:pointer>
     <sn:pointer id="38">M. Yang!
@@ -738,15 +694,13 @@ reposer...[end]
 Nous protègerons le château d'une
 manière ou d'une autre.[end]
 Ah, M. Cecil![end]</sn:pointer>
-    <sn:pointer id="39">J'adore être une grenouille.
-Plein de baisers de jeunes filles blondes...[end]
+    <sn:pointer id="39">C'est bien, les grenouilles...[end]
 Bienvenue au château de Troia![end]
-Oui, je m'appelle Kermit, comment tu sais?[end]
+Croa, croa![end]
 Oh, des voyageurs!
 Faites ici comme chez vous.[end]
 Croa-a!
-Croa-a!
-J'adore être vert![end]
+Croa-a![end]
 Vous êtes là pour le cristal?
 Alors vous devriez parler aux clercs dans
 le château.[end]
@@ -783,12 +737,8 @@ démon..?[end]
 [bold]Porom[normal]: Ça sent le monstre![end]
 [bold]Beigan[normal]: Quoi!?
 Où!?[end]
-[bold]Palom[normal]: Rha là là!
-On ne peut pas sortir et faire confiance
-à tout le monde![new]
-[bold]Cecil[normal]: Beigan aussi..?
-Combien de gens de Baron Golbez
-contrôle-t-il..?!![end]</sn:pointer>
+[bold]Palom[normal]: Trop naïf, mon pote![new]
+[bold]Cecil[normal]: Beigan aussi...![end]</sn:pointer>
     <sn:pointer id="43">J'ai perçu une drôle d'atmosphère autour
 du roi, dernièrement...[end]
 M. Cecil!
@@ -867,10 +817,11 @@ C'est un grand sage de Mysidia.[end]
 des moines de Fabul.
 Et je suis Porom, apprentie mage de
 Mysidia.[end]
-[bold]Palom[normal]: Et je suis une... superstar![new]
+[bold]Palom[normal]: Pff, deux vieux croûtons![new]
 [bold]Porom[normal]: Ce grossier personnage, c'est
 mon frère jumeau, Palom.[new]
-[bold]Palom[normal]: Ah, allez vous faire voir![end]
+[bold]Palom[normal]: Hé, fais pas ta
+sainte-nitouche![end]
 [bold]Yang[normal]: Je suis très honoré de faire
 votre connaissance, monsieur.
 C'est dangereux, ici, alors il faudrait se
@@ -888,7 +839,7 @@ Je viens de le terminer![end]
 [bold]Tellah[normal]: Nous n'avons pas le temps
 pour ça!
 La vie de Rosa ne tient qu'à un fil![end]
-[bold]Cid[normal]: Merde alors, quel grincheux tu
+[bold]Cid[normal]: Bon sang, quel grincheux tu
 fais!
 Ça va, j'ai pigé!
 Allez, c'est par là![end]
@@ -925,9 +876,7 @@ Le cristal n'est pas qu'un joyau ordinaire![end]</sn:pointer>
     <sn:pointer id="49">Aïe!
 J'ai un bleu, ici![end]
 C...Capitaine?
-Vous êtes devenu si magnifique!
-Moi?
-Oh, je vais beaucoup mieux![end]
+Vous êtes devenu si magnifique![end]
 Capitaine...[end]
 Vous étiez vivant, en fin de compte![end]
 Je vais me saouler pour essayer d'oublier
@@ -940,10 +889,7 @@ Golbez a pris les Ailes Rouges![end]
 Les Ailes Rouges ont vraiment atteint le
 fond![end]
 Merde, alors!
-Si seulement on avait les aéronefs!
-J'en ai assez de m'asseoir par ici et de
-me saouler![new]
-Je veux me battre![end]</sn:pointer>
+Si seulement on avait les aéronefs![end]</sn:pointer>
     <sn:pointer id="50">T[end]</sn:pointer>
     <sn:pointer id="51">J'ai fait votre lit.
 On m'a dit que vous partez tôt demain
@@ -1023,8 +969,8 @@ minable!
 Dans ce cas, je vais rester ici avec
 Anna pour toujours![new]
 Je me fiche bien de tout le reste![end]
-[bold]Cecil[normal]: Mais bordel, vous n'êtes le
-seul à être triste, ici![new]
+[bold]Cecil[normal]: Vous n'êtes pas le seul à être
+triste, ici![new]
 Est-ce que vous croyez que rester ici à
 pleurer comme un enfant rendrait
 Anna heureuse!?
@@ -1233,8 +1179,6 @@ nous faire pour protéger notre pays?..[end]</sn:pointer>
     <sn:pointer id="86">Les clercs sont huit surs.
 Des générations durant, elles ont été les
 gardiennes du cristal.[end]
-Le cristal de la terre a comblé Troia avec
-les bénédictions de la nature.
 Si nous perdons le cristal, cette région
 deviendra un terrain vague...[end]
 C'est bien mieux que d'être dirigées par
@@ -1572,7 +1516,8 @@ Tiens-toi tranquille![new]
 [bold]Palom[normal]: Hé, c'est pas moi![end]
 «Hiss... Hiss...»[new]
 [bold]Porom[normal]: Ça y est, tu recommences![new]
-[bold]Palom[normal]: C'est pas moi, bordel![end]</sn:pointer>
+[bold]Palom[normal]: Puisque je te dis que c'est
+pas moi![end]</sn:pointer>
     <sn:pointer id="136">T[end]</sn:pointer>
     <sn:pointer id="137">T[end]</sn:pointer>
     <sn:pointer id="138">«Ha ha ha ha... Ainsi vous avez réussi à
@@ -1612,13 +1557,11 @@ mon Enterprise![end]
 Laissez-moi voir ce que je peux faire...
 Esuna![end]
 Sa majesté est en colère après vous.
-Il refusera de vous voir jusqu'à ce que
-vous délivriez la bague à Mist.[end]
-[bold]Tellah[normal]: Ces jeunes fous!
-Ils étaient si jeunes!
-Pourquoi?...
-Ç'aurait dû être moi![new]
-Pas ces enfants![end]</sn:pointer>
+Il refusera de vous voir tant que vous
+n'aurez pas livré l'Anneau Bombe à Mist.[end]
+[bold]Tellah[normal]: Petits fous!
+C'est ce vieux croûton qui aurait dû
+mourir, pas eux![end]</sn:pointer>
     <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
     <sn:pointer id="140">[bold]Cid[normal]: Ourg!
 La gravité est si forte, ici!
@@ -1677,10 +1620,8 @@ Nous pourrions l'échanger contre le
 cristal...
 Qu'en dis-tu?[end]
 [bold]Golbez[normal]: Oh, je vois...
-Et alors nous pouvons le tuer quand il
-nous le ramène...
-Diaboliquement intelligent, Caïn...[new]
-Tu pourrais encore te montrer utile.[end]
+Et nous pourrons nous débarrasser de lui
+à ce moment-là...[new]
 [bold]Caïn[normal]: Très bien, alors je vais lui
 transmettre le message.[end]
 [bold]Rosa[normal]: Caïn![end]
@@ -1711,9 +1652,9 @@ Obtenu l'Armure d'Adamant![music][0x29][delay][0xc][end]</sn:pointer>
 la Lune.[new]
 [bold]Cid[normal]: Un homme de la Lune?![new]
 [bold]FuSoYa[normal]: Peux-tu le faire?[new]
-[bold]Cid[normal]: Pour qui que tu me prends!?
-Je suis Cid!
-Ferme ton clapet et laisse-moi faire![end]
+[bold]Cid[normal]: Pour qui tu me prends!?
+Je suis Cid, le roi des aéronefs!
+Laisse-moi faire![end]
 [bold]FuSoYa[normal]: MAINTENANT![new]
 [bold]Cid[normal]: Accrochez-vous, tout le
 monde![end]</sn:pointer>
