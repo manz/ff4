@@ -1732,14 +1732,14 @@ T[end]
 Il ne reste plus beaucoup de vivres.
 Je me demande combien de temps nous
 pourrons tenir...[end]
-Jeune maître, montre-nous ton Ninjutsu
-ultime![end]
+Jeune maître, montrez-leur tout l'éclat
+de votre ninjutsu![end]
 Nous tiendrons ici jusqu'à ce que le jeune
 maître rentre![end]</sn:pointer>
     <sn:pointer id="201">Notre jeune maître est parti seul en
 avant![end]
-Quand le jeune maître se met en colère, il
-devient très puissant...[end]</sn:pointer>
+Quand le jeune maître s'emporte, il ne
+réfléchit plus...[end]</sn:pointer>
     <sn:pointer id="202">Arrêtez notre jeune maître...[end]
 Notre jeune maître est parti à la
 poursuite de Rubicante![end]
@@ -1762,8 +1762,8 @@ Mais nous avons été si facilement
 vaincus...[end]
 Est-ce la fin des Ninjas d'Eblana..?[end]
 Je suis le premier ministre d'Eblana.
-Notre maître est mal embouché et
-emporté, mais honorable...[new]
+Notre jeune maître est mal embouché,
+mais il a bon cœur...[new]
 Il creuse un passage vers la Tour de
 Babil pour venger le roi et la Reine.
 Mais je m'inquiète pour lui.
@@ -1775,9 +1775,10 @@ Le jeune maître a dit qu'il allait tuer les
 méchants!
 On va bientôt pouvoir rentrer au
 château, hein?[end]
-Je vais m'occuper de tout, ici!
-Sois prudent!
-Si tu meurs aussi, Eblana va...[end]</sn:pointer>
+Je m'occupe de tout, ici!
+Soyez bien prudents!
+Si le jeune maître disparaissait lui
+aussi, Eblana...[end]</sn:pointer>
     <sn:pointer id="207">T[end]</sn:pointer>
     <sn:pointer id="208">[bold]Cid[normal]: Les voilà déjà!
 On va leur montrer la puissance de
@@ -1786,8 +1787,7 @@ l'Enterprise![end]
 [bold]Yang[normal]: C'est...[new]
 [bold]Tellah[normal]: Un drapeau blanc?[end]
 [bold]Yang[normal]: M. Cecil.[new]
-[bold]Cid[normal]: Qu'est-ce que t'as,
-Caïn!?[end]
+[bold]Cid[normal]: Ce Caïn...![end]
 [bold]Cecil[normal]: Allons à Troia...
 Cid, cap au nord-ouest![end]</sn:pointer>
     <sn:pointer id="209">T[end]</sn:pointer>
@@ -1870,9 +1870,9 @@ Vous êtes venus de la surface?
 Alors il y a vraiment un monde de
 surface après tout![end]
 Tu savais ça?
-La grotte au nord-ouest mène au Monde
-des Chimères.
-C'est-y pas bizarre?[end]
+La grotte de l'île au nord-ouest mène
+au Monde des Chimères, à c'qui paraît.
+Ça fait peur![end]
 J'entends dire que l'océan à la surface
 est bleu...
 Il l'est?
@@ -1881,15 +1881,15 @@ C'est dégoûtant![end]</sn:pointer>
 monde, maître Kukuro, Lali.[end]
 Le maître n'a plus le cur à l'ouvrage, et
 passe son temps à dormir, Lali.[end]
-Le maître a été vraiment occupé, Lali![end]
+Le maître a retrouvé toute son énergie,
+Lali![end]
 Je vais devenir un forgeron aussi
 talentueux que le maître!![end]
 Tu croyais que ç'allait être fini aussi vite!?
 Ne sois pas si impatient![end]
 C'est fait!
 L'épée sacrée Excalibur!
-Utilise-la avec tout ton esprit, corps, et
-âme![new]
+Manie-la avec respect![new]
 Tu as obtenu Excalibur![music][0x29][delay][0xc][end]
 Grâce à toi, j'ai enfin retrouvé le cur à
 l'ouvrage.[end]
@@ -1961,7 +1961,8 @@ Tout ce que nous pouvons faire, à
 présent, c'est de protéger le dernier
 cristal.[new]
 [bold]Rosa[normal]: Où est le dernier cristal?[new]
-[bold]Giotto[normal]: Il est dans une grotte scellée.
+[bold]Giotto[normal]: Dans la Grotte Scellée, au
+sud-ouest.
 Golbez y est allé, mais ne vous
 inquiétez pas.[new]
 Sans la clef pour briser le sceau,
@@ -1975,13 +1976,13 @@ aider...[new]
 [bold]Giotto[normal]: Pendant que Golbez est
 occupé à la grotte scellée...[new]
 Pourriez-vous vous introduire dans la
-Tour de Babil et rapporter les sept
-autres cristaux?[new]
+Tour de Babil et reprendre les sept
+cristaux?[new]
 [bold]Caïn[normal]: La Tour de Babil![new]
-[bold]Yang[normal]: Cette immense tour!?[new]
+[bold]Yang[normal]: Vous nous demandez de nous
+infiltrer dans la base ennemie!?[new]
 [bold]Giotto[normal]: Ne vous inquiétez pas!
-Je fais ordonner à la force des chars
-d'attaquer la tour![new]
+Nos chars vont attirer l'ennemi![new]
 Pendant notre diversion, entrez et prenez
 les cristaux!
 C'est notre seule chance, maintenant que
@@ -2041,8 +2042,8 @@ Vous avez la permission du roi?
 Alors vous pouvez passer![end]</sn:pointer>
     <sn:pointer id="267">Lali-ho![end]
 Soyez prudents![end]
-Il y a une saleté de canon vraiment
-puissant dans la Tour de Babil![end]
+Il y a un canon terriblement gros dans
+la Tour de Babil![end]
 Les monstres du monde d'en bas sont
 forts!
 Ne baissez pas la garde![end]</sn:pointer>
@@ -2087,7 +2088,8 @@ solide pour faire ça![end]
 Ce vieux est brutal, mais c'est un
 chouette gars![end]
 Zzz... rrron ...Zzz[end]
-Ce vieux est surprenant![end]
+Ce vieux est incroyable!
+Il a vraiment fixé une foreuse![end]
 Les gens du monde du dessus sont très
 habiles![end]
 [bold]Cid[normal]: Traitez ce vaisseau comme si
@@ -2164,7 +2166,7 @@ Comment es-tu entré ici!?[end]
 [bold]Cecil[normal]: On dirait une sorte de
 téléporteur, mais on ne peut pas
 l'utiliser...[end]</sn:pointer>
-    <sn:pointer id="297">Producteur -
+    <sn:pointer id="297">Directeur -
 [bold]Hironobu Sakaguchi[normal]: Bienvenue![end]
 Dessin des Cartes -
 [bold]Yasushi Matsumura[normal]: Eru, Naito, Naoshi,
@@ -2188,10 +2190,10 @@ Graphismes -
 [bold]Hiromi Nakada[normal]: ...Donc, il ne reste au
 fond que moi comme femme dans l'équipe
 de Final Fantasy!
-Vous pouvez compter sur moi![end]
+Envoyez-moi des lettres d'encouragement![end]
 Programme des Menus -
 [bold]Keitaro Adachi[normal]: Héhé...
-On ne sue pas, on ne sue pas![end]
+Les doigts dans le nez![end]
 Nouveau -
 [bold]Toshio Endo[normal]: Mon épaule est
 bloquée!
@@ -2215,27 +2217,29 @@ Vous ne trouvez pas, Monsieur
 Sakaguchi?[end]</sn:pointer>
     <sn:pointer id="298">Programme du Son -
 [bold]Minoru Akao[normal]: Pfff...
-Alors, qu'est-ce que je devrais faire,
-maintenant?[end]
+Alors, qu'est-ce que je vais faire?
+Pour s'éclater, rien ne vaut ce
+truc-là, non!?[end]
 Effets Sonores -
-[bold]Akira Ueda[normal]: M. Aki Yama, Takemotchi
-Shin-kun, Kas-kun, et tous les autres,
+[bold]Akira Ueda[normal]: Aki, M. Yama, Takemotchi,
+Shin-kun, Kazu-kun, et tous les autres,
 vous regardez?
-J'ai fait plein de sons.[new]
-Écoutez-les![end]
+J'ai fait quelques sons.[new]
+Revenez me voir![end]
 Compositeur -
 [bold]Nobuo Uematsu[normal]: Hm!
 À te voir comme ça... tu as l'air d'avoir
 un penchant caché pour la musique.
-Je peux te jouer de la clarinette?[end]
+Veux-tu que je t'enseigne ma clarinette
+venue des pays lointains?[end]
 Effets Sonores -
 [bold]Kenji Ito[normal]: Une fois que tu auras terminé
 Final Fantasy IV, essaie Seiken Densetsu![end]</sn:pointer>
-    <sn:pointer id="299">Jusqu'ici, les jeux ne sont pas autorisés![end]
+    <sn:pointer id="299">Interdit de jouer avant la fin du projet![end]
 Rosa et Rydia, hein?
 Pas mal, ces filles!
 Vous trouverez mes pouvoirs utiles![new]
-L'ingénieur du jeu Tokita Takahashi a
+L'artisan du jeu Takashi Tokita a
 rejoint l'équipe![music][0x29][delay][0x28] Par pitié...prenez-moi avec
 vous!
 Je n'en peux plus![music][0x2][end]
@@ -2243,8 +2247,7 @@ Programme principal -
 [bold]Ken Narita[normal]: N'ajoutez plus
 d'événements!!
 Arrêtez de trouver encore des bugs![new]
-Vache, je risque de devoir lâcher
-l'université![end]
+Bon sang, je vais lâcher la fac![end]
 Zzz..Zzz..[end]</sn:pointer>
     <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
 c'est possible![end]
@@ -2270,21 +2273,21 @@ et toute la salle va sauter![new]
     <sn:pointer id="304">T[end]</sn:pointer>
     <sn:pointer id="305">T[end]</sn:pointer>
     <sn:pointer id="306">T[end]</sn:pointer>
-    <sn:pointer id="307">C'est ta destinée...
-Retourne sur la Lune![end]
+    <sn:pointer id="307">C'était peut-être votre destinée...
+Retournez sur la Lune![end]
 On veut aussi y aller...
 Mais apparemment on n'en aura pas
 l'occasion!
 On compte sur toi, mon pote![end]
-Tu es devenu un si formidable paladin!
-On ne s'est vraiment pas trompé en
-t'aidant, alors![end]
+Vous êtes devenu un bien noble paladin!
+Ce que nous avons fait ce jour-là n'était
+pas une erreur![end]
 Le sort de tout ce qui vit sur cette terre
-repose entre tes mains![end]
+repose entre vos mains![end]
 Battez-vous pour moi... et pour Tellah![end]
-Cela doit être ta destinée que de te
-confronter à cela.
-Je prie pour ta survie![end]
+Il semble que c'était votre destinée de
+l'affronter.
+Je prie pour votre bonne fortune![end]
 Comment ça se fait que vous ne me
 preniez pas avec vous!
 Vraiment...
@@ -2295,8 +2298,8 @@ Sans vous, M. Cecil, le patron est de
 mauvaise humeur![end]
 Prince Edward pense tout le temps à
 vous![end]
-Même dans mes rêves, les choses ne se
-terminaient pas ainsi.[end]
+Jamais je n'aurais imaginé que les
+choses en arriveraient là.[end]
 Revenez bientôt visiter le château
 souterrain![end]</sn:pointer>
     <sn:pointer id="308">T[end]</sn:pointer>
@@ -2323,10 +2326,10 @@ Dame Asura, le roi ne t'écoutera même
 pas![end]
 «Lut, Rydia!
 Quoi?
-C'est bizarre que nous parlions?[end]
+C'est bizarre que je parle?[end]
 C'est la bibliothèque de notre monde.
-Un véritable trésor de connaissance sur
-tous les aspects de notre monde![end]
+Un véritable trésor de toutes les
+connaissances![end]
 Rydia!
 Je suis si content que tu sois revenue![end]
 Oh, Rydia!
@@ -2335,8 +2338,8 @@ Ces gens sont tes amis?[end]</sn:pointer>
 Ne repars plus jamais![end]</sn:pointer>
     <sn:pointer id="318">Shh!!
 Silence, vous êtes dans une bibliothèque![end]
-Hmm....vais-je aimer ce livre...je me le
-demande?[end]
+Hmm... ce livre est vraiment
+émouvant...[end]
 Le géant qui secoue la terre, Titan...
 Avec sa force, il déchire la terre... et
 toutes les créatures seront aspirées dans
@@ -2353,7 +2356,8 @@ La reine des Glaces, Shiva...
 Ceux qui la mettent en colère se font
 geler le cur.[end]
 Chocobo...
-La plus adorable des Chimères![end]
+Pour fuir et pour charmer, il n'a pas
+d'égal.[end]
 La magie d'invocation...
 La magie qui appelle les Chimères de leur
 royaume mystique...[new]
@@ -2364,8 +2368,8 @@ tellement plus longue que le monde des
 humains...[end]
 La grotte qui relie notre monde et celui
 des humains...
-Seuls ceux qui ont un corps forts et un
-esprit pur peuvent passer...[end]
+Seuls ceux qui ont l'esprit et le corps
+forts peuvent passer...[end]
 Les Chimères sont des animaux
 fantastiques...[new]
 Aux méchants, elles paraissent
@@ -2376,20 +2380,20 @@ monde des humains?[end]
 On ne s'ennuie jamais, ici.
 Il y a tellement de livres qu'il faudrait une
 éternité pour tous les lire![end]
-Pour les monstres sur lesquels
-«Épier»[new]
-ne marche pas... le Dictionnaire des
-Monstres montrera leur véritable nature....[end]
+Même les monstres qui résistent à
+Libra... le Dictionnaire des Monstres
+révélera leur véritable nature....[end]
 Chimère, Monstre, Humain...
 D'où sont-ils venus et où vont-ils....
 Le mystère de l'éternité...[end]
-Il y a bien longtemps, un immense
-vaisseau est venu de la Lune sur Terre...
-Maintenant, il dort au fond du ventre d'un
-dragon.[end]
-Pour celui qui surpasse le roi Chimère...
-Il est dit qu'il existe un dieu Chimère qui
-nous a créés et qui nous protège de loin.
+Il y a bien longtemps, une immense
+baleine est venue de la Lune sur cette
+terre...
+Maintenant, elle dort d'un sommeil
+profond au sein d'un dragon.[end]
+Plus grand encore que le roi Chimère...
+Il est dit que le dieu Chimère qui nous
+a créés veille sur nous de loin.
 Il ne connaît pas la défaite...[new]
 Seule sa propre puissance retournée
 contre lui pourrait lui faire du mal...[end]
@@ -2424,10 +2428,9 @@ besoin de la permission de la reine Asura.[end]
 Rydia...
 Tu as des amis forts et bienveillants.
 Tu peux m'appeler n'importe quand...[end]
-Tu possèdes une lumière puissante qui te
-guide!
-Je vais te donner mes pouvoirs en tant
-que maître des océans, Léviathan![end]
+C'est bien la puissance de la lumière!
+Moi, Léviathan, roi des Chimères, je te
+prête ma force![end]
 Le roi Chimère?
 Non, non, je ne suis qu'un vieux fou![end]
 Alors je vais tester ta force![end]
@@ -2437,9 +2440,8 @@ Une fois que tu auras confiance en toi, je
 te combattrai quand tu voudras![end]</sn:pointer>
     <sn:pointer id="321">Est-ce que les humains peuvent utiliser
 les armes, ici?[end]
-Hé bien, que sais-tu donc?
-C'est Rydia![end]</sn:pointer>
-    <sn:pointer id="322">Ici, nous n'aimons pas trop les humains,
+Tiens, mais c'est Rydia![end]</sn:pointer>
+    <sn:pointer id="322">N'amène pas trop d'humains ici,
 Rydia.[end]
 Nous voulons juste vivre en paix.[end]</sn:pointer>
     <sn:pointer id="323">Chocobo, Shiva, Ramuh..
@@ -2535,28 +2537,27 @@ notre part![end]</sn:pointer>
     <sn:pointer id="345">T[end]</sn:pointer>
     <sn:pointer id="346">T[end]</sn:pointer>
     <sn:pointer id="347">T[end]</sn:pointer>
-    <sn:pointer id="348">Qu'est-ce que vous avez à faire
-avec...lui...[end]
+    <sn:pointer id="348">Que voulez-vous au Dieu des Chimères![end]
 Eh?
 Tu es seulement moitié...[end]
 Vous êtes les premières personnes que
 seigneur Bahamut ait reconnues![end]
-Ta destinée t'attend toujours.[end]
+Tu sembles porter une grande destinée.[end]
 Vous n'avez pas été acceptés par
 Léviathan.
 Partez maintenant.[end]
-Je ressens d'immenses puissance et
-esprit chez...
+J'ai bien éprouvé votre force et votre
+esprit.
 Rydia![new]
-Si jamais vous avez besoin de ma
-puissance, tu peux appeler mon nom![end]</sn:pointer>
+Quand tu auras besoin de moi,
+prononce mon nom: Bahamut...![end]</sn:pointer>
     <sn:pointer id="349">T[end]</sn:pointer>
     <sn:pointer id="350">T[end]</sn:pointer>
     <sn:pointer id="351">T[end]</sn:pointer>
     <sn:pointer id="352">T[end]</sn:pointer>
     <sn:pointer id="353">Nous sommes les cristaux de la Lune.[end]
-L'équilibre des huit cristaux sur la Planète
-Bleue est maintenu ici sur la Lune.[end]
+Cette lune tient par son équilibre avec
+les huit cristaux de la Planète Bleue.[end]
 Les gens de la Lune dorment loin
 au-dessous de ce sol.
 FuSoYa est le gardien des dormeurs.[end]
@@ -2569,26 +2570,29 @@ dans le noyau de la lune.[end]
 Zémus a utilisé Golbez pour réunir les
 cristaux de la Planète Bleue... et a amplifié
 leur puissance avec la Tour de Babil.[end]
-Dès à présent, nous sentons ses
-tentatives pour détruire le sceau.[end]
+De l'intérieur, Zémus a dressé une
+barrière qui scelle le chemin du noyau.[end]
 Le sol du centre de la salle mène au
 noyau de la lune... le royaume de Zémus...[end]
-Quand la Tour de Babil a été détruite,
-notre sceau a été affaibli![end]
-Dormant avec les Luniens, au-dessous, se
-trouvent des armes puissantes.[end]
+La Tour de Babil a été détruite, et le
+sceau de Zémus s'est rompu.
+Vous devriez pouvoir l'atteindre.[end]
+En dessous, des armes terribles qui
+menaçaient jadis les Luniens sont
+scellées avec Zémus.[end]
 Il y a déjà quelque temps que FuSoYa
 et le fils de KluYa sont entrés et
 descendus.[end]
-Nous utilisons toute notre puissance pour
-essayer de maintenir Zémus scellé... au
-plus profond du noyau lunaire.[end]
+Nous parvenons tout juste à neutraliser,
+de l'intérieur, les ondes mentales de
+Zémus.[end]
 Il y a une énergie phénoménale qui
 transite entre Zémus et nous.[end]
-J'ai peur pour FuSoYa et le fils de
-KluYa....[end]
-Allez au noyau![end]
-Allez au noyau![end]</sn:pointer>
+Même FuSoYa pourra-t-il vaincre Zémus,
+dont l'esprit s'est tant accru...[end]
+Allez au noyau de la lune![end]
+Nous allons vous conduire au chemin
+du noyau![end]</sn:pointer>
     <sn:pointer id="354">T[end]</sn:pointer>
     <sn:pointer id="355">T[end]</sn:pointer>
     <sn:pointer id="356">T[end]</sn:pointer>
