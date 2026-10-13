@@ -45,7 +45,7 @@ DROPS_VWF_TILE_SLOT_OFFSET := 0x0B
 ;   size       = 7 slots * K=10 * 16 = $460 bytes
 KEY_ITEM_VWF_CHR_SRC_OFFSET := 0x1000
 KEY_ITEM_VWF_VRAM_DEST_WORD := 0x6800
-KEY_ITEM_VWF_BYTE_COUNT := sizeof(key_item_chr_save)
+KEY_ITEM_VWF_BYTE_COUNT := sizeof(KeyItemPicker.chr_save)
 
 ; Caller-context values for vwf_engine.caller_ctx (see src/core/vwf_ram.s).
 VWF_CTX_PRIMARY := 0x00
