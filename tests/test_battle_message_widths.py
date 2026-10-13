@@ -10,6 +10,8 @@ import pytest
 from katsuji import VwfFont, render
 from script import Table
 
+from utils.script_xml import pointer_texts
+
 INSIDE = 30 * 8 - 4  # the window's inside, a glyph's spacing short of the border
 ARGUMENT = "XXXXXXXX"  # [0x6]N, an item or a number: stands in at a wide 8 characters
 FILES = ("text/fr/battle_messages.xml", "text/fr/battle_text.xml")
@@ -17,8 +19,7 @@ FONT = Path("build/gen/menu_font.dat")
 
 
 def _lines(path: str) -> list[tuple[str, str]]:
-    text = Path(path).read_text(encoding="utf-8")
-    return re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.S)
+    return list(pointer_texts(Path(path)).items())
 
 
 @pytest.mark.parametrize("path", FILES)
