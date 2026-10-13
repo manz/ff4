@@ -50,7 +50,7 @@ Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="22">[0xfa]Tu reçois [item]![end]</sn:pointer>
     <sn:pointer id="23">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
     <sn:pointer id="24">[0xfa]C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
-    <sn:pointer id="25">Tu n'as pas assez de Gils![end]</sn:pointer>
+    <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
 C'est [gils] Gils la nuit.
 Allez-vous rester?[close_window][end]</sn:pointer>
@@ -527,7 +527,7 @@ caverne?[new]
 [bold]Tellah[normal]: C'est une immense créature
 avec huit énormes pattes.
 Il nous faudra le battre si nous voulons
-sauver Anna et votre amie...[new]
+sauver Anna et ton amie...[new]
 J'espère que ce mauvais pressentiment
 que j'ai sur Damcyan n'est que le fruit de
 mon imagination mais...[end]</sn:pointer>
@@ -570,7 +570,7 @@ Nous devons fortifier le château![new]
 Tu es un chevalier noir de Baron.
 Qui me dit que je peux vraiment te
 croire?[new]
-[bold]Yang[normal]: Votre altesse!
+[bold]Yang[normal]: Majesté!
 Ils sont dignes de confiance!
 Ils m'ont défendu des serviteurs de
 Golbez.[new]
@@ -784,7 +784,7 @@ Laisse-moi le tuer![end]</sn:pointer>
     <sn:pointer id="184">[bold]Golbez[normal]: Après l'échec de l'autre jour,
 que dis-tu là!
 Tu n'as qu'à surveiller Rosa![end]</sn:pointer>
-    <sn:pointer id="185">[bold]Tellah[normal]: Alors vous êtes aussi ici pour
+    <sn:pointer id="185">[bold]Tellah[normal]: Alors toi aussi, tu es ici pour
 chercher Météore?[new]
 [bold]Cecil[normal]: Météore?[new]
 [bold]Porom[normal]: Météore?
@@ -819,8 +819,8 @@ Et Rosa a été capturée par
 Golbez...[end]</sn:pointer>
     <sn:pointer id="191">[bold]Palom[normal]: C'est sûrement sa copine![end]</sn:pointer>
     <sn:pointer id="192">[bold]Porom[normal]: Chut![new]
-[bold]Cecil[normal]: Mais tu ne devais pas aller à la
-recherche de Golbez?[end]</sn:pointer>
+[bold]Cecil[normal]: Mais ne deviez-vous pas aller
+affronter Golbez?[end]</sn:pointer>
     <sn:pointer id="193">[bold]Tellah[normal]: Je ne suis pas en mesure de
 vaincre quelqu'un d'aussi puissant que lui
 avec la magie dont je dispose
@@ -881,7 +881,7 @@ surmonter ma propre noirceur![end]</sn:pointer>
     <sn:pointer id="204">«Bien joué... Reçois ma conscience...
 Prends-la... ma... lumière finale! Mon fils...
 arrête Golbez!»[new]
-[bold]Cecil[normal]: A...attends![end]</sn:pointer>
+[bold]Cecil[normal]: A... attendez![end]</sn:pointer>
     <sn:pointer id="205">[0xfa]Cecil est devenu un paladin![end]</sn:pointer>
     <sn:pointer id="206">[bold]Porom[normal]: Est ce que vous allez bien?[new]
 [bold]Palom[normal]: T'es vraiment...[new]
@@ -968,7 +968,7 @@ MAIS J'AI LE CRISTAL...[new]
 POURQUOI NE PUIS-JE ATTEINDRE
 L'IMMORTALITÉ..?
 AAARG![end]</sn:pointer>
-    <sn:pointer id="225">[bold]Cecil[normal]: Tu as réussi, Edward![end]</sn:pointer>
+    <sn:pointer id="225">[bold]Cecil[normal]: Vous avez réussi, Edward![end]</sn:pointer>
     <sn:pointer id="226">[bold]Edward[normal]: Ce Cristal...
 Vous avez gagné...[new]
 [bold]Cecil[normal]: Edward!
@@ -1379,17 +1379,18 @@ tous vers la mort![end]</sn:pointer>
     <sn:pointer id="297">Cecil!
 Le patron nous a demandé de fixer ce
 crochet à l'Enterprise!
-Ne t'inquiète pas, ça ne sera pas long![end]</sn:pointer>
-    <sn:pointer id="298">Maintenant tu peux soulever
-l'aéroglisseur et le transporter avec
-l'aéronef![new]
-Pendant que tu pilotes l'Enterprise,
-presse le bouton d'action au-dessus de
-l'aéroglisseur![new]
-Maintenant tu peux aller à la grotte
-d'Eblana près de la Tour de Babil!
-Dépose l'aéroglisseur dans les eaux peu
-profondes du continent et monte à bord![end]</sn:pointer>
+Ne vous inquiétez pas, ça ne sera pas
+long![end]</sn:pointer>
+    <sn:pointer id="298">Maintenant vous pouvez soulever
+l'aéroglisseur et le transporter![new]
+Aux commandes de l'Enterprise,
+placez-vous au-dessus de l'aéroglisseur et
+appuyez sur le bouton de validation pour
+l'accrocher ou le décrocher![new]
+Maintenant vous pouvez aller à la grotte
+d'Eblana, où se dresse la Tour de Babil!
+Déposez l'aéroglisseur dans les eaux peu
+profondes du continent et montez à bord![end]</sn:pointer>
     <sn:pointer id="299">[bold]Cecil[normal]: Pour être franc, Cid
 est...[new]
 «Trop énergique et embêtant, pas vrai?
@@ -1555,7 +1556,7 @@ jusqu'au monde souterrain...[end]</sn:pointer>
 Je me rendais à Damcyan, mais plus haut
 dans le lac, il y a un énorme monstre.[new]
 Ma magie n'est pas assez forte pour le
-battre seul, mais avec votre lame noire... je
+battre seul, mais avec ta lame noire... je
 devrais pouvoir le vaincre. !?
 Oh![new]
 Cette fille est une invocatrice, hein?
@@ -2078,8 +2079,7 @@ Fais attention![end]</sn:pointer>
     <sn:pointer id="427">[bold]Cecil[normal]: Tellah![end]</sn:pointer>
     <sn:pointer id="428">[bold]Tellah[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="429">[bold]Porom[normal]: Mais tais-toi donc![new]
-[bold]Tellah[normal]: Cecil, pourquoi êtes-vous
-venu ici?[new]
+[bold]Tellah[normal]: Et toi, Cecil?[new]
 [bold]Cecil[normal]: Je suis venu pour être paladin.
 Je ne peux pas vaincre Golbez avec la
 lame noire...
@@ -2096,7 +2096,7 @@ rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="432">[bold]Scarmiglione[normal]: GRRRR-BAAAH![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
-Qui es-tu?[end]</sn:pointer>
+Qui êtes-vous?[end]</sn:pointer>
     <sn:pointer id="434">[bold]Tellah[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="435">[bold]Palom[normal]: Derrière toi![new]
 [bold]Porom[normal]: Il attaque![end]</sn:pointer>
@@ -2160,7 +2160,7 @@ Rosa...[end]</sn:pointer>
     <sn:pointer id="454">[bold]Caïn[normal]: Elle est au-dessus!
 Pas une seconde à perdre![end]</sn:pointer>
     <sn:pointer id="455">[bold]Cecil[normal]: Tellah...
-Nous vengerons Anna... et toi![end]</sn:pointer>
+Nous vengerons Anna... et vous![end]</sn:pointer>
     <sn:pointer id="456">[bold]Caïn[normal]: Cecil...[new]
 [bold]Cecil[normal]: On a besoin de tes pouvoirs
 de chevalier dragon!
@@ -2306,7 +2306,7 @@ combattre avec vous![new]
 [bold]Cecil[normal]: Yang!!
 Ouvre la porte!![new]
 [bold]Yang[normal]: Aaaagh![end]</sn:pointer>
-    <sn:pointer id="483">[bold]Porom[normal]: Ben oui, quoi, c'est un paladin![new]
+    <sn:pointer id="483">[bold]Porom[normal]: Comme vous pouvez le voir![new]
 [bold]Palom[normal]: Même si je ne le croyais pas
 possible.[new]
 [bold]Cecil[normal]: Comment ça?[new]
@@ -2360,12 +2360,12 @@ Hé hé hé hé hé![new]
     <sn:pointer id="500">[bold]Vieil Homme[normal]: Oh!
 Tu portes la lame noire?
 Je t'en prie, aide-moi![new]
-[bold]Cecil[normal]: De quoi?[new]
+[bold]Cecil[normal]: Que se passe-t-il?[new]
 [bold]Vieil Homme[normal]: Ma fille a été dupée par
 un barde et est partie pour Damcyan!
 Et...
 Je sens le mal dans cette direction![new]
-[bold]Cecil[normal]: Alors tu dois être le sage
+[bold]Cecil[normal]: Alors vous êtes le sage
 Tellah![end]</sn:pointer>
     <sn:pointer id="501">[bold]Golbez[normal]: Oui.[end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
