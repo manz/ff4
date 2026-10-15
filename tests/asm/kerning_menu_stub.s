@@ -18,7 +18,7 @@ symbols `pair`, `kerning_func`, `prev_char` injected from Python before assembly
 ; then single-steps; there is no ROM layout to place code into, so the
 ; bare origin is the point rather than something to modernise.
 
-*=0x7E0000  ; noqa: UP001
+*= 0x7E0000  ; noqa: UP001
     rep #0x30
     lda.w #pair
     sta.l prev_char

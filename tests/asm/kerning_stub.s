@@ -15,7 +15,7 @@ injected from Python before assembly.
 ; then single-steps; there is no ROM layout to place code into, so the
 ; bare origin is the point rather than something to modernise.
 
-*=0x7E0000  ; noqa: UP001
+*= 0x7E0000  ; noqa: UP001
     ; 8-bit A and X/Y; setup_font and the kerning helpers were written
     ; against this convention.
     sep #0x30
