@@ -71,25 +71,25 @@ Mysidia's Legend![new]
 <sn:pointer id="13">[bold]Edge[normal]: Like I trust you!
 What if you become evil again?[end]</sn:pointer>
 
-<sn:pointer id="14">[bold]Caïn[normal]: ...If that happens, don't hold
+<sn:pointer id="14">[bold]Cain[normal]: ...If that happens, don't hold
 back...
 Kill me![end]</sn:pointer>
 
-<sn:pointer id="15">[bold]Caïn[normal]: ....I'm going too.
+<sn:pointer id="15">[bold]Cain[normal]: ....I'm going too.
 I have a score I have to settle with this
 Zemus![end]</sn:pointer>
 
-<sn:pointer id="16">[bold]Caïn[normal]: Rosa...[new]
-[bold]Rosa[normal]: It's not Caïn's fault!
+<sn:pointer id="16">[bold]Cain[normal]: Rosa...[new]
+[bold]Rosa[normal]: It's not Cain's fault!
 Golbez...was under Zemus's control...[new]
-[bold]Caïn[normal]: Golbez?!
+[bold]Cain[normal]: Golbez?!
 What?![end]</sn:pointer>
 
 <sn:pointer id="17">[bold]Edge[normal]: Damn straight!
 It's your own damned fault that the Giant
 showed up in the first place![end]</sn:pointer>
 
-<sn:pointer id="18">[bold]Caïn[normal]: Save the talk for later!
+<sn:pointer id="18">[bold]Cain[normal]: Save the talk for later!
 We'll die if we don't hurry![end]</sn:pointer>
 
 <sn:pointer id="19">[bold]Rosa[normal]: Quickly![end]</sn:pointer>
@@ -179,10 +179,10 @@ This is not good![new]
 [bold]Rydia[normal]: How do we get out of here!?
 'This way!'[end]</sn:pointer>
 
-<sn:pointer id="34">[bold]Rosa[normal]: Caïn![new]
+<sn:pointer id="34">[bold]Rosa[normal]: Cain![new]
 [bold]Edge[normal]: We won't fall for that![end]</sn:pointer>
 
-<sn:pointer id="35">[bold]Caïn[normal]: I finally regained control of
+<sn:pointer id="35">[bold]Cain[normal]: I finally regained control of
 myself.
 My mind was held captive by my evil
 actions...[new]
@@ -204,7 +204,7 @@ FuSoYa removed the spell on
 Golbez...[new]
 [bold]Rydia[normal]: And then Golbez went to
 the moon with FuSoYa to defeat Zemus.[new]
-[bold]Caïn[normal]: Golbez's....
+[bold]Cain[normal]: Golbez's....
 Cecil's brother..?[end]</sn:pointer>
 
 <sn:pointer id="38">[bold]Edge[normal]: Oh, believe me, I will.
@@ -213,7 +213,7 @@ guaranteed some action![new]
 Besides, I'm not just going to sit back
 and let Zemus play with the lives of
 people like that![new]
-[bold]Caïn[normal]: Edge...[new]
+[bold]Cain[normal]: Edge...[new]
 [bold]Cecil[normal]: Let's go...[end]</sn:pointer>
 
 <sn:pointer id="39">[bold]Cecil[normal]: ...I'm going too...[new]
@@ -232,7 +232,7 @@ I'd end his reproductive years rather
 quickly.[end]</sn:pointer>
 
 <sn:pointer id="41">[bold]Cecil[normal]: Let's go!
-Caïn!
+Cain!
 Edge![end]</sn:pointer>
 
 <sn:pointer id="42">[bold]Edge[normal]: Rydia...
@@ -256,7 +256,7 @@ whatever happens... [music][0x13] ...no, as long as I'm
 with you I don't care how dangerous
 things are![new]
 [bold]Cecil[normal]: Rosa...[new]
-[bold]Caïn[normal]: ...Come on, Cecil...[new]
+[bold]Cain[normal]: ...Come on, Cecil...[new]
 [bold]Edge[normal]: Yeah, let her come!
 At least you've got a woman.
 I have two chances with Rydia, slim
@@ -287,7 +287,7 @@ Ship![end]</sn:pointer>
 
 <sn:pointer id="47">It worked![end]</sn:pointer>
 
-<sn:pointer id="48">[bold]Caïn[normal]: Rosa![end]</sn:pointer>
+<sn:pointer id="48">[bold]Cain[normal]: Rosa![end]</sn:pointer>
 
 <sn:pointer id="49">[bold]Cecil[normal]: ...[end]</sn:pointer>
 
@@ -489,7 +489,7 @@ unleashed upon the Blue Planet![new]
 I shall go with you! [space][0x8]Lunarian
 FuSoYa [space][0x7]joined the party![music][0x29][delay][0x28][end]</sn:pointer>
 
-<sn:pointer id="65">[bold]Caïn[normal]: But about those final words
+<sn:pointer id="65">[bold]Cain[normal]: But about those final words
 that Zeromus left...[end]</sn:pointer>
 
 <sn:pointer id="66">[bold]Rosa[normal]: As long as evil hearts still
@@ -559,7 +559,7 @@ soul in sleep...[end]</sn:pointer>
 I pray for peace on the Blue Planet.[end]</sn:pointer>
 
 <sn:pointer id="76">[bold]Rosa[normal]: Cecil...[new]
-[bold]Caïn[normal]: Cecil, forgive him as you
+[bold]Cain[normal]: Cecil, forgive him as you
 did me...[new]
 [bold]Rydia[normal]: He's your brother![end]</sn:pointer>
 
@@ -760,7 +760,7 @@ Quit lolly-gagging!'[delay][0x14][close_window][end]</sn:pointer>
 <sn:pointer id="110">[bold]Jiott[normal]: Dammit, I already told you to
 destroy the tanks![delay][0x18][close_window][end]</sn:pointer>
 
-<sn:pointer id="111">[bold]Caïn[normal]: Cecil...
+<sn:pointer id="111">[bold]Cain[normal]: Cecil...
 Rosa...
 Forgive me...once more...[new]
 I cannot attend... [delay][0x1c] My actions have
@@ -898,7 +898,7 @@ grateful![new]
 [bold]Village Elder[normal]: Palom!
 What have I told you about arrogance?[end]</sn:pointer>
 
-<sn:pointer id="148">[bold]Caïn[normal]: Cecil...[end]</sn:pointer>
+<sn:pointer id="148">[bold]Cain[normal]: Cecil...[end]</sn:pointer>
 
 <sn:pointer id="149">[bold]Porom[normal]: Mr.
 Cecil...
@@ -932,9 +932,9 @@ I will fight alongside you as Odin![new]
 [bold]Cecil[normal]: Your Majesty! [space][0x5]Rydia
 learned Odin![music][0x29][delay][0x28][end]</sn:pointer>
 
-<sn:pointer id="157">[bold]Cecil[normal]: Caïn?[end]</sn:pointer>
+<sn:pointer id="157">[bold]Cecil[normal]: Cain?[end]</sn:pointer>
 
-<sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
+<sn:pointer id="158">[bold]Cecil[normal]: Cain![end]</sn:pointer>
 
 <sn:pointer id="159">[bold]Cecil[normal]: But that light...
 It called me... ...My son...[end]</sn:pointer>

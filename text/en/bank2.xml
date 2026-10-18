@@ -776,9 +776,9 @@ weren't human...[end]
 I...I'm not sleeping![end]
 His majesty was murdered by that
 fiend..?[end]
-[bold]Caïn[normal]: Are you ready, Cecil?[new]
-[bold]Cecil[normal]: I'm counting on you, Caïn.[new]
-[bold]Caïn[normal]: Just leave everything to me![end]
+[bold]Cain[normal]: Are you ready, Cecil?[new]
+[bold]Cecil[normal]: I'm counting on you, Cain.[new]
+[bold]Cain[normal]: Just leave everything to me![end]
 Sir Cecil![end]
 [bold]Cecil[normal]: What's wrong?[new]
 [bold]Palom[normal]: It smells...[new]
@@ -806,14 +806,14 @@ It's said to always be enshrouded in a
 deep envelope of fog.[end]
 We will defend the castle in the name of
 the Dragon Knights![end]
-If the Dragon Knight Captain Caïn
+If the Dragon Knight Captain Cain
 and Sir Cecil team up, that ring has
 guaranteed delivery![end]
-Sir Caïn is unflappable![end]
+Sir Cain is unflappable![end]
 A lot of things are being said about His
 Majesty, but if he hears about it...[end]
 We will handle things while you are away![end]
-[bold]Caïn[normal]: What's wrong?
+[bold]Cain[normal]: What's wrong?
 Can't sleep?[end]
 [bold]Cecil[normal]: It's here!?[new]
 [bold]Cid[normal]: Yep, right under their noses![end]
@@ -1316,8 +1316,8 @@ You got it back!
 Well done![end]
 Looks like you have the Crystal...[end]
 [bold]Cid[normal]: That voice![new]
-[bold]Cecil[normal]: Caïn![music][0x16][new]
-[bold]Caïn[normal]: Go outside and get on your
+[bold]Cecil[normal]: Cain![music][0x16][new]
+[bold]Cain[normal]: Go outside and get on your
 airship...
 I'll take you to Rosa.[end]</sn:pointer>
 
@@ -1464,11 +1464,11 @@ in this same fashion on the menu screen![end]</sn:pointer>
 <sn:pointer id="108">Turn back....wicked
 [bold]Cecil[normal]: Who's there?![end]
 Leave now...wicked
-[bold]Caïn[normal]: Is that a Phantom Beast?[end]
+[bold]Cain[normal]: Is that a Phantom Beast?[end]
 [bold]Cecil[normal]: We must deliver this Bomb
 Ring to the village of Mist!Then I have no
 choice![new]
-[bold]Caïn[normal]: The fog is gathering![end]</sn:pointer>
+[bold]Cain[normal]: The fog is gathering![end]</sn:pointer>
 
 <sn:pointer id="109">T[end]</sn:pointer>
 
@@ -1731,24 +1731,24 @@ you can't use it.[end]</sn:pointer>
 
 <sn:pointer id="159">[bold]Golbez[normal]: So he even killed Cagnazzo...
 He's gotten much stronger.[new]
-[bold]Caïn[normal]: About the last Crystal...[new]
+[bold]Cain[normal]: About the last Crystal...[new]
 [bold]Golbez[normal]: I know...it would be difficult to
 retrieve from where it is now.[new]
-[bold]Caïn[normal]: Why don't you send Cecil
+[bold]Cain[normal]: Why don't you send Cecil
 to fetch it for you?[new]
 [bold]Golbez[normal]: I don't follow...[end]
-[bold]Caïn[normal]: We have Rosa here.
+[bold]Cain[normal]: We have Rosa here.
 We could exchange her for the Crystal...
 What do you think?[end]
 [bold]Golbez[normal]: Oh, I see...
 Then we can kill him when he brings it to
 us...
-Fiendishly clever, Caïn...[new]
+Fiendishly clever, Cain...[new]
 You might be useful yet.[end]
-[bold]Caïn[normal]: Very well, then I'll go relay the
+[bold]Cain[normal]: Very well, then I'll go relay the
 message to him.[end]
-[bold]Rosa[normal]: Caïn![end]
-[bold]Caïn[normal]: You still think Cecil's
+[bold]Rosa[normal]: Cain![end]
+[bold]Cain[normal]: You still think Cecil's
 better than me?[end]
 [bold]Cecil[normal]: If we were even a second too
 late, this guillotine would have chopped
@@ -1877,29 +1877,29 @@ Enterprise!
 Let's go![end]
 [bold]Cecil[normal]: This is...!![end]</sn:pointer>
 
-<sn:pointer id="196">[bold]Cecil[normal]: Caïn![end]
-[bold]Caïn[normal]: So you're still alive, Cecil.[end]
-[bold]Cid[normal]: Caïn, what the hell do
+<sn:pointer id="196">[bold]Cecil[normal]: Cain![end]
+[bold]Cain[normal]: So you're still alive, Cecil.[end]
+[bold]Cid[normal]: Cain, what the hell do
 you think you're doing!?
 What do you want?[end]
 [bold]Cecil[normal]: Rosa had better be
 safe...is she?[new]
-[bold]Caïn[normal]: So you really are worried
+[bold]Cain[normal]: So you really are worried
 about your little whore, aren't you?[new]
 If you want to see her again...alive... you'll
 have to trade her for the Earth Crystal
 of Toroia.[new]
 [bold]Cecil[normal]: What!?[end]
 [bold]Tellah[normal]: You coward![new]
-[bold]Caïn[normal]: When you get it, I'll contact
+[bold]Cain[normal]: When you get it, I'll contact
 you.
 You'd better get it, understand?[new]
 If you really care about Rosa, that
 is.[new]
 [bold]Yang[normal]: You son of a bitch![end]
-[bold]Cecil[normal]: Caïn!
+[bold]Cecil[normal]: Cain!
 Come to your senses![end]
-[bold]Caïn[normal]: That's all I have to say.[end]</sn:pointer>
+[bold]Cain[normal]: That's all I have to say.[end]</sn:pointer>
 
 <sn:pointer id="197">T[end]</sn:pointer>
 
@@ -1982,7 +1982,7 @@ Let's show 'em what you got![end]
 [bold]Yang[normal]: That's...[new]
 [bold]Tellah[normal]: A white flag?[end]
 [bold]Yang[normal]: Sir Cecil...[new]
-[bold]Cid[normal]: Caïn?
+[bold]Cid[normal]: Cain?
 What's gotten into you..?[end]
 [bold]Cecil[normal]: Let's go to Toroia!
 Cid, head northwest![end]</sn:pointer>
@@ -2223,7 +2223,7 @@ If there's anything we can do to help...[new]
 sealed cave... could you sneak into the
 Tower of Babil and retrieve the other
 seven Crystals?[new]
-[bold]Caïn[normal]: The Tower of Babil?[new]
+[bold]Cain[normal]: The Tower of Babil?[new]
 [bold]Yang[normal]: That huge tower?![new]
 [bold]Jiott[normal]: Don't worry!
 I'll have our Tank Force attack the Tower!
@@ -2231,12 +2231,12 @@ During the diversion, go in and grab the
 crystals![new]
 Now is our only chance, while Golbez
 is gone![end]
-[bold]Caïn[normal]: So what should we do?[new]
+[bold]Cain[normal]: So what should we do?[new]
 [bold]Rydia[normal]: It's the enemy's base, isn't it?[new]
 [bold]Rosa[normal]: It would be quite dangerous.[new]
 [bold]Yang[normal]: But you know what they say...
 Nothing ventured, nothing gained.[new]
-[bold]Caïn[normal]: Our only chance would be now
+[bold]Cain[normal]: Our only chance would be now
 while Golbez is elsewhere.[new]
 [bold]Cecil[normal]: All right then...[end]
 [bold]Cecil[normal]: We'll do it![end]
@@ -2402,7 +2402,7 @@ I'm in charge now![new]
 I can conduct my experiments in peace![new]
 [bold]Rydia[normal]: What a weirdo...[end]
 [bold]Doctor[normal]: Who's there!!?[end]
-[bold]Caïn[normal]: Does it matter how?
+[bold]Cain[normal]: Does it matter how?
 You'd better call for help, doc.
 Rubicante's not here to protect you![end]
 [bold]Doctor[normal]: You think I'm just some
@@ -2411,14 +2411,14 @@ I am the brains of this whole operation.
 I am Lugeie![new]
 Weapons are useless compared to my
 superior intellect![new]
-[bold]Caïn[normal]: Don't make me laugh![end]
+[bold]Cain[normal]: Don't make me laugh![end]
 [bold]Lugeie[normal]: Grr....
 I'll have my beloved son bring me your
 heads![end]
 [bold]Rydia[normal]: They're going to kill the
 dwarves![end]
 [bold]Yang[normal]: The Giant Gun![end]
-[bold]Caïn[normal]: We've got to destroy it![end]
+[bold]Cain[normal]: We've got to destroy it![end]
 [bold]Lugeie[normal]: Screw you!
 I'll show you the power of science![end]
 [bold]Rosa[normal]: Shh!![end]
@@ -2521,7 +2521,7 @@ in!?' 'Get 'em!'[end]
 Well, take this!'[end]
 'Now nobody can stop the Giant Gun!'[end]
 [bold]Cecil[normal]: Damn![new]
-[bold]Caïn[normal]: Oh, God![end]
+[bold]Cain[normal]: Oh, God![end]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rosa[normal]: What are you doing!?[end]
 [bold]Yang[normal]: I'll handle things here!
