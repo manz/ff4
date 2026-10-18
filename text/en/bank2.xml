@@ -1812,15 +1812,13 @@ Let's go![end]
 <sn:pointer id="196">[bold]Cecil[normal]: Cain![end]
 [bold]Cain[normal]: So you're still alive, Cecil.[end]
 [bold]Cid[normal]: Cain, what the hell do
-you think you're doing!?
-What do you want?[end]
+you think you're doing!?[end]
 [bold]Cecil[normal]: Rosa had better be
 safe...is she?[new]
-[bold]Cain[normal]: So you really are worried
-about your little whore, aren't you?[new]
-If you want to see her again...alive... you'll
-have to trade her for the Earth Crystal
-of Toroia.[new]
+[bold]Cain[normal]: Heh. So you are worried
+after all?[new]
+If you value Rosa's life, you'll trade
+her for the Earth Crystal of Toroia.[new]
 [bold]Cecil[normal]: What!?[end]
 [bold]Tellah[normal]: You coward![new]
 [bold]Cain[normal]: When you get it, I'll contact
@@ -1828,7 +1826,7 @@ you.
 You'd better get it, understand?[new]
 If you really care about Rosa, that
 is.[new]
-[bold]Yang[normal]: You son of a bitch![end]
+[bold]Yang[normal]: Why, you...![end]
 [bold]Cecil[normal]: Cain!
 Come to your senses![end]
 [bold]Cain[normal]: That's all I have to say.[end]</sn:pointer>
@@ -1847,9 +1845,8 @@ headquarters, the Tower of Babil.[end]
 We've lost our castle...
 This is our home now.[end]
 We are the people of Eblana![end]
-Our Young Master went to checkthings
-out, but he's been gonetoo long...Hope
-he's not doing anything rash...[end]
+Our Young Master went to check things
+out, but he's been gone too long...[end]
 T[end]
 There's not much food left.
 I wonder how long we can hold out..?[end]
@@ -1886,12 +1883,14 @@ warriors...
 But we were defeated so easily...[end]
 Is this the end of the Ninjas of Eblana...?[end]
 I am the chief minister of Eblana.
-Our Master is foul-mouthed and
-temperamental, but honorable...[new]
+Our Young Master has a foul mouth, but
+a kind heart.[new]
 He's digging a passage to the Tower of
 Babil to avenge the King and Queen.
-But I'm worried about him.
-He's probably gone too far again...[end]
+But for some reason, he's nowhere to be
+seen.
+Surely he hasn't done something reckless
+again...[end]
 Hang on, dear![end]
 Where did monsters like that come from?[end]
 Oh, son...[end]
@@ -1905,11 +1904,9 @@ If you die too, then Eblana will...[end]</sn:pointer>
 
 <sn:pointer id="207">T[end]</sn:pointer>
 
-<sn:pointer id="208">[bold]Cid[normal]: Aw, jeez.
-As soon as we get her up and running,
-she's gotta show off her stuff!
-Well, whaddya say, babe?[new]
-Let's show 'em what you got![end]
+<sn:pointer id="208">[bold]Cid[normal]: Here they come already![new]
+Time to show 'em what the Enterprise
+can do![end]
 [bold]Cecil[normal]: Wait![new]
 [bold]Yang[normal]: That's...[new]
 [bold]Tellah[normal]: A white flag?[end]
@@ -1982,10 +1979,8 @@ YOU...?[end]</sn:pointer>
 <sn:pointer id="232">I'm the most beautiful girl in town!
 I'm too small for you to see?
 Look reeeeeeeally closely![end]
-Lemme tell you, havin' a beautiful
-daughter ain't nothin' but trouble!
-Gotta get me a shotgun to keep all them
-tiny boys offa her.[end]</sn:pointer>
+Oh my, having a beautiful daughter is
+nothing but trouble![end]</sn:pointer>
 
 <sn:pointer id="233">T[end]</sn:pointer>
 
@@ -2038,8 +2033,7 @@ Potions, Antidotes, and Tents![end]</sn:pointer>
 <sn:pointer id="256">T[end]</sn:pointer>
 
 <sn:pointer id="257">Hey, where did y'all come from?[end]
-'Lali-ho?' I thought all Dwarves said
-'Hi-ho?' Oh, well, off to work I go.[end]
+Lali-ho? Nah, 'round here it's Hi-ho![end]
 Hi-ho!
 Recently there's been a lot of commotion
 at the castle... did something happen?[end]
@@ -2052,8 +2046,7 @@ Phantom World.
 Ain't it weird?[end]
 I hear that the ocean on the surface is
 blue.
-It is?
-That's disgusting![end]</sn:pointer>
+Creepy![end]</sn:pointer>
 
 <sn:pointer id="258">This is the house of the best blacksmith
 in the world, Master Kukuro, Lali.[end]
@@ -2075,7 +2068,6 @@ Master could even make a sword as
 powerful as this, Lali![end]</sn:pointer>
 
 <sn:pointer id="259">I'm not making any more swords!
-What a failure I am...
 I can't even find the legendary ore
 Adamant...[end]
 This is the Adamant!
@@ -2102,8 +2094,8 @@ Jiott![end]
 Golbez is a bad guy!
 But y'all seem to be pretty nice![end]
 Go see King Jiott![end]
-Nothing out of the unusual!![end]
-All's quiet on the eastern front![end]
+Nothing unusual here![end]
+All fine over here too![end]
 Golbez retreated![end]
 Is the upper world filled with evil men?[end]</sn:pointer>
 
@@ -2113,10 +2105,8 @@ Lali-ho![end]
 Lali-ho!
 Glad you're all right![end]
 King Jiott's waiting for you![end]
-We're court ladies!
-Yes, we do have beards.
-Excessive facial hair is considered
-beautiful here![end]
+We're the rescue team!
+We may not look it, but we're girls![end]
 Recently the hole to the surface
 collapsed!
 Around that area, we rescued some
@@ -2172,13 +2162,13 @@ Nothing ventured, nothing gained.[new]
 while Golbez is elsewhere.[new]
 [bold]Cecil[normal]: All right then...[end]
 [bold]Cecil[normal]: We'll do it![end]
-[bold]Jiott[normal]: Thank you!
+[bold]Jiott[normal]: I'm counting on you!
 Under the castle is the entrance to a
 secret passage![new]
-It's normally off limits, but you can use it!
+Go as soon as you're ready!
 I pray for your success![end]
-My dolls were evil?
-I'm so angry, I could scream![end]
+Using my dolls for something like that...
+I'll never forgive them![end]
 [bold]Jiott[normal]: We'll hold off the enemy's main
 forces!
 You go to the Sealed Cave to the
@@ -2252,16 +2242,16 @@ Can you humans use them?[end]</sn:pointer>
 Sometimes, even Dwarves get hurt![end]
 That man is unusually energetic for an old
 geezer![end]
-What a crotchety old man!
-He doesn't do anything but complain
-about the food, but he eats like a horse![end]
+That old guy's a glutton!
+He says the food's awful, but he eats
+plenty![end]
 There's nothing like a good night's sleep
 to make you feel better, Lali![end]
 Zzz...Zzz[end]
 That old guy's body is not tough enough
 to be doing that![end]
-If you can get past his temper,
-complaints, and snoring, he's a nice guy![end]
+That old guy's rough, but he's a good
+guy![end]
 Zzz... snort ...Zzz[end]
 That old guy's amazing![end]
 People from the upper world are very
@@ -2330,19 +2320,16 @@ out.[end]
 [bold]Doctor[normal]: Hahahaha!
 Neither Lord Golbez nor Rubicante are
 here!
-I'm in charge now![new]
-I can conduct my experiments in peace![new]
+I'm the one in charge now![new]
 [bold]Rydia[normal]: What a weirdo...[end]
 [bold]Doctor[normal]: Who's there!!?[end]
-[bold]Cain[normal]: Does it matter how?
-You'd better call for help, doc.
-Rubicante's not here to protect you![end]
-[bold]Doctor[normal]: You think I'm just some
-pocket-protecting wimp?
-I am the brains of this whole operation.
-I am Lugeie![new]
-Weapons are useless compared to my
-superior intellect![new]
+[bold]Cain[normal]: Heh. Rubicante isn't here!
+Do you think you can beat us?[end]
+[bold]Doctor[normal]: Keee! Don't mock me!
+I may not be one of the Elemental Lords,
+but I am Lugeie, Lord Golbez's brain![new]
+I'll defend this Tower of Babil with my
+honor at stake![new]
 [bold]Cain[normal]: Don't make me laugh![end]
 [bold]Lugeie[normal]: Grr....
 I'll have my beloved son bring me your
@@ -2351,8 +2338,9 @@ heads![end]
 dwarves![end]
 [bold]Yang[normal]: The Giant Gun![end]
 [bold]Cain[normal]: We've got to destroy it![end]
-[bold]Lugeie[normal]: Screw you!
-I'll show you the power of science![end]
+[bold]Lugeie[normal]: Curse you!
+Now you'll learn how frightening I
+really am![end]
 [bold]Rosa[normal]: Shh!![end]
 [bold]Cecil[normal]: Damn![new]
 [bold]Doctor[normal]: You!
@@ -2426,8 +2414,8 @@ Sound Effects -
 IV, try Seiken Densetsu 3![end]</sn:pointer>
 
 <sn:pointer id="299">Up until here, no games allowed![end]
-Rosa and Rydia are pretty damn
-hot!
+Rosa and Rydia, huh?
+Now those are fine ladies!
 You'll find my power useful![new]
 Game Engineer Tokita Takashi [space][0x7]joined the
 party![music][0x29][delay][0x28] Please...take me with you!
@@ -2447,13 +2435,13 @@ can![end]
 <sn:pointer id="301">'Wahaha!
 Die, you puny dwarves!'[end]
 [bold]Cecil[normal]: That's as far as you go![end]
-'You bastards!' 'How the hell did you get
-in!?' 'Get 'em!'[end]
-'Shit!
+'You!' 'How did you get in here!?'
+'Get 'em!'[end]
+'Damn!
 Well, take this!'[end]
 'Now nobody can stop the Giant Gun!'[end]
 [bold]Cecil[normal]: Damn![new]
-[bold]Cain[normal]: Oh, God![end]
+[bold]Cain[normal]: What have they done!?[end]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rosa[normal]: What are you doing!?[end]
 [bold]Yang[normal]: I'll handle things here!
