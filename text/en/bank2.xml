@@ -46,8 +46,7 @@ The King has been really harsh lately...
 And I'm not allowed to dance.
 Disappointed?[end]
 So you were that dark knight!
-You look much better without that grim,
-sweaty armor!
+I never knew you were so handsome!
 Come on, let's dance![end]</sn:pointer>
 
 <sn:pointer id="1">Not only did that mysterious fire kill
@@ -55,10 +54,9 @@ powerful Summoners, but innocent women
 and children as well.[end]
 So this is the end of the history of Mist's
 Summoners...[end]
-There's a rumor of a Phantom beast
-dwelling under Baron.
-His sword is said to kill his enemies with
-one strike![end]
+Rumor has it that the soul of a Phantom
+that kills with a single blow sleeps
+beneath Baron.[end]
 We Summoners have the ability to
 conjure monsters from the Phantom
 World... a plane that supposedly
@@ -71,28 +69,23 @@ Some woman from Baron stumbled in
 here recently...
 She was taken to a neighbor's house to
 recover.[end]
-Anna's fallen in love.
-Who's Anna?
-She was a girl who lived here and fell in
-love with a wandering bard...[new]
-Her father, Master Tellah wouldn't
-allow them to be together, so they ran
-away from Kaipo.[end]
+Anna fell in love.
+But Master Tellah wouldn't allow it,
+so she ran away from Kaipo...[end]
 I want to be a dancer at Damcyan but
 there are many monsters lurking in the
 Underwater Channel.
 Will you watch my Synchronized Dance?[end]
 The Underwater Channel is to the
-northeast, but I hear that eight ferocious
-sea snakes guard the exit![end]
+northeast, but I hear that eight sea
+serpents have been showing up lately![end]
 The castle to the north, Damcyan,
 governs this desert.
 I heard the prince has a voiceof an angel.[end]
 If you're going to bring a little girl with
 you, you should put her in the back ranks.[end]</sn:pointer>
 
-<sn:pointer id="3">You son of a bitch!
-You're that damned Dark Knight!
+<sn:pointer id="3">You! You're the one from before!
 Take this!
 Toad![end]
 You become a Paladin?
@@ -105,11 +98,9 @@ because of you?[end]
 Oh, hello Palom, Porom!
 Mt.
 Ordeals is to the East![end]
-I sensed that you were laboring under
-the weight of your sins...
-I'll pray for you as well.[end]
-I have nothing to say to you!
-Get the hell away from me![end]
+So you have suffered too.
+I will pray for you as well.[end]
+I have nothing to say to you![end]
 Lots of powerful undead roam Mt.
 Ordeals!
 Your Dark Sword is useless![end]
@@ -118,8 +109,7 @@ Why do men hurt other men?[end]
 Endure the trial and accept the holy light![end]
 Please do not forget the spirit of the
 Paladin.[end]
-You bastard!
-You've got a lot of guts coming here![end]
+You've got some nerve coming here![end]
 Lots of people have challenged Mt.
 Ordeals, but not one has ever come
 back.[end]
@@ -149,9 +139,8 @@ You're a human, aren't you?
 Please be careful not to step on anyone![end]
 You must need a lot of food to fill your
 huge stomachs!
-How about some ant steak?
-No?[new]
-Grasshopper pie, then?[end]
+I bet you eat things like ant steak,
+huh?[end]
 We mine the Mithril ore, the frogs refine
 it, and the Little People forge it.
 We even make weapons that you humans
@@ -161,26 +150,23 @@ Mountain to the north.[new]
 Even though you could get there in a
 minute with your long legs, it's a long
 journey for us![end]
-Yeah, baby!
+Baby![end]
 Yeah![end]
-Can ya dig it?[end]
-We're the Mithril Boys!
-C'mon everybody!
-Rock your body![end]
-Rock your body right!
-Mithril's back, alright![end]
+Check out our cool dance!
+Come on, brother![end]
+We are the Mithril Brothers!
+Let's dance![end]
 Thank you![end]</sn:pointer>
 
 <sn:pointer id="5">Oh, hello, there!
 Want to swim with me?[end]
 Welcome to Toroia, the city of water and
 forests![end]
-Why are you swimming in armor?It'll rust!
-Take it off, silly![end]
-Hey, this one's got firm hands!
-Aagh!!
-Wh..what the... you startled me!
-Go away, damnit![end]
+If you swim in that, it'll rust![end]
+Eep!
+Wh-what the...
+You startled me!
+Go on, get away from here![end]
 I wonder where my husband went..?[end]
 Have you heard of the Echoer?
 It's an amazing plant that can send your
@@ -188,10 +174,10 @@ voice far away![end]
 ....
 Leave me alone.
 I'm sunbathing![end]
-We mine gems from the cave in the
-north.
-However, we can't wear anything metal.
-It gets really heavy.[end]</sn:pointer>
+I took my strongbox to the cave on the
+northeast island to collect gems, and it
+got stuck there.
+It won't come off![end]</sn:pointer>
 
 <sn:pointer id="6">This is the town of those of Dwarven
 blood, Agalt.[end]
@@ -233,20 +219,17 @@ coming.
 And there are scary soldiers at the bar
 too...[end]
 [space][0x7]Dancers wanted! [space][0x6]Beauty and dancing
-[space][0x8]skills a must! -Baron Inn Bartender
-An Equal Opportunity Employer[end]
+[space][0x8]skills a must! -Baron Inn Bartender[end]
 Oh, the Dark Knight from the castle!
-Have a drink.
-Huh?...
+Money?
 Oh, no sir.[new]
 Your money's no good here.[end]
 They say that Cid's been locked up
 in the castle!
 And he hid the new model airship as well![end]
-Mr.
-Cecil, want a drink?
-How splendid you are now!
-Sit down and have one on the house![end]
+Mr. Cecil, want a drink?
+It's on the house!
+Make yourself at home![end]
 It...it's Cecil of the Red Wings!
 I...I've done nothing wrong!
 I always pay my taxes, on timeand in the
@@ -259,7 +242,7 @@ You were that Dark Knight, weren't you?
 I think you look a lot better like this.[end]
 T[end]
 You're tough!
-You really kicked those soldier's asses!
+You flattened those royal guards!
 I like you!
 Tonight, stay for free![end]
 Hey, aren't the drinks ready yet?
@@ -283,19 +266,11 @@ townspeople about that...[end]
 Lord Cecil!?
 You're alive!
 Dad hasn't come back from the castle in
-a long time.[new]
-There are rumors that he's been put in
-prison!
-Oh, God, I'm so worried...
-Please find him![end]
+a long time.[end]
 Dad!
-You're safe!
-What's that?
-You're going with Cecil?[new]
-Dad, you aren't exactly a spring chicken
-anymore!
-Cecil, please look after him and
-make sure he stays out of trouble![end]
+You're not young anymore, so don't do
+anything reckless!
+Please look after my father, everyone.[end]
 Please take care of my father.Is he
 working on the airship again?[end]
 Zzz...Zzz...[end]</sn:pointer>
@@ -314,11 +289,9 @@ Where is she now?[end]
 Rosa'
 [bold]s mother[normal]: Rosa!
 You're safe![new]
-[bold]Rosa[normal]: I'm sorry...
-Rosa'[new]
-[bold]s mother[normal]: You should be, worrying your
-old mother like that.
-You're staying right here![new]
+[bold]Rosa[normal]: I'm sorry...[new]
+[bold]Rosa's mother[normal]: Don't you ever go
+anywhere again![new]
 I shouldn't have let you become a White
 Magician at all.[new]
 [bold]Rosa[normal]: No, Mom!
@@ -341,8 +314,7 @@ T[end]
 T[end]
 Sage Tellah and his daughter
 Anna were living happily together,
-but then Anna ran away from home..I
-wonder why?[end]</sn:pointer>
+but then Anna ran away from home...[end]</sn:pointer>
 
 <sn:pointer id="17">Hi, I'm a traveling scholar.
 I want to do research at Fabul, a town
@@ -352,14 +324,12 @@ Underwater Channel won't let me pass...[end]
 Oh, how unusual, a customer...Because of
 all the monsters, we are seeing fewer
 customers nowadays.[end]
-Cure your desert-parched thirst with a
-special Kaipo Micro Brew!
-Valid ID required.[end]
+For a throat parched by the desert:
+Kaipo's special beer![end]
 Only the royal family can enter Antlion's
 cave which is east of Damcyan.
 If ordinary folks were allowed in, it would
-really pep up business.[new]
-Imagine...all those gems...![end]</sn:pointer>
+really pep up business.[end]</sn:pointer>
 
 <sn:pointer id="18">A girl from Baron collapsed right outside
 this village.
@@ -410,8 +380,8 @@ Here, have one on the house.[end]
 You a Paladin?
 Ha!
 Hell, I can be one too![end]
-You really became a Paladin!
-Have one on me, poison-free this time.[end]
+Good heavens!
+You really did it![end]
 P-p-p-please shpare me! -hic-[end]
 P-p-p-please shpa...
 Huh?
@@ -419,9 +389,9 @@ You're going to climb Mt.
 Ordeals?[end]
 Wow, you surely look splendid![end]
 [bold]Cecil[normal]: Ack![end]
-I put a little bit of poison in your drink!
-Damn!
-Not strong enough![end]</sn:pointer>
+I slipped a little poison into your
+drink!
+That's for my friends![end]</sn:pointer>
 
 <sn:pointer id="20">T[end]</sn:pointer>
 
@@ -433,7 +403,7 @@ Fire, Earth, Water, and Wind are the
 basis of everything.[end]
 Breathing techniques for casting Black
 Magic.[end]
-[bold]My First Cure[normal]: An EZ-Reader[end]
+My First Cure[end]
 T[end]
 T[end]
 The Village Elder forgives everything.
@@ -447,7 +417,6 @@ accept the light...[end]
 Your inner light has grown from a faint
 glimmer to a radiant light![end]
 Where do evil hearts come from?
-I'm not sure...
 Everyone starts out as an innocent
 baby...[end]
 The Paladin is a Holy Knight, the opposite
@@ -501,33 +470,30 @@ If you speak to it, you should be able to
 go to the moon![new]
 [bold]Cecil[normal]: I'll give it a try![end]</sn:pointer>
 
-<sn:pointer id="24">The atmosphere here is great!
-Not only that, but a lot of guys drop by,
-so our evenings are fun... if you know
-what I mean![end]
+<sn:pointer id="24">The air and the food are great here, and
+best of all, there are lots of women
+around.
+It's so relaxing![end]
 All right!
-Today, I got a spot at the counter!
-Tomorrow, upstairs![end]
-Hiya cutie! -wink-[end]
+Today, I got a seat at the counter![end]
+Well, hello, little boy!
+Aren't you cute![end]
 I'm glad I've lived so long!
 I'd prefer this place to Heaven![end]
-You seem to want to spend some quality
-time with an older, more mature woman.
+I'll keep you company myself.
 What's with that look!?[end]
 Oh, baby!
 I think I love you!
 Aaah!
 You're a guy!![end]
 T[end]
-No matter how you look at them, and I
-do, often, the girls here are awesome![end]
+The girls here are always the best![end]
 Hello!
 What's your pleasure?[end]
 Liar!
 Get out of here![end]</sn:pointer>
 
-<sn:pointer id="25">Give me a guy with no chest hair next
-time.[end]
+<sn:pointer id="25">Next time, I want a fur coat.[end]
 Sir, do you have enough money?It gets
 pretty expensive up here.[end]
 This old man talks of nothing but old war
@@ -538,22 +504,18 @@ I killed the Goblin with a mighty blow
 from my Staff, and...[end]
 Hey, this is for members only.Get outta
 here now![end]
-Damn, that old bastard!
-He's got my Jennifer![end]
+Damn that old geezer!
+Hands off my Jennifer![end]
 T[end]
-Awright, Awright!
-I'll tell you who your daddy is![end]
+Awright, awright!
+I'll buy you whatever you want![end]
 I gotta bring the food![end]</sn:pointer>
 
 <sn:pointer id="26">Kya!
-What, didn't you get enough of us during
-the show?
 Stay out of the dressing room![end]
 T[end]
 Welcome.
-It'll be showtime shortly.
-If you enjoy the show, please remember
-to be generous with the tips.[end]
+It'll be showtime shortly.[end]
 Damn, I wish I was as young as you...[end]</sn:pointer>
 
 <sn:pointer id="27">T[end]</sn:pointer>
@@ -596,13 +558,12 @@ they always get mad whenever I go near
 them.
 Do I not love them enough?[end]</sn:pointer>
 
-<sn:pointer id="30">This is Corillo's Observatory.The world's
-only telescope is here.
+<sn:pointer id="30">This is Corillo's Observatory.
+The world's only telescope is here.
 Recently strange events have been
 happening on the moon.[new]
 All of our efforts have gone towards
-observing it.
-What's going on there..?[end]
+observing it.[end]
 My husband has been so absorbed in his
 work that he doesn't even eat or sleep![end]
 [space][0x7]The Romanticism [space][0xc]of the [space][0xa]Night Sky[end]
@@ -709,19 +670,14 @@ And Mr.
 Cecil![end]
 Looks like Boss is acting same as usual,
 doesn't it?[end]
-Man, we've got to pull
-ANOTHERall-nighter?
-If he wasn't suchan insulting bastard,
-we'd actually enjoy this.[new]
+Man, another all-nighter today...[new]
 Ah!
-D...don't tell our boss!
-T...tell him that...uh... work is fun![end]
+D...don't tell the boss!
+W...work sure is fun![end]
 Aah!
 G-g-g-g-ghost!
-Huh, you're the real thing?
-Thank God![new]
-I thought you were haunting me or
-something.[end]
+Huh, it's really you?
+Back to work, back to work![end]
 Yep...I've gotten as good as Boss at this...
 D...Don't tell him I just said that![end]</sn:pointer>
 
@@ -735,16 +691,14 @@ For the time being, you should just rest...[end]
 We'll protect the castle somehow.[end]
 Oh, Sir Cecil![end]</sn:pointer>
 
-<sn:pointer id="39">I love being a frog.
-Plenty of kisses from fair maidens...[end]
+<sn:pointer id="39">Frogs have it good...[end]
 Welcome to Toroia Castle![end]
-Yes, my name is Jeremiah.
-How did you know?[end]
+Ribbit!
+Ribbit![end]
 Oh, travelers!
 Please make yourselves at home.[end]
-Ribbit!
-Ribbit!
-I love being green![end]
+Croak!
+Croak![end]
 Are you here about the Crystal?
 Then you should talk to the Clerics inside
 the castle.[end]
@@ -784,15 +738,13 @@ Sir Cecil![end]
 Where!?[end]
 [bold]Palom[normal]: Jeez, man!
 You can't go around trusting everybody![new]
-[bold]Cecil[normal]: Beigan too..?
-How much of Baron does Golbez
-control..?[end]</sn:pointer>
+[bold]Cecil[normal]: Beigan too...![end]</sn:pointer>
 
 <sn:pointer id="43">I've felt a strange atmosphereabout the
 king lately...[end]
 Sir Cecil!
 Please take the throne![end]
-I don't like that Beigan asshole![end]
+I don't like that Beigan one bit![end]
 Even without a king, Baron's
 indestructible!
 But without the Red Wings...[end]
@@ -827,11 +779,11 @@ Paladin.
 That makes me unhappy...You traded
 your Darkness for Holy Light.[new]
 [bold]Cecil[normal]: King Baron?...[end]
-'Why you...you damn imposter!'[end]
-[bold]Cid[normal]: You bastard!
-Puttin' me in a moldy old place like that!
-I'm gonna get medieval on your ass!
-E..eh?[end]
+'Why you...you fake King Baron!'[end]
+[bold]Cid[normal]: How dare you lock me up in a
+moldy old place like that!
+I'll beat you to a pulp!
+E...eh?[end]
 [bold]Cecil[normal]: Cid![new]
 [bold]Cid[normal]: Cecil!
 It's you!
@@ -849,22 +801,23 @@ Not only is he abusin' my airships, but
 Rosa too!?[end]
 [bold]Tellah[normal]: That girl's in danger!
 Quickly, take us to the airship![end]
-[bold]Cid[normal]: Who's this old fart?[new]
+[bold]Cid[normal]: Who's this old geezer?[new]
 [bold]Tellah[normal]: Look who's talking![new]
 [bold]Cid[normal]: Whaddya mean?
 I'm not over-the-hill yet![end]
 [bold]Porom[normal]: Now, now...
 You're Sir Cid, correct?
 This is Master Tellah.
-He is a great sage from Mysidia.[end]
+He is a great sage.[end]
 [bold]Porom[normal]: This is Sir Yang, the head
 of Fabul's monks.
 And I'm Porom, an apprentice magician
 from Mysidia.[end]
-[bold]Palom[normal]: And I'm a... superstar![new]
+[bold]Palom[normal]: Hmph, a pair of geezers![new]
 [bold]Porom[normal]: The rude one is my twin
 brother, Palom.[new]
-[bold]Palom[normal]: Ah, go to hell.[end]
+[bold]Palom[normal]: Hmph, Miss Goody
+Two-Shoes![end]
 [bold]Yang[normal]: I am very pleased to make
 your acquaintance, sir.
 It's dangerous here so we should hurry.[new]
@@ -921,9 +874,7 @@ Crystal's not just an ordinary gem![end]</sn:pointer>
 <sn:pointer id="49">Ow!
 That's a bruise there![end]
 C...Captain?
-You've become so splendid!
-Me?
-Oh, I'm much better![end]
+You look so splendid![end]
 Captain...[end]
 You were alive after all![end]
 I'm going to go get drunk and try to
@@ -934,10 +885,7 @@ That job left me with a bad feeling.[end]
 Golbez took the Red Wings![end]
 The Red Wings have sunk to a new low...[end]
 Damn!
-If only we had the Airships!
-I'm tired of sitting around and getting
-drunk![new]
-I wanna fight![end]</sn:pointer>
+If only we had the airships![end]</sn:pointer>
 
 <sn:pointer id="50">T[end]</sn:pointer>
 
@@ -976,9 +924,9 @@ above...![end]</sn:pointer>
 <sn:pointer id="65">[bold]Tellah[normal]: That's...
 Oh my God!!
 Anna!![end]
-[bold]Tellah[normal]: You..You're that Bard!
-You son of a bitch!
-Anna's dead because of you!![new]
+[bold]Tellah[normal]: You...
+You're that bard!
+Because of you, Anna...![new]
 [bold]Bard[normal]: !?[end]
 [bold]Edward[normal]: The Light of the Desert is
 created from the secretions of the Antlion
@@ -1026,10 +974,10 @@ I am just a weakling!
 In that case, I'll stay here with Anna
 forever![new]
 I don't care about anything else![end]
-[bold]Cecil[normal]: Damnit, you're not the only
-one sad here!
-Do you think staying here and crying like
-a child would make Anna happy!?[new]
+[bold]Cecil[normal]: You're not the only one
+who's sad!
+Anna wouldn't be happy to see you like
+this![new]
 Besides, right now we need your help![new]
 [bold]Edward[normal]: Me, help YOU?[new]
 [bold]Cecil[normal]: I'm Cecil.
@@ -1193,15 +1141,13 @@ Give him a good whack with this![end]
 Received the Frying Pan of Love![end]
 Yang?!
 He's underground?[end]
-Sorry, I'm stuck here doing lousy
-housework all the time.
+Oh, thanks for coming all this way.
 This is all I've got to thank you with, but
 it should come in handy somehow.[end]
 Received the Meat Cleaver![end]
 Don't worry about me!
-Tell Yang to get well soon and fight
-for the future of the world!
-And...that I love him.[end]</sn:pointer>
+Tell him to hurry up, get well and get
+back to fighting![end]</sn:pointer>
 
 <sn:pointer id="83">T[end]</sn:pointer>
 
@@ -1221,11 +1167,8 @@ Baron's been acting up a lot recently, but
 they probably won't attack here.[end]
 These may look like leotards, but they're
 actually our battle gear!
-Quite practical, really.[new]
-They're easy to move in, lightweight, and
-comfortable.
-The fact that they happen to be
-fashionable is an added bonus![end]
+They're easy to move in, and above all,
+fashionable, don't you think?[end]
 Toroia is protected by women.
 We guards are also all women.[end]
 I'm not just some old woman!
@@ -1243,10 +1186,8 @@ we have to do to protect our country?[end]</sn:pointer>
 <sn:pointer id="86">The Clerics are eight sisters.For
 generations, they have been the
 guardians of the Crystal.[end]
-The Earth Crystal has bestowedToroia
-with the blessings of nature.
-If we lose the Crystal, this region will
-become a barren wasteland...[end]
+If we lose the Crystal, this land will turn
+back into a wasteland![end]
 This is much better than being ruled by a
 lot of savage men![end]
 It looks like you're in a tight spot.
@@ -1416,9 +1357,8 @@ Pressing right will guard.[new]
 Also, if you want to use a weapon as an
 item in combat, select Item and scroll to
 the top to select your weapon![new]
-Use that to change your weapons or refill
-your arrows, and you are assured of
-victory![end]
+That's also how you switch weapons or
+refill your arrows![end]
 You need to make decisions quickly in
 battle!
 Those without the confidence to do so
@@ -1524,8 +1464,7 @@ Try to cast fire.[new]
 [bold]Cecil[normal]: I see...
 Because of that Bomb Ring's inferno, Mist
 was...[end]
-[bold]Rosa[normal]: What?
-Listen, Rydia.
+[bold]Rosa[normal]: Listen, Rydia.
 You're the only one here with the power
 to melt this ice.[new]
 [bold]Rydia[normal]: ...[new]
@@ -1615,7 +1554,7 @@ Be quiet![new]
 'Hiss...
 Hiss...'
 [bold]Porom[normal]: There you go again![new]
-[bold]Palom[normal]: It's not me, damnit![end]</sn:pointer>
+[bold]Palom[normal]: I said it wasn't me![end]</sn:pointer>
 
 <sn:pointer id="136">T[end]</sn:pointer>
 
@@ -1659,11 +1598,9 @@ Esuna![end]
 His Majesty is angry at you.
 Until you deliver the Bomb Ring to Mist,
 he refuses to see you.[end]
-[bold]Tellah[normal]: Those damn fools!
-They were so young!
-Why?
-It should have been me![new]
-Not these children![end]</sn:pointer>
+[bold]Tellah[normal]: You fools!
+It should have been this old man who
+died![end]</sn:pointer>
 
 <sn:pointer id="139">[bold]Cecil[normal]: This well looks bottomless...[end]</sn:pointer>
 
