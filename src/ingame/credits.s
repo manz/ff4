@@ -17,6 +17,4 @@ Staff credits: points the text loader at `credits_text` and lengthens the cutsce
 .alloc at 0x13d623 {
     lda.b #0x0b
 }
-.alloc at 0x13f016 {
-    .incbin "the_end_gfx.bin"
-}
+.include "the_end.i"  ; src/lang/<lang>
