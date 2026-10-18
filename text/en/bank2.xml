@@ -1802,7 +1802,7 @@ Now, let me heal you![end]
 <sn:pointer id="194">T[end]</sn:pointer>
 
 <sn:pointer id="195">[bold]Yang[normal]: To think it would be hidden
-here..[new]
+here...[new]
 [bold]Tellah[normal]: Incredible![new]
 [bold]Cid[normal]: Sorry to keep you waiting,
 Enterprise!
@@ -1849,7 +1849,7 @@ Our Young Master went to check things
 out, but he's been gone too long...[end]
 T[end]
 There's not much food left.
-I wonder how long we can hold out..?[end]
+I wonder how long we can hold out...?[end]
 Young Master, show us your ultimate
 Ninjutsu![end]
 We'll hold out here until the Young
@@ -1861,7 +1861,7 @@ loses all sense...[end]</sn:pointer>
 
 <sn:pointer id="202">Stop our Young Master...[end]
 Our Young Master went after Rubicante![end]
-You're all right, Master!
+You're all right, Young Master!
 It's too dangerous to go any further
 right now![end]</sn:pointer>
 
@@ -1871,14 +1871,14 @@ right now![end]</sn:pointer>
 
 <sn:pointer id="205">T[end]</sn:pointer>
 
-<sn:pointer id="206">The Young Master will kill theenemy for
+<sn:pointer id="206">The Young Master will kill the enemy for
 sure![end]
 When the Young Master was away, the
 King and Queen were captured...[end]
 I'm going to protect my mom!
 She's got my little brother or sister inside
 of her![end]
-Eblana is a nation of powerfulninja
+Eblana is a nation of powerful ninja
 warriors...
 But we were defeated so easily...[end]
 Is this the end of the Ninjas of Eblana...?[end]
@@ -1971,7 +1971,7 @@ here![end]
 If you can come back in one piece you'd
 be able to use the weapons here... but
 that's impossible.[end]
-I said that you can't use....a Paladin?
+I said that you can't use...a Paladin?
 YOU...?[end]</sn:pointer>
 
 <sn:pointer id="231">T[end]</sn:pointer>
@@ -2069,11 +2069,11 @@ powerful as this, Lali![end]</sn:pointer>
 
 <sn:pointer id="259">I'm not making any more swords!
 I can't even find the legendary ore
-Adamant...[end]
-This is the Adamant!
+Adamantite...[end]
+So this is Adamantite!
 All right, in thanks, I'll make that old
 sword of yours better than new![end]
-You handed over the Legendary Sword.[end]
+You handed over the Legend Sword.[end]
 Zzz...[end]</sn:pointer>
 
 <sn:pointer id="260">There are Sylphs in the cave far to the
@@ -2124,7 +2124,7 @@ the Queen died![end]
 Lali-ho!
 Have you learned it yet?[end]
 If you can get used to it,
-theunderworld's pretty nice!
+the underworld's pretty nice!
 I hope you can stay here a while, Lali![end]
 [bold]Cecil[normal]: I'm sorry.
 Golbez got the Crystal...[new]
@@ -2140,10 +2140,10 @@ nobody can enter.[new]
 Therefore, we have a plan of attack, but
 we'll need your assistance.[new]
 [bold]Cecil[normal]: It's our fault that we lost the
-crystal!
+Crystal!
 If there's anything we can do to help...[new]
 [bold]Jiott[normal]: While Golbez is occupied at the
-sealed cave... could you sneak into the
+Sealed Cave... could you sneak into the
 Tower of Babil and retrieve the other
 seven Crystals?[new]
 [bold]Cain[normal]: The Tower of Babil?[new]
@@ -2152,7 +2152,7 @@ the enemy's stronghold!?[new]
 [bold]Jiott[normal]: Don't worry!
 I'll have our Tank Force attack the Tower!
 During the diversion, go in and grab the
-crystals![new]
+Crystals![new]
 Now is our only chance, while Golbez
 is gone![end]
 [bold]Cain[normal]: So what should we do?[new]
@@ -2179,15 +2179,15 @@ southwest![end]
 The fate of everything is in your hands![end]
 They say that necklace is a keepsake
 from her late mother, the Queen.[end]
-Near the sealed cave is the continent of
+Near the Sealed Cave is the continent of
 Tomera where more dwarves live!
 But we can't get there because of the
 lava![end]
 If you can fly, you should be able to go
-to the sealed cave.But Dwarves can't fly!
+to the Sealed Cave. But Dwarves can't fly!
 We have to rely on you![end]
-There's a rumor that there's a road to
-the Phantom World somewhere here in the
+There's a rumor that there's a cave leading to
+the Land of Phantoms somewhere here in the
 underworld![end]
 You can't fly over the lava?
 Can't that old airship guy fix it up for
@@ -2228,8 +2228,8 @@ Come back in one piece![end]
 If it gets too dangerous, don't press
 your luck...flee![end]
 Even if Golbez isn't in the Tower of
-Babil, the strongest of the Four
-Emperors, Rubicante of Fire, still is![end]
+Babil, the strongest of the Elemental
+Lords, Rubicante of Fire, still is![end]
 Our Tank Force will draw the Giant Gun's
 fire!
 Sneak in while it's busy, Lali![end]
@@ -2282,7 +2282,7 @@ Don't let me down![end]</sn:pointer>
 <sn:pointer id="282">T[end]</sn:pointer>
 
 <sn:pointer id="283">You guys are fighting Golbez too?
-Please take the treasure here!Good luck![end]
+Please take the treasure here! Good luck![end]
 King Jiott sent his permission personally!
 Use the treasure well![end]</sn:pointer>
 
@@ -2361,7 +2361,7 @@ Map Design -
 Hoshiya, Kuwahara, long time no see!
 What's wrong? ...Eh?
 I've got the wrong people!?[new]
-Whoops....[end]
+Whoops...[end]
 Graphics -
 [bold]Masanori Hoshino[normal]: I drew all the
 monsters you're fighting.
@@ -2436,7 +2436,7 @@ events!!
 Stop finding more bugs!
 Damn![new]
 I'm dropping out of college![end]
-Zzz..Zzz..[end]</sn:pointer>
+Zzz...Zzz...[end]</sn:pointer>
 
 <sn:pointer id="300">[bold]FuSoYa[normal]: Let's get inside now while we
 can![end]
@@ -2490,8 +2490,7 @@ How come you won't take me along!
 Really...
 Listen, you!
 You come back alive![end]
-Mr.
-Cecil, please come back soon![end]
+Cecil, please come back safely![end]
 'Cause if you're not around then Boss
 gets in a nasty mood![end]
 Prince Edward is always thinking about
@@ -2516,8 +2515,8 @@ underground again soon![end]</sn:pointer>
 <sn:pointer id="314">Rydia, you've come back![end]
 You're the first humans to come here
 besides Rydia.[end]
-This is the Phantom World, the world
-where the Phantom Beasts live.[end]
+This is the Land of Phantoms, the world
+where the Phantoms live.[end]
 The King of the Phantoms lives deep
 within the Land of Phantoms.[end]</sn:pointer>
 
@@ -2529,7 +2528,7 @@ Asura and the King of the Phantoms.[end]
 I hear our buddies in the other world
 aren't behaving themselves.[end]
 They say if you can't defeat Lady
-Ashura, then the King won't even listen
+Asura, then the King won't even listen
 to you![end]
 Yo, Rydia!
 What?
@@ -2570,7 +2569,7 @@ Summoning Magic...Magic which calls
 forth Phantoms...
 There are very few who possess this
 power.[end]
-The Phantom World has a much, much
+The Land of Phantoms has a much, much
 longer history than that of the human
 world...[end]
 The cave which connects our world with
@@ -2588,9 +2587,9 @@ It's never boring here.
 There are so many books, it would take
 an eternity to read them all![end]
 For monsters that 'Libra' does not work
-on, the Monster Dictionary will show their
+on, the Bestiary will show their
 true nature...[end]
-Phantom Beast, Monster, Human...
+Phantom, Monster, Human...
 Where did they come from, and where
 are they going...
 The mystery of eternity...[end]
@@ -2606,17 +2605,17 @@ He has never known defeat...
 Only one who can turn his own power back
 on him could ever overcome him...[end]
 There are two moons...
-But it is said that in ancienttimes there
+But it is said that in ancient times there
 was only one.[end]
-The Queen of the Phantom World,
-Ashura...
-As the wife of the Phantom Beast King,
+The Queen of the Land of Phantoms,
+Asura...
+As the wife of the King of the Phantoms,
 she is the gateway to his audience.[new]
 Only those who can surpass her will be
 able to see the true form of the King...[end]
-The Phantom Beast King...
+The King of the Phantoms...
 He appeared from the northern ocean.
-He is said to be master of theoceans,
+He is said to be master of the oceans,
 and is without rival.[end]
 Odin, whose Zantetsuken fells any foe in
 a single blow...
@@ -2630,13 +2629,13 @@ True strength is a righteous heart.
 Never lend your power lightly without
 first judging that strength.[end]</sn:pointer>
 
-<sn:pointer id="320">This is the room of the Phantom Beast
-King and Queen.[end]
-In order to speak with the Phantom
-Beast King, you need permission from
-Queen Ashura.[end]
+<sn:pointer id="320">This is the room of the King and Queen
+of the Phantoms.[end]
+In order to speak with the King of the
+Phantoms, you need permission from
+Queen Asura.[end]
 Rydia...
-You have strong, kind friends.You may
+You have strong, kind friends. You may
 call me any time...[end]
 This is truly the power of Light!
 I, Leviathan, King of the Phantoms, shall
@@ -2688,7 +2687,7 @@ We found him collapsed outside of our
 hole.
 But he hasn't awakened...
 We've been tending to him ever since...[new]
-Is our love not enough..?[end]
+Is our love not enough...?[end]
 What would you do if Yang died!?[end]
 [bold]Yang[normal]: Uuuh...
 Uhh...is it time for training already?
@@ -2835,8 +2834,8 @@ to the Core![end]</sn:pointer>
 
 <sn:pointer id="357">Change your name?
 What do you mean?[end]
-Hm, hm hm hmmm....[end]
-We are the Humingway family.[end]
+Hm, hm hm hmmm...[end]
+We are the Hummingway family.[end]
 Come to think of it, there was one of our
 friends who built a ship and went to the
 Blue Planet...[new]
