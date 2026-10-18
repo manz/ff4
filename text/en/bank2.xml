@@ -72,9 +72,9 @@ But Master Tellah wouldn't allow it,
 so she ran away from Kaipo...[end]
 I want to be a dancer at Damcyan but
 there are many monsters lurking in the
-Underwater Channel.
+Underground Channel.
 Will you watch my Synchronized Dance?[end]
-The Underwater Channel is to the
+The Underground Channel is to the
 northeast, but I hear that eight sea
 serpents have been showing up lately![end]
 The castle to the north, Damcyan,
@@ -94,14 +94,13 @@ To think someone could actually become
 a Paladin...[end]
 Do you know how much we've suffered
 because of you?[end]
-Oh, hello Palom, Porom!
-Mt.
-Ordeals is to the East![end]
+Oh, hello, Palom, Porom.
+Mt. Ordeals is to the east.[end]
 So you have suffered too.
 I will pray for you as well.[end]
 I have nothing to say to you![end]
-Lots of powerful undead roam Mt.
-Ordeals!
+Mt. Ordeals is a nest of powerful
+undead!
 Your Dark Sword is useless![end]
 You...a Paladin!?[end]
 People hurting people...
@@ -110,18 +109,19 @@ Endure the trial and cast off that form.[end]
 Please do not forget the spirit of the
 Paladin.[end]
 You've got some nerve coming here![end]
-Lots of people have challenged Mt.
-Ordeals, but not one has ever come
+Many have challenged Mt. Ordeals,
+but not one has ever come
 back.[end]
 This doesn't mean that I've forgiven you![end]
-Oh!
+Eek!
 It's Baron's...
-Dark Knight!![end]
-Oh!
-You become a Paladin?
+dark knight!![end]
+Eek!
+You're going to become a Paladin?
 You're joking, right?[end]
-Oh!
-Hey, you're... ...a Paladin?
+Eek!
+Look at you!
+A Paladin?
 What a surprise![end]
 T[end]
 This is the Devil Road that leads to
@@ -165,20 +165,20 @@ Eep!
 Wh-what the...
 You startled me!
 Go on, get away from here![end]
-I wonder where my husband went..?[end]
-Have you heard of the Echoer?
+I wonder where my old man went...[end]
+Have you heard of the Whisperweed?
 It's an amazing plant that can send your
 voice far away![end]
-....
-Leave me alone.
+...
+You're so noisy.
 I'm sunbathing![end]
 I took my strongbox to the cave on the
 northeast island to collect gems, and it
 got stuck there.
 It won't come off![end]</sn:pointer>
 
-<sn:pointer id="6">This is the town of those of Dwarven
-blood, Agalt.[end]
+<sn:pointer id="6">This is Agalt, the village of those with
+dwarven blood.[end]
 According to legend, everything consists
 of a front and a back.
 Yes, this world is no exception...[end]
@@ -231,8 +231,7 @@ It's on the house!
 Make yourself at home![end]
 It...it's Cecil of the Red Wings!
 I...I've done nothing wrong!
-I always pay my taxes, on timeand in the
-full amount![end]
+I pay my taxes, too...[end]
 The soldiers from the castle are doing
 whatever they please at the bar![end]
 The town's finally got its old spirit back!
@@ -271,8 +270,9 @@ Dad!
 You're not young anymore, so don't do
 anything reckless!
 Please look after my father, everyone.[end]
-Please take care of my father.Is he
-working on the airship again?[end]
+Please take care of my father.
+He's tinkering with the airship again,
+isn't he?[end]
 Zzz...Zzz...[end]</sn:pointer>
 
 <sn:pointer id="14">[bold]Rosa's mother[normal]: The way the king
@@ -281,12 +281,10 @@ I hear you've been doing awful things
 abroad too![new]
 Please, don't get Rosa caught up in
 anything like that...[end]
-Rosa'
-[bold]s mother[normal]: Rosa ran away to
+[bold]Rosa's mother[normal]: Rosa ran away to
 search for you!
 Where is she now?[end]
-Rosa'
-[bold]s mother[normal]: Rosa!
+[bold]Rosa's mother[normal]: Rosa!
 You're safe![new]
 [bold]Rosa[normal]: I'm sorry...[new]
 [bold]Rosa's mother[normal]: Don't you ever go
@@ -298,9 +296,8 @@ It was good that I did!
 Cecil's a fighter, so I can provide
 him support![new]
 And you fought alongside Dad as a White
-Magician long ago!
-Rosa'[new]
-[bold]s mother[normal]: ...Rosa...
+Magician long ago![new]
+[bold]Rosa's mother[normal]: ...Rosa...
 Your father... was a great Knight.
 I understand...
 Cecil, please take care of her.[end]</sn:pointer>
@@ -318,8 +315,8 @@ but then Anna ran away from home...[end]</sn:pointer>
 <sn:pointer id="17">Hi, I'm a traveling scholar.
 I want to do research at Fabul, a town
 east of Damcyan.[new]
-But this strange old guy by the
-Underwater Channel won't let me pass...[end]
+But this strange old guy in the
+Underground Channel won't let me pass...[end]
 Oh, how unusual, a customer...Because of
 all the monsters, we are seeing fewer
 customers nowadays.[end]
@@ -338,10 +335,11 @@ So you're that Cecil who she was
 calling for.
 Take care of her![end]
 In order to cure the desert fever, you
-need the 'Light of the Desert'... an elusive
-gem found only in the Antlion's lair...[end]
-The Light of the Desert is theonly cure
-for Desert Fever.[end]
+need the Desert Light, an elusive gem
+found in the cave where the monster
+called the Antlion lives...[end]
+For desert fever...
+the Desert Light is the cure...[end]
 [bold]Rosa[normal]: ...[music][0x13] Ooh...
 Cecil...
 Don't die, Cecil![end]
@@ -352,9 +350,8 @@ Please visit us again![end]</sn:pointer>
 
 <sn:pointer id="19">What do you want to rob from us this
 time![end]
-Mt.
-Ordeals?
-Just going there is pointless![end]
+Mt. Ordeals?
+Going there is pointless![end]
 Never forgive the Baronian pillage that
 robbed us of our crystal and the lives of
 our people![end]
@@ -381,11 +378,10 @@ Ha!
 Hell, I can be one too![end]
 Good heavens!
 You really did it![end]
-P-p-p-please shpare me! -hic-[end]
-P-p-p-please shpa...
+P-p-p-please forgive me![end]
+P-p-p-please forgi...
 Huh?
-You're going to climb Mt.
-Ordeals?[end]
+You're going to climb Mt. Ordeals?[end]
 Wow, you surely look splendid![end]
 [bold]Cecil[normal]: Ack![end]
 I slipped a little poison into your
@@ -428,8 +424,8 @@ huh?
 The old man ordered me to help you.
 Guess I don't have a choice.[new]
 You'd better be grateful![end]
-[bold]Porom[normal]: You're Mr.
-Cecil, aren't you.
+[bold]Porom[normal]: You're Mr. Cecil, aren't
+you?
 I'm very pleased to make your
 acquaintance.[end]
 [bold]Porom[normal]: Hey Palom, go ahead and
@@ -437,8 +433,7 @@ greet him![end]
 [bold]Palom[normal]: Pleased to meet ya, pal![end]
 [space][0x5]Black Magician Palom [space][0xe]and [space][0x5]White
 Magician Porom [space][0x7]joined the party![music][0x29][delay][0x28][end]
-[bold]Village Elder[normal]: Now go to Mt.
-Ordeals!
+[bold]Village Elder[normal]: Now go to Mt. Ordeals!
 Palom!
 Porom![new]
 I'm counting on you![end]</sn:pointer>
@@ -455,8 +450,9 @@ The Village Elder has been praying in the
 Tower of Prayers ever since you left.[end]
 We will also pray, for all living creatures.[end]
 Tellah too!?
-I warned him not to fight withhatred like
-that...the fool...[end]
+I warned him not to fight with hatred
+like that...
+The fool...[end]
 We will continue to pray![end]
 Hurry to the moon![end]
 [bold]Village Elder[normal]: The Magical Ship is a
@@ -492,15 +488,15 @@ Liar!
 Get out of here![end]</sn:pointer>
 
 <sn:pointer id="25">Next time, I want a fur coat.[end]
-Sir, do you have enough money?It gets
-pretty expensive up here.[end]
+Sir, do you have enough money?
+It gets pretty expensive from here on.[end]
 This old man talks of nothing but old war
 stories!
 I'm so sick of it![end]
 And then!
 I landed a critical hit on a Goblin![end]
-Hey, this is for members only.Get outta
-here now![end]
+Hey, this is for members only.
+Get outta here![end]
 Damn that old geezer!
 Hands off my Jennifer![end]
 T[end]
@@ -529,7 +525,7 @@ T[end]
 
 <sn:pointer id="29">Have you ever seen these?
 They're Black Chocobos.
-Since these Chocobos have beentamed
+Since these Chocobos have been tamed
 by humans, they can't fly anymore.[new]
 However, the wild ones in the Chocobo
 village to the north can fly, although not
@@ -617,7 +613,7 @@ magma...[end]</sn:pointer>
 <sn:pointer id="35">T[end]</sn:pointer>
 
 <sn:pointer id="36">Nothing out of the ordinary![end]
-The King was a monster..?[end]
+The King was a monster...?[end]
 I've felt a real air of uneasiness around
 the castle recently...[end]
 Perhaps we were being manipulated too...[end]
@@ -631,7 +627,7 @@ You got a pass to get inside?[end]
 It's evening...
 You shouldn't leave right now.[end]
 I've heard that there are times when
-Phantom Beasts are immune to attack.[end]
+Phantoms are immune to all attacks.[end]
 I have this feeling I've seen you
 somewhere before...[end]
 This tower is off limits.[end]
@@ -665,8 +661,7 @@ He went off thinking about
 God-knows-what, leaving the airship
 maintenance to us.[end]
 Boss!
-And Mr.
-Cecil![end]
+And Mr. Cecil too![end]
 Looks like Boss is acting same as usual,
 doesn't it?[end]
 Man, another all-nighter today...[new]
@@ -711,7 +706,7 @@ Please conduct yourselves accordingly.[end]</sn:pointer>
 <sn:pointer id="41">T[end]</sn:pointer>
 
 <sn:pointer id="42">You should take the treasure in this room
-to help you defeat the Phantom Beasts.
+to help you defeat the Phantom.
 If you push the switch in the wall, the
 door will open.[end]
 I hear the late King's voice echoing
@@ -724,7 +719,7 @@ weren't human...[end]
 ...!?
 I...I'm not sleeping![end]
 His majesty was murdered by that
-fiend..?[end]
+fiend...?[end]
 [bold]Cain[normal]: Are you ready, Cecil?[new]
 [bold]Cecil[normal]: I'm counting on you, Cain.[new]
 [bold]Cain[normal]: Just leave everything to me![end]
@@ -738,7 +733,7 @@ Where!?[end]
 You can't go around trusting everybody![new]
 [bold]Cecil[normal]: Beigan too...![end]</sn:pointer>
 
-<sn:pointer id="43">I've felt a strange atmosphereabout the
+<sn:pointer id="43">I've felt something strange about the
 king lately...[end]
 Sir Cecil!
 Please take the throne![end]
@@ -830,14 +825,15 @@ castle again![end]
 [bold]Cid[normal]: Where no one would even
 think to look!
 I did a little tinkering![end]
-[bold]Tellah[normal]: We've have no time for this!
+[bold]Tellah[normal]: I told you, we have no
+time!
 Rosa's life is on the line![end]
 [bold]Cid[normal]: Damn, you're an annoying old
 geezer!
 I get it already!
 Come on, it's this way![end]
 [bold]King Baron[normal]: Indeed!
-I am one of Golbez's Four Emperors,
+I am one of Golbez's Elemental Lords,
 Cagnazzo of Water![end]
 Received the Bomb Ring.[end]</sn:pointer>
 
@@ -859,7 +855,7 @@ Off limits![end]</sn:pointer>
 <sn:pointer id="47">T[end]</sn:pointer>
 
 <sn:pointer id="48">We imprisoned the Mysidian Magicians
-who resisted in thisdungeon.
+who resisted in this dungeon.
 You can talk to them through the bars.[end]
 I hope we never have to use this
 dungeon again.[end]
@@ -867,8 +863,8 @@ You're that Dark Knight!
 Do you expect to get away with this!?[end]
 We don't care what happens to us.
 Just return the Crystal to Mysidia![end]
-You don't understand anything!The
-Crystal's not just an ordinary gem![end]</sn:pointer>
+You don't understand anything!
+The Crystal's not just an ordinary gem![end]</sn:pointer>
 
 <sn:pointer id="49">Ow!
 That's where a monster got me![end]
@@ -917,7 +913,7 @@ Rest well tonight.[end]</sn:pointer>
 
 <sn:pointer id="63">Th, the Crystal...stolen...![end]</sn:pointer>
 
-<sn:pointer id="64">I..I've got to make it to the healing pot
+<sn:pointer id="64">I-I've got to make it to the healing pot
 above...![end]</sn:pointer>
 
 <sn:pointer id="65">[bold]Tellah[normal]: That's...
@@ -927,11 +923,11 @@ Anna!![end]
 You're that bard!
 Because of you, Anna...![new]
 [bold]Bard[normal]: !?[end]
-[bold]Edward[normal]: The Light of the Desert is
+[bold]Edward[normal]: The Desert Light is
 created from the secretions of the Antlion
 when it lays its eggs.[new]
 Its cave is to the east, but we must
-cross a shallow stream to get there.
+cross the shallows to get there.
 There is a Hovercraft in Damcyan that
 can cross the shallows.[new]
 It can also cross the shoals back to
@@ -982,9 +978,8 @@ Besides, right now we need your help![new]
 [bold]Cecil[normal]: I'm Cecil.
 A friend of mine collapsed near Kaipo,
 stricken with desert fever.[new]
-We need the Light of the Desert to cure
-her.
-Moreover, we need your help![new]
+We need the Desert Light to cure her.
+And for that... we need your help![new]
 [bold]Edward[normal]: My help...[new]
 [bold]Cecil[normal]: Right.
 For Rosa's sake... please![end]
@@ -1008,8 +1003,9 @@ Don't let them get this treasure...please![end]</sn:pointer>
 Impossible![end]
 It's because we weren't good enough...[end]
 There's a strange rumor circulating
-among the sailors.Something about the
-Master of the Ocean getting angry...[end]
+among the sailors.
+Something about angering the god of the
+sea...[end]
 You're all right![end]</sn:pointer>
 
 <sn:pointer id="72">You've come back, Master Yang![end]
@@ -1108,21 +1104,18 @@ of it...[end]</sn:pointer>
 <sn:pointer id="82">[bold]Woman[normal]: Oh, welcome home![new]
 [bold]Yang[normal]: This is my wife.
 This is Sir Cecil.
-He and his friends saved my life.
-Yang'[new]
-[bold]s wife[normal]: Thanks!
+He and his friends saved my life.[new]
+[bold]Yang's wife[normal]: Thanks!
 By the way, dear, is this really a time for
 you to be hanging around here?[end]
-Yang'
-[bold]s wife[normal]: You're safe![new]
+[bold]Yang's wife[normal]: You're safe![new]
 [bold]Yang[normal]: Thanks to these people, Fabul
 was saved.[new]
 [bold]Yang's wife[normal]: My husband's been a
 bother to you.
 Thanks![new]
-[bold]Yang[normal]: No one harmed you, did they?
-Yang'[new]
-[bold]s wife[normal]: Of course not!
+[bold]Yang[normal]: No one harmed you, did they?[new]
+[bold]Yang's wife[normal]: Of course not!
 I'm your wife, after all![new]
 A soldier from Baron came, but I
 whacked him over the head with my
@@ -1145,7 +1138,7 @@ He's underground?[end]
 Oh, thanks for coming all this way.
 This is all I've got to thank you with, but
 it should come in handy somehow.[end]
-Received the Meat Cleaver![end]
+Received the Cleaver![end]
 Don't worry about me!
 Tell him to hurry up, get well and get
 back to fighting![end]</sn:pointer>
@@ -1180,20 +1173,20 @@ recently.
 He says that he was the prince or
 something.[end]
 T[end]
-Toroia has never been in a warbefore.
-If we get involved in a war, what would
-we have to do to protect our country?[end]</sn:pointer>
+Toroia has never been drawn into a war.
+If war came, how long could we protect
+our country?[end]</sn:pointer>
 
-<sn:pointer id="86">The Clerics are eight sisters.For
-generations, they have been the
+<sn:pointer id="86">The Clerics are eight sisters.
+For generations, they have been the
 guardians of the Crystal.[end]
 If we lose the Crystal, this land will turn
 back into a wasteland![end]
 This is much better than being ruled by a
 lot of savage men![end]
 It looks like you're in a tight spot.
-As promised, we will lend you the Crystal
-of Earth.[end]
+As promised, we will lend you the Earth
+Crystal.[end]
 The Earth Crystal?
 How terrible![end]
 Dark Elf is weak against metal weapons.
@@ -1243,8 +1236,8 @@ four Crystals is true, then there still is
 hope left.[end]
 Toroia is governed by us, the eight
 Clerics.
-We were endowed with the
-EarthCrystal's blessing, but now..[end]
+We were endowed with the Earth Crystal's
+blessing, but now...[end]
 What on Earth just happened!?[end]
 Oh no!
 It's not just Toroia.
@@ -1269,14 +1262,14 @@ The doctor's over there.[end]
 He mustn't overexert himself now.
 He was never strong to begin with, and
 he's very weak.[end]
-[bold]Edward[normal]: Cecil....
+[bold]Edward[normal]: Cecil...
 You must save Rosa![end]
 We have an injured patient here.
 Please be quiet![end]
 Please...for my sake too.[end]
 Tellah is dead?!
-Why..?
-Why does everyone I love die..?[end]
+Why...?
+Why does everyone around me...?[end]
 Yang too...
 If...if only I were stronger...[end]
 Oh, so Yang is all right...
@@ -1320,18 +1313,18 @@ The king was a monster?
 We couldn't sense that...
 We must have much more to learn.[end]
 Some monsters are immune to the basic
-Fire, Ice, and Thunder spells.
+Fire, Ice and Lit spells.
 It seems that there was once stronger
 magic than that...[end]
-So the legendary magic Meteo exists![end]
+So the ancient magic Meteor did exist![end]
 Sleep!
 Eh?
 You're not sleepy?
 That's odd...[end]
-Piggy!
+Pig!
 Ack!
 Whoops...[end]
-Sorry, that was Minimum![end]</sn:pointer>
+Sorry, that was Mini![end]</sn:pointer>
 
 <sn:pointer id="103">Rosa wanted to help you, so she
 chose to become a White Magician.
@@ -1342,7 +1335,7 @@ I'm studying the basics of White Magic.
 I can cast three levels of white magic...
 Cure, Cure 2, and Cure 3![end]
 To think that a monster had replaced the
-king..[end]
+king...[end]
 His Majesty has recently been as
 energetic and robust as ever, full of life
 and vigor![new]
@@ -1371,16 +1364,16 @@ Those confident in their abilities can
 change the Battle Mode in the Config
 menu to Active.[new]
 Monsters will attack you even when
-you're selecting items ormagic, making for
-an even morethrilling battle![end]
+you're selecting items or magic, making
+for a thrilling battle![end]
 There are places within caves where you
 can save your game.
 Use these places often![end]
 If you can't carry any more items, you
 can give them to the Fat Chocobo in the
 Chocobo Forest![new]
-If you smell Chocobos, use Gysahl's
-vegetables![end]
+If you smell a Chocobo, use Gysahl
+Greens![end]
 The man over there is Namingway.
 If you want to change your name, just
 ask him![end]
@@ -1402,7 +1395,7 @@ in this same fashion on the menu screen![end]</sn:pointer>
 
 <sn:pointer id="107">T[end]</sn:pointer>
 
-<sn:pointer id="108">Turn back....wicked
+<sn:pointer id="108">«Turn back...»
 [bold]Cecil[normal]: Who's there?![end]
 «Leave at once...»
 [bold]Cain[normal]: Is that voice the Phantom?[end]
@@ -1491,7 +1484,7 @@ Please...try to be brave![new]
 [bold]Edward[normal]: Rydia?[new]
 [bold]Rosa[normal]: You CAN do this![end]</sn:pointer>
 
-<sn:pointer id="127">[bold]Edward[normal]: Those clothes..
+<sn:pointer id="127">[bold]Edward[normal]: Those clothes...
 He must be a Monk of Fabul![end]
 [bold]Edward[normal]: That one looks tough![new]
 [bold]Rydia[normal]: Let's help him![end]
@@ -1590,7 +1583,7 @@ It made me so happy![new]
 Take care of Cecil![end]
 [bold]Palom[normal]: Let's do it, Porom![new]
 [bold]Porom[normal]: Yeah![end]
-[bold]Cecil[normal]: WAIT![new]
+[bold]Cecil[normal]: Stop![new]
 [bold]Palom and Porom[normal]: ...
 BREAK!![end]
 [bold]Cecil[normal]: Palom...
@@ -1600,7 +1593,7 @@ so it has no effect...[end]
 [bold]Yang[normal]: Mere children...![end]
 [bold]Cid[normal]: This is now a battle of
 vengeance!
-Just wail 'till I bring out my Enterprise![end]
+Bring out the Enterprise![end]
 [bold]Tellah[normal]: How rash!!
 Let me see what I can do...
 Esuna![end]
@@ -1701,12 +1694,12 @@ Who are you?
 Go away!
 If you have a tail though, that's another
 story![end]
-Th...this is the Rat's Tail I've been
+Th...this is the Rat Tail I've been
 searching for!
 All right, I'll give you a little bit of this
 ore![new]
-Received Adamant![music][0x29][delay][0x28][end]
-Th..this is...the legendary Pink's Tail!
+Received Adamantite![music][0x29][delay][0x28][end]
+Th...this is...the legendary Pink Tail!
 All right, I'll give you this too!
 Received Adamant Armor![music][0x29][delay][0x28][end]</sn:pointer>
 
@@ -1716,9 +1709,8 @@ Received Adamant Armor![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="163">[bold]FuSoYa[normal]: Get up near his mouth![new]
 [bold]Cid[normal]: Who's this?[new]
-[bold]Cecil[normal]: He's FuSoYa, a man of the
-Moon.[new]
-[bold]Cid[normal]: A man of the Moon?![new]
+[bold]Cecil[normal]: He's FuSoYa, a Lunarian.[new]
+[bold]Cid[normal]: A Lunarian?![new]
 [bold]FuSoYa[normal]: Can you do it?[new]
 [bold]Cid[normal]: Who do you think I am!?
 I'm Cid, the airship man!
@@ -1783,7 +1775,7 @@ technique![end]
 'Ha ha ha!
 You...'[end]
 '...You will all die here!'[end]
-[bold]Cecil[normal]: The Four Emperors![new]
+[bold]Cecil[normal]: The Elemental Lords![new]
 [bold]Scarmiglione[normal]: Lord Zemus...[new]
 [bold]Cagnazzo[normal]: Gave us new life...[new]
 [bold]Barbariccia[normal]: To kill you![new]
