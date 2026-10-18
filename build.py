@@ -265,6 +265,8 @@ assets_builder = {
 SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "Ë": "E", "À": "A", "Â": "A", "Ç": "C", "Î": "I", "Ï": "I", "Ô": "O", "Ù": "U"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
 STATUSES_BASE = 0x27B000  # battle_statuses (src/core/assets.s): its pointers hold addresses in that bank
+# Per-language 8x8 tiles over fonts/8x8.bin's French ones: (first tile, 2bpp file).
+FONT_8X8_TILES = {"en": [(0x77, "fonts/en/hp_tiles.bin")]}  # the small HP the French font draws as PV
 STATUS_COUNT = 32  # one per status bit
 STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
 
@@ -419,6 +421,11 @@ if __name__ == "__main__":
     Path("build/gen").mkdir(parents=True, exist_ok=True)  # generated assets; a816 include path
     # The 8x8 font with the battle ATB gauge's tiles in blank kana slots (utils/atb_gauge.py).
     atb_gauge.build(Path("fonts/8x8.bin"), Path("fonts/atb_gauge.png"), Path("build/gen/font_8x8.bin"))
+    for first_tile, tiles in FONT_8X8_TILES.get(lang, ()):
+        font_8x8 = bytearray(Path("build/gen/font_8x8.bin").read_bytes())
+        data = Path(tiles).read_bytes()
+        font_8x8[first_tile * 16:first_tile * 16 + len(data)] = data
+        Path("build/gen/font_8x8.bin").write_bytes(font_8x8)
     # Fonts first: the fixed-width string checks measure with menu_font.dat.
     fonts = katsuji_config.load(Path("katsuji.toml"))
     katsuji_build.build(fonts)
@@ -427,7 +434,7 @@ if __name__ == "__main__":
     menu_glyphs = Glyphs.of(fonts.fonts["menu"])
     # The battle's 8x8 labels (Garde, Rang, Coût PM), pre-rendered in the small VWF into the 8x8 font's free kana slots.
     battle_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
-                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"))
+                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"), lang)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
