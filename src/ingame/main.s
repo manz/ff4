@@ -113,34 +113,6 @@ menu:
     }
 
 
-; Level
-    .alloc at 0x0189C3 {
-    {
-    level_offset = 7 * 2
-    lda #0xFF
-    sta.w 0 + level_offset, x
-    lda #0x4F  ; N
-    sta.w 2 + level_offset, x
-    lda #0x57  ; V
-    sta.w 4 + level_offset, x
-    lda #0xFF
-    sta.w 6 + level_offset, x
-    nop
-
-    lda #0x57  ; H 49 V 57
-    sta.w 0x40 + 2 + 0x40, x
-    lda #0x51  ; P
-    sta.w 0x42 - 2 + 0x40, x
-    sta.w 0x82 - 2 + 0x40, x
-    lda #0x4E  ; M
-    sta.w 0x80 + 2 + 0x40, x
-    lda #0xC7  ; /
-    sta.w 0x4E + 0x40, x
-    sta.w 0x8E + 0x40, x
-    }
-    }
-
-
 ; Level lower in the digest
     .alloc at 0x0189FA {
     sta.w 0x0016, x
