@@ -1,4 +1,4 @@
-"""ff4's dialog layout (utils/dialog_layout.py): window rules, French typography, pages the engine can show."""
+"""ff4's dialog layout (utils/dialog_layout.py): window rules, French and English typography, pages the engine can show."""
 
 import re
 
@@ -19,6 +19,10 @@ def windows(text: str) -> list[list[str]]:
 
 def test_a_speaker_is_set_in_bold_with_french_spacing(layout: DialogLayout) -> None:
     assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]: Comment !?[end]"
+
+
+def test_english_sets_no_space_before_marks() -> None:
+    assert dialog_layout("en").layout("Cecil: What!? Mr. Cid![end]") == "[bold]Cecil[normal]: What!? Mr. Cid![end]"
 
 
 def test_a_speaker_change_turns_the_window(layout: DialogLayout) -> None:

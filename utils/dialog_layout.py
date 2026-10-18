@@ -1,5 +1,5 @@
 """
-ff4 dialog laid out at build time with katsuji: French typography, sentences packed into the dialog window.
+ff4 dialog laid out at build time with katsuji: the language's typography, sentences packed into the dialog window.
 
 The XML keeps the translation as written; `layout` runs on each dialog pointer while the banks are encoded, so
 window breaks and line breaks are the build's, never hand-kept. Markup a previous layout added (`[new]`,
@@ -12,7 +12,7 @@ the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arr
 next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
 use where it starts, so a `[force_book]` narration wraps to the book font's widths.
 
-Inside those rules katsuji does the setting: `typeset` spaces the punctuation the French way, and `TextLayout`
+Inside those rules katsuji does the setting: `typeset` spaces the punctuation the language's way, and `TextLayout`
 packs sentences onto a line while they fit and splits a sentence wider than the window over balanced lines.
 """
 
@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from katsuji.layout import TextLayout
-from katsuji.typeset import FRENCH, Markup
+from katsuji.typeset import ENGLISH, FRENCH, Markup, Typography
 from script import Table
 
 from utils.metrics import TextMetrics
@@ -47,9 +47,10 @@ MARKUP = Markup(
 )
 
 
-ABBREVIATIONS = ("M.",)
-"""Words ending in a period that never end a sentence: French keeps the title with the name ("M. Rosa"), and a
-line never ends on one."""
+ABBREVIATIONS = {"fr": ("M.",), "en": ("Mr.", "Mrs.", "Dr.", "St.")}
+"""Words ending in a period that never end a sentence: a title stays with the name ("M. Rosa"), and a line never
+ends on one."""
+TYPOGRAPHY = {"fr": FRENCH, "en": ENGLISH}
 
 
 @dataclass(frozen=True)
@@ -185,14 +186,15 @@ def with_breaks(tokens: Sequence[Token]) -> list[Token]:
 class DialogLayout:
     """Lays one dialog pointer out into ff4 windows."""
 
-    def __init__(self, metrics: TextMetrics) -> None:
+    def __init__(self, metrics: TextMetrics, typography: Typography = FRENCH,
+                 abbreviations: tuple[str, ...] = ABBREVIATIONS["fr"]) -> None:
         self.metrics = metrics
         self.text_layout = TextLayout(
             self.measure,
             WINDOW_WIDTH,
-            FRENCH,
+            typography,
             MARKUP,
-            abbreviations=ABBREVIATIONS,
+            abbreviations=abbreviations,
             measure_after=self._measure_after,
             min_balanced_width=MIN_BALANCED_WIDTH,
         )
@@ -330,9 +332,9 @@ class DialogLayout:
         self.joinable = False
 
 
-def dialog_layout() -> DialogLayout:
+def dialog_layout(lang: str = "fr") -> DialogLayout:
     table = Table(str(TABLE))
-    return DialogLayout(TextMetrics(table, FONTS))
+    return DialogLayout(TextMetrics(table, FONTS), TYPOGRAPHY[lang], ABBREVIATIONS[lang])
 
 
 def main(paths: list[str]) -> int:

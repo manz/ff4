@@ -33,6 +33,7 @@ from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
 
 logger = logging.getLogger(__name__)
+LANG = os.environ.get("FF4_LANG", "fr")  # the text language: text/<lang>, src/lang/<lang>
 
 
 def read_fixed_from_xml(input_file, table, formatter=None):
@@ -148,7 +149,7 @@ def build_pointed_16bits_lowrom(
 @functools.cache
 def _dialog_layout() -> DialogLayout:
     """Built on first use: it measures with the dialog fonts katsuji has just written."""
-    return dialog_layout()
+    return dialog_layout(LANG)
 
 
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
@@ -310,7 +311,7 @@ if __name__ == "__main__":
     write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
     menu_table = Table(SMALL_VWF_TABLE)
     battle_table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
-    lang = os.environ.get("FF4_LANG", "fr")
+    lang = LANG
     text_root = "text/{lang}".format(lang=lang)
 
     assets_list = [
