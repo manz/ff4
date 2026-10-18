@@ -104,10 +104,10 @@ def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
         main_source=Path(input),
         output_file=Path(output),
         output_format="ips",
-        module_paths=[Path(obj_dir), Path("src")],
+        module_paths=[Path(obj_dir), Path(f"src/lang/{lang}"), Path("src")],  # the language's string modules first
         output_dir=Path(obj_dir),
         symbols={"LANG": lang, **(defines or {})},
-        include_paths=[Path("src"), Path("."), Path("build/gen"), Path("src_assets")],
+        include_paths=[Path(f"src/lang/{lang}"), Path("src"), Path("."), Path("build/gen"), Path("src_assets")],
         overlap_mode="error",
     )
 
@@ -308,7 +308,7 @@ if __name__ == "__main__":
     write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
     menu_table = Table(SMALL_VWF_TABLE)
     battle_table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
-    lang = "fr"
+    lang = os.environ.get("FF4_LANG", "fr")
     text_root = "text/{lang}".format(lang=lang)
 
     assets_list = [
@@ -485,9 +485,10 @@ if __name__ == "__main__":
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
     version = {"VERSION": os.environ["FF4_VERSION"]} if os.environ.get("FF4_VERSION") else {}
+    out = Path("build") if lang == "fr" else Path("build") / lang  # French keeps build/: the tests read it
     if "--dev" in sys.argv[1:]:
-        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, {**DEV_DEFINES, **version})
+        exit_code = build_patch("ff4.s", out / "ff4.ips", lang, {**DEV_DEFINES, **version}, obj_dir=out / "obj")
     else:
-        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, version, obj_dir="build/release/obj")
+        exit_code = build_patch("ff4.s", out / "release/ff4.ips", lang, version, obj_dir=out / "release/obj")
     if exit_code:
         sys.exit(exit_code)
