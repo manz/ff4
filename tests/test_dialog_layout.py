@@ -162,3 +162,7 @@ def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
 def test_a_quoted_word_stays_in_its_sentence() -> None:
     out = dialog_layout("en").layout("Yang: Stop calling me 'Dear'...![end]")
     assert out == "[bold]Yang[normal]: Stop calling me 'Dear'...![end]"
+
+
+def test_a_titled_speaker_keeps_the_title() -> None:
+    assert dialog_layout("en").layout("Dr. Lugeie: Grr...[end]") == "[bold]Dr. Lugeie[normal]: Grr...[end]"

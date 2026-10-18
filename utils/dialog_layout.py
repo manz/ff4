@@ -35,7 +35,7 @@ MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines th
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
 NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
-SPEAKER = re.compile(r"(\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:" too
+SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
 _IN_MESSAGE = r"(?!\[end\]|\[close_window\])"  # a quote never runs past its message
 
 
