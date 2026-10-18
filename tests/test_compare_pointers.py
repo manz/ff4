@@ -44,7 +44,7 @@ def test_normalise_gives_plain_japanese() -> None:
 
 def test_the_comparison_shows_all_three() -> None:
     text = compare("f.xml", "1", {"jp": {"1": "JP"}, "en": {"1": "EN"}, "fr": {"1": "FR"}}, ["Caïn"], None)
-    assert all(part in text for part in ("JP", "EN", "FR", "name codes the French loses: Caïn"))
+    assert all(part in text for part in ("JP", "EN", "FR", "name codes the translation loses: Caïn"))
 
 
 def test_a_language_left_out_is_not_shown() -> None:
