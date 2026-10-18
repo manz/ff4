@@ -1388,8 +1388,8 @@ Even if you defeat me...
 the last Elemental Lord remains![new]
 Vanish along with this Tower of Zott!![end]</sn:pointer>
 
-<sn:pointer id="262">[bold]Cecil[normal]: The..the tower is falling apart![new]
-[bold]Cain[normal]: Damnit![new]
+<sn:pointer id="262">[bold]Cecil[normal]: Th-the tower is collapsing![new]
+[bold]Cain[normal]: Damn it![new]
 [bold]Cid[normal]: Hyaa![end]</sn:pointer>
 
 <sn:pointer id="263">[bold]Cecil[normal]: This is...[end]</sn:pointer>
@@ -1416,7 +1416,7 @@ The Crystals of Darkness![end]</sn:pointer>
 <sn:pointer id="266">[bold]Cid[normal]: There are four crystals on the
 front side of the Earth.[new]
 [bold]Yang[normal]: So there are crystals on the
-reverse..?[new]
+reverse side...?[new]
 [bold]Cecil[normal]: The Crystals of Darkness...?[new]
 [bold]Cain[normal]: Right.
 Most importantly, it means that
@@ -1450,7 +1450,7 @@ the underworld...[new]
 [bold]Rosa[normal]: Where would this be?[new]
 [bold]Cain[normal]: I don't know...[end]</sn:pointer>
 
-<sn:pointer id="268">[bold]Cecil[normal]: The Magma stone is reddening![end]</sn:pointer>
+<sn:pointer id="268">[bold]Cecil[normal]: The Magma Stone is glowing red...![end]</sn:pointer>
 
 <sn:pointer id="269">[bold]Cecil[normal]: What's that!?[new]
 [bold]Cain[normal]: The Red Wings![end]</sn:pointer>
@@ -1470,8 +1470,8 @@ We thought you were with them, but
 then they shot you down.[new]
 Actually, we were about to shoot you
 down ourselves.[new]
-[bold]Cain[normal]: Are the underground Crystals
-safe?[new]
+[bold]Cain[normal]: Are the underworld's Crystals
+still safe?[new]
 [bold]Jiott[normal]: Unfortunately, they've already
 gotten two of the four.[new]
 [bold]Yang[normal]: We're late...[new]
@@ -1693,7 +1693,7 @@ All of them... all of them![new]
 [bold]Edge[normal]: H-hey now...[end]</sn:pointer>
 
 <sn:pointer id="303">[bold]Cecil[normal]: ...Rubicante is the most
-powerful of the Four Emperors.
+powerful of the Elemental Lords.
 We don't know whether or not we stand
 a chance![new]
 But we have to take the crystals back
@@ -1729,7 +1729,7 @@ We will fight too!
 In place of Yang, who taught us the
 kindness and strength of humans![new]
 [bold]Rydia[normal]: Glad to have you, Sylphs! [space][0x5]Rydia Learned
-Sylph![music][0x29][0x4]Z[end]</sn:pointer>
+Sylph![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="308">[bold]Edge[normal]: GRAAAAAAAAAH![new]
 [bold]Rosa[normal]: How horrible...![end]</sn:pointer>
@@ -1882,7 +1882,7 @@ It is a battle for the life of every living
 thing on this earth![end]</sn:pointer>
 
 <sn:pointer id="330">[bold]Rydia[normal]: Kyaa![new]
-[bold]Cecil[normal]: The tower of Babil!?[end]</sn:pointer>
+[bold]Cecil[normal]: The Tower of Babil!?[end]</sn:pointer>
 
 <sn:pointer id="331">[bold]FuSoYa[normal]: No!
 We're late![end]</sn:pointer>
@@ -1905,14 +1905,14 @@ others to lend us their power![end]</sn:pointer>
 I wonder if there's anything here that we
 can use?[end]</sn:pointer>
 
-<sn:pointer id="337">[bold]Rydia[normal]: Queen Ashura![new]
-[bold]Ashura[normal]: It's been quite a while,
+<sn:pointer id="337">[bold]Rydia[normal]: Queen Asura![new]
+[bold]Asura[normal]: It's been quite a while,
 Rydia.[new]
 [bold]Rydia[normal]: We need your power![new]
-[bold]Ashura[normal]: Then I shall help you...or so I
+[bold]Asura[normal]: Then I shall help you...or so I
 would like.
-However, I'm bound by the Law of the
-Phantom Beast World...[new]
+However, I'm bound by the law of the
+Land of Phantoms...[new]
 You must first prove your worth in
 combat.
 Do you have the courage and power to
@@ -1985,7 +1985,7 @@ But you are still no match for me.[new]
 Hone your skills!
 I will face you anytime![end]</sn:pointer>
 
-<sn:pointer id="350">[bold]Edge[normal]: Wait..!
+<sn:pointer id="350">[bold]Edge[normal]: Wait...!
 Don't...you...dare...leave![end]</sn:pointer>
 
 <sn:pointer id="351">[bold]Cid[normal]: ZzzzzzzZzzzzzzz...[new]
@@ -2030,7 +2030,7 @@ All I can do is fix up airships for you.[end]</sn:pointer>
 
 <sn:pointer id="359">[bold]Edge[normal]: Jeez...
 Old man, I salute you![new]
-[bold]Rydia[normal]: Get well soon..[end]</sn:pointer>
+[bold]Rydia[normal]: Get well soon...[end]</sn:pointer>
 
 <sn:pointer id="360">[bold]Cid[normal]: Take care of Cecil and
 Rosa![new]
@@ -2147,8 +2147,7 @@ I've come back to my senses![end]</sn:pointer>
 <sn:pointer id="371">[bold]Cain[normal]: Now we have all of the
 crystals!
 The way to the moon will open![new]
-[bold]Edge[normal]: Wait!
-Damnit![end]</sn:pointer>
+[bold]Edge[normal]: Wait, damn you!![end]</sn:pointer>
 
 <sn:pointer id="372">[bold]Cecil[normal]: Cain...[new]
 [bold]Edge[normal]: Unbelievable![end]</sn:pointer>
@@ -2208,8 +2207,7 @@ Babil![end]</sn:pointer>
 <sn:pointer id="380">[bold]Cecil[normal]: ...That light called me its son.
 What was that light?[new]
 [bold]Village Elder[normal]: I don't know what the
-light on Mt.
-Ordeals was, nor do I know what the
+light on Mount Ordeals was, nor do I know what the
 legend means.[new]
 But we from Mysidia are told to pray for
 this legend.
@@ -2289,7 +2287,7 @@ The Antlion is tame.
 He won't hurt a human.
 I'll take the Light of the Desert.[end]</sn:pointer>
 
-<sn:pointer id="392">[bold]Cecil[normal]: Let's go Rydia![end]</sn:pointer>
+<sn:pointer id="392">[bold]Cecil[normal]: Let's go, Rydia![end]</sn:pointer>
 
 <sn:pointer id="393">You received the Light of the Desert![music][0x29][delay][0x28][end]</sn:pointer>
 
@@ -2353,7 +2351,7 @@ But I will be fighting YOU, Cecil![new]
 Now it's our turn to help you.
 Rest your body, and let us think of a
 rescue plan.[new]
-[bold]Cecil[normal]: Thank you Yang...[end]</sn:pointer>
+[bold]Cecil[normal]: Thank you, Yang...[end]</sn:pointer>
 
 <sn:pointer id="405">Bam![end]</sn:pointer>
 
@@ -2467,7 +2465,7 @@ Hold on![end]</sn:pointer>
 
 <sn:pointer id="438">[bold]Porom[normal]: Let's go, Mr.
 Cecil![new]
-[bold]Cecil[normal]: Y..yeah![end]</sn:pointer>
+[bold]Cecil[normal]: Y-yeah![end]</sn:pointer>
 
 <sn:pointer id="439">[bold]Cecil[normal]: What happened to Rydia
 and Edward!?[end]</sn:pointer>
@@ -2515,7 +2513,7 @@ you![end]</sn:pointer>
 
 <sn:pointer id="450">[space][0x4]At about that time...[end]</sn:pointer>
 
-<sn:pointer id="451">[bold]Golbez[normal]: ..!?[end]</sn:pointer>
+<sn:pointer id="451">[bold]Golbez[normal]: ...!?[end]</sn:pointer>
 
 <sn:pointer id="452">[bold]Cid[normal]: Open your eyes!
 C'mon, you damn old geezer!![new]
@@ -2603,7 +2601,7 @@ light silently...[end]</sn:pointer>
 
 <sn:pointer id="466">[bold]Jiott[normal]: What do you need to fix it?[new]
 [bold]Cid[normal]: I can make some temporary
-fixes with materials down here.. but the
+fixes with materials down here... but the
 body of the ship won't stand up to the
 heat of the underworld for long.[new]
 I need to return to the surface to plate
@@ -2696,7 +2694,7 @@ But it looks like that was unnecessary
 after all.[new]
 Well done, Palom, Porom![end]</sn:pointer>
 
-<sn:pointer id="484">[space][0x5]Rydia learned Ashura![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="484">[space][0x5]Rydia learned Asura![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="485">[space][0x3]Rydia learned Leviathan![music][0x29][delay][0x28][end]</sn:pointer>
 
@@ -2706,7 +2704,7 @@ Well done, Palom, Porom![end]</sn:pointer>
 [bold]Tellah[normal]: Anna!
 Anna![delay][0x2b][end]</sn:pointer>
 
-<sn:pointer id="488">[bold]Tellah[normal]: He means that much to you..?[new]
+<sn:pointer id="488">[bold]Tellah[normal]: He means that much to you...?[new]
 [bold]Anna[normal]: Father, please forgive me...
 Edward... I... love... you![end]</sn:pointer>
 
@@ -2728,7 +2726,7 @@ get in![end]</sn:pointer>
 
 <sn:pointer id="496">You found the Book of Knowledge![end]</sn:pointer>
 
-<sn:pointer id="497">You found a naughty book![end]</sn:pointer>
+<sn:pointer id="497">You found a naughty book![delay][0x30][end]</sn:pointer>
 
 <sn:pointer id="498">[bold]King Baron[normal]: Baron?
 Ku ka ka ka... Who's that?
@@ -2749,7 +2747,7 @@ became an Elemental Lord.
 Gu he he he he![new]
 [bold]Cecil[normal]: Then you're...![end]</sn:pointer>
 
-<sn:pointer id="499">[bold]Golbez[normal]: Cecil..![end]</sn:pointer>
+<sn:pointer id="499">[bold]Golbez[normal]: Cecil...![end]</sn:pointer>
 
 <sn:pointer id="500">[bold]Old man[normal]: Hm, you!
 Now I see, you wield the Dark Sword!
@@ -2810,7 +2808,6 @@ target.[new]
 Our main force was all killed!
 Those in the castle have only just begun
 their training![new]
-If we're attacked now...[end]
-now...[end]</sn:pointer>
+If we're attacked now...[end]</sn:pointer>
 
 </sn:script>
