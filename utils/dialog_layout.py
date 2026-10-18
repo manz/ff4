@@ -119,8 +119,9 @@ def _quote_at(text: str, i: int, mark: re.Pattern[str]) -> re.Match[str] | None:
 
 
 def _interrupts(text: str, i: int, quoting: Quoting) -> bool:
+    """A quote cuts in where a sentence could end: 'Dear' inside one stays put."""
     return (
-        bool(_quote_at(text, i, quoting.opener))
+        (bool(_quote_at(text, i, quoting.opener)) and text[:i].rstrip()[-1:] in (".", "!", "?", "]", ""))
         or bool(SPEAKER.match(text, i))
         or bool(ANNOUNCEMENT.match(text, i))
         or any(text.startswith(e, i) for e in ENDS)

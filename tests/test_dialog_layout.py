@@ -157,3 +157,8 @@ def test_mt_stays_with_the_name() -> None:
 def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
     out = layout.layout("«Wahaha![end]Cecil: Halte![end]«Fin!»[end]")
     assert out == "« Wahaha ![end]\n[bold]Cecil[normal]: Halte ![end]\n« Fin ! »[end]"
+
+
+def test_a_quoted_word_stays_in_its_sentence() -> None:
+    out = dialog_layout("en").layout("Yang: Stop calling me 'Dear'...![end]")
+    assert out == "[bold]Yang[normal]: Stop calling me 'Dear'...![end]"
