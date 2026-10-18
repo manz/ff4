@@ -820,10 +820,10 @@ And we can get back the Crystal![end]</sn:pointer>
 <sn:pointer id="156">Sir Yang, you must be tired.
 Please rest.[end]</sn:pointer>
 
-<sn:pointer id="157">[bold]Edward[normal]: Rosa...
-In order to fight Golbez, we're going
-to need an airship.
-But only Baron has them...[new]
+<sn:pointer id="157">[bold]Edward[normal]: We have to save Rosa![new]
+[bold]Cecil[normal]: To stand against Golbez,
+we're going to need an airship.
+But only Baron can build them...[new]
 [bold]Yang[normal]: I wonder if there's any way to
 sneak into Baron...[end]</sn:pointer>
 
@@ -850,14 +850,12 @@ We vowed to escape Baron together...[new]
 tonight.[new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
 
-<sn:pointer id="160">Yang'
-[bold]s wife[normal]: Dear!
-Be sure to show those bastards how
-much we like invasions![new]
-[bold]Yang[normal]: Yes Ma'am!
-Yang'[new]
-[bold]s wife[normal]: All of you, please be careful![new]
-[bold]Cecil[normal]: Yes Ma'am![end]</sn:pointer>
+<sn:pointer id="160">[bold]Mrs Yang[normal]: Dear!
+Be careful, and fight hard![new]
+[bold]Yang[normal]: I will![new]
+[bold]Mrs Yang[normal]: You too, Cecil, all of
+you, take care![new]
+[bold]Cecil[normal]: Yes, ma'am![end]</sn:pointer>
 
 <sn:pointer id="161">[bold]Captain[normal]: So you're Cecil!
 I've heard about you!
@@ -1012,10 +1010,10 @@ ass![end]</sn:pointer>
 [bold]Porom[normal]: You're so ignorant!
 He's the one controlling Baron![end]</sn:pointer>
 
-<sn:pointer id="196">'-Gurgle-....'
-[bold]Tellah[normal]: An evil presence!! 'I'm
-happy...very happy...
-Killing makes me happy!'[new]
+<sn:pointer id="196">[bold]Voice[normal]: -Gurgle-....[new]
+[bold]Tellah[normal]: An evil presence!?[new]
+[bold]Voice[normal]: How delightful... how
+delightful... to bury you all...[new]
 [bold]Cecil[normal]: Who's there!?[end]</sn:pointer>
 
 <sn:pointer id="197">'I am your guide to Hell...' 'I am one of
@@ -1133,12 +1131,13 @@ MAGIC-WITH-EQUIPMENT-LIKE THAT![new]
 <sn:pointer id="220">[bold]Edward[normal]: Cecil and the others...are
 in danger![end]</sn:pointer>
 
-<sn:pointer id="221">'You're in no condition to be moving!'
-'Where do you think you're going!'
-[bold]Edward[normal]: ...My harp...
-Ugh! 'In that condition you won't even be
-able to walk!
-Don't overexert yourself!'[new]
+<sn:pointer id="221">[bold]Voice[normal]: You're in no condition to be
+moving!
+Where do you think you're going!?[new]
+[bold]Edward[normal]: ...Don't worry.
+Just to my harp over there... Ugh![new]
+[bold]Voice[normal]: You can barely even walk!
+Don't overexert yourself![new]
 [bold]Edward[normal]: I don't care...
 This is the only way... to save...Cecil
 and the others![end]</sn:pointer>
@@ -1268,11 +1267,11 @@ Argh![new]
 I have the crystal!
 Let's draw back for now, Cain![end]</sn:pointer>
 
-<sn:pointer id="240">[bold]Golbez[normal]: Cain...? ... ...
-So my spell was broken with that Meteo!
-Oh well, you were a sorry excuse for a
-minion anyway.[new]
-[bold]Cain[normal]: ...[end]</sn:pointer>
+<sn:pointer id="240">[bold]Cain[normal]: ...[new]
+[bold]Golbez[normal]: So that Meteor broke my
+spell!
+No matter, I have no more use for you.
+I will repay this, you can be sure![end]</sn:pointer>
 
 <sn:pointer id="241">[bold]Cecil[normal]: You're not going anywhere,
 Golbez![end]</sn:pointer>
