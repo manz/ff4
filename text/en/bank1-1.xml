@@ -98,17 +98,15 @@ so...[new]
 [bold]Soldier[normal]: Taking the crystal from innocent
 people is...[end]</sn:pointer>
 
-<sn:pointer id="33">[bold]Soldier[normal]: Captain![new]
-[bold]Soldier[normal]: Why are we going as far as
-pillaging a town of Magicians who don't
-even resist!?[new]
+<sn:pointer id="33">[bold]Soldier[normal]: But Captain![new]
+[bold]Soldier[normal]: Plundering mages who
+didn't even resist!?[new]
 [bold]Cecil[normal]: Listen, everyone!
-His Majesty has decreed that possessing
-the Crystal is absolutely necessary.[new]
-The people of Mysidia knew too much
-about the secret of the crystal, and were
-a threat to the continued sovereignty of
-our country.[new]
+The Crystal is absolutely necessary for
+the prosperity of our kingdom of Baron.[new]
+His Majesty has judged that the people
+of Mysidia knew too much about the
+secret of the Crystal.[new]
 We are the Red Wings, the air power of
 Baron.
 His Majesty's orders are absolute...[new]
@@ -122,12 +120,11 @@ Monsters![end]</sn:pointer>
 [bold]Soldier[normal]: There's more of them![new]
 [bold]Cecil[normal]: Damn![end]</sn:pointer>
 
-<sn:pointer id="36">Beyond this point lies our land, the
+<sn:pointer id="36">Beyond this point lies my land, the
 Zemus Zone...
-There's no escape from my minions!
-You will not survive to meet me![new]
-So, weaklings, fade into the darkness
-forever!
+There's no escape from my minions![new]
+Fade into the darkness before you
+ever reach me![new]
 Mwa ha ha ha ha![end]</sn:pointer>
 
 <sn:pointer id="37">[bold]Soldier[normal]: Captain!
@@ -168,9 +165,8 @@ So, where is the crystal?[new]
 <sn:pointer id="44">You gave the King the Water Crystal.[end]</sn:pointer>
 
 <sn:pointer id="45">[bold]Beigan[normal]: Hmm...It appears to be genuine.[new]
-[bold]King Baron[normal]: It is!
-Oh, how it glimmers... like light shining on
-the depths of the sea...
+[bold]King Baron[normal]: Excellent!
+Oh, how dazzling!
 You may leave, Cecil![end]</sn:pointer>
 
 <sn:pointer id="46">[bold]Cecil[normal]: ...[end]</sn:pointer>
@@ -180,28 +176,20 @@ You may leave, Cecil![end]</sn:pointer>
 <sn:pointer id="48">[bold]King Baron[normal]: Wh..what!?[new]
 [bold]Beigan[normal]: Wh, what is it?[end]</sn:pointer>
 
-<sn:pointer id="49">[bold]Cecil[normal]: Your Majesty, we do not
-understand your motives.
-Why is it you need the crystals?[new]
-Was it because the Mysidians were
-becoming a threat?
-Then why didn't they resist?[new]
-We do not understand why innocent
-bystanders had to die.
-Some have even wondered if your
-actions are... altogether... honorable.[new]
-[bold]King Baron[normal]: So you distrust your own
-King, Cecil?![new]
-[bold]Cecil[normal]: !!
-No, I didn't mean that at all!![new]
-[bold]King Baron[normal]: Did you think that I knew
-nothing about your true feelings!?
-To think that I took you in and raised you
-like a son![new]
-Now, you can't even trust me.
-I can no longer entrust you with the
-command of the Red Wings.[new]
-As of now, you are relieved of your post![end]</sn:pointer>
+<sn:pointer id="49">[bold]Cecil[normal]: Your Majesty, what do you
+intend?
+Everyone is starting to distrust you![new]
+[bold]King Baron[normal]: Starting with you?[new]
+[bold]Cecil[normal]: !
+Never, I...[new]
+[bold]King Baron[normal]: Did you think I knew
+nothing!?
+To think that even you would not trust
+me...[new]
+I regret it, but I can no longer entrust
+the Red Wings to you![new]
+As of now, you are relieved of your post
+as Commander of the airship fleet![end]</sn:pointer>
 
 <sn:pointer id="50">[bold]King Baron[normal]: Your new charge is to
 eliminate the Phantom Beasts that haunt
@@ -232,54 +220,33 @@ get some rest.[end]</sn:pointer>
 
 <sn:pointer id="55">[bold]Cain[normal]: What's wrong?[new]
 [bold]Cecil[normal]: I'm sorry, Cain...[new]
-[bold]Cain[normal]: Why are you still apologizing?
-I defended you out of my own free will![new]
-[bold]Cecil[normal]: It's not that, Cain.
-It was my mission today...
-I learned the art of the Dark Sword as
-ordered by His Majesty.[new]
-But it should have been to defend Baron,
-and not to harm innocent people.
-Maybe apologizing will help clear my
-conscience...[new]
+[bold]Cain[normal]: Still saying that?
+That's not like you.[new]
+[bold]Cecil[normal]: I mastered the Dark Sword
+on His Majesty's orders.
+But that was meant to protect Baron...[new]
+Not to plunder innocent people.[new]
 [bold]Cain[normal]: Don't be so hard on yourself.
-I'm sure the king has a good reason for
-his actions.
-He raised us as his own sons.[new]
-He would never do anything less than
-honorable.[new]
-[bold]Cecil[normal]: Cain, I envy your faith in
-His Majesty.
-He spoke of your father...
-He had the same unwavering loyalty...[new]
-[bold]Cain[normal]: My father...
-My father was a Dragon Knight as well...[new]
-If I had mastered the art of the Dark
-Sword as the King had commanded, I
-probably would have advanced up the
-ranks like you...[new]
-However, I felt it was my duty to honor
-my father and follow in his path.
-He died while I was still a child...Sometimes
-I wish he could see me today.[new]
-I hope he would be proud.
-I often have these moments... moments of
-quiet reflection when I can feel his spirit
-within me, guiding me...[new]
+His Majesty must have his reasons.[new]
+[bold]Cecil[normal]: Cain, I envy you.[new]
+[bold]Cain[normal]: My father was a Dragon Knight
+too.
+If I mastered the Dark Sword, I would
+probably rise in rank, but this suits
+me better.[new]
+Besides, as a Dragon Knight, I feel I can
+always sense my father, who died when
+I was a child...[new]
 [bold]Cecil[normal]: ...[new]
-[bold]Cain[normal]: Sorry to have rambled on like
-that...
-That's not like me.[new]
-Anyhow, I wouldn't worry too much
-about today.
-You really should be worrying about
-tomorrow![new]
-You did what the King wanted and
-became a Dark Knight...
-You have rank and prestige over me, but
-tomorrow we'll see who's better...[new]
-We must get an early start tomorrow.
-Go get some rest.[end]</sn:pointer>
+[bold]Cain[normal]: Heh, listen to me.
+That's not like me either.
+Anyway, don't think too much about it.[new]
+If you're like this, where's the fun in
+competing?
+I'm the one who'll defeat the Phantom.[new]
+[bold]Cecil[normal]: I won't lose to you![new]
+[bold]Cain[normal]: We leave early tomorrow.
+Get some rest.[end]</sn:pointer>
 
 <sn:pointer id="56">[bold]Rosa[normal]: Cecil![end]</sn:pointer>
 
@@ -290,9 +257,9 @@ worried.[new]
 We couldn't get hurt by a bunch of
 Magicians who didn't even resist...[end]</sn:pointer>
 
-<sn:pointer id="58">[bold]Rosa[normal]: I'm coming to your room again
-tonight...[new]
-[bold]Cecil[normal]: ...[end]</sn:pointer>
+<sn:pointer id="58">[bold]Rosa[normal]: I'll come by your room
+later...[new]
+[bold]Cecil[normal]: All right...[end]</sn:pointer>
 
 <sn:pointer id="59">[bold]Cecil[normal]: Why is His Majesty behaving
 this way?
@@ -319,12 +286,9 @@ you came back.[new]
 <sn:pointer id="61">[bold]Rosa[normal]: Then please don't look away...[end]</sn:pointer>
 
 <sn:pointer id="62">[bold]Cecil[normal]: In Mysidia...
-I killed innocent people, plundered their
-village, and stole their crystal, all for
-what?![new]
-Why did I do such a thing?
-It's as if my heart has become as dark
-as my armor![end]</sn:pointer>
+I took the Crystal from innocent people![new]
+My heart has become as dark as this
+Dark Knight's armor...![end]</sn:pointer>
 
 <sn:pointer id="63">[bold]Rosa[normal]: ...You're not like that.[end]</sn:pointer>
 
@@ -345,8 +309,7 @@ If anything happens to you, I...[end]</sn:pointer>
 <sn:pointer id="68">[bold]Cecil[normal]: It's late now...
 Get some rest.[end]</sn:pointer>
 
-<sn:pointer id="69">[bold]Rosa[normal]: Be careful!
-For my sake...[end]</sn:pointer>
+<sn:pointer id="69">[bold]Rosa[normal]: Be careful...![end]</sn:pointer>
 
 <sn:pointer id="70">[bold]Cecil[normal]: Thanks, Rosa...
 But I'm only a Dark Knight...
@@ -421,9 +384,8 @@ here...![new]
 [bold]Cain[normal]: To burn the village...!?[end]</sn:pointer>
 
 <sn:pointer id="81">[bold]Cecil[normal]: WHY!?
-King Baron!!
-NO!! 'Mom!
-NO..!!' -weep-[end]</sn:pointer>
+King Baron!![new]
+[bold]Voice[normal]: Waaah... Waaah...[end]</sn:pointer>
 
 <sn:pointer id="82">[bold]Cecil[normal]: Who's that?[end]</sn:pointer>
 
@@ -457,9 +419,7 @@ be executed for treason![new]
 defy the King?[new]
 [bold]Cecil[normal]: If he expects us to murder
 like this...
-I have no intention of following him![new]
-I renounce all loyalty to the King, to the
-Red Wings, and to Baron!!![end]</sn:pointer>
+I have no intention of following him![end]</sn:pointer>
 
 <sn:pointer id="88">[bold]Cain[normal]: Hmm, I thought you'd say
 that.
@@ -504,9 +464,8 @@ We'll have to force her to come with us![new]
 I hate you!
 I hate you all![end]</sn:pointer>
 
-<sn:pointer id="94">[bold]Cecil[normal]: Phew, the girl's all right...
-!!Cain! !!Cain!
-Where are you? !![end]</sn:pointer>
+<sn:pointer id="94">[bold]Cecil[normal]: Phew, the girl's all right...[new]
+!![end]</sn:pointer>
 
 <sn:pointer id="95">[bold]Cecil[normal]: I can't stay here forever...I've
 got to get out of here...
@@ -539,12 +498,9 @@ If you turn over the survivor from Mist,
 he will forgive your treachery.[new]
 It has been deemed dangerous for the
 people of Mist to even exist![new]
-[bold]Cecil[normal]: What!?
-Has the King stooped so low as to kill
-children?![new]
+[bold]Cecil[normal]: What!?[new]
 [bold]Girl[normal]: !![new]
-[bold]General[normal]: Shut up with the lecture and
-give me the girl![new]
+[bold]General[normal]: Now hand over the girl![new]
 [bold]Cecil[normal]: I refuse![end]</sn:pointer>
 
 <sn:pointer id="100">[bold]Girl[normal]: I'm sorry, this is my fault...[new]
@@ -694,8 +650,7 @@ Everything will be safe![end]</sn:pointer>
 
 <sn:pointer id="122">The...Red...Wings...[end]</sn:pointer>
 
-<sn:pointer id="123">[bold]King Fabul[normal]: Yang, you're back!
-The look on your face...[new]
+<sn:pointer id="123">[bold]King Fabul[normal]: Yang, you're back![new]
 [bold]Yang[normal]: King Fabul, the man known as
 Golbez is mobilizing the forces of Baron
 to take our crystal![new]
@@ -740,8 +695,7 @@ magic skill, would you provide medical aid?[new]
 [bold]Rosa[normal]: Very well.[new]
 [bold]King Fabul[normal]: Yang, I'm counting on
 you![new]
-[bold]Yang[normal]: I will guard my country with
-my life![end]</sn:pointer>
+[bold]Yang[normal]: Yes, Your Majesty![end]</sn:pointer>
 
 <sn:pointer id="128">[bold]Rosa[normal]: Take care, Cecil...[new]
 [bold]Cecil[normal]: You too...
@@ -816,11 +770,8 @@ Don't..look...at...me![end]</sn:pointer>
 <sn:pointer id="145">[bold]Edward[normal]: Golbez![new]
 [bold]Cecil[normal]: You're Golbez...![new]
 [bold]Golbez[normal]: So you're Cecil...
-Perfect setting for introductions, don't
-you think?
-Well, perfect for me, at least.[new]
-You're sprawled on the ground and I'm
-about to take the crystal.[new]
+A pity we've only just met, but this
+is my greeting![new]
 [bold]Edward[normal]: Cecil![new]
 [bold]Yang[normal]: Over my dead body![end]</sn:pointer>
 
@@ -834,13 +785,12 @@ Crystal.[new]
 <sn:pointer id="148">[bold]Rosa[normal]: Stop, Cain![new]
 [bold]Cain[normal]: ![new]
 [bold]Cecil[normal]: Stay away, Rosa!![new]
-[bold]Golbez[normal]: I get it...
-This girl is dear to you.
-So I'll take her.
-It's been a pleasure defeating you.[new]
-We must do it again sometime.
-And since I have this girl, there'll be a
-next time...
+[bold]Golbez[normal]: Oh?
+This woman means that much to you?
+Then I'll take her with me.[new]
+I would very much like to meet you
+again.
+She will be the token of that promise.
 Let's go, Cain![end]</sn:pointer>
 
 <sn:pointer id="149">[bold]Cain[normal]: Looks like you get to live a bit
@@ -915,9 +865,8 @@ Just sit back and relax.
 We'll be at Baron before you know it![new]
 All right, cast off, mates![end]</sn:pointer>
 
-<sn:pointer id="162">[bold]Captain[normal]: We'll thank those bastards for
-attacking our homes![new]
-[bold]Sailors[normal]: 'Aye Captain!![end]</sn:pointer>
+<sn:pointer id="162">[bold]Captain[normal]: Weigh anchor, you dogs![new]
+[bold]Sailors[normal]: Yahoo![end]</sn:pointer>
 
 <sn:pointer id="163">[bold]Yang[normal]: So, what do you intend to do
 once you reach Baron?[end]</sn:pointer>
@@ -927,8 +876,8 @@ once you reach Baron?[end]</sn:pointer>
 <sn:pointer id="165">[bold]Sailor[normal]: It can't be![end]</sn:pointer>
 
 <sn:pointer id="166">[bold]Captain[normal]: You scurvy dogs!
-Stop screaming like women and DO
-SOMETHING![end]</sn:pointer>
+Quit panicking and get us through
+this![end]</sn:pointer>
 
 <sn:pointer id="167">[bold]Rydia[normal]: Kyaa-![end]</sn:pointer>
 
@@ -1078,9 +1027,9 @@ precious undead to feast!'[end]</sn:pointer>
 in it...
 Come join me...'[end]</sn:pointer>
 
-<sn:pointer id="199">[bold]Scarmiglione[normal]: You defeated me...twice!
-The darkness...I'm falling...into eternal
-darkness...[end]</sn:pointer>
+<sn:pointer id="199">[bold]Scarmiglione[normal]: Curse you...
+That I should fall to the likes of
+you...![end]</sn:pointer>
 
 <sn:pointer id="200">'I've been waiting for you...' 'Sadness fills
 me...' '...I shall entrust you with my power...'
@@ -1235,21 +1184,19 @@ saved us.[new]
 [bold]Edward[normal]: No...it wasn't me...ugh![end]</sn:pointer>
 
 <sn:pointer id="228">[bold]Edward[normal]: Master Tellah...[new]
-[bold]Tellah[normal]: I know now why Anna
-loved you...
-She must have been so happy...It is I who
-must ask your forgiveness...[new]
+[bold]Tellah[normal]: Anna was happy...
+She was loved by a man as brave as
+you...[new]
 [bold]Edward[normal]: Master Tellah...[new]
-[bold]Tellah[normal]: All I can do is avenge
-Anna's death with Meteo!
-And I will fight for you as well.[new]
+[bold]Tellah[normal]: For now, think only of
+getting well.
+I will avenge Anna with my Meteor!
+Edward... for your sake too.[new]
 [bold]Edward[normal]: Thank you...[new]
 [bold]Cecil[normal]: Edward, you are... a brave
 man![new]
-[bold]Edward[normal]: Anna...what you said...
-Give your love to the people of this
-earth...
-I'm beginning to understand...[end]</sn:pointer>
+[bold]Edward[normal]: Anna...
+I think I'm beginning to understand...[end]</sn:pointer>
 
 <sn:pointer id="229">[bold]Cain[normal]: Where's the Crystal of Earth?[end]</sn:pointer>
 
@@ -1260,20 +1207,20 @@ Lord Golbez wants to thank you
 personally.[new]
 [bold]Tellah[normal]: Golbez![end]</sn:pointer>
 
-<sn:pointer id="231">[bold]Golbez[normal]: Well, well, well... you've got the
-crystal...[new]
+<sn:pointer id="231">[bold]Golbez[normal]: I am delighted that you
+kept your promise...[new]
 [bold]Tellah[normal]: Show yourself![new]
-[bold]Golbez[normal]: You'll find me soon enough.[new]
-[bold]Yang[normal]: Where are you?![new]
-[bold]Golbez[normal]: I'm on the top floor of this
-tower with Rosa...
-As thanks for saving me an invasion, I'll
-exchange her for the Crystal of Earth.[new]
+[bold]Golbez[normal]: I understand your haste, but
+I would like you to accept my thanks.[new]
+[bold]Yang[normal]: Thanks?[new]
+[bold]Golbez[normal]: I am at the top of this
+Tower of Zott with your beloved Rosa.
+If you can make it this far, I will trade
+Rosa's life for the Crystal.[new]
 [bold]Cecil[normal]: Golbez, you bastard![new]
-[bold]Golbez[normal]: Of course... being the bad guy
-that I am, I can't guarantee that your
-precious Rosa will live...[music][0x19] Better get up
-here![end]</sn:pointer>
+[bold]Golbez[normal]: If you don't hurry, I cannot
+guarantee your precious Rosa's
+life...[music][0x19] Now, climb![end]</sn:pointer>
 
 <sn:pointer id="232">Welcome to the Tower of Zott![end]</sn:pointer>
 
@@ -1301,23 +1248,19 @@ No...'[end]</sn:pointer>
 bargaining chip?
 Now, give me the crystal.[end]</sn:pointer>
 
-<sn:pointer id="237">You gave the Crystal of Earth to
+<sn:pointer id="237">You gave the Earth Crystal to
 Golbez!
 [bold]Cecil[normal]: Return Rosa![new]
 [bold]Golbez[normal]: Rosa?
-Who's Rosa...?
-Cain...do you know any Rosa..?[new]
+What are you talking about?[new]
 [bold]Cecil[normal]: What!?[new]
-[bold]Cid[normal]: You liar![new]
-[bold]Tellah[normal]: How dirty can you get!
-Death is too good for you![new]
+[bold]Cid[normal]: That wasn't the deal![new]
+[bold]Tellah[normal]: How dirty can you get![new]
 [bold]Golbez[normal]: I have no business with you,
 old fool.[new]
-[bold]Tellah[normal]: But I have some with you!
-For Anna!!![end]</sn:pointer>
+[bold]Tellah[normal]: But I have some with you![end]</sn:pointer>
 
-<sn:pointer id="238">[bold]Golbez[normal]: You...old... bastard...You...used...
-Meteo...
+<sn:pointer id="238">[bold]Golbez[normal]: You...used...Meteor...
 Argh![new]
 [bold]Cecil[normal]: Tellah![end]</sn:pointer>
 
@@ -1340,10 +1283,8 @@ Golbez![end]</sn:pointer>
 Why...why don't you finish me off...[new]
 [bold]Golbez[normal]: You're...?[new]
 [bold]Cecil[normal]: ?[new]
-[bold]Golbez[normal]: What the hell are you...?
-Why...?
-Aagh!
-My head![new]
+[bold]Golbez[normal]: What... are you...?
+Ugh... ugh![new]
 [bold]Cecil[normal]: ...?[new]
 [bold]Golbez[normal]: Th...this fight is not over yet![end]</sn:pointer>
 
@@ -1379,8 +1320,8 @@ me...[end]</sn:pointer>
 I...[new]
 [bold]Rosa[normal]: Cecil...[new]
 [bold]Cain[normal]: ...[new]
-[bold]Cid[normal]: Oh yeah!
-Gettin' it on![end]</sn:pointer>
+[bold]Cid[normal]: My, my!
+Ain't that sweet![end]</sn:pointer>
 
 <sn:pointer id="252">[bold]Rosa[normal]: Cain!?[new]
 [bold]Cecil[normal]: He's regained his mind...[new]
@@ -1397,12 +1338,8 @@ I wanted to be near you...[end]</sn:pointer>
 [bold]Rosa[normal]: Let's fight together,
 Cain...[end]</sn:pointer>
 
-<sn:pointer id="254">[bold]Cain[normal]: What have I done?!
-All those things I said!
-All those things I did!
-Please forgive me![new]
-Rosa!
-Cecil![new]
+<sn:pointer id="254">[bold]Cain[normal]: I'm sorry!
+Forgive me, Rosa! Cecil![new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
 
 <sn:pointer id="255">[bold]Cid[normal]: Hey, guys...
