@@ -1,57 +1,54 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-<sn:pointer id="0">Cecil des Ailes Rouges°!
-Le village de Mist se trouve de l'autre
-côté de la grotte au nord-ouest°![end]
-Le roi se comporte de plus en plus
-bizarrement°!
-Et tous ceux qui s'opposent à lui finissent
-comme Cid...[end]
-Seigneur Cecil°!
-Vengez le roi°![end]
-Pourquoi le roi enseignait-t-il la lame
-noire à ses hommes°?[end]
-Le roi nous a fait tant de mal...
-Il n'était jamais comme ça, avant.
-Pourquoi a-t-il changé°?[end]
-C'était vous, ce chevalier noir°!
-Ce que vous êtes splendide, maintenant°![end]
-J'ai un mauvais pressentiment à propos de
-Mist...[end]
-Un moine étranger a été placé à la tête
-des gardes.
-J'ai entendu dire qu'il recherchait
-quelqu'un.[new]
-Il doit être à l'auberge...[end]
-J'ai entendu dire que le roi a été tué et
-remplacé par un monstre.
-Et il n'a pas non plus d'héritier...[end]
-Ouah, c'est un chevalier noir°!
-Effrayant°!
-Mais plutôt chouette...[end]
-Je me demande si ce chevalier noir est
-vraiment mort...
-Je l'aimais plutôt°![end]
-Seigneur Cecil°!
-Tuez Golbez°!![end]
-La porte du bâtiment à l'ouest de la ville°?
-Elle donne sur une voie navigable
-souterraine qui mène au château.
-Mais maintenant elle est scellée.[end]
-C'est la première fois depuis la fondation
-de Baron qu'on n'a pas de roi...[end]
-Le chevalier noir°!
-Non...m-m-monsieur, je n'ai rien dit
-contre le roi°!
-Je...je danserai pour vous.[new]
-Ça vous va°?[end]
-Le roi a été vraiment dur, dernièrement,...
-Et je n'ai pas le droit de danser.
-Déçu°?[end]
-C'était vous, ce chevalier noir°!
-Vous êtes bien mieux sans cette armure
-lugubre et toute pleine de sueur°!
-Allez, dansons°![end]</sn:pointer>
+<sn:pointer id="0">Cecil of the Red Wings!
+The village of Mist lies beyond the
+cave to the northwest![end]
+The King's acting stranger and stranger!
+And everyone who stands up to him ends up
+like Cid...[end]
+Lord Cecil!
+Avenge the King![end]
+Why was the King teaching his men the
+dark sword?[end]
+The King has done us so much harm...
+He was never like that before.
+Why did he change?[end]
+So you were that dark knight!
+Look how splendid you are now![end]
+I have a bad feeling about Mist...[end]
+A foreign monk has been put in charge of
+the guards.
+I hear he's looking for someone.[new]
+He must be at the inn...[end]
+I heard the King was killed and replaced
+by a monster.
+And he has no heir, either...[end]
+Whoa, a dark knight!
+Scary!
+But kind of cool...[end]
+I wonder if that dark knight is really
+dead...
+I kind of liked him![end]
+Lord Cecil!
+Defeat Golbez!![end]
+The door of the building west of town?
+It leads to an underground waterway
+into the castle.
+But it's sealed now.[end]
+It's the first time since Baron was
+founded that it has no king...[end]
+The dark knight!
+N-no...s-s-sir, I said nothing against
+the King!
+I...I'll dance for you.[new]
+Is that all right?[end]
+The King has been really harsh lately...
+And I'm not allowed to dance.
+Disappointed?[end]
+So you were that dark knight!
+You look much better without that grim,
+sweaty armor!
+Come on, let's dance![end]</sn:pointer>
 
 <sn:pointer id="1">Not only did that mysterious fire kill
 powerful Summoners, but innocent women
