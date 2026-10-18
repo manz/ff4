@@ -2155,8 +2155,7 @@ Go to Baron![new]
 I will continue to pray for you and your
 sacred light.
 Farewell![new]
-[bold]Tellah[normal]: I still can't promise you what I
-might do...[end]</sn:pointer>
+[bold]Cecil[normal]: Yes![end]</sn:pointer>
 
 <sn:pointer id="364">[bold]Luka[normal]: What is it, Father?[new]
 [bold]Jiott[normal]: Bring your necklace here.[new]
@@ -2310,16 +2309,14 @@ about an old man's injury![new]
 [bold]Cid[normal]: If I can put up with you, I
 sure-as-hell can put a drill on an airship![end]</sn:pointer>
 
-<sn:pointer id="382">[bold]Porom[normal]: Can you possibly act any
-worse?[new]
-[bold]Palom[normal]: I think William Shatner is more
-convincing than you.[new]
-[bold]Cecil[normal]: Beigan?
-You're also under Golbez's...[new]
-[bold]Beigan[normal]: Control?
-Oh no.
-I serve him willingly.
-Let me show you his gift...[end]</sn:pointer>
+<sn:pointer id="382">[bold]Palom[normal]: You reek of it![new]
+[bold]Porom[normal]: If you're going to put on an
+act, you could at least do it better.[new]
+[bold]Cecil[normal]: Golbez got to you too!?[new]
+[bold]Beigan[normal]: I would rather you not put it
+that way...
+He gave me something wonderful.
+Such marvelous power![end]</sn:pointer>
 
 <sn:pointer id="383">'So you are the first to defeat Leviathan.'
 'However, it could have been done
@@ -2460,9 +2457,8 @@ Will you assist us?[end]</sn:pointer>
 <sn:pointer id="411">[bold]King Fabul[normal]: I can't force you...[end]</sn:pointer>
 
 <sn:pointer id="412">[bold]Yang[normal]: Take care of things while I'm
-gone!
-Yang'[new]
-[bold]s wife[normal]: Yes, Dear.[end]</sn:pointer>
+gone![new]
+[bold]Mrs Yang[normal]: Leave it to me![end]</sn:pointer>
 
 <sn:pointer id="413">[bold]Cecil[normal]: Let's first meet the Airship
 Engineer Cid.
@@ -2594,7 +2590,10 @@ Please take it...[end]</sn:pointer>
 
 <sn:pointer id="446">You got the Echoer.[end]</sn:pointer>
 
-<sn:pointer id="447">[bold]Cain[normal]: Follow my airship.[end]</sn:pointer>
+<sn:pointer id="447">[bold]Cecil[normal]: I have it here!
+Where's Rosa!?[new]
+[bold]Cain[normal]: Heh. Not so fast.
+Follow my airship.[end]</sn:pointer>
 
 <sn:pointer id="448">[bold]Cecil[normal]: This is it![end]</sn:pointer>
 
@@ -2867,8 +2866,7 @@ Tellah![end]</sn:pointer>
 
 <sn:pointer id="502">[bold]Chamberlain[normal]: Young Master![delay][0x10][end]</sn:pointer>
 
-<sn:pointer id="503">Yang'
-[bold]s wife[normal]: Same to you![delay][0xa][end]</sn:pointer>
+<sn:pointer id="503">[bold]Mrs Yang[normal]: Same to you![delay][0xa][end]</sn:pointer>
 
 <sn:pointer id="504">You received Luka's necklace![end]</sn:pointer>
 
@@ -2912,6 +2910,8 @@ Fabul's Wind Crystal![new]
 [bold]Edward[normal]: Yes...
 Damcyan's Crystal has already been
 stolen.[new]
+[bold]Cecil[normal]: And Fabul is their next
+target.[new]
 [bold]Yang[normal]: !...Good God!
 Our main force was all killed!
 Those in the castle have only just begun
