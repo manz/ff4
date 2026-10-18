@@ -541,7 +541,7 @@ There's no woman in this world as fine
 as you...[delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="90">[bold]Leviathan[normal]: She's quite a girl, though.[new]
-[bold]Ashura[normal]: Yes. Who would have thought
+[bold]Asura[normal]: Yes. Who would have thought
 she'd come back here again...[delay][0x1a][new]
 'Rydia!'[delay][0x10][close_window][end]</sn:pointer>
 
@@ -555,7 +555,7 @@ I wish I was like you, Rydia.[delay][0x20][close_window][end]</sn:pointer>
 <sn:pointer id="93">[bold]Rydia[normal]: What are you talking about?
 Humans and Phantoms are just the same.[delay][0x1c][close_window][end]</sn:pointer>
 
-<sn:pointer id="94">[bold]Ashura[normal]: The Land of Phantoms has
+<sn:pointer id="94">[bold]Asura[normal]: The Land of Phantoms has
 a bright future ahead, don't you think?[new]
 [bold]Leviathan[normal]: Mm![delay][0x19] She's a beauty, after
 all![delay][0x20][close_window][end]</sn:pointer>
@@ -578,12 +578,11 @@ Anna.[new]
 I still have the people of Damcyan...![delay][0x19]
 Be good to Tellah up there...[delay][0x18][close_window][end]</sn:pointer>
 
-<sn:pointer id="100">Yang'
-[bold]s wife[normal]: Dear....[delay][0x10][close_window][end]</sn:pointer>
+<sn:pointer id="100">[bold]Yang's wife[normal]: Dear....[delay][0x10][close_window][end]</sn:pointer>
 
 <sn:pointer id="101">[bold]Yang[normal]: You're a Queen now!
-Stop calling me 'Dear'...![delay][0x1d] Yang'[new]
-[bold]s wife[normal]: Even so, I hate all that
+Stop calling me 'Dear'...![delay][0x1d] [new]
+[bold]Yang's wife[normal]: Even so, I hate all that
 formal stuff![delay][0x18][new]
 [bold]Yang[normal]: Oops!
 It's time for training![delay][0x18][close_window][end]</sn:pointer>

@@ -858,10 +858,10 @@ We vowed to leave Baron together...[new]
 tonight.[new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
 
-<sn:pointer id="160">[bold]Mrs Yang[normal]: Dear!
+<sn:pointer id="160">[bold]Yang's wife[normal]: Dear!
 Be careful, and fight hard![new]
 [bold]Yang[normal]: I will![new]
-[bold]Mrs Yang[normal]: You too, Cecil, all of
+[bold]Yang's wife[normal]: You too, Cecil, all of
 you, take care![new]
 [bold]Cecil[normal]: Yes, ma'am![end]</sn:pointer>
 
@@ -923,7 +923,7 @@ We should get rid of him before he
 becomes one.[new]
 He's a Dark Knight, so he should be
 powerless against your undead.
-But he's climbing Mount Ordeals.[new]
+But he's climbing Mt. Ordeals.[new]
 [bold]Scarmiglione[normal]: Then... he intends to
 become... -hiss-..a Paladin.[new]
 [bold]Golbez[normal]: Obviously, you must kill him
@@ -969,7 +969,7 @@ of Mysidia to...[new]
 
 <sn:pointer id="189">[bold]Porom[normal]: Ahem!
 We are to guide Mr.
-Cecil through Mount Ordeals.
+Cecil through Mt. Ordeals.
 My name is Porom.[new]
 [bold]Palom[normal]: I'm Palom!
 So you're Tellah!
@@ -2207,7 +2207,7 @@ Babil![end]</sn:pointer>
 <sn:pointer id="380">[bold]Cecil[normal]: ...That light called me its son.
 What was that light?[new]
 [bold]Village Elder[normal]: I don't know what the
-light on Mount Ordeals was, nor do I know what the
+light on Mt. Ordeals was, nor do I know what the
 legend means.[new]
 But we from Mysidia are told to pray for
 this legend.
@@ -2285,11 +2285,11 @@ That's more like it![new]
 [bold]Edward[normal]: Don't worry.
 The Antlion is tame.
 He won't hurt a human.
-I'll take the Light of the Desert.[end]</sn:pointer>
+I'll take the Desert Light.[end]</sn:pointer>
 
 <sn:pointer id="392">[bold]Cecil[normal]: Let's go, Rydia![end]</sn:pointer>
 
-<sn:pointer id="393">You received the Light of the Desert![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="393">You received the Desert Light![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="394">[bold]Edward[normal]: It can't be!
 Why did the Antlion...[new]
@@ -2373,7 +2373,7 @@ What a predicament...[end]</sn:pointer>
 
 <sn:pointer id="412">[bold]Yang[normal]: Take care of things while I'm
 gone![new]
-[bold]Mrs Yang[normal]: Leave it to me![end]</sn:pointer>
+[bold]Yang's wife[normal]: Leave it to me![end]</sn:pointer>
 
 <sn:pointer id="413">[bold]Cecil[normal]: Let's first meet the Airship
 Engineer Cid.
@@ -2479,7 +2479,7 @@ bravery.[new]
 Looting innocent people is an act of
 cowardice![end]</sn:pointer>
 
-<sn:pointer id="442">You got the Crystal of Earth![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="442">You got the Earth Crystal![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="443">[bold]Cid[normal]: It's okay...
 They've got me and the Enterprise!
@@ -2490,7 +2490,7 @@ Just leave it to me![end]</sn:pointer>
 <sn:pointer id="444">[bold]Edward[normal]: Cecil!
 Where's Rosa?[new]
 [bold]Cecil[normal]: We have to trade Toroia's
-Crystal of Earth for her...[new]
+Earth Crystal for her...[new]
 But the Crystal was stolen by the Dark
 Elf...[end]</sn:pointer>
 
@@ -2499,7 +2499,7 @@ Elf...[end]</sn:pointer>
 [bold]Edward[normal]: In my place...
 Please take it...[end]</sn:pointer>
 
-<sn:pointer id="446">You got the Echoer.[end]</sn:pointer>
+<sn:pointer id="446">You got the Whisperweed.[end]</sn:pointer>
 
 <sn:pointer id="447">[bold]Cecil[normal]: I have it here!
 Where's Rosa!?[new]
@@ -2623,7 +2623,7 @@ I'm counting on you![end]</sn:pointer>
 You told us to help him, right?[new]
 [bold]Porom[normal]: Please permit us to go too![new]
 [bold]Village Elder[normal]: You two...
-If Mount Ordeals accepted you, perhaps
+If Mt. Ordeals accepted you, perhaps
 this is your destiny as well...[new]
 I cannot leave Mysidia.[new]
 Sir Cecil!
@@ -2639,7 +2639,7 @@ Your duty is finished![end]</sn:pointer>
 <sn:pointer id="472">This is an important room!
 You can't enter![end]</sn:pointer>
 
-<sn:pointer id="473">[bold]Porom[normal]: We met him on Mount Ordeals.[end]</sn:pointer>
+<sn:pointer id="473">[bold]Porom[normal]: We met him on Mt. Ordeals.[end]</sn:pointer>
 
 <sn:pointer id="474">[bold]Rosa[normal]: Rydia...[new]
 [bold]Rydia[normal]: -sniff-...[end]</sn:pointer>
@@ -2764,7 +2764,7 @@ Tellah![end]</sn:pointer>
 
 <sn:pointer id="502">[bold]Chamberlain[normal]: Young Master![delay][0x10][end]</sn:pointer>
 
-<sn:pointer id="503">[bold]Mrs Yang[normal]: Same to you![delay][0xa][end]</sn:pointer>
+<sn:pointer id="503">[bold]Yang's wife[normal]: Same to you![delay][0xa][end]</sn:pointer>
 
 <sn:pointer id="504">You received Luka's necklace![end]</sn:pointer>
 
