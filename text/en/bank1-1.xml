@@ -282,8 +282,8 @@ even under orders!![end]</sn:pointer>
 
 <sn:pointer id="60">[bold]Rosa[normal]: What happened?
 One second you're being sent to Mysidia,
-the next you're being sent off to kill some
-ghastly monsters.[new]
+the next you're being sent off to hunt a
+Phantom.[new]
 And you've been acting strange since
 you came back.[new]
 [bold]Cecil[normal]: No, it's nothing...[end]</sn:pointer>
@@ -372,13 +372,13 @@ Cid...[new]
 [bold]Tellah[normal]: But it won't be so easy to get
 in the castle...[end]</sn:pointer>
 
-<sn:pointer id="78">[bold]Cecil[normal]: This is the key to Baron!
-Yang, they must have given it to
-you when you became the leader of the
-guards![new]
+<sn:pointer id="78">[bold]Cecil[normal]: This is the Baron Key!
+I see!
+Because they had Yang command the
+guards...[new]
 With this we might be able to do
 something!
-You received the key to Baron![music][0x29][delay][0x28][end]</sn:pointer>
+You received the Baron Key![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="79">The ring is glowing..!?[end]</sn:pointer>
 
@@ -520,8 +520,7 @@ I did...[new]
 Rydia. [space][0x4]Summoner Rydia
 joined![end]</sn:pointer>
 
-<sn:pointer id="102">You shined the Light of the Desert on
-Rosa![end]</sn:pointer>
+<sn:pointer id="102">You held the Desert Light over Rosa![end]</sn:pointer>
 
 <sn:pointer id="103">[bold]Rosa[normal]: Ooh...[end]</sn:pointer>
 
@@ -616,8 +615,8 @@ marriage...[end]</sn:pointer>
 <sn:pointer id="115">[bold]Tellah[normal]: Why are you going there?[new]
 [bold]Cecil[normal]: A friend of mine in Kaipo has
 an extremely high fever.[new]
-[bold]Tellah[normal]: So you're after the Light of
-the Desert...
+[bold]Tellah[normal]: So you're after the Desert
+Light...
 Without that, there's not much hope...[new]
 [bold]Cecil[normal]: What is the monster in this
 cavern?[new]
@@ -739,14 +738,14 @@ We'll draw the enemy in here and...[end]</sn:pointer>
 <sn:pointer id="135">[bold]Yang[normal]: ...strike them down![end]</sn:pointer>
 
 <sn:pointer id="136">[bold]Edward[normal]: It's hopeless here![new]
-[bold]Yang[normal]: Damnit![end]</sn:pointer>
+[bold]Yang[normal]: Damn it![end]</sn:pointer>
 
 <sn:pointer id="137">[bold]Yang[normal]: The door is locked!
 We've got to hold them here![new]
 [bold]Cecil[normal]: Where's the crystal?![new]
 [bold]Yang[normal]: In the room beyond here![end]</sn:pointer>
 
-<sn:pointer id="138">[bold]Yang[normal]: What the hell are you doing?![new]
+<sn:pointer id="138">[bold]Yang[normal]: What are you doing!?[new]
 [bold]Edward[normal]: He..he's not human![end]</sn:pointer>
 
 <sn:pointer id="139">[bold]Yang[normal]: There's no end to them!
@@ -939,7 +938,7 @@ Golbez.[new]
 Don't you think so, Cain?[end]</sn:pointer>
 
 <sn:pointer id="182">[bold]Cain[normal]: Yes..
-But you should not take light of
+But you should not underestimate
 Cecil's power...[end]</sn:pointer>
 
 <sn:pointer id="183">[bold]Cain[normal]: My Master!
@@ -950,10 +949,10 @@ me last time?
 You will stay here and guard Rosa![end]</sn:pointer>
 
 <sn:pointer id="185">[bold]Tellah[normal]: So you're here to search for
-Meteo as well?[new]
-[bold]Cecil[normal]: Meteo?[new]
-[bold]Porom[normal]: Meteo?
-You're..[new]
+Meteor as well?[new]
+[bold]Cecil[normal]: Meteor?[new]
+[bold]Porom[normal]: If he knows of Meteor...
+then you're...[new]
 [bold]Palom[normal]: Hey, old man!
 Are you Tellah?[end]</sn:pointer>
 
@@ -987,7 +986,7 @@ we were attacked by Leviathan...[new]
 And Rosa was captured by
 Golbez...[end]</sn:pointer>
 
-<sn:pointer id="191">[bold]Palom[normal]: That's gotta be his woman![end]</sn:pointer>
+<sn:pointer id="191">[bold]Palom[normal]: That's gotta be his girlfriend![end]</sn:pointer>
 
 <sn:pointer id="192">[bold]Porom[normal]: Hush![new]
 [bold]Cecil[normal]: But weren't you going to find
@@ -1012,8 +1011,7 @@ Golbez![new]
 [bold]Cecil[normal]: ....[end]</sn:pointer>
 
 <sn:pointer id="194">[bold]Palom[normal]: Hmph!
-This is why adults are such a pain in the
-ass![end]</sn:pointer>
+This is why grown-ups are such a pain![end]</sn:pointer>
 
 <sn:pointer id="195">[bold]Palom[normal]: Who IS this Golbez?![new]
 [bold]Porom[normal]: You're so ignorant!
@@ -1025,10 +1023,11 @@ He's the one controlling Baron![end]</sn:pointer>
 delightful... to bury you all...[new]
 [bold]Cecil[normal]: Who's there!?[end]</sn:pointer>
 
-<sn:pointer id="197">'I am your guide to Hell...' 'I am one of
-Lord Golbez's Four Emperors.
-Scarmiglione, of Earth...' 'It is time for my
-precious undead to feast!'[end]</sn:pointer>
+<sn:pointer id="197">I am your guide to death...
+One of Lord Golbez's Elemental Lords...
+Scarmiglione of Earth...
+It is feeding time for my precious
+undead...![end]</sn:pointer>
 
 <sn:pointer id="198">-Gurgle-... So you have killed me...
 Now taste the power of Scarmiglione of
@@ -1052,7 +1051,7 @@ fight and defeat....yourself as a Dark
 Knight!'[end]</sn:pointer>
 
 <sn:pointer id="202">[bold]Tellah[normal]: Two Cecils?[new]
-[bold]Palom[normal]: What the hell's happening!?[new]
+[bold]Palom[normal]: What's going on!?[new]
 [bold]Porom[normal]: Mr.
 Cecil![end]</sn:pointer>
 
@@ -1067,7 +1066,7 @@ Take it...My...final light!
 My son...Stop Golbez!'
 [bold]Cecil[normal]: P..Please wait![end]</sn:pointer>
 
-<sn:pointer id="205">[space][0x3]Cecil became a Paladin![end]</sn:pointer>
+<sn:pointer id="205">[space][0x3]Cecil became a Paladin![delay][0x50][end]</sn:pointer>
 
 <sn:pointer id="206">[bold]Porom[normal]: Are you all right![new]
 [bold]Palom[normal]: You really...[new]
@@ -1133,7 +1132,7 @@ Then you have an airship!![end]</sn:pointer>
 
 <sn:pointer id="219">[bold]Dark Elf[normal]: YOU-MADE-IT-HERE!
 BUT-YOU-CANNOT-TAKE-BACK
-THE-CRYSTAL-OF-EARTH.[new]
+THE-EARTH-CRYSTAL.[new]
 YOU-CAN'T-STAND-UP-TO-MY
 MAGIC-WITH-EQUIPMENT-LIKE THAT![new]
 [bold]Yang[normal]: Sir Cecil![new]
@@ -1153,8 +1152,8 @@ Don't overexert yourself![new]
 This is the only way... to save...Cecil
 and the others![end]</sn:pointer>
 
-<sn:pointer id="222">Edward's Harp can be heard through
-the Echoer!
+<sn:pointer id="222">Edward's harp can be heard through
+the Whisperweed!
 [bold]Yang[normal]: Oh...[new]
 [bold]Tellah[normal]: This warm sound is...[new]
 [bold]Cecil[normal]: Edward's Harp![new]
@@ -1208,7 +1207,7 @@ man![new]
 [bold]Edward[normal]: Anna...
 I think I'm beginning to understand...[end]</sn:pointer>
 
-<sn:pointer id="229">[bold]Cain[normal]: Where's the Crystal of Earth?[end]</sn:pointer>
+<sn:pointer id="229">[bold]Cain[normal]: Where's the Earth Crystal?[end]</sn:pointer>
 
 <sn:pointer id="230">[bold]Cecil[normal]: Cain![new]
 [bold]Cid[normal]: Where are you hiding![new]
@@ -1236,14 +1235,14 @@ life...[music][0x19] Now, climb![end]</sn:pointer>
 
 <sn:pointer id="233">'Pleased to make your acquaintance!'[end]</sn:pointer>
 
-<sn:pointer id="234">'We are the minions of the mistress of
-this tower, Barbariccia, the Empress of
-Wind!' 'I am Dog of the three Magus
+<sn:pointer id="234">'We serve the ruler of this tower,
+Barbariccia of Wind, one of the Elemental
+Lords!' 'I am Dog of the three Magus
 sisters!' 'I am Mag, of the same!' 'I am Rag!'
-'We're sorry, but this is as far as you go.'
-'We will take the Crystal from you.' 'We will
-stop you from reaching Rosa with
-our Delta Attack!'[end]</sn:pointer>
+'Too bad, but this is as far as you go.'
+'We will take the Crystal from you.' 'Our
+Delta Attack will make you say goodbye
+to Rosa!'[end]</sn:pointer>
 
 <sn:pointer id="235">'It can't be!' 'You withstood our Delta
 Attack...' 'Sister!
@@ -1324,7 +1323,7 @@ Where's Rosa!?[end]</sn:pointer>
 
 <sn:pointer id="250">[bold]Cecil[normal]: Rosa...[new]
 [bold]Rosa[normal]: I knew you would come for
-me...[end]</sn:pointer>
+me...[music][0x13][end]</sn:pointer>
 
 <sn:pointer id="251">[bold]Cecil[normal]: Without you I realized...
 I...[new]
