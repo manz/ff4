@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="17" padding=" ">
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x29]Fire Claw</sn:fixed>
+    <sn:fixed>[0x29]Ice Claw</sn:fixed>
+    <sn:fixed>[0x29]Thunder Claw</sn:fixed>
+    <sn:fixed>[0x29]Fairy Claw</sn:fixed>
+    <sn:fixed>[0x29]Hell Claw</sn:fixed>
+    <sn:fixed>[0x29]Cat Claw</sn:fixed>
+    <sn:fixed>[0x2a]Rod</sn:fixed>
+    <sn:fixed>[0x2a]Ice Rod</sn:fixed>
+    <sn:fixed>[0x2a]Flame Rod</sn:fixed>
+    <sn:fixed>[0x2a]Thunder Rod</sn:fixed>
+    <sn:fixed>[0x2a]Change Rod</sn:fixed>
+    <sn:fixed>[0x2a]Fairy Rod</sn:fixed>
+    <sn:fixed>[0x2a]Stardust Rod</sn:fixed>
+    <sn:fixed>[0x2a]Lilith Rod</sn:fixed>
+    <sn:fixed>[0x2b]Staff</sn:fixed>
+    <sn:fixed>[0x2b]Healing Staff</sn:fixed>
+    <sn:fixed>[0x2b]Mithril Staff</sn:fixed>
+    <sn:fixed>[0x2b]Power Staff</sn:fixed>
+    <sn:fixed>[0x2b]Pulsar Staff</sn:fixed>
+    <sn:fixed>[0x2b]Sage's Staff</sn:fixed>
+    <sn:fixed>[0x2b]Rune Staff</sn:fixed>
+    <sn:fixed>[0x2c]Dark Sword</sn:fixed>
+    <sn:fixed>[0x2c]Shadow Blade</sn:fixed>
+    <sn:fixed>[0x2c]Deathbringer</sn:fixed>
+    <sn:fixed>[0x2e]Legend Sword</sn:fixed>
+    <sn:fixed>[0x2e]Light Sword</sn:fixed>
+    <sn:fixed>[0x2e]Excalibur</sn:fixed>
+    <sn:fixed>[0x2d]Flame Sword</sn:fixed>
+    <sn:fixed>[0x2d]Ice Brand</sn:fixed>
+    <sn:fixed>[0x2d]Defender</sn:fixed>
+    <sn:fixed>[0x2d]Blood Sword</sn:fixed>
+    <sn:fixed>[0x2d]Ancient Sword</sn:fixed>
+    <sn:fixed>[0x2d]Sleep Sword</sn:fixed>
+    <sn:fixed>[0x2d]Medusa Blade</sn:fixed>
+    <sn:fixed>[0x2f]Spear</sn:fixed>
+    <sn:fixed>[0x2f]Wind Spear</sn:fixed>
+    <sn:fixed>[0x2f]Flame Spear</sn:fixed>
+    <sn:fixed>[0x2f]Blizzard Spear</sn:fixed>
+    <sn:fixed>[0x2f]Dragon Spear</sn:fixed>
+    <sn:fixed>[0x2f]Holy Lance</sn:fixed>
+    <sn:fixed>[0x2f]Blood Lance</sn:fixed>
+    <sn:fixed>[0x2f]Gungnir</sn:fixed>
+    <sn:fixed>[0x31]Kunai</sn:fixed>
+    <sn:fixed>[0x31]Ashura</sn:fixed>
+    <sn:fixed>[0x31]Kotetsu</sn:fixed>
+    <sn:fixed>[0x31]Kikuichimonji</sn:fixed>
+    <sn:fixed>[0x31]Murasame</sn:fixed>
+    <sn:fixed>[0x31]Masamune</sn:fixed>
+    <sn:fixed>[0x30]Assassin Dagger</sn:fixed>
+    <sn:fixed>[0x30]Mage Masher</sn:fixed>
+    <sn:fixed>[0x3a]Whip</sn:fixed>
+    <sn:fixed>[0x3a]Chain Whip</sn:fixed>
+    <sn:fixed>[0x3a]Thunder Whip</sn:fixed>
+    <sn:fixed>[0x3a]Flame Whip</sn:fixed>
+    <sn:fixed>[0x3a]Dragon Whisker</sn:fixed>
+    <sn:fixed>[0x34]Hand Axe</sn:fixed>
+    <sn:fixed>[0x34]Dwarven Axe</sn:fixed>
+    <sn:fixed>[0x34]Ogre Killer</sn:fixed>
+    <sn:fixed>[0x30]Mithril Knife</sn:fixed>
+    <sn:fixed>[0x30]Dancing Dagger</sn:fixed>
+    <sn:fixed>[0x2d]Mithril Sword</sn:fixed>
+    <sn:fixed>[0x30]Cleaver</sn:fixed>
+    <sn:fixed>[0x2e]Ragnarok</sn:fixed>
+    <sn:fixed>[0x32]Shuriken</sn:fixed>
+    <sn:fixed>[0x32]Fuma Shuriken</sn:fixed>
+    <sn:fixed>[0x33]Boomerang</sn:fixed>
+    <sn:fixed>[0x33]Moonring Blade</sn:fixed>
+    <sn:fixed>[0x36]Dream Harp</sn:fixed>
+    <sn:fixed>[0x36]Lamia Harp</sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x34]Poison Axe</sn:fixed>
+    <sn:fixed>[0x34]Rune Axe</sn:fixed>
+    <sn:fixed>[0x35]Mithril Hammer</sn:fixed>
+    <sn:fixed>[0x35]Earth Hammer</sn:fixed>
+    <sn:fixed>[0x35]Mallet</sn:fixed>
+    <sn:fixed>[0x2d]Avenger</sn:fixed>
+    <sn:fixed>[0x37]Bow</sn:fixed>
+    <sn:fixed>[0x37]Crossbow</sn:fixed>
+    <sn:fixed>[0x37]Great Bow</sn:fixed>
+    <sn:fixed>[0x37]Killer Bow</sn:fixed>
+    <sn:fixed>[0x37]Elven Bow</sn:fixed>
+    <sn:fixed>[0x37]Yoichi Bow</sn:fixed>
+    <sn:fixed>[0x37]Artemis Bow</sn:fixed>
+    <sn:fixed>[0x38]Iron Arrow</sn:fixed>
+    <sn:fixed>[0x38]Holy Arrow</sn:fixed>
+    <sn:fixed>[0x38]Fire Arrow</sn:fixed>
+    <sn:fixed>[0x38]Ice Arrow</sn:fixed>
+    <sn:fixed>[0x38]Lightning Arrow</sn:fixed>
+    <sn:fixed>[0x38]Dark Arrow</sn:fixed>
+    <sn:fixed>[0x38]Poison Arrow</sn:fixed>
+    <sn:fixed>[0x38]Mute Arrow</sn:fixed>
+    <sn:fixed>[0x38]Angel Arrow</sn:fixed>
+    <sn:fixed>[0x38]Yoichi Arrow</sn:fixed>
+    <sn:fixed>[0x38]Medusa Arrow</sn:fixed>
+    <sn:fixed>[0x38]Artemis Arrow</sn:fixed>
+    <sn:fixed></sn:fixed>
+    <sn:fixed>[0x3b]Iron Shield</sn:fixed>
+    <sn:fixed>[0x3b]Dark Shield</sn:fixed>
+    <sn:fixed>[0x3b]Demon Shield</sn:fixed>
+    <sn:fixed>[0x3b]Holy Shield</sn:fixed>
+    <sn:fixed>[0x3b]Mithril Shield</sn:fixed>
+    <sn:fixed>[0x3b]Flame Shield</sn:fixed>
+    <sn:fixed>[0x3b]Ice Shield</sn:fixed>
+    <sn:fixed>[0x3b]Diamond Shield</sn:fixed>
+    <sn:fixed>[0x3b]Aegis Shield</sn:fixed>
+    <sn:fixed>[0x3b]Genji Shield</sn:fixed>
+    <sn:fixed>[0x3b]Dragon Shield</sn:fixed>
+    <sn:fixed>[0x3b]Crystal Shield</sn:fixed>
+    <sn:fixed>[0x3c]Iron Helm</sn:fixed>
+    <sn:fixed>[0x3c]Dark Helm</sn:fixed>
+    <sn:fixed>[0x3c]Hades Helm</sn:fixed>
+    <sn:fixed>[0x3c]Demon Helm</sn:fixed>
+    <sn:fixed>[0x3c]Holy Helm</sn:fixed>
+    <sn:fixed>[0x3c]Mithril Helm</sn:fixed>
+    <sn:fixed>[0x3c]Diamond Helm</sn:fixed>
+    <sn:fixed>[0x3c]Genji Helm</sn:fixed>
+    <sn:fixed>[0x3c]Dragon Helm</sn:fixed>
+    <sn:fixed>[0x3c]Crystal Helm</sn:fixed>
+    <sn:fixed>[0x3c]Leather Hat</sn:fixed>
+    <sn:fixed>[0x3c]Feather Hat</sn:fixed>
+    <sn:fixed>[0x3c]Tricorn Hat</sn:fixed>
+    <sn:fixed>[0x3c]Priest's Mitre</sn:fixed>
+    <sn:fixed>[0x3c]Gold Hairband</sn:fixed>
+    <sn:fixed>[0x3c]Ribbon</sn:fixed>
+    <sn:fixed>[0x3c]Bandana</sn:fixed>
+    <sn:fixed>[0x3c]Green Beret</sn:fixed>
+    <sn:fixed>[0x3c]Dark Hood</sn:fixed>
+    <sn:fixed>[0x3c]Glass Mask</sn:fixed>
+    <sn:fixed>[0x3d]Iron Armor</sn:fixed>
+    <sn:fixed>[0x3d]Dark Armor</sn:fixed>
+    <sn:fixed>[0x3d]Hades Armor</sn:fixed>
+    <sn:fixed>[0x3d]Demon Armor</sn:fixed>
+    <sn:fixed>[0x3d]Knight's Armor</sn:fixed>
+    <sn:fixed>[0x3d]Mithril Armor</sn:fixed>
+    <sn:fixed>[0x3d]Flame Mail</sn:fixed>
+    <sn:fixed>[0x3d]Ice Armor</sn:fixed>
+    <sn:fixed>[0x3d]Diamond Armor</sn:fixed>
+    <sn:fixed>[0x3d]Genji Armor</sn:fixed>
+    <sn:fixed>[0x3d]Dragon Mail</sn:fixed>
+    <sn:fixed>[0x3d]Crystal Mail</sn:fixed>
+    <sn:fixed>[0x3d]Clothes</sn:fixed>
+    <sn:fixed>[0x3d]Leather Tunic</sn:fixed>
+    <sn:fixed>[0x3d]Gaia Gear</sn:fixed>
+    <sn:fixed>[0x3d]Priest's Robe</sn:fixed>
+    <sn:fixed>[0x3d]Black Robe</sn:fixed>
+    <sn:fixed>[0x3d]Robe of Light</sn:fixed>
+    <sn:fixed>[0x3d]White Robe</sn:fixed>
+    <sn:fixed>[0x3d]Power Sash</sn:fixed>
+    <sn:fixed>[0x3d]Minerva Bustier</sn:fixed>
+    <sn:fixed>[0x3d]Prison Garb</sn:fixed>
+    <sn:fixed>[0x3d]Bard's Tunic</sn:fixed>
+    <sn:fixed>[0x3d]Kenpo Gi</sn:fixed>
+    <sn:fixed>[0x3d]Black Belt</sn:fixed>
+    <sn:fixed>[0x3d]Adamant Armor</sn:fixed>
+    <sn:fixed>[0x3d]Ninja Gear</sn:fixed>
+    <sn:fixed>[0x3e]Iron Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Dark Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Hades Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Demon Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Mithril Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Diamond Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Giant's Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Genji Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Dragon Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Crystal Gauntlet</sn:fixed>
+    <sn:fixed>[0x3e]Iron Armlet</sn:fixed>
+    <sn:fixed>[0x3e]Ruby Ring</sn:fixed>
+    <sn:fixed>[0x3e]Silver Armlet</sn:fixed>
+    <sn:fixed>[0x3e]Power Armlet</sn:fixed>
+    <sn:fixed>[0x3e]Rune Armlet</sn:fixed>
+    <sn:fixed>[0x3e]Crystal Ring</sn:fixed>
+    <sn:fixed>[0x3e]Diamond Armlet</sn:fixed>
+    <sn:fixed>[0x3e]Protect Ring</sn:fixed>
+    <sn:fixed>[0x3e]Cursed Ring</sn:fixed>
+    <sn:fixed>[0xff]Bomb Fragment</sn:fixed>
+    <sn:fixed>[0xff]Bomb Arm</sn:fixed>
+    <sn:fixed>[0xff]South Wind</sn:fixed>
+    <sn:fixed>[0xff]North Wind</sn:fixed>
+    <sn:fixed>[0xff]Zeus's Wrath</sn:fixed>
+    <sn:fixed>[0xff]Heavenly Wrath</sn:fixed>
+    <sn:fixed>[0xff]Stardust</sn:fixed>
+    <sn:fixed>[0xff]Lilith's Kiss</sn:fixed>
+    <sn:fixed>[0xff]Vampire Fang</sn:fixed>
+    <sn:fixed>[0xff]Bacchus's Wine</sn:fixed>
+    <sn:fixed>[0xff]Hermes Sandals</sn:fixed>
+    <sn:fixed>[0xff]Copper Hourglass</sn:fixed>
+    <sn:fixed>[0xff]Silver Hourglass</sn:fixed>
+    <sn:fixed>[0xff]Gold Hourglass</sn:fixed>
+    <sn:fixed>[0xff]Spider Silk</sn:fixed>
+    <sn:fixed>[0xff]Scapegoat</sn:fixed>
+    <sn:fixed>[0xff]Red Fang</sn:fixed>
+    <sn:fixed>[0xff]White Fang</sn:fixed>
+    <sn:fixed>[0xff]Blue Fang</sn:fixed>
+    <sn:fixed>[0xff]Light Curtain</sn:fixed>
+    <sn:fixed>[0xff]Bomb Core</sn:fixed>
+    <sn:fixed>[0xff]Lunar Curtain</sn:fixed>
+    <sn:fixed>[0xff]Silence Bell</sn:fixed>
+    <sn:fixed>[0xff]Earth Drum</sn:fixed>
+    <sn:fixed>[0xff]Crystal</sn:fixed>
+    <sn:fixed>[0xff]Coeurl Whisker</sn:fixed>
+    <sn:fixed>[0xff]Spellbook</sn:fixed>
+    <sn:fixed>[0xff]Bestiary</sn:fixed>
+    <sn:fixed>[0xff]Alarm Clock</sn:fixed>
+    <sn:fixed>[0xff]Unicorn Horn</sn:fixed>
+    <sn:fixed>[0xff]Potion</sn:fixed>
+    <sn:fixed>[0xff]Hi-Potion</sn:fixed>
+    <sn:fixed>[0xff]Mega Potion</sn:fixed>
+    <sn:fixed>[0xff]Ether</sn:fixed>
+    <sn:fixed>[0xff]Dry Ether</sn:fixed>
+    <sn:fixed>[0xff]Elixir</sn:fixed>
+    <sn:fixed>[0xff]Phoenix Down</sn:fixed>
+    <sn:fixed>[0xff]Gold Needle</sn:fixed>
+    <sn:fixed>[0xff]Maiden's Kiss</sn:fixed>
+    <sn:fixed>[0xff]Magic Mallet</sn:fixed>
+    <sn:fixed>[0xff]Diet Food</sn:fixed>
+    <sn:fixed>[0xff]Echo Herbs</sn:fixed>
+    <sn:fixed>[0xff]Eye Drops</sn:fixed>
+    <sn:fixed>[0xff]Antidote</sn:fixed>
+    <sn:fixed>[0xff]Cross</sn:fixed>
+    <sn:fixed>[0xff]Remedy</sn:fixed>
+    <sn:fixed>[0xff]Alarm</sn:fixed>
+    <sn:fixed>[0xff]Golden Apple</sn:fixed>
+    <sn:fixed>[0xff]Silver Apple</sn:fixed>
+    <sn:fixed>[0xff]Soma Drop</sn:fixed>
+    <sn:fixed>[0xff]Tent</sn:fixed>
+    <sn:fixed>[0xff]Cottage</sn:fixed>
+    <sn:fixed>[0xff]Saucy Magazine</sn:fixed>
+    <sn:fixed>[0xff]Emergency Exit</sn:fixed>
+    <sn:fixed>[0xff]Dwarven Bread</sn:fixed>
+    <sn:fixed>[0x41]Goblin</sn:fixed>
+    <sn:fixed>[0x41]Bomb</sn:fixed>
+    <sn:fixed>[0x41]Cockatrice</sn:fixed>
+    <sn:fixed>[0x41]Mind Flayer</sn:fixed>
+    <sn:fixed>[0xff]Gysahl Greens</sn:fixed>
+    <sn:fixed>[0xff]Pass</sn:fixed>
+    <sn:fixed>[0xff]Gysahl Whistle</sn:fixed>
+    <sn:fixed>[0xff]Bomb Ring</sn:fixed>
+    <sn:fixed>[0xff]Baron Key</sn:fixed>
+    <sn:fixed>[0xff]Desert Light</sn:fixed>
+    <sn:fixed>[0xff]Earth Crystal</sn:fixed>
+    <sn:fixed>[0xff]Magma Stone</sn:fixed>
+    <sn:fixed>[0xff]Luka's Necklace</sn:fixed>
+    <sn:fixed>[0xff]Whisperweed</sn:fixed>
+    <sn:fixed>[0xff]Dark Crystal</sn:fixed>
+    <sn:fixed>[0xff]Rat Tail</sn:fixed>
+    <sn:fixed>[0xff]Adamantite</sn:fixed>
+    <sn:fixed>[0xff]Frying Pan</sn:fixed>
+    <sn:fixed>[0xff]Pink Tail</sn:fixed>
+    <sn:fixed>[0xff]Lugeie Key</sn:fixed>
+    <sn:fixed>[0xff]Dark Matter</sn:fixed>
+    <sn:fixed>[0xff]Scenario 0015</sn:fixed>
+    <sn:fixed>[0xff]Scenario 0016</sn:fixed>
+    <sn:fixed>[0xff]--Sort--</sn:fixed>
+    <sn:fixed>[0xff]Trash Can</sn:fixed>
+</sn:fixedlist>
