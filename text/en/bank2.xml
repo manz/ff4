@@ -1856,8 +1856,8 @@ We'll hold out here until the Young
 Master returns![end]</sn:pointer>
 
 <sn:pointer id="201">Our Young Master went ahead alone![end]
-When the Young Master gets angry, he
-becomes very powerful...[end]</sn:pointer>
+When the Young Master gets worked up, he
+loses all sense...[end]</sn:pointer>
 
 <sn:pointer id="202">Stop our Young Master...[end]
 Our Young Master went after Rubicante![end]
@@ -1898,9 +1898,10 @@ The Young Master said he was going to
 kill the bad guys!
 We can return to the castle soon, right...?
 Right...?[end]
-I'll take care of things here!Please be
+I'll take care of things here! Please be
 careful!
-If you die too, then Eblana will...[end]</sn:pointer>
+If we lose the Young Master too, then
+Eblana will...[end]</sn:pointer>
 
 <sn:pointer id="207">T[end]</sn:pointer>
 
@@ -1911,8 +1912,7 @@ can do![end]
 [bold]Yang[normal]: That's...[new]
 [bold]Tellah[normal]: A white flag?[end]
 [bold]Yang[normal]: Sir Cecil...[new]
-[bold]Cid[normal]: Cain?
-What's gotten into you..?[end]
+[bold]Cid[normal]: That Cain...![end]
 [bold]Cecil[normal]: Let's go to Toroia!
 Cid, head northwest![end]</sn:pointer>
 
@@ -2041,9 +2041,9 @@ Y'all came from the surface?
 So there really is a surface world after
 all![end]
 Didja know?
-The cave to the northwest leads to the
-Phantom World.
-Ain't it weird?[end]
+They say the cave on the island to the
+northwest leads to the Land of Phantoms.
+Scary![end]
 I hear that the ocean on the surface is
 blue.
 Creepy![end]</sn:pointer>
@@ -2128,11 +2128,12 @@ theunderworld's pretty nice!
 I hope you can stay here a while, Lali![end]
 [bold]Cecil[normal]: I'm sorry.
 Golbez got the Crystal...[new]
-[bold]Jiott[normal]: Damn...
+[bold]Jiott[normal]: It can't be helped...
 All we can do now is protect the last
 Crystal.[new]
 [bold]Rosa[normal]: Where is the last Crystal?[new]
-[bold]Jiott[normal]: It's in a sealed cave.
+[bold]Jiott[normal]: In the Sealed Cave to the
+southwest.
 Golbez went there, but don't worry.
 Without the key to release the seal,
 nobody can enter.[new]
@@ -2146,7 +2147,8 @@ sealed cave... could you sneak into the
 Tower of Babil and retrieve the other
 seven Crystals?[new]
 [bold]Cain[normal]: The Tower of Babil?[new]
-[bold]Yang[normal]: That huge tower?![new]
+[bold]Yang[normal]: You would have us sneak into
+the enemy's stronghold!?[new]
 [bold]Jiott[normal]: Don't worry!
 I'll have our Tank Force attack the Tower!
 During the diversion, go in and grab the
@@ -2228,8 +2230,9 @@ your luck...flee![end]
 Even if Golbez isn't in the Tower of
 Babil, the strongest of the Four
 Emperors, Rubicante of Fire, still is![end]
-Our Tank Force will divert the Giant Gun!
-At that time, sneak in, Lali![end]
+Our Tank Force will draw the Giant Gun's
+fire!
+Sneak in while it's busy, Lali![end]
 This is a Pot of Life!
 Take a swig![end]</sn:pointer>
 
@@ -2239,7 +2242,8 @@ Take a swig![end]</sn:pointer>
 Can you humans use them?[end]</sn:pointer>
 
 <sn:pointer id="274">This is the medical room.[end]
-Sometimes, even Dwarves get hurt![end]
+Dwarves are tough!
+But sometimes we get hurt too![end]
 That man is unusually energetic for an old
 geezer![end]
 That old guy's a glutton!
@@ -2253,7 +2257,8 @@ to be doing that![end]
 That old guy's rough, but he's a good
 guy![end]
 Zzz... snort ...Zzz[end]
-That old guy's amazing![end]
+That old guy's amazing!
+He really put a drill on it![end]
 People from the upper world are very
 skilled![end]
 [bold]Cid[normal]: Treat that airship as if it were
@@ -2363,8 +2368,10 @@ monsters you're fighting.
 If there's one you particularly like, please
 let me know which one![end]
 I'm Taka, the Dot maker!
-As soon as I'm finished with this game I'll
-probably become a Super Dot Man![end]
+I'm aiming to become the legendary Super
+Dot Man.
+By the time this game's done, I probably
+will be![end]
 Graphics -
 [bold]Ryouko Tanaka[normal]: This will be my final
 production.
@@ -2373,7 +2380,7 @@ Graphics -
 [bold]Hiromi Nakada[normal]: ...So basically, I'm left as
 the only woman on the Final Fantasy
 team!
-You can count on me![end]
+Please send me letters of encouragement![end]
 Menu Programmer -
 [bold]Keitaro Adachi[normal]: Heheh...
 No sweat, no sweat![end]
@@ -2397,23 +2404,26 @@ Don't you think so Sakaguchi-san?[end]</sn:pointer>
 
 <sn:pointer id="298">Sound Programmer -
 [bold]Minoru Akao[normal]: Phew...
-Well then, what should I do now?[end]
+Well then, what should I do now?
+For some real excitement, that has to
+be the best, right!?[end]
 Sound Effects -
 [bold]Akira Ueda[normal]: Aki Yama-san, Takemotchi
 Shin-kun, Kazu-kun, everyone else, are
 you watching?
-I've made lots of sounds.[new]
-Listen to them![end]
+I made a few sounds.[new]
+Come again![end]
 Music Composition -
 [bold]Nobuo Uematsu[normal]: Hm!
 From looking at you, you seem to have
 quite a hidden appreciation for music.
-Shall I play my clarinet for you?[end]
+Shall I teach you to play this clarinet
+from distant lands?[end]
 Sound Effects -
-[bold]Kenshi Ito[normal]: Once you beat Final Fantasy
-IV, try Seiken Densetsu 3![end]</sn:pointer>
+[bold]Kenji Ito[normal]: Once you beat Final Fantasy
+IV, try Seiken Densetsu too![end]</sn:pointer>
 
-<sn:pointer id="299">Up until here, no games allowed![end]
+<sn:pointer id="299">No games until we're done![end]
 Rosa and Rydia, huh?
 Now those are fine ladies!
 You'll find my power useful![new]
@@ -2425,7 +2435,7 @@ Chief Programmer -
 events!!
 Stop finding more bugs!
 Damn![new]
-I might have to drop out of college![end]
+I'm dropping out of college![end]
 Zzz..Zzz..[end]</sn:pointer>
 
 <sn:pointer id="300">[bold]FuSoYa[normal]: Let's get inside now while we
@@ -2508,14 +2518,14 @@ You're the first humans to come here
 besides Rydia.[end]
 This is the Phantom World, the world
 where the Phantom Beasts live.[end]
-The King of the Phantom Beastslives
-deep within the center of our world.[end]</sn:pointer>
+The King of the Phantoms lives deep
+within the Land of Phantoms.[end]</sn:pointer>
 
 <sn:pointer id="315">T[end]</sn:pointer>
 
 <sn:pointer id="316">Long time no see, Rydia![end]
-The Phantom World is ruled by Ashura
-and the King of the Phantom Beasts.[end]
+The Land of Phantoms is ruled by Queen
+Asura and the King of the Phantoms.[end]
 I hear our buddies in the other world
 aren't behaving themselves.[end]
 They say if you can't defeat Lady
@@ -2524,9 +2534,9 @@ to you![end]
 Yo, Rydia!
 What?
 Is it weird for us to be talking?[end]
-This is our world's library.
-A treasure trove of knowledge from all
-aspects of our world![end]
+This is the Library of the Land of
+Phantoms.
+A treasure trove of all knowledge![end]
 Rydia!
 I'm so glad you've come back![end]
 Oh, Rydia!
@@ -2537,7 +2547,7 @@ Please don't go away ever again![end]</sn:pointer>
 
 <sn:pointer id="318">Shh!!
 Quiet in the library![end]
-Hmm....will I like this book...I wonder?[end]
+Hmm, this book is so moving...[end]
 The Giant who shakes the Earth, Titan...
 With his power he tears apart the earth,
 and all creatures will fall into the chasm he
@@ -2547,17 +2557,17 @@ His fire is said to be able to consume
 anything.[end]
 There is said to be Summoning Magic that
 nobody yet knows about...[end]
-The mild old man Ramuh...
-Slow to anger, quick to judge... he calls
-forth storm clouds and ferocious lightning.[end]
+The gentle old man Ramuh...
+But his anger calls forth dark clouds,
+and he punishes with lightning.[end]
 The Queen of Ice, Shiva...
 Those who anger her have their hearts
 frozen solid.[end]
 Chocobo...
-The most adorable of the Phantom
-Beasts![end]
+None can match it for running away or
+for charm.[end]
 Summoning Magic...Magic which calls
-Phantom Beasts from their mystic realm...
+forth Phantoms...
 There are very few who possess this
 power.[end]
 The Phantom World has a much, much
@@ -2567,10 +2577,10 @@ The cave which connects our world with
 the human world...
 Only those with a strong body and a
 pure spirit are granted passage...[end]
-Phantom Beasts are phantasmic animals...
-When their power is wielded bysomeone
-with a guiding light, they strike a mighty
-blow for the cause of Justice...[end]</sn:pointer>
+Phantoms are beasts of illusion...
+To the wicked they appear terrifying,
+but to the righteous they appear as
+gods...[end]</sn:pointer>
 
 <sn:pointer id="319">Is there literature in the human world
 too?[end]
@@ -2584,17 +2594,17 @@ Phantom Beast, Monster, Human...
 Where did they come from, and where
 are they going...
 The mystery of eternity...[end]
-Long, long ago, a great ship came from
-the moon to Earth...Now it sleeps deep in
-the belly of a dragon.[end]
-To the one who surpasses the Phantom
-Beast King...[new]
-There is said to be a Phantom Beast God
-who created us and is protecting us from
-afar.
-He does not know defeat...[new]
-Only his own power reflected upon
-himself would cause him harm...[end]
+Long, long ago, a great whale came down
+from the moon to this land...
+Now it sleeps deeply within a dragon.[end]
+One greater than the King of the
+Phantoms...[new]
+It is said that the Phantom God, who
+created the Phantoms, watches over us
+from afar.[new]
+He has never known defeat...
+Only one who can turn his own power back
+on him could ever overcome him...[end]
 There are two moons...
 But it is said that in ancienttimes there
 was only one.[end]
@@ -2608,16 +2618,17 @@ The Phantom Beast King...
 He appeared from the northern ocean.
 He is said to be master of theoceans,
 and is without rival.[end]
-Odin, the knight of great warriors past...
+Odin, whose Zantetsuken fells any foe in
+a single blow...
 The only time he was ever defeated was
 when a bolt of lightning struck his sword.[end]
-The kind, slender Sylph...
-When they join forces, they channel the
-life energy of their foes into themselves...[end]
-The Law of the Phantom Beast World...
-...is to have strength and a pure heart...
-Affirm that strength, and test their soul
-by combat![end]</sn:pointer>
+The kind, slender Sylphs...
+Only when they join forces does their
+power come forth.[end]
+The Law of the Land of Phantoms...
+True strength is a righteous heart.
+Never lend your power lightly without
+first judging that strength.[end]</sn:pointer>
 
 <sn:pointer id="320">This is the room of the Phantom Beast
 King and Queen.[end]
@@ -2627,10 +2638,10 @@ Queen Ashura.[end]
 Rydia...
 You have strong, kind friends.You may
 call me any time...[end]
-You possess a strong, guiding Light!
-I shall lend you my power as the Master
-of the Oceans, Leviathan![end]
-The Phantom Beast King?
+This is truly the power of Light!
+I, Leviathan, King of the Phantoms, shall
+lend you my power![end]
+The King of the Phantoms?
 No, no, I'm just some old fool![end]
 Then I shall test your power![end]
 Unfortunately then, I cannot lend you my
@@ -2641,15 +2652,16 @@ any time![end]</sn:pointer>
 <sn:pointer id="321">Can humans use the weapons here?[end]
 Well, what do you know, it's Rydia![end]</sn:pointer>
 
-<sn:pointer id="322">We don't like humans here, Rydia.[end]
+<sn:pointer id="322">Don't bring too many humans here,
+Rydia.[end]
 We just want to live peacefully.[end]</sn:pointer>
 
 <sn:pointer id="323">Chocobo, Shiva, Ramuh...
 All of them live here...[end]
 That Ifrit!
 A hothead as usual.[end]
-If you cast Levitate, you'll escape Titan's
-wrath![end]</sn:pointer>
+Just cast Float, and Titan's nothing but
+a big oaf![end]</sn:pointer>
 
 <sn:pointer id="324">T[end]</sn:pointer>
 
@@ -2661,7 +2673,8 @@ wrath![end]</sn:pointer>
 
 <sn:pointer id="328">T[end]</sn:pointer>
 
-<sn:pointer id="329">[bold]Yang[normal]: ...Fight for me![end]
+<sn:pointer id="329">[bold]Yang[normal]: I am in your debt...
+Fight for me too...![end]
 AAH!
 Humans!![end]
 Just leave Yang to us![end]
@@ -2752,19 +2765,20 @@ Tell Yang we said hi![end]</sn:pointer>
 
 <sn:pointer id="347">T[end]</sn:pointer>
 
-<sn:pointer id="348">What business do you have with...him..?[end]
+<sn:pointer id="348">What business do you have with the
+Phantom God!?[end]
 Eh?
 You're only half...[end]
 You're the first people that Lord
 Bahamut acknowledged![end]
-Your destiny still awaits you...[end]
+You seem to bear a great destiny.[end]
 You haven't been accepted by Leviathan.
 Leave now.[end]
-I sense a great power and spirit from
-within...
+Your power and spirit...
+I have truly felt them.
 Rydia![new]
-If my power is ever needed, you may call
-my name![end]</sn:pointer>
+When you have need of me, call my
+name: Bahamut...![end]</sn:pointer>
 
 <sn:pointer id="349">T[end]</sn:pointer>
 
@@ -2775,10 +2789,10 @@ my name![end]</sn:pointer>
 <sn:pointer id="352">T[end]</sn:pointer>
 
 <sn:pointer id="353">We are the Crystals of the Moon.[end]
-The balance of the eight Crystals on the
-Blue Planet is kept here on the moon.[end]
-The People of the Moon are sleeping
-deep underneath the ground...
+This moon is kept in balance with the
+eight Crystals of the Blue Planet.[end]
+The Lunarians are sleeping deep within
+this land...
 FuSoYa is the guardian of those who
 are sleeping.[end]
 Zemus is a terrible man.
@@ -2789,27 +2803,29 @@ the moon's core.[end]
 Zemus used Golbez to gather the
 Crystals of the Blue Planet and increased
 their power with the Tower of Babil.[end]
-Even now, we feel him trying to destroy
-the seal...[end]
-The floor in the center of the room leads
-to the core of the moon...
-Zemus' realm...[end]
-When the Tower of Babil was destroyed,
-our seal was weakened![end]
-Sleeping with the Lunarians below are
-powerful weapons.[end]
+Zemus has raised a barrier from within,
+sealing the path to the Core.[end]
+The floor in our center leads to the
+Core, where Zemus lies, but...[end]
+Now that the Tower of Babil is destroyed,
+Zemus's seal is broken.
+You should be able to reach him now.[end]
+Sealed away below with Zemus are
+weapons of tremendous power that once
+threatened the Lunarians.[end]
 Earlier, FuSoYa and KluYa's son
 entered, but they've been down there
 quite a while.[end]
-We're using all our power to try and
-keep Zemus sealed deep in the core of
-the moon.[end]
-There is a great energy flowing between
-Zemus and us.[end]
-I fear for FuSoYa and KluYa's son...[end]
-Go to the core![end]
+All we can do is neutralize the thought
+waves Zemus sends out from within.[end]
+Between Zemus's thought waves and ours,
+a tremendous energy is flowing.[end]
+Even FuSoYa may not be able to defeat
+Zemus, now that his will has grown so
+strong...[end]
+Go to the Core of the moon![end]
 We shall guide you to the path that leads
-to the core![end]</sn:pointer>
+to the Core![end]</sn:pointer>
 
 <sn:pointer id="354">T[end]</sn:pointer>
 
