@@ -2,13 +2,13 @@
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
 <sn:pointer id="0">The dragon changed form into mist![end]</sn:pointer>
 
-<sn:pointer id="1">It's returning to its form! This is the moment to attack![end]</sn:pointer>
+<sn:pointer id="1">It's taking form again! Attack now![end]</sn:pointer>
 
 <sn:pointer id="2">The mist nullifies all attacks![end]</sn:pointer>
 
 <sn:pointer id="3">If you attack, the dragon's breath will destroy you![end]</sn:pointer>
 
-<sn:pointer id="4">When it reveals its form, that's the moment to defeat it![end]</sn:pointer>
+<sn:pointer id="4">Strike when it takes form again![end]</sn:pointer>
 
 <sn:pointer id="5">Farewell[end]</sn:pointer>
 
@@ -28,29 +28,29 @@
 
 <sn:pointer id="13">If that's the case, there's no choice but to transform![end]</sn:pointer>
 
-<sn:pointer id="14">Wake up! Yang![end]</sn:pointer>
+<sn:pointer id="14">Wake up, Yang![end]</sn:pointer>
 
 <sn:pointer id="15">Die!![end]</sn:pointer>
 
-<sn:pointer id="16">Cecil! You don't understand![end]</sn:pointer>
+<sn:pointer id="16">It's Cecil! Don't you recognize me!?[end]</sn:pointer>
 
 <sn:pointer id="17">Forward![end]</sn:pointer>
 
 <sn:pointer id="18">Ouch...[end]</sn:pointer>
 
-<sn:pointer id="19">I can't take it anymore, it's unbearable!!![end]</sn:pointer>
+<sn:pointer id="19">Girl: No more!! I can't take it!![end]</sn:pointer>
 
-<sn:pointer id="20">One who has seen the invitation cannot be left alive.[end]</sn:pointer>
+<sn:pointer id="20">None who see my true form may live![end]</sn:pointer>
 
-<sn:pointer id="21">Please! Stop, both of you![end]</sn:pointer>
+<sn:pointer id="21">Anna: Please! Stop it, both of you![end]</sn:pointer>
 
-<sn:pointer id="22">Tellah: You, how dare you harm my daughter...[end]</sn:pointer>
+<sn:pointer id="22">Tellah: You! How dare you... my daughter...[end]</sn:pointer>
 
-<sn:pointer id="23">That's wrong![end]</sn:pointer>
+<sn:pointer id="23">Bard: You're wrong![end]</sn:pointer>
 
-<sn:pointer id="24">Tellah: What's wrong?![end]</sn:pointer>
+<sn:pointer id="24">Tellah: What do you mean, wrong!?[end]</sn:pointer>
 
-<sn:pointer id="25">Please listen to what I have to say![end]</sn:pointer>
+<sn:pointer id="25">Bard: Please, hear me out![end]</sn:pointer>
 
 <sn:pointer id="26">Tellah: Shut up![end]</sn:pointer>
 
@@ -58,7 +58,7 @@
 
 <sn:pointer id="28">Tellah: This pain, it's Anna's pain...[end]</sn:pointer>
 
-<sn:pointer id="29">Anna... what is...[end]</sn:pointer>
+<sn:pointer id="29">Bard: Anna, she...[end]</sn:pointer>
 
 <sn:pointer id="30">If you are a true paladin...[end]</sn:pointer>
 
@@ -76,25 +76,25 @@
 
 <sn:pointer id="37">Stop! If you do that...[end]</sn:pointer>
 
-<sn:pointer id="38">Yang: You're the one who won't hold up![end]</sn:pointer>
+<sn:pointer id="38">Yang: Madness! You won't survive it![end]</sn:pointer>
 
-<sn:pointer id="39">Tellah: Convert all my life into MP![end]</sn:pointer>
+<sn:pointer id="39">Tellah: With all my life turned into MP,[end]</sn:pointer>
 
 <sn:pointer id="40">I will defeat you...!![end]</sn:pointer>
 
-<sn:pointer id="41">Argh, what a disaster, the Meteor...![end]</sn:pointer>
+<sn:pointer id="41">Golbez: Ugh! Impossible! Meteor...![end]</sn:pointer>
 
-<sn:pointer id="42">After all, you, an old man...[end]</sn:pointer>
+<sn:pointer id="42">Golbez: A worn-out old man like you[end]</sn:pointer>
 
-<sn:pointer id="43">I shouldn't have the strength to defeat you![end]</sn:pointer>
+<sn:pointer id="43">shouldn't have the power to defeat me![end]</sn:pointer>
 
 <sn:pointer id="44">Fool![end]</sn:pointer>
 
-<sn:pointer id="45">Now, Rydia! Use magic on me![end]</sn:pointer>
+<sn:pointer id="45">Mag: Now, Lag! Cast magic on me![end]</sn:pointer>
 
-<sn:pointer id="46">It's useless, we can't see because of the wind from the front![end]</sn:pointer>
+<sn:pointer id="46">Head-on, the wind blinds us![end]</sn:pointer>
 
-<sn:pointer id="47">There's no choice but to strike by jumping![end]</sn:pointer>
+<sn:pointer id="47">We'll have to strike with Jump![end]</sn:pointer>
 
 <sn:pointer id="48">King: You too, huh? If you want to die that badly...[end]</sn:pointer>
 
@@ -108,27 +108,27 @@
 
 <sn:pointer id="53">The king and queen have regained their reason![end]</sn:pointer>
 
-<sn:pointer id="54">King: Edge, huh... Listen to what I have to say.[end]</sn:pointer>
+<sn:pointer id="54">King: Edge... Listen to me.[end]</sn:pointer>
 
 <sn:pointer id="55">We are no longer human beings...[end]</sn:pointer>
 
 <sn:pointer id="56">We are beings that should not exist.[end]</sn:pointer>
 
-<sn:pointer id="57">Queen: There is nothing to leave you...[end]</sn:pointer>
+<sn:pointer id="57">Queen: We have nothing to leave you...[end]</sn:pointer>
 
-<sn:pointer id="58">Why! Kain![end]</sn:pointer>
+<sn:pointer id="58">Why, Cain!?[end]</sn:pointer>
 
-<sn:pointer id="59">That question is useless![end]</sn:pointer>
+<sn:pointer id="59">Enough questions![end]</sn:pointer>
 
 <sn:pointer id="60">What the hell happened!?[end]</sn:pointer>
 
-<sn:pointer id="61">Shut up, you're noisy![end]</sn:pointer>
+<sn:pointer id="61">Silence! Shut up![end]</sn:pointer>
 
-<sn:pointer id="62">Cecil! This is the final blow![end]</sn:pointer>
+<sn:pointer id="62">Cecil! Finish him![end]</sn:pointer>
 
-<sn:pointer id="63">It's going to explode![end]</sn:pointer>
+<sn:pointer id="63">I'm gonna ex-plo-ode![end]</sn:pointer>
 
-<sn:pointer id="64">Anna: Release your courage![end]</sn:pointer>
+<sn:pointer id="64">Anna: Find your courage![end]</sn:pointer>
 
 <sn:pointer id="65">A-Anna![end]</sn:pointer>
 
@@ -140,23 +140,23 @@
 
 <sn:pointer id="69">Ugh, gulp![end]</sn:pointer>
 
-<sn:pointer id="70">We've started gathering water for the tsunami![end]</sn:pointer>
+<sn:pointer id="70">It's gathering water for a tsunami![end]</sn:pointer>
 
-<sn:pointer id="71">Strengthen defense by staying inside![end]</sn:pointer>
+<sn:pointer id="71">It shut itself in to defend![end]</sn:pointer>
 
-<sn:pointer id="72">Tellah: As expected, a servant of darkness![end]</sn:pointer>
+<sn:pointer id="72">Tellah: Just what I'd expect of a Dark Knight![end]</sn:pointer>
 
-<sn:pointer id="73">Your movements have become slow![end]</sn:pointer>
+<sn:pointer id="73">But your movements have slowed![end]</sn:pointer>
 
 <sn:pointer id="74">Golbez: Ha ha ha ha[end]</sn:pointer>
 
-<sn:pointer id="75">Is this your power...[end]</sn:pointer>
+<sn:pointer id="75">So this is your power...[end]</sn:pointer>
 
-<sn:pointer id="76">I'll ask you to stay quiet for a moment![end]</sn:pointer>
+<sn:pointer id="76">You'll stay put for a while![end]</sn:pointer>
 
-<sn:pointer id="77">With eyes left in a motionless body[end]</sn:pointer>
+<sn:pointer id="77">Frozen, with only your eyes left,[end]</sn:pointer>
 
-<sn:pointer id="78">You'd better taste true terror![end]</sn:pointer>
+<sn:pointer id="78">taste true terror![end]</sn:pointer>
 
 <sn:pointer id="79">Come, Black Dragon![end]</sn:pointer>
 
@@ -172,37 +172,37 @@
 
 <sn:pointer id="85">That voice...[end]</sn:pointer>
 
-<sn:pointer id="86">That I should lose...[end]</sn:pointer>
+<sn:pointer id="86">That I... could... lose...[end]</sn:pointer>
 
-<sn:pointer id="87">Professor: Go! Barnabas, crush them completely![end]</sn:pointer>
+<sn:pointer id="87">Doctor: Go, Barnabas! Beat them to a pulp![end]</sn:pointer>
 
-<sn:pointer id="88">Barnabas: Ugh![end]</sn:pointer>
+<sn:pointer id="88">Barnabas: Ugaa![end]</sn:pointer>
 
-<sn:pointer id="89">Professor: Ouch! What are you doing hitting me?[end]</sn:pointer>
+<sn:pointer id="89">Doctor: Ow! Why are you hitting me?[end]</sn:pointer>
 
-<sn:pointer id="90">It's over there, over there, you understand![end]</sn:pointer>
+<sn:pointer id="90">Over there! Over there, got it!?[end]</sn:pointer>
 
-<sn:pointer id="91">Professor: Good, show me your power![end]</sn:pointer>
+<sn:pointer id="91">Doctor: Good, show them your power![end]</sn:pointer>
 
-<sn:pointer id="92">Professor: How dare you, my dear Barnabas...![end]</sn:pointer>
+<sn:pointer id="92">Doctor: How dare you... my dear Barnabas...![end]</sn:pointer>
 
-<sn:pointer id="93">Professor: In that case, I'll handle it myself.[end]</sn:pointer>
+<sn:pointer id="93">Doctor: Then I'll pilot[end]</sn:pointer>
 
-<sn:pointer id="94">Barnabas, control him![end]</sn:pointer>
+<sn:pointer id="94">Barnabas myself![end]</sn:pointer>
 
-<sn:pointer id="95">Professor: The oil must not run out![end]</sn:pointer>
+<sn:pointer id="95">Doctor: Can't have him running out of oil![end]</sn:pointer>
 
-<sn:pointer id="96">Barnabas: A...b...ra...c...k...[end]</sn:pointer>
+<sn:pointer id="96">Barnabas: O...i...l...p...l...e...a...s...e...[end]</sn:pointer>
 
 <sn:pointer id="97">I'll show you what true terror is![end]</sn:pointer>
 
 <sn:pointer id="98">Transformation![end]</sn:pointer>
 
-<sn:pointer id="99">Professor: Oh, what's this button... *Click*[end]</sn:pointer>
+<sn:pointer id="99">Doctor: Huh, what's this button... *Click*[end]</sn:pointer>
 
-<sn:pointer id="100">Sandy: Big sister, let's go![end]</sn:pointer>
+<sn:pointer id="100">Dog: Big sister, let's go![end]</sn:pointer>
 
-<sn:pointer id="101">Cindy: Big sister Maggie, send him back![end]</sn:pointer>
+<sn:pointer id="101">Lag: Mag, reflect it back![end]</sn:pointer>
 
 <sn:pointer id="102">The three Magus Sisters: Delta Attack!![end]</sn:pointer>
 
@@ -214,23 +214,23 @@
 
 <sn:pointer id="106">One day, I will surely be reborn.[end]</sn:pointer>
 
-<sn:pointer id="107">Fire, this is how you use it![end]</sn:pointer>
+<sn:pointer id="107">This is how fire is meant to be used![end]</sn:pointer>
 
 <sn:pointer id="108">Edge: ...[end]</sn:pointer>
 
-<sn:pointer id="109">While we still have consciousness[end]</sn:pointer>
+<sn:pointer id="109">King: While we still have our minds,[end]</sn:pointer>
 
-<sn:pointer id="110">We must fight here...[end]</sn:pointer>
+<sn:pointer id="110">we must leave this place...[end]</sn:pointer>
 
-<sn:pointer id="111">After that, I'm counting on you, Edge.[end]</sn:pointer>
+<sn:pointer id="111">We're counting on you, Edge.[end]</sn:pointer>
 
-<sn:pointer id="112">Edge: I don't want to! I don't want to go![end]</sn:pointer>
+<sn:pointer id="112">Edge: No! Don't go![end]</sn:pointer>
 
-<sn:pointer id="113">Farewell, Edge.[end]</sn:pointer>
+<sn:pointer id="113">Queen: Farewell, Edge.[end]</sn:pointer>
 
 <sn:pointer id="114">Edge: Wait! Mom![end]</sn:pointer>
 
-<sn:pointer id="115">I don't want to――[end]</sn:pointer>
+<sn:pointer id="115">Nooo――[end]</sn:pointer>
 
 <sn:pointer id="116">The barrier was broken by the lightning element![end]</sn:pointer>
 
@@ -254,27 +254,27 @@
 
 <sn:pointer id="126">The fusion power is exhausted![end]</sn:pointer>
 
-<sn:pointer id="127">FuSoYa: One more effort and the power will be directed toward Meteor![end]</sn:pointer>
+<sn:pointer id="127">FuSoYa: One more push! All power to Meteor![end]</sn:pointer>
 
-<sn:pointer id="128">Of course![end]</sn:pointer>
+<sn:pointer id="128">Golbez: Of course![end]</sn:pointer>
 
 <sn:pointer id="129">Zemus: Use all your power.[end]</sn:pointer>
 
 <sn:pointer id="130">Zemus: Even if this body is destroyed...[end]</sn:pointer>
 
-<sn:pointer id="131">But the soul... will... merge...[end]</sn:pointer>
+<sn:pointer id="131">my soul... is... im... mor... tal...[end]</sn:pointer>
 
 <sn:pointer id="132">FuSoYa: It's useless, Meteor will have no effect on him![end]</sn:pointer>
 
-<sn:pointer id="133">Golbez! This is the time to use the crystals![end]</sn:pointer>
+<sn:pointer id="133">Golbez! It's time to use the Crystals![end]</sn:pointer>
 
-<sn:pointer id="134">Zeromus: You are the one who borrowed the path of darkness.[end]</sn:pointer>
+<sn:pointer id="134">Zeromus: You, who walked the path of darkness,[end]</sn:pointer>
 
-<sn:pointer id="135">Even if you use the crystals, the light will not return.[end]</sn:pointer>
+<sn:pointer id="135">even with the Crystals, your light won't return.[end]</sn:pointer>
 
-<sn:pointer id="136">Only oblivion in darkness remains![end]</sn:pointer>
+<sn:pointer id="136">You can only return to darkness![end]</sn:pointer>
 
-<sn:pointer id="137">"Croaking![end]</sn:pointer>
+<sn:pointer id="137">Croak croak, sing![end]</sn:pointer>
 
 <sn:pointer id="138">A monster came out of the door![end]</sn:pointer>
 
@@ -282,61 +282,61 @@
 
 <sn:pointer id="140">Look at my status![end]</sn:pointer>
 
-<sn:pointer id="141">Weak against strength.[end]</sn:pointer>
+<sn:pointer id="141">Weak to all-nighters.[end]</sn:pointer>
 
-<sn:pointer id="142">Weak against the girl with glasses.[end]</sn:pointer>
+<sn:pointer id="142">Weak to girls with glasses.[end]</sn:pointer>
 
-<sn:pointer id="143">Rubicante: This is a defeat for me here, but...[end]</sn:pointer>
+<sn:pointer id="143">Rubicante: I lose this round, but...[end]</sn:pointer>
 
-<sn:pointer id="144">Completely weak.[end]</sn:pointer>
+<sn:pointer id="144">Weak to everything.[end]</sn:pointer>
 
 <sn:pointer id="145">This wasn't supposed to happen like this...[end]</sn:pointer>
 
-<sn:pointer id="146">How dare you strike me in this state!?[end]</sn:pointer>
+<sn:pointer id="146">How could you hit a poor guy like me!?[end]</sn:pointer>
 
-<sn:pointer id="147">Oh no, forgive me![end]</sn:pointer>
+<sn:pointer id="147">Waah, have mercy![end]</sn:pointer>
 
 <sn:pointer id="148">Go, Cecil![end]</sn:pointer>
 
 <sn:pointer id="149">Master Zemus... the report...[end]</sn:pointer>
 
-<sn:pointer id="150">Do you want to hear my favorite violin (piece)?[end]</sn:pointer>
+<sn:pointer id="150">Want to hear my best violin piece?[end]</sn:pointer>
 
-<sn:pointer id="151">I don't feel like listening...[end]</sn:pointer>
+<sn:pointer id="151">I'd rather not...[end]</sn:pointer>
 
-<sn:pointer id="152">Ah, I see...[end]</sn:pointer>
+<sn:pointer id="152">Oh, okay...[end]</sn:pointer>
 
 <sn:pointer id="153">Let's dance together![end]</sn:pointer>
 
-<sn:pointer id="154">Gilbert: Everyone! Courage![end]</sn:pointer>
+<sn:pointer id="154">Edward: Everyone! Courage![end]</sn:pointer>
 
-<sn:pointer id="155">Tellah: If you persevere, you will succeed. Believe in yourself![end]</sn:pointer>
+<sn:pointer id="155">Tellah: You can do it! Believe in yourself![end]</sn:pointer>
 
-<sn:pointer id="156">The strength of both people's wishes has been granted![end]</sn:pointer>
+<sn:pointer id="156">Their wishes gave you strength to endure![end]</sn:pointer>
 
 <sn:pointer id="157">Palom: Big brother![end]</sn:pointer>
 
 <sn:pointer id="158">Porom: We'll send you our magic![end]</sn:pointer>
 
-<sn:pointer id="159">The strength of both's kindness has been granted![end]</sn:pointer>
+<sn:pointer id="159">Their kindness gave you strength to live![end]</sn:pointer>
 
 <sn:pointer id="160">Yang: Focus your mind![end]</sn:pointer>
 
-<sn:pointer id="161">Cid: You must absolutely return![end]</sn:pointer>
+<sn:pointer id="161">Cid: You'd better come back![end]</sn:pointer>
 
-<sn:pointer id="162">The strength of both's prayers has been granted![end]</sn:pointer>
+<sn:pointer id="162">Their prayers gave you strength to endure![end]</sn:pointer>
 
 <sn:pointer id="163">FuSoYa: O moon, grant us your light![end]</sn:pointer>
 
 <sn:pointer id="164">Golbez: My brother![end]</sn:pointer>
 
-<sn:pointer id="165">The sacred power you have hidden.[end]</sn:pointer>
+<sn:pointer id="165">The holy power hidden within you,[end]</sn:pointer>
 
-<sn:pointer id="166">Entrust it to the crystal![end]</sn:pointer>
+<sn:pointer id="166">entrust it to the Crystal![end]</sn:pointer>
 
 <sn:pointer id="167">Zeromus! Show us your true form![end]</sn:pointer>
 
-<sn:pointer id="168">Their bond has given birth to divine light![end]</sn:pointer>
+<sn:pointer id="168">Their hearts gave you holy light![end]</sn:pointer>
 
 <sn:pointer id="169">Zeromus: Ga... Gu... Gu... Go...[end]</sn:pointer>
 
@@ -350,25 +350,25 @@
 
 <sn:pointer id="174">I'll blow myself up with you, bastard![end]</sn:pointer>
 
-<sn:pointer id="175">Ha ha! You fell into the trap![end]</sn:pointer>
+<sn:pointer id="175">Heh heh! You fell for it![end]</sn:pointer>
 
-<sn:pointer id="176">Let the Black Dragon be erased by the mist...[end]</sn:pointer>
+<sn:pointer id="176">To wipe out the Black Dragon with mist...[end]</sn:pointer>
 
 <sn:pointer id="177">I'll kill you and die with you![end]</sn:pointer>
 
-<sn:pointer id="178">I'll turn this lightning into poison![end]</sn:pointer>
+<sn:pointer id="178">I'll pay this lightning back double![end]</sn:pointer>
 
-<sn:pointer id="179">Why are you doing this? This was a good moment![end]</sn:pointer>
+<sn:pointer id="179">Why'd you wake me? It was just getting good![end]</sn:pointer>
 
 <sn:pointer id="180">Let's see what happens next...[end]</sn:pointer>
 
 <sn:pointer id="181">So, who starts?[end]</sn:pointer>
 
-<sn:pointer id="182">Manager: Hiromi-san, you're being called![end]</sn:pointer>
+<sn:pointer id="182">Manager: Hiromi, a customer asked for you![end]</sn:pointer>
 
-<sn:pointer id="183">Next time, I'll be dad. Ahhh.[end]</sn:pointer>
+<sn:pointer id="183">I'm gonna be a daddy soon, haaah[end]</sn:pointer>
 
-<sn:pointer id="184">That's good, isn't it?[end]</sn:pointer>
+<sn:pointer id="184">Nice, huh?[end]</sn:pointer>
 
 <sn:pointer id="185">See you later, then. Ahhh.[end]</sn:pointer>
 
