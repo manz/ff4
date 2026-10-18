@@ -1395,13 +1395,13 @@ in this same fashion on the menu screen![end]</sn:pointer>
 
 <sn:pointer id="107">T[end]</sn:pointer>
 
-<sn:pointer id="108">«Turn back...»
+<sn:pointer id="108">'Turn back...'
 [bold]Cecil[normal]: Who's there?![end]
-«Leave at once...»
+'Leave at once...'
 [bold]Cain[normal]: Is that voice the Phantom?[end]
 [bold]Cecil[normal]: We must deliver this Bomb
 Ring to the village of Mist![new]
-«Then I have no choice!»[new]
+'Then I have no choice!'[new]
 [bold]Cain[normal]: The fog is gathering![end]</sn:pointer>
 
 <sn:pointer id="109">T[end]</sn:pointer>
