@@ -36,6 +36,7 @@ LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-t
 NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"(\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:" too
+_IN_MESSAGE = r"(?!\[end\]|\[close_window\])"  # a quote never runs past its message
 
 
 @dataclass(frozen=True)
@@ -47,9 +48,9 @@ class Quoting:
 
 
 QUOTING = {
-    "fr": Quoting(re.compile(r"«[^»]*»"), re.compile("«")),
+    "fr": Quoting(re.compile(rf"«(?:{_IN_MESSAGE}[^»])*»"), re.compile("«")),
     "en": Quoting(  # 'It's me!': apostrophes inside a word stay in the quote
-        re.compile(r"'(?:[^']|(?<=[A-Za-z])'(?=[A-Za-z]))*'(?![A-Za-z])"), re.compile("'(?=[A-Z])")
+        re.compile(rf"'(?:{_IN_MESSAGE}(?:[^']|(?<=[A-Za-z])'(?=[A-Za-z])))*'(?![A-Za-z])"), re.compile("'(?=[A-Z])")
     ),
 }
 ANNOUNCEMENT = re.compile(r"\[force_bold\][^\[]*[.!?]\s*\[force_normal\]")  # its punctuation inside: not a bold word

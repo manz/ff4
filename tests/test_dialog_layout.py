@@ -152,3 +152,8 @@ def test_a_word_broken_at_its_hyphen_joins_again() -> None:
 def test_mt_stays_with_the_name() -> None:
     out = dialog_layout("en").layout("Elder: Go east of here and climb Mt. Ordeals, far beyond the sea and sand.[end]")
     assert not any(line.endswith("Mt.") for line in out.split("\n"))
+
+
+def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
+    out = layout.layout("«Wahaha![end]Cecil: Halte![end]«Fin!»[end]")
+    assert out == "« Wahaha ![end]\n[bold]Cecil[normal]: Halte ![end]\n« Fin ! »[end]"
