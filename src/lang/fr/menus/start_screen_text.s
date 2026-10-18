@@ -1,7 +1,4 @@
-"""
-French text for the start screen and save selection, in bank $20. start_screen_text_en.s is the English
-counterpart, picked by build configuration.
-"""
+"""French text for the start screen and save selection, in bank $20."""
 
 
 .include "ingame/macros.i"
