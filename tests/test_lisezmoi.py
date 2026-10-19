@@ -1,13 +1,17 @@
-"""The release LISEZMOI gets the tag and a French month."""
+"""The release readmes get the tag and the month in their language."""
 from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from utils.lisezmoi import fill, french_month
+from utils.lisezmoi import fill, month
 
 
 def test_the_month_is_french() -> None:
-    assert french_month(datetime(2026, 8, 1, tzinfo=UTC)) == "Août 2026"
+    assert month(datetime(2026, 8, 1, tzinfo=UTC)) == "Août 2026"
+
+
+def test_the_english_month() -> None:
+    assert month(datetime(2026, 8, 1, tzinfo=UTC), "en") == "August 2026"
 
 
 def test_every_placeholder_is_filled() -> None:
