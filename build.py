@@ -33,6 +33,7 @@ from utils.dakutens import generate_dakutens
 from utils.name_codes import name_codes
 
 logger = logging.getLogger(__name__)
+LANG = os.environ.get("FF4_LANG", "fr")  # the text language: text/<lang>, src/lang/<lang>
 
 
 def read_fixed_from_xml(input_file, table, formatter=None):
@@ -104,10 +105,10 @@ def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
         main_source=Path(input),
         output_file=Path(output),
         output_format="ips",
-        module_paths=[Path(obj_dir), Path("src")],
+        module_paths=[Path(obj_dir), Path(f"src/lang/{lang}"), Path("src")],  # the language's string modules first
         output_dir=Path(obj_dir),
         symbols={"LANG": lang, **(defines or {})},
-        include_paths=[Path("src"), Path("."), Path("build/gen"), Path("src_assets")],
+        include_paths=[Path(f"src/lang/{lang}"), Path("src"), Path("."), Path("build/gen"), Path("src_assets")],
         overlap_mode="error",
     )
 
@@ -148,7 +149,7 @@ def build_pointed_16bits_lowrom(
 @functools.cache
 def _dialog_layout() -> DialogLayout:
     """Built on first use: it measures with the dialog fonts katsuji has just written."""
-    return dialog_layout()
+    return dialog_layout(LANG)
 
 
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
@@ -265,6 +266,8 @@ assets_builder = {
 SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "Ë": "E", "À": "A", "Â": "A", "Ç": "C", "Î": "I", "Ï": "I", "Ô": "O", "Ù": "U"}
 SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
 STATUSES_BASE = 0x27B000  # battle_statuses (src/core/assets.s): its pointers hold addresses in that bank
+# Per-language 8x8 tiles over fonts/8x8.bin's French ones: (first tile, 2bpp file).
+FONT_8X8_TILES = {"en": [(0x77, "fonts/en/hp_tiles.bin")]}  # the small HP the French font draws as PV
 STATUS_COUNT = 32  # one per status bit
 STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
 
@@ -308,7 +311,7 @@ if __name__ == "__main__":
     write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
     menu_table = Table(SMALL_VWF_TABLE)
     battle_table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
-    lang = "fr"
+    lang = LANG
     text_root = "text/{lang}".format(lang=lang)
 
     assets_list = [
@@ -419,6 +422,11 @@ if __name__ == "__main__":
     Path("build/gen").mkdir(parents=True, exist_ok=True)  # generated assets; a816 include path
     # The 8x8 font with the battle ATB gauge's tiles in blank kana slots (utils/atb_gauge.py).
     atb_gauge.build(Path("fonts/8x8.bin"), Path("fonts/atb_gauge.png"), Path("build/gen/font_8x8.bin"))
+    for first_tile, tiles in FONT_8X8_TILES.get(lang, ()):
+        font_8x8 = bytearray(Path("build/gen/font_8x8.bin").read_bytes())
+        data = Path(tiles).read_bytes()
+        font_8x8[first_tile * 16:first_tile * 16 + len(data)] = data
+        Path("build/gen/font_8x8.bin").write_bytes(font_8x8)
     # Fonts first: the fixed-width string checks measure with menu_font.dat.
     fonts = katsuji_config.load(Path("katsuji.toml"))
     katsuji_build.build(fonts)
@@ -427,7 +435,7 @@ if __name__ == "__main__":
     menu_glyphs = Glyphs.of(fonts.fonts["menu"])
     # The battle's 8x8 labels (Garde, Rang, Coût PM), pre-rendered in the small VWF into the 8x8 font's free kana slots.
     battle_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
-                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"))
+                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"), lang)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
@@ -485,9 +493,10 @@ if __name__ == "__main__":
     Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
 
     version = {"VERSION": os.environ["FF4_VERSION"]} if os.environ.get("FF4_VERSION") else {}
+    out = Path("build") if lang == "fr" else Path("build") / lang  # French keeps build/: the tests read it
     if "--dev" in sys.argv[1:]:
-        exit_code = build_patch("ff4.s", "build/ff4.ips", lang, {**DEV_DEFINES, **version})
+        exit_code = build_patch("ff4.s", out / "ff4.ips", lang, {**DEV_DEFINES, **version}, obj_dir=out / "obj")
     else:
-        exit_code = build_patch("ff4.s", "build/release/ff4.ips", lang, version, obj_dir="build/release/obj")
+        exit_code = build_patch("ff4.s", out / "release/ff4.ips", lang, version, obj_dir=out / "release/obj")
     if exit_code:
         sys.exit(exit_code)

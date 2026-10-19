@@ -1,18 +1,18 @@
 """
-ff4 dialog laid out at build time with katsuji: French typography, sentences packed into the dialog window.
+ff4 dialog laid out at build time with katsuji: the language's typography, sentences packed into the dialog window.
 
 The XML keeps the translation as written; `layout` runs on each dialog pointer while the banks are encoded, so
 window breaks and line breaks are the build's, never hand-kept. Markup a previous layout added (`[new]`,
 `[bold]`/`[normal]` around speakers) is stripped first, so laying out twice changes nothing.
 
 ff4's script rules: `Name:` opens a speaker, set in bold at the start of each of their windows; a speaker change
-starts a new window; «» speech without a visible speaker gets windows of its own, and so does an announcement, a
+starts a new window; quoted speech («» in French, '' in English) without a visible speaker gets windows of its own, and so does an announcement, a
 whole sentence set in `[force_bold]` ("L'invocatrice Rydia se joint à toi !"); `[end]` / `[close_window]` close
 the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow). A font switch holds until the
 next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
 use where it starts, so a `[force_book]` narration wraps to the book font's widths.
 
-Inside those rules katsuji does the setting: `typeset` spaces the punctuation the French way, and `TextLayout`
+Inside those rules katsuji does the setting: `typeset` spaces the punctuation the language's way, and `TextLayout`
 packs sentences onto a line while they fit and splits a sentence wider than the window over balanced lines.
 """
 
@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from katsuji.layout import TextLayout
-from katsuji.typeset import FRENCH, Markup
+from katsuji.typeset import ENGLISH, FRENCH, Markup, Typography
 from script import Table
 
 from utils.metrics import TextMetrics
@@ -35,8 +35,24 @@ MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines th
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
 NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
-SPEAKER = re.compile(r"(\w+(?:\s+\w+)*):")
-QUOTE = re.compile(r"«[^»]*»")
+SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
+_IN_MESSAGE = r"(?!\[end\]|\[close_window\])"  # a quote never runs past its message
+
+
+@dataclass(frozen=True)
+class Quoting:
+    """A language's quoted speech: the whole quote, and its opening mark, which cuts a sentence even unclosed."""
+
+    quote: re.Pattern[str]
+    opener: re.Pattern[str]
+
+
+QUOTING = {
+    "fr": Quoting(re.compile(rf"«(?:{_IN_MESSAGE}[^»])*»"), re.compile("«")),
+    "en": Quoting(  # 'It's me!': apostrophes inside a word stay in the quote
+        re.compile(rf"'(?:{_IN_MESSAGE}(?:[^']|(?<=[A-Za-z])'(?=[A-Za-z])))*'(?![A-Za-z])"), re.compile("'(?=[A-Z])")
+    ),
+}
 ANNOUNCEMENT = re.compile(r"\[force_bold\][^\[]*[.!?]\s*\[force_normal\]")  # its punctuation inside: not a bold word
 CONTROL = re.compile(r"\[[^\]]*\]")
 LAYOUT_MARKUP = ("[bold]", "[normal]", "[book]", "[wicked]")
@@ -47,9 +63,10 @@ MARKUP = Markup(
 )
 
 
-ABBREVIATIONS = ("M.",)
-"""Words ending in a period that never end a sentence: French keeps the title with the name ("M. Rosa"), and a
-line never ends on one."""
+ABBREVIATIONS = {"fr": ("M.",), "en": ("Mr.", "Mrs.", "Dr.", "St.", "Mt.")}
+"""Words ending in a period that never end a sentence: a title stays with the name ("M. Rosa"), and a line never
+ends on one."""
+TYPOGRAPHY = {"fr": FRENCH, "en": ENGLISH}
 
 
 @dataclass(frozen=True)
@@ -63,10 +80,10 @@ def clean(text: str) -> str:
     cleaned = text.replace(NEW_WINDOW, "\n")
     for tag in LAYOUT_MARKUP:
         cleaned = cleaned.replace(tag, "")
-    return cleaned
+    return re.sub(r"(?<=\w-)\n(?=\w)", "", cleaned)  # a word a layout broke at its hyphen
 
 
-def tokenize(text: str) -> list[Token]:
+def tokenize(text: str, quoting: Quoting = QUOTING["fr"], abbreviations: tuple[str, ...] = ("M.",)) -> list[Token]:
     text = re.sub(r"\s+", " ", text.strip())
     tokens: list[Token] = []
     i = 0
@@ -78,9 +95,9 @@ def tokenize(text: str) -> list[Token]:
         if end:
             tokens.append(Token("END", end))
             i += len(end)
-        elif quote := QUOTE.match(text, i):
-            tokens.append(Token("QUOTE", quote.group(0)))
-            i = quote.end()
+        elif quoted := _quote_at(text, i, quoting.quote):
+            tokens.append(Token("QUOTE", quoted.group(0)))
+            i = quoted.end()
         elif announcement := ANNOUNCEMENT.match(text, i):
             tokens.append(Token("ANNOUNCEMENT", announcement.group(0)))
             i = announcement.end()
@@ -90,30 +107,36 @@ def tokenize(text: str) -> list[Token]:
             while i < len(text) and text[i] in ": ":
                 i += 1
         else:
-            sentence, i = _sentence(text, i)
+            sentence, i = _sentence(text, i, quoting, abbreviations)
             if sentence.strip():
                 tokens.append(Token("SENTENCE", sentence.strip()))
     return tokens
 
 
-def _interrupts(text: str, i: int) -> bool:
+def _quote_at(text: str, i: int, mark: re.Pattern[str]) -> re.Match[str] | None:
+    """`mark` (a quote or its opener) at `i`, at the start of a word."""
+    return mark.match(text, i) if i == 0 or not text[i - 1].isalnum() else None
+
+
+def _interrupts(text: str, i: int, quoting: Quoting) -> bool:
+    """A quote cuts in where a sentence could end: 'Dear' inside one stays put."""
     return (
-        text.startswith("«", i)
+        (bool(_quote_at(text, i, quoting.opener)) and text[:i].rstrip()[-1:] in (".", "!", "?", "]", ""))
         or bool(SPEAKER.match(text, i))
         or bool(ANNOUNCEMENT.match(text, i))
         or any(text.startswith(e, i) for e in ENDS)
     )
 
 
-def _sentence(text: str, i: int) -> tuple[str, int]:
+def _sentence(text: str, i: int, quoting: Quoting, abbreviations: tuple[str, ...]) -> tuple[str, int]:
     sentence = ""
     while i < len(text):
-        if sentence.strip() and _interrupts(text, i):
+        if sentence.strip() and _interrupts(text, i, quoting):
             break
         char = text[i]
         sentence += char
         i += 1
-        if char not in ".!?" or (char == "." and sentence.endswith("M.")):
+        if char not in ".!?" or (char == "." and sentence.endswith(abbreviations)):
             continue
         if i >= len(text) or any(text.startswith(e, i) for e in ENDS):
             break
@@ -125,27 +148,27 @@ def _sentence(text: str, i: int) -> tuple[str, int]:
             ahead = i
             while ahead < len(text) and text[ahead].isspace():
                 ahead += 1
-            if ahead < len(text) and (text[ahead].isupper() or _interrupts(text, ahead)):
+            if ahead < len(text) and (text[ahead].isupper() or _interrupts(text, ahead, quoting)):
                 break
         elif SPEAKER.match(text, i):
             break
     return sentence, i
 
 
-def _quote_sentences(quote: str) -> list[str]:
-    """A «» quote cut into its sentences, the marks kept on the first and last, so a long quote turns windows
+def _quote_sentences(quoted: str, quoting: Quoting, abbreviations: tuple[str, ...]) -> list[str]:
+    """A quote cut into its sentences, the marks kept on the first and last, so a long quote turns windows
     between sentences rather than inside one."""
-    inner = quote[1:-1].strip()
+    inner = quoted[1:-1].strip()
     sentences: list[str] = []
     i = 0
     while i < len(inner):
-        sentence, i = _sentence(inner, i)
+        sentence, i = _sentence(inner, i, quoting, abbreviations)
         if sentence.strip():
             sentences.append(sentence.strip())
     if not sentences:
-        return [quote]
-    sentences[0] = "«" + sentences[0]
-    sentences[-1] += "»"
+        return [quoted]
+    sentences[0] = quoted[0] + sentences[0]
+    sentences[-1] += quoted[-1]
     return sentences
 
 
@@ -185,14 +208,17 @@ def with_breaks(tokens: Sequence[Token]) -> list[Token]:
 class DialogLayout:
     """Lays one dialog pointer out into ff4 windows."""
 
-    def __init__(self, metrics: TextMetrics) -> None:
+    def __init__(self, metrics: TextMetrics, typography: Typography = FRENCH,
+                 abbreviations: tuple[str, ...] = ABBREVIATIONS["fr"], quoting: Quoting = QUOTING["fr"]) -> None:
         self.metrics = metrics
+        self.quoting = quoting
+        self.abbreviations = abbreviations
         self.text_layout = TextLayout(
             self.measure,
             WINDOW_WIDTH,
-            FRENCH,
+            typography,
             MARKUP,
-            abbreviations=ABBREVIATIONS,
+            abbreviations=abbreviations,
             measure_after=self._measure_after,
             min_balanced_width=MIN_BALANCED_WIDTH,
         )
@@ -227,7 +253,7 @@ class DialogLayout:
         self.font = 0
         self.joinable = False  # the last line may take the next sentence of the same speaker
         speaker: str | None = None
-        tokens = with_breaks(tokenize(clean(text)))
+        tokens = with_breaks(tokenize(clean(text), self.quoting, self.abbreviations))
         for token in tokens:
             if token.kind == "BREAK":
                 self._turn()
@@ -243,7 +269,7 @@ class DialogLayout:
                 self._add(token.value, speaker)
             elif token.kind == "QUOTE":
                 self.joinable = False
-                for sentence in _quote_sentences(token.value):
+                for sentence in _quote_sentences(token.value, self.quoting, self.abbreviations):
                     self._add(sentence, None)
                 speaker = None
                 self.joinable = False
@@ -330,9 +356,9 @@ class DialogLayout:
         self.joinable = False
 
 
-def dialog_layout() -> DialogLayout:
+def dialog_layout(lang: str = "fr") -> DialogLayout:
     table = Table(str(TABLE))
-    return DialogLayout(TextMetrics(table, FONTS))
+    return DialogLayout(TextMetrics(table, FONTS), TYPOGRAPHY[lang], ABBREVIATIONS[lang], QUOTING[lang])
 
 
 def main(paths: list[str]) -> int:

@@ -18,13 +18,13 @@ GOLDENS = Path(__file__).parent / "goldens" / "battle_labels"
 FONT = Path("build/gen/menu_font.dat")
 
 
-@pytest.fixture(scope="module")
-def baked() -> tuple[bytes, str]:
+@pytest.fixture(scope="module", params=["fr", "en"])
+def baked(request) -> tuple[bytes, str]:
     if not FONT.exists():
         pytest.skip("menu_font.dat not built")
     glyphs = Glyphs.of(katsuji_config.load(Path("katsuji.toml")).fonts["menu"])
     return battle_labels.bake(Path("fonts/8x8.bin").read_bytes(), VwfFont.decode(FONT.read_bytes()), glyphs,
-                              Table("build/gen/ff4_menus_small_vwf.tbl"))
+                              Table("build/gen/ff4_menus_small_vwf.tbl"), request.param)
 
 
 def test_only_the_slots_change(baked) -> None:

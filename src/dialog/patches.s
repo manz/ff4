@@ -6,6 +6,7 @@ the VWF layer kicks in without rewriting the message window.
 .import "core/preamble"
 .include "core/libmz.i"
 .include "dialog/vwf.i"
+.include "strings.i"  ; src/lang/<lang>
 .import "dialog/pointers"
 .import "dialog/vwf"
 .import "core/vanilla"
@@ -119,12 +120,7 @@ end_of_animation:
     .alloc at 0x14f676 {
     .dw 0x2019
     .dw 0x2014
-    .text "O"
-    .db 0x20
-    .text "u"
-    .db 0x20
-    .text "i"
-    .db 0x20
+    yes_cells()
     .dw 0x20ff
     .dw 0x201a
     .dw 0x0000
@@ -142,12 +138,7 @@ end_of_animation:
     .alloc at 0x14F696 {
     .dw 0x2019
     .dw 0x20ff
-    .text "N"
-    .db 0x20
-    .text "o"
-    .db 0x20
-    .text "n"
-    .db 0x20
+    no_cells()
     .dw 0x20ff
     .dw 0x201a
     .dw 0x0000

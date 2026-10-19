@@ -5,9 +5,9 @@ A script pointer side by side in Japanese, the English draft and French: what a 
     uv run python -m utils.compare_pointers bank1-1.xml 18 --sugoi
 
 Japanese comes from `text/jp` (the reference dump), the others from `text/en` and `text/fr`, read by
-`utils.script_xml` (the Japanese bank2's areas are its pointers; the English bank2 has fewer pointers than the others,
-its ids don't line up). Each pointer is checked for what can be checked exactly: a character the
-Japanese names by its name code ($04 n) and the French doesn't. `--sugoi` adds a fresh English reading of the
+`utils.script_xml` (the Japanese bank2's areas are its pointers). Each pointer is checked for what can be checked
+exactly: a character the Japanese names by its name code ($04 n) and the translation doesn't (the French, or the
+English with `--no-french`). `--sugoi` adds a fresh English reading of the
 Japanese by Sugoi-14B-Ultra (Ollama), cached in `local/sugoi/`: a second opinion on kana-only lines, not a reference
 (it misreads terse ones). Read-only: edits go into the XML by hand.
 
@@ -49,10 +49,10 @@ def name_codes(data: bytes) -> Counter:
     return Counter(data[i + 1] for i in range(len(data) - 1) if data[i] == 0x04 and data[i + 1] < len(NAMES))
 
 
-def lost_names(japanese: str, french: str, jp_table: Table, fr_table: Table) -> list[str]:
-    """The characters the Japanese names by code and the French doesn't (written out, or dropped)."""
+def lost_names(japanese: str, translation: str, jp_table: Table, table: Table) -> list[str]:
+    """The characters the Japanese names by code and the translation doesn't (written out, or dropped)."""
     try:
-        lost = name_codes(jp_table.to_bytes(japanese.replace("\n", ""))) - name_codes(fr_table.to_bytes(french))
+        lost = name_codes(jp_table.to_bytes(japanese.replace("\n", ""))) - name_codes(table.to_bytes(translation))
     except (KeyError, ValueError):
         return []
     return [NAMES[code] for code in sorted(lost)]
@@ -89,7 +89,7 @@ def compare(name: str, pointer: str, texts: dict[str, dict[str, str]], lost: lis
     if reading is not None:
         out += ["", "SUGOI (second opinion):", reading]
     if lost:
-        out += ["", "CHECK: name codes the French loses: " + ", ".join(lost)]
+        out += ["", "CHECK: name codes the translation loses: " + ", ".join(lost)]
     return "\n".join(out)
 
 
@@ -99,20 +99,23 @@ def main() -> None:
     parser.add_argument("ids", nargs="+", help="pointer ids or ranges (100-110)")
     parser.add_argument("--text", type=Path, default=Path("text"))
     parser.add_argument("--no-english", action="store_true", help="leave the English draft out: Japanese and French only")
+    parser.add_argument("--no-french", action="store_true", help="leave the French out: Japanese and English only")
     parser.add_argument("--sugoi", action="store_true", help="add Sugoi-14B-Ultra's English (Ollama)")
     parser.add_argument("--cache", type=Path, default=Path("local/sugoi"))
     args = parser.parse_args()
-    languages = [lang for lang in LANGUAGES if not (args.no_english and lang == "en")]
+    left_out = {"en": args.no_english, "fr": args.no_french}
+    languages = [lang for lang in LANGUAGES if not left_out.get(lang)]
     texts = {lang: pointer_texts(args.text / lang / args.file) for lang in languages}
+    target = "en" if args.no_french else "fr"
     jp_table = Table(str(args.text / "ff4_jap.tbl"))
-    fr_table = Table(str(args.text / "ff4fr.tbl"))
+    table = Table(str(args.text / "ff4fr.tbl"))  # the dialog table of both builds
     blocks = []
     for pointer in ids(args.ids):
-        if pointer not in texts["fr"] and pointer not in texts["jp"]:
+        if pointer not in texts[target] and pointer not in texts["jp"]:
             continue
-        japanese, french = texts["jp"].get(pointer, ""), texts["fr"].get(pointer, "")
+        japanese, translation = texts["jp"].get(pointer, ""), texts[target].get(pointer, "")
         reading = sugoi(japanese, args.cache) if args.sugoi and japanese.strip() else None
-        blocks.append(compare(args.file, pointer, texts, lost_names(japanese, french, jp_table, fr_table), reading))
+        blocks.append(compare(args.file, pointer, texts, lost_names(japanese, translation, jp_table, table), reading))
     print(f"\n\n{'=' * 60}\n\n".join(blocks) or "nothing")
 
 

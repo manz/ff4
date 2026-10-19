@@ -8,10 +8,6 @@
 .include "ingame/bank01_slack.i"
 
 
-; RGB -> RVB
-.alloc at 0x01D1BB {
-    lda.b #0x57
-}
 ; Controls menu cursor x, then y
 .alloc at 0x01D4E6 {
     lda.b #0x03

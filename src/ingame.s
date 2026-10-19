@@ -14,6 +14,7 @@ through these.
 .import "ingame/inventory_rolling_patches"
 .import "ingame/inventory_single_column"
 .import "ingame/main"
+.import "menus/labels"
 .import "ingame/shop"
 .import "ingame/items"
 .import "ingame/magic"

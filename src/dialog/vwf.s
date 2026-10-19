@@ -6,6 +6,7 @@ tracking (`dialog_vwf.tile_pos`, `.bits_left`), button-glyph + ending-symbol dra
 .include "core/bank20.i"
 .include "core/libmz.i"
 .include "dialog/vwf.i"
+.include "strings.i"  ; src/lang/<lang>
 .table "text/ff4_menus.tbl"
 .import "core/libmz"
 .import "dialog/pointers"
@@ -1075,15 +1076,7 @@ gils_window_tilemap_4:
     fill_value(0x0000, 0x16)
 
     .db 0x19, 0x20
-    fill_value(0x20ff, _gils_window_size - 2 - 4)
-    .text "G"
-    .db 0x20
-    .text "i"
-    .db 0x20
-    .text "l"
-    .db 0x20
-    .text "s"
-    .db 0x20
+    gil_caption(_gils_window_size - 2)
 
     .db 0x1a, 0x20  ; "gil"
     fill_value(0x0000, 0x16)

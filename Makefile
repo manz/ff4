@@ -11,6 +11,7 @@ A816 ?= $(shell [ -x .venv/bin/a816 ] && echo .venv/bin/a816 || echo a816)
 ROM = build/ff4.sfc
 IPS = build/ff4.ips
 RELEASE_IPS = build/release/ff4.ips
+EN_IPS = build/en/ff4.ips
 # BUILD_DATE (the DEBUG stamp) from the last commit, not the clock: two builds of one commit are byte-identical.
 export SOURCE_DATE_EPOCH ?= $(shell git log -1 --format=%ct 2>/dev/null || echo 0)
 # Prune hidden directories: they never hold our sources, and .venv matches
@@ -49,6 +50,17 @@ $(RELEASE_IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(info $(M) Building release patch...)
 	$(Q) $(PY) ./build.py
 	$(Q) test -s $(RELEASE_IPS)
+
+.PHONY: en
+en: $(EN_IPS)  ## Assemble the English patch (FF4_LANG=en). It regenerates build/gen: rerun `make -B` before the tests
+
+$(EN_IPS): $(SOURCES) $(ASSET_INPUTS)
+	$(Q) test -s $(ROM) || { \
+		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
+		exit 1; }
+	$(info $(M) Building English patch...)
+	$(Q) FF4_LANG=en $(PY) ./build.py --dev
+	$(Q) test -s $(EN_IPS)
 
 .PHONY: tests
 tests: $(IPS)  ## Run the full suite against a freshly built patch, one worker per core

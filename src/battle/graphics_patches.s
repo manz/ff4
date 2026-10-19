@@ -5,6 +5,7 @@ piggyback on `defend_row` data.
 .import "core/assets"
 .import "battle/graphics"
 .include "battle_labels.i"  ; build/gen: utils/battle_labels.py
+.include "strings.i"  ; src/lang/<lang>
 
 
 ; MISS sprite graphics
@@ -59,26 +60,12 @@ piggyback on `defend_row` data.
 ; row window: 3 cells inside, Rang's baked tiles; vanilla's x, right of the hand cursor
     .db 0x1A, 0x09, 0x05, 0x04
 }
-; MP cost window: small "MP" swapped to "PM"
-.alloc at 0x02a1e3 {
-    lda #0xdc
-    sta 0xba94, y
-    dec
-    sta 0xba96, y
-}
 ; Hands text (layout: tfr_equip_window_new, equip_window.s)
 .alloc at 0x16fed5 {
     {
     .table "text/ff4_menus.tbl"
 hand_text:
-    .text "Droite    "
-    .text "Gauche    "
-    .text "Droite    "
-    .text "Principale"
-    .text "Principale"
-    .text "Gauche    "
-    .text "Principale"
-    .text "Principale"
+    hand_texts()
     }
 }
 .alloc at 0x02A51C {

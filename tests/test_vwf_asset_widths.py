@@ -40,6 +40,7 @@ def _load(asset_xml: Path) -> tuple[list, TextMetrics, Table]:
     "asset_xml, vwf_tile_budget, kind",
     [
         ("text/fr/items_unleashed.xml",  10, "battle inventory items_unleashed"),
+        ("text/en/items_unleashed.xml",  10, "English battle inventory items_unleashed"),
     ],
 )
 def test_vwf_asset_within_budget(asset_xml: str, vwf_tile_budget: int, kind: str) -> None:

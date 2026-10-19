@@ -1,4 +1,4 @@
-"""ff4's dialog layout (utils/dialog_layout.py): window rules, French typography, pages the engine can show."""
+"""ff4's dialog layout (utils/dialog_layout.py): window rules, French and English typography, pages the engine can show."""
 
 import re
 
@@ -19,6 +19,10 @@ def windows(text: str) -> list[list[str]]:
 
 def test_a_speaker_is_set_in_bold_with_french_spacing(layout: DialogLayout) -> None:
     assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]: Comment !?[end]"
+
+
+def test_english_sets_no_space_before_marks() -> None:
+    assert dialog_layout("en").layout("Cecil: What!? Mr. Cid![end]") == "[bold]Cecil[normal]: What!? Mr. Cid![end]"
 
 
 def test_a_speaker_change_turns_the_window(layout: DialogLayout) -> None:
@@ -130,3 +134,35 @@ def test_an_announcement_gets_its_own_window(layout: DialogLayout) -> None:
 def test_a_bold_word_stays_in_its_sentence(layout: DialogLayout) -> None:
     out = layout.layout("Garde: Prends ça! [force_bold]Crapaud[force_normal]![end]")
     assert NEW_WINDOW not in out
+
+
+def test_a_speaker_name_keeps_its_apostrophe() -> None:
+    assert dialog_layout("en").layout("Yang's wife: Dear![end]") == "[bold]Yang's wife[normal]: Dear![end]"
+
+
+def test_an_english_quote_gets_its_own_window() -> None:
+    out = dialog_layout("en").layout("Cecil: Who's there? 'It's your guide to Hell...'[end]")
+    assert out == "[bold]Cecil[normal]: Who's there?[new]\n'It's your guide to Hell...'[end]"
+
+
+def test_a_word_broken_at_its_hyphen_joins_again() -> None:
+    assert "single-handedly" in dialog_layout("en").layout("Edge: I did it single-\nhandedly![end]")
+
+
+def test_mt_stays_with_the_name() -> None:
+    out = dialog_layout("en").layout("Elder: Go east of here and climb Mt. Ordeals, far beyond the sea and sand.[end]")
+    assert not any(line.endswith("Mt.") for line in out.split("\n"))
+
+
+def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
+    out = layout.layout("«Wahaha![end]Cecil: Halte![end]«Fin!»[end]")
+    assert out == "« Wahaha ![end]\n[bold]Cecil[normal]: Halte ![end]\n« Fin ! »[end]"
+
+
+def test_a_quoted_word_stays_in_its_sentence() -> None:
+    out = dialog_layout("en").layout("Yang: Stop calling me 'Dear'...![end]")
+    assert out == "[bold]Yang[normal]: Stop calling me 'Dear'...![end]"
+
+
+def test_a_titled_speaker_keeps_the_title() -> None:
+    assert dialog_layout("en").layout("Dr. Lugeie: Grr...[end]") == "[bold]Dr. Lugeie[normal]: Grr...[end]"
