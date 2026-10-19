@@ -19,14 +19,22 @@ jobs:
         enable-cache: true
     - name: Install Requirements
       run: uv sync --locked
-    - name: Build patch
-      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run ./build.py --dev
+    - name: Build patches
+      run: |
+        export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+        uv run ./build.py --dev
+        FF4_LANG=en uv run ./build.py --dev
+        mkdir -p dist
+        cp build/ff4.ips dist/ff4-fr.ips
+        cp build/en/ff4.ips dist/ff4-en.ips
     - name: Create Nightly Release
       uses: softprops/action-gh-release@v3
       with:
         tag_name: nightly-${{ github.run_number }}
         name: Nightly Build ${{ github.run_number }}
-        files: build/ff4.ips
+        files: |
+          dist/ff4-fr.ips
+          dist/ff4-en.ips
         prerelease: true
         body: |
           Nightly build #${{ github.run_number }}

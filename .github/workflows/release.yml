@@ -19,18 +19,26 @@ jobs:
         enable-cache: true
     - name: Install Requirements
       run: uv sync --locked
-    - name: Build release patch
-      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) FF4_VERSION=${{ github.ref_name }} uv run ./build.py
+    - name: Build release patches
+      run: |
+        export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) FF4_VERSION=${{ github.ref_name }}
+        uv run ./build.py
+        FF4_LANG=en uv run ./build.py
     - name: Package
       run: |
-        mkdir -p dist
-        cp build/release/ff4.ips dist/
-        uv run python -m utils.lisezmoi release/LISEZMOI.txt ${{ github.ref_name }} > dist/LISEZMOI.txt
-        (cd dist && zip -X ../ff4-fr-${{ github.ref_name }}.zip ff4.ips LISEZMOI.txt)
+        mkdir -p dist/fr dist/en
+        cp build/release/ff4.ips dist/fr/
+        uv run python -m utils.lisezmoi release/LISEZMOI.txt ${{ github.ref_name }} > dist/fr/LISEZMOI.txt
+        (cd dist/fr && zip -X ../../ff4-fr-${{ github.ref_name }}.zip ff4.ips LISEZMOI.txt)
+        cp build/en/release/ff4.ips dist/en/
+        uv run python -m utils.lisezmoi release/README.txt ${{ github.ref_name }} en > dist/en/README.txt
+        (cd dist/en && zip -X ../../ff4-en-${{ github.ref_name }}.zip ff4.ips README.txt)
     - name: Create Release
       uses: softprops/action-gh-release@v3
       with:
-        name: Final Fantasy IV FR ${{ github.ref_name }}
-        files: ff4-fr-${{ github.ref_name }}.zip
+        name: Final Fantasy IV ${{ github.ref_name }}
+        files: |
+          ff4-fr-${{ github.ref_name }}.zip
+          ff4-en-${{ github.ref_name }}.zip
         prerelease: ${{ contains(github.ref_name, 'a') || contains(github.ref_name, 'b') || contains(github.ref_name, 'rc') }}
         generate_release_notes: true
