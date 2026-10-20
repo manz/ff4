@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - master
+
+concurrency:
+  group: nightly
+
 jobs:
   nightly:
     runs-on: ubuntu-26.04-arm
@@ -13,46 +17,35 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-    - uses: astral-sh/setup-uv@v10.3.0
+    - uses: manz/a816/actions/setup@v1.1.7
+    - uses: manz/a816/actions/decrypt-rom@v1.1.7
       with:
-        python-version: '3.14'
-        enable-cache: true
-    - name: Install Requirements
-      run: uv sync --locked
-    - name: Decrypt base ROM
-      env:
-        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
-      run: |
-        mkdir -p build
-        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
-    - name: Build Flips
-      run: |
-        git clone -q https://github.com/Alcaro/Flips "$RUNNER_TEMP/flips"
-        git -C "$RUNNER_TEMP/flips" checkout -q ff216a75df0987047a67d7923567dc4482ce07ac
-        make -s -C "$RUNNER_TEMP/flips" TARGET=cli
-        echo "$RUNNER_TEMP/flips" >> "$GITHUB_PATH"
+        passphrase: ${{ secrets.FF4_PASSWORD }}
+        encrypted: ff4.sfc.gz.gpg
+        to: build/ff4.sfc
     - name: Build patches
       run: |
-        make build/ff4.bps build/en/ff4.bps
+        uv run ./build.py --dev
+        FF4_LANG=en uv run ./build.py --dev
+    - uses: manz/a816/actions/seal@v1.1.7
+      with:
+        rom: build/ff4.sfc
+        patches: |
+          build/ff4.ips
+          build/ff4.bps.unsealed
+          build/en/ff4.ips
+          build/en/ff4.bps.unsealed
+    - name: Name patches
+      run: |
         mkdir -p dist
         cp build/ff4.ips dist/ff4-fr.ips
         cp build/ff4.bps dist/ff4-fr.bps
         cp build/en/ff4.ips dist/ff4-en.ips
         cp build/en/ff4.bps dist/ff4-en.bps
-    - name: Create Nightly Release
-      uses: softprops/action-gh-release@v3
+    - uses: manz/a816/actions/nightly@v1.1.7
       with:
-        tag_name: nightly-${{ github.run_number }}
-        name: Nightly Build ${{ github.run_number }}
         files: |
           dist/ff4-fr.ips
           dist/ff4-fr.bps
           dist/ff4-en.ips
           dist/ff4-en.bps
-        prerelease: true
-        body: |
-          Nightly build #${{ github.run_number }}
-          
-          Built from commit: ${{ github.sha }}
-          
-          This is an automated nightly build and may be unstable.

@@ -13,26 +13,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-    - uses: astral-sh/setup-uv@v10.3.0
+    - uses: manz/a816/actions/setup@v1.1.7
+    - uses: manz/a816/actions/decrypt-rom@v1.1.7
       with:
-        python-version: '3.14'
-        enable-cache: true
-    - name: Install Requirements
-      run: uv sync --locked
-    - name: Decrypt base ROM
-      env:
-        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
-      run: |
-        mkdir -p build
-        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
-    - name: Build Flips
-      run: |
-        git clone -q https://github.com/Alcaro/Flips "$RUNNER_TEMP/flips"
-        git -C "$RUNNER_TEMP/flips" checkout -q ff216a75df0987047a67d7923567dc4482ce07ac
-        make -s -C "$RUNNER_TEMP/flips" TARGET=cli
-        echo "$RUNNER_TEMP/flips" >> "$GITHUB_PATH"
+        passphrase: ${{ secrets.FF4_PASSWORD }}
+        encrypted: ff4.sfc.gz.gpg
+        to: build/ff4.sfc
     - name: Build release patches
-      run: FF4_VERSION=${{ github.ref_name }} make bps
+      env:
+        FF4_VERSION: ${{ github.ref_name }}
+      run: |
+        uv run ./build.py
+        FF4_LANG=en uv run ./build.py
+    - uses: manz/a816/actions/seal@v1.1.7
+      with:
+        rom: build/ff4.sfc
+        patches: |
+          build/release/ff4.ips
+          build/release/ff4.bps.unsealed
+          build/en/release/ff4.ips
+          build/en/release/ff4.bps.unsealed
     - name: Package
       run: |
         mkdir -p dist/fr dist/en
@@ -42,12 +42,9 @@ jobs:
         cp build/en/release/ff4.ips build/en/release/ff4.bps dist/en/
         uv run python -m utils.lisezmoi release/README.txt ${{ github.ref_name }} en > dist/en/README.txt
         (cd dist/en && zip -X ../../ff4-en-${{ github.ref_name }}.zip ff4.ips ff4.bps README.txt)
-    - name: Create Release
-      uses: softprops/action-gh-release@v3
+    - uses: manz/a816/actions/release@v1.1.7
       with:
-        name: Final Fantasy IV ${{ github.ref_name }}
-        files: |
+        title: Final Fantasy IV ${{ github.ref_name }}
+        assets: |
           ff4-fr-${{ github.ref_name }}.zip
           ff4-en-${{ github.ref_name }}.zip
-        prerelease: ${{ contains(github.ref_name, 'a') || contains(github.ref_name, 'b') || contains(github.ref_name, 'rc') }}
-        generate_release_notes: true
