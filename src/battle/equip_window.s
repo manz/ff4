@@ -363,97 +363,97 @@ tfr_equip_window_new:
 
 
     {
-    rep #0x10  ; X/Y 16-bit at runtime (caller may have X=1)
-    jsr.w _render_popup_text
-    ldx.w #0xD1EE
-    stx 0x00
-    ldx.w #0xD1FE
-    stx 0x02
-    lda.w battle_selected_char
-    asl
-    tax
-    rep #0x20
-    lda.l 0x16FEC1, x  ; EquipTextBufPtrs
-    pha
-    lda.l 0x16FF25, x  ; RLHandTextBufPtrs
-    tax
-    sep #0x20
+        rep #0x10  ; X/Y 16-bit at runtime (caller may have X=1)
+        jsr.w _render_popup_text
+        ldx.w #0xD1EE
+        stx 0x00
+        ldx.w #0xD1FE
+        stx 0x02
+        lda.w battle_selected_char
+        asl
+        tax
+        rep #0x20
+        lda.l 0x16FEC1, x  ; EquipTextBufPtrs
+        pha
+        lda.l 0x16FF25, x  ; RLHandTextBufPtrs
+        tax
+        sep #0x20
 
 ; --- Pass A: slot-1 label -> LEFT col row 1 (buf[0..$0F]: its 8 glyph cells of 10) ---
-    ldy.w #0x0040
+        ldy.w #0x0040
 loop_a:
-    lda.w 0x0000, x
-    sta (0x00), y
-    inx
-    iny
-    cpy.w #0x0050
-    bne loop_a
+        lda.w 0x0000, x
+        sta (0x00), y
+        inx
+        iny
+        cpy.w #0x0050
+        bne loop_a
 
 ; --- Pass B: slot-2 label -> LEFT col row 3 (buf[$14..$23]) ---
-    inx
-    inx
-    inx
-    inx
-    ldy.w #0x00C0
+        inx
+        inx
+        inx
+        inx
+        ldy.w #0x00C0
 loop_b:
-    lda.w 0x0000, x
-    sta (0x00), y
-    inx
-    iny
-    cpy.w #0x00D0
-    bne loop_b
+        lda.w 0x0000, x
+        sta (0x00), y
+        inx
+        iny
+        cpy.w #0x00D0
+        bne loop_b
 
 ; --- Switch to EquipBuf ---
-    plx
+        plx
 
 ; --- Pass C: slot-1 item top -> RIGHT col row 0 (buf[0..$1D]) ---
-    ldy.w #0x0000
+        ldy.w #0x0000
 loop_c:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x001E
-    bne loop_c
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x001E
+        bne loop_c
 
 ; --- Pass D: slot-1 item bot -> RIGHT col row 1 (buf[$1E..$3B]) ---
-    ldy.w #0x0040
+        ldy.w #0x0040
 loop_d:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x005E
-    bne loop_d
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x005E
+        bne loop_d
 
 ; --- Pass E: slot-2 item top -> RIGHT col row 2 (buf[$3C..$59]) ---
-    ldy.w #0x0080
+        ldy.w #0x0080
 loop_e:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x009E
-    bne loop_e
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x009E
+        bne loop_e
 
 ; --- Pass F: slot-2 item bot -> RIGHT col row 3 (buf[$5A..$77]) ---
-    ldy.w #0x00C0
+        ldy.w #0x00C0
 loop_f:
-    lda.w 0x0000, x
-    sta (0x02), y
-    inx
-    iny
-    cpy.w #0x00DE
-    bne loop_f
+        lda.w 0x0000, x
+        sta (0x02), y
+        inx
+        iny
+        cpy.w #0x00DE
+        bne loop_f
 
 ; --- Trigger tilemap upload (window 7, 2 transfers) ---
-    lda #0x07
-    ldy.w #0x0002
-    jsr.l load_menu_tfr_data_trampoline
-    lda #0x01
-    sta.w menu_tilemap_tfr_count
-    sta.w menu_tilemap_tfr_enable
-    rtl
+        lda #0x07
+        ldy.w #0x0002
+        jsr.l load_menu_tfr_data_trampoline
+        lda #0x01
+        sta.w menu_tilemap_tfr_count
+        sta.w menu_tilemap_tfr_enable
+        rtl
     }
 }
 
@@ -511,7 +511,7 @@ _popup_leave:
     dec.b 0x5F  ; the item list's cursor reads it too: back to the first hand, as vanilla's RIGHT-out does
     dec.b 0x63
     .for pad := 0, 6 {
-    nop
+        nop
     }
 }
 

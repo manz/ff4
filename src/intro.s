@@ -60,74 +60,74 @@ start_splash_screen:
 
 _splash_screen_fade_out:
     {
-    stz 0x00
+        stz 0x00
 loop:
-    inc 0x00
-    lda #0x0F
-    sbc 0x00
-    sta ppu.INIDISP
-    lda 0x00
-    cmp #0x0F
-    beq exit
-    lda 0x00
-    asl
-    asl
-    asl
-    asl
-    inc
-    sta ppu.MOSAIC
+        inc 0x00
+        lda #0x0F
+        sbc 0x00
+        sta ppu.INIDISP
+        lda 0x00
+        cmp #0x0F
+        beq exit
+        lda 0x00
+        asl
+        asl
+        asl
+        asl
+        inc
+        sta ppu.MOSAIC
 
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
-    bra loop
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+        bra loop
 exit:
-    rts
+        rts
     }
 
 
 _splash_screen_fade_in:
     {
-    stz 0x00
+        stz 0x00
 loop:
-    inc 0x00
-    lda 0x00
-    sta ppu.INIDISP
-    asl
-    asl
-    asl
-    asl
-    sta 0x01
-    lda #0xF0
-    sec
-    sbc 0x01
-    inc
-    sta ppu.MOSAIC
+        inc 0x00
+        lda 0x00
+        sta ppu.INIDISP
+        asl
+        asl
+        asl
+        asl
+        sta 0x01
+        lda #0xF0
+        sec
+        sbc 0x01
+        inc
+        sta ppu.MOSAIC
 
-    jsr.w wait_for_vblank
-    jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
+        jsr.w wait_for_vblank
 
-    lda 0x00
-    cmp #0x0F
-    beq exit
-    bra loop
+        lda 0x00
+        cmp #0x0F
+        beq exit
+        bra loop
 exit:
-    rts
+        rts
     }
 
 
 _gamepad_interruptable_loop:
 ; 8bit A: Number of iterations
     {
-    jsr.w enable_gamepad
-    jsr.w wait_for_vblank
+        jsr.w enable_gamepad
+        jsr.w wait_for_vblank
 
-    ldx cpu_regs.PAD1L  ; read joypad 1
-    bne exit  ; any button pressed ends the delay
-    dec
-    bne _gamepad_interruptable_loop
+        ldx cpu_regs.PAD1L  ; read joypad 1
+        bne exit  ; any button pressed ends the delay
+        dec
+        bne _gamepad_interruptable_loop
 exit:
-    jsr.w disable_gamepad
-    rts
+        jsr.w disable_gamepad
+        rts
     }
 }

@@ -160,7 +160,7 @@ _LIST_CURSOR_Y_PITCH := 12  ; vanilla row step
 _LIST_CURSOR_Y_NUDGE := 2
 .alloc at 0x16FC5B {
     .for row := 0, 5 {
-    .db _LIST_CURSOR_Y_FIRST + _LIST_CURSOR_Y_NUDGE + row * _LIST_CURSOR_Y_PITCH
+        .db _LIST_CURSOR_Y_FIRST + _LIST_CURSOR_Y_NUDGE + row * _LIST_CURSOR_Y_PITCH
     }
 }
 .alloc at 0x16FC56 {

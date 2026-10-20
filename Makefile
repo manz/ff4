@@ -14,7 +14,6 @@ RELEASE_IPS = build/release/ff4.ips
 EN_IPS = build/en/ff4.ips
 EN_RELEASE_IPS = build/en/release/ff4.ips
 BPS = build/release/ff4.bps build/en/release/ff4.bps
-FLIPS ?= flips
 # BUILD_DATE (the DEBUG stamp) from the last commit, not the clock: two builds of one commit are byte-identical.
 export SOURCE_DATE_EPOCH ?= $(shell git log -1 --format=%ct 2>/dev/null || echo 0)
 # Prune hidden directories: they never hold our sources, and .venv matches
@@ -74,14 +73,12 @@ $(EN_RELEASE_IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(Q) test -s $(EN_RELEASE_IPS)
 
 .PHONY: bps
-bps: $(BPS)  ## BPS patches of both release builds, next to their IPS (needs flips: github.com/Alcaro/Flips)
+bps: $(BPS)  ## BPS patches of both release builds, next to their IPS
 
-# A BPS is a diff of two ROMs: the IPS applied to the base ROM, then diffed against it.
+# build.py writes x.bps.unsealed next to the IPS; sealing applies it to the base ROM for the target CRC32.
 %/ff4.bps: %/ff4.ips
-	$(info $(M) Creating $@...)
-	$(Q) $(FLIPS) --apply $< $(ROM) $*/ff4-bps.sfc > /dev/null
-	$(Q) $(FLIPS) --create --bps-delta $(ROM) $*/ff4-bps.sfc $@ > /dev/null
-	$(Q) rm $*/ff4-bps.sfc
+	$(info $(M) Sealing $@...)
+	$(Q) $(A816) bps seal $*/ff4.bps.unsealed --source $(ROM) -o $@ > /dev/null
 
 .PHONY: tests
 tests: $(IPS)  ## Run the full suite against a freshly built patch, one worker per core

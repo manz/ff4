@@ -125,7 +125,7 @@ _return_addr:
 .macro fill_value(value, count) {
     """Emit `count` 16-bit words of `value`."""
     .for k := 0, count {
-    .dw value
+        .dw value
     }
 }
 .macro zero(count) {
@@ -136,7 +136,7 @@ _return_addr:
 .macro pad_nop(count) {
     """Emit `count` NOP bytes, padding a patch shorter than the code it replaces."""
     .for k := 0, count {
-    nop
+        nop
     }
 }
 

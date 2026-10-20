@@ -9,13 +9,13 @@ Input:  $393D (16-bit) * $393F (16-bit). Output: $3941 (low 16-bit), $3943 (high
 .alloc _battle_math_reloc_block in bank20_reloc {
     .macro shorta() {
     """Switch A to 8-bit (`SEP #$20`)."""
-    sep #0x20
+        sep #0x20
     }
 
     .macro shorta0() {
     """Clear A and switch to 8-bit (TDC then `SEP #$20`)."""
-    tdc
-    shorta()
+        tdc
+        shorta()
     }
 
 _hw_mult16:

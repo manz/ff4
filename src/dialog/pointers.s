@@ -69,107 +69,107 @@ get_bank2_pointer:
 
 
     {
-    rep #0x20
-    lda.b dialog_vwf.text_ptr
-    asl
-    clc
-    adc.b dialog_vwf.text_ptr
-    tax
-    lda.l dialog_bank2_pointers, x
-    sta.b dialog_vwf.text_ptr
-    lda.w #0x0000
-    sep #0x20
-    lda.l dialog_bank2_pointers + 2, x
-    sta.b dialog_vwf.text_ptr + 2
-    ldx.b dialog_vwf.text_ptr
-    lda.b 0xB2
-    beq _end
-    tay
+        rep #0x20
+        lda.b dialog_vwf.text_ptr
+        asl
+        clc
+        adc.b dialog_vwf.text_ptr
+        tax
+        lda.l dialog_bank2_pointers, x
+        sta.b dialog_vwf.text_ptr
+        lda.w #0x0000
+        sep #0x20
+        lda.l dialog_bank2_pointers + 2, x
+        sta.b dialog_vwf.text_ptr + 2
+        ldx.b dialog_vwf.text_ptr
+        lda.b 0xB2
+        beq _end
+        tay
 
 _loop:
-    jsr.w _load_letter_inc
-    bne _loop
-    jsr.w _load_letter_dec
-    pha
-    jsr.w _load_letter_inc
-    pla
-    cmp #0x03
-    beq _loop
-    pha
-    pla
-    cmp #0x04
-    beq _loop
-    cmp #0xfe
-    beq _loop
-    dey
-    bne _loop
-    inx
+        jsr.w _load_letter_inc
+        bne _loop
+        jsr.w _load_letter_dec
+        pha
+        jsr.w _load_letter_inc
+        pla
+        cmp #0x03
+        beq _loop
+        pha
+        pla
+        cmp #0x04
+        beq _loop
+        cmp #0xfe
+        beq _loop
+        dey
+        bne _loop
+        inx
 
 _end:
-    stx.w dialog_text_ptr
-    stz.b 0xDD
-    rtl
+        stx.w dialog_text_ptr
+        stz.b 0xDD
+        rtl
 
 _load_letter_dec:
-    ldx.b dialog_vwf.text_ptr
-    dex
-    bmi _ok
-    dec.b dialog_vwf.text_ptr + 2
-    ldx.w #0xFFFF
-    bra _ok
+        ldx.b dialog_vwf.text_ptr
+        dex
+        bmi _ok
+        dec.b dialog_vwf.text_ptr + 2
+        ldx.w #0xFFFF
+        bra _ok
 
 _load_letter_inc:
-    ldx.b dialog_vwf.text_ptr
-    inx
-    bmi _ok
-    inc.b dialog_vwf.text_ptr + 2
-    ldx.w #0x8000
+        ldx.b dialog_vwf.text_ptr
+        inx
+        bmi _ok
+        inc.b dialog_vwf.text_ptr + 2
+        ldx.w #0x8000
 
 _ok:
-    stx.b dialog_vwf.text_ptr
+        stx.b dialog_vwf.text_ptr
 
 _load_letter:
-    ldx.b dialog_vwf.text_ptr
-    phb
-    lda.b dialog_vwf.text_ptr + 2
-    pha
-    plb
-    lda.w 0x0000, x
-    plb
-    pha
-    pla
-    rts
+        ldx.b dialog_vwf.text_ptr
+        phb
+        lda.b dialog_vwf.text_ptr + 2
+        pha
+        plb
+        lda.w 0x0000, x
+        plb
+        pha
+        pla
+        rts
     }
 
 
 _incpointer:
     {
-    phx
-    ldx.w dialog_text_ptr
-    inx
-    bne _no_overflow
-    inc.b dialog_vwf.text_ptr + 2
-    ldx.w #0x8000
+        phx
+        ldx.w dialog_text_ptr
+        inx
+        bne _no_overflow
+        inc.b dialog_vwf.text_ptr + 2
+        ldx.w #0x8000
 
 _no_overflow:
-    stx.w dialog_text_ptr
-    plx
-    rts
+        stx.w dialog_text_ptr
+        plx
+        rts
     }
 
 
 load_letter_inc:
 """Advance dialog cursor by one character."""
     {
-    ldx.w dialog_text_ptr
-    inx
-    cpx.w #0x0000
-    bne _no_overflow
-    inc.b dialog_vwf.text_ptr + 2
-    ldx.w #0x8000
+        ldx.w dialog_text_ptr
+        inx
+        cpx.w #0x0000
+        bne _no_overflow
+        inc.b dialog_vwf.text_ptr + 2
+        ldx.w #0x8000
 
 _no_overflow:
-    stx.w dialog_text_ptr
+        stx.w dialog_text_ptr
     }
 
 

@@ -10,50 +10,50 @@
     .scope newgame {
     """Title-screen + save-slot strings."""
 new_game:
-    move_to(1, 1)
-    .text "Nouvelle partie"
-    .db 0
+        move_to(1, 1)
+        .text "Nouvelle partie"
+        .db 0
 time_load_save:
-    .dw 0x046E + 2
-    .text "Temps"
-    .db 0
+        .dw 0x046E + 2
+        .text "Temps"
+        .db 0
 gils_load_game:
-    .text "Gils"
-    .db 0
+        .text "Gils"
+        .db 0
 save:
-    .text "Partie"
-    .db 0
+        .text "Partie"
+        .db 0
 load_this_save:
-    .dw 0x006E + 2
-    .text "Cette"
-    .db 1
-    .dw 0x00EE + 2
-    .text "partie?"
-    .db 0
+        .dw 0x006E + 2
+        .text "Cette"
+        .db 1
+        .dw 0x00EE + 2
+        .text "partie?"
+        .db 0
 yes_no:
-    .dw 0x0172
-    .text "Oui"
-    .db 1
-    .dw 0x01F2
-    .text "Non"
-    .db 0
+        .dw 0x0172
+        .text "Oui"
+        .db 1
+        .dw 0x01F2
+        .text "Non"
+        .db 0
 empty_save:
-    .dw 0x0090 + 2
-    .text "VIDE"
-    .db 0
+        .dw 0x0090 + 2
+        .text "VIDE"
+        .db 0
 saves:
-    move_to(3, 1)  ; centred in its window, by whole tiles
-    .text "Sauvegardes"
-    .db 0
+        move_to(3, 1)  ; centred in its window, by whole tiles
+        .text "Sauvegardes"
+        .db 0
 save_completed:
-    move_to(8, 11)
-    .text "Sauvegarde terminée"
-    .db 0
+        move_to(8, 11)
+        .text "Sauvegarde terminée"
+        .db 0
 did_not_save:
-    move_to(3, 1)  ; over Sauvegardes, from its first cell
-    .text "Annulation "
+        move_to(3, 1)  ; over Sauvegardes, from its first cell
+        .text "Annulation "
 ; trailing space clears the previous title
-    .db 0
+        .db 0
     }
 }
 
@@ -61,20 +61,20 @@ did_not_save:
     .scope newgame {
 save_cancelled:
 ; ちゅうし ($01:CC33): "Non" on the chosen slot, in the save-completed window
-    move_to(8, 11)
-    .text "Sauvegarde annulée"
-    .db 0
+        move_to(8, 11)
+        .text "Sauvegarde annulée"
+        .db 0
     }
 }
 
 .alloc _build_number_text in bank20_reloc {
     .scope newgame {
 build_number:
-    .if DEBUG {
-    .text "${BUILD_DATE} ${VERSION}"
-    } else {
-    .text "${VERSION}"
-    }
-    .db 0
+        .if DEBUG {
+            .text "${BUILD_DATE} ${VERSION}"
+        } else {
+            .text "${VERSION}"
+        }
+        .db 0
     }
 }

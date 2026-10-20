@@ -22,25 +22,25 @@ command_length = 6
 ; ram position of the prebuilt battle windows
     .alloc at 0x16FEAD {
 cmd_text_buf_ptrs:
-    battle_data_size = command_length * 4 * 5
-    .dw command_buffer_ptr
-    .dw command_buffer_ptr + battle_data_size
-    .dw command_buffer_ptr + battle_data_size * 2
-    .dw command_buffer_ptr + battle_data_size * 3
-    .dw command_buffer_ptr + battle_data_size * 4
+        battle_data_size = command_length * 4 * 5
+        .dw command_buffer_ptr
+        .dw command_buffer_ptr + battle_data_size
+        .dw command_buffer_ptr + battle_data_size * 2
+        .dw command_buffer_ptr + battle_data_size * 3
+        .dw command_buffer_ptr + battle_data_size * 4
     }
 
 
     .alloc at 0x16FE54 {
-    .db command_length * 2
-    .db 0x0a
-    .dw command_buffer_ptr  ; read address
-    .dw 0xC1F4 - 2  ; write address
+        .db command_length * 2
+        .db 0x0a
+        .dw command_buffer_ptr  ; read address
+        .dw 0xC1F4 - 2  ; write address
     }
 
 
     .alloc at 0x02999F {
-    ldx.w #battle_data_size
+        ldx.w #battle_data_size
     }
 }
 

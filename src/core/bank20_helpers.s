@@ -32,14 +32,14 @@ vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and t
 
     jsr.l field_clear_ram
     {
-    lda.b #0x00
-    ldx.w #0x0000
+        lda.b #0x00
+        ldx.w #0x0000
 
 _loop:
-    sta.l 0x702000, x
-    inx
-    cpx.w #0x5100
-    bne _loop
+        sta.l 0x702000, x
+        inx
+        cpx.w #0x5100
+        bne _loop
     }
     rtl
 
