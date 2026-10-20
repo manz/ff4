@@ -4,14 +4,14 @@ requires-python = ">=3.14"
 
 [[package]]
 name = "a816"
-version = "1.1.3"
+version = "1.1.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "lsprotocol" },
     { name = "pygls" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/22/74/7b647d4d3b404f49a7efec417254d4c2804ac5ae069ae68f34b4a12d65c0/a816-1.1.3-py3-none-any.whl", hash = "sha256:80a8f729cfd4d9dfbd8f2d0a4c0ebf99a711415c1d0e86a93c23c462c1739f5d", size = 397339, upload-time = "2026-10-15T12:20:36.562Z" },
+    { url = "https://files.pythonhosted.org/packages/02/44/d4775ac16fe24647a94d39ba33f73f299f93a33d9410b65af7535ec7ad96/a816-1.1.7-py3-none-any.whl", hash = "sha256:1d286abcbf3a8dc9e1664686164df8c699b5333fe564d771e75ea3edccd29d45", size = 428422, upload-time = "2026-10-20T21:16:18.627Z" },
 ]
 
 [[package]]
@@ -71,9 +71,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "a816", specifier = "==1.1.3" },
-    { name = "katsuji", specifier = "==0.3.0" },
-    { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a18" },
+    { name = "a816", specifier = "==1.1.7" },
+    { name = "katsuji", specifier = "==0.3.1" },
+    { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a19" },
 ]
 
 [package.metadata.requires-dev]
@@ -93,25 +93,25 @@ wheels = [
 
 [[package]]
 name = "katsuji"
-version = "0.3.0"
+version = "0.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "a816" },
     { name = "numpy" },
     { name = "pillow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/37/ac/2a1546035b5a150bfd67dad38770ce6f8748b0f4375e37e163788ca87da2/katsuji-0.3.0.tar.gz", hash = "sha256:81e56a96ffa1845f2301d204064c3785bb8600ef0f4b9006340b97b179ddda55", size = 104189, upload-time = "2026-10-19T12:35:19.734Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/f5/b35b3b73464368bf69e1c8de8e45ee9145826b5d60da70d13041b0d635ca/katsuji-0.3.1.tar.gz", hash = "sha256:b362bb7322d1a5437d7881b18c49264e34775cdbc5fd841fe5e294eddb3f392f", size = 106373, upload-time = "2026-10-20T18:43:30.982Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/75/76/40232e8442ca1d595fa14e2c0999748e138f3ee574ca4fcdbacd161a030e/katsuji-0.3.0-py3-none-any.whl", hash = "sha256:8b51a6e5f73ce4cf894c448e3506caaa4e4e61d714bf94c7f82f072b098f1e67", size = 33003, upload-time = "2026-10-19T12:35:18.299Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/78/be24f957ff835f70f0d99d3c19f655a5256842a71554e7989045a4b49ed5/katsuji-0.3.1-py3-none-any.whl", hash = "sha256:c870bf0568382142e6817154e53bcaa2b800101dec181615fefdea752454d47f", size = 34361, upload-time = "2026-10-20T18:43:29.895Z" },
 ]
 
 [[package]]
 name = "kintsuki"
-version = "0.0.0a18"
+version = "0.0.0a19"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/63/bae12253814a810c7d41fd24e6fefe60dd4091c6f05ca234faa065e2e845/kintsuki-0.0.0a18-py3-none-macosx_11_0_arm64.whl", hash = "sha256:df6d65f6cdea1b8555188c89ec84c5535af3b4f04cd213c3441647b449727c37", size = 839074, upload-time = "2026-10-08T08:00:42.269Z" },
-    { url = "https://files.pythonhosted.org/packages/a7/8b/b8223e7e796b5442f99f0eb12149d342c55df3e86855244149405d74c868/kintsuki-0.0.0a18-py3-none-manylinux_2_39_aarch64.whl", hash = "sha256:67203d5b907b911d86a70fe3198f865e26c28b4a89f8b55cd5eccfc6b3a4f758", size = 786457, upload-time = "2026-10-08T08:00:43.807Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/5b/dd6a1169b4989173ac0ca2470df6ffaaf3b9207e728f0f92330beb5d0c79/kintsuki-0.0.0a19-py3-none-macosx_11_0_arm64.whl", hash = "sha256:a3828fa856635409e2a05d15e6831f43d2c727bbe76bdbf467916f33660f97c5", size = 844491, upload-time = "2026-10-20T08:23:19.327Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/11/165afae49145d5377cb80175ab705b369f3ffe70099f43ed52e6bb4baa63/kintsuki-0.0.0a19-py3-none-manylinux_2_39_aarch64.whl", hash = "sha256:f2db08f186eea81b58bbf16b70188970451659d048bdf3552ce5309ee64dfa07", size = 793167, upload-time = "2026-10-20T08:23:20.716Z" },
 ]
 
 [package.optional-dependencies]
