@@ -9,17 +9,17 @@
 wait_for_vblank:
 """Spin until the next vblank edge: wait for $4212 to go low, then high."""
     {
-    pha
+        pha
 
 _negative:
-    lda.l cpu_regs.HVBJOY
-    bmi _negative
+        lda.l cpu_regs.HVBJOY
+        bmi _negative
 
 _positive:
-    lda.l cpu_regs.HVBJOY
-    bpl _positive
-    pla
-    rts
+        lda.l cpu_regs.HVBJOY
+        bpl _positive
+        pla
+        rts
     }
 
 wait_for_vblank_long:
@@ -35,40 +35,40 @@ dma_mode. All five are pulled before RTS.
 
 
     {
-    arg_count = 5
-    stack_ptr = arg_count * 2 - 1
-    source_offset = stack_ptr
-    source_bank = stack_ptr - 2
-    vram_pointer = stack_ptr - 4
-    count = stack_ptr - 6
-    dma_mode = stack_ptr - 8
-    channel = 7
-    rep #0x20
-    sep #0x10
-    ldx #0x80
-    stx ppu.VMAIN
-    lda.b source_offset, s
-    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1TL
-    sep #0x10
-    lda.b source_bank, s
-    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1B
-    rep #0x20
-    lda.b vram_pointer, s
-    sta.w ppu.VMADDL
-    lda.b count, s
-    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DASL
-    lda.b dma_mode, s
-    sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DMAP
-    ldx.b #1 << channel
-    stx cpu_regs.MDMAEN
-    nop
-    nop
-    pla
-    pla
-    pla
-    pla
-    pla
-    rts
+        arg_count = 5
+        stack_ptr = arg_count * 2 - 1
+        source_offset = stack_ptr
+        source_bank = stack_ptr - 2
+        vram_pointer = stack_ptr - 4
+        count = stack_ptr - 6
+        dma_mode = stack_ptr - 8
+        channel = 7
+        rep #0x20
+        sep #0x10
+        ldx #0x80
+        stx ppu.VMAIN
+        lda.b source_offset, s
+        sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1TL
+        sep #0x10
+        lda.b source_bank, s
+        sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.A1B
+        rep #0x20
+        lda.b vram_pointer, s
+        sta.w ppu.VMADDL
+        lda.b count, s
+        sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DASL
+        lda.b dma_mode, s
+        sta.w DMA_BASE + channel * sizeof(DMAChannel) + DMAChannel.DMAP
+        ldx.b #1 << channel
+        stx cpu_regs.MDMAEN
+        nop
+        nop
+        pla
+        pla
+        pla
+        pla
+        pla
+        rts
     }
 
 
@@ -77,31 +77,31 @@ dma_transfer_to_palette:
 
 
     {
-    arg_count = 3
-    stack_ptr = arg_count * 2 - 1
-    source_offset = stack_ptr
-    source_bank = stack_ptr - 2
-    count = stack_ptr - 4
-    rep #0x20
-    sep #0x10
-    ldx #0x80
-    stx ppu.VMAIN
-    lda.b source_offset, s
-    sta dma_ch7.A1TL
-    lda.b source_bank, s
-    sta dma_ch7.A1B
-    lda.b count, s
-    sta dma_ch7.DASL
-    lda #0x2200
-    sta dma_ch7.DMAP
-    ldx #1 << 7
-    stx cpu_regs.MDMAEN
-    nop
-    nop
-    pla
-    pla
-    pla
-    rts
+        arg_count = 3
+        stack_ptr = arg_count * 2 - 1
+        source_offset = stack_ptr
+        source_bank = stack_ptr - 2
+        count = stack_ptr - 4
+        rep #0x20
+        sep #0x10
+        ldx #0x80
+        stx ppu.VMAIN
+        lda.b source_offset, s
+        sta dma_ch7.A1TL
+        lda.b source_bank, s
+        sta dma_ch7.A1B
+        lda.b count, s
+        sta dma_ch7.DASL
+        lda #0x2200
+        sta dma_ch7.DMAP
+        ldx #1 << 7
+        stx cpu_regs.MDMAEN
+        nop
+        nop
+        pla
+        pla
+        pla
+        rts
     }
 
 

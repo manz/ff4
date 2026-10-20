@@ -46,8 +46,8 @@ UpdateFlyingHDMA patches and the bank-02 helper pool for the gated trampolines.
 ; Free space left by TfrEquipWindow's relocation (items_patches.s). `strategy order` keeps the helpers at stable
 ; addresses for the bank-02 jsr.w callers.
     .pool bank02_battle_redraw_helpers {
-    range 0x0297AB 0x029824
-    strategy order
+        range 0x0297AB 0x029824
+        strategy order
     }
 }
 .alloc _battle_redraw_helpers in bank02_battle_redraw_helpers {

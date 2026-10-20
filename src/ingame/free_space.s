@@ -63,13 +63,13 @@ _draw_vwf_message_pos:
 display_build_number:
 """Render the version (after the build date in DEBUG builds) at column 1, row 27 of the title screen."""
     {
-    jsr.w draw_pos_text
-    load_system_menu_text_pointer(newgame.build_number)
-    left = 1
-    top = 27
-    ldx.w #left * 2 + top * 64
-    jsr.w copy_text
-    rts
+        jsr.w draw_pos_text
+        load_system_menu_text_pointer(newgame.build_number)
+        left = 1
+        top = 27
+        ldx.w #left * 2 + top * 64
+        jsr.w copy_text
+        rts
     }
 }
 

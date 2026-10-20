@@ -16,11 +16,11 @@ _BATTLE_DAKUTEN_TABLE = 0x16FA40
     """Battle-flags toggles for switching the message renderer between WRAM tiles and VWF."""
 set_vwf_render:
 """Set battle_flags bit $02: fixed-width char draws go through messages_vwf."""
-    battle_flags_set(0x02)
-    rtl
+        battle_flags_set(0x02)
+        rtl
 clear_vwf_render:
-    battle_flags_clear(0x02)
-    rtl
+        battle_flags_clear(0x02)
+        rtl
     }
 
 _copy_battle_char:
@@ -34,31 +34,31 @@ _copy_battle_char:
     .scope wram {
     """WRAM-mode put-char primitives used by the original battle text renderer."""
 put_char:
-    phx
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    lda #0xFF
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    iny
-    lda.b btlgfx_dp.text_tile_flags
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    iny
-    plx
-    rtl
+        phx
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        lda #0xFF
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        iny
+        lda.b btlgfx_dp.text_tile_flags
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        iny
+        plx
+        rtl
 put_char_with_dakuten:
-    phx
-    jsr.l lookup_dakuten
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    xba
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    lda #0x00
-    xba
-    iny
-    lda.b btlgfx_dp.text_tile_flags
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    iny
-    plx
-    rtl
+        phx
+        jsr.l lookup_dakuten
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        xba
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        lda #0x00
+        xba
+        iny
+        lda.b btlgfx_dp.text_tile_flags
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        iny
+        plx
+        rtl
     }
 }

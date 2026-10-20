@@ -18,17 +18,17 @@ trap every `raise` lands in.
 .if ENABLE_BRK_HANDLER {
 ; JML trampoline in vector-table padding; native/emu BRK vectors point here.
     .alloc at 0x00FFE0 {
-    jmp.l brk_handler
+        jmp.l brk_handler
     }
 
 
     .alloc at 0x00FFE6 {
-    .dw 0xFFE0
+        .dw 0xFFE0
     }
 
 
     .alloc at 0x00FFFE {
-    .dw 0xFFE0
+        .dw 0xFFE0
     }
 }
 

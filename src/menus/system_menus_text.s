@@ -13,47 +13,47 @@
 
 .alloc _system_menus_text_block in bank20_reloc {
     .macro _bank_switch() {
-    cpy.w #0x8000
-    bmi _moved_text
-    lda.b #0x01
+        cpy.w #0x8000
+        bmi _moved_text
+        lda.b #0x01
 ; Y >= $8000: the text is in bank 1
-    pha
-    bra _jump_to_original
+        pha
+        bra _jump_to_original
 _moved_text:
-    pha
-    rep #0x20
-    tya
-    adc.w #0x8000
-    tay
-    sep #0x20
-    pla
-    phk
+        pha
+        rep #0x20
+        tya
+        adc.w #0x8000
+        tay
+        sep #0x20
+        pla
+        phk
 _jump_to_original:
 """Assumes the text lives in this routine's bank."""
-    plb
+        plb
     }
 
     .macro _bank_switch_with_jump(jump_to) {
-    _bank_switch()
-    jmp.l jump_to
+        _bank_switch()
+        jmp.l jump_to
     }
 
 
 display_text_in_menus:
 """Trampoline into the original menu text-display routine at $01:830B, preserving DBR/D/X via stack."""
     {
-    phb
-    phd
-    phx
-    ldx.w #0x100
-    phx
-    pld
+        phb
+        phd
+        phx
+        ldx.w #0x100
+        phx
+        pld
 ; a string of a small-VWF block (Y = text - $8000) is drawn there
-    jsr.w menu_text_vwf.draw_pos
-    bcc _vanilla
-    jmp.l _draw_text_done_8332
+        jsr.w menu_text_vwf.draw_pos
+        bcc _vanilla
+        jmp.l _draw_text_done_8332
 _vanilla:
-    _bank_switch_with_jump(0x01830B)
+        _bank_switch_with_jump(0x01830B)
     }
 
 load_text_with_destination_in_x:
@@ -77,11 +77,11 @@ load_text_with_destination_in_x:
     sep #0x20
     {
 ; a string of a small-VWF block (Y = text - $8000) is drawn there
-    jsr.w menu_text_vwf.draw_at
-    bcc _vanilla
-    jmp.l _draw_text_done_8332
+        jsr.w menu_text_vwf.draw_at
+        bcc _vanilla
+        jmp.l _draw_text_done_8332
 _vanilla:
-    _bank_switch_with_jump(0x018318)
+        _bank_switch_with_jump(0x018318)
     }
 
 
@@ -95,9 +95,9 @@ display_time:
 """Trampoline into the original play-time display routine at $01:879D."""
     phb
     {
-    jsr.w menu_text_vwf.copy_at
-    bcc _vanilla
-    jmp.l _copy_text_done_87b2
+        jsr.w menu_text_vwf.copy_at
+        bcc _vanilla
+        jmp.l _copy_text_done_87b2
 _vanilla:
     }
     _bank_switch()
@@ -113,10 +113,10 @@ $01:8947. Their tile bits 8-9 stay: the label is small-VWF text in tiles $3xx, a
 the 8x8 font's tiles, blank there.
 """
     .for cell := 0, 6 {
-    lda 0xCA31 + cell * 2
-    and.b #0x03
-    ora.b #_SAVE_GREY
-    sta 0xCA31 + cell * 2
+        lda 0xCA31 + cell * 2
+        and.b #0x03
+        ora.b #_SAVE_GREY
+        sta 0xCA31 + cell * 2
     }
     jmp.l _draw_main_menu_8947
 
@@ -160,21 +160,21 @@ load_dextrelity_pointer:
 ; JML thunks: the bank-01 text entry points jump to the relocated routines above.
 {
     .alloc at 0x018301 {
-    jmp.l display_text_in_menus
+        jmp.l display_text_in_menus
     }
 
 
     .alloc at 0x0182CD {
-    jmp.l load_text_with_destination_in_x
+        jmp.l load_text_with_destination_in_x
     }
 
 
     .alloc at 0x0180D9 {
-    jmp.l display_window_with_text
+        jmp.l display_window_with_text
     }
 
 
     .alloc at 0x018798 {
-    jmp.l display_time
+        jmp.l display_time
     }
 }

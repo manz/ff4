@@ -102,12 +102,12 @@ Shop-screen patches: window layout, text pointers, small-VWF owner messages, lis
 
 ; Sell menu, then buy menu
     .alloc at 0x01c81e {
-    ldy.w #_quantity_10_position
+        ldy.w #_quantity_10_position
     }
 
 
     .alloc at 0x01c464 {
-    ldy.w #_quantity_10_position
+        ldy.w #_quantity_10_position
     }
 }
 

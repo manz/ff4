@@ -11,13 +11,13 @@ piggyback on `defend_row` data.
 .alloc at 0x16fb87 {
     {
 ; chars copied from the font to the battle 4bpp tileset
-    .table "text/ff4_menus.tbl"
-    .db 0x76, 0x77
-    .text "/"
-    battle_label_font_codes()  ; Garde, Rang and Coût PM, pre-rendered in the small VWF
-    .db 0x8c, 0x90, 0x7f
-    .db 0x80, 0x81, 0x82
-    .db 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x16, 0x17, 0x18, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff
+        .table "text/ff4_menus.tbl"
+        .db 0x76, 0x77
+        .text "/"
+        battle_label_font_codes()  ; Garde, Rang and Coût PM, pre-rendered in the small VWF
+        .db 0x8c, 0x90, 0x7f
+        .db 0x80, 0x81, 0x82
+        .db 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x16, 0x17, 0x18, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff
     }
 }
 .alloc at 0x02975d {
@@ -58,9 +58,9 @@ piggyback on `defend_row` data.
 ; Hands text (layout: tfr_equip_window_new, equip_window.s)
 .alloc at 0x16fed5 {
     {
-    .table "text/ff4_menus.tbl"
+        .table "text/ff4_menus.tbl"
 hand_text:
-    hand_texts()
+        hand_texts()
     }
 }
 .alloc at 0x02A51C {

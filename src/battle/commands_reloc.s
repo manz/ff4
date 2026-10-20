@@ -42,135 +42,135 @@ _skip_commands:
 
 _draw_command_list_for_character:
     {
-    stz.w 0x1817
-    ldy #0x74FD  ; Y stays the format pointer across _draw_single_command calls
+        stz.w 0x1817
+        ldy #0x74FD  ; Y stays the format pointer across _draw_single_command calls
 ; builds {tile_flag}cmd1\n...{tile_flag}cmd5\0 for a single draw text call
-    lda 0x1817  ; battle command slot
-    sta.b btlgfx_dp.multiplier1
-    lda.b #command_length * 2
-    sta.b btlgfx_dp.multiplier2
-    jsr.l mult8_far  ; command_id * (command_length * 2)
+        lda 0x1817  ; battle command slot
+        sta.b btlgfx_dp.multiplier1
+        lda.b #command_length * 2
+        sta.b btlgfx_dp.multiplier2
+        jsr.l mult8_far  ; command_id * (command_length * 2)
 
 
-    lda 0x1817  ; slot ID
-    asl
-    asl
-    tax
-    stx 0x00
+        lda 0x1817  ; slot ID
+        asl
+        asl
+        tax
+        stx 0x00
 
 _loop:
-    tdc
-    lda 0x1817  ; slot ID
-    asl
-    asl
-    tax
-    stx 0x00
+        tdc
+        lda 0x1817  ; slot ID
+        asl
+        asl
+        tax
+        stx 0x00
 
-    lda 0x1816  ; character id
+        lda 0x1816  ; character id
 
-    rep #0x20
-    asl
-    tax
-    lda.l 0x16feb7, x
-    clc
-    adc.b 0x00
-    tax
-    sep #0x20
+        rep #0x20
+        asl
+        tax
+        lda.l 0x16feb7, x
+        clc
+        adc.b 0x00
+        tax
+        sep #0x20
 
-    jsr.w _draw_single_command
-    inc 0x1817
-    lda 0x1817
-    cmp #5
-    beq _exit
-    lda #1
-    sta.w 0x0000, y
-    iny
-    bra _loop
+        jsr.w _draw_single_command
+        inc 0x1817
+        lda 0x1817
+        cmp #5
+        beq _exit
+        lda #1
+        sta.w 0x0000, y
+        iny
+        bra _loop
 _exit:
 
-    tdc
-    sta.w 0x0000, y
+        tdc
+        sta.w 0x0000, y
 
-    sta 0xef55
+        sta 0xef55
 ; The list (and $1817's count) feeds the cursor logic, so it is rebuilt every call; the VWF render only changes
 ; with the command set, so re-render (blank buffer first) only when CMD_DIRTY_BIT is set.
-    lda.l battle_menu_dirty
-    and.b #CMD_DIRTY_BIT
-    beq _keep_commands
+        lda.l battle_menu_dirty
+        and.b #CMD_DIRTY_BIT
+        beq _keep_commands
 ; The equip popup (A bit 3) borrows the command list's tiles: render once it closes.
-    lda.l btlgfx_dp.menu_windows_open
-    and.b #0x08
-    beq _render_commands
+        lda.l btlgfx_dp.menu_windows_open
+        and.b #0x08
+        beq _render_commands
 _keep_commands:
-    rts
+        rts
 
 _render_commands:
-    lda.l battle_menu_dirty
-    and.b #0xFF - CMD_DIRTY_BIT
-    sta.l battle_menu_dirty
+        lda.l battle_menu_dirty
+        and.b #0xFF - CMD_DIRTY_BIT
+        sta.l battle_menu_dirty
 
-    ldx.w #command_buffer_ptr
-    stx 0xef52  ; destination
+        ldx.w #command_buffer_ptr
+        stx 0xef52  ; destination
 
-    rep #0x20
+        rep #0x20
 
 ; Fill the window with 0x00ff before rendering
-    lda.w #command_length * 4 * 5
-    sta 0x00
+        lda.w #command_length * 4 * 5
+        sta 0x00
 
 _clear_buffer_loop:
-    lda.w #0x00ff
-    sta.l 0x7e0000 + command_length * 4 * 5, x
-    dex
-    dex
-    dec 0
-    bne _clear_buffer_loop
+        lda.w #0x00ff
+        sta.l 0x7e0000 + command_length * 4 * 5, x
+        dex
+        dex
+        dec 0
+        bne _clear_buffer_loop
 
-    sep #0x20
+        sep #0x20
 
-    ldx #0x74fd  ; text buffer
-    stx 0xef50
-    lda.b #command_length  ; draw text line length used for _newline
-    sta 0xef54
+        ldx #0x74fd  ; text buffer
+        stx 0xef50
+        lda.b #command_length  ; draw text line length used for _newline
+        sta 0xef54
 
-    jsr.l messages_vwf.init_commands_list
-    jsr.l messages_vwf.draw_commands_baked
-    jsr.l messages_vwf.deinit
-    rts
+        jsr.l messages_vwf.init_commands_list
+        jsr.l messages_vwf.draw_commands_baked
+        jsr.l messages_vwf.deinit
+        rts
     }
 
 _draw_single_command:
     {
-    tdc
-    sep #0x20
-    lda.w 0x0001, x  ; 0x3303
+        tdc
+        sep #0x20
+        lda.w 0x0001, x  ; 0x3303
 
-    cmp #0xff
-    bne _continue
-    bra _exit
+        cmp #0xff
+        bne _continue
+        bra _exit
 _continue:
-    pha  ; command id
+        pha  ; command id
 
-    lda #0x00  ; white text
-    and #0x80
-    beq _active_command
-    lda #0x04  ; gray text
+        lda #0x00  ; white text
+        and #0x80
+        beq _active_command
+        lda #0x04  ; gray text
 
 _active_command:
-    sta.w 0x0001, y
-    lda #0x0e  ; change tile flags
-    sta.w 0x0000, y
-    iny
-    iny
+        sta.w 0x0001, y
+        lda #0x0e  ; change tile flags
+        sta.w 0x0000, y
+        iny
+        iny
 ; the name: its baked tiles (messages_vwf.draw_commands_baked)
-    lda #0x0F
-    sta.w 0x0000, y
-    iny
-    pla
-    sta.w 0x0000, y
-    iny
+        lda #0x0F
+        sta.w 0x0000, y
+        iny
+        pla
+        sta.w 0x0000, y
+        iny
 
 _exit:
-    rts
+        rts
     }
 }

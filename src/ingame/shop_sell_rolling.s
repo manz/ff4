@@ -257,82 +257,82 @@ Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 9 at BG3VOFS
 
 
     {
-    php
-    rep #0x30
-    pha
-    phx
-    phy
-    lda.b 0x40
-    pha
-    lda.b 0x42
-    pha
-    ldx.w #0x0000
-    jsr.w _sell_hdma_header
-    stz.b 0x42
+        php
+        rep #0x30
+        pha
+        phx
+        phy
+        lda.b 0x40
+        pha
+        lda.b 0x42
+        pha
+        ldx.w #0x0000
+        jsr.w _sell_hdma_header
+        stz.b 0x42
 
 _sell_row_loop:
-    lda.w sell_rolling.buffer_pos
-    and.w #0x00FF
-    clc
-    adc.b 0x42
+        lda.w sell_rolling.buffer_pos
+        and.w #0x00FF
+        clc
+        adc.b 0x42
 
 _sell_mod_loop:
-    cmp.w #_SELL_BUFFER_SLOTS
-    bcc _sell_mod_done
-    sec
-    sbc.w #_SELL_BUFFER_SLOTS
-    bra _sell_mod_loop
+        cmp.w #_SELL_BUFFER_SLOTS
+        bcc _sell_mod_done
+        sec
+        sbc.w #_SELL_BUFFER_SLOTS
+        bra _sell_mod_loop
 
 _sell_mod_done:
-    asl
-    asl
-    asl
-    asl  ; slot * 16
-    sta.b 0x40
-    lda.b 0x42
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl  ; row * 16
-    eor.w #0xFFFF
-    inc  ; -row * 16
-    clc
-    adc.b 0x40
-    clc
-    adc.w sell_rolling.base_scroll
-    sta.b 0x40
-    sep #0x20
-    lda #16
-    sta.l SELL_HDMA_SHADOW, x
-    inx
-    rep #0x20
-    lda.b 0x40
-    sta.l SELL_HDMA_SHADOW, x
-    inx
-    inx
-    inc.b 0x42
-    lda.b 0x42
-    cmp.w #_SELL_VISIBLE_ITEMS
-    bcs _sell_row_loop_done
-    jmp.w _sell_row_loop
+        asl
+        asl
+        asl
+        asl  ; slot * 16
+        sta.b 0x40
+        lda.b 0x42
+        and.w #0x00FF
+        asl
+        asl
+        asl
+        asl  ; row * 16
+        eor.w #0xFFFF
+        inc  ; -row * 16
+        clc
+        adc.b 0x40
+        clc
+        adc.w sell_rolling.base_scroll
+        sta.b 0x40
+        sep #0x20
+        lda #16
+        sta.l SELL_HDMA_SHADOW, x
+        inx
+        rep #0x20
+        lda.b 0x40
+        sta.l SELL_HDMA_SHADOW, x
+        inx
+        inx
+        inc.b 0x42
+        lda.b 0x42
+        cmp.w #_SELL_VISIBLE_ITEMS
+        bcs _sell_row_loop_done
+        jmp.w _sell_row_loop
 
 _sell_row_loop_done:
-    jsr.w _sell_hdma_footer
-    sep #0x20
-    lda #0x00
-    sta.l SELL_HDMA_SHADOW, x
-    jsr.w _sell_hdma_signal
-    rep #0x20
-    pla
-    sta.b 0x42
-    pla
-    sta.b 0x40
-    ply
-    plx
-    pla
-    plp
-    rts
+        jsr.w _sell_hdma_footer
+        sep #0x20
+        lda #0x00
+        sta.l SELL_HDMA_SHADOW, x
+        jsr.w _sell_hdma_signal
+        rep #0x20
+        pla
+        sta.b 0x42
+        pla
+        sta.b 0x40
+        ply
+        plx
+        pla
+        plp
+        rts
     }
 
 _sell_hdma_header:

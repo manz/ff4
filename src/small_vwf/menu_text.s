@@ -184,189 +184,189 @@ draw_pos:
 DrawPosText ($01:8301): Y = string - $8000, the position word first. Carry clear: not a VWF string, nothing
 touched.
 """
-    jsr.w _claim
-    bcs _draw_pos
-    rts
+        jsr.w _claim
+        bcs _draw_pos
+        rts
 _draw_pos:
-    phk
-    plb
-    rep #0x20
-    tya
-    ora.w #0x8000
-    tay
-    lda.w 0x0000, y
-    clc
-    adc.b menu_dp.tilemap_offset
-    tax
-    iny
-    iny
-    sep #0x20
-    bra _draw
+        phk
+        plb
+        rep #0x20
+        tya
+        ora.w #0x8000
+        tay
+        lda.w 0x0000, y
+        clc
+        adc.b menu_dp.tilemap_offset
+        tax
+        iny
+        iny
+        sep #0x20
+        bra _draw
 draw_at:
 """
 DrawMenuText ($01:82CD): X = tilemap offset ($29 added), Y = string - $8000. Carry clear: not a VWF string,
 nothing touched.
 """
-    jsr.w _claim
-    bcs _draw_at
-    rts
+        jsr.w _claim
+        bcs _draw_at
+        rts
 _draw_at:
-    phk
-    plb
-    rep #0x20
-    tya
-    ora.w #0x8000
-    tay
-    sep #0x20
-    bra _draw
+        phk
+        plb
+        rep #0x20
+        tya
+        ora.w #0x8000
+        tay
+        sep #0x20
+        bra _draw
 copy_at:
 """CopyText ($01:8798): X = tilemap offset of the glyph row, Y = string - $8000. Carry clear: not a VWF string."""
-    jsr.w _claim
-    bcs _copy_at
-    rts
+        jsr.w _claim
+        bcs _copy_at
+        rts
 _copy_at:
-    phk
-    plb
-    rep #0x20
-    tya
-    ora.w #0x8000
-    tay
-    txa
-    clc
-    adc.b menu_dp.tilemap_offset
-    sec
-    sbc.w #_GLYPH_ROW
-    tax
-    sep #0x20
+        phk
+        plb
+        rep #0x20
+        tya
+        ora.w #0x8000
+        tay
+        txa
+        clc
+        adc.b menu_dp.tilemap_offset
+        sec
+        sbc.w #_GLYPH_ROW
+        tax
+        sep #0x20
 _draw:
-    jsr.w _on_screen
-    bcc _render
-    sec
-    rts
+        jsr.w _on_screen
+        bcc _render
+        sec
+        rts
 _render:
-    jsr.w _string_budget
-    phx
-    phy
-    jsr.w render.init
-    rep #0x20
-    lda.l vwf_cfg.tile_id_base
-    jsr.w render_allocator.init_with_tile_id_wide
-    sep #0x20
-    ply
-    plx
-    jsr.w _start_line
+        jsr.w _string_budget
+        phx
+        phy
+        jsr.w render.init
+        rep #0x20
+        lda.l vwf_cfg.tile_id_base
+        jsr.w render_allocator.init_with_tile_id_wide
+        sep #0x20
+        ply
+        plx
+        jsr.w _start_line
 _char_loop:
-    lda.w 0x0000, y
-    beq _done
-    iny
-    cmp #0x01
-    beq _move_to
-    cmp #0x03
-    beq _column
-    phx
-    phy
-    jsr.w render.display_char
-    ply
-    plx
-    bra _char_loop
+        lda.w 0x0000, y
+        beq _done
+        iny
+        cmp #0x01
+        beq _move_to
+        cmp #0x03
+        beq _column
+        phx
+        phy
+        jsr.w render.display_char
+        ply
+        plx
+        bra _char_loop
 _move_to:
-    jsr.w _pad
-    rep #0x20
-    lda.w 0x0000, y
-    clc
-    adc.b menu_dp.tilemap_offset
-    tax
-    iny
-    iny
-    sep #0x20
-    jsr.w _fresh_tile
-    jsr.w _start_line
-    bra _char_loop
+        jsr.w _pad
+        rep #0x20
+        lda.w 0x0000, y
+        clc
+        adc.b menu_dp.tilemap_offset
+        tax
+        iny
+        iny
+        sep #0x20
+        jsr.w _fresh_tile
+        jsr.w _start_line
+        bra _char_loop
 _column:
-    jsr.w _pad
-    lda.w 0x0000, y
-    iny
-    rep #0x20
-    and.w #0x00FF
-    asl
-    clc
-    adc.l menu_text_state.line_start
-    tax
-    sep #0x20
-    jsr.w _fresh_tile
-    jsr.w _begin_line
-    bra _char_loop
+        jsr.w _pad
+        lda.w 0x0000, y
+        iny
+        rep #0x20
+        and.w #0x00FF
+        asl
+        clc
+        adc.l menu_text_state.line_start
+        tax
+        sep #0x20
+        jsr.w _fresh_tile
+        jsr.w _begin_line
+        bra _char_loop
 _done:
-    jsr.w _pad
-    jsr.w _upload_once
-    jsr.w render.deinit
-    sec
-    rts
+        jsr.w _pad
+        jsr.w _upload_once
+        jsr.w render.deinit
+        sec
+        rts
 
 draw_name:
 """
 DrawCharName ($01:83B0): A = character id (non-zero), Y = tilemap offset. The name is copied out of RAM and drawn
 in the tiles of its name index.
 """
-    phb
-    pha
-    rep #0x20
-    tya
-    clc
-    adc.b menu_dp.tilemap_offset
-    tax
-    sep #0x20
-    pla
-    phx
-    dec
-    rep #0x30
-    and.w #0x003F
-    tax
-    lda.l _char_name_tbl, x
-    and.w #0x00FF
-    pha
-    asl
-    asl
-    asl
-    sta.l vwf_cfg.tile_id_base
-    pla
-    asl
-    pha
-    asl
-    clc
-    adc 1, s
-    tax  ; name index * 6
-    pla
-    sep #0x20
-    ldy.w #0x0000
+        phb
+        pha
+        rep #0x20
+        tya
+        clc
+        adc.b menu_dp.tilemap_offset
+        tax
+        sep #0x20
+        pla
+        phx
+        dec
+        rep #0x30
+        and.w #0x003F
+        tax
+        lda.l _char_name_tbl, x
+        and.w #0x00FF
+        pha
+        asl
+        asl
+        asl
+        sta.l vwf_cfg.tile_id_base
+        pla
+        asl
+        pha
+        asl
+        clc
+        adc 1, s
+        tax  ; name index * 6
+        pla
+        sep #0x20
+        ldy.w #0x0000
 _copy_name:
-    lda.l _char_names, x
-    phx
-    tyx
-    sta.l vwf_text_buffer, x
-    plx
-    inx
-    iny
-    cpy.w #_NAME_LENGTH
-    bne _copy_name
-    tyx
-    lda.b #0x00
-    sta.l vwf_text_buffer, x
-    lda.b #_NAME_TILES
-    sta.l vwf_cfg.slot_budget
-    lda.b #_NAME_ATTRIBUTE
-    sta.l vwf_cfg.flags
-    jsr.w _check_name_cache
-    lda.b #0x00
-    sta.l menu_text_state.resident  ; a renamed character redraws in the same cell
-    lda.b #vwf_text_buffer >> 16
-    pha
-    plb
-    ldy.w #vwf_text_buffer & 0xFFFF
-    plx
-    jsr.w _draw
-    plb
-    rtl
+        lda.l _char_names, x
+        phx
+        tyx
+        sta.l vwf_text_buffer, x
+        plx
+        inx
+        iny
+        cpy.w #_NAME_LENGTH
+        bne _copy_name
+        tyx
+        lda.b #0x00
+        sta.l vwf_text_buffer, x
+        lda.b #_NAME_TILES
+        sta.l vwf_cfg.slot_budget
+        lda.b #_NAME_ATTRIBUTE
+        sta.l vwf_cfg.flags
+        jsr.w _check_name_cache
+        lda.b #0x00
+        sta.l menu_text_state.resident  ; a renamed character redraws in the same cell
+        lda.b #vwf_text_buffer >> 16
+        pha
+        plb
+        ldy.w #vwf_text_buffer & 0xFFFF
+        plx
+        jsr.w _draw
+        plb
+        rtl
 
 tint_cells:
 """
@@ -374,19 +374,19 @@ The magic type highlight ($01:B418): A = palette attribute, X = cell offset in B
 title's 7 cells (vanilla 5) but keeps their tile bits 8-9, or a small-VWF title would fall back onto the 8x8 font's
 tiles. Returns like vanilla: X past the cells, Y = 0, A kept.
 """
-    pha
-    ldy.w #7
+        pha
+        ldy.w #7
 _tint_cell:
-    lda.l 0x7EC601, x
-    and.b #0x03
-    ora 1, s
-    sta.l 0x7EC601, x
-    inx
-    inx
-    dey
-    bne _tint_cell
-    pla
-    rtl
+        lda.l 0x7EC601, x
+        and.b #0x03
+        ora 1, s
+        sta.l 0x7EC601, x
+        inx
+        inx
+        dey
+        bne _tint_cell
+        pla
+        rtl
 
 draw_spell:
 """
@@ -394,139 +394,139 @@ DrawMagicName ($01:B305): A = spell id, X = tilemap offset, $db = the cells' att
 be cast). The name's tiles are baked (small_vwf/baked_names.s): queued from ROM to tiles $100 + ((id - 1) mod 24)
 * 5, below the messages' $180-$1FF.
 """
-    phb
-    phy  ; the caller walks its spell list with Y
-    pha
-    rep #0x20
-    txa
-    clc
-    adc.b menu_dp.tilemap_offset
-    tax
-    sep #0x20
-    phx  ; 1,s cell, 3,s spell id
-    ldy.w #_SPELL_TILES
-    jsr.w _paint_spell_cells
-    lda 3, s
-    dec
+        phb
+        phy  ; the caller walks its spell list with Y
+        pha
+        rep #0x20
+        txa
+        clc
+        adc.b menu_dp.tilemap_offset
+        tax
+        sep #0x20
+        phx  ; 1,s cell, 3,s spell id
+        ldy.w #_SPELL_TILES
+        jsr.w _paint_spell_cells
+        lda 3, s
+        dec
 _school_index:
-    cmp.b #_SCHOOL_SPELLS
-    bcc _school_indexed
-    sbc.b #_SCHOOL_SPELLS
-    bra _school_index
+        cmp.b #_SCHOOL_SPELLS
+        bcc _school_indexed
+        sbc.b #_SCHOOL_SPELLS
+        bra _school_index
 _school_indexed:
-    sta.b 0x45
-    asl
-    asl
-    clc
-    adc.b 0x45
-    sta.b 0x45  ; the name's first tile, past $100
-    rep #0x30
-    lda 3, s
-    and.w #0x00FF
-    asl
-    asl
-    tax
-    lda.l spell_names_vwf_tbl + 2, x
-    and.w #0x00FF
-    beq _spell_drawn
-    pha  ; 1,s tiles, 3,s cell
-    lda.l spell_names_vwf_tbl, x
-    clc
-    adc.w #spell_names_vwf & 0xFFFF
-    tax
-    lda.b 0x45
-    and.w #0x00FF
-    ora.w #0x0100
-    asl
-    asl
-    asl
-    clc
-    adc.w #0x4000 >> 1
-    tay
-    lda.w #spell_names_vwf >> 16
-    sta.l vram_queue_state.source_bank
-    lda 1, s
-    asl
-    asl
-    asl
-    asl
-    jsr.w vram_queue.push_rom
-    lda 3, s
-    clc
-    adc.w #_GLYPH_ROW
-    tax
-    ply
-    sep #0x20
-    lda.b 0x45
+        sta.b 0x45
+        asl
+        asl
+        clc
+        adc.b 0x45
+        sta.b 0x45  ; the name's first tile, past $100
+        rep #0x30
+        lda 3, s
+        and.w #0x00FF
+        asl
+        asl
+        tax
+        lda.l spell_names_vwf_tbl + 2, x
+        and.w #0x00FF
+        beq _spell_drawn
+        pha  ; 1,s tiles, 3,s cell
+        lda.l spell_names_vwf_tbl, x
+        clc
+        adc.w #spell_names_vwf & 0xFFFF
+        tax
+        lda.b 0x45
+        and.w #0x00FF
+        ora.w #0x0100
+        asl
+        asl
+        asl
+        clc
+        adc.w #0x4000 >> 1
+        tay
+        lda.w #spell_names_vwf >> 16
+        sta.l vram_queue_state.source_bank
+        lda 1, s
+        asl
+        asl
+        asl
+        asl
+        jsr.w vram_queue.push_rom
+        lda 3, s
+        clc
+        adc.w #_GLYPH_ROW
+        tax
+        ply
+        sep #0x20
+        lda.b 0x45
 _spell_cell:
-    sta.l 0x7E0000, x
-    xba
-    lda.l 0x7E0001, x
-    ora.b #0x01  ; tile bit 8
-    sta.l 0x7E0001, x
-    xba
-    inc
-    inx
-    inx
-    dey
-    bne _spell_cell
+        sta.l 0x7E0000, x
+        xba
+        lda.l 0x7E0001, x
+        ora.b #0x01  ; tile bit 8
+        sta.l 0x7E0001, x
+        xba
+        inc
+        inx
+        inx
+        dey
+        bne _spell_cell
 _spell_drawn:
-    sep #0x20
-    plx  ; X = the cell offset, as vanilla returns it
-    pla
-    ply
-    plb
-    rtl
+        sep #0x20
+        plx  ; X = the cell offset, as vanilla returns it
+        pla
+        ply
+        plb
+        rtl
 
 _paint_spell_cells:
 """
 Y cells from X, both rows: blank tiles in the $db attribute. Every slot gets _SPELL_TILES, empty ones too, so a list
 redrawn over another loses the old names and a narrower window keeps its border. Keeps X. M = 8, X/Y = 16 bits.
 """
-    phx
+        phx
 _paint_spell_cells_next:
-    lda.b #0xFF
-    sta.l 0x7E0000, x
-    sta.l 0x7E0000 + _GLYPH_ROW, x
-    lda.b 0xDB
-    sta.l 0x7E0001, x
-    sta.l 0x7E0000 + _GLYPH_ROW + 1, x
-    inx
-    inx
-    dey
-    bne _paint_spell_cells_next
-    plx
-    rts
+        lda.b #0xFF
+        sta.l 0x7E0000, x
+        sta.l 0x7E0000 + _GLYPH_ROW, x
+        lda.b 0xDB
+        sta.l 0x7E0001, x
+        sta.l 0x7E0000 + _GLYPH_ROW + 1, x
+        inx
+        inx
+        dey
+        bne _paint_spell_cells_next
+        plx
+        rts
 
 draw_class:
 """DrawClassName's copy loop ($01:8FE3): X = offset in class_names, Y = tilemap address ($29 added)."""
-    phb
-    rep #0x20
-    txa
-    clc
-    adc.w #class_names & 0xFFFF
-    phy
-    tay
-    plx
-    lda.w #_CLASS_TILE
-    sta.l vwf_cfg.tile_id_base
-    sep #0x20
-    lda.b #_CLASS_TILES
-    sta.l vwf_cfg.slot_budget
-    lda.b #0x02
-    sta.l vwf_cfg.flags
-    lda.b #0x00
-    sta.l menu_text_state.resident
-    rep #0x20
-    lda.w #class_names & 0xFFFF
-    jsr.w _own_region
-    sep #0x20
-    lda.b #class_names >> 16
-    pha
-    plb
-    jsr.w _draw
-    plb
-    rtl
+        phb
+        rep #0x20
+        txa
+        clc
+        adc.w #class_names & 0xFFFF
+        phy
+        tay
+        plx
+        lda.w #_CLASS_TILE
+        sta.l vwf_cfg.tile_id_base
+        sep #0x20
+        lda.b #_CLASS_TILES
+        sta.l vwf_cfg.slot_budget
+        lda.b #0x02
+        sta.l vwf_cfg.flags
+        lda.b #0x00
+        sta.l menu_text_state.resident
+        rep #0x20
+        lda.w #class_names & 0xFFFF
+        jsr.w _own_region
+        sep #0x20
+        lda.b #class_names >> 16
+        pha
+        plb
+        jsr.w _draw
+        plb
+        rtl
 
 _claim:
 """
@@ -534,58 +534,58 @@ Carry set when Y (string - $8000) lies in a block of `_blocks`: vwf_cfg then hol
 attribute bits and the rest of the region to clear. Keeps A, X, Y. Y >= $8000 is a vanilla string in bank $01,
 never one of ours, whatever bank-$20 address its offset happens to share.
 """
-    php
-    rep #0x30
-    pha
-    phx
-    cpy.w #0x8000
-    bcs _unclaimed
-    ldx.w #0x0000
+        php
+        rep #0x30
+        pha
+        phx
+        cpy.w #0x8000
+        bcs _unclaimed
+        ldx.w #0x0000
 _next_block:
-    lda.l _blocks, x
-    beq _unclaimed
-    tya
-    ora.w #0x8000
-    sec
-    sbc.l _blocks, x  ; offset in the block; borrows below its start
-    bcc _skip_block
-    cmp.l _blocks + 2, x
-    bcs _skip_block
-    clc
-    adc.l _blocks + 4, x
-    sta.l vwf_cfg.tile_id_base
-    eor.w #0x00FF
-    sep #0x20
-    sta.l vwf_cfg.slot_budget
-    lda.l _blocks + 6, x
-    and.b #0x03
-    sta.l vwf_cfg.flags
-    lda.l _blocks + 6, x
-    and.b #_RESIDENT_BIT
-    sta.l menu_text_state.resident
-    rep #0x20
-    lda.l _blocks, x
-    jsr.w _own_region
+        lda.l _blocks, x
+        beq _unclaimed
+        tya
+        ora.w #0x8000
+        sec
+        sbc.l _blocks, x  ; offset in the block; borrows below its start
+        bcc _skip_block
+        cmp.l _blocks + 2, x
+        bcs _skip_block
+        clc
+        adc.l _blocks + 4, x
+        sta.l vwf_cfg.tile_id_base
+        eor.w #0x00FF
+        sep #0x20
+        sta.l vwf_cfg.slot_budget
+        lda.l _blocks + 6, x
+        and.b #0x03
+        sta.l vwf_cfg.flags
+        lda.l _blocks + 6, x
+        and.b #_RESIDENT_BIT
+        sta.l menu_text_state.resident
+        rep #0x20
+        lda.l _blocks, x
+        jsr.w _own_region
 ; The item description must not trust its cache: its tiles may be ours now.
-    lda.w #0x0000
-    sta.l render.last_drawn_text_ptr
-    plx
-    pla
-    plp
-    sec
-    rts
+        lda.w #0x0000
+        sta.l render.last_drawn_text_ptr
+        plx
+        pla
+        plp
+        sec
+        rts
 _skip_block:
-    txa
-    clc
-    adc.w #8
-    tax
-    bra _next_block
+        txa
+        clc
+        adc.w #8
+        tax
+        bra _next_block
 _unclaimed:
-    plx
-    pla
-    plp
-    clc
-    rts
+        plx
+        pla
+        plp
+        clc
+        rts
 
 _string_budget:
 """
@@ -593,348 +593,348 @@ Lower vwf_cfg.slot_budget (the rest of the block, from _claim) to the tiles the 
 a fresh one per move_to / column. render.init clears that many: clearing to the block's end would wipe the item
 description's tiles ($800-$FFF of the buffer) before the NMI re-flushes them. DB = the string's bank. Keeps A/X/Y, P.
 """
-    php
-    rep #0x30
-    pha
-    phy
-    lda.w #0x0001
-    pha  ; 1,s the count
+        php
+        rep #0x30
+        pha
+        phy
+        lda.w #0x0001
+        pha  ; 1,s the count
 _budget_next:
-    sep #0x20
-    lda.w 0x0000, y
-    beq _budget_end
-    iny
-    cmp.b #0x01
-    bne _budget_not_move
-    iny  ; move_to's position word
-    iny
-    bra _budget_count
+        sep #0x20
+        lda.w 0x0000, y
+        beq _budget_end
+        iny
+        cmp.b #0x01
+        bne _budget_not_move
+        iny  ; move_to's position word
+        iny
+        bra _budget_count
 _budget_not_move:
-    cmp.b #0x03
-    bne _budget_count
-    iny  ; column's argument
+        cmp.b #0x03
+        bne _budget_count
+        iny  ; column's argument
 _budget_count:
-    rep #0x20
-    lda 1, s
-    inc
-    sta 1, s
-    bra _budget_next
+        rep #0x20
+        lda 1, s
+        inc
+        sta 1, s
+        bra _budget_next
 _budget_end:
-    rep #0x20
-    pla
-    cmp.w #0x0100
-    bcs _budget_keep
-    sep #0x20
-    cmp.l vwf_cfg.slot_budget
-    bcs _budget_keep
-    sta.l vwf_cfg.slot_budget
+        rep #0x20
+        pla
+        cmp.w #0x0100
+        bcs _budget_keep
+        sep #0x20
+        cmp.l vwf_cfg.slot_budget
+        bcs _budget_keep
+        sta.l vwf_cfg.slot_budget
 _budget_keep:
-    rep #0x30
-    ply
-    pla
-    plp
-    rts
+        rep #0x30
+        ply
+        pla
+        plp
+        rts
 
 _blocks:
 ; block alloc, its size, allocator id of its first tile, attribute bits (tile id bits 8-9)
-    .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
-    .dw save_cancelled_text & 0xFFFF, sizeof(save_cancelled_text), 0x00, 0x02
-    .dw in_game_menu_text & 0xFFFF, sizeof(in_game_menu_text), 0x70, 0x03 | _RESIDENT_BIT
-    .dw status_text & 0xFFFF, sizeof(status_text), 0x00, 0x02
-    .dw equip_text & 0xFFFF, sizeof(equip_text), 0x00, 0x02
-    .dw items_menu_text & 0xFFFF, sizeof(items_menu_text), 0x00, 0x02
-    .dw spell_titles_text & 0xFFFF, sizeof(spell_titles_text), 0x00, 0x02
-    .dw treasure_header_text & 0xFFFF, sizeof(treasure_header_text), 0xAA, 0x01
-    .dw exchange_label_text & 0xFFFF, sizeof(exchange_label_text), 0xD0, 0x01
-    .dw key_items_warning_text & 0xFFFF, sizeof(key_items_warning_text), 0x3C, 0x01
-    .dw use_spell_text & 0xFFFF, sizeof(use_spell_text), 0x40, 0x02
-    .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
-    .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
-    .dw options_gauge_text & 0xFFFF, sizeof(options_gauge_text), 0x00, 0x01
-    .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
-    .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
-    .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02
-    .dw summon_learned_text & 0xFFFF, sizeof(summon_learned_text), 0x40, 0x02
-    .dw item_refusal_text & 0xFFFF, sizeof(item_refusal_text), 0x70, 0x02
-    .dw tools_shop_text & 0xFFFF, sizeof(tools_shop_text), 0x00, 0x02
-    .dw 0x0000
+        .dw newgame_text & 0xFFFF, sizeof(newgame_text), 0x80, 0x01
+        .dw save_cancelled_text & 0xFFFF, sizeof(save_cancelled_text), 0x00, 0x02
+        .dw in_game_menu_text & 0xFFFF, sizeof(in_game_menu_text), 0x70, 0x03 | _RESIDENT_BIT
+        .dw status_text & 0xFFFF, sizeof(status_text), 0x00, 0x02
+        .dw equip_text & 0xFFFF, sizeof(equip_text), 0x00, 0x02
+        .dw items_menu_text & 0xFFFF, sizeof(items_menu_text), 0x00, 0x02
+        .dw spell_titles_text & 0xFFFF, sizeof(spell_titles_text), 0x00, 0x02
+        .dw treasure_header_text & 0xFFFF, sizeof(treasure_header_text), 0xAA, 0x01
+        .dw exchange_label_text & 0xFFFF, sizeof(exchange_label_text), 0xD0, 0x01
+        .dw key_items_warning_text & 0xFFFF, sizeof(key_items_warning_text), 0x3C, 0x01
+        .dw use_spell_text & 0xFFFF, sizeof(use_spell_text), 0x40, 0x02
+        .dw options_text & 0xFFFF, sizeof(options_text), 0x00, 0x02
+        .dw controls_text & 0xFFFF, sizeof(controls_text), 0x80, 0x01
+        .dw options_gauge_text & 0xFFFF, sizeof(options_gauge_text), 0x00, 0x01
+        .dw dextrality_text & 0xFFFF, sizeof(dextrality_text), 0xB8, 0x02
+        .dw namingway_text & 0xFFFF, sizeof(namingway_text), 0x00, 0x02
+        .dw fat_chocobo_text & 0xFFFF, sizeof(fat_chocobo_text), 0x00, 0x02
+        .dw summon_learned_text & 0xFFFF, sizeof(summon_learned_text), 0x40, 0x02
+        .dw item_refusal_text & 0xFFFF, sizeof(item_refusal_text), 0x70, 0x02
+        .dw tools_shop_text & 0xFFFF, sizeof(tools_shop_text), 0x00, 0x02
+        .dw 0x0000
 
 forget_uploads:
 """A new menu session (ingame/menu_vram.s save): VRAM $6000-$7FFF holds whatever the field left there."""
-    php
-    rep #0x30
-    phx
-    ldx.w #62
+        php
+        rep #0x30
+        phx
+        ldx.w #62
 _forget:
-    lda.w #0x0000
-    sta.l menu_text_state.vram_bits, x
-    dex
-    dex
-    bpl _forget
-    sta.l menu_text_state.region_owner
-    plx
-    plp
-    rts
+        lda.w #0x0000
+        sta.l menu_text_state.vram_bits, x
+        dex
+        dex
+        bpl _forget
+        sta.l menu_text_state.region_owner
+        plx
+        plp
+        rts
 
 _own_region:
 """A = the drawing block's key (16 bits, M = 16). A new owner of tiles $200-$2FF forgets their bits."""
-    pha
-    sep #0x20
-    lda.l vwf_cfg.flags
-    cmp.b #_SHARED_REGION
-    rep #0x20
-    bne _owned
-    pla
-    cmp.l menu_text_state.region_owner
-    beq _owner_kept
-    sta.l menu_text_state.region_owner
-    phx
-    ldx.w #30
+        pha
+        sep #0x20
+        lda.l vwf_cfg.flags
+        cmp.b #_SHARED_REGION
+        rep #0x20
+        bne _owned
+        pla
+        cmp.l menu_text_state.region_owner
+        beq _owner_kept
+        sta.l menu_text_state.region_owner
+        phx
+        ldx.w #30
 _forget_region:
-    lda.w #0x0000
-    sta.l menu_text_state.vram_bits, x
-    dex
-    dex
-    bpl _forget_region
-    plx
+        lda.w #0x0000
+        sta.l menu_text_state.vram_bits, x
+        dex
+        dex
+        bpl _forget_region
+        plx
 _owner_kept:
-    rts
+        rts
 _owned:
-    pla
-    rts
+        pla
+        rts
 
 _check_name_cache:
 """The name in vwf_text_buffer against the one last uploaded for its tiles; a change clears its bit."""
-    php
-    rep #0x30
-    phx
-    phy
-    lda.l vwf_cfg.tile_id_base
-    lsr
-    lsr
-    lsr  ; name index
-    pha
-    asl
-    clc
-    adc 1, s
-    asl  ; name index * 6
-    tax
-    pla
-    ldy.w #0x0000
-    sep #0x20
+        php
+        rep #0x30
+        phx
+        phy
+        lda.l vwf_cfg.tile_id_base
+        lsr
+        lsr
+        lsr  ; name index
+        pha
+        asl
+        clc
+        adc 1, s
+        asl  ; name index * 6
+        tax
+        pla
+        ldy.w #0x0000
+        sep #0x20
 _compare_name:
-    phx
-    tyx
-    lda.l vwf_text_buffer, x
-    plx
-    cmp.l menu_text_state.name_cache, x
-    beq _same_char
-    sta.l menu_text_state.name_cache, x
-    jsr.w _clear_vram_bit
+        phx
+        tyx
+        lda.l vwf_text_buffer, x
+        plx
+        cmp.l menu_text_state.name_cache, x
+        beq _same_char
+        sta.l menu_text_state.name_cache, x
+        jsr.w _clear_vram_bit
 _same_char:
-    inx
-    iny
-    cpy.w #_NAME_LENGTH
-    bne _compare_name
-    ply
-    plx
-    plp
-    rts
+        inx
+        iny
+        cpy.w #_NAME_LENGTH
+        bne _compare_name
+        ply
+        plx
+        plp
+        rts
 
 _upload_once:
 """Upload the string's tiles unless it is already in VRAM (tiles $200-$3FF only)."""
-    lda.l vwf_cfg.flags
-    cmp.b #0x02
-    bcs _tracked
-    jmp.w _upload
+        lda.l vwf_cfg.flags
+        cmp.b #0x02
+        bcs _tracked
+        jmp.w _upload
 _tracked:
-    jsr.w _vram_bit
-    and.l menu_text_state.vram_bits, x
-    bne _in_vram
-    jsr.w _upload
-    jsr.w _vram_bit
-    ora.l menu_text_state.vram_bits, x
-    sta.l menu_text_state.vram_bits, x
+        jsr.w _vram_bit
+        and.l menu_text_state.vram_bits, x
+        bne _in_vram
+        jsr.w _upload
+        jsr.w _vram_bit
+        ora.l menu_text_state.vram_bits, x
+        sta.l menu_text_state.vram_bits, x
 _in_vram:
-    rts
+        rts
 
 _clear_vram_bit:
 """Forget that the current string is in VRAM. Keeps X."""
-    phx
-    jsr.w _vram_bit
-    eor.b #0xFF
-    and.l menu_text_state.vram_bits, x
-    sta.l menu_text_state.vram_bits, x
-    plx
-    rts
+        phx
+        jsr.w _vram_bit
+        eor.b #0xFF
+        and.l menu_text_state.vram_bits, x
+        sta.l menu_text_state.vram_bits, x
+        plx
+        rts
 
 _vram_bit:
 """X = the byte of the current string's bit in menu_text_state.vram_bits, A = its mask (8 bits)."""
-    php
-    rep #0x20
-    lda.l vwf_cfg.flags
-    and.w #0x0003
-    xba
-    ora.l vwf_cfg.tile_id_base
-    sec
-    sbc.w #0x0200
-    pha
-    lsr
-    lsr
-    lsr
-    tax
-    pla
-    and.w #0x0007
-    plp
-    phx
-    tax
-    lda.l _bit_masks, x
-    plx
-    rts
+        php
+        rep #0x20
+        lda.l vwf_cfg.flags
+        and.w #0x0003
+        xba
+        ora.l vwf_cfg.tile_id_base
+        sec
+        sbc.w #0x0200
+        pha
+        lsr
+        lsr
+        lsr
+        tax
+        pla
+        and.w #0x0007
+        plp
+        phx
+        tax
+        lda.l _bit_masks, x
+        plx
+        rts
 _bit_masks:
-    .db 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80
+        .db 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80
 
 _on_screen:
 """Carry set when the string is resident and the cell at X + _GLYPH_ROW already shows its first tile."""
-    lda.l menu_text_state.resident
-    beq _not_on_screen
-    phx
-    rep #0x20
-    txa
-    clc
-    adc.w #_GLYPH_ROW
-    tax
-    sep #0x20
-    lda.l 0x7E0000, x
-    cmp.l vwf_cfg.tile_id_base
-    bne _not_drawn
-    lda.l 0x7E0001, x
-    and.b #0x03
-    cmp.l vwf_cfg.flags
-    bne _not_drawn
-    plx
-    sec
-    rts
+        lda.l menu_text_state.resident
+        beq _not_on_screen
+        phx
+        rep #0x20
+        txa
+        clc
+        adc.w #_GLYPH_ROW
+        tax
+        sep #0x20
+        lda.l 0x7E0000, x
+        cmp.l vwf_cfg.tile_id_base
+        bne _not_drawn
+        lda.l 0x7E0001, x
+        and.b #0x03
+        cmp.l vwf_cfg.flags
+        bne _not_drawn
+        plx
+        sec
+        rts
 _not_drawn:
-    plx
+        plx
 _not_on_screen:
-    clc
-    rts
+        clc
+        rts
 
 _fresh_tile:
 """The next glyph starts a tile of its own."""
-    lda.b #0x08
-    sta.b render.glyph.bits_left_on_tile
-    jmp.w render_allocator.increment
+        lda.b #0x08
+        sta.b render.glyph.bits_left_on_tile
+        jmp.w render_allocator.increment
 
 _start_line:
 """A line from a position word: `col` counts from its cell X."""
-    rep #0x20
-    txa
-    sta.l menu_text_state.line_start
-    sep #0x20
+        rep #0x20
+        txa
+        sta.l menu_text_state.line_start
+        sep #0x20
 _begin_line:
 """
 Start a segment at tilemap offset X (its dakuten row); it ends where the 8x8 font would have ended it, at the
 string's end, its next position word or its next `col`.
 """
-    rep #0x20
-    txa
-    clc
-    adc.w #_GLYPH_ROW
-    sta.l render.tilemap_offset
-    tax
-    sep #0x20
-    phy
+        rep #0x20
+        txa
+        clc
+        adc.w #_GLYPH_ROW
+        sta.l render.tilemap_offset
+        tax
+        sep #0x20
+        phy
 _count:
-    lda.w 0x0000, y
-    beq _counted
-    cmp #0x01
-    beq _counted
-    cmp #0x03
-    beq _counted
-    iny
-    inx
-    inx
-    bra _count
+        lda.w 0x0000, y
+        beq _counted
+        cmp #0x01
+        beq _counted
+        cmp #0x03
+        beq _counted
+        iny
+        inx
+        inx
+        bra _count
 _counted:
-    rep #0x20
-    txa
-    sta.l vwf_cfg.tilemap_base
-    sep #0x20
-    ply
-    rts
+        rep #0x20
+        txa
+        sta.l vwf_cfg.tilemap_base
+        sep #0x20
+        ply
+        rts
 
 _pad:
 """
 Blank the VWF cells between the text and the line's 8x8 end: a shorter text hides the longer one drawn
 before. Cells without a VWF tile (attribute bits 0-1 clear) stay as they are, a narrowed window's outside too.
 """
-    php
-    phx
-    rep #0x30
-    lda.l render.tilemap_offset
-    tax
-    sep #0x20
-    lda.b render.glyph.bits_left_on_tile
-    cmp #0x08
-    beq _pad_check  ; the current cell holds no pixel yet
-    inx
-    inx
+        php
+        phx
+        rep #0x30
+        lda.l render.tilemap_offset
+        tax
+        sep #0x20
+        lda.b render.glyph.bits_left_on_tile
+        cmp #0x08
+        beq _pad_check  ; the current cell holds no pixel yet
+        inx
+        inx
 _pad_check:
-    rep #0x20
-    txa
-    cmp.l vwf_cfg.tilemap_base
-    sep #0x20
-    bcs _padded
-    lda.l 0x7E0001, x
-    bit.b #0x03
-    beq _pad_next
-    and.b #0xFC
-    sta.l 0x7E0001, x
-    lda.b #_BLANK_TILE
-    sta.l 0x7E0000, x
+        rep #0x20
+        txa
+        cmp.l vwf_cfg.tilemap_base
+        sep #0x20
+        bcs _padded
+        lda.l 0x7E0001, x
+        bit.b #0x03
+        beq _pad_next
+        and.b #0xFC
+        sta.l 0x7E0001, x
+        lda.b #_BLANK_TILE
+        sta.l 0x7E0000, x
 _pad_next:
-    inx
-    inx
-    bra _pad_check
+        inx
+        inx
+        bra _pad_check
 _padded:
-    plx
-    plp
-    rts
+        plx
+        plp
+        rts
 
 _upload:
 """Queue the string's tiles for the next menu vblank: buffer tile N goes to VRAM tile (attribute bits << 8) + N."""
-    php
-    rep #0x30
-    lda.l vwf_cfg.tile_id_base
-    asl
-    asl
-    asl
-    asl
-    clc
-    adc.w #VWF_CHR_BUFFER & 0xFFFF
-    tax
-    lda.l vwf_cfg.flags
-    and.w #0x0003
-    xba
-    ora.l vwf_cfg.tile_id_base
-    asl
-    asl
-    asl
-    clc
-    adc.w #0x4000 >> 1
-    tay
-    lda.l render_allocator.allocated_tile_id
-    sec
-    sbc.l vwf_cfg.tile_id_base
-    inc
-    asl
-    asl
-    asl
-    asl
-    jsr.w vram_queue.push
-    plp
-    rts
+        php
+        rep #0x30
+        lda.l vwf_cfg.tile_id_base
+        asl
+        asl
+        asl
+        asl
+        clc
+        adc.w #VWF_CHR_BUFFER & 0xFFFF
+        tax
+        lda.l vwf_cfg.flags
+        and.w #0x0003
+        xba
+        ora.l vwf_cfg.tile_id_base
+        asl
+        asl
+        asl
+        clc
+        adc.w #0x4000 >> 1
+        tay
+        lda.l render_allocator.allocated_tile_id
+        sec
+        sbc.l vwf_cfg.tile_id_base
+        inc
+        asl
+        asl
+        asl
+        asl
+        jsr.w vram_queue.push
+        plp
+        rts
     }
 }

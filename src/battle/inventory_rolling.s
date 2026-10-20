@@ -140,43 +140,43 @@ _init_row_loop:
     pointers ($30-$37, direct page 0). The renderer runs in the middle of other windows' draws, even inside one (from
     the NMI): left on the format buffer, they made the next message decode inventory rows and hang in DrawCharVar.
     """
-    rep #0x20
-    lda.w 0xEF54
-    pha
-    lda.w 0xEF52
-    pha
-    lda.w 0xEF50
-    pha
-    lda.b 0x30
-    pha
-    lda.b 0x32
-    pha
-    lda.b 0x34
-    pha
-    lda.b 0x36
-    pha
-    sep #0x20
+        rep #0x20
+        lda.w 0xEF54
+        pha
+        lda.w 0xEF52
+        pha
+        lda.w 0xEF50
+        pha
+        lda.b 0x30
+        pha
+        lda.b 0x32
+        pha
+        lda.b 0x34
+        pha
+        lda.b 0x36
+        pha
+        sep #0x20
     }
 
     .macro _restore_text_params() {
     """Pull what `_save_text_params` pushed; A left 0 (its high byte included: vanilla's `tax` would carry it)."""
-    rep #0x20
-    pla
-    sta.b 0x36
-    pla
-    sta.b 0x34
-    pla
-    sta.b 0x32
-    pla
-    sta.b 0x30
-    pla
-    sta.w 0xEF50
-    pla
-    sta.w 0xEF52
-    pla
-    sta.w 0xEF54
-    lda.w #0x0000
-    sep #0x20
+        rep #0x20
+        pla
+        sta.b 0x36
+        pla
+        sta.b 0x34
+        pla
+        sta.b 0x32
+        pla
+        sta.b 0x30
+        pla
+        sta.w 0xEF50
+        pla
+        sta.w 0xEF52
+        pla
+        sta.w 0xEF54
+        lda.w #0x0000
+        sep #0x20
     }
 
 ; Pre-render the new bottom row into the off-screen slot before the scroll-down animation.

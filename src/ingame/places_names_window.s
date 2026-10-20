@@ -12,7 +12,7 @@ places_top_window:
 """Tilemap row for the top edge of the location-name window (tile/attr pairs)."""
     .db 0x16, 0x20
     .for i := 0, PLACE_WINDOW_WIDTH - 2 {
-    .db 0x17, 0x20
+        .db 0x17, 0x20
     }
     .db 0x18, 0x20
 
@@ -20,7 +20,7 @@ places_bottom_window:
 """Tilemap row for the bottom edge of the location-name window (tile/attr pairs)."""
     .db 0x1B, 0x20
     .for i := 0, PLACE_WINDOW_WIDTH - 2 {
-    .db 0x1C, 0x20
+        .db 0x1C, 0x20
     }
     .db 0x1D, 0x20
 }
