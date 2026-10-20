@@ -105,6 +105,7 @@ def build_patch(input, output, lang, defines=None, obj_dir="build/obj"):
         main_source=Path(input),
         output_file=Path(output),
         output_format="ips",
+        extra_outputs=[("bps", out_path.with_suffix(".bps.unsealed"))],  # a816.toml [bps]; sealed by `a816 bps seal`
         module_paths=[Path(obj_dir), Path(f"src/lang/{lang}"), Path("src")],  # the language's string modules first
         output_dir=Path(obj_dir),
         symbols={"LANG": lang, **(defines or {})},
