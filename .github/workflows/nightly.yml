@@ -19,14 +19,26 @@ jobs:
         enable-cache: true
     - name: Install Requirements
       run: uv sync --locked
+    - name: Decrypt base ROM
+      env:
+        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
+      run: |
+        mkdir -p build
+        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
+    - name: Build Flips
+      run: |
+        git clone -q https://github.com/Alcaro/Flips "$RUNNER_TEMP/flips"
+        git -C "$RUNNER_TEMP/flips" checkout -q ff216a75df0987047a67d7923567dc4482ce07ac
+        make -s -C "$RUNNER_TEMP/flips" TARGET=cli
+        echo "$RUNNER_TEMP/flips" >> "$GITHUB_PATH"
     - name: Build patches
       run: |
-        export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
-        uv run ./build.py --dev
-        FF4_LANG=en uv run ./build.py --dev
+        make build/ff4.bps build/en/ff4.bps
         mkdir -p dist
         cp build/ff4.ips dist/ff4-fr.ips
+        cp build/ff4.bps dist/ff4-fr.bps
         cp build/en/ff4.ips dist/ff4-en.ips
+        cp build/en/ff4.bps dist/ff4-en.bps
     - name: Create Nightly Release
       uses: softprops/action-gh-release@v3
       with:
@@ -34,7 +46,9 @@ jobs:
         name: Nightly Build ${{ github.run_number }}
         files: |
           dist/ff4-fr.ips
+          dist/ff4-fr.bps
           dist/ff4-en.ips
+          dist/ff4-en.bps
         prerelease: true
         body: |
           Nightly build #${{ github.run_number }}

@@ -47,8 +47,13 @@ and bugs surely remain. Please report them (see 6).
 
 The ZIP archive should contain:
 
-ff4.ips		- The FF4 English IPS patch @VERSION@, to apply
-		  to the original Japanese rom.
+ff4.bps		- The FF4 English BPS patch @VERSION@, to apply
+		  to the original Japanese rom (Flips, beat or
+		  some emulators). It checks the rom
+		  and refuses a wrong one.
+
+ff4.ips		- The same patch as IPS, for tools that don't
+		  read BPS.
 
 README.txt	- The file you are reading
 
