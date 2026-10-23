@@ -20,7 +20,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from script import Table  # noqa: E402
+from katsuji.script import Table  # noqa: E402
 from utils.metrics import TextMetrics  # noqa: E402
 from build import read_fixed_from_xml  # noqa: E402
 

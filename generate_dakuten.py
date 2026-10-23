@@ -1,7 +1,7 @@
 import struct
 import unicodedata
 
-from script import Table
+from katsuji.script import Table
 
 if __name__ == "__main__":
     table = Table("text/ff4_menus.tbl")

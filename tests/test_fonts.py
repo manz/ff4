@@ -6,7 +6,7 @@ import pytest
 from katsuji.atlas import Atlas
 from katsuji.formats import VwfFont
 from katsuji.kerning import pair_kerning
-from script import Table
+from katsuji.script import Table
 
 ROOT = Path(__file__).parent.parent
 

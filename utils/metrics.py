@@ -4,7 +4,7 @@ from pathlib import Path
 
 from katsuji.formats import VwfFont
 from katsuji.wrap import Controls, Fixed, Wrapper
-from script import Table
+from katsuji.script import Table
 
 FF4_CONTROLS = Controls(
     space=0xFF,

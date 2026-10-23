@@ -25,7 +25,7 @@ from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 
-from script import Table
+from katsuji.script import Table
 
 from utils.script_xml import pointer_texts
 
