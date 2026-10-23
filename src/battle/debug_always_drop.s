@@ -8,7 +8,7 @@ every battle to roll a successful drop by NOPing the random-roll gate at $03:ED0
 
 .if TREASURE_DEBUG_ALWAYS_DROP {
     .alloc at 0x03ED0D {
-    nop
-    nop
+        nop
+        nop
     }
 }

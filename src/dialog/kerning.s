@@ -30,85 +30,85 @@ dialog_get_kerning_adjustment_binary_search:
 _dialog_get_kerning_adjustment_binary_search:
     {
 ; Space ($FF) is never in a kerning pair.
-    lda.b dialog_vwf.current_char
-    and.w #0x00ff
-    cmp.w #0x00ff
-    beq _return_zero
-    lda.b dialog_vwf.current_char
-    and.w #0xff00
-    cmp.w #0xff00
-    beq _return_zero
+        lda.b dialog_vwf.current_char
+        and.w #0x00ff
+        cmp.w #0x00ff
+        beq _return_zero
+        lda.b dialog_vwf.current_char
+        and.w #0xff00
+        cmp.w #0xff00
+        beq _return_zero
 
-    ldy.w #0x1100
-    lda.b [dialog_vwf.font_addr], y  ; NumKerningPairs (16-bit)
-    beq _return_zero
+        ldy.w #0x1100
+        lda.b [dialog_vwf.font_addr], y  ; NumKerningPairs (16-bit)
+        beq _return_zero
 
-    sec
-    sbc.w #0x0001  ; high = count - 1
-    pha  ; push high  (bottom)
-    lda.w #0x0000
-    pha  ; push low   (middle)
-    pea.w 0x0000  ; reserve mid slot (top)
+        sec
+        sbc.w #0x0001  ; high = count - 1
+        pha  ; push high  (bottom)
+        lda.w #0x0000
+        pha  ; push low   (middle)
+        pea.w 0x0000  ; reserve mid slot (top)
 
 _loop:
-    lda 0x0005, s  ; high
-    cmp 0x0003, s  ; compare against low
-    bcc _not_found  ; high < low -> no match
+        lda 0x0005, s  ; high
+        cmp 0x0003, s  ; compare against low
+        bcc _not_found  ; high < low -> no match
 
-    lda 0x0005, s
-    sec
-    sbc 0x0003, s
-    lsr
-    clc
-    adc 0x0003, s
-    sta 0x0001, s  ; mid
+        lda 0x0005, s
+        sec
+        sbc 0x0003, s
+        lsr
+        clc
+        adc 0x0003, s
+        sta 0x0001, s  ; mid
 
-    lda 0x0001, s
-    asl
-    clc
-    adc 0x0001, s  ; mid * 3
-    clc
-    adc.w #0x1102
-    tay
+        lda 0x0001, s
+        asl
+        clc
+        adc 0x0001, s  ; mid * 3
+        clc
+        adc.w #0x1102
+        tay
 
-    lda.b [dialog_vwf.font_addr], y  ; load kerning key
-    cmp.b dialog_vwf.current_char
-    beq _found
-    bcc _search_upper  ; table key < target -> raise low
+        lda.b [dialog_vwf.font_addr], y  ; load kerning key
+        cmp.b dialog_vwf.current_char
+        beq _found
+        bcc _search_upper  ; table key < target -> raise low
 
 _search_lower:
-    lda 0x0001, s  ; mid - 1 becomes new high
-    sec
-    sbc.w #0x0001
-    bcc _not_found  ; mid was 0, underflow → not found
-    sta 0x0005, s
-    bra _loop
+        lda 0x0001, s  ; mid - 1 becomes new high
+        sec
+        sbc.w #0x0001
+        bcc _not_found  ; mid was 0, underflow → not found
+        sta 0x0005, s
+        bra _loop
 
 _search_upper:
-    lda 0x0001, s  ; mid + 1 becomes new low
-    clc
-    adc.w #0x0001
-    sta 0x0003, s
-    bra _loop
+        lda 0x0001, s  ; mid + 1 becomes new low
+        clc
+        adc.w #0x0001
+        sta 0x0003, s
+        bra _loop
 
 _not_found:
-    pla  ; discard mid
-    pla  ; discard low
-    pla  ; discard high
+        pla  ; discard mid
+        pla  ; discard low
+        pla  ; discard high
 _return_zero:
-    lda.w #0x0000
-    sec
-    rts
+        lda.w #0x0000
+        sec
+        rts
 
 _found:
-    iny
-    iny
-    lda.b [dialog_vwf.font_addr], y
-    and.w #0x00FF
-    ply  ; drop mid  (PLY/X preserve A)
-    ply  ; drop low
-    ply  ; drop high
-    clc
-    rts
+        iny
+        iny
+        lda.b [dialog_vwf.font_addr], y
+        and.w #0x00FF
+        ply  ; drop mid  (PLY/X preserve A)
+        ply  ; drop low
+        ply  ; drop high
+        clc
+        rts
     }
 }

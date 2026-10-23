@@ -37,208 +37,208 @@ visible rows not yet in the ring render glyphs. Vanilla calls this on open and e
 
 
     {
-    spell_id = 0x03
-    ring_tile = 0x04
-    spell_enabled_flag = 0x02
-    current_row_offset = 0x08
-    spell_counter = 0x06
-    current_spell_index = 0x0a
-    lda 0x00
+        spell_id = 0x03
+        ring_tile = 0x04
+        spell_enabled_flag = 0x02
+        current_row_offset = 0x08
+        spell_counter = 0x06
+        current_spell_index = 0x0a
+        lda 0x00
 ; character slot
-    asl
-    tax
-    rep #0x20
-    lda.l magic_list_ptrs, x
+        asl
+        tax
+        rep #0x20
+        lda.l magic_list_ptrs, x
 ; pointers to spell lists
-    clc
-    adc 0x06
+        clc
+        adc 0x06
 ; add magic type offset
-    sta 0x00
-    stz.b current_row_offset
-    sep #0x20
-    jsr.w _ring_validate
-    lda #0x18
+        sta 0x00
+        stz.b current_row_offset
+        sep #0x20
+        jsr.w _ring_validate
+        lda #0x18
 ; 24 spells (12 rows x 2 columns)
-    sta.b spell_counter
-    lda #0x00
+        sta.b spell_counter
+        lda #0x00
 ; current spell index (0-23)
-    sta.b current_spell_index
-    lda.b #battle_render.SPELL_TILE_BASE
-    sta.b ring_tile
+        sta.b current_spell_index
+        lda.b #battle_render.SPELL_TILE_BASE
+        sta.b ring_tile
 
 spell_loop:
-    phx
-    pha
-    rep #0x20
-    lda 0x00
-    tax
-    sep #0x20
-    lda.w 0x0000, x
-    and #0x80
-    sta.b spell_enabled_flag
-    lda.w 0x0001, x
-    sta.b spell_id
-    pla
-    plx
-    lda.b current_spell_index
-    and #0x01
+        phx
+        pha
+        rep #0x20
+        lda 0x00
+        tax
+        sep #0x20
+        lda.w 0x0000, x
+        and #0x80
+        sta.b spell_enabled_flag
+        lda.w 0x0001, x
+        sta.b spell_id
+        pla
+        plx
+        lda.b current_spell_index
+        and #0x01
 ; odd: right column
-    beq left_column
-    rep #0x20
-    lda.w #_right_column_base
-    clc
-    adc.b current_row_offset
-    sta.b btlgfx_dp.dakuten_row_ptr
-    bra set_second_addr
+        beq left_column
+        rep #0x20
+        lda.w #_right_column_base
+        clc
+        adc.b current_row_offset
+        sta.b btlgfx_dp.dakuten_row_ptr
+        bra set_second_addr
 
 left_column:
-    rep #0x20
-    lda.w #_left_column_base
-    clc
-    adc.b current_row_offset
-    sta.b btlgfx_dp.dakuten_row_ptr
+        rep #0x20
+        lda.w #_left_column_base
+        clc
+        adc.b current_row_offset
+        sta.b btlgfx_dp.dakuten_row_ptr
 
 set_second_addr:
-    adc.w #0x0040
-    sta.b btlgfx_dp.kana_row_ptr
-    sep #0x20
-    ldy.w #0x00
-    lda #0x00
+        adc.w #0x0040
+        sta.b btlgfx_dp.kana_row_ptr
+        sep #0x20
+        ldy.w #0x00
+        lda #0x00
 ; tile flags
-    sta.b btlgfx_dp.text_tile_flags
-    lda.b spell_enabled_flag
-    beq enabled_spell
-    lda #0x04
-    sta.b btlgfx_dp.text_tile_flags
+        sta.b btlgfx_dp.text_tile_flags
+        lda.b spell_enabled_flag
+        beq enabled_spell
+        lda #0x04
+        sta.b btlgfx_dp.text_tile_flags
 
 enabled_spell:
 ; Blank the spell's cells on both rows (leading cell, name, rest of the column), then map the name to its ring tiles.
-    ldy.w #0
+        ldy.w #0
 
 clear_loop:
-    lda.b #0xff
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    iny
-    lda.b btlgfx_dp.text_tile_flags
-    sta.b (btlgfx_dp.dakuten_row_ptr), y
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    iny
-    cpy.w #_SPELL_CELLS * 2
-    bne clear_loop
-    jsr.w _map_name_cells
+        lda.b #0xff
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        iny
+        lda.b btlgfx_dp.text_tile_flags
+        sta.b (btlgfx_dp.dakuten_row_ptr), y
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        iny
+        cpy.w #_SPELL_CELLS * 2
+        bne clear_loop
+        jsr.w _map_name_cells
 
 next_spell:
 ; next entry (4 bytes)
-    rep #0x20
-    lda 0x00
-    clc
-    adc.w #0x0004
-    sta 0x00
+        rep #0x20
+        lda 0x00
+        clc
+        adc.w #0x0004
+        sta 0x00
 ; next row after the right column (odd index)
-    lda.b current_spell_index
-    and.w #0x0001
-    beq same_row
-    lda.b current_row_offset
-    clc
-    adc.w #0x0080
-    sta.b current_row_offset
-    sep #0x20
-    lda.b ring_tile
-    clc
-    adc.b #battle_render.SPELL_ROW_TILES
-    cmp.b #battle_render.SPELL_TILE_BASE + battle_render.SPELL_RING_TILES
-    bcc ring_next
-    lda.b #battle_render.SPELL_TILE_BASE
+        lda.b current_spell_index
+        and.w #0x0001
+        beq same_row
+        lda.b current_row_offset
+        clc
+        adc.w #0x0080
+        sta.b current_row_offset
+        sep #0x20
+        lda.b ring_tile
+        clc
+        adc.b #battle_render.SPELL_ROW_TILES
+        cmp.b #battle_render.SPELL_TILE_BASE + battle_render.SPELL_RING_TILES
+        bcc ring_next
+        lda.b #battle_render.SPELL_TILE_BASE
 
 ring_next:
-    sta.b ring_tile
+        sta.b ring_tile
 
 same_row:
-    sep #0x20
-    inc 0x0a
-    dec.b spell_counter
-    beq render_rows
-    jmp.w spell_loop
+        sep #0x20
+        inc 0x0a
+        dec.b spell_counter
+        beq render_rows
+        jmp.w spell_loop
 
 render_rows:
-    lda.l _list_top_row
-    sta.b spell_counter
-    lda.b #battle_render.SPELL_VISIBLE_ROWS
-    sta.b current_spell_index
+        lda.l _list_top_row
+        sta.b spell_counter
+        lda.b #battle_render.SPELL_VISIBLE_ROWS
+        sta.b current_spell_index
 
 row_loop:
-    lda.b spell_counter
-    cmp.b #battle_render.SPELL_LIST_ROWS
-    bcs draw_frame
-    jsr.w _render_spell_row
-    inc.b spell_counter
-    dec.b current_spell_index
-    bne row_loop
+        lda.b spell_counter
+        cmp.b #battle_render.SPELL_LIST_ROWS
+        bcs draw_frame
+        jsr.w _render_spell_row
+        inc.b spell_counter
+        dec.b current_spell_index
+        bne row_loop
 
 draw_frame:
 ; The 12 rows fill buffer rows 1-24, past the shared 15-row frame; the scroll HDMA shows row 25 as the bottom edge.
-    rep #0x20
-    ldx.w #0
+        rep #0x20
+        ldx.w #0
 
 side_loop:
-    lda.w #0x000B
-    sta.l _frame_first_row, x
-    lda.w #0x000C
-    sta.l _frame_first_row + 0x3E, x
-    txa
-    clc
-    adc.w #0x0040
-    tax
-    cpx.w #_FRAME_SIDE_ROWS * 0x40
-    bne side_loop
-    lda.w #0x000D
-    sta.l _frame_bottom_row
-    ldx.w #0x0002
-    lda.w #0x000E
+        lda.w #0x000B
+        sta.l _frame_first_row, x
+        lda.w #0x000C
+        sta.l _frame_first_row + 0x3E, x
+        txa
+        clc
+        adc.w #0x0040
+        tax
+        cpx.w #_FRAME_SIDE_ROWS * 0x40
+        bne side_loop
+        lda.w #0x000D
+        sta.l _frame_bottom_row
+        ldx.w #0x0002
+        lda.w #0x000E
 
 bottom_loop:
-    sta.l _frame_bottom_row, x
-    inx
-    inx
-    cpx.w #0x003E
-    bne bottom_loop
-    lda.w #0x000F
-    sta.l _frame_bottom_row + 0x3E
-    sep #0x20
+        sta.l _frame_bottom_row, x
+        inx
+        inx
+        cpx.w #0x003E
+        bne bottom_loop
+        lda.w #0x000F
+        sta.l _frame_bottom_row + 0x3E
+        sep #0x20
 ; The items window draws its frame only at battle start: have its next transfer rebuild it.
-    lda.b #0x01
-    sta.l battle_render_state.items_frame_dirty
-    jsr.w _ring_flush
-    rtl
+        lda.b #0x01
+        sta.l battle_render_state.items_frame_dirty
+        jsr.w _ring_flush
+        rtl
 
 _map_name_cells:
 ; Name cells 1..SPELL_NAME_TILES on the lower row of the pair -> this
 ; name's ring tiles (right column: the row's second name). The renderer
 ; writes the same cells; tiles a short name leaves blank stay blank.
-    lda.b current_spell_index
-    lsr
-    lda.b ring_tile
-    bcc map_tile
-    clc
-    adc.b #battle_render.SPELL_NAME_TILES
+        lda.b current_spell_index
+        lsr
+        lda.b ring_tile
+        bcc map_tile
+        clc
+        adc.b #battle_render.SPELL_NAME_TILES
 
 map_tile:
-    ldy.w #2
+        ldy.w #2
 
 map_loop:
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    iny
-    pha
-    lda.b btlgfx_dp.text_tile_flags
-    ora.b #0x01
-    sta.b (btlgfx_dp.kana_row_ptr), y
-    pla
-    iny
-    inc
-    cpy.w #( battle_render.SPELL_NAME_TILES + 1 ) * 2
-    bne map_loop
-    rts
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        iny
+        pha
+        lda.b btlgfx_dp.text_tile_flags
+        ora.b #0x01
+        sta.b (btlgfx_dp.kana_row_ptr), y
+        pla
+        iny
+        inc
+        cpy.w #( battle_render.SPELL_NAME_TILES + 1 ) * 2
+        bne map_loop
+        rts
     }
 
 _ring_validate:
@@ -455,7 +455,7 @@ _slsr_out:
 _ring_slot_tiles:
 """First tile of each ring slot."""
     .for slot := 0, battle_render.SPELL_RING_ROWS {
-    .db battle_render.SPELL_TILE_BASE + slot * battle_render.SPELL_ROW_TILES
+        .db battle_render.SPELL_TILE_BASE + slot * battle_render.SPELL_ROW_TILES
     }
 
 magic_list_ptrs:

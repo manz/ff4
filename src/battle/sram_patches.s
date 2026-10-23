@@ -140,6 +140,6 @@ attack_names:
     rts
     {
 _end:
-    .debug '{_end} < 0x02FFFF ?'
+        .debug '{_end} < 0x02FFFF ?'
     }
 }

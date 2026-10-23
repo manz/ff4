@@ -102,55 +102,55 @@ end_of_animation:
 
     .table "text/ff4_menus.tbl"
     .alloc at 0x14F656 {
-    .dw 0x2016
-    fill_value(0x2017, 5)
-    .dw 0x2018
-    .dw 0x0000
+        .dw 0x2016
+        fill_value(0x2017, 5)
+        .dw 0x2018
+        .dw 0x0000
     }
 
 
     .alloc at 0x14F666 {
-    .dw 0x2019
-    fill_value(0x20ff, 5)
-    .dw 0x201a
-    .dw 0x0000
+        .dw 0x2019
+        fill_value(0x20ff, 5)
+        .dw 0x201a
+        .dw 0x0000
     }
 
 
     .alloc at 0x14f676 {
-    .dw 0x2019
-    .dw 0x2014
-    yes_cells()
-    .dw 0x20ff
-    .dw 0x201a
-    .dw 0x0000
+        .dw 0x2019
+        .dw 0x2014
+        yes_cells()
+        .dw 0x20ff
+        .dw 0x201a
+        .dw 0x0000
     }
 
 
     .alloc at 0x14F686 {
-    .dw 0x2019
-    fill_value(0x20ff, 5)
-    .dw 0x201a
-    .dw 0x0000
+        .dw 0x2019
+        fill_value(0x20ff, 5)
+        .dw 0x201a
+        .dw 0x0000
     }
 
 
     .alloc at 0x14F696 {
-    .dw 0x2019
-    .dw 0x20ff
-    no_cells()
-    .dw 0x20ff
-    .dw 0x201a
-    .dw 0x0000
+        .dw 0x2019
+        .dw 0x20ff
+        no_cells()
+        .dw 0x20ff
+        .dw 0x201a
+        .dw 0x0000
     }
 
 
     .alloc at 0x14F6A6 {
-    .dw 0x201b
-    fill_value(0x201c, 5)
-    .dw 0x201d
-    .dw 0x0000
-    fill_value(0x0000, 8)
+        .dw 0x201b
+        fill_value(0x201c, 5)
+        .dw 0x201d
+        .dw 0x0000
+        fill_value(0x0000, 8)
     }
 }
 

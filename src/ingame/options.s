@@ -94,7 +94,7 @@ _GAUGE_CURSOR_LARGE := 0x80  ; sprite 11: 16x16
     jsr.l options_atb.cursor_x
     bra _cursor_x_set
     .for pad := 0, 4 {
-    nop
+        nop
     }
 }
 .label _cursor_x_set = 0x01D249
@@ -143,63 +143,63 @@ cursor_x:
 A8 = the row ($1BA7): the cursor's x, the sliders' column on rows 7-9 (vanilla's test was row >= 7). Callable with
 JSL.
 """
-    cmp.b #_SLIDER_FIRST
-    bcc _labels
-    cmp.b #_GAUGE_ROW
-    bcs _labels
-    lda.b #_SLIDER_CURSOR_X
-    rtl
+        cmp.b #_SLIDER_FIRST
+        bcc _labels
+        cmp.b #_GAUGE_ROW
+        bcs _labels
+        lda.b #_SLIDER_CURSOR_X
+        rtl
 _labels:
-    lda.b #_LIST_CURSOR_X
-    rtl
+        lda.b #_LIST_CURSOR_X
+        rtl
 
 slider_or_gauge:
 """
 In vanilla's LEFT/RIGHT on rows 7 and up, A8 = row - 6: carry set once the gauge row toggled its setting (the caller
 goes on to the next button), else vanilla's slider index (X16 = (row - 7) * 2, A16) and carry clear. Callable with JSL.
 """
-    dec
-    cmp.b #_GAUGE_ROW - _SLIDER_FIRST
-    beq _gauge
-    asl
-    rep #0x20
-    and.w #0x00FF
-    tax
-    clc
-    rtl
+        dec
+        cmp.b #_GAUGE_ROW - _SLIDER_FIRST
+        beq _gauge
+        asl
+        rep #0x20
+        and.w #0x00FF
+        tax
+        clc
+        rtl
 _gauge:
-    lda.l ATB_GAUGE_SETTING
-    eor.b #ATB_GAUGE_ON
-    sta.l ATB_GAUGE_SETTING
-    sec
-    rtl
+        lda.l ATB_GAUGE_SETTING
+        eor.b #ATB_GAUGE_ON
+        sta.l ATB_GAUGE_SETTING
+        sec
+        rtl
 
 toggle_cursors:
 """
 Vanilla's `ldx #$300A / stx $0306`, then the gauge row's toggle cursor: on "Oui" (left) or "Non". Keeps X. Callable
 with JSL.
 """
-    ldx.w #_TOGGLE_TILE
-    stx.w 0x0306
-    lda.l ATB_GAUGE_SETTING
-    and.b #ATB_GAUGE_ON
-    beq _off
-    lda.b #_TOGGLE_LEFT_X
-    bra _x
+        ldx.w #_TOGGLE_TILE
+        stx.w 0x0306
+        lda.l ATB_GAUGE_SETTING
+        and.b #ATB_GAUGE_ON
+        beq _off
+        lda.b #_TOGGLE_LEFT_X
+        bra _x
 _off:
-    lda.b #_TOGGLE_RIGHT_X
+        lda.b #_TOGGLE_RIGHT_X
 _x:
-    sta.l _GAUGE_CURSOR
-    lda.b #_GAUGE_ROW_Y
-    sta.l _GAUGE_CURSOR + 1
-    rep #0x20
-    lda.w #_TOGGLE_TILE
-    sta.l _GAUGE_CURSOR + 2
-    sep #0x20
-    lda.l _GAUGE_CURSOR_HIGH  ; the hand is 16x16: the sprite's size bit, its x bit 8 clear
-    and.b #( ~_GAUGE_CURSOR_X8 ) & 0xFF
-    ora.b #_GAUGE_CURSOR_LARGE
-    sta.l _GAUGE_CURSOR_HIGH
-    rtl
+        sta.l _GAUGE_CURSOR
+        lda.b #_GAUGE_ROW_Y
+        sta.l _GAUGE_CURSOR + 1
+        rep #0x20
+        lda.w #_TOGGLE_TILE
+        sta.l _GAUGE_CURSOR + 2
+        sep #0x20
+        lda.l _GAUGE_CURSOR_HIGH  ; the hand is 16x16: the sprite's size bit, its x bit 8 clear
+        and.b #( ~_GAUGE_CURSOR_X8 ) & 0xFF
+        ora.b #_GAUGE_CURSOR_LARGE
+        sta.l _GAUGE_CURSOR_HIGH
+        rtl
     }
 }

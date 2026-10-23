@@ -16,127 +16,127 @@ New-game / save-slot screen patches: text pointers to the relocated strings, win
 ; New game window
     .alloc at 0x01dfc7 {
 ; 11 columns: "Nouvelle partie" in the small VWF is 62 px, then Cecil
-    .db 11  ; width
-    .db 0x02  ; height
+        .db 11  ; width
+        .db 0x02  ; height
     }
 
 
 ; Cecil sprite on the new game item
     .alloc at 0x019904 {
-    .db 77  ; x: right edge 3 px inside the 11-column window
-    .db 0x04  ; y
+        .db 77  ; x: right edge 3 px inside the 11-column window
+        .db 0x04  ; y
     }
 
 
 ; Load game message window
     .alloc at 0x01dfdc {
-    menu_window(23, 0, 7, 8)
+        menu_window(23, 0, 7, 8)
     }
 
 
 ; LoadTimeWindow
     .alloc at 0x01dfe0 {
-    menu_window(23, 16, 7, 5)
+        menu_window(23, 16, 7, 5)
     }
 
 
 ; LoadGilWindow
     .alloc at 0x01dfe4 {
-    menu_window(23, 23, 7, 3)
+        menu_window(23, 23, 7, 3)
     }
 
 
 ; Save number
     .alloc at 0x019A62 {
 ; column 5: "Partie " in the small VWF is 28 px from column 1
-    sta.w 0xC8 - 0x40 + 2, y
+        sta.w 0xC8 - 0x40 + 2, y
     }
 
 
     .alloc at 0x019A55 {
-    ldx.w #0x82 - 0x40
+        ldx.w #0x82 - 0x40
     }
 
 
     .alloc at 0x019A52 {
-    load_system_menu_text_pointer(newgame.save)
+        load_system_menu_text_pointer(newgame.save)
     }
 
 
     .alloc at 0x01962E {
-    load_system_menu_text_pointer(newgame.new_game)
+        load_system_menu_text_pointer(newgame.new_game)
 
-    jsr.w display_build_number
+        jsr.w display_build_number
     }
 
 
     .alloc at 0x019826 {
-    load_system_menu_text_pointer(newgame.load_this_save)
+        load_system_menu_text_pointer(newgame.load_this_save)
     }
 
 
 ; The save menu uses the same string.
     .alloc at 0x01981E {
-    load_system_menu_text_pointer(newgame.load_this_save)
+        load_system_menu_text_pointer(newgame.load_this_save)
     }
 
 
     .alloc at 0x01982C {
-    load_system_menu_text_pointer(newgame.yes_no)
+        load_system_menu_text_pointer(newgame.yes_no)
     }
 
 
     .alloc at 0x01983E {
-    load_system_menu_text_pointer(newgame.time_load_save)
+        load_system_menu_text_pointer(newgame.time_load_save)
     }
 
 
     .alloc at 0x01984D {
-    load_system_menu_text_pointer(newgame.gils_load_game)
-    ldx.w #0x676  ; gil text position
-    jsr.w draw_menu_text
-    ldy #0x062c + 2  ; gil count position
+        load_system_menu_text_pointer(newgame.gils_load_game)
+        ldx.w #0x676  ; gil text position
+        jsr.w draw_menu_text
+        ldy #0x062c + 2  ; gil count position
     }
 
 
 ; Time position
     .alloc at 0x019838 {
-    ldy.w #0xcb2e + 2
+        ldy.w #0xcb2e + 2
     }
 
 
     .alloc at 0x019AC5 {
-    load_system_menu_text_pointer(newgame.empty_save)
+        load_system_menu_text_pointer(newgame.empty_save)
     }
 
 
     .alloc at 0x01cbad {
-    load_system_menu_text_pointer(newgame.saves)
+        load_system_menu_text_pointer(newgame.saves)
     }
 
 
     .alloc at 0x01e050 {
-    menu_window(7, 10, 19, 2)
+        menu_window(7, 10, 19, 2)
     }
 
 
     .alloc at 0x1cc0d {
-    load_system_menu_text_pointer(newgame.save_completed)
+        load_system_menu_text_pointer(newgame.save_completed)
     }
 
 
     .alloc at 0x01CC33 {
-    load_system_menu_text_pointer(newgame.save_cancelled)
+        load_system_menu_text_pointer(newgame.save_cancelled)
     }
 
 
     .alloc at 0x019801 {
 ; the confirmed slot is empty: "VIDE" at X, no position word
-    load_system_menu_text_pointer(newgame.empty_save + 2)
+        load_system_menu_text_pointer(newgame.empty_save + 2)
     }
 
 
     .alloc at 0x1cc12 {
-    load_system_menu_text_pointer(newgame.did_not_save)
+        load_system_menu_text_pointer(newgame.did_not_save)
     }
 }

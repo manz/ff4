@@ -166,83 +166,83 @@ update_treasure_scroll_hdma:
 """Build the treasure-menu HDMA scroll table."""
 ; Inlined per menu: the engine would need menu_id dispatch on every state read.
     {
-    php
-    rep #0x30
-    pha
-    phx
-    phy
-    lda.b 0x40
-    pha
-    lda.b 0x42
-    pha
-    ldx.w #0x0000
-    jsr.w _treasure_hdma_header
-    stz.b 0x42
+        php
+        rep #0x30
+        pha
+        phx
+        phy
+        lda.b 0x40
+        pha
+        lda.b 0x42
+        pha
+        ldx.w #0x0000
+        jsr.w _treasure_hdma_header
+        stz.b 0x42
 
 _row_loop:
-    lda.w treasure_rolling.buffer_pos
-    and.w #0x00FF
-    clc
-    adc.b 0x42
+        lda.w treasure_rolling.buffer_pos
+        and.w #0x00FF
+        clc
+        adc.b 0x42
 
 _mod_loop:
-    cmp.w #TREASURE_BUFFER_SLOTS
-    bcc _mod_done
-    sec
-    sbc.w #TREASURE_BUFFER_SLOTS
-    bra _mod_loop
+        cmp.w #TREASURE_BUFFER_SLOTS
+        bcc _mod_done
+        sec
+        sbc.w #TREASURE_BUFFER_SLOTS
+        bra _mod_loop
 
 _mod_done:
-    asl
-    asl
-    asl
-    asl
-    sta.b 0x40
-    lda.b 0x42
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl
-    eor.w #0xFFFF
-    inc
-    clc
-    adc.b 0x40
-    clc
-    adc.w treasure_rolling.base_scroll
-    sta.b 0x40
-    sep #0x20
-    lda #16
-    sta.l _TREASURE_HDMA_SHADOW, x
-    inx
-    rep #0x20
-    lda.b 0x40
-    sta.l _TREASURE_HDMA_SHADOW, x
-    inx
-    inx
-    rep #0x20
-    inc.b 0x42
-    lda.b 0x42
-    cmp.w #_TREASURE_VISIBLE_ITEMS
-    bcs _row_loop_done
-    jmp.w _row_loop
+        asl
+        asl
+        asl
+        asl
+        sta.b 0x40
+        lda.b 0x42
+        and.w #0x00FF
+        asl
+        asl
+        asl
+        asl
+        eor.w #0xFFFF
+        inc
+        clc
+        adc.b 0x40
+        clc
+        adc.w treasure_rolling.base_scroll
+        sta.b 0x40
+        sep #0x20
+        lda #16
+        sta.l _TREASURE_HDMA_SHADOW, x
+        inx
+        rep #0x20
+        lda.b 0x40
+        sta.l _TREASURE_HDMA_SHADOW, x
+        inx
+        inx
+        rep #0x20
+        inc.b 0x42
+        lda.b 0x42
+        cmp.w #_TREASURE_VISIBLE_ITEMS
+        bcs _row_loop_done
+        jmp.w _row_loop
 
 _row_loop_done:
-    jsr.w _treasure_hdma_footer
-    sep #0x20
-    lda #0x00
-    sta.l _TREASURE_HDMA_SHADOW, x
-    jsr.w _treasure_hdma_signal
-    rep #0x20
-    pla
-    sta.b 0x42
-    pla
-    sta.b 0x40
-    ply
-    plx
-    pla
-    plp
-    rts
+        jsr.w _treasure_hdma_footer
+        sep #0x20
+        lda #0x00
+        sta.l _TREASURE_HDMA_SHADOW, x
+        jsr.w _treasure_hdma_signal
+        rep #0x20
+        pla
+        sta.b 0x42
+        pla
+        sta.b 0x40
+        ply
+        plx
+        pla
+        plp
+        rts
     }
 
 _treasure_hdma_header:

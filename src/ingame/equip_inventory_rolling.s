@@ -269,94 +269,94 @@ Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 7 at BG4VOFS
 
 
     {
-    php
-    rep #0x30
-    pha
-    phx
-    phy
-    lda.b 0x40
-    pha
-    lda.b 0x42
-    pha
-    ldx.w #0x0000
-    lda.w #_EQUIP_HEADER_LINES
-    jsr.w _equip_hdma_base_band
-    stz.b 0x42
+        php
+        rep #0x30
+        pha
+        phx
+        phy
+        lda.b 0x40
+        pha
+        lda.b 0x42
+        pha
+        ldx.w #0x0000
+        lda.w #_EQUIP_HEADER_LINES
+        jsr.w _equip_hdma_base_band
+        stz.b 0x42
 
 _equip_row_loop:
-    lda.w equip_rolling.buffer_pos
-    and.w #0x00FF
-    clc
-    adc.b 0x42
+        lda.w equip_rolling.buffer_pos
+        and.w #0x00FF
+        clc
+        adc.b 0x42
 
 _equip_mod_loop:
-    cmp.w #_EQUIP_BUFFER_SLOTS
-    bcc _equip_mod_done
-    sec
-    sbc.w #_EQUIP_BUFFER_SLOTS
-    bra _equip_mod_loop
+        cmp.w #_EQUIP_BUFFER_SLOTS
+        bcc _equip_mod_done
+        sec
+        sbc.w #_EQUIP_BUFFER_SLOTS
+        bra _equip_mod_loop
 
 _equip_mod_done:
-    asl
-    asl
-    asl
-    asl  ; slot * 16
-    sta.b 0x40
-    lda.b 0x42
-    and.w #0x00FF
-    asl
-    asl
-    asl
-    asl  ; row * 16
-    eor.w #0xFFFF
-    inc  ; -row * 16
-    clc
-    adc.b 0x40
-    clc
-    adc.w equip_rolling.base_scroll
-    sta.b 0x40
-    sep #0x20
-    lda #_EQUIP_SLOT_PIXELS
-    sta.l EQUIP_HDMA_SHADOW, x
-    inx
-    rep #0x20
-    lda.b 0x40
-    sta.l EQUIP_HDMA_SHADOW, x
-    inx
-    inx
-    inc.b 0x42
-    lda.b 0x42
-    cmp.w #_EQUIP_VISIBLE_ITEMS
-    bcs _equip_row_loop_done
-    jmp.w _equip_row_loop
+        asl
+        asl
+        asl
+        asl  ; slot * 16
+        sta.b 0x40
+        lda.b 0x42
+        and.w #0x00FF
+        asl
+        asl
+        asl
+        asl  ; row * 16
+        eor.w #0xFFFF
+        inc  ; -row * 16
+        clc
+        adc.b 0x40
+        clc
+        adc.w equip_rolling.base_scroll
+        sta.b 0x40
+        sep #0x20
+        lda #_EQUIP_SLOT_PIXELS
+        sta.l EQUIP_HDMA_SHADOW, x
+        inx
+        rep #0x20
+        lda.b 0x40
+        sta.l EQUIP_HDMA_SHADOW, x
+        inx
+        inx
+        inc.b 0x42
+        lda.b 0x42
+        cmp.w #_EQUIP_VISIBLE_ITEMS
+        bcs _equip_row_loop_done
+        jmp.w _equip_row_loop
 
 _equip_row_loop_done:
-    sep #0x20
-    lda #_EQUIP_FOOTER_LINES
-    sta.l EQUIP_HDMA_SHADOW, x
-    inx
-    rep #0x20
-    lda.w equip_rolling.base_scroll
-    clc
-    adc.w #_EQUIP_FOOTER_SCROLL
-    sta.l EQUIP_HDMA_SHADOW, x
-    inx
-    inx
-    sep #0x20
-    lda #0x00
-    sta.l EQUIP_HDMA_SHADOW, x
-    lda #0x01
-    sta.l equip_rolling.hdma_copy_pending
-    rep #0x20
-    pla
-    sta.b 0x42
-    pla
-    sta.b 0x40
-    ply
-    plx
-    pla
-    plp
-    rts
+        sep #0x20
+        lda #_EQUIP_FOOTER_LINES
+        sta.l EQUIP_HDMA_SHADOW, x
+        inx
+        rep #0x20
+        lda.w equip_rolling.base_scroll
+        clc
+        adc.w #_EQUIP_FOOTER_SCROLL
+        sta.l EQUIP_HDMA_SHADOW, x
+        inx
+        inx
+        sep #0x20
+        lda #0x00
+        sta.l EQUIP_HDMA_SHADOW, x
+        lda #0x01
+        sta.l equip_rolling.hdma_copy_pending
+        rep #0x20
+        pla
+        sta.b 0x42
+        pla
+        sta.b 0x40
+        ply
+        plx
+        pla
+        plp
+        rts
     }
 
 _equip_hdma_base_band:

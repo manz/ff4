@@ -71,23 +71,23 @@ _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back
     .scope atb_gauge {
 reset:
 """Battle start: forget every timer, draw every gauge on its first pass. Callable with JSL."""
-    php
-    sep #0x20
-    rep #0x10
-    ldx.w #sizeof(AtbGauge) - 1
-    lda.b #0x00
+        php
+        sep #0x20
+        rep #0x10
+        ldx.w #sizeof(AtbGauge) - 1
+        lda.b #0x00
 _reset_byte:
-    sta.l atb_gauge_state, x
-    dex
-    bpl _reset_byte
-    ldx.w #_PARTY - 1
-    lda.b #0xFF
+        sta.l atb_gauge_state, x
+        dex
+        bpl _reset_byte
+        ldx.w #_PARTY - 1
+        lda.b #0xFF
 _reset_drawn:
-    sta.l atb_gauge_state.drawn_px, x
-    dex
-    bpl _reset_drawn
-    plp
-    rtl
+        sta.l atb_gauge_state.drawn_px, x
+        dex
+        bpl _reset_drawn
+        plp
+        rtl
 
 frame:
 """
@@ -96,28 +96,28 @@ battle-graphics loop is waiting (its spin on $1811 stays vanilla's, where savest
 and the data bank as vanilla's did (its callers rely on them: $02:9472 indexes a jump table with A's high byte left
 over); the update runs on direct page 0. Callable with JSL.
 """
-    php
-    rep #0x30
-    pha
-    phx
-    phy
-    phd
-    lda.w #0x0000
-    tcd
-    jsr.l update
-    rep #0x30
-    pld
-    ply
-    plx
-    pla
-    plp
-    php
-    sep #0x20
-    lda.l _NMI_WAIT
-    inc
-    sta.l _NMI_WAIT
-    plp
-    rtl
+        php
+        rep #0x30
+        pha
+        phx
+        phy
+        phd
+        lda.w #0x0000
+        tcd
+        jsr.l update
+        rep #0x30
+        pld
+        ply
+        plx
+        pla
+        plp
+        php
+        sep #0x20
+        lda.l _NMI_WAIT
+        inc
+        sta.l _NMI_WAIT
+        plp
+        rtl
 
 update:
 """
@@ -125,427 +125,427 @@ Every gauge whose fill changed, redrawn in the HP text, the main view and its co
 battle-graphics pass before the menu task copies the HP text (vanilla redraws it with "/max", the menu shows it next).
 Callable with JSL.
 """
-    php
-    phb
-    rep #0x30
-    lda.b 0x00  ; scratch: kept for WaitFrameMain's callers
-    pha
-    lda.b 0x02
-    pha
-    lda.b 0x04
-    pha
-    lda.b 0x06
-    pha
-    lda.b 0x08
-    pha
-    lda.b 0x0A
-    pha
-    sep #0x20
-    lda.b #0x7E
-    pha
-    plb
-    lda.l _SETTING  ; Options, "Jauge ATB": off leaves vanilla's "/max HP"
-    and.b #_SETTING_ON
-    bne _on
-    jmp.w _done
+        php
+        phb
+        rep #0x30
+        lda.b 0x00  ; scratch: kept for WaitFrameMain's callers
+        pha
+        lda.b 0x02
+        pha
+        lda.b 0x04
+        pha
+        lda.b 0x06
+        pha
+        lda.b 0x08
+        pha
+        lda.b 0x0A
+        pha
+        sep #0x20
+        lda.b #0x7E
+        pha
+        plb
+        lda.l _SETTING  ; Options, "Jauge ATB": off leaves vanilla's "/max HP"
+        and.b #_SETTING_ON
+        bne _on
+        jmp.w _done
 _on:
-    stz.w atb_gauge_state.changed & 0xFFFF
-    rep #0x20
-    lda.l battle_frame_counter  ; real time: the updates come every frame or every other one, the NMI every frame
-    sta.w atb_gauge_state.frames & 0xFFFF
-    sep #0x20
-    ldx.w #0x0000
+        stz.w atb_gauge_state.changed & 0xFFFF
+        rep #0x20
+        lda.l battle_frame_counter  ; real time: the updates come every frame or every other one, the NMI every frame
+        sta.w atb_gauge_state.frames & 0xFFFF
+        sep #0x20
+        ldx.w #0x0000
 _watch:
-    phx
-    jsr.w _watch_timer
-    plx
-    inx
-    cpx.w #_PARTY
-    bne _watch
+        phx
+        jsr.w _watch_timer
+        plx
+        inx
+        cpx.w #_PARTY
+        bne _watch
 _paced:
-    jsr.w _map_rows
-    ldx.w #0x0000
+        jsr.w _map_rows
+        ldx.w #0x0000
 _row:
-    txa
-    cmp.w atb_gauge_state.rows & 0xFFFF
-    beq _rows_drawn
-    phx
-    jsr.w _draw_row
-    plx
-    inx
-    bra _row
+        txa
+        cmp.w atb_gauge_state.rows & 0xFFFF
+        beq _rows_drawn
+        phx
+        jsr.w _draw_row
+        plx
+        inx
+        bra _row
 _rows_drawn:
-    txa
-    cmp.b #_PARTY
-    beq _caps_done
-    stx.b 0x0A
-    phx
-    jsr.w _clear_cap
-    plx
-    inx
-    bra _rows_drawn
+        txa
+        cmp.b #_PARTY
+        beq _caps_done
+        stx.b 0x0A
+        phx
+        jsr.w _clear_cap
+        plx
+        inx
+        bra _rows_drawn
 _caps_done:
-    lda.w atb_gauge_state.changed & 0xFFFF
-    beq _done
-    lda.l battle_render_state.tilemap_pending_mask  ; the NMI uploads both views this frame
-    ora.b #TilemapPendingBits.main.mask | TilemapPendingBits.commands.mask
-    sta.l battle_render_state.tilemap_pending_mask
+        lda.w atb_gauge_state.changed & 0xFFFF
+        beq _done
+        lda.l battle_render_state.tilemap_pending_mask  ; the NMI uploads both views this frame
+        ora.b #TilemapPendingBits.main.mask | TilemapPendingBits.commands.mask
+        sta.l battle_render_state.tilemap_pending_mask
 _done:
-    rep #0x20
-    pla
-    sta.b 0x0A
-    pla
-    sta.b 0x08
-    pla
-    sta.b 0x06
-    pla
-    sta.b 0x04
-    pla
-    sta.b 0x02
-    pla
-    sta.b 0x00
-    plb
-    plp
-    rtl
+        rep #0x20
+        pla
+        sta.b 0x0A
+        pla
+        sta.b 0x08
+        pla
+        sta.b 0x06
+        pla
+        sta.b 0x04
+        pla
+        sta.b 0x02
+        pla
+        sta.b 0x00
+        plb
+        plp
+        rtl
 
 _slot_index:
 """$00 = slot X, $02 = slot * 2, $04 = slot * 4, X = slot * 21 (leaves A16)."""
-    rep #0x20
-    txa
-    sta.b 0x00
-    asl
-    sta.b 0x02
-    asl
-    sta.b 0x04
-    asl
-    asl
-    clc
-    adc.b 0x04
-    adc.b 0x00
-    tax
-    rts
+        rep #0x20
+        txa
+        sta.b 0x00
+        asl
+        sta.b 0x02
+        asl
+        sta.b 0x04
+        asl
+        asl
+        clc
+        adc.b 0x04
+        adc.b 0x00
+        tax
+        rts
 
 _watch_timer:
 """
 Character X's action timer: a rise is a new turn (its full length), a drop is a tick (its pace: the updates since its
 last one); its flags say whether a chosen command waits on it (A8 X16, DB $7E).
 """
-    jsr.w _slot_index
-    sep #0x20
-    lda.l _TIMER_FLAGS, x
-    and.b #_COMMAND_DELAY
-    ldy.b 0x00
-    sta.w atb_gauge_state.pending & 0xFFFF, y
-    rep #0x20
-    lda.l _TIMERS, x
-    ldx.b 0x02
-    cmp.w atb_gauge_state.timer & 0xFFFF, x
-    sta.w atb_gauge_state.timer & 0xFFFF, x
-    beq _watched
-    bcc _dropped
-    sta.w atb_gauge_state.full_time & 0xFFFF, x
-    lda.w atb_gauge_state.frames & 0xFFFF  ; a new turn: its pace counts from now
-    sta.w atb_gauge_state.last_tick & 0xFFFF, x
-    bra _watched
+        jsr.w _slot_index
+        sep #0x20
+        lda.l _TIMER_FLAGS, x
+        and.b #_COMMAND_DELAY
+        ldy.b 0x00
+        sta.w atb_gauge_state.pending & 0xFFFF, y
+        rep #0x20
+        lda.l _TIMERS, x
+        ldx.b 0x02
+        cmp.w atb_gauge_state.timer & 0xFFFF, x
+        sta.w atb_gauge_state.timer & 0xFFFF, x
+        beq _watched
+        bcc _dropped
+        sta.w atb_gauge_state.full_time & 0xFFFF, x
+        lda.w atb_gauge_state.frames & 0xFFFF  ; a new turn: its pace counts from now
+        sta.w atb_gauge_state.last_tick & 0xFFFF, x
+        bra _watched
 _dropped:
-    lda.w atb_gauge_state.frames & 0xFFFF
-    sec
-    sbc.w atb_gauge_state.last_tick & 0xFFFF, x
-    cmp.w #_MAX_PERIOD
-    bcc _period
-    lda.w #_MAX_PERIOD
+        lda.w atb_gauge_state.frames & 0xFFFF
+        sec
+        sbc.w atb_gauge_state.last_tick & 0xFFFF, x
+        cmp.w #_MAX_PERIOD
+        bcc _period
+        lda.w #_MAX_PERIOD
 _period:
-    pha
-    lda.w atb_gauge_state.frames & 0xFFFF
-    sta.w atb_gauge_state.last_tick & 0xFFFF, x
-    pla
-    sep #0x20
-    ldx.b 0x00
-    sta.w atb_gauge_state.period & 0xFFFF, x
+        pha
+        lda.w atb_gauge_state.frames & 0xFFFF
+        sta.w atb_gauge_state.last_tick & 0xFFFF, x
+        pla
+        sep #0x20
+        ldx.b 0x00
+        sta.w atb_gauge_state.period & 0xFFFF, x
 _watched:
-    sep #0x20
-    rts
+        sep #0x20
+        rts
 
 _map_rows:
 """Which slot each row of the party window shows: vanilla's display order, present characters only (A8 X16)."""
-    ldx.w #0x0000
-    txy  ; rows
+        ldx.w #0x0000
+        txy  ; rows
 _mr_next:
-    phx
-    lda.l _DISPLAY_ORDER, x
-    rep #0x20
-    and.w #0x00FF
-    tax
-    sep #0x20
-    lda.l _HIDDEN, x
-    bne _mr_skip
-    phx
-    rep #0x20
-    txa
-    xba
-    lsr  ; slot * $80
-    tax
-    sep #0x20
-    lda.l _RECORDS, x
-    plx
-    cmp.b #0x00
-    beq _mr_skip
-    txa
-    sta.w atb_gauge_state.row_slot & 0xFFFF, y
-    iny
+        phx
+        lda.l _DISPLAY_ORDER, x
+        rep #0x20
+        and.w #0x00FF
+        tax
+        sep #0x20
+        lda.l _HIDDEN, x
+        bne _mr_skip
+        phx
+        rep #0x20
+        txa
+        xba
+        lsr  ; slot * $80
+        tax
+        sep #0x20
+        lda.l _RECORDS, x
+        plx
+        cmp.b #0x00
+        beq _mr_skip
+        txa
+        sta.w atb_gauge_state.row_slot & 0xFFFF, y
+        iny
 _mr_skip:
-    plx
-    inx
-    cpx.w #_PARTY
-    bne _mr_next
-    tya
-    sta.w atb_gauge_state.rows & 0xFFFF
-    rts
+        plx
+        inx
+        cpx.w #_PARTY
+        bne _mr_next
+        tya
+        sta.w atb_gauge_state.rows & 0xFFFF
+        rts
 
 _draw_row:
 """The gauge on row X of the party window (A8 X16, DB $7E): $00-$04 its slot's indices, $0A the row."""
-    stx.b 0x0A
-    lda.w atb_gauge_state.row_slot & 0xFFFF, x
-    rep #0x20
-    and.w #0x00FF
-    tax
-    jsr.w _slot_index
-    lda.b 0x0A
-    asl
-    asl
-    sta.b 0x04  ; row * 4
-    asl
-    asl
-    asl  ; row * 32
-    clc
-    adc.b 0x04  ; row * 36
-    adc.w #_HP_TEXT & 0xFFFF
-    sta.w atb_gauge_state.row & 0xFFFF
-    tay
-    sep #0x20
-    lda.w _SLASH, y
-    cmp.b #_SLASH_TILE
-    bne _row_ready
-    ldx.b 0x0A
-    lda.b #0xFF
-    sta.w atb_gauge_state.drawn_px & 0xFFFF, x  ; vanilla drew "/max" again: draw the gauge over it
+        stx.b 0x0A
+        lda.w atb_gauge_state.row_slot & 0xFFFF, x
+        rep #0x20
+        and.w #0x00FF
+        tax
+        jsr.w _slot_index
+        lda.b 0x0A
+        asl
+        asl
+        sta.b 0x04  ; row * 4
+        asl
+        asl
+        asl  ; row * 32
+        clc
+        adc.b 0x04  ; row * 36
+        adc.w #_HP_TEXT & 0xFFFF
+        sta.w atb_gauge_state.row & 0xFFFF
+        tay
+        sep #0x20
+        lda.w _SLASH, y
+        cmp.b #_SLASH_TILE
+        bne _row_ready
+        ldx.b 0x0A
+        lda.b #0xFF
+        sta.w atb_gauge_state.drawn_px & 0xFFFF, x  ; vanilla drew "/max" again: draw the gauge over it
 _row_ready:
-    lda.w _LAST_DIGIT, y
-    sec
-    sbc.b #_DIGIT_0
-    cmp.b #10
-    bcs _no_character  ; a blank row: nobody in this slot
-    jsr.w _fill_px
-    ldx.b 0x0A
-    cmp.w atb_gauge_state.drawn_px & 0xFFFF, x
-    beq _unchanged
-    sta.w atb_gauge_state.drawn_px & 0xFFFF, x
-    jsr.w _draw_gauge
-    jsr.w _publish_gauge
-    lda.b #0x01
-    sta.w atb_gauge_state.changed & 0xFFFF
+        lda.w _LAST_DIGIT, y
+        sec
+        sbc.b #_DIGIT_0
+        cmp.b #10
+        bcs _no_character  ; a blank row: nobody in this slot
+        jsr.w _fill_px
+        ldx.b 0x0A
+        cmp.w atb_gauge_state.drawn_px & 0xFFFF, x
+        beq _unchanged
+        sta.w atb_gauge_state.drawn_px & 0xFFFF, x
+        jsr.w _draw_gauge
+        jsr.w _publish_gauge
+        lda.b #0x01
+        sta.w atb_gauge_state.changed & 0xFFFF
 _unchanged:
-    jmp.w _draw_cap
+        jmp.w _draw_cap
 _no_character:
-    jmp.w _clear_cap
+        jmp.w _clear_cap
 
 _fill_px:
 """
 A8 = the fill in pixels (0-24) of character $00: the share of its turn's timer run out, plus the frames since the last
 tick at the ticks' pace (up to one tick); full once the timer is 0.
 """
-    sep #0x20
-    ldx.b 0x00
-    lda.w atb_gauge_state.pending & 0xFFFF, x
-    bne _fill_full  ; a command waits: the turn is still on
-    rep #0x20
-    ldx.b 0x02
-    lda.w atb_gauge_state.full_time & 0xFFFF, x
-    beq _fill_full  ; not seen reset yet
-    sta.b 0x06
-    lda.w atb_gauge_state.timer & 0xFFFF, x
-    beq _fill_full
-    cmp.b 0x06
-    bcc _running
-    beq _running
-    bra _fill_empty
+        sep #0x20
+        ldx.b 0x00
+        lda.w atb_gauge_state.pending & 0xFFFF, x
+        bne _fill_full  ; a command waits: the turn is still on
+        rep #0x20
+        ldx.b 0x02
+        lda.w atb_gauge_state.full_time & 0xFFFF, x
+        beq _fill_full  ; not seen reset yet
+        sta.b 0x06
+        lda.w atb_gauge_state.timer & 0xFFFF, x
+        beq _fill_full
+        cmp.b 0x06
+        bcc _running
+        beq _running
+        bra _fill_empty
 _running:
-    eor.w #0xFFFF
-    sec
-    adc.b 0x06  ; run out = full - timer
-    sta.b 0x08
+        eor.w #0xFFFF
+        sec
+        adc.b 0x06  ; run out = full - timer
+        sta.b 0x08
 ; the pace: frames since the tick (at most a period) over the period; none before two ticks or on a long timer
-    ldx.b 0x00
-    lda.w atb_gauge_state.period & 0xFFFF, x
-    and.w #0x00FF
-    beq _no_pace
-    ldy.b 0x06
-    cpy.w #_MAX_PACED_TIME
-    bcs _no_pace
-    sta.b 0x04  ; period
-    ldx.b 0x02
-    lda.w atb_gauge_state.frames & 0xFFFF
-    sec
-    sbc.w atb_gauge_state.last_tick & 0xFFFF, x
-    cmp.b 0x04
-    bcc _elapsed
-    lda.b 0x04
+        ldx.b 0x00
+        lda.w atb_gauge_state.period & 0xFFFF, x
+        and.w #0x00FF
+        beq _no_pace
+        ldy.b 0x06
+        cpy.w #_MAX_PACED_TIME
+        bcs _no_pace
+        sta.b 0x04  ; period
+        ldx.b 0x02
+        lda.w atb_gauge_state.frames & 0xFFFF
+        sec
+        sbc.w atb_gauge_state.last_tick & 0xFFFF, x
+        cmp.b 0x04
+        bcc _elapsed
+        lda.b 0x04
 _elapsed:
-    pha  ; elapsed
-    lda.b 0x08
-    jsr.w _times_period
-    clc
-    adc 1, s
-    sta.b 0x08  ; run out * period + elapsed
-    pla
-    lda.b 0x06
-    jsr.w _times_period
-    sta.b 0x06  ; full * period
+        pha  ; elapsed
+        lda.b 0x08
+        jsr.w _times_period
+        clc
+        adc 1, s
+        sta.b 0x08  ; run out * period + elapsed
+        pla
+        lda.b 0x06
+        jsr.w _times_period
+        sta.b 0x06  ; full * period
 _no_pace:
-    lda.b 0x08
-    asl
-    clc
-    adc.b 0x08  ; * 3
-    asl
-    asl
-    asl  ; * 24
-    ldx.w #0x0000
+        lda.b 0x08
+        asl
+        clc
+        adc.b 0x08  ; * 3
+        asl
+        asl
+        asl  ; * 24
+        ldx.w #0x0000
 _divide:
-    cmp.b 0x06
-    bcc _divided
-    sbc.b 0x06
-    inx
-    bra _divide
+        cmp.b 0x06
+        bcc _divided
+        sbc.b 0x06
+        inx
+        bra _divide
 _divided:
-    txa
-    sep #0x20
-    cmp.b #_GAUGE_PX
-    bcc _fill_done
-    lda.b #_GAUGE_PX - 1  ; full only once the timer is 0
+        txa
+        sep #0x20
+        cmp.b #_GAUGE_PX
+        bcc _fill_done
+        lda.b #_GAUGE_PX - 1  ; full only once the timer is 0
 _fill_done:
-    rts
+        rts
 _fill_empty:
-    sep #0x20
-    lda.b #0x00
-    rts
+        sep #0x20
+        lda.b #0x00
+        rts
 _fill_full:
-    sep #0x20
-    lda.b #_GAUGE_PX
-    rts
+        sep #0x20
+        lda.b #_GAUGE_PX
+        rts
 
 _times_period:
 """A16 *= the period in $04 (small: repeated addition)."""
-    pha
-    lda.w #0x0000
-    ldy.b 0x04
+        pha
+        lda.w #0x0000
+        ldy.b 0x04
 _tp_add:
-    clc
-    adc 1, s
-    dey
-    bne _tp_add
-    ply
-    rts
+        clc
+        adc 1, s
+        dey
+        bne _tp_add
+        ply
+        rts
 
 _draw_gauge:
 """Fill A8 into the gauge cells of row `atb_gauge_state.row`: grey while it fills, the HP digits' white when full."""
-    sta.b 0x06
-    ldy.w atb_gauge_state.row & 0xFFFF
-    lda.w _LAST_DIGIT + 1, y
-    and.b #( ~_PALETTE_MASK ) & 0xFF
-    sta.b 0x07
-    lda.b 0x06
-    cmp.b #_GAUGE_PX
-    beq _attr_set
-    lda.b 0x07
-    ora.b #_FILLING_PALETTE
-    sta.b 0x07
+        sta.b 0x06
+        ldy.w atb_gauge_state.row & 0xFFFF
+        lda.w _LAST_DIGIT + 1, y
+        and.b #( ~_PALETTE_MASK ) & 0xFF
+        sta.b 0x07
+        lda.b 0x06
+        cmp.b #_GAUGE_PX
+        beq _attr_set
+        lda.b 0x07
+        ora.b #_FILLING_PALETTE
+        sta.b 0x07
 _attr_set:
-    lda.b #_CAP_LEFT
-    sta.w _GAUGE, y
-    lda.b 0x07
-    sta.w _GAUGE + 1, y
-    ldx.w #_FILL_CELLS
+        lda.b #_CAP_LEFT
+        sta.w _GAUGE, y
+        lda.b 0x07
+        sta.w _GAUGE + 1, y
+        ldx.w #_FILL_CELLS
 _cell:
-    iny
-    iny
-    lda.b 0x06  ; what is left to fill
-    cmp.b #8
-    bcc _partial
-    lda.b #8
+        iny
+        iny
+        lda.b 0x06  ; what is left to fill
+        cmp.b #8
+        bcc _partial
+        lda.b #8
 _partial:
-    pha
-    clc
-    adc.b #_FILL_0
-    sta.w _GAUGE, y
-    lda.b 0x07
-    sta.w _GAUGE + 1, y
-    pla
-    eor.b #0xFF
-    sec
-    adc.b 0x06
-    sta.b 0x06
-    dex
-    bne _cell
-    rts
+        pha
+        clc
+        adc.b #_FILL_0
+        sta.w _GAUGE, y
+        lda.b 0x07
+        sta.w _GAUGE + 1, y
+        pla
+        eor.b #0xFF
+        sec
+        adc.b 0x06
+        sta.b 0x06
+        dex
+        bne _cell
+        rts
 
 _publish_gauge:
 """Row $0A's gauge cells (its HP text's cells 4-8) into the main view and the command window's copy (A8 X16)."""
-    jsr.w _cap_cell  ; Y = the cap cell: the gauge starts 5 cells before
-    rep #0x20
-    tya
-    sec
-    sbc.w #_CAP_CELL - _GAUGE_CELL
-    tay
-    ldx.w atb_gauge_state.row & 0xFFFF
-    lda.w #5
-    sta.b 0x08
+        jsr.w _cap_cell  ; Y = the cap cell: the gauge starts 5 cells before
+        rep #0x20
+        tya
+        sec
+        sbc.w #_CAP_CELL - _GAUGE_CELL
+        tay
+        ldx.w atb_gauge_state.row & 0xFFFF
+        lda.w #5
+        sta.b 0x08
 _pg_cell:
-    lda.w _GAUGE, x
-    sta.w 0x0000, y
-    sta.w _MIRROR, y
-    inx
-    inx
-    iny
-    iny
-    dec.b 0x08
-    bne _pg_cell
-    sep #0x20
-    rts
+        lda.w _GAUGE, x
+        sta.w 0x0000, y
+        sta.w _MIRROR, y
+        inx
+        inx
+        iny
+        iny
+        dec.b 0x08
+        bne _pg_cell
+        sep #0x20
+        rts
 
 _cap_cell:
 """Y = the main view's cell after row $0A's bottom row (A16 on return)."""
-    rep #0x20
-    lda.b 0x0A
-    and.w #0x00FF
-    xba
-    lsr  ; row * 128
-    clc
-    adc.w #( _MAIN_VIEW_HP & 0xFFFF ) + _CAP_CELL
-    tay
-    rts
+        rep #0x20
+        lda.b 0x0A
+        and.w #0x00FF
+        xba
+        lsr  ; row * 128
+        clc
+        adc.w #( _MAIN_VIEW_HP & 0xFFFF ) + _CAP_CELL
+        tay
+        rts
 
 _draw_cap:
 """The right cap of row $0A, in its gauge's palette (A8 X16, DB $7E)."""
-    jsr.w _cap_cell
-    sep #0x20
-    ldx.w atb_gauge_state.row & 0xFFFF
-    lda.w _GAUGE + 1, x  ; the left cap's attribute: the gauge's palette
-    xba
-    lda.b #_CAP_RIGHT
-    rep #0x20
-    sta.w 0x0000, y
-    sta.w _MIRROR, y
-    sep #0x20
-    rts
+        jsr.w _cap_cell
+        sep #0x20
+        ldx.w atb_gauge_state.row & 0xFFFF
+        lda.w _GAUGE + 1, x  ; the left cap's attribute: the gauge's palette
+        xba
+        lda.b #_CAP_RIGHT
+        rep #0x20
+        sta.w 0x0000, y
+        sta.w _MIRROR, y
+        sep #0x20
+        rts
 
 _clear_cap:
 """No character on row $0A: a blank where its right cap goes (A8 X16, DB $7E)."""
-    jsr.w _cap_cell
-    lda.w #0x00FF
-    sta.w 0x0000, y
-    sta.w _MIRROR, y
-    sep #0x20
-    rts
+        jsr.w _cap_cell
+        lda.w #0x00FF
+        sta.w 0x0000, y
+        sta.w _MIRROR, y
+        sep #0x20
+        rts
     }
 }
 

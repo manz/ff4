@@ -22,12 +22,12 @@ battle_display_char:
 
 
     {
-    battle_flag_switch(battle_flags_jump_table)
+        battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
-    .dw wram.put_char  ; index 0 (flags = 0)
-    .dw wram.put_char  ; index 2 (flags = 1) - fallback to WRAM
-    .dw messages_vwf.put_fixed_char_dakuten_far  ; index 4 (flags = 2)
-    .dw messages_vwf.put_fixed_char_dakuten_far  ; index 6 (flags = 3) - fallback
+        .dw wram.put_char  ; index 0 (flags = 0)
+        .dw wram.put_char  ; index 2 (flags = 1) - fallback to WRAM
+        .dw messages_vwf.put_fixed_char_dakuten_far  ; index 4 (flags = 2)
+        .dw messages_vwf.put_fixed_char_dakuten_far  ; index 6 (flags = 3) - fallback
     }
 
 battle_display_dakuten_char:
@@ -38,12 +38,12 @@ battle_display_dakuten_char:
 
 
     {
-    battle_flag_switch(battle_flags_jump_table)
+        battle_flag_switch(battle_flags_jump_table)
 battle_flags_jump_table:
-    .dw wram.put_char_with_dakuten  ; index 0 (flags = 0)
-    .dw wram.put_char_with_dakuten  ; index 2 (flags = 1) - fallback to WRAM
-    .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 4 (flags = 2)
-    .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 6 (flags = 3) - fallback
+        .dw wram.put_char_with_dakuten  ; index 0 (flags = 0)
+        .dw wram.put_char_with_dakuten  ; index 2 (flags = 1) - fallback to WRAM
+        .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 4 (flags = 2)
+        .dw messages_vwf.put_fixed_char_no_dakuten_far  ; index 6 (flags = 3) - fallback
     }
 
 _sink:
