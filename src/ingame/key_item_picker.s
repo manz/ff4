@@ -82,8 +82,8 @@ _KEY_ITEM_HDMA_CHANNEL_BIT := 0x10
 .alloc _key_item_picker_block in bank20_reloc {
 _key_item_ensure_hdma_initialized:
 """
-    Captures $9F (BG3VOFS shadow) into base_scroll on first call. Never arms ch4: the picker returns to the field
-    without teardown, and a live ch4 splits the field's BG3.
+Captures $9F (BG3VOFS shadow) into base_scroll on first call. Never arms ch4: the picker returns to the field
+without teardown, and a live ch4 splits the field's BG3.
 """
 
 
@@ -91,7 +91,7 @@ _key_item_ensure_hdma_initialized:
     lda.l key_item_rolling.base_scroll
     cmp.w #0xFFFF
     bne _key_item_hdma_already_init
-    lda.l 0x7E019F
+    lda 0x7E019F
     sta.l key_item_rolling.base_scroll
     sep #0x20
 ; Build the table only; driving BG3VOFS would fight vanilla's window placement.
@@ -302,7 +302,7 @@ _key_item_render_item_to_slot:
 
 _key_item_render_all:
 """
-    Inits the ring and keeps HDMA off. Unreferenced: the picker renders from `key_item_after_open_impl`.
+Inits the ring and keeps HDMA off. Unreferenced: the picker renders from `key_item_after_open_impl`.
 """
 
 
@@ -363,8 +363,8 @@ _clear_key_loop:
 
 _key_item_init_filter:
 """
-    Port of InitItemList ($00:B2D5): copies (id, qty) of key items [$CE..$E6] u [$EB..$FD] from $1440 to $0712.
-    Sets key_item_picker.count.
+Port of InitItemList ($00:B2D5): copies (id, qty) of key items [$CE..$E6] u [$EB..$FD] from $1440 to $0712.
+Sets key_item_picker.count.
 """
 
 
@@ -535,7 +535,7 @@ _key_item_hdma_signal:
 
 _key_item_init_impl:
 """
-    Filters the list, fills `key_item_rolling` ($7E:9C60) and inits the engine.
+Filters the list, fills `key_item_rolling` ($7E:9C60) and inits the engine.
 """
 
 

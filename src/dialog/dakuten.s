@@ -45,10 +45,10 @@ _store_char_with_dakuten:
         jsr.l lookup_dakuten
         cmp #0xff
         beq _skip
-        sta.l 0x7E0000, x
+        sta 0x7E0000, x
 _skip:
 
-        sta.l 0x7E0040, x
+        sta 0x7E0040, x
 
         rtl
     }

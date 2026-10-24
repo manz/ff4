@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from script import Table
+from katsuji.script import Table
 
 from utils.compare_pointers import compare, ids, lost_names, normalise
 from utils.script_xml import pointer_texts

@@ -369,7 +369,7 @@ _t_setup_in_treasure:
     sta.l dma_ch6.A1B
     rep #0x20
 ; base_scroll = vanilla's BG3VOFS shadow ($9F, -120).
-    lda.l 0x7E019F
+    lda 0x7E019F
     sta.w treasure_rolling.base_scroll
     sep #0x20
 ; Vanilla's $AD (ch7|ch5|ch3|ch2|ch0) + ch6 + ch4, minus ch2 (its BG3VOFS parallax overrides the ring scroll)

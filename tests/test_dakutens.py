@@ -9,7 +9,7 @@ import struct
 from pathlib import Path
 
 import pytest
-from script import Table
+from katsuji.script import Table
 
 from utils.dakutens import generate_dakutens
 

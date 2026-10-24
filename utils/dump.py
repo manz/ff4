@@ -1,12 +1,12 @@
 #!/usr/bin/env python3.4
 import struct
 
-import script
+import katsuji.script as script
 from a816.cpu.cpu_65c816 import snes_to_rom
 from a816.symbols import low_rom_bus
-from script import Table
-from script.formulas import base_relative_16bits_pointer_formula
-from script.pointers import Script, write_pointers_as_xml, Pointer
+from katsuji.script import Table
+from katsuji.script.formulas import base_relative_16bits_pointer_formula
+from katsuji.script.pointers import Script, write_pointers_as_xml, Pointer
 
 
 def write_fixed_text_as_xml(pointers, table, length, output_file):

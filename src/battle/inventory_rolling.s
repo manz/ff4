@@ -69,8 +69,8 @@ _vram_slot_table:
 
 init_inventory_text_buf_rolling:
 """
-    Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the
-    in-battle inventory window opens, resetting the rolling-buffer state. Clobbers A, X, Y, $00-$06, $26-$2A.
+Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the
+in-battle inventory window opens, resetting the rolling-buffer state. Clobbers A, X, Y, $00-$06, $26-$2A.
 """
 
 
@@ -80,8 +80,8 @@ init_inventory_text_buf_rolling:
     plb
 
 ; Always start at row 0. EF65/EF67 are set by ResetListScrollHDMA.
-    stz.w 0xEF71  ; Game's row index = 0
-    stz.w 0xEF86  ; Scroll offset = 0 (top item visible)
+    stz 0xEF71  ; Game's row index = 0
+    stz 0xEF86  ; Scroll offset = 0 (top item visible)
     lda #1
     sta.w _inventory_needs_full_refresh  ; First frame after open: paint all visible.
     stz.b 0x60  ; Cursor row = 0 (top visible row)
@@ -141,11 +141,11 @@ _init_row_loop:
     the NMI): left on the format buffer, they made the next message decode inventory rows and hang in DrawCharVar.
     """
         rep #0x20
-        lda.w 0xEF54
+        lda 0xEF54
         pha
-        lda.w 0xEF52
+        lda 0xEF52
         pha
-        lda.w 0xEF50
+        lda 0xEF50
         pha
         lda.b 0x30
         pha
@@ -170,11 +170,11 @@ _init_row_loop:
         pla
         sta.b 0x30
         pla
-        sta.w 0xEF50
+        sta 0xEF50
         pla
-        sta.w 0xEF52
+        sta 0xEF52
         pla
-        sta.w 0xEF54
+        sta 0xEF54
         lda.w #0x0000
         sep #0x20
     }
@@ -190,7 +190,7 @@ _render_bottom_edge_row:
     plb
 
 ; new bottom item = top + BUFFER_SLOTS
-    lda.w 0xEF71
+    lda 0xEF71
     clc
     adc #BUFFER_SLOTS
 
@@ -246,7 +246,7 @@ _render_top_edge_row:
     pha
     plb
 
-    lda.w 0xEF71
+    lda 0xEF71
     dec  ; New top row after scroll
 
     bmi _render_top_done
@@ -347,14 +347,14 @@ _render_item_to_circular_slot:
     lda.b btlgfx_dp.mult8_result
     clc
     adc #_text_buffer_base
-    sta.w 0xEF52  ; draw_text output destination
+    sta 0xEF52  ; draw_text output destination
     tdc
     sep #0x20
 
     ldx.w #inv_format_buffer
-    stx.w 0xEF50
+    stx 0xEF50
     lda #15
-    sta.w 0xEF54
+    sta 0xEF54
 
 ; item data at _rolling_edge_row * 4
     tdc
@@ -485,7 +485,7 @@ _empty_slot_fast:
 
 
     rep #0x20
-    lda.w 0xEF52
+    lda 0xEF52
     sta.b 0x04  ; ptr-to-slot in DP scratch
     sep #0x20
     ldy.w #0
@@ -835,8 +835,8 @@ _copy_slot_row2:
 
 _restore_items_frame:
 """
-    Redraw the items window frame (sides on rows 1-13, bottom edge on 14, rows 15-25 cleared for the magic
-    frame); the slot copy then puts the item rows back. DBR = $7E, X = 16.
+Redraw the items window frame (sides on rows 1-13, bottom edge on 14, rows 15-25 cleared for the magic
+frame); the slot copy then puts the item rows back. DBR = $7E, X = 16.
 """
 
 
@@ -964,8 +964,8 @@ _copy_all_row2:
 
 tfr_inventory_list_rolling:
 """
-    Replacement for original `TfrInventoryList` ($0298FA): re-render the visible inventory rows into our buffer and DMA
-    the slice to VRAM. Reached via JSL from bank 02.
+Replacement for original `TfrInventoryList` ($0298FA): re-render the visible inventory rows into our buffer and DMA
+the slice to VRAM. Reached via JSL from bank 02.
 """
 
 
@@ -1027,9 +1027,9 @@ _tfr_frame_ok:
 
 _recolour_visible_slots:
 """
-    Set each visible slot's palette from its item's disabled bit ($321A bit 7: grey, palette 1). Vanilla's
-    UpdateEnabledItems recolours its own 48-row buffer, which the rolling list does not show. The hidden slot
-    keeps its render-time palette.
+Set each visible slot's palette from its item's disabled bit ($321A bit 7: grey, palette 1). Vanilla's
+UpdateEnabledItems recolours its own 48-row buffer, which the rolling list does not show. The hidden slot
+keeps its render-time palette.
 """
 
 
@@ -1151,7 +1151,7 @@ _refresh_visible_items:
 
 _refresh_loop:
 ; item = EF71 + slot
-    lda.w 0xEF71
+    lda 0xEF71
     clc
     adc.b 0x06
     sta.w _rolling_edge_row  ; Item index for data lookup
@@ -1192,7 +1192,7 @@ _post_render_up:
     plb
 
 ; item = EF71 + VISIBLE_ROWS
-    lda.w 0xEF71
+    lda 0xEF71
     clc
     adc #VISIBLE_ROWS
     cmp #_TOTAL_ITEMS
@@ -1231,7 +1231,7 @@ _post_render_down:
     plb
 
 ; item = EF71 + VISIBLE_ROWS
-    lda.w 0xEF71
+    lda 0xEF71
     clc
     adc #VISIBLE_ROWS
     cmp #_TOTAL_ITEMS
@@ -1277,8 +1277,8 @@ _psd_done:
 
 scroll_list_down_hook:
 """
-    Replacement for the scroll-down stub at `$02A8B8` (JMP.L, returns via return_to_bank02): pre-render the new
-    bottom slot, then start the scroll-down animation.
+Replacement for the scroll-down stub at `$02A8B8` (JMP.L, returns via return_to_bank02): pre-render the new
+bottom slot, then start the scroll-down animation.
 """
 
 
@@ -1293,11 +1293,11 @@ scroll_list_down_hook:
     adc.b #battle_render.SPELL_VISIBLE_ROWS
     jsr.l spell_list_scroll_render
 ; vanilla $02A8B8 body
-    ldx.w 0xEF71
+    ldx 0xEF71
     dex
-    stx.w 0xEF71
+    stx 0xEF71
     lda #0x0C
-    sta.w 0xEF64
+    sta 0xEF64
     lda #0x02
     sta.w menu_hdma_pending
     jmp.l return_to_bank02
@@ -1341,9 +1341,9 @@ _sd_slot_ok:
 
 _sd_skip_prerender:
 ; EF71++ (animation loop is NOPed out)
-    lda.w 0xEF71
+    lda 0xEF71
     inc
-    sta.w 0xEF71
+    sta 0xEF71
 
 ; _rolling_top_row tracks the top item; _refresh_visible_items_internal depends on it
     lda.w _rolling_top_row
@@ -1351,7 +1351,7 @@ _sd_skip_prerender:
     sta.w _rolling_top_row
 
     lda #0x0C
-    sta.w 0xEF64
+    sta 0xEF64
     lda #0x02  ; Animation 2 (scroll down)
     sta.w menu_hdma_pending
 
@@ -1367,8 +1367,8 @@ _sd_pos_ok:
 
 _sd_abort:
 ; Keep cursor 1 visible during the animation
-    stz.w 0xEF69  ; Clear hide cursor 1 flag
-    stz.w 0xEF6E  ; Clear alternate hide cursor 1 flag
+    stz 0xEF69  ; Clear hide cursor 1 flag
+    stz 0xEF6E  ; Clear alternate hide cursor 1 flag
 
     plb  ; Restore data bank
     cli  ; re-enable interrupts
@@ -1376,8 +1376,8 @@ _sd_abort:
 
 scroll_list_up_hook:
 """
-    Replacement for the scroll-up stub at `$02A8CA` (JMP.L, returns via return_to_bank02): pre-render the new top
-    row, then start the scroll-up animation.
+Replacement for the scroll-up stub at `$02A8CA` (JMP.L, returns via return_to_bank02): pre-render the new top
+row, then start the scroll-up animation.
 """
 
 
@@ -1391,11 +1391,11 @@ scroll_list_up_hook:
     dec
     jsr.l spell_list_scroll_render
 ; vanilla $02A8CA body
-    ldx.w 0xEF71
+    ldx 0xEF71
     inx
-    stx.w 0xEF71
+    stx 0xEF71
     lda #0x0C
-    sta.w 0xEF64
+    sta 0xEF64
     lda #0x03
     sta.w menu_hdma_pending
     jmp.l return_to_bank02
@@ -1438,7 +1438,7 @@ _su_pos_ok:
     sta.w _rolling_top_row
 
     lda #0x0C
-    sta.w 0xEF64
+    sta 0xEF64
     lda #0x03  ; Animation 3 (scroll up)
     sta.w menu_hdma_pending
     bra _su_exit
@@ -1446,14 +1446,14 @@ _su_pos_ok:
 _su_abort:
 ; Pre-increment EF85, EF86, $63 so the caller's unconditional dec at $02:B4FA-B500 restores them;
 ; otherwise $63 (cursor item index) underflows to $FF past item 0.
-    inc.w 0xEF85
-    inc.w 0xEF86
+    inc 0xEF85
+    inc 0xEF86
     inc.b 0x63
 
 _su_exit:
 ; Keep cursor 1 visible during the animation
-    stz.w 0xEF69  ; Clear hide cursor 1 flag
-    stz.w 0xEF6E  ; Clear alternate hide cursor 1 flag
+    stz 0xEF69  ; Clear hide cursor 1 flag
+    stz 0xEF6E  ; Clear alternate hide cursor 1 flag
 
     plb  ; Restore data bank
     cli  ; re-enable interrupts
@@ -1467,8 +1467,8 @@ _su_exit:
 
 update_list_scroll_hdma_wrapped:
 """
-    Replacement for the HDMA-build stub at `$02A7F1` (JMP.L): rebuild the per-scanline V-scroll table at $7F74.
-    In: X = scroll offset ($EF65), Y = scanlines per row (12). Inventory values wrap at 96 px (6 slots x 16).
+Replacement for the HDMA-build stub at `$02A7F1` (JMP.L): rebuild the per-scanline V-scroll table at $7F74.
+In: X = scroll offset ($EF65), Y = scanlines per row (12). Inventory values wrap at 96 px (6 slots x 16).
 """
 
 
@@ -1482,7 +1482,7 @@ update_list_scroll_hdma_wrapped:
     ldx.w #0x0000  ; Table index
 
 _orig_loop:
-    sta.w 0x7F74, x  ; Store scroll value
+    sta 0x7F74, x  ; Store scroll value
     dey
     bne _orig_skip_add
     clc
@@ -1652,15 +1652,15 @@ reset_list_scroll_hdma_rolling:
     bne _reset_use_circular
 
     ldx.w #0x0173  ; 371 - base scroll
-    stx.w 0xEF65
+    stx 0xEF65
     ldy.w #0x000C  ; 12 scanlines
-    sty.w 0xEF67
+    sty 0xEF67
     rep #0x20  ; 16-bit A
     txa  ; A = 371
     ldx.w #0x0000
 
 _reset_orig_loop:
-    sta.w 0x81F4, x  ; Swap table only (like original)
+    sta 0x81F4, x  ; Swap table only (like original)
     dey
     bne _reset_orig_skip
     clc
@@ -1690,9 +1690,9 @@ _reset_use_circular:
     pha
 
     ldx.w #0x0173  ; 371 - game's expected base scroll
-    stx.w 0xEF65
+    stx 0xEF65
     ldy.w #0x000C  ; 12 scanlines per item row
-    sty.w 0xEF67
+    sty 0xEF67
 
 ; Re-init the slots on every (re)open so VRAM holds the right items; also resets _rolling_buffer_pos
     jsr.l init_inventory_text_buf_rolling
@@ -1749,8 +1749,8 @@ _reset_scanline_loop:
 
 check_cursor2_visibility_rolling:
 """
-    In swap mode ($EF94 != 0), show cursor 2 ($EF6A = 0) only when the first-selected item ($EF95, bit 7
-    masked) is in the visible window. JSL from wrap_and_clear_trampoline after a scroll animation.
+In swap mode ($EF94 != 0), show cursor 2 ($EF6A = 0) only when the first-selected item ($EF95, bit 7
+masked) is in the visible window. JSL from wrap_and_clear_trampoline after a scroll animation.
 """
 
 
@@ -1811,8 +1811,8 @@ _cursor2_done:
 
 field_menu_nmi_dma_transfer_check_impl:
 """
-    NMI hook (JSL from bank $01) relocated to bank $20: transfer the field rolling-buffer tilemap to VRAM and update
-    the live HDMA scroll table.
+NMI hook (JSL from bank $01) relocated to bank $20: transfer the field rolling-buffer tilemap to VRAM and update
+the live HDMA scroll table.
 """
 
 

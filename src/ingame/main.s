@@ -138,21 +138,21 @@ menu:
 ; Time offset
     .alloc at 0x018BC1 {
         lda.b #0x80
-        sta.w 0x0578, y
+        sta 0x0578, y
         xba
-        sta.w 0x057A, y
+        sta 0x057A, y
         rep #0x20
         lda.b 0x73
         sep #0x20
         jsr.w hex_to_dec4
         lda.b 0x5B
-        sta.w 0x0570, y
+        sta 0x0570, y
         lda.b 0x5D
-        sta.w 0x0572, y
+        sta 0x0572, y
         lda.b 0x5E
-        sta.w 0x0574, y
+        sta 0x0574, y
         lda.b #0xC8
-        sta.w 0x0576, y
+        sta 0x0576, y
     }
 }
 

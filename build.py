@@ -14,9 +14,9 @@ from a816.linker import Linker
 from a816.object_file import ObjectFile
 from a816.program import Program
 from a816.symbols import low_rom_bus
-from script import Table
-from script.formulas import long_low_rom_pointer
-from script.pointers import (
+from katsuji.script import Table
+from katsuji.script.formulas import long_pointer
+from katsuji.script.pointers import (
     read_pointers_from_xml,
     write_pointers_value_as_binary,
     write_pointers_addresses_as_binary,
@@ -159,14 +159,7 @@ def build_text_asset(table, input_file, binary_text_file, pointers_file, address
 
     write_pointers_value_as_binary(pointers, binary_text_file)
 
-    pointer_addr = low_rom_bus.get_address(address)
-    physical_addr = pointer_addr.physical
-
-    assert physical_addr is not None, f"Physical address for {address:02x} not found."
-
-    write_pointers_addresses_as_binary(
-        pointers, long_low_rom_pointer(physical_addr), pointers_file
-    )
+    write_pointers_addresses_as_binary(pointers, long_pointer(low_rom_bus.get_address(address)), pointers_file)
 
 
 def build_pointed_names(table: Table, input_file: str, strings_file: str, pointers_file: str) -> None:

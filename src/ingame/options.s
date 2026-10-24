@@ -180,7 +180,7 @@ Vanilla's `ldx #$300A / stx $0306`, then the gauge row's toggle cursor: on "Oui"
 with JSL.
 """
         ldx.w #_TOGGLE_TILE
-        stx.w 0x0306
+        stx 0x0306
         lda.l ATB_GAUGE_SETTING
         and.b #ATB_GAUGE_ON
         beq _off

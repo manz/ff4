@@ -147,9 +147,9 @@ blank. ClearText's other callers keep vanilla's behaviour.
     tay
     beq _cleared
 _cell:
-    lda.l 0x7E0001, x
+    lda 0x7E0001, x
     and.b #0xFC
-    sta.l 0x7E0001, x
+    sta 0x7E0001, x
     lda.l 0x7E0000 + _GLYPH_ROW + 1, x
     and.b #0xFC
     sta.l 0x7E0000 + _GLYPH_ROW + 1, x
@@ -377,10 +377,10 @@ tiles. Returns like vanilla: X past the cells, Y = 0, A kept.
         pha
         ldy.w #7
 _tint_cell:
-        lda.l 0x7EC601, x
+        lda 0x7EC601, x
         and.b #0x03
         ora 1, s
-        sta.l 0x7EC601, x
+        sta 0x7EC601, x
         inx
         inx
         dey
@@ -459,11 +459,11 @@ _school_indexed:
         sep #0x20
         lda.b 0x45
 _spell_cell:
-        sta.l 0x7E0000, x
+        sta 0x7E0000, x
         xba
-        lda.l 0x7E0001, x
+        lda 0x7E0001, x
         ora.b #0x01  ; tile bit 8
-        sta.l 0x7E0001, x
+        sta 0x7E0001, x
         xba
         inc
         inx
@@ -486,10 +486,10 @@ redrawn over another loses the old names and a narrower window keeps its border.
         phx
 _paint_spell_cells_next:
         lda.b #0xFF
-        sta.l 0x7E0000, x
+        sta 0x7E0000, x
         sta.l 0x7E0000 + _GLYPH_ROW, x
         lda.b 0xDB
-        sta.l 0x7E0001, x
+        sta 0x7E0001, x
         sta.l 0x7E0000 + _GLYPH_ROW + 1, x
         inx
         inx
@@ -805,10 +805,10 @@ _on_screen:
         adc.w #_GLYPH_ROW
         tax
         sep #0x20
-        lda.l 0x7E0000, x
+        lda 0x7E0000, x
         cmp.l vwf_cfg.tile_id_base
         bne _not_drawn
-        lda.l 0x7E0001, x
+        lda 0x7E0001, x
         and.b #0x03
         cmp.l vwf_cfg.flags
         bne _not_drawn
@@ -887,13 +887,13 @@ _pad_check:
         cmp.l vwf_cfg.tilemap_base
         sep #0x20
         bcs _padded
-        lda.l 0x7E0001, x
+        lda 0x7E0001, x
         bit.b #0x03
         beq _pad_next
         and.b #0xFC
-        sta.l 0x7E0001, x
+        sta 0x7E0001, x
         lda.b #_BLANK_TILE
-        sta.l 0x7E0000, x
+        sta 0x7E0000, x
 _pad_next:
         inx
         inx

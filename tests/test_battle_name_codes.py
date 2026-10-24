@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss
-from script import Table
+from katsuji.script import Table
 from test_battle_message_text_pointer import _use_monsters
 
 from build import SMALL_VWF_TABLE, battle_text_table

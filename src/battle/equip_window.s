@@ -60,11 +60,11 @@ already show them. Keeps the caller's DrawText parameters and direct page $00-$0
     pha
     plb
     rep #0x20
-    lda.w 0xEF54
+    lda 0xEF54
     pha
-    lda.w 0xEF52
+    lda 0xEF52
     pha
-    lda.w 0xEF50
+    lda 0xEF50
     pha
     lda.b 0x00
     pha
@@ -102,11 +102,11 @@ _rpt_done:
     pla
     sta.b 0x00
     pla
-    sta.w 0xEF50
+    sta 0xEF50
     pla
-    sta.w 0xEF52
+    sta 0xEF52
     pla
-    sta.w 0xEF54
+    sta 0xEF54
     plb
     plp
     rts
@@ -159,7 +159,7 @@ _render_hand:
     jsr.w _char_x2
     rep #0x20
     lda.l _EQUIP_TEXT, x
-    sta.w 0xEF52
+    sta 0xEF52
     lda.l _HAND_ITEMS, x
     tax
     sep #0x20
@@ -170,13 +170,13 @@ _render_hand:
     inx
     inx
     rep #0x20
-    lda.w 0xEF52
+    lda 0xEF52
     clc
     adc.w #_ITEM_STRIDE
-    sta.w 0xEF52
+    sta 0xEF52
     sep #0x20
 _rh_entry:
-    stz.w 0xEF55  ; white
+    stz 0xEF55  ; white
     lda.w 0x0001, x
     beq _rh_empty
     sta.b 0x02
@@ -190,9 +190,9 @@ _rh_palette:
     sta.b 0x00
     sta.b 0x01
     ldx.w #_FORMAT
-    stx.w 0xEF50
+    stx 0xEF50
     lda.b #_TEXT_CELLS
-    sta.w 0xEF54
+    sta 0xEF54
     jsr.l build_item_format_far
     lda 1, s
     beq _rh_item_tiles
@@ -205,7 +205,7 @@ _rh_item_tiles:
     bra _rh_label
 _rh_empty:
     rep #0x20
-    ldx.w 0xEF52
+    ldx 0xEF52
     ldy.w #_ITEM_STRIDE / 2
     lda.w #0x00FF  ; a blank cell
 _rh_blank:
@@ -282,12 +282,12 @@ _rl_end:
     lda.b #0x00
     sta.w _FORMAT, y
     ldx.w #_FORMAT
-    stx.w 0xEF50
+    stx 0xEF50
     ldx.w #equip_label_text
-    stx.w 0xEF52
+    stx 0xEF52
     lda.b #_TEXT_CELLS
-    sta.w 0xEF54
-    stz.w 0xEF55
+    sta 0xEF54
+    stz 0xEF55
     lda 1, s
     beq _rl_tiles
     lda.b #_LABEL_TILE_COUNT
@@ -357,8 +357,8 @@ equip_popup_closed:
 
 tfr_equip_window_new:
 """
-    Replacement for vanilla `TfrEquipWindow` ($02:97A6), JSL'd from the bank-02 trampoline: 6 transfer passes, the
-    two labels into the left column, the two items' top/bottom halves into the right one.
+Replacement for vanilla `TfrEquipWindow` ($02:97A6), JSL'd from the bank-02 trampoline: 6 transfer passes, the
+two labels into the left column, the two items' top/bottom halves into the right one.
 """
 
 
@@ -373,9 +373,9 @@ tfr_equip_window_new:
         asl
         tax
         rep #0x20
-        lda.l 0x16FEC1, x  ; EquipTextBufPtrs
+        lda 0x16FEC1, x  ; EquipTextBufPtrs
         pha
-        lda.l 0x16FF25, x  ; RLHandTextBufPtrs
+        lda 0x16FF25, x  ; RLHandTextBufPtrs
         tax
         sep #0x20
 
@@ -467,7 +467,7 @@ equip_popup_open_edge:
 
 equip_popup_close_edge:
 """Vanilla's popup close (B4D): its first instruction, then the command list's redraw signal."""
-    stz.w 0xEF74
+    stz 0xEF74
     jsr.l equip_popup_closed
     rts
 }
@@ -517,12 +517,12 @@ _popup_leave:
 
 .alloc at 0x02B341 size 17 {
     ldx.w #_POPUP_CURSOR_X
-    stx.w 0xEF6B  ; menu cursor 1 x
+    stx 0xEF6B  ; menu cursor 1 x
     lda.b 0x5F
     tax
     lda.l equip_popup_cursor_y, x
     tax
-    stx.w 0xEF6D  ; menu cursor 1 y
+    stx 0xEF6D  ; menu cursor 1 y
 }
 
 .alloc _equip_popup_cursor in bank20_reloc {

@@ -34,7 +34,7 @@ Each slot owns FIELD_ITEM_VWF_TILE_BUDGET (10) tile ids from FIELD_ITEM_VWF_TILE
     """
 draw_field_item_name:
 """
-    Fills `vwf_cfg`, blanks the top row, writes the symbol to the bottom row, then copies the baked name tiles.
+Fills `vwf_cfg`, blanks the top row, writes the symbol to the bottom row, then copies the baked name tiles.
 """
 
 
@@ -228,11 +228,11 @@ _row_cells_done:
 
 draw_equip_item_name:
 """
-    `DrawEquipItemName` ($01:9013) replacement.
+`DrawEquipItemName` ($01:9013) replacement.
 
-    Entry: Y = equipment offset in the record at ($60) ($30..$35), X = slot tilemap offset, $29 = BG2 buffer.
-    Uses the drops tile region (slots 11..16) so it coexists with the inventory list.
-    Preserves Y, $5D and vwf_engine.caller_ctx.
+Entry: Y = equipment offset in the record at ($60) ($30..$35), X = slot tilemap offset, $29 = BG2 buffer.
+Uses the drops tile region (slots 11..16) so it coexists with the inventory list.
+Preserves Y, $5D and vwf_engine.caller_ctx.
 """
 
 
@@ -342,11 +342,11 @@ _cells:
         sep #0x20
         lda.l vwf_cfg.tile_id_base
 _cell:
-        sta.l 0x7E0000, x
+        sta 0x7E0000, x
         xba
-        lda.l 0x7E0001, x
+        lda 0x7E0001, x
         ora.l vwf_cfg.flags
-        sta.l 0x7E0001, x
+        sta 0x7E0001, x
         xba
         inc
         inx
@@ -366,7 +366,7 @@ _cells_done:
 
 render_with_config_trampoline:
 """
-    Long-call entry to `render.render_with_config`.
+Long-call entry to `render.render_with_config`.
 """
 
 

@@ -1,7 +1,7 @@
 import struct
 import unicodedata
 
-from script import Table
+from katsuji.script import Table
 
 
 def generate_dakutens(table: Table) -> bytes:

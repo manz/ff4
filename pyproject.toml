@@ -10,8 +10,8 @@ authors = [{ name = "Emmanuel Peralta", email = "manz@ringum.net" }]
 requires-python = ">=3.14"
 
 dependencies = [
-    "a816==1.1.7",
-    "katsuji==0.3.1",
+    "a816==1.2.0a2",
+    "katsuji[render]==0.4.0a2",
     "kintsuki[visual]==0.0.0a21",
 ]
 

@@ -45,8 +45,8 @@ _MENU_HDMA_BANK := 0x7E
 .alloc _inventory_rolling_block in bank20_reloc {
 _init_menu_inventory_hdma:
 """
-    Builds the scroll table and configures HDMA ch5 (direct, 2 bytes -> BG1VOFS). Arming goes through the
-    `field_menu_rolling.hdma_enable` shadow the NMI hook writes to HDMAEN.
+Builds the scroll table and configures HDMA ch5 (direct, 2 bytes -> BG1VOFS). Arming goes through the
+`field_menu_rolling.hdma_enable` shadow the NMI hook writes to HDMAEN.
 """
 
 
@@ -69,7 +69,7 @@ _init_menu_inventory_hdma:
 
 _disable_menu_inventory_hdma:
 """
-    No-op: menu_exit_hook clears the HDMA shadow and the NMI writes HDMAEN.
+No-op: menu_exit_hook clears the HDMA shadow and the NMI writes HDMAEN.
 """
 
 
@@ -80,7 +80,7 @@ _disable_menu_inventory_hdma:
 
 _init_menu_hdma_table:
 """
-    Builds the active HDMA table at $7E9800 with every row at base scroll.
+Builds the active HDMA table at $7E9800 with every row at base scroll.
 """
 
 
@@ -267,7 +267,7 @@ _menu_hdma_signal:
 
 init_menu_rolling_buffer_impl:
 """
-    Fills `field_menu_rolling` config and hooks, then runs the engine init.
+Fills `field_menu_rolling` config and hooks, then runs the engine init.
 """
 
 
@@ -325,8 +325,8 @@ init_menu_rolling_buffer_impl:
 
 _menu_fn_render_slot_trampoline:
 """
-    Bank-20 RTL wrapper around `_menu_render_item_to_slot`. php/plp keeps the engine's 16-bit X: an 8-bit X
-    truncates its `sta.l abs,X` state writes.
+Bank-20 RTL wrapper around `_menu_render_item_to_slot`. php/plp keeps the engine's 16-bit X: an 8-bit X
+truncates its `sta.l abs,X` state writes.
 """
 
 
@@ -337,7 +337,7 @@ _menu_fn_render_slot_trampoline:
 
 _menu_fn_update_hdma_trampoline:
 """
-    Bank-20 RTL wrapper around the idempotent `_ensure_hdma_initialized`. php/plp keeps the engine's 16-bit X.
+Bank-20 RTL wrapper around the idempotent `_ensure_hdma_initialized`. php/plp keeps the engine's 16-bit X.
 """
 
 
@@ -348,7 +348,7 @@ _menu_fn_update_hdma_trampoline:
 
 _menu_fn_draw_window_trampoline:
 """
-    Bank-20 RTL wrapper around `_menu_draw_inventory_window`, which returns with 8-bit X; php/plp restores 16-bit.
+Bank-20 RTL wrapper around `_menu_draw_inventory_window`, which returns with 8-bit X; php/plp restores 16-bit.
 """
 
 
@@ -463,8 +463,8 @@ _skip_draw_item_slot:
 
 _ensure_hdma_initialized:
 """
-    One-shot (base_scroll = $FFFF sentinel): captures base_scroll from $7E:0193 (BG1VOFS shadow, menu D = $0100),
-    configures ch5 and arms it.
+One-shot (base_scroll = $FFFF sentinel): captures base_scroll from $7E:0193 (BG1VOFS shadow, menu D = $0100),
+configures ch5 and arms it.
 """
 
 
@@ -489,8 +489,8 @@ _hdma_already_init:
 
 _scroll_state_check:
 """
-    Main-loop scroll tick ($01:9FF2): runs one animation frame while scrolling.
-    Exit: carry clear = process input, carry set = still scrolling, skip input.
+Main-loop scroll tick ($01:9FF2): runs one animation frame while scrolling.
+Exit: carry clear = process input, carry set = still scrolling, skip input.
 """
 
 
@@ -554,8 +554,8 @@ finish_scroll_impl:
 
 menu_entry_hook_impl:
 """
-    Field-menu entry: resets scroll state, HDMA arming and the cursor column (single column).
-    The ring itself is initialised later, by the patched JSR at $01:9F7B.
+Field-menu entry: resets scroll state, HDMA arming and the cursor column (single column).
+The ring itself is initialised later, by the patched JSR at $01:9F7B.
 """
     stz.w inventory_menu_mode
     lda #0x00
@@ -687,7 +687,7 @@ _clear_trash_area:
 
 _draw_trash_single_column:
 """
-    Draws the 2x2 trash icon (tiles $04 $05 / $06 $07) at ($29),Y and blanks the 13 cells after it on each row.
+Draws the 2x2 trash icon (tiles $04 $05 / $06 $07) at ($29),Y and blanks the 13 cells after it on each row.
 """
 
 
@@ -751,8 +751,8 @@ _clear_row2:
 
 check_and_clear_count_impl:
 """
-    Called from DrawItemSlot. Item 0: blanks the colon + 2 digits and skips the count. Item $FE: skips the count.
-    Otherwise returns to draw it. Entry: ($5A) = item, Y = tilemap offset, ($29) = tilemap.
+Called from DrawItemSlot. Item 0: blanks the colon + 2 digits and skips the count. Item $FE: skips the count.
+Otherwise returns to draw it. Entry: ($5A) = item, Y = tilemap offset, ($29) = tilemap.
 """
     lda.b (menu_dp.item_ptr)
     beq _clear_count
@@ -800,10 +800,10 @@ _normal_return:
 
 _circular_slot_calc:
 """
-    DrawItemSlot's tilemap offset ($01:A1BA) for the ring slot.
+DrawItemSlot's tilemap offset ($01:A1BA) for the ring slot.
 
-    Entry: $5D = vanilla slot counter (steps by 2), $5A = item pointer ($1440 inventory, $FF28 drops).
-    Exit: Y = tilemap offset, 16-bit A.
+Entry: $5D = vanilla slot counter (steps by 2), $5A = item pointer ($1440 inventory, $FF28 drops).
+Exit: Y = tilemap offset, 16-bit A.
 """
 
 

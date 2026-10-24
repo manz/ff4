@@ -66,9 +66,9 @@ whole graphics script ($33C2, then the end $FF), as $03:AF4E writes it. M = 8, X
 _monster:
     lda.b #0xE1
 _store:
-    sta.l 0x7E2051, x
-    sta.l 0x7E33C2
+    sta 0x7E2051, x
+    sta 0x7E33C2
     lda.b #0xFF
-    sta.l 0x7E33C3
+    sta 0x7E33C3
     rtl
 }

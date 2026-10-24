@@ -41,7 +41,7 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
 
 .alloc at 0x01855E {
 ; TransformWindow after one edge / scroll step: loop without waiting, then show the final frame once
-    jsr.w 0x01CF  ; the portrait mover, still one step per loop
+    jsr 0x01CF  ; the portrait mover, still one step per loop
     ldx 0x63
     cpx 0x67
     bne _transform_loop_8526
@@ -52,8 +52,8 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
     bne _transform_loop_8526
     jsr.w menu_transform_show
     ldx.w #_transform_rts_858c & 0xFFFF
-    stx.w 0x01CD
-    stx.w 0x01D0
+    stx 0x01CD
+    stx 0x01D0
 }
 
 .alloc at 0x01858C {
@@ -69,6 +69,6 @@ menu_transform_show:
     lda 0xC3
     ldx.w #_tfr_bg_tiles_tbl_85b8 & 0xFFFF
     jsr.w _exec_jump_tbl_834b
-    jsr.w 0x01CC
+    jsr 0x01CC
     jmp.w _update_scroll_regs_far_94a4
 }

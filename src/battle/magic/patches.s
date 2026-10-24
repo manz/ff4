@@ -57,7 +57,7 @@ _draw_letter_far:
 """Far-callable wrapper around original draw_letter ($02A497)."""
     pha
     tdc
-    sta.l 0x7FFFFF
+    sta 0x7FFFFF
     pla
     jsr.w draw_letter  ; Original draw_letter
     rtl

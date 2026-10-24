@@ -16,8 +16,8 @@ Battle put-char dispatch: `battle_display_char` / `battle_display_dakuten_char` 
 .alloc _battle_sram_block in bank20_reloc {
 battle_display_char:
 """
-    Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active
-    battle_flags.
+Dispatch a fixed-mode char draw to either the WRAM put_char or the messages_vwf renderer based on the active
+battle_flags.
 """
 
 
@@ -32,8 +32,8 @@ battle_flags_jump_table:
 
 battle_display_dakuten_char:
 """
-    Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on
-    battle_flags.
+Dakuten-aware variant of `battle_display_char`: routes to the dakuten put_char or to messages_vwf depending on
+battle_flags.
 """
 
 
@@ -51,8 +51,8 @@ _sink:
 
 clear_names_window_buffer:
 """
-    Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in
-    $EF52.
+Fill the names-window WRAM tilemap buffer with $FF (transparent / blank tile) starting at the address held in
+$EF52.
 """
 
 
@@ -60,16 +60,16 @@ clear_names_window_buffer:
     phy
     rep #0x20
     ldy.w #0
-    ldx.w 0xef52
+    ldx 0xef52
 
 _clear_name_loop:
     lda.w #0x00ff
-    sta.l 0x7e0000, x
-    sta.l 0x7e0002, x
-    sta.l 0x7e0004, x
-    sta.l 0x7e0006, x
-    sta.l 0x7e0008, x
-    sta.l 0x7e000a, x
+    sta 0x7e0000, x
+    sta 0x7e0002, x
+    sta 0x7e0004, x
+    sta 0x7e0006, x
+    sta 0x7e0008, x
+    sta 0x7e000a, x
 
     txa
     clc

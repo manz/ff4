@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from katsuji import VwfFont
 from katsuji import config as katsuji_config
-from script import Table
+from katsuji.script import Table
 
 from _ff4kintsuki import PICTURE, assert_screenshot_matches_golden, fresh_late_battle, tap
 from kintsuki import Button

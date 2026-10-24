@@ -29,10 +29,10 @@ far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
     """Bank-20 rolling-inventory engine entry points."""
 rolling_engine_init:
 """
-    Cold init: zero the engine scratch (top_row..transfer_pending, scroll_anim_offset, hdma_copy_pending,
-    dirty_mask) and set base_scroll = $FFFF ("HDMA not armed", checked by fn_update_hdma). Config fields
-    (visible_rows, slot_height_tiles, item_list_ptr, item_count, hdma_channel, vwf_cfg_ptr) must be filled first.
-    In: X = state ptr. All registers clobbered.
+Cold init: zero the engine scratch (top_row..transfer_pending, scroll_anim_offset, hdma_copy_pending,
+dirty_mask) and set base_scroll = $FFFF ("HDMA not armed", checked by fn_update_hdma). Config fields
+(visible_rows, slot_height_tiles, item_list_ptr, item_count, hdma_channel, vwf_cfg_ptr) must be filled first.
+In: X = state ptr. All registers clobbered.
 """
 
 
@@ -47,7 +47,7 @@ rolling_engine_init:
             sta.l rolling_x.slot_index, x
             sta.l rolling_x.hdma_enable, x
 ; _pad (offset 7): a816 hides leading-underscore fields from outer scopes, so use the literal offset.
-            sta.l 0x7E0007, x
+            sta 0x7E0007, x
             sta.l rolling_x.scroll_state, x
             sta.l rolling_x.scroll_remaining, x
             sta.l rolling_x.scroll_direction, x
@@ -91,9 +91,9 @@ _engine_init_render_loop:
 
 rolling_engine_refresh_slots:
 """
-    Re-render the visible_rows + 1 slots from buffer_pos without resetting the scroll state: edge_row =
-    scroll_pos + n, slot_index = (buffer_pos + n) % buffer_slots. Sets transfer_pending.
-    In: X = state ptr, A = scroll_pos (8-bit).
+Re-render the visible_rows + 1 slots from buffer_pos without resetting the scroll state: edge_row =
+scroll_pos + n, slot_index = (buffer_pos + n) % buffer_slots. Sets transfer_pending.
+In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -140,10 +140,10 @@ _engine_refresh_mod_done:
 
 rolling_engine_update_scroll_frame:
 """
-    Advance the scroll animation one frame: scroll_anim_offset +-= 8, the cursor sprite Y ($0311) by 2 when the
-    cursor-row marker $1B19 is set, scroll_remaining -= 8, then the profile's HDMA shadow rebuild and the sprite /
-    BG2 VRAM uploads. 8 px per frame matches every profile's *_SCROLL_PIXELS_PER_FRAME.
-    In: X = state ptr.
+Advance the scroll animation one frame: scroll_anim_offset +-= 8, the cursor sprite Y ($0311) by 2 when the
+cursor-row marker $1B19 is set, scroll_remaining -= 8, then the profile's HDMA shadow rebuild and the sprite /
+BG2 VRAM uploads. 8 px per frame matches every profile's *_SCROLL_PIXELS_PER_FRAME.
+In: X = state ptr.
 """
 
 
@@ -229,9 +229,9 @@ _frame_hdma_done:
 
 rolling_engine_start_scroll_down:
 """
-    Start a scroll-down: advance buffer_pos (wrapping), pre-render the new bottom slot, arm the FSM (state 1,
-    remaining 16, direction +8, anim_offset -16), set transfer_pending and seed the HDMA shadow.
-    In: X = state ptr, A = scroll_pos (8-bit).
+Start a scroll-down: advance buffer_pos (wrapping), pre-render the new bottom slot, arm the FSM (state 1,
+remaining 16, direction +8, anim_offset -16), set transfer_pending and seed the HDMA shadow.
+In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -297,9 +297,9 @@ _start_dn_mod_done:
 
 rolling_engine_start_scroll_up:
 """
-    Start a scroll-up: step buffer_pos back (wrapping to visible_rows), pre-render the new top slot, arm the FSM
-    (state 1, remaining 16, direction $FE, anim_offset +16), set transfer_pending and seed the HDMA shadow.
-    In: X = state ptr, A = scroll_pos (8-bit, already decremented by the caller).
+Start a scroll-up: step buffer_pos back (wrapping to visible_rows), pre-render the new top slot, arm the FSM
+(state 1, remaining 16, direction $FE, anim_offset +16), set transfer_pending and seed the HDMA shadow.
+In: X = state ptr, A = scroll_pos (8-bit, already decremented by the caller).
 """
 
 
@@ -345,11 +345,11 @@ _start_up_wrap_done:
 
 rolling_engine_finish_scroll:
 """
-    End of animation: pre-render the next prefetch slot, clear scroll_state and anim_offset, refresh the HDMA
-    shadow and run vanilla's cursor and post-scroll trampolines.
-      down: slot_index = buffer_pos - 1 (wrapping), edge_row = scroll_pos + visible_rows, skipped past the tail
-      up:   slot_index = (buffer_pos + visible_rows) % buffer_slots, edge_row = scroll_pos - 1, skipped at 0
-    In: X = state ptr, A = scroll_pos (8-bit).
+End of animation: pre-render the next prefetch slot, clear scroll_state and anim_offset, refresh the HDMA
+shadow and run vanilla's cursor and post-scroll trampolines.
+  down: slot_index = buffer_pos - 1 (wrapping), edge_row = scroll_pos + visible_rows, skipped past the tail
+  up:   slot_index = (buffer_pos + visible_rows) % buffer_slots, edge_row = scroll_pos - 1, skipped at 0
+In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -428,9 +428,9 @@ _finish_skip:
 
 rolling_engine_swap_redraw:
 """
-    Re-render all visible_rows + 1 slots after an item swap; slots past item_count are cleared (field items
-    only). Resets the scroll state so a mid-animation swap triggers no finish_scroll re-render.
-    In: X = state ptr, A = scroll_pos (8-bit).
+Re-render all visible_rows + 1 slots after an item swap; slots past item_count are cleared (field items
+only). Resets the scroll state so a mid-animation swap triggers no finish_scroll re-render.
+In: X = state ptr, A = scroll_pos (8-bit).
 """
 
 
@@ -536,8 +536,8 @@ _dispatch_drops:
 
 _engine_call_hook:
 """
-    JSL through the 3-byte hook at state + Y; skipped when all three bytes are zero.
-    In: X = state ptr, Y = hook field offset, M = 8. A clobbered.
+JSL through the 3-byte hook at state + Y; skipped when all three bytes are zero.
+In: X = state ptr, Y = hook field offset, M = 8. A clobbered.
 """
 
 
@@ -554,11 +554,11 @@ _engine_call_hook:
             adc.l 0x001F83
             tax  ; X now points at the hook field's first byte
             sep #0x20
-            lda.l 0x7E0000, x
+            lda 0x7E0000, x
             sta.l 0x001F80
-            lda.l 0x7E0001, x
+            lda 0x7E0001, x
             sta.l 0x001F81
-            lda.l 0x7E0002, x
+            lda 0x7E0002, x
             sta.l 0x001F82
             ora.l 0x001F80
             ora.l 0x001F81
@@ -578,8 +578,8 @@ _engine_call_hook_null:
 
 rolling_engine_tick:
 """
-    Per-frame tick: while scroll_state != 0, decrement scroll_remaining; at zero, clear scroll_state and set
-    transfer_pending. No ROM caller (engine tests only). In: X = state ptr.
+Per-frame tick: while scroll_state != 0, decrement scroll_remaining; at zero, clear scroll_state and set
+transfer_pending. No ROM caller (engine tests only). In: X = state ptr.
 """
 
 
@@ -702,8 +702,8 @@ rolling_engine_invalidate_all:
 
 rolling_engine_shutdown:
 """
-    Menu close: clear hdma_enable and dirty_mask, base_scroll = $FFFF so the next init re-arms. HDMAEN is left to
-    the profile's exit hook, which knows its channel. In: X = state ptr. A clobbered.
+Menu close: clear hdma_enable and dirty_mask, base_scroll = $FFFF so the next init re-arms. HDMAEN is left to
+the profile's exit hook, which knows its channel. In: X = state ptr. A clobbered.
 """
 
 

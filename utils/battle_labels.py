@@ -14,7 +14,7 @@ from pathlib import Path
 
 from katsuji import VwfFont
 
-from script import Table
+from katsuji.script import Table
 from utils.bake_names import Glyphs, auto_kern, name_tiles
 
 TILE_BYTES = 16

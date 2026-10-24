@@ -24,7 +24,7 @@ from pathlib import Path
 
 from katsuji.layout import TextLayout
 from katsuji.typeset import ENGLISH, FRENCH, Markup, Typography
-from script import Table
+from katsuji.script import Table
 
 from utils.metrics import TextMetrics
 

@@ -149,7 +149,7 @@ load_dextrelity_pointer:
     lsr
     phx
     tax
-    lda.l 0x01e2d9, x
+    lda 0x01e2d9, x
     plx
     tay
     sep #0x20

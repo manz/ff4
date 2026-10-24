@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 from katsuji import VwfFont, render
-from script import Table
+from katsuji.script import Table
 
 from utils.script_xml import pointer_texts
 

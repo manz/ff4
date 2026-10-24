@@ -36,7 +36,7 @@ vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and t
         ldx.w #0x0000
 
 _loop:
-        sta.l 0x702000, x
+        sta 0x702000, x
         inx
         cpx.w #0x5100
         bne _loop
