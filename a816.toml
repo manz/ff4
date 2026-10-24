@@ -37,3 +37,6 @@ TREASURE_DEBUG_ALWAYS_DROP = 0  # 1: every won battle drops an item, so hunts an
 ENABLE_BRK_HANDLER = 1  # a BRK halts on a trap screen instead of running into garbage
 TRIGGER_ENDING_CUTSCENE = 0  # 1: boot straight into the ending
 DEBUG_SHOW_ITEM_WINDOW = 0
+
+[lint]
+ignore = ["F001"]  # unused private constants kept for now; delete them in their own change
