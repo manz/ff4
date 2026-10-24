@@ -1273,21 +1273,21 @@ next line, $0F II: command II's baked name, $00: end), with DrawText's row setup
         php
         sep #0x20
         rep #0x10
-        lda.w 0xEF55
+        lda 0xEF55
         sta.b btlgfx_dp.text_tile_flags
-        lda.w 0xEF54
+        lda 0xEF54
         asl
-        sta.w 0xEF54
+        sta 0xEF54
         rep #0x20
-        lda.w 0xEF52
+        lda 0xEF52
         sta.b btlgfx_dp.dakuten_row_ptr
-        lda.w 0xEF54
+        lda 0xEF54
         and.w #0x00FF
         clc
         adc.b btlgfx_dp.dakuten_row_ptr
         sta.b btlgfx_dp.kana_row_ptr
         sep #0x20
-        ldx.w 0xEF50
+        ldx 0xEF50
         ldy.w #0x0000
 _dc_loop:
         lda.w 0x0000, x
@@ -1305,7 +1305,7 @@ _dc_not_flags:
         cmp.b #0x01
         bne _dc_not_newline
         rep #0x20
-        lda.w 0xEF54
+        lda 0xEF54
         and.w #0x00FF
         pha
         asl

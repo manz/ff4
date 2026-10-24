@@ -272,10 +272,10 @@ _drops_hdma_header:
 
 _drops_hdma_footer:
 """
-    Footer: 25 lines of bottom border at -8, then 87 lines at -24 on empty rows (32 + 80 + 112 = 224 lines).
+Footer: 25 lines of bottom border at -8, then 87 lines at -24 on empty rows (32 + 80 + 112 = 224 lines).
 
-    25, not 16: the trail must start past the border row (no repeated border tile), and at y=137 rather than
-    136, where ch6 (treasure BG3VOFS) reloads; ch4 and ch6 must not reload on the same scanline.
+25, not 16: the trail must start past the border row (no repeated border tile), and at y=137 rather than
+136, where ch6 (treasure BG3VOFS) reloads; ch4 and ch6 must not reload on the same scanline.
 """
 
 
@@ -310,8 +310,8 @@ _drops_hdma_signal:
 
 drops_init_impl:
 """
-    Fills `drops_rolling` ($7E:9C30) and inits the engine. The draw_window hook redraws TreasureItemsWindow
-    first, so vanilla's DrawWindow ($01:D817) cannot clobber the rendered items.
+Fills `drops_rolling` ($7E:9C30) and inits the engine. The draw_window hook redraws TreasureItemsWindow
+first, so vanilla's DrawWindow ($01:D817) cannot clobber the rendered items.
 """
 
 

@@ -116,7 +116,7 @@ the names again in the VWF.
 }
 ; row 2 attribute offset, was sta $8EBF,y
 .alloc at 0x029F47 {
-    sta.w 0x8EC5, y  ; 0x8EA7 + 0x1E = 0x8EC5
+    sta 0x8EC5, y  ; 0x8EA7 + 0x1E = 0x8EC5
 }
 ; Y stride, was adc #$0018
 .alloc at 0x029F54 {
@@ -129,7 +129,7 @@ the names again in the VWF.
 }
 ; row 2 attribute offset, was sta $8EBF,y
 .alloc at 0x029F86 {
-    sta.w 0x8EC5, y
+    sta 0x8EC5, y
 }
 ; Y stride, was adc #$0018
 .alloc at 0x029F93 {

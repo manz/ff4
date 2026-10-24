@@ -50,7 +50,7 @@ _TREASURE_HDMA_BANK := 0x7E
 .alloc _treasure_rolling_block in bank20_reloc {
 _init_treasure_inventory_hdma:
 """
-    Builds the table and configures ch6: direct mode, 2 bytes -> BG3VOFS. Entries: count, lo, hi; $00 ends.
+Builds the table and configures ch6: direct mode, 2 bytes -> BG3VOFS. Entries: count, lo, hi; $00 ends.
 """
 
 
@@ -76,7 +76,7 @@ _init_treasure_inventory_hdma:
 
 _disable_treasure_inventory_hdma:
 """
-    No-op: the caller clears the enable shadow and the NMI writes HDMAEN.
+No-op: the caller clears the enable shadow and the NMI writes HDMAEN.
 """
 
 
@@ -87,7 +87,7 @@ _disable_treasure_inventory_hdma:
 
 _init_treasure_hdma_table:
 """
-    Builds the initial $7E:9800 table, every row at base scroll.
+Builds the initial $7E:9800 table, every row at base scroll.
 """
 
 
@@ -308,7 +308,7 @@ treasure_refresh_slots_impl:
 
 init_treasure_rolling_buffer_impl:
 """
-    Fills `treasure_rolling` ($7E:9C00) and inits the engine.
+Fills `treasure_rolling` ($7E:9C00) and inits the engine.
 """
 
 
@@ -505,7 +505,7 @@ _t_skip_draw_item_slot:
 
 _treasure_ensure_hdma_initialized:
 """
-    One-shot (base_scroll = $FFFF): captures base scroll and arms ch6.
+One-shot (base_scroll = $FFFF): captures base scroll and arms ch6.
 """
 
 
@@ -516,7 +516,7 @@ _treasure_ensure_hdma_initialized:
     bne _t_hdma_already_init
 
 ; base_scroll = vanilla's BG3VOFS shadow $9F (-120: list at scanline 120).
-    lda.l 0x7E019F
+    lda 0x7E019F
     sta.l treasure_rolling.base_scroll
 ; Reset the held-DOWN cooldown (outside the struct the engine zeroes).
     sep #0x20
@@ -546,8 +546,8 @@ _t_hdma_already_init:
 
 _treasure_scroll_state_check:
 """
-    Main-loop entry ($01:9FF2): runs one scroll frame while scrolling.
-    Exit: carry set = still scrolling, skip input.
+Main-loop entry ($01:9FF2): runs one scroll frame while scrolling.
+Exit: carry set = still scrolling, skip input.
 """
 
 
@@ -751,8 +751,8 @@ _clear_treasure_trash_area:
 _draw_trash_treasure:
 
 """
-    Draws the 2x2 trash icon (tiles $04 $05 / $06 $07) and blanks the rest of both rows.
-    Entry: Y = tilemap offset, ($29) = tilemap base.
+Draws the 2x2 trash icon (tiles $04 $05 / $06 $07) and blanks the rest of both rows.
+Entry: Y = tilemap offset, ($29) = tilemap base.
 """
 
 
@@ -867,7 +867,7 @@ _t_normal_return:
 _treasure_circular_slot_calc:
 
 """
-    Ring-aware DrawItemSlot offset (patch at $01:A1BA). Entry: $5D = row * 2. Exit: Y = tilemap offset, 16-bit A.
+Ring-aware DrawItemSlot offset (patch at $01:A1BA). Entry: $5D = row * 2. Exit: Y = tilemap offset, 16-bit A.
 """
 
 

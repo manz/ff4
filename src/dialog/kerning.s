@@ -17,8 +17,8 @@ dialog_get_kerning_adjustment_binary_search_ext:
 
 dialog_get_kerning_adjustment_binary_search:
 """
-    Binary-search the dialog font's kerning table for the pair in dialog_vwf.current_char (DP $25).
-    Hit: A = adjustment, carry clear; miss: A = 0, carry set. Trashes A/Y, keeps X. M = 16.
+Binary-search the dialog font's kerning table for the pair in dialog_vwf.current_char (DP $25).
+Hit: A = adjustment, carry clear; miss: A = 0, carry set. Trashes A/Y, keeps X. M = 16.
 """
 
 

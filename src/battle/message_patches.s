@@ -120,7 +120,7 @@ translated-string tables.
 .alloc at 0x0292DF {
 ; (0, 3) (26, 4)
     ldx.w #0x0000
-    stx.w 0xEF56
+    stx 0xEF56
     ldx.w #0x041A + 6
-    stx.w 0xEF58
+    stx 0xEF58
 }

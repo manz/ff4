@@ -57,7 +57,7 @@ go into the row's window in `status_name_tiles`, uploaded at the next NMI.
         rep #0x30
         phx
         phy
-        lda.l 0x7EEF52
+        lda 0x7EEF52
         tay  ; the row's dakuten row
         sec
         sbc.w #_ROW_BUFFER

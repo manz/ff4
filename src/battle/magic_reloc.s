@@ -360,7 +360,7 @@ _rsr_base:
     adc.w #0x0040
     sta.b btlgfx_dp.kana_row_ptr
     sep #0x20
-    lda.l 0x7E0000, x
+    lda 0x7E0000, x
     and.b #0x80
     beq _rsr_palette
     lda.b #0x04
@@ -368,7 +368,7 @@ _rsr_base:
 _rsr_palette:
     sta.b btlgfx_dp.text_tile_flags
 ; the spell id for draw_spell_name
-    lda.l 0x7E0001, x
+    lda 0x7E0001, x
     rep #0x20
     and.w #0x007F
     pha

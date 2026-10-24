@@ -30,7 +30,7 @@ clear; writers (ATB pick, cursor move, status flip, ...) set it via the helpers 
 
 _mark_cmd_dirty:
 """
-    Set the cmd-window dirty bit (JSL). `tsb` has no long form, hence lda/ora/sta.
+Set the cmd-window dirty bit (JSL). `tsb` has no long form, hence lda/ora/sta.
 """
 
 
@@ -42,7 +42,7 @@ _mark_cmd_dirty:
 
 walker_rtl:
 """
-    RTL wrapper around `set_active_char_palette` for bank-02 callers; loads A from $1822.
+RTL wrapper around `set_active_char_palette` for bank-02 callers; loads A from $1822.
 """
 
 
@@ -52,8 +52,8 @@ walker_rtl:
 
 mark_monsters_dirty_and_init:
 """
-    UpdateDead hook ($03:B1A0, the monster-death path): set the monsters-region dirty bit, then replay the
-    replaced prelude (tdc; tax; stx $a9) and fall through to $03:B1A4.
+UpdateDead hook ($03:B1A0, the monster-death path): set the monsters-region dirty bit, then replay the
+replaced prelude (tdc; tax; stx $a9) and fall through to $03:B1A4.
 """
 
 
@@ -72,7 +72,7 @@ mark_monsters_dirty_and_init:
 
 _mark_all_dirty:
 """
-    Reset both dirty bytes to $FF so the next frame renders everything.
+Reset both dirty bytes to $FF so the next frame renders everything.
 """
 
 
@@ -83,8 +83,8 @@ _mark_all_dirty:
 
 reset_queue_dirty_bits:
 """
-    Seed all redraw-gate state for a fresh battle (`battle_ext_seed`, once per battle): every byte $FF (1 = dirty)
-    so the first frame renders everything; gates clear their bits, writers re-arm them.
+Seed all redraw-gate state for a fresh battle (`battle_ext_seed`, once per battle): every byte $FF (1 = dirty)
+so the first frame renders everything; gates clear their bits, writers re-arm them.
 """
 
 
@@ -98,8 +98,8 @@ reset_queue_dirty_bits:
 
 gated_clear_names_window_buffer:
 """
-    `clear_names_window_buffer` ($02:A299 call site) only when the names region is dirty: a wipe on a skipped
-    render leaves blank tiles on screen.
+`clear_names_window_buffer` ($02:A299 call site) only when the names region is dirty: a wipe on a skipped
+render leaves blank tiles on screen.
 """
 
 
@@ -113,13 +113,13 @@ _gcnwb_skip:
 
 set_active_char_palette:
 """
-    Stamp the active-char highlight palette into the char-name tilemaps: the VWF staging buffer `$7E:B966` (rows
-    of 24 bytes, dakuten line +0, name line +$0C) and the live main view `$7E:BEA6` (-> VRAM $7020; row pair at
-    `$BEC2 + row * $80` and +$40). Active row gets palette $08 (vanilla UpdateCharNames @a24c), others $00.
-    Rows are display-ordered and compacted like UpdateCharNames: display index 0..4 maps to a slot via CharOrderTbl
-    ($02:A1C8); absent or name-hidden chars (Kain mid-jump) emit no row, so a 3-char party fills rows 0..2.
-    In: A = active slot ($1822), M=8, X=8. Preserves the full 16-bit C: vanilla callers `tax` with X=16 using the
-    hidden B (dispatch at $02:800E), and a leaked high byte jumps into `brk #$21`.
+Stamp the active-char highlight palette into the char-name tilemaps: the VWF staging buffer `$7E:B966` (rows
+of 24 bytes, dakuten line +0, name line +$0C) and the live main view `$7E:BEA6` (-> VRAM $7020; row pair at
+`$BEC2 + row * $80` and +$40). Active row gets palette $08 (vanilla UpdateCharNames @a24c), others $00.
+Rows are display-ordered and compacted like UpdateCharNames: display index 0..4 maps to a slot via CharOrderTbl
+($02:A1C8); absent or name-hidden chars (Kain mid-jump) emit no row, so a 3-char party fills rows 0..2.
+In: A = active slot ($1822), M=8, X=8. Preserves the full 16-bit C: vanilla callers `tax` with X=16 using the
+hidden B (dispatch at $02:800E), and a leaked high byte jumps into `brk #$21`.
 """
 
 
@@ -135,7 +135,7 @@ set_active_char_palette:
     pla
     sta.l battle_render_state.highlight_active_slot
 ; Vanilla highlights only while the menu is open ($D7, OpenMenu @abdd): closed, park the slot at $FF.
-    lda.l 0x7E00D7
+    lda 0x7E00D7
     bne _scp_menu_open
     lda.b #0xFF
     sta.l battle_render_state.highlight_active_slot
@@ -160,7 +160,7 @@ _scp_in_range:
     jsr.w _scp_row_visible
     bcc _scp_next_slot
 ; CharOrderTbl[display index] = slot on this row
-    lda.l 0x02A1C8, x
+    lda 0x02A1C8, x
     cmp.l battle_render_state.highlight_active_slot
     beq _scp_is_active
     lda #0x00
@@ -242,13 +242,13 @@ _scp_done:
 
 _scp_row_visible:
 """
-    Carry set when display index X owns a name row (vanilla CheckShowCharName $02:A1F8 + the char-present
-    test in UpdateCharNames). Clobbers $32/$33 and A; X survives.
+Carry set when display index X owns a name row (vanilla CheckShowCharName $02:A1F8 + the char-present
+test in UpdateCharNames). Clobbers $32/$33 and A; X survives.
 """
 
 
     phx
-    lda.l 0x02A1F3, x  ; CharOrderTbl2[display index] = char slot
+    lda 0x02A1F3, x  ; CharOrderTbl2[display index] = char slot
     rep #0x20
     and.w #0x00FF
     sep #0x20
@@ -265,7 +265,7 @@ _scp_row_visible:
     sep #0x20
     tax
     rep #0x20
-    lda.l 0x02A1CD, x
+    lda 0x02A1CD, x
     sta.b btlgfx_dp.dakuten_row_ptr
     sep #0x20
     plx
@@ -298,9 +298,9 @@ _scp_loop_six:
 
 refresh_active_char_palette:
 """
-    Per-frame re-stamp from the gated DrawCharNames trampoline. A names re-render (render_skipped = $00) rebuilds
-    $B966 with palette 0 whenever $D7 is clear, and $1822 / $D7 can move without one (menu open/close). ~600
-    cycles when it fires.
+Per-frame re-stamp from the gated DrawCharNames trampoline. A names re-render (render_skipped = $00) rebuilds
+$B966 with palette 0 whenever $D7 is clear, and $1822 / $D7 can move without one (menu open/close). ~600
+cycles when it fires.
 """
 
 
@@ -311,12 +311,12 @@ refresh_active_char_palette:
     lda.l battle_selected_char
     cmp.l battle_render_state.highlight_cache_slot
     bne _rap_stamp
-    lda.l 0x7E00D7
+    lda 0x7E00D7
     cmp.l battle_render_state.highlight_cache_menu
     beq _rap_done
 
 _rap_stamp:
-    lda.l 0x7E00D7
+    lda 0x7E00D7
     sta.l battle_render_state.highlight_cache_menu
     lda.l battle_selected_char
     sta.l battle_render_state.highlight_cache_slot
@@ -332,15 +332,15 @@ _rap_done:
 
 set_active_char_and_dirty:
 """
-    Writer shim for `sta $1822 / sta $d0` at $03:A482 (JSL + NOP): both stores, then cmd dirty and highlight
-    cache invalidated. The site fires only when the menu queue pops a char, so always re-arm: comparing with $1822
-    misses a pop matching a stale value. In: M=8, A = char index, any DBR.
+Writer shim for `sta $1822 / sta $d0` at $03:A482 (JSL + NOP): both stores, then cmd dirty and highlight
+cache invalidated. The site fires only when the menu queue pops a char, so always re-arm: comparing with $1822
+misses a pop matching a stale value. In: M=8, A = char index, any DBR.
 """
 
 
     sep #0x20
     sta.l battle_selected_char
-    sta.l 0x7E00D0
+    sta 0x7E00D0
     pha
     lda.l battle_menu_dirty
     ora.b #CMD_DIRTY_BIT

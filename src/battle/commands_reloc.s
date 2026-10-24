@@ -21,8 +21,8 @@ mult8_far := 0x2855c
 
 draw_command_list_for_character:
 """
-    Public RTL entry: rebuild the active character's battle command list (the VWF re-render is gated on
-    CMD_DIRTY_BIT). Skipped while the inventory is open.
+Public RTL entry: rebuild the active character's battle command list (the VWF re-render is gated on
+CMD_DIRTY_BIT). Skipped while the inventory is open.
 """
 
 
@@ -42,7 +42,7 @@ _skip_commands:
 
 _draw_command_list_for_character:
     {
-        stz.w 0x1817
+        stz 0x1817
         ldy #0x74FD  ; Y stays the format pointer across _draw_single_command calls
 ; builds {tile_flag}cmd1\n...{tile_flag}cmd5\0 for a single draw text call
         lda 0x1817  ; battle command slot
@@ -71,7 +71,7 @@ _loop:
         rep #0x20
         asl
         tax
-        lda.l 0x16feb7, x
+        lda 0x16feb7, x
         clc
         adc.b 0x00
         tax
