@@ -12,6 +12,8 @@ ROM = build/ff4.sfc
 IPS = build/ff4.ips
 RELEASE_IPS = build/release/ff4.ips
 EN_IPS = build/en/ff4.ips
+EN_RELEASE_IPS = build/en/release/ff4.ips
+BPS = build/release/ff4.bps build/en/release/ff4.bps
 # BUILD_DATE (the DEBUG stamp) from the last commit, not the clock: two builds of one commit are byte-identical.
 export SOURCE_DATE_EPOCH ?= $(shell git log -1 --format=%ct 2>/dev/null || echo 0)
 # Prune hidden directories: they never hold our sources, and .venv matches
@@ -61,6 +63,22 @@ $(EN_IPS): $(SOURCES) $(ASSET_INPUTS)
 	$(info $(M) Building English patch...)
 	$(Q) FF4_LANG=en $(PY) ./build.py --dev
 	$(Q) test -s $(EN_IPS)
+
+$(EN_RELEASE_IPS): $(SOURCES) $(ASSET_INPUTS)
+	$(Q) test -s $(ROM) || { \
+		echo "$(ROM) missing. Place an unheadered Final Fantasy IV (J) ROM there."; \
+		exit 1; }
+	$(info $(M) Building English release patch...)
+	$(Q) FF4_LANG=en $(PY) ./build.py
+	$(Q) test -s $(EN_RELEASE_IPS)
+
+.PHONY: bps
+bps: $(BPS)  ## BPS patches of both release builds, next to their IPS
+
+# build.py writes x.bps.unsealed next to the IPS; sealing applies it to the base ROM for the target CRC32.
+%/ff4.bps: %/ff4.ips
+	$(info $(M) Sealing $@...)
+	$(Q) $(A816) bps seal $*/ff4.bps.unsealed --source $(ROM) -o $@ > /dev/null
 
 .PHONY: tests
 tests: $(IPS)  ## Run the full suite against a freshly built patch, one worker per core

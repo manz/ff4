@@ -7,106 +7,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-26.04-arm
-    
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+
     steps:
     - uses: actions/checkout@v7
-    
-    - uses: astral-sh/setup-uv@v10.3.0
+    - uses: manz/a816/actions/setup@v1.1.7
+    - id: rom
+      uses: manz/a816/actions/decrypt-rom@v1.1.7
       with:
-        python-version: '3.14'
-        enable-cache: true
-    - name: Install Requirements
-      run: uv sync --locked
-
-    - name: Decrypt base ROM
-      env:
-        FF4_PASSWORD: ${{ secrets.FF4_PASSWORD }}
-      run: |
-        mkdir -p build
-        gpg --quiet --batch --yes --decrypt --passphrase="$FF4_PASSWORD" ff4.sfc.gz.gpg | gunzip > build/ff4.sfc
+        passphrase: ${{ secrets.FF4_PASSWORD }}
+        encrypted: ff4.sfc.gz.gpg
+        to: build/ff4.sfc
 
     - name: Build patch
-      run: SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run ./build.py --dev
-
-    - name: Verify IPS produced
-      run: test -s build/ff4.ips
+      if: steps.rom.outputs.available == 'true'
+      run: uv run ./build.py --dev
 
     - name: Run tests
+      if: steps.rom.outputs.available == 'true'
       run: uv run pytest -n auto
 
-    - name: Upload IPS artifact
-      if: success()
-      uses: actions/upload-artifact@v7
+    - if: steps.rom.outputs.available == 'true'  # build/gen, which the sources include, comes from the build
+      uses: manz/a816/actions/lint@v1.1.7
+
+    - if: steps.rom.outputs.available == 'true'
+      uses: manz/a816/actions/seal@v1.1.7
       with:
-        name: ff4-ips-pr-${{ github.event.number }}
-        path: build/ff4.ips
-        retention-days: 30
+        rom: build/ff4.sfc
+        patches: |
+          build/ff4.ips
+          build/ff4.bps.unsealed
 
-    - name: Update PR comment with download link
-      if: success()
-      uses: actions/github-script@v9
+    - if: always() && steps.rom.outputs.available == 'true'
+      uses: manz/a816/actions/pr-artifact@v1.1.7
       with:
-        script: |
-          const artifactName = `ff4-ips-pr-${{ github.event.number }}`;
-          const runUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
-          const commentIdentifier = '<!-- FF4-IPS-BUILD-COMMENT -->';
-          
-          const body = `${commentIdentifier}
-          🎮 **FF4 IPS Build Ready!**
-
-          Your patch has been built successfully! Download the IPS file from the artifacts:
-
-          📦 **Artifact:** \`${artifactName}\`  
-          🔗 **Download:** [Click here to go to the build page](${runUrl})
-
-          The artifact will be available for 30 days.
-          *Last updated: ${{ github.event.pull_request.head.sha }}*`;
-
-          // Find existing comment
-          const comments = await github.rest.issues.listComments({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          });
-
-          const existingComment = comments.data.find(comment => 
-            comment.body.includes(commentIdentifier)
-          );
-
-          if (existingComment) {
-            // Update existing comment
-            await github.rest.issues.updateComment({
-              comment_id: existingComment.id,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
-          } else {
-            // Create new comment
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
-          }
-
-    - name: Drop stale IPS comment on failure
-      if: failure()
-      uses: actions/github-script@v9
-      with:
-        script: |
-          const commentIdentifier = '<!-- FF4-IPS-BUILD-COMMENT -->';
-          const comments = await github.rest.issues.listComments({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          });
-          const stale = comments.data.find(c => c.body.includes(commentIdentifier));
-          if (stale) {
-            await github.rest.issues.deleteComment({
-              comment_id: stale.id,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-          }
+        name: ff4-ips
+        files: |
+          build/ff4.ips
+          build/ff4.bps
+        marker: FF4-IPS-BUILD-COMMENT
+        title: FF4 IPS
+        outcome: ${{ job.status }}

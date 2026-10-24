@@ -49,8 +49,13 @@ sans doute des coquilles et des bugs. Signalez-les (voir 6).
 
 Normalement, l'archive ZIP doit contenir :
 
-ff4.ips		- Le patch IPS de FF4 version française @VERSION@
-		  à appliquer sur la rom japonaise originale.
+ff4.bps		- Le patch BPS de FF4 version française @VERSION@
+		  à appliquer sur la rom japonaise originale
+		  (Flips, beat ou certains émulateurs).
+		  Il vérifie la rom et refuse une mauvaise version.
+
+ff4.ips		- Le même patch au format IPS, pour les outils
+		  qui ne lisent pas le BPS.
 
 LISEZMOI.txt	- Le fichier que vous êtes en train de lire
 

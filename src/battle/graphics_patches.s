@@ -1,5 +1,5 @@
 """
-Battle graphics asset patches: MISS sprite glyphs, defend/row text overrides and other small tile fixups that
+Battle graphics asset patches: the MISS sprite, defend/row text overrides and other small tile fixups that
 piggyback on `defend_row` data.
 """
 .import "core/assets"
@@ -7,12 +7,7 @@ piggyback on `defend_row` data.
 .include "battle_labels.i"  ; build/gen: utils/battle_labels.py
 .include "strings.i"  ; src/lang/<lang>
 
-
-; MISS sprite graphics
-
-.alloc at 0x0cfc60 {
-    .incbin "fonts/miss.bin"
-}
+.include "miss.i"  ; src/lang/<lang>
 .alloc at 0x16fb87 {
     {
 ; chars copied from the font to the battle 4bpp tileset

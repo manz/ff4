@@ -17,6 +17,16 @@ address = "70-73:0000-7fff"
 mask = 0x8000
 writable = true
 
+# The base ROM the BPS applies to: build.py writes x.bps.unsealed, `a816 bps seal` (make bps, CI) completes it.
+[bps]
+source_size = 0x100000
+source_crc32 = 0xCAA15E97
+
+[bps.metadata]
+name = "Final Fantasy IV"
+version = "${VERSION}"
+lang = "${LANG}"
+
 # Names the sources may test, at their release values: a bare build ships clean. Dev builds (`make`,
 # `build.py --dev`) override them (build.py DEV_DEFINES).
 [defines]
