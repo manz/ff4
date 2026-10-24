@@ -4,7 +4,7 @@ requires-python = ">=3.14"
 
 [[package]]
 name = "a816"
-version = "1.2.0a1"
+version = "1.2.0a2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "katsuji" },
@@ -12,7 +12,7 @@ dependencies = [
     { name = "pygls" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c8/63/75421f44683e9dcf8c40d079ec4afa5fbea63c592568bb2fbfd4c439cba7/a816-1.2.0a1-py3-none-any.whl", hash = "sha256:9d83ffd6ab06ef88aacfd1cd44b64bc2e83472bb2bb32d6be56754bc04cc93ed", size = 425134, upload-time = "2026-10-24T08:34:37.524Z" },
+    { url = "https://files.pythonhosted.org/packages/89/43/5bb5dab71e60af2879e580f8312f0afa4f2f9a1e7bc87d6ba9f71d04184e/a816-1.2.0a2-py3-none-any.whl", hash = "sha256:812ef35f26bc117e998f9668a844cd492e9cf3ed98384cf23033738aea32bd00", size = 440253, upload-time = "2026-10-24T19:32:57.863Z" },
 ]
 
 [[package]]
@@ -72,7 +72,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "a816", specifier = "==1.2.0a1" },
+    { name = "a816", specifier = "==1.2.0a2" },
     { name = "katsuji", extras = ["render"], specifier = "==0.4.0a2" },
     { name = "kintsuki", extras = ["visual"], specifier = "==0.0.0a18" },
 ]
