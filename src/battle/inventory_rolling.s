@@ -38,7 +38,7 @@ runs the field-menu NMI DMA check.
     _text_buffer_base := 0x97A6  ; ring buffer, 6 slots x 60 = 360 bytes (freed spell buffer 1)
     inv_format_buffer := 0x9E66  ; draw_text format buffer (freed spell buffer 2)
     _tilemap_buffer_base := 0xC4E6
-_ITEMS_FRAME_FIRST_ROW := 1  ; Buffer rows of the items window frame:
+    _ITEMS_FRAME_FIRST_ROW := 1  ; Buffer rows of the items window frame:
     _ITEMS_FRAME_BOTTOM_ROW := 14  ; sides on 1-13, bottom edge on 14,
     _ITEMS_FRAME_CLEAR_END_ROW := 26  ; rows 15-25 blank (magic frame area)
     _tilemap_content_offset := 0x46  ; $C52C: one tile right of vanilla's $44 ($C52A, col 2)
