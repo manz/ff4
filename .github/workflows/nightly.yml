@@ -17,8 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-    - uses: manz/a816/actions/setup@v1.1.7
-    - uses: manz/a816/actions/decrypt-rom@v1.1.7
+    - uses: manz/a816/actions/setup@v1.2.0
+    - uses: manz/a816/actions/decrypt-rom@v1.2.0
       with:
         passphrase: ${{ secrets.FF4_PASSWORD }}
         encrypted: ff4.sfc.gz.gpg
@@ -27,7 +27,7 @@ jobs:
       run: |
         uv run ./build.py --dev
         FF4_LANG=en uv run ./build.py --dev
-    - uses: manz/a816/actions/seal@v1.1.7
+    - uses: manz/a816/actions/seal@v1.2.0
       with:
         rom: build/ff4.sfc
         patches: |
@@ -42,7 +42,7 @@ jobs:
         cp build/ff4.bps dist/ff4-fr.bps
         cp build/en/ff4.ips dist/ff4-en.ips
         cp build/en/ff4.bps dist/ff4-en.bps
-    - uses: manz/a816/actions/nightly@v1.1.7
+    - uses: manz/a816/actions/nightly@v1.2.0
       with:
         files: |
           dist/ff4-fr.ips
