@@ -14,9 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-    - uses: manz/a816/actions/setup@v1.1.7
+    - uses: manz/a816/actions/setup@v1.2.0
     - id: rom
-      uses: manz/a816/actions/decrypt-rom@v1.1.7
+      uses: manz/a816/actions/decrypt-rom@v1.2.0
       with:
         passphrase: ${{ secrets.FF4_PASSWORD }}
         encrypted: ff4.sfc.gz.gpg
@@ -31,10 +31,10 @@ jobs:
       run: uv run pytest -n auto
 
     - if: steps.rom.outputs.available == 'true'  # build/gen, which the sources include, comes from the build
-      uses: manz/a816/actions/lint@v1.1.7
+      uses: manz/a816/actions/lint@v1.2.0
 
     - if: steps.rom.outputs.available == 'true'
-      uses: manz/a816/actions/seal@v1.1.7
+      uses: manz/a816/actions/seal@v1.2.0
       with:
         rom: build/ff4.sfc
         patches: |
@@ -42,7 +42,7 @@ jobs:
           build/ff4.bps.unsealed
 
     - if: always() && steps.rom.outputs.available == 'true'
-      uses: manz/a816/actions/pr-artifact@v1.1.7
+      uses: manz/a816/actions/pr-artifact@v1.2.0
       with:
         name: ff4-ips
         files: |
