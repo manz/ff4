@@ -117,6 +117,11 @@ Shop-screen patches: window layout, text pointers, small-VWF owner messages, lis
     lda #0x08
 }
 
+; Sell-list cursor Y: row * 16 + 0x58 -> + 0x60, on the names' row (b0 beta: the hand sat 8 px above the item).
+.alloc at 0x01C854 {
+    adc #0x60
+}
+
 ; Buy-list name positions, one column left of vanilla's (column 3) to leave room for the price.
 .alloc at 0x01C58E {
     .dw 0x0244, 0x02C4, 0x0344, 0x03C4, 0x0444, 0x04C4, 0x0544, 0x05C4
