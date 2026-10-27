@@ -14,8 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from a816.program import Program
-from a816.writers import Writer
+from a816.snippet import assemble_source
 from kintsuki import Emu
 
 from _rolling_state import symbols
@@ -89,29 +88,10 @@ def stub_src() -> str:
     return STUB_PATH.read_text()
 
 
-class _StubWriter(Writer):
-    def __init__(self) -> None:
-        self.blocks: list[tuple[int, bytes]] = []
-
-    def begin(self) -> None: ...
-    def write_block_header(self, block: bytes, block_address: int) -> None: ...
-
-    def write_block(self, block: bytes, block_address: int) -> None:
-        self.blocks.append((block_address, block))
-
-    def end(self) -> None: ...
-
-
 def _assemble(src: str, **symbols: int) -> bytes:
-    """Assemble `src` with `symbols` pre-loaded into a816's resolver scope.
-    The .s file references each name; we don't bake addresses into a
-    template string."""
-    program = Program()
-    for name, value in symbols.items():
-        program.resolver.current_scope.add_symbol(name, value)
-    w = _StubWriter()
-    program.assemble_string_with_emitter(src, "<test>", w)
-    return b"".join(b for _, b in w.blocks)
+    """Assemble `src` with `symbols` bound as `-D` binds them. The .s file
+    references each name; we don't bake addresses into a template string."""
+    return assemble_source(src, symbols=symbols).code
 
 
 def _run_stub(emu: Emu, stub_src: str, kerning_func: int, pair: int,
