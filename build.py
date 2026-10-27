@@ -255,10 +255,7 @@ assets_builder = {
 }
 
 
-# The small VWF draws one 8-pixel glyph per code: the 8x8 font's accented capitals were an accent tile over the
-# letter, which it can't draw, so they encode as the bare letter.
-SMALL_VWF_FOLDS = {"É": "E", "È": "E", "Ê": "E", "Ë": "E", "À": "A", "Â": "A", "Ç": "C", "Î": "I", "Ï": "I", "Ô": "O", "Ù": "U"}
-SMALL_VWF_TABLE = "build/gen/ff4_menus_small_vwf.tbl"
+MENU_TABLE = "text/ff4_menus.tbl"
 STATUSES_BASE = 0x27B000  # battle_statuses (src/core/assets.s): its pointers hold addresses in that bank
 # Per-language 8x8 tiles over fonts/8x8.bin's French ones: (first tile, 2bpp file).
 FONT_8X8_TILES = {"en": [(0x77, "fonts/en/hp_tiles.bin")]}  # the small HP the French font draws as PV
@@ -266,23 +263,8 @@ STATUS_COUNT = 32  # one per status bit
 STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
 
 
-def write_small_vwf_table(source: str, destination: str) -> None:
-    """The menu table with SMALL_VWF_FOLDS: each folded capital takes its letter's code, listed before the letter so
-    the code still decodes to the letter."""
-    lines = Path(source).read_text(encoding="utf-8").splitlines(keepends=True)
-    codes = {}
-    for line in lines:
-        code, _, text = line.rstrip("\n").partition("=")
-        if text in SMALL_VWF_FOLDS.values():
-            codes[text] = code
-    kept = [line for line in lines if line.rstrip("\n").partition("=")[2] not in SMALL_VWF_FOLDS]
-    folds = [f"{codes[letter]}={capital}\n" for capital, letter in SMALL_VWF_FOLDS.items()]
-    Path(destination).parent.mkdir(parents=True, exist_ok=True)
-    Path(destination).write_text("".join(folds + kept), encoding="utf-8")
-
-
 def battle_text_table(menu: str, dialog: str) -> Table:
-    """The battle messages' table: the small VWF's, and the dialog's character names as their name codes ($04 n,
+    """The battle messages' table: the menu one, and the dialog's character names as their name codes ($04 n,
     "0401=Caïn"), so a line shows the character's current name like vanilla's did: a renamed Caïn reads renamed."""
     table = Table(menu)
     for line in Path(dialog).read_text(encoding="utf-8").splitlines():
@@ -302,9 +284,8 @@ def build_assets(assets):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s - %(message)s")
     dialog_table = Table("text/ff4fr.tbl")
-    write_small_vwf_table("text/ff4_menus.tbl", SMALL_VWF_TABLE)
-    menu_table = Table(SMALL_VWF_TABLE)
-    battle_table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
+    menu_table = Table(MENU_TABLE)
+    battle_table = battle_text_table(MENU_TABLE, "text/ff4fr.tbl")
     lang = LANG
     text_root = "text/{lang}".format(lang=lang)
 
@@ -429,7 +410,7 @@ if __name__ == "__main__":
     menu_glyphs = Glyphs.of(fonts.fonts["menu"])
     # The battle's 8x8 labels (Garde, Rang, Coût PM), pre-rendered in the small VWF into the 8x8 font's free kana slots.
     battle_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
-                        Path(SMALL_VWF_TABLE), Path("build/gen/battle_labels.i"), lang)
+                        Path(MENU_TABLE), Path("build/gen/battle_labels.i"), lang)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
@@ -482,9 +463,9 @@ if __name__ == "__main__":
 
     with open("build/gen/dakuten.bin", "wb") as fd:
         # the 8x8 font's accent-over-letter pairs (Namingway's grids, names): its own codes, not the small VWF's folds
-        fd.write(generate_dakutens(Table("text/ff4_menus.tbl")))
+        fd.write(generate_dakutens(Table(MENU_TABLE)))
     # Names are stored in menu codes; the dialog's name insert maps them to its own table.
-    Path("build/gen/name_codes.bin").write_bytes(name_codes(Path("text/ff4_menus.tbl"), Path("text/ff4fr.tbl")))
+    Path("build/gen/name_codes.bin").write_bytes(name_codes(Path(MENU_TABLE), Path("text/ff4fr.tbl")))
 
     version = {"VERSION": os.environ["FF4_VERSION"]} if os.environ.get("FF4_VERSION") else {}
     out = Path("build") if lang == "fr" else Path("build") / lang  # French keeps build/: the tests read it

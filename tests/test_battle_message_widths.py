@@ -27,7 +27,7 @@ def test_every_line_fits_the_window(path: str) -> None:
     if not FONT.exists():
         pytest.skip("menu_font.dat not built")
     font = VwfFont.decode(FONT.read_bytes())
-    table = Table("build/gen/ff4_menus_small_vwf.tbl")
+    table = Table("text/ff4_menus.tbl")
     over = []
     for pointer, line in _lines(path):
         plain = re.sub(r"\[0x6\]\d", ARGUMENT, line.replace("[end]", ""))

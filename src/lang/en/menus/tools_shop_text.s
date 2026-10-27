@@ -2,7 +2,7 @@
 .include "ingame/macros.i"
 .include "core/bank20.i"
 
-.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
+.table "text/ff4_menus.tbl"
 
 .alloc tools_shop_text in bank20_reloc {
     .scope shops {

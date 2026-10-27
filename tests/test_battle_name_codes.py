@@ -10,17 +10,17 @@ from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_fr
 from katsuji.script import Table
 from test_battle_message_text_pointer import _use_monsters
 
-from build import SMALL_VWF_TABLE, battle_text_table
+from build import MENU_TABLE, battle_text_table
 from utils.script_xml import pointer_texts
 
 
 def test_a_name_is_its_name_code() -> None:
-    table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
+    table = battle_text_table(MENU_TABLE, "text/ff4fr.tbl")
     assert table.to_bytes("Pourquoi, Caïn !?")[10:12] == bytes([0x04, 0x01])
 
 
 def test_the_script_spellings_share_a_code() -> None:
-    table = battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
+    table = battle_text_table(MENU_TABLE, "text/ff4fr.tbl")
     assert table.to_bytes("Tellah") == table.to_bytes("Tella") == bytes([0x04, 0x03])
 
 
@@ -73,7 +73,7 @@ def test_a_battle_line_draws_the_current_name() -> None:
     the new name."""
     emu = load_emu_from_kss(kss_path("ff4-battle-monsters-item.kss"), settle_frames=10)
     try:
-        emu.write_range(CHAR_NAMES + CAIN * 6, Table(SMALL_VWF_TABLE).to_bytes(RENAMED).ljust(6, b"\xff"))
+        emu.write_range(CHAR_NAMES + CAIN * 6, Table(MENU_TABLE).to_bytes(RENAMED).ljust(6, b"\xff"))
         emu.load_state(show_battle_dialog(emu, WHY_CAIN, SHOWN - 1))
         emu.run_frames(1)  # the framebuffer keeps the last picture drawn until a frame runs
         assert_screenshot_matches_golden(emu, GOLDEN, region=MESSAGE_WINDOW)
@@ -94,7 +94,7 @@ def test_no_name_code_of_the_japanese_is_lost(name: str) -> None:
     """Every name the Japanese line names by code ($04 n), the French line does too (it may add Golbez and Anna,
     the Japanese wrote in kana: their name slots hold them)."""
     japanese, french = _pointers(f"text/jp/{name}"), _pointers(f"text/fr/{name}")
-    jp_table, fr_table = Table("text/ff4_jap.tbl"), battle_text_table(SMALL_VWF_TABLE, "text/ff4fr.tbl")
+    jp_table, fr_table = Table("text/ff4_jap.tbl"), battle_text_table(MENU_TABLE, "text/ff4fr.tbl")
     lost = {
         pointer: dict(_name_codes(jp_table.to_bytes(line.replace("\n", ""))) - _name_codes(fr_table.to_bytes(french[pointer])))
         for pointer, line in japanese.items()
