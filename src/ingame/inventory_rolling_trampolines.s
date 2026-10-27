@@ -424,13 +424,15 @@ _drops_up_busy:
 .alloc _bank01_shop_trampolines in bank01_trampolines {
 shop_quantity_text_hook:
 """
-Replaces `jsr $8301` at $01:C442 (buy) / $01:C7E7 (sell): draws the quantity block, then 'Que désirez vous ?'
-in the small-VWF description region.
+Replaces `jsr $8301` at $01:C442 (buy) / $01:C7E7 (sell): draws the quantity block (its "1" in the 8x8 font),
+then 'Que désirez vous ?' in the small-VWF description region.
 """
 
 
 ; Menu text first: its render resets the engine state the description's upload waits in.
     ldy.w #shops.quantity - 0x8000
+    jsr.w draw_pos_text
+    ldy.w #shop_quantity_one - 0x8000
     jsr.w draw_pos_text
     ldy.w #shops.que_desirez_vous
     jsr.l items_description.draw_trampoline_pos
