@@ -11,7 +11,7 @@ the dialog can draw (utils/name_codes.py; no ç, no accented capitals).
 .import "menus/in_game_text"
 .import "core/vanilla"
 
-.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
+.table "text/ff4_menus.tbl"
 
 .alloc at 0x01BA4A {
 ; DrawWindowText: the choice window, then the question stored right after it (never pointed at on its own)

@@ -11,7 +11,7 @@ New-game / save-slot screen patches: text pointers to the relocated strings, win
 .import "core/vanilla"
 
 
-.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
+.table "text/ff4_menus.tbl"
 {
 ; New game window
     .alloc at 0x01dfc7 {

@@ -1,7 +1,7 @@
 """French translated text data for the in-game menus."""
 .include "ingame/macros.i"
 .include "core/bank20.i"
-.table "ff4_menus_small_vwf.tbl"  ; build.py: ff4_menus.tbl, accented capitals folded
+.table "text/ff4_menus.tbl"
 .import "core/vanilla"
 
 

@@ -24,7 +24,7 @@ def baked(request) -> tuple[bytes, str]:
         pytest.skip("menu_font.dat not built")
     glyphs = Glyphs.of(katsuji_config.load(Path("katsuji.toml")).fonts["menu"])
     return battle_labels.bake(Path("fonts/8x8.bin").read_bytes(), VwfFont.decode(FONT.read_bytes()), glyphs,
-                              Table("build/gen/ff4_menus_small_vwf.tbl"), request.param)
+                              Table("text/ff4_menus.tbl"), request.param)
 
 
 def test_only_the_slots_change(baked) -> None:
@@ -41,7 +41,7 @@ def test_a_used_slot_is_refused() -> None:
     font = bytes(256 * battle_labels.TILE_BYTES)  # no blank cell anywhere
     glyphs = Glyphs.of(katsuji_config.load(Path("katsuji.toml")).fonts["menu"])
     with pytest.raises(ValueError, match="not blank"):
-        battle_labels.bake(font, VwfFont.decode(FONT.read_bytes()), glyphs, Table("build/gen/ff4_menus_small_vwf.tbl"))
+        battle_labels.bake(font, VwfFont.decode(FONT.read_bytes()), glyphs, Table("text/ff4_menus.tbl"))
 
 
 @pytest.mark.parametrize(("presses", "region", "golden"), [
