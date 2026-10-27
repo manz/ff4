@@ -3,7 +3,9 @@
 from pathlib import Path
 
 import pytest
+from katsuji import config as katsuji_config
 from katsuji.atlas import Atlas
+from katsuji.build import font_atlas
 from katsuji.formats import VwfFont
 from katsuji.kerning import pair_kerning
 from katsuji.script import Table
@@ -13,7 +15,8 @@ ROOT = Path(__file__).parent.parent
 
 @pytest.fixture(scope="module")
 def dialog() -> tuple[Atlas, Table]:
-    return Atlas.open(ROOT / "fonts" / "vwf.png", 8, 16), Table(str(ROOT / "text" / "ff4fr.tbl"))
+    atlas = font_atlas(katsuji_config.load(ROOT / "katsuji.toml").fonts["dialog"])
+    return atlas, Table(str(ROOT / "text" / "ff4fr.tbl"))
 
 
 def _kerning(dialog: tuple[Atlas, Table], text: str) -> int:
