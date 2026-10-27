@@ -62,8 +62,7 @@ aussi...[end]</sn:pointer>
     <sn:pointer id="31">[bold]Soldat[normal]: Capitaine Cecil, nous
 approchons de Baron![new]
 [bold]Cecil[normal]: Soit[delay][0x3].[delay][0x3].[delay][0x3].[end]</sn:pointer>
-    <sn:pointer id="32">[bold]Soldat[normal]: Le capitaine semble également
-préoccupé...[new]
+    <sn:pointer id="32">[bold]Soldat[normal]: Le capitaine aussi a l'air préoccupé...[new]
 [bold]Soldat[normal]: Même sur ordre de Sa Majesté...[new]
 [bold]Soldat[normal]: Arracher le cristal à un peuple
 innocent...
@@ -113,9 +112,7 @@ Merci de m'en avoir informé!
 Mais le cristal avant tout...[new]
 Convoque-le ici![new]
 [bold]Beigan[normal]: Bien, Majesté.[end]</sn:pointer>
-    <sn:pointer id="42">[bold]Beigan[normal]: Capitaine Cecil, Sa Majesté
-attend.
-Suivez-moi.[end]</sn:pointer>
+    <sn:pointer id="42">[bold]Beigan[normal]: Capitaine Cecil, Sa Majesté attend. Veuillez entrer.[end]</sn:pointer>
     <sn:pointer id="43">[bold]Roi Baron[normal]: Bien joué, Cecil.
 Alors, le cristal?[new]
 [bold]Cecil[normal]: Le voici, Majesté.[end]</sn:pointer>
@@ -183,8 +180,7 @@ Sa Majesté doit avoir ses raisons.[new]
 [bold]Cecil[normal]: Caïn, je t'envie...[new]
 [bold]Caïn[normal]: Mon père aussi était chevalier
 dragon.
-Avec la lame noire, je monterais en grade,
-mais ceci me convient mieux.[new]
+Avec la lame noire, je monterais en grade, mais je préfère rester comme ça.[new]
 Et en chevalier dragon, j'ai l'impression
 de toujours sentir près de moi ce père
 que j'ai perdu enfant...[new]
@@ -204,8 +200,7 @@ Ta mission était si soudaine, je m'inquiétais
 terriblement.[new]
 [bold]Cecil[normal]: Nous allons bien...
 Nous ne risquions guère d'être blessés
-par une poignée de magiciens... ...qui n'ont
-offert aucune résistance...[end]</sn:pointer>
+par une poignée de magiciens... ...qui n'a offert aucune résistance...[end]</sn:pointer>
     <sn:pointer id="58">[bold]Rosa[normal]: Je viendrai te voir dans tes
 appartements ce soir...[new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
@@ -214,7 +209,7 @@ sorte?
 Il était réputé comme chevalier pour son
 courage et sa bonté.[new]
 Caïn et moi étions orphelins, mais il
-nous a élevés comme ses propres fils.
+nous a élevés comme ses fils.
 Mais maintenant...
 Le cristal de Mysidia...[new]
 Revêt-il donc une telle importance qu'il
@@ -235,7 +230,7 @@ Regarde-moi plutôt.[end]</sn:pointer>
 J'ai arraché le cristal à des innocents![new]
 Mon cœur est devenu aussi noir que cette
 armure de chevalier noir...![end]</sn:pointer>
-    <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'es pas comme cela.[end]</sn:pointer>
+    <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'es pas comme ça.[end]</sn:pointer>
     <sn:pointer id="64">[bold]Cecil[normal]: Je ne suis qu'un chevalier noir
 lâche, incapable de désobéir au roi.[end]</sn:pointer>
     <sn:pointer id="65">[bold]Rosa[normal]: Le Cecil des Ailes Rouges
@@ -311,7 +306,7 @@ envoyés ici...![new]
 Roi Baron!!
 NON!![new]
 «Ouiiiiin! Ouiiiiin...!!»[end]</sn:pointer>
-    <sn:pointer id="82">[bold]Cecil[normal]: Qui c'est?[end]</sn:pointer>
+    <sn:pointer id="82">[bold]Cecil[normal]: Qui est-ce?[end]</sn:pointer>
     <sn:pointer id="83">[bold]Fille[normal]: Le dragon de maman est mort...
 donc maman aussi... -sanglot-, -sanglot-...[end]</sn:pointer>
     <sn:pointer id="84">[bold]Cecil[normal]: Bon sang![new]
@@ -334,16 +329,15 @@ exterminer les invocateurs...[new]
 [bold]Cecil[normal]: Miséricorde![new]
 [bold]Caïn[normal]: Malheureusement, les ordres
 sont les ordres...
-On n'a d'autre choix que de la tuer aussi.[end]</sn:pointer>
+On n'a pas d'autre choix que de la tuer aussi.[end]</sn:pointer>
     <sn:pointer id="87">[bold]Cecil[normal]: Caïn![new]
 [bold]Caïn[normal]: Si on désobéit, on sera
 exécutés pour trahison![new]
 [bold]Cecil[normal]: Mais ce n'est qu'une enfant![new]
-[bold]Caïn[normal]: ...Tu veux dire qu'on devrait
-braver le Roi?[new]
+[bold]Caïn[normal]: ...Tu veux dire qu'on devrait désobéir au Roi?[new]
 [bold]Cecil[normal]: Si le roi attend de nous qu'on
 assassine des gens comme ça...
-Je n'ai aucune intention de le suivre![end]</sn:pointer>
+Je n'ai plus aucune intention de le suivre![end]</sn:pointer>
     <sn:pointer id="88">[bold]Caïn[normal]: Je me doutais que tu allais dire
 ça.
 Je ne vais pas te laisser quitter Baron
@@ -351,8 +345,7 @@ tout seul.[new]
 [bold]Cecil[normal]: Caïn?[new]
 [bold]Caïn[normal]: Peu importe ce que je dois au
 roi, en tant que chevalier dragon...
-Jamais je ne pourrais commettre un acte
-aussi bas.[new]
+Jamais je ne pourrais commettre un acte aussi vil.[new]
 [bold]Cecil[normal]: Alors, Caïn, toi aussi...[new]
 [bold]Caïn[normal]: Baron est la plus grande force
 militaire au monde.

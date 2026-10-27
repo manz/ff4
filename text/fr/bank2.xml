@@ -25,9 +25,7 @@ Il doit être à l'auberge...[end]
 J'ai entendu dire que le roi a été tué et
 remplacé par un monstre.
 Et il n'a pas non plus d'héritier...[end]
-Ouah, c'est un chevalier noir!
-Effrayant!
-Mais plutôt chouette...[end]
+Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[end]
 Je me demande si ce chevalier noir est
 vraiment mort...
 Je l'aimais plutôt![end]
@@ -42,7 +40,7 @@ de Baron qu'on n'a pas de roi...[end]
 Le chevalier noir!
 Non...m-m-monsieur, je n'ai rien dit
 contre le roi!
-Je...je danserai pour vous.[new]
+Je...je vais danser pour vous.[new]
 Ça vous va?[end]
 Le roi a été vraiment dur, dernièrement...
 Et je n'ai pas le droit de danser.
@@ -219,7 +217,7 @@ Le patron du bar de l'auberge de Baron[end]
 Ah, le chevalier noir du château!
 Payer?
 Oh, non, monsieur.[new]
-Votre argent n'est pas bon, ici.[end]
+Je ne peux pas accepter votre argent.[end]
 On dit que Cid a été enfermé dans
 le château!
 Et il a aussi caché le nouveau modèle
@@ -597,7 +595,7 @@ magma...[end]</sn:pointer>
     <sn:pointer id="33">T[end]</sn:pointer>
     <sn:pointer id="34">T[end]</sn:pointer>
     <sn:pointer id="35">T[end]</sn:pointer>
-    <sn:pointer id="36">Rien de particulier![end]
+    <sn:pointer id="36">Rien à signaler![end]
 Le roi était un monstre..?[end]
 J'ai senti un véritable malaise aux
 alentours du château, récemment...[end]
@@ -701,8 +699,7 @@ dessous le château.
 Sa majesté?[new]
 Est-ce que ça pourrait être... une
 malédiction?[end]
-J'ai entendu dire que vous avez apporté
-le cristal de Mysidia![end]
+J'ai entendu dire que vous avez rapporté le cristal de Mysidia![end]
 Les soldats qui travaillaient pour
 Golbez n'étaient pas humains...[end]
 ...!?
@@ -731,7 +728,7 @@ Je crois en Sa Majesté![end]
 Seigneur Cecil, vengez le roi![end]
 La vallée de Mist est au nord-ouest de
 Baron.
-On dit qu'il est toujours couvert d'une
+On dit qu'elle est toujours couverte d'une
 épaisse nappe de brouillard.[end]
 Nous défendrons le château au nom des
 chevaliers dragons![end]
@@ -748,8 +745,7 @@ quand vous serez partis![end]
 Tu n'arrives pas à dormir?[end]
 [bold]Cecil[normal]: C'est là!?[new]
 [bold]Cid[normal]: Ouaip, juste sous leur nez![end]
-Si vous tenez à la vie, ne vous faites
-pas d'idées.[end]
+Si vous tenez à la vie, restez dans le rang.[end]
 Même si j'avais réalisé que le roi avait
 changé, je n'ai rien dit, pour me
 protéger...[end]</sn:pointer>
@@ -841,7 +837,7 @@ T[end]
 Le trésor de Baron est entreposé ici!
 C'est interdit![end]</sn:pointer>
     <sn:pointer id="47">T[end]</sn:pointer>
-    <sn:pointer id="48">Nous avons emprisonné dans ce donjon
+    <sn:pointer id="48">Nous avons enfermé dans cette prison
 les magiciens Mysidiens qui ont résisté.
 Vous pouvez leur parler à travers les
 barreaux.[end]
@@ -866,8 +862,7 @@ puisse diriger Baron![end]
 Ce boulot m'a laissé une mauvaise
 impression...[end]
 Golbez a pris les Ailes Rouges![end]
-Les Ailes Rouges ont vraiment atteint le
-fond![end]
+Les Ailes Rouges ont vraiment touché le fond![end]
 Merde, alors!
 Si seulement on avait les aéronefs![end]</sn:pointer>
     <sn:pointer id="50">T[end]</sn:pointer>
@@ -1301,8 +1296,7 @@ Je peux utiliser trois niveaux de magie
 blanche...[new]
 Soin, Soin 2, Soin 3![end]
 Dire qu'un monstre a remplacé le roi...[end]
-Dernièrement, le roi a été aussi vigoureux
-et robuste qu'autrefois, plein de vie et
+Ces derniers temps, le roi est plus vigoureux et robuste que jamais, plein de vie et
 d'énergie!
 Mais il a quelque chose d'étrange...[end]
 Nous assisterons les soldats avec notre
@@ -1324,7 +1318,7 @@ Utilise ça aussi pour changer d'arme ou
 refaire le plein de flèches![end]
 Tu dois prendre rapidement des décisions
 au cours des combats!
-Ceux qui n'en sont pas sûrs devraient
+Ceux qui ne sont pas sûrs d'eux devraient
 diminuer la vitesse de bataille![new]
 Ceux qui sont confiants en leurs
 capacités peuvent changer le mode de
@@ -1342,22 +1336,18 @@ Gros Chocobo dans la Forêt Chocobo![new]
 Si tu sens des chocobos, utilise des
 légumes de Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
-Si tu veux changer de nom, tu n'as qu'à
-le lui demander![end]
+Si tu veux changer de nom, tu n'as qu'à lui demander![end]
 Si tu te bats dans une bataille
 désespérée, tu ne pourras que mourir!
-Si tu crois être en difficulté, n'y réfléchis
-pas à deux fois avant de te sauver.[new]
+Si tu es en difficulté, ne réfléchis pas à deux fois avant de te sauver.[new]
 Presse les boutons L et R en même temps
 pour te sauver d'une bataille!
-Aussi, il y a des sorts que tu peux
-invoquer sur de multiples cibles.[new]
+Aussi, il y a des sorts que tu peux lancer sur des cibles multiples.[new]
 Si tu appuies vers la gauche pendant le
 combat, tu sélectionneras tous les
-ennemis... appuyer vers la droite
+ennemis... Appuyer vers la droite
 sélectionnera tous tes alliés![new]
-Tu peux invoquer un sort sur ton groupe
-entier de cette même manière sur l'écran
+Tu peux lancer un sort sur ton groupe entier de la même manière sur l'écran
 de menu![end]</sn:pointer>
     <sn:pointer id="106">T[end]</sn:pointer>
     <sn:pointer id="107">T[end]</sn:pointer>
