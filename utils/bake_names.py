@@ -18,6 +18,7 @@ from pathlib import Path
 
 from katsuji import VwfFont, colourize, encode_tiles, render
 from katsuji.atlas import Atlas
+from katsuji.build import font_atlas
 from katsuji.config import FontConfig
 from katsuji.kerning import find_kerning
 from katsuji.strings import pack_runs
@@ -65,7 +66,7 @@ class Glyphs:
 
     @classmethod
     def of(cls, font: FontConfig) -> Glyphs:
-        return cls(Atlas.open(font.png, font.cell_width, font.cell_height, font.grid), font.widths)
+        return cls(font_atlas(font), font.widths)
 
 
 def auto_kern(font: VwfFont, glyphs: Glyphs, names: Sequence[bytes]) -> VwfFont:

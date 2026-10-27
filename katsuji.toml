@@ -1,11 +1,12 @@
 # Fonts katsuji builds for the patch: `katsuji build`, or `build.py`, which calls it first.
 
 [fonts.dialog]
-png = "fonts/vwf.png"
-cell = [8, 16]
+builtin = "sumi/16"
+overrides = "fonts/dialog_overrides.png"
+blank = ["0xFD"]  # the 1px spacer, labelled °
 table = "text/ff4fr.tbl"
 output = "build/gen/font.dat"
-widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
     "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
@@ -40,11 +41,12 @@ kerning-candidates = [
 kerning = { "tt" = 2 }
 
 [fonts.bold]
-png = "fonts/bold_vwf.png"
-cell = [8, 16]
+builtin = "sumi/16/bold"
+overrides = "fonts/bold_overrides.png"
+blank = ["0xFD"]  # the 1px spacer, labelled °
 table = "text/ff4fr.tbl"
 output = "build/gen/bold_font.dat"
-widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
     "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
@@ -79,11 +81,12 @@ kerning-candidates = [
 kerning = { "tt" = 2 }
 
 [fonts.wicked]
-png = "fonts/wicked_vwf.png"
-cell = [8, 16]
+builtin = "sumi/16/wicked"
+overrides = "fonts/wicked_overrides.png"
+blank = ["0xFD"]  # the 1px spacer, labelled °
 table = "text/ff4fr.tbl"
 output = "build/gen/wicked_font.dat"
-widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
     "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
@@ -118,11 +121,12 @@ kerning-candidates = [
 kerning = { "tt" = 2 }
 
 [fonts.book]
-png = "fonts/book_vwf.png"
-cell = [8, 16]
+builtin = "sumi/16/book"
+overrides = "fonts/book_overrides.png"
+blank = ["0xFD"]  # the 1px spacer, labelled °
 table = "text/ff4fr.tbl"
 output = "build/gen/book_font.dat"
-widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2, "0xA0" = -1 }
+widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }
 kerning-candidates = [
     "Ta", "Te", "Ti", "To", "Tu", "Té", "Tà", "Tâ",
     "Tè", "Tê", "Tï", "Tîr", "Va", "Ve", "Vi", "Vo",
@@ -157,8 +161,9 @@ kerning-candidates = [
 kerning = { "tt" = 2 }
 
 [fonts.menu]
-png = "fonts/8x8vwf.png"
-cell = [8, 8]
+builtin = "sumi/8"
+overrides = "fonts/menu_overrides.png"
+blank = ["0x40", "0x41", "0xFD"]  # ◎ ◉, vanilla icon codes, and ° the menu font leaves blank
 table = "text/ff4_menus.tbl"
 output = "build/gen/menu_font.dat"
 widths = { "0xFF" = 3 }
