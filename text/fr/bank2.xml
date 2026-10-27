@@ -837,12 +837,12 @@ T[end]
 Le trésor de Baron est entreposé ici!
 C'est interdit![end]</sn:pointer>
     <sn:pointer id="47">T[end]</sn:pointer>
-    <sn:pointer id="48">Nous avons enfermé dans cette prison
+    <sn:pointer id="48">Nous avons enfermé dans ces cachots
 les magiciens Mysidiens qui ont résisté.
 Vous pouvez leur parler à travers les
 barreaux.[end]
 J'espère que nous n'aurons plus jamais à
-utiliser ce donjon.[end]
+utiliser ces cachots.[end]
 Tu es ce chevalier noir!
 Tu crois t'en tirer comme ça!?[end]
 Nous nous fichons de ce qui nous arrive.
@@ -1249,7 +1249,7 @@ bien...
 Est-ce que vous l'avez dit à sa femme?[end]
 C'est la harpe d'Edward...[end]</sn:pointer>
     <sn:pointer id="89">T[end]</sn:pointer>
-    <sn:pointer id="90">C'était une prison souterraine, mais
+    <sn:pointer id="90">C'étaient des cachots, mais
 maintenant c'est notre salle au trésor.[end]
 Ne mens pas!
 Je le vois bien![end]
