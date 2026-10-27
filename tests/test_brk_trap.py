@@ -8,8 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from a816.program import Program
-from a816.writers import Writer
+from a816.snippet import assemble_source
 from kintsuki import Emu
 
 REPO = Path(__file__).resolve().parents[1]
@@ -30,28 +29,8 @@ def cold_emu():
     e.close()
 
 
-class _StubWriter(Writer):
-    def __init__(self) -> None:
-        self.blocks: list[tuple[int, bytes]] = []
-
-    def begin(self) -> None: ...
-    def write_block_header(self, block: bytes, block_address: int) -> None: ...
-
-    def write_block(self, block: bytes, block_address: int) -> None:
-        self.blocks.append((block_address, block))
-
-    def end(self) -> None: ...
-
-
-def _assemble(src: str) -> bytes:
-    program = Program()
-    w = _StubWriter()
-    program.assemble_string_with_emitter(src, "<test>", w)
-    return b"".join(b for _, b in w.blocks)
-
-
 def test_brk_trap_captures_pc_and_halts(cold_emu):
-    stub = _assemble(STUB_PATH.read_text())
+    stub = assemble_source(STUB_PATH.read_text()).code
     cold_emu.rearm_cpu()
     cold_emu.write_range(STUB_BASE, stub)
     s = cold_emu.get_state()
