@@ -372,9 +372,11 @@ _t_setup_in_treasure:
     lda 0x7E019F
     sta.w treasure_rolling.base_scroll
     sep #0x20
-; Vanilla's $AD (ch7|ch5|ch3|ch2|ch0) + ch6 + ch4, minus ch2 (its BG3VOFS parallax overrides the ring scroll)
-; and ch3 (the VWF CHR flush's DMA channel, no HDMA table).
-    lda #0xF1
+; Only ch6 and drops' ch4: vanilla's menu NMI runs no HDMA ($01:8081 stores 0), so any other channel still holds a
+; one-shot DMA's descriptor and would replay it into VRAM every line.
+    lda.l field_menu_rolling.hdma_enable
+    and #0x10
+    ora #0x40
     sta.l field_menu_rolling.hdma_enable
     rtl
 
