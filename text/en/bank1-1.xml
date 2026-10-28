@@ -564,7 +564,7 @@ We'll go to Fabul.[new]
 Hobs Mountain is frozen over...[end]</sn:pointer>
 
 <sn:pointer id="107">[bold]Rosa[normal]: ...Rydia, can you cast Fire?[new]
-[bold]Rydia[normal]: ! ...Hmm...no I can't...[end]</sn:pointer>
+[bold]Rydia[normal]: ! ...No... I can't...[end]</sn:pointer>
 
 <sn:pointer id="108">[bold]Rosa[normal]: If you're a Summoner, you
 should be able to cast a basic Black Magic
@@ -788,7 +788,7 @@ insects![end]</sn:pointer>
 <sn:pointer id="147">[bold]Golbez[normal]: Cain...
 Stop standing around and get the
 Crystal.[new]
-[bold]Cain[normal]: Yes, Master![end]</sn:pointer>
+[bold]Cain[normal]: Yes, sir![end]</sn:pointer>
 
 <sn:pointer id="148">[bold]Rosa[normal]: Stop, Cain![new]
 [bold]Cain[normal]: ![new]
@@ -941,8 +941,7 @@ Don't you think so, Cain?[end]</sn:pointer>
 But you should not underestimate
 Cecil's power...[end]</sn:pointer>
 
-<sn:pointer id="183">[bold]Cain[normal]: My Master!
-Let me kill him![end]</sn:pointer>
+<sn:pointer id="183">[bold]Cain[normal]: Let me deal with him myself![end]</sn:pointer>
 
 <sn:pointer id="184">[bold]Golbez[normal]: After the failure you showed
 me last time?
@@ -1038,8 +1037,7 @@ and die slowly![end]</sn:pointer>
 That I should fall to the likes of
 you...![end]</sn:pointer>
 
-<sn:pointer id="200">'I've been waiting for you...' 'Sadness fills
-me...' '...I shall entrust you with my power...'
+<sn:pointer id="200">'I've been waiting for you...' 'Something is happening right now that grieves me...' '...I shall entrust you with my power...'
 '...Yet my sorrow will only grow...' '...But this
 is the only way left.'[end]</sn:pointer>
 
@@ -1056,9 +1054,7 @@ Knight!'[end]</sn:pointer>
 Cecil![end]</sn:pointer>
 
 <sn:pointer id="203">[bold]Cecil[normal]: Stay back!
-This fight is mine alone!
-In order to atone for my past, I must
-conquer my own darkness![end]</sn:pointer>
+This is a fight against myself! To atone for my past, I must defeat him... the Dark Knight![end]</sn:pointer>
 
 <sn:pointer id="204">'Well done...
 Receive my consciousness...
@@ -1377,7 +1373,7 @@ Barbariccia![new]
 by name!
 I should have done away with you and
 Rosa when I had the chance.[new]
-But the one who cast Meteo is gone now.
+But the one who cast Meteor is gone now.
 Now that you're all here, I'll bury you
 together![new]
 [bold]Cain[normal]: Heh. You're not the only one
@@ -1514,7 +1510,7 @@ a present!'
 <sn:pointer id="278">[bold]Cecil[normal]: Golbez...![new]
 [bold]Golbez[normal]: I owe you for the other
 day.
-But the one who cast Meteo is gone now.[new]
+But the one who cast Meteor is gone now.[new]
 In return for that day, I will tell you
 why I gather the crystals.
 Light and Darkness together, eight
@@ -1734,13 +1730,13 @@ Sylph![music][0x29][delay][0x28][end]</sn:pointer>
 <sn:pointer id="308">[bold]Edge[normal]: GRAAAAAAAAAH![new]
 [bold]Rosa[normal]: How horrible...![end]</sn:pointer>
 
-<sn:pointer id="309">[bold]Rubicante[normal]: That fool Lugeie!
+<sn:pointer id="309">[bold]Rubicante[normal]: That fool Lugae!
 How dare he act on his own...![end]</sn:pointer>
 
 <sn:pointer id="310">[bold]Edge[normal]: Rubicante!
 You, I will never forgive!
 Never!![new]
-[bold]Rubicante[normal]: Lugeie turned the King and
+[bold]Rubicante[normal]: Lugae turned the King and
 Queen into monsters on his own.
 I apologize for that discourtesy.[new]
 Unlike the others, I want to fight fair
@@ -2052,19 +2048,19 @@ awaken. [space][0x6]Veiled in the light [space][0x9]of eternity,
 [space][0x9]Mother Earth [space][0x7]shall be blessed [space][0x3]with
 mercy and salvation.[end]</sn:pointer>
 
-<sn:pointer id="363">[bold]Palom[normal]: This old guy learned Meteo![new]
-[bold]Village Elder[normal]: Meteo...!
+<sn:pointer id="363">[bold]Palom[normal]: This old guy learned Meteor![new]
+[bold]Village Elder[normal]: Meteor...!
 Is something so grave happening that
 even its seal has been broken...![new]
 [bold]Tellah[normal]: So it would seem.
 With it, I will avenge Anna![new]
 [bold]Village Elder[normal]: Anna?[new]
 [bold]Tellah[normal]: Golbez killed her!
-I will strike him down with Meteo
+I will strike him down with Meteor
 myself![new]
 [bold]Village Elder[normal]: Tellah.
 Fighting out of hatred will destroy you!
-And as you are now, Meteo is far too
+And as you are now, Meteor is far too
 dangerous![new]
 [bold]Tellah[normal]: Even if it destroys me!
 Him I can never forgive!![new]
@@ -2279,7 +2275,7 @@ I'm counting on you...![end]</sn:pointer>
 That's more like it![new]
 [bold]Porom[normal]: Calm down and let's go![end]</sn:pointer>
 
-<sn:pointer id="390">[bold]Edward[normal]: This is the Antlion's lair.[end]</sn:pointer>
+<sn:pointer id="390">[bold]Edward[normal]: This is where the Antlion lays its eggs.[end]</sn:pointer>
 
 <sn:pointer id="391">[bold]Rydia[normal]: Kya![new]
 [bold]Edward[normal]: Don't worry.
@@ -2458,7 +2454,7 @@ Who are you?[end]</sn:pointer>
 Me... ...teo?
 That light![new]
 I've learned the ultimate Black Magic,
-Meteo! [space][0x5]Tellah learned Meteo![music][0x29][delay][0x28][end]</sn:pointer>
+Meteor! [space][0x5]Tellah learned Meteor![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="437">[bold]Palom[normal]: Hey!
 Hold on![end]</sn:pointer>
@@ -2534,7 +2530,7 @@ Rosa...[end]</sn:pointer>
 We don't have time![end]</sn:pointer>
 
 <sn:pointer id="455">[bold]Cecil[normal]: Tellah...
-We will avenge Anna... and you![end]</sn:pointer>
+We'll be the ones to avenge Anna![end]</sn:pointer>
 
 <sn:pointer id="456">[bold]Cain[normal]: Cecil...[new]
 [bold]Cecil[normal]: We need your power as a
@@ -2784,7 +2780,7 @@ of these Ribbons!'[end]</sn:pointer>
 sword.
 It shall not be released!'[end]</sn:pointer>
 
-<sn:pointer id="509">[bold]Lugeie[normal]: Hya hya hya...
+<sn:pointer id="509">[bold]Lugae[normal]: Hya hya hya...
 This Tower of Babil pierces the earth,
 linking the surface and the
 underworld...[new]

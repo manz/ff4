@@ -137,8 +137,7 @@ energy, hence its name.[end]</sn:pointer>
 Are you guys giants?[end]
 You're a human, aren't you?
 Please be careful not to step on anyone![end]
-You must need a lot of food to fill your
-huge stomachs!
+Being that big, food must cost you a fortune!
 I bet you eat things like ant steak,
 huh?[end]
 We mine the Mithril ore, the frogs refine
@@ -182,24 +181,22 @@ dwarven blood.[end]
 According to legend, everything consists
 of a front and a back.
 Yes, this world is no exception...[end]
-Since I'm a descendant of dwarves, I'm
-really short!
-I wish I was a descendant of an Ogre...[end]
+Am I such a shrimp because I'm descended from dwarves?
+I wish I came from ogres...[end]
 Eh?
 Our ancestors?
 How did they get there?
 Well, that's a long story...[new]
 Eh?
 I guess I forgot it...[end]
-I can't live without the sun.
-But my ancestors were different.[end]
+We can't live without the sun's blessings. But they say our ancestors were different.[end]
 I'm really strong!
 But my great great great great GREAT
 grandfather was much, much stronger![end]
 T[end]
 We have an old well that has been here
 for ages.
-It's said to be bottomless.[end]</sn:pointer>
+They say its depth is beyond measure.[end]</sn:pointer>
 
 <sn:pointer id="7">T[end]</sn:pointer>
 
@@ -574,8 +571,7 @@ Lately, that moon has been turning red...
 Red, like the color of blood...[new]
 I hope nothing bad is about to happen...[end]</sn:pointer>
 
-<sn:pointer id="32">I saw some red ships going into the
-crater to the north![end]
+<sn:pointer id="32">The other day I saw something red get sucked into the crater up north![end]
 Even while the rest of the world is
 suffering from the ravages of war, it's
 peaceful here.[new]
@@ -697,8 +693,7 @@ Are you here about the Crystal?
 Then you should talk to the Clerics inside
 the castle.[end]
 T[end]
-The eight Clerics are dignified
-messengers of God.
+The Clerics are solemn servants of the gods.
 Please conduct yourselves accordingly.[end]</sn:pointer>
 
 <sn:pointer id="40">T[end]</sn:pointer>
@@ -1585,7 +1580,7 @@ Take care of Cecil![end]
 [bold]Porom[normal]: Yeah![end]
 [bold]Cecil[normal]: Stop![new]
 [bold]Palom and Porom[normal]: ...
-BREAK!![end]
+Petrify!![end]
 [bold]Cecil[normal]: Palom...
 Porom!!![music][0x2a][delay][0x28][end]
 They turned to stone by their own will,
@@ -2332,18 +2327,18 @@ I'm the one in charge now![new]
 Do you think you can beat us?[end]
 [bold]Doctor[normal]: Keee! Don't mock me!
 I may not be one of the Elemental Lords,
-but I am Lugeie, Lord Golbez's brain![new]
+but I am Lugae, Lord Golbez's brain![new]
 I'll defend this Tower of Babil with my
 honor at stake![new]
 [bold]Cain[normal]: Don't make me laugh![end]
-[bold]Dr. Lugeie[normal]: Grr...
+[bold]Dr. Lugae[normal]: Grr...
 I'll have my beloved son bring me your
 heads![end]
 [bold]Rydia[normal]: They're going to kill the
 dwarves![end]
 [bold]Yang[normal]: The Giant Gun![end]
 [bold]Cain[normal]: We've got to destroy it![end]
-[bold]Lugeie[normal]: Curse you!
+[bold]Lugae[normal]: Curse you!
 Now you'll learn how frightening I
 really am![end]
 [bold]Rosa[normal]: Shh!![end]
@@ -2355,7 +2350,7 @@ How did you get in here!?[end]
 warp mechanism, but we can't use it...[end]</sn:pointer>
 
 <sn:pointer id="297">Director -
-[bold]Hironobu Sakaguchi[normal]: Welcome![end]
+[bold]Hironobu Sakaguchi[normal]: Shall we...?[end]
 Map Design -
 [bold]Yasushi Matsumura[normal]: Eru, Naito, Naoshi,
 Hoshiya, Kuwahara, long time no see!

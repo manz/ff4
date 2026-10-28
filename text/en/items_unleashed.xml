@@ -178,8 +178,8 @@
     <sn:fixed>[0x3e]Cursed Ring</sn:fixed>
     <sn:fixed>[0xff]Bomb Fragment</sn:fixed>
     <sn:fixed>[0xff]Bomb Arm</sn:fixed>
-    <sn:fixed>[0xff]South Wind</sn:fixed>
-    <sn:fixed>[0xff]North Wind</sn:fixed>
+    <sn:fixed>[0xff]Antarctic Wind</sn:fixed>
+    <sn:fixed>[0xff]Arctic Wind</sn:fixed>
     <sn:fixed>[0xff]Zeus's Wrath</sn:fixed>
     <sn:fixed>[0xff]Heavenly Wrath</sn:fixed>
     <sn:fixed>[0xff]Stardust</sn:fixed>
@@ -250,7 +250,7 @@
     <sn:fixed>[0xff]Adamantite</sn:fixed>
     <sn:fixed>[0xff]Frying Pan</sn:fixed>
     <sn:fixed>[0xff]Pink Tail</sn:fixed>
-    <sn:fixed>[0xff]Lugeie Key</sn:fixed>
+    <sn:fixed>[0xff]Lugae's Key</sn:fixed>
     <sn:fixed>[0xff]Dark Matter</sn:fixed>
     <sn:fixed>[0xff]Scenario 0015</sn:fixed>
     <sn:fixed>[0xff]Scenario 0016</sn:fixed>
