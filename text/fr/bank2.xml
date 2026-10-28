@@ -131,7 +131,7 @@ Bienvenue à Troia, la cité de l'eau et des
 forêts![end]
 Pourquoi nagez-vous en armure?
 Elle va rouiller![end]
-Hé!!
+Ah!
 Qu... qu'est-ce que...
 Tu m'as fait peur![new]
 Fiche le camp, bon sang![end]
@@ -533,7 +533,7 @@ Au travail, au travail![end]
 Je suis devenu presque aussi bon que le
 patron, non?
 N...ne le lui répétez pas![end]</sn:pointer>
-    <sn:pointer id="37">Est-ce...est-ce que le prince Edward va
+    <sn:pointer id="37">Est-ce... est-ce que le prince Edward va
 bien...[end]</sn:pointer>
     <sn:pointer id="38">M. Yang!
 Vous êtes de retour.
@@ -866,8 +866,7 @@ Dites-lui de se remettre vite et de
 se battre![end]</sn:pointer>
     <sn:pointer id="83">T[end]</sn:pointer>
     <sn:pointer id="84">[bold]Tella[normal]: Bien, reposons-nous ici.[end]
-[bold]Tella[normal]: Si nous nous reposons sur
-cette rune magique, un champ de force empêche les monstres d'entrer.[new]
+[bold]Tella[normal]: Sur cette rune magique, un champ de force empêche les monstres d'entrer.[new]
 Nous pouvons nous reposer ici dans une
 tente ou un chalet, et sauvegarder la
 partie.[new]
@@ -912,7 +911,7 @@ Il semble que vous ayez vos raisons.
 Prenez le trésor qui est à la cave.[end]
 Que tous les cristaux soient aux mains de
 ce Golbez est bien plus grave que la
-perte de Troia![end]
+perte subie par Troia![end]
 Si vous portez des armes et des armures
 de métal dans la grotte qui se trouve au
 nord-est, vous serez très ralentis![end]
@@ -1099,7 +1098,7 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 [bold]Edward[normal]: Allez, Rydia![new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: ... ... ...[end]
-[bold]Rydia[normal]: Feu!![end]
+[bold]Rydia[normal]: Feu![end]
 Rydia a appris Feu![delay][0x28][end]
 [bold]Edward[normal]: C'est incroyable, Rydia![new]
 [bold]Rydia[normal]: Héhé...[new]
@@ -1187,7 +1186,7 @@ En route avec l'Enterprise!![end]
 [bold]Tella[normal]: Petits imprudents...!
 Tenez bon!
 Esuna![end]
-Sa Majesté est en colère contre vous. Il refusera de vous voir tant que vous n'aurez pas livré l'Anneau Bombe à Mist.[end]
+Sa Majesté est en colère contre vous. Le roi refuse de vous voir tant que vous n'aurez pas livré l'Anneau Bombe à Mist.[end]
 [bold]Tella[normal]: Petits fous!
 C'est ce vieux croûton qui aurait dû
 mourir, pas eux![end]</sn:pointer>
