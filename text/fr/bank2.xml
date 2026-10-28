@@ -18,9 +18,7 @@ Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'i
 Il doit être à l'auberge...[end]
 Il paraît que le roi avait été remplacé par un monstre.
 Et il n'a pas non plus d'héritier...[end]
-Ouah, c'est un chevalier noir!
-Effrayant!
-Mais plutôt chouette...[end]
+Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[end]
 Je me demande si ce chevalier noir est vraiment mort... Moi, je l'aimais bien![end]
 C'était donc bien vous, seigneur Cecil!
 Battez-moi ce Golbez![end]
@@ -487,7 +485,7 @@ Nos ancêtres seraient venus du monde souterrain. Là-bas aussi, il y a un solei
     <sn:pointer id="33">T[end]</sn:pointer>
     <sn:pointer id="34">T[end]</sn:pointer>
     <sn:pointer id="35">T[end]</sn:pointer>
-    <sn:pointer id="36">Rien de particulier![end]
+    <sn:pointer id="36">Rien à signaler![end]
 Sa Majesté était un monstre...?[end]
 L'ambiance au château est bien lourde, ces temps-ci...[end]
 Peut-être étions-nous manipulés, nous
@@ -560,8 +558,7 @@ Les clercs sont de vénérables servantes des dieux. Surtout, ne leur manquez pa
     <sn:pointer id="41">T[end]</sn:pointer>
     <sn:pointer id="42">Vous pouvez prendre le trésor de cette salle pour vous aider à vaincre les Chimères. Appuyez sur l'interrupteur du mur pour ouvrir la porte.[end]
 On entend la voix du défunt roi monter des sous-sols...[new] Serait-ce... une malédiction?[end]
-J'ai entendu dire que vous avez apporté
-le cristal de Mysidia![end]
+J'ai entendu dire que vous avez rapporté le cristal de Mysidia![end]
 Les soldats qui travaillaient pour
 Golbez n'étaient pas humains...[end]
 ...!?
@@ -601,8 +598,7 @@ Nous prendrons les choses en main en votre absence![end]
 Tu n'arrives pas à dormir?[end]
 [bold]Cecil[normal]: C'est là!?[new]
 [bold]Cid[normal]: Ouaip, juste sous leur nez![end]
-Si vous tenez à la vie, ne vous faites
-pas d'idées.[end]
+Si vous tenez à la vie, restez dans le rang.[end]
 Je voyais bien que le roi avait changé, mais je n'ai rien dit, par peur pour ma vie...[end]</sn:pointer>
     <sn:pointer id="44">Roi Baron: Cecil! Tu es sauf! Et je vois que tu es devenu un puissant guerrier![new]
 Cecil: Majesté...[new]
@@ -1040,8 +1036,7 @@ supplémentaires, tu peux les donner au
 Gros Chocobo dans la Forêt Chocobo![new]
 Si tu sens des chocobos, utilise un Légume Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
-Si tu veux changer de nom, tu n'as qu'à
-le lui demander![end]
+Si tu veux changer de nom, tu n'as qu'à lui demander![end]
 Un combat imprudent peut te coûter la vie! Si ça tourne mal, n'hésite pas à te sauver.[new]
 Appuie sur L et R en même temps pour fuir un combat! De plus, certains sorts peuvent viser plusieurs cibles.[new]
 En combat, appuie vers la gauche pour viser tous les ennemis... et vers la droite pour viser tous tes alliés![new]
