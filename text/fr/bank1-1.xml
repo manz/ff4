@@ -249,7 +249,7 @@ Edward... je ne sais pas...[new]
 [bold]Cecil[normal]: Je comprends...[end]</sn:pointer>
     <sn:pointer id="75">Yang: Où sommes-nous?[new]
 Cecil: À Baron. Si les soldats nous entendent, on aura des ennuis.[new]
-Allons préparer un plan dans une chambre! [0xfa]Le moine Yang a rejoint le groupe![music][0x29][delay][0x28][end]</sn:pointer>
+Allons préparer un plan dans une chambre! [0xfa]Le moine Yang a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="76">Yang: Et qui est ce monsieur?[new]
 Cecil: Tella, le sage. Edward et lui...[new]
 Tella: Ma fille a aimé cet homme au point d'en mourir...[new]
@@ -359,7 +359,7 @@ Rydia...[new]
 [bold]Cecil[normal]: Merci...
 Rydia.[new]
 
-[force_bold]L'invocatrice Rydia se joint à toi![force_normal]
+[force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal]
 
 [end]</sn:pointer>
     <sn:pointer id="102">[0xfa]Cecil a fait briller la Lumière du désert sur Rosa![end]</sn:pointer>
@@ -1217,7 +1217,7 @@ Venez à la tour des Prières![end]</sn:pointer>
     <sn:pointer id="344">Ancien: Oh... Regardez! Nos prières... ont été entendues![end]</sn:pointer>
     <sn:pointer id="345">[bold]Ancien[normal]: Ce doit être...
 Le grand vaisseau éblouissant...
-Le vaisseau céleste![music][0xe][end]</sn:pointer>
+Le vaisseau magique![music][0xe][end]</sn:pointer>
     <sn:pointer id="346">Ancien: Pendant ma prière, j'ai entendu une voix chaleureuse.[new]
 «Venez sur la Lune...» Quelqu'un vous y attend![new]
 Cecil: Mais comment!?[end]</sn:pointer>
@@ -1337,8 +1337,8 @@ Vous revoilà!
 Le dernier cristal...[end]</sn:pointer>
     <sn:pointer id="378">Cecil: À vrai dire...[new]
 Giotto: Quoi!? Il les a tous![new]
-Nous n'avons plus d'espoir... à moins que la légende du vaisseau céleste ne soit vraie...[new]
-Cecil: Vaisseau céleste!?[music][0x0][new]
+Nous n'avons plus d'espoir... à moins que la légende du vaisseau magique ne soit vraie...[new]
+Cecil: Vaisseau magique!?[music][0x0][new]
 Giotto: Un immense vaisseau qui existait dans un lointain passé. Il y a cette légende...[new]
 «Celui qui naîtra de la gueule du dragon...»[new]
 Cecil: C'est la légende de Mysidia![new]
@@ -1348,7 +1348,7 @@ Giotto: Mysidia existe vraiment![new]
 Cecil: L'Ancien est entré dans le temple des prières et continue de prier.[new]
 Giotto: Se pourrait-il que cette personne...[new]
 Cecil: ?[new]
-Giotto: Veut-il ramener le vaisseau céleste à la vie? Non... Il faut y croire, c'est notre seul espoir![new]
+Giotto: Veut-il ramener le vaisseau magique à la vie? Non... Il faut y croire, c'est notre seul espoir![new]
 Mysidia! Dépêchez-vous d'aller à Mysidia![new]
 Rosa: Mais le passage vers la surface est bouché![new]
 Edge: Et avec tous les cristaux réunis, impossible d'approcher la tour de Babil![end]</sn:pointer>
@@ -1508,7 +1508,7 @@ Qui êtes-vous?[end]</sn:pointer>
 [bold]Porom[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="436">[bold]Tella[normal]: !?
 Mé... ...téore?[new]
-Cette lumière me l'aurait accordée...? La magie noire suprême, celle qu'on avait scellée... Météore! [0xfa]Tella apprend Météore![music][0x29][delay][0x28][end]</sn:pointer>
+Cette lumière me l'aurait accordée...? La magie noire suprême, celle qu'on avait scellée... Météore! [0xfa]Tella a appris Météore![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="437">[bold]Palom[normal]: Hé! Attends![end]</sn:pointer>
     <sn:pointer id="438">Porom: Allons-y, M. Cecil![new]
 Cecil: Ou...ouais![end]</sn:pointer>
@@ -1658,8 +1658,8 @@ Palom: J'y croyais pas, moi![new]
 Cecil: Comment ça?[new]
 Ancien: Pardonne-moi, mais j'avais chargé Palom et Porom de te surveiller.[new]
 Mais il semble que c'était inutile en fin de compte. Bon travail, Palom et Porom![end]</sn:pointer>
-    <sn:pointer id="484">[0xfa]Rydia apprend Asura![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="485">[0xfa]Rydia apprend Léviathan![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="484">[0xfa]Rydia a appris Asura![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="485">[0xfa]Rydia a appris Léviathan![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="486">[bold]Ancien[normal]: Oh!
 Tu es...!![end]</sn:pointer>
     <sn:pointer id="487">[bold]Edward[normal]: Anna![new]
@@ -1670,7 +1670,7 @@ Anna: Père... pardonne-moi... Edward... je... t'aime...![end]</sn:pointer>
     <sn:pointer id="489">[bold]Edward[normal]: Adieu...
 Anna![end]</sn:pointer>
     <sn:pointer id="490">[bold]Edward[normal]: Allons, dépêchons-nous! [0xfa]Le
-prince Edward a rejoint le groupe![music][0x29][delay][0x28][end]</sn:pointer>
+prince Edward a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="491">[bold]Tella[normal]: Il est en bas![end]</sn:pointer>
     <sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort pour
 entrer![end]</sn:pointer>

@@ -372,7 +372,7 @@ créatures vivantes.[end]
 Tella aussi!? Je lui avais pourtant dit de ne pas se battre par haine... L'imbécile...[end]
 Nous continuerons de prier![end]
 Hâtez-vous vers la Lune![end]
-Ancien: Le vaisseau céleste est venu de la Lune![new]
+Ancien: Le vaisseau magique est venu de la Lune![new]
 D'après les archives de Mysidia, en plus de la commande de vol normal, il y a un cristal de vol.[new]
 Si tu lui parles, tu pourras aller sur la Lune et en revenir![new]
 Cecil: Je vais tenter le coup![end]</sn:pointer>
@@ -1138,7 +1138,7 @@ Allons-y![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]
-Le moine Yang a rejoint le groupe![delay][0x28][end]</sn:pointer>
+Le moine Yang a rejoint l'équipe![delay][0x28][end]</sn:pointer>
     <sn:pointer id="128">T[end]</sn:pointer>
     <sn:pointer id="129">T[end]</sn:pointer>
     <sn:pointer id="130">T[end]</sn:pointer>

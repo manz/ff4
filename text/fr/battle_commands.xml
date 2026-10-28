@@ -2,8 +2,8 @@
 <sn:fixedlist xmlns:sn="http://snes.ninja/ScriptNS" length="10" padding=" ">
     <sn:fixed>Attaquer</sn:fixed>
     <sn:fixed>Objets</sn:fixed>
-    <sn:fixed>Magie</sn:fixed>
-    <sn:fixed>Rituel</sn:fixed>
+    <sn:fixed>Blanche</sn:fixed>
+    <sn:fixed>Noire</sn:fixed>
     <sn:fixed>Invoquer</sn:fixed>
     <sn:fixed>Obscurité</sn:fixed>
     <sn:fixed>Sauter</sn:fixed>
