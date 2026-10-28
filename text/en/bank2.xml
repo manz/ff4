@@ -1,18 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
 <sn:pointer id="0">Cecil of the Red Wings!
-The village of Mist lies beyond the
-cave to the northwest![end]
+The Valley of Mist lies beyond the cave to the northwest![end]
 The King grows harsher by the day!
 And everyone who stands up to him ends up
 like Cid...[end]
 Lord Cecil!
 Avenge the King![end]
-Why was the King teaching his men the
-dark sword?[end]
+Teaching soldiers the dark sword! What is the King thinking![end]
 The King has done us so much harm...
-He was never like that before.
-Why did he change?[end]
+It's as if he's become a different man![end]
 So you were that dark knight!
 Look how splendid you are now![end]
 Meddling with Mist is bound to bring
@@ -21,8 +18,7 @@ A foreign monk has been put in charge of
 the guards.
 I hear he's looking into something.[new]
 He must be at the inn...[end]
-I heard the King was killed and replaced
-by a monster.
+I hear the King had been replaced by a monster.
 And he has no heir, either...[end]
 Whoa, a dark knight!
 Scary!
@@ -73,7 +69,7 @@ so she ran away from Kaipo...[end]
 I want to be a dancer at Damcyan but
 there are many monsters lurking in the
 Underground Channel.
-Will you watch my Synchronized Dance?[end]
+Want to see my synchronized swimming?[end]
 The Underground Channel is to the
 northeast, but I hear that eight sea
 serpents have been showing up lately![end]
@@ -128,8 +124,7 @@ This is the Devil Road that leads to
 Baron.
 It has been sealed so that what
 happened never happens again.[end]
-The Devil Road is a mysterious
-dimensional road.
+The Devil Road is a road between dimensions.
 Traveling this road drains a lot of vital
 energy, hence its name.[end]</sn:pointer>
 
@@ -185,14 +180,10 @@ Am I such a shrimp because I'm descended from dwarves?
 I wish I came from ogres...[end]
 Eh?
 Our ancestors?
-How did they get there?
-Well, that's a long story...[new]
-Eh?
-I guess I forgot it...[end]
+How did they get here? Well, now...[new] Hmm... I seem to have forgotten...[end]
 We can't live without the sun's blessings. But they say our ancestors were different.[end]
 I'm really strong!
-But my great great great great GREAT
-grandfather was much, much stronger![end]
+But my grandpa's grandpa's grandpa, way back, was even stronger![end]
 T[end]
 We have an old well that has been here
 for ages.
@@ -233,7 +224,7 @@ The soldiers from the castle are doing
 whatever they please at the bar![end]
 The town's finally got its old spirit back!
 Okay, back to work![end]
-You were that Dark Knight, weren't you?
+So you're the man from before!
 I think you look a lot better like this.[end]
 T[end]
 You're tough!
@@ -294,9 +285,7 @@ Cecil's a fighter, so I can provide
 him support![new]
 And you fought alongside Dad as a White
 Magician long ago![new]
-[bold]Rosa's mother[normal]: ...Rosa...
-Your father... was a great Knight.
-I understand...
+[bold]Rosa's mother[normal]: Rosa... You're right... Your late father was a fine knight, too.
 Cecil, please take care of her.[end]</sn:pointer>
 
 <sn:pointer id="15">T[end]</sn:pointer>
@@ -345,20 +334,17 @@ For a short time, I almost felt like I had a
 daughter of my own.
 Please visit us again![end]</sn:pointer>
 
-<sn:pointer id="19">What do you want to rob from us this
-time![end]
+<sn:pointer id="19">What do you want this time!?[end]
 Mt. Ordeals?
 Going there is pointless![end]
-Never forgive the Baronian pillage that
-robbed us of our crystal and the lives of
-our people![end]
+Never forgive Baron for taking our crystal and our people![end]
 I can't believe you...
 You've become...[end]
 Our friends!
 Give us back our friends![end]
 Palom, Porom!
 Don't trust this man![end]
-How beautiful...
+How dazzling...
 So this is what a Paladin looks like...[end]
 Shaddap! -hic- I ain't afraid of no Dark
 Knight![end]
@@ -427,7 +413,7 @@ I'm very pleased to make your
 acquaintance.[end]
 [bold]Porom[normal]: Hey Palom, go ahead and
 greet him![end]
-[bold]Palom[normal]: Pleased to meet ya, pal![end]
+[bold]Palom[normal]: Nice to meet ya, bro![end]
 [space][0x5]Black Magician Palom [space][0xe]and [space][0x5]White
 Magician Porom [space][0x7]joined the party![music][0x29][delay][0x28][end]
 [bold]Village Elder[normal]: Now go to Mt. Ordeals!
@@ -444,7 +430,7 @@ Palom and Porom!
 I see...
 So in the end, those two surpassed me...[end]
 The Village Elder has been praying in the
-Tower of Prayers ever since you left.[end]
+Tower of Prayers ever since that day.[end]
 We will also pray, for all living creatures.[end]
 Tellah too!?
 I warned him not to fight with hatred
@@ -452,8 +438,7 @@ like that...
 The fool...[end]
 We will continue to pray![end]
 Hurry to the moon![end]
-[bold]Village Elder[normal]: The Magical Ship is a
-vessel to the moon![new]
+[bold]Village Elder[normal]: The Magical Ship is a vessel from the moon![new]
 According to Mysidian archives, aside
 from a switch to control normal flight,
 there is a Crystal of Flight.[new]
@@ -538,7 +523,7 @@ Chocobos! [space][0xc]-Toroia Newspaper[end]
 Kyun, Kyun[end]
 T[end]
 Chocobos are cute, but...
-WHEW...they smell bad![end]
+phew... they kinda stink![end]
 T[end]
 T[end]
 T[end]
@@ -572,11 +557,7 @@ Red, like the color of blood...[new]
 I hope nothing bad is about to happen...[end]</sn:pointer>
 
 <sn:pointer id="32">The other day I saw something red get sucked into the crater up north![end]
-Even while the rest of the world is
-suffering from the ravages of war, it's
-peaceful here.[new]
-We DO get hit with earthquakes,
-however.[end]
+They say war is spreading out there, but our village is perfectly peaceful.[new] We do get earthquakes now and then, though.[end]
 My grandma is the oldest person in the
 village.
 She knows everything![end]
@@ -615,7 +596,7 @@ the castle recently...[end]
 Perhaps we were being manipulated too...[end]
 You're leaving early tomorrow, right?
 Rest well tonight.[end]
-His Majesty's orders: you're not to enter
+By His Majesty's orders, you're not to enter
 the castle until you deliver the Bomb Ring
 to the village of Mist![end]
 Who the hell are you?
@@ -665,7 +646,7 @@ Ah!
 D...don't tell the boss!
 W...work sure is fun![end]
 Aah!
-G-g-g-g-ghost!
+The b-b-boss's ghost!
 Huh, it's really you?
 Back to work, back to work![end]
 Yep...I've gotten as good as Boss at this...
@@ -713,11 +694,10 @@ The soldiers working for Golbez
 weren't human...[end]
 ...!?
 I...I'm not sleeping![end]
-His majesty was murdered by that
-fiend...?[end]
+His Majesty, taken by a monster... How tragic.[end]
 [bold]Cain[normal]: Are you ready, Cecil?[new]
 [bold]Cecil[normal]: I'm counting on you, Cain.[new]
-[bold]Cain[normal]: Just leave everything to me![end]
+[bold]Cain[normal]: Heh. Leave it to me.[end]
 Sir Cecil![end]
 [bold]Cecil[normal]: What's wrong?[new]
 [bold]Palom[normal]: It smells...[new]
@@ -730,7 +710,7 @@ You can't go around trusting everybody![new]
 
 <sn:pointer id="43">I've felt something strange about the
 king lately...[end]
-Sir Cecil!
+Lord Cecil!
 Please take the throne![end]
 I don't like that Beigan one bit![end]
 Even without a king, Baron's
@@ -738,15 +718,13 @@ indestructible!
 But without the Red Wings...[end]
 I believe in His Majesty![end]
 Lord Cecil, avenge the King![end]
-The village of Mist is northwest of Baron.
-It's said to always be enshrouded in a
-deep envelope of fog.[end]
+The Valley of Mist is northwest of Baron.
+They say it's always shrouded in thick fog.[end]
 We will defend the castle in the name of
 the Dragon Knights![end]
-If the Dragon Knight Captain Cain
-and Sir Cecil of the Red Wings team up,
+If Mr. Cain of our Dragon Knights and Mr. Cecil of the Red Wings team up,
 there's nothing to fear![end]
-I can't face Sir Cain...[end]
+I can't face Mr. Cain...[end]
 A lot of things are being said about His
 Majesty, but if he hears about it...[end]
 We will handle things while you are away![end]
@@ -955,13 +933,9 @@ Tellah left the party.[end]
 [bold]Rydia[normal]: Crybaby![end]
 [bold]Rydia[normal]: You're a man, aren't you?
 A grown-up!
-So act like one...![new]
-You're not the only one who has lost a
-loved one...[new]
+And yet...![new] Even I...[new]
 [bold]Cecil[normal]: Rydia...[end]
-[bold]Edward[normal]: You may be right...
-I am just a weakling!
-In that case, I'll stay here with Anna
+[bold]Edward[normal]: You're right... I'm a crybaby! That's why I'll stay here with Anna
 forever![new]
 I don't care about anything else![end]
 [bold]Cecil[normal]: You're not the only one
@@ -969,7 +943,7 @@ who's sad!
 Anna wouldn't be happy to see you like
 this![new]
 Besides, right now we need your help![new]
-[bold]Edward[normal]: Me, help YOU?[new]
+[bold]Edward[normal]: Me? Help you?[new]
 [bold]Cecil[normal]: I'm Cecil.
 A friend of mine collapsed near Kaipo,
 stricken with desert fever.[new]
@@ -1054,8 +1028,7 @@ strengthen our defenses!
 Don't worry about me.[new]
 You should get some rest for the time
 being.[end]
-[bold]King Fabul[normal]: ...Oh, really?
-Very well, Yang.
+[bold]King Fabul[normal]: ...I see. Understood. Yang.
 Accompany them and lend them your
 power![new]
 Sir Cecil, I can't find words to thank
@@ -1124,9 +1097,7 @@ He's...[end]
 Honestly, loafing around in a place like
 that...
 Oh, I've got something in my eye...[end]
-He shouldn't be miserable like that!
-Please...
-Give him a good whack with this![end]
+Honestly, how pathetic! Go give him a good whack with this and knock some sense into him![end]
 Received the Frying Pan of Love![end]
 Yang?!
 He's underground?[end]
@@ -1151,7 +1122,7 @@ rest in my tent and regroup![end]</sn:pointer>
 
 <sn:pointer id="85">You want me to dance?
 How rude!
-I'm a soldier![end]
+I'm a royal guard![end]
 Baron's been acting up a lot recently, but
 they probably won't attack here.[end]
 These may look like leotards, but they're
@@ -1184,14 +1155,14 @@ As promised, we will lend you the Earth
 Crystal.[end]
 The Earth Crystal?
 How terrible![end]
-Dark Elf is weak against metal weapons.
+The Dark Elf is weak against metal weapons.
 To make up for that weakness, he has
 filled his cave with magnetism.[end]
 We'll entrust you with the Crystal.
 Take care of it![end]
 To think that some evil man is gathering
 the Crystals![end]
-Dark Elf lives in the cave on the
+The Dark Elf lives in the cave on the
 northeast island![end]
 What was that voice!?[end]
 The Crystal was stolen?
@@ -1201,9 +1172,7 @@ promise to lend it to you.
 First, bring it back here.[end]
 It seems you have your reasons.
 Please use the treasure in the basement.[end]
-Golbez getting his hands on the
-Crystal is a lot worse than what will
-happen to Toroia without it![end]
+Golbez getting all the Crystals is far worse than Toroia's loss![end]
 If you equip metal weapons and armor in
 the cave to the northeast, you'll move
 sluggishly![end]
@@ -1221,7 +1190,7 @@ What was that voice just now?[end]
 It's said that he who gathers all the
 Crystals will attain incredible power.[end]
 The Earth Crystal?
-It was stolen by Dark Elf.[end]
+The Dark Elf stole it, and we don't know what to do.[end]
 The Crystal's power changes depending
 on who it is that possesses it!
 If an evil person has it then it would have
@@ -1237,11 +1206,11 @@ What on Earth just happened!?[end]
 Oh no!
 It's not just Toroia.
 The entire world is in danger now![end]
-[bold]Clerics[normal]: That's...!!![end]
+[bold]Clerics[normal]: That's...![end]
 It's the Earth Crystal!
 You got it back!
 Well done![end]
-Looks like you have the Crystal...[end]
+'Looks like you have the Crystal.'[end]
 [bold]Cid[normal]: That voice![new]
 [bold]Cecil[normal]: Cain![music][0x16][new]
 [bold]Cain[normal]: Go outside and get on your
@@ -1261,10 +1230,8 @@ he's very weak.[end]
 You must save Rosa![end]
 We have an injured patient here.
 Please be quiet![end]
-Please...for my sake too.[end]
-Tellah is dead?!
-Why...?
-Why does everyone around me...?[end]
+Do my part for me too... please.[end]
+Master Tellah!? Why...? Everyone around me...[end]
 Yang too...
 If...if only I were stronger...[end]
 Oh, so Yang is all right...
@@ -1331,10 +1298,7 @@ I can cast three levels of white magic...
 Cure, Cure 2, and Cure 3![end]
 To think that a monster had replaced the
 king...[end]
-His Majesty has recently been as
-energetic and robust as ever, full of life
-and vigor![new]
-But there's something strange about him...[end]
+Lately His Majesty has been brimming with more vigor than ever before.[new] And yet, somehow...[end]
 We'll assist the soldiers with our White
 Magic![end]</sn:pointer>
 
@@ -1477,7 +1441,7 @@ Please...try to be brave![new]
 [bold]Rosa[normal]: Thank you, Rydia![new]
 [bold]Cecil[normal]: Rydia...[end]
 [bold]Edward[normal]: Rydia?[new]
-[bold]Rosa[normal]: You CAN do this![end]</sn:pointer>
+[bold]Rosa[normal]: I know you can do it![end]</sn:pointer>
 
 <sn:pointer id="127">[bold]Edward[normal]: Those clothes...
 He must be a Monk of Fabul![end]
@@ -1485,8 +1449,7 @@ He must be a Monk of Fabul![end]
 [bold]Rydia[normal]: Let's help him![end]
 [bold]Monk[normal]: Thank you for coming to my aid in
 my hour of need.
-I am the captain of the Monks of Fabul,
-Yang.[new]
+I am Yang, head of the Monks of Fabul.[new]
 My men and I were training here on Mt.
 Hobs, and suddenly we were attacked by
 hordes of monsters.
@@ -1500,10 +1463,7 @@ using Baron to collect the Crystals...[end]
 [bold]Cecil[normal]: What's that?[end]
 [bold]Rosa[normal]: Most likely, those monsters
 were sent by Golbez...[end]
-[bold]Yang[normal]: In order to weaken Fabul's
-defenses!?[new]
-[bold]Cecil[normal]: If that's the case, then they
-should be coming any minute!
+[bold]Yang[normal]: To wipe us out and leave Fabul defenseless!?[new] [bold]Cecil[normal]: Then they must already be marching on Fabul while it's undermanned!
 We'll help you!
 Quickly, we must go to Fabul![end]
 [bold]Yang[normal]: But I can't let you get caught
@@ -2731,8 +2691,7 @@ Leave now.[end]
 Your power and spirit...
 I have truly felt them.
 Rydia![new]
-When you have need of me, call my
-name: Bahamut...![end]</sn:pointer>
+When you have need of me, call my name... Bahamut...![end]</sn:pointer>
 
 <sn:pointer id="349">T[end]</sn:pointer>
 
