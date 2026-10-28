@@ -88,12 +88,9 @@ Do you want to die?![end]</sn:pointer>
 
 <sn:pointer id="20">'Curse you!!'[end]</sn:pointer>
 
-<sn:pointer id="21">[bold]FuSoYa[normal]: This is the Giant's Heart, the
-control system![new]
+<sn:pointer id="21">[bold]FuSoYa[normal]: This is the Giant's Heart, the Control System![new]
 [bold]Edge[normal]: Whoa, it's huge![new]
-[bold]FuSoYa[normal]: Before we attack the Control
-System we've got to destroy the Defense
-System, or else it'll repair itself![end]</sn:pointer>
+[bold]FuSoYa[normal]: We must strike the Defense System before the Control System itself, or it will repair itself![end]</sn:pointer>
 
 <sn:pointer id="22">[bold]Cecil[normal]: We did it![new]
 [bold]Edge[normal]: It stopped![end]</sn:pointer>
@@ -504,7 +501,7 @@ Where's Palom?[new]
 [bold]Porom[normal]: Not again!![delay][0x1c][close_window][end]</sn:pointer>
 
 <sn:pointer id="81">[bold]Palom[normal]: And then, with my trusty
-Blizzard spell, up on Mt. Ordeals...[delay][0x20][close_window][end]</sn:pointer>
+Ice spell, up on Mt. Ordeals...[delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="82">[bold]Palom[normal]: Ow-ow-ow![new]
 [bold]Porom[normal]: That's enough out of you!
@@ -512,8 +509,7 @@ The Elder is furious![delay][0x1d][close_window][end]</sn:pointer>
 
 <sn:pointer id="83">[bold]Village Elder[normal]: How many times do I
 have to tell you?
-Acting like that, you're ten years too
-early to dream of becoming Tellah![delay][0x20][new]
+Acting like that, you've a long way to go before you're another Tellah![delay][0x20][new]
 As punishment, you'll copy out your
 spells![delay][0x20][close_window][end]</sn:pointer>
 
@@ -671,8 +667,7 @@ Hurry up![new]
 T-take this...!
 You... must use it...![end]</sn:pointer>
 
-<sn:pointer id="124">[bold]Rosa[normal]: It's been so long since we've
-last seen everyone. [delay][0x20] They should be
+<sn:pointer id="124">[bold]Rosa[normal]: It's been so long since we last saw everyone. [delay][0x20] They should be
 coming about now!
 Cecil, hurry along![new]
 [bold]Cecil[normal]: I will, Rosa.[delay][0x20][close_window][end]</sn:pointer>

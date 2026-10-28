@@ -688,8 +688,7 @@ door will open.[end]
 I hear the late King's voice echoing
 from under the castle.
 Could it be...a curse?[end]
-I hear you brought back the Crystal of
-Water from Mysidia![end]
+I hear you brought back the Crystal from Mysidia![end]
 The soldiers working for Golbez
 weren't human...[end]
 ...!?
@@ -698,7 +697,7 @@ His Majesty, taken by a monster... How tragic.[end]
 [bold]Cain[normal]: Are you ready, Cecil?[new]
 [bold]Cecil[normal]: I'm counting on you, Cain.[new]
 [bold]Cain[normal]: Heh. Leave it to me.[end]
-Sir Cecil![end]
+'Sir Cecil!'[end]
 [bold]Cecil[normal]: What's wrong?[new]
 [bold]Palom[normal]: It smells...[new]
 [bold]Porom[normal]: It smells like a monster![end]
@@ -884,7 +883,7 @@ Rest well tonight.[end]</sn:pointer>
 
 <sn:pointer id="62">T[end]</sn:pointer>
 
-<sn:pointer id="63">Th, the Crystal...stolen...![end]</sn:pointer>
+<sn:pointer id="63">Th-the Crystal... stolen...![end]</sn:pointer>
 
 <sn:pointer id="64">I-I've got to make it to the healing pot
 above...![end]</sn:pointer>
@@ -1202,14 +1201,12 @@ Troia is governed by us, the eight
 Clerics.
 We were endowed with the Earth Crystal's
 blessing, but now...[end]
-What on Earth just happened!?[end]
+What on earth just happened!?[end]
 Oh no!
 It's not just Troia.
 The entire world is in danger now![end]
 [bold]Clerics[normal]: That's...![end]
-It's the Earth Crystal!
-You got it back!
-Well done![end]
+'It's the Earth Crystal!' 'You got it back!' 'Well done!'[end]
 'Looks like you have the Crystal.'[end]
 [bold]Cid[normal]: That voice![new]
 [bold]Cecil[normal]: Cain![music][0x16][new]
@@ -1382,8 +1379,7 @@ Go back to Kaipo![end]</sn:pointer>
 <sn:pointer id="115">[bold]Tellah[normal]: We can go outside from here.
 The monster lies under the upcoming
 waterfall![new]
-It would be wise to camp in a Tent in the
-overworld, just in case![end]</sn:pointer>
+It would be wise to camp in a Tent on the surface, just in case![end]</sn:pointer>
 
 <sn:pointer id="116">T[end]</sn:pointer>
 
@@ -1413,7 +1409,7 @@ surface![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="126">The path is blocked by a wall of thick ice.[end]
 [bold]Rosa[normal]: Rydia.
-Try to cast fire.[new]
+Try to cast Fire.[new]
 [bold]Rydia[normal]: ...[end]
 [bold]Rydia[normal]: ...No.[new]
 [bold]Rosa[normal]: ?[new]
@@ -1428,8 +1424,8 @@ to melt this ice.[new]
 [bold]Rosa[normal]: If we can't get past this ice to
 Fabul, many more people will be in
 danger...
-Please...try to be brave![new]
-[bold]Edward[normal]: Brave...[new]
+Please... find your courage![new]
+[bold]Edward[normal]: Courage...[new]
 [bold]Rosa[normal]: Rydia, please![new]
 [bold]Edward[normal]: Come on, Rydia![new]
 [bold]Cecil[normal]: ...[new]
@@ -1437,7 +1433,7 @@ Please...try to be brave![new]
 [bold]Rydia[normal]: Fire!![end]
 [space][0x5]Rydia learned Fire![music][0x29][delay][0x28][end]
 [bold]Edward[normal]: That's incredible, Rydia![new]
-[bold]Rydia[normal]: heh...[new]
+[bold]Rydia[normal]: Heh...[new]
 [bold]Rosa[normal]: Thank you, Rydia![new]
 [bold]Cecil[normal]: Rydia...[end]
 [bold]Edward[normal]: Rydia?[new]
@@ -1765,8 +1761,7 @@ Let's go![end]
 [bold]Cain[normal]: So you're still alive, Cecil.[end]
 [bold]Cid[normal]: Cain, what the hell do
 you think you're doing!?[end]
-[bold]Cecil[normal]: Rosa had better be
-safe...is she?[new]
+[bold]Cecil[normal]: Rosa... had better be safe.[new]
 [bold]Cain[normal]: Heh. So you are worried
 after all?[new]
 If you value Rosa's life, you'll trade
@@ -2275,7 +2270,7 @@ dwarves![end]
 Now you'll learn how frightening I
 really am![end]
 [bold]Rosa[normal]: Shh!![end]
-[bold]Cecil[normal]: Damn![new]
+[bold]Cecil[normal]: Oh no![new]
 [bold]Doctor[normal]: You!
 Cecil!
 How did you get in here!?[end]
@@ -2374,7 +2369,7 @@ Die, you puny dwarves!'[end]
 'Damn!
 Then I'll do this!'[end]
 'Now nobody can stop the Giant Cannon!'[end]
-[bold]Cecil[normal]: Damn![new]
+[bold]Cecil[normal]: Oh no![new]
 [bold]Cain[normal]: What have they done!?[end]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rosa[normal]: What are you doing!?[end]
@@ -2399,7 +2394,7 @@ Return to the moon![end]
 We wanna go too...
 But it doesn't look like we're gonna get
 to!
-We're counting on you, bud![end]
+We're counting on you, bro![end]
 You've become such a fantastic Paladin!
 We really weren't mistaken in helping you
 back then![end]
