@@ -320,7 +320,7 @@ aim, but not one has ever returned.[new]
 [bold]Cecil[normal]: ...Yes![new]
 [bold]Village Elder[normal]: But it will be hard
 alone, with your Dark Sword.
-I'll send Magicians with you.[new]
+I'll send mages with you.[new]
 Palom!
 Porom![end]</sn:pointer>
 
@@ -412,8 +412,8 @@ But it's surrounded by a barrier![end]</sn:pointer>
 <sn:pointer id="64">[bold]FuSoYa[normal]: I should be able to get through!
 We cannot let the Giant of Babil be
 unleashed upon the Blue Planet![new]
-I shall go with you! [space][0x8]Lunarian
-FuSoYa [space][0x7]joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+I shall go with you! Lunarian
+FuSoYa joined the party![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="65">[bold]Cain[normal]: But about those final words
 that Zeromus left...[end]</sn:pointer>
@@ -782,7 +782,7 @@ Don't let your guard down...![end]</sn:pointer>
 <sn:pointer id="156">[bold]King Baron[normal]: You have become strong...
 Fight for Baron... no, fight for the world!
 I will fight alongside you as Odin![new]
-[bold]Cecil[normal]: Your Majesty! [space][0x5]Rydia
+[bold]Cecil[normal]: Your Majesty! Rydia
 learned Odin![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="157">[bold]Cecil[normal]: Cain?[end]</sn:pointer>

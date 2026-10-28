@@ -204,8 +204,8 @@ Dad says that no more customers are
 coming.
 And there are scary soldiers at the bar
 too...[end]
-[space][0x7]Dancers wanted! [space][0x6]Beauty and dancing
-[space][0x8]skills a must! -Baron Inn Bartender[end]
+Dancers wanted! Beauty and dancing
+skills a must! -Baron Inn Bartender[end]
 Oh, the Dark Knight from the castle!
 Money?
 Oh, no sir.[new]
@@ -247,9 +247,9 @@ and the soldiers, but there are plenty of
 good people like you, too...[new]
 Dad's always arguing with the
 townspeople about that...[end]
-[space][0xa]Principles [space][0xe]of [space][0xb]Buoyancy[end]
-[space][0xb]History [space][0xe]of [space][0x9]Shipbuilding[end]
-[space][0xb]A Guide [space][0xe]to [space][0x6]Birds of the World[end]
+Principles of Buoyancy[end]
+History of Shipbuilding[end]
+A Guide to Birds of the World[end]
 Lord Cecil!?
 You're alive!
 Dad hasn't come back from the castle in
@@ -278,13 +278,13 @@ You're safe![new]
 [bold]Rosa's mother[normal]: Don't you ever go
 anywhere again![new]
 I shouldn't have let you become a White
-Magician at all.[new]
+Mage at all.[new]
 [bold]Rosa[normal]: No, Mom!
 It was good that I did!
 Cecil's a fighter, so I can provide
 him support![new]
 And you fought alongside Dad as a White
-Magician long ago![new]
+Mage long ago![new]
 [bold]Rosa's mother[normal]: Rosa... You're right... Your late father was a fine knight, too.
 Cecil, please take care of her.[end]</sn:pointer>
 
@@ -414,8 +414,8 @@ acquaintance.[end]
 [bold]Porom[normal]: Hey Palom, go ahead and
 greet him![end]
 [bold]Palom[normal]: Nice to meet ya, bro![end]
-[space][0x5]Black Magician Palom [space][0xe]and [space][0x5]White
-Magician Porom [space][0x7]joined the party![music][0x29][delay][0x28][end]
+Black Mage Palom and White
+Mage Porom joined the party![music][0x29][delay][0x28][end]
 [bold]Village Elder[normal]: Now go to Mt. Ordeals!
 Palom!
 Porom![new]
@@ -502,8 +502,8 @@ vegetables.[new]
 Therefore, it's an ideal environment for
 breeding Chocobos.[end]
 T[end]
-[space][0x5]Biology of Chocobos[end]
-[space][0x9]You too can [space][0x8]raise Chocobos[end]</sn:pointer>
+Biology of Chocobos[end]
+You too can raise Chocobos[end]</sn:pointer>
 
 <sn:pointer id="29">Have you ever seen these?
 They're Black Chocobos.
@@ -518,8 +518,8 @@ Black Chocobos always remember their
 way back home, and will return there.
 But, after all, since they're feral animals,
 they run away after only one trip.[end]
-[space][0x6]New Chocobo Species [space][0x9]Discovered! [space][0x7]Black
-Chocobos! [space][0xc]-Troia Newspaper[end]
+New Chocobo Species Discovered! Black
+Chocobos! -Troia Newspaper[end]
 Kyun, Kyun[end]
 T[end]
 Chocobos are cute, but...
@@ -542,9 +542,9 @@ All of our efforts have gone towards
 observing it.[end]
 My husband has been so absorbed in his
 work that he doesn't even eat or drink![end]
-[space][0x7]The Romanticism [space][0xc]of the [space][0xa]Night Sky[end]
-[space][0x9]The Origins [space][0xc]of the [space][0x8]Constellations[end]
-[space][0x4]The Phases of the Moon [space][0x5]and
+The Romanticism of the Night Sky[end]
+The Origins of the Constellations[end]
+The Phases of the Moon and
 the History of Man[end]</sn:pointer>
 
 <sn:pointer id="31">I am Corio.
@@ -826,7 +826,7 @@ Off limits![end]</sn:pointer>
 
 <sn:pointer id="47">T[end]</sn:pointer>
 
-<sn:pointer id="48">We imprisoned the Mysidian Magicians
+<sn:pointer id="48">We imprisoned the Mysidian mages
 who resisted in this dungeon.
 You can talk to them through the bars.[end]
 I hope we never have to use this
@@ -1286,7 +1286,7 @@ Whoops...[end]
 Sorry, that was Mini![end]</sn:pointer>
 
 <sn:pointer id="103">Rosa wanted to help you, so she
-chose to become a White Magician.
+chose to become a White Mage.
 Don't make Rosa worry too much![end]
 We can only pray that the late King
 rests in peace.[end]
@@ -1431,7 +1431,7 @@ Please... find your courage![new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: ... ... ...[end]
 [bold]Rydia[normal]: Fire!![end]
-[space][0x5]Rydia learned Fire![music][0x29][delay][0x28][end]
+Rydia learned Fire![music][0x29][delay][0x28][end]
 [bold]Edward[normal]: That's incredible, Rydia![new]
 [bold]Rydia[normal]: Heh...[new]
 [bold]Rosa[normal]: Thank you, Rydia![new]
@@ -2346,7 +2346,7 @@ IV, try Seiken Densetsu too![end]</sn:pointer>
 Rosa and Rydia, huh?
 Now those are fine ladies!
 I'll lend you a hand![new]
-Game Craftsman Takashi Tokita [space][0x7]joined the
+Game Craftsman Takashi Tokita joined the
 party![music][0x29][delay][0x28] Please...take me with you!
 I can't stand it here any more![music][0x2][end]
 Chief Programmer -
@@ -2630,7 +2630,7 @@ We'll help them![end]
 She'll be able to call us!
 We'll fight in your place![new]
 [bold]Rydia[normal]: Pleased to meet you, Miss
-Sylph! [space][0x5]Rydia learned Sylph![music][0x29][delay][0x28][end]
+Sylph! Rydia learned Sylph![music][0x29][delay][0x28][end]
 [bold]Sylph[normal]: Ah!
 Stop![end]
 Yang's gotten all better![end]
