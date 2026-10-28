@@ -49,6 +49,13 @@ _SELL_BORDER_RIGHT_COL := 31
 ; Vanilla's BG3VOFS for the window ($9F seeded at $01:C7C1).
 _SELL_BASE_SCROLL := 0xFFB8
 
+; Lines above the list: the top border row only. Each slot draws its name on its second tile row, so the list
+; starts 8 px higher than vanilla's 88 to put the names where vanilla's hand points (row * 16 + 88), as on the buy list.
+_SELL_HEADER_LINES := 80
+_SELL_ROW_SHIFT := 88 - _SELL_HEADER_LINES
+; The footer shows tile rows 20-21, blank below the ring, so the next slot never peeks in under the list.
+_SELL_FOOTER_SCROLL := 20 * 8 - ( _SELL_HEADER_LINES + _SELL_VISIBLE_ITEMS * 16 )
+
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
 _SELL_SCROLL_FRAMES := 8
 
@@ -301,6 +308,8 @@ _sell_mod_done:
         adc.b 0x40
         clc
         adc.w sell_rolling.base_scroll
+        clc
+        adc.w #_SELL_ROW_SHIFT  ; the header is that much shorter: the same slot line, 8 px higher
         sta.b 0x40
         sep #0x20
         lda #16
@@ -336,9 +345,9 @@ _sell_row_loop_done:
     }
 
 _sell_hdma_header:
-"""Header: 88 lines above the list at base_scroll."""
+"""Header: the lines above the list at base_scroll."""
     sep #0x20
-    lda #88
+    lda #_SELL_HEADER_LINES
     sta.l SELL_HDMA_SHADOW, x
     inx
     rep #0x20
@@ -349,13 +358,13 @@ _sell_hdma_header:
     rts
 
 _sell_hdma_footer:
-"""Footer: 16 lines at base_scroll for the bottom border."""
+"""Footer: 16 blank lines under the list."""
     sep #0x20
     lda #16
     sta.l SELL_HDMA_SHADOW, x
     inx
     rep #0x20
-    lda.w sell_rolling.base_scroll
+    lda.w #_SELL_FOOTER_SCROLL & 0xFFFF
     sta.l SELL_HDMA_SHADOW, x
     inx
     inx

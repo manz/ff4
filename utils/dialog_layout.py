@@ -3,7 +3,7 @@ ff4 dialog laid out at build time with katsuji: the language's typography, sente
 
 The XML keeps the translation as written; `layout` runs on each dialog pointer while the banks are encoded, so
 window breaks and line breaks are the build's, never hand-kept. Markup a previous layout added (`[new]`,
-`[bold]`/`[normal]` around speakers) is stripped first, so laying out twice changes nothing.
+`[bold]`/`[normal]` around speakers, the spacer before their colon) is stripped first, so laying out twice changes nothing.
 
 ff4's script rules: `Name:` opens a speaker, set in bold at the start of each of their windows; a speaker change
 starts a new window; quoted speech («» in French, '' in English) without a visible speaker gets windows of its own, and so does an announcement, a
@@ -19,7 +19,7 @@ packs sentences onto a line while they fit and splits a sentence wider than the 
 import re
 import sys
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from katsuji.layout import TextLayout
@@ -66,7 +66,9 @@ MARKUP = Markup(
 ABBREVIATIONS = {"fr": ("M.",), "en": ("Mr.", "Mrs.", "Dr.", "St.", "Mt.")}
 """Words ending in a period that never end a sentence: a title stays with the name ("M. Rosa"), and a line never
 ends on one."""
-TYPOGRAPHY = {"fr": FRENCH, "en": ENGLISH}
+SPEAKER_SPACE = "°"  # the 1px spacer (FD): "Soldat°:", a hint of the French space before the colon, not a 3px gap
+FRENCH_DIALOG = replace(FRENCH, speaker_space=SPEAKER_SPACE)
+TYPOGRAPHY = {"fr": FRENCH_DIALOG, "en": ENGLISH}
 
 
 @dataclass(frozen=True)
@@ -80,6 +82,7 @@ def clean(text: str) -> str:
     cleaned = text.replace(NEW_WINDOW, "\n")
     for tag in LAYOUT_MARKUP:
         cleaned = cleaned.replace(tag, "")
+    cleaned = cleaned.replace(SPEAKER_SPACE + ":", ":")
     return re.sub(r"(?<=\w-)\n(?=\w)", "", cleaned)  # a word a layout broke at its hyphen
 
 
@@ -208,7 +211,7 @@ def with_breaks(tokens: Sequence[Token]) -> list[Token]:
 class DialogLayout:
     """Lays one dialog pointer out into ff4 windows."""
 
-    def __init__(self, metrics: TextMetrics, typography: Typography = FRENCH,
+    def __init__(self, metrics: TextMetrics, typography: Typography = FRENCH_DIALOG,
                  abbreviations: tuple[str, ...] = ABBREVIATIONS["fr"], quoting: Quoting = QUOTING["fr"]) -> None:
         self.metrics = metrics
         self.quoting = quoting

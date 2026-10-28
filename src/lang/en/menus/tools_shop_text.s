@@ -37,9 +37,6 @@ que_desirez_vous:
 quantity:
         .dw 0x0144
         .text "Quantity"
-        .db 1
-        .dw 0x0146 + 14 * 2
-        .text "1"
         .db 0
 thank_you_window:
         menu_window(5, 10, 11, 2)
@@ -96,4 +93,13 @@ items_title:
         .text "Items"
         .db 0
     }
+}
+
+
+; The quantity's "1", next to the drawn "10": outside tools_shop_text, so in the 8x8 font like the "10".
+.alloc _shop_quantity_one in bank20_reloc {
+shop_quantity_one:
+    .dw 0x0146 + 14 * 2
+    .text "1"
+    .db 0
 }

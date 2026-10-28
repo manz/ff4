@@ -14,7 +14,7 @@ from utils.script_xml import pointer_texts
 
 INSIDE = 30 * 8 - 4  # the window's inside, a glyph's spacing short of the border
 ARGUMENT = "XXXXXXXX"  # [0x6]N, an item or a number: stands in at a wide 8 characters
-FILES = ("text/fr/battle_messages.xml", "text/fr/battle_text.xml")
+FILES = tuple(f"text/{lang}/{name}.xml" for lang in ("fr", "en") for name in ("battle_messages", "battle_text"))
 FONT = Path("build/gen/menu_font.dat")
 
 

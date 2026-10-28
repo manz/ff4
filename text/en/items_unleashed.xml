@@ -34,12 +34,12 @@
     <sn:fixed>[0x2d]Blood Sword</sn:fixed>
     <sn:fixed>[0x2d]Ancient Sword</sn:fixed>
     <sn:fixed>[0x2d]Sleep Sword</sn:fixed>
-    <sn:fixed>[0x2d]Medusa Blade</sn:fixed>
+    <sn:fixed>[0x2d]Break Blade</sn:fixed>
     <sn:fixed>[0x2f]Spear</sn:fixed>
     <sn:fixed>[0x2f]Wind Spear</sn:fixed>
     <sn:fixed>[0x2f]Flame Spear</sn:fixed>
-    <sn:fixed>[0x2f]Blizzard Spear</sn:fixed>
-    <sn:fixed>[0x2f]Dragon Spear</sn:fixed>
+    <sn:fixed>[0x2f]Ice Spear</sn:fixed>
+    <sn:fixed>[0x2f]Wyvern Lance</sn:fixed>
     <sn:fixed>[0x2f]Holy Lance</sn:fixed>
     <sn:fixed>[0x2f]Blood Lance</sn:fixed>
     <sn:fixed>[0x2f]Gungnir</sn:fixed>
@@ -74,7 +74,7 @@
     <sn:fixed>[0x34]Poison Axe</sn:fixed>
     <sn:fixed>[0x34]Rune Axe</sn:fixed>
     <sn:fixed>[0x35]Mithril Hammer</sn:fixed>
-    <sn:fixed>[0x35]Earth Hammer</sn:fixed>
+    <sn:fixed>[0x35]Gaia Hammer</sn:fixed>
     <sn:fixed>[0x35]Mallet</sn:fixed>
     <sn:fixed>[0x2d]Avenger</sn:fixed>
     <sn:fixed>[0x37]Bow</sn:fixed>
@@ -100,7 +100,7 @@
     <sn:fixed>[0x3b]Iron Shield</sn:fixed>
     <sn:fixed>[0x3b]Dark Shield</sn:fixed>
     <sn:fixed>[0x3b]Demon Shield</sn:fixed>
-    <sn:fixed>[0x3b]Holy Shield</sn:fixed>
+    <sn:fixed>[0x3b]Light Shield</sn:fixed>
     <sn:fixed>[0x3b]Mithril Shield</sn:fixed>
     <sn:fixed>[0x3b]Flame Shield</sn:fixed>
     <sn:fixed>[0x3b]Ice Shield</sn:fixed>
@@ -113,7 +113,7 @@
     <sn:fixed>[0x3c]Dark Helm</sn:fixed>
     <sn:fixed>[0x3c]Hades Helm</sn:fixed>
     <sn:fixed>[0x3c]Demon Helm</sn:fixed>
-    <sn:fixed>[0x3c]Holy Helm</sn:fixed>
+    <sn:fixed>[0x3c]Light Helm</sn:fixed>
     <sn:fixed>[0x3c]Mithril Helm</sn:fixed>
     <sn:fixed>[0x3c]Diamond Helm</sn:fixed>
     <sn:fixed>[0x3c]Genji Helm</sn:fixed>
@@ -127,7 +127,7 @@
     <sn:fixed>[0x3c]Ribbon</sn:fixed>
     <sn:fixed>[0x3c]Bandana</sn:fixed>
     <sn:fixed>[0x3c]Green Beret</sn:fixed>
-    <sn:fixed>[0x3c]Dark Hood</sn:fixed>
+    <sn:fixed>[0x3c]Black Hood</sn:fixed>
     <sn:fixed>[0x3c]Glass Mask</sn:fixed>
     <sn:fixed>[0x3d]Iron Armor</sn:fixed>
     <sn:fixed>[0x3d]Dark Armor</sn:fixed>
@@ -178,10 +178,10 @@
     <sn:fixed>[0x3e]Cursed Ring</sn:fixed>
     <sn:fixed>[0xff]Bomb Fragment</sn:fixed>
     <sn:fixed>[0xff]Bomb Arm</sn:fixed>
-    <sn:fixed>[0xff]South Wind</sn:fixed>
-    <sn:fixed>[0xff]North Wind</sn:fixed>
+    <sn:fixed>[0xff]Antarctic Wind</sn:fixed>
+    <sn:fixed>[0xff]Arctic Wind</sn:fixed>
     <sn:fixed>[0xff]Zeus's Wrath</sn:fixed>
-    <sn:fixed>[0xff]Heavenly Wrath</sn:fixed>
+    <sn:fixed>[0xff]Gods' Wrath</sn:fixed>
     <sn:fixed>[0xff]Stardust</sn:fixed>
     <sn:fixed>[0xff]Lilith's Kiss</sn:fixed>
     <sn:fixed>[0xff]Vampire Fang</sn:fixed>
@@ -199,7 +199,7 @@
     <sn:fixed>[0xff]Bomb Core</sn:fixed>
     <sn:fixed>[0xff]Lunar Curtain</sn:fixed>
     <sn:fixed>[0xff]Silence Bell</sn:fixed>
-    <sn:fixed>[0xff]Earth Drum</sn:fixed>
+    <sn:fixed>[0xff]Gaia Drum</sn:fixed>
     <sn:fixed>[0xff]Crystal</sn:fixed>
     <sn:fixed>[0xff]Coeurl Whisker</sn:fixed>
     <sn:fixed>[0xff]Spellbook</sn:fixed>
@@ -208,7 +208,7 @@
     <sn:fixed>[0xff]Unicorn Horn</sn:fixed>
     <sn:fixed>[0xff]Potion</sn:fixed>
     <sn:fixed>[0xff]Hi-Potion</sn:fixed>
-    <sn:fixed>[0xff]Mega Potion</sn:fixed>
+    <sn:fixed>[0xff]X-Potion</sn:fixed>
     <sn:fixed>[0xff]Ether</sn:fixed>
     <sn:fixed>[0xff]Dry Ether</sn:fixed>
     <sn:fixed>[0xff]Elixir</sn:fixed>
@@ -228,7 +228,7 @@
     <sn:fixed>[0xff]Soma Drop</sn:fixed>
     <sn:fixed>[0xff]Tent</sn:fixed>
     <sn:fixed>[0xff]Cottage</sn:fixed>
-    <sn:fixed>[0xff]Saucy Magazine</sn:fixed>
+    <sn:fixed>[0xff]Naughty Book</sn:fixed>
     <sn:fixed>[0xff]Emergency Exit</sn:fixed>
     <sn:fixed>[0xff]Dwarven Bread</sn:fixed>
     <sn:fixed>[0x41]Goblin</sn:fixed>
@@ -236,21 +236,21 @@
     <sn:fixed>[0x41]Cockatrice</sn:fixed>
     <sn:fixed>[0x41]Mind Flayer</sn:fixed>
     <sn:fixed>[0xff]Gysahl Greens</sn:fixed>
-    <sn:fixed>[0xff]Pass</sn:fixed>
+    <sn:fixed>[0xff]Membership Card</sn:fixed>
     <sn:fixed>[0xff]Gysahl Whistle</sn:fixed>
     <sn:fixed>[0xff]Bomb Ring</sn:fixed>
     <sn:fixed>[0xff]Baron Key</sn:fixed>
     <sn:fixed>[0xff]Desert Light</sn:fixed>
     <sn:fixed>[0xff]Earth Crystal</sn:fixed>
     <sn:fixed>[0xff]Magma Stone</sn:fixed>
-    <sn:fixed>[0xff]Luka's Necklace</sn:fixed>
+    <sn:fixed>[0xff]Luca's Necklace</sn:fixed>
     <sn:fixed>[0xff]Whisperweed</sn:fixed>
     <sn:fixed>[0xff]Dark Crystal</sn:fixed>
     <sn:fixed>[0xff]Rat Tail</sn:fixed>
     <sn:fixed>[0xff]Adamantite</sn:fixed>
     <sn:fixed>[0xff]Frying Pan</sn:fixed>
     <sn:fixed>[0xff]Pink Tail</sn:fixed>
-    <sn:fixed>[0xff]Lugeie Key</sn:fixed>
+    <sn:fixed>[0xff]Lugae's Key</sn:fixed>
     <sn:fixed>[0xff]Dark Matter</sn:fixed>
     <sn:fixed>[0xff]Scenario 0015</sn:fixed>
     <sn:fixed>[0xff]Scenario 0016</sn:fixed>

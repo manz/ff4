@@ -13,7 +13,7 @@ an evil heart lead him astray...[new]
 <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, you came![end]</sn:pointer>
 
 <sn:pointer id="3">[bold]Rydia[normal]: This is horrible...[new]
-[bold]Edge[normal]: Damn it all!!![end]</sn:pointer>
+[bold]Edge[normal]: Damn it all!![end]</sn:pointer>
 
 <sn:pointer id="4">[bold]Rydia[normal]: Can't...can't we do anything?[new]
 [bold]Cecil[normal]: What's that!?[end]</sn:pointer>
@@ -31,12 +31,11 @@ And I was supposed to be the one to
 pound that guy![new]
 [bold]Golbez[normal]: Cecil...[end]</sn:pointer>
 
-<sn:pointer id="8">[bold]Jiott[normal]: The Dwarf Tank Force is here!
+<sn:pointer id="8">[bold]Giott[normal]: The Dwarf Tank Force is here!
 For the sake of Mother Earth,
 we will fight too![end]</sn:pointer>
 
-<sn:pointer id="9">[bold]Yang[normal]: I cannot rest as long as the
-world is in danger![end]</sn:pointer>
+<sn:pointer id="9">[bold]Yang[normal]: I cannot lie in bed while the rest of you fight![end]</sn:pointer>
 
 <sn:pointer id="10">[bold]Cecil[normal]: Everyone...!![new]
 [bold]Rosa[normal]: The giant...
@@ -46,7 +45,7 @@ It's confused![end]</sn:pointer>
 So we hit it right in the heart![end]</sn:pointer>
 
 <sn:pointer id="12">[bold]Palom[normal]: Well, that's basically the deal.[new]
-[bold]Porom[normal]: I'm sorry we deceived you.
+[bold]Porom[normal]: I'm sorry we kept it from you.
 But we had no choice.[new]
 [bold]Cecil[normal]: No, I understand.
 Considering what I did, that was to be
@@ -69,7 +68,7 @@ controls you again.[end]</sn:pointer>
 back...
 Kill me![end]</sn:pointer>
 
-<sn:pointer id="15">[bold]Cain[normal]: ....I'm going too.
+<sn:pointer id="15">[bold]Cain[normal]: ...Then I'm going too.
 I have a score I have to settle with this
 Zemus![end]</sn:pointer>
 
@@ -80,22 +79,18 @@ It's not your fault, Cain![new]
 [bold]Cain[normal]: Golbez...too?[end]</sn:pointer>
 
 <sn:pointer id="17">[bold]Edge[normal]: Damn straight!
-It's your own damned fault that the Giant
-showed up in the first place![end]</sn:pointer>
+The Giant showing up is practically your fault![end]</sn:pointer>
 
 <sn:pointer id="18">[bold]Cain[normal]: Save the talk for later!
 Do you want to die?![end]</sn:pointer>
 
 <sn:pointer id="19">[bold]Rosa[normal]: Quickly![end]</sn:pointer>
 
-<sn:pointer id="20">'Curse you!!!'[end]</sn:pointer>
+<sn:pointer id="20">'Curse you!!'[end]</sn:pointer>
 
-<sn:pointer id="21">[bold]FuSoYa[normal]: This is the Giant's Heart, the
-control system![new]
+<sn:pointer id="21">[bold]FuSoYa[normal]: This is the Giant's Heart, the Control System![new]
 [bold]Edge[normal]: Whoa, it's huge![new]
-[bold]FuSoYa[normal]: Before we attack the Control
-System we've got to destroy the Defense
-System, or else it'll repair itself![end]</sn:pointer>
+[bold]FuSoYa[normal]: We must strike the Defense System before the Control System itself, or it'll just be restored![end]</sn:pointer>
 
 <sn:pointer id="22">[bold]Cecil[normal]: We did it![new]
 [bold]Edge[normal]: It stopped![end]</sn:pointer>
@@ -115,7 +110,7 @@ hatred...?[new]
 ...Do you remember your father's name?[new]
 [bold]Golbez[normal]: My father...
 KluYa...?[new]
-[bold]Cecil[normal]: WHAT!?[new]
+[bold]Cecil[normal]: What!?[new]
 [bold]Rosa[normal]: Then he's Cecil's...[new]
 [bold]Edge[normal]: Brother!?[new]
 [bold]Cecil[normal]: Golbez is my...[new]
@@ -240,11 +235,11 @@ The three of us will go by ourselves.[new]
 This time there's no guarantee that we'll
 come back alive...[new]
 [bold]Rosa[normal]: Cecil![new]
-[bold]Rydia[normal]: Are you joking!?[new]
+[bold]Rydia[normal]: You can't do this![new]
 [bold]Cecil[normal]: Come on, get off the Magical
 Ship![end]</sn:pointer>
 
-<sn:pointer id="47">It worked![end]</sn:pointer>
+<sn:pointer id="47">'It worked!'[end]</sn:pointer>
 
 <sn:pointer id="48">[bold]Cain[normal]: Rosa![end]</sn:pointer>
 
@@ -252,8 +247,8 @@ Ship![end]</sn:pointer>
 
 <sn:pointer id="50">[bold]Rosa[normal]: Cecil...[end]</sn:pointer>
 
-<sn:pointer id="51">'I am...pure darkness...
-Augmented by Zemus's hatred...'[end]</sn:pointer>
+<sn:pointer id="51">'I am...perfect dark matter...
+Zemus's hatred, grown beyond measure...'[end]</sn:pointer>
 
 <sn:pointer id="52">[bold]Cecil[normal]: Br...brother...![end]</sn:pointer>
 
@@ -325,11 +320,11 @@ aim, but not one has ever returned.[new]
 [bold]Cecil[normal]: ...Yes![new]
 [bold]Village Elder[normal]: But it will be hard
 alone, with your Dark Sword.
-I'll send Magicians with you.[new]
+I'll send mages with you.[new]
 Palom!
 Porom![end]</sn:pointer>
 
-<sn:pointer id="58">Welcome![end]</sn:pointer>
+<sn:pointer id="58">'Welcome!'[end]</sn:pointer>
 
 <sn:pointer id="59">[bold]Cecil[normal]: Who are you...?[new]
 [bold]Old Man[normal]: I am FuSoYa, guardian of
@@ -338,9 +333,8 @@ Lunarians.[new]
 [bold]Rosa[normal]: Lunarians?[new]
 [bold]FuSoYa[normal]: Indeed.
 It was a very long time ago...[new]
-The planet that lay between the fourth
-and fifth planets of the solar system
-faced its extinction.[new]
+The planet that lay between Mars and
+Jupiter faced extinction.[new]
 The survivors escaped on a ship to the
 Blue Planet...[new]
 [bold]Cecil[normal]: The Blue Planet...?[new]
@@ -363,7 +357,7 @@ His thoughts made the evil ones of your
 planet even more wicked...
 and drove them to gather the Crystals.[end]</sn:pointer>
 
-<sn:pointer id="61">[bold]Cecil[normal]: Then Golbez too was his...![new]
+<sn:pointer id="61">[bold]Cecil[normal]: Then Golbez was under his control too![new]
 [bold]Edge[normal]: Who is this guy!?[new]
 [bold]FuSoYa[normal]: His name is Zemus...!
 The Crystals are our source of energy.[new]
@@ -415,12 +409,11 @@ Eblana![new]
 [bold]Edge[normal]: The Tower of Babil!?
 But it's surrounded by a barrier![end]</sn:pointer>
 
-<sn:pointer id="64">[bold]FuSoYa[normal]: I have powers that can
-neutralize the barrier!
+<sn:pointer id="64">[bold]FuSoYa[normal]: I should be able to get through!
 We cannot let the Giant of Babil be
 unleashed upon the Blue Planet![new]
-I shall go with you! [space][0x8]Lunarian
-FuSoYa [space][0x7]joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+I shall go with you! [force_bold]Lunarian
+FuSoYa joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="65">[bold]Cain[normal]: But about those final words
 that Zeromus left...[end]</sn:pointer>
@@ -445,9 +438,9 @@ making me blush![end]</sn:pointer>
 It's a wonder Zemus never used
 someone like you![end]</sn:pointer>
 
-<sn:pointer id="68">Sage Tellah joined the party![delay][0x28][close_window][end]</sn:pointer>
+<sn:pointer id="68">[force_bold]Sage Tellah joined the party![force_normal][delay][0x28][close_window][end]</sn:pointer>
 
-<sn:pointer id="69">Wait!![end]</sn:pointer>
+<sn:pointer id="69">'Wait!'[end]</sn:pointer>
 
 <sn:pointer id="70">[bold]Edge[normal]: Heh heh, that's 'cause I love
 justice![new]
@@ -485,7 +478,7 @@ forgive me.
 Not after all the suffering I've caused
 you all...[end]</sn:pointer>
 
-<sn:pointer id="75">[bold]FuSoYa[normal]: We must go now...
+<sn:pointer id="75">[bold]FuSoYa[normal]: Now we shall return to our sleep...
 I pray for peace on the Blue Planet.[end]</sn:pointer>
 
 <sn:pointer id="76">[bold]Rosa[normal]: Cecil...[new]
@@ -508,7 +501,7 @@ Where's Palom?[new]
 [bold]Porom[normal]: Not again!![delay][0x1c][close_window][end]</sn:pointer>
 
 <sn:pointer id="81">[bold]Palom[normal]: And then, with my trusty
-Blizzard spell, up on Mt. Ordeals...[delay][0x20][close_window][end]</sn:pointer>
+Ice spell, up on Mt. Ordeals...[delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="82">[bold]Palom[normal]: Ow-ow-ow![new]
 [bold]Porom[normal]: That's enough out of you!
@@ -516,8 +509,7 @@ The Elder is furious![delay][0x1d][close_window][end]</sn:pointer>
 
 <sn:pointer id="83">[bold]Village Elder[normal]: How many times do I
 have to tell you?
-Acting like that, you're ten years too
-early to dream of becoming Tellah![delay][0x20][new]
+Acting like that, you've a long way to go before you're another Tellah![delay][0x20][new]
 As punishment, you'll copy out your
 spells![delay][0x20][close_window][end]</sn:pointer>
 
@@ -525,9 +517,8 @@ spells![delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="85">[bold]Porom[normal]: You brought it upon yourself![delay][0xc][close_window][end]</sn:pointer>
 
-<sn:pointer id="86">[bold]Chamberlain[normal]: ...And furthermore, you
-lack the discipline to be an effective
-ruler...[delay][0x19][close_window][end]</sn:pointer>
+<sn:pointer id="86">[bold]Chamberlain[normal]: ...To begin with, Young Master, you have
+no sense of duty as heir to the throne...[delay][0x19][close_window][end]</sn:pointer>
 
 <sn:pointer id="87">[bold]Edge[normal]: I know, I know![delay][0x10][close_window][end]</sn:pointer>
 
@@ -578,9 +569,9 @@ Anna.[new]
 I still have the people of Damcyan...![delay][0x19]
 Be good to Tellah up there...[delay][0x18][close_window][end]</sn:pointer>
 
-<sn:pointer id="100">[bold]Yang's wife[normal]: Dear....[delay][0x10][close_window][end]</sn:pointer>
+<sn:pointer id="100">[bold]Yang's wife[normal]: Dear...[delay][0x10][close_window][end]</sn:pointer>
 
-<sn:pointer id="101">[bold]Yang[normal]: You're a Queen now!
+<sn:pointer id="101">[bold]Yang[normal]: You're a queen now!
 Stop calling me 'Dear'...![delay][0x1d] [new]
 [bold]Yang's wife[normal]: Even so, I hate all that
 formal stuff![delay][0x18][new]
@@ -590,36 +581,35 @@ It's time for training![delay][0x18][close_window][end]</sn:pointer>
 <sn:pointer id="102">[bold]Former King[normal]: Now, now.
 Yang will build us a new Fabul.[delay][0x1e][close_window][end]</sn:pointer>
 
-<sn:pointer id="103">'Lali-Ho!'[delay][0x10][close_window][end]</sn:pointer>
+<sn:pointer id="103">'Lali-ho!'[delay][0x10][close_window][end]</sn:pointer>
 
-<sn:pointer id="104">[bold]Jiott[normal]: All right!
+<sn:pointer id="104">[bold]Giott[normal]: All right!
 Let's get working and fix up this castle![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="105">'Your Majesty!
-We don't have enough raw materials to
-do that, Lali!'[delay][0x19][close_window][end]</sn:pointer>
+We're short on materials, Lali!'[delay][0x19][close_window][end]</sn:pointer>
 
-<sn:pointer id="106">[bold]Jiott[normal]: The Tanks!
-Scrap the Tanks!
+<sn:pointer id="106">[bold]Giott[normal]: The tanks!
+Scrap the tanks!
 We don't need 'em!
 There won't be any more wars![delay][0x19][close_window][end]</sn:pointer>
 
-<sn:pointer id="107">[bold]Luka[normal]: Father!
+<sn:pointer id="107">[bold]Luca[normal]: Father!
 I wonder how Cecil and the others are
 doing![delay][0x18][close_window][end]</sn:pointer>
 
-<sn:pointer id="108">[bold]Jiott[normal]: Good news on that front![new]
+<sn:pointer id="108">[bold]Giott[normal]: Good news on that front![new]
 Sir Cecil and Lady Rosa are to become
 King and Queen of Baron![new]
-[bold]Luka[normal]: Wow![delay][0x1d][new]
-[bold]Jiott[normal]: And word has come that
+[bold]Luca[normal]: Wow![delay][0x1d][new]
+[bold]Giott[normal]: And word has come that
 they wish to invite us to the
 coronation![new]
-[bold]Luka[normal]: All right![delay][0x18][close_window][end]</sn:pointer>
+[bold]Luca[normal]: All right![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="109">'Your Majesty's slacking off, Lali!'[delay][0x14][close_window][end]</sn:pointer>
 
-<sn:pointer id="110">[bold]Jiott[normal]: Bah!
+<sn:pointer id="110">[bold]Giott[normal]: Bah!
 Scrap the tanks![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="111">[bold]Cain[normal]: Cecil...
@@ -634,7 +624,7 @@ Until then...[delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="112">'Ah!'[delay][0xa][close_window][end]</sn:pointer>
 
-<sn:pointer id="113">[bold]Corillo[normal]: What's wrong?![delay][0x10][close_window][end]</sn:pointer>
+<sn:pointer id="113">[bold]Corio[normal]: What's wrong?![delay][0x10][close_window][end]</sn:pointer>
 
 <sn:pointer id="114">'This is terrible!
 The moon is...!'[delay][0x18][close_window][end]</sn:pointer>
@@ -652,7 +642,7 @@ I thought...I heard my brother's voice...[new]
 Probably...[delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="119">[bold]Cid[normal]: What the...
-Are the two of you STILL here!? [delay][0x20] What
+Are the two of you still here!? [delay][0x20] What
 are you doing on a day like this?![new]
 [bold]Rosa[normal]: Sorry, we got carried away.[delay][0x20][close_window][end]</sn:pointer>
 
@@ -674,11 +664,10 @@ Hurry up![new]
 [bold]Rosa[normal]: I'm coming![delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="123">[bold]Golbez[normal]: Cecil...
-Ta..Take this!
-You....use it![end]</sn:pointer>
+T-take this...!
+You... must use it...![end]</sn:pointer>
 
-<sn:pointer id="124">[bold]Rosa[normal]: It's been so long since we've
-last seen everyone. [delay][0x20] They should be
+<sn:pointer id="124">[bold]Rosa[normal]: It's been so long since we last saw everyone. [delay][0x20] They should be
 coming about now!
 Cecil, hurry along![new]
 [bold]Cecil[normal]: I will, Rosa.[delay][0x20][close_window][end]</sn:pointer>
@@ -686,7 +675,7 @@ Cecil, hurry along![new]
 <sn:pointer id="125">[bold]Cecil[normal]: I did hear it...
 I'm sure of it...
 My brother's voice... [delay][0x20] He
-said...'Good-bye'...[delay][0x18][close_window][end]</sn:pointer>
+said...'Farewell'...[delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="126">[bold]Edward[normal]: Anna...[delay][0x10][close_window][end]</sn:pointer>
 
@@ -695,7 +684,7 @@ said...'Good-bye'...[delay][0x18][close_window][end]</sn:pointer>
 <sn:pointer id="128">'My name is Zeromus...
 I hate...everything...!!'[music][0xb][end]</sn:pointer>
 
-<sn:pointer id="129">[bold]FuSoYa[normal]: ....Even in death, his hatred
+<sn:pointer id="129">[bold]FuSoYa[normal]: ...Even in death, his hatred
 only grows...[end]</sn:pointer>
 
 <sn:pointer id="130">[bold]Golbez[normal]: Zemus...
@@ -718,8 +707,8 @@ Come... ...into my darkness...![end]</sn:pointer>
 <sn:pointer id="135">[bold]Village Elder[normal]: Yes![end]</sn:pointer>
 
 <sn:pointer id="136">[bold]Village Elder[normal]: Now the time has come
-for us to pray for them... ....no, we must
-pray for the earth![end]</sn:pointer>
+for us to pray for them... No, for the
+earth![end]</sn:pointer>
 
 <sn:pointer id="137">[bold]Village Elder[normal]: Palom, Porom!
 We shall carry everyone's prayers to Sir
@@ -732,10 +721,10 @@ for true courage...![end]</sn:pointer>
 
 <sn:pointer id="140">[bold]Cid[normal]: We're all waiting for you!![end]</sn:pointer>
 
-<sn:pointer id="141">[bold]Jiott[normal]: The earth!
+<sn:pointer id="141">[bold]Giott[normal]: The earth!
 Fight for the earth![end]</sn:pointer>
 
-<sn:pointer id="142">[bold]Luka[normal]: Get back up![end]</sn:pointer>
+<sn:pointer id="142">[bold]Luca[normal]: Get back up![end]</sn:pointer>
 
 <sn:pointer id="143">'We're also praying for you!'[end]</sn:pointer>
 
@@ -744,11 +733,11 @@ Fight for the earth![end]</sn:pointer>
 <sn:pointer id="145">[bold]Village Elder[normal]: Moon...!
 Receive our prayers...!![end]</sn:pointer>
 
-<sn:pointer id="146">[bold]Palom[normal]: Hang in there, bud![end]</sn:pointer>
+<sn:pointer id="146">[bold]Palom[normal]: Hang in there, bro![end]</sn:pointer>
 
 <sn:pointer id="147">[bold]Cecil[normal]: These two?[new]
 [bold]Village Elder[normal]: Indeed.
-These are the twin magicians, Palom and
+These are the twin mages, Palom and
 Porom.[new]
 They are still in training, but they will
 be of help to you.
@@ -793,8 +782,8 @@ Don't let your guard down...![end]</sn:pointer>
 <sn:pointer id="156">[bold]King Baron[normal]: You have become strong...
 Fight for Baron... no, fight for the world!
 I will fight alongside you as Odin![new]
-[bold]Cecil[normal]: Your Majesty! [space][0x5]Rydia
-learned Odin![music][0x29][delay][0x28][end]</sn:pointer>
+[bold]Cecil[normal]: Your Majesty! [force_bold]Rydia
+learned Odin![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="157">[bold]Cecil[normal]: Cain?[end]</sn:pointer>
 

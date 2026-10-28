@@ -10,11 +10,11 @@
     <sn:string>Cures Mini.</sn:string>
     <sn:string>Cures Pig.</sn:string>
     <sn:string>Cures silence.</sn:string>
-    <sn:string>Cures blindness.</sn:string>
+    <sn:string>Cures Blind.</sn:string>
     <sn:string>Cures poison.</sn:string>
     <sn:string>Lifts a curse.</sn:string>
     <sn:string>Cures most ailments.</sn:string>
-    <sn:string>Restores the party's HP and MP[0x01][0xd4][0x00]and cures ailments.</sn:string>
+    <sn:string>Rest: restores the party's[0x01][0xd4][0x00]HP and MP.</sn:string>
     <sn:string>Returns to the last entrance.</sn:string>
     <sn:string>Teleports to the surface.</sn:string>
     <sn:string>Shows a map of the area.</sn:string>
@@ -24,7 +24,7 @@
     <sn:string>Casts Mini or cures it.</sn:string>
     <sn:string>Casts Toad or cures it.</sn:string>
     <sn:string>Casts Pig or cures it.</sn:string>
-    <sn:string>A mystic drink.</sn:string>
+    <sn:string>A mystic wine.</sn:string>
     <sn:string>A golden apple.</sn:string>
     <sn:string>A silver apple.</sn:string>
     <sn:string>Lures monsters.</sn:string>

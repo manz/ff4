@@ -6,7 +6,7 @@
 <sn:string>Mini</sn:string>
 <sn:string>Pig</sn:string>
 <sn:string>Silence</sn:string>
-<sn:string>Darkness</sn:string>
+<sn:string>Blind</sn:string>
 <sn:string>Poison</sn:string>
 <sn:string>Cursed</sn:string>
 <sn:string>Float</sn:string>
@@ -27,7 +27,7 @@
 <sn:string></sn:string>
 <sn:string></sn:string>
 <sn:string>Reflect</sn:string>
-<sn:string>Wall</sn:string>
+<sn:string>Barrier</sn:string>
 <sn:string></sn:string>
 <sn:string></sn:string>
 <sn:string></sn:string>

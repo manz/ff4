@@ -18,7 +18,7 @@ def windows(text: str) -> list[list[str]]:
 
 
 def test_a_speaker_is_set_in_bold_with_french_spacing(layout: DialogLayout) -> None:
-    assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]: Comment !?[end]"
+    assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]°: Comment !?[end]"
 
 
 def test_english_sets_no_space_before_marks() -> None:
@@ -27,24 +27,24 @@ def test_english_sets_no_space_before_marks() -> None:
 
 def test_a_speaker_change_turns_the_window(layout: DialogLayout) -> None:
     assert layout.layout("Soldat: Mais, Capitaine! Cecil: Écoutez![end]") == (
-        "[bold]Soldat[normal]: Mais, Capitaine ![new]\n[bold]Cecil[normal]: Écoutez ![end]"
+        "[bold]Soldat[normal]°: Mais, Capitaine ![new]\n[bold]Cecil[normal]°: Écoutez ![end]"
     )
 
 
 def test_narration_runs_on_into_a_speaker_on_a_new_line(layout: DialogLayout) -> None:
     out = layout.layout("La porte s'ouvre. Cecil: Allons-y![end]")
-    assert out == "La porte s'ouvre.\n[bold]Cecil[normal]: Allons-y ![end]"
+    assert out == "La porte s'ouvre.\n[bold]Cecil[normal]°: Allons-y ![end]"
 
 
 def test_sentences_share_a_line_while_they_fit(layout: DialogLayout) -> None:
     assert layout.layout("Beigan: Ah! Vous avez le Cristal![end]") == (
-        "[bold]Beigan[normal]: Ah ! Vous avez le Cristal ![end]"
+        "[bold]Beigan[normal]°: Ah ! Vous avez le Cristal ![end]"
     )
 
 
 def test_a_quote_answering_a_speaker_gets_its_own_window(layout: DialogLayout) -> None:
     out = layout.layout("Cecil: Qui est là? «Je suis votre guide pour l'enfer...»[end]")
-    assert out == "[bold]Cecil[normal]: Qui est là ?[new]\n« Je suis votre guide pour l'enfer... »[end]"
+    assert out == "[bold]Cecil[normal]°: Qui est là ?[new]\n« Je suis votre guide pour l'enfer... »[end]"
 
 
 def test_a_long_quote_turns_windows_between_its_sentences(layout: DialogLayout) -> None:
@@ -60,7 +60,7 @@ def test_a_balanced_sentence_keeps_its_lines_wide(layout: DialogLayout) -> None:
     """Balancing narrows a sentence just over a line no further than two thirds of the window: "Yang: Rydia a été /
     avalée par Léviathan.", not "Yang: Rydia a / été avalée par Léviathan."."""
     out = layout.layout("Yang: Rydia a été avalée par Léviathan.[end]")
-    assert windows(out)[0][0] == "[bold]Yang[normal]: Rydia a été"
+    assert windows(out)[0][0] == "[bold]Yang[normal]°: Rydia a été"
 
 
 def test_m_dot_stays_with_the_name_inside_a_line(layout: DialogLayout) -> None:
@@ -127,7 +127,7 @@ def test_an_announcement_gets_its_own_window(layout: DialogLayout) -> None:
     """A whole sentence in [force_bold] (a party join) is not the speaker's: it doesn't share their window."""
     out = layout.layout("Cecil: Merci... Rydia. [force_bold]L'invocatrice Rydia se joint à toi![force_normal][end]")
     assert out == (
-        "[bold]Cecil[normal]: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi ![force_normal][end]"
+        "[bold]Cecil[normal]°: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi ![force_normal][end]"
     )
 
 
@@ -156,7 +156,7 @@ def test_mt_stays_with_the_name() -> None:
 
 def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
     out = layout.layout("«Wahaha![end]Cecil: Halte![end]«Fin!»[end]")
-    assert out == "« Wahaha ![end]\n[bold]Cecil[normal]: Halte ![end]\n« Fin ! »[end]"
+    assert out == "« Wahaha ![end]\n[bold]Cecil[normal]°: Halte ![end]\n« Fin ! »[end]"
 
 
 def test_a_quoted_word_stays_in_its_sentence() -> None:
@@ -166,3 +166,8 @@ def test_a_quoted_word_stays_in_its_sentence() -> None:
 
 def test_a_titled_speaker_keeps_the_title() -> None:
     assert dialog_layout("en").layout("Dr. Lugeie: Grr...[end]") == "[bold]Dr. Lugeie[normal]: Grr...[end]"
+
+
+def test_a_french_speaker_takes_the_1px_spacer_before_the_colon_once(layout: DialogLayout) -> None:
+    laid = layout.layout("Cecil: Comment!?[end]")
+    assert (laid, layout.layout(laid)) == ("[bold]Cecil[normal]°: Comment !?[end]",) * 2

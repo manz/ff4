@@ -157,8 +157,6 @@ S.SANO
 EQUIPE DE TRADUCTION FRANCAISE
 
 
-
-
 TRADUCTION
 Hrothgar SCRB
 
@@ -172,6 +170,8 @@ Metallines Nemesis Pixel
 Ryusan S.O.R SkeuD
 TiDragon Yaz0r
 
+BETA TEST
+Lady Prismillon
 
 
 PRESENTE PAR

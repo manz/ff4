@@ -4,17 +4,17 @@
     <sn:string>Récupère des PV.</sn:string>
     <sn:string>Récupère des PM.</sn:string>
     <sn:string>Récupère tous les PV et PM.</sn:string>
-    <sn:string>Ranime un allié K.O.</sn:string>
+    <sn:string>Ranime un allié KO</sn:string>
     <sn:string>Annule la pétrification.</sn:string>
     <sn:string>Annule l'état Crapaud.</sn:string>
     <sn:string>Annule l'état Mini.</sn:string>
-    <sn:string>Annule l'état Porcelet.</sn:string>
+    <sn:string>Annule l'état Cochon.</sn:string>
     <sn:string>Annule le silence.</sn:string>
     <sn:string>Annule la cécité.</sn:string>
     <sn:string>Neutralise le poison.</sn:string>
     <sn:string>Lève la malédiction.</sn:string>
     <sn:string>Soigne plusieurs altérations.</sn:string>
-    <sn:string>Récupère PV et PM de l'équipe[0x01][0xd4][0x00]et soigne les altérations.</sn:string>
+    <sn:string>Repos : récupère les PV et PM[0x01][0xd4][0x00]de l'équipe.</sn:string>
     <sn:string>Retourne à l'endroit précédent.</sn:string>
     <sn:string>Téléporte en surface.</sn:string>
     <sn:string>Affiche la carte des environs.</sn:string>
@@ -23,8 +23,8 @@
     <sn:string>Magie d'invocation.</sn:string>
     <sn:string>Inflige Mini ou annule l'effet.</sn:string>
     <sn:string>Inflige Crapaud ou annule l'effet.</sn:string>
-    <sn:string>Inflige Porcelet ou annule l'effet.</sn:string>
-    <sn:string>Boisson mystique.</sn:string>
+    <sn:string>Inflige Cochon ou annule l'effet.</sn:string>
+    <sn:string>Alcool mystique.</sn:string>
     <sn:string>Pomme dorée.</sn:string>
     <sn:string>Pomme argentée.</sn:string>
     <sn:string>Attire les monstres.</sn:string>
