@@ -492,7 +492,7 @@ end the loop.
     sta.l sell_rolling._pad
 
 _sell_scroll_frame:
-    jsr.l wait_for_vblank_long
+; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_update_scroll_frame
     sep #0x20
