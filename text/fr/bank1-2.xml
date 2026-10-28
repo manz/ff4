@@ -133,8 +133,7 @@ Cecil...[new]
 [bold]Rosa[normal]: Un Sélénite nommé Zémus se serait
 servi du sang sélénite de Golbez.[new]
 [bold]Rydia[normal]: Et alors Golbez a
-accompagné FuSoYa sur la lune pour
-anéantir Zémus.[new]
+accompagné FuSoYa sur la Lune pour anéantir Zémus.[new]
 [bold]Caïn[normal]: Golbez est... le frère de
 Cecil...?[end]</sn:pointer>
     <sn:pointer id="38">[bold]Edge[normal]: Alors j'y vais aussi!
@@ -142,8 +141,7 @@ Tant que je ne lui aurai pas collé au
 moins un coup, je ne serai pas tranquille![new]
 [bold]Caïn[normal]: Edge...[new]
 [bold]Cecil[normal]: Allons-y...[end]</sn:pointer>
-    <sn:pointer id="39">[bold]Cecil[normal]: Moi aussi... j'irai sur la
-lune![new]
+    <sn:pointer id="39">[bold]Cecil[normal]: Moi aussi... j'irai sur la Lune![new]
 [bold]Rosa[normal]: Cecil...[end]</sn:pointer>
     <sn:pointer id="40">[bold]Edge[normal]: Bon, la gamine va rester
 sagement à la maison.[new]
@@ -284,7 +282,7 @@ et leur a fait rassembler les cristaux.[end]</sn:pointer>
 Les cristaux sont notre source d'énergie.[new]
 Il les a sans doute fait rassembler pour
 mettre en marche l'ascenseur
-dimensionnel de la Tour de Babil.[new]
+dimensionnel de la tour de Babil.[new]
 Par cet ascenseur, il veut faire
 descendre le géant de Babil sur votre
 planète et tout réduire en cendres...![new]
@@ -323,9 +321,8 @@ pour déjouer les plans de Zémus...
 Nous devons l'arrêter![new]
 Pour la Planète Bleue et pour les
 Sélénites!
-Hâtons-nous vers la Tour de Babil
-d'Eblana![new]
-[bold]Edge[normal]: La Tour de Babil!?
+Hâtons-nous vers la tour de Babil d'Eblana![new]
+[bold]Edge[normal]: La tour de Babil!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
     <sn:pointer id="64">FuSoYa: Moi, je devrais pouvoir entrer! Le géant de Babil ne doit pas descendre sur la Planète Bleue![new]
 Je viens avec vous! FuSoYa le Sélénite a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
@@ -468,8 +465,7 @@ Démantelez les chars!
 On n'en a plus besoin!
 Il n'y aura plus jamais de guerres! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="107">[bold]Luca[normal]: Père!
-As-tu eu des nouvelles de Cecil ou
-d'un des autres? [delay][0x18][close_window][end]</sn:pointer>
+Que deviennent M. Cecil et les autres? [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="108">Giotto: Justement, j'ai une bonne nouvelle! [0xf3][delay][0x18] M. Cecil et Mlle Rosa vont devenir roi et reine de Baron![new]
 Luca: Waouh![delay][0x18][new]
 Giotto: Nous avons été invités à leur couronnement![new]
@@ -538,7 +534,7 @@ Adieu... [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="136">Ancien: L'heure est venue de prier pour eux... non, pour ce monde tout entier![end]</sn:pointer>
     <sn:pointer id="137">[bold]Ancien[normal]: Palom, Porom!
 Nous devons envoyer les prières de tout
-le monde à Cecil![end]</sn:pointer>
+le monde à M. Cecil![end]</sn:pointer>
     <sn:pointer id="138">[bold]Yang[normal]: M. Cecil...![end]</sn:pointer>
     <sn:pointer id="139">[bold]Edward[normal]: Montrez-nous le vrai courage![end]</sn:pointer>
     <sn:pointer id="140">[bold]Cid[normal]: On t'attend tous!![end]</sn:pointer>
