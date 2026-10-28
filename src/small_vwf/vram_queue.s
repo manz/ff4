@@ -202,25 +202,25 @@ clear:
         rts
 
 _dma_entry:
-"""Channel 7: the entry at X to VRAM. M = X = 16 bits."""
+"""Channel 3, which no context runs HDMA on (battle arms ch7): the entry at X to VRAM. M = X = 16 bits."""
         sep #0x20
         lda.b #0x80
         sta.l ppu.VMAIN
         lda.b #0x01  ; two registers, VMDATAL / VMDATAH
-        sta.l dma_ch7.DMAP
+        sta.l dma_ch3.DMAP
         lda.b #PPU.VMDATAL
-        sta.l dma_ch7.BBAD
+        sta.l dma_ch3.BBAD
         lda.l vram_queue_state.entries + 6, x
-        sta.l dma_ch7.A1B
+        sta.l dma_ch3.A1B
         rep #0x20
         lda.l vram_queue_state.entries, x
         sta.l ppu.VMADDL
         lda.l vram_queue_state.entries + 2, x
-        sta.l dma_ch7.A1TL
+        sta.l dma_ch3.A1TL
         lda.l vram_queue_state.entries + 4, x
-        sta.l dma_ch7.DASL
+        sta.l dma_ch3.DASL
         sep #0x20
-        lda.b #0x80
+        lda.b #0x08
         sta.l cpu_regs.MDMAEN
         rep #0x20
         rts
