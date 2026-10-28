@@ -5,6 +5,8 @@ the rows in the small VWF.
 .import "ingame/places_names_window"
 .import "core/assets"
 .import "core/vanilla"
+.import "core/sram_layout"
+.include "core/bank20.i"
 
 {
     place_name_length = PLACE_NAME_LENGTH
@@ -80,4 +82,33 @@ the rows in the small VWF.
 ; bottom edge
         ldx.w #vram_ptr + 0x60
     }
+}
+
+; Vanilla closes the place-name window on the first step, so walking into a town with the pad held hides the name
+; before it can be read. Keep it up for the first steps.
+PLACE_NAME_STEPS := 4  ; a step takes 16 frames
+
+.alloc at 0x00A9F7 {
+; the walk's "lda $EA / bne / inc $EA" that requests the window close
+    jsr.l place_name_step
+    nop
+    nop
+}
+
+.alloc _place_name_step_block in bank20_reloc {
+place_name_step:
+"""A step while walking: close the place-name window ($EA: 0 up, 1 closing, 2 closed) after PLACE_NAME_STEPS."""
+    lda.b 0xEA
+    bne closed
+    lda.l place_name_steps
+    inc
+    sta.l place_name_steps
+    cmp #PLACE_NAME_STEPS
+    bcc up
+    inc.b 0xEA
+closed:
+    lda #0x00
+    sta.l place_name_steps
+up:
+    rtl
 }
