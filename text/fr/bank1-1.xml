@@ -249,7 +249,7 @@ Edward... je ne sais pas...[new]
 [bold]Cecil[normal]: Je comprends...[end]</sn:pointer>
     <sn:pointer id="75">Yang: Où sommes-nous?[new]
 Cecil: À Baron. Si les soldats nous entendent, on aura des ennuis.[new]
-Allons préparer un plan dans une chambre! [0xfa]Le moine Yang a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+Allons préparer un plan dans une chambre! [force_bold]Le moine Yang a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="76">Yang: Et qui est ce monsieur?[new]
 Cecil: Tella, le sage. Edward et lui...[new]
 Tella: Ma fille a aimé cet homme au point d'en mourir...[new]
@@ -964,15 +964,15 @@ Yang: Quelle surprise...[new]
 Cecil: Mais pourquoi nous aides-tu...? Moi qui ai... ta mère...[new]
 Rydia: Ne dis rien! La reine du Monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[new]
 Que nous devons nous dresser contre lui...[new]
-Cecil: Rydia...! [0xfa]L'invocatrice Rydia a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+Cecil: Rydia...! [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="281">«Je ne... mourrai... pas!»[end]</sn:pointer>
     <sn:pointer id="282">[bold]Cecil[normal]: Il a pris le cristal![end]</sn:pointer>
     <sn:pointer id="283">Avez-vous l'autorisation des clercs?[end]</sn:pointer>
     <sn:pointer id="284">[bold]Edge[normal]: Ouais!
 On va tous y aller et rentrer dans leur
 base![new]
-[bold]Rydia[normal]: Il ne doute de rien, celui-là! [0xfa]Le ninja
-Edge a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+[bold]Rydia[normal]: Il ne doute de rien, celui-là! [force_bold]Le ninja
+Edge a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="285">[bold]Cid[normal]: Maintenant, vous pourrez
 voler sans vous soucier de la lave![new]
 [bold]Rosa[normal]: Tu nous as sauvés, Cid.[new]
@@ -1066,7 +1066,7 @@ Viens...[new]
 [bold]Cecil[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="307">Sylphe: Tu es une invocatrice. Tu peux donc nous appeler! Nous aussi, nous combattrons![new]
 À la place de Yang qui nous a enseigné la gentillesse et la force des humains![new]
-Rydia: Ravie de faire équipe avec vous, les Sylphes! [0xfa]Rydia a appris Sylphe![music][0x29][delay][0x28][end]</sn:pointer>
+Rydia: Ravie de faire équipe avec vous, les Sylphes! [force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="308">[bold]Edge[normal]: Graaaaaaaaah![new]
 [bold]Rosa[normal]: C'est affreux...![end]</sn:pointer>
     <sn:pointer id="309">[bold]Rubicante[normal]: Ce Lugeie... agir ainsi de son propre chef...![end]</sn:pointer>
@@ -1077,7 +1077,7 @@ Edge: Arrête ton baratin![new]
 Rubicante: J'aime les gens courageux comme toi! ...Mais aussi longtemps que les humains se laisseront piéger par des émotions, ils n'atteindront jamais la véritable puissance...[new]
 Jamais...[new]
 Edge: Cette rage... humaine...[new]
-Je vais te la montrer![music][0xb] [0xfa]La rage a révélé les pouvoirs cachés d'Edge! [0xfa]Edge a appris Suiton et Raijin! Rubicante: Oh...ainsi, la rage donne de la force aux humains... Mais la glace elle-même ne peut pénétrer mon manteau de flammes![end]</sn:pointer>
+Je vais te la montrer![music][0xb] [0xfa]La rage a révélé les pouvoirs cachés d'Edge! [force_bold]Edge a appris Suiton et Raijin![force_normal] Rubicante: Oh...ainsi, la rage donne de la force aux humains... Mais la glace elle-même ne peut pénétrer mon manteau de flammes![end]</sn:pointer>
     <sn:pointer id="311">[bold]Rubicante[normal]: Maintenant je vais vous
 soigner!
 Combattez de toutes vos forces![end]</sn:pointer>
@@ -1383,7 +1383,7 @@ Le jugement final pour savoir si la vraie
 Lumière réside en vous... sera rendu par le
 Dieu des Chimères...
 Bahamut![end]</sn:pointer>
-    <sn:pointer id="384">[0xfa]Rydia a appris Bahamut![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="384">[force_bold]Rydia a appris Bahamut![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="385">Beigan: Vous êtes sain et sauf![new]
 Cecil: Beigan! Ne me dis pas que toi aussi...[new]
 Beigan: Que moi aussi quoi?[new]
@@ -1393,7 +1393,7 @@ Cecil: J'ai entendu dire que Cid a été capturé... c'est vrai?[new]
 Beigan: Quelques gardes et moi avons essayé de le sauver, mais hélas, je suis le seul survivant...[new]
 Cecil: Je vois... Alors joins-toi à nous! Avec toi à nos côtés, je suis rassuré![new]
 Beigan: Oui, Messire![new]
-Le capitaine des gardes, Beigan, a rejoint l'équipe! [music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Le capitaine des gardes, Beigan, a rejoint l'équipe![force_normal] [music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="386">[bold]Cid[normal]: Bien!
 Au boulot![end]</sn:pointer>
     <sn:pointer id="387">[bold]Cecil[normal]: Mon cœur bat la chamade...![end]</sn:pointer>
@@ -1431,7 +1431,7 @@ Partez sur-le-champ.»[new]
     <sn:pointer id="398">Edward: Cecil... Rosa veut être avec toi.[new]
 Cecil: Bien, Rosa. Allons-y ensemble. Mais il est tard. On part demain matin.[new]
 En attendant, repose-toi bien cette nuit.[new]
-Rosa: Cecil... D'accord. [0xfa]La mage blanche Rosa a rejoint l'équipe![end]</sn:pointer>
+Rosa: Cecil... D'accord. [force_bold]La mage blanche Rosa a rejoint l'équipe![force_normal][end]</sn:pointer>
     <sn:pointer id="399">Rosa: Ne t'inquiète pas pour moi. Et je suis une mage blanche. Je ne serai pas un fardeau![new]
 Cecil: ...[end]</sn:pointer>
     <sn:pointer id="400">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
@@ -1498,7 +1498,7 @@ lame noire...![end]</sn:pointer>
     <sn:pointer id="430">[bold]Tella[normal]: Golbez est à l'origine de
 tout le mal![end]</sn:pointer>
     <sn:pointer id="431">Tella: Un paladin...? C'est bien ce que je sentais, cette montagne cache quelque chose![new]
-Allons-y ensemble. ...Attends un peu, Golbez! [0xfa]Le sage Tella a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+Allons-y ensemble. ...Attends un peu, Golbez! [force_bold]Le sage Tella a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="432">[bold]Scarmiglione[normal]: Gu... pwaaah![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
@@ -1508,7 +1508,7 @@ Qui êtes-vous?[end]</sn:pointer>
 [bold]Porom[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="436">[bold]Tella[normal]: !?
 Mé... ...téore?[new]
-Cette lumière me l'aurait accordée...? La magie noire suprême, celle qu'on avait scellée... Météore! [0xfa]Tella a appris Météore![music][0x29][delay][0x28][end]</sn:pointer>
+Cette lumière me l'aurait accordée...? La magie noire suprême, celle qu'on avait scellée... Météore! [force_bold]Tella a appris Météore![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="437">[bold]Palom[normal]: Hé! Attends![end]</sn:pointer>
     <sn:pointer id="438">Porom: Allons-y, M. Cecil![new]
 Cecil: Ou...ouais![end]</sn:pointer>
@@ -1558,8 +1558,8 @@ de chevalier dragon!
 Tu te battras avec nous contre Golbez, hein?[new]
 [bold]Caïn[normal]: ...Pardon, Cecil...
 Rosa...![end]</sn:pointer>
-    <sn:pointer id="457">[0xfa]La mage blanche Rosa [0xfa]et le chevalier
-dragon Caïn [0xfa]ont rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="457">[force_bold]La mage blanche Rosa et le chevalier
+dragon Caïn ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="458">«Ho ho ho ho ho...»[end]</sn:pointer>
     <sn:pointer id="459">[bold]Rosa[normal]: Accrochez-vous à moi![end]</sn:pointer>
     <sn:pointer id="460">[bold]Cid[normal]: De quoi vous vous inquiétez?
@@ -1658,8 +1658,8 @@ Palom: J'y croyais pas, moi![new]
 Cecil: Comment ça?[new]
 Ancien: Pardonne-moi, mais j'avais chargé Palom et Porom de te surveiller.[new]
 Mais il semble que c'était inutile en fin de compte. Bon travail, Palom et Porom![end]</sn:pointer>
-    <sn:pointer id="484">[0xfa]Rydia a appris Asura![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="485">[0xfa]Rydia a appris Léviathan![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="484">[force_bold]Rydia a appris Asura![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="485">[force_bold]Rydia a appris Léviathan![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="486">[bold]Ancien[normal]: Oh!
 Tu es...!![end]</sn:pointer>
     <sn:pointer id="487">[bold]Edward[normal]: Anna![new]
@@ -1669,8 +1669,8 @@ Anna![delay][0x2b][end]</sn:pointer>
 Anna: Père... pardonne-moi... Edward... je... t'aime...![end]</sn:pointer>
     <sn:pointer id="489">[bold]Edward[normal]: Adieu...
 Anna![end]</sn:pointer>
-    <sn:pointer id="490">[bold]Edward[normal]: Allons, dépêchons-nous! [0xfa]Le
-prince Edward a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="490">[bold]Edward[normal]: Allons, dépêchons-nous! [force_bold]Le
+prince Edward a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="491">[bold]Tella[normal]: Il est en bas![end]</sn:pointer>
     <sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort pour
 entrer![end]</sn:pointer>

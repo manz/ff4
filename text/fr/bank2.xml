@@ -350,8 +350,8 @@ connaissance.[end]
 [bold]Porom[normal]: Allons, Palom, à toi![end]
 [bold]Palom[normal]: Content de te rencontrer, mon
 pote![end]
-Le mage noir Palom et la mage blanche
-Porom ont rejoint l'équipe![music][0x29][delay][0x28][end]
+[force_bold]Le mage noir Palom et la mage blanche
+Porom ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]
 [bold]Ancien[normal]: Maintenant, va sur la Montagne
 de l'Épreuve!
 Palom!
@@ -1099,7 +1099,7 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: ... ... ...[end]
 [bold]Rydia[normal]: Feu![end]
-Rydia a appris Feu![delay][0x28][end]
+[force_bold]Rydia a appris Feu![force_normal][delay][0x28][end]
 [bold]Edward[normal]: C'est incroyable, Rydia![new]
 [bold]Rydia[normal]: Héhé...[new]
 [bold]Rosa[normal]: Merci, Rydia![new]
@@ -1137,7 +1137,7 @@ Allons-y![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]
-Le moine Yang a rejoint l'équipe![delay][0x28][end]</sn:pointer>
+[force_bold]Le moine Yang a rejoint l'équipe![force_normal][delay][0x28][end]</sn:pointer>
     <sn:pointer id="128">T[end]</sn:pointer>
     <sn:pointer id="129">T[end]</sn:pointer>
     <sn:pointer id="130">T[end]</sn:pointer>
@@ -1747,7 +1747,7 @@ Effets Sonores -
 Final Fantasy IV, essaie Seiken Densetsu![end]</sn:pointer>
     <sn:pointer id="299">Interdit de jouer avant la fin du projet![end]
 Rosa et Rydia, hein? Pas mal, ces filles! Je vais vous donner un coup de main![new]
-L'artisan du jeu Takashi Tokita a rejoint l'équipe![music][0x29][delay][0x28] Par pitié...prenez-moi avec vous! Je n'en peux plus![music][0x2][end]
+[force_bold]L'artisan du jeu Takashi Tokita a rejoint l'équipe![force_normal][music][0x29][delay][0x28] Par pitié...prenez-moi avec vous! Je n'en peux plus![music][0x2][end]
 Programme principal -
 [bold]Ken Narita[normal]: N'ajoutez plus
 d'événements!!
@@ -1969,7 +1969,7 @@ invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
 Nous combattrons à ta place![new]
 [bold]Rydia[normal]: Enchantée, les Sylphes!
-Rydia a appris Sylphe![music][0x29][delay][0x28][end]
+[force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]
 [bold]Sylphe[normal]: Ah!
 Arrêtez![end]
 Yang va beaucoup mieux![end]

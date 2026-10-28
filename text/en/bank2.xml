@@ -414,8 +414,8 @@ acquaintance.[end]
 [bold]Porom[normal]: Hey Palom, go ahead and
 greet him![end]
 [bold]Palom[normal]: Nice to meet ya, bro![end]
-Black Mage Palom and White
-Mage Porom joined the party![music][0x29][delay][0x28][end]
+[force_bold]Black Mage Palom and White
+Mage Porom joined the party![force_normal][music][0x29][delay][0x28][end]
 [bold]Village Elder[normal]: Now go to Mt. Ordeals!
 Palom!
 Porom![new]
@@ -1431,7 +1431,7 @@ Please... find your courage![new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rydia[normal]: ... ... ...[end]
 [bold]Rydia[normal]: Fire!![end]
-Rydia learned Fire![music][0x29][delay][0x28][end]
+[force_bold]Rydia learned Fire![force_normal][music][0x29][delay][0x28][end]
 [bold]Edward[normal]: That's incredible, Rydia![new]
 [bold]Rydia[normal]: Heh...[new]
 [bold]Rosa[normal]: Thank you, Rydia![new]
@@ -1480,7 +1480,7 @@ May I ask for your help?[new]
 Now, to Fabul![new]
 [bold]Yang[normal]: Fabul is east of the mountain.
 Let's hurry![end]
-Monk Yang joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Monk Yang joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="128">T[end]</sn:pointer>
 
@@ -2346,8 +2346,8 @@ IV, try Seiken Densetsu too![end]</sn:pointer>
 Rosa and Rydia, huh?
 Now those are fine ladies!
 I'll lend you a hand![new]
-Game Craftsman Takashi Tokita joined the
-party![music][0x29][delay][0x28] Please...take me with you!
+[force_bold]Game Craftsman Takashi Tokita joined the
+party![force_normal][music][0x29][delay][0x28] Please...take me with you!
 I can't stand it here any more![music][0x2][end]
 Chief Programmer -
 [bold]Ken Narita[normal]: Don't put in any more
@@ -2630,7 +2630,7 @@ We'll help them![end]
 She'll be able to call us!
 We'll fight in your place![new]
 [bold]Rydia[normal]: Pleased to meet you, Miss
-Sylph! Rydia learned Sylph![music][0x29][delay][0x28][end]
+Sylph! [force_bold]Rydia learned Sylph![force_normal][music][0x29][delay][0x28][end]
 [bold]Sylph[normal]: Ah!
 Stop![end]
 Yang's gotten all better![end]

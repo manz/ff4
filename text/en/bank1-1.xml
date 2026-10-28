@@ -350,7 +350,7 @@ Edward...I don't know.[new]
 If the soldiers overhear us, we're in
 trouble.[new]
 Let's take a room and work out a plan!
-Monk Yang joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Monk Yang joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="76">[bold]Yang[normal]: And who is this?[new]
 [bold]Cecil[normal]: He's Tellah, the Sage.
@@ -508,7 +508,7 @@ I did...[new]
 
 <sn:pointer id="101">[bold]Girl[normal]: I'm...Rydia...[new]
 [bold]Cecil[normal]: Thanks...
-Rydia. Summoner Rydia joined the party![end]</sn:pointer>
+Rydia. [force_bold]Summoner Rydia joined the party![force_normal][end]</sn:pointer>
 
 <sn:pointer id="102">You held the Desert Light over Rosa![end]</sn:pointer>
 
@@ -1476,8 +1476,8 @@ The Queen of the Land of Phantoms told
 me.
 A greater destiny is in motion now...
 and we are the ones who must face it...[new]
-[bold]Cecil[normal]: Rydia...! Summoner
-Rydia joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+[bold]Cecil[normal]: Rydia...! [force_bold]Summoner
+Rydia joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="281">'I will...not...die!'[end]</sn:pointer>
 
@@ -1489,7 +1489,7 @@ Clerics?[end]</sn:pointer>
 <sn:pointer id="284">[bold]Edge[normal]: Awright!
 Let's all go and break into their base![new]
 [bold]Rydia[normal]: You're awfully full of
-yourself! Ninja Edge joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+yourself! [force_bold]Ninja Edge joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="285">[bold]Cid[normal]: Now you can fly without
 worrying about lava or anything else![new]
@@ -1634,8 +1634,8 @@ A Summoner can call on us![new]
 We will fight too!
 In place of Yang, who taught us the
 kindness and strength of humans![new]
-[bold]Rydia[normal]: Glad to have you, Sylphs! Rydia learned
-Sylph![music][0x29][delay][0x28][end]</sn:pointer>
+[bold]Rydia[normal]: Glad to have you, Sylphs! [force_bold]Rydia learned
+Sylph![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="308">[bold]Edge[normal]: Graaaaaaaaah![new]
 [bold]Rosa[normal]: How horrible...![end]</sn:pointer>
@@ -1659,7 +1659,7 @@ Never...[new]
 [bold]Edge[normal]: Then I'll show you...
 that human... anger!!![music][0xb] Anger brought out Edge's
 hidden powers![new]
-Edge learned Flood and Blitz![new]
+[force_bold]Edge learned Flood and Blitz![force_normal][new]
 [bold]Rubicante[normal]: Oh...so anger gives humans
 strength...
 But not even ice can penetrate my cloak
@@ -2116,7 +2116,7 @@ Such marvelous power![end]</sn:pointer>
 
 <sn:pointer id="383">So you have won Leviathan to your side. But that much can be done even without the power of Light. Whether true Light dwells in you... the final judgment shall be passed by me, the Phantom God... Bahamut![end]</sn:pointer>
 
-<sn:pointer id="384">Rydia learned Bahamut![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="384">[force_bold]Rydia learned Bahamut![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="385">[bold]Beigan[normal]: Sir Cecil! You're safe![new]
 [bold]Cecil[normal]: Beigan!
@@ -2136,8 +2136,8 @@ survivor...[new]
 [bold]Cecil[normal]: I see. Come with us!
 It would be reassuring to have you![new]
 [bold]Beigan[normal]: Yes, sir!
-The Captain of the Guards, Beigan joined
-the party![music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Captain of the Guards Beigan joined
+the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="386">[bold]Cid[normal]: All right!
 Let's get to work![end]</sn:pointer>
@@ -2200,8 +2200,8 @@ It's night already...
 We'll leave tomorrow morning.[new]
 For the time being, just get some rest
 tonight.[new]
-[bold]Rosa[normal]: Cecil... All right. White
-Mage Rosa joined the party![end]</sn:pointer>
+[bold]Rosa[normal]: Cecil... All right. [force_bold]White
+Mage Rosa joined the party![force_normal][end]</sn:pointer>
 
 <sn:pointer id="399">[bold]Rosa[normal]: I'll be all right.
 And I'm a White Mage.
@@ -2316,7 +2316,7 @@ Just as I suspected, this mountain hides
 something!
 Let us go together.
 ...Wait for me, Golbez![new]
-Sage Tellah joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Sage Tellah joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="432">[bold]Scarmiglione[normal]: Gr...Argh![end]</sn:pointer>
 
@@ -2331,7 +2331,7 @@ Who are you?[end]</sn:pointer>
 
 <sn:pointer id="436">[bold]Tellah[normal]: !?
 Me...teor?
-Did that light grant it to me...?[new]The sealed, ultimate black magic... Meteor! Tellah learned Meteor![music][0x29][delay][0x28][end]</sn:pointer>
+Did that light grant it to me...?[new]The sealed, ultimate black magic... Meteor! [force_bold]Tellah learned Meteor![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="437">[bold]Palom[normal]: Hey!
 Hold on![end]</sn:pointer>
@@ -2411,9 +2411,9 @@ You'll fight Golbez with us, won't you?[new]
 [bold]Cain[normal]: ...Forgive me, Cecil...
 Rosa...![end]</sn:pointer>
 
-<sn:pointer id="457">White Mage Rosa and
+<sn:pointer id="457">[force_bold]White Mage Rosa and
 Dragon Knight Cain joined the
-party![music][0x29][delay][0x28][end]</sn:pointer>
+party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="458">'Hahahahaha...'[end]</sn:pointer>
 
@@ -2555,9 +2555,9 @@ But it looks like that was unnecessary
 after all.[new]
 Well done, Palom, Porom![end]</sn:pointer>
 
-<sn:pointer id="484">Rydia learned Asura![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="484">[force_bold]Rydia learned Asura![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
-<sn:pointer id="485">Rydia learned Leviathan![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="485">[force_bold]Rydia learned Leviathan![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="486">[bold]Village Elder[normal]: Oh, you're...!![end]</sn:pointer>
 
@@ -2571,8 +2571,8 @@ Edward... I... love... you![end]</sn:pointer>
 
 <sn:pointer id="489">[bold]Edward[normal]: Farewell...Anna![end]</sn:pointer>
 
-<sn:pointer id="490">[bold]Edward[normal]: Come on, let's hurry! Prince
-Edward joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="490">[bold]Edward[normal]: Come on, let's hurry! [force_bold]Prince
+Edward joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="491">[bold]Tellah[normal]: He's down below![end]</sn:pointer>
 

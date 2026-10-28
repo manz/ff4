@@ -325,7 +325,7 @@ Hâtons-nous vers la tour de Babil d'Eblana![new]
 [bold]Edge[normal]: La tour de Babil!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
     <sn:pointer id="64">FuSoYa: Moi, je devrais pouvoir entrer! Le géant de Babil ne doit pas descendre sur la Planète Bleue![new]
-Je viens avec vous! FuSoYa le Sélénite a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+Je viens avec vous! [force_bold]FuSoYa le Sélénite a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="65">[bold]Caïn[normal]: Mais ces derniers mots de
 Zéromus...[end]</sn:pointer>
     <sn:pointer id="66">[bold]Rosa[normal]: Tant qu'il y aura des cœurs
@@ -349,7 +349,7 @@ je finirais presque par rougir![end]</sn:pointer>
 C'est presque un miracle que quelqu'un
 comme toi n'ait pas été manipulé par
 Zémus![end]</sn:pointer>
-    <sn:pointer id="68">Le sage Tella a rejoint l'équipe![delay][0x28][close_window][end]</sn:pointer>
+    <sn:pointer id="68">[force_bold]Le sage Tella a rejoint l'équipe![force_normal][delay][0x28][close_window][end]</sn:pointer>
     <sn:pointer id="69">«Attends!»[end]</sn:pointer>
     <sn:pointer id="70">[bold]Edge[normal]: Hé hé, c'est que j'aime la
 justice, moi![new]
@@ -579,7 +579,7 @@ Je te confie Baron... non, le monde![new]
 Moi aussi, en tant qu'Odin, je
 combattrai à tes côtés![new]
 [bold]Cecil[normal]: Majesté!
-Rydia a appris Odin![music][0x29][delay][0x28][end]</sn:pointer>
+[force_bold]Rydia a appris Odin![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="157">[bold]Cecil[normal]: Caïn?[end]</sn:pointer>
     <sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
     <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
