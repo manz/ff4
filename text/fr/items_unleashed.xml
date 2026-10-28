@@ -13,13 +13,13 @@
     <sn:fixed>[0x2a]Baguette foudre</sn:fixed>
     <sn:fixed>[0x2a]Baguette de mue</sn:fixed>
     <sn:fixed>[0x2a]Baguette de fée</sn:fixed>
-    <sn:fixed>[0x2a]Baguette étoiles</sn:fixed>
+    <sn:fixed>[0x2a]Baguette d'étoiles</sn:fixed>
     <sn:fixed>[0x2a]Baguette Lilith</sn:fixed>
     <sn:fixed>[0x2b]Bâton</sn:fixed>
     <sn:fixed>[0x2b]Bâton de soin</sn:fixed>
-    <sn:fixed>[0x2b]Bâton mithril</sn:fixed>
+    <sn:fixed>[0x2b]Bâton de mithril</sn:fixed>
     <sn:fixed>[0x2b]Bâton de force</sn:fixed>
-    <sn:fixed>[0x2b]Bâton pulsar</sn:fixed>
+    <sn:fixed>[0x2b]Bâton d'aura</sn:fixed>
     <sn:fixed>[0x2b]Bâton du sage</sn:fixed>
     <sn:fixed>[0x2b]Bâton runique</sn:fixed>
     <sn:fixed>[0x2c]Epée ténébreuse</sn:fixed>
@@ -39,7 +39,7 @@
     <sn:fixed>[0x2f]Lance du vent</sn:fixed>
     <sn:fixed>[0x2f]Lance de feu</sn:fixed>
     <sn:fixed>[0x2f]Lance de glace</sn:fixed>
-    <sn:fixed>[0x2f]Lance du dragon</sn:fixed>
+    <sn:fixed>[0x2f]Lance de vouivre</sn:fixed>
     <sn:fixed>[0x2f]Lance sacrée</sn:fixed>
     <sn:fixed>[0x2f]Lance de sang</sn:fixed>
     <sn:fixed>[0x2f]Gungnir</sn:fixed>
@@ -49,19 +49,19 @@
     <sn:fixed>[0x31]Kikuichimonji</sn:fixed>
     <sn:fixed>[0x31]Murasame</sn:fixed>
     <sn:fixed>[0x31]Masamune</sn:fixed>
-    <sn:fixed>[0x30]Dague Assassin</sn:fixed>
+    <sn:fixed>[0x30]Dague d'assassin</sn:fixed>
     <sn:fixed>[0x30]Tueur de mages</sn:fixed>
     <sn:fixed>[0x3a]Fouet</sn:fixed>
     <sn:fixed>[0x3a]Fouet à chaîne</sn:fixed>
     <sn:fixed>[0x3a]Fouet foudre</sn:fixed>
     <sn:fixed>[0x3a]Fouet de feu</sn:fixed>
-    <sn:fixed>[0x3a]Crin de dragon</sn:fixed>
+    <sn:fixed>[0x3a]Barbe de dragon</sn:fixed>
     <sn:fixed>[0x34]Hachette</sn:fixed>
     <sn:fixed>[0x34]Hache des nains</sn:fixed>
     <sn:fixed>[0x34]Tueur d'ogres</sn:fixed>
-    <sn:fixed>[0x30]Dague mithril</sn:fixed>
+    <sn:fixed>[0x30]Dague de mithril</sn:fixed>
     <sn:fixed>[0x30]Dague dansante</sn:fixed>
-    <sn:fixed>[0x2d]Epée mithril</sn:fixed>
+    <sn:fixed>[0x2d]Epée de mithril</sn:fixed>
     <sn:fixed>[0x30]Couperet</sn:fixed>
     <sn:fixed>[0x2e]Ragnarok</sn:fixed>
     <sn:fixed>[0x32]Shuriken</sn:fixed>
@@ -71,10 +71,10 @@
     <sn:fixed>[0x36]Harpe des rêves</sn:fixed>
     <sn:fixed>[0x36]Harpe de Lamia</sn:fixed>
     <sn:fixed></sn:fixed>
-    <sn:fixed>[0x34]Hache d'Idun</sn:fixed>
+    <sn:fixed>[0x34]Hache toxique</sn:fixed>
     <sn:fixed>[0x34]Hache runique</sn:fixed>
-    <sn:fixed>[0x35]Marteau mithril</sn:fixed>
-    <sn:fixed>[0x35]Marteau Terre</sn:fixed>
+    <sn:fixed>[0x35]Marteau de mithril</sn:fixed>
+    <sn:fixed>[0x35]Marteau de Gaïa</sn:fixed>
     <sn:fixed>[0x35]Maillet</sn:fixed>
     <sn:fixed>[0x2d]Vengeur</sn:fixed>
     <sn:fixed>[0x37]Arc</sn:fixed>
@@ -89,7 +89,7 @@
     <sn:fixed>[0x38]Flèche de feu</sn:fixed>
     <sn:fixed>[0x38]Flèche de glace</sn:fixed>
     <sn:fixed>[0x38]Flèche foudre</sn:fixed>
-    <sn:fixed>[0x38]Flèche ténèbres</sn:fixed>
+    <sn:fixed>[0x38]Flèche aveuglante</sn:fixed>
     <sn:fixed>[0x38]Flèche de poison</sn:fixed>
     <sn:fixed>[0x38]Flèche muselière</sn:fixed>
     <sn:fixed>[0x38]Flèche d'ange</sn:fixed>
@@ -100,27 +100,27 @@
     <sn:fixed>[0x3b]Bouclier de fer</sn:fixed>
     <sn:fixed>[0x3b]Bouclier noir</sn:fixed>
     <sn:fixed>[0x3b]Bouclier démon</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier sacré</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier mithril</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier flamme</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier glace</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de lumière</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de mithril</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de feu</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de glace</sn:fixed>
     <sn:fixed>[0x3b]Bouclier diamant</sn:fixed>
     <sn:fixed>[0x3b]Bouclier d'Egide</sn:fixed>
     <sn:fixed>[0x3b]Bouclier Genji</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier dragon</sn:fixed>
-    <sn:fixed>[0x3b]Bouclier cristal</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de dragon</sn:fixed>
+    <sn:fixed>[0x3b]Bouclier de cristal</sn:fixed>
     <sn:fixed>[0x3c]Heaume de fer</sn:fixed>
     <sn:fixed>[0x3c]Heaume noir</sn:fixed>
-    <sn:fixed>[0x3c]Heaume Hadès</sn:fixed>
+    <sn:fixed>[0x3c]Heaume d'Hadès</sn:fixed>
     <sn:fixed>[0x3c]Heaume démon</sn:fixed>
-    <sn:fixed>[0x3c]Heaume sacré</sn:fixed>
-    <sn:fixed>[0x3c]Heaume mithril</sn:fixed>
+    <sn:fixed>[0x3c]Heaume de lumière</sn:fixed>
+    <sn:fixed>[0x3c]Heaume de mithril</sn:fixed>
     <sn:fixed>[0x3c]Heaume diamant</sn:fixed>
     <sn:fixed>[0x3c]Heaume Genji</sn:fixed>
-    <sn:fixed>[0x3c]Heaume dragon</sn:fixed>
-    <sn:fixed>[0x3c]Heaume cristal</sn:fixed>
+    <sn:fixed>[0x3c]Heaume de dragon</sn:fixed>
+    <sn:fixed>[0x3c]Heaume de cristal</sn:fixed>
     <sn:fixed>[0x3c]Chapeau de cuir</sn:fixed>
-    <sn:fixed>[0x3c]Chapeau plumes</sn:fixed>
+    <sn:fixed>[0x3c]Chapeau à plumes</sn:fixed>
     <sn:fixed>[0x3c]Tricorne</sn:fixed>
     <sn:fixed>[0x3c]Mitre du prêtre</sn:fixed>
     <sn:fixed>[0x3c]Bandeau d'or</sn:fixed>
@@ -131,10 +131,10 @@
     <sn:fixed>[0x3c]Masque de verre</sn:fixed>
     <sn:fixed>[0x3d]Armure de fer</sn:fixed>
     <sn:fixed>[0x3d]Armure noire</sn:fixed>
-    <sn:fixed>[0x3d]Armure Hadès</sn:fixed>
+    <sn:fixed>[0x3d]Armure d'Hadès</sn:fixed>
     <sn:fixed>[0x3d]Armure démon</sn:fixed>
     <sn:fixed>[0x3d]Armure Chevalier</sn:fixed>
-    <sn:fixed>[0x3d]Armure mithril</sn:fixed>
+    <sn:fixed>[0x3d]Armure de mithril</sn:fixed>
     <sn:fixed>[0x3d]Cotte de flammes</sn:fixed>
     <sn:fixed>[0x3d]Armure de glace</sn:fixed>
     <sn:fixed>[0x3d]Armure diamant</sn:fixed>
@@ -142,81 +142,81 @@
     <sn:fixed>[0x3d]Cotte de dragon</sn:fixed>
     <sn:fixed>[0x3d]Cotte de cristal</sn:fixed>
     <sn:fixed>[0x3d]Vêtements</sn:fixed>
-    <sn:fixed>[0x3d]Tunique cuir</sn:fixed>
+    <sn:fixed>[0x3d]Tunique de cuir</sn:fixed>
     <sn:fixed>[0x3d]Robe de Gaïa</sn:fixed>
     <sn:fixed>[0x3d]Robe du prêtre</sn:fixed>
     <sn:fixed>[0x3d]Robe noire</sn:fixed>
     <sn:fixed>[0x3d]Robe de lumière</sn:fixed>
     <sn:fixed>[0x3d]Robe blanche</sn:fixed>
-    <sn:fixed>[0x3d]Ruban de force</sn:fixed>
+    <sn:fixed>[0x3d]Écharpe de force</sn:fixed>
     <sn:fixed>[0x3d]Bustier Minerva</sn:fixed>
-    <sn:fixed>[0x3d]Habit bagnard</sn:fixed>
-    <sn:fixed>[0x3d]Habit poète</sn:fixed>
-    <sn:fixed>[0x3d]Tenue Kenpou</sn:fixed>
+    <sn:fixed>[0x3d]Habit de bagnard</sn:fixed>
+    <sn:fixed>[0x3d]Habit de poète</sn:fixed>
+    <sn:fixed>[0x3d]Tenue de kenpo</sn:fixed>
     <sn:fixed>[0x3d]Ceinture noire</sn:fixed>
-    <sn:fixed>[0x3d]Armure adamant</sn:fixed>
+    <sn:fixed>[0x3d]Armure d'adamant</sn:fixed>
     <sn:fixed>[0x3d]Habit ninja</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet fer</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet de fer</sn:fixed>
     <sn:fixed>[0x3e]Gantelet noir</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet Hadès</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet d'Hadès</sn:fixed>
     <sn:fixed>[0x3e]Gantelet démon</sn:fixed>
     <sn:fixed>[0x3e]Gantelet</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet mithril</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet de mithril</sn:fixed>
     <sn:fixed>[0x3e]Gantelet diamant</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet géant</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet de géant</sn:fixed>
     <sn:fixed>[0x3e]Gantelet Genji</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet dragon</sn:fixed>
-    <sn:fixed>[0x3e]Gantelet cristal</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet de dragon</sn:fixed>
+    <sn:fixed>[0x3e]Gantelet de cristal</sn:fixed>
     <sn:fixed>[0x3e]Brassard de fer</sn:fixed>
-    <sn:fixed>[0x3e]Anneau rubis</sn:fixed>
-    <sn:fixed>[0x3e]Brassard argent</sn:fixed>
-    <sn:fixed>[0x3e]Brassard force</sn:fixed>
-    <sn:fixed>[0x3e]Brassard rune</sn:fixed>
-    <sn:fixed>[0x3e]Anneau cristal</sn:fixed>
+    <sn:fixed>[0x3e]Anneau de rubis</sn:fixed>
+    <sn:fixed>[0x3e]Brassard d'argent</sn:fixed>
+    <sn:fixed>[0x3e]Brassard de force</sn:fixed>
+    <sn:fixed>[0x3e]Brassard runique</sn:fixed>
+    <sn:fixed>[0x3e]Anneau de cristal</sn:fixed>
     <sn:fixed>[0x3e]Brassard diamant</sn:fixed>
-    <sn:fixed>[0x3e]Anneau garde</sn:fixed>
+    <sn:fixed>[0x3e]Anneau de garde</sn:fixed>
     <sn:fixed>[0x3e]Anneau maudit</sn:fixed>
     <sn:fixed>[0xff]Eclat de Bombe</sn:fixed>
     <sn:fixed>[0xff]Bras de Bombe</sn:fixed>
     <sn:fixed>[0xff]Vent antarctique</sn:fixed>
     <sn:fixed>[0xff]Vent arctique</sn:fixed>
-    <sn:fixed>[0xff]Foudre de Zeus</sn:fixed>
-    <sn:fixed>[0xff]Foudre divine</sn:fixed>
-    <sn:fixed>[0xff]Poussière étoile</sn:fixed>
-    <sn:fixed>[0xff]Baiser Lilith</sn:fixed>
-    <sn:fixed>[0xff]Croc vampire</sn:fixed>
+    <sn:fixed>[0xff]Colère de Zeus</sn:fixed>
+    <sn:fixed>[0xff]Colère des dieux</sn:fixed>
+    <sn:fixed>[0xff]Poussière d'étoiles</sn:fixed>
+    <sn:fixed>[0xff]Baiser de Lilith</sn:fixed>
+    <sn:fixed>[0xff]Croc de vampire</sn:fixed>
     <sn:fixed>[0xff]Vin de Bacchus</sn:fixed>
-    <sn:fixed>[0xff]Sandales Hermès</sn:fixed>
-    <sn:fixed>[0xff]Sablier cuivre</sn:fixed>
-    <sn:fixed>[0xff]Sablier argent</sn:fixed>
+    <sn:fixed>[0xff]Sandales d'Hermès</sn:fixed>
+    <sn:fixed>[0xff]Sablier de cuivre</sn:fixed>
+    <sn:fixed>[0xff]Sablier d'argent</sn:fixed>
     <sn:fixed>[0xff]Sablier d'or</sn:fixed>
     <sn:fixed>[0xff]Toile d'araignée</sn:fixed>
     <sn:fixed>[0xff]Bouc émissaire</sn:fixed>
     <sn:fixed>[0xff]Croc rouge</sn:fixed>
     <sn:fixed>[0xff]Croc blanc</sn:fixed>
     <sn:fixed>[0xff]Croc bleu</sn:fixed>
-    <sn:fixed>[0xff]Rideau lumière</sn:fixed>
+    <sn:fixed>[0xff]Rideau de lumière</sn:fixed>
     <sn:fixed>[0xff]Âme de Bombe</sn:fixed>
     <sn:fixed>[0xff]Rideau lunaire</sn:fixed>
-    <sn:fixed>[0xff]Cloche silence</sn:fixed>
-    <sn:fixed>[0xff]Tambour terre</sn:fixed>
+    <sn:fixed>[0xff]Cloche de silence</sn:fixed>
+    <sn:fixed>[0xff]Tambour de Gaïa</sn:fixed>
     <sn:fixed>[0xff]Cristal</sn:fixed>
     <sn:fixed>[0xff]Moustache Coeurl</sn:fixed>
     <sn:fixed>[0xff]Grimoire</sn:fixed>
     <sn:fixed>[0xff]Bestiaire</sn:fixed>
     <sn:fixed>[0xff]Réveil</sn:fixed>
-    <sn:fixed>[0xff]Corne licorne</sn:fixed>
+    <sn:fixed>[0xff]Corne de licorne</sn:fixed>
     <sn:fixed>[0xff]Potion</sn:fixed>
     <sn:fixed>[0xff]Hi-Potion</sn:fixed>
     <sn:fixed>[0xff]Méga-Potion</sn:fixed>
     <sn:fixed>[0xff]Ether</sn:fixed>
     <sn:fixed>[0xff]Ether sec</sn:fixed>
     <sn:fixed>[0xff]Elixir</sn:fixed>
-    <sn:fixed>[0xff]Plume de phénix</sn:fixed>
+    <sn:fixed>[0xff]Queue de phénix</sn:fixed>
     <sn:fixed>[0xff]Aiguille d'or</sn:fixed>
     <sn:fixed>[0xff]Baiser de fée</sn:fixed>
     <sn:fixed>[0xff]Marteau magique</sn:fixed>
-    <sn:fixed>[0xff]Aliment diète</sn:fixed>
+    <sn:fixed>[0xff]Repas diététique</sn:fixed>
     <sn:fixed>[0xff]Herbe d'écho</sn:fixed>
     <sn:fixed>[0xff]Collyre</sn:fixed>
     <sn:fixed>[0xff]Antidote</sn:fixed>
@@ -228,24 +228,24 @@
     <sn:fixed>[0xff]Goutte de Soma</sn:fixed>
     <sn:fixed>[0xff]Tente</sn:fixed>
     <sn:fixed>[0xff]Chalet</sn:fixed>
-    <sn:fixed>[0xff]Revue coquine</sn:fixed>
+    <sn:fixed>[0xff]Livre coquin</sn:fixed>
     <sn:fixed>[0xff]Porte de secours</sn:fixed>
     <sn:fixed>[0xff]Pain de nain</sn:fixed>
     <sn:fixed>[0x41]Gobelin</sn:fixed>
     <sn:fixed>[0x41]Bombe</sn:fixed>
     <sn:fixed>[0x41]Cocatrix</sn:fixed>
-    <sn:fixed>[0x41]Flagelleur</sn:fixed>
+    <sn:fixed>[0x41]Illithid</sn:fixed>
     <sn:fixed>[0xff]Légume Gysahl</sn:fixed>
-    <sn:fixed>[0xff]Laissez-passer</sn:fixed>
+    <sn:fixed>[0xff]Carte de membre</sn:fixed>
     <sn:fixed>[0xff]Flûte Gysahl</sn:fixed>
     <sn:fixed>[0xff]Anneau Bombe</sn:fixed>
     <sn:fixed>[0xff]Clé de Baron</sn:fixed>
-    <sn:fixed>[0xff]Lumière désert</sn:fixed>
-    <sn:fixed>[0xff]Cristal terre</sn:fixed>
+    <sn:fixed>[0xff]Lumière du désert</sn:fixed>
+    <sn:fixed>[0xff]Cristal de la Terre</sn:fixed>
     <sn:fixed>[0xff]Pierre de magma</sn:fixed>
     <sn:fixed>[0xff]Collier de Luca</sn:fixed>
     <sn:fixed>[0xff]Murmure</sn:fixed>
-    <sn:fixed>[0xff]Cristal ténèbres</sn:fixed>
+    <sn:fixed>[0xff]Cristal d'Obscurité</sn:fixed>
     <sn:fixed>[0xff]Queue de rat</sn:fixed>
     <sn:fixed>[0xff]Adamantite</sn:fixed>
     <sn:fixed>[0xff]Poêle d'amour</sn:fixed>

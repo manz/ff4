@@ -1682,7 +1682,7 @@ entrer![end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
     <sn:pointer id="496">[0xfa]Tu as trouvé le Livre de la Connaissance![end]</sn:pointer>
-    <sn:pointer id="497">[0xfa]Tu as trouvé un magazine coquin![delay][0x30][end]</sn:pointer>
+    <sn:pointer id="497">[0xfa]Tu as trouvé un livre coquin![delay][0x30][end]</sn:pointer>
     <sn:pointer id="498">Roi Baron: Baron? Kukakaka... qui est-ce? Ah oui, je me souviens![new]
 C'était cet humain stupide qui refusait de me livrer son royaume... Je m'étais fait passer pour lui! Hyahyahya![new]
 Cecil: Monstre! Sa Majesté...![new]
