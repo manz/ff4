@@ -1532,9 +1532,8 @@ Il y a eu beaucoup de remue-ménage au
 château, récemment... il s'est passé
 quelque chose?[end]
 Vous êtes venus de la surface?
-Alors il y a vraiment un monde de
-surface après tout![end]
-Tu savais ça?
+Alors la surface, ça existe pour de vrai![end]
+Vous saviez ça?
 La grotte de l'île au nord-ouest mène
 au Monde des Chimères, à c'qui paraît.
 Ça fait peur![end]
@@ -1556,36 +1555,30 @@ Tu as obtenu Excalibur![music][0x29][delay][0x28][end]
 Grâce à toi, j'ai enfin retrouvé le cœur à
 l'ouvrage.[end]
 Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:pointer>
-    <sn:pointer id="259">Je ne fais plus d'épées!
-Je ne peux même pas trouver le
-légendaire minerai d'Adamant...[end]
-C'est l'Adamant!
-Très bien, en remerciement, je vais
-rendre ton épée encore meilleure que si
-elle était neuve![end]
-Tu as donné l'Épée Légendaire.[end]
+    <sn:pointer id="259">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]
+C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]
+Tu as remis l'Épée légendaire.[end]
 Zzz...[end]</sn:pointer>
     <sn:pointer id="260">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]
 Les Sylphes sont si timides!
 Pourtant, on est gentils![end]</sn:pointer>
     <sn:pointer id="261">Un client?
 Comme c'est inhabituel![end]</sn:pointer>
-    <sn:pointer id="262">Wow, bravo pour être arrivés si loin!
+    <sn:pointer id="262">Ben dites donc, vous êtes venus jusqu'ici!
 Prenez tout ce que vous voulez![end]
-Je ne suis qu'un simple paysan.[end]</sn:pointer>
+Moi, j'suis paysan.[end]</sn:pointer>
     <sn:pointer id="263">Lali-ho![end]
 C'est le château des Nains gouverné par
 le roi Giotto![end]
 Golbez est un méchant!
 Mais vous, vous avez l'air chouette![end]
 Allez voir le roi Giotto![end]
-Rien d'inhabituel!![end]
+Rien à signaler![end]
 Pas de problèmes ici non plus![end]
 Golbez a battu en retraite![end]
 À la surface, y a plein de méchants?[end]</sn:pointer>
     <sn:pointer id="264">Lali-ho est le salut des Nains![end]
-Tout le monde ensemble!
-Trois-deux-un!
+Tous ensemble! Un, deux...
 Lali-ho![end]
 Lali-ho!
 Content que vous alliez bien![end]
@@ -1593,26 +1586,19 @@ Le roi Giotto vous attend![end]
 Nous sommes l'équipe de secours!
 On n'en a pas l'air, mais on est des
 filles![end]
-Il y a peu de temps, le trou vers la
-surface s'est effondré!
-Dans le même coin, nous avons sauvé un
-drôle de vieux![new]
-Il récupère à l'infirmerie![end]
+L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il est couché à l'infirmerie![end]
 Je suis Luca!
 Mes poupées ont disparu.
 Vous ne les avez pas vues?[end]</sn:pointer>
     <sn:pointer id="265">Les chars sont la principale force des Nains! Nous ne serons pas vaincus si facilement![end]
-Le roi a été vraiment très gentil avec
-Luca depuis que la reine est morte![end]
+Le roi gâte la princesse Luca pour deux, pour lui et pour la défunte reine![end]
 Lali-ho!
 Vous l'avez déjà appris?[end]
 Le monde souterrain, c'est chouette, une fois qu'on s'y fait! Restez pour de bon, si vous voulez, Lali![end]
 [bold]Cecil[normal]: Je suis désolé.
 Golbez a pris le cristal...[new]
 [bold]Giotto[normal]: On n'y peut rien...
-Tout ce que nous pouvons faire, à
-présent, c'est de protéger le dernier
-cristal.[new]
+Il ne nous reste qu'à défendre le dernier cristal coûte que coûte.[new]
 [bold]Rosa[normal]: Où est le dernier cristal?[new]
 [bold]Giotto[normal]: Dans la Grotte Scellée, au
 sud-ouest.
@@ -1631,7 +1617,7 @@ occupé à la Grotte Scellée...[new]
 Pourriez-vous vous introduire dans la
 Tour de Babil et reprendre les sept
 cristaux?[new]
-[bold]Caïn[normal]: La Tour de Babil![new]
+[bold]Caïn[normal]: La Tour de Babil?[new]
 [bold]Yang[normal]: Vous nous demandez de nous
 infiltrer dans la base ennemie!?[new]
 [bold]Giotto[normal]: Ne vous inquiétez pas!
@@ -1646,9 +1632,9 @@ Rosa: C'est vrai que c'est dangereux.[new]
 Yang: Mais vous savez ce qu'on dit... Qui ne tente rien n'a rien.[new]
 Caïn: C'est maintenant ou jamais, tant que Golbez n'est pas là.[new]
 Cecil: Très bien, alors...[end]
-[bold]Cecil[normal]: Nous le ferons![end]
+[bold]Cecil[normal]: Nous allons tenter le coup![end]
 Giotto: Je compte sur vous! Il y a un passage secret sous le château! Partez dès que vous serez prêts![new]
-Je prie pour votre bonne fortune![end]
+Je prierai pour votre réussite![end]
 Se servir de mes poupées pour ça! C'est impardonnable![end]
 [bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
@@ -1666,8 +1652,7 @@ Si vous pouvez voler, vous devriez pouvoir aller à la Grotte Scellée. Mais les
 La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au Monde des Chimères![end]
 Vous ne pouvez pas voler au-dessus de
 la lave?
-Le vieux aux aéronefs ne pourrait pas
-vous arranger ça?[end]
+Si le vieux aux aéronefs était là, il pourrait pas vous bricoler ça?[end]
 Revenez me voir. C'est promis, hein![end]</sn:pointer>
     <sn:pointer id="266">Gros Chocobo!?
 Grossier personnage!!
@@ -1695,29 +1680,27 @@ de Babil... le plus fort des quatre
 Empereurs, Rubicante du Feu, y est
 encore![end]
 Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, Lali![end]
-Ce pot est un pot de soin!
+Ce pot, c'est le pot de vie!
 Buvez-en une lampée![end]</sn:pointer>
     <sn:pointer id="272">T[end]</sn:pointer>
     <sn:pointer id="273">Les objets des nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
     <sn:pointer id="274">C'est l'infirmerie![end]
 Les nains sont costauds! Mais parfois, on se blesse quand même![end]
-Cet homme est vraiment énergique pour
-un vieux![end]
+Ce vieux est drôlement en forme, pour un vieux![end]
 Quel glouton, ce vieux!
 Il dit que c'est mauvais, mais il mange
 comme quatre![end]
 Rien de tel qu'une bonne nuit de sommeil
 pour se sentir mieux, Lali![end]
 Zzz...Zzz[end]
-Le corps de ce vieux n'est pas assez
-solide pour faire ça![end]
+Ce vieux n'était pas en état de faire ça![end]
 Ce vieux est brutal, mais c'est un
 chouette gars![end]
 Zzz... rrron ...Zzz[end]
 Ce vieux est incroyable!
 Il a vraiment fixé une foreuse![end]
 Les gens de la surface se débrouillent pas mal![end]
-Cid: Traitez cet aéronef comme si c'était moi! Ne me décevez pas![end]</sn:pointer>
+Cid: Dites-vous que cet aéronef, c'est moi! Courage...![end]</sn:pointer>
     <sn:pointer id="275">T[end]</sn:pointer>
     <sn:pointer id="276">T[end]</sn:pointer>
     <sn:pointer id="277">T[end]</sn:pointer>
@@ -1734,10 +1717,9 @@ Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]<
     <sn:pointer id="285">T[end]</sn:pointer>
     <sn:pointer id="286">T[end]</sn:pointer>
     <sn:pointer id="287">T[end]</sn:pointer>
-    <sn:pointer id="288">Aaaah! Cha, ch'est che qu'y m'faut! On che bat moins, on boit pluche! Oh, et auchi dancher un peu![end]
+    <sn:pointer id="288">-Hic-! Avec chette guerre, perchonne veut boire! Moi, la bibine, ch'est plus important que la guerre! J'vais dancher, Lali![end]
 Aagh!
-Pourquoi la pièche tourne?
-Lali, chuis vraiment bourré![end]</sn:pointer>
+Cha tourne de plus en plus! Ch'est ça, le vrai Lali-hoquet![end]</sn:pointer>
     <sn:pointer id="289">T[end]</sn:pointer>
     <sn:pointer id="290">T[end]</sn:pointer>
     <sn:pointer id="291">T[end]</sn:pointer>
@@ -1752,7 +1734,7 @@ Eblana, le château des ninjas, est déjà
 tombé.[new]
 Je te confie la tour pendant mon
 absence.[end]
-[bold]Docteur[normal]: Hahahaha!
+[bold]Docteur[normal]: Hyahyahya!
 Ni le seigneur Golbez ni Rubicante ne
 sont là!
 C'est moi le patron, maintenant![new]
@@ -1760,7 +1742,7 @@ C'est moi le patron, maintenant![new]
 [bold]Docteur[normal]: Qui est là!!?[end]
 [bold]Caïn[normal]: Heh. Rubicante n'est pas là!
 Tu crois pouvoir nous battre, toi?[end]
-Docteur: Ne vous moquez pas de moi! Je ne fais pas partie des quatre Empereurs, mais on m'appelle le cerveau du seigneur Golbez![new]
+Docteur: Kiii! Ne vous moquez pas de moi! Je n'ai pas été admis parmi les quatre Empereurs, mais on m'appelle le cerveau du seigneur Golbez![new]
 Je suis Lugeie! Je défendrai cette Tour de Babil, mon honneur en dépend![new]
 Caïn: Ne me fais pas rire![end]
 [bold]Dr Lugeie[normal]: Grr...
@@ -1820,8 +1802,7 @@ J'ai fait quelques sons.[new]
 Revenez me voir![end]
 Compositeur -
 [bold]Nobuo Uematsu[normal]: Hm!
-À te voir comme ça... tu as l'air d'avoir
-un penchant caché pour la musique.
+À te voir comme ça... tu caches un vrai talent pour la musique.
 Veux-tu que je t'enseigne ma clarinette
 venue des pays lointains?[end]
 Effets Sonores -
@@ -1842,8 +1823,7 @@ c'est possible![end]
     <sn:pointer id="301">«Wahaha! Crevez, nains
 minables!»[end]Cecil: Vous n'irez pas plus
 loin![end]«Vous!» «Comment êtes-vous
-entrés!?» «Attrapez-les!»[end]«Merde! Tenez,
-prenez ça!»[end]«Maintenant, plus personne ne
+entrés!?» «Attrapez-les!»[end]«Merde! Puisque c'est comme ça...!»[end]«Maintenant, plus personne ne
 peut arrêter le super canon!»[end]
 [bold]Cecil[normal]: Zut![new]
 [bold]Caïn[normal]: Qu'ont-ils fait![end]
@@ -1869,20 +1849,16 @@ Ce que nous avons fait ce jour-là n'était
 pas une erreur![end]
 Le sort de tout ce qui vit sur cette terre
 repose entre vos mains![end]
-Battez-vous pour moi... et pour Tella![end]
+Battez-vous pour moi... et pour maître Tella![end]
 Il semble que c'était votre destinée de
 l'affronter.
-Je prie pour votre bonne fortune![end]
-Comment ça se fait que vous ne me
-preniez pas avec vous!
-Vraiment...
-Écoutez, vous![new]
+Je prie pour votre réussite![end]
+Pourquoi vous m'emmenez pas, hein? Franchement... Écoutez-moi bien![new]
 Revenez vivants![end]
 M. Cecil, revenez sain et sauf![end]
 Sans vous, M. Cecil, le patron est de
 mauvaise humeur![end]
-Prince Edward pense tout le temps à
-vous![end]
+Le prince Edward s'est toujours fait du souci pour vous![end]
 Jamais je n'aurais imaginé que les
 choses en arriveraient là.[end]
 Revenez bientôt visiter le château
@@ -1955,9 +1931,9 @@ On ne s'ennuie jamais, ici.
 Il y a tellement de livres qu'il faudrait une
 éternité pour tous les lire![end]
 Même les monstres qui résistent à
-Libra... le Dictionnaire des Monstres
+Libra... le Bestiaire
 révélera leur véritable nature...[end]
-Chimère, Monstre, Humain...
+Chimères, monstres, humains...
 D'où sont-ils venus et où vont-ils...
 Le mystère de l'éternité...[end]
 Il y a bien longtemps, une immense
@@ -1971,11 +1947,9 @@ Il y a deux lunes...
 Mais on dit que dans les temps anciens, il
 n'y en avait qu'une seule.[end]
 La reine du Monde des Chimères, Asura... Épouse du roi Chimère, c'est elle qui garde le passage jusqu'à lui.[new]
-Seuls ceux qui peuvent la surpasser pourront voir la vraie forme du roi...[end]
+Seuls ceux qui sauront tirer parti de son pouvoir pour la vaincre verront le roi...[end]
 Le roi Chimère...
-Il est apparu dans l'océan du nord.
-On dit de lui qu'il est maître des océans
-et sans rival.[end]
+Il est venu de l'océan du nord. On le dit maître des océans: c'est le seigneur invincible du Monde des Chimères.[end]
 Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
 Il n'a été vaincu qu'une fois: quand la foudre est tombée sur son épée.[end]
 Les douces et sveltes Sylphes...
@@ -1996,7 +1970,7 @@ C'est bien la puissance de la lumière!
 Moi, Léviathan, roi des Chimères, je te
 prête ma force![end]
 Le roi Chimère?
-Non, non, je ne suis qu'un vieux fou![end]
+Non, non, je ne suis qu'un vieux croûton![end]
 Alors je vais mettre votre force à l'épreuve![end]
 Alors, malheureusement, je ne peux pas
 vous donner mon pouvoir.[end]
@@ -2018,16 +1992,13 @@ Titan? Avec Léviter, ce n'est plus qu'un gros balourd![end]</sn:pointer>
     <sn:pointer id="327">T[end]</sn:pointer>
     <sn:pointer id="328">T[end]</sn:pointer>
     <sn:pointer id="329">Yang: Merci... Combattez aussi pour moi![end]
-AAH!
-Des humains!![end]
+Hiii! Des humains![end]
 Laissez-nous nous occuper de
 Yang![end]
 Qu'est-ce que vous fichez ici!
-Dehors!
-Tout de suite![end]
+Dehors![end]
 N'emmenez pas Yang![end]
-Nous ne vous laisserons pas
-Yang![end]
+Yang, vous ne l'aurez pas![end]
 Vous, les humains, vous êtes si
 violents![end]
 Nous l'avons trouvé évanoui à l'entrée de notre trou. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
@@ -2052,7 +2023,7 @@ griffes de la mort.[new]
 Yang: Le sort du monde est en train de se jouer! Je ne peux pas rester couché![new]
 Edge: C'est pas la place d'un blessé, mon vieux.[end]
 Yang: Qui es-tu?[new]
-Edge: Je suis Edge d'Eblana! Je serai bien plus utile que tu ne le serais![new]
+Edge: Je suis Edge d'Eblana! Et je me bats bien mieux que toi![new]
 Yang: Eblana! Un ninja...? Je viens aussi...![new]
 Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]
 [bold]Yang[normal]: ?[new]
@@ -2060,8 +2031,7 @@ Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]
 invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
 Nous combattrons à ta place![new]
-[bold]Rydia[normal]: Heureuse de faire votre
-connaissance, mesdemoiselles Sylphes!
+[bold]Rydia[normal]: Enchantée, les Sylphes!
 Rydia a appris Sylphe![music][0x29][delay][0x28][end]
 [bold]Sylphe[normal]: Ah!
 Arrêtez![end]
@@ -2122,9 +2092,7 @@ Vous devriez pouvoir l'atteindre.[end]
 En dessous, des armes terribles qui
 menaçaient jadis les Luniens sont
 scellées avec Zémus.[end]
-Il y a déjà quelque temps que FuSoYa
-et le fils de KluYa sont entrés et
-descendus.[end]
+FuSoYa et le fils de KluYa sont entrés tout à l'heure... Ça fait déjà longtemps.[end]
 Nous parvenons tout juste à neutraliser les ondes mentales que Zémus émet de l'intérieur.[end]
 Il y a une énergie phénoménale qui
 transite entre Zémus et nous.[end]
@@ -2139,10 +2107,7 @@ du noyau![end]</sn:pointer>
 Que voulez-vous dire?[end]
 Hm, hm hm hmmm...[end]
 Nous sommes la famille Hummingway.[end]
-À bien y réfléchir...
-Un de nos amis avait construit un
-vaisseau et était allé vers la Planète
-Bleue...[new]
+Ça me revient... Il y a longtemps, un des nôtres a inventé un vaisseau et il est descendu sur la Planète Bleue...[new]
 Il était vraiment très doué pour donner
 des surnoms...[end]</sn:pointer>
     <sn:pointer id="358">T[end]</sn:pointer>

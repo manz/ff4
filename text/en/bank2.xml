@@ -2035,14 +2035,14 @@ Creepy![end]</sn:pointer>
 in the world, Master Kukuro, Lali.[end]
 The Master's lost his will to work and
 does nothing but sleep, Lali.[end]
-The Master's been really busy, Lali![end]
+The Master's full of life again, Lali![end]
 I'm going to become a smith as good as
 the Master is!![end]
 You think it would be done that soon!?
 Don't be so impatient![end]
 It's done!
 The Holy Sword Excalibur!
-Use it with all your mind, body, and soul!
+Wield it with care!
 You received Excalibur![music][0x29][delay][0x28][end]
 Thanks to you, I've finally gotten back my
 will to work.[end]
@@ -2067,9 +2067,9 @@ Even though we're nice![end]</sn:pointer>
 <sn:pointer id="261">A customer?
 How unusual![end]</sn:pointer>
 
-<sn:pointer id="262">Wow, congrats on making it this far!
+<sn:pointer id="262">Well now, you came all the way down here!
 Take whatever ya want![end]
-I'm just a simple peasant.[end]</sn:pointer>
+I'm a farmer, I am.[end]</sn:pointer>
 
 <sn:pointer id="263">Lali-ho![end]
 This is the Dwarf Castle ruled by King
@@ -2090,11 +2090,7 @@ Glad you're all right![end]
 King Jiott's waiting for you![end]
 We're the rescue team!
 We may not look it, but we're girls![end]
-Recently the hole to the surface
-collapsed!
-Around that area, we rescued some
-weird old man.[new]
-He's recovering in the medical room.[end]
+The other day the hole to the surface caved in! What a mess! That's when we rescued some weird old man.[new] He's in bed in the medical room now.[end]
 I'm Luka!
 My dolls have disappeared.
 Have you seen them?[end]</sn:pointer>
@@ -2102,26 +2098,23 @@ Have you seen them?[end]</sn:pointer>
 <sn:pointer id="265">The Tank Force is the Dwarves' main
 strength!
 We won't be defeated so easily![end]
-The King's been really kind to Luka since
-the Queen died![end]
+The King dotes on Princess Luka for two, for himself and the late Queen![end]
 Lali-ho!
 Have you learned it yet?[end]
 If you can get used to it,
 the underworld's pretty nice!
-I hope you can stay here a while, Lali![end]
+Stay for good if you like, Lali![end]
 [bold]Cecil[normal]: I'm sorry.
 Golbez got the Crystal...[new]
 [bold]Jiott[normal]: It can't be helped...
-All we can do now is protect the last
-Crystal.[new]
+Now we must defend the last Crystal to the death.[new]
 [bold]Rosa[normal]: Where is the last Crystal?[new]
 [bold]Jiott[normal]: In the Sealed Cave to the
 southwest.
 Golbez went there, but don't worry.
 Without the key to release the seal,
 nobody can enter.[new]
-Therefore, we have a plan of attack, but
-we'll need your assistance.[new]
+Which is why I have a favor to ask of you![new]
 [bold]Cecil[normal]: It's our fault that we lost the
 Crystal!
 If there's anything we can do to help...[new]
@@ -2173,8 +2166,7 @@ There's a rumor that there's a cave leading to
 the Land of Phantoms somewhere here in the
 underworld![end]
 You can't fly over the lava?
-Can't that old airship guy fix it up for
-you?[end]
+If that old airship guy were around, couldn't he refit it?[end]
 Come see me again.
 Promise![end]</sn:pointer>
 
@@ -2235,8 +2227,7 @@ plenty![end]
 There's nothing like a good night's sleep
 to make you feel better, Lali![end]
 Zzz...Zzz[end]
-That old guy's body is not tough enough
-to be doing that![end]
+That old guy was in no shape to be doing that![end]
 That old guy's rough, but he's a good
 guy![end]
 Zzz... snort ...Zzz[end]
@@ -2244,9 +2235,7 @@ That old guy's amazing!
 He really put a drill on it![end]
 People from the upper world are very
 skilled![end]
-[bold]Cid[normal]: Treat that airship as if it were
-me!
-Don't let me down![end]</sn:pointer>
+[bold]Cid[normal]: Think of that airship as me, and give it your all...![end]</sn:pointer>
 
 <sn:pointer id="275">T[end]</sn:pointer>
 
@@ -2277,13 +2266,9 @@ Use the treasure well![end]</sn:pointer>
 
 <sn:pointer id="287">T[end]</sn:pointer>
 
-<sn:pointer id="288">Aaaah!
-Thish ish what I need.
-Lesh fightin', more drinkin'!
-Oh, and jusht a lil' dancin', too.[end]
+<sn:pointer id="288">-Hic-! Everybody'sh all 'there'sh a war on', sho nobody drinksh! Me, booze beatsh war any day! I'm gonna dansh, Lali![end]
 Aagh!
-Why'sh the room shpinnin'?
-Lali, I'm really drunk![end]</sn:pointer>
+It'sh shpinnin' more and more! Now I'm really Lali-hammered![end]</sn:pointer>
 
 <sn:pointer id="289">T[end]</sn:pointer>
 
@@ -2305,7 +2290,7 @@ The castle of Ninjas, Eblana, has already
 fallen.[new]
 I'm leaving the tower to you while I'm
 out.[end]
-[bold]Doctor[normal]: Hahahaha!
+[bold]Doctor[normal]: Hya hya hya!
 Neither Lord Golbez nor Rubicante are
 here!
 I'm the one in charge now![new]
@@ -2314,7 +2299,7 @@ I'm the one in charge now![new]
 [bold]Cain[normal]: Heh. Rubicante isn't here!
 Do you think you can beat us?[end]
 [bold]Doctor[normal]: Keee! Don't mock me!
-I may not be one of the Elemental Lords,
+I may not have made it into the Elemental Lords,
 but I am Lugae, Lord Golbez's brain![new]
 I'll defend this Tower of Babil with my
 honor at stake![new]
@@ -2380,10 +2365,7 @@ desk soon.[end]
 out of here!
 I haven't stolen anything!![end]
 [bold]Newbie Kyoji Koizumi[normal]: Heh...
-If you know from the beginning you don't
-get a Golden Week, making games isn't so
-bad![new]
-Don't you think so Sakaguchi-san?[end]</sn:pointer>
+Just pretend Golden Week never existed, and life's easy![new] Right, Sakaguchi-saaan?[end]</sn:pointer>
 
 <sn:pointer id="298">Sound Programmer -
 [bold]Minoru Akao[normal]: Phew...
@@ -2398,8 +2380,7 @@ I made a few sounds.[new]
 Come again![end]
 Music Composition -
 [bold]Nobuo Uematsu[normal]: Hm!
-From looking at you, you seem to have
-quite a hidden appreciation for music.
+From looking at you, you hide quite a talent for music.
 Shall I teach you to play this clarinet
 from distant lands?[end]
 Sound Effects -
@@ -2409,8 +2390,8 @@ IV, try Seiken Densetsu too![end]</sn:pointer>
 <sn:pointer id="299">No games until we're done![end]
 Rosa and Rydia, huh?
 Now those are fine ladies!
-You'll find my power useful![new]
-Game Engineer Tokita Takashi [space][0x7]joined the
+I'll lend you a hand![new]
+Game Craftsman Takashi Tokita [space][0x7]joined the
 party![music][0x29][delay][0x28] Please...take me with you!
 I can't stand it here any more![music][0x2][end]
 Chief Programmer -
@@ -2431,7 +2412,7 @@ Die, you puny dwarves!'[end]
 'You!' 'How did you get in here!?'
 'Get 'em!'[end]
 'Damn!
-Well, take this!'[end]
+Then I'll do this!'[end]
 'Now nobody can stop the Giant Gun!'[end]
 [bold]Cecil[normal]: Damn![new]
 [bold]Cain[normal]: What have they done!?[end]
@@ -2440,8 +2421,7 @@ Well, take this!'[end]
 [bold]Yang[normal]: I'll handle things here!
 You all get out of here quickly![new]
 [bold]Rydia[normal]: No!![new]
-[bold]Cecil[normal]: Yang, the gun's going to
-go off and the whole room's going to blow![new]
+[bold]Cecil[normal]: It's going to blow, Yang![new]
 [bold]Yang[normal]: ...Forgive me![end]</sn:pointer>
 
 <sn:pointer id="302">T[end]</sn:pointer>
@@ -2454,7 +2434,7 @@ go off and the whole room's going to blow![new]
 
 <sn:pointer id="306">T[end]</sn:pointer>
 
-<sn:pointer id="307">This is your destiny...
+<sn:pointer id="307">Perhaps this was your destiny all along...
 Return to the moon![end]
 We wanna go too...
 But it doesn't look like we're gonna get
@@ -2465,7 +2445,7 @@ We really weren't mistaken in helping you
 back then![end]
 The fate of everything living on this Earth
 rests with you![end]
-Fight for me...and for Tellah![end]
+Fight for me...and for Master Tellah![end]
 It appears it is your destiny to confront
 this.
 I pray for your safety![end]
@@ -2473,9 +2453,8 @@ How come you won't take me along!
 Really...
 Listen, you!
 You come back alive![end]
-Cecil, please come back safely![end]
-'Cause if you're not around then Boss
-gets in a nasty mood![end]
+Mr. Cecil, please come back safely![end]
+Without you, Mr. Cecil, the boss is always grumpy![end]
 Prince Edward is always thinking about
 you all![end]
 I never dreamed that things would end
@@ -2515,7 +2494,7 @@ Asura, then the King won't even listen
 to you![end]
 Yo, Rydia!
 What?
-Is it weird for us to be talking?[end]
+Is it weird for me to talk?[end]
 This is the Library of the Land of
 Phantoms.
 A treasure trove of all knowledge![end]
@@ -2532,8 +2511,7 @@ Quiet in the library![end]
 Hmm, this book is so moving...[end]
 The Giant who shakes the Earth, Titan...
 With his power he tears apart the earth,
-and all creatures will fall into the chasm he
-creates.[end]
+and most creatures are swallowed by the chasms he opens.[end]
 The Demon of Fire, Ifrit...
 His fire is said to be able to consume
 anything.[end]
@@ -2557,8 +2535,7 @@ longer history than that of the human
 world...[end]
 The cave which connects our world with
 the human world...
-Only those with a strong body and a
-pure spirit are granted passage...[end]
+Only those strong in body and spirit may pass...[end]
 Phantoms are beasts of illusion...
 To the wicked they appear terrifying,
 but to the righteous they appear as
@@ -2594,12 +2571,9 @@ The Queen of the Land of Phantoms,
 Asura...
 As the wife of the King of the Phantoms,
 she is the gateway to his audience.[new]
-Only those who can surpass her will be
-able to see the true form of the King...[end]
+Only those who turn her power to their use and overcome her will behold the King...[end]
 The King of the Phantoms...
-He appeared from the northern ocean.
-He is said to be master of the oceans,
-and is without rival.[end]
+He came from the northern sea. Called the lord of the oceans, he is the invincible master of the Land of Phantoms.[end]
 Odin, whose Zantetsuken fells any foe in
 a single blow...
 The only time he was ever defeated was
@@ -2624,7 +2598,7 @@ This is truly the power of Light!
 I, Leviathan, King of the Phantoms, shall
 lend you my power![end]
 The King of the Phantoms?
-No, no, I'm just some old fool![end]
+No, no, I'm just an old codger![end]
 Then I shall test your power![end]
 Unfortunately then, I cannot lend you my
 power.[end]
@@ -2657,12 +2631,10 @@ a big oaf![end]</sn:pointer>
 
 <sn:pointer id="329">[bold]Yang[normal]: I am in your debt...
 Fight for me too...![end]
-AAH!
-Humans!![end]
+Eek! Humans![end]
 Just leave Yang to us![end]
 What are you doing here!
-Get out!
-Now![end]
+Get out![end]
 Don't take Yang away![end]
 We won't give you Yang![end]
 You humans are so violent![end]
@@ -2692,7 +2664,7 @@ I cannot just lie here![new]
 wounded guy like you.[end]
 [bold]Yang[normal]: Who are you?[new]
 [bold]Edge[normal]: I'm Edge of Eblana!
-I'll be a lot more useful than you would![new]
+And I'm a better fighter than you![new]
 [bold]Yang[normal]: Eblana!
 A ninja...?
 I'm coming too...!![new]
@@ -2780,8 +2752,7 @@ are sleeping.[end]
 Zemus is a terrible man.
 Even though he is sealed deep below the
 Earth, his evil spirit only increases...[end]
-Only our power keeps Zemus sealed in
-the moon's core.[end]
+We, the eight Crystals, keep Zemus sealed.[end]
 Zemus used Golbez to gather the
 Crystals of the Blue Planet and increased
 their power with the Tower of Babil.[end]
@@ -2842,9 +2813,7 @@ nicknames...[end]</sn:pointer>
 <sn:pointer id="365">T[end]</sn:pointer>
 
 <sn:pointer id="366">You received the Masamune![music][0x29][delay][0x28][end]
-Did you actually think that people from
-the Blue Planet would be able to use this...
-Masamune!?[end]</sn:pointer>
+Did you think the likes of you, from the Blue Planet, could wield this cursed blade... Masamune!?[end]</sn:pointer>
 
 <sn:pointer id="367">T[end]</sn:pointer>
 
