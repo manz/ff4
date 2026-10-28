@@ -83,7 +83,7 @@ KluYa...?[new]
 [bold]Cecil[normal]: Golbez est mon...[new]
 [bold]FuSoYa[normal]: Zémus s'est servi de toi par
 télépathie...
-Le sang lunien de KluYa en a amplifié
+Le sang sélénite de KluYa en a amplifié
 les effets...[new]
 Deux frères qui se combattent...![end]</sn:pointer>
     <sn:pointer id="26">[bold]Edge[normal]: Hé, le vieux![new]
@@ -130,8 +130,8 @@ Je ne vous demande pas de me pardonner, après tout ça, mais...[end]</sn:pointe
     <sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
 Cecil...[new]
 [bold]Cecil[normal]: ...[new]
-[bold]Rosa[normal]: Un Lunien nommé Zémus se serait
-servi du sang lunien de Golbez.[new]
+[bold]Rosa[normal]: Un Sélénite nommé Zémus se serait
+servi du sang sélénite de Golbez.[new]
 [bold]Rydia[normal]: Et alors Golbez a
 accompagné FuSoYa sur la lune pour
 anéantir Zémus.[new]
@@ -200,7 +200,7 @@ Je ne peux pas perdre...![end]</sn:pointer>
 puissance...
 Les habitants de la Planète Bleue nous
 ont peut-être déjà dépassés, nous, les
-Luniens.[new]
+Sélénites.[new]
 [bold]Edge[normal]: Eh, c'est bien possible![end]</sn:pointer>
     <sn:pointer id="57">[bold]Ancien[normal]: Toi... tu es celui de
 l'autre fois...
@@ -257,15 +257,15 @@ Palom![new]
 Porom![end]</sn:pointer>
     <sn:pointer id="58">«Bienvenue!»[end]</sn:pointer>
     <sn:pointer id="59">Cecil: Qui êtes-vous...?[new]
-Vieil Homme: Je suis FuSoYa, gardien du peuple endormi de la Lune, les Luniens.[new]
-Rosa: Luniens?[new]
+Vieil Homme: Je suis FuSoYa, gardien du peuple endormi de la Lune, les Sélénites.[new]
+Rosa: Sélénites?[new]
 FuSoYa: En effet. Il y a très longtemps...[new]
 La planète qui se trouvait entre Mars et Jupiter fut menacée d'extinction.[new]
 Les survivants s'enfuirent à bord d'un vaisseau vers la Planète Bleue...[new]
 Cecil: La Planète Bleue...?[new]
 FuSoYa: La planète sur laquelle vous vivez. Mais les créatures de votre planète étaient encore en pleine évolution...[new]
 Alors nous créâmes une autre lune et y sombrâmes dans un long sommeil...[end]</sn:pointer>
-    <sn:pointer id="60">[bold]Edge[normal]: C'est donc ça... les Luniens.[new]
+    <sn:pointer id="60">[bold]Edge[normal]: C'est donc ça... les Sélénites.[new]
 [bold]FuSoYa[normal]: Mais l'un des nôtres refusa de
 dormir![new]
 Il voulait réduire en cendres tout ce qui
@@ -289,7 +289,7 @@ Par cet ascenseur, il veut faire
 descendre le géant de Babil sur votre
 planète et tout réduire en cendres...![new]
 [bold]Rosa[normal]: Non...[new]
-[bold]FuSoYa[normal]: Mais la plupart des Luniens
+[bold]FuSoYa[normal]: Mais la plupart des Sélénites
 ne sont pas ainsi.[new]
 Nous attendons que les habitants de la
 Planète Bleue aient assez évolué pour
@@ -322,13 +322,13 @@ tellement à KluYa... quand il était jeune...[new]
 pour déjouer les plans de Zémus...
 Nous devons l'arrêter![new]
 Pour la Planète Bleue et pour les
-Luniens!
+Sélénites!
 Hâtons-nous vers la Tour de Babil
 d'Eblana![new]
 [bold]Edge[normal]: La Tour de Babil!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
     <sn:pointer id="64">FuSoYa: Moi, je devrais pouvoir entrer! Le géant de Babil ne doit pas descendre sur la Planète Bleue![new]
-Je viens avec vous! FuSoYa le Lunien a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
+Je viens avec vous! FuSoYa le Sélénite a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="65">[bold]Caïn[normal]: Mais ces derniers mots de
 Zéromus...[end]</sn:pointer>
     <sn:pointer id="66">[bold]Rosa[normal]: Tant qu'il y aura des cœurs
@@ -374,7 +374,7 @@ Pas après ce que j'ai fait.[new]
 Et j'aimerais aussi rencontrer le peuple
 de mon père.[new]
 [bold]FuSoYa[normal]: Je vois...
-Tu as aussi du sang lunien dans les
+Tu as aussi du sang sélénite dans les
 veines...
 Mais ce sera un long sommeil.[new]
 [bold]Golbez[normal]: Je le sais.[end]</sn:pointer>
@@ -490,7 +490,7 @@ Baron...
 D'ici là...[delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="112">«Ah!»[new]
 [delay][0xa][close_window][end]</sn:pointer>
-    <sn:pointer id="113">[bold]Colliro[normal]: Qu'est-ce qui ne va pas?! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="113">[bold]Corio[normal]: Qu'est-ce qui ne va pas?! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="114">«C'est terrible! La lune est en train de...!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="115">[bold]Cecil[normal]: ...!![delay][0x10][close_window][end]</sn:pointer>

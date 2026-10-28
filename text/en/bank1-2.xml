@@ -31,7 +31,7 @@ And I was supposed to be the one to
 pound that guy![new]
 [bold]Golbez[normal]: Cecil...[end]</sn:pointer>
 
-<sn:pointer id="8">[bold]Jiott[normal]: The Dwarf Tank Force is here!
+<sn:pointer id="8">[bold]Giott[normal]: The Dwarf Tank Force is here!
 For the sake of Mother Earth,
 we will fight too![end]</sn:pointer>
 
@@ -587,33 +587,33 @@ Yang will build us a new Fabul.[delay][0x1e][close_window][end]</sn:pointer>
 
 <sn:pointer id="103">'Lali-ho!'[delay][0x10][close_window][end]</sn:pointer>
 
-<sn:pointer id="104">[bold]Jiott[normal]: All right!
+<sn:pointer id="104">[bold]Giott[normal]: All right!
 Let's get working and fix up this castle![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="105">'Your Majesty!
 We're short on materials, Lali!'[delay][0x19][close_window][end]</sn:pointer>
 
-<sn:pointer id="106">[bold]Jiott[normal]: The tanks!
+<sn:pointer id="106">[bold]Giott[normal]: The tanks!
 Scrap the tanks!
 We don't need 'em!
 There won't be any more wars![delay][0x19][close_window][end]</sn:pointer>
 
-<sn:pointer id="107">[bold]Luka[normal]: Father!
+<sn:pointer id="107">[bold]Luca[normal]: Father!
 I wonder how Cecil and the others are
 doing![delay][0x18][close_window][end]</sn:pointer>
 
-<sn:pointer id="108">[bold]Jiott[normal]: Good news on that front![new]
+<sn:pointer id="108">[bold]Giott[normal]: Good news on that front![new]
 Sir Cecil and Lady Rosa are to become
 King and Queen of Baron![new]
-[bold]Luka[normal]: Wow![delay][0x1d][new]
-[bold]Jiott[normal]: And word has come that
+[bold]Luca[normal]: Wow![delay][0x1d][new]
+[bold]Giott[normal]: And word has come that
 they wish to invite us to the
 coronation![new]
-[bold]Luka[normal]: All right![delay][0x18][close_window][end]</sn:pointer>
+[bold]Luca[normal]: All right![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="109">'Your Majesty's slacking off, Lali!'[delay][0x14][close_window][end]</sn:pointer>
 
-<sn:pointer id="110">[bold]Jiott[normal]: Bah!
+<sn:pointer id="110">[bold]Giott[normal]: Bah!
 Scrap the tanks![delay][0x18][close_window][end]</sn:pointer>
 
 <sn:pointer id="111">[bold]Cain[normal]: Cecil...
@@ -628,7 +628,7 @@ Until then...[delay][0x20][close_window][end]</sn:pointer>
 
 <sn:pointer id="112">'Ah!'[delay][0xa][close_window][end]</sn:pointer>
 
-<sn:pointer id="113">[bold]Corillo[normal]: What's wrong?![delay][0x10][close_window][end]</sn:pointer>
+<sn:pointer id="113">[bold]Corio[normal]: What's wrong?![delay][0x10][close_window][end]</sn:pointer>
 
 <sn:pointer id="114">'This is terrible!
 The moon is...!'[delay][0x18][close_window][end]</sn:pointer>
@@ -726,10 +726,10 @@ for true courage...![end]</sn:pointer>
 
 <sn:pointer id="140">[bold]Cid[normal]: We're all waiting for you!![end]</sn:pointer>
 
-<sn:pointer id="141">[bold]Jiott[normal]: The earth!
+<sn:pointer id="141">[bold]Giott[normal]: The earth!
 Fight for the earth![end]</sn:pointer>
 
-<sn:pointer id="142">[bold]Luka[normal]: Get back up![end]</sn:pointer>
+<sn:pointer id="142">[bold]Luca[normal]: Get back up![end]</sn:pointer>
 
 <sn:pointer id="143">'We're also praying for you!'[end]</sn:pointer>
 

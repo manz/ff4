@@ -536,7 +536,7 @@ gather the Crystals.[new]
 The Water Crystal from Mysidia...
 The Fire Crystal from Damcyan...
 The Wind Crystal from Fabul... and the
-Earth Crystal from Toroia.[end]</sn:pointer>
+Earth Crystal from Troia.[end]</sn:pointer>
 
 <sn:pointer id="105">[bold]Edward[normal]: He's taken the Fire Crystal...[new]
 [bold]Cecil[normal]: This is Edward, the prince
@@ -628,9 +628,9 @@ children![end]</sn:pointer>
 [bold]Cid[normal]: Ho ho, Rosa!
 Don't be falling for me now![end]</sn:pointer>
 
-<sn:pointer id="118">[bold]Cecil[normal]: King Jiott.
+<sn:pointer id="118">[bold]Cecil[normal]: King Giott.
 Where is the crystal in this castle?[new]
-[bold]Jiott[normal]: Truth be told, it's in a secret room
+[bold]Giott[normal]: Truth be told, it's in a secret room
 behind this very throne!
 Nobody's touching it while I still draw
 breath![end]</sn:pointer>
@@ -639,9 +639,9 @@ breath![end]</sn:pointer>
 
 <sn:pointer id="120">[bold]Cecil[normal]: What's wrong, Yang?[new]
 [bold]Yang[normal]: Someone's eavesdropping![new]
-[bold]Jiott[normal]: Who!?[end]</sn:pointer>
+[bold]Giott[normal]: Who!?[end]</sn:pointer>
 
-<sn:pointer id="121">[bold]Jiott[normal]: Open the door![new]
+<sn:pointer id="121">[bold]Giott[normal]: Open the door![new]
 [bold]Dwarf[normal]: Lali![end]</sn:pointer>
 
 <sn:pointer id="122">A terrible bombardment from the
@@ -1337,22 +1337,22 @@ about.[end]</sn:pointer>
 <sn:pointer id="265">[bold]Cid[normal]: What is it?[new]
 [bold]Cain[normal]: It concerns the Crystals.[new]
 [bold]Cecil[normal]: The Earth Crystal we borrowed
-from Toroia was taken too... which means
+from Troia was taken too... which means
 he now has all the crystals.[new]
 [bold]Cain[normal]: No, he only has four of them![new]
 [bold]Rosa[normal]: But four is all of them...[new]
 [bold]Cid[normal]: I've heard rumors about that![new]
 [bold]Rosa[normal]: It can't be...[new]
 [bold]Cain[normal]: Right...
-The Crystals of Darkness![end]</sn:pointer>
+The Dark Crystals![end]</sn:pointer>
 
 <sn:pointer id="266">[bold]Cid[normal]: The four crystals of this world are, you might say, the crystals of the surface...[new]
 [bold]Yang[normal]: Then there are crystals of the other side...?[new]
-[bold]Cecil[normal]: So those are the Crystals of Darkness![new]
+[bold]Cecil[normal]: So those are the Dark Crystals![new]
 [bold]Cain[normal]: Right.
 Which means Golbez has only half of them so far![new]
 [bold]Cid[normal]: I've heard rumors of the
-Crystals of Darkness, but where they
+Dark Crystals, but where they
 are...[new]
 [bold]Cain[normal]: Golbez has found them.[new]
 [bold]Cecil[normal]: We must hurry!
@@ -1391,22 +1391,21 @@ Hang in there![new]
 <sn:pointer id="271">[bold]Dwarf King[normal]: Oh, you're all right![new]
 [bold]Cecil[normal]: And you are?[new]
 [bold]Dwarf King[normal]: I'm the leader of the
-Underground, the Dwarf King Jiott.[new]
-[bold]Cecil[normal]: Where are the Crystals of
-Darkness?[new]
-[bold]Jiott[normal]: So that's what brings you here. For friends of theirs, you were taking an awful lot of fire.[new]
+Underground, the Dwarf King Giott.[new]
+[bold]Cecil[normal]: Where are the Dark Crystals?[new]
+[bold]Giott[normal]: So that's what brings you here. For friends of theirs, you were taking an awful lot of fire.[new]
 We nearly shot you down ourselves![new]
 [bold]Cain[normal]: Are the underworld's Crystals
 still safe?[new]
-[bold]Jiott[normal]: Unfortunately, they've already
+[bold]Giott[normal]: Unfortunately, they've already
 gotten two of the four.[new]
 [bold]Yang[normal]: So we were too late...[new]
-[bold]Jiott[normal]: But the crystal in this castle is still
+[bold]Giott[normal]: But the crystal in this castle is still
 safe.
 Our Dwarf tanks managed to drive them back.[new]
 [bold]Rosa[normal]: So those were your tanks
 fighting with the airships.[new]
-[bold]Jiott[normal]: Oh, so you call those things
+[bold]Giott[normal]: Oh, so you call those things
 airships...
 To think the upper world has such
 things![new]
@@ -1507,7 +1506,7 @@ worrying about lava or anything else![new]
 [bold]Cain[normal]: Cid![music][0x2a][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="286">Hold up the token that breaks the seal...
-and the way to the Crystal of Darkness
+and the way to the Dark Crystal
 shall open...[end]</sn:pointer>
 
 <sn:pointer id="287">'You've entertained me quite a bit...'[end]</sn:pointer>
@@ -1842,7 +1841,7 @@ Come back, Cain...
 Bring me that crystal...'
 [bold]Cecil[normal]: Golbez![end]</sn:pointer>
 
-<sn:pointer id="340">[bold]Cecil[normal]: Ugh! The Crystal of Darkness was stolen![music][0x1f][delay][0x1d][end]</sn:pointer>
+<sn:pointer id="340">[bold]Cecil[normal]: Ugh! The Dark Crystal was stolen![music][0x1f][delay][0x1d][end]</sn:pointer>
 
 <sn:pointer id="341">[bold]Edge[normal]: You bastard![new]
 [bold]Rosa[normal]: Cain, what are you doing![new]
@@ -1916,16 +1915,16 @@ Dad...
 Mom...
 I avenged you![end]</sn:pointer>
 
-<sn:pointer id="356">[bold]Jiott[normal]: Oh, we've been waiting for you![end]</sn:pointer>
+<sn:pointer id="356">[bold]Giott[normal]: Oh, we've been waiting for you![end]</sn:pointer>
 
-<sn:pointer id="357">[bold]Jiott[normal]: So, did you get the crystals back?[new]
+<sn:pointer id="357">[bold]Giott[normal]: So, did you get the crystals back?[new]
 [bold]Cecil[normal]: To tell the truth...[new]
-[bold]Jiott[normal]: Is that so...
+[bold]Giott[normal]: Is that so...
 Golbez is trying to force open the
 Sealed Cave to get the last Crystal![new]
 At this point, it's only a matter of time.
 So I want you to get the Crystal first.
-Luka![end]</sn:pointer>
+Luca![end]</sn:pointer>
 
 <sn:pointer id="358">[bold]Cecil[normal]: Cid...[new]
 [bold]Rosa[normal]: You've really overdone it this
@@ -1993,10 +1992,10 @@ I'm counting on you...!
 Paladin Cecil![new]
 [bold]Cecil[normal]: Yes![end]</sn:pointer>
 
-<sn:pointer id="364">[bold]Luka[normal]: What is it, Father?[new]
-[bold]Jiott[normal]: Bring your necklace here.[new]
-[bold]Luka[normal]: This one?[new]
-[bold]Jiott[normal]: Truth be told, this very
+<sn:pointer id="364">[bold]Luca[normal]: What is it, Father?[new]
+[bold]Giott[normal]: Bring your necklace here.[new]
+[bold]Luca[normal]: This one?[new]
+[bold]Giott[normal]: Truth be told, this very
 necklace is the key that opens the
 entrance to the Sealed Cave!
 Without this, no one can enter the cave![new]
@@ -2071,30 +2070,30 @@ let our guard down![new]
 
 <sn:pointer id="376">[bold]Golbez[normal]: Fwa ha ha ha ha!![end]</sn:pointer>
 
-<sn:pointer id="377">[bold]Jiott[normal]: Oh!
+<sn:pointer id="377">[bold]Giott[normal]: Oh!
 You've returned!
 The last crystal...[end]</sn:pointer>
 
 <sn:pointer id="378">[bold]Cecil[normal]: To tell the truth...[new]
-[bold]Jiott[normal]: What!?
+[bold]Giott[normal]: What!?
 He has them all! There's nothing more we can do... unless the legend of the Magical Ship is true...[new]
 [bold]Cecil[normal]: Magical Ship?[music][0x0][new]
-[bold]Jiott[normal]: It was a huge ship used long, long
+[bold]Giott[normal]: It was a huge ship used long, long
 ago.
 There's this legend... 'One Born from the
 Mouth of a Dragon'...[new]
 [bold]Cecil[normal]: !!
 That's the Legend from Mysidia![new]
-[bold]Jiott[normal]: You know of Mysidia!?[new]
+[bold]Giott[normal]: You know of Mysidia!?[new]
 [bold]Cecil[normal]: It's the town of Magicians in
 the overworld![new]
-[bold]Jiott[normal]: Mysidia actually exists![new]
+[bold]Giott[normal]: Mysidia actually exists![new]
 [bold]Cecil[normal]: The village elder has gone
 into the Tower of Prayer and keeps on
 praying.[new]
-[bold]Jiott[normal]: Could it be that he...[new]
+[bold]Giott[normal]: Could it be that he...[new]
 [bold]Cecil[normal]: ?[new]
-[bold]Jiott[normal]: Means to revive the Magical Ship?
+[bold]Giott[normal]: Means to revive the Magical Ship?
 No! We have no choice but to believe it!
 Mysidia!
 You must hurry to Mysidia![new]
@@ -2376,7 +2375,7 @@ Just leave it to me![end]</sn:pointer>
 
 <sn:pointer id="444">[bold]Edward[normal]: Cecil!
 Where's Rosa?[new]
-[bold]Cecil[normal]: We have to trade Toroia's
+[bold]Cecil[normal]: We have to trade Troia's
 Earth Crystal for her...[new]
 But the Crystal was stolen by the Dark
 Elf...[end]</sn:pointer>
@@ -2481,7 +2480,7 @@ light silently...[end]</sn:pointer>
 
 <sn:pointer id="465">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
 
-<sn:pointer id="466">[bold]Jiott[normal]: What do you need to fix it?[new]
+<sn:pointer id="466">[bold]Giott[normal]: What do you need to fix it?[new]
 [bold]Cid[normal]: I can make some temporary
 fixes with materials down here... but the
 body of the ship won't stand up to the
@@ -2490,7 +2489,7 @@ I need to return to the surface to plate
 the hull with Mithril...
 All righty then, I'll get going![end]</sn:pointer>
 
-<sn:pointer id="467">You got the Crystal of Darkness![music][0x29][delay][0x24][end]</sn:pointer>
+<sn:pointer id="467">You got the Dark Crystal![music][0x29][delay][0x24][end]</sn:pointer>
 
 <sn:pointer id="468">[bold]Cecil[normal]: But...[new]
 [bold]Palom[normal]: You should know our power
@@ -2647,7 +2646,7 @@ Tellah![end]</sn:pointer>
 
 <sn:pointer id="503">[bold]Yang's wife[normal]: Same to you![delay][0xa][end]</sn:pointer>
 
-<sn:pointer id="504">You received Luka's necklace![end]</sn:pointer>
+<sn:pointer id="504">You received Luca's necklace![end]</sn:pointer>
 
 <sn:pointer id="505">[bold]Yang[normal]: We're too late![new]
 [bold]Cecil[normal]: But who is it that's fighting

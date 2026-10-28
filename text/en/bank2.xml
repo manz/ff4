@@ -152,7 +152,7 @@ Thank you![end]</sn:pointer>
 
 <sn:pointer id="5">Oh, hello, there!
 Want to swim with me?[end]
-Welcome to Toroia, the city of water and
+Welcome to Troia, the city of water and
 forests![end]
 If you swim in that, it'll rust![end]
 Eep!
@@ -171,7 +171,7 @@ northeast island to collect gems, and it
 got stuck there.
 It won't come off![end]</sn:pointer>
 
-<sn:pointer id="6">This is Agalt, the village of those with
+<sn:pointer id="6">This is Agart, the village of those with
 dwarven blood.[end]
 According to legend, everything consists
 of a front and a back.
@@ -519,7 +519,7 @@ way back home, and will return there.
 But, after all, since they're feral animals,
 they run away after only one trip.[end]
 [space][0x6]New Chocobo Species [space][0x9]Discovered! [space][0x7]Black
-Chocobos! [space][0xc]-Toroia Newspaper[end]
+Chocobos! [space][0xc]-Troia Newspaper[end]
 Kyun, Kyun[end]
 T[end]
 Chocobos are cute, but...
@@ -534,7 +534,7 @@ they always get mad whenever I go near
 them.
 Do I not love them enough?[end]</sn:pointer>
 
-<sn:pointer id="30">This is Corillo's Observatory.
+<sn:pointer id="30">This is Corio's Observatory.
 The world's only telescope is here.
 Recently strange events have been
 happening on the moon.[new]
@@ -547,7 +547,7 @@ work that he doesn't even eat or drink![end]
 [space][0x4]The Phases of the Moon [space][0x5]and
 the History of Man[end]</sn:pointer>
 
-<sn:pointer id="31">I am Corillo.
+<sn:pointer id="31">I am Corio.
 I observe the moon from here.
 There are two moons...[new]
 One has no life on it, but the other one
@@ -663,7 +663,7 @@ We'll protect the castle somehow.[end]
 Oh, Sir Cecil![end]</sn:pointer>
 
 <sn:pointer id="39">Frogs have it good...[end]
-Welcome to Toroia Castle![end]
+Welcome to Troia Castle![end]
 Ribbit!
 Ribbit![end]
 Oh, travelers!
@@ -1129,7 +1129,7 @@ These may look like leotards, but they're
 actually our battle gear!
 They're easy to move in, and above all,
 fashionable, don't you think?[end]
-Toroia is protected by women.
+Troia is protected by women.
 We guards are also all women.[end]
 I'm not just some old woman!
 I'm a minister, I'll have you know!
@@ -1139,7 +1139,7 @@ recently.
 He says that he was the prince or
 something.[end]
 T[end]
-Toroia has never been drawn into a war.
+Troia has never been drawn into a war.
 If war came, how long could we protect
 our country?[end]</sn:pointer>
 
@@ -1172,7 +1172,7 @@ promise to lend it to you.
 First, bring it back here.[end]
 It seems you have your reasons.
 Please use the treasure in the basement.[end]
-Golbez getting all the Crystals is far worse than Toroia's loss![end]
+Golbez getting all the Crystals is far worse than Troia's loss![end]
 If you equip metal weapons and armor in
 the cave to the northeast, you'll move
 sluggishly![end]
@@ -1198,13 +1198,13 @@ terrible repercussions![end]
 If the rumor that there are more than
 four Crystals is true, then there still is
 hope left.[end]
-Toroia is governed by us, the eight
+Troia is governed by us, the eight
 Clerics.
 We were endowed with the Earth Crystal's
 blessing, but now...[end]
 What on Earth just happened!?[end]
 Oh no!
-It's not just Toroia.
+It's not just Troia.
 The entire world is in danger now![end]
 [bold]Clerics[normal]: That's...![end]
 It's the Earth Crystal!
@@ -1770,7 +1770,7 @@ safe...is she?[new]
 [bold]Cain[normal]: Heh. So you are worried
 after all?[new]
 If you value Rosa's life, you'll trade
-her for the Earth Crystal of Toroia.[new]
+her for the Earth Crystal of Troia.[new]
 [bold]Cecil[normal]: What!?[end]
 [bold]Tellah[normal]: You coward![new]
 [bold]Cain[normal]: When you get it, I'll contact
@@ -1859,7 +1859,7 @@ can do![end]
 [bold]Tellah[normal]: A white flag?[end]
 [bold]Yang[normal]: Sir Cecil...[new]
 [bold]Cid[normal]: That Cain...![end]
-[bold]Cecil[normal]: Let's go to Toroia!
+[bold]Cecil[normal]: Let's go to Troia!
 Cid, head northwest![end]</sn:pointer>
 
 <sn:pointer id="209">T[end]</sn:pointer>
@@ -2033,10 +2033,10 @@ I'm a farmer, I am.[end]</sn:pointer>
 
 <sn:pointer id="263">Lali-ho![end]
 This is the Dwarf Castle ruled by King
-Jiott![end]
+Giott![end]
 Golbez is a bad guy!
 But y'all seem to be pretty nice![end]
-Go see King Jiott![end]
+Go see King Giott![end]
 Nothing unusual here![end]
 All fine over here too![end]
 Golbez retreated![end]
@@ -2047,18 +2047,18 @@ Everyone together now! 3-2-1!
 Lali-ho![end]
 Lali-ho!
 Glad you're all right![end]
-King Jiott's waiting for you![end]
+King Giott's waiting for you![end]
 We're the rescue team!
 We may not look it, but we're girls![end]
 The other day the hole to the surface caved in! What a mess! That's when we rescued some weird old man.[new] He's in bed in the medical room now.[end]
-I'm Luka!
+I'm Luca!
 My dolls have disappeared.
 Have you seen them?[end]</sn:pointer>
 
 <sn:pointer id="265">The Tank Force is the Dwarves' main
 strength!
 We won't be defeated so easily![end]
-The King dotes on Princess Luka for two, for himself and the late Queen![end]
+The King dotes on Princess Luca for two, for himself and the late Queen![end]
 Lali-ho!
 Have you learned it yet?[end]
 If you can get used to it,
@@ -2066,10 +2066,10 @@ the underworld's pretty nice!
 Stay for good if you like, Lali![end]
 [bold]Cecil[normal]: I'm sorry.
 Golbez got the Crystal...[new]
-[bold]Jiott[normal]: It can't be helped...
+[bold]Giott[normal]: It can't be helped...
 Now we must defend the last Crystal to the death.[new]
 [bold]Rosa[normal]: Where is the last Crystal?[new]
-[bold]Jiott[normal]: In the Sealed Cave to the
+[bold]Giott[normal]: In the Sealed Cave to the
 southwest.
 Golbez went there, but don't worry.
 Without the key to release the seal,
@@ -2078,14 +2078,14 @@ Which is why I have a favor to ask of you![new]
 [bold]Cecil[normal]: It's our fault that we lost the
 Crystal!
 If there's anything we can do to help...[new]
-[bold]Jiott[normal]: While Golbez is occupied at the
+[bold]Giott[normal]: While Golbez is occupied at the
 Sealed Cave... could you sneak into the
 Tower of Babil and retrieve the other
 seven Crystals?[new]
 [bold]Cain[normal]: The Tower of Babil?[new]
 [bold]Yang[normal]: You would have us sneak into
 the enemy's stronghold!?[new]
-[bold]Jiott[normal]: Don't worry!
+[bold]Giott[normal]: Don't worry!
 I'll have our Tank Force attack the Tower!
 During the diversion, go in and grab the
 Crystals![new]
@@ -2100,18 +2100,18 @@ Nothing ventured, nothing gained.[new]
 while Golbez is elsewhere.[new]
 [bold]Cecil[normal]: All right then...[end]
 [bold]Cecil[normal]: We'll do it![end]
-[bold]Jiott[normal]: I'm counting on you!
+[bold]Giott[normal]: I'm counting on you!
 Under the castle is the entrance to a
 secret passage![new]
 Go as soon as you're ready!
 I pray for your success![end]
 Using my dolls for something like that...
 I'll never forgive them![end]
-[bold]Jiott[normal]: We'll hold off the enemy's main
+[bold]Giott[normal]: We'll hold off the enemy's main
 forces!
 You go to the Sealed Cave to the
 southwest![end]
-[bold]Jiott[normal]: Go to Mysidia!
+[bold]Giott[normal]: Go to Mysidia!
 The fate of everything is in your hands![end]
 They say that necklace is a keepsake
 from her late mother, the Queen.[end]
@@ -2215,7 +2215,7 @@ skilled![end]
 
 <sn:pointer id="283">You guys are fighting Golbez too?
 Please take the treasure here! Good luck![end]
-King Jiott sent his permission personally!
+King Giott sent his permission personally!
 Use the treasure well![end]</sn:pointer>
 
 <sn:pointer id="284">T[end]</sn:pointer>
