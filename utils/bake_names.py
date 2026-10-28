@@ -6,13 +6,15 @@ Each name is set with katsuji in the menu font (`menu_font.dat`, the font the ru
 (the font's atlas, `auto_kern`), not only the font's few candidate pairs: a baked name never goes through the runtime
 renderer, so it can be set as tight as its letters allow (the font's own pairs still win). The blob packs every name's tiles back to back, no name across a 32 KB LoROM bank (a DMA source
 cannot wrap one); the table gives each name its offset in the blob, its tile count and how many pixel columns its last tile uses, so a
-renderer can carry on drawing inside that tile.
+renderer can carry on drawing inside that tile. A name can start `lead` blank columns in, off the icon before it.
 """
 
 from __future__ import annotations
 
 import dataclasses
 import struct
+
+import numpy as np
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 
@@ -30,28 +32,34 @@ SPACE = 0xFF
 ENTRY = struct.Struct("<HBB")  # offset in the blob, tile count, pixel columns the last tile uses (1-8)
 
 
-def name_tiles(font: VwfFont, codes: bytes) -> bytes:
+def _set(font: VwfFont, codes: bytes, lead: int) -> np.ndarray:
+    """`codes` rendered in `font` after `lead` blank columns."""
+    pixels = render(font, list(codes))
+    return np.pad(pixels, ((0, 0), (lead, 0)))
+
+
+def name_tiles(font: VwfFont, codes: bytes, lead: int = 0) -> bytes:
     """`codes` set in `font`, 2bpp tiles; no tile for an empty name."""
     codes = codes.rstrip(bytes([SPACE]))
     if not codes:
         return b""
-    return encode_tiles(pad_to_tiles(colourize(render(font, list(codes)), INK, PAPER), fill=PAPER), 2)
+    return encode_tiles(pad_to_tiles(colourize(_set(font, codes, lead), INK, PAPER), fill=PAPER), 2)
 
 
-def last_tile_columns(font: VwfFont, codes: bytes) -> int:
+def last_tile_columns(font: VwfFont, codes: bytes, lead: int = 0) -> int:
     """The pixel columns `codes` covers in its last tile (1-8), 0 for an empty name."""
     codes = codes.rstrip(bytes([SPACE]))
     if not codes:
         return 0
-    return (render(font, list(codes)).shape[1] - 1) % 8 + 1
+    return (_set(font, codes, lead).shape[1] - 1) % 8 + 1
 
 
-def bake(font: VwfFont, names: Sequence[bytes]) -> tuple[bytes, bytes]:
+def bake(font: VwfFont, names: Sequence[bytes], lead: int = 0) -> tuple[bytes, bytes]:
     """The blob of every name's tiles and its table, one entry per name."""
-    runs = [name_tiles(font, codes) for codes in names]
+    runs = [name_tiles(font, codes, lead) for codes in names]
     blob, offsets = pack_runs(runs, bank_size=LOROM_BANK)
     table = b"".join(
-        ENTRY.pack(offset, len(run) // 16, last_tile_columns(font, codes))
+        ENTRY.pack(offset, len(run) // 16, last_tile_columns(font, codes, lead))
         for offset, run, codes in zip(offsets, runs, names, strict=True)
     )
     return blob, table
@@ -103,12 +111,13 @@ def pointed_records(strings: bytes, pointers: bytes, skip: int = 0) -> list[byte
 
 def bake_pointed_file(
     font_file: Path, strings_file: Path, pointers_file: Path, blob_file: Path, table_file: Path, skip: int = 0,
-    glyphs: Glyphs | None = None,
+    glyphs: Glyphs | None = None, lead: int = 0,
 ) -> None:
-    """`glyphs`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`)."""
+    """`glyphs`: the font's glyph sheet, to kern every pair the names contain (see `auto_kern`); `lead`: blank columns
+    before each name."""
     font = VwfFont.decode(font_file.read_bytes())
     names = pointed_records(strings_file.read_bytes(), pointers_file.read_bytes(), skip)
-    blob, table = bake(auto_kern(font, glyphs, names) if glyphs else font, names)
+    blob, table = bake(auto_kern(font, glyphs, names) if glyphs else font, names, lead)
     blob_file.write_bytes(blob)
     table_file.write_bytes(table)
 

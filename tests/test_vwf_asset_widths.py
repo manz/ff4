@@ -1,17 +1,10 @@
 """VWF asset width budget tests.
 
-For each fixed-list XML asset that gets rendered through the 8x8 menu
-VWF blitter, measure every entry's rendered tile-width with the same
-font + kerning tables the runtime uses, and assert it fits the slot
-budget the rendering code reserves.
-
-Battle inventory uses 10 VWF tile_ids per slot (the symbol byte +
-colon + 2 digits are fixed-width tiles outside the budget). The
-allocator clamp freezes at slot_base+9 ; an 11+ tile name would
-truncate at render time.
+Item names are baked into small-VWF tiles (utils/bake_names.py): kerned pair by pair on the menu font's glyphs, set
+ITEM_NAME_LEAD columns off their icon. Every list that shows them (field, battle inventory, shops, equip) gives a name
+10 tiles after its fixed-width symbol; an 11+ tile name would be cut.
 """
 from __future__ import annotations
-import math
 import sys
 from pathlib import Path
 
@@ -20,48 +13,27 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from katsuji import VwfFont  # noqa: E402
+from katsuji import config as katsuji_config  # noqa: E402
 from katsuji.script import Table  # noqa: E402
-from utils.metrics import TextMetrics  # noqa: E402
-from build import read_fixed_from_xml  # noqa: E402
+from build import ITEM_NAME_LEAD, read_fixed_from_xml  # noqa: E402
+from utils.bake_names import Glyphs, auto_kern, name_tiles  # noqa: E402
+
+NAME_TILES = 10
 
 
-def _load(asset_xml: Path) -> tuple[list, TextMetrics, Table]:
+def _names(asset_xml: Path, table: Table) -> list[bytes]:
+    """Each item's name: its symbol byte and [end] off."""
+    items = read_fixed_from_xml(str(asset_xml), table, formatter=lambda t: (t or "").strip() + "[end]")
+    return [item.value[1:].rstrip(b"\x00") for item in items]
+
+
+@pytest.mark.parametrize("lang", ["fr", "en"])
+def test_every_item_name_fits_its_tiles(lang: str) -> None:
     table = Table(str(ROOT / "text" / "ff4_menus.tbl"))
-    metrics = TextMetrics(table, [str(ROOT / "build" / "gen" / "menu_font.dat")])
-    items = read_fixed_from_xml(
-        str(asset_xml),
-        table,
-        formatter=lambda t: (t or "").strip() + "[end]",
-    )
-    return items, metrics, table
-
-
-@pytest.mark.parametrize(
-    "asset_xml, vwf_tile_budget, kind",
-    [
-        ("text/fr/items_unleashed.xml",  10, "battle inventory items_unleashed"),
-        ("text/en/items_unleashed.xml",  10, "English battle inventory items_unleashed"),
-    ],
-)
-def test_vwf_asset_within_budget(asset_xml: str, vwf_tile_budget: int, kind: str) -> None:
-    items, metrics, table = _load(ROOT / asset_xml)
-    offenders = []
-    for i, ptr in enumerate(items):
-        body = ptr.value
-        # First byte is the fixed-width symbol icon ; VWF starts at byte 1.
-        vwf_bytes = body[1:] if body else b""
-        # Strip trailing [end] sentinel before measurement.
-        if vwf_bytes and vwf_bytes[-1] == 0:
-            vwf_bytes = vwf_bytes[:-1]
-        width_px = metrics.measure_bytes(vwf_bytes)
-        tiles = math.ceil(width_px / 8)
-        if tiles > vwf_tile_budget:
-            text = table.to_text(body).replace("[end]", "")
-            offenders.append((i, tiles, width_px, text))
-    assert not offenders, (
-        f"{kind}: {len(offenders)} entries exceed {vwf_tile_budget}-tile VWF budget:\n  "
-        + "\n  ".join(
-            f"id={i:>3} {tiles:>2} tiles {px:>3}px  {text!r}"
-            for i, tiles, px, text in offenders
-        )
-    )
+    names = _names(ROOT / "text" / lang / "items_unleashed.xml", table)
+    font = VwfFont.decode((ROOT / "build" / "gen" / "menu_font.dat").read_bytes())
+    font = auto_kern(font, Glyphs.of(katsuji_config.load(ROOT / "katsuji.toml").fonts["menu"]), names)
+    tiles = {i: len(name_tiles(font, codes, ITEM_NAME_LEAD)) // 16 for i, codes in enumerate(names)}
+    too_wide = [f"{i} {table.to_text(names[i])!r}: {n} tiles" for i, n in tiles.items() if n > NAME_TILES]
+    assert too_wide == []

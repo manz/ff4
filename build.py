@@ -261,6 +261,7 @@ STATUSES_BASE = 0x27B000  # battle_statuses (src/core/assets.s): its pointers ho
 FONT_8X8_TILES = {"en": [(0x77, "fonts/en/hp_tiles.bin")]}  # the small HP the French font draws as PV
 STATUS_COUNT = 32  # one per status bit
 STATUS_NAME_TILES = 6  # a row's window in the target window's status column (battle/status_names.s)
+ITEM_NAME_LEAD = 1  # blank pixel columns between an item's icon and its baked name
 
 
 def battle_text_table(menu: str, dialog: str) -> Table:
@@ -418,10 +419,11 @@ if __name__ == "__main__":
     for names, baked in (("monsters_long", "monster_names_vwf"), ("battle_commands_nul", "command_names_vwf")):
         bake_pointed_file(Path("build/gen/menu_font.dat"), Path(f"build/gen/{names}.dat"), Path(f"build/gen/{names}.ptr"),
                           Path(f"build/gen/{baked}.dat"), Path(f"build/gen/{baked}.tbl"), glyphs=menu_glyphs)
-    # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them.
+    # Item names (items_unleashed: symbol byte, name, $00 per item): the field item lists copy them. A blank column
+    # keeps a name off its icon.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/items_unleashed.dat"),
                       Path("build/gen/items_unleashed.ptr"), Path("build/gen/item_names_vwf.dat"),
-                      Path("build/gen/item_names_vwf.tbl"), skip=1, glyphs=menu_glyphs)
+                      Path("build/gen/item_names_vwf.tbl"), skip=1, glyphs=menu_glyphs, lead=ITEM_NAME_LEAD)
 
     # Battle status names: the target window's status column copies a row's tiles into its window (battle/status_names.s).
     bake_based_file(Path("build/gen/menu_font.dat"), Path("build/gen/battle_statuses.dat"), STATUS_COUNT,
