@@ -35,6 +35,9 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; tilemap_offset, prev_char, current_char: draw_text_buffer cursor and kerning state.
 ;   Not on DP: the key-item picker runs over the field map with NMI on, where UpdateCtrl ($14:FD12)
 ;   uses $1D as scratch and $77 is the MOSAIC shadow ($2106), so DP copies get clobbered or leak.
+; chr_dirty_from, chr_dirty_to: the primary flush's dirty bytes, from VWF_CHR_FLUSH_OFFSET. A scroll step redraws
+;   one slot, and the whole block would not fit in vblank next to the menu's own transfers. A span past
+;   chr_byte_count ($FFFF: a render that does not track it) flushes the whole block.
 .struct VwfEngine {
     word src_offset
     byte chr_dirty
@@ -43,6 +46,8 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
     word tilemap_offset
     byte prev_char
     byte current_char
+    word chr_dirty_from
+    word chr_dirty_to
 }
 
 .struct VwfConfig {

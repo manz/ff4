@@ -187,8 +187,8 @@ _bottom_blank_loop:
         sta (0x1D), y  ; bottom-row symbol palette
         iny
         jsr.w _baked_item_name
-; Drops also raise the secondary dirty flag. The primary flag stays set: treasure drew its slots earlier
-; this frame and clearing it would skip that flush.
+; Drops raise the secondary dirty flag and leave the primary one as it was: treasure may have drawn its slots
+; earlier this frame, and clearing it would skip that flush.
         sep #0x20
         lda.l vwf_engine.caller_ctx
         beq _dirty_done
@@ -286,6 +286,7 @@ tile ids from vwf_cfg.tilemap_base (attr ORed with vwf_cfg.flags) and raises chr
         asl
         asl
         asl
+        jsr.w _widen_chr_span
         tay  ; CHR buffer offset
         lda 3, s
         asl
@@ -355,13 +356,55 @@ _cell:
         bne _cell
 _cells_done:
         sep #0x20
+; Drops go out through the secondary flush only: raising the primary flag here would re-upload the whole
+; inventory block (its span untracked) next to the drops band and run the vblank over.
+        lda.l vwf_engine.caller_ctx
+        cmp.b #VWF_CTX_DROPS
+        beq _cells_flagged
         lda.b #0x01
         sta.l vwf_engine.chr_dirty
+_cells_flagged:
         rep #0x30
         pla
         pla
         ply
         plp
+        rts
+
+_widen_chr_span:
+"""
+Widens the primary flush's dirty span over this slot's tiles. A = the slot's CHR buffer offset, kept; 16-bit A and
+X. The secondary flushes upload their own fixed block.
+"""
+        pha
+        lda.l vwf_engine.caller_ctx
+        and.w #0x00FF
+        bne _span_done
+        lda 1, s
+        sec
+        sbc.w #VWF_CHR_FLUSH_OFFSET
+        cmp.l vwf_engine.chr_dirty_from
+        bcs _span_from_kept
+        sta.l vwf_engine.chr_dirty_from
+
+_span_from_kept:
+        pha
+        lda.l vwf_cfg.slot_budget
+        and.w #0x00FF
+        asl
+        asl
+        asl
+        asl
+        clc
+        adc 1, s
+        sta 1, s
+        pla
+        cmp.l vwf_engine.chr_dirty_to
+        bcc _span_done
+        sta.l vwf_engine.chr_dirty_to
+
+_span_done:
+        pla
         rts
 
 render_with_config_trampoline:

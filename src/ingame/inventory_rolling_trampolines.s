@@ -11,6 +11,7 @@ the init_bg_scroll_hdma relocation. Bank-$01 patches `jsr.w` these names.
 .import "menus/tools_shop_text"
 .import "ingame/shop_sell_rolling"
 .import "ingame/equip_inventory_rolling"
+.extern tfr_bg4_screen_vblank_trampoline
 .import "ingame/inventory_rolling"
 .import "ingame/items_menu_vwf"
 .import "core/items"
@@ -333,10 +334,10 @@ _treasure_main_check_xfer:
     jsr.l tfr_bg3_tiles_vblank_trampoline
     stz.w treasure_rolling.transfer_pending
 _treasure_main_after_bg3:
-; Drops: push BG4 ($7E:C600).
+; Drops: push BG4's first screen ($7E:C600), where the band draws.
     lda.w drops_rolling.transfer_pending
     beq _treasure_main_after_xfer
-    jsr.l tfr_bg4_tiles_vblank_trampoline
+    jsr.l tfr_bg4_screen_vblank_trampoline
     stz.w drops_rolling.transfer_pending
 _treasure_main_after_xfer:
     lda.w treasure_rolling.scroll_state

@@ -48,6 +48,9 @@
 """Draw window."""
 .label draw_window = 0x0180D9
 
+"""TfrVRAM: DMA $1F-$21 (source) to VRAM word $1D, $22 bytes."""
+.label tfr_vram = 0x018078
+
 """Wait for vblank."""
 .label wait_vblank = 0x01818A
 
@@ -56,6 +59,9 @@
 
 """Transfer sprite data to ppu."""
 .label tfr_sprites = 0x01824F
+
+"""TfrSpritesVblank: wait for vblank, then transfer sprite data."""
+.label tfr_sprites_vblank = 0x01824C
 
 """Update controller after scrolling the inventory."""
 .label update_ctrl_after_scroll = 0x0182A5

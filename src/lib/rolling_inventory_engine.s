@@ -17,6 +17,7 @@ far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
 .extern update_sell_scroll_hdma
 .extern update_equip_scroll_hdma
 .extern clear_inventory_slot
+.extern field_menu_nmi_dma_transfer_check_impl
 .import "ingame/vanilla_trampolines"
 
 
@@ -221,8 +222,11 @@ _frame_hdma_drops:
             jsr.w update_drops_scroll_hdma
 
 _frame_hdma_done:
+; One vblank per step: the sprites, then the pending HDMA tables and VWF CHR, which would otherwise ride the menu
+; loop's next 4 KB tilemap copy ($01:8078 hook) and run it past vblank, where the PPU drops it. No BG2 upload: no
+; list draws there.
             jsr.l tfr_sprites_vblank_trampoline
-            jsr.l tfr_bg2_tiles_vblank_trampoline
+            jsr.l field_menu_nmi_dma_transfer_check_impl
             plp
             rtl
         }
