@@ -51,7 +51,7 @@
     <sn:fixed>Flare</sn:fixed>
     <sn:fixed>Goblin</sn:fixed>
     <sn:fixed>Bomb</sn:fixed>
-    <sn:fixed>Cockatrice</sn:fixed>
+    <sn:fixed>Cockatrix</sn:fixed>
     <sn:fixed>Flayer</sn:fixed>
     <sn:fixed>Chocobo</sn:fixed>
     <sn:fixed>Shiva</sn:fixed>
@@ -64,12 +64,12 @@
     <sn:fixed>Leviathan</sn:fixed>
     <sn:fixed>Asura</sn:fixed>
     <sn:fixed>Bahamut</sn:fixed>
-    <sn:fixed>W.Meteor</sn:fixed>
-    <sn:fixed>W.Flare</sn:fixed>
+    <sn:fixed>Comet</sn:fixed>
+    <sn:fixed>Ember</sn:fixed>
     <sn:fixed>Flame</sn:fixed>
     <sn:fixed>Flood</sn:fixed>
     <sn:fixed>Blitz</sn:fixed>
     <sn:fixed>Smoke</sn:fixed>
-    <sn:fixed>Needles</sn:fixed>
+    <sn:fixed>Pin</sn:fixed>
     <sn:fixed>Image</sn:fixed>
 </sn:fixedlist>

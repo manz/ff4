@@ -4,7 +4,7 @@
     <sn:fixed>Bloquer</sn:fixed>
     <sn:fixed>Silence</sn:fixed>
     <sn:fixed>Confusion</sn:fixed>
-    <sn:fixed>Clignote</sn:fixed>
+    <sn:fixed>Mirage</sn:fixed>
     <sn:fixed>Protéger</sn:fixed>
     <sn:fixed>Carapace</sn:fixed>
     <sn:fixed>Lenteur</sn:fixed>
@@ -51,7 +51,7 @@
     <sn:fixed>Brasier</sn:fixed>
     <sn:fixed>Gobelin</sn:fixed>
     <sn:fixed>Bombe</sn:fixed>
-    <sn:fixed>Cokatrix</sn:fixed>
+    <sn:fixed>Cocatrix</sn:fixed>
     <sn:fixed>Illithid</sn:fixed>
     <sn:fixed>Chocobo</sn:fixed>
     <sn:fixed>Shiva</sn:fixed>
@@ -62,14 +62,14 @@
     <sn:fixed>Sylphe</sn:fixed>
     <sn:fixed>Odin</sn:fixed>
     <sn:fixed>Léviathan</sn:fixed>
-    <sn:fixed>Ashura</sn:fixed>
+    <sn:fixed>Asura</sn:fixed>
     <sn:fixed>Bahamut</sn:fixed>
-    <sn:fixed>Lt.Météo</sn:fixed>
-    <sn:fixed>Lt.Flare</sn:fixed>
+    <sn:fixed>Comète</sn:fixed>
+    <sn:fixed>Braise</sn:fixed>
     <sn:fixed>Katon</sn:fixed>
     <sn:fixed>Suiton</sn:fixed>
     <sn:fixed>Raijin</sn:fixed>
     <sn:fixed>Fumée</sn:fixed>
-    <sn:fixed>Aiguilles</sn:fixed>
+    <sn:fixed>Entrave</sn:fixed>
     <sn:fixed>Image</sn:fixed>
 </sn:fixedlist>
