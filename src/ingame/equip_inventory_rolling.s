@@ -20,8 +20,9 @@ _EQUIP_VISIBLE_ITEMS := EQUIP_LIST_VISIBLE_ROWS
 _EQUIP_BUFFER_SLOTS := _EQUIP_VISIBLE_ITEMS + 1
 _EQUIP_TOTAL_ITEMS := EQUIP_LIST_TOTAL_ITEMS
 
-; Vanilla's equip-list scroll position (first visible row), where its ($57) pointer resolves on this screen.
-_EQUIP_SCROLL_POS := 0x7E1B2A
+; Vanilla's ($57) on the menu's direct page ($0100): it points at the hand's list scroll position (first visible
+; row), $1B2A for the right hand, $1B2D for the left.
+_EQUIP_SCROLL_POS_PTR := 0x000157
 
 ; HDMA ch5 driving BG4VOFS.
 _EQUIP_HDMA_ENABLE_BIT := 0x20
@@ -447,13 +448,24 @@ the scroll position kept from the last visit.
 ; Init draws items 0..5; redraw from the kept scroll position.
     sep #0x20
     rep #0x10
-    lda.l _EQUIP_SCROLL_POS
+    jsr.w _equip_scroll_pos
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_refresh_slots
     sep #0x20
     jsr.l tfr_bg4_tiles_vblank_trampoline
     plp
     rtl
+
+_equip_scroll_pos:
+"""A (8-bit) = the scroll position of the hand being equipped. X must be 16-bit; kept."""
+    phx
+    rep #0x20
+    lda.l _EQUIP_SCROLL_POS_PTR
+    tax
+    sep #0x20
+    lda 0x7E0000, x
+    plx
+    rts
 
 _equip_fn_render_slot_trampoline:
 """Bank-20 RTL wrapper around `_equip_render_item_to_slot`."""
@@ -500,7 +512,7 @@ _equip_scroll_frame:
     bne _equip_scroll_frame
     sep #0x20
     rep #0x10
-    lda.l _EQUIP_SCROLL_POS
+    jsr.w _equip_scroll_pos
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_finish_scroll
     sep #0x20
@@ -512,7 +524,7 @@ equip_scroll_down_impl:
 """Scrolls the list down one item."""
     php
     rep #0x10
-    lda.l _EQUIP_SCROLL_POS
+    jsr.w _equip_scroll_pos
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_down
     jsr.w _equip_run_scroll
@@ -523,7 +535,7 @@ equip_scroll_up_impl:
 """Scrolls the list up one item."""
     php
     rep #0x10
-    lda.l _EQUIP_SCROLL_POS
+    jsr.w _equip_scroll_pos
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_start_scroll_up
     jsr.w _equip_run_scroll

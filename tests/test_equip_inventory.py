@@ -184,3 +184,18 @@ def test_held_down_scrolls_at_vanillas_pace(list_emu):
             last = list_emu.read(SCROLL_POS)
     list_emu.release(0, Button.DOWN)
     assert max(b - a for a, b in zip(steps, steps[1:])) <= 10
+
+
+def test_the_left_hand_list_renders_every_item(list_emu):
+    """Each hand keeps its own list state ($1B28-$1B2A right, $1B2B-$1B2D left, through vanilla's ($51) / ($57)):
+    read from the right hand's, the left hand's scrolls redrew one item over and over."""
+    rendered: list[int] = []
+    list_emu.add_exec_callback(
+        DRAW_ITEM_NAME, DRAW_ITEM_NAME, lambda _pc, _op: rendered.append(list_emu.get_state().a & 0xFF)
+    )
+    tap(list_emu, Button.DOWN, gap=20)  # Gauche
+    tap(list_emu, Button.A, gap=90)
+    for _ in range(INVENTORY_SLOTS):
+        tap(list_emu, Button.DOWN, gap=16)
+    expected = {i for i in _inventory_ids(list_emu) if i}
+    assert expected <= set(rendered)
