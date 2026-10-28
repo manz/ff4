@@ -178,8 +178,8 @@
     <sn:fixed>[0x3e]Anneau maudit</sn:fixed>
     <sn:fixed>[0xff]Eclat de Bombe</sn:fixed>
     <sn:fixed>[0xff]Bras de Bombe</sn:fixed>
-    <sn:fixed>[0xff]Vent du Sud</sn:fixed>
-    <sn:fixed>[0xff]Vent du Nord</sn:fixed>
+    <sn:fixed>[0xff]Vent antarctique</sn:fixed>
+    <sn:fixed>[0xff]Vent arctique</sn:fixed>
     <sn:fixed>[0xff]Foudre de Zeus</sn:fixed>
     <sn:fixed>[0xff]Foudre divine</sn:fixed>
     <sn:fixed>[0xff]Poussière étoile</sn:fixed>

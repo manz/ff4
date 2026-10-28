@@ -112,8 +112,8 @@ nous l'avons scellée.[end]
 La Route du Démon est une route entre les dimensions. L'emprunter coûte beaucoup d'énergie vitale, d'où son nom.[end]</sn:pointer>
     <sn:pointer id="4">Ou... ouah, vous êtes immenses! Vous êtes des géants?[end]
 Vous êtes des humains, n'est-ce pas? Veillez à n'écraser personne, je vous prie![end]
-Avec votre taille, il doit vous falloir énormément de nourriture! Vous mangez des steaks de fourmi, pas vrai?[end]
-Nous extrayons le minerai de mithril, les grenouilles le raffinent, et les Nains le forgent.[new]
+Avec votre taille, la nourriture doit vous coûter une fortune! Vous mangez des steaks de fourmi, j'imagine?[end]
+Nous extrayons le minerai de mithril, les grenouilles le raffinent, et les petits bonshommes le travaillent.[new]
 Nous faisons même des armes que vous, les humains, pouvez utiliser![end]
 La Montagne de Mithril est loin au nord.
 Avec vos longues jambes, vous y seriez
@@ -153,16 +153,15 @@ décoller![end]</sn:pointer>
 Selon une de nos légendes, toute chose
 a un endroit et un envers.
 Oui, même ce monde...[end]
-Comme je descends des Nains, je suis vraiment petit! J'aimerais bien descendre d'un Ogre...[end]
+C'est parce que je descends des Nains que je suis si petit, tu crois? J'aurais préféré descendre d'un ogre...[end]
 Hein? Nos ancêtres? Comment ils sont arrivés ici? Eh bien...[new]
 Euh... je crois que j'ai oublié...[end]
-Je ne peux pas vivre sans le soleil.
-Mais mes ancêtres étaient différents.[end]
+Nous ne pouvons pas vivre sans les bienfaits du soleil. Mais nos ancêtres, paraît-il, c'était différent.[end]
 Je suis très forte! Mais le grand-père du grand-père de mon grand-père était encore plus fort![end]
 T[end]
 Nous avons un vieux puits qui est là
 depuis une éternité...
-Il paraît qu'il est sans fond.[end]</sn:pointer>
+Il paraît que sa profondeur est insondable.[end]</sn:pointer>
     <sn:pointer id="7">T[end]</sn:pointer>
     <sn:pointer id="8">T[end]</sn:pointer>
     <sn:pointer id="9">T[end]</sn:pointer>
@@ -256,9 +255,7 @@ Cecil, prends bien soin d'elle.[end]</sn:pointer>
 T[end]
 T[end]
 T[end]
-Le sage Tella et sa fille Anna
-vivaient heureux ensemble, et puis
-Anna s'est sauvée de chez elle...[end]</sn:pointer>
+Le sage Tella élevait seul sa fille Anna, ils s'entendaient très bien, mais Anna a fini par s'enfuir...[end]</sn:pointer>
     <sn:pointer id="17">Salut, je suis un savant itinérant.[new]
 Je veux faire des recherches à Fabul, une
 ville à l'est de Damcyan, mais au canal
@@ -309,8 +306,7 @@ ch-chevalier noir![end]
 -hic- Toi, devenir un paladin!
 Hi hi hi!
 Ha ha ha ha ha![end]
-Ouaah!
-Un vrai paladin?[end]
+Ben ça alors! Un paladin, un vrai de vrai?[end]
 Vous devez être fatigué par ce long
 voyage.
 Buvez donc ceci![end]
@@ -400,7 +396,7 @@ comptoir![end]
 Oh, mon petit!
 T'es plutôt mignon, toi![end]
 Je suis content d'avoir vécu si longtemps!
-Je préfère cet endroit au Paradis![end]
+Je préfère cet endroit au paradis![end]
 C'est moi qui vais vous tenir compagnie.
 Non mais c'est quoi ce regard!?[end]
 Oh, ma poupée!
@@ -574,7 +570,7 @@ Vous êtes là pour le cristal?
 Alors vous devriez parler aux clercs dans
 le château.[end]
 T[end]
-Les Clercs sont de dignes servantes de Dieu. Surtout, ne leur manquez pas de respect.[end]</sn:pointer>
+Les Clercs sont de vénérables servantes des dieux. Surtout, ne leur manquez pas de respect.[end]</sn:pointer>
     <sn:pointer id="40">T[end]</sn:pointer>
     <sn:pointer id="41">T[end]</sn:pointer>
     <sn:pointer id="42">Vous pouvez prendre le trésor de cette salle pour vous aider à vaincre les Chimères. Appuyez sur l'interrupteur du mur pour ouvrir la porte.[end]
@@ -647,9 +643,9 @@ Cid: Quoi?! Alors que tu étais là pour la protéger? Mais ce Golbez...[new]
 Non seulement il se sert de mes aéronefs pour ses sales coups, mais il s'en prend à Rosa!?[end]
 [bold]Tella[normal]: Cette fille est en danger.
 Vite, emmenez-nous à l'aéronef![end]
-Cid: C'est qui, cette épave?[new]
-Tella: Vous pouvez parler![new]
-Cid: Qu'est-ce que tu me chantes là? J'ai pas encore un pied dans la tombe![end]
+Cid: C'est qui, ce vieux schnock?[new]
+Tella: Tu peux parler![new]
+Cid: Moi? J'suis encore jeune, moi![end]
 Porom: Allons, allons... Vous êtes M. Cid, n'est-ce pas? Voici maître Tella. C'est un grand sage.[end]
 Porom: Voici M. Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]
 [bold]Palom[normal]: Pff, deux vieux croûtons![new]
@@ -1104,7 +1100,7 @@ En combat, appuie vers la gauche pour viser tous les ennemis... et vers la droit
 Dans le menu aussi, appuie à gauche ou à droite pour viser tout ton groupe![end]</sn:pointer>
     <sn:pointer id="106">T[end]</sn:pointer>
     <sn:pointer id="107">T[end]</sn:pointer>
-    <sn:pointer id="108">«Arrière...»[new]
+    <sn:pointer id="108">«Rebroussez chemin...»[new]
 [bold]Cecil[normal]: Qui est là?![end]
 «Partez immédiatement...»[new]
 [bold]Caïn[normal]: C'est une Chimère, ça?[end]
@@ -1146,18 +1142,14 @@ Feu.[new]
 [bold]Rydia[normal]: ...Non.[new]
 [bold]Rosa[normal]: ?[new]
 [bold]Rydia[normal]: Je déteste le feu![new]
-[bold]Cecil[normal]: Je vois...
-Les flammes de l'Anneau Bombe ont
-détruit Mist...[end]
+[bold]Cecil[normal]: Je vois... Les flammes de l'Anneau Bombe... Mist...[end]
 [bold]Rosa[normal]: Écoute, Rydia.
 Tu es la seule ici à avoir le pouvoir de
 faire fondre cette glace.[new]
 [bold]Rydia[normal]: ...[new]
 [bold]Rosa[normal]: Si nous ne franchissons pas
-cette glace pour aller à Fabul, beaucoup de
-gens seront en danger!
-S'il te plaît... essaye d'être courageuse![new]
-[bold]Edward[normal]: Courageuse...[new]
+cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort affreux... Je t'en prie... trouve le courage![new]
+[bold]Edward[normal]: Le courage...[new]
 [bold]Rosa[normal]: Rydia, s'il te plaît![new]
 [bold]Edward[normal]: Allez, Rydia![new]
 [bold]Cecil[normal]: ...[new]
@@ -1228,7 +1220,7 @@ vaincre... Mais voyez-vous, je n'aime pas
 être seul... Kukaka... Même mort,
 Cagnazzo de l'Eau reste redoutable!
 Goûtez-en la terreur et mourez! Je vous
-attends en Enfer! Héhéhé!»[end]
+attends en enfer! Héhéhé!»[end]
 [bold]Tella[normal]: Les murs![end]
 [bold]Cid[normal]: C'est fermé![music][0x23][new]
 [bold]Tella[normal]: Cette porte aussi![end]
@@ -1315,8 +1307,7 @@ Et nous pourrons nous débarrasser de lui
 [bold]Caïn[normal]: Très bien, alors je vais lui
 transmettre le message.[end]
 [bold]Rosa[normal]: Caïn![end]
-[bold]Caïn[normal]: Je vais te montrer que je
-vaux bien mieux que Cecil.[end]
+[bold]Caïn[normal]: Je vais vous montrer que je vaux bien mieux que ce Cecil.[end]
 [bold]Cecil[normal]: Si on était arrivé ne serait-ce
 qu'une seconde plus tard... cette guillotine
 aurait tranché Rosa en deux![end]</sn:pointer>
@@ -1802,7 +1793,7 @@ Comment es-tu entré ici!?[end]
 téléporteur, mais on ne peut pas
 l'utiliser...[end]</sn:pointer>
     <sn:pointer id="297">Directeur -
-[bold]Hironobu Sakaguchi[normal]: Bienvenue![end]
+[bold]Hironobu Sakaguchi[normal]: On s'y met...?[end]
 Dessin des Cartes - Yasushi Matsumura: Eru, Naito, Naoshi, Hoshiya, Kuwahara, ça faisait longtemps! Qu'est-ce qui ne va pas? ...Hein? Je me suis trompé de personne!?[new]
 Oups...[end]
 Graphismes -
