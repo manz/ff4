@@ -422,14 +422,16 @@ _finish_skip:
             lda.l rolling_x.menu_id, x
             pha
             jsr.w _engine_dispatch_update_scroll_hdma
-; Sell and equip scroll inside vanilla's blocking loops, which read the pad themselves right after ($01:C8F2,
-; $01:BF42): a second read restarts the key repeat, and the item menu's cursors would land in their OAM slot 0.
+; Only the item menu (field, key items) gets its cursors redrawn and the pad read here. Treasure, drops, sell and
+; equip scroll inside vanilla loops that read the pad themselves right after ($01:DA08, $01:C8F2, $01:BF42): a second
+; read restarts the key repeat, and the item menu's cursors would land in their OAM slot 0.
             sep #0x20
             pla
-            cmp.b #ROLLING_MENU_ID_SELL
-            beq _finish_done
-            cmp.b #ROLLING_MENU_ID_EQUIP
-            beq _finish_done
+            beq _finish_item_menu
+            cmp.b #ROLLING_MENU_ID_KEY_ITEM
+            bne _finish_done
+
+_finish_item_menu:
             jsr.l draw_item_cursors_trampoline
             jsr.l update_ctrl_after_scroll_trampoline
 

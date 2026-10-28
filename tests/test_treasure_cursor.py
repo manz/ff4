@@ -88,3 +88,19 @@ def test_hand_sprite_chr_survives():
         assert any(bytes(e.vram_read_range(HAND_TILE_VRAM, 32)))
     finally:
         e.close()
+
+
+def test_hand_stays_on_the_inventory_while_down_is_held():
+    """The scroll's finish ran the item menu's DrawItemCursors, which put the list hand in the drops band (b2 beta)."""
+    e = _treasure(["DOWN", "A"])
+    try:
+        e.press(0, Button.DOWN, True)
+        rows = []
+        for _ in range(12):
+            e.run_frames(10)
+            oam = bytes(e.oam_read_range(0, 512))
+            rows.append(oam[1])
+        e.press(0, Button.DOWN, False)
+    finally:
+        e.close()
+    assert all(INVENTORY_BAND[0] <= y < INVENTORY_BAND[1] for y in rows)
