@@ -90,7 +90,7 @@ Do you want to die?![end]</sn:pointer>
 
 <sn:pointer id="21">[bold]FuSoYa[normal]: This is the Giant's Heart, the Control System![new]
 [bold]Edge[normal]: Whoa, it's huge![new]
-[bold]FuSoYa[normal]: We must strike the Defense System before the Control System itself, or it will repair itself![end]</sn:pointer>
+[bold]FuSoYa[normal]: We must strike the Defense System before the Control System itself, or it'll just be restored![end]</sn:pointer>
 
 <sn:pointer id="22">[bold]Cecil[normal]: We did it![new]
 [bold]Edge[normal]: It stopped![end]</sn:pointer>
@@ -737,7 +737,7 @@ Receive our prayers...!![end]</sn:pointer>
 
 <sn:pointer id="147">[bold]Cecil[normal]: These two?[new]
 [bold]Village Elder[normal]: Indeed.
-These are the twin magicians, Palom and
+These are the twin mages, Palom and
 Porom.[new]
 They are still in training, but they will
 be of help to you.

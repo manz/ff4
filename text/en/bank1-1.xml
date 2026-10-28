@@ -349,8 +349,7 @@ Edward...I don't know.[new]
 [bold]Cecil[normal]: We're in Baron.
 If the soldiers overhear us, we're in
 trouble.[new]
-There's a quiet room in the inn where we
-can talk.
+Let's take a room and work out a plan!
 Monk Yang joined the party![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="76">[bold]Yang[normal]: And who is this?[new]
@@ -1000,7 +999,7 @@ That I should fall to the likes of
 you...![end]</sn:pointer>
 
 <sn:pointer id="200">'I've been waiting for you...' 'Something is happening right now that grieves me...' '...I shall entrust you with my power...'
-'...Yet my sorrow will only grow...' '...But this
+'And giving it to you will only deepen my sorrow...' '...But this
 is the only way left.'[end]</sn:pointer>
 
 <sn:pointer id="201">'Now break with your bloodied past. Unless you overcome who you have been, the holy power will not accept you.'[new]'Overcome... the Dark Knight that is yourself!'[end]</sn:pointer>
@@ -1182,7 +1181,7 @@ Attack...' 'Big sister!'[end]</sn:pointer>
 
 <sn:pointer id="236">[bold]Golbez[normal]: Well done, gentlemen.[new]
 [bold]Tellah[normal]: Golbez![new]
-[bold]Cecil[normal]: Where is Rosa![new]
+[bold]Cecil[normal]: Where's Rosa!?[new]
 [bold]Golbez[normal]: The Crystal comes first.[new]
 [bold]Cecil[normal]: Rosa had better be safe![new]
 [bold]Golbez[normal]: Of course she is.
@@ -1491,8 +1490,7 @@ Clerics?[end]</sn:pointer>
 <sn:pointer id="284">[bold]Edge[normal]: Awright!
 Let's all go and break into their base![new]
 [bold]Rydia[normal]: You're awfully full of
-yourself! The
-Ninja Edge joined the party![music][0x29][delay][0x28][end]</sn:pointer>
+yourself! Ninja Edge joined the party![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="285">[bold]Cid[normal]: Now you can fly without
 worrying about lava or anything else![new]
@@ -1944,12 +1942,7 @@ You've no time to waste on an old geezer
 like me![new]
 [bold]Cecil[normal]: Thanks...Cid![end]</sn:pointer>
 
-<sn:pointer id="362">One born from the mouth of a dragon,
-Rising towards the heavens with Light
-and Darkness, And bring a new promise
-to the sleeping land. The moon, veiled in endless light,
-shall grant Mother Earth great blessings and
-mercy.[end]</sn:pointer>
+<sn:pointer id="362">One born from the mouth of a dragon shall soar high into the heavens, raise darkness and light, and bring a new promise to the sleeping land. The moon, bathed in endless light, shall grant Mother Earth great bounty and mercy.[end]</sn:pointer>
 
 <sn:pointer id="363">[bold]Palom[normal]: This old guy learned Meteor![new]
 [bold]Village Elder[normal]: Meteor...!
