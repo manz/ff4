@@ -490,7 +490,7 @@ Runs one item's scroll to completion in vanilla's 8 frames, then pushes BG4. Fra
     sta.l equip_rolling._pad
 
 _equip_scroll_frame:
-    jsr.l wait_for_vblank_long
+; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla
     ldx.w #equip_rolling
     jsr.l rolling_engine.rolling_engine_update_scroll_frame
     sep #0x20

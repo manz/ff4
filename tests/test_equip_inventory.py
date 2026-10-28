@@ -152,3 +152,35 @@ def test_list_golden(list_emu, downs, name):
         tap(list_emu, Button.DOWN, gap=16)
     list_emu.run_frames(30)
     assert_screenshot_matches_golden(list_emu, GOLDENS / f"{name}.png")
+
+
+SLOT_CURSOR = 0x0000  # OAM entry 0: the equip slot cursor ("Droite"), above the windows (priority 3)
+PRIORITY_3 = 0x30
+
+
+def _slot_cursor_attr(emu) -> int:
+    return bytes(emu.oam_read_range())[SLOT_CURSOR + 3] & 0x30
+
+
+def test_scrolling_keeps_the_slot_cursor(list_emu):
+    """The engine's finish ran the item menu's DrawItemCursors, which put its cursor in OAM entry 0 behind the
+    windows: the slot cursor vanished and B did not bring it back."""
+    tap(list_emu, Button.A, gap=90)
+    for _ in range(VISIBLE_ROWS + 2):
+        tap(list_emu, Button.DOWN, gap=16)
+    tap(list_emu, Button.B, gap=30)
+    assert _slot_cursor_attr(list_emu) == PRIORITY_3
+
+
+def test_held_down_scrolls_at_vanillas_pace(list_emu):
+    """Vanilla moves an item every 8 frames with DOWN held; a second vblank wait per step made it 17."""
+    tap(list_emu, Button.A, gap=90)
+    list_emu.press(0, Button.DOWN)
+    steps, last = [], list_emu.read(SCROLL_POS)
+    for frame in range(120):
+        list_emu.run_frames(1)
+        if list_emu.read(SCROLL_POS) != last:
+            steps.append(frame)
+            last = list_emu.read(SCROLL_POS)
+    list_emu.release(0, Button.DOWN)
+    assert max(b - a for a, b in zip(steps, steps[1:])) <= 10
