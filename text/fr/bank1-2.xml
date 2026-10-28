@@ -11,8 +11,7 @@ s'est laissé mener par un cœur mauvais...[new]
     <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous êtes venus![end]</sn:pointer>
     <sn:pointer id="3">Rydia: C'est horrible...[new]
 Edge: Merde!![end]</sn:pointer>
-    <sn:pointer id="4">[bold]Rydia[normal]: Nous ne... nous ne pouvons...
-rien faire?[new]
+    <sn:pointer id="4">[bold]Rydia[normal]: On ne peut... on ne peut plus rien faire?[new]
 [bold]Cecil[normal]: Qu'est-ce que c'est!?[end]</sn:pointer>
     <sn:pointer id="5">[bold]Cid[normal]: Tant que je serai là, vous
 n'aurez rien à craindre!
@@ -34,7 +33,7 @@ Rosa: Le géant... Il hésite![end]</sn:pointer>
     <sn:pointer id="11">[bold]Edge[normal]: Oh, je vois!
 On va lui taper droit dans le cœur![end]</sn:pointer>
     <sn:pointer id="12">Palom: Bon, voilà, c'est comme ça.[new]
-Porom: Je suis désolée que nous vous ayons trompé. Mais nous n'avions pas le choix.[new]
+Porom: Pardon de vous l'avoir caché. Mais nous n'avions pas le choix.[new]
 Cecil: Non, c'est normal. Après tout ce que j'ai fait...[new]
 Ancien: Mais tu as surmonté ton passé et tu es devenu paladin...! !? Cette épée?[new]
 Cecil: Je l'ai reçue au sommet.[new]
@@ -57,7 +56,7 @@ géant s'est ramené![end]</sn:pointer>
     <sn:pointer id="20">«Malédiction!!»[end]</sn:pointer>
     <sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cœur du géant, le
 système de contrôle![new]
-[bold]Edge[normal]: La vache, c'est [wicked]Énorme[normal]![new]
+[bold]Edge[normal]: La vache, c'est [wicked]énorme[normal]![new]
 [bold]FuSoYa[normal]: Avant d'attaquer le système
 de contrôle, nous devons détruire le
 système de défense, sinon, il se réparera
@@ -67,8 +66,7 @@ Edge: Il ne bouge plus![end]</sn:pointer>
     <sn:pointer id="23">[bold]Golbez[normal]: Comment avez-vous osé arrêter
 le géant!![new]
 [bold]FuSoYa[normal]: Toi!![end]</sn:pointer>
-    <sn:pointer id="24">[bold]Golbez[normal]: Mais...!?
-Mais qui es-tu!?[new]
+    <sn:pointer id="24">[bold]Golbez[normal]: Qui es-tu, toi!?[new]
 [bold]FuSoYa[normal]: Toi!
 Ne sais-tu donc même pas qui tu es!?[new]
 [bold]Golbez[normal]: Non, arrête!![new]
@@ -79,8 +77,8 @@ rongé par tant de haine...[new]
 ...Te souviens-tu du nom de ton père?[new]
 [bold]Golbez[normal]: Mon père...
 KluYa...?[new]
-[bold]Cecil[normal]: QUOI!?[new]
-[bold]Rosa[normal]: Alors... le frère de Cecil...[new]
+[bold]Cecil[normal]: Quoi!?[new]
+[bold]Rosa[normal]: Alors, pour Cecil, il est...[new]
 [bold]Edge[normal]: Son frangin?![new]
 [bold]Cecil[normal]: Golbez est mon...[new]
 [bold]FuSoYa[normal]: Zémus s'est servi de toi par
@@ -116,9 +114,8 @@ Il va là-bas pour mourir...[new]
 [bold]Cecil[normal]: ...Frère...[new]
 [bold]Rydia[normal]: Oui![new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
-    <sn:pointer id="32">[bold]Edge[normal]: Bordel de merde!
-C'est mauvais, ça![new]
-[bold]Rydia[normal]: Nous devons sortir de là![new]
+    <sn:pointer id="32">[bold]Edge[normal]: Ç-ça sent mauvais![new]
+[bold]Rydia[normal]: Il faut fuir![new]
 [bold]Rosa[normal]: Cecil![new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="33">[bold]Edge[normal]: Mais qu'est-ce que tu fous!?[new]
@@ -128,8 +125,7 @@ C'est mauvais, ça![new]
 [bold]Edge[normal]: On marche pas, cette fois![end]</sn:pointer>
     <sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin repris le contrôle de
 moi-même.
-Je ne peux pas vous demander de me
-pardonner, mais...[end]</sn:pointer>
+Je ne vous demande pas de me pardonner, après tout ça, mais...[end]</sn:pointer>
     <sn:pointer id="36">[bold]Rosa[normal]: Arrête avec ça![end]</sn:pointer>
     <sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
 Cecil...[new]
@@ -184,10 +180,9 @@ Allons livrer notre combat![end]</sn:pointer>
     <sn:pointer id="46">[bold]Cecil[normal]: Rosa et Rydia, vous
 restez ici.
 Nous trois, on va continuer.[new]
-Cette fois, il n'y a aucune garantie de
-survie pour nous...[new]
+Cette fois, rien ne dit qu'on reviendra vivants![new]
 [bold]Rosa[normal]: Cecil![new]
-[bold]Rydia[normal]: Tu plaisantes!?[new]
+[bold]Rydia[normal]: Tu ne peux pas nous faire ça![new]
 [bold]Cecil[normal]: Allez, descendez du vaisseau
 céleste![end]</sn:pointer>
     <sn:pointer id="47">«Ça a marché!»[end]</sn:pointer>
@@ -199,10 +194,8 @@ céleste![end]</sn:pointer>
     <sn:pointer id="53">[bold]Cecil[normal]: Zéromus...![new]
 Je ne peux pas...
 Je ne peux pas perdre...![end]</sn:pointer>
-    <sn:pointer id="54">«...Je... ne... périrai pas... ...Tant que...le...
-mal... ...hantera...le... cœur...des...hommes...
-Urgh...Gyaa... Gyaaaaaaaaammmmmmm!!!!»[end]</sn:pointer>
-    <sn:pointer id="55">[bold]FuSoYa[normal]: Incroyable![end]</sn:pointer>
+    <sn:pointer id="54">«...Je... ne... périrai pas... Tant que... le mal... habitera... le cœur... des vivants... Gu... zu... Gyaaaaaaaam!!!!»[end]</sn:pointer>
+    <sn:pointer id="55">[bold]FuSoYa[normal]: Magnifique...![end]</sn:pointer>
     <sn:pointer id="56">[bold]FuSoYa[normal]: Dire que vous aviez autant de
 puissance...
 Les habitants de la Planète Bleue nous
@@ -267,8 +260,8 @@ Porom![end]</sn:pointer>
 Vieil Homme: Je suis FuSoYa, gardien du peuple endormi de la Lune, les Luniens.[new]
 Rosa: Luniens?[new]
 FuSoYa: En effet. Il y a très longtemps...[new]
-Nous sommes le peuple d'une planète jadis détruite, située entre la quatrième et la cinquième planète du système solaire.[new]
-Pendant les derniers jours de notre monde, nous construisîmes un vaisseau et voyageâmes vers la Planète Bleue...[new]
+La planète qui se trouvait entre Mars et Jupiter fut menacée d'extinction.[new]
+Les survivants s'enfuirent à bord d'un vaisseau vers la Planète Bleue...[new]
 Cecil: La Planète Bleue...?[new]
 FuSoYa: La planète sur laquelle vous vivez. Mais les créatures de votre planète étaient encore en pleine évolution...[new]
 Alors nous créâmes une autre lune et y sombrâmes dans un long sommeil...[end]</sn:pointer>
@@ -285,8 +278,7 @@ n'a cessé de gagner en puissance![new]
 Sa pensée a rendu plus mauvais encore
 les êtres malfaisants de votre planète...
 et leur a fait rassembler les cristaux.[end]</sn:pointer>
-    <sn:pointer id="61">[bold]Cecil[normal]: Alors Golbez n'est rien
-qu'un pantin?![new]
+    <sn:pointer id="61">[bold]Cecil[normal]: Alors Golbez aussi était sous son emprise![new]
 [bold]Edge[normal]: Qui est ce type!?[new]
 [bold]FuSoYa[normal]: Son nom est Zémus...!
 Les cristaux sont notre source d'énergie.[new]
@@ -335,7 +327,7 @@ Hâtons-nous vers la Tour de Babil
 d'Eblana![new]
 [bold]Edge[normal]: La Tour de Babil!?
 Mais elle est entourée d'une barrière![end]</sn:pointer>
-    <sn:pointer id="64">FuSoYa: J'ai des pouvoirs qui peuvent neutraliser la barrière! Le géant de Babil ne doit pas descendre sur la Planète Bleue![new]
+    <sn:pointer id="64">FuSoYa: Moi, je devrais pouvoir entrer! Le géant de Babil ne doit pas descendre sur la Planète Bleue![new]
 Je viens avec vous! FuSoYa le Lunien a rejoint l'équipe![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="65">[bold]Caïn[normal]: Mais ces derniers mots de
 Zéromus...[end]</sn:pointer>
@@ -370,14 +362,14 @@ Et vous?[end]</sn:pointer>
     <sn:pointer id="71">Cecil: Nous allons retourner sur notre planète.[new]
 Rosa: Tout le monde nous attend![end]</sn:pointer>
     <sn:pointer id="72">[bold]FuSoYa[normal]: Je vois.
-Vous avez des amis merveilleux.
+Tu as des amis merveilleux.
 J'attendrai avec impatience le jour où
 nous nous reverrons.[end]</sn:pointer>
     <sn:pointer id="73">[bold]Golbez[normal]: Pourrais-je...
 Pourrais-je partir avec vous?[new]
 [bold]FuSoYa[normal]: Toi?[new]
 [bold]Golbez[normal]: Oui...
-Je...ne puis rentrer.
+Je... ne peux pas rentrer.
 Pas après ce que j'ai fait.[new]
 Et j'aimerais aussi rencontrer le peuple
 de mon père.[new]
@@ -389,8 +381,7 @@ Mais ce sera un long sommeil.[new]
     <sn:pointer id="74">[bold]Golbez[normal]: Tu m'as appelé ton frère...
 Cecil.[new]
 [bold]Cecil[normal]: ...[new]
-[bold]Golbez[normal]: ...Mais tu ne saurais me
-pardonner.
+[bold]Golbez[normal]: ...Tu ne pourras jamais me pardonner, je suppose.
 Moi qui vous ai tant fait souffrir...[end]</sn:pointer>
     <sn:pointer id="75">[bold]FuSoYa[normal]: Nous allons à présent nous
 endormir...
@@ -419,7 +410,7 @@ En punition, tu vas recopier des
 formules! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="84">[bold]Palom[normal]: Oh nooon! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="85">[bold]Porom[normal]: Tu l'as bien cherché![delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="86">Chambellan: ...En outre, vous n'avez guère conscience de vos devoirs d'héritier du trône... [delay][0x18][close_window][end]</sn:pointer>
+    <sn:pointer id="86">Chambellan: ...Et puis, jeune maître, vous n'avez guère conscience de vos devoirs d'héritier du trône... [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="87">[bold]Edge[normal]: Je sais, je sais! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="88">[bold]Chambellan[normal]: Si vous le saviez, vous ne
 passeriez pas vos journées à courir
@@ -470,8 +461,7 @@ Yang saura bâtir un nouveau Fabul! [delay][0xd][close_window][end]</sn:pointer>
     <sn:pointer id="104">[bold]Giotto[normal]: Bien!
 Mettons-nous au travail et restaurons ce
 château! [delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="105">«Majesté! Nous n'avons pas assez de
-matières premières pour ça, Lali!»[new]
+    <sn:pointer id="105">«Majesté! Pas assez de matériaux, Lali!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="106">[bold]Giotto[normal]: Les chars!
 Démantelez les chars!
@@ -532,10 +522,10 @@ Cecil, dépêche-toi, toi aussi![new]
 Cecil: J'arrive, Rosa.[delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="125">[bold]Cecil[normal]: Je l'ai entendue... j'en suis sûr...
 La voix de mon frère... [delay][0x20] Il a dit...
-Au revoir... [delay][0x10][close_window][end]</sn:pointer>
+Adieu... [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="126">[bold]Edward[normal]: Anna...[delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="127">[bold]Yang[normal]: Allons-y![delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="128">«Mon nom est Zéromus... je hais... tout!!!»[new]
+    <sn:pointer id="128">«Mon nom est Zéromus... je hais... tout!!»[new]
 [music][0xb][end]</sn:pointer>
     <sn:pointer id="129">FuSoYa: ...Même dans la mort, sa haine n'a fait que grandir![end]</sn:pointer>
     <sn:pointer id="130">Golbez: Zémus... Non, Zéromus! Cette fois, je t'anéantirai de mes propres mains![end]</sn:pointer>
