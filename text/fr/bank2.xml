@@ -1242,8 +1242,8 @@ volonté... Ça n'a aucun effet...[end]
 [bold]Yang[normal]: Des enfants si jeunes...![end]
 [bold]Cid[normal]: C'est l'heure de les venger!
 En route avec l'Enterprise!![end]
-[bold]Tella[normal]: Quelle folie!!
-Laissez-moi voir ce que je peux faire...
+[bold]Tella[normal]: Petits imprudents...!
+Tenez bon!
 Esuna![end]
 Sa majesté est en colère contre vous. Il refusera de vous voir tant que vous n'aurez pas livré l'Anneau Bombe à Mist.[end]
 [bold]Tella[normal]: Petits fous!
@@ -1251,7 +1251,7 @@ C'est ce vieux croûton qui aurait dû
 mourir, pas eux![end]</sn:pointer>
     <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
     <sn:pointer id="140">Cid: Ourg! Quel magnétisme! On pourra même pas remuer si on porte des armes ou des armures en métal![new]
-Yang: Mes griffes, ça a l'air d'aller.[new]
+Yang: Mes griffes, elles, ne semblent pas affectées.[new]
 Tella: Ne vous inquiétez pas! Nous avons toujours ma magie![end]</sn:pointer>
     <sn:pointer id="141">T[end]</sn:pointer>
     <sn:pointer id="142">T[end]</sn:pointer>
@@ -1273,13 +1273,9 @@ JE VAIS VOUS TUER!![end]</sn:pointer>
     <sn:pointer id="151">C'est la Route du Démon, qui mène à
 Mysidia.[new]
 Nous l'utilisions pour faire du commerce
-avec Mysidia... mais elle a été scellée du
-côté de Mysidia, maintenant c'est
-impossible de passer.[new]
-En dessous d'ici se trouve la salle
-d'entraînement.[end]
-Ainsi le sceau de Mysidia a été brisé de
-leur côté![end]
+avec Mysidia... mais il paraît que Mysidia l'a scellée de son côté. Maintenant, on ne peut plus passer.[new]
+Au sous-sol, il y a la salle d'entraînement.[end]
+Le sceau, côté Mysidia, a été levé![end]
 La Route est scellée du côté de Mysidia,
 on ne peut pas l'utiliser.[end]</sn:pointer>
     <sn:pointer id="152">T[end]</sn:pointer>
@@ -1301,16 +1297,14 @@ Cecil le chercher pour vous?[new]
 Nous pourrions l'échanger contre le
 cristal...
 Qu'en dites-vous?[end]
-[bold]Golbez[normal]: Oh, je vois...
+[bold]Golbez[normal]: Je vois... Excellente idée.
 Et nous pourrons nous débarrasser de lui
 à ce moment-là...[new]
 [bold]Caïn[normal]: Très bien, alors je vais lui
 transmettre le message.[end]
 [bold]Rosa[normal]: Caïn![end]
-[bold]Caïn[normal]: Je vais vous montrer que je vaux bien mieux que ce Cecil.[end]
-[bold]Cecil[normal]: Si on était arrivé ne serait-ce
-qu'une seconde plus tard... cette guillotine
-aurait tranché Rosa en deux![end]</sn:pointer>
+[bold]Caïn[normal]: Je vais te montrer que je vaux bien mieux que ce Cecil.[end]
+[bold]Cecil[normal]: Une seconde de plus, et cette guillotine... Rosa...[end]</sn:pointer>
     <sn:pointer id="160">Mon père a trouvé un étrange minerai ici.
 Son loisir, c'est de collectionner des
 queues d'animaux.[end]
@@ -1325,7 +1319,7 @@ Obtenu l'Adamantite![music][0x29][delay][0x28][end]
 C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Obtenu l'Armure adamant![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="161">T[end]</sn:pointer>
     <sn:pointer id="162">T[end]</sn:pointer>
-    <sn:pointer id="163">[bold]FuSoYa[normal]: Monte près de sa bouche![new]
+    <sn:pointer id="163">[bold]FuSoYa[normal]: Approche-toi de sa bouche![new]
 [bold]Cid[normal]: Qui c'est, lui?[new]
 [bold]Cecil[normal]: C'est FuSoYa, un homme de
 la Lune.[new]
@@ -1334,17 +1328,14 @@ la Lune.[new]
 [bold]Cid[normal]: Pour qui tu me prends!?
 Je suis Cid, le roi des aéronefs!
 Laisse-moi faire![end]
-[bold]FuSoYa[normal]: MAINTENANT![new]
+[bold]FuSoYa[normal]: Maintenant![new]
 [bold]Cid[normal]: Accrochez-vous, tout le
 monde![end]</sn:pointer>
     <sn:pointer id="164">T[end]</sn:pointer>
     <sn:pointer id="165">T[end]</sn:pointer>
     <sn:pointer id="166">T[end]</sn:pointer>
     <sn:pointer id="167">[bold]Cecil[normal]: Comment on va entrer?[new]
-[bold]Edge[normal]: Laissez-moi faire!
-C'est ma[new]
-«technique trans-murale»[new]
-brevetée![end]
+[bold]Edge[normal]: Hé hé! La technique du passe-muraille![end]
 Edge: Hop là![end]</sn:pointer>
     <sn:pointer id="168">T[end]</sn:pointer>
     <sn:pointer id="169">T[end]</sn:pointer>
@@ -1374,14 +1365,14 @@ Cecil: Les quatre Empereurs![new]
 Scarmiglione: Seigneur Zémus...[new]
 Cagnazzo: Nous a donné une nouvelle vie...[new]
 Barbariccia: Pour vous tuer![new]
-Rubicante: Quel plaisir de vous affronter à nouveau! Mais lors de notre dernier combat, vous m'avez appris ce que veut dire unir ses forces...[new]
+Rubicante: Quel plaisir de vous affronter à nouveau! Mais lors de notre dernier combat, vous nous avez appris ce que veut dire unir ses forces...[new]
 Allez, je vais vous soigner![end]
 [bold]Rubicante[normal]: Combattez-nous de toute
 votre force![end]
 [bold]Scarmiglione[normal]: Seigneur Zémus![end]
 [bold]Cagnazzo[normal]: Une fois de plus...![end]
 [bold]Barbariccia[normal]: Vaincue, encore une fois![end]
-[bold]Rubicante[normal]: Nous avons... échoué...[end]</sn:pointer>
+[bold]Rubicante[normal]: ...Notre défaite est totale![end]</sn:pointer>
     <sn:pointer id="189">T[end]</sn:pointer>
     <sn:pointer id="190">T[end]</sn:pointer>
     <sn:pointer id="191">T[end]</sn:pointer>
@@ -1446,18 +1437,14 @@ Si seulement le jeune maître avait été là, le roi et la reine...[end]
 Je vais protéger ma maman!
 Elle a mon petit frère ou ma petite sœur
 dans son ventre![end]
-Eblana est une nation de puissants
-guerriers ninjas...
-Mais nous avons été si facilement
-vaincus...[end]
-Est-ce la fin des ninjas d'Eblana...?[end]
+Eblana, si fière de son ninjutsu... vaincue aussi facilement...[end]
+Le sang des ninjas d'Eblana va-t-il s'éteindre...?[end]
 Je suis le chambellan d'Eblana. Notre jeune maître est mal embouché, mais il a bon cœur...[new]
 Il creuse un passage vers la Tour de Babil pour venger le roi et la reine. Mais voilà qu'il a disparu. Pourvu qu'il ne soit pas encore allé faire une bêtise...[end]
 Tiens bon, chéri![end]
 D'où sont venus des monstres comme ça?[end]
-Cet enfant est désespérant...[end]
-Le jeune maître a dit qu'il allait tuer les
-méchants!
+Oh, ce petit...[end]
+Le jeune maître a dit qu'il allait battre les méchants!
 On va bientôt pouvoir rentrer au
 château, hein?[end]
 Je m'occupe de tout, ici!
@@ -1471,7 +1458,7 @@ l'Enterprise![end]
 [bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
 [bold]Tella[normal]: Un drapeau blanc?[end]
-[bold]Yang[normal]: M. Cecil.[new]
+[bold]Yang[normal]: M. Cecil...[new]
 [bold]Cid[normal]: Ce Caïn...![end]
 [bold]Cecil[normal]: Allons à Troia...
 Cid, cap au nord-ouest![end]</sn:pointer>
