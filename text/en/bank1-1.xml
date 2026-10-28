@@ -554,7 +554,7 @@ We can't just stay here... -cough, cough-[end]</sn:pointer>
 <sn:pointer id="106">[bold]Cecil[normal]: Rosa, don't overdo it.
 We'll go to Fabul.[new]
 [bold]Edward[normal]: But the way to Fabul over
-Hobs Mountain is frozen over...[end]</sn:pointer>
+Mt. Hobs is frozen over...[end]</sn:pointer>
 
 <sn:pointer id="107">[bold]Rosa[normal]: ...Rydia, can you cast Fire?[new]
 [bold]Rydia[normal]: ! ...No... I can't...[end]</sn:pointer>
@@ -1107,7 +1107,7 @@ UGH...ACK, UCK![end]</sn:pointer>
 
 <sn:pointer id="223">[bold]Edward[normal]: Cecil, attack now!
 While this music is playing he shouldn't be
-able to control gravity!
+able to control the magnetism!
 Your sword![new]
 Draw your sword![end]</sn:pointer>
 
@@ -1160,7 +1160,7 @@ kept your promise...[new]
 I would like you to accept my thanks.[new]
 [bold]Yang[normal]: Thanks?[new]
 [bold]Golbez[normal]: I am at the top of this
-Tower of Zott with your beloved Rosa.
+Tower of Zot with your beloved Rosa.
 If you can make it this far, I will trade
 Rosa's life for the Crystal.[new]
 [bold]Cecil[normal]: Golbez, you bastard![new]
@@ -1168,7 +1168,7 @@ Rosa's life for the Crystal.[new]
 guarantee your precious Rosa's
 life...[music][0x19] Now, climb![end]</sn:pointer>
 
-<sn:pointer id="232">'Welcome to the Tower of Zott!'[end]</sn:pointer>
+<sn:pointer id="232">'Welcome to the Tower of Zot!'[end]</sn:pointer>
 
 <sn:pointer id="233">'Pleased to make your acquaintance!'[end]</sn:pointer>
 
@@ -1319,7 +1319,7 @@ who can fight in the air![end]</sn:pointer>
 <sn:pointer id="261">[bold]Barbariccia[normal]: Cain, you...!
 Even if you defeat me...
 the last Elemental Lord remains![new]
-Vanish along with this Tower of Zott!![end]</sn:pointer>
+Vanish along with this Tower of Zot!![end]</sn:pointer>
 
 <sn:pointer id="262">[bold]Cecil[normal]: Th-the tower is collapsing![new]
 [bold]Cain[normal]: Damn it![new]
@@ -2443,7 +2443,7 @@ We can go anywhere on the Earth in a
 moment![end]</sn:pointer>
 
 <sn:pointer id="461">[bold]Cecil[normal]: But it was left at the Tower of
-Zott?[new]
+Zot?[new]
 [bold]Cid[normal]: Don't underestimate me!
 I told you it was the latest model!
 I flew it back to Baron by remote

@@ -85,8 +85,7 @@ Une attaque de monstres![end]</sn:pointer>
 [bold]Cecil[normal]: Vous allez bien?[new]
 [bold]Soldat[normal]: D'autres monstres![new]
 [bold]Cecil[normal]: Merde![end]</sn:pointer>
-    <sn:pointer id="36">Ici commence mon domaine, la Zone
-Zémus.
+    <sn:pointer id="36">Ici commence mon domaine, la Zone de Zémus.
 Nul ne peut échapper à mes serviteurs![new]
 Disparaissez dans les ténèbres avant
 même de m'atteindre![new]
@@ -725,7 +724,7 @@ Edward: Ça ne fait rien... Je suis le seul... qui puisse sauver... Cecil et les
 Tella: Cette douce mélodie...[new]
 Cecil: La harpe d'Edward![new]
 Elfe Noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, HIC![end]</sn:pointer>
-    <sn:pointer id="223">Edward: Maintenant, Cecil! Tant que je joue, il ne peut contrôler la gravité! Votre épée![new]
+    <sn:pointer id="223">Edward: Maintenant, Cecil! Tant que je joue, il ne peut plus contrôler le magnétisme! Votre épée![new]
 Prenez votre épée![end]</sn:pointer>
     <sn:pointer id="224">[bold]Elfe Noir[normal]: POURQUOI CE BRUIT
 ARRIVE-T-IL JUSQU'ICI!
@@ -996,7 +995,7 @@ Adieu...![end]</sn:pointer>
     <sn:pointer id="290">[bold]Cid[normal]: Euh?
 Où est Yang?[new]
 [bold]Rosa[normal]: Il...[new]
-[bold]Cecil[normal]: Pour détruire le super canon...[new]
+[bold]Cecil[normal]: Pour détruire le canon géant...[new]
 [bold]Cid[normal]: Je vois...
 Yang...[new]
 [bold]Rydia[normal]: -sniff-...[new]
@@ -1715,7 +1714,7 @@ Cette Tour de Babil traverse la terre et
 relie la surface au monde souterrain...[new]
 Rubicante a déjà emporté les cristaux à
 la surface!
-Et mon super canon va anéantir les
+Et mon canon géant va anéantir les
 nains... Hyahyahya![end]</sn:pointer>
     <sn:pointer id="510">«Avant de toucher à ce katana... allez
 donc en enfer!»[end]</sn:pointer>

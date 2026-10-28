@@ -22,7 +22,7 @@
     <sn:string>Quincaillerie</sn:string>
     <sn:string>Café</sn:string>
     <sn:string>Camp</sn:string>
-    <sn:string>Chambre Royale</sn:string>
+    <sn:string>Salle du Trône</sn:string>
     <sn:string>Cachots</sn:string>
     <sn:string>Salle du Cristal</sn:string>
     <sn:string>Forêt Chocobo</sn:string>
@@ -36,19 +36,19 @@
     <sn:string>Classe de Magie Blanche</sn:string>
     <sn:string>Classe de Magie Noire</sn:string>
     <sn:string>Ta Chambre</sn:string>
-    <sn:string>Village de Baron</sn:string>
+    <sn:string>Ville de Baron</sn:string>
     <sn:string>Lac Souterrain</sn:string>
     <sn:string>Rivière Souterraine - Nord</sn:string>
     <sn:string>Grotte de Mist</sn:string>
     <sn:string>Village de Mist</sn:string>
-    <sn:string>Maison</sn:string>
-    <sn:string>Oasis de Kaipo</sn:string>
+    <sn:string>Maison de Rydia</sn:string>
+    <sn:string>Oasis de Kaïpo</sn:string>
     <sn:string>Rivière Souterraine - Sud</sn:string>
     <sn:string>Cascade Souterraine</sn:string>
     <sn:string>Château de Damcyan</sn:string>
     <sn:string>Cachots de Damcyan</sn:string>
-    <sn:string>Sous-sol de l'Antlion - Étage 1</sn:string>
-    <sn:string>Nid de l'Antlion</sn:string>
+    <sn:string>Fourmilion - 1er Sous-Sol</sn:string>
+    <sn:string>Nid du Fourmilion</sn:string>
     <sn:string>Mont Hobs - Ouest</sn:string>
     <sn:string>Sommet</sn:string>
     <sn:string>Fabul</sn:string>
@@ -57,25 +57,25 @@
     <sn:string>Bateau pour Baron</sn:string>
     <sn:string>Ancien Canal</sn:string>
     <sn:string>Mysidia</sn:string>
-    <sn:string>Tour des Prières</sn:string>
-    <sn:string>Chemin du Diable</sn:string>
+    <sn:string>Maison des Prières</sn:string>
+    <sn:string>Route du Démon</sn:string>
     <sn:string>Salle de Prière</sn:string>
     <sn:string>Mont de l'Épreuve - Entrée</sn:string>
     <sn:string>Ville de Mithril</sn:string>
     <sn:string>Plage</sn:string>
     <sn:string>Dummy</sn:string>
-    <sn:string>Château de Toroia</sn:string>
-    <sn:string>Village de Toroia</sn:string>
+    <sn:string>Château de Troia</sn:string>
+    <sn:string>Ville de Troia</sn:string>
     <sn:string>Salle de Développement</sn:string>
     <sn:string>Ferme de Chocobos Noirs</sn:string>
     <sn:string>Village d'Agalt</sn:string>
-    <sn:string>Tour des Étoiles</sn:string>
     <sn:string>Observatoire</sn:string>
-    <sn:string>Grotte du Pouvoir</sn:string>
+    <sn:string>Salle d'Observation</sn:string>
+    <sn:string>Grotte Magnétique</sn:string>
     <sn:string>Château d'Eblana</sn:string>
     <sn:string>Grotte d'Eblana</sn:string>
     <sn:string>Tour de Babil - Niveau 1</sn:string>
-    <sn:string>Tour de Zott</sn:string>
+    <sn:string>Tour de Zot</sn:string>
     <sn:string>Bouche du Géant</sn:string>
     <sn:string>Château des Nains</sn:string>
     <sn:string>Arrière-salle</sn:string>
@@ -93,7 +93,7 @@
     <sn:string>Grotte Scellée</sn:string>
     <sn:string>Grotte de l'Île d'Adamant</sn:string>
     <sn:string>Base Militaire des Nains</sn:string>
-    <sn:string>Canon Gigantesque</sn:string>
+    <sn:string>Canon Géant</sn:string>
     <sn:string>Grotte du Dieu des Chimères</sn:string>
     <sn:string>Maison des Sélénites</sn:string>
     <sn:string>Grotte des Sylphes</sn:string>
@@ -107,7 +107,7 @@
     <sn:string>Zone de Zémus</sn:string>
     <sn:string>Passage Lunaire Souterrain</sn:string>
     <sn:string>Zéromus</sn:string>
-    <sn:string>Sous Babil</sn:string>
+    <sn:string>Babil - Monde Souterrain</sn:string>
     <sn:string>Pub 'Lali-ho!'</sn:string>
     <sn:string>Salle de Musique</sn:string>
     <sn:string>Dortoir</sn:string>
