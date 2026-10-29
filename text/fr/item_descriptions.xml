@@ -4,7 +4,7 @@
     <sn:string>Récupère des PV.</sn:string>
     <sn:string>Récupère des PM.</sn:string>
     <sn:string>Récupère tous les PV et PM.</sn:string>
-    <sn:string>Ranime un allié KO</sn:string>
+    <sn:string>Ranime un allié KO.</sn:string>
     <sn:string>Annule la pétrification.</sn:string>
     <sn:string>Annule l'état Crapaud.</sn:string>
     <sn:string>Annule l'état Mini.</sn:string>
@@ -42,37 +42,37 @@
     <sn:string>Stoppe les ennemis brièvement.</sn:string>
     <sn:string>Stoppe les ennemis un moment.</sn:string>
     <sn:string>Stoppe les ennemis longtemps.</sn:string>
-    <sn:string>Ralentit tous les ennemis.</sn:string>
-    <sn:string>Crée des images de l'utilisateur.</sn:string>
-    <sn:string>Feu sur tous les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
-    <sn:string>Glace sur tous les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
-    <sn:string>Foudre sur tous les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
-    <sn:string>Protège l'utilisateur par Reflet.</sn:string>
-    <sn:string>Explose sur un ennemi.[0x01][0xd4][0x00]L'utilisateur tombe KO.</sn:string>
-    <sn:string>Reflet durable et Barrière[0x01][0xd4][0x00]sur l'utilisateur.</sn:string>
+    <sn:string>Ralentit les ennemis.</sn:string>
+    <sn:string>Crée des doubles de l'utilisateur.</sn:string>
+    <sn:string>Feu sur les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
+    <sn:string>Glace sur les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
+    <sn:string>Foudre sur les ennemis,[0x01][0xd4][0x00]selon les PV de l'utilisateur.</sn:string>
+    <sn:string>Lance Miroir sur l'utilisateur.</sn:string>
+    <sn:string>Explose sur un ennemi, mais[0x01][0xd4][0x00]l'utilisateur tombe KO.</sn:string>
+    <sn:string>Miroir prolongé et Barrière[0x01][0xd4][0x00]sur l'utilisateur.</sn:string>
     <sn:string>Réduit les ennemis au silence.</sn:string>
     <sn:string>Lance Séisme sur les ennemis.</sn:string>
     <sn:string>Un cristal au pouvoir mystérieux.</sn:string>
-    <sn:string>Achève un ennemi d'un coup.</sn:string>
+    <sn:string>Tue un ennemi sur le coup.</sn:string>
     <sn:string>Invoque une Chimère au hasard.</sn:string>
     <sn:string>Analyse un ennemi.</sn:string>
-    <sn:string>Réveille tous les alliés.</sn:string>
-    <sn:string>Soigne Sommeil, Paralysie,[0x01][0xd4][0x00]Confusion et Berserk de l'équipe.</sn:string>
-    <sn:string>Apprend l'invocation Gobelin.</sn:string>
-    <sn:string>Apprend l'invocation Bombe.</sn:string>
-    <sn:string>Apprend l'invocation Cocatrice.</sn:string>
-    <sn:string>Apprend l'invocation Illithid.</sn:string>
+    <sn:string>Réveille l'équipe.</sn:string>
+    <sn:string>Soigne l'équipe : Sommeil,[0x01][0xd4][0x00]Paralysie, Confusion, Berserk.</sn:string>
+    <sn:string>Enseigne l'invocation Gobelin.</sn:string>
+    <sn:string>Enseigne l'invocation Bombe.</sn:string>
+    <sn:string>Enseigne l'invocation Cocatrice.</sn:string>
+    <sn:string>Enseigne l'invocation Illithid.</sn:string>
     <sn:string>Appelle le Gros Chocobo[0x01][0xd4][0x00]là où il se cache.</sn:string>
     <sn:string>Ouvre les portes d'un club privé.</sn:string>
     <sn:string>Appelle le Gros Chocobo partout.</sn:string>
     <sn:string>À livrer au village de Mist.</sn:string>
     <sn:string>Ouvre les portes de Baron.</sn:string>
     <sn:string>Guérit la fièvre du désert.</sn:string>
-    <sn:string>Le cristal de la Terre.</sn:string>
+    <sn:string>Un des cristaux de la surface.</sn:string>
     <sn:string>Ouvre un gouffre au bon endroit.</sn:string>
     <sn:string>Ouvre le sceau de la grotte Scellée.</sn:string>
     <sn:string>Résonne avec la harpe d'Edward.</sn:string>
-    <sn:string>Un cristal de l'Obscurité.</sn:string>
+    <sn:string>Un des cristaux de l'Obscurité.</sn:string>
     <sn:string>Un collectionneur la recherche.</sn:string>
     <sn:string>Minerai rare pour forger une arme.</sn:string>
     <sn:string>Réveille un dormeur tenace.</sn:string>
