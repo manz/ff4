@@ -10,7 +10,8 @@ font's blank kana slots (utils/atb_gauge.py).
 The action timer ($2A07, 21 bytes a fighter) counts battle-main passes down to the turn (4-6 a turn late game); its
 full value is what it was last reset to. The fill is the share run out: grey (palette 1) while filling, white once
 at 0. Between ticks (all timers at once, ~10 frames apart, none during animations) it moves on with the frames
-since the last tick at the last ticks' pace, up to one tick: 32 one-pixel steps a turn instead of 4-6 jumps.
+since the last tick at the last ticks' pace, up to one tick: 32 one-pixel steps a turn instead of 4-6 jumps. The
+drawn fill eases up to that (a quarter of the way a pass) over a tick that came later than the last one's pace.
 """
 .import "battle/tasks"
 .import "core/vanilla"
@@ -63,6 +64,7 @@ _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back
     word[_PARTY] last_tick  ; per slot: `frames` at its timer's last tick
     byte[_PARTY] period  ; per slot: frames between its last two ticks, 0 before the second
     byte[_PARTY] pending  ; per slot: a command waits for its timer (the gauge stays full until it acts)
+    byte[_PARTY] shown  ; per slot: the fill drawn, eased up to `_fill_px`
 }
 
 .reserve atb_gauge_state as AtbGauge in battle_text_ram
@@ -336,6 +338,7 @@ _row_ready:
         cmp.b #10
         bcs _no_character  ; a blank row: nobody in this slot
         jsr.w _fill_px
+        jsr.w _ease
         ldx.b 0x0A
         cmp.w atb_gauge_state.drawn_px & 0xFFFF, x
         beq _unchanged
@@ -351,7 +354,7 @@ _no_character:
 
 _fill_px:
 """
-A8 = the fill in pixels (0-24) of character $00: the share of its turn's timer run out, plus the frames since the last
+A8 = the fill in pixels (0-32) of character $00: the share of its turn's timer run out, plus the frames since the last
 tick at the ticks' pace (up to one tick); full once the timer is 0.
 """
         sep #0x20
@@ -404,11 +407,10 @@ _elapsed:
 _no_pace:
         lda.b 0x08
         asl
-        clc
-        adc.b 0x08  ; * 3
         asl
         asl
-        asl  ; * 24
+        asl
+        asl  ; * 32
         ldx.w #0x0000
 _divide:
         cmp.b 0x06
@@ -431,6 +433,29 @@ _fill_empty:
 _fill_full:
         sep #0x20
         lda.b #_GAUGE_PX
+        rts
+
+_ease:
+"""
+A8 = character $00's fill drawn: the fill A8 at once if it dropped (a new turn), else a quarter of the way up to it, a
+pixel at least (A8 X16).
+"""
+        ldx.b 0x00
+        cmp.w atb_gauge_state.shown & 0xFFFF, x
+        bcc _ease_set
+        beq _ease_done
+        sec
+        sbc.w atb_gauge_state.shown & 0xFFFF, x
+        lsr
+        lsr
+        bne _ease_step
+        inc
+_ease_step:
+        clc
+        adc.w atb_gauge_state.shown & 0xFFFF, x
+_ease_set:
+        sta.w atb_gauge_state.shown & 0xFFFF, x
+_ease_done:
         rts
 
 _times_period:
