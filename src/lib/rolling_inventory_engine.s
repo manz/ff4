@@ -17,6 +17,7 @@ far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
 .extern update_sell_scroll_hdma
 .extern update_equip_scroll_hdma
 .extern clear_inventory_slot
+.extern field_menu_nmi_dma_transfer_check_impl
 .import "ingame/vanilla_trampolines"
 
 
@@ -221,8 +222,11 @@ _frame_hdma_drops:
             jsr.w update_drops_scroll_hdma
 
 _frame_hdma_done:
+; One vblank per step: the sprites, then the pending HDMA tables and VWF CHR, which would otherwise ride the menu
+; loop's next 4 KB tilemap copy ($01:8078 hook) and run it past vblank, where the PPU drops it. No BG2 upload: no
+; list draws there.
             jsr.l tfr_sprites_vblank_trampoline
-            jsr.l tfr_bg2_tiles_vblank_trampoline
+            jsr.l field_menu_nmi_dma_transfer_check_impl
             plp
             rtl
         }
@@ -422,14 +426,16 @@ _finish_skip:
             lda.l rolling_x.menu_id, x
             pha
             jsr.w _engine_dispatch_update_scroll_hdma
-; Sell and equip scroll inside vanilla's blocking loops, which read the pad themselves right after ($01:C8F2,
-; $01:BF42): a second read restarts the key repeat, and the item menu's cursors would land in their OAM slot 0.
+; Only the item menu (field, key items) gets its cursors redrawn and the pad read here. Treasure, drops, sell and
+; equip scroll inside vanilla loops that read the pad themselves right after ($01:DA08, $01:C8F2, $01:BF42): a second
+; read restarts the key repeat, and the item menu's cursors would land in their OAM slot 0.
             sep #0x20
             pla
-            cmp.b #ROLLING_MENU_ID_SELL
-            beq _finish_done
-            cmp.b #ROLLING_MENU_ID_EQUIP
-            beq _finish_done
+            beq _finish_item_menu
+            cmp.b #ROLLING_MENU_ID_KEY_ITEM
+            bne _finish_done
+
+_finish_item_menu:
             jsr.l draw_item_cursors_trampoline
             jsr.l update_ctrl_after_scroll_trampoline
 

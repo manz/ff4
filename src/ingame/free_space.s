@@ -139,6 +139,48 @@ _nmi_dma_transfer_check:
     jsr.l field_menu_nmi_dma_transfer_check_impl
     rts
 
+tfr_item_list_screen:
+"""
+The item loop's BG1 upload ($01:9FEC), first screen only: $7E:B600 -> VRAM $6000, 2 KB where vanilla's $01:9430
+sends both. The rolling list never draws in the second screen, and its 4 KB ran the transfer past vblank.
+"""
+    phx
+    phy
+    ldx.w #0x6000
+    ldy.w #0xB600
+    jsr.w tfr_tiles_screen
+    ply
+    plx
+    rts
+
+tfr_bg4_screen_vblank_trampoline:
+"""
+`TfrBG4TilesVblank` for the first screen only: BG4 buffer $7E:C600 to VRAM $7800, 2 KB. The drops band draws
+there alone, and the full 4 KB on top of the VWF flush ran the drops vblank to its last line.
+"""
+    jsr.w wait_vblank
+    phx
+    phy
+    ldx.w #0x7800
+    ldy.w #0xC600
+    jsr.w tfr_tiles_screen
+    ply
+    plx
+    rtl
+
+tfr_tiles_screen:
+"""
+The tail of vanilla's `TfrBGnTiles` ($01:9452) with a 2 KB size, one 32x32 screen, in place of $DE: X = VRAM word,
+Y = buffer offset in $7E. M = 8 bits, X = 16 bits.
+"""
+    stx.b 0x1D
+    sty.b 0x1F
+    lda.b #0x7E
+    sta.b 0x21
+    ldx.w #0x0800
+    stx.b 0x22
+    jmp.w tfr_vram
+
 hdma_enable_hook:
 
 

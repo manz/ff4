@@ -304,6 +304,7 @@ the dirty flags.
             beq _flush_bad_a
             cmp #0x0B01
             bcs _flush_bad_a
+            jsr.w _flush_span
             sep #0x20
 ; Channel 3: no context runs HDMA on it (field $20, treasure $50 = ch6 + ch4, battle $87). A one-shot DMA leaves
 ; its descriptor in the channel registers, and on ch6 the treasure rolling buffer's BG3VOFS HDMA would re-arm over
@@ -313,16 +314,27 @@ the dirty flags.
             lda.b #PPU.VMDATAL
             sta.l dma_ch3.BBAD
             rep #0x20
-            lda.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
+            lda.l vwf_engine.chr_dirty_from
+            clc
+            adc.w #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) & 0xFFFF
             sta.l dma_ch3.A1TL  ; A1T low+mid
             sep #0x20
             lda.b #( VWF_CHR_BUFFER + VWF_CHR_FLUSH_OFFSET ) >> 16
             sta.l dma_ch3.A1B  ; A1B source bank
             rep #0x20
-            lda.l vwf_cfg.chr_vram_word
+            lda.l vwf_engine.chr_dirty_from
+            lsr
+            clc
+            adc.l vwf_cfg.chr_vram_word
             sta.l ppu.VMADDL  ; VMADD
-            lda.l vwf_cfg.chr_byte_count
+            lda.l vwf_engine.chr_dirty_to
+            sec
+            sbc.l vwf_engine.chr_dirty_from
             sta.l dma_ch3.DASL  ; DAS
+            lda.w #0xFFFF
+            sta.l vwf_engine.chr_dirty_from
+            inc
+            sta.l vwf_engine.chr_dirty_to
             sep #0x20
             lda.b #0x80
             sta.l ppu.VMAIN  ; VMAIN: increment on $2119, +1 word
@@ -385,6 +397,27 @@ _flush_skip_b_late:
 
 _flush_skip_b:
             plp
+            rts
+
+_flush_span:
+"""Clamp the dirty span to the primary block: an empty or out-of-block span becomes the whole block. 16-bit A."""
+            lda.l vwf_engine.chr_dirty_to
+            cmp.l vwf_cfg.chr_byte_count
+            beq _span_end_ok
+            bcs _span_whole
+
+_span_end_ok:
+            lda.l vwf_engine.chr_dirty_from
+            cmp.l vwf_engine.chr_dirty_to
+            bcc _span_ok
+
+_span_whole:
+            lda.w #0x0000
+            sta.l vwf_engine.chr_dirty_from
+            lda.l vwf_cfg.chr_byte_count
+            sta.l vwf_engine.chr_dirty_to
+
+_span_ok:
             rts
         }
 render_with_config:
@@ -457,9 +490,13 @@ _chr_clear_loop:
             sta.l tilemap_offset
             sep #0x20
             jsr.w draw_text_buffer
-; Ask the NMI flush hook for a VRAM upload.
+; Ask the NMI flush hook for a VRAM upload, of the whole block: this render does not track its span.
             lda.b #0x01
             sta.l vwf_engine.chr_dirty
+            rep #0x20
+            lda.w #0xFFFF
+            sta.l vwf_engine.chr_dirty_to
+            sep #0x20
             plp
             rts
         }

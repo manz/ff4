@@ -11,6 +11,7 @@ the init_bg_scroll_hdma relocation. Bank-$01 patches `jsr.w` these names.
 .import "menus/tools_shop_text"
 .import "ingame/shop_sell_rolling"
 .import "ingame/equip_inventory_rolling"
+.extern tfr_bg4_screen_vblank_trampoline
 .import "ingame/inventory_rolling"
 .import "ingame/items_menu_vwf"
 .import "core/items"
@@ -333,10 +334,10 @@ _treasure_main_check_xfer:
     jsr.l tfr_bg3_tiles_vblank_trampoline
     stz.w treasure_rolling.transfer_pending
 _treasure_main_after_bg3:
-; Drops: push BG4 ($7E:C600).
+; Drops: push BG4's first screen ($7E:C600), where the band draws.
     lda.w drops_rolling.transfer_pending
     beq _treasure_main_after_xfer
-    jsr.l tfr_bg4_tiles_vblank_trampoline
+    jsr.l tfr_bg4_screen_vblank_trampoline
     stz.w drops_rolling.transfer_pending
 _treasure_main_after_xfer:
     lda.w treasure_rolling.scroll_state
@@ -372,9 +373,11 @@ _t_setup_in_treasure:
     lda 0x7E019F
     sta.w treasure_rolling.base_scroll
     sep #0x20
-; Vanilla's $AD (ch7|ch5|ch3|ch2|ch0) + ch6 + ch4, minus ch2 (its BG3VOFS parallax overrides the ring scroll)
-; and ch3 (the VWF CHR flush's DMA channel, no HDMA table).
-    lda #0xF1
+; Only ch6 and drops' ch4: vanilla's menu NMI runs no HDMA ($01:8081 stores 0), so any other channel still holds a
+; one-shot DMA's descriptor and would replay it into VRAM every line.
+    lda.l field_menu_rolling.hdma_enable
+    and #0x10
+    ora #0x40
     sta.l field_menu_rolling.hdma_enable
     rtl
 

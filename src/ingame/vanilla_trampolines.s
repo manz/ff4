@@ -24,13 +24,8 @@ draw_item_slot_inner_trampoline:
     rtl
 
 tfr_sprites_vblank_trampoline:
-"""Bank-$01 RTL trampoline around original `TfrSpritesVblank` ($01:824F)."""
-    jsr.w tfr_sprites
-    rtl
-
-tfr_bg2_tiles_vblank_trampoline:
-"""Bank-$01 RTL trampoline around original `TfrBG2TilesVblank` ($01:9420)."""
-    jsr.w tfr_bg2_tiles_vblank
+"""Bank-$01 RTL trampoline around original `TfrSpritesVblank` ($01:824C): waits for vblank, then sends OAM."""
+    jsr.w tfr_sprites_vblank
     rtl
 
 tfr_bg3_tiles_vblank_trampoline:

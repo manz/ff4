@@ -11,6 +11,12 @@ rolling buffer (free_space.s, inventory_rolling.s).
 .label _select_item_a066 = 0x01A066
 .label _select_item_a0bc = 0x01A0BC
 
+; SelectItem's per-frame BG1 upload: the first screen only.
+.alloc at 0x019FEC {
+    jsr.w tfr_item_list_screen
+}
+
+
 ; SelectItem input loop start: run the scroll animation frame.
 .alloc at 0x019FF2 {
     jmp.w main_loop_scroll_check

@@ -1912,64 +1912,11 @@ _equip_nmi_hdma_copy_loop:
 
 _equip_nmi_hdma_copy_done:
 
-; Field tilemap DMA (BG1). Skipped while the treasure menu owns the screen: $1BB3 is then the drops cursor
-; row, and clearing it would snap the cursor back to row 0.
-    lda.l menu_cursor_data + 0xc6
-    bne _field_nmi_check_treasure
-    lda.l field_menu_rolling.transfer_pending
-    beq _field_nmi_check_treasure
-    lda #0x00
-    sta.l field_menu_rolling.transfer_pending
-
-    sep #0x20
-    lda #0x01
-    sta.w dma_ch0.DMAP
-    lda #PPU.VMDATAL
-    sta.w dma_ch0.BBAD
-    rep #0x20
-    lda.w #0xB600
-    sta.w dma_ch0.A1TL
-    sep #0x20
-    lda #0x7E
-    sta.w dma_ch0.A1B
-    rep #0x20
-    lda.w #0x0800
-    sta.w dma_ch0.DASL
-    lda.w #0x6000
-    sta.w ppu.VMADDL
-    sep #0x20
-    lda #0x01
-    sta.w cpu_regs.MDMAEN
-
-_field_nmi_check_treasure:
-; Treasure tilemap DMA (BG3)
-    lda.l treasure_rolling.transfer_pending
-    beq _field_nmi_done
-    lda #0x00
-    sta.l treasure_rolling.transfer_pending
-
-    sep #0x20
-    lda #0x01
-    sta.w dma_ch0.DMAP
-    lda #PPU.VMDATAL
-    sta.w dma_ch0.BBAD
-    rep #0x20
-    lda.w #0xD600  ; BG3 screen buffer source ($7ED600)
-    sta.w dma_ch0.A1TL
-    sep #0x20
-    lda #0x7E
-    sta.w dma_ch0.A1B
-    rep #0x20
-    lda.w #0x0800  ; 2 KB tilemap
-    sta.w dma_ch0.DASL
-    lda.w #0x7000  ; BG3 tilemap VRAM target
-    sta.w ppu.VMADDL
-    sep #0x20
-    lda #0x01
-    sta.w cpu_regs.MDMAEN
+; No tilemap DMA for the field list (BG1) or treasure (BG3): their loops send the whole screen after the vblank
+; wait ($01:9FEC, _treasure_main_check_xfer), and a copy here too ran theirs past vblank, where the PPU drops it.
 
 _field_nmi_done:
-; VWF CHR flush on DMA ch6 (untouched by vanilla btlgfx/menu and our engines; ch7 is shared).
+; VWF CHR flush on DMA ch3 (no context runs HDMA on it).
 ; Same bank as this impl, so a short JSR pairs with the routine's RTS.
     jsr.w render.flush_chr_to_vram
     plp

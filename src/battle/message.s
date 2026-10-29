@@ -1669,7 +1669,7 @@ _inv_dma_find:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _inv_dma_done:
 _no_inv_dma:
         plp
@@ -1692,7 +1692,7 @@ _chr_dma_go:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_msg:
         lda.l battle_render_state.pending_transfer_mask
         bit.b #battle_render.CHR_REGION_MONSTERS
@@ -1704,7 +1704,7 @@ _chr_no_msg:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_mon:
         lda.l battle_render_state.pending_transfer_mask
         bit.b #battle_render.CHR_REGION_NAMES
@@ -1716,7 +1716,7 @@ _chr_no_mon:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_names:
         lda.l battle_render_state.pending_transfer_mask
         bit.b #battle_render.CHR_REGION_COMMANDS
@@ -1728,7 +1728,7 @@ _chr_no_names:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_cmds:
         lda.l battle_render_state.pending_transfer_mask
         bit.b #battle_render.CHR_REGION_SPELLS
@@ -1740,7 +1740,7 @@ _chr_no_cmds:
         sta.b 0x0e
         sep #0x20
         lda.b #0x70
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_spells:
         lda.l battle_render_state.pending_transfer_mask
         bit.b #ChrTransferBits.status.mask
@@ -1752,7 +1752,7 @@ _chr_no_spells:
         sta.b 0x0e
         sep #0x20
         lda.b #status_name_tiles >> 16
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _chr_no_status:
         lda.b #0x00
         sta.l battle_render_state.pending_transfer_mask
@@ -1779,7 +1779,7 @@ _no_transfer:
         sta.b 0x0e
         sep #0x20
         lda #0x7E
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _no_cmd_tilemap:
         pla
         bit.b #battle_render.TILEMAP_PENDING_MAIN
@@ -1792,7 +1792,7 @@ _no_cmd_tilemap:
         sta.b 0x0e
         sep #0x20
         lda #0x7E
-        jsr.w _sram_dma_transfer_7
+        jsr.w _sram_dma_transfer_5
 _no_main_tilemap:
         lda #0x00
         sta.l battle_render_state.tilemap_pending_mask
@@ -1805,7 +1805,11 @@ _no_tilemap_dma:
         jsr.l flying_hdma_trampoline
         jsr.l btlgfx_tfr_sprites
         rtl
-_sram_dma_transfer_7:
+_sram_dma_transfer_5:
+"""
+One-shot DMA on channel 5 (A:X = source, Y = VRAM word, $0E = bytes). Not ch7: vanilla arms it once per battle as
+the $2131 colour-math HDMA ($03:FEA1), and a one-shot descriptor left there replays into VRAM on every line.
+"""
         phb
         pha
         lda #0x00
@@ -1813,15 +1817,15 @@ _sram_dma_transfer_7:
         plb
         pla
         sty ppu.VMADDL
-        stx dma_ch7.A1TL
-        sta dma_ch7.A1B
+        stx dma_ch5.A1TL
+        sta dma_ch5.A1B
         lda #0x01
-        sta dma_ch7.DMAP
+        sta dma_ch5.DMAP
         lda #PPU.VMDATAL
-        sta dma_ch7.BBAD
+        sta dma_ch5.BBAD
         ldx.b 0x0e
-        stx dma_ch7.DASL
-        lda #1 << 7
+        stx dma_ch5.DASL
+        lda #1 << 5
         sta cpu_regs.MDMAEN
         plb
         rts
