@@ -14,7 +14,9 @@ Field-menu item screen patches: windows, text pointers, VWF descriptions and mes
 .include "core/bank20.i"
 .include "ingame/macros.i"
 
+FIRST_DESCRIBED_ITEM = 0xB0
 .label _draw_item_description = 0x01A808
+.label _item_without_description = 0x01A811
 
 ; Item label: during scroll, after scroll, and on redraw
 .alloc at 0x01A814 {
@@ -34,8 +36,15 @@ Field-menu item screen patches: windows, text pointers, VWF descriptions and mes
 
 item_desc_back:
 }
-; Vanilla's string search ($01:A7F6), $45 = the description number
-.alloc at 0x01A7F6 {
+; The described items: every one from $B0 through the item description index table, not vanilla's $CE-$E6.
+.alloc at 0x01A7E2 {
+    cmp #FIRST_DESCRIBED_ITEM
+    bcc _item_without_description
+    sbc #FIRST_DESCRIBED_ITEM
+    jsr.w tax16
+    lda.l item_description_indices, x
+    beq _item_without_description
+    sta.b 0x45
     jsr.l find_item_description
     bra _draw_item_description
 }

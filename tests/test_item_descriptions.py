@@ -1,4 +1,4 @@
-"""Field-menu item descriptions: each found past the two-line strings' line breaks.
+"""Field-menu item descriptions: every item from $B0 has one, found past the two-line strings' line breaks.
 
 Run with:
     pytest tests/test_item_descriptions.py -v
@@ -19,7 +19,10 @@ DESCRIPTION_WINDOW = (72, 0, 256, 48)
 
 
 @pytest.mark.parametrize("item,name", [
+    (0xB0, "bomb_fragment"),  # a battle item, without one in vanilla
+    (0xC0, "red_fang"),  # two lines
     (0xDF, "gold_apple"),  # past Tent's line break: showed the Soma Drop's
+    (0xF9, "pink_tail"),  # a key item, the last two-line string
 ])
 def test_item_description_golden(item: int, name: str) -> None:
     e = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=10)
