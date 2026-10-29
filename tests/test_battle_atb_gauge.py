@@ -73,6 +73,7 @@ SETTING = 0x7E16B3  # Options, "Jauge ATB": bit 0 (saved; 0, off, in every save)
 @pytest.fixture
 def battle():
     emu = fresh_late_battle(settings=((SETTING, 1),))
+    emu.run_frames(8)  # vanilla's HP text redraw puts "/max" back for a few frames before the gauge goes over it
     try:
         yield emu
     finally:
