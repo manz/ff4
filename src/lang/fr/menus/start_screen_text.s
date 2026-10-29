@@ -46,7 +46,7 @@ saves:
         .text "Sauvegardes"
         .db 0
 save_completed:
-        move_to(8, 11)
+        move_to(10, 11)
         .text "Sauvegarde terminée"
         .db 0
 did_not_save:
@@ -61,7 +61,7 @@ did_not_save:
     .scope newgame {
 save_cancelled:
 ; ちゅうし ($01:CC33): "Non" on the chosen slot, in the save-completed window
-        move_to(8, 11)
+        move_to(10, 11)
         .text "Sauvegarde annulée"
         .db 0
     }
