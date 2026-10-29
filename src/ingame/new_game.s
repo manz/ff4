@@ -115,8 +115,9 @@ New-game / save-slot screen patches: text pointers to the relocated strings, win
     }
 
 
+; The save-completed and save-cancelled window: 12 columns fit "Sauvegarde terminée" (89 px), centred
     .alloc at 0x01e050 {
-        menu_window(7, 10, 19, 2)
+        menu_window(9, 10, 12, 2)
     }
 
 
