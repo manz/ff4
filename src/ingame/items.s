@@ -11,7 +11,10 @@ Field-menu item screen patches: windows, text pointers, VWF descriptions and mes
 .include "menus/system_menus_macros.i"
 
 .include "ingame/bank01_slack.i"
+.include "core/bank20.i"
 .include "ingame/macros.i"
+
+.label _draw_item_description = 0x01A808
 
 ; Item label: during scroll, after scroll, and on redraw
 .alloc at 0x01A814 {
@@ -23,14 +26,6 @@ Field-menu item screen patches: windows, text pointers, VWF descriptions and mes
 .alloc at 0x1a750 {
     load_system_menu_text_pointer(items_menu.item)
 }
-; Description table bank and offset
-.alloc at 0x01a7f6 {
-    ldx.w #item_descriptions & 0xffff
-}
-.alloc at 0x01a7fc {
-    addr = ( item_descriptions & 0xff0000 )
-    lda.l addr, x
-}
 .alloc at 0x01a7da {
 ; Vanilla redraws the description every frame, too slow for the VWF: render only when it changes. The check
 ; must come before DrawWindow, which clears the tilemap.
@@ -38,6 +33,11 @@ Field-menu item screen patches: windows, text pointers, VWF descriptions and mes
     nop
 
 item_desc_back:
+}
+; Vanilla's string search ($01:A7F6), $45 = the description number
+.alloc at 0x01A7F6 {
+    jsr.l find_item_description
+    bra _draw_item_description
 }
 ; display_item_description: draw the window and render the string
 .alloc at 0x01a808 {
@@ -165,6 +165,30 @@ _continue:
     pha
     ldy.w #0xdcd6
     jmp item_desc_back
+}
+
+.alloc _find_item_description in bank20_reloc {
+find_item_description:
+"""
+$45 = a description number: Y = that string's offset in `item_descriptions`. Vanilla's search counted every zero
+byte, the line break's position word too. M = 8 bits, X = 16 bits.
+"""
+    ldx.w #item_descriptions & 0xFFFF
+_skip_string:
+    lda.l item_descriptions & 0xFF0000, x
+    inx
+    cmp #0x01
+    bne _not_line_break
+    inx  ; its position word
+    inx
+    bra _skip_string
+_not_line_break:
+    cmp #0x00
+    bne _skip_string
+    dec.b 0x45
+    bne _skip_string
+    txy
+    rtl
 }
 
 ; なにもありません and the label redrawn after an item message, in the small VWF
