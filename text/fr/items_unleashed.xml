@@ -208,13 +208,13 @@
     <sn:fixed>[0xff]Corne de licorne</sn:fixed>
     <sn:fixed>[0xff]Potion</sn:fixed>
     <sn:fixed>[0xff]Hi-Potion</sn:fixed>
-    <sn:fixed>[0xff]Méga-Potion</sn:fixed>
+    <sn:fixed>[0xff]X-Potion</sn:fixed>
     <sn:fixed>[0xff]Ether</sn:fixed>
     <sn:fixed>[0xff]Ether sec</sn:fixed>
     <sn:fixed>[0xff]Elixir</sn:fixed>
     <sn:fixed>[0xff]Queue de phénix</sn:fixed>
     <sn:fixed>[0xff]Aiguille d'or</sn:fixed>
-    <sn:fixed>[0xff]Baiser de fée</sn:fixed>
+    <sn:fixed>[0xff]Baiser de vierge</sn:fixed>
     <sn:fixed>[0xff]Marteau magique</sn:fixed>
     <sn:fixed>[0xff]Repas diététique</sn:fixed>
     <sn:fixed>[0xff]Herbe d'écho</sn:fixed>
