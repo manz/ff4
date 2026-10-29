@@ -466,7 +466,7 @@ On n'en a plus besoin!
 Il n'y aura plus jamais de guerres! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="107">[bold]Luca[normal]: Père!
 Que deviennent M. Cecil et les autres? [delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="108">Giotto: Justement, j'ai une bonne nouvelle! [0xf3][delay][0x18] M. Cecil et Mlle Rosa vont devenir roi et reine de Baron![new]
+    <sn:pointer id="108">Giotto: Justement, j'ai une bonne nouvelle! [0xf3][delay][0x18] Messire Cecil et Mlle Rosa vont devenir roi et reine de Baron![new]
 Luca: Waouh![delay][0x18][new]
 Giotto: Nous avons été invités à leur couronnement![new]
 Luca: Super![delay][0x10][close_window][end]</sn:pointer>
@@ -534,8 +534,8 @@ Adieu... [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="136">Ancien: L'heure est venue de prier pour eux... non, pour ce monde tout entier![end]</sn:pointer>
     <sn:pointer id="137">[bold]Ancien[normal]: Palom, Porom!
 Nous devons envoyer les prières de tout
-le monde à M. Cecil![end]</sn:pointer>
-    <sn:pointer id="138">[bold]Yang[normal]: M. Cecil...![end]</sn:pointer>
+le monde à messire Cecil![end]</sn:pointer>
+    <sn:pointer id="138">[bold]Yang[normal]: Messire Cecil...![end]</sn:pointer>
     <sn:pointer id="139">[bold]Edward[normal]: Montrez-nous le vrai courage![end]</sn:pointer>
     <sn:pointer id="140">[bold]Cid[normal]: On t'attend tous!![end]</sn:pointer>
     <sn:pointer id="141">[bold]Giotto[normal]: La Terre!

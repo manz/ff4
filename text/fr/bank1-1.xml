@@ -102,7 +102,7 @@ Beigan: Que dites-vous là? Venez, Sa Majesté vous attend.[end]</sn:pointer>
 Roi Baron: Vraiment!? Bravo, Beigan! Merci de m'en avoir informé! Mais le cristal avant tout...[new]
 Convoque-le ici![new]
 Beigan: Bien, Majesté.[end]</sn:pointer>
-    <sn:pointer id="42">[bold]Beigan[normal]: Capitaine Cecil, Sa Majesté
+    <sn:pointer id="42">[bold]Beigan[normal]: Messire Cecil, Sa Majesté
 vous demande.
 Entrez.[end]</sn:pointer>
     <sn:pointer id="43">[bold]Roi Baron[normal]: Bien joué, Cecil.
@@ -240,7 +240,7 @@ Soldats: À vos ordres![end]</sn:pointer>
     <sn:pointer id="72">[bold]Cecil[normal]: Yang!
 Tu ne me reconnais pas!?[new]
 [bold]Yang[normal]: Si, je te reconnais, criminel![end]</sn:pointer>
-    <sn:pointer id="73">Yang: M. Cecil! Léviathan m'a...[new]
+    <sn:pointer id="73">Yang: Messire Cecil! Léviathan m'a...[new]
 Tella: Apparemment, Baron se servait de vous pendant votre amnésie.[new]
 Yang: ...Je vous dois beaucoup.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Yang[normal]: Rydia a été avalée par
@@ -459,7 +459,7 @@ Rosa: Dépêchez-vous![end]</sn:pointer>
 Roi Fabul: Prince Edward![new]
 Edward: Damcyan a déjà été attaqué et notre cristal a été volé! J'ai perdu... mon père... ma mère... et celle que j'aimais...![new]
 Allez-vous laisser Fabul subir le même sort que Damcyan?![end]</sn:pointer>
-    <sn:pointer id="126">[bold]Yang[normal]: Eh bien, M. Cecil![end]</sn:pointer>
+    <sn:pointer id="126">[bold]Yang[normal]: Eh bien, messire Cecil![end]</sn:pointer>
     <sn:pointer id="127">Yang: Ces gens sont des maîtres au combat! Laissez-les se battre avec moi sur le front![new]
 Roi Fabul: Puisque tu en réponds à ce point, je m'en remets à vous![new]
 Quant à vous, mesdemoiselles, vous soignerez les blessés.[new]
@@ -710,7 +710,7 @@ Alors vous devez pouvoir... !![end]</sn:pointer>
 MAIS VOUS N'AUREZ PAS LE CRISTAL.
 VOUS NE POUVEZ PAS RÉSISTER À MA
 MAGIE AVEC CET ÉQUIPEMENT![new]
-[bold]Yang[normal]: M. Cecil![new]
+[bold]Yang[normal]: Messire Cecil![new]
 [bold]Tella[normal]: Laisse-nous faire![end]</sn:pointer>
     <sn:pointer id="220">[bold]Edward[normal]: Cecil et les autres...sont
 en danger![end]</sn:pointer>
@@ -818,7 +818,7 @@ Guh... gugh![new]
 [bold]Cecil[normal]: ...?[new]
 [bold]Golbez[normal]: Ce... ce combat... n'est pas
 terminé![end]</sn:pointer>
-    <sn:pointer id="244">[bold]Yang[normal]: M. Cecil![new]
+    <sn:pointer id="244">[bold]Yang[normal]: Messire Cecil![new]
 [bold]Cid[normal]: Ça va!?[new]
 [bold]Cecil[normal]: Ou...ouais...
 On dirait que Météore a fait effet...
@@ -1284,7 +1284,7 @@ Ancien: Tella! Se battre par haine, c'est courir à sa perte! Et dans ton état,
 Tella: Même si cela doit me détruire! Lui, je ne lui pardonnerai jamais![new]
 Ancien: Comme je m'y attendais. Tu n'as pas changé.[new]
 Tella: Toi non plus...[new]
-Ancien: Mais M. Cecil, lui aussi, est devenu paladin. Si vous unissez vos forces...![new]
+Ancien: Mais messire Cecil, lui aussi, est devenu paladin. Si vous unissez vos forces...![new]
 Cecil: Mais pour affronter Golbez, nous devons retourner à Baron et prendre un aéronef...[new]
 Ancien: Compris... Je vais briser le sceau de la Route du Démon![new]
 En tant que paladin, tu peux traverser la Route du Démon! Va à Baron![new]
@@ -1444,7 +1444,7 @@ Cecil: Caïn!?[new]
 Caïn: Un combat d'homme à homme, Cecil![new]
 Cecil: Arrête![new]
 Caïn: En garde![end]</sn:pointer>
-    <sn:pointer id="404">Yang: M. Cecil! C'est à notre tour de vous aider.[new]
+    <sn:pointer id="404">Yang: Messire Cecil! C'est à notre tour de vous aider.[new]
 Reposez-vous d'abord, puis trouvons comment la sauver.[new]
 Cecil: Merci, Yang...[end]</sn:pointer>
     <sn:pointer id="405">Bam![end]</sn:pointer>

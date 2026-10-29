@@ -177,7 +177,7 @@ Je ne peux pas prendre votre argent, voyons![end]
 On dit que Cid a été enfermé dans le château! Il aurait caché le tout dernier aéronef quelque part.[end]
 M. Cecil, voulez-vous un verre?
 Asseyez-vous, c'est pour la maison![end]
-C'est... c'est Cecil des Ailes Rouges!
+C'est... c'est le seigneur Cecil des Ailes Rouges!
 Je n'ai rien fait de mal!
 Je paie mes impôts, en plus...[end]
 Les soldats du château font ce que bon
@@ -359,7 +359,7 @@ Je compte sur vous![end]</sn:pointer>
 Tout ce que je peux faire à présent, c'est
 prier...[new]
 Palom, Porom, tenez-vous bien,
-et essayez de ne pas gêner M. Cecil.[end]
+et essayez de ne pas gêner messire Cecil.[end]
 Palom et Porom...!
 Je vois... Ces deux-là ont fini par me
 surpasser...[end]
@@ -542,7 +542,7 @@ Pour le moment, vous devriez vous
 reposer...[end]
 Nous protègerons le château d'une
 manière ou d'une autre.[end]
-Ah, M. Cecil![end]</sn:pointer>
+Ah, messire Cecil![end]</sn:pointer>
     <sn:pointer id="39">Elles ont de la chance, les grenouilles...[end]
 Bienvenue au château de Troia![end]
 Croa, croa![end]
@@ -769,7 +769,7 @@ la hauteur...[end]
 Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]
 Vous allez bien![end]</sn:pointer>
     <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
-M. Cecil, vous devez tous être
+Messire Cecil, vous devez tous être
 fatigués.
 Reposez-vous à l'auberge.[end]
 Vous allez prendre la mer, paraît-il, mais
@@ -831,7 +831,7 @@ magique que Rosa...[end]
 Lui... Golbez...![end]
 Si en plus des monstres se joignent à l'armée de Baron...[end]</sn:pointer>
     <sn:pointer id="82">Femme: Ah, te voilà rentré![new]
-Yang: C'est ma femme. Voici M. Cecil. Lui et ses amis m'ont sauvé la vie.[new]
+Yang: C'est ma femme. Voici messire Cecil. Lui et ses amis m'ont sauvé la vie.[new]
 Femme de Yang: Merci bien! Dis donc, chéri, t'as vraiment le temps de traîner ici?[end]
 Femme de Yang: Tu es sauf![new]
 Yang: Grâce à eux, Fabul et moi avons été sauvés.[new]
@@ -1392,7 +1392,7 @@ l'Enterprise![end]
 [bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
 [bold]Tella[normal]: Un drapeau blanc?[end]
-[bold]Yang[normal]: M. Cecil...[new]
+[bold]Yang[normal]: Messire Cecil...[new]
 [bold]Cid[normal]: Ce Caïn...![end]
 [bold]Cecil[normal]: Allons à Troia...
 Cid, cap au nord-ouest![end]</sn:pointer>
@@ -1942,7 +1942,7 @@ Uhh...est-ce déjà l'heure de
 l'entraînement?
 Laissez-moi dormir encore un peu...[end]
 [bold]Yang[normal]: Eh!?
-M. Cecil?[new]
+Messire Cecil?[new]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rydia[normal]: Je suis si contente que tu
 ailles bien![new]
