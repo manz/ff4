@@ -22,18 +22,18 @@
     <sn:fixed>[0x2b]Bâton d'aura</sn:fixed>
     <sn:fixed>[0x2b]Bâton du sage</sn:fixed>
     <sn:fixed>[0x2b]Bâton runique</sn:fixed>
-    <sn:fixed>[0x2c]Epée ténébreuse</sn:fixed>
+    <sn:fixed>[0x2c]Épée ténébreuse</sn:fixed>
     <sn:fixed>[0x2c]Lame de l'ombre</sn:fixed>
     <sn:fixed>[0x2c]Mortifère</sn:fixed>
-    <sn:fixed>[0x2e]Epée légendaire</sn:fixed>
-    <sn:fixed>[0x2e]Epée de lumière</sn:fixed>
+    <sn:fixed>[0x2e]Épée légendaire</sn:fixed>
+    <sn:fixed>[0x2e]Épée de lumière</sn:fixed>
     <sn:fixed>[0x2e]Excalibur</sn:fixed>
-    <sn:fixed>[0x2d]Epée de flammes</sn:fixed>
+    <sn:fixed>[0x2d]Épée de flammes</sn:fixed>
     <sn:fixed>[0x2d]Lame de glace</sn:fixed>
     <sn:fixed>[0x2d]Défenseur</sn:fixed>
-    <sn:fixed>[0x2d]Epée de sang</sn:fixed>
-    <sn:fixed>[0x2d]Epée ancienne</sn:fixed>
-    <sn:fixed>[0x2d]Epée du sommeil</sn:fixed>
+    <sn:fixed>[0x2d]Épée de sang</sn:fixed>
+    <sn:fixed>[0x2d]Épée ancienne</sn:fixed>
+    <sn:fixed>[0x2d]Épée du sommeil</sn:fixed>
     <sn:fixed>[0x2d]Lame briseuse</sn:fixed>
     <sn:fixed>[0x2f]Lance</sn:fixed>
     <sn:fixed>[0x2f]Lance du vent</sn:fixed>
@@ -61,7 +61,7 @@
     <sn:fixed>[0x34]Tueur d'ogres</sn:fixed>
     <sn:fixed>[0x30]Dague de mithril</sn:fixed>
     <sn:fixed>[0x30]Dague dansante</sn:fixed>
-    <sn:fixed>[0x2d]Epée de mithril</sn:fixed>
+    <sn:fixed>[0x2d]Épée de mithril</sn:fixed>
     <sn:fixed>[0x30]Couperet</sn:fixed>
     <sn:fixed>[0x2e]Ragnarok</sn:fixed>
     <sn:fixed>[0x32]Shuriken</sn:fixed>
@@ -176,7 +176,7 @@
     <sn:fixed>[0x3e]Brassard diamant</sn:fixed>
     <sn:fixed>[0x3e]Anneau de garde</sn:fixed>
     <sn:fixed>[0x3e]Anneau maudit</sn:fixed>
-    <sn:fixed>[0xff]Eclat de Bombe</sn:fixed>
+    <sn:fixed>[0xff]Éclat de Bombe</sn:fixed>
     <sn:fixed>[0xff]Bras de Bombe</sn:fixed>
     <sn:fixed>[0xff]Vent antarctique</sn:fixed>
     <sn:fixed>[0xff]Vent arctique</sn:fixed>
@@ -208,13 +208,13 @@
     <sn:fixed>[0xff]Corne de licorne</sn:fixed>
     <sn:fixed>[0xff]Potion</sn:fixed>
     <sn:fixed>[0xff]Hi-Potion</sn:fixed>
-    <sn:fixed>[0xff]Méga-Potion</sn:fixed>
-    <sn:fixed>[0xff]Ether</sn:fixed>
-    <sn:fixed>[0xff]Ether sec</sn:fixed>
-    <sn:fixed>[0xff]Elixir</sn:fixed>
+    <sn:fixed>[0xff]X-Potion</sn:fixed>
+    <sn:fixed>[0xff]Éther</sn:fixed>
+    <sn:fixed>[0xff]Éther sec</sn:fixed>
+    <sn:fixed>[0xff]Élixir</sn:fixed>
     <sn:fixed>[0xff]Queue de phénix</sn:fixed>
     <sn:fixed>[0xff]Aiguille d'or</sn:fixed>
-    <sn:fixed>[0xff]Baiser de fée</sn:fixed>
+    <sn:fixed>[0xff]Baiser de vierge</sn:fixed>
     <sn:fixed>[0xff]Marteau magique</sn:fixed>
     <sn:fixed>[0xff]Repas diététique</sn:fixed>
     <sn:fixed>[0xff]Herbe d'écho</sn:fixed>
@@ -233,7 +233,7 @@
     <sn:fixed>[0xff]Pain de nain</sn:fixed>
     <sn:fixed>[0x41]Gobelin</sn:fixed>
     <sn:fixed>[0x41]Bombe</sn:fixed>
-    <sn:fixed>[0x41]Cocatrix</sn:fixed>
+    <sn:fixed>[0x41]Cocatrice</sn:fixed>
     <sn:fixed>[0x41]Illithid</sn:fixed>
     <sn:fixed>[0xff]Légume Gysahl</sn:fixed>
     <sn:fixed>[0xff]Carte de membre</sn:fixed>

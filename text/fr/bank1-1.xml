@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">[0xfa]L'inventaire est plein.[end]</sn:pointer>
-    <sn:pointer id="1">[0xfa]Tu reçois [item]![end]</sn:pointer>
-    <sn:pointer id="2">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="1">[0xfa]Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="2">[0xfa]Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="3">Un monstre dans le coffre![end]</sn:pointer>
     <sn:pointer id="4">[0xfa]Le coffre est vide.[end]</sn:pointer>
     <sn:pointer id="5">[0xfa]La porte est verrouillée.[end]</sn:pointer>
@@ -47,8 +47,8 @@ Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
     <sn:pointer id="20">[0xfa]Il ne s'est rien passé.[end]</sn:pointer>
     <sn:pointer id="21">[0xfa]PM restaurés![end]</sn:pointer>
-    <sn:pointer id="22">[0xfa]Tu reçois [item]![end]</sn:pointer>
-    <sn:pointer id="23">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="22">[0xfa]Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="23">[0xfa]Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="24">[0xfa]C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
@@ -102,14 +102,14 @@ Beigan: Que dites-vous là? Venez, Sa Majesté vous attend.[end]</sn:pointer>
 Roi Baron: Vraiment!? Bravo, Beigan! Merci de m'en avoir informé! Mais le cristal avant tout...[new]
 Convoque-le ici![new]
 Beigan: Bien, Majesté.[end]</sn:pointer>
-    <sn:pointer id="42">[bold]Beigan[normal]: Capitaine Cecil, Sa Majesté
+    <sn:pointer id="42">[bold]Beigan[normal]: Messire Cecil, Sa Majesté
 vous demande.
 Entrez.[end]</sn:pointer>
     <sn:pointer id="43">[bold]Roi Baron[normal]: Bien joué, Cecil.
 Alors, le cristal?[new]
 [bold]Cecil[normal]: Le voici, Majesté.[end]</sn:pointer>
     <sn:pointer id="44">
-          [force_book]Tu as remis le cristal de l'eau.[force_normal][end]
+          [force_book]Vous avez remis le cristal de l'eau.[force_normal][end]
 </sn:pointer>
     <sn:pointer id="45">[bold]Beigan[normal]: Hmm...
 Il semble authentique...[new]
@@ -240,7 +240,7 @@ Soldats: À vos ordres![end]</sn:pointer>
     <sn:pointer id="72">[bold]Cecil[normal]: Yang!
 Tu ne me reconnais pas!?[new]
 [bold]Yang[normal]: Si, je te reconnais, criminel![end]</sn:pointer>
-    <sn:pointer id="73">Yang: M. Cecil! Léviathan m'a...[new]
+    <sn:pointer id="73">Yang: Messire Cecil! Léviathan m'a...[new]
 Tella: Apparemment, Baron se servait de vous pendant votre amnésie.[new]
 Yang: ...Je vous dois beaucoup.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Yang[normal]: Rydia a été avalée par
@@ -263,7 +263,7 @@ Bien sûr!
 Yang, ils t'ont fait commander la
 garde... c'est pour ça que tu l'as![new]
 Avec ça, on devrait pouvoir s'en sortir!
-[0xfa]Tu as la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
+[0xfa]Vous avez obtenu la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="79">L'anneau scintille...!?[end]</sn:pointer>
     <sn:pointer id="80">[bold]Caïn[normal]: Quoi?![new]
 [bold]Cecil[normal]: Voilà pourquoi on a été
@@ -389,7 +389,7 @@ Edward: Mais le passage vers Fabul par le mont Hobs est bloqué par la glace...[
     <sn:pointer id="107">[bold]Rosa[normal]: ...Rydia, tu sais lancer
 [force_bold]Feu[force_normal]?[new]
 [bold]Rydia[normal]: ! ...Non... je peux pas...[end]</sn:pointer>
-    <sn:pointer id="108">Rosa: Si tu es une invocatrice, tu devrais pouvoir lancer [force_bold]Feu[force_normal], la base de la magie noire... -keuf-[end]</sn:pointer>
+    <sn:pointer id="108">Rosa: Si tu es une invocatrice, tu devrais pouvoir lancer [force_bold]Feu[force_normal], la base des rituels de magie noire... -keuf-[end]</sn:pointer>
     <sn:pointer id="109">[bold]Cecil[normal]: Rosa!
 Tu dois rester ici et te reposer![end]</sn:pointer>
     <sn:pointer id="110">[bold]Edward[normal]: Anna...
@@ -459,7 +459,7 @@ Rosa: Dépêchez-vous![end]</sn:pointer>
 Roi Fabul: Prince Edward![new]
 Edward: Damcyan a déjà été attaqué et notre cristal a été volé! J'ai perdu... mon père... ma mère... et celle que j'aimais...![new]
 Allez-vous laisser Fabul subir le même sort que Damcyan?![end]</sn:pointer>
-    <sn:pointer id="126">[bold]Yang[normal]: Eh bien, M. Cecil![end]</sn:pointer>
+    <sn:pointer id="126">[bold]Yang[normal]: Eh bien, messire Cecil![end]</sn:pointer>
     <sn:pointer id="127">Yang: Ces gens sont des maîtres au combat! Laissez-les se battre avec moi sur le front![new]
 Roi Fabul: Puisque tu en réponds à ce point, je m'en remets à vous![new]
 Quant à vous, mesdemoiselles, vous soignerez les blessés.[new]
@@ -590,7 +590,7 @@ Yang![end]</sn:pointer>
     <sn:pointer id="179">[bold]Golbez[normal]: Viens, Scarmiglione![end]</sn:pointer>
     <sn:pointer id="180">Scarmiglione: -Gargl-... Scarmiglione de la Terre, à votre service...[new]
 Golbez: Ce Cecil est dangereux. Mieux vaut s'en occuper tout de suite.[new]
-Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment la Montagne de l'Épreuve.[new]
+Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment le mont de l'Épreuve.[new]
 Scarmiglione: Il veut... donc devenir... -hiss-... paladin?[new]
 Golbez: Ta mission est de l'éliminer avant. Scarmiglione: N'ayez crainte. Seigneur Golbez, admirez le spectacle d'ici...[new]
 Golbez: Alors va![new]
@@ -617,7 +617,7 @@ Nous avons été envoyés ici par l'Ancien
 de Mysidia pour...[new]
 [bold]Palom[normal]: Surveiller Cecil...[end]</sn:pointer>
     <sn:pointer id="188">Paf![delay][0x8][close_window][end]</sn:pointer>
-    <sn:pointer id="189">Porom: Hi hi! Nous guidons M. Cecil vers la Montagne de l'Épreuve. Je m'appelle Porom.[new]
+    <sn:pointer id="189">Porom: Hi hi! Nous guidons M. Cecil vers le mont de l'Épreuve. Je m'appelle Porom.[new]
 Palom: Et moi, c'est Palom! Alors comme ça, tu es Tella! T'es hyper célèbre à Mysidia![end]</sn:pointer>
     <sn:pointer id="190">[bold]Tella[normal]: Ainsi ce sont des enfants de
 Mysidia.
@@ -710,7 +710,7 @@ Alors vous devez pouvoir... !![end]</sn:pointer>
 MAIS VOUS N'AUREZ PAS LE CRISTAL.
 VOUS NE POUVEZ PAS RÉSISTER À MA
 MAGIE AVEC CET ÉQUIPEMENT![new]
-[bold]Yang[normal]: M. Cecil![new]
+[bold]Yang[normal]: Messire Cecil![new]
 [bold]Tella[normal]: Laisse-nous faire![end]</sn:pointer>
     <sn:pointer id="220">[bold]Edward[normal]: Cecil et les autres...sont
 en danger![end]</sn:pointer>
@@ -791,7 +791,7 @@ ta précieuse Rosa...[music][0x19] Alors, montez![end]</sn:pointer>
 [bold]Cecil[normal]: Rosa n'a rien, j'espère?[new]
 [bold]Golbez[normal]: Bien sûr qu'elle n'a rien.
 À présent, donne-moi le cristal![end]</sn:pointer>
-    <sn:pointer id="237">[0xfa]Tu donnes le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
+    <sn:pointer id="237">[0xfa]Vous avez remis le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
 Golbez: Rosa? De quoi parles-tu?[new]
 Cecil: Quoi!?[new]
 Cid: Ce n'était pas l'accord![new]
@@ -818,7 +818,7 @@ Guh... gugh![new]
 [bold]Cecil[normal]: ...?[new]
 [bold]Golbez[normal]: Ce... ce combat... n'est pas
 terminé![end]</sn:pointer>
-    <sn:pointer id="244">[bold]Yang[normal]: M. Cecil![new]
+    <sn:pointer id="244">[bold]Yang[normal]: Messire Cecil![new]
 [bold]Cid[normal]: Ça va!?[new]
 [bold]Cecil[normal]: Ou...ouais...
 On dirait que Météore a fait effet...
@@ -902,7 +902,7 @@ Cid: Faudrait creuser un trou pour y aller![new]
 Caïn: En tout cas, Golbez a dit qu'une fois réunis les cristaux de la surface et ceux des profondeurs, de la lumière et des ténèbres, le chemin vers la Lune s'ouvrirait.[new]
 Cecil: Le chemin vers la Lune?[new]
 Caïn: Je ne suis pas sûr de ce que ça veut dire... mais apparemment, ceci en serait la clé. Tiens, prends-le.[end]</sn:pointer>
-    <sn:pointer id="267">[0xfa]Tu reçois la Pierre de magma.
+    <sn:pointer id="267">[0xfa]Vous avez obtenu la Pierre de magma.
 [bold]Cecil[normal]: Qu'est-ce que c'est?[new]
 [bold]Caïn[normal]: Quand on la brandit quelque
 part, cette pierre ouvre apparemment le
@@ -951,18 +951,18 @@ C'est aussi grâce à vous. Je me dois de vous remercier pour cela. Prenez ceci!
 On a battu Golbez![end]</sn:pointer>
     <sn:pointer id="280">Rosa: C'est grâce à toi, Rydia![new]
 Cecil: Mais... comment as-tu grandi ainsi?[new]
-Rydia: Léviathan m'a avalée et m'a emmenée dans le Monde des Chimères.[new]
+Rydia: Léviathan m'a avalée et m'a emmenée dans le monde des Chimères.[new]
 Cecil: Le Monde des Chimères?[new]
 Rydia: C'est le monde où vivent les Chimères. Là-bas, elles sont devenues mes amies.[new]
 Je ne peux plus utiliser la magie blanche, mais en contrepartie, mes pouvoirs d'invocation et de magie noire se sont développés![new]
-Mais dans le Monde des Chimères, le temps s'écoule différemment...[new]
+Mais dans le monde des Chimères, le temps s'écoule différemment...[new]
 Rosa: Et c'est pourquoi tu as grandi si vite?[new]
 Caïn: Cecil, qui est cette fille?[new]
 Cecil: C'est Rydia, du village de Mist.[new]
 Caïn: Cette enfant!?[new]
 Yang: Quelle surprise...[new]
 Cecil: Mais pourquoi nous aides-tu...? Moi qui ai... ta mère...[new]
-Rydia: Ne dis rien! La reine du Monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[new]
+Rydia: Ne dis rien! La reine du monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[new]
 Que nous devons nous dresser contre lui...[new]
 Cecil: Rydia...! [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="281">«Je ne... mourrai... pas!»[end]</sn:pointer>
@@ -1189,7 +1189,7 @@ chose d'utile par ici.[end]</sn:pointer>
 pouvoirs![new]
 [bold]Asura[normal]: Alors je voudrais vous aider...
 mais je dois d'abord évaluer votre force.
-C'est la loi du Monde des Chimères.[new]
+C'est la loi du monde des Chimères.[new]
 Avez-vous le courage de me défier et la
 force de me vaincre?[end]</sn:pointer>
     <sn:pointer id="338">Rydia... Vous êtes les premiers à vaincre jusqu'à Asura. Mais face aux puissances du mal, la force seule ne suffit pas.[new]
@@ -1284,7 +1284,7 @@ Ancien: Tella! Se battre par haine, c'est courir à sa perte! Et dans ton état,
 Tella: Même si cela doit me détruire! Lui, je ne lui pardonnerai jamais![new]
 Ancien: Comme je m'y attendais. Tu n'as pas changé.[new]
 Tella: Toi non plus...[new]
-Ancien: Mais M. Cecil, lui aussi, est devenu paladin. Si vous unissez vos forces...![new]
+Ancien: Mais messire Cecil, lui aussi, est devenu paladin. Si vous unissez vos forces...![new]
 Cecil: Mais pour affronter Golbez, nous devons retourner à Baron et prendre un aéronef...[new]
 Ancien: Compris... Je vais briser le sceau de la Route du Démon![new]
 En tant que paladin, tu peux traverser la Route du Démon! Va à Baron![new]
@@ -1294,7 +1294,7 @@ Cecil: Oui![end]</sn:pointer>
 [bold]Giotto[normal]: Apporte-moi ton collier.[new]
 [bold]Luca[normal]: Celui-ci?[new]
 [bold]Giotto[normal]: Ce collier est la clé
-qui ouvre l'entrée de la Grotte Scellée!
+qui ouvre l'entrée de la grotte Scellée!
 Sans lui, la grotte ne laisse entrer personne![new]
 Il faut absolument protéger le dernier
 cristal![end]</sn:pointer>
@@ -1345,7 +1345,7 @@ Cecil: C'est la légende de Mysidia![new]
 Giotto: Vous connaissez Mysidia?[new]
 Cecil: C'est le village des mages, à la surface![new]
 Giotto: Mysidia existe vraiment![new]
-Cecil: L'Ancien est entré dans le temple des prières et continue de prier.[new]
+Cecil: L'Ancien est entré dans le temple des Prières et continue de prier.[new]
 Giotto: Se pourrait-il que cette personne...[new]
 Cecil: ?[new]
 Giotto: Veut-il ramener le vaisseau magique à la vie? Non... Il faut y croire, c'est notre seul espoir![new]
@@ -1355,7 +1355,7 @@ Edge: Et avec tous les cristaux réunis, impossible d'approcher la tour de Babil
     <sn:pointer id="379">«Je vais m'en occuper!»[end]</sn:pointer>
     <sn:pointer id="380">[bold]Cecil[normal]: ...Cette lumière m'a appelé son fils. Qu'est-ce que c'était, au juste?[new]
 [bold]Ancien[normal]: Je ne sais pas ce qu'était la
-lumière sur la Montagne de l'Épreuve, ni ce
+lumière sur le mont de l'Épreuve, ni ce
 que signifie la légende.[new]
 Mais depuis des générations, on nous dit,
 à nous Mysidiens, de prier pour cette
@@ -1405,7 +1405,7 @@ Et allons-y![end]</sn:pointer>
     <sn:pointer id="391">Rydia: Oh![new]
 Edward: Ne t'en fais pas. Le Fourmilion est docile. Il n'attaquerait pas un humain. Je vais prendre la Lumière du désert.[end]</sn:pointer>
     <sn:pointer id="392">[bold]Cecil[normal]: Allons-y, Rydia![end]</sn:pointer>
-    <sn:pointer id="393">[0xfa]Tu as reçu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="393">[0xfa]Vous avez obtenu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="394">[bold]Edward[normal]: C'est impossible!
 Pourquoi le Fourmilion...?[new]
 [bold]Cecil[normal]: Il y a de plus en plus de
@@ -1444,7 +1444,7 @@ Cecil: Caïn!?[new]
 Caïn: Un combat d'homme à homme, Cecil![new]
 Cecil: Arrête![new]
 Caïn: En garde![end]</sn:pointer>
-    <sn:pointer id="404">Yang: M. Cecil! C'est à notre tour de vous aider.[new]
+    <sn:pointer id="404">Yang: Messire Cecil! C'est à notre tour de vous aider.[new]
 Reposez-vous d'abord, puis trouvons comment la sauver.[new]
 Cecil: Merci, Yang...[end]</sn:pointer>
     <sn:pointer id="405">Bam![end]</sn:pointer>
@@ -1520,7 +1520,7 @@ Qu'est-ce que c'est!?[end]</sn:pointer>
 sommes un fier escadron!
 Et nous voilà à piller des gens sans
 défense![end]</sn:pointer>
-    <sn:pointer id="442">[0xfa]Tu as le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="442">[0xfa]Vous avez obtenu le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="443">[bold]Cid[normal]: Pas d'inquiétude!
 Cid et son Enterprise sont là![new]
 Il paraît que tu as beaucoup aidé Cecil
@@ -1531,7 +1531,7 @@ Cecil: On doit l'échanger contre le cristal de la Terre de Troia... Mais le cri
     <sn:pointer id="445">Edward: Cecil, prends ça...[new]
 Cecil: C'est quoi?[new]
 Edward: Il ira avec toi... à ma place... Prends-le...[end]</sn:pointer>
-    <sn:pointer id="446">[0xfa]Tu as le Murmure.[end]</sn:pointer>
+    <sn:pointer id="446">[0xfa]Vous avez obtenu le Murmure.[end]</sn:pointer>
     <sn:pointer id="447">Cecil: Le voilà! Où est Rosa!?[new]
 Caïn: Hmph. Du calme. Suis mon aéronef.[end]</sn:pointer>
     <sn:pointer id="448">[bold]Cecil[normal]: Tiens, le voilà![end]</sn:pointer>
@@ -1595,7 +1595,7 @@ Les cristaux luisaient silencieusement...[end]</sn:pointer>
 Cid: Je peux faire quelques réparations provisoires avec les matériaux disponibles ici...[new]
 Mais la coque ne résistera pas à la chaleur de la lave. Je dois retourner à la surface et la renforcer au mithril![new]
 Bon, ben, j'y vais![end]</sn:pointer>
-    <sn:pointer id="467">[0xfa]Tu as le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
+    <sn:pointer id="467">[0xfa]Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
 [bold]Palom[normal]: Tu nous as vus à l'œuvre, non?[new]
 [bold]Porom[normal]: Oui![new]
@@ -1608,7 +1608,7 @@ Tu nous as dit de l'aider![new]
 [bold]Porom[normal]: S'il vous plaît, laissez-nous
 aussi y aller...[new]
 [bold]Ancien[normal]: Vous deux...
-Si la Montagne de l'Épreuve vous a
+Si le mont de l'Épreuve vous a
 acceptés, c'est peut-être aussi votre
 destin...[new]
 Moi, je ne peux pas quitter Mysidia.[new]
@@ -1621,8 +1621,8 @@ Votre mission est terminée![end]</sn:pointer>
     <sn:pointer id="471">[0xfa]Cette nuit-là...[end]</sn:pointer>
     <sn:pointer id="472">C'est une pièce importante, vous ne
 pouvez pas entrer![end]</sn:pointer>
-    <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur la
-Montagne de l'Épreuve.[end]</sn:pointer>
+    <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur le
+mont de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">Rosa: Rydia...[new]
 Rydia: -sniff-...[end]</sn:pointer>
     <sn:pointer id="475">[bold]Tella[normal]: Vite!
@@ -1677,8 +1677,8 @@ entrer![end]</sn:pointer>
     <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
-    <sn:pointer id="496">[0xfa]Tu as trouvé le Grimoire![end]</sn:pointer>
-    <sn:pointer id="497">[0xfa]Tu as trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
+    <sn:pointer id="496">[0xfa]Vous avez trouvé le Grimoire![end]</sn:pointer>
+    <sn:pointer id="497">[0xfa]Vous avez trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
     <sn:pointer id="498">Roi Baron: Baron? Kukakaka... qui est-ce? Ah oui, je me souviens![new]
 C'était cet humain stupide qui refusait de me livrer son royaume... Je m'étais fait passer pour lui! Hyahyahya![new]
 Cecil: Monstre! Sa Majesté...![new]
@@ -1693,7 +1693,7 @@ Cecil: Alors vous êtes le sage Tella![end]</sn:pointer>
     <sn:pointer id="501">[bold]Golbez[normal]: Oui.[end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
     <sn:pointer id="503">[bold]Femme de Yang[normal]: Toi aussi![delay][0xa][end]</sn:pointer>
-    <sn:pointer id="504">[0xfa]Tu reçois le Collier de Luca![end]</sn:pointer>
+    <sn:pointer id="504">[0xfa]Vous avez reçu le Collier de Luca![end]</sn:pointer>
     <sn:pointer id="505">[bold]Yang[normal]: Il est trop tard![new]
 [bold]Cecil[normal]: Mais qui est en train de
 combattre les Ailes Rouges?[new]
@@ -1711,7 +1711,7 @@ relie la surface au monde souterrain...[new]
 Rubicante a déjà emporté les cristaux à
 la surface!
 Et mon canon géant va anéantir les
-nains... Hyahyahya![end]</sn:pointer>
+Nains... Hyahyahya![end]</sn:pointer>
     <sn:pointer id="510">«Avant de toucher à ce katana... allez
 donc en enfer!»[end]</sn:pointer>
     <sn:pointer id="511">Yang: Ça veut donc dire qu'ils vont essayer de voler le cristal du vent![new]

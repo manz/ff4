@@ -22,7 +22,7 @@ Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[en
 Je me demande si ce chevalier noir est vraiment mort... Moi, je l'aimais bien![end]
 C'était donc bien vous, seigneur Cecil!
 Battez-moi ce Golbez![end]
-La porte du bâtiment à l'ouest de la ville? Elle donne sur un canal souterrain qui mène au château. Mais elle est scellée, maintenant.[end]
+La porte du bâtiment à l'ouest de la ville? Elle donne sur une rivière souterraine qui mène au château. Mais elle est scellée, maintenant.[end]
 C'est la première fois depuis la fondation
 de Baron qu'on n'a pas de roi...[end]
 Le chevalier noir!
@@ -45,7 +45,7 @@ La rumeur dit que sous Baron dort l'âme
 d'une Chimère qui terrasse ses ennemis
 d'un seul coup![end]
 Les Chimères que nous, invocateurs,
-appelons viennent du Monde des
+appelons viennent du monde des
 Chimères...[new]
 Un endroit qui se trouverait loin sous la
 surface de la Terre.[end]</sn:pointer>
@@ -56,9 +56,9 @@ Mais maître Tella s'y est opposé, alors
 elle s'est enfuie de Kaïpo...[end]
 Je veux être danseuse à Damcyan, mais il
 y a beaucoup de monstres qui rôdent
-dans le canal souterrain.
+dans la rivière souterraine.
 Tu veux voir ma natation synchronisée?[end]
-Le canal souterrain est au nord-est, mais
+La rivière souterraine est au nord-est, mais
 j'ai entendu dire que huit serpents de mer
 y rôdent depuis peu![end]
 Le château qui est au nord, Damcyan,
@@ -78,12 +78,12 @@ paladin...[end]
 Savez-vous combien nous avons souffert
 à cause de vous?[end]
 Oh, bonjour Palom et Porom.
-La Montagne de l'Épreuve se situe à l'est.[end]
+Le mont de l'Épreuve se situe à l'est.[end]
 Vous aussi, vous avez souffert...
 Je prierai pour vous, moi aussi.[end]
 Je n'ai rien à te dire![end]
-Les morts-vivants grouillent sur la
-Montagne de l'Épreuve!
+Les morts-vivants grouillent sur le
+mont de l'Épreuve!
 Ta lame noire ne sert à rien![end]
 Toi... un paladin!?[end]
 Les hommes qui se font du mal entre eux... C'est bien triste.[end]
@@ -92,7 +92,7 @@ apparence![end]
 N'oubliez pas l'esprit du paladin.[end]
 T'en as du cran de venir ici![end]
 Nombreux sont ceux qui se sont mesurés
-à la Montagne de l'Épreuve, mais aucun
+au mont de l'Épreuve, mais aucun
 n'en est jamais revenu.[end]
 Ça ne veut pas dire que je t'ai pardonné![end]
 Oh!
@@ -177,7 +177,7 @@ Je ne peux pas prendre votre argent, voyons![end]
 On dit que Cid a été enfermé dans le château! Il aurait caché le tout dernier aéronef quelque part.[end]
 M. Cecil, voulez-vous un verre?
 Asseyez-vous, c'est pour la maison![end]
-C'est... c'est Cecil des Ailes Rouges!
+C'est... c'est le seigneur Cecil des Ailes Rouges!
 Je n'ai rien fait de mal!
 Je paie mes impôts, en plus...[end]
 Les soldats du château font ce que bon
@@ -281,7 +281,7 @@ L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
 Revenez nous voir bientôt![end]</sn:pointer>
     <sn:pointer id="19">Qu'est-ce que tu veux, cette fois!?[end]
-La Montagne de l'Épreuve?
+Le mont de l'Épreuve?
 Inutile d'y aller![end]
 Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]
 Ce n'est pas possible... Toi, tu es devenu...[end]
@@ -306,7 +306,7 @@ Tu es vraiment devenu un paladin![end]
 P-p-p-pitié, épargnez-moi![end]
 P-p-p-pitié, épar...
 Hein?
-Vous allez gravir la Montagne de l'Épreuve?[end]
+Vous allez gravir le mont de l'Épreuve?[end]
 Ouah, quelle noble allure![end]
 [bold]Cecil[normal]: Argl![end]
 J'ai mis un petit peu de poison dans ton
@@ -327,7 +327,7 @@ Si vous devenez paladin, j'aurai confiance
 en vous.[end]
 Nous allons essayer d'avoir confiance en
 vous![end]
-C'est la Maison des Prières. L'Ancien va écouter votre histoire.[end]
+C'est la maison des Prières. L'Ancien va écouter votre histoire.[end]
 Allez découvrir si vous pouvez accepter
 la lumière...[end]
 Votre lumière, si faible autrefois, brille à présent d'un tel éclat![end]
@@ -359,7 +359,7 @@ Je compte sur vous![end]</sn:pointer>
 Tout ce que je peux faire à présent, c'est
 prier...[new]
 Palom, Porom, tenez-vous bien,
-et essayez de ne pas gêner M. Cecil.[end]
+et essayez de ne pas gêner messire Cecil.[end]
 Palom et Porom...!
 Je vois... Ces deux-là ont fini par me
 surpasser...[end]
@@ -542,7 +542,7 @@ Pour le moment, vous devriez vous
 reposer...[end]
 Nous protègerons le château d'une
 manière ou d'une autre.[end]
-Ah, M. Cecil![end]</sn:pointer>
+Ah, messire Cecil![end]</sn:pointer>
     <sn:pointer id="39">Elles ont de la chance, les grenouilles...[end]
 Bienvenue au château de Troia![end]
 Croa, croa![end]
@@ -652,7 +652,7 @@ Allez, c'est par là![end]
 [bold]Roi Baron[normal]: En effet!
 Je suis l'un des quatre Empereurs de
 Golbez, Cagnazzo de l'Eau![end]
-Obtenu l'Anneau Bombe.[end]</sn:pointer>
+Vous avez obtenu l'Anneau Bombe.[end]</sn:pointer>
     <sn:pointer id="45">T[end]</sn:pointer>
     <sn:pointer id="46">T[end]
 T[end]
@@ -769,7 +769,7 @@ la hauteur...[end]
 Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]
 Vous allez bien![end]</sn:pointer>
     <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
-M. Cecil, vous devez tous être
+Messire Cecil, vous devez tous être
 fatigués.
 Reposez-vous à l'auberge.[end]
 Vous allez prendre la mer, paraît-il, mais
@@ -823,7 +823,7 @@ Il devrait y avoir un navire qui vous y
 attend.[end]
 [bold]Cecil[normal]: Je crois que je vais faire un
 somme dans le lit du roi![end]
-Obtenu Mortifère![end]</sn:pointer>
+Vous avez obtenu Mortifère![end]</sn:pointer>
     <sn:pointer id="80">T[end]</sn:pointer>
     <sn:pointer id="81">C'est l'infirmerie des secouristes.[end]
 Si seulement j'avais autant de puissance
@@ -831,7 +831,7 @@ magique que Rosa...[end]
 Lui... Golbez...![end]
 Si en plus des monstres se joignent à l'armée de Baron...[end]</sn:pointer>
     <sn:pointer id="82">Femme: Ah, te voilà rentré![new]
-Yang: C'est ma femme. Voici M. Cecil. Lui et ses amis m'ont sauvé la vie.[new]
+Yang: C'est ma femme. Voici messire Cecil. Lui et ses amis m'ont sauvé la vie.[new]
 Femme de Yang: Merci bien! Dis donc, chéri, t'as vraiment le temps de traîner ici?[end]
 Femme de Yang: Tu es sauf![new]
 Yang: Grâce à eux, Fabul et moi avons été sauvés.[new]
@@ -850,13 +850,13 @@ Oh, j'ai une poussière dans l'œil...[end]
 Mais quelle mauviette!
 Allez lui remettre les idées en place
 avec ça![end]
-Obtenu la Poêle d'amour![end]
+Vous avez obtenu la Poêle d'amour![end]
 Hein?
 Il est dans le monde souterrain?[end]
 Oh, merci d'être venus jusqu'ici.
 Je n'ai que ça, mais ça pourra sûrement
 servir.[end]
-Obtenu le Couperet![end]
+Vous avez obtenu le Couperet![end]
 Ne vous inquiétez pas pour moi!
 Dites-lui de se remettre vite et de
 se battre![end]</sn:pointer>
@@ -1033,7 +1033,7 @@ peux sauvegarder ton jeu.
 Utilise bien ces endroits![end]
 Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
-Gros Chocobo dans la Forêt Chocobo![new]
+Gros Chocobo dans la forêt Chocobo![new]
 Si tu sens des chocobos, utilise un Légume Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
 Si tu veux changer de nom, tu n'as qu'à lui demander![end]
@@ -1250,8 +1250,8 @@ une autre affaire![end]
 C...c'est la queue de rat que je cherchais!
 D'accord, je vais vous donner un bout de
 ce minerai!
-Obtenu l'Adamantite![music][0x29][delay][0x28][end]
-C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:pointer>
+Vous avez obtenu l'Adamantite![music][0x29][delay][0x28][end]
+C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Vous avez obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="161">T[end]</sn:pointer>
     <sn:pointer id="162">T[end]</sn:pointer>
     <sn:pointer id="163">[bold]FuSoYa[normal]: Approche-toi de sa bouche![new]
@@ -1392,7 +1392,7 @@ l'Enterprise![end]
 [bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
 [bold]Tella[normal]: Un drapeau blanc?[end]
-[bold]Yang[normal]: M. Cecil...[new]
+[bold]Yang[normal]: Messire Cecil...[new]
 [bold]Cid[normal]: Ce Caïn...![end]
 [bold]Cecil[normal]: Allons à Troia...
 Cid, cap au nord-ouest![end]</sn:pointer>
@@ -1469,7 +1469,7 @@ Vous êtes venus de la surface?
 Alors la surface, ça existe pour de vrai![end]
 Vous saviez ça?
 La grotte de l'île au nord-ouest mène
-au Monde des Chimères, à c'qui paraît.
+au monde des Chimères, à c'qui paraît.
 Ça fait peur![end]
 Il paraît qu'à la surface, l'océan est bleu... Ça fait froid dans le dos![end]</sn:pointer>
     <sn:pointer id="258">C'est la maison du meilleur forgeron du
@@ -1485,13 +1485,13 @@ Ne sois pas si impatient![end]
 C'est fait!
 L'épée sacrée Excalibur!
 Manie-la avec respect![new]
-Tu as obtenu Excalibur![music][0x29][delay][0x28][end]
+Vous avez obtenu Excalibur![music][0x29][delay][0x28][end]
 Grâce à toi, j'ai enfin retrouvé le cœur à
 l'ouvrage.[end]
 Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:pointer>
     <sn:pointer id="259">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]
 C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]
-Tu as remis l'Épée légendaire.[end]
+Vous avez remis l'Épée légendaire.[end]
 Zzz...[end]</sn:pointer>
     <sn:pointer id="260">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]
 Les Sylphes sont si timides!
@@ -1534,7 +1534,7 @@ Golbez a pris le cristal...[new]
 [bold]Giotto[normal]: On n'y peut rien...
 Il ne nous reste qu'à défendre le dernier cristal coûte que coûte.[new]
 [bold]Rosa[normal]: Où est le dernier cristal?[new]
-[bold]Giotto[normal]: Dans la Grotte Scellée, au
+[bold]Giotto[normal]: Dans la grotte Scellée, au
 sud-ouest.
 Golbez y est allé, mais ne vous
 inquiétez pas.[new]
@@ -1547,7 +1547,7 @@ avons perdu le cristal!
 Si nous pouvons vous aider en quoi
 que ce soit...[new]
 [bold]Giotto[normal]: Pendant que Golbez est
-occupé à la Grotte Scellée...[new]
+occupé à la grotte Scellée...[new]
 Pourriez-vous vous introduire dans la tour de Babil et reprendre les sept
 cristaux?[new]
 [bold]Caïn[normal]: La tour de Babil?[new]
@@ -1571,18 +1571,18 @@ Je prierai pour votre réussite![end]
 Se servir de mes poupées pour ça! C'est impardonnable![end]
 [bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
-Vous, vous allez à la Grotte Scellée au
+Vous, vous allez à la grotte Scellée au
 sud-ouest![end]
 Giotto: Allez à Mysidia! Tout repose sur vous![end]
 On dit que ce collier est un souvenir
 de sa défunte mère.[end]
-Près de la Grotte Scellée se trouve
+Près de la grotte Scellée se trouve
 le continent de Toméra où vivent d'autres
-nains![new]
+Nains![new]
 Mais on ne peut pas y aller à cause de la
 lave![end]
-Si vous pouvez voler, vous devriez pouvoir aller à la Grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
-La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au Monde des Chimères![end]
+Si vous pouvez voler, vous devriez pouvoir aller à la grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
+La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au monde des Chimères![end]
 Vous ne pouvez pas voler au-dessus de
 la lave?
 Si le vieux aux aéronefs était là, il pourrait pas vous bricoler ça?[end]
@@ -1601,7 +1601,7 @@ Il y a un canon terriblement gros dans la tour de Babil![end]
 Les monstres du monde souterrain sont forts! Ne baissez pas la garde![end]</sn:pointer>
     <sn:pointer id="268">T[end]</sn:pointer>
     <sn:pointer id="269">T[end]</sn:pointer>
-    <sn:pointer id="270">Les armes des nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]
+    <sn:pointer id="270">Les armes des Nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]
 Une armure de nain est solide! Est-ce que vous, les humains, allez pouvoir bouger avec?[end]</sn:pointer>
     <sn:pointer id="271">Je suis courageux!
 Mais vous êtes encore plus courageux![end]
@@ -1615,7 +1615,7 @@ Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, 
 Ce pot, c'est le pot de vie!
 Buvez-en une lampée![end]</sn:pointer>
     <sn:pointer id="272">T[end]</sn:pointer>
-    <sn:pointer id="273">Les objets des nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
+    <sn:pointer id="273">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
     <sn:pointer id="274">C'est l'infirmerie![end]
 Les nains sont costauds! Mais parfois, on se blesse quand même![end]
 Ce vieux est drôlement en forme, pour un vieux![end]
@@ -1679,7 +1679,7 @@ Je suis Lugeie! Je défendrai cette tour de Babil, mon honneur en dépend![new]
 Caïn: Ne me fais pas rire![end]
 [bold]Dr Lugeie[normal]: Grr...
 Mon fils adoré va m'apporter vos têtes![end]
-[bold]Rydia[normal]: Ils vont tuer les nains![end]
+[bold]Rydia[normal]: Ils vont tuer les Nains![end]
 [bold]Yang[normal]: Le canon géant![end]
 [bold]Caïn[normal]: Il faut le détruire![end]
 [bold]Lugeie[normal]: Comment osez-vous!
@@ -1752,7 +1752,7 @@ Zzz...Zzz...[end]</sn:pointer>
     <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
 c'est possible![end]
 [bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>
-    <sn:pointer id="301">«Wahaha! Crevez, nains
+    <sn:pointer id="301">«Wahaha! Crevez, Nains
 minables!»[end]Cecil: Vous n'irez pas plus
 loin![end]«Vous!» «Comment êtes-vous
 entrés!?» «Attrapez-les!»[end]«Merde! Puisque c'est comme ça...!»[end]«Maintenant, plus personne ne
@@ -1804,7 +1804,7 @@ souterrain![end]</sn:pointer>
     <sn:pointer id="314">Rydia, tu es de retour![end]
 À l'exception de Rydia, vous êtes les
 premiers humains à venir ici.[end]
-C'est le Monde des Chimères.
+C'est le monde des Chimères.
 Le monde où les Chimères vivent.[end]
 Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:pointer>
@@ -1878,16 +1878,16 @@ Seul celui qui saura retourner sa puissance contre lui pourra le vaincre...[end]
 Il y a deux lunes...
 Mais on dit que dans les temps anciens, il
 n'y en avait qu'une seule.[end]
-La reine du Monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
+La reine du monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
 Seuls ceux qui sauront tirer parti de son pouvoir pour la vaincre verront le roi...[end]
 Le roi des Chimères...
-Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du Monde des Chimères.[end]
+Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]
 Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
 Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]
 Les douces et sveltes Sylphes...
 C'est en unissant leurs forces qu'elles
 révèlent leur pouvoir...[end]
-La loi du Monde des Chimères...
+La loi du monde des Chimères...
 La force, c'est un cœur juste.
 Ne jamais accorder son pouvoir à la
 légère, sans avoir jaugé cette force.[end]</sn:pointer>
@@ -1942,7 +1942,7 @@ Uhh...est-ce déjà l'heure de
 l'entraînement?
 Laissez-moi dormir encore un peu...[end]
 [bold]Yang[normal]: Eh!?
-M. Cecil?[new]
+Messire Cecil?[new]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rydia[normal]: Je suis si contente que tu
 ailles bien![new]
@@ -2045,12 +2045,12 @@ des surnoms...[end]</sn:pointer>
     <sn:pointer id="358">T[end]</sn:pointer>
     <sn:pointer id="359">T[end]</sn:pointer>
     <sn:pointer id="360">T[end]</sn:pointer>
-    <sn:pointer id="361">Tu as obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="361">Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">Tu as obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="363">Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="364">T[end]</sn:pointer>
     <sn:pointer id="365">T[end]</sn:pointer>
-    <sn:pointer id="366">Tu as obtenu la Masamune![music][0x29][delay][0x28][end]
+    <sn:pointer id="366">Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]
 Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette lame maudite... la Masamune!?[end]</sn:pointer>
     <sn:pointer id="367">T[end]</sn:pointer>
     <sn:pointer id="368">T[end]</sn:pointer>
@@ -2063,7 +2063,7 @@ Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette 
     <sn:pointer id="375">T[end]</sn:pointer>
     <sn:pointer id="376">T[end]</sn:pointer>
     <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">Tu as obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="378">Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="379">T[end]</sn:pointer>
     <sn:pointer id="380">T[end]</sn:pointer>
     <sn:pointer id="381">T[end]</sn:pointer>
