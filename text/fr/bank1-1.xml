@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">[0xfa]L'inventaire est plein.[end]</sn:pointer>
-    <sn:pointer id="1">[0xfa]Tu reçois [item]![end]</sn:pointer>
-    <sn:pointer id="2">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="1">[0xfa]Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="2">[0xfa]Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="3">Un monstre dans le coffre![end]</sn:pointer>
     <sn:pointer id="4">[0xfa]Le coffre est vide.[end]</sn:pointer>
     <sn:pointer id="5">[0xfa]La porte est verrouillée.[end]</sn:pointer>
@@ -47,8 +47,8 @@ Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
     <sn:pointer id="20">[0xfa]Il ne s'est rien passé.[end]</sn:pointer>
     <sn:pointer id="21">[0xfa]PM restaurés![end]</sn:pointer>
-    <sn:pointer id="22">[0xfa]Tu reçois [item]![end]</sn:pointer>
-    <sn:pointer id="23">[0xfa]Tu reçois [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="22">[0xfa]Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="23">[0xfa]Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="24">[0xfa]C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
@@ -109,7 +109,7 @@ Entrez.[end]</sn:pointer>
 Alors, le cristal?[new]
 [bold]Cecil[normal]: Le voici, Majesté.[end]</sn:pointer>
     <sn:pointer id="44">
-          [force_book]Tu as remis le cristal de l'eau.[force_normal][end]
+          [force_book]Vous avez remis le cristal de l'eau.[force_normal][end]
 </sn:pointer>
     <sn:pointer id="45">[bold]Beigan[normal]: Hmm...
 Il semble authentique...[new]
@@ -263,7 +263,7 @@ Bien sûr!
 Yang, ils t'ont fait commander la
 garde... c'est pour ça que tu l'as![new]
 Avec ça, on devrait pouvoir s'en sortir!
-[0xfa]Tu as la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
+[0xfa]Vous avez obtenu la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="79">L'anneau scintille...!?[end]</sn:pointer>
     <sn:pointer id="80">[bold]Caïn[normal]: Quoi?![new]
 [bold]Cecil[normal]: Voilà pourquoi on a été
@@ -791,7 +791,7 @@ ta précieuse Rosa...[music][0x19] Alors, montez![end]</sn:pointer>
 [bold]Cecil[normal]: Rosa n'a rien, j'espère?[new]
 [bold]Golbez[normal]: Bien sûr qu'elle n'a rien.
 À présent, donne-moi le cristal![end]</sn:pointer>
-    <sn:pointer id="237">[0xfa]Tu donnes le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
+    <sn:pointer id="237">[0xfa]Vous avez remis le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
 Golbez: Rosa? De quoi parles-tu?[new]
 Cecil: Quoi!?[new]
 Cid: Ce n'était pas l'accord![new]
@@ -902,7 +902,7 @@ Cid: Faudrait creuser un trou pour y aller![new]
 Caïn: En tout cas, Golbez a dit qu'une fois réunis les cristaux de la surface et ceux des profondeurs, de la lumière et des ténèbres, le chemin vers la Lune s'ouvrirait.[new]
 Cecil: Le chemin vers la Lune?[new]
 Caïn: Je ne suis pas sûr de ce que ça veut dire... mais apparemment, ceci en serait la clé. Tiens, prends-le.[end]</sn:pointer>
-    <sn:pointer id="267">[0xfa]Tu reçois la Pierre de magma.
+    <sn:pointer id="267">[0xfa]Vous avez obtenu la Pierre de magma.
 [bold]Cecil[normal]: Qu'est-ce que c'est?[new]
 [bold]Caïn[normal]: Quand on la brandit quelque
 part, cette pierre ouvre apparemment le
@@ -1405,7 +1405,7 @@ Et allons-y![end]</sn:pointer>
     <sn:pointer id="391">Rydia: Oh![new]
 Edward: Ne t'en fais pas. Le Fourmilion est docile. Il n'attaquerait pas un humain. Je vais prendre la Lumière du désert.[end]</sn:pointer>
     <sn:pointer id="392">[bold]Cecil[normal]: Allons-y, Rydia![end]</sn:pointer>
-    <sn:pointer id="393">[0xfa]Tu as reçu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="393">[0xfa]Vous avez obtenu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="394">[bold]Edward[normal]: C'est impossible!
 Pourquoi le Fourmilion...?[new]
 [bold]Cecil[normal]: Il y a de plus en plus de
@@ -1520,7 +1520,7 @@ Qu'est-ce que c'est!?[end]</sn:pointer>
 sommes un fier escadron!
 Et nous voilà à piller des gens sans
 défense![end]</sn:pointer>
-    <sn:pointer id="442">[0xfa]Tu as le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="442">[0xfa]Vous avez obtenu le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="443">[bold]Cid[normal]: Pas d'inquiétude!
 Cid et son Enterprise sont là![new]
 Il paraît que tu as beaucoup aidé Cecil
@@ -1531,7 +1531,7 @@ Cecil: On doit l'échanger contre le cristal de la Terre de Troia... Mais le cri
     <sn:pointer id="445">Edward: Cecil, prends ça...[new]
 Cecil: C'est quoi?[new]
 Edward: Il ira avec toi... à ma place... Prends-le...[end]</sn:pointer>
-    <sn:pointer id="446">[0xfa]Tu as le Murmure.[end]</sn:pointer>
+    <sn:pointer id="446">[0xfa]Vous avez obtenu le Murmure.[end]</sn:pointer>
     <sn:pointer id="447">Cecil: Le voilà! Où est Rosa!?[new]
 Caïn: Hmph. Du calme. Suis mon aéronef.[end]</sn:pointer>
     <sn:pointer id="448">[bold]Cecil[normal]: Tiens, le voilà![end]</sn:pointer>
@@ -1595,7 +1595,7 @@ Les cristaux luisaient silencieusement...[end]</sn:pointer>
 Cid: Je peux faire quelques réparations provisoires avec les matériaux disponibles ici...[new]
 Mais la coque ne résistera pas à la chaleur de la lave. Je dois retourner à la surface et la renforcer au mithril![new]
 Bon, ben, j'y vais![end]</sn:pointer>
-    <sn:pointer id="467">[0xfa]Tu as le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
+    <sn:pointer id="467">[0xfa]Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
 [bold]Palom[normal]: Tu nous as vus à l'œuvre, non?[new]
 [bold]Porom[normal]: Oui![new]
@@ -1677,8 +1677,8 @@ entrer![end]</sn:pointer>
     <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
-    <sn:pointer id="496">[0xfa]Tu as trouvé le Grimoire![end]</sn:pointer>
-    <sn:pointer id="497">[0xfa]Tu as trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
+    <sn:pointer id="496">[0xfa]Vous avez trouvé le Grimoire![end]</sn:pointer>
+    <sn:pointer id="497">[0xfa]Vous avez trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
     <sn:pointer id="498">Roi Baron: Baron? Kukakaka... qui est-ce? Ah oui, je me souviens![new]
 C'était cet humain stupide qui refusait de me livrer son royaume... Je m'étais fait passer pour lui! Hyahyahya![new]
 Cecil: Monstre! Sa Majesté...![new]
@@ -1693,7 +1693,7 @@ Cecil: Alors vous êtes le sage Tella![end]</sn:pointer>
     <sn:pointer id="501">[bold]Golbez[normal]: Oui.[end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
     <sn:pointer id="503">[bold]Femme de Yang[normal]: Toi aussi![delay][0xa][end]</sn:pointer>
-    <sn:pointer id="504">[0xfa]Tu reçois le Collier de Luca![end]</sn:pointer>
+    <sn:pointer id="504">[0xfa]Vous avez reçu le Collier de Luca![end]</sn:pointer>
     <sn:pointer id="505">[bold]Yang[normal]: Il est trop tard![new]
 [bold]Cecil[normal]: Mais qui est en train de
 combattre les Ailes Rouges?[new]

@@ -652,7 +652,7 @@ Allez, c'est par là![end]
 [bold]Roi Baron[normal]: En effet!
 Je suis l'un des quatre Empereurs de
 Golbez, Cagnazzo de l'Eau![end]
-Obtenu l'Anneau Bombe.[end]</sn:pointer>
+Vous avez obtenu l'Anneau Bombe.[end]</sn:pointer>
     <sn:pointer id="45">T[end]</sn:pointer>
     <sn:pointer id="46">T[end]
 T[end]
@@ -823,7 +823,7 @@ Il devrait y avoir un navire qui vous y
 attend.[end]
 [bold]Cecil[normal]: Je crois que je vais faire un
 somme dans le lit du roi![end]
-Obtenu Mortifère![end]</sn:pointer>
+Vous avez obtenu Mortifère![end]</sn:pointer>
     <sn:pointer id="80">T[end]</sn:pointer>
     <sn:pointer id="81">C'est l'infirmerie des secouristes.[end]
 Si seulement j'avais autant de puissance
@@ -850,13 +850,13 @@ Oh, j'ai une poussière dans l'œil...[end]
 Mais quelle mauviette!
 Allez lui remettre les idées en place
 avec ça![end]
-Obtenu la Poêle d'amour![end]
+Vous avez obtenu la Poêle d'amour![end]
 Hein?
 Il est dans le monde souterrain?[end]
 Oh, merci d'être venus jusqu'ici.
 Je n'ai que ça, mais ça pourra sûrement
 servir.[end]
-Obtenu le Couperet![end]
+Vous avez obtenu le Couperet![end]
 Ne vous inquiétez pas pour moi!
 Dites-lui de se remettre vite et de
 se battre![end]</sn:pointer>
@@ -1250,8 +1250,8 @@ une autre affaire![end]
 C...c'est la queue de rat que je cherchais!
 D'accord, je vais vous donner un bout de
 ce minerai!
-Obtenu l'Adamantite![music][0x29][delay][0x28][end]
-C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:pointer>
+Vous avez obtenu l'Adamantite![music][0x29][delay][0x28][end]
+C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Vous avez obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="161">T[end]</sn:pointer>
     <sn:pointer id="162">T[end]</sn:pointer>
     <sn:pointer id="163">[bold]FuSoYa[normal]: Approche-toi de sa bouche![new]
@@ -1485,13 +1485,13 @@ Ne sois pas si impatient![end]
 C'est fait!
 L'épée sacrée Excalibur!
 Manie-la avec respect![new]
-Tu as obtenu Excalibur![music][0x29][delay][0x28][end]
+Vous avez obtenu Excalibur![music][0x29][delay][0x28][end]
 Grâce à toi, j'ai enfin retrouvé le cœur à
 l'ouvrage.[end]
 Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:pointer>
     <sn:pointer id="259">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]
 C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]
-Tu as remis l'Épée légendaire.[end]
+Vous avez remis l'Épée légendaire.[end]
 Zzz...[end]</sn:pointer>
     <sn:pointer id="260">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]
 Les Sylphes sont si timides!
@@ -2045,12 +2045,12 @@ des surnoms...[end]</sn:pointer>
     <sn:pointer id="358">T[end]</sn:pointer>
     <sn:pointer id="359">T[end]</sn:pointer>
     <sn:pointer id="360">T[end]</sn:pointer>
-    <sn:pointer id="361">Tu as obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="361">Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">Tu as obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="363">Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="364">T[end]</sn:pointer>
     <sn:pointer id="365">T[end]</sn:pointer>
-    <sn:pointer id="366">Tu as obtenu la Masamune![music][0x29][delay][0x28][end]
+    <sn:pointer id="366">Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]
 Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette lame maudite... la Masamune!?[end]</sn:pointer>
     <sn:pointer id="367">T[end]</sn:pointer>
     <sn:pointer id="368">T[end]</sn:pointer>
@@ -2063,7 +2063,7 @@ Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette 
     <sn:pointer id="375">T[end]</sn:pointer>
     <sn:pointer id="376">T[end]</sn:pointer>
     <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">Tu as obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="378">Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="379">T[end]</sn:pointer>
     <sn:pointer id="380">T[end]</sn:pointer>
     <sn:pointer id="381">T[end]</sn:pointer>

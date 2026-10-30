@@ -496,7 +496,7 @@ Cecil? [delay][0x10][new]
 J'ai cru... avoir entendu... la voix de mon
 frère...[new]
 [bold]Rosa[normal]: Et que disait-il...?[delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="117">Tu as obtenu le cristal![end]</sn:pointer>
+    <sn:pointer id="117">Vous avez obtenu le cristal![end]</sn:pointer>
     <sn:pointer id="118">Cecil: J'ai dû rêver. Sans doute...[delay][0x20][close_window][end]</sn:pointer>
     <sn:pointer id="119">Cid: Qu'est-ce qui... Vous êtes encore là, tous les deux!? [delay][0x18] Qu'est-ce que vous fabriquez, en un si grand jour?![new]
 Rosa: Pardon, on s'est attardés...[delay][0x10][close_window][end]</sn:pointer>
