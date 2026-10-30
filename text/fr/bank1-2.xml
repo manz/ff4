@@ -228,7 +228,7 @@ noire, non seulement tu ne pourras pas
 vaincre le mal véritable, mais ton propre
 cœur risque à tout moment d'y sombrer.[new]
 Si tu souhaites combattre avec un cœur
-pur, va à la Montagne de l'Épreuve, à
+pur, va au mont de l'Épreuve, à
 l'est.
 Un grand destin t'y attend.[new]
 [bold]Cecil[normal]: Mais je dois sauver mon amie au
@@ -237,14 +237,14 @@ plus vite![new]
 n'est-ce pas?
 Mais ne te précipite pas!
 Tu sembles porter un lourd destin...[new]
-Gravis d'abord la Montagne de l'Épreuve.
+Gravis d'abord le mont de l'Épreuve.
 Tu dois changer cette lame maléfique en
 lame sacrée.[new]
 Celui qui accueille la lumière sacrée
 peut devenir un chevalier sacré... un
 paladin, dit-on...[new]
 Nombreux sont ceux qui sont partis vers
-la Montagne de l'Épreuve, pleins
+le mont de l'Épreuve, pleins
 d'espoir, mais aucun n'en est revenu.[new]
 ...Alors, iras-tu?[new]
 [bold]Cecil[normal]: ...Oui![new]
@@ -309,8 +309,8 @@ L'un d'eux...[new]
     <sn:pointer id="62">[bold]Apprentis[normal]: Oui, m'sieur![end]</sn:pointer>
     <sn:pointer id="63">[bold]Cecil[normal]: !!
 Moi...?
-Alors, la voix que j'ai entendue sur la
-Montagne de l'Épreuve, c'était...[new]
+Alors, la voix que j'ai entendue sur le
+mont de l'Épreuve, c'était...[new]
 [bold]FuSoYa[normal]: Ton père...
 C'était l'esprit de KluYa...
 Je vois, à présent... tu ressembles
@@ -396,7 +396,7 @@ l'entraînement du jour.[new]
 [bold]Ancien[normal]: Hm? Où est passé Palom?[new]
 [bold]Porom[normal]: Il a encore filé![delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="81">[bold]Palom[normal]: Et là, avec mon fameux sort
-Glace, sur la Montagne de l'Épreuve...[delay][0x10][close_window][end]</sn:pointer>
+Glace, sur le mont de l'Épreuve...[delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="82">Palom: Ouyouyouille![new]
 Porom: Ça suffit, maintenant! L'Ancien est furieux![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="83">[bold]Ancien[normal]: Combien de fois faudra-t-il te
@@ -477,7 +477,7 @@ Luca: Super![delay][0x10][close_window][end]</sn:pointer>
 Rosa...[delay][0x18][new]
 Tel que je suis, je ne peux pas vous
 souhaiter tout le bonheur du monde...[new]
-Sur cette Montagne de l'Épreuve, je vais
+Sur ce mont de l'Épreuve, je vais
 parfaire mon art...
 Et quand je serai un chevalier dragon
 plus fort que mon père...[delay][0x18][new]
@@ -558,7 +558,7 @@ Tout le monde...![end]</sn:pointer>
     <sn:pointer id="151">[bold]Edward[normal]: ...[end]</sn:pointer>
     <sn:pointer id="152">«Cecil...»[new]
 [bold]Cecil[normal]: Majesté!?[end]</sn:pointer>
-    <sn:pointer id="153">[bold]Roi Baron[normal]: Va dans le Monde des
+    <sn:pointer id="153">[bold]Roi Baron[normal]: Va dans le monde des
 Chimères... et reviens ici...
 Je pourrai alors te prêter ma force...[new]
 [bold]Cecil[normal]: Majesté![end]</sn:pointer>
@@ -571,7 +571,7 @@ acquis une puissance éternelle.[new]
 Si l'invocatrice de Mist m'appelle, je
 serai toujours là pour t'aider... en tant
 que Chimère qui terrasse d'un seul coup.[new]
-Mais la loi du Monde des Chimères veut
+Mais la loi du monde des Chimères veut
 que je mette ta force à l'épreuve.
 Ne faiblis pas...![end]</sn:pointer>
     <sn:pointer id="156">[bold]Roi Baron[normal]: Tu es devenu fort...

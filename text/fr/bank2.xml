@@ -22,7 +22,7 @@ Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[en
 Je me demande si ce chevalier noir est vraiment mort... Moi, je l'aimais bien![end]
 C'était donc bien vous, seigneur Cecil!
 Battez-moi ce Golbez![end]
-La porte du bâtiment à l'ouest de la ville? Elle donne sur un canal souterrain qui mène au château. Mais elle est scellée, maintenant.[end]
+La porte du bâtiment à l'ouest de la ville? Elle donne sur une rivière souterraine qui mène au château. Mais elle est scellée, maintenant.[end]
 C'est la première fois depuis la fondation
 de Baron qu'on n'a pas de roi...[end]
 Le chevalier noir!
@@ -45,7 +45,7 @@ La rumeur dit que sous Baron dort l'âme
 d'une Chimère qui terrasse ses ennemis
 d'un seul coup![end]
 Les Chimères que nous, invocateurs,
-appelons viennent du Monde des
+appelons viennent du monde des
 Chimères...[new]
 Un endroit qui se trouverait loin sous la
 surface de la Terre.[end]</sn:pointer>
@@ -56,9 +56,9 @@ Mais maître Tella s'y est opposé, alors
 elle s'est enfuie de Kaïpo...[end]
 Je veux être danseuse à Damcyan, mais il
 y a beaucoup de monstres qui rôdent
-dans le canal souterrain.
+dans la rivière souterraine.
 Tu veux voir ma natation synchronisée?[end]
-Le canal souterrain est au nord-est, mais
+La rivière souterraine est au nord-est, mais
 j'ai entendu dire que huit serpents de mer
 y rôdent depuis peu![end]
 Le château qui est au nord, Damcyan,
@@ -78,12 +78,12 @@ paladin...[end]
 Savez-vous combien nous avons souffert
 à cause de vous?[end]
 Oh, bonjour Palom et Porom.
-La Montagne de l'Épreuve se situe à l'est.[end]
+Le mont de l'Épreuve se situe à l'est.[end]
 Vous aussi, vous avez souffert...
 Je prierai pour vous, moi aussi.[end]
 Je n'ai rien à te dire![end]
-Les morts-vivants grouillent sur la
-Montagne de l'Épreuve!
+Les morts-vivants grouillent sur le
+mont de l'Épreuve!
 Ta lame noire ne sert à rien![end]
 Toi... un paladin!?[end]
 Les hommes qui se font du mal entre eux... C'est bien triste.[end]
@@ -92,7 +92,7 @@ apparence![end]
 N'oubliez pas l'esprit du paladin.[end]
 T'en as du cran de venir ici![end]
 Nombreux sont ceux qui se sont mesurés
-à la Montagne de l'Épreuve, mais aucun
+au mont de l'Épreuve, mais aucun
 n'en est jamais revenu.[end]
 Ça ne veut pas dire que je t'ai pardonné![end]
 Oh!
@@ -281,7 +281,7 @@ L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
 Revenez nous voir bientôt![end]</sn:pointer>
     <sn:pointer id="19">Qu'est-ce que tu veux, cette fois!?[end]
-La Montagne de l'Épreuve?
+Le mont de l'Épreuve?
 Inutile d'y aller![end]
 Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]
 Ce n'est pas possible... Toi, tu es devenu...[end]
@@ -306,7 +306,7 @@ Tu es vraiment devenu un paladin![end]
 P-p-p-pitié, épargnez-moi![end]
 P-p-p-pitié, épar...
 Hein?
-Vous allez gravir la Montagne de l'Épreuve?[end]
+Vous allez gravir le mont de l'Épreuve?[end]
 Ouah, quelle noble allure![end]
 [bold]Cecil[normal]: Argl![end]
 J'ai mis un petit peu de poison dans ton
@@ -327,7 +327,7 @@ Si vous devenez paladin, j'aurai confiance
 en vous.[end]
 Nous allons essayer d'avoir confiance en
 vous![end]
-C'est la Maison des Prières. L'Ancien va écouter votre histoire.[end]
+C'est la maison des Prières. L'Ancien va écouter votre histoire.[end]
 Allez découvrir si vous pouvez accepter
 la lumière...[end]
 Votre lumière, si faible autrefois, brille à présent d'un tel éclat![end]
@@ -1033,7 +1033,7 @@ peux sauvegarder ton jeu.
 Utilise bien ces endroits![end]
 Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
-Gros Chocobo dans la Forêt Chocobo![new]
+Gros Chocobo dans la forêt Chocobo![new]
 Si tu sens des chocobos, utilise un Légume Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
 Si tu veux changer de nom, tu n'as qu'à lui demander![end]
@@ -1469,7 +1469,7 @@ Vous êtes venus de la surface?
 Alors la surface, ça existe pour de vrai![end]
 Vous saviez ça?
 La grotte de l'île au nord-ouest mène
-au Monde des Chimères, à c'qui paraît.
+au monde des Chimères, à c'qui paraît.
 Ça fait peur![end]
 Il paraît qu'à la surface, l'océan est bleu... Ça fait froid dans le dos![end]</sn:pointer>
     <sn:pointer id="258">C'est la maison du meilleur forgeron du
@@ -1534,7 +1534,7 @@ Golbez a pris le cristal...[new]
 [bold]Giotto[normal]: On n'y peut rien...
 Il ne nous reste qu'à défendre le dernier cristal coûte que coûte.[new]
 [bold]Rosa[normal]: Où est le dernier cristal?[new]
-[bold]Giotto[normal]: Dans la Grotte Scellée, au
+[bold]Giotto[normal]: Dans la grotte Scellée, au
 sud-ouest.
 Golbez y est allé, mais ne vous
 inquiétez pas.[new]
@@ -1547,7 +1547,7 @@ avons perdu le cristal!
 Si nous pouvons vous aider en quoi
 que ce soit...[new]
 [bold]Giotto[normal]: Pendant que Golbez est
-occupé à la Grotte Scellée...[new]
+occupé à la grotte Scellée...[new]
 Pourriez-vous vous introduire dans la tour de Babil et reprendre les sept
 cristaux?[new]
 [bold]Caïn[normal]: La tour de Babil?[new]
@@ -1571,18 +1571,18 @@ Je prierai pour votre réussite![end]
 Se servir de mes poupées pour ça! C'est impardonnable![end]
 [bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
-Vous, vous allez à la Grotte Scellée au
+Vous, vous allez à la grotte Scellée au
 sud-ouest![end]
 Giotto: Allez à Mysidia! Tout repose sur vous![end]
 On dit que ce collier est un souvenir
 de sa défunte mère.[end]
-Près de la Grotte Scellée se trouve
+Près de la grotte Scellée se trouve
 le continent de Toméra où vivent d'autres
 nains![new]
 Mais on ne peut pas y aller à cause de la
 lave![end]
-Si vous pouvez voler, vous devriez pouvoir aller à la Grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
-La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au Monde des Chimères![end]
+Si vous pouvez voler, vous devriez pouvoir aller à la grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
+La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au monde des Chimères![end]
 Vous ne pouvez pas voler au-dessus de
 la lave?
 Si le vieux aux aéronefs était là, il pourrait pas vous bricoler ça?[end]
@@ -1804,7 +1804,7 @@ souterrain![end]</sn:pointer>
     <sn:pointer id="314">Rydia, tu es de retour![end]
 À l'exception de Rydia, vous êtes les
 premiers humains à venir ici.[end]
-C'est le Monde des Chimères.
+C'est le monde des Chimères.
 Le monde où les Chimères vivent.[end]
 Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:pointer>
@@ -1878,16 +1878,16 @@ Seul celui qui saura retourner sa puissance contre lui pourra le vaincre...[end]
 Il y a deux lunes...
 Mais on dit que dans les temps anciens, il
 n'y en avait qu'une seule.[end]
-La reine du Monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
+La reine du monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
 Seuls ceux qui sauront tirer parti de son pouvoir pour la vaincre verront le roi...[end]
 Le roi des Chimères...
-Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du Monde des Chimères.[end]
+Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]
 Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
 Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]
 Les douces et sveltes Sylphes...
 C'est en unissant leurs forces qu'elles
 révèlent leur pouvoir...[end]
-La loi du Monde des Chimères...
+La loi du monde des Chimères...
 La force, c'est un cœur juste.
 Ne jamais accorder son pouvoir à la
 légère, sans avoir jaugé cette force.[end]</sn:pointer>

@@ -590,7 +590,7 @@ Yang![end]</sn:pointer>
     <sn:pointer id="179">[bold]Golbez[normal]: Viens, Scarmiglione![end]</sn:pointer>
     <sn:pointer id="180">Scarmiglione: -Gargl-... Scarmiglione de la Terre, à votre service...[new]
 Golbez: Ce Cecil est dangereux. Mieux vaut s'en occuper tout de suite.[new]
-Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment la Montagne de l'Épreuve.[new]
+Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment le mont de l'Épreuve.[new]
 Scarmiglione: Il veut... donc devenir... -hiss-... paladin?[new]
 Golbez: Ta mission est de l'éliminer avant. Scarmiglione: N'ayez crainte. Seigneur Golbez, admirez le spectacle d'ici...[new]
 Golbez: Alors va![new]
@@ -617,7 +617,7 @@ Nous avons été envoyés ici par l'Ancien
 de Mysidia pour...[new]
 [bold]Palom[normal]: Surveiller Cecil...[end]</sn:pointer>
     <sn:pointer id="188">Paf![delay][0x8][close_window][end]</sn:pointer>
-    <sn:pointer id="189">Porom: Hi hi! Nous guidons M. Cecil vers la Montagne de l'Épreuve. Je m'appelle Porom.[new]
+    <sn:pointer id="189">Porom: Hi hi! Nous guidons M. Cecil vers le mont de l'Épreuve. Je m'appelle Porom.[new]
 Palom: Et moi, c'est Palom! Alors comme ça, tu es Tella! T'es hyper célèbre à Mysidia![end]</sn:pointer>
     <sn:pointer id="190">[bold]Tella[normal]: Ainsi ce sont des enfants de
 Mysidia.
@@ -951,18 +951,18 @@ C'est aussi grâce à vous. Je me dois de vous remercier pour cela. Prenez ceci!
 On a battu Golbez![end]</sn:pointer>
     <sn:pointer id="280">Rosa: C'est grâce à toi, Rydia![new]
 Cecil: Mais... comment as-tu grandi ainsi?[new]
-Rydia: Léviathan m'a avalée et m'a emmenée dans le Monde des Chimères.[new]
+Rydia: Léviathan m'a avalée et m'a emmenée dans le monde des Chimères.[new]
 Cecil: Le Monde des Chimères?[new]
 Rydia: C'est le monde où vivent les Chimères. Là-bas, elles sont devenues mes amies.[new]
 Je ne peux plus utiliser la magie blanche, mais en contrepartie, mes pouvoirs d'invocation et de magie noire se sont développés![new]
-Mais dans le Monde des Chimères, le temps s'écoule différemment...[new]
+Mais dans le monde des Chimères, le temps s'écoule différemment...[new]
 Rosa: Et c'est pourquoi tu as grandi si vite?[new]
 Caïn: Cecil, qui est cette fille?[new]
 Cecil: C'est Rydia, du village de Mist.[new]
 Caïn: Cette enfant!?[new]
 Yang: Quelle surprise...[new]
 Cecil: Mais pourquoi nous aides-tu...? Moi qui ai... ta mère...[new]
-Rydia: Ne dis rien! La reine du Monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[new]
+Rydia: Ne dis rien! La reine du monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[new]
 Que nous devons nous dresser contre lui...[new]
 Cecil: Rydia...! [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="281">«Je ne... mourrai... pas!»[end]</sn:pointer>
@@ -1189,7 +1189,7 @@ chose d'utile par ici.[end]</sn:pointer>
 pouvoirs![new]
 [bold]Asura[normal]: Alors je voudrais vous aider...
 mais je dois d'abord évaluer votre force.
-C'est la loi du Monde des Chimères.[new]
+C'est la loi du monde des Chimères.[new]
 Avez-vous le courage de me défier et la
 force de me vaincre?[end]</sn:pointer>
     <sn:pointer id="338">Rydia... Vous êtes les premiers à vaincre jusqu'à Asura. Mais face aux puissances du mal, la force seule ne suffit pas.[new]
@@ -1294,7 +1294,7 @@ Cecil: Oui![end]</sn:pointer>
 [bold]Giotto[normal]: Apporte-moi ton collier.[new]
 [bold]Luca[normal]: Celui-ci?[new]
 [bold]Giotto[normal]: Ce collier est la clé
-qui ouvre l'entrée de la Grotte Scellée!
+qui ouvre l'entrée de la grotte Scellée!
 Sans lui, la grotte ne laisse entrer personne![new]
 Il faut absolument protéger le dernier
 cristal![end]</sn:pointer>
@@ -1345,7 +1345,7 @@ Cecil: C'est la légende de Mysidia![new]
 Giotto: Vous connaissez Mysidia?[new]
 Cecil: C'est le village des mages, à la surface![new]
 Giotto: Mysidia existe vraiment![new]
-Cecil: L'Ancien est entré dans le temple des prières et continue de prier.[new]
+Cecil: L'Ancien est entré dans le temple des Prières et continue de prier.[new]
 Giotto: Se pourrait-il que cette personne...[new]
 Cecil: ?[new]
 Giotto: Veut-il ramener le vaisseau magique à la vie? Non... Il faut y croire, c'est notre seul espoir![new]
@@ -1355,7 +1355,7 @@ Edge: Et avec tous les cristaux réunis, impossible d'approcher la tour de Babil
     <sn:pointer id="379">«Je vais m'en occuper!»[end]</sn:pointer>
     <sn:pointer id="380">[bold]Cecil[normal]: ...Cette lumière m'a appelé son fils. Qu'est-ce que c'était, au juste?[new]
 [bold]Ancien[normal]: Je ne sais pas ce qu'était la
-lumière sur la Montagne de l'Épreuve, ni ce
+lumière sur le mont de l'Épreuve, ni ce
 que signifie la légende.[new]
 Mais depuis des générations, on nous dit,
 à nous Mysidiens, de prier pour cette
@@ -1608,7 +1608,7 @@ Tu nous as dit de l'aider![new]
 [bold]Porom[normal]: S'il vous plaît, laissez-nous
 aussi y aller...[new]
 [bold]Ancien[normal]: Vous deux...
-Si la Montagne de l'Épreuve vous a
+Si le mont de l'Épreuve vous a
 acceptés, c'est peut-être aussi votre
 destin...[new]
 Moi, je ne peux pas quitter Mysidia.[new]
@@ -1621,8 +1621,8 @@ Votre mission est terminée![end]</sn:pointer>
     <sn:pointer id="471">[0xfa]Cette nuit-là...[end]</sn:pointer>
     <sn:pointer id="472">C'est une pièce importante, vous ne
 pouvez pas entrer![end]</sn:pointer>
-    <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur la
-Montagne de l'Épreuve.[end]</sn:pointer>
+    <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur le
+mont de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">Rosa: Rydia...[new]
 Rydia: -sniff-...[end]</sn:pointer>
     <sn:pointer id="475">[bold]Tella[normal]: Vite!
