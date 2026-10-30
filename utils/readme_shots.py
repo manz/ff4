@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Regenerate the README screenshots from the test savestates.
+"""Regenerate the README screenshots, or the lab site's gallery, from the test savestates.
 
 Each scene boots the freshly built patch, either cold or from a kintsuki
-savestate, replays a short input script and saves the picture, 2x
-nearest-neighbour upscaled, under `screenshots/`. Run after `make build`.
+savestate, replays a short input script and saves the picture. The README
+ones go 2x nearest-neighbour upscaled under `screenshots/`; with
+`--gallery DIR`, the gallery ones go at 256x224 under their `ff4-*` names.
+Run after `make build`.
 """
 from __future__ import annotations
 
+import argparse
 import ctypes
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -31,20 +34,24 @@ class Scene:
     """One screenshot: a savestate, frames to settle, then inputs.
 
     Each step is a button name to tap, `"BUTTON:N"` to hold it N frames,
-    or `"*N"` to idle N frames.
+    `"*N"` to idle N frames, or `"@ADDR=VALUE"` (hex) to write a byte.
+    `name` is its README file, `gallery` its lab gallery file; either may be None.
     """
 
-    name: str
+    name: str | None
     kss: str | None
     settle: int = 60
     steps: list[str] = field(default_factory=list)
     gap: int = 20
+    gallery: str | None = None
 
 
 # Savestates freeze whatever an older build already drew: a menu saved
 # open keeps its old text, and battle inventories are built at battle
 # start. So menus open live and battles start live, from the world map.
 FIELD = "ff4-before-field-inventory.kss"
+# A save room late in the game: the whole party, Rydia's summons, no encounters.
+LATE = "ff4-late-field.kss"
 # Cold boot: START through the title, then A through the Red Wings intro,
 # one press every 3 seconds, stopping on a three-line soldier's line.
 INTRO = [
@@ -55,20 +62,48 @@ INTRO = [
 FRESH_BATTLE = ["B", *(["LEFT:40", "RIGHT:40"] * 3), "LEFT:40", "*500"]
 # The savestate stands on the map: X opens the field menu.
 MENU = ["X", "*60"]
+# ff4.kss: into the sand worm fight, up to Edward's command menu.
+DESERT = ["A", "A", "*400"]
+# Two Mech Soldiers ($1800) from the late save room once $0685 is set, up to the first command menu.
+LATE_BATTLE = ["@7E1800=85", "@7E1801=0", "@7E0685=1", "*600"]
+
+
+def first_slot(item: int) -> list[str]:
+    """Five of `item` in the first inventory slot ($7E:1440)."""
+    return [f"@7E1440={item:X}", "@7E1441=5"]
+
 
 SCENES = [
-    Scene("battle-menu", FIELD, steps=FRESH_BATTLE),
-    Scene("battle-messages-vwf", "ff4.kss", 10, ["A", "A", "*400", "A", "*30"]),
-    Scene("battle-items", FIELD, steps=[*FRESH_BATTLE, "DOWN", "DOWN", "DOWN", "A"]),
-    Scene("two-columns-magic", FIELD, steps=[*FRESH_BATTLE, "DOWN", "A", "*30"]),
-    Scene("dialog-vwf", None, 0, INTRO, gap=0),
-    Scene("key-item-picker", "ff4-key-inventory.kss", steps=["A", "A", "*60"], gap=30),
-    Scene("main-menu", FIELD, steps=MENU),
-    Scene("load-save-menu", FIELD, steps=[*MENU, "UP", "A", "*60"]),
-    Scene("menu-description-vwf", FIELD, steps=[*MENU, "A", "*60", "DOWN"]),
+    Scene("battle-menu", FIELD, steps=FRESH_BATTLE, gallery="ff4-battle-menu"),
+    # Edward attacks the sand worm: "Désorienté !" shows 135-225 frames later.
+    Scene("battle-messages-vwf", "ff4.kss", 10, [*DESERT, "A", "A", "*140"], gallery="ff4-battle-message"),
+    Scene("battle-items", FIELD, steps=[*FRESH_BATTLE, "DOWN", "DOWN", "DOWN", "A"], gallery="ff4-battle"),
+    Scene("two-columns-magic", FIELD, steps=[*FRESH_BATTLE, "DOWN", "A", "*30"], gallery="ff4-magic"),
+    Scene("dialog-vwf", None, 0, INTRO, gap=0, gallery="ff4-dialog"),
+    Scene("key-item-picker", "ff4-key-inventory.kss", steps=["A", "A", "*60"], gap=30, gallery="ff4-key-items"),
+    Scene("main-menu", FIELD, steps=MENU, gallery="ff4-main-menu"),
+    Scene("load-save-menu", FIELD, steps=[*MENU, "UP", "A", "*60"], gallery="ff4-saves"),
+    Scene("menu-description-vwf", FIELD, steps=[*MENU, "A", "*60", "DOWN"], gallery="ff4-items"),
     Scene("field-inventory-scroll", FIELD, steps=[*MENU, "A", "*60", *(["DOWN"] * 14)]),
-    Scene("shop-sell", "ff4-buggy-item-shop-press-a.kss", steps=["RIGHT", "A"], gap=40),
-    Scene("drops", "ff4-before-battle-inventory.kss", settle=600),
+    Scene("shop-sell", "ff4-buggy-item-shop-press-a.kss", steps=["RIGHT", "A"], gap=40, gallery="ff4-shop"),
+    Scene("drops", "ff4-before-battle-inventory.kss", settle=600, gallery="ff4-loot"),
+    Scene(None, FIELD, steps=[*MENU, "DOWN", "DOWN", "A", "*60", "A", "*120"], gallery="ff4-equip"),
+    Scene(None, "ff4-fat-chocobo.kss", 30, ["A", "*40", "A", "*40"], gallery="ff4-chocobo"),
+    # A Phoenix Down on Cain, alive: the refusal shows for a few frames.
+    Scene(None, LATE, 10, [*first_slot(0xD4), *MENU, "A", "*40", "A", "*10", "A", "*40", "A:6"],
+          gallery="ff4-refusal"),
+    Scene(None, LATE, 10, [*MENU, *(["DOWN"] * 6), "A", "*60"], gallery="ff4-options"),
+    # Rydia's magic: Rituel, then down to Chimère.
+    Scene(None, LATE, 10, [*MENU, "DOWN", "A", "*40", *(["DOWN"] * 3), "A", "*60", "DOWN", "*40"],
+          gallery="ff4-summons"),
+    Scene(None, LATE, 10, [*first_slot(0xC0), *MENU, "A", "*90"], gallery="ff4-item-description"),
+    Scene(None, LATE, 10, ["@7E16B3=1", *LATE_BATTLE], gallery="ff4-atb-gauge"),
+    # Edward and Rydia attack, Rosa prays: the dark knight Cecil's turn.
+    Scene(None, "ff4.kss", 10, [*DESERT, "A", "A", "*400", "A", "A", "*400", "DOWN", "DOWN", "A", "*30", "A", "*600"],
+          gallery="ff4-vague-noire"),
+    # Sauver on a save point, the first slot, Oui.
+    Scene(None, LATE, 10, [*MENU, "@7E1A02=1", *(["DOWN"] * 7), "A", "*70", "A", "*70", "A", "*30"],
+          gallery="ff4-save-message"),
 ]
 
 
@@ -91,6 +126,10 @@ def play(emu: Emu, scene: Scene) -> None:
         if step.startswith("*"):
             emu.run_frames(int(step[1:]))
             continue
+        if step.startswith("@"):
+            address, _, value = step[1:].partition("=")
+            emu.write(int(address, 16), int(value, 16))
+            continue
         name, _, hold = step.partition(":")
         button = getattr(Button, name)
         emu.press(0, button)
@@ -101,27 +140,32 @@ def play(emu: Emu, scene: Scene) -> None:
     emu.run_frames(20)
 
 
-def capture(scene: Scene) -> Path:
+def capture(scene: Scene, path: Path, scale: int) -> Path:
     emu = load(SAVESTATES / scene.kss if scene.kss else None)
     try:
         play(emu, scene)
         if emu.get_state().stp:
-            raise RuntimeError(f"{scene.name}: CPU halted")
-        path = OUT / f"{scene.name}.png"
+            raise RuntimeError(f"{path.stem}: CPU halted")
         emu.screenshot(str(path))
     finally:
         emu.close()
     image = Image.open(path).crop(PICTURE)
-    image.resize((image.width * SCALE, image.height * SCALE), Image.Resampling.NEAREST).save(path)
+    image.resize((image.width * scale, image.height * scale), Image.Resampling.NEAREST).save(path)
     return path
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--gallery", type=Path, help="write the lab gallery's 256x224 shots here instead")
+    args = parser.parse_args()
     if not ROM.exists():
         raise SystemExit(f"{ROM} missing; run `make build` first")
-    OUT.mkdir(exist_ok=True)
+    out = args.gallery or OUT
+    out.mkdir(parents=True, exist_ok=True)
     for scene in SCENES:
-        print(capture(scene).relative_to(REPO))
+        name = scene.gallery if args.gallery else scene.name
+        if name:
+            print(capture(scene, out / f"{name}.png", 1 if args.gallery else SCALE))
 
 
 if __name__ == "__main__":
