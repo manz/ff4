@@ -28,23 +28,55 @@
     <sn:string>A golden apple.</sn:string>
     <sn:string>A silver apple.</sn:string>
     <sn:string>Lures monsters.</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
-    <sn:string>Test</sn:string>
+    <sn:string>Weak fire on all enemies.</sn:string>
+    <sn:string>Strong fire on all enemies.</sn:string>
+    <sn:string>Weak ice on all enemies.</sn:string>
+    <sn:string>Strong ice on all enemies.</sn:string>
+    <sn:string>Weak lightning on all enemies.</sn:string>
+    <sn:string>Strong lightning on all enemies.</sn:string>
+    <sn:string>Casts Comet on all enemies.</sn:string>
+    <sn:string>Drains MP from an enemy.</sn:string>
+    <sn:string>Drains HP from an enemy.</sn:string>
+    <sn:string>Makes the user Berserk.</sn:string>
+    <sn:string>Speeds up the user.</sn:string>
+    <sn:string>Stops all enemies briefly.</sn:string>
+    <sn:string>Stops all enemies for a while.</sn:string>
+    <sn:string>Stops all enemies for a long time.</sn:string>
+    <sn:string>Slows all enemies.</sn:string>
+    <sn:string>Creates decoys of the user.</sn:string>
+    <sn:string>Fire on all enemies, based[0x01][0xd4][0x00]on the user's HP.</sn:string>
+    <sn:string>Ice on all enemies, based[0x01][0xd4][0x00]on the user's HP.</sn:string>
+    <sn:string>Lightning on all enemies, based[0x01][0xd4][0x00]on the user's HP.</sn:string>
+    <sn:string>Casts Reflect on the user.</sn:string>
+    <sn:string>Explodes on an enemy, but[0x01][0xd4][0x00]the user is KO'd.</sn:string>
+    <sn:string>Lasting Reflect and Barrier[0x01][0xd4][0x00]on the user.</sn:string>
+    <sn:string>Silences all enemies.</sn:string>
+    <sn:string>Casts Quake on all enemies.</sn:string>
+    <sn:string>A crystal of mysterious power.</sn:string>
+    <sn:string>Kills an enemy outright.</sn:string>
+    <sn:string>Calls a random summon.</sn:string>
+    <sn:string>Scans an enemy.</sn:string>
+    <sn:string>Wakes the party.</sn:string>
+    <sn:string>Cures the party's Sleep, Paralysis,[0x01][0xd4][0x00]Confusion and Berserk.</sn:string>
+    <sn:string>Teaches the Goblin summon.</sn:string>
+    <sn:string>Teaches the Bomb summon.</sn:string>
+    <sn:string>Teaches the Cockatrice summon.</sn:string>
+    <sn:string>Teaches the Mind Flayer summon.</sn:string>
+    <sn:string>Calls the Fat Chocobo[0x01][0xd4][0x00]where it hides.</sn:string>
+    <sn:string>Opens the doors of a private club.</sn:string>
+    <sn:string>Calls the Fat Chocobo anywhere.</sn:string>
+    <sn:string>To be delivered to Mist.</sn:string>
+    <sn:string>Opens the doors of Baron.</sn:string>
+    <sn:string>Cures desert fever.</sn:string>
+    <sn:string>One of the surface crystals.</sn:string>
+    <sn:string>Opens a chasm in the right place.</sn:string>
+    <sn:string>Opens the seal of the Sealed Cave.</sn:string>
+    <sn:string>Resonates with Edward's harp.</sn:string>
+    <sn:string>One of the Dark Crystals.</sn:string>
+    <sn:string>A collector is looking for it.</sn:string>
+    <sn:string>A rare ore for forging a weapon.</sn:string>
+    <sn:string>Wakes a heavy sleeper.</sn:string>
+    <sn:string>Very rare. A collector[0x01][0xd4][0x00]is looking for it.</sn:string>
+    <sn:string>Opens a door in the Tower of Babil.</sn:string>
+    <sn:string>Matter of unknown origin.</sn:string>
 </sn:stringarray>

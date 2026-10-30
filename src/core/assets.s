@@ -130,6 +130,91 @@ battle_texts:
     .incbin "item_descriptions.dat"
 }
 
+; The description number of each item from $B0, 0 for none. Vanilla's table ($0F:AE00) stops at the consumables
+; $CE-$E6.
+.alloc item_description_indices in assets {
+    .db 28  ; 0xB0 Eclat de Bombe
+    .db 29  ; 0xB1 Bras de Bombe
+    .db 30  ; 0xB2 Vent antarctique
+    .db 31  ; 0xB3 Vent arctique
+    .db 32  ; 0xB4 Colère de Zeus
+    .db 33  ; 0xB5 Colère des dieux
+    .db 34  ; 0xB6 Poussière d'étoiles
+    .db 35  ; 0xB7 Baiser de Lilith
+    .db 36  ; 0xB8 Croc de vampire
+    .db 37  ; 0xB9 Vin de Bacchus
+    .db 38  ; 0xBA Sandales d'Hermès
+    .db 39  ; 0xBB Sablier de cuivre
+    .db 40  ; 0xBC Sablier d'argent
+    .db 41  ; 0xBD Sablier d'or
+    .db 42  ; 0xBE Toile d'araignée
+    .db 43  ; 0xBF Bouc émissaire
+    .db 44  ; 0xC0 Croc rouge
+    .db 45  ; 0xC1 Croc blanc
+    .db 46  ; 0xC2 Croc bleu
+    .db 47  ; 0xC3 Rideau de lumière
+    .db 48  ; 0xC4 Âme de Bombe
+    .db 49  ; 0xC5 Rideau lunaire
+    .db 50  ; 0xC6 Cloche de silence
+    .db 51  ; 0xC7 Tambour de Gaïa
+    .db 52  ; 0xC8 Cristal
+    .db 53  ; 0xC9 Moustache Coeurl
+    .db 54  ; 0xCA Grimoire
+    .db 55  ; 0xCB Bestiaire
+    .db 56  ; 0xCC Réveil
+    .db 57  ; 0xCD Corne de licorne
+    .db 1  ; 0xCE Potion
+    .db 1  ; 0xCF Hi-Potion
+    .db 1  ; 0xD0 Méga-Potion
+    .db 2  ; 0xD1 Ether
+    .db 2  ; 0xD2 Ether sec
+    .db 3  ; 0xD3 Elixir
+    .db 4  ; 0xD4 Queue de phénix
+    .db 5  ; 0xD5 Aiguille d'or
+    .db 6  ; 0xD6 Baiser de fée
+    .db 7  ; 0xD7 Marteau magique
+    .db 8  ; 0xD8 Repas diététique
+    .db 9  ; 0xD9 Herbe d'écho
+    .db 10  ; 0xDA Collyre
+    .db 11  ; 0xDB Antidote
+    .db 12  ; 0xDC Crucifix
+    .db 13  ; 0xDD Panacée
+    .db 27  ; 0xDE Alarme
+    .db 25  ; 0xDF Pomme d'or
+    .db 26  ; 0xE0 Pomme d'argent
+    .db 24  ; 0xE1 Goutte de Soma
+    .db 14  ; 0xE2 Tente
+    .db 14  ; 0xE3 Chalet
+    .db 19  ; 0xE4 Livre coquin
+    .db 16  ; 0xE5 Porte de secours
+    .db 17  ; 0xE6 Pain de nain
+    .db 58  ; 0xE7 Gobelin
+    .db 59  ; 0xE8 Bombe
+    .db 60  ; 0xE9 Cocatrix
+    .db 61  ; 0xEA Illithid
+    .db 62  ; 0xEB Légume Gysahl
+    .db 63  ; 0xEC Carte de membre
+    .db 64  ; 0xED Flûte Gysahl
+    .db 65  ; 0xEE Anneau Bombe
+    .db 66  ; 0xEF Clé de Baron
+    .db 67  ; 0xF0 Lumière du désert
+    .db 68  ; 0xF1 Cristal de la Terre
+    .db 69  ; 0xF2 Pierre de magma
+    .db 70  ; 0xF3 Collier de Luca
+    .db 71  ; 0xF4 Murmure
+    .db 72  ; 0xF5 Cristal d'Obscurité
+    .db 73  ; 0xF6 Queue de rat
+    .db 74  ; 0xF7 Adamantite
+    .db 75  ; 0xF8 Poêle d'amour
+    .db 76  ; 0xF9 Queue rose
+    .db 77  ; 0xFA Clé de Lugeie
+    .db 78  ; 0xFB Matière sombre
+    .db 0  ; 0xFC Scénario 0015
+    .db 0  ; 0xFD Scénario 0016
+    .db 0  ; 0xFE --Trier--
+    .db 0  ; 0xFF Poubelle
+}
+
 .alloc dakuten_pairs in assets {
     .incbin "dakuten.bin"
 }
