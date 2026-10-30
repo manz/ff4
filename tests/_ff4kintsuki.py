@@ -10,7 +10,10 @@ import ctypes
 from collections.abc import Callable
 from pathlib import Path
 
+import numpy as np
 import pytest
+from katsuji import png
+from numpy.typing import NDArray
 
 from kintsuki import Button, Emu
 
@@ -252,13 +255,42 @@ FULL_PICTURE = (0, 0, 256, 224)
 BATTLE_MENU_PANEL = (0, 140, 256, 224)
 
 
+def crop(picture: NDArray[np.uint8], region: tuple[int, int, int, int]) -> NDArray[np.uint8]:
+    """`region` (left, top, right, bottom) of an (h, w, ...) picture."""
+    left, top, right, bottom = region
+    return picture[top:bottom, left:right]
+
+
+def read_picture(path: Path) -> NDArray[np.uint8]:
+    """The 256x224 picture of a kintsuki screenshot, as an (h, w, 3) RGB array."""
+    pixels, palette = png.read(path)
+    if palette is not None:
+        pixels = np.array(palette, dtype=np.uint8).reshape(-1, 3)[pixels]
+    elif pixels.ndim == 2:
+        pixels = np.stack([pixels] * 3, axis=-1)
+    return crop(pixels[..., :3], PICTURE)
+
+
+def screenshot_picture(emu: Emu, path: Path) -> NDArray[np.uint8]:
+    """`emu`'s current picture, through a screenshot at `path`."""
+    emu.screenshot(str(path))
+    return read_picture(path)
+
+
+def frame_picture(emu: Emu) -> NDArray[np.uint8]:
+    """`emu`'s current picture straight from the framebuffer, whose pixels read B G R 0."""
+    pixels, width, height = emu.framebuffer()
+    bgr0 = np.frombuffer(pixels, dtype=np.uint8).reshape(height, width, 4)
+    return crop(bgr0[..., 2::-1], PICTURE)
+
+
 def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
                                      *, threshold: float = 0.1,
                                      max_diff_pixels: int = 0,
                                      region: tuple[int, int, int, int] | None = None) -> None:
-    """Record-or-compare the framebuffer against `golden_path` via
-    `kintsuki.visual.golden` (records + skips on first run, asserts
-    pixel-match thereafter).
+    """Record-or-compare the framebuffer against `golden_path` (records +
+    skips on first run, asserts pixel-match thereafter): a pixel differs when
+    one channel is off by more than `threshold` of full scale.
 
     `region` (left, top, right, bottom in picture coordinates) compares
     only that box; by default the whole picture, without the emulator's border. Battle goldens use it to pin the window under test:
@@ -274,23 +306,20 @@ def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
 def _assert_region_matches_golden(emu: Emu, golden_path: Path, region: tuple[int, int, int, int],
                                   threshold: float, max_diff_pixels: int) -> None:
     import tempfile
-    from PIL import Image, ImageChops
 
     with tempfile.TemporaryDirectory() as tmp:
-        shot = Path(tmp) / "frame.png"
-        emu.screenshot(str(shot))
-        actual = Image.open(shot).convert("RGB").crop(PICTURE).crop(region)
+        actual = np.ascontiguousarray(crop(screenshot_picture(emu, Path(tmp) / "frame.png"), region))
     if not golden_path.exists():
-        actual.save(golden_path)
+        png.write(golden_path, actual)
         pytest.skip(f"recorded {golden_path.name}: verify + commit")
-    expected = Image.open(golden_path).convert("RGB")
-    assert expected.size == actual.size, f"{golden_path.name}: size {actual.size} vs golden {expected.size}"
-    diff = ImageChops.difference(expected, actual)
-    limit = threshold * 255
-    bad = sum(1 for px in diff.get_flattened_data() if max(px) > limit)
+    pixels, palette = png.read(golden_path)
+    expected = np.array(palette, dtype=np.uint8).reshape(-1, 3)[pixels] if palette is not None else pixels[..., :3]
+    assert expected.shape == actual.shape, f"{golden_path.name}: size {actual.shape} vs golden {expected.shape}"
+    diff = np.abs(expected.astype(np.int16) - actual.astype(np.int16)).astype(np.uint8)
+    bad = int((diff.max(axis=-1) > threshold * 255).sum())
     if bad > max_diff_pixels:
-        actual.save(golden_path.with_suffix(".actual.png"))
-        diff.save(golden_path.with_suffix(".diff.png"))
+        png.write(golden_path.with_suffix(".actual.png"), actual)
+        png.write(golden_path.with_suffix(".diff.png"), diff)
     assert bad <= max_diff_pixels, f"{bad} diff pixels vs {golden_path.name} (max {max_diff_pixels})"
 
 

@@ -14,9 +14,10 @@ import ctypes
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import numpy as np
+from katsuji import png
 from kintsuki import Button, Emu
 from kintsuki._native import lib
-from PIL import Image
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build" / "ff4.sfc"
@@ -149,8 +150,10 @@ def capture(scene: Scene, path: Path, scale: int) -> Path:
         emu.screenshot(str(path))
     finally:
         emu.close()
-    image = Image.open(path).crop(PICTURE)
-    image.resize((image.width * scale, image.height * scale), Image.Resampling.NEAREST).save(path)
+    pixels, _ = png.read(path)
+    left, top, right, bottom = PICTURE
+    picture = pixels[top:bottom, left:right]
+    png.write(path, np.ascontiguousarray(picture.repeat(scale, axis=0).repeat(scale, axis=1)))
     return path
 
 
