@@ -1578,7 +1578,7 @@ On dit que ce collier est un souvenir
 de sa défunte mère.[end]
 Près de la grotte Scellée se trouve
 le continent de Toméra où vivent d'autres
-nains![new]
+Nains![new]
 Mais on ne peut pas y aller à cause de la
 lave![end]
 Si vous pouvez voler, vous devriez pouvoir aller à la grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
@@ -1601,7 +1601,7 @@ Il y a un canon terriblement gros dans la tour de Babil![end]
 Les monstres du monde souterrain sont forts! Ne baissez pas la garde![end]</sn:pointer>
     <sn:pointer id="268">T[end]</sn:pointer>
     <sn:pointer id="269">T[end]</sn:pointer>
-    <sn:pointer id="270">Les armes des nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]
+    <sn:pointer id="270">Les armes des Nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]
 Une armure de nain est solide! Est-ce que vous, les humains, allez pouvoir bouger avec?[end]</sn:pointer>
     <sn:pointer id="271">Je suis courageux!
 Mais vous êtes encore plus courageux![end]
@@ -1615,7 +1615,7 @@ Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, 
 Ce pot, c'est le pot de vie!
 Buvez-en une lampée![end]</sn:pointer>
     <sn:pointer id="272">T[end]</sn:pointer>
-    <sn:pointer id="273">Les objets des nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
+    <sn:pointer id="273">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
     <sn:pointer id="274">C'est l'infirmerie![end]
 Les nains sont costauds! Mais parfois, on se blesse quand même![end]
 Ce vieux est drôlement en forme, pour un vieux![end]
@@ -1679,7 +1679,7 @@ Je suis Lugeie! Je défendrai cette tour de Babil, mon honneur en dépend![new]
 Caïn: Ne me fais pas rire![end]
 [bold]Dr Lugeie[normal]: Grr...
 Mon fils adoré va m'apporter vos têtes![end]
-[bold]Rydia[normal]: Ils vont tuer les nains![end]
+[bold]Rydia[normal]: Ils vont tuer les Nains![end]
 [bold]Yang[normal]: Le canon géant![end]
 [bold]Caïn[normal]: Il faut le détruire![end]
 [bold]Lugeie[normal]: Comment osez-vous!
@@ -1752,7 +1752,7 @@ Zzz...Zzz...[end]</sn:pointer>
     <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
 c'est possible![end]
 [bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>
-    <sn:pointer id="301">«Wahaha! Crevez, nains
+    <sn:pointer id="301">«Wahaha! Crevez, Nains
 minables!»[end]Cecil: Vous n'irez pas plus
 loin![end]«Vous!» «Comment êtes-vous
 entrés!?» «Attrapez-les!»[end]«Merde! Puisque c'est comme ça...!»[end]«Maintenant, plus personne ne
