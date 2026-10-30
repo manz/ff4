@@ -105,10 +105,10 @@ format:  ## Rewrite .s/.i sources in a816 canonical form
 	$(Q) $(A816) format $(SOURCES)
 
 .PHONY: clean
-clean:  ## Remove build products, keeping the base ROM
+clean:  ## Remove build products, keeping the base ROM and the saves
 	$(info $(M) cleaning ...)
-	$(Q) rm -f $(IPS) $(IPS).adbg build/ff4-patched.sfc a.out a.out.adbg
-	$(Q) rm -rf build/obj __pycache__ .pytest_cache
+	$(Q) rm -f $(IPS) $(IPS).adbg build/ff4.bps* build/ff4-patched.sfc a.out a.out.adbg
+	$(Q) rm -rf build/obj build/gen build/release build/en __pycache__ .pytest_cache
 
 .PHONY: help
 help: ## Display help
