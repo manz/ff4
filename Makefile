@@ -93,6 +93,11 @@ screenshots: $(IPS)  ## Regenerate the README screenshots from the savestates
 	$(info $(M) Capturing screenshots...)
 	$(Q) $(PY) utils/readme_shots.py
 
+.PHONY: gallery
+gallery: $(IPS)  ## Render the lab site's gallery shots, 256x224, into build/gallery
+	$(info $(M) Capturing the gallery...)
+	$(Q) $(PY) utils/readme_shots.py --gallery build/gallery
+
 .PHONY: check
 check:  ## Verify .s/.i formatting and run the a816 fluff lints
 	$(info $(M) Checking sources...)
