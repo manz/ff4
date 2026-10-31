@@ -12,7 +12,7 @@ requires-python = ">=3.14"
 dependencies = [
     "a816==1.3.0a3",
     "katsuji[render]==0.6.0a3",
-    "kintsuki[visual]==0.0.0a21",
+    "kintsuki[visual]==0.0.0a24",
 ]
 
 dynamic = ["version"]
