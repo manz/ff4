@@ -11,12 +11,10 @@ from __future__ import annotations
 
 import pytest
 from kintsuki import Button
-from PIL import Image
 
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import kss_path, load_emu_from_kss, screenshot_picture, tap
 
 KSS = kss_path("ff4-before-battle-inventory.kss")
-PICTURE = (13, 9, 13 + 256, 9 + 224)
 HAND_TILE_VRAM = 0x6000 + 0x0A * 32
 DROPS_BAND = (32, 120)
 INVENTORY_BAND = (128, 224)
@@ -38,13 +36,8 @@ def _hand(emu, band) -> tuple[int, int]:
     )
 
 
-def _picture(emu, path) -> Image.Image:
-    emu.screenshot(str(path))
-    return Image.open(path).convert("RGB").crop(PICTURE)
-
-
 def _lit(im, x, y) -> bool:
-    return im.getpixel((x, y))[0] > 200
+    return im[y, x, 0] > 200
 
 
 def _glyph_tops(im, band) -> list[int]:
@@ -64,7 +57,7 @@ ROWS = [
 def test_hand_sits_on_its_row(steps, band, row, tmp_path):
     e = _treasure(steps)
     try:
-        top = _glyph_tops(_picture(e, tmp_path / "s.png"), band)[row]
+        top = _glyph_tops(screenshot_picture(e, tmp_path / "s.png"), band)[row]
         assert abs(_hand(e, band)[1] - (top - 1)) <= 1
     finally:
         e.close()
@@ -74,7 +67,7 @@ def test_hand_sits_on_its_row(steps, band, row, tmp_path):
 def test_hand_stays_left_of_the_row(steps, band, row, tmp_path):
     e = _treasure(steps)
     try:
-        im = _picture(e, tmp_path / "s.png")
+        im = screenshot_picture(e, tmp_path / "s.png")
         top = _glyph_tops(im, band)[row]
         first_lit = min(x for x in range(16, 140) for y in range(top, top + 7) if _lit(im, x, y))
         assert _hand(e, band)[0] + 16 <= first_lit
