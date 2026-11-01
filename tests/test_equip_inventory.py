@@ -12,9 +12,8 @@ from pathlib import Path
 
 import pytest
 from kintsuki import Button
-from PIL import Image
 
-from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss, screenshot_picture, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 GOLDENS = Path(__file__).parent / "goldens" / "equip_inventory"
@@ -80,9 +79,8 @@ def test_hand_sits_on_its_row(list_emu, tmp_path):
     for _ in range(2):
         tap(list_emu, Button.DOWN, gap=16)
     list_emu.run_frames(30)
-    list_emu.screenshot(str(tmp_path / "s.png"))
-    im = Image.open(tmp_path / "s.png").convert("RGB").crop(PICTURE)
-    lit = [y for y in range(*LIST_BAND) if any(sum(im.getpixel((x, y))) > 300 for x in range(24, 120))]
+    brightness = screenshot_picture(list_emu, tmp_path / "s.png").sum(axis=-1)
+    lit = [y for y in range(*LIST_BAND) if (brightness[y, 24:120] > 300).any()]
     tops = [y for i, y in enumerate(lit) if i == 0 or y - lit[i - 1] > 2]
     oam = bytes(list_emu.oam_read_range(0, 512))
     hand = next(oam[4 * i + 1] for i in range(128) if LIST_BAND[0] <= oam[4 * i + 1] < LIST_BAND[1])
@@ -100,9 +98,8 @@ BELOW_WINDOW = (BELOW_LAST_ROW + 8, 224)
 
 
 def _name_tops(emu, path, band=LIST_BAND) -> list[int]:
-    emu.screenshot(str(path))
-    im = Image.open(path).convert("RGB").crop(PICTURE)
-    lit = [y for y in range(*band) if any(sum(im.getpixel((x, y))) > 300 for x in range(24, 120))]
+    brightness = screenshot_picture(emu, path).sum(axis=-1)
+    lit = [y for y in range(*band) if (brightness[y, 24:120] > 300).any()]
     return [y for i, y in enumerate(lit) if i == 0 or y - lit[i - 1] > 2]
 
 
@@ -122,11 +119,8 @@ def test_pre_render_row_stays_hidden(list_emu, tmp_path):
 
 def _border_line(emu, path) -> bool:
     """A bright horizontal line across the window inside BOTTOM_BORDER."""
-    emu.screenshot(str(path))
-    im = Image.open(path).convert("RGB").crop(PICTURE)
-    return any(
-        sum(1 for x in range(8, 248) if sum(im.getpixel((x, y))) > 500) > 200 for y in range(*BOTTOM_BORDER)
-    )
+    brightness = screenshot_picture(emu, path).sum(axis=-1)
+    return any((brightness[y, 8:248] > 500).sum() > 200 for y in range(*BOTTOM_BORDER))
 
 
 @pytest.mark.parametrize("downs", [0, VISIBLE_ROWS + 3])

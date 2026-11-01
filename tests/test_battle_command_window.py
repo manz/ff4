@@ -12,13 +12,11 @@ name) or a half-copied overlay for a frame.
 from __future__ import annotations
 
 from kintsuki import Button
-from PIL import Image
 
-from _ff4kintsuki import cached_emu, CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import crop, screenshot_picture, cached_emu, CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
 
 FIELD = kss_path("ff4-before-field-inventory.kss")
 BATTLE = kss_path("ff4.kss")
-PICTURE = (13, 9, 13 + 256, 9 + 224)
 CMD_WINDOW = (44, 140, 108, 200)
 
 
@@ -69,8 +67,7 @@ def test_command_window_is_stable_through_a_turn(tmp_path):
         while e.frame_count < 420:
             e.run_frames(8)
             if e.frame_count >= 200:
-                e.screenshot(str(tmp_path / "s.png"))
-                crops.append(Image.open(tmp_path / "s.png").convert("RGB").crop(PICTURE).crop(CMD_WINDOW).tobytes())
+                crops.append(crop(screenshot_picture(e, tmp_path / "s.png"), CMD_WINDOW).tobytes())
         assert len(set(crops)) == 1
     finally:
         e.close()

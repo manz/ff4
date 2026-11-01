@@ -5,9 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from PIL import Image
 
-from _ff4kintsuki import PICTURE, kss_path, load_emu_from_kss
+from _ff4kintsuki import kss_path, load_emu_from_kss, read_picture
 from test_showcase import _play
 
 LIST_X = 8  # the list hand's X; the quantity hand is the other sprite
@@ -22,12 +21,12 @@ def _hand_y(emu) -> int:
 
 def _name_bottom(shot: Path, below: int) -> int:
     """The last line of the first name at or under `below`: its baseline, ascenders aside."""
-    picture = Image.open(shot).convert("RGB").crop(PICTURE)
+    brightness = read_picture(shot).sum(axis=-1)
 
     def lit(y: int) -> bool:
-        return any(sum(picture.getpixel((x, y))) > 500 for x in range(*NAMES))
+        return bool((brightness[y, slice(*NAMES)] > 500).any())
 
-    y = next(y for y in range(below, picture.height) if lit(y))
+    y = next(y for y in range(below, brightness.shape[0]) if lit(y))
     while lit(y + 1):
         y += 1
     return y
