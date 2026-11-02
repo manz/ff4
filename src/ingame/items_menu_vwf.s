@@ -216,12 +216,15 @@ _dirty_done:
         rtl
 
 _top_row_cells:
-; X = top-row cells: the full slot, or EQUIP_NAME_CELLS (equip names start too far right for 17).
-        ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
+; X = top-row cells: the full slot, or EQUIP_NAME_CELLS where 17 would run over a border (equip names start
+; too far right, the sell confirm window is narrower).
+        ldx.w #EQUIP_NAME_CELLS
         lda.l vwf_engine.caller_ctx
         cmp.b #VWF_CTX_EQUIP
-        bne _row_cells_done
-        ldx.w #EQUIP_NAME_CELLS
+        beq _row_cells_done
+        cmp.b #VWF_CTX_SELL_CONFIRM
+        beq _row_cells_done
+        ldx.w #( 1 + ITEM_UNLEASHED_TEXT_SIZE )
 
 _row_cells_done:
         rts
@@ -379,7 +382,11 @@ X. The secondary flushes upload their own fixed block.
         pha
         lda.l vwf_engine.caller_ctx
         and.w #0x00FF
+        beq _span_widen
+        cmp.w #VWF_CTX_SELL_CONFIRM
         bne _span_done
+
+_span_widen:
         lda 1, s
         sec
         sbc.w #VWF_CHR_FLUSH_OFFSET

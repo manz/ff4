@@ -55,6 +55,8 @@ VWF_CTX_KEY_ITEM := 0x02
 ; popup). Names start at col 19, so a row holds only icon + glyph budget.
 VWF_CTX_EQUIP := 0x03
 EQUIP_NAME_CELLS := 1 + FIELD_ITEM_VWF_TILE_BUDGET
+; Shop sell confirm name ($01:CA02): primary flush, but the window's right border sits inside a full slot's row.
+VWF_CTX_SELL_CONFIRM := 0x04
 
 ; Drops flush (secondary slot), at the fixed +11-slot offset:
 ;   src offset = $16E * 16 = $16E0 bytes into VWF_CHR_BUFFER
