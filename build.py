@@ -26,7 +26,7 @@ from katsuji.script.pointers import (
 from katsuji import build as katsuji_build
 from katsuji import config as katsuji_config
 from utils.metrics import TextMetrics
-from utils.dialog_layout import DialogLayout, dialog_layout
+from utils.dialog_layout import DialogLayout, battle_speaker_spaced, dialog_layout
 from utils import atb_gauge, battle_labels
 from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
@@ -131,9 +131,9 @@ def word_low_rom_pointer(base: int) -> Callable[[int], bytes]:
 
 
 def build_pointed_16bits_lowrom(
-    table, input_file, binary_text_file, pointers_file, address
+    table, input_file, binary_text_file, pointers_file, address, formatter=None
 ):
-    pointers = read_pointers_from_xml(input_file, table)
+    pointers = read_pointers_from_xml(input_file, table, formatter=formatter)
 
     write_pointers_value_as_binary(pointers, binary_text_file)
 
@@ -322,6 +322,7 @@ if __name__ == "__main__":
             "build/gen/battle_messages.dat",
             "build/gen/battle_messages.ptr",
             0x298000,
+            battle_speaker_spaced if lang == "fr" else None,
         ),
         (
             "pointed_16bits_lowrom",
