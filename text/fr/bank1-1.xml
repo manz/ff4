@@ -29,8 +29,8 @@ pour cacher son identité...[new]
 Pardonne-moi, père... de m'être enfuie
 ainsi...
 J'aime Edward...
-Mais il fallait que mon père chéri me
-pardonne...[new]
+Mais je voulais tant que tu me
+pardonnes...[new]
 Alors que nous retournions à Kaïpo...[new]
 [bold]Edward[normal]: Les Ailes Rouges de Baron,
 menées par un certain Golbez...[new]
@@ -442,7 +442,7 @@ Moi vivant, personne n'y touchera![end]</sn:pointer>
 [bold]Giotto[normal]: Qui!?[end]</sn:pointer>
     <sn:pointer id="121">[bold]Giotto[normal]: Ouvrez la porte![new]
 [bold]Nain[normal]: Lali![end]</sn:pointer>
-    <sn:pointer id="122">Un bombardement... terrible... depuis les
+    <sn:pointer id="122">Un bombardement... terrible... depuis des
 aéronefs...[end]</sn:pointer>
     <sn:pointer id="123">Roi Fabul: Yang, tu es de retour![new]
 Yang: Oui! Mais il y a plus urgent, Majesté![new]
@@ -1429,7 +1429,7 @@ Partez sur-le-champ.»[new]
 [bold]Caïn[normal]: Montre-toi![new]
 «Vous voulez vraiment continuer?»[close_window][end]</sn:pointer>
     <sn:pointer id="398">Edward: Cecil... Rosa veut être avec toi.[new]
-Cecil: Bien, Rosa. Allons-y ensemble. Mais il est tard. On part demain matin.[new]
+Cecil: Bien, Rosa. Allons-y ensemble. Mais il est tard. Partons demain matin.[new]
 En attendant, repose-toi bien cette nuit.[new]
 Rosa: Cecil... D'accord. [force_bold]La mage blanche Rosa a rejoint l'équipe![force_normal][end]</sn:pointer>
     <sn:pointer id="399">Rosa: Ne t'inquiète pas pour moi. Et je suis une mage blanche. Je ne serai pas un fardeau![new]
@@ -1439,7 +1439,7 @@ Cecil: ...[end]</sn:pointer>
     <sn:pointer id="402">[bold]Cecil[normal]: Edward![end]</sn:pointer>
     <sn:pointer id="403">Caïn: Ouais, je crois bien...[new]
 Cecil: Combattons ensemble![new]
-Caïn: J'en ai bien l'intention. Mais c'est contre [force_wicked]toi[force_normal], Cecil![new]
+Caïn: J'en ai bien l'intention. Mais contre [force_wicked]toi[force_normal], Cecil![new]
 Cecil: Caïn!?[new]
 Caïn: Un combat d'homme à homme, Cecil![new]
 Cecil: Arrête![new]
@@ -1455,7 +1455,7 @@ Cecil: Merci, Yang...[end]</sn:pointer>
     <sn:pointer id="410">Roi Fabul: Je suis désolé! C'était donc vrai. Mais sans le gros de nos moines...[new]
 Voulez-vous nous prêter main-forte?[close_window][end]</sn:pointer>
     <sn:pointer id="411">[bold]Roi Fabul[normal]: Je ne peux pas vous forcer...
-C'est embêtant...[end]</sn:pointer>
+Voilà qui est fâcheux...[end]</sn:pointer>
     <sn:pointer id="412">[bold]Yang[normal]: Occupe-toi de tout pendant
 mon absence![new]
 [bold]Femme de Yang[normal]: Compte sur moi![end]</sn:pointer>

@@ -705,7 +705,7 @@ Si seulement on avait les aéronefs![end]</sn:pointer>
     <sn:pointer id="62">T[end]</sn:pointer>
     <sn:pointer id="63">Le...
 Le cristal... volé...[end]</sn:pointer>
-    <sn:pointer id="64">Je... je dois atteindre le pot de soin
+    <sn:pointer id="64">Je... je dois atteindre la jarre de soin
 au-dessus...![end]</sn:pointer>
     <sn:pointer id="65">[bold]Tella[normal]: C'est...
 Ooh... Anna![end]
@@ -747,7 +747,7 @@ Dans ce cas, je vais rester ici avec
 Anna pour toujours![new]
 Je me fiche bien de tout le reste![end]
 [bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
-Ce n'est pas comme ça que tu rendras Anna heureuse! Et en ce moment, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
+Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
 [bold]Cecil[normal]: Je suis Cecil.
 Une amie à moi s'est écroulée près de
 Kaïpo, frappée par la fièvre du désert.[new]
@@ -1100,14 +1100,14 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 [bold]Rosa[normal]: Merci, Rydia![new]
 [bold]Cecil[normal]: Rydia...[end]
 [bold]Edward[normal]: Rydia?[new]
-[bold]Rosa[normal]: Toi, tu vas y arriver, j'en suis sûre![end]</sn:pointer>
+[bold]Rosa[normal]: Tu vas y arriver, j'en suis sûre![end]</sn:pointer>
     <sn:pointer id="127">[bold]Edward[normal]: Ces vêtements...
 Ce doit être un moine de Fabul![end]
 [bold]Edward[normal]: Celui-ci a l'air costaud![new]
 [bold]Rydia[normal]: Aidons-le![end]
 Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
 Mes hommes et moi nous entraînions ici, sur le mont Hobs... et soudain, nous avons été attaqués par des hordes de monstres.[new]
-Mes hommes... tués... tous... je suis le seul survivant... Des combattants si aguerris...[new]
+Mes hommes... tués... tous... Je suis le seul survivant... Des combattants si aguerris...[new]
 Cecil: Nous faisons route vers Fabul.[new]
 Rosa: Un dénommé Golbez se sert de Baron pour rassembler les cristaux...[end]
 [bold]Moine[normal]: Haa![end]
