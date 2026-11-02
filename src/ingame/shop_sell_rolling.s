@@ -444,11 +444,43 @@ Replaces `DrawInventoryList` for the sell list: configures the profile and lets 
     rep #0x10
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_init
+    jsr.w _sell_render_from_scroll
     jsr.w _sell_ensure_hdma_initialized
     sep #0x20
     jsr.l tfr_bg3_tiles_vblank_trampoline
     plp
     rtl
+
+_sell_render_from_scroll:
+"""
+Redraws the visible slots from vanilla's scroll: the init draws rows 0-7, but a sale redraws the list with the
+scroll kept, so slot n must hold row scroll + n.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    lda.l _SELL_SCROLL_POS
+    beq _sell_render_from_scroll_done
+    lda #0x00
+
+_sell_render_from_scroll_row:
+    pha
+    sta.l sell_rolling.slot_index
+    clc
+    adc.l _SELL_SCROLL_POS
+    sta.l sell_rolling.edge_row
+    jsr.w _sell_render_item_to_slot
+    sep #0x20
+    pla
+    inc
+    cmp #_SELL_VISIBLE_ITEMS
+    bcc _sell_render_from_scroll_row
+
+_sell_render_from_scroll_done:
+    plp
+    rts
 
 _sell_fn_render_slot_trampoline:
 """Bank-20 RTL wrapper around `_sell_render_item_to_slot`."""
