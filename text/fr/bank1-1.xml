@@ -697,7 +697,7 @@ Tella: Que peux-tu faire dans ton état? Reste couché![new]
 Edward: Maître Tella... Vous êtes en vie... Pardonnez-moi...[new]
 C'est comme si j'avais tué Anna moi-même...[new]
 Tella: ...[new]
-Edward: Je suis vraiment désolé... -sniff-[end]</sn:pointer>
+Edward: Je suis vraiment désolé... -snif-[end]</sn:pointer>
     <sn:pointer id="214">[bold]Yang[normal]: Prince Edward, vous devez
 vous reposer, maintenant.[end]</sn:pointer>
     <sn:pointer id="215">Edward: Yang... Vous êtes vivant... Alors Rydia aussi...?[new]
@@ -996,7 +996,7 @@ Où est Yang?[new]
 [bold]Cecil[normal]: Pour détruire le canon géant...[new]
 [bold]Cid[normal]: Je vois...
 Yang...[new]
-[bold]Rydia[normal]: -sniff-...[new]
+[bold]Rydia[normal]: -snif-...[new]
 [bold]Cid[normal]: C'est qui, cette fille?[new]
 [bold]Cecil[normal]: Une survivante de Mist,
 Rydia.[end]</sn:pointer>
@@ -1624,7 +1624,7 @@ pouvez pas entrer![end]</sn:pointer>
     <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur le
 mont de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">Rosa: Rydia...[new]
-Rydia: -sniff-...[end]</sn:pointer>
+Rydia: -snif-...[end]</sn:pointer>
     <sn:pointer id="475">[bold]Tella[normal]: Vite!
 Nous devons vaincre Golbez![new]
 [bold]Ancien[normal]: Oh, Tella![new]
