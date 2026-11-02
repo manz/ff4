@@ -51,9 +51,9 @@ Field-menu window descriptors (equip, magic, status, items) at their bank-$01 ad
 .alloc at 0x01b072 {
     lda #0x68
 }
-; Status
+; Status: the main window fills the screen (vanilla 0, 1, 29, 24 left the field menu's edges showing around it)
 .alloc at 0x01de01 {
-    menu_window(0, 1, 29, 24)
+    menu_window(0, 0, 30, 26)
     menu_window(18, 6, 12, 4)
 }
 ; Clear the next text line in the right panel
