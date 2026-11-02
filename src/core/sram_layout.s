@@ -22,7 +22,7 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 
 .pool sram_work {
     bss
-    contexts vram_save, item_menu
+    contexts vram_save
     range 0x702000 0x706FFF
     strategy order
 }
@@ -33,12 +33,9 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 ; last 16 tiles' worth of buffer is BATTLE_FLAGS' page.
 .reserve sram_vwf_chr VWF_CHR_BUFFER_SIZE at VWF_CHR_BUFFER in sram_work
 .reserve sram_battle_flags 1 at BATTLE_FLAGS in sram_work
-; Taken in turns: vanilla's VRAM save ($14:FF9C) fills the whole window
-; while the treasure popup or a dialog is up; the field item menu keeps
-; the item-description cache (render.last_drawn_text_ptr) at +2. A cache
-; overwritten by a save only costs one description redraw.
+; Vanilla's VRAM save ($14:FF9C) while the treasure popup or a dialog is up, and the menus' (ingame/menu_vram.s)
+; for as long as a menu is open: nothing else may write here then.
 .reserve sram_vram_save VRAM_SAVE_BYTE_COUNT at VRAM_SAVE_SRAM_BASE in sram_work.vram_save
-.reserve sram_description_cache 2 at VRAM_SAVE_SRAM_BASE + 2 in sram_work.item_menu
 
 ; Bank $71: menu small-VWF state and the second half of the menu's VRAM save.
 .struct MenuTextState {
@@ -62,6 +59,9 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 .reserve menu_vram_saved 2 in sram_bank71
 ; Non-zero while a menu window change has faded the screen out (ingame/menu_fade.s).
 .reserve menu_faded_out 1 in sram_bank71
+; The item description last drawn (render.last_drawn_text_ptr): once in the VRAM save window, where the menu's own
+; save holds the map's tiles, so every reset punched a hole in the field map.
+.reserve description_cache 2 in sram_bank71
 ; Steps taken while the place-name window is up (ingame/places_names.s).
 .reserve place_name_steps 1 in sram_bank71
 

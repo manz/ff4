@@ -221,8 +221,8 @@ get:
         tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/core/vwf_ram.s)
         buffer_ptr = VWF_CHR_BUFFER
         buffer_size = VWF_CHR_BUFFER_SIZE
-; Item-description cache, in the VRAM save window (see sram_layout.s).
-        last_drawn_text_ptr = VRAM_SAVE_SRAM_BASE + 2
+; Item-description cache (see sram_layout.s).
+        last_drawn_text_ptr = description_cache
 init:
 """
 Reset the per-render scratch and the allocator, and clear only this region's CHR slice
