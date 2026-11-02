@@ -127,14 +127,13 @@ Bank $00 addresses here are 2 bytes past the ff4decomp notes from $00:89ED on.
 .alloc at 0x00AFB2 {
     and #0x00
 }
-; A-select index ($00:AF9C): ($BA + $8C) * 2, dropping the column add ($AFA2) and the second asl ($AFA5).
+; A-select index ($00:AF9C): ($BA + $8C) * 2, dropping the column add ($AFA2) and the second asl ($AFA5). Their
+; 4 bytes clear B: `tax` is 16-bit here and the hooks leave B = $06, so past the first row the pick read
+; $0712 + $06xx, not the list (b3 playtest: the Lumière du désert did nothing for Rosa).
 
 
 .alloc at 0x00AFA2 {
-    pad_nop(3)
-}
-
-
-.alloc at 0x00AFA5 {
-    nop
+    xba
+    lda #0x00
+    xba
 }
