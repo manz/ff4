@@ -1,5 +1,6 @@
 """Options-menu patches: RGB -> RVB, label and cursor positions, controls window, and the ATB gauge row."""
 .import "core/preamble"
+.import "core/wram_layout"
 .import "menus/in_game_text"
 .import "menus/system_menus_text"
 .include "ingame/macros.i"
@@ -65,8 +66,7 @@
 }
 
 ; Row 10: "Jauge ATB  Oui  Non" (read by battle/atb_gauge.s), under the colour sliders (rows 7-9).
-; Setting: $16B3 bit 0, a saved byte vanilla leaves 0, so the gauge defaults to off.
-ATB_GAUGE_SETTING := 0x7E16B3
+; Setting: ATB_GAUGE_SETTING (core/wram_layout.s) bit 0, 0 by default, so the gauge defaults to off.
 ATB_GAUGE_ON := 0x01
 _ROWS := 11
 _GAUGE_ROW := 10

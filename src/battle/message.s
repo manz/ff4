@@ -882,7 +882,7 @@ slice cleared, allocator clamped to the slot.
         ldy.w #ITEM_VWF_CHR_WORDS
 _chr_clear_loop:
         lda.w #0x00ff
-        sta 0x700000, x
+        sta.l battle_render.buffer_ptr & 0xFF0000, x
         inx
         inx
         dey
@@ -1354,7 +1354,7 @@ _init_glyphs_at:
         tax
 _ig_chr_clear:
         lda.w #0x00ff
-        sta 0x700000, x
+        sta.l battle_render.buffer_ptr & 0xFF0000, x
         inx
         inx
         dey
@@ -1406,7 +1406,7 @@ init_inventory_for_current_slot_local:
         ldy.w #ITEM_VWF_CHR_WORDS
 _dis_chr_clear:
         lda.w #0x00ff
-        sta 0x700000, x
+        sta.l battle_render.buffer_ptr & 0xFF0000, x
         inx
         inx
         dey

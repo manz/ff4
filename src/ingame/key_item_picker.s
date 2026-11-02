@@ -11,6 +11,7 @@ The HDMA scroll table on channel 4 is built but never armed.
 
 
 .import "core/preamble"
+.import "core/wram_layout"
 .import "core/vwf_ram"
 .import "core/items"
 
@@ -42,10 +43,10 @@ _KEY_ITEM_RENDER_DP := 0x1D00
 _KEY_ITEM_NMITIMEN_PICKER := 0xA1
 _KEY_ITEM_NMITIMEN_RENDER := 0x21
 
-_KEY_ITEM_HDMA_TABLE_ADDR := 0x9900
-_KEY_ITEM_HDMA_TABLE := 0x7E9900
-_KEY_ITEM_HDMA_SHADOW_ADDR := 0x9940
-_KEY_ITEM_HDMA_SHADOW := 0x7E9940
+_KEY_ITEM_HDMA_TABLE_ADDR := PICKER_HDMA_TABLE & 0xFFFF
+_KEY_ITEM_HDMA_TABLE := PICKER_HDMA_TABLE
+_KEY_ITEM_HDMA_SHADOW_ADDR := PICKER_HDMA_SHADOW & 0xFFFF
+_KEY_ITEM_HDMA_SHADOW := PICKER_HDMA_SHADOW
 _KEY_ITEM_HDMA_BANK := 0x7E
 ; Header + 6 rows + footer + terminator, rounded up to a word count.
 _KEY_ITEM_HDMA_TABLE_SIZE := 40

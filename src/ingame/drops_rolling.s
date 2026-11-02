@@ -10,6 +10,7 @@ State: `drops_rolling` at $7E:9C30.
 
 
 .import "core/preamble"
+.import "core/wram_layout"
 .import "core/vwf_ram"
 .import "core/items"
 
@@ -27,13 +28,11 @@ _DROPS_SCROLL_TOTAL_PIXELS := 16
 
 ; Drops scroll position (no vanilla equivalent), in the last byte of the state slot. Keep the full 24-bit
 ; address: a 16-bit constant with `.l` access would hit bank $00 ROM.
-drops_scroll_pos := 0x7E9C5F
+drops_scroll_pos := DROPS_ROLLING_BASE + ROLLING_SLOT - 1
 
 ; Own HDMA table / shadow, next to the treasure inventory's ($7E:9800 / $7E:9840).
-_DROPS_HDMA_TABLE_ADDR := 0x9880
-DROPS_HDMA_TABLE := 0x7E9880
-_DROPS_HDMA_SHADOW_ADDR := 0x98C0
-DROPS_HDMA_SHADOW := 0x7E98C0
+_DROPS_HDMA_TABLE_ADDR := DROPS_HDMA_TABLE & 0xFFFF
+_DROPS_HDMA_SHADOW_ADDR := DROPS_HDMA_SHADOW & 0xFFFF
 _DROPS_HDMA_BANK := 0x7E
 
 _DROPS_SCROLL_STATE_IDLE := 0

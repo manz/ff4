@@ -1,5 +1,5 @@
 """
-Cart SRAM map below the VWF state: $70:2000-$70:6FFF.
+Cart SRAM map below the VWF state: the game's saves at $70:0000-$70:1FFF, ours at $70:2000-$70:6FFF.
 
 Layout only: every block is a pinned reservation sized from the constants
 the code uses, so two blocks that overlap fail the build. Blocks that take
@@ -12,6 +12,14 @@ treasure, battle (items + magic) and dialog.
 .import "core/preamble"
 .include "core/vwf_state.i"
 .include "battle/sram.i"
+
+; The game's own saves (vanilla's 8 KB): nothing of ours may land there.
+.pool sram_saves {
+    bss
+    range 0x700000 0x701FFF
+    strategy order
+}
+.reserve game_saves 0x2000 at 0x700000 in sram_saves
 
 ; Dialog VWF tiles. The dialog renderer stays below $70:2F00.
 DIALOG_TILE_BUFFER := 0x702000

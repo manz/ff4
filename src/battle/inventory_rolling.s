@@ -4,6 +4,7 @@ Battle inventory rolling-buffer engine (single column, 5 visible rows + 1 prefet
 runs the field-menu NMI DMA check.
 """
 .import "core/preamble"
+.import "core/wram_layout"
 .import "core/vwf_ram"
 .import "battle/render_state"
 .include "battle/render_save.i"
@@ -1792,20 +1793,17 @@ _cursor2_done:
     rtl  ; Called via JSL from bank $02
 
 ; Field menu NMI handler (relocated from bank $01). Menu states are the `<profile>_rolling` binds from items.s.
-    _FIELD_HDMA_TABLE := 0x7E9800
-    _FIELD_HDMA_SHADOW := 0x7E9840
+    _FIELD_HDMA_TABLE := FIELD_HDMA_TABLE
+    _FIELD_HDMA_SHADOW := FIELD_HDMA_SHADOW
     _FIELD_HDMA_TABLE_SIZE := 40
-    DROPS_HDMA_TABLE := 0x7E9880
-    DROPS_HDMA_SHADOW := 0x7E98C0
     _DROPS_HDMA_TABLE_SIZE := 40
 ; Sell list.
-    SELL_HDMA_TABLE := 0x7E9900
-    SELL_HDMA_SHADOW := 0x7E9940
+    SELL_HDMA_TABLE := PICKER_HDMA_TABLE
+    SELL_HDMA_SHADOW := PICKER_HDMA_SHADOW
 ; header + 8 row bands + footer + terminator = 31 bytes.
     _SELL_HDMA_TABLE_SIZE := 32
 ; Equip screen inventory list.
-    _EQUIP_HDMA_TABLE := 0x7E9980
-    EQUIP_HDMA_SHADOW := 0x7E99C0
+    _EQUIP_HDMA_TABLE := EQUIP_HDMA_TABLE
 ; header + 6 row bands + footer + terminator = 25 bytes.
     EQUIP_HDMA_TABLE_SIZE := 26
 

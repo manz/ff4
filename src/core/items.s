@@ -181,3 +181,21 @@ treasure_scroll_cooldown := TREASURE_ROLLING_BASE + sizeof(RollingBufferState)
 
 ; Last menu_frame_time seen by the treasure loop, so the cooldown ticks once per frame.
 treasure_scroll_frame_seen := treasure_scroll_cooldown + 1
+
+; The arena itself: a slot of ROLLING_SLOT bytes per profile, the binds above pinned to it, so an overlap fails the
+; build. Drops keep their scroll position in their slot's last byte (ingame/drops_rolling.s).
+ROLLING_SLOT := 0x30
+.pool rolling_ram {
+    bss
+    range TREASURE_ROLLING_BASE ( EQUIP_ROLLING_BASE + ROLLING_SLOT - 1 )
+    strategy order
+}
+.reserve treasure_rolling_state sizeof(RollingBufferState) at TREASURE_ROLLING_BASE in rolling_ram
+.reserve treasure_scroll_timer 2 at treasure_scroll_cooldown in rolling_ram
+.reserve drops_rolling_state sizeof(RollingBufferState) at DROPS_ROLLING_BASE in rolling_ram
+.reserve drops_scroll 1 at DROPS_ROLLING_BASE + ROLLING_SLOT - 1 in rolling_ram
+.reserve key_item_rolling_state sizeof(RollingBufferState) at KEY_ITEM_ROLLING_BASE in rolling_ram
+.reserve field_menu_rolling_state sizeof(RollingBufferState) at FIELD_MENU_ROLLING_BASE in rolling_ram
+.reserve sell_rolling_state sizeof(RollingBufferState) at SELL_ROLLING_BASE in rolling_ram
+.reserve equip_rolling_state sizeof(RollingBufferState) at EQUIP_ROLLING_BASE in rolling_ram
+.assert sizeof(RollingBufferState) + 2 <= ROLLING_SLOT, "a rolling state outgrew its slot"
