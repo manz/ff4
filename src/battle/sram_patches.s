@@ -120,8 +120,9 @@ _skip_names:
     rts
 
 msg_window_draw_text_trampoline:
-"""Trampoline patched into the message-window draw."""
-    jsr.l messages_vwf.init
+"""Trampoline patched into the message-window draw: the draw in bank $20, which keeps vanilla's direct page."""
+    jsr.l messages_vwf.draw_message
+    rts
 
 _draw_text_battle:
     jsr.w draw_text
