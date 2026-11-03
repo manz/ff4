@@ -678,8 +678,7 @@ Porom: Shh![new]
 Cecil: Quelle est cette sensation...? Étrangement familière... Quelle était cette voix...?[new]
 Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
-    <sn:pointer id="207">[bold]Tella[normal]: Je commence à me souvenir...
-Tous mes sorts commencent à me revenir!
+    <sn:pointer id="207">[bold]Tella[normal]: Ça me revient... Tous mes sorts!
 [0xfa]Tella a retrouvé tous les [0xfa]sorts qu'il
 avait oubliés![end]</sn:pointer>
     <sn:pointer id="208">Porom: Digne de maître Tella![new]
@@ -744,7 +743,7 @@ fées maléfiques.[new]
 Alors j'ai pensé que peut-être...[new]
 [bold]Yang[normal]: Et grâce à cela, vous nous
 avez sauvés.[new]
-[bold]Edward[normal]: Non... ce n'était pas moi...
+[bold]Edward[normal]: Oh... je n'ai rien fait de spécial...
 Ooh![end]</sn:pointer>
     <sn:pointer id="228">Edward: Maître Tella...[new]
 Tella: Anna était heureuse... Elle était aimée d'un homme aussi courageux que toi...[new]
@@ -825,7 +824,7 @@ On dirait que Météore a fait effet...
 Mais Tella![end]</sn:pointer>
     <sn:pointer id="245">Tella: Je n'ai pas pu le tuer...[new]
 Cid: Ne parle pas![new]
-Tella: C'est peut-être... le prix à payer pour avoir combattu... consumé par la haine... La vengeance d'Anna... je vous en...[end]</sn:pointer>
+Tella: C'est peut-être... le prix à payer pour avoir combattu... consumé par la haine... Vengez Anna... je vous en...[end]</sn:pointer>
     <sn:pointer id="246">[bold]Cecil[normal]: Tella![new]
 [bold]Yang[normal]: ![new]
 [bold]Tella[normal]: ...[end]</sn:pointer>
@@ -1228,8 +1227,8 @@ Je serai ton adversaire quand tu voudras![end]</sn:pointer>
     <sn:pointer id="350">Edge: At...tends... en...foiré...![end]</sn:pointer>
     <sn:pointer id="351">[bold]Cid[normal]: Zzz...
 Zzz...[new]
-[bold]Rydia[normal]: Il est vraiment fatigué.[new]
-[bold]Rosa[normal]: Il s'est vraiment surmené...[new]
+[bold]Rydia[normal]: Il devait être épuisé.[new]
+[bold]Rosa[normal]: Il en fait toujours trop...[new]
 [bold]Cecil[normal]: Merci...
 Cid![end]</sn:pointer>
     <sn:pointer id="352">[bold]Rosa[normal]: Soin 2![end]</sn:pointer>
@@ -1643,7 +1642,7 @@ Allez à Baron et parlez à mes apprentis![end]</sn:pointer>
     <sn:pointer id="480">Cid: Appelle-moi au moins Oncle Cid![end]</sn:pointer>
     <sn:pointer id="481">[bold]Cecil[normal]: ...Dirigeons-nous vers Baron![end]</sn:pointer>
     <sn:pointer id="482">Cecil: Yang![new]
-Yang: Dites à ma femme de vivre pour moi![new]
+Yang: Dites à ma femme de vivre pour nous deux![new]
 Caïn: Ouvre cette porte, Yang![new]
 Rydia: Yang![new]
 Rosa: S'il te plaît! Ne fais pas de bêtise![new]

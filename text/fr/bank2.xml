@@ -182,8 +182,7 @@ Je n'ai rien fait de mal!
 Je paie mes impôts, en plus...[end]
 Les soldats du château font ce que bon
 leur semble au bar![end]
-La ville a enfin retrouvé son esprit
-d'antan!
+La ville a enfin retrouvé son animation!
 Bon, retournons au travail![end]
 C'était toi, le monsieur de l'autre fois! Je trouve que ça te va mieux, comme ça.[end]
 T[end]
@@ -226,8 +225,7 @@ tout ça...[end]
 [bold]Mère de Rosa[normal]: Rosa s'est
 sauvée pour partir à ta recherche!
 Où est-elle, maintenant?[end]
-[bold]Mère de Rosa[normal]: Rosa!
-Tu es sauve![new]
+[bold]Mère de Rosa[normal]: Rosa! Tu es saine et sauve![new]
 [bold]Rosa[normal]: Je suis désolée...[new]
 [bold]Mère de Rosa[normal]: Maintenant, tu ne
 pars plus nulle part![new]
@@ -565,7 +563,7 @@ Je...je ne dors pas![end]
 Sa Majesté, victime d'un monstre... Quelle tristesse...[end]
 [bold]Caïn[normal]: Tu es prêt, Cecil?[new]
 [bold]Cecil[normal]: Je compte sur toi, Caïn.[new]
-[bold]Caïn[normal]: Hmph. Compte sur moi.[end]
+[bold]Caïn[normal]: Hmph. Laisse-moi faire.[end]
 «Messire Cecil!»[end]
 [bold]Cecil[normal]: Qu'est-ce qui ne va pas?[new]
 [bold]Palom[normal]: Ça sent...[new]
@@ -591,7 +589,7 @@ chevaliers dragons![end]
 Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]
 Je n'oserais plus regarder M. Caïn en
 face.[end]
-On dit beaucoup de choses sur Sa Majesté, mais si elle entendait ça...[end]
+On dit beaucoup de choses sur Sa Majesté, mais si le roi l'apprenait...[end]
 Nous prendrons les choses en main en votre absence![end]
 [bold]Caïn[normal]: Qu'est-ce qui ne va pas?
 Tu n'arrives pas à dormir?[end]
@@ -683,8 +681,7 @@ Je vais me saouler pour essayer d'oublier
 ce qui s'est passé à Mysidia...[end]
 Sa Majesté morte, vous êtes le seul qui
 puisse diriger Baron![end]
-Ce boulot m'a laissé une mauvaise
-impression...[end]
+Cette mission m'a laissé un goût amer...[end]
 Golbez a pris les Ailes Rouges![end]
 Les Ailes Rouges ont vraiment touché le fond![end]
 Merde, alors!
@@ -869,9 +866,7 @@ En prévision du combat contre lui,
 reposons-nous dans ma tente et
 reprenons des forces![end]</sn:pointer>
     <sn:pointer id="85">Tu veux que je danse? Quel rustre! Je fais partie de la garde royale![end]
-Baron a beaucoup fait des siennes ces
-derniers temps, mais ils ne vont
-probablement pas attaquer ici.[end]
+On dit que Baron s'agite, mais ses troupes ne viendront sans doute pas jusqu'ici.[end]
 Ça a beau ressembler à des justaucorps, ce sont bel et bien des tenues de combat! On y bouge facilement, et surtout, elles sont à la mode, non?[end]
 Troia est protégée par des femmes.
 Nous, les gardes, sommes toutes aussi
@@ -956,7 +951,7 @@ très affaibli.[end]
 [bold]Edward[normal]: Cecil...
 Tu dois sauver Rosa![end]
 Un malade se repose ici. Silence, s'il vous plaît![end]
-[bold]Edward[normal]: Fais aussi ma part... je t'en prie.[end]
+[bold]Edward[normal]: Bats-toi aussi pour moi... je t'en prie.[end]
 Edward: Maître Tella!? Pourquoi...? Tous ceux qui m'entourent...[end]
 [bold]Edward[normal]: Yang aussi...
 Si...si seulement j'étais plus fort...[end]
@@ -1187,7 +1182,7 @@ mourir, pas eux![end]</sn:pointer>
     <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
     <sn:pointer id="140">Cid: Ourg! Quel magnétisme! On pourra même pas remuer si on porte des armes ou des armures en métal![new]
 Yang: Mes griffes, elles, ne semblent pas affectées.[new]
-Tella: Ne vous inquiétez pas! Nous avons toujours ma magie![end]</sn:pointer>
+Tella: Pas d'inquiétude! Vous avez ma magie![end]</sn:pointer>
     <sn:pointer id="141">T[end]</sn:pointer>
     <sn:pointer id="142">T[end]</sn:pointer>
     <sn:pointer id="143">T[end]</sn:pointer>
@@ -1866,7 +1861,7 @@ Libra... le Bestiaire
 révélera leur véritable nature...[end]
 Chimères, monstres, humains...
 D'où sont-ils venus et où vont-ils...
-Le mystère de l'éternité...[end]
+C'est un mystère éternel...[end]
 Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
 terre...
@@ -1907,8 +1902,7 @@ Alors, malheureusement, je ne peux pas
 vous donner mon pouvoir.[end]
 Une fois que tu auras confiance en toi, je
 te combattrai quand tu voudras![end]</sn:pointer>
-    <sn:pointer id="321">Est-ce que les humains peuvent utiliser
-les armes, ici?[end]
+    <sn:pointer id="321">Des humains sauront-ils manier nos armes?[end]
 Tiens, mais c'est Rydia![end]</sn:pointer>
     <sn:pointer id="322">N'amène pas trop d'humains ici,
 Rydia.[end]
