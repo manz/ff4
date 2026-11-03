@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:pointer id="0">Une force mystérieuse entoure ce lieu.
-Tu peux utiliser une tente ou un chalet,
-et sauvegarder.[end]</sn:pointer>
+    <sn:pointer id="0">Une barrière protège ce lieu. Vous pouvez y utiliser tente et chalet, et sauvegarder.[end]</sn:pointer>
     <sn:pointer id="1">[bold]Golbez[normal]: C'est terminé...[new]
-[bold]FuSoYa[normal]: Pauvre fou...
-Il avait de si fantastiques pouvoirs, mais il
-s'est laissé mener par un cœur mauvais...[new]
+[bold]FuSoYa[normal]: Insensé... Doté d'un tel pouvoir, il s'est fait le jouet du mal...[new]
 [bold]Edge[normal]: Yahoo!![end]</sn:pointer>
     <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous êtes venus![end]</sn:pointer>
     <sn:pointer id="3">Rydia: C'est horrible...[new]
@@ -255,7 +251,7 @@ Palom![new]
 Porom![end]</sn:pointer>
     <sn:pointer id="58">«Bienvenue!»[end]</sn:pointer>
     <sn:pointer id="59">Cecil: Qui êtes-vous...?[new]
-Vieil Homme: Je suis FuSoYa, gardien du peuple endormi de la Lune, les Sélénites.[new]
+Vieil homme: Je suis FuSoYa, gardien du peuple endormi de la Lune, les Sélénites.[new]
 Rosa: Sélénites?[new]
 FuSoYa: En effet. Il y a très longtemps...[new]
 La planète qui se trouvait entre Mars et Jupiter fut menacée d'extinction.[new]
@@ -402,7 +398,7 @@ Porom: Ça suffit, maintenant! L'Ancien est furieux![delay][0x10][close_window][
     <sn:pointer id="83">[bold]Ancien[normal]: Combien de fois faudra-t-il te
 le répéter! [delay][0x18] Avec une telle attitude,
 viser le niveau de Tella?
-Reviens dans dix ans![new]
+Tu as encore dix ans de travail![new]
 En punition, tu vas recopier des
 formules! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="84">[bold]Palom[normal]: Oh nooon! [delay][0x10][close_window][end]</sn:pointer>
@@ -475,8 +471,7 @@ Luca: Super![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="110">Giotto: Bordel! Écrasez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="111">[bold]Caïn[normal]: Cecil...
 Rosa...[delay][0x18][new]
-Tel que je suis, je ne peux pas vous
-souhaiter tout le bonheur du monde...[new]
+Tel que je suis, je ne peux pas encore venir vous féliciter...[new]
 Sur ce mont de l'Épreuve, je vais
 parfaire mon art...
 Et quand je serai un chevalier dragon
@@ -568,9 +563,7 @@ Je pourrai alors te prêter ma force...[new]
 tristes.[new]
 Un monstre m'a ôté la vie, mais j'ai
 acquis une puissance éternelle.[new]
-Si l'invocatrice de Mist m'appelle, je
-serai toujours là pour t'aider... en tant
-que Chimère qui terrasse d'un seul coup.[new]
+Si l'invocatrice de Mist m'appelle, je serai toujours là pour t'aider, et ma lame terrassera tes ennemis d'un seul coup.[new]
 Mais la loi du monde des Chimères veut
 que je mette ta force à l'épreuve.
 Ne faiblis pas...![end]</sn:pointer>

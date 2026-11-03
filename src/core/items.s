@@ -55,6 +55,8 @@ VWF_CTX_KEY_ITEM := 0x02
 ; popup). Names start at col 19, so a row holds only icon + glyph budget.
 VWF_CTX_EQUIP := 0x03
 EQUIP_NAME_CELLS := 1 + FIELD_ITEM_VWF_TILE_BUDGET
+; Shop sell confirm name ($01:CA02): primary flush, but the window's right border sits inside a full slot's row.
+VWF_CTX_SELL_CONFIRM := 0x04
 
 ; Drops flush (secondary slot), at the fixed +11-slot offset:
 ;   src offset = $16E * 16 = $16E0 bytes into VWF_CHR_BUFFER
@@ -179,3 +181,21 @@ treasure_scroll_cooldown := TREASURE_ROLLING_BASE + sizeof(RollingBufferState)
 
 ; Last menu_frame_time seen by the treasure loop, so the cooldown ticks once per frame.
 treasure_scroll_frame_seen := treasure_scroll_cooldown + 1
+
+; The arena itself: a slot of ROLLING_SLOT bytes per profile, the binds above pinned to it, so an overlap fails the
+; build. Drops keep their scroll position in their slot's last byte (ingame/drops_rolling.s).
+ROLLING_SLOT := 0x30
+.pool rolling_ram {
+    bss
+    range TREASURE_ROLLING_BASE ( EQUIP_ROLLING_BASE + ROLLING_SLOT - 1 )
+    strategy order
+}
+.reserve treasure_rolling_state sizeof(RollingBufferState) at TREASURE_ROLLING_BASE in rolling_ram
+.reserve treasure_scroll_timer 2 at treasure_scroll_cooldown in rolling_ram
+.reserve drops_rolling_state sizeof(RollingBufferState) at DROPS_ROLLING_BASE in rolling_ram
+.reserve drops_scroll 1 at DROPS_ROLLING_BASE + ROLLING_SLOT - 1 in rolling_ram
+.reserve key_item_rolling_state sizeof(RollingBufferState) at KEY_ITEM_ROLLING_BASE in rolling_ram
+.reserve field_menu_rolling_state sizeof(RollingBufferState) at FIELD_MENU_ROLLING_BASE in rolling_ram
+.reserve sell_rolling_state sizeof(RollingBufferState) at SELL_ROLLING_BASE in rolling_ram
+.reserve equip_rolling_state sizeof(RollingBufferState) at EQUIP_ROLLING_BASE in rolling_ram
+.assert sizeof(RollingBufferState) + 2 <= ROLLING_SLOT, "a rolling state outgrew its slot"

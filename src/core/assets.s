@@ -187,7 +187,7 @@ battle_texts:
     .db 14  ; 0xE3 Chalet
     .db 19  ; 0xE4 Livre coquin
     .db 16  ; 0xE5 Porte de secours
-    .db 17  ; 0xE6 Pain de nain
+    .db 17  ; 0xE6 Pain des lutins
     .db 58  ; 0xE7 Gobelin
     .db 59  ; 0xE8 Bombe
     .db 60  ; 0xE9 Cocatrix

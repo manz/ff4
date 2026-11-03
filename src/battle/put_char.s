@@ -23,14 +23,6 @@ clear_vwf_render:
         rtl
     }
 
-_copy_battle_char:
-"""Copy a glyph + its dakuten companion from the SRAM staging area to the destination pair."""
-    lda.l sram_base + 0x2E00, x
-    sta (0x00), y
-    lda.l sram_base + 0x2E00 + 0x30, x
-    sta (0x02), y
-    rtl
-
     .scope wram {
     """WRAM-mode put-char primitives used by the original battle text renderer."""
 put_char:

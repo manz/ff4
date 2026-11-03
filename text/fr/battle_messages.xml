@@ -31,7 +31,7 @@
     <sn:pointer id="28">Tella: Cette douleur, c'est celle d'Anna...[end]</sn:pointer>
     <sn:pointer id="29">Barde: Anna, elle...[end]</sn:pointer>
     <sn:pointer id="30">Si tu es vraiment un paladin...[end]</sn:pointer>
-    <sn:pointer id="31">Rengaine ton épée et supporte-le ![end]</sn:pointer>
+    <sn:pointer id="31">Rengaine ton épée et endure ![end]</sn:pointer>
     <sn:pointer id="32">Plus que la justice, plus que le bon droit...[end]</sn:pointer>
     <sn:pointer id="33">Il y a quelque chose de plus important.[end]</sn:pointer>
     <sn:pointer id="34">Un jour, tu comprendras.[end]</sn:pointer>
@@ -73,7 +73,7 @@
     <sn:pointer id="70">Il rassemble l'eau pour un raz-de-marée ![end]</sn:pointer>
     <sn:pointer id="71">Il se renferme pour se défendre ![end]</sn:pointer>
     <sn:pointer id="72">Tella: Digne d'un chevalier noir ![end]</sn:pointer>
-    <sn:pointer id="73">Mais tes gestes ont ralenti ![end]</sn:pointer>
+    <sn:pointer id="73">Mais tu ralentis ![end]</sn:pointer>
     <sn:pointer id="74">Golbez: Ha ha ha ha ![end]</sn:pointer>
     <sn:pointer id="75">C'est donc ça, votre force...[end]</sn:pointer>
     <sn:pointer id="76">Tenez-vous tranquilles un moment ![end]</sn:pointer>
@@ -99,7 +99,7 @@
     <sn:pointer id="96">Barnabas: Hu...i...le...s'il...vous...plaît...[end]</sn:pointer>
     <sn:pointer id="97">Je vais vous montrer la vraie terreur ![end]</sn:pointer>
     <sn:pointer id="98">Transformation ![end]</sn:pointer>
-    <sn:pointer id="99">Docteur: Hein, c'est quoi ce bouton... ◉Clic[end]</sn:pointer>
+    <sn:pointer id="99">Docteur: Hein, c'est quoi ce bouton... Clic ![end]</sn:pointer>
     <sn:pointer id="100">Dog: Grande sœur, on y va ![end]</sn:pointer>
     <sn:pointer id="101">Rag: Mag, renvoie-le ![end]</sn:pointer>
     <sn:pointer id="102">Les trois sœurs Magus: Attaque Delta !![end]</sn:pointer>

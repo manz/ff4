@@ -14,10 +14,11 @@ tracking (`dialog_vwf.tile_pos`, `.bits_left`), button-glyph + ending-symbol dra
 .import "core/bank20_helpers"
 .import "dialog/kerning"
 .import "core/vanilla"
+.import "core/sram_layout"
 
 .scope field_vwf {
     """SRAM: $70:0000 save, $2000 sram_layout.s, $7000 vwf_ram.s, $7100 battle render state, $7200 rolling_state.i."""
-    tile_buffer = 0x702000
+    tile_buffer = DIALOG_TILE_BUFFER
 }
 
 .alloc _vwf_block in bank20_reloc {

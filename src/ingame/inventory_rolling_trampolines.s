@@ -242,15 +242,20 @@ Entry: X = row * 2, A = item id (passed through).
 
 shop_sell_item_name:
 """
-ConfirmSell ($01:CA02) item name in VWF slot 9 (tiles $15A-$163), clear of the list's slots.
+ConfirmSell ($01:CA02) item name in VWF slot 9 (tiles $15A-$163), clear of the list's slots. Its ctx keeps the
+top-row blank inside the window.
 Entry: A = item id (passed through). Preserves $5D.
 """
     pha
     lda.b #_SELL_NAME_SLOT
     sta.b menu_dp.item_slot
+    lda.b #VWF_CTX_SELL_CONFIRM
+    sta.l vwf_engine.caller_ctx
     pla
     pha
     jsr.w draw_item_name
+    lda.b #VWF_CTX_PRIMARY
+    sta.l vwf_engine.caller_ctx
     pla
     sta.b menu_dp.item_slot
     rts

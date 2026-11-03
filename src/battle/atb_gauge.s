@@ -21,7 +21,7 @@ drawn fill eases up to that (a quarter of the way a pass) over a tick that came 
 .include "battle/bank02_trampolines.i"
 
 _PARTY := 5
-_SETTING := 0x7E16B3  ; ingame/options.s ATB_GAUGE_SETTING: bit 0 shows the gauges (saved, 0 by default)
+_SETTING := ATB_GAUGE_SETTING  ; bit 0 shows the gauges (saved, 0 by default)
 _SETTING_ON := 0x01
 _TIMERS := 0x7E2A07  ; the action timer, a word, per fighter
 _DISPLAY_ORDER := 0x02A1F3  ; vanilla: the party window's rows list the slots in this order, present ones only
