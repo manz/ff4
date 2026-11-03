@@ -87,8 +87,7 @@ mont de l'Épreuve!
 Ta lame noire ne sert à rien![end]
 Toi... un paladin!?[end]
 Les hommes qui se font du mal entre eux... C'est bien triste.[end]
-Endurez l'épreuve et renoncez à cette
-apparence![end]
+Surmontez l'épreuve et rompez avec ce que vous êtes![end]
 N'oubliez pas l'esprit du paladin.[end]
 T'en as du cran de venir ici![end]
 Nombreux sont ceux qui se sont mesurés
@@ -296,9 +295,7 @@ Ben ça alors! Un paladin, un vrai de vrai?[end]
 Vous devez être fatigué par ce long
 voyage.
 Buvez donc ceci![end]
-Toi, un paladin?
-Hm!
-Ha, la vache, je peux aussi en être un![end]
+Toi, un paladin? Alors même moi, je pourrais en devenir un![end]
 Ça alors!
 Tu es vraiment devenu un paladin![end]
 P-p-p-pitié, épargnez-moi![end]
@@ -516,8 +513,7 @@ Il nous a laissé l'entretien des aéronefs
 pour réfléchir à je ne sais quoi.[end]
 Patron!
 Et M. Cecil![end]
-On dirait que le patron fait comme à son
-habitude, non?[end]
+Le patron n'a pas changé, je parie![end]
 Ah là là, encore une nuit blanche...
 N...ne le dites pas au patron!
 L...le travail, c'est amusant![end]
@@ -630,8 +626,7 @@ sainte-nitouche![end]
 votre connaissance, monsieur.
 C'est dangereux, ici, alors il faudrait se
 hâter.[new]
-[bold]Cid[normal]: Hé!
-Tu connais vraiment les bonnes manières![end]
+[bold]Cid[normal]: Hé! Toi, au moins, tu as des manières![end]
 [bold]Cecil[normal]: Cid, où est le nouveau
 modèle d'aéronef?[new]
 [bold]Cid[normal]: Héhéhé...[end]
@@ -763,7 +758,7 @@ Je t'en prie![end]
 Tout ça parce que nous n'avons pas été à
 la hauteur...[end]
 Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]
-Vous allez bien![end]</sn:pointer>
+Vous voilà sains et saufs![end]</sn:pointer>
     <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
 Messire Cecil, vous devez tous être
 fatigués.
@@ -983,7 +978,7 @@ Le roi était un monstre?
 Nous ne pouvions pas le sentir...
 Il doit encore nous rester beaucoup à
 apprendre.[end]
-Les magies de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il y avait autrefois des magies plus puissantes que ça, paraît-il...[end]
+Les sorts de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il existait autrefois des sorts plus puissants, paraît-il...[end]
 Alors l'antique magie Météore existait bien![end]
 Sommeil!
 Hein?
@@ -1028,7 +1023,7 @@ Utilise bien ces endroits![end]
 Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
 Gros Chocobo dans la forêt Chocobo![new]
-Si tu sens des chocobos, utilise un Légume Gysahl![end]
+Si ça sent le chocobo, utilise un Légume Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
 Si tu veux changer de nom, tu n'as qu'à lui demander![end]
 Un combat imprudent peut te coûter la vie! Si ça tourne mal, n'hésite pas à te sauver.[new]
@@ -1046,7 +1041,7 @@ Cecil: On doit livrer cet Anneau Bombe au village de Mist![new]
 Caïn: Le brouillard s'épaissit![end]</sn:pointer>
     <sn:pointer id="109">T[end]</sn:pointer>
     <sn:pointer id="110">T[end]</sn:pointer>
-    <sn:pointer id="111">[bold]Vieil Homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:pointer>
+    <sn:pointer id="111">[bold]Vieil homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:pointer>
     <sn:pointer id="112">T[end]</sn:pointer>
     <sn:pointer id="113">T[end]</sn:pointer>
     <sn:pointer id="114">T[end]</sn:pointer>
@@ -1192,8 +1187,7 @@ Tella: Pas d'inquiétude! Vous avez ma magie![end]</sn:pointer>
     <sn:pointer id="147">T[end]</sn:pointer>
     <sn:pointer id="148">[bold]Cecil[normal]: Si seulement je pouvais utiliser
 mon épée...!![end]
-[bold]Cecil[normal]: Je comprends...
-Edward![end]
+[bold]Cecil[normal]: Compris... Edward![end]
 Scellé par le pouvoir magique de l'Elfe noir.[end]
 GAGOGO... SOYEZ MAUDITS!
 JE VAIS VOUS TUER!![end]</sn:pointer>
@@ -1878,7 +1872,7 @@ Le roi des Chimères...
 Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]
 Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
 Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]
-Les douces et sveltes Sylphes...
+Les Sylphes, frêles et douces...
 C'est en unissant leurs forces qu'elles
 révèlent leur pouvoir...[end]
 La loi du monde des Chimères...
@@ -1926,7 +1920,7 @@ N'emmenez pas Yang![end]
 Yang, vous ne l'aurez pas![end]
 Vous, les humains, vous êtes si
 violents![end]
-Nous l'avons trouvé évanoui à l'entrée de notre trou. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
+Nous l'avons trouvé évanoui à l'entrée de notre terrier. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
 Notre amour n'y suffit-il pas...?[end]
 Que feriez-vous si Yang
 mourait!?[end]
