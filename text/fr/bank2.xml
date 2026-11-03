@@ -350,8 +350,7 @@ connaissance.[end]
 pote![end]
 [force_bold]Le mage noir Palom et la mage blanche
 Porom ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]
-[bold]Ancien[normal]: Maintenant, va sur la Montagne
-de l'Épreuve!
+[bold]Ancien[normal]: Maintenant, va au mont de l'Épreuve!
 Palom!
 Porom![new]
 Je compte sur vous![end]</sn:pointer>
@@ -1612,7 +1611,7 @@ de Babil... le plus fort des quatre
 Empereurs, Rubicante du Feu, y est
 encore![end]
 Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, Lali![end]
-Ce pot, c'est le pot de vie!
+Cette jarre, c'est la jarre de vie!
 Buvez-en une lampée![end]</sn:pointer>
     <sn:pointer id="272">T[end]</sn:pointer>
     <sn:pointer id="273">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
@@ -1810,7 +1809,7 @@ Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:pointer>
     <sn:pointer id="315">T[end]</sn:pointer>
     <sn:pointer id="316">Ça faisait longtemps, Rydia![end]
-Le Monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]
+Le monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]
 Il paraît que nos copains de l'autre monde font des bêtises![end]
 On dit que si vous ne pouvez pas vaincre
 Dame Asura, le roi ne vous écoutera même
@@ -1847,7 +1846,7 @@ Pour fuir et pour charmer, il n'a pas
 d'égal.[end]
 La magie d'invocation... La magie qui appelle les Chimères...[new]
 Ceux qui possèdent ce pouvoir ne sont plus qu'une poignée.[end]
-Le Monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]
+Le monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]
 La grotte qui relie notre monde et celui
 des humains...
 Seuls ceux qui ont l'esprit et le corps

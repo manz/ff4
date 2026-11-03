@@ -952,7 +952,7 @@ On a battu Golbez![end]</sn:pointer>
     <sn:pointer id="280">Rosa: C'est grâce à toi, Rydia![new]
 Cecil: Mais... comment as-tu grandi ainsi?[new]
 Rydia: Léviathan m'a avalée et m'a emmenée dans le monde des Chimères.[new]
-Cecil: Le Monde des Chimères?[new]
+Cecil: Le monde des Chimères?[new]
 Rydia: C'est le monde où vivent les Chimères. Là-bas, elles sont devenues mes amies.[new]
 Je ne peux plus utiliser la magie blanche, mais en contrepartie, mes pouvoirs d'invocation et de magie noire se sont développés![new]
 Mais dans le monde des Chimères, le temps s'écoule différemment...[new]
@@ -1175,8 +1175,7 @@ Trop tard![end]</sn:pointer>
     <sn:pointer id="333">[bold]Edge[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="334">[bold]FuSoYa[normal]: Venez!
 Allons-y.[end]</sn:pointer>
-    <sn:pointer id="335">[bold]Rydia[normal]: Quand je suis venue du
-Monde des Chimères, je suis passée par ici!
+    <sn:pointer id="335">[bold]Rydia[normal]: Quand je suis venue du monde des Chimères, je suis passée par ici!
 Ah oui![new]
 Demandons aussi à Léviathan et aux
 autres de nous prêter leur force![end]</sn:pointer>
@@ -1249,8 +1248,7 @@ Vous êtes vengés![end]</sn:pointer>
 cristaux?[new]
 [bold]Cecil[normal]: Pour être franc...[new]
 [bold]Giotto[normal]: Je vois...
-Golbez tente de forcer l'entrée de la
-Grotte Scellée pour s'emparer du dernier
+Golbez tente de forcer l'entrée de la grotte Scellée pour s'emparer du dernier
 cristal![new]
 Ce n'est qu'une question de temps avant
 qu'il n'y parvienne.
@@ -1327,7 +1325,7 @@ Edge: Attends, enfoiré!![end]</sn:pointer>
     <sn:pointer id="373">[bold]Cecil[normal]: La porte attaque![end]</sn:pointer>
     <sn:pointer id="374">Cecil: Le mur![new]
 Rydia: Il bouge![new]
-Caïn: La Grotte Scellée porte bien son nom! Même après avoir pris le cristal, on ne peut pas baisser la garde![new]
+Caïn: La grotte Scellée porte bien son nom! Même après avoir pris le cristal, on ne peut pas baisser la garde![new]
 Edge: Alors on va le démolir![end]</sn:pointer>
     <sn:pointer id="375">[bold]Rydia[normal]: On a réussi![new]
 [bold]Edge[normal]: Va te faire voir![end]</sn:pointer>
