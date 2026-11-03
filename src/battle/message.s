@@ -18,6 +18,7 @@ dialog-stream consumer).
 
 ; Lives in a redraw_writer_patches pool; that module depends on this one.
 .extern flying_hdma_trampoline
+.extern draw_text_battle_far
 
 
 .macro copy_baked_name(blob, table, resume) {
@@ -213,6 +214,7 @@ it, so item N owns its own tile range. No clear_buffer: tiles 0xC0+ would overru
 ; Inventory CHR flushes per slot (dma_dirty_slots): pending_transfer_mask must stay untouched here.
         lda.b #region_size * 4
         jsr.w render_allocator.init_with_tile_id
+_reset_glyph:
         stz.b glyph.prev_char
         lda.b #0x08
         sta.b glyph.bits_left_on_tile
@@ -220,10 +222,14 @@ it, so item N owns its own tile range. No clear_buffer: tiles 0xC0+ would overru
         stz.b glyph.counter
         rts
 render_allocator_init_with_tile_id_thunk:
-"""In-scope thunk to `render_allocator.init_with_tile_id` (jsr.w across scopes). A = tile_id base."""
+"""
+In-scope thunk to `render_allocator.init_with_tile_id` (jsr.w across scopes), A = tile_id base, and a fresh glyph:
+an inventory slot starts on a tile edge, whatever the direct page holds (draw_message gives it back to vanilla).
+"""
 
 
-        jmp.w render_allocator.init_with_tile_id
+        jsr.w render_allocator.init_with_tile_id
+        bra _reset_glyph
 _init:
 ; Region bit already set by the caller; A = tile_id base for the allocator.
         jsr.w render_allocator.init_with_tile_id
@@ -823,6 +829,35 @@ put_fixed_char_dakuten_far:
 put_fixed_char_no_dakuten_far:
         jsr.w put_fixed_char_no_dakuten
         rtl
+draw_message:
+"""
+The message window's draw (sram_patches' trampoline): init, vanilla's DrawText, deinit, with the glyph state's
+direct page ($A9-$B2) put back after. Vanilla's battle code keeps its own locals there across a message: the
+level-up loop indexes the learned spells with $AF, which the glyph counter reset to 0 at every message, so a
+second learned spell repeated forever.
+"""
+        php
+        rep #0x20
+        pha
+        .for i := 0, 5 {
+            lda.b battle_render.glyph + i * 2
+            sta.l battle_render_state.message_dp + i * 2
+        }
+        pla
+        plp
+        jsr.l init
+        jsr.l draw_text_battle_far
+        php
+        rep #0x20
+        pha
+        .for i := 0, 5 {
+            lda.l battle_render_state.message_dp + i * 2
+            sta.b battle_render.glyph + i * 2
+        }
+        pla
+        plp
+        rtl
+        .assert sizeof(BattleGlyph) == sizeof(BattleRenderState.message_dp), "message_dp holds the glyph direct page"
 init:
 """Set the VWF render flag and init the renderer for the messages window."""
 

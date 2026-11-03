@@ -58,6 +58,7 @@ BATTLE_RENDER_STATE := 0x707100
     byte spell_slot
     byte spell_ring_dirty  ; a render touched the ring: queue its CHR flush
     byte[6] spell_ring_rows  ; list row each ring slot holds, $FF for none
+    byte[10] message_dp  ; vanilla's direct page $A9-$B2 across a message draw (messages_vwf.draw_message)
 }
 
 ; Bounded to the record: growing it past its span fails the build.
