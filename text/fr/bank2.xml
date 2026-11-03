@@ -333,8 +333,8 @@ Vous avez tout d'un paladin!
 ...Peut-être était-ce le destin.[end]
 Fille: Oui?[new]
 Ancien: Où est Palom?[new]
-Fille: Pfff... Encore ce Palom![end]
-Garçon: Alors c'est toi le mec de Baron, hein? Le vieux m'a dit de t'aider, il faut croire que j'ai pas le choix.[new]
+Fille: Pfff... Toujours Palom![end]
+Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
 Estime-toi heureux![end]
 [bold]Porom[normal]: Vous êtes M. Cecil,
 n'est-ce pas?
@@ -1412,7 +1412,7 @@ T[end]
 T[end]
 T[end]
 T[end]
-Un chevalier noir comme toi n'est même pas digne de toucher la marchandise que nous vendons ici![end]
+Un chevalier noir comme toi n'est pas digne de toucher la marchandise que nous vendons ici![end]
 Si tu reviens sain et sauf, tu pourras utiliser ces armes-là... mais ça m'étonnerait.[end]
 Je t'ai déjà dit que tu ne pouvais pas utiliser... un paladin? Toi...?[end]</sn:pointer>
     <sn:pointer id="231">T[end]</sn:pointer>
