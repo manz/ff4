@@ -4,7 +4,9 @@
 Each scene boots the freshly built patch, either cold or from a kintsuki
 savestate, replays a short input script and saves the picture. The README
 ones go 2x nearest-neighbour upscaled under `screenshots/`; with
-`--gallery DIR`, the gallery ones go at 256x224 under their `ff4-*` names.
+`--gallery DIR`, the gallery ones go at 256x224 under their `ff4-*` names,
+through the cycle-accurate PPU. A savestate restores the PPU it was saved
+with, so only the cold-boot scenes render accurate.
 Run after `make build`.
 """
 from __future__ import annotations
@@ -75,10 +77,10 @@ def first_slot(item: int) -> list[str]:
 
 
 SCENES = [
-    Scene("battle-menu", FIELD, steps=FRESH_BATTLE, gallery="ff4-battle-menu"),
+    Scene("battle-menu", FIELD, steps=FRESH_BATTLE, gallery="ff4-battle"),
     # Edward attacks the sand worm: "Désorienté !" shows 135-225 frames later.
     Scene("battle-messages-vwf", "ff4.kss", 10, [*DESERT, "A", "A", "*140"], gallery="ff4-battle-message"),
-    Scene("battle-items", FIELD, steps=[*FRESH_BATTLE, "DOWN", "DOWN", "DOWN", "A"], gallery="ff4-battle"),
+    Scene("battle-items", FIELD, steps=[*FRESH_BATTLE, "DOWN", "DOWN", "DOWN", "A"], gallery="ff4-battle-menu"),
     Scene("two-columns-magic", FIELD, steps=[*FRESH_BATTLE, "DOWN", "A", "*30"], gallery="ff4-magic"),
     Scene("dialog-vwf", None, 0, INTRO, gap=0, gallery="ff4-dialog"),
     Scene("key-item-picker", "ff4-key-inventory.kss", steps=["A", "A", "*60"], gap=30, gallery="ff4-key-items"),
@@ -108,8 +110,8 @@ SCENES = [
 ]
 
 
-def load(kss: Path | None) -> Emu:
-    emu = Emu(load_srm_sidecar=False)
+def load(kss: Path | None, accurate: bool) -> Emu:
+    emu = Emu(load_srm_sidecar=False, ppu_accurate=accurate)
     emu.load_rom(str(ROM))
     if kss is None:
         return emu
@@ -141,8 +143,8 @@ def play(emu: Emu, scene: Scene) -> None:
     emu.run_frames(20)
 
 
-def capture(scene: Scene, path: Path, scale: int) -> Path:
-    emu = load(SAVESTATES / scene.kss if scene.kss else None)
+def capture(scene: Scene, path: Path, scale: int, accurate: bool) -> Path:
+    emu = load(SAVESTATES / scene.kss if scene.kss else None, accurate)
     try:
         play(emu, scene)
         if emu.get_state().stp:
@@ -168,7 +170,7 @@ def main() -> None:
     for scene in SCENES:
         name = scene.gallery if args.gallery else scene.name
         if name:
-            print(capture(scene, out / f"{name}.png", 1 if args.gallery else SCALE))
+            print(capture(scene, out / f"{name}.png", 1 if args.gallery else SCALE, accurate=bool(args.gallery)))
 
 
 if __name__ == "__main__":
