@@ -269,11 +269,11 @@ Avec ça, on devrait pouvoir s'en sortir!
 [bold]Cecil[normal]: Voilà pourquoi on a été
 envoyés ici...![new]
 [bold]Caïn[normal]: Pour brûler le village!?[end]</sn:pointer>
-    <sn:pointer id="81">Cecil: Pourquoi?! Roi Baron!![new]
-«Ouiiin... Ouiiin...»[end]</sn:pointer>
+    <sn:pointer id="81">Cecil: Pourquoi?! Roi Baron!![force_new]
+«[italic]Ouiiin... Ouiiin...[/italic]»[end]</sn:pointer>
     <sn:pointer id="82">[bold]Cecil[normal]: Qui est-ce?[end]</sn:pointer>
     <sn:pointer id="83">[bold]Fille[normal]: Le dragon de maman est mort...
-donc maman aussi... -sanglot-, -sanglot-...[end]</sn:pointer>
+donc maman aussi... [italic]snif, snif[/italic]...[end]</sn:pointer>
     <sn:pointer id="84">Cecil: ![new]
 Caïn: Maintenant que j'y pense, j'en ai entendu parler. Des gens qui ont le pouvoir d'invoquer des monstres...[new]
 Ce sont les invocateurs![new]
@@ -383,13 +383,13 @@ Si le cristal de Damcyan a déjà été volé...
 La prochaine cible, c'est...
 Fabul![new]
 On ne peut pas rester là sans
-rien faire... -keuf-, -keuf-[end]</sn:pointer>
+rien faire... [italic]keuf[/italic], [italic]keuf[/italic][end]</sn:pointer>
     <sn:pointer id="106">Cecil: Rosa... Ne te surmène pas... Tu dois te reposer. C'est nous qui irons à Fabul.[new]
 Edward: Mais le passage vers Fabul par le mont Hobs est bloqué par la glace...[end]</sn:pointer>
     <sn:pointer id="107">[bold]Rosa[normal]: ...Rydia, tu sais lancer
 [force_bold]Feu[force_normal]?[new]
 [bold]Rydia[normal]: ! ...Non... je peux pas...[end]</sn:pointer>
-    <sn:pointer id="108">Rosa: Si tu es une invocatrice, tu devrais pouvoir lancer [force_bold]Feu[force_normal], la base des rituels de magie noire... -keuf-[end]</sn:pointer>
+    <sn:pointer id="108">Rosa: Si tu es une invocatrice, tu devrais pouvoir lancer [force_bold]Feu[force_normal], la base des rituels de magie noire... [italic]keuf[/italic][end]</sn:pointer>
     <sn:pointer id="109">[bold]Cecil[normal]: Rosa!
 Tu dois rester ici et te reposer![end]</sn:pointer>
     <sn:pointer id="110">[bold]Edward[normal]: Anna...
@@ -588,10 +588,10 @@ Yang![end]</sn:pointer>
     <sn:pointer id="177">[bold]Palom[normal]: [force_bold]Glace[force_normal]![end]</sn:pointer>
     <sn:pointer id="178">[bold]Palom[normal]: Et voilà le travail![end]</sn:pointer>
     <sn:pointer id="179">[bold]Golbez[normal]: Viens, Scarmiglione![end]</sn:pointer>
-    <sn:pointer id="180">Scarmiglione: -Gargl-... Scarmiglione de la Terre, à votre service...[new]
+    <sn:pointer id="180">Scarmiglione: [italic]Gargl[/italic]... Scarmiglione de la Terre, à votre service...[new]
 Golbez: Ce Cecil est dangereux. Mieux vaut s'en occuper tout de suite.[new]
 Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment le mont de l'Épreuve.[new]
-Scarmiglione: Il veut... donc devenir... -hiss-... paladin?[new]
+Scarmiglione: Il veut... donc devenir... [italic]hiss[/italic]... paladin?[new]
 Golbez: Ta mission est de l'éliminer avant. Scarmiglione: N'ayez crainte. Seigneur Golbez, admirez le spectacle d'ici...[new]
 Golbez: Alors va![new]
 Scarmiglione: À vos ordres...[end]</sn:pointer>
@@ -697,7 +697,7 @@ Tella: Que peux-tu faire dans ton état? Reste couché![new]
 Edward: Maître Tella... Vous êtes en vie... Pardonnez-moi...[new]
 C'est comme si j'avais tué Anna moi-même...[new]
 Tella: ...[new]
-Edward: Je suis vraiment désolé... -sniff-[end]</sn:pointer>
+Edward: Je suis vraiment désolé... [italic]sniff[/italic][end]</sn:pointer>
     <sn:pointer id="214">[bold]Yang[normal]: Prince Edward, vous devez
 vous reposer, maintenant.[end]</sn:pointer>
     <sn:pointer id="215">Edward: Yang... Vous êtes vivant... Alors Rydia aussi...?[new]
@@ -722,7 +722,7 @@ Edward: Ça ne fait rien... Je suis le seul... qui puisse sauver... Cecil et les
     <sn:pointer id="222">[center]Le Murmure porte jusqu'ici [center]la harpe d'Edward! Yang: Oh...[new]
 Tella: Cette douce mélodie...[new]
 Cecil: La harpe d'Edward![new]
-Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, HIC![end]</sn:pointer>
+Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, [italic]HIC[/italic]![end]</sn:pointer>
     <sn:pointer id="223">Edward: Maintenant, Cecil! Tant que je joue, il ne peut plus contrôler le magnétisme! Ton épée![new]
 Prends ton épée![end]</sn:pointer>
     <sn:pointer id="224">[bold]Elfe noir[normal]: POURQUOI CE BRUIT
@@ -996,7 +996,7 @@ Où est Yang?[new]
 [bold]Cecil[normal]: Pour détruire le canon géant...[new]
 [bold]Cid[normal]: Je vois...
 Yang...[new]
-[bold]Rydia[normal]: -sniff-...[new]
+[bold]Rydia[normal]: [italic]sniff[/italic]...[new]
 [bold]Cid[normal]: C'est qui, cette fille?[new]
 [bold]Cecil[normal]: Une survivante de Mist,
 Rydia.[end]</sn:pointer>
@@ -1227,8 +1227,8 @@ Cecil: Mais comment!?[end]</sn:pointer>
     <sn:pointer id="349">Rubicante: Tu as en effet de quoi être sûr de toi... mais tu ne peux pas encore m'égaler. Va perfectionner tes talents![new]
 Je serai ton adversaire quand tu voudras![end]</sn:pointer>
     <sn:pointer id="350">Edge: At...tends... en...foiré...![end]</sn:pointer>
-    <sn:pointer id="351">[bold]Cid[normal]: Zzz...
-Zzz...[new]
+    <sn:pointer id="351">[bold]Cid[normal]: [italic]Zzz...
+Zzz...[/italic][new]
 [bold]Rydia[normal]: Il est vraiment fatigué.[new]
 [bold]Rosa[normal]: Il s'est vraiment surmené...[new]
 [bold]Cecil[normal]: Merci...
@@ -1624,7 +1624,7 @@ pouvez pas entrer![end]</sn:pointer>
     <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur le
 mont de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">Rosa: Rydia...[new]
-Rydia: -sniff-...[end]</sn:pointer>
+Rydia: [italic]sniff[/italic]...[end]</sn:pointer>
     <sn:pointer id="475">[bold]Tella[normal]: Vite!
 Nous devons vaincre Golbez![new]
 [bold]Ancien[normal]: Oh, Tella![new]

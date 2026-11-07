@@ -193,7 +193,7 @@ Vous me plaisez!
 Cette nuit, restez ici gratuitement![end]
 Hé, les boissons sont toujours pas prêtes? Mais t'es qui, toi!?[end]</sn:pointer>
     <sn:pointer id="12">T[end]</sn:pointer>
-    <sn:pointer id="13">[bold]Cid[normal]: Zzz...Zzz...
+    <sn:pointer id="13">[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic]
 J'ai fini le nouveau modèle de moteur!
 rrron...rrron...[end]
 Papa a encore passé une nuit blanche!
@@ -216,7 +216,7 @@ Tu n'as plus l'âge de faire des folies!
 Prenez soin de mon père, je vous prie.[end]
 Je vous confie mon père.
 Il bricole encore son aéronef, c'est ça?[end]
-[bold]Cid[normal]: Zzz...Zzz...[end]</sn:pointer>
+[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic][end]</sn:pointer>
     <sn:pointer id="14">[bold]Mère de Rosa[normal]: Qu'est-ce que le roi
 mijote, ces temps-ci...
 Il paraît que vous avez fait des choses
@@ -291,7 +291,7 @@ Palom, Porom!
 N'ayez pas confiance en cet homme![end]
 Quelle lumière...
 Alors c'est ça, un paladin...[end]
-La f-f-ferme -hic- J'ai pas peur d'aucun
+La f-f-ferme [italic]hic[/italic] J'ai pas peur d'aucun
 ch-chevalier noir![end]
 Toi, un paladin? Hé hé! Me fais pas rire![end]
 Ben ça alors! Un paladin, un vrai de vrai?[end]
@@ -432,7 +432,7 @@ Ils ne peuvent se poser que dans des forêts, malheureusement.[end]
 Les chocobos noirs se souviennent du chemin du retour et rentrent tout seuls.[new]
 Mais comme ils ont un sale caractère, ils se sauvent après un seul aller-retour.[end]
 Nouvelle espèce de chocobo découverte! Baptisée chocobo noir! -Journal de Troia[end]
-Wark, wark[end]
+[italic]Wark, wark[/italic][end]
 T[end]
 Les chocobos sont mignons, mais... pouah... ils sentent mauvais![end]
 T[end]
@@ -727,7 +727,7 @@ Peut-être pouvons-nous nous retirer à Fabul...[new]
 Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]
 Tella: ...Qui est ce Golbez!?[new]
 Edward: Il est venu à Baron il y a peu et a pris le contrôle des Ailes Rouges.[new]
-Tout ce que je sais, c'est qu'il rassemble les cristaux... -sniff-[new]
+Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]sniff[/italic][new]
 Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]
 [bold]Cecil[normal]: Tella, vous ne pouvez
 pas faire ça tout seul![end]
@@ -736,7 +736,7 @@ personne!
 Je vais tuer Golbez de mes propres
 mains![end]
 Tella a quitté le groupe.[end]
-Edward: A... Anna... -sniff-... -sniff-...[end]
+Edward: A... Anna... [italic]sniff[/italic]... [italic]sniff[/italic]...[end]
 [bold]Rydia[normal]: Pleurnicheur![end]
 [bold]Rydia[normal]: Tu es un homme, hein?
 Un adulte!
@@ -1141,11 +1141,11 @@ Dépêchons-nous![end]
 ardentes![end]</sn:pointer>
     <sn:pointer id="133">T[end]</sn:pointer>
     <sn:pointer id="134">T[end]</sn:pointer>
-    <sn:pointer id="135">«Hiss... Hiss...»[new]
+    <sn:pointer id="135">«[italic]Hiss... Hiss...[/italic]»[new]
 [bold]Porom[normal]: Palom!
 Tu as dit quelque chose, hein![new]
 [bold]Palom[normal]: Hé, c'est pas moi![end]
-«Hiss... Hiss...»[new]
+«[italic]Hiss... Hiss...[/italic]»[new]
 [bold]Porom[normal]: Ça y est, tu recommences![new]
 [bold]Palom[normal]: Puisque je te dis que c'est
 pas moi![end]</sn:pointer>
@@ -1492,7 +1492,7 @@ Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:pointer>
     <sn:pointer id="259">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]
 C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]
 Vous avez remis l'Épée légendaire.[end]
-Zzz...[end]</sn:pointer>
+[italic]Zzz...[/italic][end]</sn:pointer>
     <sn:pointer id="260">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]
 Les Sylphes sont si timides!
 Pourtant, on est gentils![end]</sn:pointer>
@@ -1624,11 +1624,11 @@ Il dit que c'est mauvais, mais il mange
 comme quatre![end]
 Rien de tel qu'une bonne nuit de sommeil
 pour se sentir mieux, Lali![end]
-Zzz...Zzz[end]
+[italic]Zzz...Zzz[/italic][end]
 Ce vieux n'était pas en état de faire ça![end]
 Ce vieux est brutal, mais c'est un
 chouette gars![end]
-Zzz... rrron ...Zzz[end]
+[italic]Zzz... rrron ...Zzz[/italic][end]
 Ce vieux est incroyable!
 Il a vraiment fixé une foreuse![end]
 Les gens de la surface se débrouillent pas mal![end]
@@ -1649,7 +1649,7 @@ Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]<
     <sn:pointer id="285">T[end]</sn:pointer>
     <sn:pointer id="286">T[end]</sn:pointer>
     <sn:pointer id="287">T[end]</sn:pointer>
-    <sn:pointer id="288">-Hic-! Avec chette guerre, perchonne veut boire! Moi, la bibine, ch'est plus important que la guerre! J'vais dancher, Lali![end]
+    <sn:pointer id="288">[italic]Hic[/italic]! Avec chette guerre, perchonne veut boire! Moi, la bibine, ch'est plus important que la guerre! J'vais dancher, Lali![end]
 Aagh!
 Cha tourne de plus en plus! Ch'est ça, le vrai Lali-hoquet![end]</sn:pointer>
     <sn:pointer id="289">T[end]</sn:pointer>
@@ -1748,7 +1748,7 @@ Programme principal -
 d'événements!!
 Arrêtez de trouver encore des bugs![new]
 Bon sang, je vais lâcher la fac![end]
-Zzz...Zzz...[end]</sn:pointer>
+[italic]Zzz...Zzz...[/italic][end]</sn:pointer>
     <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
 c'est possible![end]
 [bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>

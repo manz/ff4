@@ -384,13 +384,13 @@ here...![new]
 [bold]Cain[normal]: To burn the village...!?[end]</sn:pointer>
 
 <sn:pointer id="81">[bold]Cecil[normal]: Why!?
-King Baron!![new]
-'Waaah... Waaah...'[end]</sn:pointer>
+King Baron!![force_new]
+'[italic]Waaah... Waaah...[/italic]'[end]</sn:pointer>
 
 <sn:pointer id="82">[bold]Cecil[normal]: Who's that?[end]</sn:pointer>
 
 <sn:pointer id="83">[bold]Girl[normal]: Mom's dragon died, so Mom did too...
--sniff-, -sniff-[end]</sn:pointer>
+[italic]sniff[/italic], [italic]sniff[/italic][end]</sn:pointer>
 
 <sn:pointer id="84">[bold]Cecil[normal]: ![new]
 [bold]Cain[normal]: Come to think of it, I've heard
@@ -546,7 +546,7 @@ This girl is Rydia, from Mist.[new]
 Edward...[force_new]
 If Damcyan has already been attacked,
 then Fabul is next![new]
-We can't just stay here... -cough, cough-[end]</sn:pointer>
+We can't just stay here... [italic]cough, cough[/italic][end]</sn:pointer>
 
 <sn:pointer id="106">[bold]Cecil[normal]: Rosa, don't overdo it.
 We'll go to Fabul.[new]
@@ -558,7 +558,7 @@ Mt. Hobs is frozen over...[end]</sn:pointer>
 
 <sn:pointer id="108">[bold]Rosa[normal]: If you're a Summoner, you
 should be able to cast a basic Black Magic
-spell like Fire...-cough-[end]</sn:pointer>
+spell like Fire...[italic]cough[/italic][end]</sn:pointer>
 
 <sn:pointer id="109">[bold]Cecil[normal]: Rosa!
 You must rest![end]</sn:pointer>
@@ -901,7 +901,7 @@ Scarmiglione of Earth... at your service...[new]
 Fortunately, he is a Dark Knight. Against the undead you command, his sword will be dulled.
 But he's climbing Mt. Ordeals.[new]
 [bold]Scarmiglione[normal]: Then... he intends to
-become... -hiss-... a Paladin?[new]
+become... [italic]hiss[/italic]... a Paladin?[new]
 [bold]Golbez[normal]: Your task is to dispose of him before he does.[new]
 [bold]Scarmiglione[normal]: Do not worry.
 Lord Golbez, sit back and watch from here...[new]
@@ -1520,7 +1520,7 @@ Where's Yang?[new]
 Cannon...[new]
 [bold]Cid[normal]: Is that so...
 Yang...[new]
-[bold]Rydia[normal]: -sniff-...[new]
+[bold]Rydia[normal]: [italic]sniff[/italic]...[new]
 [bold]Cid[normal]: Who's the girl?[new]
 [bold]Cecil[normal]: A survivor from Mist,
 Rydia.[end]</sn:pointer>
@@ -1885,7 +1885,7 @@ I will face you anytime![end]</sn:pointer>
 
 <sn:pointer id="350">[bold]Edge[normal]: Get...back...here...![end]</sn:pointer>
 
-<sn:pointer id="351">[bold]Cid[normal]: ZzzzzzzZzzzzzzz...[new]
+<sn:pointer id="351">[bold]Cid[normal]: [italic]ZzzzzzzZzzzzzzz...[/italic][new]
 [bold]Rydia[normal]: He sure is tired.[new]
 [bold]Rosa[normal]: He's really overdone it.[new]
 [bold]Cecil[normal]: Thanks...Cid![end]</sn:pointer>
@@ -2504,7 +2504,7 @@ You can't enter![end]</sn:pointer>
 <sn:pointer id="473">[bold]Porom[normal]: We met him on Mt. Ordeals.[end]</sn:pointer>
 
 <sn:pointer id="474">[bold]Rosa[normal]: Rydia...[new]
-[bold]Rydia[normal]: -sniff-...[end]</sn:pointer>
+[bold]Rydia[normal]: [italic]sniff[/italic]...[end]</sn:pointer>
 
 <sn:pointer id="475">[bold]Tellah[normal]: Quickly!
 We must defeat Golbez![new]
