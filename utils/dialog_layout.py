@@ -8,7 +8,7 @@ window breaks and line breaks are the build's, never hand-kept. Markup a previou
 ff4's script rules: `Name:` opens a speaker, set in bold at the start of each of their windows; a speaker change
 starts a new window; quoted speech («» in French, '' in English) without a visible speaker gets windows of its own, and so does an announcement, a
 whole sentence set in `[force_bold]` ("L'invocatrice Rydia se joint à toi !"); `[end]` / `[close_window]` close
-the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow). A font switch holds until the
+the text; `[force_new]` is an editor's window turn, the speaker set again after it. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arrow). A font switch holds until the
 next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
 use where it starts, so a `[force_book]` narration wraps to the book font's widths.
 
@@ -41,6 +41,7 @@ MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines th
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
 WINDOW = Window(WINDOW_WIDTH, len(LINE_WIDTHS), line_widths=dict(enumerate(LINE_WIDTHS)))
 NEW_WINDOW = "[new]"
+FORCE_NEW = "[force_new]"  # an editor's window turn: kept, the speaker set again
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
 _IN_MESSAGE = r"(?!\[end\]|\[close_window\])"  # a quote never runs past its message
@@ -109,7 +110,10 @@ def tokenize(text: str, quoting: Quoting = QUOTING["fr"], abbreviations: tuple[s
             i += 1
             continue
         end = next((e for e in ENDS if text.startswith(e, i)), None)
-        if end:
+        if text.startswith(FORCE_NEW, i):
+            tokens.append(Token("PAGE", ""))
+            i += len(FORCE_NEW)
+        elif end:
             tokens.append(Token("END", end))
             i += len(end)
         elif quoted := _quote_at(text, i, quoting.quote):
@@ -141,7 +145,7 @@ def _interrupts(text: str, i: int, quoting: Quoting) -> bool:
         (bool(_quote_at(text, i, quoting.opener)) and text[:i].rstrip()[-1:] in (".", "!", "?", "]", ""))
         or bool(SPEAKER.match(text, i))
         or bool(ANNOUNCEMENT.match(text, i))
-        or any(text.startswith(e, i) for e in ENDS)
+        or any(text.startswith(e, i) for e in (*ENDS, FORCE_NEW))
     )
 
 
@@ -157,7 +161,7 @@ def _sentence(text: str, i: int, quoting: Quoting, abbreviations: tuple[str, ...
             continue
         if i >= len(text) or any(text.startswith(e, i) for e in ENDS):
             break
-        if text[i] == "[" and (close := text.find("]", i)) != -1:
+        if text[i] == "[" and not text.startswith(FORCE_NEW, i) and (close := text.find("]", i)) != -1:
             sentence += text[i : close + 1]
             i = close + 1
             continue
@@ -237,6 +241,11 @@ class _Paragraphs:
     def token(self, token: Token) -> None:
         if token.kind == "BREAK":
             self.close(new_window=True)
+        elif token.kind == "PAGE":
+            if self.paragraphs:  # kept in the output, so a second layout turns there again
+                self.append(FORCE_NEW)
+            self.open = False
+            self.new_window = True
         elif token.kind == "SPEAKER":
             self.close(new_window=self.speaker is not None)
             self.speaker = f"[bold]{token.value}[normal]"
@@ -349,7 +358,8 @@ class DialogLayout:
         for token in tokens:
             paragraphs.token(token)
         laid = windows(self.text_layout, paragraphs.result(), WINDOW)
-        return f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
+        text = f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
+        return text.replace(FORCE_NEW + NEW_WINDOW, FORCE_NEW)
 
 
 def dialog_layout(lang: str = "fr") -> DialogLayout:

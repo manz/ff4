@@ -36,6 +36,22 @@ def test_a_hand_placed_new_window_is_laid_out_again(layout: DialogLayout) -> Non
     assert layout.layout("Cecil: Allons-y![new] Partons![end]") == "[bold]Cecil[normal]°: Allons-y°! Partons°![end]"
 
 
+def test_a_forced_window_turns_and_sets_the_speaker_again(layout: DialogLayout) -> None:
+    assert layout.layout("Roi Baron: Vraiment?![force_new] Tu pars demain![end]") == (
+        "[bold]Roi Baron[normal]°: Vraiment°?![force_new]\n[bold]Roi Baron[normal]°: Tu pars demain°![end]"
+    )
+
+
+def test_a_forced_window_in_narration_survives_a_second_layout(layout: DialogLayout) -> None:
+    once = layout.layout("Les cristaux luisaient.[force_new] Le vent tomba.[end]")
+    assert layout.layout(once) == once
+
+
+def test_a_forced_window_survives_a_second_layout(layout: DialogLayout) -> None:
+    once = layout.layout("Roi Baron: Vraiment?![force_new] Tu pars demain![end]")
+    assert layout.layout(once) == once
+
+
 def test_narration_runs_on_into_a_speaker_on_a_new_line(layout: DialogLayout) -> None:
     out = layout.layout("La porte s'ouvre. Cecil: Allons-y![end]")
     assert out == "La porte s'ouvre.\n[bold]Cecil[normal]°: Allons-y°![end]"
