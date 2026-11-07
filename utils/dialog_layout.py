@@ -12,18 +12,24 @@ the text. The window is 4 lines of 208 pixels, the fourth 200 (the page-turn arr
 next one, across lines and windows; each message starts in the dialog font. Every line is measured in the font in
 use where it starts, so a `[force_book]` narration wraps to the book font's widths.
 
-Inside those rules katsuji does the setting: `typeset` spaces the punctuation the language's way, and `TextLayout`
-packs sentences onto a line while they fit and splits a sentence wider than the window over balanced lines.
+ff4 keeps those rules: it cuts each message into paragraphs (a speaker's sentences, narration, a quote, an
+announcement) and says which open a window. katsuji does the setting: `typeset` spaces the punctuation the
+language's way, `TextLayout` splits a sentence wider than the window over balanced lines, and `windows` packs
+sentences onto a line while they fit, turns the window when they do not and sets the speaker again on each window
+they carry onto.
 """
 
 import re
 import sys
+from functools import lru_cache
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
 
+from katsuji.dialog import Window
 from katsuji.layout import TextLayout
-from katsuji.typeset import ENGLISH, FRENCH, Markup, Typography
+from katsuji.windows import Paragraph, windows
+from katsuji.typeset import ENGLISH, FRENCH, FRENCH_ONE_LETTER_WORDS, Markup, Typography, typeset
 from katsuji.script import Table
 
 from utils.metrics import TextMetrics
@@ -33,6 +39,7 @@ FONTS = ["build/gen/font.dat", "build/gen/wicked_font.dat", "build/gen/book_font
 WINDOW_WIDTH = 208
 MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines this wide: no "Rydia a / été avalée"
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
+WINDOW = Window(WINDOW_WIDTH, len(LINE_WIDTHS), line_widths=dict(enumerate(LINE_WIDTHS)))
 NEW_WINDOW = "[new]"
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
@@ -67,7 +74,9 @@ ABBREVIATIONS = {"fr": ("M.",), "en": ("Mr.", "Mrs.", "Dr.", "St.", "Mt.")}
 """Words ending in a period that never end a sentence: a title stays with the name ("M. Rosa"), and a line never
 ends on one."""
 SPEAKER_SPACE = "°"  # the 1px spacer (FD): "Soldat°:", a hint of the French space before the colon, not a 3px gap
-FRENCH_DIALOG = replace(FRENCH, speaker_space=SPEAKER_SPACE)
+THIN_SPACE = "°"  # the same spacer before ? ! ; : as the French narrow no-break space: "Tue-moi°!", never a break
+FRENCH_DIALOG = replace(FRENCH, speaker_space=SPEAKER_SPACE, thin_space=THIN_SPACE,
+                        short_words=FRENCH_ONE_LETTER_WORDS)
 TYPOGRAPHY = {"fr": FRENCH_DIALOG, "en": ENGLISH}
 
 
@@ -75,6 +84,11 @@ TYPOGRAPHY = {"fr": FRENCH_DIALOG, "en": ENGLISH}
 class Token:
     kind: str  # SPEAKER, QUOTE, ANNOUNCEMENT, SENTENCE, END, BREAK
     value: str
+
+
+RESUMED_ELLIPSIS = re.compile(r"^(\.\.\.+)(?=[^\W\d_])", re.MULTILINE)
+"""An ellipsis opening a source line, glued to the word after it ("...Te souviens-tu"): katsuji leaves it glued
+there as resumed speech, but spaces it mid-line, where the next layout reads it."""
 
 
 def clean(text: str) -> str:
@@ -208,8 +222,85 @@ def with_breaks(tokens: Sequence[Token]) -> list[Token]:
     return out
 
 
+class _Paragraphs:
+    """A message's tokens cut into the paragraphs katsuji pours into windows: a speaker's sentences, narration, a
+    quote, an announcement; a break or a speaker change opens a window."""
+
+    def __init__(self, quoting: Quoting, abbreviations: tuple[str, ...]) -> None:
+        self.quoting = quoting
+        self.abbreviations = abbreviations
+        self.paragraphs: list[tuple[str, bool, list[str]]] = []  # lead, opens a window, sentences
+        self.open = False  # the last paragraph takes the next sentence
+        self.new_window = False  # the next paragraph opens a window
+        self.speaker: str | None = None
+
+    def token(self, token: Token) -> None:
+        if token.kind == "BREAK":
+            self.close(new_window=True)
+        elif token.kind == "SPEAKER":
+            self.close(new_window=self.speaker is not None)
+            self.speaker = f"[bold]{token.value}[normal]"
+        elif token.kind == "SENTENCE" and _control_only(token.value) and self.paragraphs:
+            self.append(token.value)
+        elif token.kind == "SENTENCE":
+            self.sentence(token.value)
+        elif token.kind == "QUOTE":
+            self.close()
+            self.whole(_quote_sentences(token.value, self.quoting, self.abbreviations))
+        else:  # ANNOUNCEMENT
+            self.close()
+            self.whole([token.value])
+
+    def sentence(self, sentence: str) -> None:
+        if self.open:
+            self.paragraphs[-1][2].append(sentence)
+            return
+        lead = f"{self.speaker}: " if self.speaker else ""
+        self.paragraphs.append((lead, self.new_window, [sentence]))
+        self.new_window = False
+        self.open = True
+
+    def whole(self, sentences: list[str]) -> None:
+        """A paragraph no other voice runs on into: a quote, an announcement."""
+        self.paragraphs.append(("", self.new_window, sentences))
+        self.new_window = False
+        self.close()
+
+    def append(self, text: str) -> None:
+        """`text` (control tags) at the end of the last sentence."""
+        self.paragraphs[-1][2][-1] += text
+
+    def close(self, new_window: bool = False) -> None:
+        """End the open paragraph: the next sentence starts a new one, with no speaker."""
+        self.open = False
+        self.speaker = None
+        self.new_window = self.new_window or new_window
+
+    def result(self) -> list[Paragraph]:
+        return [Paragraph(sentences, lead, opens) for lead, opens, sentences in self.paragraphs]
+
+
+def messages(tokens: Sequence[Token]) -> list[tuple[list[Token], str]]:
+    """`tokens` cut into messages, each with the terminators closing it (`[close_window][end]`): each message is
+    laid out on its own, its terminators set after its last line."""
+    out: list[tuple[list[Token], str]] = []
+    body: list[Token] = []
+    for token in tokens:
+        if token.kind != "END":
+            body.append(token)
+        elif body or not out:
+            out.append((body, token.value))
+            body = []
+        else:  # a terminator right after another closes the same message
+            out[-1] = (out[-1][0], out[-1][1] + token.value)
+    if body:
+        out.append((body, ""))
+    return out
+
+
 class DialogLayout:
-    """Lays one dialog pointer out into ff4 windows."""
+    """Lays one dialog pointer out into ff4 windows: ff4's script rules cut it into paragraphs, katsuji pours them
+    into windows."""
 
     def __init__(self, metrics: TextMetrics, typography: Typography = FRENCH_DIALOG,
                  abbreviations: tuple[str, ...] = ABBREVIATIONS["fr"], quoting: Quoting = QUOTING["fr"]) -> None:
@@ -224,139 +315,41 @@ class DialogLayout:
             abbreviations=abbreviations,
             measure_after=self._measure_after,
             min_balanced_width=MIN_BALANCED_WIDTH,
+            fill=True,  # full lines read on, phrases on lines of their own chop the reading (blind test)
         )
-        self.font = 0  # in use at the start of the open window
-        self._start_font = 0  # the font the text `_set` is wrapping starts in
+        self._font_after = lru_cache(maxsize=16384)(self._font_after_uncached)
 
     def measure(self, line: str, font: int = 0) -> int:
         return self.metrics.measure_string(line, font)
 
     def _measure_after(self, line: str, before: str) -> int:
-        """`line` measured in the font in use after `before`, the text laid out ahead of it."""
-        return self.measure(line, self.metrics.font_after(before, self._start_font))
+        """`line` measured in the font in use after `before`, the message laid out ahead of it."""
+        return self.measure(line, self._font_after(before))
 
-    def _line_fonts(self, lines: Sequence[str], font: int) -> list[int]:
-        """The font each of `lines` starts in, the first in `font`."""
-        fonts = []
-        for line in lines:
-            fonts.append(font)
-            font = self.metrics.font_after(line, font)
-        return fonts
-
-    def _end_font(self) -> int:
-        """The font in use after the open window's lines."""
-        return self.metrics.font_after("\n".join(self.lines), self.font)
+    def _font_after_uncached(self, before: str) -> int:
+        """The font in use after `before`: after its last line, started in the font its other lines leave, each
+        of those cached, so a message is walked once however often its lines are measured."""
+        head, _, last = before.rpartition("\n")
+        return self.metrics.font_after(last, self._font_after(head) if head else 0)
 
     def layout(self, text: str) -> str:
-        """`text` laid out: `[new]` where a window must turn, sentences packed onto 4-line pages."""
+        """`text` laid out: `[new]` where a window must turn, sentences packed onto 4-line windows."""
         if not text:
             return text
-        self.windows: list[str] = []
-        self.lines: list[str] = []
-        self.font = 0
-        self.joinable = False  # the last line may take the next sentence of the same speaker
-        speaker: str | None = None
-        tokens = with_breaks(tokenize(clean(text), self.quoting, self.abbreviations))
+        # Sentences are cut on the text as typeset ("...Si" spaced to "... Si"), the text a second layout reads.
+        # The source's lines are not the window's: an ellipsis opening one is spaced as it would be mid-line.
+        unlined = RESUMED_ELLIPSIS.sub(r"\1 ", clean(text))
+        typeset_text = clean(typeset(unlined, self.text_layout.typography, MARKUP))
+        tokens = with_breaks(tokenize(typeset_text, self.quoting, self.abbreviations))
+        return "\n".join(self._message(body, ends) for body, ends in messages(tokens))
+
+    def _message(self, tokens: Sequence[Token], ends: str) -> str:
+        """One message laid out from the dialog font, `ends` (its terminators) after its last line."""
+        paragraphs = _Paragraphs(self.quoting, self.abbreviations)
         for token in tokens:
-            if token.kind == "BREAK":
-                self._turn()
-                speaker = None
-            elif token.kind == "SPEAKER":
-                if speaker is not None:
-                    self._turn()
-                speaker = f"[bold]{token.value}[normal]"
-                self.joinable = False
-            elif token.kind == "SENTENCE" and _control_only(token.value) and (self.lines or self.windows):
-                self._append(token.value)
-            elif token.kind == "SENTENCE":
-                self._add(token.value, speaker)
-            elif token.kind == "QUOTE":
-                self.joinable = False
-                for sentence in _quote_sentences(token.value, self.quoting, self.abbreviations):
-                    self._add(sentence, None)
-                speaker = None
-                self.joinable = False
-            elif token.kind == "ANNOUNCEMENT":
-                self.joinable = False
-                self._add(token.value, None)
-                speaker = None
-                self.joinable = False
-            else:  # END: the message ends; another one in the same pointer starts afresh
-                self._append(token.value)
-                self._finish()
-                speaker = None
-        self._finish()
-        return "\n".join(self.windows)
-
-    def _set(self, text: str, font: int) -> list[str]:
-        """`text`, started in font `font`, typeset and wrapped to the window, a sentence wider than a line over
-        balanced lines."""
-        self._start_font = font
-        return self.text_layout.reflow(text).split("\n")
-
-    def _fits(self, lines: Sequence[str]) -> bool:
-        """`lines` fit the open window: four lines at most, the fourth short enough for the page-turn arrow."""
-        fonts = self._line_fonts(lines, self.font)
-        return len(lines) <= len(LINE_WIDTHS) and all(
-            self.measure(line, font) <= width for line, font, width in zip(lines, fonts, LINE_WIDTHS, strict=False)
-        )
-
-    def _add(self, sentence: str, speaker: str | None) -> None:
-        """Put `sentence` on the open window's last line if the same voice goes on and it fits there, else on new
-        lines; when it would cross the page, turn the window first and repeat the speaker."""
-        opening = not self.joinable
-        if self.lines and self.joinable:
-            joined = self._set(f"{self.lines[-1]} {sentence}", self._line_fonts(self.lines, self.font)[-1])
-            if len(joined) == 1 and self._fits([*self.lines[:-1], joined[0]]):
-                self.lines[-1] = joined[0]
-                return
-        text = f"{speaker}: {sentence}" if speaker and opening else sentence
-        if self.lines:
-            lines = self._set(text, self._end_font())
-            if self._fits([*self.lines, *lines]):
-                self.lines.extend(lines)
-                self.joinable = True
-                return
-            self._turn()
-            text = f"{speaker}: {sentence}" if speaker else sentence
-        self._fill(self._set(text, self.font))
-        self.joinable = True
-
-    def _fill(self, lines: list[str]) -> None:
-        """Lay `lines` over windows, turning at the last line that fits (one sentence longer than a window)."""
-        while lines:
-            taken = len(lines)
-            while taken > 1 and not self._fits(lines[:taken]):
-                taken -= 1
-            self.lines = lines[:taken]
-            lines = lines[taken:]
-            if lines:
-                self._turn()
-
-    def _append(self, text: str) -> None:
-        """`text` (control tags) at the end of the last line written."""
-        if self.lines:
-            self.lines[-1] += text
-        elif self.windows:
-            self.windows[-1] += text
-        else:
-            self.lines = [text]
-
-    def _turn(self) -> None:
-        """Close the open window with `[new]`: the next text starts a fresh window."""
-        if self.lines:
-            self.font = self._end_font()
-            self.windows.append("\n".join(self.lines) + NEW_WINDOW)
-            self.lines = []
-        self.joinable = False
-
-    def _finish(self) -> None:
-        """Close the open window at the end of a message, without `[new]`."""
-        if self.lines:
-            self.windows.append("\n".join(self.lines))
-            self.lines = []
-        self.font = 0  # the next message starts in the dialog font
-        self.joinable = False
+            paragraphs.token(token)
+        laid = windows(self.text_layout, paragraphs.result(), WINDOW)
+        return f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
 
 
 def dialog_layout(lang: str = "fr") -> DialogLayout:

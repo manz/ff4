@@ -1,6 +1,7 @@
 """ff4's dialog layout (utils/dialog_layout.py): window rules, French and English typography, pages the engine can show."""
 
 import re
+from pathlib import Path
 
 import pytest
 
@@ -18,7 +19,7 @@ def windows(text: str) -> list[list[str]]:
 
 
 def test_a_speaker_is_set_in_bold_with_french_spacing(layout: DialogLayout) -> None:
-    assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]°: Comment !?[end]"
+    assert layout.layout("Cecil: Comment!?[end]") == "[bold]Cecil[normal]°: Comment°!?[end]"
 
 
 def test_english_sets_no_space_before_marks() -> None:
@@ -27,24 +28,28 @@ def test_english_sets_no_space_before_marks() -> None:
 
 def test_a_speaker_change_turns_the_window(layout: DialogLayout) -> None:
     assert layout.layout("Soldat: Mais, Capitaine! Cecil: Écoutez![end]") == (
-        "[bold]Soldat[normal]°: Mais, Capitaine ![new]\n[bold]Cecil[normal]°: Écoutez ![end]"
+        "[bold]Soldat[normal]°: Mais, Capitaine°![new]\n[bold]Cecil[normal]°: Écoutez°![end]"
     )
+
+
+def test_a_hand_placed_new_window_is_laid_out_again(layout: DialogLayout) -> None:
+    assert layout.layout("Cecil: Allons-y![new] Partons![end]") == "[bold]Cecil[normal]°: Allons-y°! Partons°![end]"
 
 
 def test_narration_runs_on_into_a_speaker_on_a_new_line(layout: DialogLayout) -> None:
     out = layout.layout("La porte s'ouvre. Cecil: Allons-y![end]")
-    assert out == "La porte s'ouvre.\n[bold]Cecil[normal]°: Allons-y ![end]"
+    assert out == "La porte s'ouvre.\n[bold]Cecil[normal]°: Allons-y°![end]"
 
 
 def test_sentences_share_a_line_while_they_fit(layout: DialogLayout) -> None:
     assert layout.layout("Beigan: Ah! Vous avez le Cristal![end]") == (
-        "[bold]Beigan[normal]°: Ah ! Vous avez le Cristal ![end]"
+        "[bold]Beigan[normal]°: Ah°! Vous avez le Cristal°![end]"
     )
 
 
 def test_a_quote_answering_a_speaker_gets_its_own_window(layout: DialogLayout) -> None:
     out = layout.layout("Cecil: Qui est là? «Je suis votre guide pour l'enfer...»[end]")
-    assert out == "[bold]Cecil[normal]°: Qui est là ?[new]\n« Je suis votre guide pour l'enfer... »[end]"
+    assert out == "[bold]Cecil[normal]°: Qui est là°?[new]\n« Je suis votre guide pour l'enfer... »[end]"
 
 
 def test_a_long_quote_turns_windows_between_its_sentences(layout: DialogLayout) -> None:
@@ -56,11 +61,11 @@ def test_a_long_quote_turns_windows_between_its_sentences(layout: DialogLayout) 
         assert re.search(r"(\.\.\.|!|») ?(\[end\])?$", window.strip()), window
 
 
-def test_a_balanced_sentence_keeps_its_lines_wide(layout: DialogLayout) -> None:
-    """Balancing narrows a sentence just over a line no further than two thirds of the window: "Yang: Rydia a été /
-    avalée par Léviathan.", not "Yang: Rydia a / été avalée par Léviathan."."""
+def test_a_sentence_fills_its_first_line(layout: DialogLayout) -> None:
+    """A sentence just over a line fills the first: "Yang: Rydia a été avalée / par Léviathan.", not balanced to
+    "Yang: Rydia a / été avalée par Léviathan."."""
     out = layout.layout("Yang: Rydia a été avalée par Léviathan.[end]")
-    assert windows(out)[0][0] == "[bold]Yang[normal]°: Rydia a été"
+    assert windows(out)[0][0] == "[bold]Yang[normal]°: Rydia a été avalée"
 
 
 def test_m_dot_stays_with_the_name_inside_a_line(layout: DialogLayout) -> None:
@@ -85,7 +90,8 @@ def test_every_window_fits_the_page(layout: DialogLayout) -> None:
     ) + "[end]"
     for window in windows(layout.layout(text)):
         assert len(window) <= len(LINE_WIDTHS)
-        assert all(layout.measure(line) <= width for line, width in zip(window, LINE_WIDTHS, strict=False))
+        lines = [line.removesuffix("[end]") for line in window]  # the engine draws nothing once it ends
+        assert all(layout.measure(line) <= width for line, width in zip(lines, LINE_WIDTHS, strict=False))
 
 
 def test_messages_in_one_pointer_stay_separate(layout: DialogLayout) -> None:
@@ -127,7 +133,7 @@ def test_an_announcement_gets_its_own_window(layout: DialogLayout) -> None:
     """A whole sentence in [force_bold] (a party join) is not the speaker's: it doesn't share their window."""
     out = layout.layout("Cecil: Merci... Rydia. [force_bold]L'invocatrice Rydia se joint à toi![force_normal][end]")
     assert out == (
-        "[bold]Cecil[normal]°: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi ![force_normal][end]"
+        "[bold]Cecil[normal]°: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi°![force_normal][end]"
     )
 
 
@@ -156,7 +162,7 @@ def test_mt_stays_with_the_name() -> None:
 
 def test_an_unclosed_quote_stops_at_its_message(layout: DialogLayout) -> None:
     out = layout.layout("«Wahaha![end]Cecil: Halte![end]«Fin!»[end]")
-    assert out == "« Wahaha ![end]\n[bold]Cecil[normal]°: Halte ![end]\n« Fin ! »[end]"
+    assert out == "« Wahaha°![end]\n[bold]Cecil[normal]°: Halte°![end]\n« Fin°! »[end]"
 
 
 def test_a_quoted_word_stays_in_its_sentence() -> None:
@@ -170,4 +176,20 @@ def test_a_titled_speaker_keeps_the_title() -> None:
 
 def test_a_french_speaker_takes_the_1px_spacer_before_the_colon_once(layout: DialogLayout) -> None:
     laid = layout.layout("Cecil: Comment!?[end]")
-    assert (laid, layout.layout(laid)) == ("[bold]Cecil[normal]°: Comment !?[end]",) * 2
+    assert (laid, layout.layout(laid)) == ("[bold]Cecil[normal]°: Comment°!?[end]",) * 2
+
+
+def test_an_ellipsis_opening_a_source_line_lays_out_as_it_reads_mid_line(layout: DialogLayout) -> None:
+    """ "...Te" opens a line of the script but sits mid-line once laid out: it is spaced either way, so laying
+    the text out again changes nothing."""
+    once = layout.layout("[bold]FuSoYa[normal]: ...Tu as recouvré tes esprits.\n...Te souviens-tu du nom de ton père?[end]")
+    assert layout.layout(once) == once
+
+
+@pytest.mark.parametrize("lang", ["fr", "en"])
+def test_laying_the_script_out_again_changes_nothing(lang: str) -> None:
+    lay = dialog_layout(lang)
+    for path in sorted(Path(f"text/{lang}").glob("bank*.xml")):
+        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', path.read_text(encoding="utf-8"), re.S):
+            once = lay.layout(body)
+            assert lay.layout(once) == once, f"{path.stem}#{pointer}"
