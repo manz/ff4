@@ -1920,7 +1920,7 @@ _field_nmi_done:
 ; screen off, when flush_b may run past vblank.
 ; Same bank as this impl, so a short JSR pairs with the routine's RTS.
     sep #0x20
-    lda.l 0x7E0188
+    lda 0x7E0188
     and.b #0x80
     sta.l vwf_engine.screen_off
     jsr.w render.flush_chr_to_vram
