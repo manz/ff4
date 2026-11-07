@@ -352,7 +352,8 @@ class DialogLayout:
         self._font_after = lru_cache(maxsize=16384)(self._font_after_uncached)
 
     def measure(self, line: str, font: int = 0) -> int:
-        return self.metrics.measure_string(line, font)
+        # The table knows `[force_new]` only with its newline: bare, it would be measured as the letters "force_new".
+        return self.metrics.measure_string(line.replace(FORCE_NEW, ""), font)
 
     def _measure_after(self, line: str, before: str) -> int:
         """`line` measured in the font in use after `before`, the message laid out ahead of it."""

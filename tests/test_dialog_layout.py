@@ -238,3 +238,8 @@ def test_a_sound_is_set_in_the_italic_font(layout: DialogLayout) -> None:
 
 def test_the_italic_closes_back_to_the_dialog_font(layout: DialogLayout) -> None:
     assert layout.metrics.font_after("[italic]snif[/italic], ") == 0
+
+
+def test_a_forced_turn_takes_no_room_on_its_line(layout: DialogLayout) -> None:
+    out = layout.layout("Cecil: Comme si j'avais tué ta mère... Tu ne pourras jamais me pardonner...[force_new] Va.[end]")
+    assert "\nTu ne pourras jamais me pardonner...[force_new]\n" in out
