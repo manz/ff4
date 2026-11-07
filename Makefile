@@ -93,6 +93,25 @@ screenshots: $(IPS)  ## Regenerate the README screenshots from the savestates
 	$(info $(M) Capturing screenshots...)
 	$(Q) $(PY) utils/readme_shots.py
 
+# The dialog layout profiled under Python 3.15's sampling profiler, with katsuji alone (ff4's other
+# dependencies do not build on 3.15 yet): the checkout the venv's katsuji is installed from when it is an
+# editable one, KATSUJI=<checkout> to pick one, else the pinned release.
+KATSUJI ?= $(shell uv pip show --python .venv/bin/python katsuji 2>/dev/null | sed -n 's/^Editable project location: //p')
+KATSUJI_DIR = $(abspath $(wildcard $(KATSUJI)))
+KATSUJI_PIN = $(shell sed -n 's/.*"katsuji\[render\]==\([^"]*\)".*/\1/p' pyproject.toml)
+WITH_KATSUJI = $(if $(KATSUJI_DIR),--with-editable '$(KATSUJI_DIR)[render]',--with 'katsuji[render]==$(KATSUJI_PIN)')
+# macOS lets the profiler read the process's memory as root only.
+PROFILE_SUDO ?= $(if $(filter Darwin,$(shell uname)),sudo -E,)
+
+.PHONY: profile-dialog
+profile-dialog:  ## Flamegraph of the French dialog layout: build/dialog-flame.html (Python 3.15, sudo on macOS)
+	$(info $(M) Profiling the dialog layout...)
+	$(Q) mkdir -p build
+	$(Q) $(PROFILE_SUDO) uv run --isolated --no-project --no-cache --python 3.15 $(WITH_KATSUJI) \
+		python -m profiling.sampling run --mode cpu --flamegraph -o build/dialog-flame.html \
+		-m utils.dialog_layout $(wildcard text/fr/bank*.xml) > /dev/null
+	$(Q) $(if $(PROFILE_SUDO),sudo chown $(USER) build/dialog-flame.html,)
+
 .PHONY: check
 check:  ## Verify .s/.i formatting and run the a816 fluff lints
 	$(info $(M) Checking sources...)
