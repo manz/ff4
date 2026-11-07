@@ -1,230 +1,273 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:pointer id="0">Cecil des Ailes Rouges!
+<?xml version="1.0" encoding="utf-8"?>
+<sn:areas xmlns:sn="http://snes.ninja/ScriptNS">
+<sn:area id="0">
+<sn:string index="0">Cecil des Ailes Rouges!
 La vallée de Mist se trouve de l'autre
-côté de la grotte au nord-ouest![end]
-Le roi devient de plus en plus sévère!
+côté de la grotte au nord-ouest![end]</sn:string>
+<sn:string index="1">Le roi devient de plus en plus sévère!
 Et tous ceux qui s'opposent à lui finissent
-comme Cid...[end]
-Seigneur Cecil!
-Vengez le roi![end]
-Enseigner la lame noire aux soldats!
-À quoi pense donc le roi?[end]
-Le roi nous fait tant souffrir... On dirait qu'il est devenu un autre homme![end]
-C'était vous, ce chevalier noir!
-Ce que vous êtes splendide, maintenant![end]
-S'en prendre à Mist, ça va forcément mal finir...[end]
-Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'il enquêtait sur quelque chose.[new]
-Il doit être à l'auberge...[end]
-Il paraît que le roi avait été remplacé par un monstre.
-Et il n'a pas non plus d'héritier...[end]
-Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[end]
-Je me demande si ce chevalier noir est vraiment mort... Moi, je l'aimais bien![end]
-C'était donc bien vous, seigneur Cecil!
-Battez-moi ce Golbez![end]
-La porte du bâtiment à l'ouest de la ville? Elle donne sur une rivière souterraine qui mène au château. Mais elle est scellée, maintenant.[end]
-C'est la première fois depuis la fondation
-de Baron qu'on n'a pas de roi...[end]
-Le chevalier noir!
+comme Cid...[end]</sn:string>
+<sn:string index="2">Seigneur Cecil!
+Vengez le roi![end]</sn:string>
+<sn:string index="3">Enseigner la lame noire aux soldats!
+À quoi pense donc le roi?[end]</sn:string>
+<sn:string index="4">Le roi nous fait tant souffrir... On dirait qu'il est devenu un autre homme![end]</sn:string>
+<sn:string index="5">C'était vous, ce chevalier noir!
+Ce que vous êtes splendide, maintenant![end]</sn:string>
+<sn:string index="6">S'en prendre à Mist, ça va forcément mal finir...[end]</sn:string>
+<sn:string index="7">Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'il enquêtait sur quelque chose.[new]
+Il doit être à l'auberge...[end]</sn:string>
+<sn:string index="8">Il paraît que le roi avait été remplacé par un monstre.
+Et il n'a pas non plus d'héritier...[end]</sn:string>
+<sn:string index="9">Ouah, c'est un chevalier noir! Tu fais peur! Mais tu es plutôt cool aussi...[end]</sn:string>
+<sn:string index="10">Je me demande si ce chevalier noir est vraiment mort... Moi, je l'aimais bien![end]</sn:string>
+<sn:string index="11">C'était donc bien vous, seigneur Cecil!
+Battez-moi ce Golbez![end]</sn:string>
+<sn:string index="12">La porte du bâtiment à l'ouest de la ville? Elle donne sur une rivière souterraine qui mène au château. Mais elle est scellée, maintenant.[end]</sn:string>
+<sn:string index="13">C'est la première fois depuis la fondation
+de Baron qu'on n'a pas de roi...[end]</sn:string>
+<sn:string index="14">Le chevalier noir!
 Non...m-m-monsieur, je n'ai rien dit
 contre le roi!
 Je...je vais danser pour vous.[new]
-Ça vous va?[end]
-Le roi a été vraiment dur, dernièrement...
+Ça vous va?[end]</sn:string>
+<sn:string index="15">Le roi a été vraiment dur, dernièrement...
 Et je n'ai pas le droit de danser.
-Déçu?[end]
-C'était vous, ce chevalier noir!
+Déçu?[end]</sn:string>
+<sn:string index="16">C'était vous, ce chevalier noir!
 Je ne savais pas que vous étiez si charmant!
-Allez, dansons![end]</sn:pointer>
-    <sn:pointer id="1">Non seulement ce feu mystérieux a tué
+Allez, dansons![end]</sn:string>
+</sn:area>
+
+<sn:area id="1">
+<sn:string index="0">Non seulement ce feu mystérieux a tué
 de puissants invocateurs... mais aussi des
-femmes et des enfants innocents...[end]
-Ainsi, c'est la fin de l'histoire des
-invocateurs de Mist...[end]
-La rumeur dit que sous Baron dort l'âme
+femmes et des enfants innocents...[end]</sn:string>
+<sn:string index="1">Ainsi, c'est la fin de l'histoire des
+invocateurs de Mist...[end]</sn:string>
+<sn:string index="2">La rumeur dit que sous Baron dort l'âme
 d'une Chimère qui terrasse ses ennemis
-d'un seul coup![end]
-Les Chimères que nous, invocateurs,
+d'un seul coup![end]</sn:string>
+<sn:string index="3">Les Chimères que nous, invocateurs,
 appelons viennent du monde des
 Chimères...[new]
 Un endroit qui se trouverait loin sous la
-surface de la Terre.[end]</sn:pointer>
-    <sn:pointer id="2">Voici Kaïpo, le village oasis, situé au fin fond du désert de Damcyan.[end]
-Il paraît qu'une jolie fille de Baron s'est effondrée ici... On l'a emmenée chez quelqu'un pour la soigner.[end]
-Anna est tombée amoureuse.
+surface de la Terre.[end]</sn:string>
+</sn:area>
+
+<sn:area id="2">
+<sn:string index="0">Voici Kaïpo, le village oasis, situé au fin fond du désert de Damcyan.[end]</sn:string>
+<sn:string index="1">Il paraît qu'une jolie fille de Baron s'est effondrée ici... On l'a emmenée chez quelqu'un pour la soigner.[end]</sn:string>
+<sn:string index="2">Anna est tombée amoureuse.
 Mais maître Tella s'y est opposé, alors
-elle s'est enfuie de Kaïpo...[end]
-Je veux être danseuse à Damcyan, mais il
+elle s'est enfuie de Kaïpo...[end]</sn:string>
+<sn:string index="3">Je veux être danseuse à Damcyan, mais il
 y a beaucoup de monstres qui rôdent
 dans la rivière souterraine.
-Tu veux voir ma natation synchronisée?[end]
-La rivière souterraine est au nord-est, mais
+Tu veux voir ma natation synchronisée?[end]</sn:string>
+<sn:string index="4">La rivière souterraine est au nord-est, mais
 j'ai entendu dire que huit serpents de mer
-y rôdent depuis peu![end]
-Le château qui est au nord, Damcyan,
+y rôdent depuis peu![end]</sn:string>
+<sn:string index="5">Le château qui est au nord, Damcyan,
 gouverne ce désert.
 Il paraît que le prince a la beauté et la
-voix d'une femme.[end]
-Si vous emmenez une petite fille avec vous,
-vous devriez la mettre à l'arrière.[end]</sn:pointer>
-    <sn:pointer id="3">C'est toi, celui de l'autre fois!
+voix d'une femme.[end]</sn:string>
+<sn:string index="6">Si vous emmenez une petite fille avec vous,
+vous devriez la mettre à l'arrière.[end]</sn:string>
+</sn:area>
+
+<sn:area id="3">
+<sn:string index="0">C'est toi, celui de l'autre fois!
 Prends ça!
-[force_bold]Crapaud[force_normal]![end]
-Toi, devenir paladin?
-Et puis quoi, encore?[end]
-T[end]
-Dire que quelqu'un a pu devenir
-paladin...[end]
-Savez-vous combien nous avons souffert
-à cause de vous?[end]
-Oh, bonjour Palom et Porom.
-Le mont de l'Épreuve se situe à l'est.[end]
-Vous aussi, vous avez souffert...
-Je prierai pour vous, moi aussi.[end]
-Je n'ai rien à te dire![end]
-Les morts-vivants grouillent sur le
+[force_bold]Crapaud[force_normal]![end]</sn:string>
+<sn:string index="1">Toi, devenir paladin?
+Et puis quoi, encore?[end]</sn:string>
+<sn:string index="2">T[end]</sn:string>
+<sn:string index="3">Dire que quelqu'un a pu devenir
+paladin...[end]</sn:string>
+<sn:string index="4">Savez-vous combien nous avons souffert
+à cause de vous?[end]</sn:string>
+<sn:string index="5">Oh, bonjour Palom et Porom.
+Le mont de l'Épreuve se situe à l'est.[end]</sn:string>
+<sn:string index="6">Vous aussi, vous avez souffert...
+Je prierai pour vous, moi aussi.[end]</sn:string>
+<sn:string index="7">Je n'ai rien à te dire![end]</sn:string>
+<sn:string index="8">Les morts-vivants grouillent sur le
 mont de l'Épreuve!
-Ta lame noire ne sert à rien![end]
-Toi... un paladin!?[end]
-Les hommes qui se font du mal entre eux... C'est bien triste.[end]
-Surmontez l'épreuve et rompez avec ce que vous êtes![end]
-N'oubliez pas l'esprit du paladin.[end]
-T'en as du cran de venir ici![end]
-Nombreux sont ceux qui se sont mesurés
+Ta lame noire ne sert à rien![end]</sn:string>
+<sn:string index="9">Toi... un paladin!?[end]</sn:string>
+<sn:string index="10">Les hommes qui se font du mal entre eux... C'est bien triste.[end]</sn:string>
+<sn:string index="11">Surmontez l'épreuve et rompez avec ce que vous êtes![end]</sn:string>
+<sn:string index="12">N'oubliez pas l'esprit du paladin.[end]</sn:string>
+<sn:string index="13">T'en as du cran de venir ici![end]</sn:string>
+<sn:string index="14">Nombreux sont ceux qui se sont mesurés
 au mont de l'Épreuve, mais aucun
-n'en est jamais revenu.[end]
-Ça ne veut pas dire que je t'ai pardonné![end]
-Oh!
-C'est le... chevalier noir de Baron!![end]
-Oh! Toi, devenir un paladin? Tu plaisantes, hein?[end]
-Oh!
+n'en est jamais revenu.[end]</sn:string>
+<sn:string index="15">Ça ne veut pas dire que je t'ai pardonné![end]</sn:string>
+<sn:string index="16">Oh!
+C'est le... chevalier noir de Baron!![end]</sn:string>
+<sn:string index="17">Oh! Toi, devenir un paladin? Tu plaisantes, hein?[end]</sn:string>
+<sn:string index="18">Oh!
 Hé, tu es... ...un paladin?
-Quelle surprise![end]
-T[end]
-C'est la Route du Démon qui mène vers
+Quelle surprise![end]</sn:string>
+<sn:string index="19">T[end]</sn:string>
+<sn:string index="20">C'est la Route du Démon qui mène vers
 Baron.
-Elle a été scellée pour que ce qui s'est passé ne se reproduise jamais.[end]
-La Route du Démon est une route entre les dimensions. L'emprunter coûte beaucoup d'énergie vitale, d'où son nom.[end]</sn:pointer>
-    <sn:pointer id="4">Ou... ouah, vous êtes immenses! Vous êtes des géants?[end]
-Vous êtes des humains, n'est-ce pas? Veillez à n'écraser personne, je vous prie![end]
-Avec votre taille, la nourriture doit vous coûter une fortune! Vous mangez des steaks de fourmi, j'imagine?[end]
-Nous extrayons le minerai de mithril, les grenouilles le raffinent, et les petits bonshommes le travaillent.[new]
-Nous faisons même des armes que vous, les humains, pouvez utiliser![end]
-La Montagne de Mithril est loin au nord.
+Elle a été scellée pour que ce qui s'est passé ne se reproduise jamais.[end]</sn:string>
+<sn:string index="21">La Route du Démon est une route entre les dimensions. L'emprunter coûte beaucoup d'énergie vitale, d'où son nom.[end]</sn:string>
+</sn:area>
+
+<sn:area id="4">
+<sn:string index="0">Ou... ouah, vous êtes immenses! Vous êtes des géants?[end]</sn:string>
+<sn:string index="1">Vous êtes des humains, n'est-ce pas? Veillez à n'écraser personne, je vous prie![end]</sn:string>
+<sn:string index="2">Avec votre taille, la nourriture doit vous coûter une fortune! Vous mangez des steaks de fourmi, j'imagine?[end]</sn:string>
+<sn:string index="3">Nous extrayons le minerai de mithril, les grenouilles le raffinent, et les petits bonshommes le travaillent.[new]
+Nous faisons même des armes que vous, les humains, pouvez utiliser![end]</sn:string>
+<sn:string index="4">La Montagne de Mithril est loin au nord.
 Avec vos longues jambes, vous y seriez
 en une minute...[new]
 Mais pour nous, ça fait une sacrée
-trotte![end]
-Baby![end]
-Ouais![end]
-On va vous montrer une danse d'enfer!
-Allez, les frères![end]
-Nous sommes les Frères Mithril!
-Que la danse commence![end]
-Merci à vous![end]</sn:pointer>
-    <sn:pointer id="5">Ohé, salut!
-Vous voulez nager avec moi?[end]
-Bienvenue à Troia, la cité de l'eau et des
-forêts![end]
-Pourquoi nagez-vous en armure?
-Elle va rouiller![end]
-Ah!
+trotte![end]</sn:string>
+<sn:string index="5">Baby![end]</sn:string>
+<sn:string index="6">Ouais![end]</sn:string>
+<sn:string index="7">On va vous montrer une danse d'enfer!
+Allez, les frères![end]</sn:string>
+<sn:string index="8">Nous sommes les Frères Mithril!
+Que la danse commence![end]</sn:string>
+<sn:string index="9">Merci à vous![end]</sn:string>
+</sn:area>
+
+<sn:area id="5">
+<sn:string index="0">Ohé, salut!
+Vous voulez nager avec moi?[end]</sn:string>
+<sn:string index="1">Bienvenue à Troia, la cité de l'eau et des
+forêts![end]</sn:string>
+<sn:string index="2">Pourquoi nagez-vous en armure?
+Elle va rouiller![end]</sn:string>
+<sn:string index="3">Ah!
 Qu... qu'est-ce que...
 Tu m'as fait peur![new]
-Fiche le camp, bon sang![end]
-Je me demande où est passé mon mari...[end]
-Vous connaissez le Murmure?
+Fiche le camp, bon sang![end]</sn:string>
+<sn:string index="4">Je me demande où est passé mon mari...[end]</sn:string>
+<sn:string index="5">Vous connaissez le Murmure?
 C'est une herbe étonnante qui peut
-porter la voix très loin![end]
-...
+porter la voix très loin![end]</sn:string>
+<sn:string index="6">...
 Laissez-moi tranquille.
-Je prends un bain de soleil![end]
-J'ai emporté mon coffre-fort pour aller
+Je prends un bain de soleil![end]</sn:string>
+<sn:string index="7">J'ai emporté mon coffre-fort pour aller
 chercher des joyaux dans la grotte de l'île
 au nord-est...[new]
 Il s'est collé à la paroi, impossible de le
-décoller![end]</sn:pointer>
-    <sn:pointer id="6">Ici vivent les descendants des Nains. Bienvenue à Agart.[end]
-Selon une de nos légendes, toute chose
+décoller![end]</sn:string>
+</sn:area>
+
+<sn:area id="6">
+<sn:string index="0">Ici vivent les descendants des Nains. Bienvenue à Agart.[end]</sn:string>
+<sn:string index="1">Selon une de nos légendes, toute chose
 a un endroit et un envers.
-Oui, même ce monde...[end]
-C'est parce que je descends des Nains que je suis si petit, tu crois? J'aurais préféré descendre d'un ogre...[end]
-Hein? Nos ancêtres? Comment ils sont arrivés ici? Eh bien...[new]
-Euh... je crois que j'ai oublié...[end]
-Nous ne pouvons pas vivre sans les bienfaits du soleil. Mais nos ancêtres, paraît-il, c'était différent.[end]
-Je suis très forte! Mais le grand-père du grand-père de mon grand-père était encore plus fort![end]
-T[end]
-Nous avons un vieux puits qui est là
+Oui, même ce monde...[end]</sn:string>
+<sn:string index="2">C'est parce que je descends des Nains que je suis si petit, tu crois? J'aurais préféré descendre d'un ogre...[end]</sn:string>
+<sn:string index="3">Hein? Nos ancêtres? Comment ils sont arrivés ici? Eh bien...[new]
+Euh... je crois que j'ai oublié...[end]</sn:string>
+<sn:string index="4">Nous ne pouvons pas vivre sans les bienfaits du soleil. Mais nos ancêtres, paraît-il, c'était différent.[end]</sn:string>
+<sn:string index="5">Je suis très forte! Mais le grand-père du grand-père de mon grand-père était encore plus fort![end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Nous avons un vieux puits qui est là
 depuis une éternité...
-Il paraît que sa profondeur est insondable.[end]</sn:pointer>
-    <sn:pointer id="7">T[end]</sn:pointer>
-    <sn:pointer id="8">T[end]</sn:pointer>
-    <sn:pointer id="9">T[end]</sn:pointer>
-    <sn:pointer id="10">T[end]</sn:pointer>
-    <sn:pointer id="11">Dis, pourquoi tu portes des habits
+Il paraît que sa profondeur est insondable.[end]</sn:string>
+</sn:area>
+
+<sn:area id="7">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="8">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="9">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="10">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="11">
+<sn:string index="0">Dis, pourquoi tu portes des habits
 comme ça?
-Tu es un méchant monsieur?[end]
-Papa a dit qu'il n'y a plus de clients qui
+Tu es un méchant monsieur?[end]</sn:string>
+<sn:string index="1">Papa a dit qu'il n'y a plus de clients qui
 viennent.
 Et puis aussi il y a des soldats qui font
-peur, au comptoir...[end]
-Recherche danseuses! Beauté et talent pour la danse exigés! - Le patron du bar de l'auberge de Baron[end]
-Ah, le chevalier noir du château!
+peur, au comptoir...[end]</sn:string>
+<sn:string index="2">Recherche danseuses! Beauté et talent pour la danse exigés! - Le patron du bar de l'auberge de Baron[end]</sn:string>
+<sn:string index="3">Ah, le chevalier noir du château!
 Payer?
 Oh, non, monsieur.[new]
-Je ne peux pas prendre votre argent, voyons![end]
-On dit que Cid a été enfermé dans le château! Il aurait caché le tout dernier aéronef quelque part.[end]
-M. Cecil, voulez-vous un verre?
-Asseyez-vous, c'est pour la maison![end]
-C'est... c'est le seigneur Cecil des Ailes Rouges!
+Je ne peux pas prendre votre argent, voyons![end]</sn:string>
+<sn:string index="4">On dit que Cid a été enfermé dans le château! Il aurait caché le tout dernier aéronef quelque part.[end]</sn:string>
+<sn:string index="5">M. Cecil, voulez-vous un verre?
+Asseyez-vous, c'est pour la maison![end]</sn:string>
+<sn:string index="6">C'est... c'est le seigneur Cecil des Ailes Rouges!
 Je n'ai rien fait de mal!
-Je paie mes impôts, en plus...[end]
-Les soldats du château font ce que bon
-leur semble au bar![end]
-La ville a enfin retrouvé son animation!
-Bon, retournons au travail![end]
-C'était toi, le monsieur de l'autre fois! Je trouve que ça te va mieux, comme ça.[end]
-T[end]
-Vous êtes costauds!
+Je paie mes impôts, en plus...[end]</sn:string>
+<sn:string index="7">Les soldats du château font ce que bon
+leur semble au bar![end]</sn:string>
+<sn:string index="8">La ville a enfin retrouvé son animation!
+Bon, retournons au travail![end]</sn:string>
+<sn:string index="9">C'était toi, le monsieur de l'autre fois! Je trouve que ça te va mieux, comme ça.[end]</sn:string>
+<sn:string index="10">T[end]</sn:string>
+<sn:string index="11">Vous êtes costauds!
 Vous avez rossé les gardes royaux!
 Vous me plaisez!
-Cette nuit, restez ici gratuitement![end]
-Hé, les boissons sont toujours pas prêtes? Mais t'es qui, toi!?[end]</sn:pointer>
-    <sn:pointer id="12">T[end]</sn:pointer>
-    <sn:pointer id="13">[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic]
+Cette nuit, restez ici gratuitement![end]</sn:string>
+<sn:string index="12">Hé, les boissons sont toujours pas prêtes? Mais t'es qui, toi!?[end]</sn:string>
+</sn:area>
+
+<sn:area id="12">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="13">
+<sn:string index="0">[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic]
 J'ai fini le nouveau modèle de moteur!
-rrron...rrron...[end]
-Papa a encore passé une nuit blanche!
+rrron...rrron...[end]</sn:string>
+<sn:string index="1">Papa a encore passé une nuit blanche!
 Il se croit encore jeune...
 Dites-le-lui, vous aussi, seigneur Cecil.[new]
 Tout le monde en ville peste
 contre les soldats et le roi, mais il y a plein
 de gens bien, comme vous...[new]
 Papa se chamaille sans cesse avec les
-habitants de la ville à ce sujet...[end]
-Principes de la flottaison[end]
-Histoire de la construction navale[end]
-Encyclopédie des oiseaux du monde[end]
-Seigneur Cecil!?
+habitants de la ville à ce sujet...[end]</sn:string>
+<sn:string index="2">Principes de la flottaison[end]</sn:string>
+<sn:string index="3">Histoire de la construction navale[end]</sn:string>
+<sn:string index="4">Encyclopédie des oiseaux du monde[end]</sn:string>
+<sn:string index="5">Seigneur Cecil!?
 Vous êtes en vie!
 Papa n'est pas revenu du château depuis
-longtemps.[end]
-Papa!
+longtemps.[end]</sn:string>
+<sn:string index="6">Papa!
 Tu n'as plus l'âge de faire des folies!
-Prenez soin de mon père, je vous prie.[end]
-Je vous confie mon père.
-Il bricole encore son aéronef, c'est ça?[end]
-[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic][end]</sn:pointer>
-    <sn:pointer id="14">[bold]Mère de Rosa[normal]: Qu'est-ce que le roi
+Prenez soin de mon père, je vous prie.[end]</sn:string>
+<sn:string index="7">Je vous confie mon père.
+Il bricole encore son aéronef, c'est ça?[end]</sn:string>
+<sn:string index="8">[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic][end]</sn:string>
+</sn:area>
+
+<sn:area id="14">
+<sn:string index="0">[bold]Mère de Rosa[normal]: Qu'est-ce que le roi
 mijote, ces temps-ci...
 Il paraît que vous avez fait des choses
 horribles à l'étranger![new]
 Surtout, n'embarque pas Rosa dans
-tout ça...[end]
-[bold]Mère de Rosa[normal]: Rosa s'est
+tout ça...[end]</sn:string>
+<sn:string index="1">[bold]Mère de Rosa[normal]: Rosa s'est
 sauvée pour partir à ta recherche!
-Où est-elle, maintenant?[end]
-[bold]Mère de Rosa[normal]: Rosa! Tu es saine et sauve![new]
+Où est-elle, maintenant?[end]</sn:string>
+<sn:string index="2">[bold]Mère de Rosa[normal]: Rosa! Tu es saine et sauve![new]
 [bold]Rosa[normal]: Je suis désolée...[new]
 [bold]Mère de Rosa[normal]: Maintenant, tu ne
 pars plus nulle part![new]
@@ -237,269 +280,335 @@ l'assister![new]
 Et tu as combattu aux côtés de papa en
 tant que mage blanche, autrefois![new]
 [bold]Mère de Rosa[normal]: Rosa... Tu as raison... Ton père aussi, paix à son âme, était un grand chevalier.[new]
-Cecil, prends bien soin d'elle.[end]</sn:pointer>
-    <sn:pointer id="15">T[end]</sn:pointer>
-    <sn:pointer id="16">T[end]
-T[end]
-T[end]
-T[end]
-Le sage Tella élevait seul sa fille Anna, ils s'entendaient très bien, mais Anna a fini par s'enfuir...[end]</sn:pointer>
-    <sn:pointer id="17">Salut, je suis un savant itinérant.[new]
+Cecil, prends bien soin d'elle.[end]</sn:string>
+</sn:area>
+
+<sn:area id="15">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="16">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">T[end]</sn:string>
+<sn:string index="3">T[end]</sn:string>
+<sn:string index="4">Le sage Tella élevait seul sa fille Anna, ils s'entendaient très bien, mais Anna a fini par s'enfuir...[end]</sn:string>
+</sn:area>
+
+<sn:area id="17">
+<sn:string index="0">Salut, je suis un savant itinérant.[new]
 Je veux faire des recherches à Fabul, une
 ville à l'est de Damcyan, mais au canal
 souterrain, il y a un drôle de vieux qui ne
-veut pas me laisser passer...[end]
-Oh, un client! Ça devient rare...[new]
+veut pas me laisser passer...[end]</sn:string>
+<sn:string index="1">Oh, un client! Ça devient rare...[new]
 À cause de tous les monstres, nous
 voyons de moins en moins de clients, de
-nos jours.[end]
-Apaisez votre soif du désert avec
-la bière spéciale de Kaïpo![end]
-Seule la famille royale peut pénétrer dans
+nos jours.[end]</sn:string>
+<sn:string index="2">Apaisez votre soif du désert avec
+la bière spéciale de Kaïpo![end]</sn:string>
+<sn:string index="3">Seule la famille royale peut pénétrer dans
 la grotte du Fourmilion qui est à l'est de
 Damcyan.[new]
 Si les gens ordinaires y étaient autorisés,
-ça remonterait vraiment les affaires.[end]</sn:pointer>
-    <sn:pointer id="18">Une fille de Baron s'est effondrée juste à
+ça remonterait vraiment les affaires.[end]</sn:string>
+</sn:area>
+
+<sn:area id="18">
+<sn:string index="0">Une fille de Baron s'est effondrée juste à
 l'entrée du village.
 La pauvre, la fièvre la fait délirer et elle
-répète sans arrêt «Cecil, Cecil...»[end]
-Ainsi, tu es le Cecil qu'elle appelait.
-Prends soin d'elle![end]
-Afin de guérir la fièvre du désert, il te
+répète sans arrêt «Cecil, Cecil...»[end]</sn:string>
+<sn:string index="1">Ainsi, tu es le Cecil qu'elle appelait.
+Prends soin d'elle![end]</sn:string>
+<sn:string index="2">Afin de guérir la fièvre du désert, il te
 faut la Lumière du désert... un joyau
 rarissime qu'on trouve uniquement dans
-l'antre du Fourmilion...[end]
-«La Lumière du désert est le seul remède
-contre la fièvre du désert...»[end]
-Rosa: ... [music][0x13] Ooh... Cecil... Ne meurs pas, Cecil![end]
-Je suis content qu'elle aille mieux.
+l'antre du Fourmilion...[end]</sn:string>
+<sn:string index="3">«La Lumière du désert est le seul remède
+contre la fièvre du désert...»[end]</sn:string>
+<sn:string index="4">Rosa: ... [music][0x13] Ooh... Cecil... Ne meurs pas, Cecil![end]</sn:string>
+<sn:string index="5">Je suis content qu'elle aille mieux.
 L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
-Revenez nous voir bientôt![end]</sn:pointer>
-    <sn:pointer id="19">Qu'est-ce que tu veux, cette fois!?[end]
-Le mont de l'Épreuve?
-Inutile d'y aller![end]
-Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]
-Ce n'est pas possible... Toi, tu es devenu...[end]
-Nos amis!
-Rends-nous nos amis![end]
-Palom, Porom!
-N'ayez pas confiance en cet homme![end]
-Quelle lumière...
-Alors c'est ça, un paladin...[end]
-La f-f-ferme [italic]hic[/italic] J'ai pas peur d'aucun
-ch-chevalier noir![end]
-Toi, un paladin? Hé hé! Me fais pas rire![end]
-Ben ça alors! Un paladin, un vrai de vrai?[end]
-Vous devez être fatigué par ce long
+Revenez nous voir bientôt![end]</sn:string>
+</sn:area>
+
+<sn:area id="19">
+<sn:string index="0">Qu'est-ce que tu veux, cette fois!?[end]</sn:string>
+<sn:string index="1">Le mont de l'Épreuve?
+Inutile d'y aller![end]</sn:string>
+<sn:string index="2">Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]</sn:string>
+<sn:string index="3">Ce n'est pas possible... Toi, tu es devenu...[end]</sn:string>
+<sn:string index="4">Nos amis!
+Rends-nous nos amis![end]</sn:string>
+<sn:string index="5">Palom, Porom!
+N'ayez pas confiance en cet homme![end]</sn:string>
+<sn:string index="6">Quelle lumière...
+Alors c'est ça, un paladin...[end]</sn:string>
+<sn:string index="7">La f-f-ferme [italic]hic[/italic] J'ai pas peur d'aucun
+ch-chevalier noir![end]</sn:string>
+<sn:string index="8">Toi, un paladin? Hé hé! Me fais pas rire![end]</sn:string>
+<sn:string index="9">Ben ça alors! Un paladin, un vrai de vrai?[end]</sn:string>
+<sn:string index="10">Vous devez être fatigué par ce long
 voyage.
-Buvez donc ceci![end]
-Toi, un paladin? Alors même moi, je pourrais en devenir un![end]
-Ça alors!
-Tu es vraiment devenu un paladin![end]
-P-p-p-pitié, épargnez-moi![end]
-P-p-p-pitié, épar...
+Buvez donc ceci![end]</sn:string>
+<sn:string index="11">Toi, un paladin? Alors même moi, je pourrais en devenir un![end]</sn:string>
+<sn:string index="12">Ça alors!
+Tu es vraiment devenu un paladin![end]</sn:string>
+<sn:string index="13">P-p-p-pitié, épargnez-moi![end]</sn:string>
+<sn:string index="14">P-p-p-pitié, épar...
 Hein?
-Vous allez gravir le mont de l'Épreuve?[end]
-Ouah, quelle noble allure![end]
-[bold]Cecil[normal]: Argl![end]
-J'ai mis un petit peu de poison dans ton
+Vous allez gravir le mont de l'Épreuve?[end]</sn:string>
+<sn:string index="15">Ouah, quelle noble allure![end]</sn:string>
+<sn:string index="16">[bold]Cecil[normal]: Argl![end]</sn:string>
+<sn:string index="17">J'ai mis un petit peu de poison dans ton
 verre!
-C'est pour venger les nôtres![end]</sn:pointer>
-    <sn:pointer id="20">T[end]</sn:pointer>
-    <sn:pointer id="21">T[end]</sn:pointer>
-    <sn:pointer id="22">T[end]
-T[end]
-Feu, terre, eau et vent sont la source de toute chose.[end]
-Grand traité de magie noire[end]
-Mon premier
-«Soin»[end]
-T[end]
-T[end]
-L'Ancien pardonne tout. Mais moi, je ne compte pas vous pardonner...[end]
-Si vous devenez paladin, j'aurai confiance
-en vous.[end]
-Nous allons essayer d'avoir confiance en
-vous![end]
-C'est la maison des Prières. L'Ancien va écouter votre histoire.[end]
-Allez découvrir si vous pouvez accepter
-la lumière...[end]
-Votre lumière, si faible autrefois, brille à présent d'un tel éclat![end]
-D'où viennent les cœurs maléfiques? Nous naissons pourtant tous innocents...[end]
-Le paladin est un chevalier sacré,
-l'opposé d'un chevalier noir.[end]
-Vous avez tout d'un paladin!
-...Peut-être était-ce le destin.[end]
-Fille: Oui?[new]
+C'est pour venger les nôtres![end]</sn:string>
+</sn:area>
+
+<sn:area id="20">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="21">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="22">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">Feu, terre, eau et vent sont la source de toute chose.[end]</sn:string>
+<sn:string index="3">Grand traité de magie noire[end]</sn:string>
+<sn:string index="4">Mon premier
+«Soin»[end]</sn:string>
+<sn:string index="5">T[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">L'Ancien pardonne tout. Mais moi, je ne compte pas vous pardonner...[end]</sn:string>
+<sn:string index="8">Si vous devenez paladin, j'aurai confiance
+en vous.[end]</sn:string>
+<sn:string index="9">Nous allons essayer d'avoir confiance en
+vous![end]</sn:string>
+<sn:string index="10">C'est la maison des Prières. L'Ancien va écouter votre histoire.[end]</sn:string>
+<sn:string index="11">Allez découvrir si vous pouvez accepter
+la lumière...[end]</sn:string>
+<sn:string index="12">Votre lumière, si faible autrefois, brille à présent d'un tel éclat![end]</sn:string>
+<sn:string index="13">D'où viennent les cœurs maléfiques? Nous naissons pourtant tous innocents...[end]</sn:string>
+<sn:string index="14">Le paladin est un chevalier sacré,
+l'opposé d'un chevalier noir.[end]</sn:string>
+<sn:string index="15">Vous avez tout d'un paladin!
+...Peut-être était-ce le destin.[end]</sn:string>
+<sn:string index="16">Fille: Oui?[new]
 Ancien: Où est Palom?[new]
-Fille: Pfff... Toujours Palom![end]
-Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
-Estime-toi heureux![end]
-[bold]Porom[normal]: Vous êtes M. Cecil,
+Fille: Pfff... Toujours Palom![end]</sn:string>
+<sn:string index="17">Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
+Estime-toi heureux![end]</sn:string>
+<sn:string index="18">[bold]Porom[normal]: Vous êtes M. Cecil,
 n'est-ce pas?
 Je suis enchantée de faire votre
-connaissance.[end]
-[bold]Porom[normal]: Allons, Palom, à toi![end]
-[bold]Palom[normal]: Content de te rencontrer, mon
-pote![end]
-[force_bold]Le mage noir Palom et la mage blanche
-Porom ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]
-[bold]Ancien[normal]: Maintenant, va au mont de l'Épreuve!
+connaissance.[end]</sn:string>
+<sn:string index="19">[bold]Porom[normal]: Allons, Palom, à toi![end]</sn:string>
+<sn:string index="20">[bold]Palom[normal]: Content de te rencontrer, mon
+pote![end]</sn:string>
+<sn:string index="21">[force_bold]Le mage noir Palom et la mage blanche
+Porom ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="22">[bold]Ancien[normal]: Maintenant, va au mont de l'Épreuve!
 Palom!
 Porom![new]
-Je compte sur vous![end]</sn:pointer>
-    <sn:pointer id="23">Le destin est entre vos mains.
+Je compte sur vous![end]</sn:string>
+</sn:area>
+
+<sn:area id="23">
+<sn:string index="0">Le destin est entre vos mains.
 Tout ce que je peux faire à présent, c'est
 prier...[new]
 Palom, Porom, tenez-vous bien,
-et essayez de ne pas gêner messire Cecil.[end]
-Palom et Porom...!
+et essayez de ne pas gêner messire Cecil.[end]</sn:string>
+<sn:string index="1">Palom et Porom...!
 Je vois... Ces deux-là ont fini par me
-surpasser...[end]
-L'Ancien prie dans la tour des Prières
-depuis ce jour-là.[end]
-Nous allons aussi prier, pour toutes les
-créatures vivantes.[end]
-Tella aussi!? Je lui avais pourtant dit de ne pas se battre par haine... L'imbécile...[end]
-Nous continuerons de prier![end]
-Hâtez-vous vers la Lune![end]
-Ancien: Le vaisseau magique est venu de la Lune![new]
+surpasser...[end]</sn:string>
+<sn:string index="2">L'Ancien prie dans la tour des Prières
+depuis ce jour-là.[end]</sn:string>
+<sn:string index="3">Nous allons aussi prier, pour toutes les
+créatures vivantes.[end]</sn:string>
+<sn:string index="4">Tella aussi!? Je lui avais pourtant dit de ne pas se battre par haine... L'imbécile...[end]</sn:string>
+<sn:string index="5">Nous continuerons de prier![end]</sn:string>
+<sn:string index="6">Hâtez-vous vers la Lune![end]</sn:string>
+<sn:string index="7">Ancien: Le vaisseau magique est venu de la Lune![new]
 D'après les archives de Mysidia, en plus de la commande de vol normal, il y a un cristal de vol.[new]
 Si tu lui parles, tu pourras aller sur la Lune et en revenir![new]
-Cecil: Je vais tenter le coup![end]</sn:pointer>
-    <sn:pointer id="24">L'air est bon, la nourriture aussi, et
+Cecil: Je vais tenter le coup![end]</sn:string>
+</sn:area>
+
+<sn:area id="24">
+<sn:string index="0">L'air est bon, la nourriture aussi, et
 surtout il y a plein de femmes, alors on
-est tranquilles![end]
-Ouais!
+est tranquilles![end]</sn:string>
+<sn:string index="1">Ouais!
 Aujourd'hui, j'ai eu une place au
-comptoir![end]
-Oh, mon petit!
-T'es plutôt mignon, toi![end]
-Je suis content d'avoir vécu si longtemps!
-Je préfère cet endroit au paradis![end]
-C'est moi qui vais vous tenir compagnie.
-Non mais c'est quoi ce regard!?[end]
-Oh, ma poupée!
+comptoir![end]</sn:string>
+<sn:string index="2">Oh, mon petit!
+T'es plutôt mignon, toi![end]</sn:string>
+<sn:string index="3">Je suis content d'avoir vécu si longtemps!
+Je préfère cet endroit au paradis![end]</sn:string>
+<sn:string index="4">C'est moi qui vais vous tenir compagnie.
+Non mais c'est quoi ce regard!?[end]</sn:string>
+<sn:string index="5">Oh, ma poupée!
 Je crois que je craque pour toi!
 Aaah!
-T'es un mec!![end]
-T[end]
-Les filles d'ici sont toujours aussi
-terribles![end]
-Bonjour, monsieur!
-Revenez souvent![end]
-Menteur!
-Sors de là![end]</sn:pointer>
-    <sn:pointer id="25">La prochaine fois, je veux un manteau de
-fourrure.[end]
-Vous avez assez d'argent?
-À partir d'ici, ça devient plutôt cher.[end]
-Ce vieux ne raconte que des vieilles
+T'es un mec!![end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Les filles d'ici sont toujours aussi
+terribles![end]</sn:string>
+<sn:string index="8">Bonjour, monsieur!
+Revenez souvent![end]</sn:string>
+<sn:string index="9">Menteur!
+Sors de là![end]</sn:string>
+</sn:area>
+
+<sn:area id="25">
+<sn:string index="0">La prochaine fois, je veux un manteau de
+fourrure.[end]</sn:string>
+<sn:string index="1">Vous avez assez d'argent?
+À partir d'ici, ça devient plutôt cher.[end]</sn:string>
+<sn:string index="2">Ce vieux ne raconte que des vieilles
 histoires de guerres...
-Ça me gave trop![end]
-Et c'est là que j'ai porté un coup
-critique au gobelin![end]
-Hé, c'est réservé aux membres.
-Sortez d'ici tout de suite![end]
-Bon sang, ce vieux schnock!
-Il me pique ma Jennifer![end]
-T[end]
-Bon, bon!
-Je t'offre tout ce que tu veux![end]
-Je dois servir les repas![end]</sn:pointer>
-    <sn:pointer id="26">Iiiiii!
-N'entrez pas dans la loge![end]
-T[end]
-Bienvenue. Le spectacle va bientôt commencer.[end]
-En plein jour, en plus!
-Toi aussi, t'aimes ça, hein![end]</sn:pointer>
-    <sn:pointer id="27">T[end]</sn:pointer>
-    <sn:pointer id="28">Grâce à l'eau pure et au sol fertile, nous récoltons plein de légumes frais. C'est donc un cadre idéal pour élever des chocobos.[end]
-T[end]
-Biologie des chocobos[end]
-Vous aussi, vous pouvez élever des chocobos[end]</sn:pointer>
-    <sn:pointer id="29">Vous en avez déjà vu? Ce sont des chocobos noirs.[new]
+Ça me gave trop![end]</sn:string>
+<sn:string index="3">Et c'est là que j'ai porté un coup
+critique au gobelin![end]</sn:string>
+<sn:string index="4">Hé, c'est réservé aux membres.
+Sortez d'ici tout de suite![end]</sn:string>
+<sn:string index="5">Bon sang, ce vieux schnock!
+Il me pique ma Jennifer![end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Bon, bon!
+Je t'offre tout ce que tu veux![end]</sn:string>
+<sn:string index="8">Je dois servir les repas![end]</sn:string>
+</sn:area>
+
+<sn:area id="26">
+<sn:string index="0">Iiiiii!
+N'entrez pas dans la loge![end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">Bienvenue. Le spectacle va bientôt commencer.[end]</sn:string>
+<sn:string index="3">En plein jour, en plus!
+Toi aussi, t'aimes ça, hein![end]</sn:string>
+</sn:area>
+
+<sn:area id="27">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="28">
+<sn:string index="0">Grâce à l'eau pure et au sol fertile, nous récoltons plein de légumes frais. C'est donc un cadre idéal pour élever des chocobos.[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">Biologie des chocobos[end]</sn:string>
+<sn:string index="3">Vous aussi, vous pouvez élever des chocobos[end]</sn:string>
+</sn:area>
+
+<sn:area id="29">
+<sn:string index="0">Vous en avez déjà vu? Ce sont des chocobos noirs.[new]
 Comme ces chocobos ont été domestiqués par les humains, ils ne peuvent plus voler.[new]
 Toutefois, ceux du village Chocobo, au nord, sont sauvages et peuvent voler, mais pas très haut.[new]
-Ils ne peuvent se poser que dans des forêts, malheureusement.[end]
-Les chocobos noirs se souviennent du chemin du retour et rentrent tout seuls.[new]
-Mais comme ils ont un sale caractère, ils se sauvent après un seul aller-retour.[end]
-Nouvelle espèce de chocobo découverte! Baptisée chocobo noir! -Journal de Troia[end]
-[italic]Wark, wark[/italic][end]
-T[end]
-Les chocobos sont mignons, mais... pouah... ils sentent mauvais![end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-Je veux voler sur un chocobo noir, mais
+Ils ne peuvent se poser que dans des forêts, malheureusement.[end]</sn:string>
+<sn:string index="1">Les chocobos noirs se souviennent du chemin du retour et rentrent tout seuls.[new]
+Mais comme ils ont un sale caractère, ils se sauvent après un seul aller-retour.[end]</sn:string>
+<sn:string index="2">Nouvelle espèce de chocobo découverte! Baptisée chocobo noir! -Journal de Troia[end]</sn:string>
+<sn:string index="3">[italic]Wark, wark[/italic][end]</sn:string>
+<sn:string index="4">T[end]</sn:string>
+<sn:string index="5">Les chocobos sont mignons, mais... pouah... ils sentent mauvais![end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">T[end]</sn:string>
+<sn:string index="8">T[end]</sn:string>
+<sn:string index="9">T[end]</sn:string>
+<sn:string index="10">T[end]</sn:string>
+<sn:string index="11">Je veux voler sur un chocobo noir, mais
 ils se fâchent quand je m'approche.
-Est-ce que je ne les aime pas assez?[end]</sn:pointer>
-    <sn:pointer id="30">C'est l'observatoire de Corio.
+Est-ce que je ne les aime pas assez?[end]</sn:string>
+</sn:area>
+
+<sn:area id="30">
+<sn:string index="0">C'est l'observatoire de Corio.
 Le seul télescope au monde se trouve ici.
 Depuis peu, la lune a un comportement
 étrange, et nous sommes très occupés à
-l'observer.[end]
-Mon mari est tellement absorbé par ses
+l'observer.[end]</sn:string>
+<sn:string index="1">Mon mari est tellement absorbé par ses
 observations qu'il en oublie de boire et
-manger![end]
-Le romantisme du ciel nocturne[end]
-L'origine des constellations[end]
-Les phases de la Lune et l'histoire de l'homme[end]</sn:pointer>
-    <sn:pointer id="31">Je m'appelle Corio.
+manger![end]</sn:string>
+<sn:string index="2">Le romantisme du ciel nocturne[end]</sn:string>
+<sn:string index="3">L'origine des constellations[end]</sn:string>
+<sn:string index="4">Les phases de la Lune et l'histoire de l'homme[end]</sn:string>
+</sn:area>
+
+<sn:area id="31">
+<sn:string index="0">Je m'appelle Corio.
 J'observe la lune, ici. Il y a deux lunes...[new]
 L'une n'héberge aucune vie, mais l'autre
 porte des traces d'êtres vivants...
 Et cette lune devient rouge, depuis peu...
 rouge comme le sang...[new]
 J'espère que rien de mauvais ne se
-prépare...[end]</sn:pointer>
-    <sn:pointer id="32">L'autre jour, j'ai vu des choses rouges se faire aspirer dans le cratère au nord![end]
-Il paraît que la guerre s'étend, dehors, mais notre village est on ne peut plus paisible.
+prépare...[end]</sn:string>
+</sn:area>
+
+<sn:area id="32">
+<sn:string index="0">L'autre jour, j'ai vu des choses rouges se faire aspirer dans le cratère au nord![end]</sn:string>
+<sn:string index="1">Il paraît que la guerre s'étend, dehors, mais notre village est on ne peut plus paisible.
 Par contre, il y a parfois des
-tremblements de terre.[end]
-Ma grand-mère est la doyenne du village.
-Elle sait tout![end]
-Nos ancêtres seraient venus du grand trou
+tremblements de terre.[end]</sn:string>
+<sn:string index="2">Ma grand-mère est la doyenne du village.
+Elle sait tout![end]</sn:string>
+<sn:string index="3">Nos ancêtres seraient venus du grand trou
 au sommet de la montagne au nord.[new]
 Mais le trou est bouché, maintenant, et
-de toute façon, il faudrait savoir voler.[end]
-Il y a une ancienne légende...
+de toute façon, il faudrait savoir voler.[end]</sn:string>
+<sn:string index="4">Il y a une ancienne légende...
 Quand nous rendrons la pierre du soleil à
 notre terre natale, le chemin qui y mène
-s'ouvrira.[end]
-Sans ténèbres, pas de lumière. S'il y a le jour, c'est qu'il y a la nuit. Tout obéit à la loi de la nature![new]
-C'est un monsieur qui s'appelle Ancêtres qui l'a dit![end]
-Vous voulez voir une danse mystérieuse?
+s'ouvrira.[end]</sn:string>
+<sn:string index="5">Sans ténèbres, pas de lumière. S'il y a le jour, c'est qu'il y a la nuit. Tout obéit à la loi de la nature![new]
+C'est un monsieur qui s'appelle Ancêtres qui l'a dit![end]</sn:string>
+<sn:string index="6">Vous voulez voir une danse mystérieuse?
 Elle vient du monde souterrain, il paraît.
-C'est parti![end]
-Nos ancêtres seraient venus du monde souterrain. Là-bas aussi, il y a un soleil... un soleil de magma...[end]</sn:pointer>
-    <sn:pointer id="33">T[end]</sn:pointer>
-    <sn:pointer id="34">T[end]</sn:pointer>
-    <sn:pointer id="35">T[end]</sn:pointer>
-    <sn:pointer id="36">Rien à signaler![end]
-Sa Majesté était un monstre...?[end]
-L'ambiance au château est bien lourde, ces temps-ci...[end]
-Peut-être étions-nous manipulés, nous
-aussi...[end]
-Vous partez tôt demain matin, n'est-ce
+C'est parti![end]</sn:string>
+<sn:string index="7">Nos ancêtres seraient venus du monde souterrain. Là-bas aussi, il y a un soleil... un soleil de magma...[end]</sn:string>
+</sn:area>
+
+<sn:area id="33">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="34">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="35">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="36">
+<sn:string index="0">Rien à signaler![end]</sn:string>
+<sn:string index="1">Sa Majesté était un monstre...?[end]</sn:string>
+<sn:string index="2">L'ambiance au château est bien lourde, ces temps-ci...[end]</sn:string>
+<sn:string index="3">Peut-être étions-nous manipulés, nous
+aussi...[end]</sn:string>
+<sn:string index="4">Vous partez tôt demain matin, n'est-ce
 pas?
-Reposez-vous bien cette nuit.[end]
-Tant que vous n'aurez pas livré l'Anneau
+Reposez-vous bien cette nuit.[end]</sn:string>
+<sn:string index="5">Tant que vous n'aurez pas livré l'Anneau
 Bombe au village de Mist, le roi nous a
-ordonné de ne pas vous laisser entrer![end]
-Qui diable es-tu?
-Tu as un passe pour entrer?[end]
-Il se fait tard...
-Vous ne devriez pas sortir maintenant.[end]
-J'ai entendu dire qu'il y a des moments où les Chimères sont immunisées contre toutes les attaques.[end]
-J'ai l'impression de t'avoir déjà vu quelque
-part...[end]
-L'accès à cette tour est interdit.[end]
-[bold]Cid[normal]: Te revoilà, Cecil![end]
-Cid: Rosa était inquiète! Si tu la fais pleurer, je ne te le pardonnerai pas![new]
+ordonné de ne pas vous laisser entrer![end]</sn:string>
+<sn:string index="6">Qui diable es-tu?
+Tu as un passe pour entrer?[end]</sn:string>
+<sn:string index="7">Il se fait tard...
+Vous ne devriez pas sortir maintenant.[end]</sn:string>
+<sn:string index="8">J'ai entendu dire qu'il y a des moments où les Chimères sont immunisées contre toutes les attaques.[end]</sn:string>
+<sn:string index="9">J'ai l'impression de t'avoir déjà vu quelque
+part...[end]</sn:string>
+<sn:string index="10">L'accès à cette tour est interdit.[end]</sn:string>
+<sn:string index="11">[bold]Cid[normal]: Te revoilà, Cecil![end]</sn:string>
+<sn:string index="12">Cid: Rosa était inquiète! Si tu la fais pleurer, je ne te le pardonnerai pas![new]
 Au fait, comment se portent mes aéronefs chéris? Tes hommes les malmènent trop.[new]
 Ben dis donc, t'en tires une tronche![new]
 Cecil: Eh bien en fait, Cid...[new]
@@ -507,202 +616,289 @@ Cid: Quoi!? Aller chasser les Chimères? Personne d'autre que toi ne pourrait co
 Pffff... qu'est-ce qui lui prend au roi, en ce moment?[new]
 Il veut que je fasse un nouveau modèle d'aéronef, mais moi je veux pas les changer en machines à tuer![new]
 Les gens en ville s'interrogent aussi... Enfin, de toute façon, sois prudent! Ta lame noire viendra à bout de ces Chimères en un coup![new]
-Moi, je rentre à la maison. Ça fait un moment que j'y suis pas allé, et ma fille me pique des crises![end]
-Avez-vous vu le patron Cid?[new]
+Moi, je rentre à la maison. Ça fait un moment que j'y suis pas allé, et ma fille me pique des crises![end]</sn:string>
+<sn:string index="13">Avez-vous vu le patron Cid?[new]
 Il nous a laissé l'entretien des aéronefs
-pour réfléchir à je ne sais quoi.[end]
-Patron!
-Et M. Cecil![end]
-Le patron n'a pas changé, je parie![end]
-Ah là là, encore une nuit blanche...
+pour réfléchir à je ne sais quoi.[end]</sn:string>
+<sn:string index="14">Patron!
+Et M. Cecil![end]</sn:string>
+<sn:string index="15">Le patron n'a pas changé, je parie![end]</sn:string>
+<sn:string index="16">Ah là là, encore une nuit blanche...
 N...ne le dites pas au patron!
-L...le travail, c'est amusant![end]
-Aah!
+L...le travail, c'est amusant![end]</sn:string>
+<sn:string index="17">Aah!
 Le f-f-f-fantôme du patron!
 Hein, c'est vraiment vous?
-Au travail, au travail![end]
-Je suis devenu presque aussi bon que le
+Au travail, au travail![end]</sn:string>
+<sn:string index="18">Je suis devenu presque aussi bon que le
 patron, non?
-N...ne le lui répétez pas![end]</sn:pointer>
-    <sn:pointer id="37">Est-ce... est-ce que le prince Edward va
-bien...[end]</sn:pointer>
-    <sn:pointer id="38">M. Yang!
+N...ne le lui répétez pas![end]</sn:string>
+</sn:area>
+
+<sn:area id="37">
+<sn:string index="0">Est-ce... est-ce que le prince Edward va
+bien...[end]</sn:string>
+</sn:area>
+
+<sn:area id="38">
+<sn:string index="0">M. Yang!
 Vous êtes de retour.
-Sa Majesté attend.[end]
-C'est trop dangereux de sortir
+Sa Majesté attend.[end]</sn:string>
+<sn:string index="1">C'est trop dangereux de sortir
 maintenant!
 Pour le moment, vous devriez vous
-reposer...[end]
-Nous protègerons le château d'une
-manière ou d'une autre.[end]
-Ah, messire Cecil![end]</sn:pointer>
-    <sn:pointer id="39">Elles ont de la chance, les grenouilles...[end]
-Bienvenue au château de Troia![end]
-Croa, croa![end]
-Oh, des voyageurs! Faites comme chez vous.[end]
-Croa-a!
-Croa-a![end]
-Vous êtes là pour le cristal?
+reposer...[end]</sn:string>
+<sn:string index="2">Nous protègerons le château d'une
+manière ou d'une autre.[end]</sn:string>
+<sn:string index="3">Ah, messire Cecil![end]</sn:string>
+</sn:area>
+
+<sn:area id="39">
+<sn:string index="0">Elles ont de la chance, les grenouilles...[end]</sn:string>
+<sn:string index="1">Bienvenue au château de Troia![end]</sn:string>
+<sn:string index="2">Croa, croa![end]</sn:string>
+<sn:string index="3">Oh, des voyageurs! Faites comme chez vous.[end]</sn:string>
+<sn:string index="4">Croa-a!
+Croa-a![end]</sn:string>
+<sn:string index="5">Vous êtes là pour le cristal?
 Alors vous devriez parler aux clercs dans
-le château.[end]
-T[end]
-Les clercs sont de vénérables servantes des dieux. Surtout, ne leur manquez pas de respect.[end]</sn:pointer>
-    <sn:pointer id="40">T[end]</sn:pointer>
-    <sn:pointer id="41">T[end]</sn:pointer>
-    <sn:pointer id="42">Vous pouvez prendre le trésor de cette salle pour vous aider à vaincre les Chimères. Appuyez sur l'interrupteur du mur pour ouvrir la porte.[end]
-On entend la voix du défunt roi monter des sous-sols...[new] Serait-ce... une malédiction?[end]
-J'ai entendu dire que vous avez rapporté le cristal de Mysidia![end]
-Les soldats qui travaillaient pour
-Golbez n'étaient pas humains...[end]
-...!?
-Je...je ne dors pas![end]
-Sa Majesté, victime d'un monstre... Quelle tristesse...[end]
-[bold]Caïn[normal]: Tu es prêt, Cecil?[new]
+le château.[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Les clercs sont de vénérables servantes des dieux. Surtout, ne leur manquez pas de respect.[end]</sn:string>
+</sn:area>
+
+<sn:area id="40">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="41">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="42">
+<sn:string index="0">Vous pouvez prendre le trésor de cette salle pour vous aider à vaincre les Chimères. Appuyez sur l'interrupteur du mur pour ouvrir la porte.[end]</sn:string>
+<sn:string index="1">On entend la voix du défunt roi monter des sous-sols...[new] Serait-ce... une malédiction?[end]</sn:string>
+<sn:string index="2">J'ai entendu dire que vous avez rapporté le cristal de Mysidia![end]</sn:string>
+<sn:string index="3">Les soldats qui travaillaient pour
+Golbez n'étaient pas humains...[end]</sn:string>
+<sn:string index="4">...!?
+Je...je ne dors pas![end]</sn:string>
+<sn:string index="5">Sa Majesté, victime d'un monstre... Quelle tristesse...[end]</sn:string>
+<sn:string index="6">[bold]Caïn[normal]: Tu es prêt, Cecil?[new]
 [bold]Cecil[normal]: Je compte sur toi, Caïn.[new]
-[bold]Caïn[normal]: Hmph. Laisse-moi faire.[end]
-«Messire Cecil!»[end]
-[bold]Cecil[normal]: Qu'est-ce qui ne va pas?[new]
+[bold]Caïn[normal]: Hmph. Laisse-moi faire.[end]</sn:string>
+<sn:string index="7">«Messire Cecil!»[end]</sn:string>
+<sn:string index="8">[bold]Cecil[normal]: Qu'est-ce qui ne va pas?[new]
 [bold]Palom[normal]: Ça sent...[new]
-[bold]Porom[normal]: Ça sent le monstre![end]
-[bold]Beigan[normal]: Quoi!?
-Où!?[end]
-[bold]Palom[normal]: Trop naïf, mon pote![new]
-[bold]Cecil[normal]: Beigan aussi...![end]</sn:pointer>
-    <sn:pointer id="43">J'ai perçu une drôle d'atmosphère autour
-du roi, dernièrement...[end]
-Seigneur Cecil!
-Prenez le trône![end]
-Je n'aime pas ce naze de Beigan![end]
-Même sans roi, Baron est indestructible! Mais sans les Ailes Rouges...[end]
-Je crois en Sa Majesté![end]
-Seigneur Cecil, vengez le roi![end]
-La vallée de Mist est au nord-ouest de
+[bold]Porom[normal]: Ça sent le monstre![end]</sn:string>
+<sn:string index="9">[bold]Beigan[normal]: Quoi!?
+Où!?[end]</sn:string>
+<sn:string index="10">[bold]Palom[normal]: Trop naïf, mon pote![new]
+[bold]Cecil[normal]: Beigan aussi...![end]</sn:string>
+</sn:area>
+
+<sn:area id="43">
+<sn:string index="0">J'ai perçu une drôle d'atmosphère autour
+du roi, dernièrement...[end]</sn:string>
+<sn:string index="1">Seigneur Cecil!
+Prenez le trône![end]</sn:string>
+<sn:string index="2">Je n'aime pas ce naze de Beigan![end]</sn:string>
+<sn:string index="3">Même sans roi, Baron est indestructible! Mais sans les Ailes Rouges...[end]</sn:string>
+<sn:string index="4">Je crois en Sa Majesté![end]</sn:string>
+<sn:string index="5">Seigneur Cecil, vengez le roi![end]</sn:string>
+<sn:string index="6">La vallée de Mist est au nord-ouest de
 Baron.
 On dit qu'elle est toujours couverte d'une
-épaisse nappe de brouillard.[end]
-Nous défendrons le château au nom des
-chevaliers dragons![end]
-Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]
-Je n'oserais plus regarder M. Caïn en
-face.[end]
-On dit beaucoup de choses sur Sa Majesté, mais si le roi l'apprenait...[end]
-Nous prendrons les choses en main en votre absence![end]
-[bold]Caïn[normal]: Qu'est-ce qui ne va pas?
-Tu n'arrives pas à dormir?[end]
-[bold]Cecil[normal]: C'est là!?[new]
-[bold]Cid[normal]: Ouaip, juste sous leur nez![end]
-Si vous tenez à la vie, restez dans le rang.[end]
-Je voyais bien que le roi avait changé, mais je n'ai rien dit, par peur pour ma vie...[end]</sn:pointer>
-    <sn:pointer id="44">Roi Baron: Cecil! Tu es sauf! Et je vois que tu es devenu un puissant guerrier![new]
+épaisse nappe de brouillard.[end]</sn:string>
+<sn:string index="7">Nous défendrons le château au nom des
+chevaliers dragons![end]</sn:string>
+<sn:string index="8">Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]</sn:string>
+<sn:string index="9">Je n'oserais plus regarder M. Caïn en
+face.[end]</sn:string>
+<sn:string index="10">On dit beaucoup de choses sur Sa Majesté, mais si le roi l'apprenait...[end]</sn:string>
+<sn:string index="11">Nous prendrons les choses en main en votre absence![end]</sn:string>
+<sn:string index="12">[bold]Caïn[normal]: Qu'est-ce qui ne va pas?
+Tu n'arrives pas à dormir?[end]</sn:string>
+<sn:string index="13">[bold]Cecil[normal]: C'est là!?[new]
+[bold]Cid[normal]: Ouaip, juste sous leur nez![end]</sn:string>
+<sn:string index="14">Si vous tenez à la vie, restez dans le rang.[end]</sn:string>
+<sn:string index="15">Je voyais bien que le roi avait changé, mais je n'ai rien dit, par peur pour ma vie...[end]</sn:string>
+</sn:area>
+
+<sn:area id="44">
+<sn:string index="0">Roi Baron: Cecil! Tu es sauf! Et je vois que tu es devenu un puissant guerrier![new]
 Cecil: Majesté...[new]
 Roi Baron: Cette allure... Tu es donc devenu paladin. Mais vois-tu, un paladin, ça ne va pas du tout...[new]
-Cecil: Majesté... Non, Baron![end]
-«Espèce de... misérable imposteur!»[end]
-[bold]Cid[normal]: Fripouille!
+Cecil: Majesté... Non, Baron![end]</sn:string>
+<sn:string index="1">«Espèce de... misérable imposteur!»[end]</sn:string>
+<sn:string index="2">[bold]Cid[normal]: Fripouille!
 Me mettre dans un trou puant comme ça!
 Je m'en vais te botter le train, tu vas
 voir![new]
-H... hein?[end]
-Cecil: Cid![new]
+H... hein?[end]</sn:string>
+<sn:string index="3">Cecil: Cid![new]
 Cid: Cecil! C'est toi! Tu es vivant! Tu m'as fait une de ces peurs![new]
 Cecil: Désolé...[new]
 Cid: Où est Rosa!? Elle a couru à ta recherche...[new]
 Cecil: Golbez l'a enlevée...[new]
 Cid: Quoi?! Alors que tu étais là pour la protéger? Mais ce Golbez...[new]
-Non seulement il se sert de mes aéronefs pour ses sales coups, mais il s'en prend à Rosa!?[end]
-[bold]Tella[normal]: Cette fille est en danger.
-Vite, emmène-nous à ton aéronef![end]
-Cid: C'est qui, ce vieux schnock?[new]
+Non seulement il se sert de mes aéronefs pour ses sales coups, mais il s'en prend à Rosa!?[end]</sn:string>
+<sn:string index="4">[bold]Tella[normal]: Cette fille est en danger.
+Vite, emmène-nous à ton aéronef![end]</sn:string>
+<sn:string index="5">Cid: C'est qui, ce vieux schnock?[new]
 Tella: Tu peux parler![new]
-Cid: Moi? J'suis encore jeune, moi![end]
-Porom: Allons, allons... Vous êtes M. Cid, n'est-ce pas? Voici maître Tella. C'est un grand sage.[end]
-Porom: Voici M. Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]
-[bold]Palom[normal]: Pff, deux vieux croûtons![new]
+Cid: Moi? J'suis encore jeune, moi![end]</sn:string>
+<sn:string index="6">Porom: Allons, allons... Vous êtes M. Cid, n'est-ce pas? Voici maître Tella. C'est un grand sage.[end]</sn:string>
+<sn:string index="7">Porom: Voici M. Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]</sn:string>
+<sn:string index="8">[bold]Palom[normal]: Pff, deux vieux croûtons![new]
 [bold]Porom[normal]: Ce grossier personnage, c'est
 mon frère jumeau, Palom.[new]
 [bold]Palom[normal]: Hé, fais pas ta
-sainte-nitouche![end]
-[bold]Yang[normal]: Je suis très honoré de faire
+sainte-nitouche![end]</sn:string>
+<sn:string index="9">[bold]Yang[normal]: Je suis très honoré de faire
 votre connaissance, monsieur.
 C'est dangereux, ici, alors il faudrait se
 hâter.[new]
-[bold]Cid[normal]: Hé! Toi, au moins, tu as des manières![end]
-[bold]Cecil[normal]: Cid, où est le nouveau
+[bold]Cid[normal]: Hé! Toi, au moins, tu as des manières![end]</sn:string>
+<sn:string index="10">[bold]Cecil[normal]: Cid, où est le nouveau
 modèle d'aéronef?[new]
-[bold]Cid[normal]: Héhéhé...[end]
-Nous ne laisserons plus jamais les
-monstres prendre le château![end]
-[bold]Cid[normal]: Là où personne n'aurait jamais
+[bold]Cid[normal]: Héhéhé...[end]</sn:string>
+<sn:string index="11">Nous ne laisserons plus jamais les
+monstres prendre le château![end]</sn:string>
+<sn:string index="12">[bold]Cid[normal]: Là où personne n'aurait jamais
 pensé mettre son nez!
-J'ai bricolé un petit quelque chose![end]
-[bold]Tella[normal]: Je t'ai dit qu'on n'avait pas le temps!
-La vie de Rosa ne tient qu'à un fil![end]
-[bold]Cid[normal]: Bon sang, quel grincheux tu
+J'ai bricolé un petit quelque chose![end]</sn:string>
+<sn:string index="13">[bold]Tella[normal]: Je t'ai dit qu'on n'avait pas le temps!
+La vie de Rosa ne tient qu'à un fil![end]</sn:string>
+<sn:string index="14">[bold]Cid[normal]: Bon sang, quel grincheux tu
 fais!
 Ça va, j'ai pigé!
-Allez, c'est par là![end]
-[bold]Roi Baron[normal]: En effet!
+Allez, c'est par là![end]</sn:string>
+<sn:string index="15">[bold]Roi Baron[normal]: En effet!
 Je suis l'un des quatre Empereurs de
-Golbez, Cagnazzo de l'Eau![end]
-Vous avez obtenu l'Anneau Bombe.[end]</sn:pointer>
-    <sn:pointer id="45">T[end]</sn:pointer>
-    <sn:pointer id="46">T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-Les trésors ancestraux de Baron sont gardés ici. L'entrée est interdite.[end]</sn:pointer>
-    <sn:pointer id="47">T[end]</sn:pointer>
-    <sn:pointer id="48">Nous avons enfermé dans ces cachots les magiciens mysidiens qui ont résisté.
+Golbez, Cagnazzo de l'Eau![end]</sn:string>
+<sn:string index="16">Vous avez obtenu l'Anneau Bombe.[end]</sn:string>
+</sn:area>
+
+<sn:area id="45">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="46">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">T[end]</sn:string>
+<sn:string index="3">T[end]</sn:string>
+<sn:string index="4">T[end]</sn:string>
+<sn:string index="5">T[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">T[end]</sn:string>
+<sn:string index="8">T[end]</sn:string>
+<sn:string index="9">T[end]</sn:string>
+<sn:string index="10">Les trésors ancestraux de Baron sont gardés ici. L'entrée est interdite.[end]</sn:string>
+</sn:area>
+
+<sn:area id="47">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="48">
+<sn:string index="0">Nous avons enfermé dans ces cachots les magiciens mysidiens qui ont résisté.
 Vous pouvez leur parler à travers les
-barreaux.[end]
-J'espère que nous n'aurons plus jamais à
-utiliser ces cachots.[end]
-Tu es ce chevalier noir!
-Tu crois t'en tirer comme ça!?[end]
-Peu importe ce qui nous arrive. Mais rendez au moins le cristal à Mysidia![end]
-Vous ne comprenez rien! Le cristal n'est pas un simple joyau![end]</sn:pointer>
-    <sn:pointer id="49">Aïe!
-C'est là qu'un monstre m'a blessé![end]
-C...Capitaine? Vous avez fière allure![end]
-Capitaine...[end]
-Vous êtes donc en vie![end]
-Je vais me saouler pour essayer d'oublier
-ce qui s'est passé à Mysidia...[end]
-Sa Majesté morte, vous êtes le seul qui
-puisse diriger Baron![end]
-Cette mission m'a laissé un goût amer...[end]
-Golbez a pris les Ailes Rouges![end]
-Les Ailes Rouges ont vraiment touché le fond![end]
-Merde, alors!
-Si seulement on avait les aéronefs![end]</sn:pointer>
-    <sn:pointer id="50">T[end]</sn:pointer>
-    <sn:pointer id="51">J'ai fait votre lit. On m'a dit que vous partiez tôt demain matin... Reposez-vous bien, cette nuit.[end]</sn:pointer>
-    <sn:pointer id="52">T[end]</sn:pointer>
-    <sn:pointer id="53">T[end]</sn:pointer>
-    <sn:pointer id="54">T[end]</sn:pointer>
-    <sn:pointer id="55">T[end]</sn:pointer>
-    <sn:pointer id="56">T[end]</sn:pointer>
-    <sn:pointer id="57">T[end]</sn:pointer>
-    <sn:pointer id="58">T[end]</sn:pointer>
-    <sn:pointer id="59">T[end]</sn:pointer>
-    <sn:pointer id="60">T[end]</sn:pointer>
-    <sn:pointer id="61">T[end]</sn:pointer>
-    <sn:pointer id="62">T[end]</sn:pointer>
-    <sn:pointer id="63">Le...
-Le cristal... volé...[end]</sn:pointer>
-    <sn:pointer id="64">Je... je dois atteindre la jarre de soin
-au-dessus...![end]</sn:pointer>
-    <sn:pointer id="65">[bold]Tella[normal]: C'est...
-Ooh... Anna![end]
-[bold]Tella[normal]: Toi! Le barde de l'autre fois! C'est à cause de toi qu'Anna...![new]
-[bold]Barde[normal]: !?[end]
-[bold]Edward[normal]: La Lumière du désert se forme
+barreaux.[end]</sn:string>
+<sn:string index="1">J'espère que nous n'aurons plus jamais à
+utiliser ces cachots.[end]</sn:string>
+<sn:string index="2">Tu es ce chevalier noir!
+Tu crois t'en tirer comme ça!?[end]</sn:string>
+<sn:string index="3">Peu importe ce qui nous arrive. Mais rendez au moins le cristal à Mysidia![end]</sn:string>
+<sn:string index="4">Vous ne comprenez rien! Le cristal n'est pas un simple joyau![end]</sn:string>
+</sn:area>
+
+<sn:area id="49">
+<sn:string index="0">Aïe!
+C'est là qu'un monstre m'a blessé![end]</sn:string>
+<sn:string index="1">C...Capitaine? Vous avez fière allure![end]</sn:string>
+<sn:string index="2">Capitaine...[end]</sn:string>
+<sn:string index="3">Vous êtes donc en vie![end]</sn:string>
+<sn:string index="4">Je vais me saouler pour essayer d'oublier
+ce qui s'est passé à Mysidia...[end]</sn:string>
+<sn:string index="5">Sa Majesté morte, vous êtes le seul qui
+puisse diriger Baron![end]</sn:string>
+<sn:string index="6">Cette mission m'a laissé un goût amer...[end]</sn:string>
+<sn:string index="7">Golbez a pris les Ailes Rouges![end]</sn:string>
+<sn:string index="8">Les Ailes Rouges ont vraiment touché le fond![end]</sn:string>
+<sn:string index="9">Merde, alors!
+Si seulement on avait les aéronefs![end]</sn:string>
+</sn:area>
+
+<sn:area id="50">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="51">
+<sn:string index="0">J'ai fait votre lit. On m'a dit que vous partiez tôt demain matin... Reposez-vous bien, cette nuit.[end]</sn:string>
+</sn:area>
+
+<sn:area id="52">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="53">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="54">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="55">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="56">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="57">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="58">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="59">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="60">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="61">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="62">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="63">
+<sn:string index="0">Le...
+Le cristal... volé...[end]</sn:string>
+</sn:area>
+
+<sn:area id="64">
+<sn:string index="0">Je... je dois atteindre la jarre de soin
+au-dessus...![end]</sn:string>
+</sn:area>
+
+<sn:area id="65">
+<sn:string index="0">[bold]Tella[normal]: C'est...
+Ooh... Anna![end]</sn:string>
+<sn:string index="1">[bold]Tella[normal]: Toi! Le barde de l'autre fois! C'est à cause de toi qu'Anna...![new]
+[bold]Barde[normal]: !?[end]</sn:string>
+<sn:string index="2">[bold]Edward[normal]: La Lumière du désert se forme
 à partir des sécrétions du Fourmilion
 quand il pond ses œufs.[new]
 Sa grotte est à l'est, mais nous devons
@@ -711,33 +907,33 @@ y accéder.[new]
 Il y a un aéroglisseur à Damcyan qui peut
 le traverser.
 Il devrait aussi pouvoir traverser les
-hauts-fonds pour aller vers Kaïpo.[end]
-Nous sommes les seuls survivants. Peut-être pouvons-nous nous retirer à Kaïpo...[new]
-Avec l'aéroglisseur, on pourrait passer par les hauts-fonds de la côte ouest, mais...[end]
-Peut-être pouvons-nous nous retirer à Fabul...[new]
-Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]
-Tella: ...Qui est ce Golbez!?[new]
+hauts-fonds pour aller vers Kaïpo.[end]</sn:string>
+<sn:string index="3">Nous sommes les seuls survivants. Peut-être pouvons-nous nous retirer à Kaïpo...[new]
+Avec l'aéroglisseur, on pourrait passer par les hauts-fonds de la côte ouest, mais...[end]</sn:string>
+<sn:string index="4">Peut-être pouvons-nous nous retirer à Fabul...[new]
+Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]</sn:string>
+<sn:string index="5">Tella: ...Qui est ce Golbez!?[new]
 Edward: Il est venu à Baron il y a peu et a pris le contrôle des Ailes Rouges.[new]
 Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]snif[/italic][new]
-Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]
-[bold]Cecil[normal]: Tella, vous ne pouvez
-pas faire ça tout seul![end]
-[bold]Tella[normal]: Je n'ai besoin de l'aide de
+Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]</sn:string>
+<sn:string index="6">[bold]Cecil[normal]: Tella, vous ne pouvez
+pas faire ça tout seul![end]</sn:string>
+<sn:string index="7">[bold]Tella[normal]: Je n'ai besoin de l'aide de
 personne!
 Je vais tuer Golbez de mes propres
-mains![end]
-Tella a quitté le groupe.[end]
-Edward: A... Anna... [italic]snif[/italic]... [italic]snif[/italic]...[end]
-[bold]Rydia[normal]: Pleurnicheur![end]
-[bold]Rydia[normal]: Tu es un homme, hein?
+mains![end]</sn:string>
+<sn:string index="8">Tella a quitté le groupe.[end]</sn:string>
+<sn:string index="9">Edward: A... Anna... [italic]snif[/italic]... [italic]snif[/italic]...[end]</sn:string>
+<sn:string index="10">[bold]Rydia[normal]: Pleurnicheur![end]</sn:string>
+<sn:string index="11">[bold]Rydia[normal]: Tu es un homme, hein?
 Un adulte!
 Et pourtant...![new] Moi aussi, je...[new]
-[bold]Cecil[normal]: Rydia...[end]
-[bold]Edward[normal]: Tu as raison... je ne suis qu'un pleurnicheur!
+[bold]Cecil[normal]: Rydia...[end]</sn:string>
+<sn:string index="12">[bold]Edward[normal]: Tu as raison... je ne suis qu'un pleurnicheur!
 Dans ce cas, je vais rester ici avec
 Anna pour toujours![new]
-Je me fiche bien de tout le reste![end]
-[bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
+Je me fiche bien de tout le reste![end]</sn:string>
+<sn:string index="13">[bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
 Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
 [bold]Cecil[normal]: Je suis Cecil.
 Une amie à moi s'est écroulée près de
@@ -747,331 +943,514 @@ Et pour cela, nous avons besoin de ton aide![new]
 [bold]Edward[normal]: Mon aide...[new]
 [bold]Cecil[normal]: Oui.
 Pour Rosa...
-Je t'en prie![end]
-[bold]Edward[normal]: Cette Rosa compte beaucoup pour toi, on dirait... Tu ne dois pas perdre celle que tu aimes...[end]</sn:pointer>
-    <sn:pointer id="66">Mes yeux... je n'y vois plus rien... Es-tu un ami? Ne les laisse pas prendre ce trésor... je t'en prie![end]</sn:pointer>
-    <sn:pointer id="67">T[end]</sn:pointer>
-    <sn:pointer id="68">T[end]</sn:pointer>
-    <sn:pointer id="69">T[end]</sn:pointer>
-    <sn:pointer id="70">T[end]</sn:pointer>
-    <sn:pointer id="71">Le gros de nos troupes anéanti? Impossible![end]
-Tout ça parce que nous n'avons pas été à
-la hauteur...[end]
-Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]
-Vous voilà sains et saufs![end]</sn:pointer>
-    <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
-Messire Cecil, vous devez tous être
+Je t'en prie![end]</sn:string>
+<sn:string index="14">[bold]Edward[normal]: Cette Rosa compte beaucoup pour toi, on dirait... Tu ne dois pas perdre celle que tu aimes...[end]</sn:string>
+</sn:area>
+
+<sn:area id="66">
+<sn:string index="0">Mes yeux... je n'y vois plus rien... Es-tu un ami? Ne les laisse pas prendre ce trésor... je t'en prie![end]</sn:string>
+</sn:area>
+
+<sn:area id="67">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="68">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="69">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="70">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="71">
+<sn:string index="0">Le gros de nos troupes anéanti? Impossible![end]</sn:string>
+<sn:string index="1">Tout ça parce que nous n'avons pas été à
+la hauteur...[end]</sn:string>
+<sn:string index="2">Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]</sn:string>
+<sn:string index="3">Vous voilà sains et saufs![end]</sn:string>
+</sn:area>
+
+<sn:area id="72">
+<sn:string index="0">Vous voilà de retour, maître Yang![end]</sn:string>
+<sn:string index="1">Messire Cecil, vous devez tous être
 fatigués.
-Reposez-vous à l'auberge.[end]
-Vous allez prendre la mer, paraît-il, mais
+Reposez-vous à l'auberge.[end]</sn:string>
+<sn:string index="2">Vous allez prendre la mer, paraît-il, mais
 il y a eu beaucoup de naufrages
 inexpliqués, dernièrement.
-Soyez prudents![end]
-Oh, vous allez bien![end]</sn:pointer>
-    <sn:pointer id="73">T[end]
-T[end]
-T[end]
-Sa Majesté a été blessée pendant
-l'attaque et se repose dans sa chambre.[end]</sn:pointer>
-    <sn:pointer id="74">T[end]</sn:pointer>
-    <sn:pointer id="75">T[end]</sn:pointer>
-    <sn:pointer id="76">T[end]</sn:pointer>
-    <sn:pointer id="77">Il paraît que vous avez été pris en embuscade sur le mont Hobs! Vous n'avez rien?[end]
-Si seulement nous avions un aéronef, nous aurions un moyen de contre-attaquer![end]
-Je ne dors pas.
-Je médite![end]
-Soyez prudents![end]</sn:pointer>
-    <sn:pointer id="78">Vous revenez de votre entraînement, maître Yang?[end]
-Wow, ça, c'était une attaque de la mort![end]
-Dans le château, on ne risque rien, quoi qu'il arrive! Et puis, les moines sont là pour nous défendre![end]
-Je suis contente que la ville de Fabul soit dans le château. Si elle avait été dehors, à l'heure qu'il est...[end]
-Maître Yang!
+Soyez prudents![end]</sn:string>
+<sn:string index="3">Oh, vous allez bien![end]</sn:string>
+</sn:area>
+
+<sn:area id="73">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">T[end]</sn:string>
+<sn:string index="3">Sa Majesté a été blessée pendant
+l'attaque et se repose dans sa chambre.[end]</sn:string>
+</sn:area>
+
+<sn:area id="74">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="75">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="76">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="77">
+<sn:string index="0">Il paraît que vous avez été pris en embuscade sur le mont Hobs! Vous n'avez rien?[end]</sn:string>
+<sn:string index="1">Si seulement nous avions un aéronef, nous aurions un moyen de contre-attaquer![end]</sn:string>
+<sn:string index="2">Je ne dors pas.
+Je médite![end]</sn:string>
+<sn:string index="3">Soyez prudents![end]</sn:string>
+</sn:area>
+
+<sn:area id="78">
+<sn:string index="0">Vous revenez de votre entraînement, maître Yang?[end]</sn:string>
+<sn:string index="1">Wow, ça, c'était une attaque de la mort![end]</sn:string>
+<sn:string index="2">Dans le château, on ne risque rien, quoi qu'il arrive! Et puis, les moines sont là pour nous défendre![end]</sn:string>
+<sn:string index="3">Je suis contente que la ville de Fabul soit dans le château. Si elle avait été dehors, à l'heure qu'il est...[end]</sn:string>
+<sn:string index="4">Maître Yang!
 Vite, mettez une raclée à ces méchants
-avec votre fameux coup de pied![end]
-Hiyaaa!
-Moi aussi, j'ai hâte de m'entraîner![end]</sn:pointer>
-    <sn:pointer id="79">[bold]Roi Fabul[normal]: Misère, quel désastre...
+avec votre fameux coup de pied![end]</sn:string>
+<sn:string index="5">Hiyaaa!
+Moi aussi, j'ai hâte de m'entraîner![end]</sn:string>
+</sn:area>
+
+<sn:area id="79">
+<sn:string index="0">[bold]Roi Fabul[normal]: Misère, quel désastre...
 Mais nous devons réorganiser et fortifier
 nos défenses!
 Ne vous inquiétez pas pour moi.[new]
 Pour le moment, vous devriez vous
-reposer.[end]
-Roi Fabul: ...Je vois. Très bien, Yang! Accompagne-les et aide-les![new]
+reposer.[end]</sn:string>
+<sn:string index="1">Roi Fabul: ...Je vois. Très bien, Yang! Accompagne-les et aide-les![new]
 Cecil, je ne sais pas comment te remercier. Et voilà que Rosa a été enlevée...[new]
 Je vais faire préparer un navire immédiatement. Cecil. Prends cette épée.[new]
 C'est l'épée d'un chevalier noir venu à Fabul il y a longtemps.[new]
 C'est le moins que je puisse faire pour te remercier d'avoir défendu Fabul. ...Mais une lame noire n'est jamais qu'une lame des ténèbres...[new]
-Elle ne pourra rien contre le vrai mal. Vaincs Golbez![end]
-[bold]Roi Fabul[normal]: Si tous les cristaux
+Elle ne pourra rien contre le vrai mal. Vaincs Golbez![end]</sn:string>
+<sn:string index="2">[bold]Roi Fabul[normal]: Si tous les cristaux
 tombent entre ses mains, le monde
 connaîtra une crise sans précédent!
-Je compte sur toi![end]
-C'est la chambre de Sa Majesté![end]
-Sa Majesté était aussi un moine réputé, il n'y a pas de quoi s'inquiéter![end]
-[bold]Roi Fabul[normal]: Dès que vous serez prêts,
+Je compte sur toi![end]</sn:string>
+<sn:string index="3">C'est la chambre de Sa Majesté![end]</sn:string>
+<sn:string index="4">Sa Majesté était aussi un moine réputé, il n'y a pas de quoi s'inquiéter![end]</sn:string>
+<sn:string index="5">[bold]Roi Fabul[normal]: Dès que vous serez prêts,
 allez à l'est, vers le port.
 Il devrait y avoir un navire qui vous y
-attend.[end]
-[bold]Cecil[normal]: Je crois que je vais faire un
-somme dans le lit du roi![end]
-Vous avez obtenu Mortifère![end]</sn:pointer>
-    <sn:pointer id="80">T[end]</sn:pointer>
-    <sn:pointer id="81">C'est l'infirmerie des secouristes.[end]
-Si seulement j'avais autant de puissance
-magique que Rosa...[end]
-Lui... Golbez...![end]
-Si en plus des monstres se joignent à l'armée de Baron...[end]</sn:pointer>
-    <sn:pointer id="82">Femme: Ah, te voilà rentré![new]
+attend.[end]</sn:string>
+<sn:string index="6">[bold]Cecil[normal]: Je crois que je vais faire un
+somme dans le lit du roi![end]</sn:string>
+<sn:string index="7">Vous avez obtenu Mortifère![end]</sn:string>
+</sn:area>
+
+<sn:area id="80">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="81">
+<sn:string index="0">C'est l'infirmerie des secouristes.[end]</sn:string>
+<sn:string index="1">Si seulement j'avais autant de puissance
+magique que Rosa...[end]</sn:string>
+<sn:string index="2">Lui... Golbez...![end]</sn:string>
+<sn:string index="3">Si en plus des monstres se joignent à l'armée de Baron...[end]</sn:string>
+</sn:area>
+
+<sn:area id="82">
+<sn:string index="0">Femme: Ah, te voilà rentré![new]
 Yang: C'est ma femme. Voici messire Cecil. Lui et ses amis m'ont sauvé la vie.[new]
-Femme de Yang: Merci bien! Dis donc, chéri, t'as vraiment le temps de traîner ici?[end]
-Femme de Yang: Tu es sauf![new]
+Femme de Yang: Merci bien! Dis donc, chéri, t'as vraiment le temps de traîner ici?[end]</sn:string>
+<sn:string index="1">Femme de Yang: Tu es sauf![new]
 Yang: Grâce à eux, Fabul et moi avons été sauvés.[new]
 Femme de Yang: Merci d'avoir veillé sur mon homme![new]
 Yang: Personne ne t'a fait de mal, hein?[new]
 Femme de Yang: Bien sûr que non! Je suis ta femme, quand même![new]
-Un soldat de Baron est bien venu, mais je lui ai fichu un coup de ma poêle à frire sur la tête![end]
-Ne reste pas là à traîner!
-Va battre les méchants et reviens![end]
-Mon mari?
+Un soldat de Baron est bien venu, mais je lui ai fichu un coup de ma poêle à frire sur la tête![end]</sn:string>
+<sn:string index="2">Ne reste pas là à traîner!
+Va battre les méchants et reviens![end]</sn:string>
+<sn:string index="3">Mon mari?
 Qu'est-ce que vous racontez!
 Ce n'est pas ça qui va le tuer![new]
-Il est...[end]
-Vraiment, aller traîner là-bas...
-Oh, j'ai une poussière dans l'œil...[end]
-Mais quelle mauviette!
+Il est...[end]</sn:string>
+<sn:string index="4">Vraiment, aller traîner là-bas...
+Oh, j'ai une poussière dans l'œil...[end]</sn:string>
+<sn:string index="5">Mais quelle mauviette!
 Allez lui remettre les idées en place
-avec ça![end]
-Vous avez obtenu la Poêle d'amour![end]
-Hein?
-Il est dans le monde souterrain?[end]
-Oh, merci d'être venus jusqu'ici.
+avec ça![end]</sn:string>
+<sn:string index="6">Vous avez obtenu la Poêle d'amour![end]</sn:string>
+<sn:string index="7">Hein?
+Il est dans le monde souterrain?[end]</sn:string>
+<sn:string index="8">Oh, merci d'être venus jusqu'ici.
 Je n'ai que ça, mais ça pourra sûrement
-servir.[end]
-Vous avez obtenu le Couperet![end]
-Ne vous inquiétez pas pour moi!
+servir.[end]</sn:string>
+<sn:string index="9">Vous avez obtenu le Couperet![end]</sn:string>
+<sn:string index="10">Ne vous inquiétez pas pour moi!
 Dites-lui de se remettre vite et de
-se battre![end]</sn:pointer>
-    <sn:pointer id="83">T[end]</sn:pointer>
-    <sn:pointer id="84">[bold]Tella[normal]: Bien, reposons-nous ici.[end]
-[bold]Tella[normal]: Sur cette rune magique, un champ de force empêche les monstres d'entrer.[new]
+se battre![end]</sn:string>
+</sn:area>
+
+<sn:area id="83">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="84">
+<sn:string index="0">[bold]Tella[normal]: Bien, reposons-nous ici.[end]</sn:string>
+<sn:string index="1">[bold]Tella[normal]: Sur cette rune magique, un champ de force empêche les monstres d'entrer.[new]
 Nous pouvons nous reposer ici dans une
 tente ou un chalet, et sauvegarder la
 partie.[new]
 En prévision du combat contre lui,
 reposons-nous dans ma tente et
-reprenons des forces![end]</sn:pointer>
-    <sn:pointer id="85">Tu veux que je danse? Quel rustre! Je fais partie de la garde royale![end]
-On dit que Baron s'agite, mais ses troupes ne viendront sans doute pas jusqu'ici.[end]
-Ça a beau ressembler à des justaucorps, ce sont bel et bien des tenues de combat! On y bouge facilement, et surtout, elles sont à la mode, non?[end]
-Troia est protégée par des femmes.
+reprenons des forces![end]</sn:string>
+</sn:area>
+
+<sn:area id="85">
+<sn:string index="0">Tu veux que je danse? Quel rustre! Je fais partie de la garde royale![end]</sn:string>
+<sn:string index="1">On dit que Baron s'agite, mais ses troupes ne viendront sans doute pas jusqu'ici.[end]</sn:string>
+<sn:string index="2">Ça a beau ressembler à des justaucorps, ce sont bel et bien des tenues de combat! On y bouge facilement, et surtout, elles sont à la mode, non?[end]</sn:string>
+<sn:string index="3">Troia est protégée par des femmes.
 Nous, les gardes, sommes toutes aussi
-des femmes.[end]
-Je ne suis pas une grand-mère!
+des femmes.[end]</sn:string>
+<sn:string index="4">Je ne suis pas une grand-mère!
 Je suis ministre, figurez-vous!
-Les clercs sont dans la salle intérieure.[end]
-Un survivant de Damcyan a été jeté sur le rivage il y a peu de temps. Il prétend être le prince, ou quelque chose comme ça...[end]
-T[end]
-Troia n'a encore jamais été en guerre. Si la guerre éclatait, serions-nous seulement capables de défendre notre pays...?[end]</sn:pointer>
-    <sn:pointer id="86">Les clercs sont huit sœurs.
+Les clercs sont dans la salle intérieure.[end]</sn:string>
+<sn:string index="5">Un survivant de Damcyan a été jeté sur le rivage il y a peu de temps. Il prétend être le prince, ou quelque chose comme ça...[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Troia n'a encore jamais été en guerre. Si la guerre éclatait, serions-nous seulement capables de défendre notre pays...?[end]</sn:string>
+</sn:area>
+
+<sn:area id="86">
+<sn:string index="0">Les clercs sont huit sœurs.
 Des générations durant, elles ont été les
-gardiennes du cristal.[end]
-Si nous perdons le cristal, cette région redeviendra une terre aride![end]
-C'est bien mieux que d'être dirigées par
-des hommes brutaux![end]
-On dirait que vous êtes dans un mauvais
+gardiennes du cristal.[end]</sn:string>
+<sn:string index="1">Si nous perdons le cristal, cette région redeviendra une terre aride![end]</sn:string>
+<sn:string index="2">C'est bien mieux que d'être dirigées par
+des hommes brutaux![end]</sn:string>
+<sn:string index="3">On dirait que vous êtes dans un mauvais
 pas.
-Comme promis, nous allons vous prêter le cristal de la Terre.[end]
-Le cristal de la Terre? Quelle horreur![end]
-L'Elfe noir craint les armes en métal.[new]
-Pour compenser ce point faible... il a recouvert sa grotte d'un champ magnétique.[end]
-Nous vous confions le cristal.
-Soyez très prudents![end]
-Dire qu'un homme maléfique est en train
-de réunir les cristaux![end]
-L'Elfe noir vit dans la grotte de l'île au nord-est![end]
-Quelle était cette voix!?[end]
-Le cristal a été volé? Allez vite le récupérer![end]
-Si vous pouvez récupérer le cristal, nous promettons de vous le prêter. Mais d'abord, ramenez-le ici.[end]
-Il semble que vous ayez vos raisons.
-Prenez le trésor qui est à la cave.[end]
-Que tous les cristaux soient aux mains de
+Comme promis, nous allons vous prêter le cristal de la Terre.[end]</sn:string>
+<sn:string index="4">Le cristal de la Terre? Quelle horreur![end]</sn:string>
+<sn:string index="5">L'Elfe noir craint les armes en métal.[new]
+Pour compenser ce point faible... il a recouvert sa grotte d'un champ magnétique.[end]</sn:string>
+<sn:string index="6">Nous vous confions le cristal.
+Soyez très prudents![end]</sn:string>
+<sn:string index="7">Dire qu'un homme maléfique est en train
+de réunir les cristaux![end]</sn:string>
+<sn:string index="8">L'Elfe noir vit dans la grotte de l'île au nord-est![end]</sn:string>
+<sn:string index="9">Quelle était cette voix!?[end]</sn:string>
+<sn:string index="10">Le cristal a été volé? Allez vite le récupérer![end]</sn:string>
+<sn:string index="11">Si vous pouvez récupérer le cristal, nous promettons de vous le prêter. Mais d'abord, ramenez-le ici.[end]</sn:string>
+<sn:string index="12">Il semble que vous ayez vos raisons.
+Prenez le trésor qui est à la cave.[end]</sn:string>
+<sn:string index="13">Que tous les cristaux soient aux mains de
 ce Golbez est bien plus grave que la
-perte subie par Troia![end]
-Si vous portez des armes et des armures
+perte subie par Troia![end]</sn:string>
+<sn:string index="14">Si vous portez des armes et des armures
 de métal dans la grotte qui se trouve au
-nord-est, vous serez très ralentis![end]
-Et nous venons juste de le récupérer!
+nord-est, vous serez très ralentis![end]</sn:string>
+<sn:string index="15">Et nous venons juste de le récupérer!
 Je suppose qu'il n'y a pas le choix.
-Nous ne faisons que vous le prêter![end]
-Les cristaux avaient été éparpillés de par le monde justement pour que cela n'arrive jamais.[end]
-Nous ne pouvons pas vous donner le cristal de la Terre...
+Nous ne faisons que vous le prêter![end]</sn:string>
+<sn:string index="16">Les cristaux avaient été éparpillés de par le monde justement pour que cela n'arrive jamais.[end]</sn:string>
+<sn:string index="17">Nous ne pouvons pas vous donner le cristal de la Terre...
 Mais si vous nous le rapportez, nous
-pourrons au moins vous le prêter.[end]
-Qu'est-ce que c'était, cette voix, à
-l'instant?[end]
-On dit que celui qui réunit tous les
+pourrons au moins vous le prêter.[end]</sn:string>
+<sn:string index="18">Qu'est-ce que c'était, cette voix, à
+l'instant?[end]</sn:string>
+<sn:string index="19">On dit que celui qui réunit tous les
 cristaux acquerra une puissance
-incroyable.[end]
-Le cristal de la Terre?
-Il a été volé par l'Elfe noir.[end]
-Le pouvoir du cristal varie suivant qui le
+incroyable.[end]</sn:string>
+<sn:string index="20">Le cristal de la Terre?
+Il a été volé par l'Elfe noir.[end]</sn:string>
+<sn:string index="21">Le pouvoir du cristal varie suivant qui le
 possède![new]
 Si une personne maléfique l'avait, cela
-pourrait avoir de terribles répercussions![end]
-Si la rumeur disant qu'il y a plus de
+pourrait avoir de terribles répercussions![end]</sn:string>
+<sn:string index="22">Si la rumeur disant qu'il y a plus de
 quatre cristaux est vraie, il y a encore de
-l'espoir.[end]
-Troia est gouvernée par nous, les huit clercs.
-Nous étions dotées de la bénédiction du cristal de la Terre, mais maintenant...[end]
-Mais que s'est-il donc passé!?[end]
-Oh non!
+l'espoir.[end]</sn:string>
+<sn:string index="23">Troia est gouvernée par nous, les huit clercs.
+Nous étions dotées de la bénédiction du cristal de la Terre, mais maintenant...[end]</sn:string>
+<sn:string index="24">Mais que s'est-il donc passé!?[end]</sn:string>
+<sn:string index="25">Oh non!
 Ce n'est pas seulement Troia.
 Le monde entier est en danger, à
-présent![end]
-[bold]Clercs[normal]: C'est...![end]
-[bold]Clercs[normal]: C'est le cristal de la Terre!
+présent![end]</sn:string>
+<sn:string index="26">[bold]Clercs[normal]: C'est...![end]</sn:string>
+<sn:string index="27">[bold]Clercs[normal]: C'est le cristal de la Terre!
 Vous l'avez ramené!
-Bien joué![end]
-«Tu as le cristal, on dirait.»[end]
-[bold]Cid[normal]: Cette voix![new]
+Bien joué![end]</sn:string>
+<sn:string index="28">«Tu as le cristal, on dirait.»[end]</sn:string>
+<sn:string index="29">[bold]Cid[normal]: Cette voix![new]
 [bold]Cecil[normal]: Caïn![music][0x16][new]
 [bold]Caïn[normal]: Sors et monte sur ton
 aéronef...
-Je vais t'emmener vers Rosa.[end]</sn:pointer>
-    <sn:pointer id="87">T[end]</sn:pointer>
-    <sn:pointer id="88">Le prince Edward doit rester au repos absolu. Moi? Je suis l'infirmière. Le docteur, c'est par là.[end]
-Il ne doit pas se surmener.
+Je vais t'emmener vers Rosa.[end]</sn:string>
+</sn:area>
+
+<sn:area id="87">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="88">
+<sn:string index="0">Le prince Edward doit rester au repos absolu. Moi? Je suis l'infirmière. Le docteur, c'est par là.[end]</sn:string>
+<sn:string index="1">Il ne doit pas se surmener.
 Il n'a jamais été bien robuste, et il est
-très affaibli.[end]
-[bold]Edward[normal]: Cecil...
-Tu dois sauver Rosa![end]
-Un malade se repose ici. Silence, s'il vous plaît![end]
-[bold]Edward[normal]: Bats-toi aussi pour moi... je t'en prie.[end]
-Edward: Maître Tella!? Pourquoi...? Tous ceux qui m'entourent...[end]
-[bold]Edward[normal]: Yang aussi...
-Si...si seulement j'étais plus fort...[end]
-[bold]Edward[normal]: Ah bon, alors Yang va
+très affaibli.[end]</sn:string>
+<sn:string index="2">[bold]Edward[normal]: Cecil...
+Tu dois sauver Rosa![end]</sn:string>
+<sn:string index="3">Un malade se repose ici. Silence, s'il vous plaît![end]</sn:string>
+<sn:string index="4">[bold]Edward[normal]: Bats-toi aussi pour moi... je t'en prie.[end]</sn:string>
+<sn:string index="5">Edward: Maître Tella!? Pourquoi...? Tous ceux qui m'entourent...[end]</sn:string>
+<sn:string index="6">[bold]Edward[normal]: Yang aussi...
+Si...si seulement j'étais plus fort...[end]</sn:string>
+<sn:string index="7">[bold]Edward[normal]: Ah bon, alors Yang va
 bien...
-Tu l'as dit à sa femme?[end]
-C'est la harpe d'Edward...[end]</sn:pointer>
-    <sn:pointer id="89">T[end]</sn:pointer>
-    <sn:pointer id="90">C'étaient des cachots, mais
-maintenant c'est notre salle au trésor.[end]
-Ne mens pas!
-Je le vois bien![end]
-Alors prenez donc le trésor.[end]
-En voilà qui ne sont pas cupides.[end]</sn:pointer>
-    <sn:pointer id="91">T[end]</sn:pointer>
-    <sn:pointer id="92">T[end]</sn:pointer>
-    <sn:pointer id="93">T[end]</sn:pointer>
-    <sn:pointer id="94">T[end]</sn:pointer>
-    <sn:pointer id="95">T[end]</sn:pointer>
-    <sn:pointer id="96">T[end]</sn:pointer>
-    <sn:pointer id="97">T[end]</sn:pointer>
-    <sn:pointer id="98">T[end]</sn:pointer>
-    <sn:pointer id="99">T[end]</sn:pointer>
-    <sn:pointer id="100">T[end]</sn:pointer>
-    <sn:pointer id="101">T[end]</sn:pointer>
-    <sn:pointer id="102">Nous faisons des recherches pour être
-utiles au cours des combats.[end]
-Le roi était un monstre?
+Tu l'as dit à sa femme?[end]</sn:string>
+<sn:string index="8">C'est la harpe d'Edward...[end]</sn:string>
+</sn:area>
+
+<sn:area id="89">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="90">
+<sn:string index="0">C'étaient des cachots, mais
+maintenant c'est notre salle au trésor.[end]</sn:string>
+<sn:string index="1">Ne mens pas!
+Je le vois bien![end]</sn:string>
+<sn:string index="2">Alors prenez donc le trésor.[end]</sn:string>
+<sn:string index="3">En voilà qui ne sont pas cupides.[end]</sn:string>
+</sn:area>
+
+<sn:area id="91">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="92">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="93">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="94">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="95">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="96">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="97">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="98">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="99">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="100">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="101">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="102">
+<sn:string index="0">Nous faisons des recherches pour être
+utiles au cours des combats.[end]</sn:string>
+<sn:string index="1">Le roi était un monstre?
 Nous ne pouvions pas le sentir...
 Il doit encore nous rester beaucoup à
-apprendre.[end]
-Les sorts de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il existait autrefois des sorts plus puissants, paraît-il...[end]
-Alors l'antique magie Météore existait bien![end]
-Sommeil!
+apprendre.[end]</sn:string>
+<sn:string index="2">Les sorts de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il existait autrefois des sorts plus puissants, paraît-il...[end]</sn:string>
+<sn:string index="3">Alors l'antique magie Météore existait bien![end]</sn:string>
+<sn:string index="4">Sommeil!
 Hein?
 Tu ne t'es pas endormi?
-Bizarre...[end]
-Cochon!
+Bizarre...[end]</sn:string>
+<sn:string index="5">Cochon!
 Arg!
-Oups...[end]
-Désolé, c'était Minimum![end]</sn:pointer>
-    <sn:pointer id="103">Rosa voulait t'aider, alors elle a
+Oups...[end]</sn:string>
+<sn:string index="6">Désolé, c'était Minimum![end]</sn:string>
+</sn:area>
+
+<sn:area id="103">
+<sn:string index="0">Rosa voulait t'aider, alors elle a
 choisi de devenir mage blanche.
-Ne l'inquiète pas trop![end]
-Nous ne pouvons que prier pour que feu
-Sa Majesté repose en paix.[end]
-J'étudie les rudiments de la magie
+Ne l'inquiète pas trop![end]</sn:string>
+<sn:string index="1">Nous ne pouvons que prier pour que feu
+Sa Majesté repose en paix.[end]</sn:string>
+<sn:string index="2">J'étudie les rudiments de la magie
 blanche.
 Je peux utiliser trois niveaux de magie
 blanche...[new]
-Soin, Soin 2, Soin 3![end]
-Dire qu'un monstre a remplacé le roi...[end]
-Ces derniers temps, Sa Majesté déborde d'énergie, plus encore qu'avant. Et pourtant, il y a quelque chose...[end]
-Nous assisterons les soldats avec notre
-magie blanche![end]</sn:pointer>
-    <sn:pointer id="104">T[end]</sn:pointer>
-    <sn:pointer id="105">Mets tes personnages avec peu d'énergie au rang arrière de ton groupe![new]
+Soin, Soin 2, Soin 3![end]</sn:string>
+<sn:string index="3">Dire qu'un monstre a remplacé le roi...[end]</sn:string>
+<sn:string index="4">Ces derniers temps, Sa Majesté déborde d'énergie, plus encore qu'avant. Et pourtant, il y a quelque chose...[end]</sn:string>
+<sn:string index="5">Nous assisterons les soldats avec notre
+magie blanche![end]</sn:string>
+</sn:area>
+
+<sn:area id="104">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="105">
+<sn:string index="0">Mets tes personnages avec peu d'énergie au rang arrière de ton groupe![new]
 Si tu déplaces le curseur vers la gauche pendant un combat, tu peux inverser les rangs avant et arrière.[new]
 Si tu appuies sur droite, tu te mets en garde![new]
 De plus, si tu veux utiliser une arme en tant qu'objet dans un combat, sélectionne «Objets»[new]
 et déplace le curseur tout en haut pour sélectionner ton arme![new]
-Utilise ça aussi pour changer d'arme ou refaire le plein de flèches![end]
-Tu dois prendre rapidement des décisions
+Utilise ça aussi pour changer d'arme ou refaire le plein de flèches![end]</sn:string>
+<sn:string index="1">Tu dois prendre rapidement des décisions
 au cours des combats!
 Si tu n'es pas sûr de toi, baisse la vitesse de combat![new]
 Si tu es sûr de toi, tu peux passer le mode de combat dans les Options en Actif.[new]
 Les monstres vont t'attaquer même
 pendant que tu sélectionnes des objets
 ou des magies... pour rendre la bataille
-encore plus palpitante![end]
-Il y a des endroits dans les grottes où tu
+encore plus palpitante![end]</sn:string>
+<sn:string index="2">Il y a des endroits dans les grottes où tu
 peux sauvegarder ton jeu.
-Utilise bien ces endroits![end]
-Si tu ne peux plus porter d'objets
+Utilise bien ces endroits![end]</sn:string>
+<sn:string index="3">Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
 Gros Chocobo dans la forêt Chocobo![new]
-Si ça sent le chocobo, utilise un Légume Gysahl![end]
-L'homme qui est là-bas, c'est Namingway.
-Si tu veux changer de nom, tu n'as qu'à lui demander![end]
-Un combat imprudent peut te coûter la vie! Si ça tourne mal, n'hésite pas à te sauver.[new]
+Si ça sent le chocobo, utilise un Légume Gysahl![end]</sn:string>
+<sn:string index="4">L'homme qui est là-bas, c'est Namingway.
+Si tu veux changer de nom, tu n'as qu'à lui demander![end]</sn:string>
+<sn:string index="5">Un combat imprudent peut te coûter la vie! Si ça tourne mal, n'hésite pas à te sauver.[new]
 Appuie sur L et R en même temps pour fuir un combat! De plus, certains sorts peuvent viser plusieurs cibles.[new]
 En combat, appuie vers la gauche pour viser tous les ennemis... et vers la droite pour viser tous tes alliés![new]
-Dans le menu aussi, appuie à gauche ou à droite pour viser tout ton groupe![end]</sn:pointer>
-    <sn:pointer id="106">T[end]</sn:pointer>
-    <sn:pointer id="107">T[end]</sn:pointer>
-    <sn:pointer id="108">«Rebroussez chemin...»[new]
-[bold]Cecil[normal]: Qui est là?![end]
-«Partez immédiatement...»[new]
-[bold]Caïn[normal]: C'est une Chimère, ça?[end]
-Cecil: On doit livrer cet Anneau Bombe au village de Mist![new]
+Dans le menu aussi, appuie à gauche ou à droite pour viser tout ton groupe![end]</sn:string>
+</sn:area>
+
+<sn:area id="106">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="107">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="108">
+<sn:string index="0">«Rebroussez chemin...»[new]
+[bold]Cecil[normal]: Qui est là?![end]</sn:string>
+<sn:string index="1">«Partez immédiatement...»[new]
+[bold]Caïn[normal]: C'est une Chimère, ça?[end]</sn:string>
+<sn:string index="2">Cecil: On doit livrer cet Anneau Bombe au village de Mist![new]
 «Alors je n'ai pas le choix!»[new]
-Caïn: Le brouillard s'épaissit![end]</sn:pointer>
-    <sn:pointer id="109">T[end]</sn:pointer>
-    <sn:pointer id="110">T[end]</sn:pointer>
-    <sn:pointer id="111">[bold]Vieil homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:pointer>
-    <sn:pointer id="112">T[end]</sn:pointer>
-    <sn:pointer id="113">T[end]</sn:pointer>
-    <sn:pointer id="114">T[end]</sn:pointer>
-    <sn:pointer id="115">Tella: Nous pouvons sortir par ici. Le monstre se trouve sous la chute d'eau, plus loin![new]
-Il serait avisé de nous reposer dans une tente dehors, juste au cas où![end]</sn:pointer>
-    <sn:pointer id="116">T[end]</sn:pointer>
-    <sn:pointer id="117">T[end]</sn:pointer>
-    <sn:pointer id="118">[bold]Tella[normal]: Il arrive![end]
-[bold]Tella[normal]: C'est Octomammouth![end]
-[bold]Tella[normal]: Maintenant, nous pouvons
+Caïn: Le brouillard s'épaissit![end]</sn:string>
+</sn:area>
+
+<sn:area id="109">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="110">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="111">
+<sn:string index="0">[bold]Vieil homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:string>
+</sn:area>
+
+<sn:area id="112">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="113">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="114">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="115">
+<sn:string index="0">Tella: Nous pouvons sortir par ici. Le monstre se trouve sous la chute d'eau, plus loin![new]
+Il serait avisé de nous reposer dans une tente dehors, juste au cas où![end]</sn:string>
+</sn:area>
+
+<sn:area id="116">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="117">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="118">
+<sn:string index="0">[bold]Tella[normal]: Il arrive![end]</sn:string>
+<sn:string index="1">[bold]Tella[normal]: C'est Octomammouth![end]</sn:string>
+<sn:string index="2">[bold]Tella[normal]: Maintenant, nous pouvons
 continuer vers Damcyan!
 Il y a une issue vers la surface après
-cette chute d'eau![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="119">T[end]</sn:pointer>
-    <sn:pointer id="120">T[end]</sn:pointer>
-    <sn:pointer id="121">T[end]</sn:pointer>
-    <sn:pointer id="122">T[end]</sn:pointer>
-    <sn:pointer id="123">T[end]</sn:pointer>
-    <sn:pointer id="124">T[end]</sn:pointer>
-    <sn:pointer id="125">T[end]</sn:pointer>
-    <sn:pointer id="126">Le passage est bloqué par une épaisse
-couche de glace.[end]
-[bold]Rosa[normal]: Rydia, essaie de lancer
+cette chute d'eau![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="119">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="120">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="121">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="122">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="123">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="124">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="125">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="126">
+<sn:string index="0">Le passage est bloqué par une épaisse
+couche de glace.[end]</sn:string>
+<sn:string index="1">[bold]Rosa[normal]: Rydia, essaie de lancer
 Feu.[new]
-[bold]Rydia[normal]: ...[end]
-[bold]Rydia[normal]: ...Non.[new]
+[bold]Rydia[normal]: ...[end]</sn:string>
+<sn:string index="2">[bold]Rydia[normal]: ...Non.[new]
 [bold]Rosa[normal]: ?[new]
 [bold]Rydia[normal]: Je déteste le feu![new]
-[bold]Cecil[normal]: Je vois... Les flammes de l'Anneau Bombe... Mist...[end]
-[bold]Rosa[normal]: Écoute, Rydia.
+[bold]Cecil[normal]: Je vois... Les flammes de l'Anneau Bombe... Mist...[end]</sn:string>
+<sn:string index="3">[bold]Rosa[normal]: Écoute, Rydia.
 Tu es la seule ici à avoir le pouvoir de
 faire fondre cette glace.[new]
 [bold]Rydia[normal]: ...[new]
@@ -1081,38 +1460,41 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 [bold]Rosa[normal]: Rydia, s'il te plaît![new]
 [bold]Edward[normal]: Allez, Rydia![new]
 [bold]Cecil[normal]: ...[new]
-[bold]Rydia[normal]: ... ... ...[end]
-[bold]Rydia[normal]: Feu![end]
-[force_bold]Rydia a appris Feu![force_normal][delay][0x28][end]
-[bold]Edward[normal]: C'est incroyable, Rydia![new]
+[bold]Rydia[normal]: ... ... ...[end]</sn:string>
+<sn:string index="4">[bold]Rydia[normal]: Feu![end]</sn:string>
+<sn:string index="5">[force_bold]Rydia a appris Feu![force_normal][delay][0x28][end]</sn:string>
+<sn:string index="6">[bold]Edward[normal]: C'est incroyable, Rydia![new]
 [bold]Rydia[normal]: Héhé...[new]
 [bold]Rosa[normal]: Merci, Rydia![new]
-[bold]Cecil[normal]: Rydia...[end]
-[bold]Edward[normal]: Rydia?[new]
-[bold]Rosa[normal]: Tu vas y arriver, j'en suis sûre![end]</sn:pointer>
-    <sn:pointer id="127">[bold]Edward[normal]: Ces vêtements...
-Ce doit être un moine de Fabul![end]
-[bold]Edward[normal]: Celui-ci a l'air costaud![new]
-[bold]Rydia[normal]: Aidons-le![end]
-Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
+[bold]Cecil[normal]: Rydia...[end]</sn:string>
+<sn:string index="7">[bold]Edward[normal]: Rydia?[new]
+[bold]Rosa[normal]: Tu vas y arriver, j'en suis sûre![end]</sn:string>
+</sn:area>
+
+<sn:area id="127">
+<sn:string index="0">[bold]Edward[normal]: Ces vêtements...
+Ce doit être un moine de Fabul![end]</sn:string>
+<sn:string index="1">[bold]Edward[normal]: Celui-ci a l'air costaud![new]
+[bold]Rydia[normal]: Aidons-le![end]</sn:string>
+<sn:string index="2">Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
 Mes hommes et moi nous entraînions ici, sur le mont Hobs... et soudain, nous avons été attaqués par des hordes de monstres.[new]
 Mes hommes... tués... tous... Je suis le seul survivant... Des combattants si aguerris...[new]
 Cecil: Nous faisons route vers Fabul.[new]
-Rosa: Un dénommé Golbez se sert de Baron pour rassembler les cristaux...[end]
-[bold]Moine[normal]: Haa![end]
-[bold]Cecil[normal]: Qu'est-ce que c'est?[end]
-[bold]Rosa[normal]: À tous les coups, ces
-monstres ont été envoyés par Golbez...[end]
-[bold]Yang[normal]: Pour nous éliminer et laisser Fabul sans défense!?[new] [bold]Cecil[normal]: Alors ils marchent déjà sur Fabul, qui est à découvert!
+Rosa: Un dénommé Golbez se sert de Baron pour rassembler les cristaux...[end]</sn:string>
+<sn:string index="3">[bold]Moine[normal]: Haa![end]</sn:string>
+<sn:string index="4">[bold]Cecil[normal]: Qu'est-ce que c'est?[end]</sn:string>
+<sn:string index="5">[bold]Rosa[normal]: À tous les coups, ces
+monstres ont été envoyés par Golbez...[end]</sn:string>
+<sn:string index="6">[bold]Yang[normal]: Pour nous éliminer et laisser Fabul sans défense!?[new] [bold]Cecil[normal]: Alors ils marchent déjà sur Fabul, qui est à découvert!
 On va vous aider!
-Vite, on doit aller à Fabul![end]
-Yang: Mais je ne peux pas vous entraîner là-dedans...[new]
+Vite, on doit aller à Fabul![end]</sn:string>
+<sn:string index="7">Yang: Mais je ne peux pas vous entraîner là-dedans...[new]
 Cecil: C'est aussi notre combat![new]
 Edward: Je suis le prince de Damcyan.[new]
 Cecil: Rosa et moi servions Baron. Et cette fille...[new]
 J'ai été trompé par le roi de Baron, et alors...[new]
-Rydia: ...[end]
-[bold]Yang[normal]: Vous avez aussi vos propres
+Rydia: ...[end]</sn:string>
+<sn:string index="8">[bold]Yang[normal]: Vous avez aussi vos propres
 raisons, je vois...
 Merci!
 Puis-je vous demander votre aide?[new]
@@ -1120,404 +1502,818 @@ Puis-je vous demander votre aide?[new]
 Allons-y![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
-Dépêchons-nous![end]
-[force_bold]Le moine Yang a rejoint l'équipe![force_normal][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="128">T[end]</sn:pointer>
-    <sn:pointer id="129">T[end]</sn:pointer>
-    <sn:pointer id="130">T[end]</sn:pointer>
-    <sn:pointer id="131">T[end]</sn:pointer>
-    <sn:pointer id="132">Le passage est bloqué par des flammes
-ardentes![end]</sn:pointer>
-    <sn:pointer id="133">T[end]</sn:pointer>
-    <sn:pointer id="134">T[end]</sn:pointer>
-    <sn:pointer id="135">«[italic]Hiss... Hiss...[/italic]»[new]
+Dépêchons-nous![end]</sn:string>
+<sn:string index="9">[force_bold]Le moine Yang a rejoint l'équipe![force_normal][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="128">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="129">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="130">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="131">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="132">
+<sn:string index="0">Le passage est bloqué par des flammes
+ardentes![end]</sn:string>
+</sn:area>
+
+<sn:area id="133">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="134">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="135">
+<sn:string index="0">«[italic]Hiss... Hiss...[/italic]»[new]
 [bold]Porom[normal]: Palom!
 Tu as dit quelque chose, hein![new]
-[bold]Palom[normal]: Hé, c'est pas moi![end]
-«[italic]Hiss... Hiss...[/italic]»[new]
+[bold]Palom[normal]: Hé, c'est pas moi![end]</sn:string>
+<sn:string index="1">«[italic]Hiss... Hiss...[/italic]»[new]
 [bold]Porom[normal]: Ça y est, tu recommences![new]
 [bold]Palom[normal]: Puisque je te dis que c'est
-pas moi![end]</sn:pointer>
-    <sn:pointer id="136">T[end]</sn:pointer>
-    <sn:pointer id="137">T[end]</sn:pointer>
-    <sn:pointer id="138">«Kukaka... Ainsi vous avez réussi à me
+pas moi![end]</sn:string>
+</sn:area>
+
+<sn:area id="136">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="137">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="138">
+<sn:string index="0">«Kukaka... Ainsi vous avez réussi à me
 vaincre... Mais voyez-vous, je n'aime pas
 être seul... Kukaka... Même mort,
 Cagnazzo de l'Eau reste redoutable!
 Goûtez-en la terreur et mourez! Je vous
-attends en enfer! Héhéhé!»[end]
-[bold]Tella[normal]: Les murs![end]
-[bold]Cid[normal]: C'est fermé![music][0x23][new]
-[bold]Tella[normal]: Cette porte aussi![end]
-[bold]Cecil[normal]: Palom!
-Porom![end]
-Palom: Merci, mon pote![new]
+attends en enfer! Héhéhé!»[end]</sn:string>
+<sn:string index="1">[bold]Tella[normal]: Les murs![end]</sn:string>
+<sn:string index="2">[bold]Cid[normal]: C'est fermé![music][0x23][new]
+[bold]Tella[normal]: Cette porte aussi![end]</sn:string>
+<sn:string index="3">[bold]Cecil[normal]: Palom!
+Porom![end]</sn:string>
+<sn:string index="4">Palom: Merci, mon pote![new]
 Porom: J'étais si heureuse, c'était comme avoir un grand frère![new]
 Tella: Que faites-vous, tous les deux![new]
 Palom: On va pas les laisser vous tuer ici![new]
-Porom: Maître Tella! Prenez soin de M. Cecil![end]
-Palom: On y va, Porom![new]
-Porom: Oui![end]
-Cecil: Arrêtez!![new]
-Palom et Porom: Pétrifier![end]
-[bold]Cecil[normal]: Palom...
-Porom!!![music][0x2a][delay][0x28][end]
-Ils se sont pétrifiés de leur propre
-volonté... Ça n'a aucun effet...[end]
-[bold]Yang[normal]: Des enfants si jeunes...![end]
-[bold]Cid[normal]: C'est l'heure de les venger!
-En route avec l'Enterprise!![end]
-[bold]Tella[normal]: Petits imprudents...!
+Porom: Maître Tella! Prenez soin de M. Cecil![end]</sn:string>
+<sn:string index="5">Palom: On y va, Porom![new]
+Porom: Oui![end]</sn:string>
+<sn:string index="6">Cecil: Arrêtez!![new]
+Palom et Porom: Pétrifier![end]</sn:string>
+<sn:string index="7">[bold]Cecil[normal]: Palom...
+Porom!!![music][0x2a][delay][0x28][end]</sn:string>
+<sn:string index="8">Ils se sont pétrifiés de leur propre
+volonté... Ça n'a aucun effet...[end]</sn:string>
+<sn:string index="9">[bold]Yang[normal]: Des enfants si jeunes...![end]</sn:string>
+<sn:string index="10">[bold]Cid[normal]: C'est l'heure de les venger!
+En route avec l'Enterprise!![end]</sn:string>
+<sn:string index="11">[bold]Tella[normal]: Petits imprudents...!
 Tenez bon!
-Esuna![end]
-Sa Majesté est en colère contre vous. Le roi refuse de vous voir tant que vous n'aurez pas livré l'Anneau Bombe à Mist.[end]
-[bold]Tella[normal]: Petits fous!
+Esuna![end]</sn:string>
+<sn:string index="12">Sa Majesté est en colère contre vous. Le roi refuse de vous voir tant que vous n'aurez pas livré l'Anneau Bombe à Mist.[end]</sn:string>
+<sn:string index="13">[bold]Tella[normal]: Petits fous!
 C'est ce vieux croûton qui aurait dû
-mourir, pas eux![end]</sn:pointer>
-    <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
-    <sn:pointer id="140">Cid: Ourg! Quel magnétisme! On pourra même pas remuer si on porte des armes ou des armures en métal![new]
+mourir, pas eux![end]</sn:string>
+</sn:area>
+
+<sn:area id="139">
+<sn:string index="0">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:string>
+</sn:area>
+
+<sn:area id="140">
+<sn:string index="0">Cid: Ourg! Quel magnétisme! On pourra même pas remuer si on porte des armes ou des armures en métal![new]
 Yang: Mes griffes, elles, ne semblent pas affectées.[new]
-Tella: Pas d'inquiétude! Vous avez ma magie![end]</sn:pointer>
-    <sn:pointer id="141">T[end]</sn:pointer>
-    <sn:pointer id="142">T[end]</sn:pointer>
-    <sn:pointer id="143">T[end]</sn:pointer>
-    <sn:pointer id="144">T[end]</sn:pointer>
-    <sn:pointer id="145">T[end]</sn:pointer>
-    <sn:pointer id="146">T[end]</sn:pointer>
-    <sn:pointer id="147">T[end]</sn:pointer>
-    <sn:pointer id="148">[bold]Cecil[normal]: Si seulement je pouvais utiliser
-mon épée...!![end]
-[bold]Cecil[normal]: Compris... Edward![end]
-Scellé par le pouvoir magique de l'Elfe noir.[end]
-GAGOGO... SOYEZ MAUDITS!
-JE VAIS VOUS TUER!![end]</sn:pointer>
-    <sn:pointer id="149">T[end]</sn:pointer>
-    <sn:pointer id="150">T[end]</sn:pointer>
-    <sn:pointer id="151">C'est la Route du Démon, qui mène à
+Tella: Pas d'inquiétude! Vous avez ma magie![end]</sn:string>
+</sn:area>
+
+<sn:area id="141">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="142">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="143">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="144">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="145">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="146">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="147">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="148">
+<sn:string index="0">[bold]Cecil[normal]: Si seulement je pouvais utiliser
+mon épée...!![end]</sn:string>
+<sn:string index="1">[bold]Cecil[normal]: Compris... Edward![end]</sn:string>
+<sn:string index="2">Scellé par le pouvoir magique de l'Elfe noir.[end]</sn:string>
+<sn:string index="3">GAGOGO... SOYEZ MAUDITS!
+JE VAIS VOUS TUER!![end]</sn:string>
+</sn:area>
+
+<sn:area id="149">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="150">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="151">
+<sn:string index="0">C'est la Route du Démon, qui mène à
 Mysidia.[new]
 Nous l'utilisions pour faire du commerce
 avec Mysidia... mais il paraît que Mysidia l'a scellée de son côté. Maintenant, on ne peut plus passer.[new]
-Au sous-sol, il y a la salle d'entraînement.[end]
-Le sceau, côté Mysidia, a été levé![end]
-La route est scellée du côté de Mysidia,
-on ne peut pas l'utiliser.[end]</sn:pointer>
-    <sn:pointer id="152">T[end]</sn:pointer>
-    <sn:pointer id="153">T[end]</sn:pointer>
-    <sn:pointer id="154">T[end]</sn:pointer>
-    <sn:pointer id="155">T[end]</sn:pointer>
-    <sn:pointer id="156">T[end]</sn:pointer>
-    <sn:pointer id="157">T[end]</sn:pointer>
-    <sn:pointer id="158">T[end]</sn:pointer>
-    <sn:pointer id="159">[bold]Golbez[normal]: Ainsi, il a même tué Cagnazzo...
-Il est devenu bien plus fort.[end]
-[bold]Caïn[normal]: À propos du dernier cristal...[new]
+Au sous-sol, il y a la salle d'entraînement.[end]</sn:string>
+<sn:string index="1">Le sceau, côté Mysidia, a été levé![end]</sn:string>
+<sn:string index="2">La route est scellée du côté de Mysidia,
+on ne peut pas l'utiliser.[end]</sn:string>
+</sn:area>
+
+<sn:area id="152">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="153">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="154">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="155">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="156">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="157">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="158">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="159">
+<sn:string index="0">[bold]Golbez[normal]: Ainsi, il a même tué Cagnazzo...
+Il est devenu bien plus fort.[end]</sn:string>
+<sn:string index="1">[bold]Caïn[normal]: À propos du dernier cristal...[new]
 [bold]Golbez[normal]: Je sais... ça va être délicat de
 le récupérer où il est maintenant.[new]
 [bold]Caïn[normal]: Pourquoi ne pas envoyer
 Cecil le chercher pour vous?[new]
-[bold]Golbez[normal]: Lui...?[end]
-[bold]Caïn[normal]: Nous avons Rosa ici.
+[bold]Golbez[normal]: Lui...?[end]</sn:string>
+<sn:string index="2">[bold]Caïn[normal]: Nous avons Rosa ici.
 Nous pourrions l'échanger contre le
 cristal...
-Qu'en dites-vous?[end]
-[bold]Golbez[normal]: Je vois... Excellente idée.
+Qu'en dites-vous?[end]</sn:string>
+<sn:string index="3">[bold]Golbez[normal]: Je vois... Excellente idée.
 Et nous pourrons nous débarrasser de lui
 à ce moment-là...[new]
 [bold]Caïn[normal]: Très bien, alors je vais lui
-transmettre le message.[end]
-[bold]Rosa[normal]: Caïn![end]
-[bold]Caïn[normal]: Je vais te montrer que je vaux bien mieux que ce Cecil.[end]
-[bold]Cecil[normal]: Une seconde de plus, et cette guillotine... Rosa...[end]</sn:pointer>
-    <sn:pointer id="160">Mon père a trouvé un étrange minerai ici.
+transmettre le message.[end]</sn:string>
+<sn:string index="4">[bold]Rosa[normal]: Caïn![end]</sn:string>
+<sn:string index="5">[bold]Caïn[normal]: Je vais te montrer que je vaux bien mieux que ce Cecil.[end]</sn:string>
+<sn:string index="6">[bold]Cecil[normal]: Une seconde de plus, et cette guillotine... Rosa...[end]</sn:string>
+</sn:area>
+
+<sn:area id="160">
+<sn:string index="0">Mon père a trouvé un étrange minerai ici.
 Son loisir, c'est de collectionner des
-queues d'animaux.[end]
-Qui êtes-vous?
+queues d'animaux.[end]</sn:string>
+<sn:string index="1">Qui êtes-vous?
 Allez-vous-en!
 Par contre, si vous avez une queue, c'est
-une autre affaire![end]
-C...c'est la queue de rat que je cherchais!
+une autre affaire![end]</sn:string>
+<sn:string index="2">C...c'est la queue de rat que je cherchais!
 D'accord, je vais vous donner un bout de
 ce minerai!
-Vous avez obtenu l'Adamantite![music][0x29][delay][0x28][end]
-C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Vous avez obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="161">T[end]</sn:pointer>
-    <sn:pointer id="162">T[end]</sn:pointer>
-    <sn:pointer id="163">[bold]FuSoYa[normal]: Approche-toi de sa bouche![new]
+Vous avez obtenu l'Adamantite![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="3">C... c'est... la légendaire queue rose! D'accord, je vais aussi vous donner ça! Vous avez obtenu l'Armure d'adamant![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="161">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="162">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="163">
+<sn:string index="0">[bold]FuSoYa[normal]: Approche-toi de sa bouche![new]
 [bold]Cid[normal]: Qui c'est, lui?[new]
 [bold]Cecil[normal]: C'est FuSoYa, un Sélénite.[new]
 [bold]Cid[normal]: Un Sélénite?![new]
 [bold]FuSoYa[normal]: Peux-tu le faire?[new]
 [bold]Cid[normal]: Pour qui tu me prends!?
 Je suis Cid, le roi des aéronefs!
-Laisse-moi faire![end]
-[bold]FuSoYa[normal]: Maintenant![new]
+Laisse-moi faire![end]</sn:string>
+<sn:string index="1">[bold]FuSoYa[normal]: Maintenant![new]
 [bold]Cid[normal]: Accrochez-vous, tout le
-monde![end]</sn:pointer>
-    <sn:pointer id="164">T[end]</sn:pointer>
-    <sn:pointer id="165">T[end]</sn:pointer>
-    <sn:pointer id="166">T[end]</sn:pointer>
-    <sn:pointer id="167">[bold]Cecil[normal]: Comment on va entrer?[new]
-[bold]Edge[normal]: Hé hé! La technique du passe-muraille![end]
-Edge: Hop là![end]</sn:pointer>
-    <sn:pointer id="168">T[end]</sn:pointer>
-    <sn:pointer id="169">T[end]</sn:pointer>
-    <sn:pointer id="170">T[end]</sn:pointer>
-    <sn:pointer id="171">T[end]</sn:pointer>
-    <sn:pointer id="172">T[end]</sn:pointer>
-    <sn:pointer id="173">T[end]</sn:pointer>
-    <sn:pointer id="174">T[end]</sn:pointer>
-    <sn:pointer id="175">T[end]</sn:pointer>
-    <sn:pointer id="176">T[end]</sn:pointer>
-    <sn:pointer id="177">T[end]</sn:pointer>
-    <sn:pointer id="178">T[end]</sn:pointer>
-    <sn:pointer id="179">T[end]</sn:pointer>
-    <sn:pointer id="180">T[end]</sn:pointer>
-    <sn:pointer id="181">T[end]</sn:pointer>
-    <sn:pointer id="182">T[end]</sn:pointer>
-    <sn:pointer id="183">T[end]</sn:pointer>
-    <sn:pointer id="184">T[end]</sn:pointer>
-    <sn:pointer id="185">T[end]</sn:pointer>
-    <sn:pointer id="186">T[end]</sn:pointer>
-    <sn:pointer id="187">T[end]</sn:pointer>
-    <sn:pointer id="188">«Vous nous avez fait attendre!»[end]
-«Le géant ne s'arrêtera pas!»[end]
-«Kukaka... Vous...»[end]
-«Vous mourrez ici même...!»[end]
-Cecil: Les quatre Empereurs![new]
+monde![end]</sn:string>
+</sn:area>
+
+<sn:area id="164">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="165">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="166">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="167">
+<sn:string index="0">[bold]Cecil[normal]: Comment on va entrer?[new]
+[bold]Edge[normal]: Hé hé! La technique du passe-muraille![end]</sn:string>
+<sn:string index="1">Edge: Hop là![end]</sn:string>
+</sn:area>
+
+<sn:area id="168">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="169">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="170">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="171">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="172">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="173">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="174">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="175">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="176">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="177">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="178">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="179">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="180">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="181">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="182">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="183">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="184">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="185">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="186">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="187">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="188">
+<sn:string index="0">«Vous nous avez fait attendre!»[end]</sn:string>
+<sn:string index="1">«Le géant ne s'arrêtera pas!»[end]</sn:string>
+<sn:string index="2">«Kukaka... Vous...»[end]</sn:string>
+<sn:string index="3">«Vous mourrez ici même...!»[end]</sn:string>
+<sn:string index="4">Cecil: Les quatre Empereurs![new]
 Scarmiglione: Seigneur Zémus...[new]
 Cagnazzo: Nous a donné une nouvelle vie...[new]
 Barbariccia: Pour vous tuer![new]
 Rubicante: Quel plaisir de vous affronter à nouveau! Mais lors de notre dernier combat, vous nous avez appris ce que veut dire unir ses forces...[new]
-Allez, je vais vous soigner![end]
-[bold]Rubicante[normal]: Combattez-nous de toute
-votre force![end]
-[bold]Scarmiglione[normal]: Seigneur Zémus![end]
-[bold]Cagnazzo[normal]: Une fois de plus...![end]
-[bold]Barbariccia[normal]: Vaincue, encore une fois![end]
-[bold]Rubicante[normal]: ...Notre défaite est totale![end]</sn:pointer>
-    <sn:pointer id="189">T[end]</sn:pointer>
-    <sn:pointer id="190">T[end]</sn:pointer>
-    <sn:pointer id="191">T[end]</sn:pointer>
-    <sn:pointer id="192">[bold]Cecil[normal]: Tout le monde va bien?[end]</sn:pointer>
-    <sn:pointer id="193">T[end]</sn:pointer>
-    <sn:pointer id="194">T[end]</sn:pointer>
-    <sn:pointer id="195">[bold]Yang[normal]: Et dire qu'elle était cachée ici...[new]
+Allez, je vais vous soigner![end]</sn:string>
+<sn:string index="5">[bold]Rubicante[normal]: Combattez-nous de toute
+votre force![end]</sn:string>
+<sn:string index="6">[bold]Scarmiglione[normal]: Seigneur Zémus![end]</sn:string>
+<sn:string index="7">[bold]Cagnazzo[normal]: Une fois de plus...![end]</sn:string>
+<sn:string index="8">[bold]Barbariccia[normal]: Vaincue, encore une fois![end]</sn:string>
+<sn:string index="9">[bold]Rubicante[normal]: ...Notre défaite est totale![end]</sn:string>
+</sn:area>
+
+<sn:area id="189">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="190">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="191">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="192">
+<sn:string index="0">[bold]Cecil[normal]: Tout le monde va bien?[end]</sn:string>
+</sn:area>
+
+<sn:area id="193">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="194">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="195">
+<sn:string index="0">[bold]Yang[normal]: Et dire qu'elle était cachée ici...[new]
 [bold]Tella[normal]: Prodigieux![new]
 [bold]Cid[normal]: Désolé de t'avoir fait attendre,
 Enterprise!
-Allons-y![end]
-[bold]Cecil[normal]: C'est...!![end]</sn:pointer>
-    <sn:pointer id="196">[bold]Cecil[normal]: Caïn![end]
-[bold]Caïn[normal]: Ainsi tu es vivant, Cecil.[end]
-Cid: Caïn, à quoi tu joues!?[end]
-Cecil: Rosa... est saine et sauve, j'espère?[new]
+Allons-y![end]</sn:string>
+<sn:string index="1">[bold]Cecil[normal]: C'est...!![end]</sn:string>
+</sn:area>
+
+<sn:area id="196">
+<sn:string index="0">[bold]Cecil[normal]: Caïn![end]</sn:string>
+<sn:string index="1">[bold]Caïn[normal]: Ainsi tu es vivant, Cecil.[end]</sn:string>
+<sn:string index="2">Cid: Caïn, à quoi tu joues!?[end]</sn:string>
+<sn:string index="3">Cecil: Rosa... est saine et sauve, j'espère?[new]
 Caïn: Hmph. Évidemment, tu t'inquiètes pour elle.[new]
 Si tu tiens à la vie de Rosa... apporte-moi en échange le cristal de la Terre de Troia.[new]
-Cecil: Quoi!?[end]
-[bold]Tella[normal]: Lâche![new]
+Cecil: Quoi!?[end]</sn:string>
+<sn:string index="4">[bold]Tella[normal]: Lâche![new]
 [bold]Caïn[normal]: Quand tu l'auras, je te
 contacterai...
 Tu as intérêt à l'obtenir, compris?[new]
 Si tu tiens vraiment à Rosa, bien
 sûr...[new]
-[bold]Yang[normal]: Espèce de...![end]
-[bold]Cecil[normal]: Réveille-toi, Caïn![end]
-[bold]Caïn[normal]: C'est tout ce que j'ai à dire.[end]</sn:pointer>
-    <sn:pointer id="197">T[end]</sn:pointer>
-    <sn:pointer id="198">T[end]</sn:pointer>
-    <sn:pointer id="199">T[end]</sn:pointer>
-    <sn:pointer id="200">Qui va là!
-Oh, vous êtes humains![end]
-C'est ici que tous les survivants se
-cachent.[end]
-Ce passage secret mène à la tour de Babil, le repaire de Rubicante.[end]
-Nous avons perdu notre château...
-C'est notre maison, maintenant.[end]
-Nous sommes le fier peuple d'Eblana![end]
-Notre jeune maître est allé voir ce qui se passait, mais il tarde trop à revenir...[end]
-T[end]
-Il ne reste plus beaucoup de vivres.
+[bold]Yang[normal]: Espèce de...![end]</sn:string>
+<sn:string index="5">[bold]Cecil[normal]: Réveille-toi, Caïn![end]</sn:string>
+<sn:string index="6">[bold]Caïn[normal]: C'est tout ce que j'ai à dire.[end]</sn:string>
+</sn:area>
+
+<sn:area id="197">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="198">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="199">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="200">
+<sn:string index="0">Qui va là!
+Oh, vous êtes humains![end]</sn:string>
+<sn:string index="1">C'est ici que tous les survivants se
+cachent.[end]</sn:string>
+<sn:string index="2">Ce passage secret mène à la tour de Babil, le repaire de Rubicante.[end]</sn:string>
+<sn:string index="3">Nous avons perdu notre château...
+C'est notre maison, maintenant.[end]</sn:string>
+<sn:string index="4">Nous sommes le fier peuple d'Eblana![end]</sn:string>
+<sn:string index="5">Notre jeune maître est allé voir ce qui se passait, mais il tarde trop à revenir...[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Il ne reste plus beaucoup de vivres.
 Je me demande combien de temps nous
-pourrons tenir...[end]
-Jeune maître, montrez-leur tout l'éclat
-de votre ninjutsu![end]
-Nous tiendrons ici jusqu'à ce que le jeune
-maître rentre![end]</sn:pointer>
-    <sn:pointer id="201">Notre jeune maître est parti tout seul![end]
-Quand le jeune maître s'emporte, il ne
-réfléchit plus...[end]</sn:pointer>
-    <sn:pointer id="202">Arrêtez notre jeune maître...[end]
-Notre jeune maître est parti à la
-poursuite de Rubicante![end]
-Vous êtes sain et sauf, jeune maître! Il est trop dangereux d'aller plus loin, maintenant![end]</sn:pointer>
-    <sn:pointer id="203">T[end]</sn:pointer>
-    <sn:pointer id="204">T[end]</sn:pointer>
-    <sn:pointer id="205">T[end]</sn:pointer>
-    <sn:pointer id="206">Le jeune maître va tuer l'ennemi, c'est
-sûr![end]
-Si seulement le jeune maître avait été là, le roi et la reine...[end]
-Je vais protéger ma maman!
+pourrons tenir...[end]</sn:string>
+<sn:string index="8">Jeune maître, montrez-leur tout l'éclat
+de votre ninjutsu![end]</sn:string>
+<sn:string index="9">Nous tiendrons ici jusqu'à ce que le jeune
+maître rentre![end]</sn:string>
+</sn:area>
+
+<sn:area id="201">
+<sn:string index="0">Notre jeune maître est parti tout seul![end]</sn:string>
+<sn:string index="1">Quand le jeune maître s'emporte, il ne
+réfléchit plus...[end]</sn:string>
+</sn:area>
+
+<sn:area id="202">
+<sn:string index="0">Arrêtez notre jeune maître...[end]</sn:string>
+<sn:string index="1">Notre jeune maître est parti à la
+poursuite de Rubicante![end]</sn:string>
+<sn:string index="2">Vous êtes sain et sauf, jeune maître! Il est trop dangereux d'aller plus loin, maintenant![end]</sn:string>
+</sn:area>
+
+<sn:area id="203">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="204">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="205">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="206">
+<sn:string index="0">Le jeune maître va tuer l'ennemi, c'est
+sûr![end]</sn:string>
+<sn:string index="1">Si seulement le jeune maître avait été là, le roi et la reine...[end]</sn:string>
+<sn:string index="2">Je vais protéger ma maman!
 Elle a mon petit frère ou ma petite sœur
-dans son ventre![end]
-Eblana, si fière de son ninjutsu... vaincue aussi facilement...[end]
-Le sang des ninjas d'Eblana va-t-il s'éteindre...?[end]
-Je suis le chambellan d'Eblana. Notre jeune maître est mal embouché, mais il a bon cœur...[new]
-Il creuse un passage vers la tour de Babil pour venger le roi et la reine. Mais voilà qu'il a disparu. Pourvu qu'il ne soit pas encore allé faire une bêtise...[end]
-Tiens bon, chéri![end]
-D'où sont venus des monstres comme ça?[end]
-Oh, ce petit...[end]
-Le jeune maître a dit qu'il allait battre les méchants!
+dans son ventre![end]</sn:string>
+<sn:string index="3">Eblana, si fière de son ninjutsu... vaincue aussi facilement...[end]</sn:string>
+<sn:string index="4">Le sang des ninjas d'Eblana va-t-il s'éteindre...?[end]</sn:string>
+<sn:string index="5">Je suis le chambellan d'Eblana. Notre jeune maître est mal embouché, mais il a bon cœur...[new]
+Il creuse un passage vers la tour de Babil pour venger le roi et la reine. Mais voilà qu'il a disparu. Pourvu qu'il ne soit pas encore allé faire une bêtise...[end]</sn:string>
+<sn:string index="6">Tiens bon, chéri![end]</sn:string>
+<sn:string index="7">D'où sont venus des monstres comme ça?[end]</sn:string>
+<sn:string index="8">Oh, ce petit...[end]</sn:string>
+<sn:string index="9">Le jeune maître a dit qu'il allait battre les méchants!
 On va bientôt pouvoir rentrer au
-château, hein?[end]
-Je m'occupe de tout, ici!
+château, hein?[end]</sn:string>
+<sn:string index="10">Je m'occupe de tout, ici!
 Soyez bien prudents!
 Si le jeune maître disparaissait lui
-aussi, Eblana...[end]</sn:pointer>
-    <sn:pointer id="207">T[end]</sn:pointer>
-    <sn:pointer id="208">[bold]Cid[normal]: Les voilà déjà!
+aussi, Eblana...[end]</sn:string>
+</sn:area>
+
+<sn:area id="207">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="208">
+<sn:string index="0">[bold]Cid[normal]: Les voilà déjà!
 On va leur montrer la puissance de
-l'Enterprise![end]
-[bold]Cecil[normal]: Attends![new]
+l'Enterprise![end]</sn:string>
+<sn:string index="1">[bold]Cecil[normal]: Attends![new]
 [bold]Yang[normal]: C'est...[new]
-[bold]Tella[normal]: Un drapeau blanc?[end]
-[bold]Yang[normal]: Messire Cecil...[new]
-[bold]Cid[normal]: Ce Caïn...![end]
-[bold]Cecil[normal]: Allons à Troia...
-Cid, cap au nord-ouest![end]</sn:pointer>
-    <sn:pointer id="209">T[end]</sn:pointer>
-    <sn:pointer id="210">T[end]</sn:pointer>
-    <sn:pointer id="211">T[end]</sn:pointer>
-    <sn:pointer id="212">T[end]</sn:pointer>
-    <sn:pointer id="213">T[end]</sn:pointer>
-    <sn:pointer id="214">T[end]</sn:pointer>
-    <sn:pointer id="215">T[end]</sn:pointer>
-    <sn:pointer id="216">T[end]</sn:pointer>
-    <sn:pointer id="217">T[end]</sn:pointer>
-    <sn:pointer id="218">T[end]</sn:pointer>
-    <sn:pointer id="219">T[end]</sn:pointer>
-    <sn:pointer id="220">T[end]</sn:pointer>
-    <sn:pointer id="221">T[end]</sn:pointer>
-    <sn:pointer id="222">T[end]</sn:pointer>
-    <sn:pointer id="223">T[end]</sn:pointer>
-    <sn:pointer id="224">T[end]</sn:pointer>
-    <sn:pointer id="225">T[end]</sn:pointer>
-    <sn:pointer id="226">T[end]</sn:pointer>
-    <sn:pointer id="227">T[end]</sn:pointer>
-    <sn:pointer id="228">T[end]</sn:pointer>
-    <sn:pointer id="229">T[end]</sn:pointer>
-    <sn:pointer id="230">T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-T[end]
-Un chevalier noir comme toi n'est pas digne de toucher la marchandise que nous vendons ici![end]
-Si tu reviens sain et sauf, tu pourras utiliser ces armes-là... mais ça m'étonnerait.[end]
-Je t'ai déjà dit que tu ne pouvais pas utiliser... un paladin? Toi...?[end]</sn:pointer>
-    <sn:pointer id="231">T[end]</sn:pointer>
-    <sn:pointer id="232">Je suis la plus belle du village!
+[bold]Tella[normal]: Un drapeau blanc?[end]</sn:string>
+<sn:string index="2">[bold]Yang[normal]: Messire Cecil...[new]
+[bold]Cid[normal]: Ce Caïn...![end]</sn:string>
+<sn:string index="3">[bold]Cecil[normal]: Allons à Troia...
+Cid, cap au nord-ouest![end]</sn:string>
+</sn:area>
+
+<sn:area id="209">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="210">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="211">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="212">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="213">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="214">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="215">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="216">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="217">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="218">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="219">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="220">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="221">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="222">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="223">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="224">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="225">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="226">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="227">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="228">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="229">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="230">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">T[end]</sn:string>
+<sn:string index="2">T[end]</sn:string>
+<sn:string index="3">T[end]</sn:string>
+<sn:string index="4">T[end]</sn:string>
+<sn:string index="5">T[end]</sn:string>
+<sn:string index="6">T[end]</sn:string>
+<sn:string index="7">Un chevalier noir comme toi n'est pas digne de toucher la marchandise que nous vendons ici![end]</sn:string>
+<sn:string index="8">Si tu reviens sain et sauf, tu pourras utiliser ces armes-là... mais ça m'étonnerait.[end]</sn:string>
+<sn:string index="9">Je t'ai déjà dit que tu ne pouvais pas utiliser... un paladin? Toi...?[end]</sn:string>
+</sn:area>
+
+<sn:area id="231">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="232">
+<sn:string index="0">Je suis la plus belle du village!
 Je suis trop petite pour que tu le voies?
-Regarde de trèèèèès près![end]
-Ah là là, avoir une fille aussi jolie, ce n'est que du souci![end]</sn:pointer>
-    <sn:pointer id="233">T[end]</sn:pointer>
-    <sn:pointer id="234">T[end]</sn:pointer>
-    <sn:pointer id="235">T[end]</sn:pointer>
-    <sn:pointer id="236">T[end]
-Si votre voyage est long, n'oubliez pas
-vos potions, antidotes et tentes![end]</sn:pointer>
-    <sn:pointer id="237">T[end]</sn:pointer>
-    <sn:pointer id="238">T[end]</sn:pointer>
-    <sn:pointer id="239">T[end]</sn:pointer>
-    <sn:pointer id="240">T[end]</sn:pointer>
-    <sn:pointer id="241">T[end]</sn:pointer>
-    <sn:pointer id="242">T[end]</sn:pointer>
-    <sn:pointer id="243">T[end]</sn:pointer>
-    <sn:pointer id="244">T[end]</sn:pointer>
-    <sn:pointer id="245">T[end]</sn:pointer>
-    <sn:pointer id="246">T[end]</sn:pointer>
-    <sn:pointer id="247">T[end]</sn:pointer>
-    <sn:pointer id="248">T[end]</sn:pointer>
-    <sn:pointer id="249">T[end]</sn:pointer>
-    <sn:pointer id="250">T[end]</sn:pointer>
-    <sn:pointer id="251">T[end]</sn:pointer>
-    <sn:pointer id="252">T[end]</sn:pointer>
-    <sn:pointer id="253">T[end]</sn:pointer>
-    <sn:pointer id="254">T[end]</sn:pointer>
-    <sn:pointer id="255">T[end]</sn:pointer>
-    <sn:pointer id="256">T[end]</sn:pointer>
-    <sn:pointer id="257">Hé, d'où vous sortez?[end]
-Lali-ho?
-Nan, ici, on dit Hey-ho![end]
-Hey-ho!
+Regarde de trèèèèès près![end]</sn:string>
+<sn:string index="1">Ah là là, avoir une fille aussi jolie, ce n'est que du souci![end]</sn:string>
+</sn:area>
+
+<sn:area id="233">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="234">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="235">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="236">
+<sn:string index="0">T[end]</sn:string>
+<sn:string index="1">Si votre voyage est long, n'oubliez pas
+vos potions, antidotes et tentes![end]</sn:string>
+</sn:area>
+
+<sn:area id="237">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="238">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="239">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="240">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="241">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="242">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="243">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="244">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="245">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="246">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="247">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="248">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="249">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="250">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="251">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="252">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="253">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="254">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="255">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="256">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="257">
+<sn:string index="0">Hé, d'où vous sortez?[end]</sn:string>
+<sn:string index="1">Lali-ho?
+Nan, ici, on dit Hey-ho![end]</sn:string>
+<sn:string index="2">Hey-ho!
 Il y a eu beaucoup de remue-ménage au
 château, récemment... il s'est passé
-quelque chose?[end]
-Vous êtes venus de la surface?
-Alors la surface, ça existe pour de vrai![end]
-Vous saviez ça?
+quelque chose?[end]</sn:string>
+<sn:string index="3">Vous êtes venus de la surface?
+Alors la surface, ça existe pour de vrai![end]</sn:string>
+<sn:string index="4">Vous saviez ça?
 La grotte de l'île au nord-ouest mène
 au monde des Chimères, à c'qui paraît.
-Ça fait peur![end]
-Il paraît qu'à la surface, l'océan est bleu... Ça fait froid dans le dos![end]</sn:pointer>
-    <sn:pointer id="258">C'est la maison du meilleur forgeron du
-monde, maître Kukuro, Lali.[end]
-Le maître n'a plus le cœur à l'ouvrage, et
-passe son temps à dormir, Lali.[end]
-Le maître a retrouvé toute son énergie,
-Lali![end]
-Je vais devenir un forgeron aussi
-talentueux que le maître!![end]
-Tu croyais que ç'allait être fini aussi vite!?
-Ne sois pas si impatient![end]
-C'est fait!
+Ça fait peur![end]</sn:string>
+<sn:string index="5">Il paraît qu'à la surface, l'océan est bleu... Ça fait froid dans le dos![end]</sn:string>
+</sn:area>
+
+<sn:area id="258">
+<sn:string index="0">C'est la maison du meilleur forgeron du
+monde, maître Kukuro, Lali.[end]</sn:string>
+<sn:string index="1">Le maître n'a plus le cœur à l'ouvrage, et
+passe son temps à dormir, Lali.[end]</sn:string>
+<sn:string index="2">Le maître a retrouvé toute son énergie,
+Lali![end]</sn:string>
+<sn:string index="3">Je vais devenir un forgeron aussi
+talentueux que le maître!![end]</sn:string>
+<sn:string index="4">Tu croyais que ç'allait être fini aussi vite!?
+Ne sois pas si impatient![end]</sn:string>
+<sn:string index="5">C'est fait!
 L'épée sacrée Excalibur!
 Manie-la avec respect![new]
-Vous avez obtenu Excalibur![music][0x29][delay][0x28][end]
-Grâce à toi, j'ai enfin retrouvé le cœur à
-l'ouvrage.[end]
-Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:pointer>
-    <sn:pointer id="259">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]
-C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]
-Vous avez remis l'Épée légendaire.[end]
-[italic]Zzz...[/italic][end]</sn:pointer>
-    <sn:pointer id="260">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]
-Les Sylphes sont si timides!
-Pourtant, on est gentils![end]</sn:pointer>
-    <sn:pointer id="261">Un client?
-Comme c'est inhabituel![end]</sn:pointer>
-    <sn:pointer id="262">Ben dites donc, vous êtes venus jusqu'ici!
-Prenez tout ce que vous voulez![end]
-Moi, j'suis paysan.[end]</sn:pointer>
-    <sn:pointer id="263">Lali-ho![end]
-C'est le château des Nains gouverné par
-le roi Giotto![end]
-Golbez est un méchant!
-Mais vous, vous avez l'air chouette![end]
-Allez voir le roi Giotto![end]
-Rien à signaler![end]
-Pas de problèmes ici non plus![end]
-Golbez a battu en retraite![end]
-À la surface, y a plein de méchants?[end]</sn:pointer>
-    <sn:pointer id="264">Lali-ho est le salut des Nains![end]
-Tous ensemble! Un, deux...
-Lali-ho![end]
-Lali-ho!
-Content que vous alliez bien![end]
-Le roi Giotto vous attend![end]
-Nous sommes l'équipe de secours!
+Vous avez obtenu Excalibur![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="6">Grâce à toi, j'ai enfin retrouvé le cœur à
+l'ouvrage.[end]</sn:string>
+<sn:string index="7">Wow! Le maître a même forgé une épée pareille, Lali![end]</sn:string>
+</sn:area>
+
+<sn:area id="259">
+<sn:string index="0">Je ne forge plus d'épées! Et je ne trouve même pas d'Adamantite, le minerai légendaire...[end]</sn:string>
+<sn:string index="1">C'est donc ça, l'Adamantite! Bien, pour te remercier, je vais faire renaître ta vieille épée![end]</sn:string>
+<sn:string index="2">Vous avez remis l'Épée légendaire.[end]</sn:string>
+<sn:string index="3">[italic]Zzz...[/italic][end]</sn:string>
+</sn:area>
+
+<sn:area id="260">
+<sn:string index="0">Tout au nord-ouest, y a une grotte où vivent des fées, les Sylphes![end]</sn:string>
+<sn:string index="1">Les Sylphes sont si timides!
+Pourtant, on est gentils![end]</sn:string>
+</sn:area>
+
+<sn:area id="261">
+<sn:string index="0">Un client?
+Comme c'est inhabituel![end]</sn:string>
+</sn:area>
+
+<sn:area id="262">
+<sn:string index="0">Ben dites donc, vous êtes venus jusqu'ici!
+Prenez tout ce que vous voulez![end]</sn:string>
+<sn:string index="1">Moi, j'suis paysan.[end]</sn:string>
+</sn:area>
+
+<sn:area id="263">
+<sn:string index="0">Lali-ho![end]</sn:string>
+<sn:string index="1">C'est le château des Nains gouverné par
+le roi Giotto![end]</sn:string>
+<sn:string index="2">Golbez est un méchant!
+Mais vous, vous avez l'air chouette![end]</sn:string>
+<sn:string index="3">Allez voir le roi Giotto![end]</sn:string>
+<sn:string index="4">Rien à signaler![end]</sn:string>
+<sn:string index="5">Pas de problèmes ici non plus![end]</sn:string>
+<sn:string index="6">Golbez a battu en retraite![end]</sn:string>
+<sn:string index="7">À la surface, y a plein de méchants?[end]</sn:string>
+</sn:area>
+
+<sn:area id="264">
+<sn:string index="0">Lali-ho est le salut des Nains![end]</sn:string>
+<sn:string index="1">Tous ensemble! Un, deux...
+Lali-ho![end]</sn:string>
+<sn:string index="2">Lali-ho!
+Content que vous alliez bien![end]</sn:string>
+<sn:string index="3">Le roi Giotto vous attend![end]</sn:string>
+<sn:string index="4">Nous sommes l'équipe de secours!
 On n'en a pas l'air, mais on est des
-filles![end]
-L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il est couché à l'infirmerie![end]
-Je suis Luca!
+filles![end]</sn:string>
+<sn:string index="5">L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il est couché à l'infirmerie![end]</sn:string>
+<sn:string index="6">Je suis Luca!
 Mes poupées ont disparu.
-Vous ne les avez pas vues?[end]</sn:pointer>
-    <sn:pointer id="265">Les chars sont la principale force des Nains! Nous ne serons pas vaincus si facilement![end]
-Le roi gâte la princesse Luca pour deux, pour lui et pour la défunte reine![end]
-Lali-ho!
-Vous l'avez déjà appris?[end]
-Le monde souterrain, c'est chouette, une fois qu'on s'y fait! Restez pour de bon, si vous voulez, Lali![end]
-[bold]Cecil[normal]: Je suis désolé.
+Vous ne les avez pas vues?[end]</sn:string>
+</sn:area>
+
+<sn:area id="265">
+<sn:string index="0">Les chars sont la principale force des Nains! Nous ne serons pas vaincus si facilement![end]</sn:string>
+<sn:string index="1">Le roi gâte la princesse Luca pour deux, pour lui et pour la défunte reine![end]</sn:string>
+<sn:string index="2">Lali-ho!
+Vous l'avez déjà appris?[end]</sn:string>
+<sn:string index="3">Le monde souterrain, c'est chouette, une fois qu'on s'y fait! Restez pour de bon, si vous voulez, Lali![end]</sn:string>
+<sn:string index="4">[bold]Cecil[normal]: Je suis désolé.
 Golbez a pris le cristal...[new]
 [bold]Giotto[normal]: On n'y peut rien...
 Il ne nous reste qu'à défendre le dernier cristal coûte que coûte.[new]
@@ -1546,389 +2342,585 @@ Nos chars vont attirer l'ennemi![new]
 Pendant notre diversion, entrez et prenez
 les cristaux!
 C'est notre seule chance, maintenant que
-Golbez est parti![end]
-Caïn: Alors, on fait quoi?[new]
+Golbez est parti![end]</sn:string>
+<sn:string index="5">Caïn: Alors, on fait quoi?[new]
 Rydia: C'est la base de l'ennemi, non?[new]
 Rosa: C'est vrai que c'est dangereux.[new]
 Yang: Mais vous savez ce qu'on dit... Qui ne tente rien n'a rien.[new]
 Caïn: C'est maintenant ou jamais, tant que Golbez n'est pas là.[new]
-Cecil: Très bien, alors...[end]
-[bold]Cecil[normal]: Nous allons tenter le coup![end]
-Giotto: Je compte sur vous! Il y a un passage secret sous le château! Partez dès que vous serez prêts![new]
-Je prierai pour votre réussite![end]
-Se servir de mes poupées pour ça! C'est impardonnable![end]
-[bold]Giotto[normal]: Nous allons tenir à distance le
+Cecil: Très bien, alors...[end]</sn:string>
+<sn:string index="6">[bold]Cecil[normal]: Nous allons tenter le coup![end]</sn:string>
+<sn:string index="7">Giotto: Je compte sur vous! Il y a un passage secret sous le château! Partez dès que vous serez prêts![new]
+Je prierai pour votre réussite![end]</sn:string>
+<sn:string index="8">Se servir de mes poupées pour ça! C'est impardonnable![end]</sn:string>
+<sn:string index="9">[bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
 Vous, vous allez à la grotte Scellée au
-sud-ouest![end]
-Giotto: Allez à Mysidia! Tout repose sur vous![end]
-On dit que ce collier est un souvenir
-de sa défunte mère.[end]
-Près de la grotte Scellée se trouve
+sud-ouest![end]</sn:string>
+<sn:string index="10">Giotto: Allez à Mysidia! Tout repose sur vous![end]</sn:string>
+<sn:string index="11">On dit que ce collier est un souvenir
+de sa défunte mère.[end]</sn:string>
+<sn:string index="12">Près de la grotte Scellée se trouve
 le continent de Toméra où vivent d'autres
 Nains![new]
 Mais on ne peut pas y aller à cause de la
-lave![end]
-Si vous pouvez voler, vous devriez pouvoir aller à la grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]
-La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au monde des Chimères![end]
-Vous ne pouvez pas voler au-dessus de
+lave![end]</sn:string>
+<sn:string index="13">Si vous pouvez voler, vous devriez pouvoir aller à la grotte Scellée. Mais les Nains ne peuvent pas voler! On compte sur vous![end]</sn:string>
+<sn:string index="14">La rumeur dit qu'une grotte, quelque part dans le monde souterrain, mènerait au monde des Chimères![end]</sn:string>
+<sn:string index="15">Vous ne pouvez pas voler au-dessus de
 la lave?
-Si le vieux aux aéronefs était là, il pourrait pas vous bricoler ça?[end]
-Revenez me voir. C'est promis, hein![end]</sn:pointer>
-    <sn:pointer id="266">Gros Chocobo!?
+Si le vieux aux aéronefs était là, il pourrait pas vous bricoler ça?[end]</sn:string>
+<sn:string index="16">Revenez me voir. C'est promis, hein![end]</sn:string>
+</sn:area>
+
+<sn:area id="266">
+<sn:string index="0">Gros Chocobo!?
 Grossier personnage!!
-On l'appelle l'Oiseau Dieu, ici![end]
-Ici apparaît un être merveilleux qui vous garde tout ce que vous voulez![end]
-Personne ne peut franchir ce mur sans
-la permission du roi![end]
-Vous avez la permission du roi?
-Alors vous pouvez passer![end]</sn:pointer>
-    <sn:pointer id="267">Lali-ho![end]
-Soyez prudents![end]
-Il y a un canon terriblement gros dans la tour de Babil![end]
-Les monstres du monde souterrain sont forts! Ne baissez pas la garde![end]</sn:pointer>
-    <sn:pointer id="268">T[end]</sn:pointer>
-    <sn:pointer id="269">T[end]</sn:pointer>
-    <sn:pointer id="270">Les armes des Nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]
-Une armure de nain est solide! Est-ce que vous, les humains, allez pouvoir bouger avec?[end]</sn:pointer>
-    <sn:pointer id="271">Je suis courageux!
-Mais vous êtes encore plus courageux![end]
-Revenez sains et saufs![end]
-Pas d'imprudence! Si ça devient trop dangereux, faites demi-tour![end]
-Même si Golbez n'est pas dans la tour
+On l'appelle l'Oiseau Dieu, ici![end]</sn:string>
+<sn:string index="1">Ici apparaît un être merveilleux qui vous garde tout ce que vous voulez![end]</sn:string>
+<sn:string index="2">Personne ne peut franchir ce mur sans
+la permission du roi![end]</sn:string>
+<sn:string index="3">Vous avez la permission du roi?
+Alors vous pouvez passer![end]</sn:string>
+</sn:area>
+
+<sn:area id="267">
+<sn:string index="0">Lali-ho![end]</sn:string>
+<sn:string index="1">Soyez prudents![end]</sn:string>
+<sn:string index="2">Il y a un canon terriblement gros dans la tour de Babil![end]</sn:string>
+<sn:string index="3">Les monstres du monde souterrain sont forts! Ne baissez pas la garde![end]</sn:string>
+</sn:area>
+
+<sn:area id="268">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="269">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="270">
+<sn:string index="0">Les armes des Nains sont lourdes! Est-ce que vous, les humains, allez pouvoir les utiliser?[end]</sn:string>
+<sn:string index="1">Une armure de nain est solide! Est-ce que vous, les humains, allez pouvoir bouger avec?[end]</sn:string>
+</sn:area>
+
+<sn:area id="271">
+<sn:string index="0">Je suis courageux!
+Mais vous êtes encore plus courageux![end]</sn:string>
+<sn:string index="1">Revenez sains et saufs![end]</sn:string>
+<sn:string index="2">Pas d'imprudence! Si ça devient trop dangereux, faites demi-tour![end]</sn:string>
+<sn:string index="3">Même si Golbez n'est pas dans la tour
 de Babil... le plus fort des quatre
 Empereurs, Rubicante du Feu, y est
-encore![end]
-Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, Lali![end]
-Cette jarre, c'est la jarre de vie!
-Buvez-en une lampée![end]</sn:pointer>
-    <sn:pointer id="272">T[end]</sn:pointer>
-    <sn:pointer id="273">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
-    <sn:pointer id="274">C'est l'infirmerie![end]
-Les nains sont costauds! Mais parfois, on se blesse quand même![end]
-Ce vieux est drôlement en forme, pour un vieux![end]
-Quel glouton, ce vieux!
+encore![end]</sn:string>
+<sn:string index="4">Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, Lali![end]</sn:string>
+<sn:string index="5">Cette jarre, c'est la jarre de vie!
+Buvez-en une lampée![end]</sn:string>
+</sn:area>
+
+<sn:area id="272">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="273">
+<sn:string index="0">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:string>
+</sn:area>
+
+<sn:area id="274">
+<sn:string index="0">C'est l'infirmerie![end]</sn:string>
+<sn:string index="1">Les nains sont costauds! Mais parfois, on se blesse quand même![end]</sn:string>
+<sn:string index="2">Ce vieux est drôlement en forme, pour un vieux![end]</sn:string>
+<sn:string index="3">Quel glouton, ce vieux!
 Il dit que c'est mauvais, mais il mange
-comme quatre![end]
-Rien de tel qu'une bonne nuit de sommeil
-pour se sentir mieux, Lali![end]
-[italic]Zzz...Zzz[/italic][end]
-Ce vieux n'était pas en état de faire ça![end]
-Ce vieux est brutal, mais c'est un
-chouette gars![end]
-[italic]Zzz... rrron ...Zzz[/italic][end]
-Ce vieux est incroyable!
-Il a vraiment fixé une foreuse![end]
-Les gens de la surface se débrouillent pas mal![end]
-Cid: Dites-vous que cet aéronef, c'est moi! Courage...![end]</sn:pointer>
-    <sn:pointer id="275">T[end]</sn:pointer>
-    <sn:pointer id="276">T[end]</sn:pointer>
-    <sn:pointer id="277">T[end]</sn:pointer>
-    <sn:pointer id="278">T[end]</sn:pointer>
-    <sn:pointer id="279">T[end]</sn:pointer>
-    <sn:pointer id="280">T[end]</sn:pointer>
-    <sn:pointer id="281">T[end]</sn:pointer>
-    <sn:pointer id="282">T[end]</sn:pointer>
-    <sn:pointer id="283">Vous combattez aussi Golbez?
+comme quatre![end]</sn:string>
+<sn:string index="4">Rien de tel qu'une bonne nuit de sommeil
+pour se sentir mieux, Lali![end]</sn:string>
+<sn:string index="5">[italic]Zzz...Zzz[/italic][end]</sn:string>
+<sn:string index="6">Ce vieux n'était pas en état de faire ça![end]</sn:string>
+<sn:string index="7">Ce vieux est brutal, mais c'est un
+chouette gars![end]</sn:string>
+<sn:string index="8">[italic]Zzz... rrron ...Zzz[/italic][end]</sn:string>
+<sn:string index="9">Ce vieux est incroyable!
+Il a vraiment fixé une foreuse![end]</sn:string>
+<sn:string index="10">Les gens de la surface se débrouillent pas mal![end]</sn:string>
+<sn:string index="11">Cid: Dites-vous que cet aéronef, c'est moi! Courage...![end]</sn:string>
+</sn:area>
+
+<sn:area id="275">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="276">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="277">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="278">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="279">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="280">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="281">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="282">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="283">
+<sn:string index="0">Vous combattez aussi Golbez?
 Alors prenez le trésor ici!
-Bonne chance![end]
-Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]</sn:pointer>
-    <sn:pointer id="284">T[end]</sn:pointer>
-    <sn:pointer id="285">T[end]</sn:pointer>
-    <sn:pointer id="286">T[end]</sn:pointer>
-    <sn:pointer id="287">T[end]</sn:pointer>
-    <sn:pointer id="288">[italic]Hic[/italic]! Avec chette guerre, perchonne veut boire! Moi, la bibine, ch'est plus important que la guerre! J'vais dancher, Lali![end]
-Aagh!
-Cha tourne de plus en plus! Ch'est ça, le vrai Lali-hoquet![end]</sn:pointer>
-    <sn:pointer id="289">T[end]</sn:pointer>
-    <sn:pointer id="290">T[end]</sn:pointer>
-    <sn:pointer id="291">T[end]</sn:pointer>
-    <sn:pointer id="292">T[end]</sn:pointer>
-    <sn:pointer id="293">C'est cassé et ça ne veut pas s'ouvrir...[end]</sn:pointer>
-    <sn:pointer id="294">T[end]</sn:pointer>
-    <sn:pointer id="295">T[end]</sn:pointer>
-    <sn:pointer id="296">[bold]Docteur[normal]: Seigneur Rubicante, soyez
+Bonne chance![end]</sn:string>
+<sn:string index="1">Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]</sn:string>
+</sn:area>
+
+<sn:area id="284">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="285">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="286">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="287">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="288">
+<sn:string index="0">[italic]Hic[/italic]! Avec chette guerre, perchonne veut boire! Moi, la bibine, ch'est plus important que la guerre! J'vais dancher, Lali![end]</sn:string>
+<sn:string index="1">Aagh!
+Cha tourne de plus en plus! Ch'est ça, le vrai Lali-hoquet![end]</sn:string>
+</sn:area>
+
+<sn:area id="289">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="290">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="291">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="292">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="293">
+<sn:string index="0">C'est cassé et ça ne veut pas s'ouvrir...[end]</sn:string>
+</sn:area>
+
+<sn:area id="294">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="295">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="296">
+<sn:string index="0">[bold]Docteur[normal]: Seigneur Rubicante, soyez
 prudent...[new]
 [bold]Rubicante[normal]: Ne t'inquiète pas.
 Eblana, le château des ninjas, est déjà
 tombé.[new]
 Je te confie la tour pendant mon
-absence.[end]
-[bold]Docteur[normal]: Hyahyahya!
+absence.[end]</sn:string>
+<sn:string index="1">[bold]Docteur[normal]: Hyahyahya!
 Ni le seigneur Golbez ni Rubicante ne
 sont là!
 C'est moi le patron, maintenant![new]
-[bold]Rydia[normal]: Quel drôle de vieux...[end]
-[bold]Docteur[normal]: Qui est là!!?[end]
-[bold]Caïn[normal]: Heh. Rubicante n'est pas là!
-Tu crois pouvoir nous battre, toi?[end]
-Docteur: Kiii! Ne vous moquez pas de moi! Je n'ai pas été admis parmi les quatre Empereurs, mais on m'appelle le cerveau du seigneur Golbez![new]
+[bold]Rydia[normal]: Quel drôle de vieux...[end]</sn:string>
+<sn:string index="2">[bold]Docteur[normal]: Qui est là!!?[end]</sn:string>
+<sn:string index="3">[bold]Caïn[normal]: Heh. Rubicante n'est pas là!
+Tu crois pouvoir nous battre, toi?[end]</sn:string>
+<sn:string index="4">Docteur: Kiii! Ne vous moquez pas de moi! Je n'ai pas été admis parmi les quatre Empereurs, mais on m'appelle le cerveau du seigneur Golbez![new]
 Je suis Lugeie! Je défendrai cette tour de Babil, mon honneur en dépend![new]
-Caïn: Ne me fais pas rire![end]
-[bold]Dr Lugeie[normal]: Grr...
-Mon fils adoré va m'apporter vos têtes![end]
-[bold]Rydia[normal]: Ils vont tuer les Nains![end]
-[bold]Yang[normal]: Le canon géant![end]
-[bold]Caïn[normal]: Il faut le détruire![end]
-[bold]Lugeie[normal]: Comment osez-vous!
+Caïn: Ne me fais pas rire![end]</sn:string>
+<sn:string index="5">[bold]Dr Lugeie[normal]: Grr...
+Mon fils adoré va m'apporter vos têtes![end]</sn:string>
+<sn:string index="6">[bold]Rydia[normal]: Ils vont tuer les Nains![end]</sn:string>
+<sn:string index="7">[bold]Yang[normal]: Le canon géant![end]</sn:string>
+<sn:string index="8">[bold]Caïn[normal]: Il faut le détruire![end]</sn:string>
+<sn:string index="9">[bold]Lugeie[normal]: Comment osez-vous!
 Vous allez découvrir ce dont je suis
-vraiment capable![end]
-[bold]Rosa[normal]: Shh!![end]
-[bold]Cecil[normal]: Zut![new]
+vraiment capable![end]</sn:string>
+<sn:string index="10">[bold]Rosa[normal]: Shh!![end]</sn:string>
+<sn:string index="11">[bold]Cecil[normal]: Zut![new]
 [bold]Docteur[normal]: Toi!
 Cecil!
-Comment es-tu entré ici!?[end]
-[bold]Cecil[normal]: On dirait une sorte de
+Comment es-tu entré ici!?[end]</sn:string>
+<sn:string index="12">[bold]Cecil[normal]: On dirait une sorte de
 téléporteur, mais on ne peut pas
-l'utiliser...[end]</sn:pointer>
-    <sn:pointer id="297">Directeur -
-[bold]Hironobu Sakaguchi[normal]: On s'y met...?[end]
-Dessin des Cartes - Yasushi Matsumura: Eru, Naito, Naoshi, Hoshiya, Kuwahara, ça faisait longtemps! Qu'est-ce qui ne va pas? ...Hein? Je me suis trompé de personne!?[new]
-Oups...[end]
-Graphismes -
+l'utiliser...[end]</sn:string>
+</sn:area>
+
+<sn:area id="297">
+<sn:string index="0">Directeur -
+[bold]Hironobu Sakaguchi[normal]: On s'y met...?[end]</sn:string>
+<sn:string index="1">Dessin des Cartes - Yasushi Matsumura: Eru, Naito, Naoshi, Hoshiya, Kuwahara, ça faisait longtemps! Qu'est-ce qui ne va pas? ...Hein? Je me suis trompé de personne!?[new]
+Oups...[end]</sn:string>
+<sn:string index="2">Graphismes -
 [bold]Masanori Hoshino[normal]: C'est moi qui ai
 dessiné tous les monstres que tu combats.
 S'il y en a un que tu préfères, dis-moi
-lequel![end]
-Je suis Taka, le pixelleur! Je veux devenir le légendaire Super Pixelleur. À la fin de ce jeu, je le serai sûrement![end]
-Graphismes - Ryoko Tanaka: C'est ma toute dernière œuvre. J'espère qu'elle te plaira![end]
-Graphismes - Hiromi Nakada: ...Bref, me voilà la dernière femme de l'équipe Final Fantasy! Envoyez-moi des lettres d'encouragement![end]
-Programme des Menus -
+lequel![end]</sn:string>
+<sn:string index="3">Je suis Taka, le pixelleur! Je veux devenir le légendaire Super Pixelleur. À la fin de ce jeu, je le serai sûrement![end]</sn:string>
+<sn:string index="4">Graphismes - Ryoko Tanaka: C'est ma toute dernière œuvre. J'espère qu'elle te plaira![end]</sn:string>
+<sn:string index="5">Graphismes - Hiromi Nakada: ...Bref, me voilà la dernière femme de l'équipe Final Fantasy! Envoyez-moi des lettres d'encouragement![end]</sn:string>
+<sn:string index="6">Programme des Menus -
 [bold]Keitaro Adachi[normal]: Héhé...
-Les doigts dans le nez![end]
-Nouveau -
+Les doigts dans le nez![end]</sn:string>
+<sn:string index="7">Nouveau -
 [bold]Toshio Endo[normal]: Mon épaule est
 bloquée!
 J'ai mal aux yeux!
-J'ai mal aux oreilles![end]
-Nouveau - Shinichi Tanaka: À partir de notre prochaine sortie, je serai dans l'équipe de programmation.[new]
-Content de vous rencontrer! ...Vivement que j'aie mon propre bureau...[end]
-Nouveau -
+J'ai mal aux oreilles![end]</sn:string>
+<sn:string index="8">Nouveau - Shinichi Tanaka: À partir de notre prochaine sortie, je serai dans l'équipe de programmation.[new]
+Content de vous rencontrer! ...Vivement que j'aie mon propre bureau...[end]</sn:string>
+<sn:string index="9">Nouveau -
 [bold]Ikuya Dobashi[normal]: Pitié, laissez-moi
 partir!
-Je n'ai rien volé!![end]
-Nouveau - Kyoji Koizumi: Heh... Si on se dit dès le début que les vacances n'existent pas, on vit tranquille![new]
-Pas vrai, M. Sakaguchi?[end]</sn:pointer>
-    <sn:pointer id="298">Programme du Son -
+Je n'ai rien volé!![end]</sn:string>
+<sn:string index="10">Nouveau - Kyoji Koizumi: Heh... Si on se dit dès le début que les vacances n'existent pas, on vit tranquille![new]
+Pas vrai, M. Sakaguchi?[end]</sn:string>
+</sn:area>
+
+<sn:area id="298">
+<sn:string index="0">Programme du Son -
 [bold]Minoru Akao[normal]: Pfff...
 Alors, qu'est-ce que je vais faire?
 Pour s'éclater, rien ne vaut ce
-truc-là, non!?[end]
-Effets Sonores -
+truc-là, non!?[end]</sn:string>
+<sn:string index="1">Effets Sonores -
 [bold]Akira Ueda[normal]: Aki, M. Yama, Takemotchi,
 Shin-kun, Kazu-kun, et tous les autres,
 vous regardez?
 J'ai fait quelques sons.[new]
-Revenez me voir![end]
-Compositeur -
+Revenez me voir![end]</sn:string>
+<sn:string index="2">Compositeur -
 [bold]Nobuo Uematsu[normal]: Hm!
 À te voir comme ça... tu caches un vrai talent pour la musique.
 Veux-tu que je t'enseigne ma clarinette
-venue des pays lointains?[end]
-Effets Sonores -
+venue des pays lointains?[end]</sn:string>
+<sn:string index="3">Effets Sonores -
 [bold]Kenji Ito[normal]: Une fois que tu auras terminé
-Final Fantasy IV, essaie Seiken Densetsu![end]</sn:pointer>
-    <sn:pointer id="299">Interdit de jouer avant la fin du projet![end]
-Rosa et Rydia, hein? Pas mal, ces filles! Je vais vous donner un coup de main![new]
-[force_bold]L'artisan du jeu Takashi Tokita a rejoint l'équipe![force_normal][music][0x29][delay][0x28] Par pitié...prenez-moi avec vous! Je n'en peux plus![music][0x2][end]
-Programme principal -
+Final Fantasy IV, essaie Seiken Densetsu![end]</sn:string>
+</sn:area>
+
+<sn:area id="299">
+<sn:string index="0">Interdit de jouer avant la fin du projet![end]</sn:string>
+<sn:string index="1">Rosa et Rydia, hein? Pas mal, ces filles! Je vais vous donner un coup de main![new]
+[force_bold]L'artisan du jeu Takashi Tokita a rejoint l'équipe![force_normal][music][0x29][delay][0x28] Par pitié...prenez-moi avec vous! Je n'en peux plus![music][0x2][end]</sn:string>
+<sn:string index="2">Programme principal -
 [bold]Ken Narita[normal]: N'ajoutez plus
 d'événements!!
 Arrêtez de trouver encore des bugs![new]
-Bon sang, je vais lâcher la fac![end]
-[italic]Zzz...Zzz...[/italic][end]</sn:pointer>
-    <sn:pointer id="300">[bold]FuSoYa[normal]: Maintenant, entrons tant que
-c'est possible![end]
-[bold]Cecil[normal]: Aide-nous, Cid![end]</sn:pointer>
-    <sn:pointer id="301">«Wahaha! Crevez, Nains
-minables!»[end]Cecil: Vous n'irez pas plus
-loin![end]«Vous!» «Comment êtes-vous
-entrés!?» «Attrapez-les!»[end]«Merde! Puisque c'est comme ça...!»[end]«Maintenant, plus personne ne
-peut arrêter le canon géant!»[end]
-[bold]Cecil[normal]: Zut![new]
-[bold]Caïn[normal]: Qu'ont-ils fait![end]
-[bold]Cecil[normal]: Yang![new]
-[bold]Rosa[normal]: Qu'est-ce que tu fais!?[end]
-Yang: Je m'en charge! Sortez vite d'ici, vous tous![new]
+Bon sang, je vais lâcher la fac![end]</sn:string>
+<sn:string index="3">[italic]Zzz...Zzz...[/italic][end]</sn:string>
+</sn:area>
+
+<sn:area id="300">
+<sn:string index="0">[bold]FuSoYa[normal]: Maintenant, entrons tant que
+c'est possible![end]</sn:string>
+<sn:string index="1">[bold]Cecil[normal]: Aide-nous, Cid![end]</sn:string>
+</sn:area>
+
+<sn:area id="301">
+<sn:string index="0">«Wahaha! Crevez, Nains
+minables!»[end]</sn:string>
+<sn:string index="1">Cecil: Vous n'irez pas plus
+loin![end]</sn:string>
+<sn:string index="2">«Vous!» «Comment êtes-vous
+entrés!?» «Attrapez-les!»[end]</sn:string>
+<sn:string index="3">«Merde! Puisque c'est comme ça...!»[end]</sn:string>
+<sn:string index="4">«Maintenant, plus personne ne
+peut arrêter le canon géant!»[end]</sn:string>
+<sn:string index="5">[bold]Cecil[normal]: Zut![new]
+[bold]Caïn[normal]: Qu'ont-ils fait![end]</sn:string>
+<sn:string index="6">[bold]Cecil[normal]: Yang![new]
+[bold]Rosa[normal]: Qu'est-ce que tu fais!?[end]</sn:string>
+<sn:string index="7">Yang: Je m'en charge! Sortez vite d'ici, vous tous![new]
 Rydia: Non!![new]
 Cecil: Yang, ça va exploser![new]
-Yang: Pardonnez-moi![end]</sn:pointer>
-    <sn:pointer id="302">T[end]</sn:pointer>
-    <sn:pointer id="303">T[end]</sn:pointer>
-    <sn:pointer id="304">T[end]</sn:pointer>
-    <sn:pointer id="305">T[end]</sn:pointer>
-    <sn:pointer id="306">T[end]</sn:pointer>
-    <sn:pointer id="307">C'était peut-être votre destinée...
-Retournez sur la Lune![end]
-On veut aussi y aller...
+Yang: Pardonnez-moi![end]</sn:string>
+</sn:area>
+
+<sn:area id="302">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="303">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="304">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="305">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="306">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="307">
+<sn:string index="0">C'était peut-être votre destinée...
+Retournez sur la Lune![end]</sn:string>
+<sn:string index="1">On veut aussi y aller...
 Mais apparemment on n'en aura pas
 l'occasion!
-On compte sur toi, mon pote![end]
-Vous êtes devenu un bien noble paladin!
+On compte sur toi, mon pote![end]</sn:string>
+<sn:string index="2">Vous êtes devenu un bien noble paladin!
 Ce que nous avons fait ce jour-là n'était
-pas une erreur![end]
-Le sort de tout ce qui vit sur cette terre
-repose entre vos mains![end]
-Battez-vous pour moi... et pour maître Tella![end]
-Il semble que c'était votre destinée de
+pas une erreur![end]</sn:string>
+<sn:string index="3">Le sort de tout ce qui vit sur cette terre
+repose entre vos mains![end]</sn:string>
+<sn:string index="4">Battez-vous pour moi... et pour maître Tella![end]</sn:string>
+<sn:string index="5">Il semble que c'était votre destinée de
 l'affronter.
-Je prie pour votre réussite![end]
-Pourquoi vous m'emmenez pas, hein? Franchement... Écoutez-moi bien![new]
-Revenez vivants![end]
-M. Cecil, revenez sain et sauf![end]
-Sans vous, M. Cecil, le patron est de
-mauvaise humeur![end]
-Le prince Edward s'est toujours fait du souci pour vous![end]
-Jamais je n'aurais imaginé que les
-choses en arriveraient là.[end]
-Revenez bientôt visiter le château
-souterrain![end]</sn:pointer>
-    <sn:pointer id="308">T[end]</sn:pointer>
-    <sn:pointer id="309">T[end]</sn:pointer>
-    <sn:pointer id="310">T[end]</sn:pointer>
-    <sn:pointer id="311">T[end]</sn:pointer>
-    <sn:pointer id="312">T[end]</sn:pointer>
-    <sn:pointer id="313">T[end]</sn:pointer>
-    <sn:pointer id="314">Rydia, tu es de retour![end]
-À l'exception de Rydia, vous êtes les
-premiers humains à venir ici.[end]
-C'est le monde des Chimères.
-Le monde où les Chimères vivent.[end]
-Le roi des Chimères vit au plus profond de
-notre monde.[end]</sn:pointer>
-    <sn:pointer id="315">T[end]</sn:pointer>
-    <sn:pointer id="316">Ça faisait longtemps, Rydia![end]
-Le monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]
-Il paraît que nos copains de l'autre monde font des bêtises![end]
-On dit que si vous ne pouvez pas vaincre
+Je prie pour votre réussite![end]</sn:string>
+<sn:string index="6">Pourquoi vous m'emmenez pas, hein? Franchement... Écoutez-moi bien![new]
+Revenez vivants![end]</sn:string>
+<sn:string index="7">M. Cecil, revenez sain et sauf![end]</sn:string>
+<sn:string index="8">Sans vous, M. Cecil, le patron est de
+mauvaise humeur![end]</sn:string>
+<sn:string index="9">Le prince Edward s'est toujours fait du souci pour vous![end]</sn:string>
+<sn:string index="10">Jamais je n'aurais imaginé que les
+choses en arriveraient là.[end]</sn:string>
+<sn:string index="11">Revenez bientôt visiter le château
+souterrain![end]</sn:string>
+</sn:area>
+
+<sn:area id="308">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="309">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="310">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="311">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="312">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="313">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="314">
+<sn:string index="0">Rydia, tu es de retour![end]</sn:string>
+<sn:string index="1">À l'exception de Rydia, vous êtes les
+premiers humains à venir ici.[end]</sn:string>
+<sn:string index="2">C'est le monde des Chimères.
+Le monde où les Chimères vivent.[end]</sn:string>
+<sn:string index="3">Le roi des Chimères vit au plus profond de
+notre monde.[end]</sn:string>
+</sn:area>
+
+<sn:area id="315">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="316">
+<sn:string index="0">Ça faisait longtemps, Rydia![end]</sn:string>
+<sn:string index="1">Le monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]</sn:string>
+<sn:string index="2">Il paraît que nos copains de l'autre monde font des bêtises![end]</sn:string>
+<sn:string index="3">On dit que si vous ne pouvez pas vaincre
 Dame Asura, le roi ne vous écoutera même
-pas![end]
-Salut, Rydia!
+pas![end]</sn:string>
+<sn:string index="4">Salut, Rydia!
 Quoi?
-C'est bizarre que je parle?[end]
-C'est la bibliothèque de notre monde.
+C'est bizarre que je parle?[end]</sn:string>
+<sn:string index="5">C'est la bibliothèque de notre monde.
 Un véritable trésor de toutes les
-connaissances![end]
-Rydia!
-Je suis si content que tu sois revenue![end]
-Oh, Rydia!
-Ces gens sont tes amis?[end]</sn:pointer>
-    <sn:pointer id="317">Rydia!
-Ne repars plus jamais![end]</sn:pointer>
-    <sn:pointer id="318">Shh!!
-Silence, vous êtes dans une bibliothèque![end]
-Hmm... ce livre est vraiment
-émouvant...[end]
-Le géant qui secoue la terre, Titan... Avec sa force, il déchire le sol... et la plupart des êtres sont engloutis dans les failles qu'il ouvre.[end]
-Le démon du Feu, Ifrit...
+connaissances![end]</sn:string>
+<sn:string index="6">Rydia!
+Je suis si content que tu sois revenue![end]</sn:string>
+<sn:string index="7">Oh, Rydia!
+Ces gens sont tes amis?[end]</sn:string>
+</sn:area>
+
+<sn:area id="317">
+<sn:string index="0">Rydia!
+Ne repars plus jamais![end]</sn:string>
+</sn:area>
+
+<sn:area id="318">
+<sn:string index="0">Shh!!
+Silence, vous êtes dans une bibliothèque![end]</sn:string>
+<sn:string index="1">Hmm... ce livre est vraiment
+émouvant...[end]</sn:string>
+<sn:string index="2">Le géant qui secoue la terre, Titan... Avec sa force, il déchire le sol... et la plupart des êtres sont engloutis dans les failles qu'il ouvre.[end]</sn:string>
+<sn:string index="3">Le démon du Feu, Ifrit...
 On dit que son feu peut consumer
-n'importe quoi.[end]
-Il paraît qu'il existe des invocations que personne ne connaît encore...[end]
-Le doux vieil homme Ramuh...
+n'importe quoi.[end]</sn:string>
+<sn:string index="4">Il paraît qu'il existe des invocations que personne ne connaît encore...[end]</sn:string>
+<sn:string index="5">Le doux vieil homme Ramuh...
 Mais sa colère appelle les nuages
-sombres et châtie par la foudre.[end]
-La reine des Glaces, Shiva...
+sombres et châtie par la foudre.[end]</sn:string>
+<sn:string index="6">La reine des Glaces, Shiva...
 Ceux qui la mettent en colère se font
-geler le cœur.[end]
-Chocobo...
+geler le cœur.[end]</sn:string>
+<sn:string index="7">Chocobo...
 Pour fuir et pour charmer, il n'a pas
-d'égal.[end]
-La magie d'invocation... La magie qui appelle les Chimères...[new]
-Ceux qui possèdent ce pouvoir ne sont plus qu'une poignée.[end]
-Le monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]
-La grotte qui relie notre monde et celui
+d'égal.[end]</sn:string>
+<sn:string index="8">La magie d'invocation... La magie qui appelle les Chimères...[new]
+Ceux qui possèdent ce pouvoir ne sont plus qu'une poignée.[end]</sn:string>
+<sn:string index="9">Le monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]</sn:string>
+<sn:string index="10">La grotte qui relie notre monde et celui
 des humains...
 Seuls ceux qui ont l'esprit et le corps
-forts peuvent passer...[end]
-Les Chimères sont des animaux
+forts peuvent passer...[end]</sn:string>
+<sn:string index="11">Les Chimères sont des animaux
 fantastiques...[new]
 Aux méchants, elles paraissent
 terrifiantes... aux justes, elles
-apparaissent comme des dieux...[end]</sn:pointer>
-    <sn:pointer id="319">Y a-t-il aussi de la littérature dans le
-monde des humains?[end]
-On ne s'ennuie jamais, ici.
+apparaissent comme des dieux...[end]</sn:string>
+</sn:area>
+
+<sn:area id="319">
+<sn:string index="0">Y a-t-il aussi de la littérature dans le
+monde des humains?[end]</sn:string>
+<sn:string index="1">On ne s'ennuie jamais, ici.
 Il y a tellement de livres qu'il faudrait une
-éternité pour tous les lire![end]
-Même les monstres qui résistent à
+éternité pour tous les lire![end]</sn:string>
+<sn:string index="2">Même les monstres qui résistent à
 Libra... le Bestiaire
-révélera leur véritable nature...[end]
-Chimères, monstres, humains...
+révélera leur véritable nature...[end]</sn:string>
+<sn:string index="3">Chimères, monstres, humains...
 D'où sont-ils venus et où vont-ils...
-C'est un mystère éternel...[end]
-Il y a bien longtemps, une immense
+C'est un mystère éternel...[end]</sn:string>
+<sn:string index="4">Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
 terre...
 Maintenant, elle dort d'un sommeil
-profond au sein d'un dragon.[end]
-Plus grand encore que le roi des Chimères... Il est dit que le Dieu des Chimères qui nous a créés veille sur nous de loin. Il ne connaît pas la défaite...[new]
-Seul celui qui saura retourner sa puissance contre lui pourra le vaincre...[end]
-Il y a deux lunes...
+profond au sein d'un dragon.[end]</sn:string>
+<sn:string index="5">Plus grand encore que le roi des Chimères... Il est dit que le Dieu des Chimères qui nous a créés veille sur nous de loin. Il ne connaît pas la défaite...[new]
+Seul celui qui saura retourner sa puissance contre lui pourra le vaincre...[end]</sn:string>
+<sn:string index="6">Il y a deux lunes...
 Mais on dit que dans les temps anciens, il
-n'y en avait qu'une seule.[end]
-La reine du monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
-Seuls ceux qui sauront tirer parti de son pouvoir pour la vaincre verront le roi...[end]
-Le roi des Chimères...
-Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]
-Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
-Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]
-Les Sylphes, frêles et douces...
+n'y en avait qu'une seule.[end]</sn:string>
+<sn:string index="7">La reine du monde des Chimères, Asura... Épouse du roi des Chimères, c'est elle qui garde le passage jusqu'à lui.[new]
+Seuls ceux qui sauront tirer parti de son pouvoir pour la vaincre verront le roi...[end]</sn:string>
+<sn:string index="8">Le roi des Chimères...
+Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]</sn:string>
+<sn:string index="9">Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
+Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]</sn:string>
+<sn:string index="10">Les Sylphes, frêles et douces...
 C'est en unissant leurs forces qu'elles
-révèlent leur pouvoir...[end]
-La loi du monde des Chimères...
+révèlent leur pouvoir...[end]</sn:string>
+<sn:string index="11">La loi du monde des Chimères...
 La force, c'est un cœur juste.
 Ne jamais accorder son pouvoir à la
-légère, sans avoir jaugé cette force.[end]</sn:pointer>
-    <sn:pointer id="320">C'est la salle du roi et de la reine des
-Chimères.[end]
-Pour parler au roi des Chimères, vous avez
-besoin de la permission de la reine Asura.[end]
-Rydia...
+légère, sans avoir jaugé cette force.[end]</sn:string>
+</sn:area>
+
+<sn:area id="320">
+<sn:string index="0">C'est la salle du roi et de la reine des
+Chimères.[end]</sn:string>
+<sn:string index="1">Pour parler au roi des Chimères, vous avez
+besoin de la permission de la reine Asura.[end]</sn:string>
+<sn:string index="2">Rydia...
 Tu as des amis forts et bienveillants.
-Tu peux m'appeler n'importe quand...[end]
-C'est bien la puissance de la lumière!
+Tu peux m'appeler n'importe quand...[end]</sn:string>
+<sn:string index="3">C'est bien la puissance de la lumière!
 Moi, Léviathan, roi des Chimères, je te
-prête ma force![end]
-Le roi des Chimères?
-Non, non, je ne suis qu'un vieux croûton![end]
-Alors je vais mettre votre force à l'épreuve![end]
-Alors, malheureusement, je ne peux pas
-vous donner mon pouvoir.[end]
-Une fois que tu auras confiance en toi, je
-te combattrai quand tu voudras![end]</sn:pointer>
-    <sn:pointer id="321">Des humains sauront-ils manier nos armes?[end]
-Tiens, mais c'est Rydia![end]</sn:pointer>
-    <sn:pointer id="322">N'amène pas trop d'humains ici,
-Rydia.[end]
-Nous voulons juste vivre en paix.[end]</sn:pointer>
-    <sn:pointer id="323">Chocobo, Shiva, Ramuh... Ils vivent tous ici...[end]
-Cet Ifrit!
-Une tête brûlée, comme toujours.[end]
-Titan? Avec Léviter, ce n'est plus qu'un gros balourd![end]</sn:pointer>
-    <sn:pointer id="324">T[end]</sn:pointer>
-    <sn:pointer id="325">T[end]</sn:pointer>
-    <sn:pointer id="326">T[end]</sn:pointer>
-    <sn:pointer id="327">T[end]</sn:pointer>
-    <sn:pointer id="328">T[end]</sn:pointer>
-    <sn:pointer id="329">Yang: Merci... Combattez aussi pour moi![end]
-Hiii! Des humains![end]
-Laissez-nous nous occuper de
-Yang![end]
-Qu'est-ce que vous fichez ici!
-Dehors![end]
-N'emmenez pas Yang![end]
-Yang, vous ne l'aurez pas![end]
-Vous, les humains, vous êtes si
-violents![end]
-Nous l'avons trouvé évanoui à l'entrée de notre terrier. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
-Notre amour n'y suffit-il pas...?[end]
-Que feriez-vous si Yang
-mourait!?[end]
-[bold]Yang[normal]: Uuuh...
+prête ma force![end]</sn:string>
+<sn:string index="4">Le roi des Chimères?
+Non, non, je ne suis qu'un vieux croûton![end]</sn:string>
+<sn:string index="5">Alors je vais mettre votre force à l'épreuve![end]</sn:string>
+<sn:string index="6">Alors, malheureusement, je ne peux pas
+vous donner mon pouvoir.[end]</sn:string>
+<sn:string index="7">Une fois que tu auras confiance en toi, je
+te combattrai quand tu voudras![end]</sn:string>
+</sn:area>
+
+<sn:area id="321">
+<sn:string index="0">Des humains sauront-ils manier nos armes?[end]</sn:string>
+<sn:string index="1">Tiens, mais c'est Rydia![end]</sn:string>
+</sn:area>
+
+<sn:area id="322">
+<sn:string index="0">N'amène pas trop d'humains ici,
+Rydia.[end]</sn:string>
+<sn:string index="1">Nous voulons juste vivre en paix.[end]</sn:string>
+</sn:area>
+
+<sn:area id="323">
+<sn:string index="0">Chocobo, Shiva, Ramuh... Ils vivent tous ici...[end]</sn:string>
+<sn:string index="1">Cet Ifrit!
+Une tête brûlée, comme toujours.[end]</sn:string>
+<sn:string index="2">Titan? Avec Léviter, ce n'est plus qu'un gros balourd![end]</sn:string>
+</sn:area>
+
+<sn:area id="324">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="325">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="326">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="327">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="328">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="329">
+<sn:string index="0">Yang: Merci... Combattez aussi pour moi![end]</sn:string>
+<sn:string index="1">Hiii! Des humains![end]</sn:string>
+<sn:string index="2">Laissez-nous nous occuper de
+Yang![end]</sn:string>
+<sn:string index="3">Qu'est-ce que vous fichez ici!
+Dehors![end]</sn:string>
+<sn:string index="4">N'emmenez pas Yang![end]</sn:string>
+<sn:string index="5">Yang, vous ne l'aurez pas![end]</sn:string>
+<sn:string index="6">Vous, les humains, vous êtes si
+violents![end]</sn:string>
+<sn:string index="7">Nous l'avons trouvé évanoui à l'entrée de notre terrier. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
+Notre amour n'y suffit-il pas...?[end]</sn:string>
+<sn:string index="8">Que feriez-vous si Yang
+mourait!?[end]</sn:string>
+<sn:string index="9">[bold]Yang[normal]: Uuuh...
 Uhh...est-ce déjà l'heure de
 l'entraînement?
-Laissez-moi dormir encore un peu...[end]
-[bold]Yang[normal]: Eh!?
+Laissez-moi dormir encore un peu...[end]</sn:string>
+<sn:string index="10">[bold]Yang[normal]: Eh!?
 Messire Cecil?[new]
 [bold]Cecil[normal]: Yang![new]
 [bold]Rydia[normal]: Je suis si contente que tu
@@ -1938,122 +2930,286 @@ griffes de la mort.[new]
 [bold]Rosa[normal]: Grâce à toi, le canon géant a
 été détruit![new]
 [bold]Yang[normal]: Je viens avec vous...[new]
-[bold]Sylphe[normal]: Non, tu dois dormir![end]
-Yang: Le sort du monde est en train de se jouer! Je ne peux pas rester couché![new]
-Edge: C'est pas la place d'un blessé, mon vieux.[end]
-Yang: Qui es-tu?[new]
+[bold]Sylphe[normal]: Non, tu dois dormir![end]</sn:string>
+<sn:string index="11">Yang: Le sort du monde est en train de se jouer! Je ne peux pas rester couché![new]
+Edge: C'est pas la place d'un blessé, mon vieux.[end]</sn:string>
+<sn:string index="12">Yang: Qui es-tu?[new]
 Edge: Je suis Edge d'Eblana! Et je me bats bien mieux que toi![new]
 Yang: Eblana! Un ninja...? Je viens aussi...![new]
-Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]
-[bold]Yang[normal]: ?[new]
+Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]</sn:string>
+<sn:string index="13">[bold]Yang[normal]: ?[new]
 [bold]Sylphe[normal]: Cette personne est bien une
 invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
 Nous combattrons à ta place![new]
 [bold]Rydia[normal]: Enchantée, les Sylphes!
-[force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]
-[bold]Sylphe[normal]: Ah!
-Arrêtez![end]
-Yang va beaucoup mieux![end]
-C'est bien vide sans Yang...[end]
-Il est marié, alors... enfin bon![end]
-Dites bonjour à Yang de
-notre part![end]</sn:pointer>
-    <sn:pointer id="330">T[end]</sn:pointer>
-    <sn:pointer id="331">T[end]</sn:pointer>
-    <sn:pointer id="332">T[end]</sn:pointer>
-    <sn:pointer id="333">T[end]</sn:pointer>
-    <sn:pointer id="334">T[end]</sn:pointer>
-    <sn:pointer id="335">T[end]</sn:pointer>
-    <sn:pointer id="336">T[end]</sn:pointer>
-    <sn:pointer id="337">T[end]</sn:pointer>
-    <sn:pointer id="338">T[end]</sn:pointer>
-    <sn:pointer id="339">T[end]</sn:pointer>
-    <sn:pointer id="340">T[end]</sn:pointer>
-    <sn:pointer id="341">T[end]</sn:pointer>
-    <sn:pointer id="342">T[end]</sn:pointer>
-    <sn:pointer id="343">T[end]</sn:pointer>
-    <sn:pointer id="344">T[end]</sn:pointer>
-    <sn:pointer id="345">T[end]</sn:pointer>
-    <sn:pointer id="346">T[end]</sn:pointer>
-    <sn:pointer id="347">T[end]</sn:pointer>
-    <sn:pointer id="348">Que voulez-vous au Dieu des Chimères![end]
-Eh? Tu n'es qu'à moitié...[end]
-Vous êtes les premiers que le seigneur Bahamut ait reconnus![end]
-On dirait qu'un grand destin pèse sur tes épaules.[end]
-Léviathan ne vous a pas reconnus... Veuillez partir.[end]
-J'ai bien éprouvé votre force et votre
+[force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="14">[bold]Sylphe[normal]: Ah!
+Arrêtez![end]</sn:string>
+<sn:string index="15">Yang va beaucoup mieux![end]</sn:string>
+<sn:string index="16">C'est bien vide sans Yang...[end]</sn:string>
+<sn:string index="17">Il est marié, alors... enfin bon![end]</sn:string>
+<sn:string index="18">Dites bonjour à Yang de
+notre part![end]</sn:string>
+</sn:area>
+
+<sn:area id="330">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="331">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="332">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="333">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="334">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="335">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="336">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="337">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="338">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="339">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="340">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="341">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="342">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="343">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="344">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="345">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="346">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="347">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="348">
+<sn:string index="0">Que voulez-vous au Dieu des Chimères![end]</sn:string>
+<sn:string index="1">Eh? Tu n'es qu'à moitié...[end]</sn:string>
+<sn:string index="2">Vous êtes les premiers que le seigneur Bahamut ait reconnus![end]</sn:string>
+<sn:string index="3">On dirait qu'un grand destin pèse sur tes épaules.[end]</sn:string>
+<sn:string index="4">Léviathan ne vous a pas reconnus... Veuillez partir.[end]</sn:string>
+<sn:string index="5">J'ai bien éprouvé votre force et votre
 esprit.
 Rydia![new]
 Quand tu auras besoin de moi,
-prononce mon nom... Bahamut...![end]</sn:pointer>
-    <sn:pointer id="349">T[end]</sn:pointer>
-    <sn:pointer id="350">T[end]</sn:pointer>
-    <sn:pointer id="351">T[end]</sn:pointer>
-    <sn:pointer id="352">T[end]</sn:pointer>
-    <sn:pointer id="353">Nous sommes les cristaux de la Lune.[end]
-Cette lune se maintient en équilibre grâce aux huit cristaux de la Planète Bleue.[end]
-Les Sélénites dorment d'un profond sommeil sous cette terre. FuSoYa veille sur leur sommeil.[end]
-Zémus est un homme terrible.
+prononce mon nom... Bahamut...![end]</sn:string>
+</sn:area>
+
+<sn:area id="349">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="350">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="351">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="352">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="353">
+<sn:string index="0">Nous sommes les cristaux de la Lune.[end]</sn:string>
+<sn:string index="1">Cette lune se maintient en équilibre grâce aux huit cristaux de la Planète Bleue.[end]</sn:string>
+<sn:string index="2">Les Sélénites dorment d'un profond sommeil sous cette terre. FuSoYa veille sur leur sommeil.[end]</sn:string>
+<sn:string index="3">Zémus est un homme terrible.
 Bien qu'il soit scellé profondément sous le
 sol, son esprit maléfique ne cesse de
-s'accroître...[end]
-C'est nous, les huit cristaux, qui tenons Zémus scellé.[end]
-Zémus a utilisé Golbez pour réunir les
+s'accroître...[end]</sn:string>
+<sn:string index="4">C'est nous, les huit cristaux, qui tenons Zémus scellé.[end]</sn:string>
+<sn:string index="5">Zémus a utilisé Golbez pour réunir les
 cristaux de la Planète Bleue... et a amplifié
-leur puissance avec la tour de Babil.[end]
-De l'intérieur, Zémus a dressé une
-barrière qui scelle le chemin du noyau.[end]
-Le sol au centre de notre cercle mène au noyau où se trouve Zémus, mais...[end]
-La tour de Babil a été détruite, et le
+leur puissance avec la tour de Babil.[end]</sn:string>
+<sn:string index="6">De l'intérieur, Zémus a dressé une
+barrière qui scelle le chemin du noyau.[end]</sn:string>
+<sn:string index="7">Le sol au centre de notre cercle mène au noyau où se trouve Zémus, mais...[end]</sn:string>
+<sn:string index="8">La tour de Babil a été détruite, et le
 sceau de Zémus s'est rompu.
-Vous devriez pouvoir l'atteindre.[end]
-En dessous, des armes terribles qui
+Vous devriez pouvoir l'atteindre.[end]</sn:string>
+<sn:string index="9">En dessous, des armes terribles qui
 menaçaient jadis les Sélénites sont
-scellées avec Zémus.[end]
-FuSoYa et le fils de KluYa sont entrés tout à l'heure... Ça fait déjà longtemps.[end]
-Nous parvenons tout juste à neutraliser les ondes mentales que Zémus émet de l'intérieur.[end]
-Il y a une énergie phénoménale qui
-transite entre Zémus et nous.[end]
-Même FuSoYa... pourra-t-il vaincre Zémus, dont l'esprit s'est tant accru?[end]
-Allez au noyau de la Lune![end]
-Nous allons vous conduire au chemin
-du noyau![end]</sn:pointer>
-    <sn:pointer id="354">T[end]</sn:pointer>
-    <sn:pointer id="355">T[end]</sn:pointer>
-    <sn:pointer id="356">T[end]</sn:pointer>
-    <sn:pointer id="357">Changer de nom?
-Que voulez-vous dire?[end]
-Hm, hm hm hmmm...[end]
-Nous sommes la famille Hummingway.[end]
-Ça me revient... Il y a longtemps, un des nôtres a inventé un vaisseau et il est descendu sur la Planète Bleue...[new]
+scellées avec Zémus.[end]</sn:string>
+<sn:string index="10">FuSoYa et le fils de KluYa sont entrés tout à l'heure... Ça fait déjà longtemps.[end]</sn:string>
+<sn:string index="11">Nous parvenons tout juste à neutraliser les ondes mentales que Zémus émet de l'intérieur.[end]</sn:string>
+<sn:string index="12">Il y a une énergie phénoménale qui
+transite entre Zémus et nous.[end]</sn:string>
+<sn:string index="13">Même FuSoYa... pourra-t-il vaincre Zémus, dont l'esprit s'est tant accru?[end]</sn:string>
+<sn:string index="14">Allez au noyau de la Lune![end]</sn:string>
+<sn:string index="15">Nous allons vous conduire au chemin
+du noyau![end]</sn:string>
+</sn:area>
+
+<sn:area id="354">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="355">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="356">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="357">
+<sn:string index="0">Changer de nom?
+Que voulez-vous dire?[end]</sn:string>
+<sn:string index="1">Hm, hm hm hmmm...[end]</sn:string>
+<sn:string index="2">Nous sommes la famille Hummingway.[end]</sn:string>
+<sn:string index="3">Ça me revient... Il y a longtemps, un des nôtres a inventé un vaisseau et il est descendu sur la Planète Bleue...[new]
 Il était vraiment très doué pour donner
-des surnoms...[end]</sn:pointer>
-    <sn:pointer id="358">T[end]</sn:pointer>
-    <sn:pointer id="359">T[end]</sn:pointer>
-    <sn:pointer id="360">T[end]</sn:pointer>
-    <sn:pointer id="361">Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="364">T[end]</sn:pointer>
-    <sn:pointer id="365">T[end]</sn:pointer>
-    <sn:pointer id="366">Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]
-Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette lame maudite... la Masamune!?[end]</sn:pointer>
-    <sn:pointer id="367">T[end]</sn:pointer>
-    <sn:pointer id="368">T[end]</sn:pointer>
-    <sn:pointer id="369">T[end]</sn:pointer>
-    <sn:pointer id="370">T[end]</sn:pointer>
-    <sn:pointer id="371">T[end]</sn:pointer>
-    <sn:pointer id="372">T[end]</sn:pointer>
-    <sn:pointer id="373">T[end]</sn:pointer>
-    <sn:pointer id="374">T[end]</sn:pointer>
-    <sn:pointer id="375">T[end]</sn:pointer>
-    <sn:pointer id="376">T[end]</sn:pointer>
-    <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="379">T[end]</sn:pointer>
-    <sn:pointer id="380">T[end]</sn:pointer>
-    <sn:pointer id="381">T[end]</sn:pointer>
-    <sn:pointer id="382">T[end]</sn:pointer>
-    <sn:pointer id="383">T[end]</sn:pointer>
-</sn:script>
+des surnoms...[end]</sn:string>
+</sn:area>
+
+<sn:area id="358">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="359">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="360">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="361">
+<sn:string index="0">Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="362">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="363">
+<sn:string index="0">Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="364">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="365">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="366">
+<sn:string index="0">Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]</sn:string>
+<sn:string index="1">Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette lame maudite... la Masamune!?[end]</sn:string>
+</sn:area>
+
+<sn:area id="367">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="368">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="369">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="370">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="371">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="372">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="373">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="374">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="375">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="376">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="377">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="378">
+<sn:string index="0">Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:string>
+</sn:area>
+
+<sn:area id="379">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="380">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="381">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="382">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+<sn:area id="383">
+<sn:string index="0">T[end]</sn:string>
+</sn:area>
+
+</sn:areas>
