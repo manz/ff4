@@ -263,7 +263,7 @@ Bien sûr!
 Yang, ils t'ont fait commander la
 garde... c'est pour ça que tu l'as![new]
 Avec ça, on devrait pouvoir s'en sortir!
-[center]Vous avez obtenu la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
+Vous avez obtenu la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="79">L'anneau scintille...!?[end]</sn:pointer>
     <sn:pointer id="80">[bold]Caïn[normal]: Quoi?![new]
 [bold]Cecil[normal]: Voilà pourquoi on a été
@@ -680,7 +680,7 @@ Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
     <sn:pointer id="207">[bold]Tella[normal]: Je commence à me souvenir...
 Tous mes sorts commencent à me revenir!
-[center]Tella a retrouvé tous les [center]sorts qu'il
+Tella a retrouvé tous les sorts qu'il
 avait oubliés![end]</sn:pointer>
     <sn:pointer id="208">Porom: Digne de maître Tella![new]
 Palom: Hé, Porom...[end]</sn:pointer>
@@ -719,7 +719,7 @@ en danger![end]</sn:pointer>
 Edward: ...Ne vous inquiétez pas... Juste jusqu'à ma harpe là-bas... Ooh![new]
 «Dans votre état, vous ne devriez même pas marcher! Ne vous surmenez pas!»[new]
 Edward: Ça ne fait rien... Je suis le seul... qui puisse sauver... Cecil et les autres![end]</sn:pointer>
-    <sn:pointer id="222">[center]Le Murmure porte jusqu'ici [center]la harpe d'Edward! Yang: Oh...[new]
+    <sn:pointer id="222">[center]Le Murmure porte jusqu'ici la harpe d'Edward! Yang: Oh...[new]
 Tella: Cette douce mélodie...[new]
 Cecil: La harpe d'Edward![new]
 Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, [italic]HIC[/italic]![end]</sn:pointer>
@@ -1077,7 +1077,7 @@ Edge: Arrête ton baratin![new]
 Rubicante: J'aime les gens courageux comme toi! ...Mais aussi longtemps que les humains se laisseront piéger par des émotions, ils n'atteindront jamais la véritable puissance...[new]
 Jamais...[new]
 Edge: Cette rage... humaine...[new]
-Je vais te la montrer![music][0xb] [center]La rage a révélé les pouvoirs cachés d'Edge! [force_bold]Edge a appris Suiton et Raijin![force_normal] Rubicante: Oh...ainsi, la rage donne de la force aux humains... Mais la glace elle-même ne peut pénétrer mon manteau de flammes![end]</sn:pointer>
+Je vais te la montrer![music][0xb] La rage a révélé les pouvoirs cachés d'Edge! [force_bold]Edge a appris Suiton et Raijin![force_normal] Rubicante: Oh...ainsi, la rage donne de la force aux humains... Mais la glace elle-même ne peut pénétrer mon manteau de flammes![end]</sn:pointer>
     <sn:pointer id="311">[bold]Rubicante[normal]: Maintenant je vais vous
 soigner!
 Combattez de toutes vos forces![end]</sn:pointer>
@@ -1198,7 +1198,7 @@ Depuis toujours, c'est par le combat que je juge cet esprit... Alors, voulez-vou
     <sn:pointer id="339">«Reviens à moi... Caïn... Rapporte-moi
 le cristal et reviens à moi...»[new]
 [bold]Cecil[normal]: Golbez![end]</sn:pointer>
-    <sn:pointer id="340">[bold]Cecil[normal]: Ugh! [center]Le cristal d'Obscurité a été volé![music][0x1f][delay][0x1d][end]</sn:pointer>
+    <sn:pointer id="340">[bold]Cecil[normal]: Ugh! Le cristal d'Obscurité a été volé![music][0x1f][delay][0x1d][end]</sn:pointer>
     <sn:pointer id="341">[bold]Edge[normal]: Misérable![new]
 [bold]Rosa[normal]: Caïn!
 Que fais-tu!?[new]
@@ -1274,7 +1274,7 @@ Vous n'avez pas le temps de vous
 occuper d'un vieux comme moi![new]
 [bold]Cecil[normal]: Merci...
 Cid![end]</sn:pointer>
-    <sn:pointer id="362">[center]Celui qui naîtra de la gueule du dragon [center]s'élèvera haut dans les cieux, [center]portant Ténèbres et Lumière, [center]et apportera à la terre endormie [center]une nouvelle promesse. [center]La Lune, [center]baignée d'une lumière [center]infinie, [center]comblera la Terre Mère [center]de grâce et de clémence.[end]</sn:pointer>
+    <sn:pointer id="362">[center]Celui qui naîtra de la gueule du dragon s'élèvera haut dans les cieux, portant Ténèbres et Lumière, et apportera à la terre endormie une nouvelle promesse. La Lune, baignée d'une lumière infinie, comblera la Terre Mère de grâce et de clémence.[end]</sn:pointer>
     <sn:pointer id="363">Palom: Ce vieux a appris Météore![new]
 Ancien: Météore...! Que se passe-t-il de si grave pour que ce sort soit descellé?![new]
 Tella: Il semblerait... Je vengerai Anna avec ça![new]
