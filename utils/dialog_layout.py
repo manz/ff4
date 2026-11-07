@@ -43,6 +43,7 @@ LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-t
 WINDOW = Window(WINDOW_WIDTH, len(LINE_WIDTHS), line_widths=dict(enumerate(LINE_WIDTHS)))
 NEW_WINDOW = "[new]"
 FORCE_NEW = "[force_new]"  # an editor's window turn: kept, the speaker set again
+LINE_BREAK = "[br]"  # an editor's line turn (TeX's \\): kept; `~` is a space no line breaks at
 CENTER = "[center]"  # opens a message whose lines are centred: code FA, a blank glyph a pixel wide
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
@@ -136,6 +137,9 @@ def tokenize(text: str, quoting: Quoting = QUOTING["fr"], abbreviations: tuple[s
         if text.startswith(FORCE_NEW, i):
             tokens.append(Token("PAGE", ""))
             i += len(FORCE_NEW)
+        elif text.startswith(LINE_BREAK, i):
+            tokens.append(Token("LINE", ""))
+            i += len(LINE_BREAK)
         elif end:
             tokens.append(Token("END", end))
             i += len(end)
@@ -168,7 +172,7 @@ def _interrupts(text: str, i: int, quoting: Quoting) -> bool:
         (bool(_quote_at(text, i, quoting.opener)) and text[:i].rstrip()[-1:] in (".", "!", "?", "]", ""))
         or bool(SPEAKER.match(text, i))
         or bool(ANNOUNCEMENT.match(text, i))
-        or any(text.startswith(e, i) for e in (*ENDS, FORCE_NEW))
+        or any(text.startswith(e, i) for e in (*ENDS, FORCE_NEW, LINE_BREAK))
     )
 
 
@@ -184,7 +188,7 @@ def _sentence(text: str, i: int, quoting: Quoting, abbreviations: tuple[str, ...
             continue
         if i >= len(text) or any(text.startswith(e, i) for e in ENDS):
             break
-        if text[i] == "[" and not text.startswith(FORCE_NEW, i) and (close := text.find("]", i)) != -1:
+        if text[i] == "[" and not text.startswith((FORCE_NEW, LINE_BREAK), i) and (close := text.find("]", i)) != -1:
             sentence += text[i : close + 1]
             i = close + 1
             continue
@@ -269,6 +273,9 @@ class _Paragraphs:
                 self.append(FORCE_NEW)
             self.open = False
             self.new_window = True
+        elif token.kind == "LINE":
+            if self.paragraphs:  # the line ends there; the paragraph goes on below it
+                self.append(LINE_BREAK)
         elif token.kind == "SPEAKER":
             self.close(new_window=self.speaker is not None)
             self.speaker = f"[bold]{token.value}[normal]"
@@ -347,13 +354,14 @@ class DialogLayout:
             abbreviations=abbreviations,
             measure_after=self._measure_after,
             min_balanced_width=MIN_BALANCED_WIDTH,
+            line_breaks=(LINE_BREAK,),
             fill=True,  # full lines read on, phrases on lines of their own chop the reading (blind test)
         )
         self._font_after = lru_cache(maxsize=16384)(self._font_after_uncached)
 
     def measure(self, line: str, font: int = 0) -> int:
         # The table knows `[force_new]` only with its newline: bare, it would be measured as the letters "force_new".
-        return self.metrics.measure_string(line.replace(FORCE_NEW, ""), font)
+        return self.metrics.measure_string(line.replace(FORCE_NEW, "").replace(LINE_BREAK, ""), font)
 
     def _measure_after(self, line: str, before: str) -> int:
         """`line` measured in the font in use after `before`, the message laid out ahead of it."""
@@ -412,6 +420,7 @@ class DialogLayout:
         laid = windows(self.text_layout, paragraphs.result(), WINDOW)
         laid = self._centred(laid, bool(tokens) and tokens[0].value.startswith(CENTER))
         text = f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
+        text = re.sub(re.escape(LINE_BREAK) + r"(?!\n)", "", text)  # a line break a window turn or an end makes moot
         return text.replace(FORCE_NEW + NEW_WINDOW, FORCE_NEW)
 
 

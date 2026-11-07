@@ -3,7 +3,7 @@
 [fonts.dialog]
 builtin = "sumi/16"
 overrides = "fonts/dialog_overrides.png"
-blank = ["0xFD"]  # the 1px spacer, labelled °
+blank = ["0xFD", "0xFF"]  # the 1px spacer, labelled °; the space, which `~` (a tie) also names
 table = "text/ff4fr.tbl"
 output = "build/gen/font.dat"
 widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2 }
@@ -42,7 +42,7 @@ kerning = { "tt" = 2 }
 
 [fonts.bold]
 builtin = "sumi/16/bold"
-blank = ["0xFD"]  # the 1px spacer, labelled °
+blank = ["0xFD", "0xFF"]  # the 1px spacer, labelled °; the space, which `~` (a tie) also names
 table = "text/ff4fr.tbl"
 output = "build/gen/bold_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }
@@ -81,7 +81,7 @@ kerning = { "tt" = 2 }
 
 [fonts.italic]
 builtin = "sumi/16/italic"  # sound effects: [italic]snif[/italic]; slanted, so kerning is given, not measured
-blank = ["0xFD"]  # the 1px spacer, labelled °
+blank = ["0xFD", "0xFF"]  # the 1px spacer, labelled °; the space, which `~` (a tie) also names
 table = "text/ff4fr.tbl"
 output = "build/gen/italic_font.dat"
 spacing = 1  # the lean overhangs the next glyph: "Ouiiin" runs together without it
@@ -89,7 +89,7 @@ widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2 }
 
 [fonts.wicked]
 builtin = "sumi/16/wicked"
-blank = ["0xFD"]  # the 1px spacer, labelled °
+blank = ["0xFD", "0xFF"]  # the 1px spacer, labelled °; the space, which `~` (a tie) also names
 table = "text/ff4fr.tbl"
 output = "build/gen/wicked_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }
@@ -128,7 +128,7 @@ kerning = { "tt" = 2 }
 
 [fonts.book]
 builtin = "sumi/16/book"
-blank = ["0xFD"]  # the 1px spacer, labelled °
+blank = ["0xFD", "0xFF"]  # the 1px spacer, labelled °; the space, which `~` (a tie) also names
 table = "text/ff4fr.tbl"
 output = "build/gen/book_font.dat"
 widths = { "0xFF" = 5, "0xFD" = 1, "0xFE" = 2 }

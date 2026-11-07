@@ -243,3 +243,26 @@ def test_the_italic_closes_back_to_the_dialog_font(layout: DialogLayout) -> None
 def test_a_forced_turn_takes_no_room_on_its_line(layout: DialogLayout) -> None:
     out = layout.layout("Cecil: Comme si j'avais tué ta mère... Tu ne pourras jamais me pardonner...[force_new] Va.[end]")
     assert "\nTu ne pourras jamais me pardonner...[force_new]\n" in out
+
+
+def test_an_editor_line_break_ends_the_line(layout: DialogLayout) -> None:
+    out = layout.layout("Cecil: C'est moi qui[br] devrais m'excuser.[end]")
+    assert out == "[bold]Cecil[normal]°: C'est moi qui[br]\ndevrais m'excuser.[end]"
+
+
+def test_a_line_break_survives_a_second_layout(layout: DialogLayout) -> None:
+    once = layout.layout("Cecil: Oui.[br] Non.[end]")
+    assert layout.layout(once) == once
+
+
+def test_a_line_break_before_the_end_is_dropped(layout: DialogLayout) -> None:
+    assert layout.layout("Cecil: Oui.[br][end]") == "[bold]Cecil[normal]°: Oui.[end]"
+
+
+def test_a_tie_keeps_two_words_on_one_line(layout: DialogLayout) -> None:
+    out = layout.layout("Général: Enfin, Cecil, nous~t'avons trouvé![end]")
+    assert "nous~t'avons" in out.split("\n")[0] or "nous~t'avons" in out.split("\n")[1]
+
+
+def test_a_tie_is_a_space_in_the_rom(layout: DialogLayout) -> None:
+    assert layout.metrics.table.to_bytes("~") == layout.metrics.table.to_bytes(" ")

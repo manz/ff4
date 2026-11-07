@@ -1,5 +1,6 @@
 00=[end]\n
 00=[end]
+01=[br]\n
 01=\n
 02:1=[space]
 03:1=[music]
@@ -139,4 +140,5 @@ FA=[center]
 FC=[force_new]\n
 FC=[new]\n
 FD=°
+FF=~
 FF= 
