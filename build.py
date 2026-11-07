@@ -148,9 +148,23 @@ def _dialog_layout() -> DialogLayout:
     return dialog_layout(LANG)
 
 
+def read_areas_from_xml(input_file: str, table: Table, formatter) -> list[Pointer]:
+    """bank2's layout: an area (one map's text) is one pointer, its strings the messages in order."""
+    pointers = []
+    for area in ElementTree.parse(input_file).getroot():
+        pointer = Pointer(int(area.get("id")) - 1)
+        pointer.value = b"".join(table.to_bytes(formatter(string.text or "")) for string in area)
+        pointers.append(pointer)
+    return pointers
+
+
 def build_text_asset(table, input_file, binary_text_file, pointers_file, address):
     # Dialog is laid out here, from the translation as written: windows and line breaks are the build's.
-    pointers = read_pointers_from_xml(input_file, table, formatter=_dialog_layout().layout)
+    layout = _dialog_layout().layout
+    if ElementTree.parse(input_file).getroot().tag.endswith("areas"):
+        pointers = read_areas_from_xml(input_file, table, layout)
+    else:
+        pointers = read_pointers_from_xml(input_file, table, formatter=layout)
 
     write_pointers_value_as_binary(pointers, binary_text_file)
 
