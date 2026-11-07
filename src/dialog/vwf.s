@@ -381,6 +381,18 @@ next:
         cmp #0xFF
         beq exit
 
+; the kerning pair is this letter and the next: a name's letters are not in the stream load_letter reads
+        lda #0xFF
+        cpy.w #0x0005
+        beq _last_letter
+        lda.w character_names + 1, x
+        phx
+        tax
+        lda.l name_codes, x
+        plx
+_last_letter:
+        sta.b dialog_vwf.current_char + 1
+
         phx
         phy
         jsr.w _makeptr
