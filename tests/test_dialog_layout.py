@@ -230,3 +230,11 @@ def test_laying_the_script_out_again_changes_nothing(lang: str) -> None:
         for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', path.read_text(encoding="utf-8"), re.S):
             once = lay.layout(body)
             assert lay.layout(once) == once, f"{path.stem}#{pointer}"
+
+
+def test_a_sound_is_set_in_the_italic_font(layout: DialogLayout) -> None:
+    assert layout.metrics.font_after("Rydia: [italic]snif") == 4
+
+
+def test_the_italic_closes_back_to_the_dialog_font(layout: DialogLayout) -> None:
+    assert layout.metrics.font_after("[italic]snif[/italic], ") == 0
