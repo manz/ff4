@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">[center]L'inventaire est plein.[end]</sn:pointer>
-    <sn:pointer id="1">[center]Vous avez trouvé [item]![end]</sn:pointer>
-    <sn:pointer id="2">[center]Vous avez trouvé [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="1">Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="2">Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="3">[center]Un monstre dans le coffre![end]</sn:pointer>
     <sn:pointer id="4">[center]Le coffre est vide.[end]</sn:pointer>
     <sn:pointer id="5">[center]La porte est verrouillée.[end]</sn:pointer>
@@ -47,8 +47,8 @@ Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
     <sn:pointer id="20">[center]Il ne s'est rien passé.[end]</sn:pointer>
     <sn:pointer id="21">[center]PM restaurés![end]</sn:pointer>
-    <sn:pointer id="22">[center]Vous avez trouvé [item]![end]</sn:pointer>
-    <sn:pointer id="23">[center]Vous avez trouvé [gils] Gils![end]</sn:pointer>
+    <sn:pointer id="22">Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="23">Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="24">[center]C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
@@ -1677,8 +1677,8 @@ entrer![end]</sn:pointer>
     <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
-    <sn:pointer id="496">[center]Vous avez trouvé le Grimoire![end]</sn:pointer>
-    <sn:pointer id="497">[center]Vous avez trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
+    <sn:pointer id="496">Vous avez trouvé le Grimoire![end]</sn:pointer>
+    <sn:pointer id="497">Vous avez trouvé un Livre coquin![delay][0x30][end]</sn:pointer>
     <sn:pointer id="498">Roi Baron: Baron? Kukakaka... qui est-ce? Ah oui, je me souviens![force_new]
 C'était cet humain stupide qui refusait de me livrer son royaume... Je m'étais fait passer pour lui! Hyahyahya![new]
 Cecil: Monstre! Sa Majesté...![new]

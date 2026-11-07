@@ -2,9 +2,9 @@
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
 <sn:pointer id="0">[center]Your inventory is full.[end]</sn:pointer>
 
-<sn:pointer id="1">[center]Received [item]![end]</sn:pointer>
+<sn:pointer id="1">Received [item]![end]</sn:pointer>
 
-<sn:pointer id="2">[center]You receive [gils] Gil![end]</sn:pointer>
+<sn:pointer id="2">You receive [gils] Gil![end]</sn:pointer>
 
 <sn:pointer id="3">[center]Monsters![end]</sn:pointer>
 
@@ -67,9 +67,9 @@ She shielded me... from the arrows...[end]</sn:pointer>
 
 <sn:pointer id="21">[center]Your MP has been restored![end]</sn:pointer>
 
-<sn:pointer id="22">[center]Found [item]![end]</sn:pointer>
+<sn:pointer id="22">Found [item]![end]</sn:pointer>
 
-<sn:pointer id="23">[center]Found [gils] Gil![end]</sn:pointer>
+<sn:pointer id="23">Found [gils] Gil![end]</sn:pointer>
 
 <sn:pointer id="24">[center]It is sealed by a mysterious power.[end]</sn:pointer>
 
@@ -2585,9 +2585,9 @@ get in![end]</sn:pointer>
 
 <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
 
-<sn:pointer id="496">[center]You found a Spellbook![end]</sn:pointer>
+<sn:pointer id="496">You found a Spellbook![end]</sn:pointer>
 
-<sn:pointer id="497">[center]You found a Naughty Book![delay][0x30][end]</sn:pointer>
+<sn:pointer id="497">You found a Naughty Book![delay][0x30][end]</sn:pointer>
 
 <sn:pointer id="498">[bold]King Baron[normal]: Baron?
 Ku ka ka ka... Who's that?
