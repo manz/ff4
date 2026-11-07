@@ -1,10 +1,12 @@
 """Trace battle init: $1822, $B966 palette bits, dirty bits over time."""
 import sys
+
 sys.path.insert(0, "tests")
 import ctypes
 from pathlib import Path
-from kintsuki import Emu
+
 from _ff4kintsuki import ROM
+from kintsuki import Emu
 
 KSS = Path("/Users/manz/PyCharmProjects/ff4-modules/ff4-battle-full-party.kss")
 e = Emu(load_srm_sidecar=False)
@@ -12,6 +14,7 @@ e.load_rom(str(ROM))
 blob = KSS.read_bytes()
 buf = (ctypes.c_uint8 * len(blob))(*blob)
 from kintsuki._native import lib
+
 lib.kintsuki_load_state(e._handle, buf, len(blob))
 
 def slot_pal_bytes(slot):
@@ -33,6 +36,6 @@ def snap(label):
 snap("boot")
 for step in [1, 4, 25, 30, 60]:
     e.run_frames(step)
-    snap(f"+step")
+    snap("+step")
 snap("settled")
 e.close()

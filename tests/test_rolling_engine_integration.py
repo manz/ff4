@@ -12,11 +12,9 @@ on the existing macro-driven scroll FSM that owns the same struct.
 from __future__ import annotations
 
 import pytest
-
-from kintsuki import Button
-
-from _ff4kintsuki import load_emu_from_kss, kss_path, tap
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from _rolling_state import addr
+from kintsuki import Button
 
 FIELD_MENU_ROLLING_BASE = addr("field_menu_rolling", "top_row")
 TREASURE_ROLLING_BASE = addr("treasure_rolling", "top_row")

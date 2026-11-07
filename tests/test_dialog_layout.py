@@ -114,14 +114,14 @@ def test_m_dot_stays_with_the_name_when_a_sentence_breaks(layout: DialogLayout) 
 
 
 def test_every_window_fits_the_page(layout: DialogLayout) -> None:
-    text = "Tellah: " + " ".join(
-        [
-            "Je ne suis pas en mesure de vaincre quelqu'un d'aussi puissant que lui avec la magie dont je dispose.",
-            "Je recherchais la légendaire magie scellée, Météor...",
-            "Et j'ai senti une forte aura émise de cette montagne.",
-            "Serait-ce possible, après toutes ces années de recherches..?",
-        ]
-    ) + "[end]"
+    text = (
+        "Tellah: "
+        "Je ne suis pas en mesure de vaincre quelqu'un d'aussi puissant que lui avec la magie dont je dispose. "
+        "Je recherchais la légendaire magie scellée, Météor... "
+        "Et j'ai senti une forte aura émise de cette montagne. "
+        "Serait-ce possible, après toutes ces années de recherches..?"
+        "[end]"
+    )
     for window in windows(layout.layout(text)):
         assert len(window) <= len(LINE_WIDTHS)
         lines = [line.removesuffix("[end]") for line in window]  # the engine draws nothing once it ends
@@ -227,7 +227,7 @@ def test_an_ellipsis_opening_a_source_line_lays_out_as_it_reads_mid_line(layout:
 def test_laying_the_script_out_again_changes_nothing(lang: str) -> None:
     lay = dialog_layout(lang)
     for path in sorted(Path(f"text/{lang}").glob("bank*.xml")):
-        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', path.read_text(encoding="utf-8"), re.S):
+        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', path.read_text(encoding="utf-8"), re.DOTALL):
             once = lay.layout(body)
             assert lay.layout(once) == once, f"{path.stem}#{pointer}"
 

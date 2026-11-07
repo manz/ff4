@@ -8,13 +8,18 @@ page.
 """
 from __future__ import annotations
 
+from itertools import pairwise
 from pathlib import Path
 
 import pytest
+from _ff4kintsuki import (
+    assert_screenshot_matches_golden,
+    kss_path,
+    load_emu_from_kss,
+    tap,
+)
 from kintsuki import Button
 from PIL import Image
-
-from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 GOLDENS = Path(__file__).parent / "goldens" / "equip_inventory"
@@ -183,7 +188,7 @@ def test_held_down_scrolls_at_vanillas_pace(list_emu):
             steps.append(frame)
             last = list_emu.read(SCROLL_POS)
     list_emu.release(0, Button.DOWN)
-    assert max(b - a for a, b in zip(steps, steps[1:])) <= 10
+    assert max(b - a for a, b in pairwise(steps)) <= 10
 
 
 def test_the_left_hand_list_renders_every_item(list_emu):

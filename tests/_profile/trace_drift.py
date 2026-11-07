@@ -1,9 +1,11 @@
 """Trace CPU until STP to find where it drifts."""
 import sys
+
 sys.path.insert(0, "tests")
 import ctypes
-from kintsuki import Emu
+
 from _ff4kintsuki import ROM, kss_path
+from kintsuki import Emu
 
 KSS = kss_path("ff4-battle.kss")
 e = Emu(load_srm_sidecar=False)
@@ -11,6 +13,7 @@ e.load_rom(str(ROM))
 blob = KSS.read_bytes()
 buf = (ctypes.c_uint8 * len(blob))(*blob)
 from kintsuki._native import lib
+
 lib.kintsuki_load_state(e._handle, buf, len(blob))
 
 # Run until STP or 600 frames, then dump tail of trace.

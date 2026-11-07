@@ -10,7 +10,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from _ff4kintsuki import (
     DROPS,
     assert_screenshot_matches_golden,

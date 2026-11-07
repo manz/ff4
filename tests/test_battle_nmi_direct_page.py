@@ -7,7 +7,7 @@ from _ff4kintsuki import fresh_late_battle
 from _rolling_state import addr
 
 HOOK, RETURN = 0x02836E, 0x028372  # jsl messages_vwf.dma_transfer, the instruction after it
-SCRATCH = range(0x00, 0x0E)  # $0E is vanilla's own NMI scratch (its transfers set it)
+SCRATCH = range(0x0E)  # $0E is vanilla's own NMI scratch (its transfers set it)
 INVENTORY_SLOTS = 0x3F  # dma_dirty_slots: every inventory CHR slice pending
 
 

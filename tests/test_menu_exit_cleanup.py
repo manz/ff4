@@ -4,14 +4,13 @@ registers ($43xy) so the next menu mode starts from a clean slate.
 """
 from __future__ import annotations
 
-from kintsuki import Button
-
 from _ff4kintsuki import (
+    enter_treasure_picker,
     kss_path,
     load_emu_from_kss,
-    enter_treasure_picker,
     tap,
 )
+from kintsuki import Button
 
 FIELD_STATE_BASE = 0x7E1BA8
 TREASURE_STATE_BASE = 0x7E9C00

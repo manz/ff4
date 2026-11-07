@@ -5,7 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from _ff4kintsuki import _new_emu, assert_screenshot_matches_golden, kss_path, load_emu_from_kss
+from _ff4kintsuki import (
+    _new_emu,
+    assert_screenshot_matches_golden,
+    kss_path,
+    load_emu_from_kss,
+)
 from kintsuki import Button, Emu
 
 GOLDENS = Path(__file__).parent / "goldens" / "showcase"

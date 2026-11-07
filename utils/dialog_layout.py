@@ -21,16 +21,23 @@ they carry onto.
 
 import re
 import sys
-from functools import lru_cache
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
+from functools import lru_cache
 from pathlib import Path
 
 from katsuji.dialog import Window
 from katsuji.layout import TextLayout
-from katsuji.windows import Paragraph, windows
-from katsuji.typeset import ENGLISH, FRENCH, FRENCH_ONE_LETTER_WORDS, Markup, Typography, typeset
 from katsuji.script import Table
+from katsuji.typeset import (
+    ENGLISH,
+    FRENCH,
+    FRENCH_ONE_LETTER_WORDS,
+    Markup,
+    Typography,
+    typeset,
+)
+from katsuji.windows import Paragraph, windows
 
 from utils.metrics import TextMetrics
 
@@ -436,7 +443,7 @@ def main(paths: list[str]) -> int:
     layout = dialog_layout()
     for name in paths:
         text = Path(name).read_text(encoding="utf-8")
-        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.S):
+        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.DOTALL):
             print(f"==== {Path(name).stem}#{pointer}\n{layout.layout(body)}")
     return 0
 

@@ -13,11 +13,9 @@ import struct
 from pathlib import Path
 
 import pytest
-
+from _rolling_state import symbols
 from a816.snippet import assemble_source
 from kintsuki import Emu
-
-from _rolling_state import symbols
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"

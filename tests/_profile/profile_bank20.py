@@ -1,8 +1,9 @@
 """Profile bank-20 reloc module to inspect dma_transfer fire rate."""
 import sys
+
 sys.path.insert(0, "tests")
-from kintsuki import Button
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 e = load_emu_from_kss(kss_path("ff4-battle.kss"))
 e.run_frames(30)

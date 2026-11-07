@@ -5,9 +5,8 @@ Vanilla closes it on the first step ($00:A9FB), so walking in with the pad held 
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss
+from kintsuki import Button
 
 WINDOW_STATE = 0x7E06EA  # 0 up, 1 closing, 2 closed
 STEP_FRAMES = 16

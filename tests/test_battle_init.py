@@ -15,9 +15,13 @@ fight; here every name cell has to point at a non-empty VWF tile.
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
-from _ff4kintsuki import CECIL_SLOT, CMD_ITEM, CMD_MAGIC_WHITE, choose_command, walk_into_battle, wait_for_turn, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import (
+    CECIL_SLOT,
+    kss_path,
+    load_emu_from_kss,
+    wait_for_turn,
+    walk_into_battle,
+)
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 

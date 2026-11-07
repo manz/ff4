@@ -11,10 +11,8 @@ from collections.abc import Callable
 from pathlib import Path
 
 import pytest
-
-from kintsuki import Button, Emu
-
 from _rolling_state import addr
+from kintsuki import Button, Emu
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"
@@ -274,6 +272,7 @@ def assert_screenshot_matches_golden(emu: Emu, golden_path: Path,
 def _assert_region_matches_golden(emu: Emu, golden_path: Path, region: tuple[int, int, int, int],
                                   threshold: float, max_diff_pixels: int) -> None:
     import tempfile
+
     from PIL import Image, ImageChops
 
     with tempfile.TemporaryDirectory() as tmp:

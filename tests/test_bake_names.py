@@ -65,7 +65,7 @@ def test_each_entry_points_at_its_name(font: VwfFont) -> None:
 
 def test_no_name_straddles_a_lorom_bank(font: VwfFont) -> None:
     long_name = bytes(range(0x42, 0x4A))
-    blob, table = bake(font, [long_name] * 600)
+    _blob, table = bake(font, [long_name] * 600)
     for offset, tiles, _columns in entries(table):
         assert offset // LOROM_BANK == (offset + tiles * 16 - 1) // LOROM_BANK
 

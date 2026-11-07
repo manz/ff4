@@ -3,8 +3,8 @@
 from pathlib import Path
 
 from katsuji.formats import VwfFont
-from katsuji.wrap import Controls, Fixed, Wrapper
 from katsuji.script import Table
+from katsuji.wrap import Controls, Fixed, Wrapper
 
 FF4_CONTROLS = Controls(
     space=0xFF,

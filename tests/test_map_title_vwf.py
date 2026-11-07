@@ -7,10 +7,8 @@ dakuten row is the font's space. The field menu's BG2 tilemap covers those tiles
 from __future__ import annotations
 
 import pytest
-
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 STUB = 0x1E00  # bank-0 WRAM: rep #$10, sep #$20, D = $0600 and DB = 0 as in the field, jsr the setup, rtl
 STUB_CODE = bytes([0xC2, 0x10, 0xE2, 0x20, 0xF4, 0x00, 0x06, 0x2B, 0xF4, 0x00, 0x00, 0xAB, 0xAB, 0x20, 0xD9, 0xB8, 0x6B])

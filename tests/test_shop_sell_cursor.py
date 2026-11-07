@@ -5,9 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from PIL import Image
-
 from _ff4kintsuki import PICTURE, kss_path, load_emu_from_kss
+from PIL import Image
 from test_showcase import _play
 
 LIST_X = 8  # the list hand's X; the quantity hand is the other sprite

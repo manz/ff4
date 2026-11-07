@@ -1,12 +1,13 @@
 """Dump WRAM tile buffer + inventory slot tilemap-buffer to text for
 visual inspection. Loads battle-ext, opens inventory, snapshots."""
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
 sys.path.insert(0, "tests")
-from kintsuki import Button
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 OUT = Path(__file__).parent / "dumps" / "inv_sram.hex"
 OUT.parent.mkdir(exist_ok=True)

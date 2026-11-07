@@ -13,8 +13,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from katsuji import VwfFont
-
 from katsuji.script import Table
+
 from utils.bake_names import Glyphs, auto_kern, name_tiles
 
 TILE_BYTES = 16

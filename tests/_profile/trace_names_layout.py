@@ -1,5 +1,6 @@
 """Dump char-name tilemap buffer $BEC2 to discover per-slot byte layout."""
 import sys
+
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
 

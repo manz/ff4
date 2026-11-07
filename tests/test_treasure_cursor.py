@@ -10,10 +10,9 @@ used to DMA 64K over VRAM and blank it.
 from __future__ import annotations
 
 import pytest
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 from PIL import Image
-
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-battle-inventory.kss")
 PICTURE = (13, 9, 13 + 256, 9 + 224)

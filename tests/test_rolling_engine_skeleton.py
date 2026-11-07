@@ -19,8 +19,7 @@ transitions, dirty-mask flush ordering, and HDMA channel arming.
 from __future__ import annotations
 
 import pytest
-
-from _ff4kintsuki import load_emu_from_kss, kss_path
+from _ff4kintsuki import kss_path, load_emu_from_kss
 
 # RollingBufferState field offsets (mirrors src/items.i `.struct
 # RollingBufferState`). Keep in sync if the struct evolves.

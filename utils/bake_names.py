@@ -13,11 +13,11 @@ from __future__ import annotations
 
 import dataclasses
 import struct
-
-import numpy as np
 from collections.abc import Mapping, Sequence
+from itertools import pairwise
 from pathlib import Path
 
+import numpy as np
 from katsuji import VwfFont, colourize, encode_tiles, render
 from katsuji.atlas import Atlas
 from katsuji.build import font_atlas
@@ -82,7 +82,7 @@ def auto_kern(font: VwfFont, glyphs: Glyphs, names: Sequence[bytes]) -> VwfFont:
     with a width override keeps its spacing: its declared width is not on the sheet (the space is blank, so measured
     on the glyphs its gap was kerned away: "Ver desabysses")."""
     codes = [codes.rstrip(bytes([SPACE])) for codes in names]
-    pairs = {pair for name in codes for pair in zip(name, name[1:]) if not set(pair) & glyphs.widths.keys()}
+    pairs = {pair for name in codes for pair in pairwise(name) if not set(pair) & glyphs.widths.keys()}
     return dataclasses.replace(font, kerning={**find_kerning(glyphs.atlas, pairs), **font.kerning})
 
 

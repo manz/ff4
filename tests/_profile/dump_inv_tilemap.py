@@ -13,8 +13,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, "tests")
-from kintsuki import Button
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 REPO = Path(__file__).resolve().parents[2]
 SYM_PATH = REPO / "build" / "ff4.sym"
@@ -91,7 +91,7 @@ def main() -> None:
     tap(emu, Button.DOWN, gap=20)
     tap(emu, Button.DOWN, gap=20)
     tap(emu, Button.A, gap=60)
-    print(f"Initial state after settle + nav:")
+    print("Initial state after settle + nav:")
     s0 = snapshot(emu)
     print(f"  tile_id={s0['tile_id']:02X} pending={s0['pending']:02X} "
           f"region_dirty={s0['region_dirty']:02X} rolling_slot={s0['rolling_slot']:02X}")

@@ -14,10 +14,6 @@ import os
 from pathlib import Path
 
 import pytest
-
-from kintsuki import Button
-
-from _rolling_state import addr
 from _ff4kintsuki import (
     DROPS,
     REPO,
@@ -26,6 +22,8 @@ from _ff4kintsuki import (
     load_emu_from_kss,
     tap,
 )
+from _rolling_state import addr
+from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "drops"
 

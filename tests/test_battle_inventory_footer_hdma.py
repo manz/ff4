@@ -9,7 +9,7 @@ change).
 """
 from __future__ import annotations
 
-from _ff4kintsuki import command_row, choose_command, fresh_late_battle, tap
+from _ff4kintsuki import choose_command, command_row, fresh_late_battle, tap
 from kintsuki import Button
 
 ITEM = 0x01

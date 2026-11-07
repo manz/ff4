@@ -6,6 +6,7 @@ the NMI body invokes ; result = upper bound on NMI cycle cost per
 60-frame window. Divide by 60 for per-NMI average.
 """
 import sys
+
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
 

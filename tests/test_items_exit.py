@@ -1,9 +1,9 @@
 """Leaving Objets fades out before the list's scroll HDMA goes: the list window doesn't jump up on screen first."""
 from __future__ import annotations
 
-from PIL import Image
 from _ff4kintsuki import PICTURE, kss_path, load_emu_from_kss, tap
 from kintsuki import Button
+from PIL import Image
 
 EXIT_FRAMES = 40
 BORDER_X = 4  # a column through the Objets window's bottom border and the list window's top one

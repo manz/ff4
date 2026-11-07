@@ -8,7 +8,13 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from _ff4kintsuki import FULL_PICTURE, assert_screenshot_matches_golden, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import (
+    FULL_PICTURE,
+    assert_screenshot_matches_golden,
+    kss_path,
+    load_emu_from_kss,
+    tap,
+)
 from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "save_confirm"

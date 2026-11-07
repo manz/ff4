@@ -5,12 +5,16 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from _ff4kintsuki import (
+    assert_screenshot_matches_golden,
+    fresh_late_battle,
+    tap,
+)
 from katsuji import VwfFont
 from katsuji import config as katsuji_config
 from katsuji.script import Table
-
-from _ff4kintsuki import PICTURE, assert_screenshot_matches_golden, fresh_late_battle, tap
 from kintsuki import Button
+
 from utils import battle_labels
 from utils.bake_names import Glyphs
 
