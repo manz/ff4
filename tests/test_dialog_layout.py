@@ -266,3 +266,8 @@ def test_a_tie_keeps_two_words_on_one_line(layout: DialogLayout) -> None:
 
 def test_a_tie_is_a_space_in_the_rom(layout: DialogLayout) -> None:
     assert layout.metrics.table.to_bytes("~") == layout.metrics.table.to_bytes(" ")
+
+
+def test_a_window_holds_one_short_tail(layout: DialogLayout) -> None:
+    out = layout.layout("Caïn: Je me doutais que tu allais dire ça. Je ne vais pas te laisser quitter Baron tout seul.[end]")
+    assert out.split("[new]")[0].endswith("dire ça.")

@@ -42,6 +42,7 @@ MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines th
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow
 WINDOW = Window(WINDOW_WIDTH, len(LINE_WIDTHS), line_widths=dict(enumerate(LINE_WIDTHS)))
 NEW_WINDOW = "[new]"
+ONE_TAIL = 0.5  # one sentence ending on a line under half full per window: two read as holes (in game)
 FORCE_NEW = "[force_new]"  # an editor's window turn: kept, the speaker set again
 LINE_BREAK = "[br]"  # an editor's line turn (TeX's \\): kept; `~` is a space no line breaks at
 CENTER = "[center]"  # opens a message whose lines are centred: code FA, a blank glyph a pixel wide
@@ -417,7 +418,7 @@ class DialogLayout:
         paragraphs = _Paragraphs(self.quoting, self.abbreviations)
         for token in tokens:
             paragraphs.token(token)
-        laid = windows(self.text_layout, paragraphs.result(), WINDOW)
+        laid = windows(self.text_layout, paragraphs.result(), WINDOW, one_tail=ONE_TAIL)
         laid = self._centred(laid, bool(tokens) and tokens[0].value.startswith(CENTER))
         text = f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
         text = re.sub(re.escape(LINE_BREAK) + r"(?!\n)", "", text)  # a line break a window turn or an end makes moot
