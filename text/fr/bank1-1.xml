@@ -337,7 +337,7 @@ repose...[end]</sn:pointer>
 [bold]Cecil[normal]: Je ne sais même pas comment
 tu t'appelles.[new]
 [bold]Fille[normal]: ...[new]
-[bold]Cecil[normal]: C'est comme si j'avais tué ta mère... Tu ne pourras jamais me pardonner...[force_new] Mais laisse-moi au moins te protéger...[new]
+[bold]Cecil[normal]: C'est comme si j'avais tué ta mère...[force_new] Tu ne pourras jamais me pardonner...[force_new] Mais laisse-moi au moins te protéger...[new]
 [bold]Fille[normal]: ...[end]</sn:pointer>
     <sn:pointer id="99">Général: Enfin, Cecil, nous t'avons trouvé![new]
 Fille: ![new]
