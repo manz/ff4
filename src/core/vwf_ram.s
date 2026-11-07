@@ -38,6 +38,8 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
 ; chr_dirty_from, chr_dirty_to: the primary flush's dirty bytes, from VWF_CHR_FLUSH_OFFSET. A scroll step redraws
 ;   one slot, and the whole block would not fit in vblank next to the menu's own transfers. A span past
 ;   chr_byte_count ($FFFF: a render that does not track it) flushes the whole block.
+; screen_off: non-zero when the caller knows the screen is in forced blank (the menu, $88 bit 7), so flush_b may
+;   run outside vblank. INIDISP is write-only; only the menu's own shadow says so.
 .struct VwfEngine {
     word src_offset
     byte chr_dirty
@@ -48,6 +50,7 @@ fails the build. vwf_state.i keeps the CHR buffer and VRAM save layout.
     byte current_char
     word chr_dirty_from
     word chr_dirty_to
+    byte screen_off
 }
 
 .struct VwfConfig {

@@ -1916,9 +1916,16 @@ _equip_nmi_hdma_copy_done:
 ; wait ($01:9FEC, _treasure_main_check_xfer), and a copy here too ran theirs past vblank, where the PPU drops it.
 
 _field_nmi_done:
-; VWF CHR flush on DMA ch3 (no context runs HDMA on it).
+; VWF CHR flush on DMA ch3 (no context runs HDMA on it). Menu only: $88 (menu DP $0100) is its brightness, bit 7
+; screen off, when flush_b may run past vblank.
 ; Same bank as this impl, so a short JSR pairs with the routine's RTS.
+    sep #0x20
+    lda.l 0x7E0188
+    and.b #0x80
+    sta.l vwf_engine.screen_off
     jsr.w render.flush_chr_to_vram
+    lda.b #0x00
+    sta.l vwf_engine.screen_off
     plp
     rtl
 }
