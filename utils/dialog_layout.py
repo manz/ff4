@@ -42,6 +42,7 @@ LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-t
 WINDOW = Window(WINDOW_WIDTH, len(LINE_WIDTHS), line_widths=dict(enumerate(LINE_WIDTHS)))
 NEW_WINDOW = "[new]"
 FORCE_NEW = "[force_new]"  # an editor's window turn: kept, the speaker set again
+CENTER = "[center]"  # opens a message whose lines are centred: code FA, a blank glyph a pixel wide
 ENDS = ("[end]", "[close_window]")
 SPEAKER = re.compile(r"((?:Dr\.\s+)?\w+(?:'\w+)?(?:\s+\w+(?:'\w+)?)*):")  # "Yang's wife:", "Dr. Lugeie:" too
 _IN_MESSAGE = r"(?!\[end\]|\[close_window\])"  # a quote never runs past its message
@@ -62,6 +63,7 @@ QUOTING = {
     ),
 }
 ANNOUNCEMENT = re.compile(r"\[force_bold\][^\[]*[.!?]\s*\[force_normal\]")  # its punctuation inside: not a bold word
+ANNOUNCED = re.compile(r"\[force_bold\][^\[]*\[force_normal\]")  # an announcement as laid out, padding and all
 CONTROL = re.compile(r"\[[^\]]*\]")
 LAYOUT_MARKUP = ("[bold]", "[normal]", "[book]", "[wicked]")
 MARKUP = Markup(
@@ -98,7 +100,27 @@ def clean(text: str) -> str:
     for tag in LAYOUT_MARKUP:
         cleaned = cleaned.replace(tag, "")
     cleaned = cleaned.replace(SPEAKER_SPACE + ":", ":")
+    cleaned = _uncentred(cleaned)
     return re.sub(r"(?<=\w-)\n(?=\w)", "", cleaned)  # a word a layout broke at its hyphen
+
+
+def _uncentred(text: str) -> str:
+    """`text` without the padding a layout set before centred lines: an announcement's, and those of a `[center]`
+    message's opening run, up to its first speaker."""
+    text = ANNOUNCED.sub(lambda m: _unpadded(m[0]), text)
+    parts = re.split(r"(\[end\]|\[close_window\])", text)
+    return "".join(_unpadded_run(part) if part.lstrip().startswith(CENTER) else part for part in parts)
+
+
+def _unpadded_run(message: str) -> str:
+    speaker = re.search(r"^\[bold\]", message, re.MULTILINE)
+    cut = speaker.start() if speaker else len(message)
+    return _unpadded(message[:cut]) + message[cut:]
+
+
+def _unpadded(text: str) -> str:
+    """Each line of `text` without the run of spaces and spacers after its opening tags."""
+    return re.sub(rf"^((?:\[[^\]]*\])*)[ {SPEAKER_SPACE}]+", r"\1", text, flags=re.MULTILINE)
 
 
 def tokenize(text: str, quoting: Quoting = QUOTING["fr"], abbreviations: tuple[str, ...] = ("M.",)) -> list[Token]:
@@ -335,6 +357,34 @@ class DialogLayout:
         """`line` measured in the font in use after `before`, the message laid out ahead of it."""
         return self.measure(line, self._font_after(before))
 
+    def _centred(self, laid: list[list[str]], opening: bool) -> list[list[str]]:
+        """System messages centred: with `opening` (`[center]`), the message's opening run up to its first speaker;
+        and every window an announcement opens. Each line is padded to the middle of the window with the spaces and
+        spacers of the font in use there, after the tags opening the line (`[center]`, a font)."""
+        out: list[list[str]] = []
+        before, centring = "", opening
+        for lines in laid:
+            window = []
+            announced = bool(lines) and lines[0].startswith("[force_bold]")
+            for line in lines:
+                centring = centring and not line.startswith("[bold]")
+                if centring or announced:
+                    line = self._centre(line, before)
+                window.append(line)
+                before = f"{before}\n{line}" if before else line
+            out.append(window)
+        return out
+
+    def _centre(self, line: str, before: str) -> str:
+        opening = re.match(r"(?:\[[^\]]*\] ?)*", line)[0]
+        tags, words = opening.replace("] ", "]").rstrip(), line[len(opening) :]
+        ahead = f"{before}\n{tags}" if before else tags
+        font = self._font_after(ahead) if ahead else 0
+        space, spacer = self.measure(" ", font), self.measure(SPEAKER_SPACE, font)
+        used = self.measure(tags, self._font_after(before) if before else 0) + self.measure(words, font)
+        room = max(0, (WINDOW_WIDTH - used) // 2)
+        return tags + " " * (room // space) + SPEAKER_SPACE * (room % space // spacer) + words
+
     def _font_after_uncached(self, before: str) -> int:
         """The font in use after `before`: after its last line, started in the font its other lines leave, each
         of those cached, so a message is walked once however often its lines are measured."""
@@ -358,6 +408,7 @@ class DialogLayout:
         for token in tokens:
             paragraphs.token(token)
         laid = windows(self.text_layout, paragraphs.result(), WINDOW)
+        laid = self._centred(laid, bool(tokens) and tokens[0].value.startswith(CENTER))
         text = f"{NEW_WINDOW}\n".join("\n".join(lines) for lines in laid) + ends
         return text.replace(FORCE_NEW + NEW_WINDOW, FORCE_NEW)
 

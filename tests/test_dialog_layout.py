@@ -52,6 +52,24 @@ def test_a_forced_window_survives_a_second_layout(layout: DialogLayout) -> None:
     assert layout.layout(once) == once
 
 
+def test_a_centred_message_is_padded_to_the_middle(layout: DialogLayout) -> None:
+    out = layout.layout("[center]Le coffre est vide.[end]")
+    pad = re.match(r"\[center\]([ °]*)", out)[1]
+    left = layout.measure(pad)
+    right = 208 - left - layout.measure("[center]Le coffre est vide.")
+    assert abs(left - right) <= 4
+
+
+def test_centring_stops_at_the_first_speaker(layout: DialogLayout) -> None:
+    out = layout.layout("[center]Vous avez obtenu la Pierre. Cecil: Qu'est-ce que c'est?[end]")
+    assert out.split("\n")[1].startswith("[bold]Cecil")
+
+
+def test_a_centred_message_survives_a_second_layout(layout: DialogLayout) -> None:
+    once = layout.layout("[center][force_book]Ainsi, le chevalier noir Cecil perdit sa place.[force_new] Il partit.[end]")
+    assert layout.layout(once) == once
+
+
 def test_narration_runs_on_into_a_speaker_on_a_new_line(layout: DialogLayout) -> None:
     out = layout.layout("La porte s'ouvre. Cecil: Allons-y![end]")
     assert out == "La porte s'ouvre.\n[bold]Cecil[normal]°: Allons-y°![end]"
@@ -148,9 +166,12 @@ def test_each_message_starts_in_the_dialog_font(layout: DialogLayout) -> None:
 def test_an_announcement_gets_its_own_window(layout: DialogLayout) -> None:
     """A whole sentence in [force_bold] (a party join) is not the speaker's: it doesn't share their window."""
     out = layout.layout("Cecil: Merci... Rydia. [force_bold]L'invocatrice Rydia se joint à toi![force_normal][end]")
-    assert out == (
-        "[bold]Cecil[normal]°: Merci... Rydia.[new]\n[force_bold]L'invocatrice Rydia\nse joint à toi°![force_normal][end]"
-    )
+    assert out.startswith("[bold]Cecil[normal]°: Merci... Rydia.[new]\n[force_bold]")
+
+
+def test_an_announcement_is_centred(layout: DialogLayout) -> None:
+    out = layout.layout("Cecil: Merci... Rydia. [force_bold]L'invocatrice Rydia se joint à toi![force_normal][end]")
+    assert re.search(r"\[force_bold\][ °]+L'invocatrice", out)
 
 
 def test_a_bold_word_stays_in_its_sentence(layout: DialogLayout) -> None:
