@@ -2756,17 +2756,17 @@ nicknames...[end]</sn:pointer>
 
 <sn:pointer id="360">T[end]</sn:pointer>
 
-<sn:pointer id="361">[center]You received the Murasame![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="361">You received the Murasame![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="362">T[end]</sn:pointer>
 
-<sn:pointer id="363">[center]You received Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="363">You received Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="364">T[end]</sn:pointer>
 
 <sn:pointer id="365">T[end]</sn:pointer>
 
-<sn:pointer id="366">[center]You received the Masamune![music][0x29][delay][0x28][end]
+<sn:pointer id="366">You received the Masamune![music][0x29][delay][0x28][end]
 Did you think the likes of you, from the Blue Planet, could wield this cursed blade... Masamune!?[end]</sn:pointer>
 
 <sn:pointer id="367">T[end]</sn:pointer>
@@ -2791,7 +2791,7 @@ Did you think the likes of you, from the Blue Planet, could wield this cursed bl
 
 <sn:pointer id="377">T[end]</sn:pointer>
 
-<sn:pointer id="378">[center]You received the Holy Lance![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="378">You received the Holy Lance![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="379">T[end]</sn:pointer>
 

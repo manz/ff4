@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:pointer id="0">[center]L'inventaire est plein.[end]</sn:pointer>
+    <sn:pointer id="0">L'inventaire est plein.[end]</sn:pointer>
     <sn:pointer id="1">Vous avez trouvé [item]![end]</sn:pointer>
     <sn:pointer id="2">Vous avez trouvé [gils] Gils![end]</sn:pointer>
-    <sn:pointer id="3">[center]Un monstre dans le coffre![end]</sn:pointer>
-    <sn:pointer id="4">[center]Le coffre est vide.[end]</sn:pointer>
-    <sn:pointer id="5">[center]La porte est verrouillée.[end]</sn:pointer>
-    <sn:pointer id="6">[center]La porte est ouverte.[end]</sn:pointer>
+    <sn:pointer id="3">Un monstre dans le coffre![end]</sn:pointer>
+    <sn:pointer id="4">Le coffre est vide.[end]</sn:pointer>
+    <sn:pointer id="5">La porte est verrouillée.[end]</sn:pointer>
+    <sn:pointer id="6">La porte est ouverte.[end]</sn:pointer>
     <sn:pointer id="7">«Bonne nuit...»[delay][0x5][close_window][end]</sn:pointer>
     <sn:pointer id="8">Bon, en route![end]</sn:pointer>
-    <sn:pointer id="9">[center]PV et état restaurés![end]</sn:pointer>
-    <sn:pointer id="10">[center]PV et PM restaurés![end]</sn:pointer>
-    <sn:pointer id="11">[center]Trouvé un chocobo![end]</sn:pointer>
+    <sn:pointer id="9">PV et état restaurés![end]</sn:pointer>
+    <sn:pointer id="10">PV et PM restaurés![end]</sn:pointer>
+    <sn:pointer id="11">Trouvé un chocobo![end]</sn:pointer>
     <sn:pointer id="12">[bold]Cecil[normal]: Golbez!
 FuSoYa![end]</sn:pointer>
-    <sn:pointer id="13">[center]Trouvé un chocobo noir![end]</sn:pointer>
+    <sn:pointer id="13">Trouvé un chocobo noir![end]</sn:pointer>
     <sn:pointer id="14">[bold]Cecil[normal]: ?[new]
 [bold]Rosa[normal]: Les poupées![end]</sn:pointer>
-    <sn:pointer id="15">[center]Il y a comme une odeur de chocobo...[end]</sn:pointer>
-    <sn:pointer id="16">[center]Trouvé un chocobo blanc![end]</sn:pointer>
+    <sn:pointer id="15">Il y a comme une odeur de chocobo...[end]</sn:pointer>
+    <sn:pointer id="16">Trouvé un chocobo blanc![end]</sn:pointer>
     <sn:pointer id="17">Place au Gros Chocobo![end]</sn:pointer>
     <sn:pointer id="18">[bold]Tella[normal]: Anna... tu es encore en
 vie...[new]
@@ -45,11 +45,11 @@ Mon père... ma mère... morts...
 Anna aussi...[force_new]
 Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
-    <sn:pointer id="20">[center]Il ne s'est rien passé.[end]</sn:pointer>
-    <sn:pointer id="21">[center]PM restaurés![end]</sn:pointer>
+    <sn:pointer id="20">Il ne s'est rien passé.[end]</sn:pointer>
+    <sn:pointer id="21">PM restaurés![end]</sn:pointer>
     <sn:pointer id="22">Vous avez trouvé [item]![end]</sn:pointer>
     <sn:pointer id="23">Vous avez trouvé [gils] Gils![end]</sn:pointer>
-    <sn:pointer id="24">[center]C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
+    <sn:pointer id="24">C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
 C'est [gils] Gils la nuit.
@@ -108,7 +108,7 @@ Entrez.[end]</sn:pointer>
     <sn:pointer id="43">[bold]Roi Baron[normal]: Bien joué, Cecil.
 Alors, le cristal?[new]
 [bold]Cecil[normal]: Le voici, Majesté.[end]</sn:pointer>
-    <sn:pointer id="44">[center]
+    <sn:pointer id="44">
           [force_book]Vous avez remis le cristal de l'eau.[force_normal][end]
 </sn:pointer>
     <sn:pointer id="45">[bold]Beigan[normal]: Hmm...
@@ -362,7 +362,7 @@ Rydia.[new]
 [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal]
 
 [end]</sn:pointer>
-    <sn:pointer id="102">[center]Cecil a fait briller la Lumière du désert sur Rosa![end]</sn:pointer>
+    <sn:pointer id="102">Cecil a fait briller la Lumière du désert sur Rosa![end]</sn:pointer>
     <sn:pointer id="103">[bold]Rosa[normal]: Oh...[end]</sn:pointer>
     <sn:pointer id="104">Rosa: Cecil! Tu es vivant! Je suis si heureuse![new]
 Cecil: Tu as fait une folie...[music][0x13][new]
@@ -671,7 +671,7 @@ Porom: M. Cecil![end]</sn:pointer>
 C'est un combat contre moi-même! Pour racheter mes fautes passées, je dois l'abattre... lui, le chevalier noir![end]</sn:pointer>
     <sn:pointer id="204">«Bien joué... Je vais changer mon esprit en lumière et te le confier. Reçois-la... ma... dernière lumière! Mon fils... arrête Golbez!»[new]
 Cecil: A... attendez![end]</sn:pointer>
-    <sn:pointer id="205">[center]Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
+    <sn:pointer id="205">Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
     <sn:pointer id="206">Porom: Vous allez bien?[new]
 Palom: T'es vraiment...[new]
 Porom: Shh![new]
@@ -719,7 +719,7 @@ en danger![end]</sn:pointer>
 Edward: ...Ne vous inquiétez pas... Juste jusqu'à ma harpe là-bas... Ooh![new]
 «Dans votre état, vous ne devriez même pas marcher! Ne vous surmenez pas!»[new]
 Edward: Ça ne fait rien... Je suis le seul... qui puisse sauver... Cecil et les autres![end]</sn:pointer>
-    <sn:pointer id="222">[center]Le Murmure porte jusqu'ici la harpe d'Edward! Yang: Oh...[new]
+    <sn:pointer id="222">Le Murmure porte jusqu'ici la harpe d'Edward! Yang: Oh...[new]
 Tella: Cette douce mélodie...[new]
 Cecil: La harpe d'Edward![new]
 Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, [italic]HIC[/italic]![end]</sn:pointer>
@@ -791,7 +791,7 @@ ta précieuse Rosa...[music][0x19][force_new] Alors, montez![end]</sn:pointer>
 [bold]Cecil[normal]: Rosa n'a rien, j'espère?[new]
 [bold]Golbez[normal]: Bien sûr qu'elle n'a rien.
 À présent, donne-moi le cristal![end]</sn:pointer>
-    <sn:pointer id="237">[center]Vous avez remis le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
+    <sn:pointer id="237">Vous avez remis le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
 Golbez: Rosa? De quoi parles-tu?[new]
 Cecil: Quoi!?[new]
 Cid: Ce n'était pas l'accord![new]
@@ -902,7 +902,7 @@ Cid: Faudrait creuser un trou pour y aller![new]
 Caïn: En tout cas, Golbez a dit qu'une fois réunis les cristaux de la surface et ceux des profondeurs, de la lumière et des ténèbres,[force_new] le chemin vers la Lune s'ouvrirait.[new]
 Cecil: Le chemin vers la Lune?[new]
 Caïn: Je ne suis pas sûr de ce que ça veut dire... mais apparemment, ceci en serait la clé. Tiens, prends-le.[end]</sn:pointer>
-    <sn:pointer id="267">[center]Vous avez obtenu la Pierre de magma.
+    <sn:pointer id="267">Vous avez obtenu la Pierre de magma.
 [bold]Cecil[normal]: Qu'est-ce que c'est?[new]
 [bold]Caïn[normal]: Quand on la brandit quelque
 part, cette pierre ouvre apparemment le
@@ -933,7 +933,7 @@ Giotto: Oh, comme ça vous appelez ces choses aéronefs... Dire que le monde d'e
 Nous sommes fiers de nos chars, mais attaqués du ciel, ils peinent un peu... Pourriez-vous nous couvrir avec votre... aéronef?[new]
 Cid: C'est que... avec ces tirs et l'atterrissage forcé, il est un peu amoché.[end]</sn:pointer>
     <sn:pointer id="272">[bold]Cecil[normal]: Cid![end]</sn:pointer>
-    <sn:pointer id="273">[center]Cid a quitté le groupe.[end]</sn:pointer>
+    <sn:pointer id="273">Cid a quitté le groupe.[end]</sn:pointer>
     <sn:pointer id="274">Cecil: Il n'y a personne, ici.[new]
 Yang: Je sens une présence plus loin![end]</sn:pointer>
     <sn:pointer id="275">Caïn: Ça ne veut pas s'ouvrir![new]
@@ -1405,7 +1405,7 @@ Et allons-y![end]</sn:pointer>
     <sn:pointer id="391">Rydia: Oh![new]
 Edward: Ne t'en fais pas. Le Fourmilion est docile. Il n'attaquerait pas un humain. Je vais prendre la Lumière du désert.[end]</sn:pointer>
     <sn:pointer id="392">[bold]Cecil[normal]: Allons-y, Rydia![end]</sn:pointer>
-    <sn:pointer id="393">[center]Vous avez obtenu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="393">Vous avez obtenu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="394">[bold]Edward[normal]: C'est impossible!
 Pourquoi le Fourmilion...?[new]
 [bold]Cecil[normal]: Il y a de plus en plus de
@@ -1520,7 +1520,7 @@ Qu'est-ce que c'est!?[end]</sn:pointer>
 sommes un fier escadron!
 Et nous voilà à piller des gens sans
 défense![end]</sn:pointer>
-    <sn:pointer id="442">[center]Vous avez obtenu le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="442">Vous avez obtenu le Cristal de la Terre![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="443">[bold]Cid[normal]: Pas d'inquiétude!
 Cid et son Enterprise sont là![new]
 Il paraît que tu as beaucoup aidé Cecil
@@ -1531,7 +1531,7 @@ Cecil: On doit l'échanger contre le cristal de la Terre de Troia... Mais le cri
     <sn:pointer id="445">Edward: Cecil, prends ça...[new]
 Cecil: C'est quoi?[new]
 Edward: Il ira avec toi... à ma place... Prends-le...[end]</sn:pointer>
-    <sn:pointer id="446">[center]Vous avez obtenu le Murmure.[end]</sn:pointer>
+    <sn:pointer id="446">Vous avez obtenu le Murmure.[end]</sn:pointer>
     <sn:pointer id="447">Cecil: Le voilà! Où est Rosa!?[new]
 Caïn: Hmph. Du calme. Suis mon aéronef.[end]</sn:pointer>
     <sn:pointer id="448">[bold]Cecil[normal]: Tiens, le voilà![end]</sn:pointer>
@@ -1595,7 +1595,7 @@ Les cristaux luisaient silencieusement...[end]</sn:pointer>
 Cid: Je peux faire quelques réparations provisoires avec les matériaux disponibles ici...[new]
 Mais la coque ne résistera pas à la chaleur de la lave. Je dois retourner à la surface et la renforcer au mithril![new]
 Bon, ben, j'y vais![end]</sn:pointer>
-    <sn:pointer id="467">[center]Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
+    <sn:pointer id="467">Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
 [bold]Palom[normal]: Tu nous as vus à l'œuvre, non?[new]
 [bold]Porom[normal]: Oui![new]
@@ -1693,7 +1693,7 @@ Cecil: Alors vous êtes le sage Tella![end]</sn:pointer>
     <sn:pointer id="501">[bold]Golbez[normal]: Oui.[end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
     <sn:pointer id="503">[bold]Femme de Yang[normal]: Toi aussi![delay][0xa][end]</sn:pointer>
-    <sn:pointer id="504">[center]Vous avez reçu le Collier de Luca![end]</sn:pointer>
+    <sn:pointer id="504">Vous avez reçu le Collier de Luca![end]</sn:pointer>
     <sn:pointer id="505">[bold]Yang[normal]: Il est trop tard![new]
 [bold]Cecil[normal]: Mais qui est en train de
 combattre les Ailes Rouges?[new]

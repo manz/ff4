@@ -2045,12 +2045,12 @@ des surnoms...[end]</sn:pointer>
     <sn:pointer id="358">T[end]</sn:pointer>
     <sn:pointer id="359">T[end]</sn:pointer>
     <sn:pointer id="360">T[end]</sn:pointer>
-    <sn:pointer id="361">[center]Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="361">Vous avez obtenu la Murasame![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="362">T[end]</sn:pointer>
-    <sn:pointer id="363">[center]Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="363">Vous avez obtenu Ragnarok![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="364">T[end]</sn:pointer>
     <sn:pointer id="365">T[end]</sn:pointer>
-    <sn:pointer id="366">[center]Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]
+    <sn:pointer id="366">Vous avez obtenu la Masamune![music][0x29][delay][0x28][end]
 Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette lame maudite... la Masamune!?[end]</sn:pointer>
     <sn:pointer id="367">T[end]</sn:pointer>
     <sn:pointer id="368">T[end]</sn:pointer>
@@ -2063,7 +2063,7 @@ Pensiez-vous vraiment que des gens de la Planète Bleue pourraient manier cette 
     <sn:pointer id="375">T[end]</sn:pointer>
     <sn:pointer id="376">T[end]</sn:pointer>
     <sn:pointer id="377">T[end]</sn:pointer>
-    <sn:pointer id="378">[center]Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="378">Vous avez obtenu la Lance sacrée![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="379">T[end]</sn:pointer>
     <sn:pointer id="380">T[end]</sn:pointer>
     <sn:pointer id="381">T[end]</sn:pointer>

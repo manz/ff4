@@ -636,7 +636,7 @@ The moon is...!'[delay][0x18][close_window][end]</sn:pointer>
 I thought...I heard my brother's voice...[new]
 [bold]Rosa[normal]: What did he say...?[delay][0x20][close_window][end]</sn:pointer>
 
-<sn:pointer id="117">[center]You received the Crystal![end]</sn:pointer>
+<sn:pointer id="117">You received the Crystal![end]</sn:pointer>
 
 <sn:pointer id="118">[bold]Cecil[normal]: I'm just imagining things.
 Probably...[delay][0x20][close_window][end]</sn:pointer>
