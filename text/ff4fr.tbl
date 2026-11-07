@@ -9,6 +9,7 @@
 fe0207fe00=[item]
 08=[gils]
 fe0208fe00=[gils]
+fe00=[/italic]
 fe00=[normal]
 fe00fe00=[force_normal]
 fe01=[wicked]
@@ -17,6 +18,7 @@ fe02=[book]
 fe02fe02=[force_book]
 fe03=[bold]
 fe03fe03=[force_bold]
+fe04=[italic]
 0400=Cecil
 0401=Cain
 0401=Caïn

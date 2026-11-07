@@ -35,7 +35,8 @@ from katsuji.script import Table
 from utils.metrics import TextMetrics
 
 TABLE = Path("text/ff4fr.tbl")
-FONTS = ["build/gen/font.dat", "build/gen/wicked_font.dat", "build/gen/book_font.dat", "build/gen/bold_font.dat"]
+FONTS = ["build/gen/font.dat", "build/gen/wicked_font.dat", "build/gen/book_font.dat", "build/gen/bold_font.dat",
+         "build/gen/italic_font.dat"]
 WINDOW_WIDTH = 208
 MIN_BALANCED_WIDTH = WINDOW_WIDTH * 2 // 3  # a balanced sentence keeps lines this wide: no "Rydia a / été avalée"
 LINE_WIDTHS = (208, 208, 208, 200)  # the fourth line leaves room for the page-turn arrow

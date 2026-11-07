@@ -53,12 +53,15 @@ book_font:
     .incbin "book_font.dat"
 bold_font:
     .incbin "bold_font.dat"
+italic_font:
+    .incbin "italic_font.dat"
 font_table:
-"""24-bit pointer table indexed by font id (0=dialog, 1=wicked, 2=book, 3=bold)."""
+"""24-bit pointer table indexed by font id (0=dialog, 1=wicked, 2=book, 3=bold, 4=italic)."""
     .pointer dialog_font
     .pointer wicked_font
     .pointer book_font
     .pointer bold_font
+    .pointer italic_font
 
 
 credits_text:

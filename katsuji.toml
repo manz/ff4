@@ -79,6 +79,13 @@ kerning-candidates = [
 ]
 kerning = { "tt" = 2 }
 
+[fonts.italic]
+builtin = "sumi/16/italic"  # sound effects: [italic]snif[/italic]; slanted, so kerning is given, not measured
+blank = ["0xFD"]  # the 1px spacer, labelled °
+table = "text/ff4fr.tbl"
+output = "build/gen/italic_font.dat"
+widths = { "0xFF" = 3, "0xFD" = 1, "0xFE" = 2 }
+
 [fonts.wicked]
 builtin = "sumi/16/wicked"
 blank = ["0xFD"]  # the 1px spacer, labelled °
