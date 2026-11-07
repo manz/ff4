@@ -271,3 +271,12 @@ def test_a_tie_is_a_space_in_the_rom(layout: DialogLayout) -> None:
 def test_a_window_holds_one_short_tail(layout: DialogLayout) -> None:
     out = layout.layout("Caïn: Je me doutais que tu allais dire ça. Je ne vais pas te laisser quitter Baron tout seul.[end]")
     assert out.split("[new]")[0].endswith("dire ça.")
+
+
+def test_a_centred_name_is_placed_at_its_default_width(layout: DialogLayout) -> None:
+    out = layout.layout("[force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal][end]")
+    first = out.split("\n")[0]
+    pad = re.match(r"\[force_bold\]([ °]*)", first)[1]
+    rest = first[len("[force_bold]") + len(pad) :]
+    left = layout.metrics.measure_named(pad, 3)
+    assert abs(left - (208 - left - layout.metrics.measure_named(rest, 3))) <= 5

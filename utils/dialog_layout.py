@@ -392,7 +392,8 @@ class DialogLayout:
         ahead = f"{before}\n{tags}" if before else tags
         font = self._font_after(ahead) if ahead else 0
         space, spacer = self.measure(" ", font), self.measure(SPEAKER_SPACE, font)
-        used = self.measure(tags, self._font_after(before) if before else 0) + self.measure(words, font)
+        named = self.metrics.measure_named
+        used = named(tags, self._font_after(before) if before else 0) + named(words.replace(FORCE_NEW, ""), font)
         room = max(0, (WINDOW_WIDTH - used) // 2)
         return tags + " " * (room // space) + SPEAKER_SPACE * (room % space // spacer) + words
 
