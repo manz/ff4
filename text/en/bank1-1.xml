@@ -1,41 +1,41 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-<sn:pointer id="0">Your inventory is full.[end]</sn:pointer>
+<sn:pointer id="0">[center]Your inventory is full.[end]</sn:pointer>
 
-<sn:pointer id="1">Received [item]![end]</sn:pointer>
+<sn:pointer id="1">[center]Received [item]![end]</sn:pointer>
 
-<sn:pointer id="2">You receive [gils] Gil![end]</sn:pointer>
+<sn:pointer id="2">[center]You receive [gils] Gil![end]</sn:pointer>
 
-<sn:pointer id="3">Monsters![end]</sn:pointer>
+<sn:pointer id="3">[center]Monsters![end]</sn:pointer>
 
-<sn:pointer id="4">Empty...[end]</sn:pointer>
+<sn:pointer id="4">[center]Empty...[end]</sn:pointer>
 
-<sn:pointer id="5">Locked.[end]</sn:pointer>
+<sn:pointer id="5">[center]Locked.[end]</sn:pointer>
 
-<sn:pointer id="6">Unlocked.[end]</sn:pointer>
+<sn:pointer id="6">[center]Unlocked.[end]</sn:pointer>
 
 <sn:pointer id="7">Good night...[delay][0x5][close_window][end]</sn:pointer>
 
 <sn:pointer id="8">Alright!
 Let's go.[end]</sn:pointer>
 
-<sn:pointer id="9">Your HP and status have been restored![end]</sn:pointer>
+<sn:pointer id="9">[center]Your HP and status have been restored![end]</sn:pointer>
 
-<sn:pointer id="10">Your HP and MP have been restored![end]</sn:pointer>
+<sn:pointer id="10">[center]Your HP and MP have been restored![end]</sn:pointer>
 
-<sn:pointer id="11">Found a Chocobo![end]</sn:pointer>
+<sn:pointer id="11">[center]Found a Chocobo![end]</sn:pointer>
 
 <sn:pointer id="12">[bold]Cecil[normal]: Golbez!
 FuSoYa![end]</sn:pointer>
 
-<sn:pointer id="13">Found a Black Chocobo![end]</sn:pointer>
+<sn:pointer id="13">[center]Found a Black Chocobo![end]</sn:pointer>
 
 <sn:pointer id="14">[bold]Cecil[normal]: ?[new]
 [bold]Rosa[normal]: The dolls![end]</sn:pointer>
 
-<sn:pointer id="15">It smells like a Chocobo...[end]</sn:pointer>
+<sn:pointer id="15">[center]It smells like a Chocobo...[end]</sn:pointer>
 
-<sn:pointer id="16">Found a White Chocobo![end]</sn:pointer>
+<sn:pointer id="16">[center]Found a White Chocobo![end]</sn:pointer>
 
 <sn:pointer id="17">Enter the Fat Chocobo![end]</sn:pointer>
 
@@ -63,15 +63,15 @@ She shielded me... from the arrows...[end]</sn:pointer>
 
 <sn:pointer id="19">Ow! Hot, hot![end]</sn:pointer>
 
-<sn:pointer id="20">Nothing happened.[end]</sn:pointer>
+<sn:pointer id="20">[center]Nothing happened.[end]</sn:pointer>
 
-<sn:pointer id="21">Your MP has been restored![end]</sn:pointer>
+<sn:pointer id="21">[center]Your MP has been restored![end]</sn:pointer>
 
-<sn:pointer id="22">Found [item]![end]</sn:pointer>
+<sn:pointer id="22">[center]Found [item]![end]</sn:pointer>
 
-<sn:pointer id="23">Found [gils] Gil![end]</sn:pointer>
+<sn:pointer id="23">[center]Found [gils] Gil![end]</sn:pointer>
 
-<sn:pointer id="24">It is sealed by a mysterious power.[end]</sn:pointer>
+<sn:pointer id="24">[center]It is sealed by a mysterious power.[end]</sn:pointer>
 
 <sn:pointer id="25">I'm afraid you don't have enough money.[end]</sn:pointer>
 
@@ -162,7 +162,7 @@ Please enter.[end]</sn:pointer>
 So, where is the crystal?[new]
 [bold]Cecil[normal]: My lord, I have it.[end]</sn:pointer>
 
-<sn:pointer id="44">You gave the King the Water Crystal.[end]</sn:pointer>
+<sn:pointer id="44">[center]You gave the King the Water Crystal.[end]</sn:pointer>
 
 <sn:pointer id="45">[bold]Beigan[normal]: Hmm...It appears to be genuine.[new]
 [bold]King Baron[normal]: Excellent!
@@ -510,7 +510,7 @@ I did...[new]
 [bold]Cecil[normal]: Thanks...
 Rydia. [force_bold]Summoner Rydia joined the party![force_normal][end]</sn:pointer>
 
-<sn:pointer id="102">You held the Desert Light over Rosa![end]</sn:pointer>
+<sn:pointer id="102">[center]You held the Desert Light over Rosa![end]</sn:pointer>
 
 <sn:pointer id="103">[bold]Rosa[normal]: Ooh...[end]</sn:pointer>
 
@@ -1013,7 +1013,7 @@ This is a fight against myself! To atone for my past, I must defeat him... the D
 
 <sn:pointer id="204">'Well done... I will now turn my very being into light and entrust it to you. Receive it... my... last light! My son... stop Golbez!' [bold]Cecil[normal]: W-wait, please![end]</sn:pointer>
 
-<sn:pointer id="205">Cecil became a Paladin![delay][0x50][end]</sn:pointer>
+<sn:pointer id="205">[center]Cecil became a Paladin![delay][0x50][end]</sn:pointer>
 
 <sn:pointer id="206">[bold]Porom[normal]: Are you all right?[new]
 [bold]Palom[normal]: You really...[new]
@@ -1091,7 +1091,7 @@ Just to my harp over there... Ugh![new]
 [bold]Edward[normal]: I don't care...
 I'm the only one... who can save... Cecil and the others![end]</sn:pointer>
 
-<sn:pointer id="222">Edward's harp can be heard through
+<sn:pointer id="222">[center]Edward's harp can be heard through
 the Whisperweed!
 [bold]Yang[normal]: Oh...[new]
 [bold]Tellah[normal]: This warm sound is...[new]
@@ -1186,7 +1186,7 @@ Attack...' 'Big sister!'[end]</sn:pointer>
 [bold]Golbez[normal]: Of course she is.
 Now, give me the Crystal.[end]</sn:pointer>
 
-<sn:pointer id="237">You gave the Earth Crystal to
+<sn:pointer id="237">[center]You gave the Earth Crystal to
 Golbez!
 [bold]Cecil[normal]: Give Rosa back![new]
 [bold]Golbez[normal]: Rosa?
@@ -1364,7 +1364,7 @@ the way to the moon would open.[new]
 means... but this seems to be the key.
 Here, take it.[end]</sn:pointer>
 
-<sn:pointer id="267">Received the Magma Stone.
+<sn:pointer id="267">[center]Received the Magma Stone.
 [bold]Cecil[normal]: What's this?[new]
 [bold]Cain[normal]: Held up in the right place,
 this stone apparently opens the way to
@@ -1409,7 +1409,7 @@ Would you cover us with that... airship of yours?[new]
 
 <sn:pointer id="272">[bold]Cecil[normal]: Cid![end]</sn:pointer>
 
-<sn:pointer id="273">Cid left the party.[end]</sn:pointer>
+<sn:pointer id="273">[center]Cid left the party.[end]</sn:pointer>
 
 <sn:pointer id="274">[bold]Cecil[normal]: Nobody's here.[new]
 [bold]Yang[normal]: I sense a presence up ahead![end]</sn:pointer>
@@ -1941,7 +1941,7 @@ You've no time to waste on an old geezer
 like me![new]
 [bold]Cecil[normal]: Thanks...Cid![end]</sn:pointer>
 
-<sn:pointer id="362">One born from the mouth of a dragon shall soar high into the heavens, raise darkness and light, and bring a new promise to the sleeping land. The moon, bathed in endless light, shall grant Mother Earth great bounty and mercy.[end]</sn:pointer>
+<sn:pointer id="362">[center]One born from the mouth of a dragon shall soar high into the heavens, raise darkness and light, and bring a new promise to the sleeping land. The moon, bathed in endless light, shall grant Mother Earth great bounty and mercy.[end]</sn:pointer>
 
 <sn:pointer id="363">[bold]Palom[normal]: This old guy learned Meteor![new]
 [bold]Village Elder[normal]: Meteor...!
@@ -2165,7 +2165,7 @@ I'll take the Desert Light.[end]</sn:pointer>
 
 <sn:pointer id="392">[bold]Cecil[normal]: Let's go, Rydia![end]</sn:pointer>
 
-<sn:pointer id="393">You received the Desert Light![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="393">[center]You received the Desert Light![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="394">[bold]Edward[normal]: It can't be!
 Why did the Antlion...[new]
@@ -2348,7 +2348,7 @@ What's this?[end]</sn:pointer>
 
 <sn:pointer id="441">[bold]Soldier[normal]: We of the Red Wings are a proud airship corps! And here we are, robbing the defenseless![end]</sn:pointer>
 
-<sn:pointer id="442">You got the Earth Crystal![music][0x29][delay][0x28][end]</sn:pointer>
+<sn:pointer id="442">[center]You got the Earth Crystal![music][0x29][delay][0x28][end]</sn:pointer>
 
 <sn:pointer id="443">[bold]Cid[normal]: It's okay...
 They've got me and the Enterprise!
@@ -2368,7 +2368,7 @@ Elf...[end]</sn:pointer>
 [bold]Edward[normal]: In my place...
 Please take it...[end]</sn:pointer>
 
-<sn:pointer id="446">You got the Whisperweed.[end]</sn:pointer>
+<sn:pointer id="446">[center]You got the Whisperweed.[end]</sn:pointer>
 
 <sn:pointer id="447">[bold]Cecil[normal]: I have it here!
 Where's Rosa!?[new]
@@ -2379,7 +2379,7 @@ Follow my airship.[end]</sn:pointer>
 
 <sn:pointer id="449">[bold]Tellah[normal]: Feel it...! Feel Anna's pain!![end]</sn:pointer>
 
-<sn:pointer id="450">At about that time...[end]</sn:pointer>
+<sn:pointer id="450">[center]At about that time...[end]</sn:pointer>
 
 <sn:pointer id="451">[bold]Golbez[normal]: ...!?[end]</sn:pointer>
 
@@ -2441,10 +2441,10 @@ me back there...?[end]</sn:pointer>
 
 <sn:pointer id="463">[bold]Rosa[normal]: What's wrong?[end]</sn:pointer>
 
-<sn:pointer id="464">[0xfb] Thus, the Dark Knight Cecil was
+<sn:pointer id="464">[center][force_book]Thus, the Dark Knight Cecil was
 stripped of his command of the
 Red Wings.[force_new] With Cain, captain of the Dragon Knights, he left Baron
-for Mist, a remote village in a valley
+for Mist,[force_new] a remote village in a valley
 shrouded in deep fog...[force_new] Airships... Flight long had been
 an unattainable dream of
 mankind.[force_new] These vessels gave men
@@ -2470,7 +2470,7 @@ I need to return to the surface to plate
 the hull with Mithril...
 All righty then, I'll get going![end]</sn:pointer>
 
-<sn:pointer id="467">You got the Dark Crystal![music][0x29][delay][0x24][end]</sn:pointer>
+<sn:pointer id="467">[center]You got the Dark Crystal![music][0x29][delay][0x24][end]</sn:pointer>
 
 <sn:pointer id="468">[bold]Cecil[normal]: But...[new]
 [bold]Palom[normal]: You should know our power
@@ -2496,7 +2496,7 @@ Take care of them for me![end]</sn:pointer>
 Porom!
 Your duty is finished![end]</sn:pointer>
 
-<sn:pointer id="471">That night...[end]</sn:pointer>
+<sn:pointer id="471">[center]That night...[end]</sn:pointer>
 
 <sn:pointer id="472">This is an important room!
 You can't enter![end]</sn:pointer>
@@ -2585,9 +2585,9 @@ get in![end]</sn:pointer>
 
 <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
 
-<sn:pointer id="496">You found a Spellbook![end]</sn:pointer>
+<sn:pointer id="496">[center]You found a Spellbook![end]</sn:pointer>
 
-<sn:pointer id="497">You found a Naughty Book![delay][0x30][end]</sn:pointer>
+<sn:pointer id="497">[center]You found a Naughty Book![delay][0x30][end]</sn:pointer>
 
 <sn:pointer id="498">[bold]King Baron[normal]: Baron?
 Ku ka ka ka... Who's that?
@@ -2627,7 +2627,7 @@ Tellah![end]</sn:pointer>
 
 <sn:pointer id="503">[bold]Yang's wife[normal]: Same to you![delay][0xa][end]</sn:pointer>
 
-<sn:pointer id="504">You received Luca's Necklace![end]</sn:pointer>
+<sn:pointer id="504">[center]You received Luca's Necklace![end]</sn:pointer>
 
 <sn:pointer id="505">[bold]Yang[normal]: We're too late![new]
 [bold]Cecil[normal]: But who is it that's fighting
