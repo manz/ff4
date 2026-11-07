@@ -35,7 +35,7 @@ On va lui taper droit dans le cœur![end]</sn:pointer>
     <sn:pointer id="12">Palom: Bon, voilà, c'est comme ça.[new]
 Porom: Pardon de vous l'avoir caché. Mais nous n'avions pas le choix.[new]
 Cecil: Non, c'est normal. Après tout ce que j'ai fait...[new]
-Ancien: Mais tu as surmonté ton passé et tu es devenu paladin...! !? Cette épée?[new]
+Ancien: Mais tu as surmonté ton passé et tu es devenu paladin...![force_new] !? Cette épée?[new]
 Cecil: Je l'ai reçue au sommet.[new]
 Ancien: Ça alors! Il y est inscrit la même chose que dans la légende transmise à Mysidia depuis des temps immémoriaux![new]
 Cecil: Une légende?[end]</sn:pointer>
@@ -84,7 +84,7 @@ KluYa...?[new]
 [bold]FuSoYa[normal]: Zémus s'est servi de toi par
 télépathie...
 Le sang sélénite de KluYa en a amplifié
-les effets...[new]
+les effets...[force_new]
 Deux frères qui se combattent...![end]</sn:pointer>
     <sn:pointer id="26">[bold]Edge[normal]: Hé, le vieux![new]
 [bold]Cecil[normal]: J'ai haï mon propre frère...
@@ -96,7 +96,7 @@ Si c'était moi qui avais reçu la
 télépathie de Zémus...[new]
 [bold]Golbez[normal]: ...Mais si elle m'a atteint,
 c'est que mon cœur n'était pas
-exempt de mal...[new]
+exempt de mal...[force_new]
 Zémus...!![end]</sn:pointer>
     <sn:pointer id="27">[bold]Cecil[normal]: Où vas-tu!?[new]
 [bold]Golbez[normal]: Je vais régler tout cela
@@ -177,7 +177,7 @@ Allons-y![new]
 Allons livrer notre combat![end]</sn:pointer>
     <sn:pointer id="46">[bold]Cecil[normal]: Rosa et Rydia, vous
 restez ici.
-Nous trois, on va continuer.[new]
+Nous trois, on va continuer.[force_new]
 Cette fois, rien ne dit qu'on reviendra vivants![new]
 [bold]Rosa[normal]: Cecil![new]
 [bold]Rydia[normal]: Tu ne peux pas nous faire ça![new]
@@ -225,7 +225,7 @@ compagnons...[new]
 épreuve qui t'est imposée.[new]
 Mais tant que tu te fieras à la lame
 noire, non seulement tu ne pourras pas
-vaincre le mal véritable, mais ton propre
+vaincre le mal véritable,[force_new] mais ton propre
 cœur risque à tout moment d'y sombrer.[new]
 Si tu souhaites combattre avec un cœur
 pur, va au mont de l'Épreuve, à
@@ -261,18 +261,18 @@ FuSoYa: En effet. Il y a très longtemps...[new]
 La planète qui se trouvait entre Mars et Jupiter fut menacée d'extinction.[new]
 Les survivants s'enfuirent à bord d'un vaisseau vers la Planète Bleue...[new]
 Cecil: La Planète Bleue...?[new]
-FuSoYa: La planète sur laquelle vous vivez. Mais les créatures de votre planète étaient encore en pleine évolution...[new]
+FuSoYa: La planète sur laquelle vous vivez. Mais les créatures de votre planète étaient encore en pleine évolution...[force_new]
 Alors nous créâmes une autre lune et y sombrâmes dans un long sommeil...[end]</sn:pointer>
     <sn:pointer id="60">[bold]Edge[normal]: C'est donc ça... les Sélénites.[new]
 [bold]FuSoYa[normal]: Mais l'un des nôtres refusa de
-dormir![new]
+dormir![force_new]
 Il voulait réduire en cendres tout ce qui
 vit sur la Planète Bleue, pour que les
 nôtres puissent s'y installer.[new]
 [bold]Rydia[normal]: Quelle horreur...![new]
 [bold]FuSoYa[normal]: ...Je l'ai scellé.
 Mais durant ce long sommeil, son esprit
-n'a cessé de gagner en puissance![new]
+n'a cessé de gagner en puissance![force_new]
 Sa pensée a rendu plus mauvais encore
 les êtres malfaisants de votre planète...
 et leur a fait rassembler les cristaux.[end]</sn:pointer>
@@ -282,7 +282,7 @@ et leur a fait rassembler les cristaux.[end]</sn:pointer>
 Les cristaux sont notre source d'énergie.[new]
 Il les a sans doute fait rassembler pour
 mettre en marche l'ascenseur
-dimensionnel de la tour de Babil.[new]
+dimensionnel de la tour de Babil.[force_new]
 Par cet ascenseur, il veut faire
 descendre le géant de Babil sur votre
 planète et tout réduire en cendres...![new]
@@ -291,19 +291,19 @@ planète et tout réduire en cendres...![new]
 ne sont pas ainsi.[new]
 Nous attendons que les habitants de la
 Planète Bleue aient assez évolué pour
-parler avec nous d'égal à égal...[new]
+parler avec nous d'égal à égal...[force_new]
 Tous... dorment en rêvant de ce jour...[new]
 [bold]Cecil[normal]: Et le vaisseau magique qui nous
 a amenés ici?[new]
 [bold]FuSoYa[normal]: ...Il y a très longtemps, mon
 frère cadet, KluYa, le construisit et partit
-sur la Planète Bleue.[new]
-KluYa rêvait de votre monde inconnu...
+sur la Planète Bleue.[force_new]
+KluYa rêvait de votre monde inconnu...[force_new]
 C'est alors qu'il vous apporta la Route du
 Démon et la technologie des aéronefs...[new]
-...Puis KluYa tomba amoureux d'une
+...[force_new]Puis KluYa tomba amoureux d'une
 femme de la Planète Bleue, et deux
-enfants naquirent...
+enfants naquirent...[force_new]
 L'un d'eux...[new]
 ...c'est toi.[end]</sn:pointer>
     <sn:pointer id="62">[bold]Apprentis[normal]: Oui, m'sieur![end]</sn:pointer>
@@ -312,13 +312,13 @@ Moi...?
 Alors, la voix que j'ai entendue sur le
 mont de l'Épreuve, c'était...[new]
 [bold]FuSoYa[normal]: Ton père...
-C'était l'esprit de KluYa...
+C'était l'esprit de KluYa...[force_new]
 Je vois, à présent... tu ressembles
 tellement à KluYa... quand il était jeune...[new]
 [bold]Cecil[normal]: Cette voix, c'était... mon père...![new]
-[bold]FuSoYa[normal]: KluYa t'a donné sa puissance
+[bold]FuSoYa[normal]:[force_new] KluYa t'a donné sa puissance
 pour déjouer les plans de Zémus...
-Nous devons l'arrêter![new]
+Nous devons l'arrêter![force_new]
 Pour la Planète Bleue et pour les
 Sélénites!
 Hâtons-nous vers la tour de Babil d'Eblana![new]
@@ -333,14 +333,14 @@ maléfiques...[new]
 [bold]FuSoYa[normal]: Le mal ne disparaîtra jamais
 des cœurs...
 Chacun porte en son cœur le bien et le
-mal.[new]
+mal.[force_new]
 Comme les cristaux ont leur lumière et
 leurs ténèbres, comme votre Planète
 Bleue a sa surface et son monde
-souterrain...[new]
+souterrain...[force_new]
 Mais tant qu'il y aura des cœurs
 maléfiques, il y aura aussi des cœurs
-purs.[new]
+purs.[force_new]
 Tout comme les vôtres, quand vous avez
 affronté le mal de Zémus...[new]
 [bold]Edge[normal]: Hé, avec tant de compliments,
@@ -372,7 +372,7 @@ Et j'aimerais aussi rencontrer le peuple
 de mon père.[new]
 [bold]FuSoYa[normal]: Je vois...
 Tu as aussi du sang sélénite dans les
-veines...
+veines...[force_new]
 Mais ce sera un long sommeil.[new]
 [bold]Golbez[normal]: Je le sais.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Golbez[normal]: Tu m'as appelé ton frère...
@@ -567,9 +567,9 @@ Je pourrai alors te prêter ma force...[new]
 [bold]Roi Baron[normal]: Ne fais pas ces yeux si
 tristes.[new]
 Un monstre m'a ôté la vie, mais j'ai
-acquis une puissance éternelle.[new]
+acquis une puissance éternelle.[force_new]
 Si l'invocatrice de Mist m'appelle, je
-serai toujours là pour t'aider... en tant
+serai toujours là pour t'aider, en tant
 que Chimère qui terrasse d'un seul coup.[new]
 Mais la loi du monde des Chimères veut
 que je mette ta force à l'épreuve.

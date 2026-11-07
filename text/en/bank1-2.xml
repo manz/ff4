@@ -51,7 +51,7 @@ But we had no choice.[new]
 Considering what I did, that was to be
 expected.[new]
 [bold]Village Elder[normal]: But you overcame your
-past self and became a Paladin...![new]
+past self and became a Paladin...![force_new]
 ...!? That sword?![new]
 [bold]Cecil[normal]: I received it on the summit
 of the mountain.[new]
@@ -117,7 +117,7 @@ KluYa...?[new]
 [bold]FuSoYa[normal]: You were being used through
 Zemus's telepathy...
 KluYa's Lunarian blood in you only made
-it stronger...[new]
+it stronger...[force_new]
 Brothers fighting each other...![end]</sn:pointer>
 
 <sn:pointer id="26">[bold]Edge[normal]: Hey, old man![new]
@@ -130,7 +130,7 @@ If Zemus's telepathy had reached me
 instead...[new]
 [bold]Golbez[normal]: ...But if it reached me, then
 there must have been evil in my heart
-to begin with...
+to begin with...[force_new]
 Zemus...!![end]</sn:pointer>
 
 <sn:pointer id="27">[bold]Cecil[normal]: Where are you going!?[new]
@@ -231,7 +231,7 @@ Into our fight![end]</sn:pointer>
 
 <sn:pointer id="46">[bold]Cecil[normal]: Rosa and Rydia, you
 stay here.
-The three of us will go by ourselves.[new]
+The three of us will go by ourselves.[force_new]
 This time there's no guarantee that we'll
 come back alive...[new]
 [bold]Rosa[normal]: Cecil![new]
@@ -296,7 +296,7 @@ attacked us, and my other friends...[new]
 trial set before you.[new]
 But as long as you rely on the Dark
 Sword, not only will you fail to defeat
-true evil...[new]
+true evil...[force_new]
 your own heart may be stained by evil
 at any moment.[new]
 If you wish to fight with a good heart,
@@ -339,20 +339,20 @@ The survivors escaped on a ship to the
 Blue Planet...[new]
 [bold]Cecil[normal]: The Blue Planet...?[new]
 [bold]FuSoYa[normal]: The planet that you live on.
-But its creatures were still evolving, so
+But its creatures were still evolving,[force_new] so
 we created another moon and fell into a
 long sleep there...[end]</sn:pointer>
 
 <sn:pointer id="60">[bold]Edge[normal]: So those are...the Lunarians.[new]
 [bold]FuSoYa[normal]: But one of us refused to
-sleep![new]
+sleep![force_new]
 He wanted to burn every living thing off
 the Blue Planet so that we could settle
 there.[new]
 [bold]Rydia[normal]: How awful...![new]
 [bold]FuSoYa[normal]: ...I sealed him away.
 But during the long sleep, his mind grew
-stronger![new]
+stronger![force_new]
 His thoughts made the evil ones of your
 planet even more wicked...
 and drove them to gather the Crystals.[end]</sn:pointer>
@@ -363,7 +363,7 @@ and drove them to gather the Crystals.[end]</sn:pointer>
 The Crystals are our source of energy.[new]
 He must have had them gathered to run
 the Dimensional Elevator in the Tower of
-Babil.[new]
+Babil.[force_new]
 With the elevator, he means to send the
 Giant of Babil down to your planet and
 burn everything away...![new]
@@ -372,20 +372,20 @@ burn everything away...![new]
 like that.[new]
 We watch over the people of the Blue
 Planet until they have evolved enough to
-speak with us as equals...[new]
+speak with us as equals...[force_new]
 We all sleep on...dreaming of that day...[new]
 [bold]Cecil[normal]: What about the Magical Ship
 that brought us here?[new]
 [bold]FuSoYa[normal]: ...Long ago, my younger
 brother, KluYa, built it and went down to
-the Blue Planet.[new]
+the Blue Planet.[force_new]
 KluYa was enthralled with your unknown
-world...
+world...[force_new]
 The Devil Road and the technology of
-airships came from him.[new]
+airships came from him.[force_new]
 ...Then KluYa fell in love with a woman
 of the Blue Planet, and she bore him two
-children...[new]
+children...[force_new]
 One of them...is you.[end]</sn:pointer>
 
 <sn:pointer id="62">[bold]Apprentices[normal]: Yes sir![end]</sn:pointer>
@@ -395,13 +395,13 @@ Me...?
 Then the voice I heard on Mt.
 Ordeals was...[new]
 [bold]FuSoYa[normal]: Your father...
-It was KluYa's spirit...
+It was KluYa's spirit...[force_new]
 I see now...you look so much like KluYa...
 when he was young...[new]
 [bold]Cecil[normal]: That voice was... my father...![new]
-[bold]FuSoYa[normal]: KluYa gave you his power to
+[bold]FuSoYa[normal]:[force_new] KluYa gave you his power to
 stop Zemus's scheme.
-We must stop Zemus![new]
+We must stop Zemus![force_new]
 For the Blue Planet, and for the people
 of the Moon!
 Now...hurry to the Tower of Babil in
@@ -423,12 +423,12 @@ exist...[new]
 [bold]FuSoYa[normal]: Evil hearts will never
 disappear...
 Everyone has both a holy heart and an
-evil one.[new]
+evil one.[force_new]
 Just as the Crystals have light and dark,
 and your Blue Planet has a surface and
-an underworld...[new]
+an underworld...[force_new]
 But as long as evil hearts exist, holy
-hearts will exist too.
+hearts will exist too.[force_new]
 Just as you, who stood up to Zemus's
 evil, had holy hearts...[new]
 [bold]Edge[normal]: Aw, all that praise is
@@ -466,7 +466,7 @@ Not after what I've done.[new]
 And I'd also like to meet my father's
 people.[new]
 [bold]FuSoYa[normal]: I see...You also have Lunarian
-blood flowing in your veins...
+blood flowing in your veins...[force_new]
 But it will be a long sleep.[new]
 [bold]Golbez[normal]: I know.[end]</sn:pointer>
 
@@ -771,7 +771,7 @@ I should be able to help you...[new]
 <sn:pointer id="155">[bold]Cecil[normal]: Your Majesty...[new]
 [bold]King Baron[normal]: Don't look so sad.
 A monster struck me down, but I gained
-eternal power.[new]
+eternal power.[force_new]
 Whenever the Summoner from Mist calls
 me, I will lend you my strength, as a
 Phantom who slays with a single blow.[new]
