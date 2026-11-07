@@ -36,7 +36,7 @@ kerning-candidates = [
     "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
     "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
     "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
-    "ïm",
+    "ïm", "ïn",
 ]
 kerning = { "tt" = 2 }
 
@@ -76,7 +76,7 @@ kerning-candidates = [
     "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
     "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
     "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
-    "ïm",
+    "ïm", "ïn",
 ]
 kerning = { "tt" = 2 }
 
@@ -116,7 +116,7 @@ kerning-candidates = [
     "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
     "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
     "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
-    "ïm",
+    "ïm", "ïn",
 ]
 kerning = { "tt" = 2 }
 
@@ -156,7 +156,7 @@ kerning-candidates = [
     "îrg", "îry", "îrt", "îrf", "nj", "ng", "ny", "nt",
     "nf", "rn", "fi", "fl", "ff", "tt", "ll", "ît",
     "aî", "va", "ïe", "în", "bî", "îm", "Îl", "aï",
-    "ïm",
+    "ïm", "ïn",
 ]
 kerning = { "tt" = 2 }
 
