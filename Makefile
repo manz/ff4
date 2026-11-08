@@ -112,6 +112,11 @@ profile-dialog:  ## Flamegraph of the French dialog layout: build/dialog-flame.h
 		-m utils.dialog_layout $(wildcard text/fr/bank*.xml) > /dev/null
 	$(Q) $(if $(PROFILE_SUDO),sudo chown $(USER) build/dialog-flame.html,)
 
+.PHONY: gallery
+gallery: $(IPS)  ## Render the lab site's gallery shots, 256x224, into build/gallery
+	$(info $(M) Capturing the gallery...)
+	$(Q) $(PY) utils/readme_shots.py --gallery build/gallery
+
 .PHONY: check
 check:  ## Verify .s/.i formatting and run the a816 fluff lints
 	$(info $(M) Checking sources...)
@@ -124,10 +129,10 @@ format:  ## Rewrite .s/.i sources in a816 canonical form
 	$(Q) $(A816) format $(SOURCES)
 
 .PHONY: clean
-clean:  ## Remove build products, keeping the base ROM
+clean:  ## Remove build products, keeping the base ROM and the saves
 	$(info $(M) cleaning ...)
-	$(Q) rm -f $(IPS) $(IPS).adbg build/ff4-patched.sfc a.out a.out.adbg
-	$(Q) rm -rf build/obj __pycache__ .pytest_cache
+	$(Q) rm -f $(IPS) $(IPS).adbg build/ff4.bps* build/ff4-patched.sfc a.out a.out.adbg
+	$(Q) rm -rf build/obj build/gen build/release build/en __pycache__ .pytest_cache
 
 .PHONY: help
 help: ## Display help

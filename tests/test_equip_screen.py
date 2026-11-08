@@ -3,7 +3,7 @@
 `DrawEquipItemName` ($01:9013) renders each equipped name through the
 field VWF helper in its own caller context: the names borrow the drops
 tile window ($16E.., idle outside the treasure popup) and its flush
-descriptor, icon first, from col 20 past the six-cell slot labels.
+descriptor, icon first, from col 17 past the VWF slot labels.
 
 The screen pushes several 4K tilemaps the frame it draws, so the CHR
 flush can land after vblank; it has to wait for the next one instead of
@@ -22,7 +22,7 @@ CHR_BASE = 0x4000
 CHR_BUFFER = 0x703000
 EQUIP_TILES = range(0x16E, 0x16E + 6 * 10)
 NAME_ROWS = (2, 4, 6, 8, 10)
-NAME_COLS = range(20, 32)
+NAME_COLS = range(17, 32)
 
 
 @pytest.fixture(scope="module")

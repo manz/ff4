@@ -7,6 +7,8 @@ clear and the 17-byte item-record multiplies.
 .include "core/bank20.i"
 .import "core/vanilla"
 .import "core/assets"
+.import "core/sram_layout"
+.import "battle/render_state"
 
 .alloc bank20_helpers in bank20_reloc {
 ; UpdateScrollRegs ($14:FF2D, JSL): write BG1VOFS unless the menu HDMA drives it.
@@ -36,9 +38,9 @@ vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and t
         ldx.w #0x0000
 
 _loop:
-        sta 0x702000, x
+        sta.l DIALOG_TILE_BUFFER, x
         inx
-        cpx.w #0x5100
+        cpx.w #BATTLE_RENDER_STATE - DIALOG_TILE_BUFFER
         bne _loop
     }
     rtl

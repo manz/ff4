@@ -90,6 +90,14 @@ SPEAKER_SPACE = "°"  # the 1px spacer (FD): "Soldat°:", a hint of the French s
 THIN_SPACE = "°"  # the same spacer before ? ! ; : as the French narrow no-break space: "Tue-moi°!", never a break
 FRENCH_DIALOG = replace(FRENCH, speaker_space=SPEAKER_SPACE, thin_space=THIN_SPACE,
                         short_words=FRENCH_ONE_LETTER_WORDS)
+SPEAKER_LABEL = re.compile(r"^([^\[\]:°]+):")
+"""A battle message's speaker label: the text before the colon opening it ("Tella:", "????:")."""
+
+
+def battle_speaker_spaced(text: str) -> str:
+    """`text` with the spacer before its speaker label's colon. Battle messages are not laid out like dialog, but a
+    speaker reads the same: "Tella°:"."""
+    return SPEAKER_LABEL.sub(rf"\1{SPEAKER_SPACE}:", text, count=1)
 TYPOGRAPHY = {"fr": FRENCH_DIALOG, "en": ENGLISH}
 
 

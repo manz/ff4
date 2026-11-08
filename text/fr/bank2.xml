@@ -87,8 +87,7 @@ mont de l'Épreuve!
 Ta lame noire ne sert à rien![end]
 Toi... un paladin!?[end]
 Les hommes qui se font du mal entre eux... C'est bien triste.[end]
-Endurez l'épreuve et renoncez à cette
-apparence![end]
+Surmontez l'épreuve et rompez avec ce que vous êtes![end]
 N'oubliez pas l'esprit du paladin.[end]
 T'en as du cran de venir ici![end]
 Nombreux sont ceux qui se sont mesurés
@@ -182,8 +181,7 @@ Je n'ai rien fait de mal!
 Je paie mes impôts, en plus...[end]
 Les soldats du château font ce que bon
 leur semble au bar![end]
-La ville a enfin retrouvé son esprit
-d'antan!
+La ville a enfin retrouvé son animation!
 Bon, retournons au travail![end]
 C'était toi, le monsieur de l'autre fois! Je trouve que ça te va mieux, comme ça.[end]
 T[end]
@@ -226,8 +224,7 @@ tout ça...[end]
 [bold]Mère de Rosa[normal]: Rosa s'est
 sauvée pour partir à ta recherche!
 Où est-elle, maintenant?[end]
-[bold]Mère de Rosa[normal]: Rosa!
-Tu es sauve![new]
+[bold]Mère de Rosa[normal]: Rosa! Tu es saine et sauve![new]
 [bold]Rosa[normal]: Je suis désolée...[new]
 [bold]Mère de Rosa[normal]: Maintenant, tu ne
 pars plus nulle part![new]
@@ -298,9 +295,7 @@ Ben ça alors! Un paladin, un vrai de vrai?[end]
 Vous devez être fatigué par ce long
 voyage.
 Buvez donc ceci![end]
-Toi, un paladin?
-Hm!
-Ha, la vache, je peux aussi en être un![end]
+Toi, un paladin? Alors même moi, je pourrais en devenir un![end]
 Ça alors!
 Tu es vraiment devenu un paladin![end]
 P-p-p-pitié, épargnez-moi![end]
@@ -338,8 +333,8 @@ Vous avez tout d'un paladin!
 ...Peut-être était-ce le destin.[end]
 Fille: Oui?[new]
 Ancien: Où est Palom?[new]
-Fille: Pfff... Encore ce Palom![end]
-Garçon: Alors c'est toi le mec de Baron, hein? Le vieux m'a dit de t'aider, il faut croire que j'ai pas le choix.[new]
+Fille: Pfff... Toujours Palom![end]
+Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
 Estime-toi heureux![end]
 [bold]Porom[normal]: Vous êtes M. Cecil,
 n'est-ce pas?
@@ -350,8 +345,7 @@ connaissance.[end]
 pote![end]
 [force_bold]Le mage noir Palom et la mage blanche
 Porom ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]
-[bold]Ancien[normal]: Maintenant, va sur la Montagne
-de l'Épreuve!
+[bold]Ancien[normal]: Maintenant, va au mont de l'Épreuve!
 Palom!
 Porom![new]
 Je compte sur vous![end]</sn:pointer>
@@ -519,8 +513,7 @@ Il nous a laissé l'entretien des aéronefs
 pour réfléchir à je ne sais quoi.[end]
 Patron!
 Et M. Cecil![end]
-On dirait que le patron fait comme à son
-habitude, non?[end]
+Le patron n'a pas changé, je parie![end]
 Ah là là, encore une nuit blanche...
 N...ne le dites pas au patron!
 L...le travail, c'est amusant![end]
@@ -566,7 +559,7 @@ Je...je ne dors pas![end]
 Sa Majesté, victime d'un monstre... Quelle tristesse...[end]
 [bold]Caïn[normal]: Tu es prêt, Cecil?[new]
 [bold]Cecil[normal]: Je compte sur toi, Caïn.[new]
-[bold]Caïn[normal]: Hmph. Compte sur moi.[end]
+[bold]Caïn[normal]: Hmph. Laisse-moi faire.[end]
 «Messire Cecil!»[end]
 [bold]Cecil[normal]: Qu'est-ce qui ne va pas?[new]
 [bold]Palom[normal]: Ça sent...[new]
@@ -592,7 +585,7 @@ chevaliers dragons![end]
 Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]
 Je n'oserais plus regarder M. Caïn en
 face.[end]
-On dit beaucoup de choses sur Sa Majesté, mais si elle entendait ça...[end]
+On dit beaucoup de choses sur Sa Majesté, mais si le roi l'apprenait...[end]
 Nous prendrons les choses en main en votre absence![end]
 [bold]Caïn[normal]: Qu'est-ce qui ne va pas?
 Tu n'arrives pas à dormir?[end]
@@ -633,8 +626,7 @@ sainte-nitouche![end]
 votre connaissance, monsieur.
 C'est dangereux, ici, alors il faudrait se
 hâter.[new]
-[bold]Cid[normal]: Hé!
-Tu connais vraiment les bonnes manières![end]
+[bold]Cid[normal]: Hé! Toi, au moins, tu as des manières![end]
 [bold]Cecil[normal]: Cid, où est le nouveau
 modèle d'aéronef?[new]
 [bold]Cid[normal]: Héhéhé...[end]
@@ -684,8 +676,7 @@ Je vais me saouler pour essayer d'oublier
 ce qui s'est passé à Mysidia...[end]
 Sa Majesté morte, vous êtes le seul qui
 puisse diriger Baron![end]
-Ce boulot m'a laissé une mauvaise
-impression...[end]
+Cette mission m'a laissé un goût amer...[end]
 Golbez a pris les Ailes Rouges![end]
 Les Ailes Rouges ont vraiment touché le fond![end]
 Merde, alors!
@@ -705,7 +696,7 @@ Si seulement on avait les aéronefs![end]</sn:pointer>
     <sn:pointer id="62">T[end]</sn:pointer>
     <sn:pointer id="63">Le...
 Le cristal... volé...[end]</sn:pointer>
-    <sn:pointer id="64">Je... je dois atteindre le pot de soin
+    <sn:pointer id="64">Je... je dois atteindre la jarre de soin
 au-dessus...![end]</sn:pointer>
     <sn:pointer id="65">[bold]Tella[normal]: C'est...
 Ooh... Anna![end]
@@ -727,7 +718,7 @@ Peut-être pouvons-nous nous retirer à Fabul...[new]
 Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]
 Tella: ...Qui est ce Golbez!?[new]
 Edward: Il est venu à Baron il y a peu et a pris le contrôle des Ailes Rouges.[new]
-Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]sniff[/italic][new]
+Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]snif[/italic][new]
 Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]
 [bold]Cecil[normal]: Tella, vous ne pouvez
 pas faire ça tout seul![end]
@@ -736,7 +727,7 @@ personne!
 Je vais tuer Golbez de mes propres
 mains![end]
 Tella a quitté le groupe.[end]
-Edward: A... Anna... [italic]sniff[/italic]... [italic]sniff[/italic]...[end]
+Edward: A... Anna... [italic]snif[/italic]... [italic]snif[/italic]...[end]
 [bold]Rydia[normal]: Pleurnicheur![end]
 [bold]Rydia[normal]: Tu es un homme, hein?
 Un adulte!
@@ -747,7 +738,7 @@ Dans ce cas, je vais rester ici avec
 Anna pour toujours![new]
 Je me fiche bien de tout le reste![end]
 [bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
-Ce n'est pas comme ça que tu rendras Anna heureuse! Et en ce moment, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
+Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
 [bold]Cecil[normal]: Je suis Cecil.
 Une amie à moi s'est écroulée près de
 Kaïpo, frappée par la fièvre du désert.[new]
@@ -767,7 +758,7 @@ Je t'en prie![end]
 Tout ça parce que nous n'avons pas été à
 la hauteur...[end]
 Une étrange rumeur court parmi les marins. Il paraît que le dieu de la mer est en colère...[end]
-Vous allez bien![end]</sn:pointer>
+Vous voilà sains et saufs![end]</sn:pointer>
     <sn:pointer id="72">Vous voilà de retour, maître Yang![end]
 Messire Cecil, vous devez tous être
 fatigués.
@@ -870,9 +861,7 @@ En prévision du combat contre lui,
 reposons-nous dans ma tente et
 reprenons des forces![end]</sn:pointer>
     <sn:pointer id="85">Tu veux que je danse? Quel rustre! Je fais partie de la garde royale![end]
-Baron a beaucoup fait des siennes ces
-derniers temps, mais ils ne vont
-probablement pas attaquer ici.[end]
+On dit que Baron s'agite, mais ses troupes ne viendront sans doute pas jusqu'ici.[end]
 Ça a beau ressembler à des justaucorps, ce sont bel et bien des tenues de combat! On y bouge facilement, et surtout, elles sont à la mode, non?[end]
 Troia est protégée par des femmes.
 Nous, les gardes, sommes toutes aussi
@@ -957,7 +946,7 @@ très affaibli.[end]
 [bold]Edward[normal]: Cecil...
 Tu dois sauver Rosa![end]
 Un malade se repose ici. Silence, s'il vous plaît![end]
-[bold]Edward[normal]: Fais aussi ma part... je t'en prie.[end]
+[bold]Edward[normal]: Bats-toi aussi pour moi... je t'en prie.[end]
 Edward: Maître Tella!? Pourquoi...? Tous ceux qui m'entourent...[end]
 [bold]Edward[normal]: Yang aussi...
 Si...si seulement j'étais plus fort...[end]
@@ -989,7 +978,7 @@ Le roi était un monstre?
 Nous ne pouvions pas le sentir...
 Il doit encore nous rester beaucoup à
 apprendre.[end]
-Les magies de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il y avait autrefois des magies plus puissantes que ça, paraît-il...[end]
+Les sorts de base Feu, Glace et Foudre ne suffisent pas contre certains monstres. Il existait autrefois des sorts plus puissants, paraît-il...[end]
 Alors l'antique magie Météore existait bien![end]
 Sommeil!
 Hein?
@@ -1034,7 +1023,7 @@ Utilise bien ces endroits![end]
 Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
 Gros Chocobo dans la forêt Chocobo![new]
-Si tu sens des chocobos, utilise un Légume Gysahl![end]
+Si ça sent le chocobo, utilise un Légume Gysahl![end]
 L'homme qui est là-bas, c'est Namingway.
 Si tu veux changer de nom, tu n'as qu'à lui demander![end]
 Un combat imprudent peut te coûter la vie! Si ça tourne mal, n'hésite pas à te sauver.[new]
@@ -1052,7 +1041,7 @@ Cecil: On doit livrer cet Anneau Bombe au village de Mist![new]
 Caïn: Le brouillard s'épaissit![end]</sn:pointer>
     <sn:pointer id="109">T[end]</sn:pointer>
     <sn:pointer id="110">T[end]</sn:pointer>
-    <sn:pointer id="111">[bold]Vieil Homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:pointer>
+    <sn:pointer id="111">[bold]Vieil homme[normal]: Qui es-tu? Plus loin, c'est un repaire de monstres. C'est trop dangereux pour un blanc-bec comme toi![new] Retourne donc à Kaïpo![end]</sn:pointer>
     <sn:pointer id="112">T[end]</sn:pointer>
     <sn:pointer id="113">T[end]</sn:pointer>
     <sn:pointer id="114">T[end]</sn:pointer>
@@ -1100,14 +1089,14 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 [bold]Rosa[normal]: Merci, Rydia![new]
 [bold]Cecil[normal]: Rydia...[end]
 [bold]Edward[normal]: Rydia?[new]
-[bold]Rosa[normal]: Toi, tu vas y arriver, j'en suis sûre![end]</sn:pointer>
+[bold]Rosa[normal]: Tu vas y arriver, j'en suis sûre![end]</sn:pointer>
     <sn:pointer id="127">[bold]Edward[normal]: Ces vêtements...
 Ce doit être un moine de Fabul![end]
 [bold]Edward[normal]: Celui-ci a l'air costaud![new]
 [bold]Rydia[normal]: Aidons-le![end]
 Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
 Mes hommes et moi nous entraînions ici, sur le mont Hobs... et soudain, nous avons été attaqués par des hordes de monstres.[new]
-Mes hommes... tués... tous... je suis le seul survivant... Des combattants si aguerris...[new]
+Mes hommes... tués... tous... Je suis le seul survivant... Des combattants si aguerris...[new]
 Cecil: Nous faisons route vers Fabul.[new]
 Rosa: Un dénommé Golbez se sert de Baron pour rassembler les cristaux...[end]
 [bold]Moine[normal]: Haa![end]
@@ -1188,7 +1177,7 @@ mourir, pas eux![end]</sn:pointer>
     <sn:pointer id="139">[bold]Cecil[normal]: Ce puits semble sans fond...[end]</sn:pointer>
     <sn:pointer id="140">Cid: Ourg! Quel magnétisme! On pourra même pas remuer si on porte des armes ou des armures en métal![new]
 Yang: Mes griffes, elles, ne semblent pas affectées.[new]
-Tella: Ne vous inquiétez pas! Nous avons toujours ma magie![end]</sn:pointer>
+Tella: Pas d'inquiétude! Vous avez ma magie![end]</sn:pointer>
     <sn:pointer id="141">T[end]</sn:pointer>
     <sn:pointer id="142">T[end]</sn:pointer>
     <sn:pointer id="143">T[end]</sn:pointer>
@@ -1198,8 +1187,7 @@ Tella: Ne vous inquiétez pas! Nous avons toujours ma magie![end]</sn:pointer>
     <sn:pointer id="147">T[end]</sn:pointer>
     <sn:pointer id="148">[bold]Cecil[normal]: Si seulement je pouvais utiliser
 mon épée...!![end]
-[bold]Cecil[normal]: Je comprends...
-Edward![end]
+[bold]Cecil[normal]: Compris... Edward![end]
 Scellé par le pouvoir magique de l'Elfe noir.[end]
 GAGOGO... SOYEZ MAUDITS!
 JE VAIS VOUS TUER!![end]</sn:pointer>
@@ -1424,7 +1412,7 @@ T[end]
 T[end]
 T[end]
 T[end]
-Un chevalier noir comme toi n'est même pas digne de toucher la marchandise que nous vendons ici![end]
+Un chevalier noir comme toi n'est pas digne de toucher la marchandise que nous vendons ici![end]
 Si tu reviens sain et sauf, tu pourras utiliser ces armes-là... mais ça m'étonnerait.[end]
 Je t'ai déjà dit que tu ne pouvais pas utiliser... un paladin? Toi...?[end]</sn:pointer>
     <sn:pointer id="231">T[end]</sn:pointer>
@@ -1612,7 +1600,7 @@ de Babil... le plus fort des quatre
 Empereurs, Rubicante du Feu, y est
 encore![end]
 Nos chars vont attirer le tir du canon géant! Profitez-en pour vous infiltrer, Lali![end]
-Ce pot, c'est le pot de vie!
+Cette jarre, c'est la jarre de vie!
 Buvez-en une lampée![end]</sn:pointer>
     <sn:pointer id="272">T[end]</sn:pointer>
     <sn:pointer id="273">Les objets des Nains sont mystérieux! Est-ce que vous, les humains, pouvez les utiliser?[end]</sn:pointer>
@@ -1810,7 +1798,7 @@ Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:pointer>
     <sn:pointer id="315">T[end]</sn:pointer>
     <sn:pointer id="316">Ça faisait longtemps, Rydia![end]
-Le Monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]
+Le monde des Chimères est gouverné par la reine Asura et le roi des Chimères.[end]
 Il paraît que nos copains de l'autre monde font des bêtises![end]
 On dit que si vous ne pouvez pas vaincre
 Dame Asura, le roi ne vous écoutera même
@@ -1847,7 +1835,7 @@ Pour fuir et pour charmer, il n'a pas
 d'égal.[end]
 La magie d'invocation... La magie qui appelle les Chimères...[new]
 Ceux qui possèdent ce pouvoir ne sont plus qu'une poignée.[end]
-Le Monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]
+Le monde des Chimères a une histoire bien plus ancienne que celle du monde des humains...[end]
 La grotte qui relie notre monde et celui
 des humains...
 Seuls ceux qui ont l'esprit et le corps
@@ -1867,7 +1855,7 @@ Libra... le Bestiaire
 révélera leur véritable nature...[end]
 Chimères, monstres, humains...
 D'où sont-ils venus et où vont-ils...
-Le mystère de l'éternité...[end]
+C'est un mystère éternel...[end]
 Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
 terre...
@@ -1884,7 +1872,7 @@ Le roi des Chimères...
 Il est venu de l'océan du nord. On le dit maître des océans. C'est le seigneur invincible du monde des Chimères.[end]
 Odin, fier de son Zantetsuken qui tue d'un seul coup...[new]
 Il n'a été vaincu qu'une fois, quand la foudre est tombée sur son épée.[end]
-Les douces et sveltes Sylphes...
+Les Sylphes, frêles et douces...
 C'est en unissant leurs forces qu'elles
 révèlent leur pouvoir...[end]
 La loi du monde des Chimères...
@@ -1908,8 +1896,7 @@ Alors, malheureusement, je ne peux pas
 vous donner mon pouvoir.[end]
 Une fois que tu auras confiance en toi, je
 te combattrai quand tu voudras![end]</sn:pointer>
-    <sn:pointer id="321">Est-ce que les humains peuvent utiliser
-les armes, ici?[end]
+    <sn:pointer id="321">Des humains sauront-ils manier nos armes?[end]
 Tiens, mais c'est Rydia![end]</sn:pointer>
     <sn:pointer id="322">N'amène pas trop d'humains ici,
 Rydia.[end]
@@ -1933,7 +1920,7 @@ N'emmenez pas Yang![end]
 Yang, vous ne l'aurez pas![end]
 Vous, les humains, vous êtes si
 violents![end]
-Nous l'avons trouvé évanoui à l'entrée de notre trou. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
+Nous l'avons trouvé évanoui à l'entrée de notre terrier. Mais il ne s'est jamais réveillé... Depuis, nous le soignons sans relâche...[new]
 Notre amour n'y suffit-il pas...?[end]
 Que feriez-vous si Yang
 mourait!?[end]

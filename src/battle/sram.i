@@ -1,26 +1,7 @@
 """
-Battle SRAM layout helpers: long SRAM store macro + battle-flags set/clear/test/switch macros over
+Battle SRAM layout helpers: battle-flags set/clear/test/switch macros over
 `BATTLE_FLAGS` ($704F00).
 """
-sram_base = 0x707000
-.macro _long_sram_store(src) {
-    phy
-    phx
-    php
-    rep #0x20
-    pha
-    tya
-    clc
-    adc.b src
-    tax
-    pla
-    sep #0x20
-    plp
-    sta.l sram_base, x
-    plx
-    ply
-}
-
 BATTLE_FLAGS = 0x704F00
 .macro battle_flags_set(value) {
     """OR `value` into the battle-flags byte at BATTLE_FLAGS."""

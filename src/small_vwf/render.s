@@ -128,11 +128,11 @@ _transfer_to_vram:
 
     .scope render_allocator {
     """
-    Tile-id allocator: a 16-bit word at $702F00 covering the full 10-bit tile id range (8-bit callers can read the
-    low byte). All accessors run with M = 16.
+    Tile-id allocator: a 16-bit word at SMALL_VWF_ALLOCATOR covering the full 10-bit tile id range (8-bit callers can
+    read the low byte). All accessors run with M = 16.
     """
-        allocated_tile_id = 0x702F00
-        slot_limit_low = 0x702F02
+        allocated_tile_id = SMALL_VWF_ALLOCATOR
+        slot_limit_low = SMALL_VWF_ALLOCATOR + 2
 """
 Inventory clamp: `increment` stops when the allocator's low byte reaches it, so an overflowing name overwrites its
 slot's last tile. Inventory init writes slot_base + K-1; every other init writes $FF (no clamp).
@@ -221,8 +221,8 @@ get:
         tilemap_offset = vwf_engine.tilemap_offset  ; long, NMI-safe (see src/core/vwf_ram.s)
         buffer_ptr = VWF_CHR_BUFFER
         buffer_size = VWF_CHR_BUFFER_SIZE
-; Item-description cache, in the VRAM save window (see sram_layout.s).
-        last_drawn_text_ptr = VRAM_SAVE_SRAM_BASE + 2
+; Item-description cache (see sram_layout.s).
+        last_drawn_text_ptr = description_cache
 init:
 """
 Reset the per-render scratch and the allocator, and clear only this region's CHR slice

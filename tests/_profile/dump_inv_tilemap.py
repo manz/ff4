@@ -109,12 +109,9 @@ def main() -> None:
 
     # Capture the visible framebuffer so we can eyeball the "scrolling"
     # symptom alongside the byte deltas.
-    from kintsuki.visual import golden
     out = REPO / "tests" / "goldens" / "battle_init" / "inv_open.png"
     out.parent.mkdir(parents=True, exist_ok=True)
-    if out.exists():
-        out.unlink()
-    golden(emu, out, threshold=0.1, max_diff_pixels=0)
+    emu.screenshot(str(out))
     print(f"\nframebuffer saved to {out}")
 
 

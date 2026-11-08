@@ -14,18 +14,18 @@ from __future__ import annotations
 from _ff4kintsuki import (
     CECIL_SLOT,
     cached_emu,
+    crop,
     kss_path,
     load_emu_from_kss,
+    screenshot_picture,
     tap,
     wait_for_turn,
     walk_into_battle,
 )
 from kintsuki import Button
-from PIL import Image
 
 FIELD = kss_path("ff4-before-field-inventory.kss")
 BATTLE = kss_path("ff4.kss")
-PICTURE = (13, 9, 13 + 256, 9 + 224)
 CMD_WINDOW = (44, 140, 108, 200)
 
 
@@ -76,8 +76,7 @@ def test_command_window_is_stable_through_a_turn(tmp_path):
         while e.frame_count < 420:
             e.run_frames(8)
             if e.frame_count >= 200:
-                e.screenshot(str(tmp_path / "s.png"))
-                crops.append(Image.open(tmp_path / "s.png").convert("RGB").crop(PICTURE).crop(CMD_WINDOW).tobytes())
+                crops.append(crop(screenshot_picture(e, tmp_path / "s.png"), CMD_WINDOW).tobytes())
         assert len(set(crops)) == 1
     finally:
         e.close()

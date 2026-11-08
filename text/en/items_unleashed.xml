@@ -230,7 +230,7 @@
     <sn:fixed>[0xff]Cottage</sn:fixed>
     <sn:fixed>[0xff]Naughty Book</sn:fixed>
     <sn:fixed>[0xff]Emergency Exit</sn:fixed>
-    <sn:fixed>[0xff]Dwarven Bread</sn:fixed>
+    <sn:fixed>[0xff]Gnomish Bread</sn:fixed>
     <sn:fixed>[0x41]Goblin</sn:fixed>
     <sn:fixed>[0x41]Bomb</sn:fixed>
     <sn:fixed>[0x41]Cockatrice</sn:fixed>

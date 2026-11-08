@@ -8,6 +8,7 @@ screen uses no HDMA and never shows with the items list or a shop, so ch5 is fre
 
 
 .import "core/preamble"
+.import "core/wram_layout"
 .include "core/bank20.i"
 .import "core/items"
 
@@ -28,9 +29,8 @@ _EQUIP_SCROLL_POS_PTR := 0x000157
 _EQUIP_HDMA_ENABLE_BIT := 0x20
 
 ; HDMA table ($9800 field, $9880 drops, $9900 sell / key items).
-_EQUIP_HDMA_TABLE_ADDR := 0x9980
+_EQUIP_HDMA_TABLE_ADDR := EQUIP_HDMA_TABLE & 0xFFFF
 _EQUIP_HDMA_BANK := 0x7E
-EQUIP_HDMA_SHADOW := 0x7E99C0
 
 ; Window in the BG4 buffer: top border on tile row 0, ring on rows 1..14, bottom border on row 24.
 _EQUIP_BG4_BUFFER := 0xC600

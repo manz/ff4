@@ -9,6 +9,7 @@ Replaces vanilla `DrawInventoryList` ($01:A172), which draws all 48 items once: 
 
 
 .import "core/preamble"
+.import "core/wram_layout"
 .include "core/bank20.i"
 .import "core/items"
 
@@ -28,11 +29,11 @@ _SELL_SCROLL_POS := 0x7E1B96
 _SELL_HDMA_ENABLE_BIT := 0x20
 
 ; HDMA tables ($9800 treasure, $9880 drops).
-_SELL_HDMA_TABLE_ADDR := 0x9900
-_SELL_HDMA_SHADOW_ADDR := 0x9940
+_SELL_HDMA_TABLE_ADDR := PICKER_HDMA_TABLE & 0xFFFF
+_SELL_HDMA_SHADOW_ADDR := PICKER_HDMA_SHADOW & 0xFFFF
 _SELL_HDMA_BANK := 0x7E
-SELL_HDMA_SHADOW := 0x7E9940
-SELL_HDMA_TABLE := 0x7E9900
+SELL_HDMA_SHADOW := PICKER_HDMA_SHADOW
+SELL_HDMA_TABLE := PICKER_HDMA_TABLE
 
 ; Window in the BG3 buffer: top border on slot 0, ring on slots 1..9 (128 bytes each), bottom border on 12.
 _SELL_BG3_BUFFER := 0xD600
@@ -444,11 +445,43 @@ Replaces `DrawInventoryList` for the sell list: configures the profile and lets 
     rep #0x10
     ldx.w #sell_rolling
     jsr.l rolling_engine.rolling_engine_init
+    jsr.w _sell_render_from_scroll
     jsr.w _sell_ensure_hdma_initialized
     sep #0x20
     jsr.l tfr_bg3_tiles_vblank_trampoline
     plp
     rtl
+
+_sell_render_from_scroll:
+"""
+Redraws the visible slots from vanilla's scroll: the init draws rows 0-7, but a sale redraws the list with the
+scroll kept, so slot n must hold row scroll + n.
+"""
+
+
+    php
+    sep #0x20
+    rep #0x10
+    lda.l _SELL_SCROLL_POS
+    beq _sell_render_from_scroll_done
+    lda #0x00
+
+_sell_render_from_scroll_row:
+    pha
+    sta.l sell_rolling.slot_index
+    clc
+    adc.l _SELL_SCROLL_POS
+    sta.l sell_rolling.edge_row
+    jsr.w _sell_render_item_to_slot
+    sep #0x20
+    pla
+    inc
+    cmp #_SELL_VISIBLE_ITEMS
+    bcc _sell_render_from_scroll_row
+
+_sell_render_from_scroll_done:
+    plp
+    rts
 
 _sell_fn_render_slot_trampoline:
 """Bank-20 RTL wrapper around `_sell_render_item_to_slot`."""

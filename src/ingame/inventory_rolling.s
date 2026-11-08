@@ -3,6 +3,7 @@ Field-menu inventory as a rolling buffer: 10 visible rows + 1 prefetch over 48 i
 """
 
 .import "core/preamble"
+.import "core/wram_layout"
 .import "core/vwf_ram"
 .import "core/items"
 .include "lib/rolling_buffer.i"
@@ -32,10 +33,10 @@ _SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA ch5, direct mode -> BG1VOFS. Entries are (count, lo, hi):
 ;   48 lines of border at base, 10 x 16-line item rows, 16 lines at base + 16, $00 terminator.
-_MENU_HDMA_TABLE_ADDR := 0x9800  ; active table, read by HDMA
-_MENU_HDMA_TABLE := 0x7E9800
-_MENU_HDMA_SHADOW_ADDR := 0x9840  ; shadow, built by game code and copied in NMI
-_MENU_HDMA_SHADOW := 0x7E9840
+_MENU_HDMA_TABLE_ADDR := FIELD_HDMA_TABLE & 0xFFFF  ; active table, read by HDMA
+_MENU_HDMA_TABLE := FIELD_HDMA_TABLE
+_MENU_HDMA_SHADOW_ADDR := FIELD_HDMA_SHADOW & 0xFFFF  ; shadow, built by game code and copied in NMI
+_MENU_HDMA_SHADOW := FIELD_HDMA_SHADOW
 _MENU_HDMA_TABLE_SIZE := 40
 _MENU_HDMA_BANK := 0x7E
 

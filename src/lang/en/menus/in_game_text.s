@@ -444,19 +444,19 @@ pad_buttons:
 menu:
         _text_y = 1
         menu_window(0, 0, 30, 11)
-        move_to(14, 0 + _text_y)
+        move_to(13, 0 + _text_y)
         .text "Right"
         .db 0x01
-        move_to(14, 2 + _text_y)
+        move_to(13, 2 + _text_y)
         .text "Left"
         .db 0x01
-        move_to(14, 4 + _text_y)
+        move_to(13, 4 + _text_y)
         .text "Head"
         .db 0x01
-        move_to(14, 6 + _text_y)
+        move_to(13, 6 + _text_y)
         .text "Body"
         .db 0x01
-        move_to(14, 8 + _text_y)
+        move_to(13, 8 + _text_y)
         .text "Arms"
         .db 0
 two_hands:

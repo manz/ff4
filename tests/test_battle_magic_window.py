@@ -27,19 +27,19 @@ from _ff4kintsuki import (
     CECIL_SLOT,
     CMD_ITEM,
     CMD_MAGIC_WHITE,
-    PICTURE,
     assert_screenshot_matches_golden,
     cached_emu,
     choose_command,
     command_row,
+    crop,
     kss_path,
     load_emu_from_kss,
+    screenshot_picture,
     tap,
     wait_for_turn,
     walk_into_battle,
 )
 from kintsuki import Button
-from PIL import Image
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 
@@ -183,8 +183,7 @@ def test_spell_list_golden(slot, downs, name):
 
 
 def _cmd_window(emu, path) -> bytes:
-    emu.screenshot(str(path))
-    return Image.open(path).convert("RGB").crop(PICTURE).crop(CMD_WINDOW).tobytes()
+    return crop(screenshot_picture(emu, path), CMD_WINDOW).tobytes()
 
 
 def test_command_window_comes_back_after_magic(tmp_path):

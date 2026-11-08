@@ -4,6 +4,7 @@ Treasure inventory rolling buffer (single column, 5 visible, 6 slots), the chest
 """
 
 .import "core/preamble"
+.import "core/wram_layout"
 .import "core/items"
 .include "lib/rolling_buffer.i"
 
@@ -35,10 +36,10 @@ _TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 
 ; HDMA tables shared with the field menu (never on screen together): active $7E:9800, shadow $7E:9840.
-_TREASURE_HDMA_TABLE_ADDR := 0x9800
-_TREASURE_HDMA_TABLE := 0x7E9800
-_TREASURE_HDMA_SHADOW_ADDR := 0x9840
-_TREASURE_HDMA_SHADOW := 0x7E9840
+_TREASURE_HDMA_TABLE_ADDR := FIELD_HDMA_TABLE & 0xFFFF
+_TREASURE_HDMA_TABLE := FIELD_HDMA_TABLE
+_TREASURE_HDMA_SHADOW_ADDR := FIELD_HDMA_SHADOW & 0xFFFF
+_TREASURE_HDMA_SHADOW := FIELD_HDMA_SHADOW
 _TREASURE_HDMA_TABLE_SIZE := 40
 _TREASURE_HDMA_BANK := 0x7E
 
