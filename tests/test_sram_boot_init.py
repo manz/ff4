@@ -2,22 +2,23 @@
 
 The cart's battery SRAM keeps what the last power-off left there, or what an older build (another layout) wrote: a
 read before our first write is junk on real hardware. The savestate tests can't see it (`clear_patch_sram` zeroes the
-state, and kintsuki powers on clean), so this boots, loads a save and plays through, tracking every patch SRAM byte
-written since the reset and recording any read of one that wasn't.
+state, and kintsuki powers on clean), so this boots, loads a save and plays through (menus, a battle and its treasure
+screen), tracking every patch SRAM byte written since the reset and recording any read of one that wasn't.
 """
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 
 import pytest
 from _ff4kintsuki import (
+    DROPS,
     PATCH_SRAM,
     PATCH_SRAM_LOW,
+    enter_treasure_picker,
     kss_path,
     load_emu_from_kss,
     sram_junk,
     tap,
-    walk_into_battle,
 )
 from kintsuki import Button, Emu
 
@@ -26,6 +27,8 @@ MONSTERS = 0x7E2280  # 8 battle records of $80; current HP at +7
 MONSTER_STRIDE = 0x80
 MONSTER_HP = 7
 SAVE_ROW = 7  # Sauver in the main menu
+FORMATION, BATTLE_PENDING = 0x7E1800, 0x7E0685  # the field starts the battle in $1800 once $0685 is set
+GOBLINS = 0x85
 
 
 def _offset(address: int) -> int:
@@ -85,23 +88,57 @@ def _visit_menus(emu: Emu) -> None:
         tap(emu, Button.B, gap=60)
 
 
+def _monsters_alive(emu: Emu) -> int:
+    """Monsters still standing, each brought down to 1 HP so the next hit ends it."""
+    alive = 0
+    for monster in range(8):
+        hp = MONSTERS + monster * MONSTER_STRIDE + MONSTER_HP
+        if emu.read(hp) | emu.read(hp + 1):
+            emu.write(hp, 1)
+            emu.write(hp + 1, 0)
+            alive += 1
+    return alive
+
+
 def _win_a_battle(emu: Emu) -> None:
-    """Walk into a battle and win it: every monster down to 1 HP, then attack until the field is back."""
+    """Fight goblins and win; the dev build's TREASURE_DEBUG_ALWAYS_DROP makes them drop, so the treasure screen
+    comes up: scroll its exchange picker, then leave it for the field."""
     field_mode = emu.get_ppu_state().bgmode
-    walk_into_battle(emu)
+    emu.write(FORMATION, GOBLINS)
+    emu.write(FORMATION + 1, 0x00)
+    emu.write(BATTLE_PENDING, 1)
+    _wait(emu, lambda: emu.get_ppu_state().bgmode != field_mode, "no battle started")
     emu.run_frames(120)
-    for _ in range(400):
-        for monster in range(8):
-            hp = MONSTERS + monster * MONSTER_STRIDE + MONSTER_HP
-            if emu.read(hp) | emu.read(hp + 1):
-                emu.write(hp, 1)
-                emu.write(hp + 1, 0)
-        tap(emu, Button.A, gap=4)
-        if emu.get_ppu_state().bgmode == field_mode:
+    for _ in range(100):
+        if not _monsters_alive(emu):
             break
+        tap(emu, Button.A, gap=4)
     else:
-        pytest.fail("the battle never ended")
-    emu.run_frames(200)
+        pytest.fail("the goblins never fell")
+    for _ in range(12):  # the gil and experience messages
+        if emu.read(DROPS):
+            break
+        emu.run_frames(50)
+        tap(emu, Button.A, gap=40)
+    else:
+        pytest.fail("no treasure screen")
+    enter_treasure_picker(emu, settle_frames=60)
+    for _ in range(10):
+        tap(emu, Button.DOWN, gap=6)
+    tap(emu, Button.B, gap=40)  # back on the drops
+    tap(emu, Button.B, gap=40)  # the top bar
+    tap(emu, Button.RIGHT, gap=10)
+    tap(emu, Button.A, gap=40)  # Quitter
+    _wait(emu, lambda: emu.get_ppu_state().bgmode == field_mode, "never back in the field")
+    emu.run_frames(60)
+
+
+def _wait(emu: Emu, done: Callable[[], bool], failure: str) -> None:
+    for _ in range(60):
+        if done():
+            return
+        emu.run_frames(10)
+    pytest.fail(failure)
 
 
 @pytest.mark.parametrize("seed", [1, 2])
