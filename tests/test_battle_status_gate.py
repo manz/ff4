@@ -8,7 +8,6 @@ leaves the window stale; a signal without a change redraws for nothing.
 from __future__ import annotations
 
 import pytest
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, walk_into_battle
 
 CHAR_STATUS = 0x7E2003  # status byte 1 of the slot-0 character record

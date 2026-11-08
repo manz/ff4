@@ -7,9 +7,14 @@ row format buffer meanwhile. The next message then decoded inventory rows: using
 """
 from __future__ import annotations
 
+from _ff4kintsuki import (
+    BATTLE_MENU_OPEN,
+    choose_command,
+    kss_path,
+    load_emu_from_kss,
+    tap,
+)
 from kintsuki import Button
-
-from _ff4kintsuki import BATTLE_MENU_OPEN, choose_command, kss_path, load_emu_from_kss, tap
 
 ITEM = 0x01  # the Item command
 MONSTERS_ENTRY = 18  # the inventory entry holding Monsters; Cecil used one before this savestate

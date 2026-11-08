@@ -10,7 +10,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from _ff4kintsuki import kss_path, load_emu_from_kss
 from katsuji import VwfFont
 

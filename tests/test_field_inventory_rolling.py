@@ -19,16 +19,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
-from kintsuki import Button
-
 from _ff4kintsuki import (
-    FIELD_BUFFER_POS,
-    FIELD_SCROLL_POS,
     INVENTORY,
-    MENU_BUFFER_SLOTS,
-    MENU_VISIBLE_ITEMS,
-    REPO,
     TRASH_ITEM_ID,
     assert_bytes_match_golden,
     assert_screenshot_matches_golden,
@@ -38,6 +30,7 @@ from _ff4kintsuki import (
     load_emu_from_kss,
     tap,
 )
+from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "field_inventory"
 # Pre-open kss : the legacy `ff4-field-inventory-open.kss` froze
@@ -215,7 +208,6 @@ def test_field_footer_hides_prefetch_slot(field_emu) -> None:
     # Active table layout: header + 10 row entries + footer + end.
     # Each entry = 3 bytes (count, scroll_lo, scroll_hi).
     footer_off = 3 + 10 * 3
-    footer_count = field_emu.read(0x7E9800 + footer_off)
     footer_scroll = (field_emu.read(0x7E9800 + footer_off + 1)
                      | (field_emu.read(0x7E9800 + footer_off + 2) << 8))
     # Footer applies at scanline 208 (header 48 + 10*16 = 208).

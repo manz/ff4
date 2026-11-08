@@ -5,9 +5,11 @@ Kss savestates are tied to the patched ROM and won't load against
 vanilla; this boots fresh and profiles 60 frames during title intro.
 """
 import sys
+
 sys.path.insert(0, "tests")
 import ctypes
 from pathlib import Path
+
 from kintsuki import Emu
 
 REPO = Path(__file__).resolve().parents[1].parents[0]
@@ -20,6 +22,7 @@ KSS = Path("/Users/manz/PyCharmProjects/ff4-modules/ff4j-battle-ext.kss")
 blob = KSS.read_bytes()
 buf = (ctypes.c_uint8 * len(blob))(*blob)
 from kintsuki._native import lib
+
 assert lib.kintsuki_load_state(e._handle, buf, len(blob)) == 1
 e.run_frames(120)  # let battle settle
 

@@ -12,9 +12,8 @@ the writes ran off the end of VWF_CHR_BUFFER.
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 KSS = "ff4-buggy-item-shop-press-a.kss"
 BG4_STAGING = 0x7EC600
@@ -135,9 +134,8 @@ def test_name_render_never_writes_into_the_price_field() -> None:
             return
         for base, row in rows.items():
             col = (addr - base) // 2
-            if 0 <= col < 20 and addr >= base:
-                if PRICE_FIELD_FIRST_COL <= col < PRICE_SUFFIX_COL:  # the suffix draws its own cells
-                    bad.append((row, col, val, pc))
+            if 0 <= col < 20 and addr >= base and PRICE_FIELD_FIRST_COL <= col < PRICE_SUFFIX_COL:  # the suffix draws its own cells
+                bad.append((row, col, val, pc))
 
     lo = min(rows) - 0x40
     e.add_write_callback(lo, lo + 0x600, on_write)

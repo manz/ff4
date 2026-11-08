@@ -353,9 +353,14 @@ _flush_skip_a:
             lda.l vwf_engine.flush_b.dirty
             beq _flush_skip_b
 ; A frame whose vanilla transfers ran long (equip screen) gets here after vblank, where a VRAM DMA is dropped.
-; Keep the flag for the next NMI.
+; Keep the flag for the next NMI, unless the screen is off: a menu opening under forced blank (the treasure
+; popup) would otherwise keep its drop names back through the whole fade-in, where no transfer runs this hook.
             lda.l cpu_regs.HVBJOY  ; HVBJOY: bit 7 = in vblank
-            bpl _flush_skip_b
+            bmi _flush_b_now
+            lda.l vwf_engine.screen_off
+            beq _flush_skip_b
+
+_flush_b_now:
             lda.b #0x00
             sta.l vwf_engine.flush_b.dirty
             rep #0x20

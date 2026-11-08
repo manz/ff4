@@ -7,8 +7,13 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-
-from _ff4kintsuki import INVENTORY, crop, kss_path, load_emu_from_kss, screenshot_picture
+from _ff4kintsuki import (
+    INVENTORY,
+    crop,
+    kss_path,
+    load_emu_from_kss,
+    screenshot_picture,
+)
 from test_showcase import _play
 
 SELL_LIST = ["RIGHT", "A", "*90", "A", "*40"]  # into the sell list, the hand on its first row

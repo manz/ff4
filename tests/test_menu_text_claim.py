@@ -7,7 +7,6 @@ tiles on BG4 above the character window.
 from __future__ import annotations
 
 import pytest
-
 from _ff4kintsuki import kss_path, load_emu_from_kss
 
 CARRY = 0x01

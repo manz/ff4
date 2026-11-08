@@ -12,12 +12,10 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from katsuji import png
-from numpy.typing import NDArray
-
-from kintsuki import Button, Emu
-
 from _rolling_state import addr
+from katsuji import png
+from kintsuki import Button, Emu
+from numpy.typing import NDArray
 
 REPO = Path(__file__).resolve().parents[1]
 ROM = REPO / "build/ff4.sfc"

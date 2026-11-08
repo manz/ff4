@@ -10,9 +10,8 @@ used to DMA 64K over VRAM and blank it.
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, screenshot_picture, tap
+from kintsuki import Button
 
 KSS = kss_path("ff4-before-battle-inventory.kss")
 HAND_TILE_VRAM = 0x6000 + 0x0A * 32

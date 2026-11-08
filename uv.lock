@@ -2,12 +2,15 @@ version = 1
 revision = 5
 requires-python = ">=3.14"
 
+[manifest]
+overrides = [{ name = "katsuji", extras = ["render"], specifier = "==0.7.0a0" }]
+
 [[package]]
 name = "a816"
 version = "1.3.0a3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "katsuji" },
+    { name = "katsuji", extra = ["render"] },
     { name = "lsprotocol" },
     { name = "pygls" },
 ]
@@ -73,7 +76,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "a816", specifier = "==1.3.0a3" },
-    { name = "katsuji", extras = ["render"], specifier = "==0.6.0" },
+    { name = "katsuji", extras = ["render"], specifier = "==0.7.0a0" },
     { name = "kintsuki", specifier = "==0.0.0a24" },
 ]
 
@@ -94,11 +97,11 @@ wheels = [
 
 [[package]]
 name = "katsuji"
-version = "0.6.0"
+version = "0.7.0a0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a0/fe/ede49e864761ad7e02646fb97d808828e6872cb69fa60fc6e8ea015c579e/katsuji-0.6.0.tar.gz", hash = "sha256:f8789079dd7d36ca4bb4b0c991ae6c498b2e768cd752ded33d058ffe90899b28", size = 161940, upload-time = "2026-11-01T13:03:35.207Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/36/f1/3beb16707c6bb109e2fc11c323edf222dfd0282938bf648deac5bedb12ae/katsuji-0.7.0a0.tar.gz", hash = "sha256:4a8e3660ecd1de6ef282f5beba2623af4c06c36ee6f95adf50108e51027c920c", size = 175018, upload-time = "2026-11-08T11:03:58.487Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/1a/453a4d820c4279b080539351dbd7a1413463b0adac6b8fa966916ba9912b/katsuji-0.6.0-py3-none-any.whl", hash = "sha256:f1b4816a34692e1c0b45905d4ef31769a1c754d0a250722730c319e5926c8d24", size = 77160, upload-time = "2026-11-01T13:03:34.147Z" },
+    { url = "https://files.pythonhosted.org/packages/88/7f/e084b60827ccffed95d2ad869e36d3aaa0df9ec8480046f693a34aaac305/katsuji-0.7.0a0-py3-none-any.whl", hash = "sha256:832b2a1e4536239eca9afaf44d6cdb0f77a2c03188b83b860828a240a22d547f", size = 87070, upload-time = "2026-11-08T11:03:57.06Z" },
 ]
 
 [package.optional-dependencies]

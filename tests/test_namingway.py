@@ -4,9 +4,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from _ff4kintsuki import kss_path, load_emu_from_kss
 from katsuji.script import Table
+
 from utils.name_codes import drawable_in_dialog, name_codes
 
 MENU_TABLE = Path("text/ff4_menus.tbl")

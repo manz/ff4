@@ -7,7 +7,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from a816.snippet import assemble_source
 from kintsuki import Emu
 

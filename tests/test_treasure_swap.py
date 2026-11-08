@@ -7,16 +7,13 @@ isn't sitting at the repo root (gitignored fixture)."""
 from __future__ import annotations
 
 import pytest
-
-from kintsuki import Button
-
 from _ff4kintsuki import (
     DROPS,
     INVENTORY,
-    enter_treasure_picker,
     load_emu_from_kss,
     tap,
 )
+from kintsuki import Button
 
 
 @pytest.fixture

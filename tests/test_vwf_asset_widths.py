@@ -5,6 +5,7 @@ ITEM_NAME_LEAD columns off their icon. Every list that shows them (field, battle
 10 tiles after its fixed-width symbol; an 11+ tile name would be cut.
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -13,11 +14,12 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from katsuji import VwfFont  # noqa: E402
-from katsuji import config as katsuji_config  # noqa: E402
-from katsuji.script import Table  # noqa: E402
-from build import ITEM_NAME_LEAD, read_fixed_from_xml  # noqa: E402
-from utils.bake_names import Glyphs, auto_kern, name_tiles  # noqa: E402
+from katsuji import VwfFont
+from katsuji import config as katsuji_config
+from katsuji.script import Table
+
+from build import ITEM_NAME_LEAD, read_fixed_from_xml
+from utils.bake_names import Glyphs, auto_kern, name_tiles
 
 NAME_TILES = 10
 

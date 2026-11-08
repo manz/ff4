@@ -1,13 +1,16 @@
 """Dump Rydia magic-list data + render with each offset to compare."""
 import sys
+
 sys.path.insert(0, "tests")
-from _ff4kintsuki import kss_path, load_emu_from_kss
 
 from pathlib import Path
+
 KSS = Path("/Users/manz/PyCharmProjects/ff4-modules/ff4-battle-full-party.kss")
 import ctypes
-from kintsuki import Emu
+
 from _ff4kintsuki import ROM
+from kintsuki import Emu
+
 e = Emu(load_srm_sidecar=False)
 e.load_rom(str(ROM))
 adbg = ROM.parent / "ff4.ips.adbg"
@@ -16,6 +19,7 @@ if adbg.exists():
 blob = KSS.read_bytes()
 buf = (ctypes.c_uint8 * len(blob))(*blob)
 from kintsuki._native import lib
+
 assert lib.kintsuki_load_state(e._handle, buf, len(blob)) == 1
 e.run_frames(180)
 

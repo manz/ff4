@@ -1,5 +1,6 @@
 """Trace cmd-window DMA path: dirty bits, pending mask, $1822, VRAM."""
 import sys
+
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
 
@@ -10,7 +11,6 @@ def snap(label):
     tile_pending = e.read(0x703C00)
     map_pending = e.read(0x703C03)
     char_slot = e.read(0x7E1822)
-    flag1824 = e.read(0x7E1824)
     vram_chunk = bytes(e.vram_read_range(0x71C0 * 2, 16))
     cmd_buf = bytes(e.read_range(0x7E9DA7, 60))      # bank-20 inner output (5 rows x 12)
     r0 = bytes(e.read_range(0x7EC1F2, 12))

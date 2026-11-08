@@ -16,9 +16,6 @@ import os
 from pathlib import Path
 
 import pytest
-
-from kintsuki import Button
-
 from _ff4kintsuki import (
     REPO,
     assert_screenshot_matches_golden,
@@ -27,6 +24,7 @@ from _ff4kintsuki import (
     load_emu_from_kss,
     tap,
 )
+from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "treasure"
 

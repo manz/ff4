@@ -2,10 +2,9 @@
 from __future__ import annotations
 
 import numpy as np
-from numpy.typing import NDArray
-
 from _ff4kintsuki import frame_picture, kss_path, load_emu_from_kss, tap
 from kintsuki import Button
+from numpy.typing import NDArray
 
 EXIT_FRAMES = 40
 BORDER_X = 4  # a column through the Objets window's bottom border and the list window's top one

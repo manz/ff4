@@ -2,10 +2,9 @@
 playtest)."""
 from __future__ import annotations
 
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 from kintsuki.tilemap import read_bg_tilemap
-
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 
 CORNERS = {(0, 0): 0xF7, (0, 31): 0xF9, (27, 0): 0xFC, (27, 31): 0xFE}  # the window's corner tiles (BG1)
 

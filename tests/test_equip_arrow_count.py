@@ -2,10 +2,9 @@
 playtest), and now sits at cols 28-29 with the window's content one column left."""
 from __future__ import annotations
 
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 from kintsuki.tilemap import read_bg_tilemap
-
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 
 FIRST_SHOWN = 0x7E1040  # the savestate's first character (Cain) record
 RIGHT_HAND, RIGHT_COUNT = 0x33, 0x34

@@ -8,10 +8,9 @@ seam enters the border zone.
 Run with: pytest tests/test_field_inventory_seam.py -v
 """
 
-import pytest
 from dataclasses import dataclass
-from typing import List, Tuple, Optional
 
+import pytest
 
 # =============================================================================
 # Constants (matching inventory_rolling.s)
@@ -43,10 +42,10 @@ class SeamAnalysis:
     """Analysis of seam position and status"""
     buffer_pos: int
     seam_row: int           # -1 if no seam
-    seam_rel_scroll: Optional[int]
-    seam_normalized: Optional[int]
+    seam_rel_scroll: int | None
+    seam_normalized: int | None
     seam_in_border: bool
-    all_rows: List[dict]
+    all_rows: list[dict]
 
 
 def calculate_vram_slot(buffer_pos: int, row: int) -> int:
@@ -90,7 +89,7 @@ def normalize_scroll(rel_scroll: int) -> int:
     return rel_scroll % TILEMAP_HEIGHT
 
 
-def build_hdma_table(buffer_pos: int, base_scroll: int, anim_offset: int) -> List[HDMAEntry]:
+def build_hdma_table(buffer_pos: int, base_scroll: int, anim_offset: int) -> list[HDMAEntry]:
     """
     Build the HDMA table for the given state.
     Returns list of entries (border, 10 item rows, below items).
@@ -154,7 +153,7 @@ def analyze_seam(buffer_pos: int, base_scroll: int, anim_offset: int) -> SeamAna
     )
 
 
-def simulate_scroll_down(buffer_pos: int, base_scroll: int) -> Tuple[List[dict], bool]:
+def simulate_scroll_down(buffer_pos: int, base_scroll: int) -> tuple[list[dict], bool]:
     """
     Simulate a scroll down animation and detect if seam enters border.
 
@@ -345,7 +344,7 @@ class TestScrollDownSimulation:
 
     def test_second_scroll_seam_at_row_9(self):
         """Second scroll: seam at row 9."""
-        frames, glitch = simulate_scroll_down(1, 100)
+        frames, _glitch = simulate_scroll_down(1, 100)
         # After second scroll, buf_pos=2, seam_row=9
         assert frames[0]['seam_row'] == 9
 
@@ -384,7 +383,7 @@ class TestSeamGlitchConditions:
 
     def test_no_glitch_when_seam_off_screen(self):
         """No glitch when seam row is >= 10 (off-screen)."""
-        frames, glitch = simulate_scroll_down(0, 100)
+        _frames, glitch = simulate_scroll_down(0, 100)
         # buf_pos 0 -> 1, seam_row = 10 (off-screen)
         assert not glitch
 
@@ -394,7 +393,7 @@ class TestSeamGlitchConditions:
         glitchy_positions = []
 
         for buf_pos in range(11):
-            frames, glitch = simulate_scroll_down(buf_pos, base_scroll)
+            _frames, glitch = simulate_scroll_down(buf_pos, base_scroll)
             new_buf_pos = (buf_pos + 1) % BUFFER_SLOTS
             seam_row = calculate_seam_row(new_buf_pos)
 
@@ -483,10 +482,8 @@ class TestSeamRowScrollValues:
 
         Let's find when it enters border...
         """
-        base = 100
 
         for buf_pos in range(2, 11):
-            seam_row = calculate_seam_row(buf_pos)
             # rel = -seam_row * 16 + anim_offset
             # For border: 176 <= (-seam_row * 16 + anim_offset) % 256
 
@@ -527,7 +524,7 @@ class TestFullScrollSequence:
         print("\n=== Full Scroll Sequence Analysis ===")
 
         for scroll_num in range(SCROLL_LIMIT):
-            frames, glitch = simulate_scroll_down(buf_pos, base)
+            _frames, glitch = simulate_scroll_down(buf_pos, base)
             new_buf_pos = (buf_pos + 1) % BUFFER_SLOTS
             seam_row = calculate_seam_row(new_buf_pos)
 

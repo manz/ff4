@@ -2,9 +2,8 @@
 zeroed one saved word and closing it punched a black hole in the world map (b3 playtest, near Kaipo)."""
 from __future__ import annotations
 
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 MODE7_BYTES = 0x8000  # VRAM words $0000-$3FFF: the world map's tilemap and CHR, interleaved
 

@@ -6,30 +6,27 @@ import math
 import os
 import struct
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 from xml.etree import ElementTree
 
-from a816.linker import Linker
-from a816.object_file import ObjectFile
-from a816.program import Program
 from a816.symbols import low_rom_bus
+from katsuji import build as katsuji_build
+from katsuji import config as katsuji_config
 from katsuji.script import Table
 from katsuji.script.formulas import long_pointer
 from katsuji.script.pointers import (
-    read_pointers_from_xml,
-    write_pointers_value_as_binary,
-    write_pointers_addresses_as_binary,
     Pointer,
+    read_pointers_from_xml,
+    write_pointers_addresses_as_binary,
+    write_pointers_value_as_binary,
 )
 
-from katsuji import build as katsuji_build
-from katsuji import config as katsuji_config
-from utils.metrics import TextMetrics
-from utils.dialog_layout import DialogLayout, battle_speaker_spaced, dialog_layout
 from utils import atb_gauge, battle_labels
-from utils.bake_names import Glyphs, bake_based_file, bake_file, bake_pointed_file
+from utils.bake_names import Glyphs, bake_based_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
+from utils.dialog_layout import DialogLayout, battle_speaker_spaced, dialog_layout
+from utils.metrics import TextMetrics
 from utils.name_codes import name_codes
 
 logger = logging.getLogger(__name__)
@@ -42,11 +39,10 @@ def read_fixed_from_xml(input_file, table, formatter=None):
     with open(input_file, encoding="utf-8") as datasource:
         tree = ElementTree.parse(datasource)
         root = tree.getroot()
-        i = 0
         padding = root.get("padding")
         length = int(root.get("length"))
         max_length = 0
-        for child in root:
+        for i, child in enumerate(root):
             text = child.text
             pointer = Pointer(i)
             formatted_text = formatter(text) if formatter else text
@@ -60,7 +56,6 @@ def read_fixed_from_xml(input_file, table, formatter=None):
                     pointer.value = pointer.value[:length]
 
             pointer_table.append(pointer)
-            i += 1
     return pointer_table
 
 
@@ -288,7 +283,7 @@ if __name__ == "__main__":
     menu_table = Table(MENU_TABLE)
     battle_table = battle_text_table(MENU_TABLE, "text/ff4fr.tbl")
     lang = LANG
-    text_root = "text/{lang}".format(lang=lang)
+    text_root = f"text/{lang}"
 
     assets_list = [
         (
@@ -453,11 +448,11 @@ if __name__ == "__main__":
     credits_bin.write_bytes((b"\x01".join(lines_bytes)) + b"\x00")
 
     if lang != "en":
-        the_end_gfx_path = Path(f"text") / lang / "the_end_gfx.bin"
+        the_end_gfx_path = Path("text") / lang / "the_end_gfx.bin"
         translated_gfx = Path("build/gen/the_end_gfx.bin")
 
         the_end_gfx = the_end_gfx_path.read_bytes()
-        output_buffer = bytes()
+        output_buffer = b""
         k = 0
         while k < len(the_end_gfx):
             output_buffer += bytes([the_end_gfx[k] | the_end_gfx[k + 1] << 4])

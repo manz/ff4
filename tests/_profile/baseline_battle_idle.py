@@ -1,9 +1,10 @@
 """Baseline cycle profile of the battle redraw chain over 60 frames idle."""
 import sys
+
 sys.path.insert(0, "tests")
-from kintsuki import Button
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from _rolling_state import symbols
+from kintsuki import Button
 
 # Load symbol table for human-readable PC names
 SYM = {address & 0xFFFFFF: name for name, address in symbols().items()}

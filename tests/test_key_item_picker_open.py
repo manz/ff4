@@ -10,13 +10,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import (
     kss_path,
     load_emu_from_kss,
     tap,
 )
+from kintsuki import Button
 
 KSS = kss_path("ff4-key-inventory.kss")
 GOLDENS = Path(__file__).parent / "goldens" / "key_item_picker"

@@ -1,12 +1,11 @@
 #!/usr/bin/env python3.4
 import struct
+import sys
 
-import katsuji.script as script
-from a816.cpu.cpu_65c816 import snes_to_rom
 from a816.symbols import low_rom_bus
+from katsuji import script
 from katsuji.script import Table
-from katsuji.script.formulas import base_relative_16bits_pointer_formula
-from katsuji.script.pointers import Script, write_pointers_as_xml, Pointer
+from katsuji.script.pointers import Pointer, Script, write_pointers_as_xml
 
 
 def write_fixed_text_as_xml(pointers, table, length, output_file):
@@ -14,9 +13,7 @@ def write_fixed_text_as_xml(pointers, table, length, output_file):
     with open(output_file, "wt", encoding="utf-8") as fd:
         fd.writelines('<?xml version="1.0" encoding="utf-8"?>\n')
         fd.write(
-            '<sn:fixedlist length="{:d}" xmlns:sn="http://snes.ninja/ScriptNS">\n'.format(
-                length
-            )
+            f'<sn:fixedlist length="{length:d}" xmlns:sn="http://snes.ninja/ScriptNS">\n'
         )
         for pointer in sorted_pointers_by_id:
             fd.write("<sn:fixed>")
@@ -46,14 +43,13 @@ def dump_en():
     with open("../Final Fantasy IV (Japan) (Rev 1) [En by J2e v3.21].sfc", "rb") as rom:
         rom.seek(item_description.physical)
         for k in range(443):
-            s = bytes()
+            s = b""
             while (char := rom.read(1)) != b"\x00":
                 print(char)
                 s += char
             item_desc.append(jtable.to_text(s))
 
     write_nul_terminated_strings_as_xml(item_desc, "../text/en/item_descriptions.xml")
-    ...
 
 
 def dump_jp():
@@ -66,14 +62,13 @@ def dump_jp():
         # with open('../Final Fantasy IV (Japan) (Rev 1) [En by J2e v3.21].sfc', 'rb') as rom:
         rom.seek(item_description.physical)
         for k in range(47):
-            s = bytes()
+            s = b""
             while (char := rom.read(1)) != b"\x00":
                 print(char)
                 s += char
             item_desc.append(jtable.to_text(s))
 
     write_nul_terminated_strings_as_xml(item_desc, "../text/jp/item_descriptions.xml")
-    ...
 
 
 def dump_handedness():
@@ -82,8 +77,7 @@ def dump_handedness():
     with open("../ff4j.smc", "rb") as rom:
         rom.seek(addr.physical)
         data = rom.read(8 * 4)
-        text = jtable.to_text(data)
-        ...
+        jtable.to_text(data)
 
 
 if __name__ == "__main__":
@@ -94,7 +88,7 @@ if __name__ == "__main__":
         s = Script(rom)
         monsters = s.read_fixed_text_list(rom, addr.physical, 224, 8)
         write_fixed_text_as_xml(monsters, jtable, 8, 'jp-monsters.xml')
-    exit(0)
+    sys.exit(0)
     #     addr = low_rom_bus.get_address(0xef200)
     #     with open('../ff4j.smc', 'rb') as rom:
     #         rom.seek(addr.physical)
@@ -143,7 +137,7 @@ if __name__ == "__main__":
                 (addr.logical_value & 0xFF0000) + pointer[0]
             )
             rom.seek(string_pointer.physical)
-            s = bytes()
+            s = b""
 
             end_of_string = False
             while end_of_string is False:
@@ -168,7 +162,7 @@ if __name__ == "__main__":
         )
 
     # dump_en()
-    exit(0)
+    sys.exit(0)
     table = Table(".text/ff4_menus.tbl")
     jtable = Table("text/ff4_jap.tbl")
 

@@ -11,9 +11,8 @@ The savestate opened the shop under an older build, so each test leaves it and t
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 KSS = "ff4-buggy-item-shop-press-a.kss"
 DESCRIPTION_VRAM = 0x5800  # tiles $180-$1FF: the owner's line

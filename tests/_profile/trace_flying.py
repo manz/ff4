@@ -1,5 +1,6 @@
 """Trace UpdateFlyingHDMA preconditions at kss boot."""
 import sys
+
 sys.path.insert(0, "tests")
 from _ff4kintsuki import kss_path, load_emu_from_kss
 

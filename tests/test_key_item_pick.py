@@ -4,9 +4,8 @@ for Rosa)."""
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 PICKED = 0x7E08FB  # the item EventCmd_f7 hands the event
 FILTER = 0x7E0712  # the picker's list: (item, count) pairs

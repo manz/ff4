@@ -12,10 +12,9 @@ being dropped.
 from __future__ import annotations
 
 import pytest
+from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 from kintsuki.tilemap import read_bg_tilemap
-
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
 
 KSS = kss_path("ff4-before-field-inventory.kss")
 

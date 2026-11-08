@@ -5,13 +5,21 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from _ff4kintsuki import _new_emu, assert_screenshot_matches_golden, kss_path, load_emu_from_kss
+from _ff4kintsuki import (
+    _new_emu,
+    assert_screenshot_matches_golden,
+    kss_path,
+    load_emu_from_kss,
+)
 from kintsuki import Button, Emu
 
 GOLDENS = Path(__file__).parent / "goldens" / "showcase"
 # Cold boot: START through the title, then A through the Red Wings intro, one press every 3 seconds, stopping on a
-# three-line soldier's line.
-INTRO = [step for i in range(58) for step in ["*60", *(["START" if i < 12 else "A"] if i % 3 == 0 and i < 57 else [])]]
+# three-line soldier's line once its last ellipsis has typed out, dot by dot.
+INTRO = [
+    *(step for i in range(58) for step in ["*60", *(["START" if i < 12 else "A"] if i % 3 == 0 and i < 57 else [])]),
+    "*120",
+]
 
 
 def _play(emu: Emu, steps: list[str], gap: int) -> None:

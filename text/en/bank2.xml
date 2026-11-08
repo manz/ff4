@@ -236,7 +236,7 @@ Who the hell are you!?[end]</sn:pointer>
 
 <sn:pointer id="12">T[end]</sn:pointer>
 
-<sn:pointer id="13">[bold]Cid[normal]: Zzz...Zzz...
+<sn:pointer id="13">[bold]Cid[normal]: [italic]Zzz...Zzz...[/italic]
 I've finished the new model engine!
 snort...snort...[end]
 Dad pulled another all-nighter!
@@ -261,7 +261,7 @@ Please look after my father, everyone.[end]
 Please take care of my father.
 He's tinkering with the airship again,
 isn't he?[end]
-Zzz...Zzz...[end]</sn:pointer>
+[italic]Zzz...Zzz...[/italic][end]</sn:pointer>
 
 <sn:pointer id="14">[bold]Rosa's mother[normal]: The way the king
 rules these days...
@@ -346,7 +346,7 @@ Palom, Porom!
 Don't trust this man![end]
 How dazzling...
 So this is what a Paladin looks like...[end]
-Shaddap! -hic- I ain't afraid of no Dark
+Shaddap! [italic]hic[/italic] I ain't afraid of no Dark
 Knight![end]
 You, a Paladin?
 Heh!
@@ -928,7 +928,7 @@ alone![end]
 [bold]Tellah[normal]: I don't need your help!
 I'll kill Golbez on my own![end]
 Tellah left the party.[end]
-[bold]Edward[normal]: A...Anna... -sob-, -sob-[end]
+[bold]Edward[normal]: A...Anna... [italic]sob[/italic], [italic]sob[/italic][end]
 [bold]Rydia[normal]: Crybaby![end]
 [bold]Rydia[normal]: You're a man, aren't you?
 A grown-up!
@@ -1496,13 +1496,13 @@ Let's hurry![end]
 
 <sn:pointer id="134">T[end]</sn:pointer>
 
-<sn:pointer id="135">'Hiss...
-Hiss...'
+<sn:pointer id="135">'[italic]Hiss...
+Hiss...[/italic]'
 [bold]Porom[normal]: Palom!
 You said something, didn't you?[new]
 [bold]Palom[normal]: It wasn't me![end]
-'Hiss...
-Hiss...'
+'[italic]Hiss...
+Hiss...[/italic]'
 [bold]Porom[normal]: There you go again![new]
 [bold]Palom[normal]: I said it wasn't me![end]</sn:pointer>
 
@@ -2012,7 +2012,7 @@ So this is Adamantite!
 All right, in thanks, I'll make that old
 sword of yours better than new![end]
 You handed over the Legend Sword.[end]
-Zzz...[end]</sn:pointer>
+[italic]Zzz...[/italic][end]</sn:pointer>
 
 <sn:pointer id="260">There are Sylphs in the cave far to the
 northwest![end]
@@ -2181,11 +2181,11 @@ He says the food's awful, but he eats
 plenty![end]
 There's nothing like a good night's sleep
 to make you feel better, Lali![end]
-Zzz...Zzz[end]
+[italic]Zzz...Zzz[/italic][end]
 That old guy was in no shape to be doing that![end]
 That old guy's rough, but he's a good
 guy![end]
-Zzz... snort ...Zzz[end]
+[italic]Zzz... snort ...Zzz[/italic][end]
 That old guy's amazing!
 He really put a drill on it![end]
 People from the upper world are very
@@ -2221,7 +2221,7 @@ Use the treasure well![end]</sn:pointer>
 
 <sn:pointer id="287">T[end]</sn:pointer>
 
-<sn:pointer id="288">-Hic-! Everybody'sh all 'there'sh a war on', sho nobody drinksh! Me, booze beatsh war any day! I'm gonna dansh, Lali![end]
+<sn:pointer id="288">[italic]Hic[/italic]! Everybody'sh all 'there'sh a war on', sho nobody drinksh! Me, booze beatsh war any day! I'm gonna dansh, Lali![end]
 Aagh!
 It'sh shpinnin' more and more! Now I'm really Lali-hammered![end]</sn:pointer>
 
@@ -2355,7 +2355,7 @@ events!!
 Stop finding more bugs!
 Damn![new]
 I'm dropping out of college![end]
-Zzz...Zzz...[end]</sn:pointer>
+[italic]Zzz...Zzz...[/italic][end]</sn:pointer>
 
 <sn:pointer id="300">[bold]FuSoYa[normal]: Let's get inside now while we
 can![end]

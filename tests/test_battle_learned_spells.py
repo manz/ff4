@@ -7,9 +7,15 @@ learns $21 and $1A on reaching level 11.
 """
 from __future__ import annotations
 
+from _ff4kintsuki import (
+    BATTLE_CHARS,
+    kss_path,
+    load_emu_from_kss,
+    tap,
+    wait_for_turn,
+    walk_into_battle,
+)
 from kintsuki import Button
-
-from _ff4kintsuki import BATTLE_CHARS, kss_path, load_emu_from_kss, tap, walk_into_battle, wait_for_turn
 
 KSS = kss_path("ff4-twins-field.kss")
 PALOM_SLOT, POROM_SLOT = 1, 2

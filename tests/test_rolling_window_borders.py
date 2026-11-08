@@ -8,9 +8,8 @@ and right edges on every item row.
 from __future__ import annotations
 
 import pytest
-from kintsuki import Button
-
 from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from kintsuki import Button
 
 ROW_CELLS = 32
 
