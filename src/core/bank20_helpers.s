@@ -8,7 +8,6 @@ clear and the 17-byte item-record multiplies.
 .import "core/vanilla"
 .import "core/assets"
 .import "core/sram_layout"
-.import "battle/render_state"
 
 .alloc bank20_helpers in bank20_reloc {
 ; UpdateScrollRegs ($14:FF2D, JSL): write BG1VOFS unless the menu HDMA drives it.
@@ -27,22 +26,31 @@ _cond_skip_bg1vofs:
 
 clear_ram:
 """
-After vanilla's RAM init ($15:C9AA), clear SRAM $702000-$7070FF: dialog tiles, vwf_text_buffer, vwf_cfg and
-vwf_engine. Random flush_b bytes would fire a bogus flush on the first NMI and trash the save-select sprite CHR.
+After vanilla's RAM init ($15:C9AA), clear every byte of ours in SRAM (PATCH_SRAM_LOW / _HIGH): the battery keeps
+what the last power-off or an older build left there. Random flush_b bytes would fire a bogus flush on the first NMI
+and trash the save-select sprite CHR; stale render masks, name caches and fade flags send uploads that never happened.
 """
 
 
     jsr.l field_clear_ram
-    {
-        lda.b #0x00
-        ldx.w #0x0000
-
-_loop:
-        sta.l DIALOG_TILE_BUFFER, x
-        inx
-        cpx.w #BATTLE_RENDER_STATE - DIALOG_TILE_BUFFER
-        bne _loop
-    }
+    php
+    rep #0x30
+    lda.w #0x0000
+    ldx.w #0x0000
+_clear_low:
+    sta.l PATCH_SRAM_LOW, x
+    inx
+    inx
+    cpx.w #PATCH_SRAM_LOW_END - PATCH_SRAM_LOW
+    bne _clear_low
+    ldx.w #0x0000
+_clear_high:
+    sta.l PATCH_SRAM_HIGH, x
+    inx
+    inx
+    cpx.w #PATCH_SRAM_HIGH_END - PATCH_SRAM_HIGH
+    bne _clear_high
+    plp
     rtl
 
 

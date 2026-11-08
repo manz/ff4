@@ -4,8 +4,8 @@ and placement directives cannot nest.
 """
 
 
-; Rolling-menu state pool in cart SRAM bank $70 (ours alone, cleared at boot). Below $7200: VWF CHR buffer ($3000),
-; VRAM save window ($5000), VWF text/config/engine ($7000..$70CC), battle render state ($7100).
+; Rolling-menu state pool in cart SRAM bank $70 (ours alone, cleared at boot with PATCH_SRAM_LOW). Below $7200:
+; VWF CHR buffer ($3000), VRAM save window ($5000), VWF text/config/engine ($7000..$70CC), battle render state ($7100).
 .pool rolling_state {
     bss
     range 0x707200 0x707FFF
