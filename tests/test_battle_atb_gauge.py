@@ -11,7 +11,9 @@ from pathlib import Path
 import pytest
 from _ff4kintsuki import (
     BATTLE_MENU_PANEL,
+    CMD_ITEM,
     assert_screenshot_matches_golden,
+    choose_command,
     fresh_late_battle,
     tap,
 )
@@ -32,6 +34,8 @@ FILLING_PALETTE = 0x04  # grey while it fills, the text's white (palette 0) when
 MAIN_VIEW_HP = 0x7EBED0  # a character per 2 rows of 64 bytes; the right cap goes in the cell after the 9
 DISPLAY_ORDER = (1, 3, 0, 4, 2)
 DIGITS = range(0x80, 0x8A)
+SLASH = 0xC7
+TARGET_SELECT = 0x7E004D  # msb: the status window is up to pick a character (notes/ff4j-sfc-ram-map.txt)
 
 
 def _bottom_cells(emu, row: int) -> list[tuple[int, int]]:
@@ -109,6 +113,22 @@ def test_acting_empties_the_gauge(battle) -> None:
     assert lowest < 8
 
 
+def test_the_target_picker_shows_the_max_hp(battle) -> None:
+    """Picking whom an item goes to, the status window shows "/max HP" again: the max is what the choice turns on,
+    and that window has no cell for the gauge's right cap."""
+    choose_command(battle, CMD_ITEM)
+    battle.run_frames(40)
+    tap(battle, Button.DOWN, gap=20)
+    tap(battle, Button.DOWN, gap=20)  # X-Potion
+    tap(battle, Button.A, gap=4)
+    tap(battle, Button.A, gap=40)  # use it: the hand goes to the party
+    assert battle.read(TARGET_SELECT) & 0x80
+    for row in range(5):
+        cells = _bottom_cells(battle, row)
+        assert cells[4][0] == SLASH
+        assert all(tile in DIGITS for tile, _ in cells[5:9])
+
+
 def test_the_party_window_golden(battle) -> None:
     assert_screenshot_matches_golden(battle, GOLDENS / "party.png", region=BATTLE_MENU_PANEL)
 
@@ -145,7 +165,7 @@ def test_off_by_default_the_rows_keep_their_max_hp() -> None:
         assert emu.read(SETTING) & 1 == 0
         for row in range(5):
             cells = _bottom_cells(emu, row)
-            assert cells[4][0] == 0xC7  # vanilla's "/"
+            assert cells[4][0] == SLASH
             assert all(tile in DIGITS for tile, _ in cells[5:9])
     finally:
         emu.close()
