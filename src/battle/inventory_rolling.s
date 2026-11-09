@@ -83,6 +83,18 @@ next TfrInventoryList paints the visible rows again. Keeps A.
     pla
     rtl
 
+inventory_row_changed:
+"""
+Replaces DrawInventoryItemText's `ldx #$74FD / stx $EF50` ($02:9FA4, DB = $7E, M = 8, X = 16 bits). Vanilla redraws
+a row into its own text buffer after a swap ($02:9661) or a quantity change ($02:95DA): our slots hold the old row,
+so the next TfrInventoryList paints the visible rows again. Clobbers A, as vanilla's next `lda $1817` does.
+"""
+    ldx.w #0x74FD
+    stx 0xEF50
+    lda.b #0x01
+    sta.w _inventory_needs_full_refresh
+    rtl
+
 init_inventory_text_buf_rolling:
 """
 Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the
