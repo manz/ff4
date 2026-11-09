@@ -15,6 +15,7 @@ from kintsuki import Button
 
 ITEM = 0x01  # the Item command
 CURSOR_TYPE = 0x7E1823  # 5: inventory
+NMI_ENTRY = 0x000200  # the NMI vector's jml to the battle NMI
 NMI_RTI = 0x0283E0  # vanilla battle NMI's rti
 GLYPH_STATE = range(0x0000A9, 0x0000B3)  # bits_left_on_tile .. current_char
 ALLOCATOR = range(0x702F00, 0x702F04)  # allocated_tile_id, slot_limit_low
@@ -35,20 +36,32 @@ def _state(emu) -> bytes:
 
 
 class _Watch:
-    """At each entry to `renderer` (from the NMI), the glyph state; at the NMI's rti, whether it changed."""
+    """
+At each entry to `renderer` from the NMI, the glyph state; at the NMI's rti, whether it changed. Renders on the main
+thread (the list repainted when it opens) are the main thread's own draw: an NMI landing mid-render sees them half
+done.
+    """
 
     def __init__(self, emu, renderer: int) -> None:
         self.emu, self.renders, self.changed, self.bad_flags = emu, 0, [], set()
         self._entered: list[bytes] = []
+        self._in_nmi = False
+        emu.add_exec_callback(NMI_ENTRY, NMI_ENTRY, self._nmi)
         emu.add_exec_callback(renderer, renderer, self._enter)
         emu.add_exec_callback(NMI_RTI, NMI_RTI, self._leave)
 
+    def _nmi(self, *_) -> None:
+        self._in_nmi = True
+
     def _enter(self, *_) -> None:
+        if not self._in_nmi:
+            return
         self.renders += 1
         if not self._entered:
             self._entered.append(_state(self.emu))
 
     def _leave(self, *_) -> None:
+        self._in_nmi = False
         if self.emu.read(BATTLE_FLAGS) > 3:
             self.bad_flags.add(self.emu.read(BATTLE_FLAGS))
         if self._entered:
