@@ -112,27 +112,33 @@ _rpt_done:
     rts
 
 _popup_key_changed:
-"""Carry set when the character or a hand's item differs from `equip_popup_key`, which takes the new values."""
+"""
+Carry set when the character or a hand's item differs from `equip_popup_key`, which takes the new values. The changed
+flag waits on the stack: the compares and the loop's `cpy` all rewrite carry.
+"""
     jsr.w _char_x2
     rep #0x20
     lda.l _HAND_ITEMS, x
     tax
     sep #0x20
-    clc
+    lda.b #0x00
+    pha  ; changed
     lda.l battle_selected_char
     cmp.w equip_popup_key
     beq _pkc_char
-    sec
-_pkc_char:
     sta.w equip_popup_key
+    lda.b #0x01
+    sta 1, s
+_pkc_char:
     ldy.w #0x0000
 _pkc_byte:
     lda.w 0x0000, x  ; flags, id, quantity
     cmp.w equip_popup_key + 1, y
     beq _pkc_same
-    sec
-_pkc_same:
     sta.w equip_popup_key + 1, y
+    lda.b #0x01
+    sta 1, s
+_pkc_same:
     inx
     iny
     cpy.w #0x0003
@@ -141,6 +147,8 @@ _pkc_same:
 _pkc_next:
     cpy.w #EQUIP_POPUP_KEY_SIZE - 1
     bne _pkc_byte
+    pla
+    lsr  ; carry = changed
     rts
 
 _char_x2:
