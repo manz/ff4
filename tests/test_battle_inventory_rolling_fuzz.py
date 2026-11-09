@@ -11,10 +11,18 @@ from __future__ import annotations
 import random
 
 import pytest
-from _ff4kintsuki import choose_command, kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import (
+    CECIL_SLOT,
+    choose_command,
+    kss_path,
+    load_emu_from_kss,
+    tap,
+    wait_for_turn,
+    walk_into_battle,
+)
 from kintsuki import Button, Emu
 
-KSS = kss_path("ff4-battle-monsters-item.kss")
+KSS = kss_path("ff4-before-field-inventory.kss")  # a fresh battle: a mid-battle state carries an older build's tasks
 BATTLE_ITEMS = 0x7E321A  # 4-byte records: flags, id, quantity, -
 TOTAL_ITEMS = 48
 VISIBLE_ROWS = 5
@@ -107,8 +115,10 @@ class ListWalk:
 
 @pytest.mark.parametrize("seed", SEEDS)
 def test_visible_rows_follow_the_cursor(seed):
-    emu = load_emu_from_kss(KSS, settle_frames=10)
+    emu = load_emu_from_kss(KSS, settle_frames=60)  # in the field
     try:
+        walk_into_battle(emu)
+        wait_for_turn(emu, CECIL_SLOT)
         walk = ListWalk(emu, random.Random(seed))
         walk.open_items()
         for _ in range(STEPS):
