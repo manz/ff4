@@ -355,6 +355,17 @@ equip_popup_closed:
     jsr.l signal_commands
     rtl
 
+inventory_window_closed:
+"""
+Replaces the item list close's `lda #$04 / trb $4A` ($02:AB32). The command list skips its render while the list is
+open, so a SIG_COMMANDS taken before this point (the popup's close) left the hands' glyphs in its tiles: signal
+again now that the render can run. Callable with JSL.
+"""
+    lda.b #0x04
+    trb.b 0x4A
+    jsr.l signal_commands
+    rtl
+
 tfr_equip_window_new:
 """
 Replacement for vanilla `TfrEquipWindow` ($02:97A6), JSL'd from the bank-02 trampoline: 6 transfer passes, the
@@ -479,6 +490,10 @@ equip_popup_close_edge:
 
 .alloc at 0x02AB4D {
     jsr.w equip_popup_close_edge
+}
+
+.alloc at 0x02AB32 size 4 {
+    jsr.l inventory_window_closed
 }
 
 ; The popup stacks the hands, one row each (layout above), where vanilla put them side by side: its cursor handler
