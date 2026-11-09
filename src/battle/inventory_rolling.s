@@ -68,6 +68,21 @@ _vram_slot_table:
 ; WRAM mirror of the VRAM slots, 128 bytes each
     _TILEMAP_SLOT_BASE := _tilemap_buffer_base + _tilemap_content_offset
 
+open_inventory_list:
+"""
+Replaces the Item command's `stz $EF97 / $EF98 / $EF99` ($02:BA12, DB = $7E, M = 8 bits): the list reopens at the
+top (vanilla also zeroes the cursor and the scroll), and the slots still hold the rows of the last scroll, so the
+next TfrInventoryList paints the visible rows again. Keeps A.
+"""
+    pha
+    stz.w _rolling_top_row
+    stz.w _rolling_buffer_pos
+    stz.w _rolling_edge_row
+    lda.b #0x01
+    sta.w _inventory_needs_full_refresh
+    pla
+    rtl
+
 init_inventory_text_buf_rolling:
 """
 Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the

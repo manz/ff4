@@ -25,6 +25,12 @@ trampolines go there, larger functions live in bank $20.
     rts
 }
 
+; Item command opening the list ($02:BA12, stz $EF97 / $EF98 / $EF99): the list restarts at the top
+.alloc at 0x02BA12 size 9 {
+    jsr.l open_inventory_list
+    .db 0xEA, 0xEA, 0xEA, 0xEA, 0xEA  ; nop x 5
+}
+
 ; TfrInventoryList ($98FA-$9982): JSL + RTS frees $98FF-$9982 for the trampolines
 .alloc at 0x0298FA {
     jsr.l tfr_inventory_list_rolling
