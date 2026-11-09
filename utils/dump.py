@@ -1,11 +1,17 @@
 #!/usr/bin/env python3.4
 import struct
 import sys
+from pathlib import Path
 
 from a816.symbols import low_rom_bus
 from katsuji import script
 from katsuji.script import Table
 from katsuji.script.pointers import Pointer, Script, write_pointers_as_xml
+
+from utils.script_xml import split_messages, write_areas
+
+MAP_DIALOGUE_PTRS, MAP_DIALOGUE, MAP_DIALOGUE_END = 0x118000, 0x118300, 0x11FEE8  # bus addresses: bank2 (per-map text)
+MAP_AREAS = 384
 
 
 def write_fixed_text_as_xml(pointers, table, length, output_file):
@@ -78,6 +84,26 @@ def dump_handedness():
         rom.seek(addr.physical)
         data = rom.read(8 * 4)
         jtable.to_text(data)
+
+
+def map_dialogue(rom: bytes, table: Table) -> dict[str, list[str]]:
+    """The JP ROM's per-map text (field bank 0, bank2 in text/): one area per map, a message per [end]; bytes after
+    an area's last [end] stay a message of their own."""
+    def physical(address: int) -> int:
+        return low_rom_bus.get_address(address).physical
+
+    table_at = physical(MAP_DIALOGUE_PTRS)
+    starts = [MAP_DIALOGUE + struct.unpack_from("<H", rom, table_at + 2 * i)[0] for i in range(MAP_AREAS)]
+    areas = {}
+    for i, start in enumerate(starts):
+        data = rom[physical(start):physical(starts[i + 1] if i + 1 < MAP_AREAS else MAP_DIALOGUE_END)]
+        areas[str(i)] = split_messages(table.to_text(data))  # decoded first: a name code ($04 00) holds a 0x00
+    return areas
+
+
+def dump_map_dialogue(rom_path: str = "build/ff4.sfc", output: str = "text/jp/bank2.xml") -> None:
+    with open(rom_path, "rb") as rom:
+        write_areas(Path(output), map_dialogue(rom.read(), Table("text/ff4_jap.tbl")))
 
 
 if __name__ == "__main__":
