@@ -7,7 +7,7 @@ routines ff4 replaced, which now start with a jump out and are never reached pas
     range 0x0183B5 0x0183E2
     range 0x018401 0x018416
     range 0x01841A 0x018456
-    range 0x01857D 0x01858B
+    range 0x01857E 0x01858B
     range 0x018FE8 0x019000
     range 0x01B30C 0x01B36C
     range 0x01B41D 0x01B425

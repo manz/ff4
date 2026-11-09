@@ -54,6 +54,7 @@ _WINDOW_ROWS_BYTES := 25 * 0x80  ; the 25 two-row steps of the vanilla wipe
     ldx.w #_transform_rts_858c & 0xFFFF
     stx 0x01CD
     stx 0x01D0
+    rts  ; what follows is bank01_slack
 }
 
 .alloc at 0x01858C {

@@ -90,8 +90,35 @@ item_desc_back:
     .dw 0x039e - _delta_l, 0x019e - _delta_l, 0x059e - _delta_l, 0x029e - _delta_l, 0x049e - _delta_l
     .dw 0x0384 - _delta_r, 0x0184 - _delta_r, 0x0584 - _delta_r, 0x0284 - _delta_r, 0x0484 - _delta_r
 }
+; Use-item character blocks: name, status (KO...), HP, MP. Vanilla's are name, HP, MP: HP and MP move a row down.
 .alloc at 0x01a4f4 {
     adc.w #0x0082
+}
+; The grey of a dead character's block: vanilla's 4 rows start a row above the name, so they would miss MP.
+.label _set_text_color = 0x018C47
+.label _next_row_x = 0x01877E
+.alloc at 0x01A4C2 {
+    jsr.w grey_from_the_name
+}
+.alloc _grey_from_the_name in bank01_slack {
+grey_from_the_name:
+    jsr.w _next_row_x
+    jmp.w _set_text_color
+}
+; The hand on the name row, not the status row (ADC of SelectItemTarget's cursor Y, block * 32 + $40), and the name
+; a cell in, under HP's indent, to leave the hand room.
+.alloc at 0x01A5BD {
+    .db 0x40 - 8
+}
+.label _draw_char_name = 0x0183AB
+.alloc at 0x01A4AD {
+    jsr.w name_a_cell_in
+}
+.alloc _name_a_cell_in in bank01_slack {
+name_a_cell_in:
+    iny
+    iny
+    jmp.w _draw_char_name
 }
 .alloc at 0x01a51a {
     draw_hp_mp = 0x018a2a
