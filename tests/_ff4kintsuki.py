@@ -7,6 +7,7 @@ WRAM / VRAM snapshots so individual tests stay focused on assertions.
 from __future__ import annotations
 
 import ctypes
+import random
 from collections.abc import Callable
 from pathlib import Path
 
@@ -94,8 +95,15 @@ def load_emu_from_kss(kss: Path | None = None, *, settle_frames: int = 60) -> Em
     return e
 
 
-# SRAM bank $71 holds only the patch's own state (sram_layout.s, pool sram_bank71); the game clears it at boot.
+# The patch's SRAM (core/sram_layout.s, PATCH_SRAM_LOW / _HIGH), all of it cleared at boot. Bank $71 holds only
+# per-screen state; bank $70's holds the VWF buffers a savestate's screen may still be showing.
+PATCH_SRAM_LOW = range(0x702000, 0x708000)
 PATCH_SRAM = range(0x710000, 0x718000)
+
+
+def sram_junk(size: int, seed: int) -> bytes:
+    """`size` bytes of reproducible junk, as a cart's battery SRAM holds after another build or a power-off."""
+    return random.Random(seed).randbytes(size)
 
 
 def clear_patch_sram(emu: Emu) -> None:

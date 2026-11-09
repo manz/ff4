@@ -21,6 +21,13 @@ treasure, battle (items + magic) and dialog.
 }
 .reserve game_saves 0x2000 at 0x700000 in sram_saves
 
+; Everything of ours, above the saves in bank $70 and all of bank $71. The battery keeps whatever the last power-off
+; (or an older build's layout) left there: the boot clears both (core/bank20_helpers.s, clear_ram).
+PATCH_SRAM_LOW := 0x702000
+PATCH_SRAM_LOW_END := 0x708000
+PATCH_SRAM_HIGH := 0x710000
+PATCH_SRAM_HIGH_END := 0x718000
+
 ; Dialog VWF tiles. The dialog renderer stays below $70:2F00.
 DIALOG_TILE_BUFFER := 0x702000
 DIALOG_TILE_BUFFER_SIZE := 0xF00
@@ -56,7 +63,7 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 
 .pool sram_bank71 {
     bss
-    range 0x710000 0x717FFF
+    range PATCH_SRAM_HIGH ( PATCH_SRAM_HIGH_END - 1 )
     strategy order
 }
 ; The small VWF renderer saves its direct-page variables at $71:0000 + their DP offset (small_vwf/render.s).

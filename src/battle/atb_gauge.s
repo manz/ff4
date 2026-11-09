@@ -1,6 +1,7 @@
 """
 The battle ATB gauge, FF6 style: in the party window each character's action timer fills up to their next turn,
-where vanilla showed the max HP ("4079/4079" becomes "4079 [gauge]").
+where vanilla showed the max HP ("4079/4079" becomes "4079 [gauge]"). Picking a character for an item or a spell
+shows the max HP again: the choice turns on it, and that window has no cell for the right cap.
 
 HP text ($7E:B9DE): per character two rows of 9 cells, the bottom one the current HP (4), "/" and the max HP (4).
 When vanilla redraws a bottom row with its "/" back, the gauge goes over "/max": a left cap and 4 fill cells
@@ -35,10 +36,12 @@ _BOTTOM := 9 * 2  ; the bottom row: the current HP (4 cells), "/", the max HP (4
 _SLASH := _BOTTOM + 4 * 2
 _LAST_DIGIT := _BOTTOM + 3 * 2  ; a digit when the row shows a character
 _GAUGE := _SLASH
+_MAIN_VIEW := 0x7EBE82  ; vanilla: the names and HP window (DrawStatusText copies 13 rows of 16 cells from here)
 _MAIN_VIEW_HP := 0x7EBED0  ; the HP rows' place in the main view (vanilla's text update): a character per 2 rows of 64
 _CAP_CELL := 64 + 9 * 2  ; the cell after the bottom row
 _GAUGE_CELL := 64 + 4 * 2  ; the gauge's first cell in the main view
 _NMI_WAIT := 0x7E1811  ; vanilla: the frame wait's flag
+_TARGET_SELECT := 0x7E004D  ; vanilla: msb while the status window is up to pick a character (its rows show "/max")
 _MIRROR := 0xC1A5 - 0xBE65  ; the command window's copy of the main view (messages_vwf.mirror_main_to_cmd)
 _SLASH_TILE := 0xC7
 _DIGIT_0 := 0x80
@@ -51,6 +54,7 @@ _MAX_PACED_TIME := 40  ; ticks: longer timers (sleep, paralysis) fill without pa
 _GAUGE_PX := _FILL_CELLS * 8
 _PALETTE_MASK := 0x1C
 _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back to the text's white (palette 0)
+_MAX_TEXT_BYTES := 5 * 2  ; "/" and the max HP's 4 digits: the cells the gauge covers
 
 .struct AtbGauge {
     word[_PARTY] timer  ; the action timer last seen
@@ -65,6 +69,8 @@ _FILLING_PALETTE := 0x04  ; palette 1, the greyed text's: a full gauge goes back
     byte[_PARTY] period  ; per slot: frames between its last two ticks, 0 before the second
     byte[_PARTY] pending  ; per slot: a command waits for its timer (the gauge stays full until it acts)
     byte[_PARTY] shown  ; per slot: the fill drawn, eased up to `_fill_px`
+    byte[_PARTY * _MAX_TEXT_BYTES] max_text  ; per row: vanilla's "/max" cells from its last redraw
+    byte showing_max  ; this pick already put the "/max" cells back
 }
 
 .reserve atb_gauge_state as AtbGauge in battle_text_ram
@@ -96,8 +102,19 @@ frame:
 Vanilla's wait for vblank ($02:851E), its `inc $1811` moved here after the gauges: once a frame, whatever
 battle-graphics loop is waiting (its spin on $1811 stays vanilla's, where savestates catch the CPU). Keeps A, X, Y, D
 and the data bank as vanilla's did (its callers rely on them: $02:9472 indexes a jump table with A's high byte left
-over); the update runs on direct page 0. Callable with JSL.
+over). Callable with JSL.
 """
+        jsr.l update_kept
+        php
+        sep #0x20
+        lda.l _NMI_WAIT
+        inc
+        sta.l _NMI_WAIT
+        plp
+        rtl
+
+update_kept:
+"""`update` on direct page 0, keeping A, X, Y, D and P. Callable with JSL."""
         php
         rep #0x30
         pha
@@ -113,12 +130,17 @@ over); the update runs on direct page 0. Callable with JSL.
         plx
         pla
         plp
-        php
-        sep #0x20
-        lda.l _NMI_WAIT
-        inc
-        sta.l _NMI_WAIT
-        plp
+        rtl
+
+status_window:
+"""
+DrawStatusText ($02:A2A1) copies the main view into the window that picks a character; the menu code draws it the
+frame it opens the pick, before that frame's update: update first (it puts "/max HP" back), then the `ldx #$BE82 /
+stx $00` the jsl took the place of, on the caller's direct page. Callable with JSL.
+"""
+        jsr.l update_kept
+        ldx.w #_MAIN_VIEW & 0xFFFF
+        stx.b 0x00
         rtl
 
 update:
@@ -151,6 +173,12 @@ Callable with JSL.
         bne _on
         jmp.w _done
 _on:
+        lda.l _TARGET_SELECT  ; picking a character for an item or a spell: vanilla's "/max HP" back
+        bpl _gauges
+        jsr.w _show_max
+        jmp.w _done
+_gauges:
+        stz.w atb_gauge_state.showing_max & 0xFFFF
         stz.w atb_gauge_state.changed & 0xFFFF
         rep #0x20
         lda.l battle_frame_counter  ; real time: the updates come every frame or every other one, the NMI every frame
@@ -312,18 +340,7 @@ _draw_row:
         and.w #0x00FF
         tax
         jsr.w _slot_index
-        lda.b 0x0A
-        asl
-        asl
-        sta.b 0x04  ; row * 4
-        asl
-        asl
-        asl  ; row * 32
-        clc
-        adc.b 0x04  ; row * 36
-        adc.w #_HP_TEXT & 0xFFFF
-        sta.w atb_gauge_state.row & 0xFFFF
-        tay
+        jsr.w _row_text
         sep #0x20
         lda.w _SLASH, y
         cmp.b #_SLASH_TILE
@@ -331,6 +348,7 @@ _draw_row:
         ldx.b 0x0A
         lda.b #0xFF
         sta.w atb_gauge_state.drawn_px & 0xFFFF, x  ; vanilla drew "/max" again: draw the gauge over it
+        jsr.w _save_max
 _row_ready:
         lda.w _LAST_DIGIT, y
         sec
@@ -456,6 +474,104 @@ _ease_step:
 _ease_set:
         sta.w atb_gauge_state.shown & 0xFFFF, x
 _ease_done:
+        rts
+
+_row_text:
+"""Y and `atb_gauge_state.row` = row $0A's HP text, 36 bytes a row (leaves A16)."""
+        rep #0x20
+        lda.b 0x0A
+        and.w #0x00FF
+        asl
+        asl
+        pha  ; row * 4
+        asl
+        asl
+        asl  ; row * 32
+        clc
+        adc 1, s
+        adc.w #_HP_TEXT & 0xFFFF
+        sta.w atb_gauge_state.row & 0xFFFF
+        tay
+        pla
+        rts
+
+_max_text_index:
+"""X = row $0A's place in `max_text` (leaves A16)."""
+        rep #0x20
+        lda.b 0x0A
+        and.w #0x00FF
+        asl
+        pha  ; row * 2
+        asl
+        asl  ; row * 8
+        clc
+        adc 1, s
+        tax
+        pla
+        rts
+
+_save_max:
+"""Row $0A's "/max" cells, as vanilla just drew them at Y, into `max_text` (A8 X16 on return)."""
+        jsr.w _max_text_index
+        lda.w _GAUGE, y
+        sta.w atb_gauge_state.max_text & 0xFFFF, x
+        lda.w _GAUGE + 2, y
+        sta.w ( atb_gauge_state.max_text & 0xFFFF ) + 2, x
+        lda.w _GAUGE + 4, y
+        sta.w ( atb_gauge_state.max_text & 0xFFFF ) + 4, x
+        lda.w _GAUGE + 6, y
+        sta.w ( atb_gauge_state.max_text & 0xFFFF ) + 6, x
+        lda.w _GAUGE + 8, y
+        sta.w ( atb_gauge_state.max_text & 0xFFFF ) + 8, x
+        sep #0x20
+        rts
+
+_restore_max:
+"""Row $0A's saved "/max" cells back over its gauge at Y (A8 X16 on return)."""
+        jsr.w _max_text_index
+        lda.w atb_gauge_state.max_text & 0xFFFF, x
+        sta.w _GAUGE, y
+        lda.w ( atb_gauge_state.max_text & 0xFFFF ) + 2, x
+        sta.w _GAUGE + 2, y
+        lda.w ( atb_gauge_state.max_text & 0xFFFF ) + 4, x
+        sta.w _GAUGE + 4, y
+        lda.w ( atb_gauge_state.max_text & 0xFFFF ) + 6, x
+        sta.w _GAUGE + 6, y
+        lda.w ( atb_gauge_state.max_text & 0xFFFF ) + 8, x
+        sta.w _GAUGE + 8, y
+        sep #0x20
+        rts
+
+_show_max:
+"""
+Picking a character: once a pick, every row's "/max" back over its gauge in the HP text, the main view and its copy.
+The gauge comes back over it once the pick is done, as after any vanilla redraw (A8 X16, DB $7E).
+"""
+        lda.w atb_gauge_state.showing_max & 0xFFFF
+        bne _sm_done
+        inc.w atb_gauge_state.showing_max & 0xFFFF
+        jsr.w _map_rows
+        ldx.w #0x0000
+_sm_row:
+        txa
+        cmp.w atb_gauge_state.rows & 0xFFFF
+        beq _sm_upload
+        phx
+        stx.b 0x0A
+        jsr.w _row_text
+        jsr.w _restore_max
+        ldx.b 0x0A
+        lda.b #0xFF
+        sta.w atb_gauge_state.drawn_px & 0xFFFF, x
+        jsr.w _publish_gauge
+        plx
+        inx
+        bra _sm_row
+_sm_upload:
+        lda.l battle_render_state.tilemap_pending_mask  ; the NMI uploads both views this frame
+        ora.b #TilemapPendingBits.main.mask | TilemapPendingBits.commands.mask
+        sta.l battle_render_state.tilemap_pending_mask
+_sm_done:
         rts
 
 _times_period:
@@ -584,4 +700,10 @@ atb_gauge_frame:
 .alloc at 0x02851E size 3 {
 ; vanilla's wait for vblank: `inc $1811`, then its own spin (left as it is)
     jsr.w atb_gauge_frame
+}
+
+.alloc at 0x02A2A1 size 5 {
+; DrawStatusText's `ldx #$BE82 / stx $00`: the pick window copies the main view, "/max HP" first
+    jsr.l atb_gauge.status_window
+    nop
 }
