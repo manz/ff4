@@ -641,7 +641,7 @@ bien...[end]</sn:string>
 </sn:area>
 
 <sn:area id="38">
-<sn:string index="0">M. Yang!
+<sn:string index="0">Maître Yang!
 Vous êtes de retour.
 Sa Majesté attend.[end]</sn:string>
 <sn:string index="1">C'est trop dangereux de sortir
@@ -749,7 +749,7 @@ Vite, emmène-nous à ton aéronef![end]</sn:string>
 Tella: Tu peux parler![new]
 Cid: Moi? J'suis encore jeune, moi![end]</sn:string>
 <sn:string index="6">Porom: Allons, allons... Vous êtes M. Cid, n'est-ce pas? Voici maître Tella. C'est un grand sage.[end]</sn:string>
-<sn:string index="7">Porom: Voici M. Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]</sn:string>
+<sn:string index="7">Porom: Voici maître Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]</sn:string>
 <sn:string index="8">[bold]Palom[normal]: Pff, deux vieux croûtons![new]
 [bold]Porom[normal]: Ce grossier personnage, c'est
 mon frère jumeau, Palom.[new]
