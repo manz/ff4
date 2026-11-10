@@ -143,18 +143,17 @@ Tu pars demain matin![end]</sn:pointer>
     <sn:pointer id="53">[bold]Roi Baron[normal]: Caïn, si tu t'inquiètes
 tant pour Cecil, pars donc avec lui![new]
 [bold]Cecil[normal]: Mais Majesté![new]
-[bold]Roi Baron[normal]: J'ai dit!
-Tenez!
-Prenez cet anneau et allez-vous-en![end]</sn:pointer>
+[bold]Roi Baron[normal]: Assez!
+Prenez cet anneau et retirez-vous![end]</sn:pointer>
     <sn:pointer id="54">[bold]Cecil[normal]: Désolé de t'avoir embarqué
 dans tout ça, Caïn.[new]
-[bold]Caïn[normal]: Une fois la Chimère abattue,
-Sa Majesté nous pardonnera et nous
-retrouverons les Ailes Rouges.[new]
+[bold]Caïn[normal]: Abattons cette Chimère, et
+Sa Majesté nous pardonnera.
+On retrouvera les Ailes Rouges.[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Caïn[normal]: Ne t'en fais pas.
-Laisse-moi m'occuper des préparatifs et
-repose-toi bien cette nuit.[end]</sn:pointer>
+Je m'occupe des préparatifs.
+Toi, repose-toi cette nuit.[end]</sn:pointer>
     <sn:pointer id="55">[bold]Caïn[normal]: Qu'est-ce qu'il y a?[new]
 [bold]Cecil[normal]: Je suis désolé, Caïn...[new]
 [bold]Caïn[normal]: Tu t'excuses encore?
@@ -163,46 +162,43 @@ repose-toi bien cette nuit.[end]</sn:pointer>
 noire sur l'ordre de Sa Majesté.
 Mais c'était pour défendre Baron, pas
 pour piller des innocents...[new]
-[bold]Caïn[normal]: Ne sois pas si dur envers
+[bold]Caïn[normal]: Ne sois pas si dur avec
 toi-même.
 Sa Majesté doit avoir ses raisons.[new]
 [bold]Cecil[normal]: Caïn, je t'envie...[new]
 [bold]Caïn[normal]: Mon père aussi était chevalier
 dragon.
-Avec la lame noire, je monterais en grade, mais je préfère rester comme ça.[force_new]
-Et en chevalier dragon, j'ai l'impression
-de toujours sentir près de moi ce père
-que j'ai perdu enfant...[new]
+La lame noire m'aurait valu du galon, mais ce n'est pas mon style.[force_new]
+Et puis, en chevalier dragon, je sens
+toujours près de moi ce père que j'ai
+perdu enfant...[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Caïn[normal]: Hmph... Ça ne me ressemble
 pas de parler ainsi.[new]
 Bref, ne te tourmente pas trop.
-Dans cet état, tu ne fais plus un rival bien sérieux.
+Si tu flanches, je n'ai plus de rival.
 C'est moi qui abattrai la Chimère![new]
 [bold]Cecil[normal]: Je ne perdrai pas non plus![new]
 [bold]Caïn[normal]: On part tôt demain, va te
 reposer.[end]</sn:pointer>
     <sn:pointer id="56">[bold]Rosa[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="57">[bold]Rosa[normal]: Dieu merci, tu es sain et sauf!
-Ta mission était si soudaine, je m'inquiétais
-terriblement.[new]
-[bold]Cecil[normal]: Nous allons bien...
-Nous ne risquions guère d'être blessés
-par une poignée de magiciens qui ne se
-défendaient même pas...[end]</sn:pointer>
+Ta mission est tombée si vite... j'étais
+morte d'inquiétude.[new]
+[bold]Cecil[normal]: Oh, nous allons bien...
+Des mages qui ne se défendent pas ne
+blessent personne...[end]</sn:pointer>
     <sn:pointer id="58">Rosa: Je passerai dans ta chambre tout à l'heure...[new]
 Cecil: Oui...[end]</sn:pointer>
     <sn:pointer id="59">[bold]Cecil[normal]: Qu'arrive-t-il à Sa Majesté?
-Il était réputé comme chevalier pour son
-courage et sa bonté.[new]
+C'était un chevalier réputé, fort et bon.[new]
 Caïn et moi étions orphelins, mais il
 nous a élevés comme ses propres fils.
 Le cristal de Mysidia...[new]
-Revêt-il donc une telle importance qu'il
-faille l'arracher à d'innocents villageois?
-Et dire que nous avons dû commettre un
-tel acte, sur ordre royal!![end]</sn:pointer>
-    <sn:pointer id="60">Rosa: Que s'est-il passé? On t'envoie à Mysidia, et voilà que tu pars éliminer une Chimère...[new]
+Valait-il vraiment qu'on l'arrache à des
+villageois sans défense?
+Ordre ou pas, faire une chose pareille![end]</sn:pointer>
+    <sn:pointer id="60">Rosa: Que s'est-il passé? Tu pars pour Mysidia du jour au lendemain, et maintenant on t'envoie chasser une Chimère...[new]
 Et puis tu es bizarre depuis ton retour.[new]
 Cecil: Non... Ce n'est rien...[end]</sn:pointer>
     <sn:pointer id="61">[bold]Rosa[normal]: Alors regarde-moi.[end]</sn:pointer>
@@ -210,13 +206,13 @@ Cecil: Non... Ce n'est rien...[end]</sn:pointer>
 J'ai arraché le cristal à des innocents![new]
 Mon cœur est devenu aussi sombre que cette armure...![end]</sn:pointer>
     <sn:pointer id="63">[bold]Rosa[normal]: ...Tu n'es pas comme ça.[end]</sn:pointer>
-    <sn:pointer id="64">[bold]Cecil[normal]: Je ne suis qu'un chevalier noir
-lâche, incapable de désobéir au roi.[end]</sn:pointer>
+    <sn:pointer id="64">[bold]Cecil[normal]: Je ne suis qu'un lâche, un
+chevalier noir qui n'ose pas désobéir au roi.[end]</sn:pointer>
     <sn:pointer id="65">[bold]Rosa[normal]: Le Cecil des Ailes Rouges
 n'aurait jamais pleurniché comme ça!
 Pas le Cecil que j'aime...[end]</sn:pointer>
-    <sn:pointer id="66">[bold]Rosa[normal]: Tu t'en vas à Mist demain,
-hein?
+    <sn:pointer id="66">[bold]Rosa[normal]: Tu pars pour Mist demain,
+c'est ça?
 Si jamais il t'arrivait quelque chose, je...[end]</sn:pointer>
     <sn:pointer id="67">[bold]Cecil[normal]: Ne t'inquiète pas.
 Caïn vient avec moi...[end]</sn:pointer>
@@ -226,26 +222,26 @@ Repose-toi, toi aussi.[end]</sn:pointer>
     <sn:pointer id="70">[bold]Cecil[normal]: Merci, Rosa.
 Mais je suis un chevalier noir...
 Toi et moi...[end]</sn:pointer>
-    <sn:pointer id="71">Cecil: Yang, tu vas bien![new]
+    <sn:pointer id="71">Cecil: Yang! Tu es sain et sauf![new]
 Yang: Toi...![new]
 Cecil: Tu ne me reconnais pas? C'est moi, Cecil! Je suis devenu un paladin...[new]
-Yang: Cecil! Je te cherchais! Traître au roi! Chien![new]
+Yang: Cecil! Enfin je te trouve! Chien de traître![new]
 Attaquez![new]
 Soldats: À vos ordres![end]</sn:pointer>
     <sn:pointer id="72">[bold]Cecil[normal]: Yang!
 Tu ne me reconnais pas!?[new]
-[bold]Yang[normal]: Si, je te reconnais, criminel![end]</sn:pointer>
+[bold]Yang[normal]: Je te reconnais très bien, fugitif![end]</sn:pointer>
     <sn:pointer id="73">Yang: Messire Cecil! Léviathan m'a...[new]
 Tella: Apparemment, Baron se servait de vous pendant votre amnésie.[new]
 Yang: ...Je vous dois beaucoup.[end]</sn:pointer>
     <sn:pointer id="74">[bold]Yang[normal]: Rydia a été avalée par
 Léviathan.
 Edward... je ne sais pas...[new]
-[bold]Cecil[normal]: Je comprends...[end]</sn:pointer>
+[bold]Cecil[normal]: Je vois...[end]</sn:pointer>
     <sn:pointer id="75">Yang: Où sommes-nous?[new]
 Cecil: À Baron. Si les soldats nous entendent, on aura des ennuis.[new]
 Allons à l'auberge préparer un plan! [force_bold]Le moine Yang a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="76">Yang: Et qui est ce monsieur?[new]
+    <sn:pointer id="76">Yang: Et qui est votre compagnon?[new]
 Cecil: Tella, le sage. Edward et lui...[new]
 Tella: Ma fille a aimé cet homme au point d'en mourir...[new]
 Yang: Je vois... Je suis Yang, capitaine des moines de Fabul.[end]</sn:pointer>
@@ -257,12 +253,12 @@ Tella: Mais ce ne sera pas facile d'entrer dans le château...[end]</sn:pointer>
 Bien sûr!
 Yang, ils t'ont fait commander la
 garde... c'est pour ça que tu l'as![new]
-Avec ça, on devrait pouvoir s'en sortir!
+Avec ça, on a une chance!
 Vous avez obtenu la Clé de Baron![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="79">L'anneau scintille...!?[end]</sn:pointer>
     <sn:pointer id="80">[bold]Caïn[normal]: Quoi?![new]
-[bold]Cecil[normal]: Voilà pourquoi on a été
-envoyés ici...![new]
+[bold]Cecil[normal]: Voilà donc pourquoi on nous
+a envoyés ici...![new]
 [bold]Caïn[normal]: Pour brûler le village!?[end]</sn:pointer>
     <sn:pointer id="81">Cecil: Pourquoi?! Roi Baron!![force_new]
 «[italic]Ouiiin... Ouiiin...[/italic]»[end]</sn:pointer>
