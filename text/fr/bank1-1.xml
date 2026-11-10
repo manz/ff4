@@ -390,34 +390,34 @@ pour ne plus faire qu'un avec la grande
 Ne me laisse pas![end]</sn:pointer>
     <sn:pointer id="112">Anna: Edward, sois courageux, et ne laisse pas Golbez s'emparer des cristaux... Cet amour que tu m'as donné, offre-le maintenant à tous...[end]</sn:pointer>
     <sn:pointer id="113">[bold]Edward[normal]: Oui, Anna, je me battrai...
-Mais le courage...
-Que dois-je faire, Anna?[end]</sn:pointer>
-    <sn:pointer id="114">Tella: Elle s'est bien vite endormie... Ç'a dû être une journée éprouvante pour quelqu'un de si jeune... Cette petite est-elle...[new]
+Mais le courage, ça ne s'invente pas...
+Anna, que dois-je faire?[end]</sn:pointer>
+    <sn:pointer id="114">Tella: Elle dort déjà. Elle devait être épuisée... Cette petite, c'est bien...[new]
 Cecil: Une invocatrice de Mist.[new]
-Tella: Je ressens en elle un grand potentiel. Avec de l'entraînement, elle pourra maîtriser d'autres sorts.[force_new]
-Un visage si paisible... Comme Anna quand elle était petite.[new]
-Cecil: Anna est...[new]
-Tella: Ma fille unique. Elle s'est sauvée à Damcyan avec un barde parce que je n'ai pas consenti à leur mariage...[end]</sn:pointer>
-    <sn:pointer id="115">[bold]Tella[normal]: Pourquoi vous y rendez-vous?[new]
+Tella: Elle a de grandes dispositions. Avec de l'entraînement, elle maîtrisera d'autres sorts.[force_new]
+Mais quel joli visage endormi... On dirait Anna petite.[new]
+Cecil: Anna, c'est votre...[new]
+Tella: Ma fille unique. Elle s'est enfuie à Damcyan avec un barde... tout ça parce que je refusais de les bénir...[end]</sn:pointer>
+    <sn:pointer id="115">[bold]Tella[normal]: Et vous, pourquoi allez-vous
+à Damcyan?[new]
 [bold]Cecil[normal]: J'ai une amie à Kaïpo qui
 souffre d'une fièvre terrible.[new]
 [bold]Tella[normal]: La Lumière du désert, hein...
 Sans elle, même moi je ne peux rien.
 Vous êtes pressés, vous aussi...[new]
-[bold]Cecil[normal]: Quel est le monstre de cette
-caverne?[new]
-[bold]Tella[normal]: C'est une immense créature
-avec huit énormes pattes.
+[bold]Cecil[normal]: Quel est ce monstre, dans
+la grotte?[new]
+[bold]Tella[normal]: Une bête monstrueuse, montée
+sur huit pattes immenses.
 Il nous faudra le battre si nous voulons
 sauver Anna et ton amie...[force_new]
-J'espère que ce mauvais pressentiment
-que j'ai sur Damcyan n'est que le fruit de
-mon imagination mais...[end]</sn:pointer>
-    <sn:pointer id="116">Cid: Mais de quoi vous vous inquiétez? Je reviens vite, et gonflé à bloc![new]
-Restez là à attendre comme de braves gosses![end]</sn:pointer>
+Et ce mauvais pressentiment, du côté de
+Damcyan... pourvu que je me trompe...[end]</sn:pointer>
+    <sn:pointer id="116">Cid: Bah, je reviens vite! Et gonflé à bloc![new]
+Soyez sages en m'attendant![end]</sn:pointer>
     <sn:pointer id="117">[bold]Rosa[normal]: Fais attention...[new]
 [bold]Cid[normal]: Ho ho, Rosa!
-Craque pas pour moi maintenant![end]</sn:pointer>
+Tombe pas amoureuse de moi, hein![end]</sn:pointer>
     <sn:pointer id="118">[bold]Cecil[normal]: Roi Giotto, où est le cristal
 dans ce château?[new]
 [bold]Giotto[normal]: À vrai dire, il est dans
@@ -429,28 +429,28 @@ Moi vivant, personne n'y touchera![end]</sn:pointer>
 [bold]Giotto[normal]: Qui va là!?[end]</sn:pointer>
     <sn:pointer id="121">[bold]Giotto[normal]: Ouvrez la porte![new]
 [bold]Nain[normal]: Lali![end]</sn:pointer>
-    <sn:pointer id="122">Un bombardement... terrible... depuis des
-aéronefs...[end]</sn:pointer>
+    <sn:pointer id="122">Les aéronefs nous bombardent... sans
+relâche...[end]</sn:pointer>
     <sn:pointer id="123">Roi Fabul: Yang, tu es de retour![new]
 Yang: Oui! Mais il y a plus urgent, Majesté![new]
-Un homme nommé Golbez mobilise les forces de Baron afin de voler notre cristal![new]
-Roi Fabul: Est-ce vrai!?[new]
-Yang: Ces personnes sont venues nous prévenir.[new]
-Roi Fabul: Qui sont ces gens?[end]</sn:pointer>
-    <sn:pointer id="124">Cecil: Il ne reste plus beaucoup de temps! Nous devons fortifier le château![new]
+Un certain Golbez s'est emparé de Baron et vient voler notre cristal![new]
+Roi Fabul: Vraiment!?[new]
+Yang: Ces gens sont venus nous prévenir.[new]
+Roi Fabul: Et qui êtes-vous donc?[end]</sn:pointer>
+    <sn:pointer id="124">Cecil: Il n'y a pas de temps à perdre! Renforcez vos défenses![new]
 Roi Fabul: Mais tu as tout d'un chevalier noir de Baron... Puis-je vraiment te faire confiance?[new]
 Yang: Majesté! Ils sont dignes de confiance! Ils m'ont prêté main-forte quand on m'a attaqué.[new]
-Cecil: Le temps nous est compté. Nous devons nous préparer au combat![new]
+Cecil: Chaque seconde compte![new]
 Rosa: Dépêchez-vous![end]</sn:pointer>
     <sn:pointer id="125">Edward: Cela fait longtemps, Majesté.[new]
 Roi Fabul: Prince Edward![new]
 Edward: Damcyan a déjà été attaqué et notre cristal a été volé! J'ai perdu... mon père... ma mère... et celle que j'aimais...![new]
 Allez-vous laisser Fabul subir le même sort que Damcyan?![end]</sn:pointer>
-    <sn:pointer id="126">[bold]Yang[normal]: Eh bien, messire Cecil![end]</sn:pointer>
-    <sn:pointer id="127">Yang: Ces gens sont des maîtres au combat! Laissez-les se battre avec moi sur le front![new]
+    <sn:pointer id="126">[bold]Yang[normal]: Allons-y, M. Cecil![end]</sn:pointer>
+    <sn:pointer id="127">Yang: Ce sont de fines lames! Ils tiendront la première ligne avec moi![new]
 Roi Fabul: Puisque tu en réponds à ce point, je m'en remets à vous![new]
 Quant à vous, mesdemoiselles, vous soignerez les blessés.[new]
-Rosa: D'accord.[new]
+Rosa: Entendu.[new]
 Roi Fabul: Yang, je compte sur toi![new]
 Yang: À vos ordres![end]</sn:pointer>
     <sn:pointer id="128">[bold]Rosa[normal]: Fais attention à toi, Cecil.[new]
@@ -458,26 +458,26 @@ Yang: À vos ordres![end]</sn:pointer>
 Rydia!
 Prends soin de Rosa![end]</sn:pointer>
     <sn:pointer id="129">«Ils arrivent!»[new]
-[bold]Yang[normal]: À l'attaque![end]</sn:pointer>
+[bold]Yang[normal]: Repoussez-les![end]</sn:pointer>
     <sn:pointer id="130">«Ce sont les Ailes Rouges!»[end]</sn:pointer>
-    <sn:pointer id="131">[bold]Cecil[normal]: Nous n'arriverons qu'à nous
-faire tuer, comme ça![new]
+    <sn:pointer id="131">[bold]Cecil[normal]: À ce rythme, on va tous
+y passer![new]
 [bold]Yang[normal]: Retraite!
 Repli dans le château![end]</sn:pointer>
-    <sn:pointer id="132">[bold]Yang[normal]: Désolé de vous avoir entraînés
-dans un combat sans espoir![new]
-[bold]Cecil[normal]: Comme je l'ai déjà dit, c'est
-aussi notre combat!
-Et nous n'avons pas encore perdu![new]
+    <sn:pointer id="132">[bold]Yang[normal]: Pardonnez-moi!
+Une bataille perdue d'avance...[new]
+[bold]Cecil[normal]: Je te l'ai dit, c'est aussi notre
+combat!
+Et rien n'est perdu![new]
 [bold]Edward[normal]: Ils... ils arrivent![end]</sn:pointer>
     <sn:pointer id="133">Yang: Bon sang! Replions-nous![end]</sn:pointer>
     <sn:pointer id="134">Cecil: La salle du trône est juste au-dessus...!?[new]
-Yang: Ne vous inquiétez pas! Le roi a déjà trouvé refuge avec les femmes et les enfants dans un endroit sûr! Nous allons attirer l'ennemi ici et...[end]</sn:pointer>
+Yang: Soyez sans crainte! Le roi, les femmes et les enfants sont à l'abri! Nous attirons l'ennemi ici et...[end]</sn:pointer>
     <sn:pointer id="135">Yang: ...l'écraser![end]</sn:pointer>
-    <sn:pointer id="136">Edward: C'est sans espoir ici![new]
+    <sn:pointer id="136">Edward: On ne tiendra pas ici![new]
 Yang: Bon sang![end]</sn:pointer>
-    <sn:pointer id="137">[bold]Yang[normal]: La porte est fermée!
-Nous devons les contenir ici![new]
+    <sn:pointer id="137">[bold]Yang[normal]: J'ai verrouillé la porte!
+Il faut les arrêter ici![new]
 [bold]Cecil[normal]: Où est le cristal?[new]
 [bold]Yang[normal]: Dans la salle au-dessus![end]</sn:pointer>
     <sn:pointer id="138">[bold]Yang[normal]: Que fais-tu?![new]
