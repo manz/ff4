@@ -6,8 +6,11 @@ dakuten row is the font's space. The field menu's BG2 tilemap covers those tiles
 """
 from __future__ import annotations
 
+from pathlib import Path
+
+import numpy as np
 import pytest
-from _ff4kintsuki import kss_path, load_emu_from_kss, tap
+from _ff4kintsuki import frame_picture, kss_path, load_emu_from_kss, tap
 from kintsuki import Button
 
 STUB = 0x1E00  # bank-0 WRAM: rep #$10, sep #$20, D = $0600 and DB = 0 as in the field, jsr the setup, rtl
@@ -57,11 +60,66 @@ def test_bg3_reads_the_dialogue_tiles(titled) -> None:
 def test_the_title_survives_the_field_menu() -> None:
     e = load_emu_from_kss(kss_path("ff4-with-town-name.kss"), settle_frames=10)
     try:
+        tap(e, Button.X, gap=90)  # a first round trip: the title as this build draws it, not the savestate's
+        tap(e, Button.B, gap=90)
         before = bytes(e.vram_read_range(0))[TITLE_TILES_VRAM:TITLE_TILES_VRAM + 0x100]
         tap(e, Button.X, gap=90)  # the field menu
         tap(e, Button.B, gap=90)  # back to the field, title window still open
         after = bytes(e.vram_read_range(0))[TITLE_TILES_VRAM:TITLE_TILES_VRAM + 0x100]
         assert after == before
         assert e.get_ppu_state().bg34nba & 0x0F == 0x06
+    finally:
+        e.close()
+
+
+PLACE_NAMES = Path(__file__).resolve().parents[1] / "build/gen/places_names.dat"
+WINDOW_INSIDE = (42, 213)  # the title window's blue, between its borders
+TEXT_BAND = slice(30, 44)
+
+
+def _title_offset(index: int) -> int:
+    """The `index`th title's offset in place_names."""
+    return sum(len(name) + 1 for name in PLACE_NAMES.read_bytes().split(b"\x00")[:index])
+
+
+def _gaps(emu) -> tuple[int, int] | None:
+    """The blank pixels left and right of the title's text inside its window, once the window shows."""
+    picture = frame_picture(emu).astype(int)
+    if (picture[20].min(axis=-1) > 180).sum() < 100:
+        return None
+    left, right = WINDOW_INSIDE
+    ink = np.where((picture[TEXT_BAND, left + 1 : right].min(axis=-1) > 150).any(axis=0))[0] + left + 1
+    return (int(ink.min()) - left, right - int(ink.max())) if len(ink) else None
+
+
+@pytest.mark.parametrize("index", [19, 83, 109, 120])  # Quincaillerie, Red Cap, Salle de Musique, Système de Contrôle
+def test_a_title_is_centred_to_the_pixel(index: int) -> None:
+    """Out of Mysidia and back in, the map load drawing another title: as many blank pixels on each side, give or
+    take the odd one. Centred by whole tiles it was off by up to 7."""
+    e = load_emu_from_kss(kss_path("ff4-with-town-name.kss"), settle_frames=10)
+    try:
+        setup = e.lookup_symbol_addr("map_title_vwf.setup")
+
+        def other_title(*_: object) -> None:
+            state = e.get_state()
+            state.x = _title_offset(index)
+            e.set_state(state)
+
+        e.press(0, Button.DOWN)
+        e.run_frames(160)
+        e.release(0, Button.DOWN)
+        e.run_frames(90)
+        e.add_exec_callback(setup, setup, other_title)
+        e.press(0, Button.UP)
+        e.run_frames(40)
+        e.release(0, Button.UP)
+        gaps = None
+        for _ in range(8):
+            e.run_frames(30)
+            gaps = _gaps(e)
+            if gaps:
+                break
+        assert gaps, "no title window"
+        assert abs(gaps[0] - gaps[1]) <= 1, gaps
     finally:
         e.close()

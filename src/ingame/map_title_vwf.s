@@ -15,6 +15,7 @@ an open title.
 .import "core/libmz"
 .import "small_vwf/render"
 .import "ingame/places_names_window"
+.import "core/sram_layout"
 .include "core/vwf_state.i"
 .include "core/libmz.i"
 .include "core/bank20.i"
@@ -137,6 +138,10 @@ _copy:
         lda.b #_TITLE_TILES
         sta.l vwf_cfg.slot_budget
         jsr.w render.render_with_config
+        jsr.w _centre
+        jsr.w render.render_with_config
+        lda.b #0x00
+        sta.l render_lead
         jsr.w render.deinit
         lda.b #0x00
         sta.l vwf_engine.chr_dirty  ; no menu flush: uploaded below
@@ -147,8 +152,42 @@ _copy:
         sta.l ppu.BG34NBA
         rts
 
+_centre:
+"""
+From the render just made, the pixels the name takes (the pen after its last glyph, less the glyph's trailing
+column), and the lead that centres it in the glyph row: its whole cells in map_title_cells, for `_fill_rows`, its
+remainder in render_lead, where the next render starts its first glyph. M = 8 bits, X = 16 bits.
+"""
+        rep #0x20
+        lda.l render_allocator.allocated_tile_id
+        sec
+        sbc.w #_TITLE_TILE - 1  ; the tiles the pen reached, the one it is in counted
+        asl
+        asl
+        asl
+        sep #0x20
+        sec
+        sbc.b render.glyph.bits_left_on_tile  ; the pen
+        sta.l render_lead
+        lda.b #_TITLE_CELLS * 8 + 1  ; the row, and the glyph's trailing column
+        sec
+        sbc.l render_lead
+        lsr  ; the lead: (row - width) / 2
+        pha
+        lsr
+        lsr
+        lsr
+        sta.l map_title_cells
+        pla
+        and.b #0x07
+        sta.l render_lead
+        rts
+
 _fill_rows:
-"""Blank both rows, then the tiles the name used, centred in the glyph row. M = 8 bits, X = 16 bits."""
+"""
+Blank both rows, then the tiles the name used, from the lead `_centre` left in map_title_cells. M = 8 bits,
+X = 16 bits.
+"""
         ldx.w #0x0000
 _blank:
         lda.b #_TITLE_BLANK & 0xFF
@@ -163,10 +202,8 @@ _blank:
         sec
         sbc.w #_TITLE_TILE - 1  ; the tile the last glyph ended in counts
         tay
-        eor.w #0xFFFF
-        sec
-        adc.w #_TITLE_CELLS
-        lsr  ; centred: (cells - tiles) / 2 blanks first
+        lda.l map_title_cells
+        and.w #0x00FF
         tax
         sep #0x20
         lda.b #_TITLE_TILE & 0xFF

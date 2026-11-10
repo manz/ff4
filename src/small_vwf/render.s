@@ -486,7 +486,10 @@ _chr_clear_loop:
             dey
             bne _chr_clear_loop
             plp
+; the first glyph starts render_lead pixels into its tile (a centred map title); 0 for every other text
             lda.b #0x08
+            sec
+            sbc.l render_lead
             sta.b glyph.bits_left_on_tile
             stz.b glyph.temp
             stz.b glyph.counter
