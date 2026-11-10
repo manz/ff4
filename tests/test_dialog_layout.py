@@ -5,7 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from utils.dialog_layout import LINE_WIDTHS, NEW_WINDOW, DialogLayout, dialog_layout
+from utils.dialog_layout import (
+    LINE_WIDTHS,
+    NEW_WINDOW,
+    DialogLayout,
+    dialog_layout,
+    dialog_texts,
+)
 
 
 @pytest.fixture(scope="module")
@@ -280,3 +286,8 @@ def test_a_centred_name_is_placed_at_its_default_width(layout: DialogLayout) -> 
     rest = first[len("[force_bold]") + len(pad) :]
     left = layout.metrics.measure_named(pad, 3)
     assert abs(left - (208 - left - layout.metrics.measure_named(rest, 3))) <= 5
+
+
+def test_bank2_strings_are_read_with_their_area_and_index() -> None:
+    script = '<sn:area id="38"><sn:string index="0">Maître Yang![end]</sn:string></sn:area>'
+    assert dialog_texts(script) == [("38.0", "Maître Yang![end]")]

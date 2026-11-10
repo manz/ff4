@@ -13,9 +13,9 @@ Vengez le roi![end]</sn:string>
 À quoi pense donc le roi?[end]</sn:string>
 <sn:string index="4">Le roi nous fait tant souffrir... On dirait qu'il est devenu un autre homme![end]</sn:string>
 <sn:string index="5">C'était vous, ce chevalier noir!
-Ce que vous êtes splendide, maintenant![end]</sn:string>
+Comme vous avez fière allure, maintenant![end]</sn:string>
 <sn:string index="6">S'en prendre à Mist, ça va forcément mal finir...[end]</sn:string>
-<sn:string index="7">Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'il enquêtait sur quelque chose.[new]
+<sn:string index="7">On a mis les gardes royaux aux ordres d'un moine venu d'ailleurs. On dirait qu'il enquête sur quelque chose.[new]
 Il doit être à l'auberge...[end]</sn:string>
 <sn:string index="8">Il paraît que le roi avait été remplacé par un monstre.
 Et il n'a pas non plus d'héritier...[end]</sn:string>
@@ -27,10 +27,10 @@ Battez-moi ce Golbez![end]</sn:string>
 <sn:string index="13">C'est la première fois depuis la fondation
 de Baron qu'on n'a pas de roi...[end]</sn:string>
 <sn:string index="14">Le chevalier noir!
-Non...m-m-monsieur, je n'ai rien dit
-contre le roi!
-Je...je vais danser pour vous.[new]
-Ça vous va?[end]</sn:string>
+Moi, dire du mal du roi...
+Tenez, je vais vous montrer quelque
+chose de joli![new]
+D'accord?[end]</sn:string>
 <sn:string index="15">Le roi a été vraiment dur, dernièrement...
 Et je n'ai pas le droit de danser.
 Déçu?[end]</sn:string>
@@ -40,9 +40,9 @@ Allez, dansons![end]</sn:string>
 </sn:area>
 
 <sn:area id="1">
-<sn:string index="0">Non seulement ce feu mystérieux a tué
-de puissants invocateurs... mais aussi des
-femmes et des enfants innocents...[end]</sn:string>
+<sn:string index="0">Un incendie d'origine inconnue a tué
+les femmes, les enfants et tous nos
+invocateurs chevronnés...[end]</sn:string>
 <sn:string index="1">Ainsi, c'est la fin de l'histoire des
 invocateurs de Mist...[end]</sn:string>
 <sn:string index="2">La rumeur dit que sous Baron dort l'âme
@@ -51,19 +51,18 @@ d'un seul coup![end]</sn:string>
 <sn:string index="3">Les Chimères que nous, invocateurs,
 appelons viennent du monde des
 Chimères...[new]
-Un endroit qui se trouverait loin sous la
-surface de la Terre.[end]</sn:string>
+Il se trouverait dans les profondeurs de la terre.[end]</sn:string>
 </sn:area>
 
 <sn:area id="2">
-<sn:string index="0">Voici Kaïpo, le village oasis, situé au fin fond du désert de Damcyan.[end]</sn:string>
+<sn:string index="0">Voici Kaïpo, le village oasis du désert de Damcyan.[end]</sn:string>
 <sn:string index="1">Il paraît qu'une jolie fille de Baron s'est effondrée ici... On l'a emmenée chez quelqu'un pour la soigner.[end]</sn:string>
 <sn:string index="2">Anna est tombée amoureuse.
 Mais maître Tella s'y est opposé, alors
 elle s'est enfuie de Kaïpo...[end]</sn:string>
-<sn:string index="3">Je veux être danseuse à Damcyan, mais il
-y a beaucoup de monstres qui rôdent
-dans la rivière souterraine.
+<sn:string index="3">Je suis venue pour devenir danseuse à
+Damcyan, mais la rivière souterraine
+grouille de monstres...
 Tu veux voir ma natation synchronisée?[end]</sn:string>
 <sn:string index="4">La rivière souterraine est au nord-est, mais
 j'ai entendu dire que huit serpents de mer
@@ -198,10 +197,9 @@ Il paraît que sa profondeur est insondable.[end]</sn:string>
 <sn:string index="0">Dis, pourquoi tu portes des habits
 comme ça?
 Tu es un méchant monsieur?[end]</sn:string>
-<sn:string index="1">Papa a dit qu'il n'y a plus de clients qui
-viennent.
-Et puis aussi il y a des soldats qui font
-peur, au comptoir...[end]</sn:string>
+<sn:string index="1">Papa dit que les clients ne viennent plus.
+Et puis il y a des soldats qui font peur,
+au bar...[end]</sn:string>
 <sn:string index="2">Recherche danseuses! Beauté et talent pour la danse exigés! - Le patron du bar de l'auberge de Baron[end]</sn:string>
 <sn:string index="3">Ah, le chevalier noir du château!
 Payer?
@@ -274,9 +272,8 @@ pars plus nulle part![new]
 Je n'aurais jamais dû te laisser devenir
 mage blanche.[new]
 [bold]Rosa[normal]: Non, Maman!
-J'ai bien fait!
-Cecil est un guerrier, alors je peux
-l'assister![new]
+Je suis heureuse d'être mage blanche,
+pour pouvoir aider Cecil au combat![new]
 Et tu as combattu aux côtés de papa en
 tant que mage blanche, autrefois![new]
 [bold]Mère de Rosa[normal]: Rosa... Tu as raison... Ton père aussi, paix à son âme, était un grand chevalier.[new]
@@ -297,14 +294,12 @@ Cecil, prends bien soin d'elle.[end]</sn:string>
 
 <sn:area id="17">
 <sn:string index="0">Salut, je suis un savant itinérant.[new]
-Je veux faire des recherches à Fabul, une
-ville à l'est de Damcyan, mais au canal
-souterrain, il y a un drôle de vieux qui ne
-veut pas me laisser passer...[end]</sn:string>
-<sn:string index="1">Oh, un client! Ça devient rare...[new]
-À cause de tous les monstres, nous
-voyons de moins en moins de clients, de
-nos jours.[end]</sn:string>
+Je veux aller étudier à Fabul, à l'est de
+Damcyan, mais un drôle de vieux, dans la
+rivière souterraine, refuse de me laisser
+passer...[end]</sn:string>
+<sn:string index="1">Oh, de la visite! Avec tous ces monstres,
+les clients se font rares, ces temps-ci.[end]</sn:string>
 <sn:string index="2">Apaisez votre soif du désert avec
 la bière spéciale de Kaïpo![end]</sn:string>
 <sn:string index="3">Seule la famille royale peut pénétrer dans
@@ -327,7 +322,7 @@ rarissime qu'on trouve uniquement dans
 l'antre du Fourmilion...[end]</sn:string>
 <sn:string index="3">«La Lumière du désert est le seul remède
 contre la fièvre du désert...»[end]</sn:string>
-<sn:string index="4">Rosa: ... [music][0x13] Ooh... Cecil... Ne meurs pas, Cecil![end]</sn:string>
+<sn:string index="4">Rosa: ... [music][0x13] Mmh... Cecil... Ne meurs pas, Cecil![end]</sn:string>
 <sn:string index="5">Je suis content qu'elle aille mieux.
 L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
@@ -338,7 +333,7 @@ Revenez nous voir bientôt![end]</sn:string>
 <sn:string index="0">Qu'est-ce que tu veux, cette fois!?[end]</sn:string>
 <sn:string index="1">Le mont de l'Épreuve?
 Inutile d'y aller![end]</sn:string>
-<sn:string index="2">Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]</sn:string>
+<sn:string index="2">Ne pardonnez jamais à Baron, qui nous a pris notre cristal et les nôtres![end]</sn:string>
 <sn:string index="3">Ce n'est pas possible... Toi, tu es devenu...[end]</sn:string>
 <sn:string index="4">Nos amis!
 Rends-nous nos amis![end]</sn:string>
@@ -400,7 +395,7 @@ l'opposé d'un chevalier noir.[end]</sn:string>
 ...Peut-être était-ce le destin.[end]</sn:string>
 <sn:string index="16">Fille: Oui?[new]
 Ancien: Où est Palom?[new]
-Fille: Pfff... Toujours Palom![end]</sn:string>
+Fille: Palom a encore filé![end]</sn:string>
 <sn:string index="17">Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
 Estime-toi heureux![end]</sn:string>
 <sn:string index="18">[bold]Porom[normal]: Vous êtes M. Cecil,
@@ -507,7 +502,7 @@ Toi aussi, t'aimes ça, hein![end]</sn:string>
 </sn:area>
 
 <sn:area id="29">
-<sn:string index="0">Vous en avez déjà vu? Ce sont des chocobos noirs.[new]
+<sn:string index="0">Rare, hein? Ce sont des chocobos noirs.[new]
 Comme ces chocobos ont été domestiqués par les humains, ils ne peuvent plus voler.[new]
 Toutefois, ceux du village Chocobo, au nord, sont sauvages et peuvent voler, mais pas très haut.[new]
 Ils ne peuvent se poser que dans des forêts, malheureusement.[end]</sn:string>
@@ -608,7 +603,7 @@ Vous ne devriez pas sortir maintenant.[end]</sn:string>
 part...[end]</sn:string>
 <sn:string index="10">L'accès à cette tour est interdit.[end]</sn:string>
 <sn:string index="11">[bold]Cid[normal]: Te revoilà, Cecil![end]</sn:string>
-<sn:string index="12">Cid: Rosa était inquiète! Si tu la fais pleurer, je ne te le pardonnerai pas![new]
+<sn:string index="12">Cid: Rosa était inquiète! Si tu fais pleurer Rosa, je ne te le pardonnerai pas![new]
 Au fait, comment se portent mes aéronefs chéris? Tes hommes les malmènent trop.[new]
 Ben dis donc, t'en tires une tronche![new]
 Cecil: Eh bien en fait, Cid...[new]
@@ -641,9 +636,9 @@ bien...[end]</sn:string>
 </sn:area>
 
 <sn:area id="38">
-<sn:string index="0">M. Yang!
+<sn:string index="0">Maître Yang!
 Vous êtes de retour.
-Sa Majesté attend.[end]</sn:string>
+Sa Majesté vous attend.[end]</sn:string>
 <sn:string index="1">C'est trop dangereux de sortir
 maintenant!
 Pour le moment, vous devriez vous
@@ -710,8 +705,8 @@ Prenez le trône![end]</sn:string>
 Baron.
 On dit qu'elle est toujours couverte d'une
 épaisse nappe de brouillard.[end]</sn:string>
-<sn:string index="7">Nous défendrons le château au nom des
-chevaliers dragons![end]</sn:string>
+<sn:string index="7">Nous défendrons le château, sur notre
+honneur de chevaliers dragons![end]</sn:string>
 <sn:string index="8">Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]</sn:string>
 <sn:string index="9">Je n'oserais plus regarder M. Caïn en
 face.[end]</sn:string>
@@ -721,7 +716,7 @@ face.[end]</sn:string>
 Tu n'arrives pas à dormir?[end]</sn:string>
 <sn:string index="13">[bold]Cecil[normal]: C'est là!?[new]
 [bold]Cid[normal]: Ouaip, juste sous leur nez![end]</sn:string>
-<sn:string index="14">Si vous tenez à la vie, restez dans le rang.[end]</sn:string>
+<sn:string index="14">Si vous tenez à la vie, ne vous mettez pas d'idées en tête.[end]</sn:string>
 <sn:string index="15">Je voyais bien que le roi avait changé, mais je n'ai rien dit, par peur pour ma vie...[end]</sn:string>
 </sn:area>
 
@@ -749,7 +744,7 @@ Vite, emmène-nous à ton aéronef![end]</sn:string>
 Tella: Tu peux parler![new]
 Cid: Moi? J'suis encore jeune, moi![end]</sn:string>
 <sn:string index="6">Porom: Allons, allons... Vous êtes M. Cid, n'est-ce pas? Voici maître Tella. C'est un grand sage.[end]</sn:string>
-<sn:string index="7">Porom: Voici M. Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]</sn:string>
+<sn:string index="7">Porom: Voici maître Yang, capitaine des moines de Fabul. Et moi, je suis Porom, apprentie mage de Mysidia.[end]</sn:string>
 <sn:string index="8">[bold]Palom[normal]: Pff, deux vieux croûtons![new]
 [bold]Porom[normal]: Ce grossier personnage, c'est
 mon frère jumeau, Palom.[new]
@@ -803,7 +798,7 @@ Golbez, Cagnazzo de l'Eau![end]</sn:string>
 </sn:area>
 
 <sn:area id="48">
-<sn:string index="0">Nous avons enfermé dans ces cachots les magiciens mysidiens qui ont résisté.
+<sn:string index="0">Nous avons enfermé dans ces cachots les mages de Mysidia qui ont résisté.
 Vous pouvez leur parler à travers les
 barreaux.[end]</sn:string>
 <sn:string index="1">J'espère que nous n'aurons plus jamais à
@@ -894,34 +889,25 @@ au-dessus...![end]</sn:string>
 </sn:area>
 
 <sn:area id="65">
-<sn:string index="0">[bold]Tella[normal]: C'est...
-Ooh... Anna![end]</sn:string>
+<sn:string index="0">[bold]Tella[normal]: Là... Oooh! Anna![end]</sn:string>
 <sn:string index="1">[bold]Tella[normal]: Toi! Le barde de l'autre fois! C'est à cause de toi qu'Anna...![new]
 [bold]Barde[normal]: !?[end]</sn:string>
 <sn:string index="2">[bold]Edward[normal]: La Lumière du désert se forme
 à partir des sécrétions du Fourmilion
 quand il pond ses œufs.[new]
-Sa grotte est à l'est, mais nous devons
-traverser un plan d'eau peu profond pour
-y accéder.[new]
-Il y a un aéroglisseur à Damcyan qui peut
-le traverser.
-Il devrait aussi pouvoir traverser les
-hauts-fonds pour aller vers Kaïpo.[end]</sn:string>
+Sa grotte est à l'est, mais il faut traverser des hauts-fonds pour y accéder.[new]
+L'aéroglisseur de Damcyan peut les franchir. Il devrait aussi permettre de rejoindre Kaïpo.[end]</sn:string>
 <sn:string index="3">Nous sommes les seuls survivants. Peut-être pouvons-nous nous retirer à Kaïpo...[new]
 Avec l'aéroglisseur, on pourrait passer par les hauts-fonds de la côte ouest, mais...[end]</sn:string>
 <sn:string index="4">Peut-être pouvons-nous nous retirer à Fabul...[new]
 Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]</sn:string>
-<sn:string index="5">Tella: ...Qui est ce Golbez!?[new]
+<sn:string index="5">Tella: ...Mais qui est donc ce Golbez!?[new]
 Edward: Il est venu à Baron il y a peu et a pris le contrôle des Ailes Rouges.[new]
 Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]snif[/italic][new]
 Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]</sn:string>
 <sn:string index="6">[bold]Cecil[normal]: Tella, vous ne pouvez
 pas faire ça tout seul![end]</sn:string>
-<sn:string index="7">[bold]Tella[normal]: Je n'ai besoin de l'aide de
-personne!
-Je vais tuer Golbez de mes propres
-mains![end]</sn:string>
+<sn:string index="7">[bold]Tella[normal]: Je n'ai besoin de l'aide de personne! Golbez, je m'en charge seul![end]</sn:string>
 <sn:string index="8">Tella a quitté le groupe.[end]</sn:string>
 <sn:string index="9">Edward: A... Anna... [italic]snif[/italic]... [italic]snif[/italic]...[end]</sn:string>
 <sn:string index="10">[bold]Rydia[normal]: Pleurnicheur![end]</sn:string>
@@ -930,14 +916,12 @@ Un adulte!
 Et pourtant...![new] Moi aussi, je...[new]
 [bold]Cecil[normal]: Rydia...[end]</sn:string>
 <sn:string index="12">[bold]Edward[normal]: Tu as raison... je ne suis qu'un pleurnicheur!
-Dans ce cas, je vais rester ici avec
-Anna pour toujours![new]
-Je me fiche bien de tout le reste![end]</sn:string>
+C'est pour ça que je resterai toujours ici, auprès d'Anna![new]
+Plus rien ne compte![end]</sn:string>
 <sn:string index="13">[bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
 Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
 [bold]Cecil[normal]: Je suis Cecil.
-Une amie à moi s'est écroulée près de
-Kaïpo, frappée par la fièvre du désert.[new]
+Une amie à moi s'est écroulée à Kaïpo, frappée par la fièvre du désert.[new]
 Nous avons besoin de la Lumière du désert!
 Et pour cela, nous avons besoin de ton aide![new]
 [bold]Edward[normal]: Mon aide...[new]
@@ -1036,7 +1020,7 @@ Pour le moment, vous devriez vous
 reposer.[end]</sn:string>
 <sn:string index="1">Roi Fabul: ...Je vois. Très bien, Yang! Accompagne-les et aide-les![new]
 Cecil, je ne sais pas comment te remercier. Et voilà que Rosa a été enlevée...[new]
-Je vais faire préparer un navire immédiatement. Cecil. Prends cette épée.[new]
+Je vais faire préparer un navire immédiatement. Cecil, prends cette épée.[new]
 C'est l'épée d'un chevalier noir venu à Fabul il y a longtemps.[new]
 C'est le moins que je puisse faire pour te remercier d'avoir défendu Fabul. ...Mais une lame noire n'est jamais qu'une lame des ténèbres...[new]
 Elle ne pourra rien contre le vrai mal. Vaincs Golbez![end]</sn:string>
@@ -1106,7 +1090,7 @@ se battre![end]</sn:string>
 
 <sn:area id="84">
 <sn:string index="0">[bold]Tella[normal]: Bien, reposons-nous ici.[end]</sn:string>
-<sn:string index="1">[bold]Tella[normal]: Sur cette rune magique, un champ de force empêche les monstres d'entrer.[new]
+<sn:string index="1">[bold]Tella[normal]: Sur ce cercle magique, une barrière empêche les monstres d'entrer.[new]
 Nous pouvons nous reposer ici dans une
 tente ou un chalet, et sauvegarder la
 partie.[new]
@@ -1137,8 +1121,7 @@ gardiennes du cristal.[end]</sn:string>
 <sn:string index="1">Si nous perdons le cristal, cette région redeviendra une terre aride![end]</sn:string>
 <sn:string index="2">C'est bien mieux que d'être dirigées par
 des hommes brutaux![end]</sn:string>
-<sn:string index="3">On dirait que vous êtes dans un mauvais
-pas.
+<sn:string index="3">Vous semblez avoir vos raisons.
 Comme promis, nous allons vous prêter le cristal de la Terre.[end]</sn:string>
 <sn:string index="4">Le cristal de la Terre? Quelle horreur![end]</sn:string>
 <sn:string index="5">L'Elfe noir craint les armes en métal.[new]
@@ -1300,7 +1283,7 @@ Oups...[end]</sn:string>
 <sn:area id="103">
 <sn:string index="0">Rosa voulait t'aider, alors elle a
 choisi de devenir mage blanche.
-Ne l'inquiète pas trop![end]</sn:string>
+N'inquiète pas trop Rosa![end]</sn:string>
 <sn:string index="1">Nous ne pouvons que prier pour que feu
 Sa Majesté repose en paix.[end]</sn:string>
 <sn:string index="2">J'étudie les rudiments de la magie
@@ -1454,8 +1437,7 @@ Feu.[new]
 Tu es la seule ici à avoir le pouvoir de
 faire fondre cette glace.[new]
 [bold]Rydia[normal]: ...[new]
-[bold]Rosa[normal]: Si nous ne franchissons pas
-cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort affreux... Je t'en prie... trouve le courage![new]
+[bold]Rosa[normal]: Si nous ne faisons pas fondre cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort affreux... Je t'en prie... trouve le courage![new]
 [bold]Edward[normal]: Le courage...[new]
 [bold]Rosa[normal]: Rydia, s'il te plaît![new]
 [bold]Edward[normal]: Allez, Rydia![new]
@@ -1474,7 +1456,7 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 <sn:area id="127">
 <sn:string index="0">[bold]Edward[normal]: Ces vêtements...
 Ce doit être un moine de Fabul![end]</sn:string>
-<sn:string index="1">[bold]Edward[normal]: Celui-ci a l'air costaud![new]
+<sn:string index="1">[bold]Edward[normal]: Ce monstre est coriace![new]
 [bold]Rydia[normal]: Aidons-le![end]</sn:string>
 <sn:string index="2">Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
 Mes hommes et moi nous entraînions ici, sur le mont Hobs... et soudain, nous avons été attaqués par des hordes de monstres.[new]
@@ -1498,8 +1480,7 @@ Rydia: ...[end]</sn:string>
 raisons, je vois...
 Merci!
 Puis-je vous demander votre aide?[new]
-[bold]Cecil[normal]: Bien sûr!
-Allons-y![new]
+[bold]Cecil[normal]: Bien sûr! En route pour Fabul![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]</sn:string>
@@ -1689,8 +1670,7 @@ on ne peut pas l'utiliser.[end]</sn:string>
 <sn:string index="0">[bold]Golbez[normal]: Ainsi, il a même tué Cagnazzo...
 Il est devenu bien plus fort.[end]</sn:string>
 <sn:string index="1">[bold]Caïn[normal]: À propos du dernier cristal...[new]
-[bold]Golbez[normal]: Je sais... ça va être délicat de
-le récupérer où il est maintenant.[new]
+[bold]Golbez[normal]: Je sais... mais cet endroit pose quelques difficultés.[new]
 [bold]Caïn[normal]: Pourquoi ne pas envoyer
 Cecil le chercher pour vous?[new]
 [bold]Golbez[normal]: Lui...?[end]</sn:string>
@@ -2268,8 +2248,7 @@ Pourtant, on est gentils![end]</sn:string>
 </sn:area>
 
 <sn:area id="261">
-<sn:string index="0">Un client?
-Comme c'est inhabituel![end]</sn:string>
+<sn:string index="0">Un client? Ça, c'est rare![end]</sn:string>
 </sn:area>
 
 <sn:area id="262">
@@ -2283,7 +2262,7 @@ Prenez tout ce que vous voulez![end]</sn:string>
 <sn:string index="1">C'est le château des Nains gouverné par
 le roi Giotto![end]</sn:string>
 <sn:string index="2">Golbez est un méchant!
-Mais vous, vous avez l'air chouette![end]</sn:string>
+Mais vous, vous avez pas l'air méchants![end]</sn:string>
 <sn:string index="3">Allez voir le roi Giotto![end]</sn:string>
 <sn:string index="4">Rien à signaler![end]</sn:string>
 <sn:string index="5">Pas de problèmes ici non plus![end]</sn:string>
@@ -2301,7 +2280,7 @@ Content que vous alliez bien![end]</sn:string>
 <sn:string index="4">Nous sommes l'équipe de secours!
 On n'en a pas l'air, mais on est des
 filles![end]</sn:string>
-<sn:string index="5">L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il est couché à l'infirmerie![end]</sn:string>
+<sn:string index="5">L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il dort à l'infirmerie![end]</sn:string>
 <sn:string index="6">Je suis Luca!
 Mes poupées ont disparu.
 Vous ne les avez pas vues?[end]</sn:string>
@@ -2309,9 +2288,9 @@ Vous ne les avez pas vues?[end]</sn:string>
 
 <sn:area id="265">
 <sn:string index="0">Les chars sont la principale force des Nains! Nous ne serons pas vaincus si facilement![end]</sn:string>
-<sn:string index="1">Le roi gâte la princesse Luca pour deux, pour lui et pour la défunte reine![end]</sn:string>
+<sn:string index="1">Le roi gâte la princesse Luca pour deux, pour lui et la défunte reine![end]</sn:string>
 <sn:string index="2">Lali-ho!
-Vous l'avez déjà appris?[end]</sn:string>
+Vous l'avez retenu?[end]</sn:string>
 <sn:string index="3">Le monde souterrain, c'est chouette, une fois qu'on s'y fait! Restez pour de bon, si vous voulez, Lali![end]</sn:string>
 <sn:string index="4">[bold]Cecil[normal]: Je suis désolé.
 Golbez a pris le cristal...[new]
@@ -2330,8 +2309,7 @@ demander![new]
 avons perdu le cristal!
 Si nous pouvons vous aider en quoi
 que ce soit...[new]
-[bold]Giotto[normal]: Pendant que Golbez est
-occupé à la grotte Scellée...[new]
+[bold]Giotto[normal]: Golbez est en route pour la grotte Scellée, c'est l'occasion...[new]
 Pourriez-vous vous introduire dans la tour de Babil et reprendre les sept
 cristaux?[new]
 [bold]Caïn[normal]: La tour de Babil?[new]
@@ -2339,14 +2317,13 @@ cristaux?[new]
 infiltrer dans la base ennemie!?[new]
 [bold]Giotto[normal]: Ne vous inquiétez pas!
 Nos chars vont attirer l'ennemi![new]
-Pendant notre diversion, entrez et prenez
-les cristaux!
+Profitez-en pour reprendre les cristaux!
 C'est notre seule chance, maintenant que
 Golbez est parti![end]</sn:string>
 <sn:string index="5">Caïn: Alors, on fait quoi?[new]
 Rydia: C'est la base de l'ennemi, non?[new]
 Rosa: C'est vrai que c'est dangereux.[new]
-Yang: Mais vous savez ce qu'on dit... Qui ne tente rien n'a rien.[new]
+Yang: Mais qui ne tente rien n'a rien...[new]
 Caïn: C'est maintenant ou jamais, tant que Golbez n'est pas là.[new]
 Cecil: Très bien, alors...[end]</sn:string>
 <sn:string index="6">[bold]Cecil[normal]: Nous allons tenter le coup![end]</sn:string>
@@ -2355,8 +2332,7 @@ Je prierai pour votre réussite![end]</sn:string>
 <sn:string index="8">Se servir de mes poupées pour ça! C'est impardonnable![end]</sn:string>
 <sn:string index="9">[bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
-Vous, vous allez à la grotte Scellée au
-sud-ouest![end]</sn:string>
+Vous, allez à la grotte Scellée, au sud-ouest![end]</sn:string>
 <sn:string index="10">Giotto: Allez à Mysidia! Tout repose sur vous![end]</sn:string>
 <sn:string index="11">On dit que ce collier est un souvenir
 de sa défunte mère.[end]</sn:string>
@@ -2433,15 +2409,14 @@ Buvez-en une lampée![end]</sn:string>
 <sn:string index="3">Quel glouton, ce vieux!
 Il dit que c'est mauvais, mais il mange
 comme quatre![end]</sn:string>
-<sn:string index="4">Rien de tel qu'une bonne nuit de sommeil
-pour se sentir mieux, Lali![end]</sn:string>
+<sn:string index="4">Un bon somme et ça guérit, Lali![end]</sn:string>
 <sn:string index="5">[italic]Zzz...Zzz[/italic][end]</sn:string>
 <sn:string index="6">Ce vieux n'était pas en état de faire ça![end]</sn:string>
 <sn:string index="7">Ce vieux est brutal, mais c'est un
 chouette gars![end]</sn:string>
 <sn:string index="8">[italic]Zzz... rrron ...Zzz[/italic][end]</sn:string>
 <sn:string index="9">Ce vieux est incroyable!
-Il a vraiment fixé une foreuse![end]</sn:string>
+Il a vraiment monté une foreuse![end]</sn:string>
 <sn:string index="10">Les gens de la surface se débrouillent pas mal![end]</sn:string>
 <sn:string index="11">Cid: Dites-vous que cet aéronef, c'est moi! Courage...![end]</sn:string>
 </sn:area>
@@ -2480,8 +2455,7 @@ Il a vraiment fixé une foreuse![end]</sn:string>
 
 <sn:area id="283">
 <sn:string index="0">Vous combattez aussi Golbez?
-Alors prenez le trésor ici!
-Bonne chance![end]</sn:string>
+Prenez ce trésor, et courage![end]</sn:string>
 <sn:string index="1">Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]</sn:string>
 </sn:area>
 
@@ -2739,8 +2713,7 @@ souterrain![end]</sn:string>
 <sn:string index="0">Rydia, tu es de retour![end]</sn:string>
 <sn:string index="1">À l'exception de Rydia, vous êtes les
 premiers humains à venir ici.[end]</sn:string>
-<sn:string index="2">C'est le monde des Chimères.
-Le monde où les Chimères vivent.[end]</sn:string>
+<sn:string index="2">C'est le monde des Chimères, là où elles vivent.[end]</sn:string>
 <sn:string index="3">Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:string>
 </sn:area>
@@ -2787,8 +2760,7 @@ n'importe quoi.[end]</sn:string>
 Mais sa colère appelle les nuages
 sombres et châtie par la foudre.[end]</sn:string>
 <sn:string index="6">La reine des Glaces, Shiva...
-Ceux qui la mettent en colère se font
-geler le cœur.[end]</sn:string>
+Qui la met en colère aura jusqu'au cœur gelé.[end]</sn:string>
 <sn:string index="7">Chocobo...
 Pour fuir et pour charmer, il n'a pas
 d'égal.[end]</sn:string>
@@ -2812,11 +2784,9 @@ monde des humains?[end]</sn:string>
 <sn:string index="1">On ne s'ennuie jamais, ici.
 Il y a tellement de livres qu'il faudrait une
 éternité pour tous les lire![end]</sn:string>
-<sn:string index="2">Même les monstres qui résistent à
-Libra... le Bestiaire
-révélera leur véritable nature...[end]</sn:string>
+<sn:string index="2">Le Bestiaire révélera la nature même des monstres qui résistent à Libra...[end]</sn:string>
 <sn:string index="3">Chimères, monstres, humains...
-D'où sont-ils venus et où vont-ils...
+D'où viennent-ils, où vont-ils...
 C'est un mystère éternel...[end]</sn:string>
 <sn:string index="4">Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
@@ -2923,8 +2893,7 @@ Laissez-moi dormir encore un peu...[end]</sn:string>
 <sn:string index="10">[bold]Yang[normal]: Eh!?
 Messire Cecil?[new]
 [bold]Cecil[normal]: Yang![new]
-[bold]Rydia[normal]: Je suis si contente que tu
-ailles bien![new]
+[bold]Rydia[normal]: Quel soulagement![new]
 [bold]Yang[normal]: Les Sylphes m'ont arraché aux
 griffes de la mort.[new]
 [bold]Rosa[normal]: Grâce à toi, le canon géant a
@@ -2941,14 +2910,14 @@ Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]</sn:string>
 [bold]Sylphe[normal]: Cette personne est bien une
 invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
-Nous combattrons à ta place![new]
+Nous combattrons à ta place, Yang![new]
 [bold]Rydia[normal]: Enchantée, les Sylphes!
 [force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]</sn:string>
 <sn:string index="14">[bold]Sylphe[normal]: Ah!
 Arrêtez![end]</sn:string>
 <sn:string index="15">Yang va beaucoup mieux![end]</sn:string>
 <sn:string index="16">C'est bien vide sans Yang...[end]</sn:string>
-<sn:string index="17">Il est marié, alors... enfin bon![end]</sn:string>
+<sn:string index="17">Il a une femme, alors on n'y peut rien.[end]</sn:string>
 <sn:string index="18">Dites bonjour à Yang de
 notre part![end]</sn:string>
 </sn:area>
