@@ -27,6 +27,7 @@ _SETTING_ON := 0x01
 _TIMERS := 0x7E2A07  ; the action timer, a word, per fighter
 _DISPLAY_ORDER := 0x02A1F3  ; vanilla: the party window's rows list the slots in this order, present ones only
 _RECORDS := 0x7E2000  ; a character per $80, +0 0 for nobody
+_STATUS_1 := 3  ; in a record: bit 7 KO
 _HIDDEN := 0x7EF2C1  ; per slot: non-zero hides its name and HP
 _TIMER_STRIDE := 21
 _TIMER_FLAGS := 0x7E2A09  ; the action timer's flags: $08 = act when it expires (a command was chosen)
@@ -258,8 +259,11 @@ _slot_index:
 _watch_timer:
 """
 Character X's action timer: a rise is a new turn (its full length), a drop is a tick (its pace: the updates since its
-last one); its flags say whether a chosen command waits on it (A8 X16, DB $7E).
+last one); its flags say whether a chosen command waits on it (A8 X16, DB $7E). KO stops the timer where it was: it is
+forgotten, so the one Life sets is a new turn.
 """
+        jsr.w _knocked_out
+        bcs _forget_timer
         jsr.w _slot_index
         sep #0x20
         lda.l _TIMER_FLAGS, x
@@ -294,6 +298,31 @@ _period:
         sta.w atb_gauge_state.period & 0xFFFF, x
 _watched:
         sep #0x20
+        rts
+_forget_timer:
+        jsr.w _slot_index
+        ldx.b 0x02
+        lda.w #0x0000
+        sta.w atb_gauge_state.timer & 0xFFFF, x
+        sta.w atb_gauge_state.full_time & 0xFFFF, x
+        sep #0x20
+        ldx.b 0x00
+        sta.w atb_gauge_state.period & 0xFFFF, x
+        sta.w atb_gauge_state.pending & 0xFFFF, x
+        rts
+
+_knocked_out:
+"""Carry set when character X is KO'd (A8 X16, X kept)."""
+        phx
+        rep #0x20
+        txa
+        xba
+        lsr  ; slot * $80
+        tax
+        sep #0x20
+        lda.l _RECORDS + _STATUS_1, x
+        plx
+        asl
         rts
 
 _map_rows:
@@ -373,10 +402,12 @@ _no_character:
 _fill_px:
 """
 A8 = the fill in pixels (0-32) of character $00: the share of its turn's timer run out, plus the frames since the last
-tick at the ticks' pace (up to one tick); full once the timer is 0.
+tick at the ticks' pace (up to one tick); full once the timer is 0; empty while KO'd.
 """
         sep #0x20
         ldx.b 0x00
+        jsr.w _knocked_out
+        bcs _fill_empty
         lda.w atb_gauge_state.pending & 0xFFFF, x
         bne _fill_full  ; a command waits: the turn is still on
         rep #0x20

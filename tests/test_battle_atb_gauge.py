@@ -169,3 +169,56 @@ def test_off_by_default_the_rows_keep_their_max_hp() -> None:
             assert all(tile in DIGITS for tile, _ in cells[5:9])
     finally:
         emu.close()
+
+
+RECORD = 0x7E2000  # a character per $80: +3 status 1 (bit 7 KO), +7 the HP
+TIMERS = 0x7E2A07  # the action timer, a word, 21 bytes a fighter
+ENABLED_TIMERS = 0x7E29EB  # per fighter, 2 bytes: $40 the action timer runs
+
+
+def _fight(emu, frames: int, *, spare: int | None = None) -> None:
+    for frame in range(frames):
+        if emu.read(MENU_OPEN) and frame % 4 == 0 and emu.read(ACTING) != spare:
+            tap(emu, Button.A, hold=2, gap=0)  # Attack, the first monster
+        emu.run_frames(1)
+
+
+def _knock_out(emu, slot: int) -> None:
+    emu.write(RECORD + slot * 0x80 + 3, emu.read(RECORD + slot * 0x80 + 3) | 0x80)
+    emu.write(RECORD + slot * 0x80 + 7, 0)
+    emu.write(RECORD + slot * 0x80 + 8, 0)
+
+
+def _revive(emu, slot: int, timer: int) -> None:
+    """As vanilla's Life (battle magic effect $0a): KO cleared, a new action timer, the timer running again."""
+    emu.write(RECORD + slot * 0x80 + 3, emu.read(RECORD + slot * 0x80 + 3) & 0x7E)
+    emu.write(RECORD + slot * 0x80 + 7, 100)
+    emu.write(TIMERS + slot * 21, timer)
+    emu.write(TIMERS + slot * 21 + 1, 0)
+    emu.write(TIMERS + slot * 21 + 2, 0)
+    emu.write(ENABLED_TIMERS + slot * 2, 0x40)
+
+
+def _filling_slot(emu) -> int:
+    """A slot whose gauge is part-way: its timer still running."""
+    _fight(emu, 400)
+    return max(range(5), key=lambda slot: emu.read16(TIMERS + slot * 21))
+
+
+def test_a_knocked_out_character_s_gauge_empties(battle) -> None:
+    """Vanilla stops a KO'd character's action timer where it was: the gauge stayed part-filled, as if a turn were
+    coming."""
+    slot = _filling_slot(battle)
+    _knock_out(battle, slot)
+    _fight(battle, 120, spare=slot)
+    assert _main_view_fill(battle, _row_of(battle, slot)) == 0
+
+
+def test_a_revived_character_s_gauge_fills_from_empty(battle) -> None:
+    """Life's new timer is a new turn even when it is shorter than the one KO stopped."""
+    slot = _filling_slot(battle)
+    _knock_out(battle, slot)
+    _fight(battle, 60, spare=slot)
+    _revive(battle, slot, timer=1)
+    battle.run_frames(2)
+    assert _main_view_fill(battle, _row_of(battle, slot)) < 8
