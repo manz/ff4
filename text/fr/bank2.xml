@@ -15,7 +15,7 @@ Vengez le roi![end]</sn:string>
 <sn:string index="5">C'était vous, ce chevalier noir!
 Comme vous avez fière allure, maintenant![end]</sn:string>
 <sn:string index="6">S'en prendre à Mist, ça va forcément mal finir...[end]</sn:string>
-<sn:string index="7">Un moine venu d'ailleurs se fait suivre par la garde royale. On dirait qu'ils enquêtent sur quelque chose.[new]
+<sn:string index="7">On a mis les gardes royaux aux ordres d'un moine venu d'ailleurs. On dirait qu'il enquête sur quelque chose.[new]
 Il doit être à l'auberge...[end]</sn:string>
 <sn:string index="8">Il paraît que le roi avait été remplacé par un monstre.
 Et il n'a pas non plus d'héritier...[end]</sn:string>
@@ -51,8 +51,7 @@ d'un seul coup![end]</sn:string>
 <sn:string index="3">Les Chimères que nous, invocateurs,
 appelons viennent du monde des
 Chimères...[new]
-Il se trouverait au plus profond des
-entrailles de la terre.[end]</sn:string>
+Il se trouverait dans les profondeurs de la terre.[end]</sn:string>
 </sn:area>
 
 <sn:area id="2">
@@ -890,7 +889,7 @@ au-dessus...![end]</sn:string>
 </sn:area>
 
 <sn:area id="65">
-<sn:string index="0">[bold]Tella[normal]: Ça... Oh... Anna![end]</sn:string>
+<sn:string index="0">[bold]Tella[normal]: Là... Oooh! Anna![end]</sn:string>
 <sn:string index="1">[bold]Tella[normal]: Toi! Le barde de l'autre fois! C'est à cause de toi qu'Anna...![new]
 [bold]Barde[normal]: !?[end]</sn:string>
 <sn:string index="2">[bold]Edward[normal]: La Lumière du désert se forme
@@ -917,7 +916,7 @@ Un adulte!
 Et pourtant...![new] Moi aussi, je...[new]
 [bold]Cecil[normal]: Rydia...[end]</sn:string>
 <sn:string index="12">[bold]Edward[normal]: Tu as raison... je ne suis qu'un pleurnicheur!
-C'est pour ça que je reste ici, auprès d'Anna![new]
+C'est pour ça que je resterai toujours ici, auprès d'Anna![new]
 Plus rien ne compte![end]</sn:string>
 <sn:string index="13">[bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
 Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
@@ -2456,7 +2455,7 @@ Il a vraiment monté une foreuse![end]</sn:string>
 
 <sn:area id="283">
 <sn:string index="0">Vous combattez aussi Golbez?
-Prenez donc le trésor d'ici, et courage![end]</sn:string>
+Prenez ce trésor, et courage![end]</sn:string>
 <sn:string index="1">Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]</sn:string>
 </sn:area>
 
