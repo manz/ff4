@@ -653,13 +653,13 @@ Palom: Qu'est-ce qui se passe?![new]
 Porom: M. Cecil![end]</sn:pointer>
     <sn:pointer id="203">[bold]Cecil[normal]: Ne vous en mêlez pas!
 C'est un combat contre moi-même! Pour racheter mes fautes passées, je dois l'abattre... lui, le chevalier noir![end]</sn:pointer>
-    <sn:pointer id="204">«Bien joué... Je vais changer mon esprit en lumière et te le confier. Reçois-la... ma... dernière lumière! Mon fils... arrête Golbez!»[new]
+    <sn:pointer id="204">«Bien joué... Je vais faire de mon âme une lumière et te la confier. Reçois-la... ma... dernière lumière! Mon fils... arrête Golbez!»[new]
 Cecil: A... attendez![end]</sn:pointer>
     <sn:pointer id="205">Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
     <sn:pointer id="206">Porom: Vous allez bien?[new]
 Palom: T'es vraiment...[new]
 Porom: Shh![new]
-Cecil: Quelle est cette sensation...? Étrangement familière... Quelle était cette voix...?[new]
+Cecil: Qu'est-ce que je ressens...? C'est étrangement familier... Et cette voix...?[new]
 Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
     <sn:pointer id="207">[bold]Tella[normal]: Ça me revient... Tous mes sorts!
@@ -676,40 +676,40 @@ Allons trouver Golbez![end]</sn:pointer>
 Cecil: Oui...[end]</sn:pointer>
     <sn:pointer id="212">[bold]Cecil[normal]: Edward![end]</sn:pointer>
     <sn:pointer id="213">Edward: C'est toi, Cecil... Tu es en vie... Moi aussi... je vais me battre...[new]
-Tella: Que peux-tu faire dans ton état? Reste couché![new]
+Tella: Dans ton état, que veux-tu faire? Reste couché![new]
 Edward: Maître Tella... Vous êtes en vie... Pardonnez-moi...[new]
 C'est comme si j'avais tué Anna moi-même...[new]
 Tella: ...[new]
 Edward: Je suis vraiment désolé... [italic]snif[/italic][end]</sn:pointer>
-    <sn:pointer id="214">[bold]Yang[normal]: Prince Edward, vous devez
-vous reposer, maintenant.[end]</sn:pointer>
+    <sn:pointer id="214">[bold]Yang[normal]: Prince Edward, reposez-vous,
+maintenant.[end]</sn:pointer>
     <sn:pointer id="215">Edward: Yang... Vous êtes vivant... Alors Rydia aussi...?[new]
 Yang: J'ai honte...[end]</sn:pointer>
-    <sn:pointer id="216">[bold]Edward[normal]: Je vois... la pauvre... Vous vous battez tous, et moi, je suis là, bon à rien...[end]</sn:pointer>
+    <sn:pointer id="216">[bold]Edward[normal]: Je vois... la pauvre... Vous vous battez tous, et moi, je reste là à ne servir à rien...[end]</sn:pointer>
     <sn:pointer id="217">[bold]Edward[normal]: Vous êtes Cid?
 Alors vous devez pouvoir... !![end]</sn:pointer>
     <sn:pointer id="218">[bold]Edward[normal]: Elfe noir...[end]</sn:pointer>
-    <sn:pointer id="219">[bold]Elfe noir[normal]: VOUS ÊTES PARVENUS ICI!
+    <sn:pointer id="219">[bold]Elfe noir[normal]: VOUS ÊTES ARRIVÉS JUSQU'ICI!
 MAIS VOUS N'AUREZ PAS LE CRISTAL.
-VOUS NE POUVEZ PAS RÉSISTER À MA
-MAGIE AVEC CET ÉQUIPEMENT![new]
+AVEC CET ÉQUIPEMENT, VOUS NE POUVEZ
+RIEN CONTRE MA MAGIE![new]
 [bold]Yang[normal]: Messire Cecil![new]
 [bold]Tella[normal]: Laisse-nous faire![end]</sn:pointer>
-    <sn:pointer id="220">[bold]Edward[normal]: Cecil et les autres...sont
+    <sn:pointer id="220">[bold]Edward[normal]: Cecil et les autres... sont
 en danger![end]</sn:pointer>
     <sn:pointer id="221">«Restez au lit! Vous n'êtes pas en état de bouger!»[new]
-«Où croyez-vous aller!?»[new]
-Edward: ...Ne vous inquiétez pas... Juste jusqu'à ma harpe là-bas... Ooh![new]
-«Dans votre état, vous ne devriez même pas marcher! Ne vous surmenez pas!»[new]
+«Où allez-vous comme ça?!»[new]
+Edward: ...Ne vous inquiétez pas... Juste jusqu'à ma harpe, là-bas... Aïe![new]
+«Vous tenez à peine debout! Ne forcez pas!»[new]
 Edward: Ça ne fait rien... Je suis le seul... qui puisse sauver... Cecil et les autres![end]</sn:pointer>
     <sn:pointer id="222">Le Murmure porte jusqu'ici la harpe d'Edward! Yang: Oh...[new]
 Tella: Cette douce mélodie...[new]
 Cecil: La harpe d'Edward![new]
-Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG...ARK, [italic]HIC[/italic]![end]</sn:pointer>
+Elfe noir: QUOI!? QUEL EST CE BRUIT DÉSAGRÉABLE? ARG... ARK, [italic]HIC[/italic]![end]</sn:pointer>
     <sn:pointer id="223">Edward: Maintenant, Cecil! Tant que je joue, il ne peut plus contrôler le magnétisme! Ton épée![new]
 Prends ton épée![end]</sn:pointer>
-    <sn:pointer id="224">[bold]Elfe noir[normal]: POURQUOI CE BRUIT
-ARRIVE-T-IL JUSQU'ICI!
+    <sn:pointer id="224">[bold]Elfe noir[normal]: COMMENT CE BRUIT PEUT-IL
+ARRIVER JUSQU'ICI?!
 AVEC LE CRISTAL... J'AURAIS EU... LA VIE
 ÉTERNELLE...
 AAARG![end]</sn:pointer>
@@ -719,16 +719,16 @@ réussi...[new]
 [bold]Cecil[normal]: Edward!
 C'est grâce à toi![new]
 [bold]Edward[normal]: Non, pas vraiment...[new]
-[bold]Cid[normal]: Mais pourquoi cette mélodie lui
-a fait quelque chose?[end]</sn:pointer>
-    <sn:pointer id="227">[bold]Edward[normal]: Quand je parcourais le monde en barde, j'ai entendu
-parler d'une mélodie qui repousse les
+[bold]Cid[normal]: Mais pourquoi cette musique l'a
+mis dans cet état?[end]</sn:pointer>
+    <sn:pointer id="227">[bold]Edward[normal]: Quand je courais le monde comme barde, j'ai entendu
+parler d'une mélodie qui chasse les
 fées maléfiques.[new]
 Alors j'ai pensé que peut-être...[new]
-[bold]Yang[normal]: Et grâce à cela, vous nous
-avez sauvés.[new]
+[bold]Yang[normal]: Et c'est ce qui nous a
+sauvés.[new]
 [bold]Edward[normal]: Oh... je n'ai rien fait de spécial...
-Ooh![end]</sn:pointer>
+Aïe![end]</sn:pointer>
     <sn:pointer id="228">Edward: Maître Tella...[new]
 Tella: Anna était heureuse... Elle était aimée d'un homme aussi courageux que toi...[new]
 Edward: Maître Tella...[new]
@@ -739,7 +739,7 @@ Edward: Anna... j'ai l'impression de commencer à comprendre...[end]</sn:pointer
     <sn:pointer id="229">[bold]Caïn[normal]: Où est le cristal de la Terre?[end]</sn:pointer>
     <sn:pointer id="230">Cecil: Caïn![new]
 Cid: Où te caches-tu?[new]
-Caïn: Ne soyez pas si nerveux. Le seigneur Golbez veut vous remercier en personne.[new]
+Caïn: Du calme. Le seigneur Golbez veut vous remercier en personne.[new]
 Tella: Golbez![end]</sn:pointer>
     <sn:pointer id="231">[bold]Golbez[normal]: Je suis heureux que vous ayez
 tenu votre promesse...[new]
