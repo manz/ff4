@@ -1596,20 +1596,20 @@ Golbez, au plus vite![new]
 [bold]Ancien[normal]: Oh, Tella![new]
 [bold]Tella[normal]: Ça fait longtemps.[end]</sn:pointer>
     <sn:pointer id="476">Caïn: Tu ne peux pas les semer!?[new]
-Cid: Merde, cet aéronef devrait être plus rapide que les leurs! Eux aussi ont dû modifier les Ailes Rouges![end]</sn:pointer>
-    <sn:pointer id="477">[bold]Rydia[normal]: Ils approchent![new]
+Cid: Pourtant, on devrait être plus rapides qu'eux! Eux aussi ont dû modifier les Ailes Rouges![end]</sn:pointer>
+    <sn:pointer id="477">[bold]Rydia[normal]: Ils vont nous rattraper![new]
 [bold]Cid[normal]: Tiens bon, Enterprise![end]</sn:pointer>
     <sn:pointer id="478">[bold]Rosa[normal]: Cid, pas toi aussi![new]
-[bold]Cid[normal]: Hehe...
+[bold]Cid[normal]: Hé hé...
 J'aurais aimé voir l'enfant de Rosa et
 Cecil...[new]
 Mais il ne faut pas que Yang se sente
 seul...
-Allez à Baron et parlez à mes apprentis![end]</sn:pointer>
+Allez au château de Baron, voir mes apprentis![end]</sn:pointer>
     <sn:pointer id="479">[bold]Cecil[normal]: Cid![new]
 [bold]Rydia[normal]: Grand-père![end]</sn:pointer>
     <sn:pointer id="480">Cid: Appelle-moi au moins Oncle Cid![end]</sn:pointer>
-    <sn:pointer id="481">[bold]Cecil[normal]: ...Dirigeons-nous vers Baron![end]</sn:pointer>
+    <sn:pointer id="481">[bold]Cecil[normal]: Cap... sur Baron![end]</sn:pointer>
     <sn:pointer id="482">Cecil: Yang![new]
 Yang: Dites à ma femme de vivre pour nous deux![new]
 Caïn: Ouvre cette porte, Yang![new]
@@ -1631,15 +1631,15 @@ Tu es...!![end]</sn:pointer>
     <sn:pointer id="487">[bold]Edward[normal]: Anna![new]
 [bold]Tella[normal]: Anna!
 Anna![delay][0x2b][end]</sn:pointer>
-    <sn:pointer id="488">Tella: Il compte donc tant que ça pour toi...?[new]
+    <sn:pointer id="488">Tella: Tu tenais donc tant à lui...?[new]
 Anna: Père... pardonne-moi... Edward... je... t'aime...![end]</sn:pointer>
     <sn:pointer id="489">[bold]Edward[normal]: Adieu...
 Anna![end]</sn:pointer>
     <sn:pointer id="490">[bold]Edward[normal]: Allons, dépêchons-nous! [force_bold]Le
 prince Edward a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="491">[bold]Tella[normal]: Il est en bas![end]</sn:pointer>
-    <sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort pour
-entrer![end]</sn:pointer>
+    <sn:pointer id="492">[bold]Cecil[normal]: Le courant est trop fort,
+on ne peut pas entrer![end]</sn:pointer>
     <sn:pointer id="493">Vous avez votre carte de membre?[end]</sn:pointer>
     <sn:pointer id="494">Amusez-vous bien![end]</sn:pointer>
     <sn:pointer id="495">[bold]Cecil[normal]: Yang![music][0x2a][delay][0x30][end]</sn:pointer>
@@ -1660,7 +1660,7 @@ Cecil: Alors vous êtes le sage Tella![end]</sn:pointer>
     <sn:pointer id="502">[bold]Chambellan[normal]: Jeune maître![delay][0x10][end]</sn:pointer>
     <sn:pointer id="503">[bold]Femme de Yang[normal]: Toi aussi![delay][0xa][end]</sn:pointer>
     <sn:pointer id="504">Vous avez reçu le Collier de Luca![end]</sn:pointer>
-    <sn:pointer id="505">[bold]Yang[normal]: Il est trop tard![new]
+    <sn:pointer id="505">[bold]Yang[normal]: Nous arrivons trop tard?![new]
 [bold]Cecil[normal]: Mais qui est en train de
 combattre les Ailes Rouges?[new]
 [bold]Cid[normal]: Bon sang!
@@ -1670,7 +1670,7 @@ Accrochez-vous![end]</sn:pointer>
     <sn:pointer id="507">«Ce Ruban protégé par une force sacrée...
 Vous ne l'obtiendrez jamais!»[end]</sn:pointer>
     <sn:pointer id="508">«Le seigneur Zémus abhorre le pouvoir de
-cette épée. Il ne doit pas être libéré!»[end]</sn:pointer>
+cette épée. Je ne le laisserai pas libérer!»[end]</sn:pointer>
     <sn:pointer id="509">[bold]Dr Lugeie[normal]: Hyahyahya!
 Cette tour de Babil traverse la terre et
 relie la surface au monde souterrain...[new]
@@ -1680,10 +1680,10 @@ Et mon canon géant va anéantir les
 Nains... Hyahyahya![end]</sn:pointer>
     <sn:pointer id="510">«Avant de toucher à ce katana... allez
 donc en enfer!»[end]</sn:pointer>
-    <sn:pointer id="511">Yang: Ça veut donc dire qu'ils vont essayer de voler le cristal du vent![new]
-Edward: Oui... Damcyan a déjà été attaqué et le cristal volé.[new]
+    <sn:pointer id="511">Yang: Alors le cristal du vent de Fabul aussi...![new]
+Edward: Oui... Le cristal de Damcyan a déjà été volé.[new]
 Cecil: Et maintenant, c'est Fabul qui est visé.[new]
-Yang: !...Bon sang! Et nos forces principales qui ont été anéanties![force_new]
-Ceux qui sont dans le château viennent seulement de débuter leur formation![new]
+Yang: !... Quel malheur! Le gros de nos moines a été anéanti![force_new]
+Il ne reste au château que des novices![new]
 Si nous sommes attaqués maintenant...[end]</sn:pointer>
 </sn:script>
