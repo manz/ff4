@@ -988,30 +988,26 @@ Prends les commandes, Cecil![end]</sn:pointer>
 la surface, je scellerai le trou avec cette
 bombe![end]</sn:pointer>
     <sn:pointer id="294">[bold]Cid[normal]: Golbez!
-Cid, l'ingénieur aéronautique, va te montrer le coup de sa vie![end]</sn:pointer>
-    <sn:pointer id="295">[bold]Cid[normal]: Écoutez!
-Magnez-vous, allez à Baron![end]</sn:pointer>
+Regarde bien, Cid l'ingénieur va te faire le numéro de sa vie![end]</sn:pointer>
+    <sn:pointer id="295">[bold]Cid[normal]: Compris?
+Filez au château de Baron![end]</sn:pointer>
     <sn:pointer id="296">[bold]Rosa[normal]: Cid![new]
-[bold]Rydia[normal]: Pourquoi est-ce que tout le
-monde...[new]
-[bold]Caïn[normal]: Bon sang... ils se précipitent
-tous vers la mort![end]</sn:pointer>
-    <sn:pointer id="297">M. Cecil! Le patron nous a demandé de fixer ce crochet à l'Enterprise! Ne vous inquiétez pas, ça ne sera pas long![end]</sn:pointer>
-    <sn:pointer id="298">«Maintenant vous pouvez soulever l'aéroglisseur et le transporter!»[new]
+[bold]Rydia[normal]: Pourquoi tout le monde...[new]
+[bold]Caïn[normal]: Ils ont tous hâte de mourir,
+ma parole![end]</sn:pointer>
+    <sn:pointer id="297">M. Cecil! Le patron nous a demandé de fixer ce crochet à l'Enterprise! Ce sera fait en un clin d'œil![end]</sn:pointer>
+    <sn:pointer id="298">«Maintenant, vous pouvez soulever l'aéroglisseur et le transporter!»[new]
 «Aux commandes de l'Enterprise, placez-vous au-dessus de l'aéroglisseur et appuyez sur le bouton de validation pour l'accrocher ou le décrocher!»[new]
-«Maintenant vous pouvez aller à la grotte d'Eblana, où se dresse la tour de Babil! Déposez l'aéroglisseur dans les eaux peu profondes du continent et montez à bord!»[end]</sn:pointer>
-    <sn:pointer id="299">[bold]Cecil[normal]: Pour être franc, Cid
-est...[new]
-«Il déborde d'énergie, il doit vous en faire voir, hein? Celui-là, même si on le tuait, il ne mourrait pas! Bon, on a des
-montagnes de travail qui nous attendent!
-Bon courage!»[end]</sn:pointer>
+«Vous pouvez aussi aller à la grotte d'Eblana, où se dresse la tour de Babil! Posez l'aéroglisseur sur les hauts-fonds du continent et continuez avec!»[end]</sn:pointer>
+    <sn:pointer id="299">[bold]Cecil[normal]: En fait, Cid...[new]
+«Il déborde d'énergie, il doit vous épuiser, hein? Celui-là, même si on le tuait, il ne mourrait pas! Sur ce, on a du travail par-dessus la tête! Bon courage!»[end]</sn:pointer>
     <sn:pointer id="300">[bold]Homme[normal]: Je t'ai enfin trouvé, Rubicante!
 J'attendais ce jour depuis longtemps![new]
-[bold]Rubicante[normal]: Hmm...Avons-nous été
+[bold]Rubicante[normal]: Hmm... Avons-nous été
 présentés?[new]
 [bold]Homme[normal]: Je suis le prince d'Eblana! Le grand Edge![new]
 [bold]Rubicante[normal]: Eblana?
-Qu'est-ce que c'est?[new]
+Qu'est-ce donc?[new]
 [bold]Edge[normal]: Demande donc à ta conscience![end]</sn:pointer>
     <sn:pointer id="301">Cecil: Ça va?[new]
 Edge: La honte... Moi... me faire battre![new]
@@ -1020,19 +1016,19 @@ Edge: Ne vous en mêlez pas! Lui... je vais le démolir... de mes propres mains!
 Caïn: C'est un des quatre Empereurs, mon prince.[new]
 Cecil: Tu as goûté à sa force![new]
 Edge: Hé! Ne me prenez pas pour un fils à papa.[new]
-La famille royale d'Eblana hérite de génération en génération des techniques ninjas...[force_new] Je vous dépasse d'un cran ou deux... ouais![new]
+La famille royale d'Eblana hérite de génération en génération des techniques ninjas...[force_new] J'ai un ou deux crans d'avance sur vous... ouais![new]
 Rydia: Ça suffit! Je ne veux plus que personne meure![end]</sn:pointer>
     <sn:pointer id="302">[bold]Rydia[normal]: Grand-père Tella aussi...
 Yang aussi...
 Oncle Cid aussi!
 Tout le monde... tout le monde![new]
 [bold]Edge[normal]: H... hé...[end]</sn:pointer>
-    <sn:pointer id="303">Cecil: ...L'adversaire est le plus puissant des quatre Empereurs. On ne sait même pas si on a une chance![new]
-Mais nous devons récupérer les cristaux![new]
-Edge: ... Une si jolie fille qui pleure... j'ai pas le choix... Bon, on fait équipe![new]
-Caïn: Franchement, ce prince et sa grande gueule malgré son état... C'est pitoyable. Hé, Rosa.[end]</sn:pointer>
-    <sn:pointer id="304">[bold]Cid[normal]: Oh, merde!
-Ils gagnent du terrain sur nous![end]</sn:pointer>
+    <sn:pointer id="303">Cecil: ...C'est le plus fort des quatre Empereurs. Rien ne dit qu'on puisse gagner![new]
+Mais nous devons leur reprendre les cristaux![new]
+Edge: ...Si une aussi jolie fille pleure, j'ai pas le choix... Allez, on fait équipe, pour cette fois![new]
+Caïn: Franchement, un prince qui la ramène encore dans cet état... Ça fait peine à voir. Hé, Rosa.[end]</sn:pointer>
+    <sn:pointer id="304">[bold]Cid[normal]: Tch!
+Ils nous ont pris en chasse![end]</sn:pointer>
     <sn:pointer id="305">[bold]Roi Eblana[normal]: Edge...[new]
 [bold]Edge[normal]: Papa!
 Maman![end]</sn:pointer>
@@ -1045,53 +1041,51 @@ Viens...[new]
 [bold]Reine[normal]: En enfer![music][0x1f][new]
 [bold]Cecil[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="307">Sylphe: Tu es une invocatrice. Tu peux donc nous appeler! Nous aussi, nous combattrons![new]
-À la place de Yang qui nous a enseigné la gentillesse et la force des humains![new]
+Pour Yang, qui nous a appris la gentillesse et la force des humains![new]
 Rydia: Ravie de faire équipe avec vous, les Sylphes! [force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="308">[bold]Edge[normal]: Graaaaaaaaah![new]
 [bold]Rosa[normal]: C'est affreux...![end]</sn:pointer>
     <sn:pointer id="309">[bold]Rubicante[normal]: Ce Lugeie... agir ainsi de son propre chef...![end]</sn:pointer>
     <sn:pointer id="310">Edge: Rubicante! Toi, je ne te pardonnerai jamais! Jamais!![new]
 Rubicante: C'est Lugeie qui, de son propre chef, a changé le roi et la reine en monstres. Je t'en fais mes excuses.[new]
-Je ne suis pas comme les autres. Je veux combattre à armes égales.[new]
+Je ne suis pas comme les autres. Je veux me battre loyalement.[new]
 Edge: Arrête ton baratin![new]
-Rubicante: J'aime les gens courageux comme toi! ...Mais aussi longtemps que les humains se laisseront piéger par des émotions, ils n'atteindront jamais la véritable puissance...[new]
+Rubicante: J'apprécie les braves comme toi. Mais un humain qui se laisse mener par ses émotions n'atteindra jamais la force parfaite...[new]
 Jamais...[new]
-Edge: Cette rage... humaine...[new]
-Je vais te la montrer![music][0xb] La rage a révélé les pouvoirs cachés d'Edge! [force_bold]Edge a appris Suiton et Raijin![force_normal] Rubicante: Oh...ainsi, la rage donne de la force aux humains... Mais la glace elle-même ne peut pénétrer mon manteau de flammes![end]</sn:pointer>
-    <sn:pointer id="311">[bold]Rubicante[normal]: Maintenant je vais vous
-soigner!
-Combattez de toutes vos forces![end]</sn:pointer>
-    <sn:pointer id="312">[bold]Rubicante[normal]: Oh... je vois...
-Individuellement, les humains sont faibles,
-mais ensemble... ils sont puissants![new]
+Edge: Cette rage... d'humain...[new]
+Je vais te la montrer![music][0xb] La rage a révélé les pouvoirs cachés d'Edge! [force_bold]Edge a appris Suiton et Raijin![force_normal] Rubicante: Oh... ainsi, la rage rend les humains plus forts... Mais même la glace ne traverse pas mon manteau de flammes![end]</sn:pointer>
+    <sn:pointer id="311">[bold]Rubicante[normal]: Je vais vous soigner!
+Puis venez à moi de toutes vos forces![end]</sn:pointer>
+    <sn:pointer id="312">[bold]Rubicante[normal]: Je vois... c'était donc ça...
+Même faibles... en unissant vos forces...[new]
 Magnifique! Pas étonnant que le seigneur Golbez s'y soit brûlé les doigts...
-Je vous salue, braves guerriers!
-Adieu...[end]</sn:pointer>
+Vous étiez... de vrais guerriers!
+Adieu...![end]</sn:pointer>
     <sn:pointer id="313">«Jeune maître!»[end]</sn:pointer>
     <sn:pointer id="314">[bold]Edge[normal]: Chambellan!
 Vous tous aussi![new]
-[bold]Chambellan[normal]: Nous aussi nous
+[bold]Chambellan[normal]: Nous aussi, nous
 combattrons!
 Où est Rubicante?![end]</sn:pointer>
     <sn:pointer id="315">Edge: C'est fini![new]
 Chambellan: Ah, je reconnais bien là notre jeune maître![new]
 Edge: C'est grâce à eux![new]
-Chambellan: Vous tous![end]</sn:pointer>
+Chambellan: C'est vous?![end]</sn:pointer>
     <sn:pointer id="316">Edge: Mais qui est ce Golbez?[new]
 Caïn: Celui qui manipule Rubicante! Il rassemble les cristaux et complote pour aller sur la Lune![new]
-Edge: Cette Lune-là? Mais pourquoi?[new]
-Cecil: Il paraît qu'il y aurait sur la Lune quelque chose capable de détruire le monde.[new]
+Edge: La Lune, là-haut? Pour quoi faire?[new]
+Cecil: Il y aurait sur la Lune de quoi détruire le monde.[new]
 Rydia: Nous devons l'arrêter![new]
 Edge: Golbez! Tout ça à cause de lui... Impardonnable![new]
 Chambellan: Jeune maître, il faut reconstruire le château![end]</sn:pointer>
-    <sn:pointer id="317">[bold]Edge[normal]: Ce n'est pas qu'Eblana!
+    <sn:pointer id="317">[bold]Edge[normal]: Il n'y a pas qu'Eblana!
 Le monde entier est en danger!
 Moi aussi, je vais écraser ce Golbez de
 mes propres mains![new]
 [bold]Chambellan[normal]: Faites bien attention à
 vous...![new]
-[bold]Edge[normal]: Je sais!
-Allez, laissez-moi la suite![new]
+[bold]Edge[normal]: Oui, oui!
+Allez, la suite, c'est mon affaire![new]
 [bold]Chambellan[normal]: Bien, jeune maître! Je garderai le château en votre absence!
 Tout le monde, je vous confie notre jeune
 maître![new]
@@ -1103,17 +1097,17 @@ Bonne chance au combat![new]
 [bold]Caïn[normal]: On dirait qu'on est tombés
 jusqu'au monde souterrain...[end]</sn:pointer>
     <sn:pointer id="320">[bold]Tella[normal]: C'est bien moi, Tella!
-Inquiet, je me rendais à Damcyan, mais un énorme monstre, dans le lac souterrain plus loin, me donne du fil à retordre. Il est d'une force prodigieuse![new]
-Ma magie n'est pas assez forte pour le
-battre seul, mais avec ta lame noire... je
-devrais pouvoir le vaincre. !?[force_new]
+Inquiet, je partais pour Damcyan, mais un monstre énorme, dans le lac souterrain plus loin, me donne du fil à retordre. Il est d'une force prodigieuse![new]
+Ma magie seule n'y suffit pas! Mais avec
+ta lame noire... !?[force_new]
 Oh![new]
-Cette fille est une invocatrice, hein?
-Je sens qu'elle a du talent.[new]
-[bold]Cecil[normal]: On est aussi en route pour
-Damcyan![new]
+Cette petite est une invocatrice?
+Elle a de grandes dispositions.[new]
+[bold]Cecil[normal]: Nous aussi, nous devons
+aller à Damcyan![new]
 [bold]Tella[normal]: Bien, alors c'est d'accord!
-Allons ensemble à Damcyan![end]</sn:pointer>
+En route pour Damcyan, sans perdre
+un instant![end]</sn:pointer>
     <sn:pointer id="321">[bold]Cecil[normal]: Une fosse!?[delay][0xc][close_window][end]</sn:pointer>
     <sn:pointer id="322">[bold]Caïn[normal]: ...[end]</sn:pointer>
     <sn:pointer id="323">[bold]Cecil[normal]: Le nouveau modèle d'aéronef
