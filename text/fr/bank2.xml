@@ -13,9 +13,9 @@ Vengez le roi![end]</sn:string>
 À quoi pense donc le roi?[end]</sn:string>
 <sn:string index="4">Le roi nous fait tant souffrir... On dirait qu'il est devenu un autre homme![end]</sn:string>
 <sn:string index="5">C'était vous, ce chevalier noir!
-Ce que vous êtes splendide, maintenant![end]</sn:string>
+Comme vous avez fière allure, maintenant![end]</sn:string>
 <sn:string index="6">S'en prendre à Mist, ça va forcément mal finir...[end]</sn:string>
-<sn:string index="7">Un moine étranger a été placé à la tête des gardes. J'ai entendu dire qu'il enquêtait sur quelque chose.[new]
+<sn:string index="7">Un moine venu d'ailleurs se fait suivre par la garde royale. On dirait qu'ils enquêtent sur quelque chose.[new]
 Il doit être à l'auberge...[end]</sn:string>
 <sn:string index="8">Il paraît que le roi avait été remplacé par un monstre.
 Et il n'a pas non plus d'héritier...[end]</sn:string>
@@ -27,10 +27,10 @@ Battez-moi ce Golbez![end]</sn:string>
 <sn:string index="13">C'est la première fois depuis la fondation
 de Baron qu'on n'a pas de roi...[end]</sn:string>
 <sn:string index="14">Le chevalier noir!
-Non...m-m-monsieur, je n'ai rien dit
-contre le roi!
-Je...je vais danser pour vous.[new]
-Ça vous va?[end]</sn:string>
+Moi, dire du mal du roi...
+Tenez, je vais vous montrer quelque
+chose de joli![new]
+D'accord?[end]</sn:string>
 <sn:string index="15">Le roi a été vraiment dur, dernièrement...
 Et je n'ai pas le droit de danser.
 Déçu?[end]</sn:string>
@@ -40,9 +40,9 @@ Allez, dansons![end]</sn:string>
 </sn:area>
 
 <sn:area id="1">
-<sn:string index="0">Non seulement ce feu mystérieux a tué
-de puissants invocateurs... mais aussi des
-femmes et des enfants innocents...[end]</sn:string>
+<sn:string index="0">Un incendie d'origine inconnue a tué
+les femmes, les enfants et tous nos
+invocateurs chevronnés...[end]</sn:string>
 <sn:string index="1">Ainsi, c'est la fin de l'histoire des
 invocateurs de Mist...[end]</sn:string>
 <sn:string index="2">La rumeur dit que sous Baron dort l'âme
@@ -51,19 +51,19 @@ d'un seul coup![end]</sn:string>
 <sn:string index="3">Les Chimères que nous, invocateurs,
 appelons viennent du monde des
 Chimères...[new]
-Un endroit qui se trouverait loin sous la
-surface de la Terre.[end]</sn:string>
+Il se trouverait au plus profond des
+entrailles de la terre.[end]</sn:string>
 </sn:area>
 
 <sn:area id="2">
-<sn:string index="0">Voici Kaïpo, le village oasis, situé au fin fond du désert de Damcyan.[end]</sn:string>
+<sn:string index="0">Voici Kaïpo, le village oasis du désert de Damcyan.[end]</sn:string>
 <sn:string index="1">Il paraît qu'une jolie fille de Baron s'est effondrée ici... On l'a emmenée chez quelqu'un pour la soigner.[end]</sn:string>
 <sn:string index="2">Anna est tombée amoureuse.
 Mais maître Tella s'y est opposé, alors
 elle s'est enfuie de Kaïpo...[end]</sn:string>
-<sn:string index="3">Je veux être danseuse à Damcyan, mais il
-y a beaucoup de monstres qui rôdent
-dans la rivière souterraine.
+<sn:string index="3">Je suis venue pour devenir danseuse à
+Damcyan, mais la rivière souterraine
+grouille de monstres...
 Tu veux voir ma natation synchronisée?[end]</sn:string>
 <sn:string index="4">La rivière souterraine est au nord-est, mais
 j'ai entendu dire que huit serpents de mer
@@ -198,10 +198,9 @@ Il paraît que sa profondeur est insondable.[end]</sn:string>
 <sn:string index="0">Dis, pourquoi tu portes des habits
 comme ça?
 Tu es un méchant monsieur?[end]</sn:string>
-<sn:string index="1">Papa a dit qu'il n'y a plus de clients qui
-viennent.
-Et puis aussi il y a des soldats qui font
-peur, au comptoir...[end]</sn:string>
+<sn:string index="1">Papa dit que les clients ne viennent plus.
+Et puis il y a des soldats qui font peur,
+au bar...[end]</sn:string>
 <sn:string index="2">Recherche danseuses! Beauté et talent pour la danse exigés! - Le patron du bar de l'auberge de Baron[end]</sn:string>
 <sn:string index="3">Ah, le chevalier noir du château!
 Payer?
