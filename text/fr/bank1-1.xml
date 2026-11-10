@@ -1110,21 +1110,21 @@ En route pour Damcyan, sans perdre
 un instant![end]</sn:pointer>
     <sn:pointer id="321">[bold]Cecil[normal]: Une fosse!?[delay][0xc][close_window][end]</sn:pointer>
     <sn:pointer id="322">[bold]Caïn[normal]: ...[end]</sn:pointer>
-    <sn:pointer id="323">[bold]Cecil[normal]: Le nouveau modèle d'aéronef
-de l'ennemi?[new]
+    <sn:pointer id="323">[bold]Cecil[normal]: Un nouvel aéronef
+ennemi?[new]
 [bold]Edge[normal]: Avec ça, on peut s'échapper![new]
 [bold]Rydia[normal]: Mais c'est un aéronef ennemi![new]
 [bold]Edge[normal]: Pas grave!
-C'est mieux pour lui si c'est nous qui
-l'utilisons![end]</sn:pointer>
-    <sn:pointer id="324">[bold]Rosa[normal]: Peut-être que c'est un piège![new]
+Il sera bien mieux entre nos mains,
+crois-moi![end]</sn:pointer>
+    <sn:pointer id="324">[bold]Rosa[normal]: Et si c'était un piège...?[new]
 [bold]Edge[normal]: T'inquiète pas!
-Ça me plaît bien, cet aéronef.
-Allez, on l'appelle Faucon, ça vous va?[new]
-[bold]Rydia[normal]: Pffff![new]
+Moi, il me plaît.
+Allez, on le baptise Faucon, ça vous va?[new]
+[bold]Rydia[normal]: Franchement![new]
 [bold]Cecil[normal]: Vite, partons d'ici![new]
 [bold]Edge[normal]: Faucon, décollage![end]</sn:pointer>
-    <sn:pointer id="325">Cid: Quoi, c'est l'heure de la bouffe!? Vraiment, la cuisine d'ici n'est pas à mon goût...[new]
+    <sn:pointer id="325">Cid: Quoi, c'est l'heure de la bouffe!? La cuisine d'ici, franchement, c'est pas pour mon palais...[new]
 Cecil: Cid![end]</sn:pointer>
     <sn:pointer id="326">Rosa: Tu es sain et sauf![new]
 Caïn: Après avoir joué les héros...[new]
@@ -1132,51 +1132,50 @@ Cid: Wahaha...![new]
 Edge: C'est qui, ce pépé?[end]</sn:pointer>
     <sn:pointer id="327">[bold]Nain[normal]: M'sieur, faut rester couché![new]
 [bold]Nain[normal]: Attendez d'être guéri![end]</sn:pointer>
-    <sn:pointer id="328">[bold]Rosa[normal]: On dirait qu'il n'y a pas de souci à se faire.[new]
+    <sn:pointer id="328">[bold]Rosa[normal]: On dirait qu'il va bien.[new]
 [bold]Cecil[normal]: Oui![end]</sn:pointer>
     <sn:pointer id="329">Palom: Hé! Ça faisait longtemps, mec![new]
 Porom: L'Ancien nous a délivrés de la pierre.[new]
-Ancien: Cette guerre n'est pas seulement la vôtre![new]
-C'est le combat de toutes les créatures vivantes de cette terre![end]</sn:pointer>
+Ancien: Vous n'êtes pas seuls![new]
+C'est le combat de tout ce qui vit sur cette terre![end]</sn:pointer>
     <sn:pointer id="330">[bold]Rydia[normal]: Aaaaaah![new]
 [bold]Cecil[normal]: La tour de Babil!?[end]</sn:pointer>
-    <sn:pointer id="331">[bold]FuSoYa[normal]: Non!
-Trop tard![end]</sn:pointer>
+    <sn:pointer id="331">[bold]FuSoYa[normal]: Nous arrivons
+trop tard![end]</sn:pointer>
     <sn:pointer id="332">[bold]Edge[normal]: Quoi!?[new]
 [bold]FuSoYa[normal]: Le géant de Babil va naître![end]</sn:pointer>
     <sn:pointer id="333">[bold]Edge[normal]: Cecil![end]</sn:pointer>
-    <sn:pointer id="334">[bold]FuSoYa[normal]: Venez!
-Allons-y.[end]</sn:pointer>
+    <sn:pointer id="334">[bold]FuSoYa[normal]: Allons-y.[end]</sn:pointer>
     <sn:pointer id="335">[bold]Rydia[normal]: Quand je suis venue du monde des Chimères, je suis passée par ici!
 Ah oui![new]
 Demandons aussi à Léviathan et aux
 autres de nous prêter leur force![end]</sn:pointer>
-    <sn:pointer id="336">[bold]Rydia[normal]: C'est ici que j'ai vécu...
-Voyons si nous pouvons trouver quelque
-chose d'utile par ici.[end]</sn:pointer>
+    <sn:pointer id="336">[bold]Rydia[normal]: C'est ici que je vivais!
+On trouvera peut-être des choses
+utiles.[end]</sn:pointer>
     <sn:pointer id="337">[bold]Rydia[normal]: Reine Asura![new]
 [bold]Asura[normal]: Cela fait bien longtemps, Rydia...[new]
 [bold]Rydia[normal]: Nous avons besoin de vos
 pouvoirs![new]
-[bold]Asura[normal]: Alors je voudrais vous aider...
-mais je dois d'abord évaluer votre force.
+[bold]Asura[normal]: J'aimerais vous aider...
+mais je dois d'abord jauger votre force.
 C'est la loi du monde des Chimères.[new]
 Avez-vous le courage de me défier et la
 force de me vaincre?[end]</sn:pointer>
-    <sn:pointer id="338">Rydia... Vous êtes les premiers à vaincre jusqu'à Asura. Mais face aux puissances du mal, la force seule ne suffit pas.[new]
+    <sn:pointer id="338">Rydia... Vous êtes les premiers à avoir vaincu Asura elle-même. Mais face aux puissances du mal, la force seule ne suffit pas.[new]
 Il faut un esprit plus fort encore, capable de guider cette force dans la bonne voie...[new]
-Depuis toujours, c'est par le combat que je juge cet esprit... Alors, voulez-vous vous mesurer à moi?[end]</sn:pointer>
-    <sn:pointer id="339">«Reviens à moi... Caïn... Rapporte-moi
-le cristal et reviens à moi...»[new]
+Depuis la nuit des temps, c'est par le combat que je juge cet esprit... Alors, voulez-vous vous mesurer à moi?[end]</sn:pointer>
+    <sn:pointer id="339">«Caïn... Reviens, Caïn... Rapporte-moi
+le cristal, reviens à moi...»[new]
 [bold]Cecil[normal]: Golbez![end]</sn:pointer>
     <sn:pointer id="340">[bold]Cecil[normal]: Ugh! Le cristal d'Obscurité a été volé![music][0x1f][delay][0x1d][end]</sn:pointer>
     <sn:pointer id="341">[bold]Edge[normal]: Misérable![new]
 [bold]Rosa[normal]: Caïn!
 Que fais-tu!?[new]
-[bold]Golbez[normal]: Vous avez sous-estimé mon sortilège!
+[bold]Golbez[normal]: Ne sous-estimez pas mon sortilège!
 J'attendais ce moment![new]
-Maintenant la tour de Babil sera complète!
-Je peux aller sur la Lune![force_new]
+La tour de Babil va enfin être achevée!
+Je vais pouvoir aller sur la Lune![force_new]
 Viens, Caïn![new]
 [bold]Cecil[normal]: Caïn!
 Réveille-toi![new]
@@ -1186,17 +1185,17 @@ Réveille-toi![new]
 Venez à la tour des Prières![end]</sn:pointer>
     <sn:pointer id="343">[bold]Ancien[normal]: Priez, vous tous! Si la légende doit devenir vraie lumière, c'est maintenant ou jamais![end]</sn:pointer>
     <sn:pointer id="344">Ancien: Oh... Regardez! Nos prières... ont été entendues![end]</sn:pointer>
-    <sn:pointer id="345">[bold]Ancien[normal]: Ce doit être...
+    <sn:pointer id="345">[bold]Ancien[normal]: C'est bien lui...
 Le grand vaisseau éblouissant...
 Le vaisseau magique![music][0xe][end]</sn:pointer>
     <sn:pointer id="346">Ancien: Pendant ma prière, j'ai entendu une voix chaleureuse.[new]
 «Venez sur la Lune...» Quelqu'un vous y attend![new]
 Cecil: Mais comment!?[end]</sn:pointer>
-    <sn:pointer id="347">«Vous allez le payer!» «Ouille!» «Mais nous avons déjà signalé cet endroit!» «Il nous vengera!»[new]
+    <sn:pointer id="347">«Vous allez le payer!» «Ouille!» «Mais on a déjà fait notre rapport!» «Il nous vengera!»[new]
 «Seigneur Golbez!»[end]</sn:pointer>
     <sn:pointer id="348">[bold]Edge[normal]: Et... merde![end]</sn:pointer>
-    <sn:pointer id="349">Rubicante: Tu as en effet de quoi être sûr de toi... mais tu ne peux pas encore m'égaler. Va perfectionner tes talents![new]
-Je serai ton adversaire quand tu voudras![end]</sn:pointer>
+    <sn:pointer id="349">Rubicante: Ta force justifie ton assurance... mais tu ne m'égales pas encore. Va t'entraîner![new]
+Je t'affronterai quand tu voudras![end]</sn:pointer>
     <sn:pointer id="350">Edge: At...tends... en...foiré...![end]</sn:pointer>
     <sn:pointer id="351">[bold]Cid[normal]: [italic]Zzz...
 Zzz...[/italic][new]
