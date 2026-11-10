@@ -569,25 +569,20 @@ _code07:
         jsr.l item_name_offset
         tax
         inx
-        lda #ITEM_UNLEASHED_TEXT_SIZE
 
+; the whole name, up to its $00 ($FF is a space inside it); its menu codes drawn as the dialog's (B is 0 here)
 loop:
-        pha
         lda.b #0x00
         xba
-        jsr.l battle_item_char  ; $FF once the name has ended
-        cmp #0xFF
-        beq cleanup
+        lda.l items_unleashed, x
+        beq end
+        phx
+        tax
+        lda.l name_codes, x
+        plx
         _vwf_putchar()
-
         inx
-
-        pla
-        dec
-        bne loop
-        bra end
-cleanup:
-        pla
+        bra loop
 end:
         lda #0x00
         jmp.w main

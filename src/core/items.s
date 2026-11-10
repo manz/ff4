@@ -18,6 +18,9 @@ ITEM_NAME_TEXT_SIZE := 0x0B
 ; Record in the 16-char `items_unleashed` table: 1-byte symbol + 16-byte name.
 ITEM_UNLEASHED_RECORD_SIZE := 0x11
 ITEM_UNLEASHED_TEXT_SIZE := 0x10
+; The longest name in `items_unleashed` (« Bouclier de lumière »): its fixed 16 cells are a minimum, $00 ends
+; each name. Copies bounded by a count (battle's TextVar_03) use this.
+ITEM_UNLEASHED_NAME_MAX := 0x13
 
 ; Menu BG3 CHR at VRAM byte $4000 (Mode 0, BG34NBA = $22). Static font uses tile ids $00..$FF.
 FIELD_BG3_CHR_VRAM_BYTE := 0x4000

@@ -64,11 +64,15 @@ the names again in the VWF.
 }
 ; loop counter, was lda #$08
 .alloc at 0x02A5A1 {
-    lda #ITEM_UNLEASHED_TEXT_SIZE
+    lda #ITEM_UNLEASHED_NAME_MAX
 }
 ; name, was lda $0F8000,x
 .alloc at 0x02A5A5 {
-    jsr.l battle_item_char  ; $FF past the end: TextVar_03's cmp #$FF stops there
+    lda.l items_unleashed, x
+}
+; end of the name, was cmp #$FF: $FF is a space inside items_unleashed's names, $00 ends them
+.alloc at 0x02A5A9 {
+    cmp #0x00
 }
 
 ; btlgfx item display
