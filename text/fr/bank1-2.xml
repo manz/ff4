@@ -98,7 +98,7 @@ Zémus...!![end]</sn:pointer>
 [bold]Golbez[normal]: Je vais régler tout cela
 moi-même![end]</sn:pointer>
     <sn:pointer id="28">[bold]FuSoYa[normal]: Attends![end]</sn:pointer>
-    <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est un sélénite,
+    <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est un Sélénite,
 lui aussi!
 Je viens avec toi...![end]</sn:pointer>
     <sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil...[end]</sn:pointer>
@@ -116,21 +116,22 @@ Il va là-bas pour mourir...[new]
 [bold]Rosa[normal]: Cecil![new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="33">[bold]Edge[normal]: Mais qu'est-ce que tu fous!?[new]
-[bold]Rydia[normal]: Comment on va sortir d'ici!?[new]
+[bold]Rydia[normal]: Mais où est la sortie?![new]
 «Par ici!»[end]</sn:pointer>
     <sn:pointer id="34">[bold]Rosa[normal]: Caïn![new]
-[bold]Edge[normal]: On marche pas, cette fois![end]</sn:pointer>
-    <sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin repris le contrôle de
-moi-même.
+[bold]Edge[normal]: On se fera pas avoir,
+cette fois![end]</sn:pointer>
+    <sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin retrouvé mon
+propre cœur...
 Je ne vous demande pas de me pardonner, après tout ça, mais...[end]</sn:pointer>
-    <sn:pointer id="36">[bold]Rosa[normal]: Arrête avec ça![end]</sn:pointer>
+    <sn:pointer id="36">[bold]Rosa[normal]: Arrête![end]</sn:pointer>
     <sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
 Cecil...[new]
 [bold]Cecil[normal]: ...[new]
 [bold]Rosa[normal]: Un Sélénite nommé Zémus se serait
 servi du sang sélénite de Golbez.[new]
-[bold]Rydia[normal]: Et alors Golbez a
-accompagné FuSoYa sur la Lune pour anéantir Zémus.[new]
+[bold]Rydia[normal]: Alors Golbez est parti sur
+la Lune avec FuSoYa pour vaincre Zémus.[new]
 [bold]Caïn[normal]: Golbez est... le frère de
 Cecil...?[end]</sn:pointer>
     <sn:pointer id="38">[bold]Edge[normal]: Alors j'y vais aussi!
@@ -155,8 +156,8 @@ Tant que tu ne me prends pas avec toi,
 je ne bouge pas d'un pouce.[new]
 [bold]Cecil[normal]: Qu'est-ce que...[new]
 [bold]Rosa[normal]: Tant que je suis auprès de toi,
-quoi qu'il arrive...[music][0x13] ... non, tant que je suis
-avec toi, je me fiche bien du danger![new]
+quoi qu'il arrive...[music][0x13] ... non, avec toi, j'affronterais
+n'importe quel danger![new]
 [bold]Cecil[normal]: Rosa...[new]
 [bold]Caïn[normal]: ...Tu n'as pas le choix, Cecil.[new]
 [bold]Edge[normal]: Veinard, va![new]
@@ -174,7 +175,7 @@ Allons-y![new]
 Allons livrer notre combat![end]</sn:pointer>
     <sn:pointer id="46">[bold]Cecil[normal]: Rosa et Rydia, vous
 restez ici.
-Nous trois, on va continuer.[force_new]
+Nous irons seuls, tous les trois.[force_new]
 Cette fois, rien ne dit qu'on reviendra vivants![new]
 [bold]Rosa[normal]: Cecil![new]
 [bold]Rydia[normal]: Tu ne peux pas nous faire ça![new]
