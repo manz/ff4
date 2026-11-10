@@ -366,8 +366,8 @@ Pourrais-je partir avec vous?[new]
 [bold]Golbez[normal]: Oui...
 Je... ne peux pas rentrer.
 Pas après ce que j'ai fait.[new]
-Et j'aimerais aussi rencontrer le peuple
-de mon père.[new]
+Et j'aimerais rencontrer les Sélénites,
+le peuple de mon père KluYa.[new]
 [bold]FuSoYa[normal]: Je vois...
 Tu as aussi du sang sélénite dans les
 veines...[force_new]
@@ -411,31 +411,31 @@ formules! [delay][0x18][close_window][end]</sn:pointer>
 passeriez pas vos journées à courir
 après les jupons! [delay][0x18][new]
 [bold]Edge[normal]: Oui, oui![new]
-[bold]Chambellan[normal]: Une seule fois suffit! [delay][0x18][close_window][end]</sn:pointer>
+[bold]Chambellan[normal]: Un seul « oui » suffit! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="89">[bold]Edge[normal]: Mais Rydia...
 Dans ce monde-ci, aucune femme ne
 t'arrive à la cheville... [delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="90">[bold]Léviathan[normal]: C'est une fille incroyable![new]
+    <sn:pointer id="90">[bold]Léviathan[normal]: Quelle fille remarquable,
+tout de même.[new]
 [bold]Asura[normal]: Oui... je n'aurais jamais cru
 qu'elle reviendrait parmi nous... [delay][0x18][new]
 «Rydiaaa!»[new]
 [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="91">Rydia: N'est-ce pas... Cecil![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="92">[bold]Enfant Chimère[normal]: Hé, Rydia.
-Comment ça se fait que j'aie des crocs et
-pas toi?
-J'aimerais être comme toi.[delay][0x8][close_window][end]</sn:pointer>
+Pourquoi est-ce que j'ai des crocs?
+Moi, je voudrais être comme Rydia.[delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="93">[bold]Rydia[normal]: De quoi parles-tu?
 Humains et Chimères, c'est pareil. [delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="94">[bold]Asura[normal]: Notre monde va être intéressant
-dorénavant, tu ne crois pas?[new]
+    <sn:pointer id="94">[bold]Asura[normal]: L'avenir du monde des
+Chimères s'annonce passionnant.[new]
 [bold]Léviathan[normal]: Hm![delay][0x10] Et puis, c'est une
 beauté! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="95">Rydia: Ce qui compte... c'est le cœur.[delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="96">«Prince!»[delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="97">«Chante-nous encore la chanson du paladin!»[new]
 [delay][0xc] Edward: D'accord. Mais seulement quand vous aurez fini le travail d'aujourd'hui. Vous voulez que le château soit vite reconstruit, n'est-ce pas? [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="98">«D'accord! Souviens-toi, tu as promis!»[new]
+    <sn:pointer id="98">«D'accord! Promis, prince!»[new]
 [delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="99">[bold]Edward[normal]: Veille sur moi de là-haut,
 Anna.[new]
