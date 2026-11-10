@@ -745,27 +745,27 @@ Tella: Golbez![end]</sn:pointer>
 tenu votre promesse...[new]
 [bold]Tella[normal]: Montre-toi![new]
 [bold]Golbez[normal]: Je comprends votre
-impatience, mais j'aimerais vous remercier.[new]
+impatience, mais acceptez d'abord mes remerciements.[new]
 [bold]Yang[normal]: Nous remercier?[new]
 [bold]Golbez[normal]: Je suis avec ta chère Rosa au sommet de cette tour de Zot.[new]
-Si vous parvenez jusqu'ici, j'échangerai la
+Si vous arrivez jusqu'à moi, j'échangerai la
 vie de Rosa contre le cristal.[new]
-[bold]Cecil[normal]: Golbez, tu n'es qu'un
-salaud![new]
+[bold]Cecil[normal]: Golbez, espèce
+d'ordure![new]
 [bold]Golbez[normal]: Si vous ne venez pas
-rapidement, je ne peux garantir la vie de
-ta précieuse Rosa...[music][0x19][force_new] Alors, montez![end]</sn:pointer>
+rapidement, je ne réponds plus de la vie de
+ta chère Rosa...[music][0x19][force_new] Alors, montez![end]</sn:pointer>
     <sn:pointer id="232">«Bienvenue dans la tour de Zot!»[end]</sn:pointer>
-    <sn:pointer id="233">«Heureuses de vous rencontrer!»[end]</sn:pointer>
-    <sn:pointer id="234">«Nous sommes les bras droits de Barbariccia du Vent, des quatre Empereurs, qui règne sur cette tour!»[new]
+    <sn:pointer id="233">«Enchantées!»[end]</sn:pointer>
+    <sn:pointer id="234">«Nous sommes le bras droit de Barbariccia du Vent, l'un des quatre Empereurs, maîtresse de cette tour!»[new]
 «Je suis Dog, des trois sœurs Magus!»[new]
 «Et moi, Mag!»[new]
 «Je suis Rag!»[new]
-«Désolées, votre quête va s'arrêter là.»[new]
-«On va vous prendre le cristal.»[new]
+«Dommage, mais tout s'arrête ici.»[new]
+«Le cristal est à nous.»[new]
 «Avec notre attaque delta, vous pouvez dire adieu à Rosa!»[end]</sn:pointer>
     <sn:pointer id="235">«Impossible!»[new]
-«Vous avez déjoué notre attaque delta...»[new]
+«Notre attaque delta... brisée...»[new]
 «Grande sœur!»[end]</sn:pointer>
     <sn:pointer id="236">[bold]Golbez[normal]: Bien joué, messieurs.[new]
 [bold]Tella[normal]: Golbez![new]
@@ -774,11 +774,11 @@ ta précieuse Rosa...[music][0x19][force_new] Alors, montez![end]</sn:pointer>
 [bold]Cecil[normal]: Rosa n'a rien, j'espère?[new]
 [bold]Golbez[normal]: Bien sûr qu'elle n'a rien.
 À présent, donne-moi le cristal![end]</sn:pointer>
-    <sn:pointer id="237">Vous avez remis le Cristal de la Terre à Golbez! Cecil: Libère Rosa![new]
+    <sn:pointer id="237">Vous avez remis le Cristal de la Terre à Golbez! Cecil: Rends-moi Rosa![new]
 Golbez: Rosa? De quoi parles-tu?[new]
 Cecil: Quoi!?[new]
 Cid: Ce n'était pas l'accord![new]
-Tella: Quel sale type![new]
+Tella: Ignoble jusqu'au bout![new]
 Golbez: Toi, tu ne m'intéresses pas, vieillard.[new]
 Tella: Mais moi, j'ai des comptes à régler avec toi![end]</sn:pointer>
     <sn:pointer id="238">[bold]Golbez[normal]: Utiliser Météore...
@@ -803,9 +803,9 @@ Guh... gugh![new]
 terminé![end]</sn:pointer>
     <sn:pointer id="244">[bold]Yang[normal]: Messire Cecil![new]
 [bold]Cid[normal]: Ça va!?[new]
-[bold]Cecil[normal]: Ou...ouais...
-On dirait que Météore a fait effet...
-Mais Tella![end]</sn:pointer>
+[bold]Cecil[normal]: Ou... oui...
+Le Météore a porté, on dirait...
+Et Tella?![end]</sn:pointer>
     <sn:pointer id="245">Tella: Je n'ai pas pu le tuer...[new]
 Cid: Ne parle pas![new]
 Tella: C'est peut-être... le prix à payer pour avoir combattu... consumé par la haine... Vengez Anna... je vous en...[end]</sn:pointer>
@@ -815,19 +815,19 @@ Tella: C'est peut-être... le prix à payer pour avoir combattu... consumé par 
     <sn:pointer id="247">[bold]Cecil[normal]: Caïn...!
 Caïn![end]</sn:pointer>
     <sn:pointer id="248">[bold]Cecil[normal]: !
-Où est Rosa!?[end]</sn:pointer>
+Et Rosa?![end]</sn:pointer>
     <sn:pointer id="249">[bold]Rosa[normal]: Cecil![end]</sn:pointer>
     <sn:pointer id="250">Cecil: Rosa...[new]
 Rosa: Je savais que tu viendrais...[music][0x13][end]</sn:pointer>
-    <sn:pointer id="251">[bold]Cecil[normal]: Sans toi...
-Je me suis aperçu que... je...[new]
+    <sn:pointer id="251">[bold]Cecil[normal]: En te perdant,
+j'ai compris... Je...[new]
 [bold]Rosa[normal]: Cecil...[new]
 [bold]Caïn[normal]: ...[new]
-[bold]Cid[normal]: Mais dites donc, c'est que ça
-devient chaud![end]</sn:pointer>
+[bold]Cid[normal]: Eh ben, ça chauffe,
+ici![end]</sn:pointer>
     <sn:pointer id="252">Rosa: Caïn!?[new]
-Cecil: Il a recouvré ses esprits.[new]
-Caïn: Pardonne-moi, Rosa... Je n'étais pas seulement sous son emprise! Je voulais que tu sois... près de moi![end]</sn:pointer>
+Cecil: Il est redevenu lui-même.[new]
+Caïn: Pardonne-moi, Rosa... Ce n'était pas seulement son emprise! Je voulais... t'avoir près de moi![end]</sn:pointer>
     <sn:pointer id="253">[bold]Rosa[normal]: Caïn...[new]
 [bold]Caïn[normal]: ...[new]
 [bold]Cecil[normal]: ...[new]
@@ -838,20 +838,20 @@ Rosa!
 Cecil![new]
 [bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="255">[bold]Cid[normal]: Hé!
-Ce n'est pas le moment de traînasser!
-Cet endroit est dangereux![music][0x0][end]</sn:pointer>
+C'est pas le moment de jacasser!
+On est en danger, ici![music][0x0][end]</sn:pointer>
     <sn:pointer id="256">[bold]Namingway[normal]: Oh, bonjour!
 Vous voulez changer de nom?[close_window][end]</sn:pointer>
     <sn:pointer id="257">[bold]Namingway[normal]: Très bien.
 Si jamais vous avez besoin de mes
 services, revenez donc me voir.[end]</sn:pointer>
     <sn:pointer id="258">[bold]Cecil[normal]: Allons-y, Caïn![end]</sn:pointer>
-    <sn:pointer id="259">«Blesser le seigneur Golbez... Je vous ai sous-estimés, on dirait!»[new]
+    <sn:pointer id="259">«Vous avez blessé le seigneur Golbez... On dirait que je vous ai sous-estimés!»[new]
 Caïn: C'est un des quatre Empereurs de Golbez! Barbariccia du Vent![end]</sn:pointer>
-    <sn:pointer id="260">Barbariccia: Caïn... Toi aussi, tu as changé de camp. Malgré tout le pouvoir que tu possèdes![new]
-Caïn: Je n'ai pas changé de camp, j'ai recouvré mes esprits, Barbariccia![new]
-Barbariccia: Ne m'appelle pas si familièrement! J'aurais dû vous éliminer, toi et Rosa![new]
-Mais celui qui maniait Météore n'est plus. Maintenant que vous êtes tous réunis, je vais vous enterrer ensemble![new]
+    <sn:pointer id="260">Barbariccia: Caïn... Toi aussi, tu changes de camp? Avec tout le pouvoir que tu as![new]
+Caïn: Je n'ai pas changé de camp. Dis plutôt que j'ai repris mes esprits, Barbariccia![new]
+Barbariccia: Ne prends pas ce ton familier avec moi! J'aurais dû vous éliminer, Rosa et toi![new]
+Mais celui qui maniait Météore n'est plus. Maintenant que vous êtes tous réunis, je vais vous enterrer d'un seul coup![new]
 Caïn: Hmph. Tu n'es pas la seule à savoir te battre dans les airs![end]</sn:pointer>
     <sn:pointer id="261">Barbariccia: Caïn... misérable! Même si tu me vaincs... le dernier des quatre Empereurs est encore là![new]
 Disparaissez avec cette tour de Zot![end]</sn:pointer>
