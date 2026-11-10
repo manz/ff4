@@ -890,34 +890,25 @@ au-dessus...![end]</sn:string>
 </sn:area>
 
 <sn:area id="65">
-<sn:string index="0">[bold]Tella[normal]: C'est...
-Ooh... Anna![end]</sn:string>
+<sn:string index="0">[bold]Tella[normal]: Ça... Oh... Anna![end]</sn:string>
 <sn:string index="1">[bold]Tella[normal]: Toi! Le barde de l'autre fois! C'est à cause de toi qu'Anna...![new]
 [bold]Barde[normal]: !?[end]</sn:string>
 <sn:string index="2">[bold]Edward[normal]: La Lumière du désert se forme
 à partir des sécrétions du Fourmilion
 quand il pond ses œufs.[new]
-Sa grotte est à l'est, mais nous devons
-traverser un plan d'eau peu profond pour
-y accéder.[new]
-Il y a un aéroglisseur à Damcyan qui peut
-le traverser.
-Il devrait aussi pouvoir traverser les
-hauts-fonds pour aller vers Kaïpo.[end]</sn:string>
+Sa grotte est à l'est, mais il faut traverser des hauts-fonds pour y accéder.[new]
+L'aéroglisseur de Damcyan peut les franchir. Il devrait aussi permettre de rejoindre Kaïpo.[end]</sn:string>
 <sn:string index="3">Nous sommes les seuls survivants. Peut-être pouvons-nous nous retirer à Kaïpo...[new]
 Avec l'aéroglisseur, on pourrait passer par les hauts-fonds de la côte ouest, mais...[end]</sn:string>
 <sn:string index="4">Peut-être pouvons-nous nous retirer à Fabul...[new]
 Mais le mont Hobs, qui mène à Fabul, est couvert d'une épaisse couche de glace à cause des vents glaciaux.[end]</sn:string>
-<sn:string index="5">Tella: ...Qui est ce Golbez!?[new]
+<sn:string index="5">Tella: ...Mais qui est donc ce Golbez!?[new]
 Edward: Il est venu à Baron il y a peu et a pris le contrôle des Ailes Rouges.[new]
 Tout ce que je sais, c'est qu'il rassemble les cristaux... [italic]snif[/italic][new]
 Tella: Pitoyable! Pleurer ne ramènera pas Anna! Golbez de Baron...! Je vengerai Anna![end]</sn:string>
 <sn:string index="6">[bold]Cecil[normal]: Tella, vous ne pouvez
 pas faire ça tout seul![end]</sn:string>
-<sn:string index="7">[bold]Tella[normal]: Je n'ai besoin de l'aide de
-personne!
-Je vais tuer Golbez de mes propres
-mains![end]</sn:string>
+<sn:string index="7">[bold]Tella[normal]: Je n'ai besoin de l'aide de personne! Golbez, je m'en charge seul![end]</sn:string>
 <sn:string index="8">Tella a quitté le groupe.[end]</sn:string>
 <sn:string index="9">Edward: A... Anna... [italic]snif[/italic]... [italic]snif[/italic]...[end]</sn:string>
 <sn:string index="10">[bold]Rydia[normal]: Pleurnicheur![end]</sn:string>
@@ -926,14 +917,12 @@ Un adulte!
 Et pourtant...![new] Moi aussi, je...[new]
 [bold]Cecil[normal]: Rydia...[end]</sn:string>
 <sn:string index="12">[bold]Edward[normal]: Tu as raison... je ne suis qu'un pleurnicheur!
-Dans ce cas, je vais rester ici avec
-Anna pour toujours![new]
-Je me fiche bien de tout le reste![end]</sn:string>
+C'est pour ça que je reste ici, auprès d'Anna![new]
+Plus rien ne compte![end]</sn:string>
 <sn:string index="13">[bold]Cecil[normal]: Tu n'es pas le seul à être triste, ici![new]
 Ce n'est pas comme ça que tu rendras Anna heureuse! Et puis, nous avons besoin de ton aide![new] [bold]Edward[normal]: Moi, vous aider?[new]
 [bold]Cecil[normal]: Je suis Cecil.
-Une amie à moi s'est écroulée près de
-Kaïpo, frappée par la fièvre du désert.[new]
+Une amie à moi s'est écroulée à Kaïpo, frappée par la fièvre du désert.[new]
 Nous avons besoin de la Lumière du désert!
 Et pour cela, nous avons besoin de ton aide![new]
 [bold]Edward[normal]: Mon aide...[new]
