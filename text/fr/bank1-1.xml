@@ -1494,10 +1494,10 @@ Il paraît que tu as beaucoup aidé Cecil
 et Rosa.
 Laisse-moi faire![end]</sn:pointer>
     <sn:pointer id="444">Edward: Cecil! Où est Rosa?[new]
-Cecil: On doit l'échanger contre le cristal de la Terre de Troia... Mais le cristal a été volé par l'Elfe noir...[end]</sn:pointer>
+Cecil: Elle doit être échangée contre le cristal de la Terre de Troia... Mais le cristal est aux mains de l'Elfe noir...[end]</sn:pointer>
     <sn:pointer id="445">Edward: Cecil, prends ça...[new]
-Cecil: C'est quoi?[new]
-Edward: Il ira avec toi... à ma place... Prends-le...[end]</sn:pointer>
+Cecil: Qu'est-ce que c'est?[new]
+Edward: Il me remplacera... Prends-le...[end]</sn:pointer>
     <sn:pointer id="446">Vous avez obtenu le Murmure.[end]</sn:pointer>
     <sn:pointer id="447">Cecil: Le voilà! Où est Rosa!?[new]
 Caïn: Hmph. Du calme. Suis mon aéronef.[end]</sn:pointer>
@@ -1529,10 +1529,10 @@ Rosa...![end]</sn:pointer>
 dragon Caïn ont rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="458">«Ho ho ho ho ho...»[end]</sn:pointer>
     <sn:pointer id="459">[bold]Rosa[normal]: Accrochez-vous à moi![end]</sn:pointer>
-    <sn:pointer id="460">[bold]Cid[normal]: De quoi vous vous inquiétez?
+    <sn:pointer id="460">[bold]Cid[normal]: Qu'est-ce que vous ruminez?
 On a l'Enterprise!
-On peut aller partout sur terre en un
-éclair![end]</sn:pointer>
+On fait le tour du monde en un
+clin d'œil![end]</sn:pointer>
     <sn:pointer id="461">[bold]Cecil[normal]: Mais elle est restée à la tour
 de Zot...[new]
 [bold]Cid[normal]: Faut pas me sous-estimer!
@@ -1558,42 +1558,41 @@ Mais pourquoi un pays aussi puissant recherchait-il les cristaux?[force_new]
 Et pourquoi les monstres se mirent-ils à apparaître, même en plein jour?[force_new]
 Les cristaux luisaient silencieusement...[end]</sn:pointer>
     <sn:pointer id="465">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
-    <sn:pointer id="466">Giotto: Que vous faut-il pour vos réparations?[new]
-Cid: Je peux faire quelques réparations provisoires avec les matériaux disponibles ici...[new]
-Mais la coque ne résistera pas à la chaleur de la lave. Je dois retourner à la surface et la renforcer au mithril![new]
-Bon, ben, j'y vais![end]</sn:pointer>
+    <sn:pointer id="466">Giotto: S'il vous faut quoi que ce soit pour les réparations, je le ferai préparer.[new]
+Cid: Je peux bricoler une réparation de fortune...[new]
+Mais la coque ne tiendra pas à la chaleur de la lave. Faut remonter à la surface et la blinder au mithril![new]
+Allez, je fais un saut là-haut![end]</sn:pointer>
     <sn:pointer id="467">Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
 [bold]Palom[normal]: Tu nous as vus à l'œuvre, non?[new]
-[bold]Porom[normal]: Oui![new]
+[bold]Porom[normal]: Exactement![new]
 [bold]Tella[normal]: Pas d'inquiétude.
 Je suis avec vous![new]
 [bold]Cecil[normal]: Bien...
 Je compte sur vous![end]</sn:pointer>
     <sn:pointer id="469">[bold]Palom[normal]: Ce n'est pas fini!
 Tu nous as dit de l'aider![new]
-[bold]Porom[normal]: S'il vous plaît, laissez-nous
-aussi y aller...[new]
+[bold]Porom[normal]: Je vous en prie,
+permettez-le![new]
 [bold]Ancien[normal]: Vous deux...
 Si le mont de l'Épreuve vous a
 acceptés, c'est peut-être aussi votre
 destin...[new]
 Moi, je ne peux pas quitter Mysidia.[new]
-Cecil, Tella...
-Prenez soin de ces deux enfants pour
-moi![end]</sn:pointer>
+Messire Cecil, Tella...
+Je vous les confie![end]</sn:pointer>
     <sn:pointer id="470">[bold]Ancien[normal]: Palom!
 Porom!
 Votre mission est terminée![end]</sn:pointer>
     <sn:pointer id="471">[center]Cette nuit-là...[end]</sn:pointer>
-    <sn:pointer id="472">C'est une pièce importante, vous ne
-pouvez pas entrer![end]</sn:pointer>
+    <sn:pointer id="472">C'est une pièce importante!
+Interdit d'entrer![end]</sn:pointer>
     <sn:pointer id="473">[bold]Porom[normal]: Nous l'avons rencontré sur le
 mont de l'Épreuve.[end]</sn:pointer>
     <sn:pointer id="474">Rosa: Rydia...[new]
 Rydia: [italic]snif[/italic]...[end]</sn:pointer>
-    <sn:pointer id="475">[bold]Tella[normal]: Vite!
-Nous devons vaincre Golbez![new]
+    <sn:pointer id="475">[bold]Tella[normal]: Il ne reste plus qu'à abattre
+Golbez, au plus vite![new]
 [bold]Ancien[normal]: Oh, Tella![new]
 [bold]Tella[normal]: Ça fait longtemps.[end]</sn:pointer>
     <sn:pointer id="476">Caïn: Tu ne peux pas les semer!?[new]
