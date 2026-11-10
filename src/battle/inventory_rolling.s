@@ -68,6 +68,33 @@ _vram_slot_table:
 ; WRAM mirror of the VRAM slots, 128 bytes each
     _TILEMAP_SLOT_BASE := _tilemap_buffer_base + _tilemap_content_offset
 
+open_inventory_list:
+"""
+Replaces the Item command's `stz $EF97 / $EF98 / $EF99` ($02:BA12, DB = $7E, M = 8 bits): the list reopens at the
+top (vanilla also zeroes the cursor and the scroll), and the slots still hold the rows of the last scroll, so the
+next TfrInventoryList paints the visible rows again. Keeps A.
+"""
+    pha
+    stz.w _rolling_top_row
+    stz.w _rolling_buffer_pos
+    stz.w _rolling_edge_row
+    lda.b #0x01
+    sta.w _inventory_needs_full_refresh
+    pla
+    rtl
+
+inventory_row_changed:
+"""
+Replaces DrawInventoryItemText's `ldx #$74FD / stx $EF50` ($02:9FA4, DB = $7E, M = 8, X = 16 bits). Vanilla redraws
+a row into its own text buffer after a swap ($02:9661) or a quantity change ($02:95DA): our slots hold the old row,
+so the next TfrInventoryList paints the visible rows again. Clobbers A, as vanilla's next `lda $1817` does.
+"""
+    ldx.w #0x74FD
+    stx 0xEF50
+    lda.b #0x01
+    sta.w _inventory_needs_full_refresh
+    rtl
+
 init_inventory_text_buf_rolling:
 """
 Replacement for original `$029E9C`: render the 5 visible inventory rows + 1 off-screen prefetch slot when the
@@ -1652,6 +1679,10 @@ reset_list_scroll_hdma_rolling:
     and #0x04
     bne _reset_use_circular
 
+; The spell list draws its visible rows from btl_list_scroll right after this; vanilla zeroes it only when the
+; cursor lands (~14 frames later), so the rows of the previous list's scroll filled the ring instead.
+    ldx.w #0x0000
+    stx 0xEF85
     ldx.w #0x0173  ; 371 - base scroll
     stx 0xEF65
     ldy.w #0x000C  ; 12 scanlines
