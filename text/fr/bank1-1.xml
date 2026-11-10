@@ -489,17 +489,17 @@ Retirons-nous dans la salle du cristal![end]</sn:pointer>
 Cecil: Caïn! Tu es vivant![end]</sn:pointer>
     <sn:pointer id="141">Cecil: Ne me dis pas que Golbez te tient, toi aussi!?[new]
 Caïn: Je vais abréger tes souffrances![new]
-Yang: Il faudra d'abord me battre![end]</sn:pointer>
+Yang: Il faudra d'abord me passer sur le corps![end]</sn:pointer>
     <sn:pointer id="142">«Arrêtez!»[end]</sn:pointer>
     <sn:pointer id="143">Caïn: ...Rosa...![new]
 Rosa: Caïn, toi aussi?![new]
-Caïn: Ourg...ahh...! Ne...me...regarde...pas![end]</sn:pointer>
-    <sn:pointer id="144">«Aurais-tu perdu la raison, Caïn...»[end]</sn:pointer>
+Caïn: Ourg... ahh...! Ne... me... regarde... pas![end]</sn:pointer>
+    <sn:pointer id="144">«Tu perds la tête, Caïn...»[end]</sn:pointer>
     <sn:pointer id="145">[bold]Edward[normal]: Golbez![new]
-[bold]Cecil[normal]: Tu es Golbez![new]
-[bold]Golbez[normal]: Ainsi, tu es Cecil...
-Dommage, nous venons à peine de nous
-rencontrer...[force_new] mais voici mes salutations![new]
+[bold]Cecil[normal]: C'est toi, Golbez...![new]
+[bold]Golbez[normal]: C'est donc toi, Cecil...
+Dommage, nous nous rencontrons à
+peine...[force_new] mais voici mes salutations![new]
 [bold]Edward[normal]: Cecil![new]
 [bold]Yang[normal]: Je ne vous laisserai pas faire![end]</sn:pointer>
     <sn:pointer id="146">[bold]Golbez[normal]: Je n'ai que faire de
@@ -511,8 +511,8 @@ Va prendre le cristal.[new]
     <sn:pointer id="148">Rosa: Non, Caïn![new]
 Caïn: ![new]
 Cecil: Recule, Rosa![new]
-Golbez: Tiens... Cette femme t'est si chère? Dans ce cas, je la prends avec moi. J'aimerais te revoir, Cecil...[force_new]
-Elle sera le gage de cette promesse.[force_new] Allons-y, Caïn![end]</sn:pointer>
+Golbez: Tiens... Cette femme compte tant pour toi? Alors je l'emmène. Nous nous reverrons, Cecil...[force_new]
+Elle sera le gage de ce rendez-vous.[force_new] Allons-y, Caïn![end]</sn:pointer>
     <sn:pointer id="149">[bold]Caïn[normal]: Tu l'as échappé belle,
 Cecil![end]</sn:pointer>
     <sn:pointer id="150">[bold]Cecil[normal]: At...tendez![end]</sn:pointer>
@@ -521,8 +521,8 @@ Cecil![end]</sn:pointer>
     <sn:pointer id="153">[bold]Rydia[normal]: Ça va?[new]
 [bold]Edward[normal]: Merci, Rydia.
 Mais Rosa... elle a été enlevée...[new]
-[bold]Yang[normal]: Nous n'avons pas réussi à
-protéger le cristal...[new]
+[bold]Yang[normal]: Et le cristal... nous n'avons
+pas su le protéger...[new]
 [bold]Cecil[normal]: Rosa...[end]</sn:pointer>
     <sn:pointer id="154">[bold]Rydia[normal]: Hé!
 Laissez pas tomber comme ça!
@@ -534,10 +534,10 @@ Et puis on peut récupérer le cristal![end]</sn:pointer>
 [bold]Cecil[normal]: Pour lutter contre Golbez, il
 nous faut un aéronef...
 Mais seul Baron sait en construire...[new]
-[bold]Yang[normal]: Je me demande s'il n'y aurait
-pas moyen de s'introduire dans Baron...[end]</sn:pointer>
-    <sn:pointer id="158">Cecil: Comme Baron mise tout sur les Ailes Rouges, sa marine est plutôt faible.[new]
-Si nous devons nous infiltrer, il nous faudra le faire par la mer.[new]
+[bold]Yang[normal]: N'y aurait-il pas un moyen
+d'entrer dans Baron?[end]</sn:pointer>
+    <sn:pointer id="158">Cecil: Baron mise tout sur les Ailes Rouges, sa marine est faible.[new]
+Pour entrer, il faut passer par la mer![new]
 Rydia: On aura besoin d'un bateau, alors![new]
 Yang: Demandons-en un au roi dès demain matin. Vous nous avez beaucoup aidés, il ne vous refusera rien.[new]
 Cecil: Merci.[end]</sn:pointer>
@@ -547,18 +547,18 @@ Yang: Je vois...[new]
 Edward: En tout cas, reposons-nous cette nuit.[new]
 Cecil: ...[end]</sn:pointer>
     <sn:pointer id="160">[bold]Femme de Yang[normal]: Chéri!
-Fais attention et bats-toi bien![new]
+Fais attention, et cogne fort![new]
 [bold]Yang[normal]: Oui![new]
-[bold]Femme de Yang[normal]: Vous aussi,
-M. Cecil, tenez bon, tous![new]
+[bold]Femme de Yang[normal]: Et vous aussi,
+M. Cecil, tenez bon![new]
 [bold]Cecil[normal]: Oui, madame![end]</sn:pointer>
     <sn:pointer id="161">Capitaine: Alors c'est vous, Cecil! On m'a raconté vos exploits! Installez-vous et détendez-vous.[new]
 On sera à Baron en un rien de temps! Larguez les amarres![end]</sn:pointer>
-    <sn:pointer id="162">[bold]Capitaine[normal]: Allez les gars, levez l'ancre![new]
+    <sn:pointer id="162">[bold]Capitaine[normal]: Allez, bande de feignants, levez l'ancre![new]
 [bold]Équipage[normal]: Hourra![end]</sn:pointer>
     <sn:pointer id="163">[bold]Yang[normal]: Que comptez-vous faire une
 fois arrivés à Baron?[end]</sn:pointer>
-    <sn:pointer id="164">Cecil: Qu'est-ce qui...?[end]</sn:pointer>
+    <sn:pointer id="164">Cecil: Qu'est-ce que c'est?[end]</sn:pointer>
     <sn:pointer id="165">[bold]Marin[normal]: C'est pas possible![end]</sn:pointer>
     <sn:pointer id="166">Capitaine: Bande de lâches! Arrêtez de paniquer! À vos postes![end]</sn:pointer>
     <sn:pointer id="167">[bold]Rydia[normal]: Kyaaah![end]</sn:pointer>
