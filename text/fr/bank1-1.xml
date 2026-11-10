@@ -266,63 +266,60 @@ a envoyés ici...![new]
     <sn:pointer id="83">[bold]Fille[normal]: Le dragon de maman est mort...
 donc maman aussi... [italic]snif, snif[/italic]...[end]</sn:pointer>
     <sn:pointer id="84">Cecil: ![new]
-Caïn: J'en ai entendu parler... Des gens qui ont le pouvoir d'invoquer des monstres...[new]
-Ce sont les invocateurs![new]
-Cecil: Ne me dis pas qu'en battant ce dragon... on a causé la mort de la mère de cette petite...[end]</sn:pointer>
+Caïn: J'en ai entendu parler... Des gens capables d'appeler des monstres...[new]
+Des invocateurs![new]
+Cecil: Ne me dis pas... qu'en tuant ce dragon, on a tué la mère de cette petite...[end]</sn:pointer>
     <sn:pointer id="85">[bold]Fille[normal]: Alors c'est vous qui avez tué le
 dragon de maman?![new]
-[bold]Cecil[normal]: On ne savait pas... qu'en tuant
-ce dragon... on causerait la mort de ta
-mère...[end]</sn:pointer>
-    <sn:pointer id="86">Caïn: Le roi nous a envoyés ici pour exterminer les invocateurs...[new]
+[bold]Cecil[normal]: Jamais je n'aurais cru...
+que ça tuerait ta mère...[end]</sn:pointer>
+    <sn:pointer id="86">Caïn: On dirait que le roi nous a envoyés exterminer les invocateurs de ce village...[new]
 Cecil: Quelle horreur...[new]
-Caïn: ...Pauvre gosse, mais on dirait qu'il va falloir la tuer aussi.[end]</sn:pointer>
+Caïn: ...C'est triste, mais il va falloir la tuer aussi.[end]</sn:pointer>
     <sn:pointer id="87">Cecil: Caïn![new]
 Caïn: Si on ne le fait pas, c'est nous qu'on tuera![new]
 Cecil: Mais ce n'est qu'une enfant![new]
-Caïn: ...Tu veux dire qu'on devrait braver le roi?[new]
-Cecil: Si le roi attend de nous qu'on assassine des gens comme ça... Je n'ai aucune intention de le suivre![end]</sn:pointer>
-    <sn:pointer id="88">[bold]Caïn[normal]: Je me doutais que tu allais dire
+Caïn: ...Tu veux désobéir au roi?[new]
+Cecil: S'il faut massacrer des innocents pour lui obéir... je ne le suivrai plus![end]</sn:pointer>
+    <sn:pointer id="88">[bold]Caïn[normal]: Hmph. Je savais que tu dirais
 ça.
-Je ne vais pas te laisser quitter Baron
-tout seul.[new]
+Pas question que tu quittes Baron sans
+moi.[new]
 [bold]Cecil[normal]: Caïn?[new]
-[bold]Caïn[normal]: Peu importe ce que je dois au
-roi, en tant que chevalier dragon...
-Jamais je ne pourrais commettre un acte aussi vil.[new]
+[bold]Caïn[normal]: Je dois beaucoup au roi, mais
+je ne salirai pas le nom des chevaliers
+dragons.[new]
 [bold]Cecil[normal]: Alors, Caïn, toi aussi...[new]
-[bold]Caïn[normal]: Baron est la plus grande force
-militaire au monde.
-On ne peut pas combattre son pouvoir
-rien qu'à deux.[new]
-Il faut prévenir les autres pays et obtenir
-à tout prix leur aide.[force_new]
-Et pas question de laisser Rosa là-bas![new]
+[bold]Caïn[normal]: Baron est la première
+puissance militaire du monde.
+À nous deux, on ne fera pas le poids.[new]
+Il faut prévenir les autres royaumes et
+leur demander de l'aide.[force_new]
+Et il faut sortir Rosa de là![new]
 [bold]Cecil[normal]: Merci, Caïn.[new]
-[bold]Caïn[normal]: Ce n'est pas spécialement
-pour toi que je le fais, tu sais.[new]
+[bold]Caïn[normal]: Ce n'est pas pour toi que je
+le fais.[new]
 [bold]Cecil[normal]: ?[end]</sn:pointer>
-    <sn:pointer id="89">[bold]Caïn[normal]: En tout cas, c'est trop
-dangereux pour nous de rester ici.
-Nous devons quitter ce village.
-Et la petite, on en fait quoi?[new]
-[bold]Cecil[normal]: Nous n'avons pas le choix!
-Elle doit venir![end]</sn:pointer>
+    <sn:pointer id="89">[bold]Caïn[normal]: En attendant, ne traînons
+pas ici. Il faut quitter le village.
+Et la petite?[new]
+[bold]Cecil[normal]: On l'emmène, on n'a pas
+le choix![end]</sn:pointer>
     <sn:pointer id="90">[bold]Cecil[normal]: Écoute, c'est dangereux ici.
 Viens avec nous.[new]
 [bold]Fille[normal]: Non![end]</sn:pointer>
-    <sn:pointer id="91">[bold]Caïn[normal]: Nous n'avons pas le choix!
-Il faut la forcer à venir![new]
+    <sn:pointer id="91">[bold]Caïn[normal]: Tant pis, on l'emmène de
+force![new]
 [bold]Fille[normal]: N'approchez pas![end]</sn:pointer>
     <sn:pointer id="92">[bold]Cecil[normal]: Attends![end]</sn:pointer>
     <sn:pointer id="93">[bold]Fille[normal]: J'en peux plus!
 Je vous déteste!
 Je vous déteste tous![end]</sn:pointer>
     <sn:pointer id="94">[bold]Cecil[normal]: Ouf, la petite va bien...[new]!![end]</sn:pointer>
-    <sn:pointer id="95">Cecil: Je ne peux pas rester ici éternellement... Je dois emmener cette enfant et fuir d'ici... Cecil: Caïn... pourvu que tu sois en vie![end]</sn:pointer>
+    <sn:pointer id="95">Cecil: Je ne peux pas rester ici... Il faut fuir avec cette enfant... Cecil: Caïn... pourvu que tu sois vivant![end]</sn:pointer>
     <sn:pointer id="96">[bold]Cecil[normal]: Il faut que cette enfant se
 repose...[end]</sn:pointer>
-    <sn:pointer id="97">«Bienvenue! Oh, elle a l'air malade! Vite, vite, allez dans la chambre! Ne vous inquiétez pas pour l'argent!» Cecil: Merci.[end]</sn:pointer>
+    <sn:pointer id="97">«Bienvenue! Oh, la petite n'a pas l'air bien! Vite, montez dans la chambre! C'est la maison qui offre!» Cecil: Merci.[end]</sn:pointer>
     <sn:pointer id="98">[bold]Cecil[normal]: Tu es réveillée...[new]
 [bold]Fille[normal]: ...[new]
 [bold]Cecil[normal]: Je ne sais même pas comment
@@ -330,7 +327,7 @@ tu t'appelles.[new]
 [bold]Fille[normal]: ...[new]
 [bold]Cecil[normal]: C'est comme si j'avais tué ta mère...[force_new] Tu ne pourras jamais me pardonner...[force_new] Mais laisse-moi au moins te protéger...[new]
 [bold]Fille[normal]: ...[end]</sn:pointer>
-    <sn:pointer id="99">Général: Enfin, Cecil, nous t'avons trouvé![new]
+    <sn:pointer id="99">Général: Te voilà enfin, Cecil![new]
 Fille: ![new]
 Cecil: Attendez! Le roi de Baron a...[new]
 Général: Ordres du roi. Si tu nous livres la survivante de Mist, il pardonnera ta traîtrise.[new]
@@ -353,12 +350,12 @@ Rydia.[new]
 [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal]
 
 [end]</sn:pointer>
-    <sn:pointer id="102">Cecil a fait briller la Lumière du désert sur Rosa![end]</sn:pointer>
-    <sn:pointer id="103">[bold]Rosa[normal]: Oh...[end]</sn:pointer>
+    <sn:pointer id="102">La Lumière du désert baigne Rosa de sa clarté![end]</sn:pointer>
+    <sn:pointer id="103">[bold]Rosa[normal]: Mmh...[end]</sn:pointer>
     <sn:pointer id="104">Rosa: Cecil! Tu es vivant! Je suis si heureuse![new]
 Cecil: Tu as fait une folie...[music][0x13][new]
-Rosa: On m'a dit que tu étais mort dans le séisme à Mist... Mais je ne voulais pas y croire...[new]
-Cecil: Pardon... Mais qui est Golbez?[new]
+Rosa: On m'a dit que tu étais mort dans le tremblement de terre de Mist... Mais je ne voulais pas y croire...[new]
+Cecil: Pardon... Mais dis-moi, qui est ce Golbez?[new]
 Rosa: Le roi de Baron l'a fait venir pour te remplacer à la tête des Ailes Rouges.[new]
 Depuis qu'il est arrivé, le roi est de plus en plus étrange... C'est sûrement Golbez qui manipule le roi pour réunir les cristaux.[new]
 Le cristal de l'eau, que tu as rapporté de Mysidia... Le cristal du feu de Damcyan... Le cristal du vent de Fabul... et le cristal de la Terre de Troia.[end]</sn:pointer>
@@ -375,14 +372,14 @@ La prochaine cible, c'est...
 Fabul![new]
 On ne peut pas rester là sans
 rien faire... [italic]keuf[/italic], [italic]keuf[/italic][end]</sn:pointer>
-    <sn:pointer id="106">Cecil: Rosa... Ne te surmène pas... Tu dois te reposer. C'est nous qui irons à Fabul.[new]
-Edward: Mais le passage vers Fabul par le mont Hobs est bloqué par la glace...[end]</sn:pointer>
+    <sn:pointer id="106">Cecil: Rosa, ne force pas. Nous irons à Fabul, nous.[new]
+Edward: Mais le mont Hobs, sur la route de Fabul, est pris dans une glace épaisse...[end]</sn:pointer>
     <sn:pointer id="107">[bold]Rosa[normal]: ...Rydia, tu sais lancer
 [force_bold]Feu[force_normal]?[new]
 [bold]Rydia[normal]: ! ...Non... je peux pas...[end]</sn:pointer>
-    <sn:pointer id="108">Rosa: Si tu es une invocatrice, tu devrais pouvoir lancer [force_bold]Feu[force_normal], la base des rituels de magie noire... [italic]keuf[/italic][end]</sn:pointer>
+    <sn:pointer id="108">Rosa: Une invocatrice comme toi... incapable de lancer [force_bold]Feu[force_normal], le b.a.-ba de la magie noire...? [italic]keuf[/italic][end]</sn:pointer>
     <sn:pointer id="109">[bold]Cecil[normal]: Rosa!
-Tu dois rester ici et te reposer![end]</sn:pointer>
+Tu vois bien, tu dois rester ici![end]</sn:pointer>
     <sn:pointer id="110">[bold]Edward[normal]: Anna...
 Tu me manques tellement...[end]</sn:pointer>
     <sn:pointer id="111">[bold]Edward[normal]: Anna![new]
