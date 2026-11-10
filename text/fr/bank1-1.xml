@@ -36,71 +36,70 @@ Alors que nous retournions à Kaïpo...[new]
 menées par un certain Golbez...[new]
 [bold]Cecil[normal]: Mais qui est ce Golbez?[new]
 [bold]Edward[normal]: Je ne sais pas...
-Il était vêtu d'une étrange armure
-noire... d'une force... inhumaine...[new]
+Il porte une étrange armure noire...
+et sa force n'a rien d'humain...[new]
 [bold]Cecil[normal]: Pourquoi les Ailes Rouges?![new]
 [bold]Edward[normal]: Ils ont volé le cristal et mis
 le feu au château...[force_new]
 Mon père... ma mère... morts...
 Anna aussi...[force_new]
-Elle m'a protégé... des flèches...[end]</sn:pointer>
+Elle a pris les flèches... à ma place...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
     <sn:pointer id="20">Il ne s'est rien passé.[end]</sn:pointer>
     <sn:pointer id="21">PM restaurés![end]</sn:pointer>
     <sn:pointer id="22">Vous avez trouvé [item]![end]</sn:pointer>
     <sn:pointer id="23">Vous avez trouvé [gils] Gils![end]</sn:pointer>
-    <sn:pointer id="24">C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
+    <sn:pointer id="24">Scellé par une force invisible.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
     <sn:pointer id="26">Bienvenue!
 C'est [gils] Gils la nuit.
 Allez-vous rester?[close_window][end]</sn:pointer>
     <sn:pointer id="27">Au plaisir de vous revoir![end]</sn:pointer>
     <sn:pointer id="28">[bold]Cecil[normal]: Ark![end]</sn:pointer>
-    <sn:pointer id="29">Peut-être avons-nous été manipulés, nous
-aussi...[end]</sn:pointer>
+    <sn:pointer id="29">Nous aussi, nous avons peut-être été
+manipulés...[end]</sn:pointer>
     <sn:pointer id="30">...[end]</sn:pointer>
     <sn:pointer id="31">[bold]Soldat[normal]: Capitaine Cecil, nous
 approchons de Baron![new]
 [bold]Cecil[normal]: Oui...[end]</sn:pointer>
-    <sn:pointer id="32">[bold]Soldat[normal]: Le capitaine aussi, on dirait...[new]
-[bold]Soldat[normal]: Même sur ordre de Sa Majesté...[new]
+    <sn:pointer id="32">[bold]Soldat[normal]: Le capitaine aussi a des doutes...[new]
+[bold]Soldat[normal]: Ordre du roi ou pas...[new]
 [bold]Soldat[normal]: Arracher le cristal à un peuple
 innocent...
 C'est...[end]</sn:pointer>
     <sn:pointer id="33">[bold]Soldat[normal]: Mais, Capitaine![new]
-[bold]Soldat[normal]: Piller une cité de magiciens qui
-n'opposent aucune résistance![new]
+[bold]Soldat[normal]: Piller des mages qui ne se défendent
+même pas![new]
 [bold]Cecil[normal]: Écoutez bien, vous tous!
-Le cristal est absolument nécessaire à la
-prospérité de notre royaume de Baron.[new]
-Sa Majesté a jugé que les habitants de
-Mysidia en savaient trop sur les secrets
-du cristal.[new]
+Notre royaume a besoin de ce cristal
+pour prospérer.[new]
+Sa Majesté juge que les Mysidiens en
+savent trop sur les secrets du cristal.[new]
 Nous sommes les Ailes Rouges, l'escadron de Baron.[force_new]
-Les ordres de Sa Majesté sont absolus...[new]
+On ne discute pas les ordres de Sa Majesté...[new]
 [bold]Soldat[normal]: Capitaine...[end]</sn:pointer>
     <sn:pointer id="34">[bold]Soldat[normal]: Capitaine!
-Une attaque de monstres![end]</sn:pointer>
+Des monstres![end]</sn:pointer>
     <sn:pointer id="35">[bold]Soldat[normal]: Argh![new]
 [bold]Cecil[normal]: Vous allez bien?[new]
-[bold]Soldat[normal]: D'autres monstres![new]
+[bold]Soldat[normal]: Il en arrive d'autres![new]
 [bold]Cecil[normal]: Merde![end]</sn:pointer>
     <sn:pointer id="36">Ici commence mon domaine, la Zone de Zémus.
 Nul ne peut échapper à mes serviteurs![new]
-Disparaissez dans les ténèbres avant
-même de m'atteindre![new]
+Sombrez dans les ténèbres avant même
+de m'atteindre![new]
 Mwa ha ha ha ha![end]</sn:pointer>
     <sn:pointer id="37">[bold]Soldat[normal]: Nous sommes au-dessus de
 Baron![new]
-[bold]Cecil[normal]: Préparez-vous à atterrir.[end]</sn:pointer>
+[bold]Cecil[normal]: Bien. Amorcez l'atterrissage.[end]</sn:pointer>
     <sn:pointer id="38">Beigan: Ah! Vous avez le cristal![new]
 Cecil: Mais les Mysidiens n'ont opposé aucune résistance...[new]
 Beigan: Que dites-vous là? Venez, Sa Majesté vous attend.[end]</sn:pointer>
     <sn:pointer id="39">...[end]</sn:pointer>
     <sn:pointer id="40">Beigan: Messire Cecil, veuillez patienter un instant.[end]</sn:pointer>
     <sn:pointer id="41">Beigan: Majesté... Sauf votre respect, il semble que ce Cecil se méfie de vous...[new]
-Roi Baron: Vraiment!? Bravo, Beigan! Merci de m'en avoir informé! Mais le cristal avant tout...[new]
-Convoque-le ici![new]
+Roi Baron: Vraiment!? Je te reconnais bien là, Beigan. Merci de m'avoir prévenu! Mais tant que j'ai le cristal...[new]
+Fais venir Cecil![new]
 Beigan: Bien, Majesté.[end]</sn:pointer>
     <sn:pointer id="42">[bold]Beigan[normal]: Messire Cecil, Sa Majesté
 vous demande.
@@ -114,21 +113,20 @@ Alors, le cristal?[new]
     <sn:pointer id="45">[bold]Beigan[normal]: Hmm...
 Il semble authentique...[new]
 [bold]Roi Baron[normal]: Parfait!
-Oh, comme il est éblouissant!
+Oh, quel éclat!
 Tu peux disposer, Cecil![end]</sn:pointer>
     <sn:pointer id="46">[bold]Cecil[normal]: ...[end]</sn:pointer>
     <sn:pointer id="47">[bold]Cecil[normal]: Majesté![end]</sn:pointer>
     <sn:pointer id="48">[bold]Roi Baron[normal]: H... hein!?[new]
 [bold]Beigan[normal]: Qu... quoi?[end]</sn:pointer>
-    <sn:pointer id="49">[bold]Cecil[normal]: Majesté, quelles sont donc
-vos intentions?
+    <sn:pointer id="49">[bold]Cecil[normal]: Majesté, à quoi pensez-vous
+donc?
 Tous commencent à douter de vous![new]
 [bold]Roi Baron[normal]: À commencer par toi?[new]
 [bold]Cecil[normal]: !
 Jamais je ne...[new]
-[bold]Roi Baron[normal]: Crois-tu que j'ignore tout?![force_new]
-Qu'un homme tel que toi ne me fasse plus
-confiance...[new]
+[bold]Roi Baron[normal]: Me crois-tu aveugle?![force_new]
+Toi, entre tous, tu doutes de moi...[new]
 Hélas, je ne peux plus te confier les
 Ailes Rouges.[force_new]
 Dès à présent, tu es relevé de ton
