@@ -639,7 +639,7 @@ bien...[end]</sn:string>
 <sn:area id="38">
 <sn:string index="0">Maître Yang!
 Vous êtes de retour.
-Sa Majesté attend.[end]</sn:string>
+Sa Majesté vous attend.[end]</sn:string>
 <sn:string index="1">C'est trop dangereux de sortir
 maintenant!
 Pour le moment, vous devriez vous
@@ -706,8 +706,8 @@ Prenez le trône![end]</sn:string>
 Baron.
 On dit qu'elle est toujours couverte d'une
 épaisse nappe de brouillard.[end]</sn:string>
-<sn:string index="7">Nous défendrons le château au nom des
-chevaliers dragons![end]</sn:string>
+<sn:string index="7">Nous défendrons le château, sur notre
+honneur de chevaliers dragons![end]</sn:string>
 <sn:string index="8">Si M. Caïn, notre capitaine des chevaliers dragons, et M. Cecil des Ailes Rouges font équipe, on n'a rien à craindre![end]</sn:string>
 <sn:string index="9">Je n'oserais plus regarder M. Caïn en
 face.[end]</sn:string>
@@ -717,7 +717,7 @@ face.[end]</sn:string>
 Tu n'arrives pas à dormir?[end]</sn:string>
 <sn:string index="13">[bold]Cecil[normal]: C'est là!?[new]
 [bold]Cid[normal]: Ouaip, juste sous leur nez![end]</sn:string>
-<sn:string index="14">Si vous tenez à la vie, restez dans le rang.[end]</sn:string>
+<sn:string index="14">Si vous tenez à la vie, ne vous mettez pas d'idées en tête.[end]</sn:string>
 <sn:string index="15">Je voyais bien que le roi avait changé, mais je n'ai rien dit, par peur pour ma vie...[end]</sn:string>
 </sn:area>
 
@@ -799,7 +799,7 @@ Golbez, Cagnazzo de l'Eau![end]</sn:string>
 </sn:area>
 
 <sn:area id="48">
-<sn:string index="0">Nous avons enfermé dans ces cachots les magiciens mysidiens qui ont résisté.
+<sn:string index="0">Nous avons enfermé dans ces cachots les mages de Mysidia qui ont résisté.
 Vous pouvez leur parler à travers les
 barreaux.[end]</sn:string>
 <sn:string index="1">J'espère que nous n'aurons plus jamais à
