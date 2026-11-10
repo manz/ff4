@@ -156,6 +156,27 @@ def test_field_swap_byte_swap(field_emu, src_row: int, dst_row: int,
 
 # ---- Trash slot ($FF) ------------------------------------------------------
 
+CURSOR_ROW = 0x7E1B23  # vanilla SelectItem's cursor row on screen
+CURSOR_COLUMN = 0x7E1B22  # vanilla's column, 0 in the single-column list
+SCROLL = 0x7E1B1A
+
+
+@pytest.mark.parametrize("row", [0, 5])
+def test_b_after_picking_an_item_keeps_the_cursor(field_emu, row: int) -> None:
+    """B cancels a picked item and nothing else: the input hook tested $80, B, where vanilla tests Left, so B also ran
+    Left's column toggle and stepped the cursor up a row (from the top row, scrolled the list up)."""
+    for _ in range(12):
+        tap(field_emu, Button.DOWN, gap=20)  # the list scrolled, so a step up from the top row would show
+    field_emu.run_frames(30)
+    while field_emu.read(CURSOR_ROW) > row:
+        tap(field_emu, Button.UP, gap=20)
+    field_emu.run_frames(30)
+    before = (field_emu.read(CURSOR_ROW), field_emu.read(SCROLL))
+    tap(field_emu, Button.A, gap=20)
+    tap(field_emu, Button.B, gap=40)
+    assert (field_emu.read(CURSOR_ROW), field_emu.read(SCROLL), field_emu.read(CURSOR_COLUMN)) == (*before, 0)
+
+
 @pytest.mark.xfail(reason="Trash render path needs deterministic frame "
                           "scheduling; relax once trash test isolates the "
                           "DMA cycle.")
