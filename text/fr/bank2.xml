@@ -2249,8 +2249,7 @@ Pourtant, on est gentils![end]</sn:string>
 </sn:area>
 
 <sn:area id="261">
-<sn:string index="0">Un client?
-Comme c'est inhabituel![end]</sn:string>
+<sn:string index="0">Un client? Ça, c'est rare![end]</sn:string>
 </sn:area>
 
 <sn:area id="262">
@@ -2264,7 +2263,7 @@ Prenez tout ce que vous voulez![end]</sn:string>
 <sn:string index="1">C'est le château des Nains gouverné par
 le roi Giotto![end]</sn:string>
 <sn:string index="2">Golbez est un méchant!
-Mais vous, vous avez l'air chouette![end]</sn:string>
+Mais vous, vous avez pas l'air méchants![end]</sn:string>
 <sn:string index="3">Allez voir le roi Giotto![end]</sn:string>
 <sn:string index="4">Rien à signaler![end]</sn:string>
 <sn:string index="5">Pas de problèmes ici non plus![end]</sn:string>
@@ -2282,7 +2281,7 @@ Content que vous alliez bien![end]</sn:string>
 <sn:string index="4">Nous sommes l'équipe de secours!
 On n'en a pas l'air, mais on est des
 filles![end]</sn:string>
-<sn:string index="5">L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il est couché à l'infirmerie![end]</sn:string>
+<sn:string index="5">L'autre jour, le trou vers la surface s'est effondré, quelle pagaille! C'est là qu'on a sauvé un drôle de vieux![new] Il dort à l'infirmerie![end]</sn:string>
 <sn:string index="6">Je suis Luca!
 Mes poupées ont disparu.
 Vous ne les avez pas vues?[end]</sn:string>
@@ -2290,9 +2289,9 @@ Vous ne les avez pas vues?[end]</sn:string>
 
 <sn:area id="265">
 <sn:string index="0">Les chars sont la principale force des Nains! Nous ne serons pas vaincus si facilement![end]</sn:string>
-<sn:string index="1">Le roi gâte la princesse Luca pour deux, pour lui et pour la défunte reine![end]</sn:string>
+<sn:string index="1">Le roi gâte la princesse Luca pour deux, pour lui et la défunte reine![end]</sn:string>
 <sn:string index="2">Lali-ho!
-Vous l'avez déjà appris?[end]</sn:string>
+Vous l'avez retenu?[end]</sn:string>
 <sn:string index="3">Le monde souterrain, c'est chouette, une fois qu'on s'y fait! Restez pour de bon, si vous voulez, Lali![end]</sn:string>
 <sn:string index="4">[bold]Cecil[normal]: Je suis désolé.
 Golbez a pris le cristal...[new]
@@ -2311,8 +2310,7 @@ demander![new]
 avons perdu le cristal!
 Si nous pouvons vous aider en quoi
 que ce soit...[new]
-[bold]Giotto[normal]: Pendant que Golbez est
-occupé à la grotte Scellée...[new]
+[bold]Giotto[normal]: Golbez est en route pour la grotte Scellée, c'est l'occasion...[new]
 Pourriez-vous vous introduire dans la tour de Babil et reprendre les sept
 cristaux?[new]
 [bold]Caïn[normal]: La tour de Babil?[new]
@@ -2320,14 +2318,13 @@ cristaux?[new]
 infiltrer dans la base ennemie!?[new]
 [bold]Giotto[normal]: Ne vous inquiétez pas!
 Nos chars vont attirer l'ennemi![new]
-Pendant notre diversion, entrez et prenez
-les cristaux!
+Profitez-en pour reprendre les cristaux!
 C'est notre seule chance, maintenant que
 Golbez est parti![end]</sn:string>
 <sn:string index="5">Caïn: Alors, on fait quoi?[new]
 Rydia: C'est la base de l'ennemi, non?[new]
 Rosa: C'est vrai que c'est dangereux.[new]
-Yang: Mais vous savez ce qu'on dit... Qui ne tente rien n'a rien.[new]
+Yang: Mais qui ne tente rien n'a rien...[new]
 Caïn: C'est maintenant ou jamais, tant que Golbez n'est pas là.[new]
 Cecil: Très bien, alors...[end]</sn:string>
 <sn:string index="6">[bold]Cecil[normal]: Nous allons tenter le coup![end]</sn:string>
@@ -2336,8 +2333,7 @@ Je prierai pour votre réussite![end]</sn:string>
 <sn:string index="8">Se servir de mes poupées pour ça! C'est impardonnable![end]</sn:string>
 <sn:string index="9">[bold]Giotto[normal]: Nous allons tenir à distance le
 gros des forces ennemies!
-Vous, vous allez à la grotte Scellée au
-sud-ouest![end]</sn:string>
+Vous, allez à la grotte Scellée, au sud-ouest![end]</sn:string>
 <sn:string index="10">Giotto: Allez à Mysidia! Tout repose sur vous![end]</sn:string>
 <sn:string index="11">On dit que ce collier est un souvenir
 de sa défunte mère.[end]</sn:string>
@@ -2414,15 +2410,14 @@ Buvez-en une lampée![end]</sn:string>
 <sn:string index="3">Quel glouton, ce vieux!
 Il dit que c'est mauvais, mais il mange
 comme quatre![end]</sn:string>
-<sn:string index="4">Rien de tel qu'une bonne nuit de sommeil
-pour se sentir mieux, Lali![end]</sn:string>
+<sn:string index="4">Un bon somme et ça guérit, Lali![end]</sn:string>
 <sn:string index="5">[italic]Zzz...Zzz[/italic][end]</sn:string>
 <sn:string index="6">Ce vieux n'était pas en état de faire ça![end]</sn:string>
 <sn:string index="7">Ce vieux est brutal, mais c'est un
 chouette gars![end]</sn:string>
 <sn:string index="8">[italic]Zzz... rrron ...Zzz[/italic][end]</sn:string>
 <sn:string index="9">Ce vieux est incroyable!
-Il a vraiment fixé une foreuse![end]</sn:string>
+Il a vraiment monté une foreuse![end]</sn:string>
 <sn:string index="10">Les gens de la surface se débrouillent pas mal![end]</sn:string>
 <sn:string index="11">Cid: Dites-vous que cet aéronef, c'est moi! Courage...![end]</sn:string>
 </sn:area>
