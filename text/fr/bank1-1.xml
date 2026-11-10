@@ -570,7 +570,7 @@ Yang![end]</sn:pointer>
     <sn:pointer id="172">[bold]Cecil[normal]: Rydia![end]</sn:pointer>
     <sn:pointer id="173">[bold]Cecil[normal]: Edward![end]</sn:pointer>
     <sn:pointer id="174">[bold]Cecil[normal]: Yang![end]</sn:pointer>
-    <sn:pointer id="175">[bold]Cecil[normal]: Je suis seul...[end]</sn:pointer>
+    <sn:pointer id="175">[bold]Cecil[normal]: Me voilà seul...[end]</sn:pointer>
     <sn:pointer id="176">Porom: À toi de jouer, Palom![end]</sn:pointer>
     <sn:pointer id="177">[bold]Palom[normal]: [force_bold]Glace[force_normal]![end]</sn:pointer>
     <sn:pointer id="178">[bold]Palom[normal]: Et voilà le travail![end]</sn:pointer>
@@ -579,21 +579,21 @@ Yang![end]</sn:pointer>
 Golbez: Ce Cecil est dangereux. Mieux vaut s'en occuper tout de suite.[new]
 Par chance, c'est un chevalier noir. Contre tes morts-vivants, son épée perdra de son tranchant. Mais il gravit en ce moment le mont de l'Épreuve.[new]
 Scarmiglione: Il veut... donc devenir... [italic]hiss[/italic]... paladin?[new]
-Golbez: Ta mission est de l'éliminer avant. Scarmiglione: N'ayez crainte. Seigneur Golbez, admirez le spectacle d'ici...[new]
+Golbez: À toi de l'éliminer avant. Scarmiglione: N'ayez crainte, seigneur Golbez. Admirez le spectacle d'ici...[new]
 Golbez: Alors va![new]
 Scarmiglione: À vos ordres...[end]</sn:pointer>
-    <sn:pointer id="181">[bold]Golbez[normal]: Les choses commencent à
-devenir intéressantes...
-Pas vrai, Caïn?[end]</sn:pointer>
+    <sn:pointer id="181">[bold]Golbez[normal]: Voilà qui devient
+intéressant...
+N'est-ce pas, Caïn?[end]</sn:pointer>
     <sn:pointer id="182">[bold]Caïn[normal]: Oui...
 Mais ne sous-estimez pas la force de Cecil...[end]</sn:pointer>
-    <sn:pointer id="183">[bold]Caïn[normal]: Laissez Caïn s'en charger![end]</sn:pointer>
-    <sn:pointer id="184">Golbez: Après ton échec de l'autre jour, tu oses dire ça? Tu n'as qu'à surveiller Rosa![end]</sn:pointer>
-    <sn:pointer id="185">[bold]Tella[normal]: Alors toi aussi, tu es ici pour
-chercher Météore?[new]
+    <sn:pointer id="183">[bold]Caïn[normal]: Laissez-le-moi![end]</sn:pointer>
+    <sn:pointer id="184">Golbez: Après ton fiasco de l'autre jour? Contente-toi de surveiller Rosa![end]</sn:pointer>
+    <sn:pointer id="185">[bold]Tella[normal]: Toi aussi, tu cherches
+Météore?[new]
 [bold]Cecil[normal]: Météore?[new]
-[bold]Porom[normal]: Météore?
-Vous êtes...[new]
+[bold]Porom[normal]: Si vous connaissez Météore...
+alors vous êtes...[new]
 [bold]Palom[normal]: Hé le vieux! C'est toi, le fameux Tella?[end]</sn:pointer>
     <sn:pointer id="186">[bold]Porom[normal]: Palom!
 Appelle-le maître Tella!
@@ -604,52 +604,49 @@ Nous avons été envoyés ici par l'Ancien
 de Mysidia pour...[new]
 [bold]Palom[normal]: Surveiller Cecil...[end]</sn:pointer>
     <sn:pointer id="188">Paf![delay][0x8][close_window][end]</sn:pointer>
-    <sn:pointer id="189">Porom: Hi hi! Nous guidons M. Cecil vers le mont de l'Épreuve. Je m'appelle Porom.[new]
+    <sn:pointer id="189">Porom: Hi hi! Je suis Porom, je guide M. Cecil sur le mont de l'Épreuve.[new]
 Palom: Et moi, c'est Palom! Alors comme ça, tu es Tella! T'es hyper célèbre à Mysidia![end]</sn:pointer>
-    <sn:pointer id="190">[bold]Tella[normal]: Ainsi ce sont des enfants de
-Mysidia.
-Qu'est-il arrivé à Edward et
-Rydia?[new]
-[bold]Cecil[normal]: Alors que nous voguions vers
-Baron, nous avons été attaqués par
-Léviathan...[new]
+    <sn:pointer id="190">[bold]Tella[normal]: Des enfants de Mysidia,
+hein.
+Et Edward? Et Rydia?[new]
+[bold]Cecil[normal]: En route pour Baron,
+Léviathan nous a attaqués...[new]
 [bold]Tella[normal]: ...Ils sont morts!?[new]
 [bold]Cecil[normal]: Oui...
-Et Rosa a été capturée par
-Golbez...[end]</sn:pointer>
+Et Rosa est aux mains de Golbez...[end]</sn:pointer>
     <sn:pointer id="191">[bold]Palom[normal]: C'est sûrement sa copine![end]</sn:pointer>
     <sn:pointer id="192">[bold]Porom[normal]: Chut![new]
-[bold]Cecil[normal]: Mais ne deviez-vous pas aller
+[bold]Cecil[normal]: Mais vous ne partiez pas
 affronter Golbez?[end]</sn:pointer>
     <sn:pointer id="193">Tella: Pour vaincre un adversaire de sa trempe, mes sorts ne suffiront pas.[new]
-Je recherchais la légendaire magie scellée, Météore... Et j'ai senti une forte aura émaner de cette montagne.[new]
+Je cherchais Météore, la magie légendaire qu'on a scellée... et j'ai senti une aura puissante sur cette montagne.[new]
 Météore serait-il caché ici...?[new]
 Porom: Ce sort est dangereux! Maître Tella, à votre âge...[new]
 Tella: Oui, je suis vieux! Mais même au prix de ma vie... Golbez... c'est moi qui dois l'abattre![new]
 Cecil: ...[end]</sn:pointer>
-    <sn:pointer id="194">[bold]Palom[normal]: Hmph!
-Voilà pourquoi les adultes sont toujours
-casse-pieds![end]</sn:pointer>
+    <sn:pointer id="194">[bold]Palom[normal]: Pff!
+C'est bien les adultes, ça...
+Casse-pieds![end]</sn:pointer>
     <sn:pointer id="195">[bold]Palom[normal]: C'est qui, ce Golbez?[new]
-[bold]Porom[normal]: Quel ignare tu fais!
-C'est l'homme qui contrôle Baron![end]</sn:pointer>
+[bold]Porom[normal]: Tu ne sais vraiment rien!
+C'est lui qui tire les ficelles à Baron![end]</sn:pointer>
     <sn:pointer id="196">«Gargl...»[new]
 [bold]Tella[normal]: Une présence maléfique!?[new]
 «Heureux... très heureux... de pouvoir vous
 enterrer...»[new]
 [bold]Cecil[normal]: Qui est là!?[end]</sn:pointer>
     <sn:pointer id="197">«Je suis votre guide vers la mort...»[new]
-«Je suis l'un des quatre Empereurs du seigneur Golbez... Scarmiglione de la Terre... C'est l'heure du festin pour mes précieux morts-vivants!»[end]</sn:pointer>
-    <sn:pointer id="198">«Fshhh... Bien joué... de m'avoir tué... Mais
-voyez la terrifiante puissance de
-Scarmiglione de la Terre... même dans la
-mort... Savourez lentement... votre agonie!»[end]</sn:pointer>
+«Je suis l'un des quatre Empereurs du seigneur Golbez... Scarmiglione de la Terre... Mes chers morts-vivants... l'heure du repas a sonné!»[end]</sn:pointer>
+    <sn:pointer id="198">«Fshhh... Merci... de m'avoir tué...
+Goûtez la puissance de Scarmiglione de
+la Terre... plus terrible encore dans la
+mort... et mourez lentement!»[end]</sn:pointer>
     <sn:pointer id="199">Scarmiglione: Maudits soyez-vous... Que moi, Scarmiglione... je sois vaincu par de la vermine comme vous...![end]</sn:pointer>
     <sn:pointer id="200">«Je t'attendais...»[new]
 «En ce moment même... il se passe une chose qui m'afflige.»[new]
 «...Je vais t'insuffler mes pouvoirs...»[new]
-«Mon chagrin ne fera alors que grandir...»[new]
-«Mais c'est la seule solution qui reste.»[end]</sn:pointer>
+«Te les donner ne fera qu'accroître mon chagrin...»[new]
+«Mais il ne me reste pas d'autre choix.»[end]</sn:pointer>
     <sn:pointer id="201">«Romps avec ton passé sanglant... Si tu ne dépasses pas celui que tu étais, la force sacrée te rejettera. Triomphe... du chevalier noir en toi!»[end]</sn:pointer>
     <sn:pointer id="202">Tella: Deux Cecil?[new]
 Palom: Qu'est-ce qui se passe?![new]
