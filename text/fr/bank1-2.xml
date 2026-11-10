@@ -39,8 +39,7 @@ Cecil: Une légende?[end]</sn:pointer>
 plus manipuler...[end]</sn:pointer>
     <sn:pointer id="14">[bold]Caïn[normal]: ...Si ça arrive, n'hésite pas
 à me tuer![end]</sn:pointer>
-    <sn:pointer id="15">[bold]Caïn[normal]: ...Alors moi aussi, j'ai une
-dette à faire payer à ce Zémus![end]</sn:pointer>
+    <sn:pointer id="15">[bold]Caïn[normal]: ...Alors moi aussi, j'ai un compte à régler avec ce Zémus![end]</sn:pointer>
     <sn:pointer id="16">Caïn: Rosa...[new]
 Rosa: Golbez est revenu à lui, alors le sortilège s'est dissipé! Ce n'est pas ta faute, Caïn![new]
 Caïn: Golbez... aussi?[end]</sn:pointer>
@@ -121,8 +120,7 @@ Il va là-bas pour mourir...[new]
     <sn:pointer id="34">[bold]Rosa[normal]: Caïn![new]
 [bold]Edge[normal]: On se fera pas avoir,
 cette fois![end]</sn:pointer>
-    <sn:pointer id="35">[bold]Caïn[normal]: J'ai enfin retrouvé mon
-propre cœur...
+    <sn:pointer id="35">[bold]Caïn[normal]: Je suis enfin redevenu moi-même...
 Je ne vous demande pas de me pardonner, après tout ça, mais...[end]</sn:pointer>
     <sn:pointer id="36">[bold]Rosa[normal]: Arrête![end]</sn:pointer>
     <sn:pointer id="37">[bold]Rosa[normal]: Golbez est le frère de
@@ -411,7 +409,7 @@ formules! [delay][0x18][close_window][end]</sn:pointer>
 passeriez pas vos journées à courir
 après les jupons! [delay][0x18][new]
 [bold]Edge[normal]: Oui, oui![new]
-[bold]Chambellan[normal]: Un seul « oui » suffit! [delay][0x18][close_window][end]</sn:pointer>
+[bold]Chambellan[normal]: Un seul «oui» suffit! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="89">[bold]Edge[normal]: Mais Rydia...
 Dans ce monde-ci, aucune femme ne
 t'arrive à la cheville... [delay][0x18][close_window][end]</sn:pointer>
@@ -424,7 +422,7 @@ qu'elle reviendrait parmi nous... [delay][0x18][new]
     <sn:pointer id="91">Rydia: N'est-ce pas... Cecil![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="92">[bold]Enfant Chimère[normal]: Hé, Rydia.
 Pourquoi est-ce que j'ai des crocs?
-Moi, je voudrais être comme Rydia.[delay][0x8][close_window][end]</sn:pointer>
+Moi aussi, je voudrais être comme toi, Rydia.[delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="93">[bold]Rydia[normal]: De quoi parles-tu?
 Humains et Chimères, c'est pareil. [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="94">[bold]Asura[normal]: L'avenir du monde des
@@ -435,7 +433,7 @@ beauté! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="96">«Prince!»[delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="97">«Chante-nous encore la chanson du paladin!»[new]
 [delay][0xc] Edward: D'accord. Mais seulement quand vous aurez fini le travail d'aujourd'hui. Vous voulez que le château soit vite reconstruit, n'est-ce pas? [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="98">«D'accord! Promis, prince!»[new]
+    <sn:pointer id="98">«D'accord! C'est promis, hein, prince!»[new]
 [delay][0x8][close_window][end]</sn:pointer>
     <sn:pointer id="99">[bold]Edward[normal]: Veille sur moi de là-haut,
 Anna.[new]
@@ -468,7 +466,7 @@ Giotto: Nous avons été invités à leur couronnement![new]
 Luca: Super![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="109">«Majesté! Vous tirez au flanc, Lali!»[new]
 [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="110">Giotto: Bah! Démolissez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="110">Giotto: Bordel! Démolissez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="111">[bold]Caïn[normal]: Cecil...
 Rosa...[delay][0x18][new]
 Tel que je suis, je ne peux pas encore venir vous féliciter...[new]
@@ -533,8 +531,7 @@ le monde à messire Cecil![end]</sn:pointer>
     <sn:pointer id="138">[bold]Yang[normal]: Messire Cecil...![end]</sn:pointer>
     <sn:pointer id="139">[bold]Edward[normal]: Montrez-nous le vrai courage![end]</sn:pointer>
     <sn:pointer id="140">[bold]Cid[normal]: On t'attend tous!![end]</sn:pointer>
-    <sn:pointer id="141">[bold]Giotto[normal]: Pour notre Terre
-Mère aussi![end]</sn:pointer>
+    <sn:pointer id="141">[bold]Giotto[normal]: Pour cette terre, aussi![end]</sn:pointer>
     <sn:pointer id="142">[bold]Luca[normal]: Relevez-vous![end]</sn:pointer>
     <sn:pointer id="143">«Nous prions aussi pour vous!»[end]</sn:pointer>
     <sn:pointer id="144">«Revenez vivants!»[end]</sn:pointer>
@@ -578,7 +575,7 @@ combattrai à tes côtés![new]
     <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
 Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
     <sn:pointer id="160">Tella: J'aurai ma vengeance![end]</sn:pointer>
-    <sn:pointer id="161">[bold]Cecil[normal]: Attends-moi...
+    <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir...
 Golbez...![end]</sn:pointer>
     <sn:pointer id="162">[bold]Rosa[normal]: Téléport![end]</sn:pointer>
     <sn:pointer id="163">[bold]Cecil[normal]: Non, ce n'est rien...
