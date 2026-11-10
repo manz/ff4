@@ -112,3 +112,18 @@ rolling buffer (free_space.s, inventory_rolling.s).
     nop
     nop
 }
+
+
+; MainMenuMain's `jsr ClearCursorMem` ($01:87FF), as the main menu opens: the field menus' shared HDMA enable cleared
+; too. A Tente or a Porte de secours used from Objets closes the whole menu past Objets' exit hook, leaving its
+; channel 5 there for every other menu's NMI (the save screen lost a block) until Objets opened again.
+.label _clear_cursor_mem = 0x018C65
+.alloc at 0x0187FF {
+    jsr.w main_menu_clear_hdma
+}
+.alloc _main_menu_clear_hdma in bank01_slack {
+main_menu_clear_hdma:
+    lda.b #0x00
+    sta.l field_menu_rolling.hdma_enable
+    jmp.w _clear_cursor_mem  ; keeps A
+}

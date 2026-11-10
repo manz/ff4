@@ -56,3 +56,32 @@ def test_oui_says_the_save_is_done() -> None:
         assert_screenshot_matches_golden(emu, GOLDENS / "saved.png", region=FULL_PICTURE)
     finally:
         emu.close()
+
+
+INVENTORY = 0x7E1440  # item id, count: 2 bytes a slot
+TENT = 0xE2
+FIELD_MENU_HDMA_ENABLE = 0x7E9C96  # field_menu_rolling.hdma_enable: the field menus' NMI writes it to HDMAEN
+
+
+def test_the_save_screen_has_no_hdma_after_a_tent() -> None:
+    """A Tente used from Objets closes the whole menu (InitMainMenu's saved stack): Objets' exit hook never ran, so
+    its HDMA channel 5 stayed in the byte every field menu's NMI writes to HDMAEN. The next save screen lost its second
+    block (Analogue Pocket, Super NT), and every submenu was off until Objets opened again."""
+    emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=10)
+    try:
+        emu.write(INVENTORY, TENT)
+        emu.write(INVENTORY + 1, 1)
+        emu.write(SAVE_ENABLED, 1)
+        tap(emu, Button.X, gap=60)
+        tap(emu, Button.A, gap=60)  # Objets
+        for _ in range(3):
+            tap(emu, Button.A, gap=60)  # the Tente, used: the party rests on the field
+        emu.run_frames(900)  # the rest scene, back to the field
+        tap(emu, Button.X, gap=60)
+        emu.write(SAVE_ENABLED, 1)
+        for _ in range(SAVE_ROW):
+            tap(emu, Button.DOWN, gap=16)
+        tap(emu, Button.A, gap=90)
+        assert emu.read(FIELD_MENU_HDMA_ENABLE) == 0
+    finally:
+        emu.close()
