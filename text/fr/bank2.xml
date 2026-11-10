@@ -273,9 +273,8 @@ pars plus nulle part![new]
 Je n'aurais jamais dû te laisser devenir
 mage blanche.[new]
 [bold]Rosa[normal]: Non, Maman!
-J'ai bien fait!
-Cecil est un guerrier, alors je peux
-l'assister![new]
+Je suis heureuse d'être mage blanche,
+pour pouvoir aider Cecil au combat![new]
 Et tu as combattu aux côtés de papa en
 tant que mage blanche, autrefois![new]
 [bold]Mère de Rosa[normal]: Rosa... Tu as raison... Ton père aussi, paix à son âme, était un grand chevalier.[new]
@@ -296,14 +295,12 @@ Cecil, prends bien soin d'elle.[end]</sn:string>
 
 <sn:area id="17">
 <sn:string index="0">Salut, je suis un savant itinérant.[new]
-Je veux faire des recherches à Fabul, une
-ville à l'est de Damcyan, mais au canal
-souterrain, il y a un drôle de vieux qui ne
-veut pas me laisser passer...[end]</sn:string>
-<sn:string index="1">Oh, un client! Ça devient rare...[new]
-À cause de tous les monstres, nous
-voyons de moins en moins de clients, de
-nos jours.[end]</sn:string>
+Je veux aller étudier à Fabul, à l'est de
+Damcyan, mais un drôle de vieux, dans la
+rivière souterraine, refuse de me laisser
+passer...[end]</sn:string>
+<sn:string index="1">Oh, de la visite! Avec tous ces monstres,
+les clients se font rares, ces temps-ci.[end]</sn:string>
 <sn:string index="2">Apaisez votre soif du désert avec
 la bière spéciale de Kaïpo![end]</sn:string>
 <sn:string index="3">Seule la famille royale peut pénétrer dans
@@ -326,7 +323,7 @@ rarissime qu'on trouve uniquement dans
 l'antre du Fourmilion...[end]</sn:string>
 <sn:string index="3">«La Lumière du désert est le seul remède
 contre la fièvre du désert...»[end]</sn:string>
-<sn:string index="4">Rosa: ... [music][0x13] Ooh... Cecil... Ne meurs pas, Cecil![end]</sn:string>
+<sn:string index="4">Rosa: ... [music][0x13] Mmh... Cecil... Ne meurs pas, Cecil![end]</sn:string>
 <sn:string index="5">Je suis content qu'elle aille mieux.
 L'espace d'un instant, c'est comme si
 j'avais eu une fille à moi.[new]
@@ -337,7 +334,7 @@ Revenez nous voir bientôt![end]</sn:string>
 <sn:string index="0">Qu'est-ce que tu veux, cette fois!?[end]</sn:string>
 <sn:string index="1">Le mont de l'Épreuve?
 Inutile d'y aller![end]</sn:string>
-<sn:string index="2">Ne pardonnez jamais à Baron, qui nous a pris notre cristal et tué les nôtres![end]</sn:string>
+<sn:string index="2">Ne pardonnez jamais à Baron, qui nous a pris notre cristal et les nôtres![end]</sn:string>
 <sn:string index="3">Ce n'est pas possible... Toi, tu es devenu...[end]</sn:string>
 <sn:string index="4">Nos amis!
 Rends-nous nos amis![end]</sn:string>
