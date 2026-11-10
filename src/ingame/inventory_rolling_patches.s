@@ -127,3 +127,18 @@ main_menu_clear_hdma:
     sta.l field_menu_rolling.hdma_enable
     jmp.w _clear_cursor_mem  ; keeps A
 }
+
+
+; InitMainMenu's `jsr FadeOut` ($01:8054), as the main menu closes, a Tente's or a Porte de secours' unwind
+; included: the byte cleared for the field. The treasure screen after a battle ORs its channels into it, and ran a
+; left channel 5 over its window (holes in the names, a staircase down the border).
+.label _fade_out = 0x01947E
+.alloc at 0x018054 {
+    jsr.w main_menu_close_clear_hdma
+}
+.alloc _main_menu_close_clear_hdma in bank01_slack {
+main_menu_close_clear_hdma:
+    lda.b #0x00
+    sta.l field_menu_rolling.hdma_enable
+    jmp.w _fade_out
+}
