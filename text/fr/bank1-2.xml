@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
-    <sn:pointer id="0">Une barrière protège ce lieu. Vous pouvez y utiliser tente et chalet, et sauvegarder.[end]</sn:pointer>
+    <sn:pointer id="0">Une barrière spéciale protège ce lieu. Vous pouvez y utiliser tentes et chalets, et sauvegarder.[end]</sn:pointer>
     <sn:pointer id="1">[bold]Golbez[normal]: C'est terminé...[new]
 [bold]FuSoYa[normal]: Insensé... Doté d'un tel pouvoir, il s'est fait le jouet du mal...[new]
-[bold]Edge[normal]: Yahoo!![end]</sn:pointer>
-    <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous êtes venus![end]</sn:pointer>
+[bold]Edge[normal]: Youhou!![end]</sn:pointer>
+    <sn:pointer id="2">[bold]FuSoYa[normal]: Oh, vous aussi![end]</sn:pointer>
     <sn:pointer id="3">Rydia: C'est horrible...[new]
 Edge: Merde!![end]</sn:pointer>
     <sn:pointer id="4">[bold]Rydia[normal]: On ne peut... on ne peut plus rien faire?[new]
 [bold]Cecil[normal]: Qu'est-ce que c'est!?[end]</sn:pointer>
     <sn:pointer id="5">[bold]Cid[normal]: Tant que je serai là, vous
 n'aurez rien à craindre!
-Plein gaz, les gars!![end]</sn:pointer>
+Moteurs à fond!![end]</sn:pointer>
     <sn:pointer id="6">[bold]Edward[normal]: Cecil!
-Je vais vous montrer le courage que vous
-m'avez enseigné![end]</sn:pointer>
+Regardez le courage que vous
+m'avez appris![end]</sn:pointer>
     <sn:pointer id="7">[bold]Edge[normal]: On arrive trop tard!
 C'est moi qui devais lui régler son
 compte![new]
@@ -37,17 +37,17 @@ Ancien: Ça alors! Il y est inscrit la même chose que dans la légende transmis
 Cecil: Une légende?[end]</sn:pointer>
     <sn:pointer id="13">[bold]Edge[normal]: Du moment que tu ne te fais
 plus manipuler...[end]</sn:pointer>
-    <sn:pointer id="14">[bold]Caïn[normal]: ...Si c'était le cas, n'hésite pas...
-Tue-moi![end]</sn:pointer>
-    <sn:pointer id="15">[bold]Caïn[normal]: ...Moi aussi, je viens.
-J'ai un compte à régler avec ce Zémus![end]</sn:pointer>
+    <sn:pointer id="14">[bold]Caïn[normal]: ...Si ça arrive, n'hésite pas
+à me tuer![end]</sn:pointer>
+    <sn:pointer id="15">[bold]Caïn[normal]: ...Alors moi aussi, j'ai une
+dette à faire payer à ce Zémus![end]</sn:pointer>
     <sn:pointer id="16">Caïn: Rosa...[new]
 Rosa: Golbez est revenu à lui, alors le sortilège s'est dissipé! Ce n'est pas ta faute, Caïn![new]
 Caïn: Golbez... aussi?[end]</sn:pointer>
     <sn:pointer id="17">[bold]Edge[normal]: Et comment!
 C'est quasiment à cause de toi que le
 géant s'est ramené![end]</sn:pointer>
-    <sn:pointer id="18">Caïn: Économise ta salive pour plus tard! Tu veux mourir?![end]</sn:pointer>
+    <sn:pointer id="18">Caïn: On parlera plus tard! Tu veux mourir?![end]</sn:pointer>
     <sn:pointer id="19">[bold]Rosa[normal]: Vite![end]</sn:pointer>
     <sn:pointer id="20">«Malédiction!!»[end]</sn:pointer>
     <sn:pointer id="21">[bold]FuSoYa[normal]: C'est le cœur du géant, le
@@ -69,12 +69,12 @@ Ne sais-tu donc même pas qui tu es!?[new]
 [bold]FuSoYa[normal]: Ouvre les yeux![end]</sn:pointer>
     <sn:pointer id="25">[bold]Golbez[normal]: ...Pourquoi étais-je donc
 rongé par tant de haine...[new]
-[bold]FuSoYa[normal]: ...Tu as recouvré tes esprits.
-...Te souviens-tu du nom de ton père?[new]
+[bold]FuSoYa[normal]: ...Tu es redevenu toi-même...
+Te souviens-tu du nom de ton père?[new]
 [bold]Golbez[normal]: Mon père...
 KluYa...?[new]
 [bold]Cecil[normal]: Quoi!?[new]
-[bold]Rosa[normal]: Alors, pour Cecil, il est...[new]
+[bold]Rosa[normal]: Alors, Cecil et lui...[new]
 [bold]Edge[normal]: Son frangin?![new]
 [bold]Cecil[normal]: Golbez est mon...[new]
 [bold]FuSoYa[normal]: Zémus s'est servi de toi par
@@ -98,8 +98,9 @@ Zémus...!![end]</sn:pointer>
 [bold]Golbez[normal]: Je vais régler tout cela
 moi-même![end]</sn:pointer>
     <sn:pointer id="28">[bold]FuSoYa[normal]: Attends![end]</sn:pointer>
-    <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est aussi de notre race!
-Je vais venir avec toi...!![end]</sn:pointer>
+    <sn:pointer id="29">[bold]FuSoYa[normal]: Zémus est un sélénite,
+lui aussi!
+Je viens avec toi...![end]</sn:pointer>
     <sn:pointer id="30">[bold]Golbez[normal]: Adieu, Cecil...[end]</sn:pointer>
     <sn:pointer id="31">[bold]Edge[normal]: Tu vas le laisser partir,
 Cecil?[new]
