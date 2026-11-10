@@ -1438,8 +1438,7 @@ Feu.[new]
 Tu es la seule ici à avoir le pouvoir de
 faire fondre cette glace.[new]
 [bold]Rydia[normal]: ...[new]
-[bold]Rosa[normal]: Si nous ne franchissons pas
-cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort affreux... Je t'en prie... trouve le courage![new]
+[bold]Rosa[normal]: Si nous ne faisons pas fondre cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort affreux... Je t'en prie... trouve le courage![new]
 [bold]Edward[normal]: Le courage...[new]
 [bold]Rosa[normal]: Rydia, s'il te plaît![new]
 [bold]Edward[normal]: Allez, Rydia![new]
@@ -1458,7 +1457,7 @@ cette glace pour aller à Fabul, beaucoup d'autres gens vont connaître un sort 
 <sn:area id="127">
 <sn:string index="0">[bold]Edward[normal]: Ces vêtements...
 Ce doit être un moine de Fabul![end]</sn:string>
-<sn:string index="1">[bold]Edward[normal]: Celui-ci a l'air costaud![new]
+<sn:string index="1">[bold]Edward[normal]: Ce monstre est coriace![new]
 [bold]Rydia[normal]: Aidons-le![end]</sn:string>
 <sn:string index="2">Moine: Merci de m'avoir tiré de ce mauvais pas. Je suis Yang, le capitaine des moines de Fabul.[new]
 Mes hommes et moi nous entraînions ici, sur le mont Hobs... et soudain, nous avons été attaqués par des hordes de monstres.[new]
@@ -1482,8 +1481,7 @@ Rydia: ...[end]</sn:string>
 raisons, je vois...
 Merci!
 Puis-je vous demander votre aide?[new]
-[bold]Cecil[normal]: Bien sûr!
-Allons-y![new]
+[bold]Cecil[normal]: Bien sûr! En route pour Fabul![new]
 [bold]Yang[normal]: Fabul est à l'est des
 montagnes.
 Dépêchons-nous![end]</sn:string>
@@ -1673,8 +1671,7 @@ on ne peut pas l'utiliser.[end]</sn:string>
 <sn:string index="0">[bold]Golbez[normal]: Ainsi, il a même tué Cagnazzo...
 Il est devenu bien plus fort.[end]</sn:string>
 <sn:string index="1">[bold]Caïn[normal]: À propos du dernier cristal...[new]
-[bold]Golbez[normal]: Je sais... ça va être délicat de
-le récupérer où il est maintenant.[new]
+[bold]Golbez[normal]: Je sais... mais cet endroit pose quelques difficultés.[new]
 [bold]Caïn[normal]: Pourquoi ne pas envoyer
 Cecil le chercher pour vous?[new]
 [bold]Golbez[normal]: Lui...?[end]</sn:string>
