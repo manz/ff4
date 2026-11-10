@@ -1021,7 +1021,7 @@ Pour le moment, vous devriez vous
 reposer.[end]</sn:string>
 <sn:string index="1">Roi Fabul: ...Je vois. Très bien, Yang! Accompagne-les et aide-les![new]
 Cecil, je ne sais pas comment te remercier. Et voilà que Rosa a été enlevée...[new]
-Je vais faire préparer un navire immédiatement. Cecil. Prends cette épée.[new]
+Je vais faire préparer un navire immédiatement. Cecil, prends cette épée.[new]
 C'est l'épée d'un chevalier noir venu à Fabul il y a longtemps.[new]
 C'est le moins que je puisse faire pour te remercier d'avoir défendu Fabul. ...Mais une lame noire n'est jamais qu'une lame des ténèbres...[new]
 Elle ne pourra rien contre le vrai mal. Vaincs Golbez![end]</sn:string>
@@ -1091,7 +1091,7 @@ se battre![end]</sn:string>
 
 <sn:area id="84">
 <sn:string index="0">[bold]Tella[normal]: Bien, reposons-nous ici.[end]</sn:string>
-<sn:string index="1">[bold]Tella[normal]: Sur cette rune magique, un champ de force empêche les monstres d'entrer.[new]
+<sn:string index="1">[bold]Tella[normal]: Sur ce cercle magique, une barrière empêche les monstres d'entrer.[new]
 Nous pouvons nous reposer ici dans une
 tente ou un chalet, et sauvegarder la
 partie.[new]
@@ -1122,8 +1122,7 @@ gardiennes du cristal.[end]</sn:string>
 <sn:string index="1">Si nous perdons le cristal, cette région redeviendra une terre aride![end]</sn:string>
 <sn:string index="2">C'est bien mieux que d'être dirigées par
 des hommes brutaux![end]</sn:string>
-<sn:string index="3">On dirait que vous êtes dans un mauvais
-pas.
+<sn:string index="3">Vous semblez avoir vos raisons.
 Comme promis, nous allons vous prêter le cristal de la Terre.[end]</sn:string>
 <sn:string index="4">Le cristal de la Terre? Quelle horreur![end]</sn:string>
 <sn:string index="5">L'Elfe noir craint les armes en métal.[new]
@@ -1285,7 +1284,7 @@ Oups...[end]</sn:string>
 <sn:area id="103">
 <sn:string index="0">Rosa voulait t'aider, alors elle a
 choisi de devenir mage blanche.
-Ne l'inquiète pas trop![end]</sn:string>
+N'inquiète pas trop Rosa![end]</sn:string>
 <sn:string index="1">Nous ne pouvons que prier pour que feu
 Sa Majesté repose en paix.[end]</sn:string>
 <sn:string index="2">J'étudie les rudiments de la magie
