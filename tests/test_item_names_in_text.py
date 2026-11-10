@@ -1,4 +1,5 @@
-"""An item name printed inside a text: the chest dialog's item code ($07) and battle's TextVar_03 (« Vol : … ! »).
+"""An item name printed inside a text: the chest dialog's item code ($07) and battle's TextVar_03 (« Vol : … ! »); a
+spell name in battle's TextVar_04.
 
 Both read `items_unleashed`, where $FF is a space and $00 ends a name, and both stopped at the first $FF: a chest of
 « Bouclier de lumière » read « Vous avez trouvé Bouclier! ». The dialog also drew the name's menu codes as dialog
@@ -35,6 +36,9 @@ DIALOG_WINDOW = (0, 0, 256, 72)
 
 STEAL_ITEM = 0x7E359A  # TextVar_03's item id
 TEXT_VAR_03 = 0x02A58F
+SPELL = 0x7E359A  # TextVar_04's spell id, below $48
+TEXT_VAR_04 = 0x02A53B
+CURE_2 = 0x0F  # « Soin 2 »
 SENTINEL = 0xFFFC  # where the pushed return lands
 
 
@@ -43,6 +47,14 @@ def _item_name(item: int) -> bytes:
     data = (GEN / "items_unleashed.dat").read_bytes()
     pointers = (GEN / "items_unleashed.ptr").read_bytes()
     start = int.from_bytes(pointers[item * 2 : item * 2 + 2], "little") + 1
+    return data[start : data.index(0, start)]
+
+
+def _spell_name(spell: int) -> bytes:
+    """`spell`'s name in `magic_names` after its first letter (TextVar_04 draws that one apart), without its $00."""
+    data = (GEN / "magic.dat").read_bytes()
+    pointers = (GEN / "magic.ptr").read_bytes()
+    start = int.from_bytes(pointers[spell * 2 : spell * 2 + 2], "little") + 1
     return data[start : data.index(0, start)]
 
 
@@ -105,5 +117,22 @@ def test_a_battle_message_spells_the_whole_item_name() -> None:
         _enter(emu, TEXT_VAR_03, db=0x7E)
         assert emu.run_until((TEXT_VAR_03 & 0xFF0000) | SENTINEL, max_frames=5)
         assert bytes(letters) == _item_name(SHIELD_OF_LIGHT)
+    finally:
+        emu.close()
+
+
+def test_a_battle_message_spells_the_whole_spell_name() -> None:
+    """TextVar_04 stopped at « Soin 2 »'s space as TextVar_03 did at an item's."""
+    if not ROM.exists():
+        pytest.skip("ROM not built")
+    emu = fresh_late_battle()
+    try:
+        letters = bytearray()
+        draw_letter = emu.lookup_symbol_addr("draw_letter")
+        emu.add_exec_callback(draw_letter, draw_letter, lambda *_: letters.append(emu.get_state().a & 0xFF))
+        emu.write(SPELL, CURE_2)
+        _enter(emu, TEXT_VAR_04, db=0x7E)
+        assert emu.run_until((TEXT_VAR_04 & 0xFF0000) | SENTINEL, max_frames=5)
+        assert bytes(letters) == _spell_name(CURE_2)
     finally:
         emu.close()

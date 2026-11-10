@@ -149,16 +149,6 @@ _magic_char:
     rtl
 
 
-battle_magic_char_after_first:
-"""As battle_magic_char, one byte on (TextVar_04 draws the first letter on its own)."""
-    lda.l magic_names + 1, x
-    bne _magic_char_after
-    lda.b #0xFF
-    dex
-_magic_char_after:
-    rtl
-
-
 battle_command_mult8:
 """
 Vanilla btlgfx's `lda #5 / sta $28 / jsr Mult8` for a command name: id in $26 -> its `command_names` offset in $2A.

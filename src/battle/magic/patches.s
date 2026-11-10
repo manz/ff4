@@ -192,8 +192,13 @@ _LIST_CURSOR_Y_NUDGE := 2
 .alloc at 0x02A573 {
     lda.l magic_names, x
 }
+; TextVar_04: battle message spell name, after its first letter; was lda $0F8901,x
 .alloc at 0x02A57E {
-    jsr.l battle_magic_char_after_first  ; $FF once the name has ended
+    lda.l magic_names + 1, x
+}
+; end of the name, was cmp #$FF: $FF is a space inside magic_names' names (« Soin 2 »), $00 ends them
+.alloc at 0x02A582 {
+    cmp #0x00
 }
 .alloc at 0x02A57A {
     lda #9 - 1
