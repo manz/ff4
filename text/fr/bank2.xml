@@ -2456,8 +2456,7 @@ Il a vraiment monté une foreuse![end]</sn:string>
 
 <sn:area id="283">
 <sn:string index="0">Vous combattez aussi Golbez?
-Alors prenez le trésor ici!
-Bonne chance![end]</sn:string>
+Prenez donc le trésor d'ici, et courage![end]</sn:string>
 <sn:string index="1">Le roi Giotto vous a donné sa permission! Faites bon usage de ce trésor![end]</sn:string>
 </sn:area>
 
@@ -2715,8 +2714,7 @@ souterrain![end]</sn:string>
 <sn:string index="0">Rydia, tu es de retour![end]</sn:string>
 <sn:string index="1">À l'exception de Rydia, vous êtes les
 premiers humains à venir ici.[end]</sn:string>
-<sn:string index="2">C'est le monde des Chimères.
-Le monde où les Chimères vivent.[end]</sn:string>
+<sn:string index="2">C'est le monde des Chimères, là où elles vivent.[end]</sn:string>
 <sn:string index="3">Le roi des Chimères vit au plus profond de
 notre monde.[end]</sn:string>
 </sn:area>
@@ -2763,8 +2761,7 @@ n'importe quoi.[end]</sn:string>
 Mais sa colère appelle les nuages
 sombres et châtie par la foudre.[end]</sn:string>
 <sn:string index="6">La reine des Glaces, Shiva...
-Ceux qui la mettent en colère se font
-geler le cœur.[end]</sn:string>
+Qui la met en colère aura jusqu'au cœur gelé.[end]</sn:string>
 <sn:string index="7">Chocobo...
 Pour fuir et pour charmer, il n'a pas
 d'égal.[end]</sn:string>
@@ -2788,11 +2785,9 @@ monde des humains?[end]</sn:string>
 <sn:string index="1">On ne s'ennuie jamais, ici.
 Il y a tellement de livres qu'il faudrait une
 éternité pour tous les lire![end]</sn:string>
-<sn:string index="2">Même les monstres qui résistent à
-Libra... le Bestiaire
-révélera leur véritable nature...[end]</sn:string>
+<sn:string index="2">Le Bestiaire révélera la nature même des monstres qui résistent à Libra...[end]</sn:string>
 <sn:string index="3">Chimères, monstres, humains...
-D'où sont-ils venus et où vont-ils...
+D'où viennent-ils, où vont-ils...
 C'est un mystère éternel...[end]</sn:string>
 <sn:string index="4">Il y a bien longtemps, une immense
 baleine est venue de la Lune sur cette
@@ -2899,8 +2894,7 @@ Laissez-moi dormir encore un peu...[end]</sn:string>
 <sn:string index="10">[bold]Yang[normal]: Eh!?
 Messire Cecil?[new]
 [bold]Cecil[normal]: Yang![new]
-[bold]Rydia[normal]: Je suis si contente que tu
-ailles bien![new]
+[bold]Rydia[normal]: Quel soulagement![new]
 [bold]Yang[normal]: Les Sylphes m'ont arraché aux
 griffes de la mort.[new]
 [bold]Rosa[normal]: Grâce à toi, le canon géant a
@@ -2917,14 +2911,14 @@ Sylphe: Ne fais pas de bêtise! Nous allons les aider![end]</sn:string>
 [bold]Sylphe[normal]: Cette personne est bien une
 invocatrice, n'est-ce pas?
 Elle pourra nous appeler!
-Nous combattrons à ta place![new]
+Nous combattrons à ta place, Yang![new]
 [bold]Rydia[normal]: Enchantée, les Sylphes!
 [force_bold]Rydia a appris Sylphe![force_normal][music][0x29][delay][0x28][end]</sn:string>
 <sn:string index="14">[bold]Sylphe[normal]: Ah!
 Arrêtez![end]</sn:string>
 <sn:string index="15">Yang va beaucoup mieux![end]</sn:string>
 <sn:string index="16">C'est bien vide sans Yang...[end]</sn:string>
-<sn:string index="17">Il est marié, alors... enfin bon![end]</sn:string>
+<sn:string index="17">Il a une femme, alors on n'y peut rien.[end]</sn:string>
 <sn:string index="18">Dites bonjour à Yang de
 notre part![end]</sn:string>
 </sn:area>
