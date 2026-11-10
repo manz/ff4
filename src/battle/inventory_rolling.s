@@ -1679,6 +1679,10 @@ reset_list_scroll_hdma_rolling:
     and #0x04
     bne _reset_use_circular
 
+; The spell list draws its visible rows from btl_list_scroll right after this; vanilla zeroes it only when the
+; cursor lands (~14 frames later), so the rows of the previous list's scroll filled the ring instead.
+    ldx.w #0x0000
+    stx 0xEF85
     ldx.w #0x0173  ; 371 - base scroll
     stx 0xEF65
     ldy.w #0x000C  ; 12 scanlines
