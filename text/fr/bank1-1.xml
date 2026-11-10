@@ -851,7 +851,7 @@ Caïn: C'est un des quatre Empereurs de Golbez! Barbariccia du Vent![end]</sn:po
     <sn:pointer id="260">Barbariccia: Caïn... Toi aussi, tu changes de camp? Avec tout le pouvoir que tu as![new]
 Caïn: Je n'ai pas changé de camp. Dis plutôt que j'ai repris mes esprits, Barbariccia![new]
 Barbariccia: Ne prends pas ce ton familier avec moi! J'aurais dû vous éliminer, Rosa et toi![new]
-Mais celui qui maniait Météore n'est plus. Maintenant que vous êtes tous réunis, je vais vous enterrer d'un seul coup![new]
+Mais celui qui maniait Météore n'est plus. Maintenant que vous êtes tous réunis, je vais vous enterrer ensemble![new]
 Caïn: Hmph. Tu n'es pas la seule à savoir te battre dans les airs![end]</sn:pointer>
     <sn:pointer id="261">Barbariccia: Caïn... misérable! Même si tu me vaincs... il reste le dernier des quatre Empereurs![new]
 Disparaissez avec la tour de Zot![end]</sn:pointer>
@@ -998,7 +998,7 @@ ma parole![end]</sn:pointer>
     <sn:pointer id="297">M. Cecil! Le patron nous a demandé de fixer ce crochet à l'Enterprise! Ce sera fait en un clin d'œil![end]</sn:pointer>
     <sn:pointer id="298">«Maintenant, vous pouvez soulever l'aéroglisseur et le transporter!»[new]
 «Aux commandes de l'Enterprise, placez-vous au-dessus de l'aéroglisseur et appuyez sur le bouton de validation pour l'accrocher ou le décrocher!»[new]
-«Vous pouvez aussi aller à la grotte d'Eblana, où se dresse la tour de Babil! Posez l'aéroglisseur sur les hauts-fonds du continent et continuez avec!»[end]</sn:pointer>
+«Vous pouvez aussi aller à la grotte d'Eblana, où se dresse la tour de Babil! Posez l'aéroglisseur sur les hauts-fonds du continent et changez de véhicule!»[end]</sn:pointer>
     <sn:pointer id="299">[bold]Cecil[normal]: En fait, Cid...[new]
 «Il déborde d'énergie, il doit vous épuiser, hein? Celui-là, même si on le tuait, il ne mourrait pas! Sur ce, on a du travail par-dessus la tête! Bon courage!»[end]</sn:pointer>
     <sn:pointer id="300">[bold]Homme[normal]: Je t'ai enfin trouvé, Rubicante!
@@ -1425,13 +1425,12 @@ Cecil: Merci, Yang...[end]</sn:pointer>
 Voulez-vous nous prêter main-forte?[close_window][end]</sn:pointer>
     <sn:pointer id="411">[bold]Roi Fabul[normal]: Je ne peux pas vous forcer...
 Voilà qui est fâcheux...[end]</sn:pointer>
-    <sn:pointer id="412">[bold]Yang[normal]: Occupe-toi de tout pendant
-mon absence![new]
+    <sn:pointer id="412">[bold]Yang[normal]: Je te confie la maison![new]
 [bold]Femme de Yang[normal]: Compte sur moi![end]</sn:pointer>
-    <sn:pointer id="413">[bold]Cecil[normal]: Allons trouver Cid, l'ingénieur aéronautique.
-Il conçoit des aéronefs pour Baron.
-Il devrait pouvoir nous aider.[new]
-[bold]Yang[normal]: J'espère qu'il va bien.[new]
+    <sn:pointer id="413">[bold]Cecil[normal]: D'abord, allons voir Cid, l'ingénieur.
+Il connaît bien les aéronefs,
+il pourra nous aider.[new]
+[bold]Yang[normal]: Pourvu qu'il soit sain et sauf.[new]
 [bold]Edward[normal]: ...[end]</sn:pointer>
     <sn:pointer id="414">[bold]Rydia[normal]: T'as froid?
 Tu trembles.[new]
@@ -1446,11 +1445,11 @@ Ma danse![end]</sn:pointer>
     <sn:pointer id="421">«Fufufu... Vous manquez encore d'entraînement.»[end]</sn:pointer>
     <sn:pointer id="422">Palom: Pas besoin de me le dire, je sais![end]</sn:pointer>
     <sn:pointer id="423">[bold]Porom[normal]: Palom!
-L'Ancien dit qu'il ne faut pas être
-arrogant![end]</sn:pointer>
+L'Ancien nous a pourtant dit de ne pas
+être orgueilleux![end]</sn:pointer>
     <sn:pointer id="424">Porom: Allons-y, M. Cecil![end]</sn:pointer>
     <sn:pointer id="425">Golbez: Je comprends ton respect pour ton ancien ami... C'est bien pour ça que je lui ai envoyé Scarmiglione...[new]
-Scarmiglione est un des quatre Empereurs. Il devrait nous offrir un spectacle divertissant. Qu'en penses-tu, Rosa?[end]</sn:pointer>
+Lui aussi est l'un des quatre Empereurs. Il devrait bien nous divertir. N'est-ce pas, Rosa?[end]</sn:pointer>
     <sn:pointer id="426">[bold]Caïn[normal]: Oui...![new]
 [bold]Rosa[normal]: Cecil...
 Fais attention![end]</sn:pointer>
@@ -1460,14 +1459,14 @@ Fais attention![end]</sn:pointer>
 [bold]Tella[normal]: Et toi, Cecil?[new]
 [bold]Cecil[normal]: Je suis venu pour devenir
 paladin.
-Il paraît que la lame noire ne peut pas
-vaincre Golbez...[new]
-Et je veux me défaire de cette maudite
-lame noire...![end]</sn:pointer>
+On dit que la lame noire ne peut vaincre
+Golbez...[new]
+Et puis, je veux me défaire de cette
+lame maudite...![end]</sn:pointer>
     <sn:pointer id="430">[bold]Tella[normal]: Golbez est à l'origine de
 tout le mal![end]</sn:pointer>
-    <sn:pointer id="431">Tella: Un paladin...? C'est bien ce que je sentais, cette montagne cache quelque chose![new]
-Allons-y ensemble. ...Attends un peu, Golbez! [force_bold]Le sage Tella a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
+    <sn:pointer id="431">Tella: Un paladin...? Je m'en doutais, cette montagne cache quelque chose![new]
+Faisons route ensemble... Attends-moi, Golbez! [force_bold]Le sage Tella a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="432">[bold]Scarmiglione[normal]: Gu... pwaaah![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
@@ -1477,12 +1476,11 @@ Qui êtes-vous?[end]</sn:pointer>
 [bold]Porom[normal]: Attention![end]</sn:pointer>
     <sn:pointer id="436">[bold]Tella[normal]: !?
 Mé... ...téore?[new]
-Cette lumière me l'aurait accordée...? La magie noire suprême, celle qu'on avait scellée... Météore! [force_bold]Tella a appris Météore![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
+Cette lumière me l'a donc accordée? La magie noire suprême, scellée depuis longtemps... Météore! [force_bold]Tella a appris Météore![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="437">[bold]Palom[normal]: Hé! Attends![end]</sn:pointer>
     <sn:pointer id="438">Porom: Allons-y, M. Cecil![new]
-Cecil: Ou...ouais![end]</sn:pointer>
-    <sn:pointer id="439">[bold]Cecil[normal]: Où sont Rydia et
-Edward!?[end]</sn:pointer>
+Cecil: Ah... oui![end]</sn:pointer>
+    <sn:pointer id="439">[bold]Cecil[normal]: Et Rydia et Edward?![end]</sn:pointer>
     <sn:pointer id="440">[bold]Yang[normal]: Hm?
 Qu'est-ce que c'est!?[end]</sn:pointer>
     <sn:pointer id="441">[bold]Soldats[normal]: Nous, les Ailes Rouges,
