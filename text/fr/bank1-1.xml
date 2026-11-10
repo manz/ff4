@@ -1332,22 +1332,22 @@ légende.[force_new]
 Et de croire en celui qui porte la Lumière
 Sacrée...[new]
 Peut-être es-tu cette personne![end]</sn:pointer>
-    <sn:pointer id="381">[bold]Cid[normal]: Je vais fixer un foret à la
-proue du Faucon pour percer la roche qui
-bloque le passage vers la surface![new]
+    <sn:pointer id="381">[bold]Cid[normal]: Je vais monter une foreuse sur
+la proue du Faucon et percer la roche qui
+bouche le passage vers la surface![new]
 [bold]Rosa[normal]: Tes blessures vont mieux?[new]
-[bold]Cid[normal]: Ce n'est pas le moment de
-s'inquiéter des blessures d'un vieil homme![new]
+[bold]Cid[normal]: C'est pas le moment de
+s'en faire pour les bobos d'un vieux croulant![new]
 [bold]Edge[normal]: Tu peux vraiment le faire?[new]
 [bold]Cid[normal]: Pour Cid, l'ingénieur aéronautique, impossible n'est pas français![end]</sn:pointer>
     <sn:pointer id="382">Palom: Ça pue l'arnaque![new]
-Porom: Si vous voulez jouer la comédie, faites-le un peu mieux![new]
+Porom: Si vous jouez la comédie, tâchez au moins de mieux jouer![new]
 Cecil: Toi aussi, Golbez t'a...[new]
-Beigan: Je vous prie d'arrêter de parler ainsi... Il m'a fait un don merveilleux.[new]
+Beigan: Je vous prierais de ne pas parler ainsi... Il m'a fait un don merveilleux.[new]
 Un pouvoir si magnifique![end]</sn:pointer>
     <sn:pointer id="383">Vous avez fait de Léviathan votre allié.
-Mais cela aurait pu se faire sans le
-pouvoir de la Lumière.[new]
+Mais cela, on peut l'accomplir même sans
+le pouvoir de la Lumière.[new]
 Le jugement final pour savoir si la vraie
 Lumière réside en vous... sera rendu par le
 Dieu des Chimères...
@@ -1357,9 +1357,9 @@ Bahamut![end]</sn:pointer>
 Cecil: Beigan! Ne me dis pas que toi aussi...[new]
 Beigan: Que moi aussi quoi?[new]
 Cecil: Que Golbez te contrôle...[new]
-Beigan: Non! Je suis le capitaine des gardes! Ma loyauté envers Baron est inébranlable![new]
-Cecil: J'ai entendu dire que Cid a été capturé... c'est vrai?[new]
-Beigan: Quelques gardes et moi avons essayé de le sauver, mais hélas, je suis le seul survivant...[new]
+Beigan: Allons donc. Je commande la garde royale! Rien ne fera plier ma loyauté envers Baron![new]
+Cecil: On m'a dit que Cid avait été capturé?[new]
+Beigan: Nous sommes venus le délivrer avec les gardes restants, mais je suis le seul survivant.[new]
 Cecil: Je vois... Alors joins-toi à nous! Avec toi à nos côtés, je suis rassuré![new]
 Beigan: Oui, Messire![new]
 [force_bold]Le capitaine des gardes, Beigan, a rejoint l'équipe![force_normal] [music][0x29][delay][0x28][end]</sn:pointer>
@@ -1367,23 +1367,23 @@ Beigan: Oui, Messire![new]
 Au boulot![end]</sn:pointer>
     <sn:pointer id="387">[bold]Cecil[normal]: Mon cœur bat la chamade...![end]</sn:pointer>
     <sn:pointer id="388">[bold]Ancien[normal]: Prenez la Route du Démon, à droite du village, pour rejoindre Baron! Moi, je prierai dans la tour, là-haut, pour vous... non, pour tout ce qui vit! Je compte sur vous...![end]</sn:pointer>
-    <sn:pointer id="389">[bold]Palom[normal]: Ouais, je préfère ça![new]
-[bold]Porom[normal]: Calme-toi!
-Et allons-y![end]</sn:pointer>
+    <sn:pointer id="389">[bold]Palom[normal]: Youhou! Voilà qui me plaît![new]
+[bold]Porom[normal]: Au lieu de faire le fou,
+en route![end]</sn:pointer>
     <sn:pointer id="390">[bold]Edward[normal]: C'est ici que le Fourmilion pond ses œufs.[end]</sn:pointer>
-    <sn:pointer id="391">Rydia: Oh![new]
-Edward: Ne t'en fais pas. Le Fourmilion est docile. Il n'attaquerait pas un humain. Je vais prendre la Lumière du désert.[end]</sn:pointer>
+    <sn:pointer id="391">Rydia: Aaah![new]
+Edward: Ne t'en fais pas. Le Fourmilion est docile. Il ne s'en prend pas aux humains. Je vais prendre la Lumière du désert.[end]</sn:pointer>
     <sn:pointer id="392">[bold]Cecil[normal]: Allons-y, Rydia![end]</sn:pointer>
     <sn:pointer id="393">Vous avez obtenu la Lumière du désert![music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="394">[bold]Edward[normal]: C'est impossible!
 Pourquoi le Fourmilion...?[new]
 [bold]Cecil[normal]: Il y a de plus en plus de
 monstres, dernièrement.
-Des créatures autrefois paisibles
-commencent à attaquer les humains...[force_new]
-Ce doit être le présage de quelque
+Même les bêtes jusqu'ici paisibles
+nous attaquent...[force_new]
+C'est sûrement le présage de quelque
 chose...[new]
-[bold]Rydia[normal]: On va sauver Rosa, vite![new]
+[bold]Rydia[normal]: Vite, pour Rosa![new]
 [bold]Cecil[normal]: Oui, allons-y.[end]</sn:pointer>
     <sn:pointer id="395">Soldat: Oui, mon capitaine![new]
 Soldat: Il y a de plus en plus de monstres ces derniers temps...[new]
@@ -1396,12 +1396,12 @@ Cecil: Quelque chose... se prépare?[end]</sn:pointer>
 vous ferai aucun mal.
 Partez sur-le-champ.»[new]
 [bold]Caïn[normal]: Montre-toi![new]
-«Vous voulez vraiment continuer?»[close_window][end]</sn:pointer>
+«Vous ne comptez donc pas rebrousser chemin...?»[close_window][end]</sn:pointer>
     <sn:pointer id="398">Edward: Cecil... Rosa veut être avec toi.[new]
-Cecil: Bien, Rosa. Allons-y ensemble. Mais il est tard. Partons demain matin.[new]
-En attendant, repose-toi bien cette nuit.[new]
+Cecil: D'accord, Rosa... Nous irons ensemble. Il fait nuit... nous partirons demain matin.[new]
+Pour ce soir, repose-toi bien.[new]
 Rosa: Cecil... D'accord. [force_bold]La mage blanche Rosa a rejoint l'équipe![force_normal][end]</sn:pointer>
-    <sn:pointer id="399">Rosa: Ne t'inquiète pas pour moi. Et je suis une mage blanche. Je ne serai pas un fardeau![new]
+    <sn:pointer id="399">Rosa: Ne t'inquiète pas pour moi. Et puis, je suis mage blanche. Je ne serai pas un fardeau![new]
 Cecil: ...[end]</sn:pointer>
     <sn:pointer id="400">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
     <sn:pointer id="401">[bold]Edward[normal]: Ouah![end]</sn:pointer>
@@ -1419,9 +1419,9 @@ Cecil: Merci, Yang...[end]</sn:pointer>
     <sn:pointer id="405">Bam![end]</sn:pointer>
     <sn:pointer id="406">[bold]Cecil[normal]: Arrêtez ça![end]</sn:pointer>
     <sn:pointer id="407">Veux-tu me voir danser?[close_window][end]</sn:pointer>
-    <sn:pointer id="408">Tu es horrible de te moquer de moi comme ça![end]</sn:pointer>
+    <sn:pointer id="408">Méchant... Te moquer de moi comme ça![end]</sn:pointer>
     <sn:pointer id="409">Oui![delay][0x5][close_window][end]</sn:pointer>
-    <sn:pointer id="410">Roi Fabul: Je suis désolé! C'était donc vrai. Mais sans le gros de nos moines...[new]
+    <sn:pointer id="410">Roi Fabul: Pardonnez-moi! C'était donc vrai. Mais sans le gros de nos moines...[new]
 Voulez-vous nous prêter main-forte?[close_window][end]</sn:pointer>
     <sn:pointer id="411">[bold]Roi Fabul[normal]: Je ne peux pas vous forcer...
 Voilà qui est fâcheux...[end]</sn:pointer>
