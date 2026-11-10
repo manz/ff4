@@ -1130,7 +1130,7 @@ Cecil: Cid![end]</sn:pointer>
 Caïn: Après avoir joué les héros...[new]
 Cid: Wahaha...![new]
 Edge: C'est qui, ce pépé?[end]</sn:pointer>
-    <sn:pointer id="327">[bold]Nain[normal]: M'sieur, faut rester couché![new]
+    <sn:pointer id="327">[bold]Nain[normal]: Le vieux, faut rester couché![new]
 [bold]Nain[normal]: Attendez d'être guéri![end]</sn:pointer>
     <sn:pointer id="328">[bold]Rosa[normal]: On dirait qu'il va bien.[new]
 [bold]Cecil[normal]: Oui![end]</sn:pointer>
@@ -1214,27 +1214,28 @@ Allez, on y va![end]</sn:pointer>
 Papa...
 Maman...
 Vous êtes vengés![end]</sn:pointer>
-    <sn:pointer id="356">[bold]Giotto[normal]: Oh, nous vous attendions![end]</sn:pointer>
+    <sn:pointer id="356">[bold]Giotto[normal]: Ah, enfin!
+Je vous attendais avec impatience![end]</sn:pointer>
     <sn:pointer id="357">[bold]Giotto[normal]: Alors, avez-vous récupéré les
 cristaux?[new]
-[bold]Cecil[normal]: Pour être franc...[new]
+[bold]Cecil[normal]: C'est que...[new]
 [bold]Giotto[normal]: Je vois...
 Golbez tente de forcer l'entrée de la grotte Scellée pour s'emparer du dernier
 cristal![new]
-Ce n'est qu'une question de temps avant
-qu'il n'y parvienne.
-Je veux que vous preniez le cristal avant.
+Ce n'est plus qu'une question de temps.
+Il faut que vous preniez le cristal avant lui.
 Luca![end]</sn:pointer>
     <sn:pointer id="358">[bold]Cecil[normal]: Cid...[new]
-[bold]Rosa[normal]: Tu forces trop...[new]
+[bold]Rosa[normal]: Quelle imprudence...[new]
 [bold]Cid[normal]: ...On dirait que c'est plus la place d'un vieux comme moi... Et dans l'état où je suis...[new]
 Tout ce que je peux faire, c'est bricoler
 des aéronefs...[end]</sn:pointer>
     <sn:pointer id="359">Edge: Pfff... Pépé, chapeau![new]
 Rydia: Remets-toi bien...[end]</sn:pointer>
-    <sn:pointer id="360">[bold]Cid[normal]: Prends soin de Cecil et de Rosa...[new]
-[bold]Edge[normal]: T'en fais pas!
-Repose-toi![end]</sn:pointer>
+    <sn:pointer id="360">[bold]Cid[normal]: Je te confie Cecil...
+et Rosa...![new]
+[bold]Edge[normal]: Oui, oui!
+Toi, reste là bien tranquille![end]</sn:pointer>
     <sn:pointer id="361">[bold]Cid[normal]: Cecil...!
 Fais attention...![new]
 [bold]Rosa[normal]: Toi aussi, Cid...[new]
@@ -1244,18 +1245,18 @@ occuper d'un vieux comme moi![new]
 [bold]Cecil[normal]: Merci...
 Cid![end]</sn:pointer>
     <sn:pointer id="362">[center]Celui qui naîtra de la gueule du dragon s'élèvera haut dans les cieux, portant Ténèbres et Lumière, et apportera à la terre endormie une nouvelle promesse. La Lune, baignée d'une lumière infinie, comblera la Terre Mère de grâce et de clémence.[end]</sn:pointer>
-    <sn:pointer id="363">Palom: Ce vieux a appris Météore![new]
+    <sn:pointer id="363">Palom: Le vieux a obtenu Météore![new]
 Ancien: Météore...! Que se passe-t-il de si grave pour que ce sort soit descellé?![new]
-Tella: Il semblerait... Je vengerai Anna avec ça![new]
+Tella: Il semble bien. Je vengerai Anna avec ça![new]
 Ancien: Anna?[new]
 Tella: Golbez l'a tuée! Lui, c'est moi qui l'abattrai avec Météore![new]
 Ancien: Tella! Se battre par haine, c'est courir à sa perte! Et dans ton état, Météore est trop dangereux![new]
 Tella: Même si cela doit me détruire! Lui, je ne lui pardonnerai jamais![new]
-Ancien: Comme je m'y attendais. Tu n'as pas changé.[new]
+Ancien: Je m'en doutais. Toujours le même.[new]
 Tella: Toi non plus...[new]
 Ancien: Mais messire Cecil, lui aussi, est devenu paladin. Si vous unissez vos forces...![new]
 Cecil: Mais pour affronter Golbez, nous devons retourner à Baron et prendre un aéronef...[new]
-Ancien: Compris... Je vais briser le sceau de la Route du Démon![new]
+Ancien: Bien... Je vais briser le sceau de la Route du Démon![new]
 En tant que paladin, tu peux traverser la Route du Démon! Va à Baron![new]
 J'entrerai dans la tour des Prières et prierai pour vous... Je compte sur toi... paladin Cecil![new]
 Cecil: Oui![end]</sn:pointer>
@@ -1277,23 +1278,22 @@ Edge: En plus, je suis beau! Et fort aussi![end]</sn:pointer>
     <sn:pointer id="367">Rydia: Oncle Cid est blessé, alors ne l'énerve pas trop![new]
 Cid: Quoi? Edge, tu te laisses mener par le bout du nez par Rydia?[new]
 Edge: La... La ferme![end]</sn:pointer>
-    <sn:pointer id="368">Cid: Plus sérieusement... À propos de Golbez?[new]
+    <sn:pointer id="368">Cid: Bon, Cecil. Et Golbez?![new]
 Cecil: On a battu ses quatre Empereurs. Mais il a tous les cristaux sauf un...[new]
 Rosa: Nous voulons aller chercher le dernier cristal, mais l'Enterprise est restée à la surface.[new]
 Caïn: L'aéronef qu'on a piqué à l'ennemi ne peut pas survoler la lave.[new]
 Cid: Hé hé! On dirait que c'est à moi de jouer! Vraiment, vous pouvez rien faire sans moi...[music][0x24][end]</sn:pointer>
-    <sn:pointer id="369">[bold]Cid[normal]: Vous êtes des vieux, vous
-aussi!
+    <sn:pointer id="369">[bold]Cid[normal]: Vieux vous-mêmes!
 On n'a pas le temps de traîner![new]
 Venez m'aider![end]</sn:pointer>
     <sn:pointer id="370">Cecil: Caïn![new]
 Rosa: Tiens bon![new]
-Caïn: Ça va... J'ai recouvré mes esprits![end]</sn:pointer>
+Caïn: Ça va... Je suis redevenu moi-même![end]</sn:pointer>
     <sn:pointer id="371">Caïn: Maintenant, tous les cristaux sont réunis! Le chemin vers la Lune va s'ouvrir![new]
 Edge: Attends, enfoiré!![end]</sn:pointer>
     <sn:pointer id="372">[bold]Cecil[normal]: Caïn...[new]
 [bold]Edge[normal]: Bon sang![end]</sn:pointer>
-    <sn:pointer id="373">[bold]Cecil[normal]: La porte attaque![end]</sn:pointer>
+    <sn:pointer id="373">[bold]Cecil[normal]: La porte nous attaque![end]</sn:pointer>
     <sn:pointer id="374">Cecil: Le mur![new]
 Rydia: Il bouge![new]
 Caïn: La grotte Scellée porte bien son nom! Même après avoir pris le cristal, on ne peut pas baisser la garde![new]
@@ -1301,19 +1301,19 @@ Edge: Alors on va le démolir![end]</sn:pointer>
     <sn:pointer id="375">[bold]Rydia[normal]: On a réussi![new]
 [bold]Edge[normal]: Va te faire voir![end]</sn:pointer>
     <sn:pointer id="376">Golbez: Ha ha ha ha ha![end]</sn:pointer>
-    <sn:pointer id="377">[bold]Giotto[normal]: Oh!
-Vous revoilà!
-Le dernier cristal...[end]</sn:pointer>
+    <sn:pointer id="377">[bold]Giotto[normal]: Ah!
+Vous voilà de retour!
+Alors, le dernier cristal...[end]</sn:pointer>
     <sn:pointer id="378">Cecil: À vrai dire...[new]
-Giotto: Quoi!? Il les a tous![new]
-Nous n'avons plus d'espoir... à moins que la légende du vaisseau magique ne soit vraie...[new]
+Giotto: Quoi! Il les a donc tous?![new]
+Nous voilà sans recours... à moins que la légende du vaisseau magique ne soit vraie...[new]
 Cecil: Vaisseau magique!?[music][0x0][new]
-Giotto: Un immense vaisseau qui existait dans un lointain passé. Il y a cette légende...[new]
+Giotto: Un immense vaisseau qui aurait existé il y a bien longtemps. Une légende dit...[new]
 «Celui qui naîtra de la gueule du dragon...»[new]
 Cecil: C'est la légende de Mysidia![new]
 Giotto: Vous connaissez Mysidia?[new]
 Cecil: C'est le village des mages, à la surface![new]
-Giotto: Mysidia existe vraiment![new]
+Giotto: Alors Mysidia existe vraiment![new]
 Cecil: L'Ancien est entré dans le temple des Prières et continue de prier.[new]
 Giotto: Se pourrait-il que cette personne...[new]
 Cecil: ?[new]
