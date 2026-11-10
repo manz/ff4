@@ -79,6 +79,11 @@ SMALL_VWF_ALLOCATOR_SIZE := 3
 .reserve description_cache 2 in sram_bank71
 ; Steps taken while the place-name window is up (ingame/places_names.s).
 .reserve place_name_steps 1 in sram_bank71
+; Pixels before a small-VWF render's first glyph (render.render_with_config), under 8; the map title sets it for its
+; render and puts it back to 0.
+.reserve render_lead 1 in sram_bank71
+; The blank cells before a map title, centring it (ingame/map_title_vwf.s).
+.reserve map_title_cells 1 in sram_bank71
 
 ; Deferred menu VRAM uploads (small_vwf/vram_queue.s): 16 entries of (VRAM word, source, bytes, source bank).
 VRAM_QUEUE_SLOTS := 16
