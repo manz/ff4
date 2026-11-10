@@ -5,7 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from utils.dialog_layout import LINE_WIDTHS, NEW_WINDOW, DialogLayout, dialog_layout, dialog_texts
+from utils.dialog_layout import (
+    LINE_WIDTHS,
+    NEW_WINDOW,
+    DialogLayout,
+    dialog_layout,
+    dialog_texts,
+)
 
 
 @pytest.fixture(scope="module")
