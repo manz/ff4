@@ -853,38 +853,38 @@ Caïn: Je n'ai pas changé de camp. Dis plutôt que j'ai repris mes esprits, Bar
 Barbariccia: Ne prends pas ce ton familier avec moi! J'aurais dû vous éliminer, Rosa et toi![new]
 Mais celui qui maniait Météore n'est plus. Maintenant que vous êtes tous réunis, je vais vous enterrer d'un seul coup![new]
 Caïn: Hmph. Tu n'es pas la seule à savoir te battre dans les airs![end]</sn:pointer>
-    <sn:pointer id="261">Barbariccia: Caïn... misérable! Même si tu me vaincs... le dernier des quatre Empereurs est encore là![new]
-Disparaissez avec cette tour de Zot![end]</sn:pointer>
-    <sn:pointer id="262">Cecil: La tour s'effondre![new]
+    <sn:pointer id="261">Barbariccia: Caïn... misérable! Même si tu me vaincs... il reste le dernier des quatre Empereurs![new]
+Disparaissez avec la tour de Zot![end]</sn:pointer>
+    <sn:pointer id="262">Cecil: Ça... ça s'effondre![new]
 Caïn: Bon sang![new]
 Cid: Haaa![end]</sn:pointer>
     <sn:pointer id="263">[bold]Cecil[normal]: C'est...[end]</sn:pointer>
-    <sn:pointer id="264">[bold]Rosa[normal]: ...Ta chambre à Baron.[new]
-[bold]Cid[normal]: On est à l'abri.
-Cet imposteur de roi est mort.[new]
+    <sn:pointer id="264">[bold]Rosa[normal]: C'est ta chambre, à Baron.[new]
+[bold]Cid[normal]: Le faux roi est mort,
+on peut souffler![new]
 [bold]Caïn[normal]: Cecil...
-Il faut que je te parle de quelque chose.[end]</sn:pointer>
+Il y a une chose que je dois te dire...[end]</sn:pointer>
     <sn:pointer id="265">Cid: Qu'est-ce qu'il y a?[new]
 Caïn: Il s'agit des cristaux...[new]
-Cecil: Le cristal emprunté à Troia a été volé aussi... Cela signifie qu'il possède maintenant tous les cristaux.[new]
+Cecil: Le cristal de la Terre que Troia nous avait prêté a été volé aussi... Il a donc tous les cristaux.[new]
 Caïn: Non, il n'en a que quatre![new]
 Rosa: Mais il n'en existe que quatre...[new]
 Cid: J'en ai entendu parler![new]
 Rosa: Ne me dis pas que...[new]
 Caïn: Si... les cristaux d'Obscurité![music][0x2d][end]</sn:pointer>
     <sn:pointer id="266">Cid: Les quatre cristaux de ce monde sont, pour ainsi dire, ceux de la surface.[new]
-Yang: Alors il y a des cristaux de l'autre côté...?[new]
+Yang: Et ceux de l'envers...?[new]
 Cecil: Ce sont donc les cristaux d'Obscurité![new]
-Caïn: En effet. Donc, ça veut dire que Golbez n'a que la moitié des cristaux![new]
-Cid: J'ai entendu parler des cristaux d'Obscurité, mais où ils sont...[new]
+Caïn: Exactement. Golbez n'en a donc que la moitié![new]
+Cid: J'ai entendu parler des cristaux d'Obscurité, mais où ils se trouvent, ça...[new]
 Caïn: Mais Golbez, lui, les a trouvés.[new]
-Cecil: On doit se dépêcher! Où sont-ils?[new]
+Cecil: Il faut faire vite! Mais où sont-ils?[new]
 Caïn: L'envers du monde, au sens propre... le monde souterrain![new]
 Yang: Le monde souterrain!?[new]
 Cid: Faudrait creuser un trou pour y aller![new]
 Caïn: En tout cas, Golbez a dit qu'une fois réunis les cristaux de la surface et ceux des profondeurs, de la lumière et des ténèbres,[force_new] le chemin vers la Lune s'ouvrirait.[new]
 Cecil: Le chemin vers la Lune?[new]
-Caïn: Je ne suis pas sûr de ce que ça veut dire... mais apparemment, ceci en serait la clé. Tiens, prends-le.[end]</sn:pointer>
+Caïn: Je n'en sais pas plus... mais ceci en serait la clé. Tiens, prends-le.[end]</sn:pointer>
     <sn:pointer id="267">Vous avez obtenu la Pierre de magma.
 [bold]Cecil[normal]: Qu'est-ce que c'est?[new]
 [bold]Caïn[normal]: Il paraît qu'en la brandissant au bon endroit, on ouvre le passage vers le monde souterrain...[new]
@@ -897,64 +897,64 @@ bien être?[new]
 [bold]Caïn[normal]: Les Ailes Rouges![end]</sn:pointer>
     <sn:pointer id="270">[bold]Cid[normal]: Ça fait mal, Enterprise?
 Tiens bon![new]
-[bold]Cecil[normal]: Nous allons nous écraser![end]</sn:pointer>
+[bold]Cecil[normal]: On tombe![end]</sn:pointer>
     <sn:pointer id="271">Roi Nain: Oh, vous êtes saufs![new]
 Cecil: Qui êtes-vous?[new]
-Roi Nain: Je suis le maître du monde souterrain, le roi des Nains, Giotto...[new]
-Cecil: Où sont les cristaux d'Obscurité?[new]
-Giotto: Ah, c'est donc pour ça que vous êtes venus. On se disait que vous étiez avec eux, mais ils vous ont abattus.[force_new]
-En fait, on était nous-mêmes prêts à vous tirer dessus.[new]
-Caïn: Les cristaux sont à l'abri?[new]
-Giotto: Hélas, ils ont déjà pris deux des quatre cristaux.[new]
+Roi Nain: Je suis Giotto, roi des Nains, souverain de ce monde souterrain.[new]
+Cecil: Et les cristaux d'Obscurité?![new]
+Giotto: Ah, c'est donc pour ça que vous êtes venus. Pour des alliés à eux, ils vous canardaient drôlement.[force_new]
+Nous avons bien failli vous abattre, nous aussi.[new]
+Caïn: Les cristaux d'ici sont-ils intacts?[new]
+Giotto: Hélas, ils en ont déjà pris deux sur quatre.[new]
 Yang: Nous sommes donc arrivés trop tard...[new]
 Giotto: Mais le cristal de ce château est, lui, toujours en sécurité.[new]
 Nos chars nains ont réussi à les repousser.[new]
 Rosa: Alors c'étaient vos chars qui combattaient les aéronefs.[new]
-Giotto: Oh, comme ça vous appelez ces choses aéronefs... Dire que le monde d'en haut a de telles machines...[new]
+Giotto: Tiens, vous appelez ça des aéronefs? Dire que le monde d'en haut possède de telles machines...[new]
 Nous sommes fiers de nos chars, mais attaqués du ciel, ils peinent un peu... Pourriez-vous nous couvrir avec votre... aéronef?[new]
-Cid: C'est que... avec ces tirs et l'atterrissage forcé, il est un peu amoché.[end]</sn:pointer>
+Cid: C'est que... entre les tirs et l'atterrissage en catastrophe, il est un brin amoché, voyez.[end]</sn:pointer>
     <sn:pointer id="272">[bold]Cecil[normal]: Cid![end]</sn:pointer>
     <sn:pointer id="273">Cid a quitté le groupe.[end]</sn:pointer>
     <sn:pointer id="274">Cecil: Il n'y a personne, ici.[new]
 Yang: Je sens une présence plus loin![end]</sn:pointer>
-    <sn:pointer id="275">Caïn: Ça ne veut pas s'ouvrir![new]
+    <sn:pointer id="275">Caïn: Ça ne s'ouvre pas![new]
 «Kya-ho-ho-ho!»[end]</sn:pointer>
-    <sn:pointer id="276">«Nous sommes les joyeuses Calcabrina! Poupées effrayantes mais mignonnes! Bande d'idiots! Vous voilà venus vous jeter dans la gueule du loup! On va vous battre et offrir vos têtes au seigneur Golbez en cadeau! Kya-ho-ho-ho!»[end]</sn:pointer>
+    <sn:pointer id="276">«Nous sommes les joyeuses Calcabrina! Poupées effrayantes mais mignonnes! Bande d'idiots! Vous êtes venus vous jeter dans la gueule du loup! On va vous battre et vous offrir en cadeau au seigneur Golbez! Kya-ho-ho-ho!»[end]</sn:pointer>
     <sn:pointer id="277">[bold]Cecil[normal]: Quoi!?[new]
 «Cela faisait longtemps...»[end]</sn:pointer>
     <sn:pointer id="278">Cecil: Golbez...![new]
-Golbez: Merci pour l'autre jour. Mais celui qui utilisait Météore n'est plus de ce monde maintenant.[new]
-En remerciement de l'autre fois, je vais vous dire pourquoi je rassemble les cristaux.[force_new]
+Golbez: Merci pour l'autre jour. Mais celui qui maniait Météore n'est plus de ce monde.[new]
+Pour vous remercier, je vais vous dire pourquoi je rassemble les cristaux.[force_new]
 Lumière et ténèbres réunies... huit cristaux... C'est la clé pour faire revivre la tour de Babil, le chemin scellé vers la Lune.[force_new]
-On dit qu'il y a sur la Lune un pouvoir qui dépasse notre imagination. Avec ce cristal, j'en ai maintenant sept... Il n'en reste plus qu'un.[new]
-C'est aussi grâce à vous. Je me dois de vous remercier pour cela.[force_new] Prenez ceci! C'est mon dernier cadeau![end]</sn:pointer>
+On dit qu'il y a sur la Lune un pouvoir qui dépasse l'entendement. Avec ce cristal, j'en ai maintenant sept... Il n'en reste plus qu'un.[new]
+Et c'est grâce à vous. Il serait impoli de ne pas vous en remercier.[force_new] Recevez ceci! Mon dernier cadeau![end]</sn:pointer>
     <sn:pointer id="279">[bold]Cecil[normal]: On l'a vaincu!
 On a battu Golbez![end]</sn:pointer>
     <sn:pointer id="280">Rosa: C'est grâce à toi, Rydia![new]
-Cecil: Mais... comment as-tu grandi ainsi?[new]
+Cecil: Mais... comment as-tu grandi comme ça?[new]
 Rydia: Léviathan m'a avalée et m'a emmenée dans le monde des Chimères.[new]
 Cecil: Le monde des Chimères?[new]
 Rydia: C'est le monde où vivent les Chimères. Là-bas, elles sont devenues mes amies.[new]
 Je ne peux plus utiliser la magie blanche, mais en contrepartie, mes pouvoirs d'invocation et de magie noire se sont développés![force_new]
 Mais dans le monde des Chimères, le temps s'écoule différemment...[new]
-Rosa: Et c'est pourquoi tu as grandi si vite?[new]
+Rosa: C'est pour ça que tu es devenue adulte?[new]
 Caïn: Cecil, qui est cette fille?[new]
 Cecil: C'est Rydia, du village de Mist.[new]
-Caïn: Cette enfant!?[new]
+Caïn: La petite?![new]
 Yang: Quelle surprise...[new]
 Cecil: Mais pourquoi nous aides-tu...? Moi qui ai... ta mère...[new]
-Rydia: Ne dis rien! La reine du monde des Chimères m'a dit qu'un destin bien plus grand était en mouvement...[force_new]
-Que nous devons nous dresser contre lui...[new]
+Rydia: Ne dis rien! La reine du monde des Chimères m'a dit qu'un destin bien plus grand était en marche...[force_new]
+Que nous devions l'affronter...[new]
 Cecil: Rydia...! [force_bold]L'invocatrice Rydia a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
     <sn:pointer id="281">«Je ne... mourrai... pas!»[end]</sn:pointer>
     <sn:pointer id="282">[bold]Cecil[normal]: Il a pris le cristal![end]</sn:pointer>
     <sn:pointer id="283">Avez-vous l'autorisation des clercs?[end]</sn:pointer>
     <sn:pointer id="284">[bold]Edge[normal]: Ouais!
-On fonce tous ensemble, comme de vieux copains![new]
+Allez, on embarque tous ensemble, en bons copains![new]
 [bold]Rydia[normal]: Il ne doute de rien, celui-là! [force_bold]Le ninja
 Edge a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="285">[bold]Cid[normal]: Maintenant, vous pourrez
-voler sans vous soucier de la lave![new]
+    <sn:pointer id="285">[bold]Cid[normal]: Maintenant, lave ou pas lave,
+vous pourrez voler tranquilles![new]
 [bold]Rosa[normal]: Tu nous as sauvés, Cid.[new]
 [bold]Cid[normal]: ...[new]
 [bold]Caïn[normal]: Cid![music][0x2a][delay][0x28][end]</sn:pointer>
@@ -966,20 +966,20 @@ des ténèbres...[end]</sn:pointer>
 [bold]Golbez[normal]: Quand le chat n'est pas là,
 les souris dansent?
 Fini de rire...
-Il est temps de nous dire adieu.[new]
+Il est temps de nous quitter.[new]
 Adieu...![end]</sn:pointer>
-    <sn:pointer id="289">«Pile poil, hein!»[new]
+    <sn:pointer id="289">«Ouf, c'était moins une!»[new]
 [bold]Rosa[normal]: Cid![end]</sn:pointer>
-    <sn:pointer id="290">[bold]Cid[normal]: Euh?
-Où est Yang?[new]
+    <sn:pointer id="290">[bold]Cid[normal]: Hein?
+Et Yang?[new]
 [bold]Rosa[normal]: Il...[new]
-[bold]Cecil[normal]: Pour détruire le canon géant...[new]
+[bold]Cecil[normal]: En arrêtant le canon géant...[new]
 [bold]Cid[normal]: Je vois...
 Yang...[new]
 [bold]Rydia[normal]: [italic]snif[/italic]...[new]
-[bold]Cid[normal]: C'est qui, cette fille?[new]
-[bold]Cecil[normal]: Une survivante de Mist,
-Rydia.[end]</sn:pointer>
+[bold]Cid[normal]: Et la demoiselle?[new]
+[bold]Cecil[normal]: Rydia, une survivante
+de Mist.[end]</sn:pointer>
     <sn:pointer id="291">[bold]Cid[normal]: Le moteur va lâcher!
 Prends les commandes, Cecil![end]</sn:pointer>
     <sn:pointer id="292">[bold]Rosa[normal]: Cid![new]
