@@ -446,13 +446,21 @@ def dialog_layout(lang: str = "fr") -> DialogLayout:
     return DialogLayout(TextMetrics(table, FONTS), TYPOGRAPHY[lang], ABBREVIATIONS[lang], QUOTING[lang])
 
 
+def dialog_texts(text: str) -> list[tuple[str, str]]:
+    """A script's dialog texts with their ids: bank1's pointers (`12`), bank2's area strings (`38.0`)."""
+    texts = re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.DOTALL)
+    for area, body in re.findall(r'<sn:area id="(\d+)">(.*?)</sn:area>', text, re.DOTALL):
+        strings = re.findall(r'<sn:string index="(\d+)">(.*?)</sn:string>', body, re.DOTALL)
+        texts += [(f"{area}.{index}", string) for index, string in strings]
+    return texts
+
+
 def main(paths: list[str]) -> int:
-    """Print each dialog pointer of `paths` laid out, for review."""
+    """Print each dialog text of `paths` laid out, for review."""
     layout = dialog_layout()
     for name in paths:
-        text = Path(name).read_text(encoding="utf-8")
-        for pointer, body in re.findall(r'<sn:pointer id="(\d+)">(.*?)</sn:pointer>', text, re.DOTALL):
-            print(f"==== {Path(name).stem}#{pointer}\n{layout.layout(body)}")
+        for key, body in dialog_texts(Path(name).read_text(encoding="utf-8")):
+            print(f"==== {Path(name).stem}#{key}\n{layout.layout(body)}")
     return 0
 
 
