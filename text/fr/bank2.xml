@@ -396,7 +396,7 @@ l'opposé d'un chevalier noir.[end]</sn:string>
 ...Peut-être était-ce le destin.[end]</sn:string>
 <sn:string index="16">Fille: Oui?[new]
 Ancien: Où est Palom?[new]
-Fille: Pfff... Toujours Palom![end]</sn:string>
+Fille: Palom a encore filé![end]</sn:string>
 <sn:string index="17">Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
 Estime-toi heureux![end]</sn:string>
 <sn:string index="18">[bold]Porom[normal]: Vous êtes M. Cecil,
@@ -503,7 +503,7 @@ Toi aussi, t'aimes ça, hein![end]</sn:string>
 </sn:area>
 
 <sn:area id="29">
-<sn:string index="0">Vous en avez déjà vu? Ce sont des chocobos noirs.[new]
+<sn:string index="0">Rare, hein? Ce sont des chocobos noirs.[new]
 Comme ces chocobos ont été domestiqués par les humains, ils ne peuvent plus voler.[new]
 Toutefois, ceux du village Chocobo, au nord, sont sauvages et peuvent voler, mais pas très haut.[new]
 Ils ne peuvent se poser que dans des forêts, malheureusement.[end]</sn:string>
@@ -604,7 +604,7 @@ Vous ne devriez pas sortir maintenant.[end]</sn:string>
 part...[end]</sn:string>
 <sn:string index="10">L'accès à cette tour est interdit.[end]</sn:string>
 <sn:string index="11">[bold]Cid[normal]: Te revoilà, Cecil![end]</sn:string>
-<sn:string index="12">Cid: Rosa était inquiète! Si tu la fais pleurer, je ne te le pardonnerai pas![new]
+<sn:string index="12">Cid: Rosa était inquiète! Si tu fais pleurer Rosa, je ne te le pardonnerai pas![new]
 Au fait, comment se portent mes aéronefs chéris? Tes hommes les malmènent trop.[new]
 Ben dis donc, t'en tires une tronche![new]
 Cecil: Eh bien en fait, Cid...[new]
