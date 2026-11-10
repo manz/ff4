@@ -1,4 +1,7 @@
-"""Vanilla's English 8x8 labels in French: the digest's NV/PV/PM, RVB in the options, PM in battle's MP cost window."""
+"""
+Vanilla's English 8x8 labels in French: the digest's NV/PV/PM, the use-item blocks' PV/PM, RVB in the options, PM in
+battle's MP cost window.
+"""
 
 
 ; Level, HP, MP: NV, PV, PM, HP and MP a row lower
@@ -37,4 +40,14 @@
     sta 0xba94, y
     dec
     sta 0xba96, y
+}
+; Use-item character blocks (UseItemTarget's labels, menu/item.asm): HP, MP -> PV, PM
+.alloc at 0x01A4FA size 18 {
+    lda #0x51  ; P
+    sta.w 0x0000, y
+    sta.w 0x0040, y
+    lda #0x57  ; V
+    sta.w 0x0002, y
+    lda #0x4E  ; M
+    sta.w 0x0042, y
 }
