@@ -446,7 +446,7 @@ Rosa: Dépêchez-vous![end]</sn:pointer>
 Roi Fabul: Prince Edward![new]
 Edward: Damcyan a déjà été attaqué et notre cristal a été volé! J'ai perdu... mon père... ma mère... et celle que j'aimais...![new]
 Allez-vous laisser Fabul subir le même sort que Damcyan?![end]</sn:pointer>
-    <sn:pointer id="126">[bold]Yang[normal]: Allons-y, M. Cecil![end]</sn:pointer>
+    <sn:pointer id="126">[bold]Yang[normal]: Allons-y, messire Cecil![end]</sn:pointer>
     <sn:pointer id="127">Yang: Ce sont de fines lames! Ils tiendront la première ligne avec moi![new]
 Roi Fabul: Puisque tu en réponds à ce point, je m'en remets à vous![new]
 Quant à vous, mesdemoiselles, vous soignerez les blessés.[new]
