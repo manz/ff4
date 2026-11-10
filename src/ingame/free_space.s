@@ -15,7 +15,6 @@ Bank-$01 slack routines: VWF message helpers, build number, and the field invent
 .include "ingame/bank01_slack.i"
 .import "core/vanilla"
 
-.label _select_item_9ff8 = 0x019FF8
 .label _select_item_a003 = 0x01A003
 .label _select_item_a0ff = 0x01A0FF
 .label _select_item2_a40a = 0x01A40A
@@ -92,12 +91,7 @@ main_loop_scroll_check:
     jsr.w finish_scroll
     jmp.w _main_loop_skip_input  ; also on the frame the scroll finishes
 _main_loop_do_input:
-    lda.b 0x01
-    and #0x80
-    beq _left_not_pressed
-    jmp.w _select_item_9ff8
-_left_not_pressed:
-    jmp.w _select_item_a003
+    jmp.w _select_item_a003  ; past vanilla's Left (column toggle, then up): one column
 _main_loop_skip_input:
     jmp.w _select_item_a0ff
 
