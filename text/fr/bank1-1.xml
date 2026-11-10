@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sn:script xmlns:sn="http://snes.ninja/ScriptNS">
     <sn:pointer id="0">L'inventaire est plein.[end]</sn:pointer>
-    <sn:pointer id="1">Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="1">Vous avez trouvé[br][item]![end]</sn:pointer>
     <sn:pointer id="2">Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="3">Un monstre dans le coffre![end]</sn:pointer>
     <sn:pointer id="4">Le coffre est vide.[end]</sn:pointer>
@@ -47,7 +47,7 @@ Elle m'a protégé... des flèches...[end]</sn:pointer>
     <sn:pointer id="19">Aïe, ça brûle![end]</sn:pointer>
     <sn:pointer id="20">Il ne s'est rien passé.[end]</sn:pointer>
     <sn:pointer id="21">PM restaurés![end]</sn:pointer>
-    <sn:pointer id="22">Vous avez trouvé [item]![end]</sn:pointer>
+    <sn:pointer id="22">Vous avez trouvé[br][item]![end]</sn:pointer>
     <sn:pointer id="23">Vous avez trouvé [gils] Gils![end]</sn:pointer>
     <sn:pointer id="24">C'est scellé par un pouvoir mystérieux.[end]</sn:pointer>
     <sn:pointer id="25">Vous n'avez pas assez de Gils![end]</sn:pointer>
