@@ -453,14 +453,12 @@ C'est l'heure de l'entraînement! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="102">[bold]Ancien Roi[normal]: Allons, ne dis pas cela.
 Yang saura bâtir un nouveau Fabul! [delay][0xd][close_window][end]</sn:pointer>
     <sn:pointer id="103">«Lali-ho!»[delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="104">[bold]Giotto[normal]: Bien!
-Mettons-nous au travail et restaurons ce
-château! [delay][0x18][close_window][end]</sn:pointer>
+    <sn:pointer id="104">[bold]Giotto[normal]: Écoutez-moi!
+Réparez ce château au plus vite! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="105">«Majesté! Pas assez de matériaux, Lali!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="106">[bold]Giotto[normal]: Les chars!
 Démantelez les chars!
-On n'en a plus besoin!
 Il n'y aura plus jamais de guerres! [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="107">[bold]Luca[normal]: Père!
 Que deviennent M. Cecil et les autres? [delay][0x18][close_window][end]</sn:pointer>
@@ -470,7 +468,7 @@ Giotto: Nous avons été invités à leur couronnement![new]
 Luca: Super![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="109">«Majesté! Vous tirez au flanc, Lali!»[new]
 [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="110">Giotto: Bordel! Écrasez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="110">Giotto: Bah! Démolissez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="111">[bold]Caïn[normal]: Cecil...
 Rosa...[delay][0x18][new]
 Tel que je suis, je ne peux pas encore venir vous féliciter...[new]
@@ -483,8 +481,8 @@ Baron...
 D'ici là...[delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="112">«Ah!»[new]
 [delay][0xa][close_window][end]</sn:pointer>
-    <sn:pointer id="113">[bold]Corio[normal]: Qu'est-ce qui ne va pas?! [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="114">«C'est terrible! La lune est en train de...!»[new]
+    <sn:pointer id="113">[bold]Corio[normal]: Qu'y a-t-il? [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="114">«C'est terrible! La lune...!»[new]
 [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="115">[bold]Cecil[normal]: ...!![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="116">[bold]Rosa[normal]: Qu'est-ce qui ne va pas,
@@ -497,7 +495,7 @@ frère...[new]
     <sn:pointer id="118">Cecil: J'ai dû rêver. Sans doute...[delay][0x20][close_window][end]</sn:pointer>
     <sn:pointer id="119">Cid: Qu'est-ce qui... Vous êtes encore là, tous les deux!? [delay][0x18] Qu'est-ce que vous fabriquez, en un si grand jour?![new]
 Rosa: Pardon, on s'est attardés...[delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="120">[bold]Cid[normal]: Pffff!
+    <sn:pointer id="120">[bold]Cid[normal]: Franchement!
 Vous aurez tout le temps de roucouler
 plus tard!
 Maintenant, allez, Rosa![delay][0x20] ...[new]
