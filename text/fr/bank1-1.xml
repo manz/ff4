@@ -653,7 +653,7 @@ Cecil: A... attendez![end]</sn:pointer>
     <sn:pointer id="205">Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
     <sn:pointer id="206">Porom: Vous allez bien?[new]
 Palom: T'es vraiment...[new]
-Porom: Shh![new]
+Porom: [italic]Shh[/italic]![new]
 Cecil: Qu'est-ce que je ressens...? C'est étrangement familier... Et cette voix...?[new]
 Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
