@@ -1459,7 +1459,7 @@ lame maudite...![end]</sn:pointer>
 tout le mal![end]</sn:pointer>
     <sn:pointer id="431">Tella: Un paladin...? Je m'en doutais, cette montagne cache quelque chose![new]
 Faisons route ensemble... Tu ne perds rien pour attendre, Golbez! [force_bold]Le sage Tella a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="432">[bold]Scarmiglione[normal]: Gu... pwaaah![end]</sn:pointer>
+    <sn:pointer id="432">[bold]Scarmiglione[normal]: [italic]Gu... pwaaah[/italic]![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
 Qui êtes-vous?[end]</sn:pointer>

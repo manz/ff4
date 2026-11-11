@@ -2318,7 +2318,7 @@ Let us go together.
 ...Wait for me, Golbez![new]
 [force_bold]Sage Tellah joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
-<sn:pointer id="432">[bold]Scarmiglione[normal]: Gr...Argh![end]</sn:pointer>
+<sn:pointer id="432">[bold]Scarmiglione[normal]: [italic]Gr...Argh[/italic]![end]</sn:pointer>
 
 <sn:pointer id="433">'My son...'
 [bold]Cecil[normal]: Son?
