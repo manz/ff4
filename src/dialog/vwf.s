@@ -225,6 +225,7 @@ parse:
     lda #0x01
     sta 0xDE
     jsr.w _draw_button
+    jsr.w _show_if_whole_pages
     jmp.w _fin
 
 _nxt1:
@@ -456,6 +457,7 @@ _suit3:
 ; past the fourth line (or code $FC): new page
 
     jsr.w _draw_button
+    jsr.w _show_if_whole_pages  ; before `_clr` empties the page
     lda.b #0x08
     sta.b dialog_vwf.bits_left
 
@@ -472,6 +474,9 @@ end:
 
 _draw_button:
     {
+        lda.b no_wait_for_action
+        cmp.b #WHOLE_PAGES
+        beq _no_button  ; the page turns by itself
         jsr.w _get_action_button_id
         cmp #4  ; select
         bne _normal_button
@@ -482,7 +487,68 @@ _normal_button:
 _store:
         sta.b dialog_vwf.current_char
         jsr.w _draw_ending_symbol
+_no_button:
+        rts
+    }
 
+_show_if_whole_pages:
+"""In WHOLE_PAGES, show the page just completed. M = 8 bits; A clobbered."""
+    lda.b no_wait_for_action
+    cmp.b #WHOLE_PAGES
+    bne _shown
+    jsr.w _show_whole_page
+_shown:
+    rts
+
+_show_whole_page:
+"""
+WHOLE_PAGES: upload the page the parser rendered unseen and its window-less tilemap, fade it in, hold it, fade it
+out. The field's own fades write the brightness the same way: `$80` (its shadow) and INIDISP each frame.
+"""
+    {
+        _BRIGHTNESS := 0x80  ; the field's INIDISP shadow
+        _FULL := 0x0F
+        _FADE_FRAMES := 4  ; a brightness step
+        _HOLD := 0xF0  ; frames a page stays up
+        lda.b #0x00
+        sta.b _BRIGHTNESS
+        sta.w ppu.INIDISP
+        jsr.w wait_for_vblank
+        dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
+        jsr.w wait_for_vblank
+        dma_transfer_to_vram_call(WRAM + 0x690, _vram_tile_set_pointer + 0x348, 0x0690, 0x1801)  ; bytes, words
+        jsr.w wait_for_vblank
+        dma_transfer_to_vram_call(_intromap, _vram_tile_map_pointer, _endintromap - _intromap, 0x1801)
+_brighter:
+        jsr.w _fade_step
+        inc.b _BRIGHTNESS
+        lda.b _BRIGHTNESS
+        cmp.b #_FULL + 1
+        bne _brighter
+        dec.b _BRIGHTNESS
+        lda.b #_HOLD
+_hold:
+        jsr.w wait_for_vblank
+        dec
+        bne _hold
+_darker:
+        dec.b _BRIGHTNESS
+        jsr.w _fade_step
+        lda.b _BRIGHTNESS
+        bne _darker
+        rts
+
+_fade_step:
+"""Show brightness `_BRIGHTNESS` for _FADE_FRAMES frames."""
+        lda.b #_FADE_FRAMES
+_frame:
+        pha
+        jsr.w wait_for_vblank
+        lda.b _BRIGHTNESS
+        sta.w ppu.INIDISP
+        pla
+        dec
+        bne _frame
         rts
     }
 
@@ -910,6 +976,9 @@ _waitpad:
     {
         pha
         lda.b no_wait_for_action
+        cmp.b #WHOLE_PAGES
+        beq end  ; shown and faded out already: only clear
+        cmp.b #0x00
         bne nowaitpad
 
         jsr.w _wait_key_up
@@ -936,6 +1005,16 @@ end:
     }
 
 _wdisplay:
+    php  ; any width on entry, A kept
+    sep #0x20
+    pha
+    lda.b no_wait_for_action
+    cmp.b #WHOLE_PAGES
+    bne _letter_by_letter
+    jmp.w _whole_page
+_letter_by_letter:
+    pla
+    plp
     jsr.w wait_for_vblank
 
     sep #0x20
@@ -994,6 +1073,13 @@ _wdisplay:
 
 _nowindow:
     dma_transfer_to_vram_call(_intromap, _vram_tile_map_pointer, _endintromap - _intromap, 0x1801)
+    bra window
+
+_whole_page:
+; the page shows whole, from `_waitpad`
+    pla
+    plp
+    rts
 
 window:
 """Post-DMA window-display tail."""

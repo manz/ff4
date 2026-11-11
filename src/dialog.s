@@ -3,3 +3,4 @@ The dialogue: the variable-width font, its kerning and dakuten, and the pointer 
 banks, wired into the vanilla text routines.
 """
 .import "dialog/patches"
+.import "dialog/prophecy"

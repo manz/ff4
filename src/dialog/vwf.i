@@ -12,3 +12,4 @@
 dialog_vwf := (0x20 as DialogVwf)
 
 no_wait_for_action = 0xcb  ; non-zero: don't wait for the action button
+WHOLE_PAGES = 0x02  ; no_wait_for_action: each page rendered unseen, then faded in, held and faded out
