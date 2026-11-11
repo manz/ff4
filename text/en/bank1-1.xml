@@ -1941,7 +1941,9 @@ You've no time to waste on an old geezer
 like me![new]
 [bold]Cecil[normal]: Thanks...Cid![end]</sn:pointer>
 
-<sn:pointer id="362">[center]One born from the mouth of a dragon shall soar high into the heavens, raise darkness and light, and bring a new promise to the sleeping land. The moon, bathed in endless light, shall grant Mother Earth great bounty and mercy.[end]</sn:pointer>
+<sn:pointer id="362">[center][force_book]One born from the mouth of a dragon shall soar high into the heavens,[force_new]
+raise darkness and light, and bring a new promise to the sleeping land.[force_new]
+The moon, bathed in endless light, shall grant Mother Earth great bounty and mercy.[end]</sn:pointer>
 
 <sn:pointer id="363">[bold]Palom[normal]: This old guy learned Meteor![new]
 [bold]Village Elder[normal]: Meteor...!

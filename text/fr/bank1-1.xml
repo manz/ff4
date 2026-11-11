@@ -1238,7 +1238,9 @@ Vous n'avez pas le temps de vous
 occuper d'un vieux comme moi![new]
 [bold]Cecil[normal]: Merci...
 Cid![end]</sn:pointer>
-    <sn:pointer id="362">[center]Celui qui naîtra de la gueule du dragon s'élèvera haut dans les cieux, portant Ténèbres et Lumière, et apportera à la terre endormie une nouvelle promesse. La Lune, baignée d'une lumière infinie, comblera la Terre Mère de grâce et de clémence.[end]</sn:pointer>
+    <sn:pointer id="362">[center][force_book]Celui qui naîtra de la gueule du dragon s'élèvera haut dans les cieux,[force_new]
+portant Ténèbres et Lumière, et apportera à la terre endormie une nouvelle promesse.[force_new]
+La Lune, baignée d'une lumière infinie, comblera la Terre Mère de grâce et de clémence.[end]</sn:pointer>
     <sn:pointer id="363">Palom: Le vieux a décroché Météore, tu sais![new]
 Ancien: Météore...! Que se passe-t-il de si grave pour que ce sort soit descellé?![new]
 Tella: Il semble bien. Je vengerai Anna avec ça![new]

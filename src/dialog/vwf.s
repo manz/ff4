@@ -689,23 +689,81 @@ _shown:
 
 _show_whole_page:
 """
-WHOLE_PAGES: upload the page the parser rendered unseen and its window-less tilemap, fade it in, hold it, fade it
-out. The field's own fades write the brightness the same way: `$80` (its shadow) and INIDISP each frame.
+WHOLE_PAGES (Mysidia's legend), told as vanilla did: on the window's blue, the page's lines appear one at a time, each
+line its own palette, its text colour rising from the paper's blue to a pale yellow (vanilla's $4000 | i | i << 5,
+i a step every 8 frames: 256 frames a line). The page then sinks back into the blue before the next one; the first
+page fades the screen in, the last one fades it out. Each page sits centred on the screen: no window IRQ splits
+BG3 while `$df` is 0. The page's tiles and tilemap only change between pages.
 """
     {
         _BRIGHTNESS := 0x80  ; the field's INIDISP shadow
         _FULL := 0x0F
         _FADE_FRAMES := 4  ; a brightness step
-        _HOLD := 0xF0  ; frames a page stays up
-        lda.b #0x00
-        sta.b _BRIGHTNESS
-        sta.w ppu.INIDISP
+        _LAST_PAGE := 0xDE  ; set by the $00 terminator
+        _PALETTES := 0x7E0CDB  ; the CGRAM shadow: BG palettes, 4 colours each; colour 0 of the first is the backdrop
+        _PALETTE := 8  ; bytes
+        _PAPER := 2  ; colour 1, in bytes
+        _SHADOW := 4  ; colour 2
+        _TEXT := 6  ; colour 3
+        _BLUE := 0x4000  ; vanilla's window blue: the paper, the backdrop, and a hidden line's text
+        _STEPS := 32
+        _STEP_FRAMES := 8
+        _SINK_FRAMES := 2  ; a step as the page sinks back
+        _HOLD := 0x78  ; frames the whole page stays up
+        _LINE_COLUMNS := 0x1A
+        _LINES := 4
+        _WINDOW_HEIGHT := 0xDF  ; non-zero, the field NMI arms the window IRQ, which splits BG3's scroll
+        _SCREEN_MIDDLE := 112
+        _FULL_WINDOW := 8  ; `$df`: the height the window opened to
+
+        rep #0x30
+        lda.b dialog_vwf.tile_pos  ; the page's lines: the line the parser stopped in, and those before it
+        ldx.w #_PALETTE * _LINES
+        cmp.w #_LINE_COLUMNS * 3
+        bcs _counted
+        ldx.w #_PALETTE * 3
+        cmp.w #_LINE_COLUMNS * 2
+        bcs _counted
+        ldx.w #_PALETTE * 2
+        cmp.w #_LINE_COLUMNS
+        bcs _counted
+        ldx.w #_PALETTE
+_counted:
+        phx  ; 1,s: past the page's last line's palette, in bytes (8 a line)
+        lda.w #_BLUE
+        sta.l _PALETTES
+        ldx.w #0x0000
+_hide:
+        sta.l _PALETTES + _PAPER, x
+        sta.l _PALETTES + _SHADOW, x
+        sta.l _PALETTES + _TEXT, x
+        txa
+        clc
+        adc.w #_PALETTE
+        tax
+        lda.w #_BLUE
+        cpx.w #_LINES * _PALETTE
+        bne _hide
+        sep #0x20
         vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
         jsr.w vblank_upload.wait
         vblank_upload_push(WRAM + 0x690, _vram_tile_set_pointer + 0x348, 0x0690)  ; bytes, words
         jsr.w vblank_upload.wait
-        vblank_upload_push(_intromap, _vram_tile_map_pointer, _endintromap - _intromap)
+        vblank_upload_push(_legendmap, _vram_tile_map_pointer, _endlegendmap - _legendmap)
         jsr.w vblank_upload.wait
+        stz.b _WINDOW_HEIGHT  ; no window IRQ: BG3's scroll is the page's own
+        lda.b #0x00  ; the text screen, BG3's right half
+        sta.w ppu.BG3HOFS
+        lda.b #0x01
+        sta.w ppu.BG3HOFS
+        lda 1, s  ; the page's lines * 8, centred: its top at 112 - lines * 8
+        sec
+        sbc.b #_SCREEN_MIDDLE
+        sta.w ppu.BG3VOFS
+        stz.w ppu.BG3VOFS
+
+        lda.b _BRIGHTNESS
+        bne _shown_in
 _brighter:
         jsr.w _fade_step
         inc.b _BRIGHTNESS
@@ -713,16 +771,83 @@ _brighter:
         cmp.b #_FULL + 1
         bne _brighter
         dec.b _BRIGHTNESS
-        lda.b #_HOLD
-_hold:
-        jsr.w wait_for_vblank
-        dec
-        bne _hold
+_shown_in:
+
+        rep #0x30
+        ldx.w #0x0000
+_line:
+        ldy.w #0x0000
+_rise:
+        tya
+        jsr.w _text_colour
+        sta.l _PALETTES + _TEXT, x
+        lda.w #_STEP_FRAMES
+        jsr.w _frames
+        iny
+        cpy.w #_STEPS
+        bne _rise
+        txa
+        clc
+        adc.w #_PALETTE
+        tax
+        cmp 1, s
+        bne _line
+        plx
+
+        lda.w #_HOLD
+        jsr.w _frames
+        sep #0x20
+        lda.b _LAST_PAGE
+        bne _darker
+        rep #0x30
+        ldy.w #_STEPS
+_sink:
+        dey
+        tya
+        jsr.w _text_colour
+        sta.l _PALETTES + _TEXT  ; every line: a line the page left empty has no text to show
+        sta.l _PALETTES + _PALETTE + _TEXT
+        sta.l _PALETTES + _PALETTE * 2 + _TEXT
+        sta.l _PALETTES + _PALETTE * 3 + _TEXT
+        lda.w #_SINK_FRAMES
+        jsr.w _frames
+        cpy.w #0x0000
+        bne _sink
+        sep #0x20
+        rts
+
 _darker:
         dec.b _BRIGHTNESS
         jsr.w _fade_step
         lda.b _BRIGHTNESS
         bne _darker
+        lda.b #_FULL_WINDOW  ; the window back, unseen: closing it waits for its IRQ
+        sta.b _WINDOW_HEIGHT
+        rts
+
+_text_colour:
+"""A = step (0-31) -> A = the text colour: blue, then as much red and green. M = 16 bits."""
+        pha
+        asl
+        asl
+        asl
+        asl
+        asl
+        ora 1, s
+        ora.w #_BLUE
+        sta 1, s
+        pla
+        rts
+
+_frames:
+"""Wait A frames. M = 16 bits; A clobbered."""
+        php
+        sep #0x20
+_frame_wait:
+        jsr.w wait_for_vblank
+        dec
+        bne _frame_wait
+        plp
         rts
 
 _fade_step:
@@ -1293,6 +1418,18 @@ _intromap:
     .dw 0x2000, 0x2000, 0x2000, 0x219D, 0x219F, 0x21A1, 0x21A3, 0x21A5, 0x21A7, 0x21A9, 0x21AB, 0x21AD, 0x21AF, 0x21B1, 0x21B3, 0x21B5, 0x21B7, 0x21B9, 0x21BB, 0x21BD, 0x21BF, 0x21C1, 0x21C3, 0x21C5, 0x21C7, 0x21C9, 0x21CB, 0x21CD, 0x21CF, 0x2000, 0x2000, 0x2000  ; noqa: E501
 
 _endintromap:
+
+_legendmap:
+; _intromap with a palette per line: the legend reveals its lines one at a time
+    .dw 0x2000, 0x2000, 0x2000, 0x2100, 0x2102, 0x2104, 0x2106, 0x2108, 0x210A, 0x210C, 0x210E, 0x2110, 0x2112, 0x2114, 0x2116, 0x2118, 0x211A, 0x211C, 0x211E, 0x2120, 0x2122, 0x2124, 0x2126, 0x2128, 0x212A, 0x212C, 0x212E, 0x2130, 0x2132, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2101, 0x2103, 0x2105, 0x2107, 0x2109, 0x210B, 0x210D, 0x210F, 0x2111, 0x2113, 0x2115, 0x2117, 0x2119, 0x211B, 0x211D, 0x211F, 0x2121, 0x2123, 0x2125, 0x2127, 0x2129, 0x212B, 0x212D, 0x212F, 0x2131, 0x2133, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2534, 0x2536, 0x2538, 0x253A, 0x253C, 0x253E, 0x2540, 0x2542, 0x2544, 0x2546, 0x2548, 0x254A, 0x254C, 0x254E, 0x2550, 0x2552, 0x2554, 0x2556, 0x2558, 0x255A, 0x255C, 0x255E, 0x2560, 0x2562, 0x2564, 0x2566, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2535, 0x2537, 0x2539, 0x253B, 0x253D, 0x253F, 0x2541, 0x2543, 0x2545, 0x2547, 0x2549, 0x254B, 0x254D, 0x254F, 0x2551, 0x2553, 0x2555, 0x2557, 0x2559, 0x255B, 0x255D, 0x255F, 0x2561, 0x2563, 0x2565, 0x2567, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2968, 0x296A, 0x296C, 0x296E, 0x2970, 0x2972, 0x2974, 0x2976, 0x2978, 0x297A, 0x297C, 0x297E, 0x2980, 0x2982, 0x2984, 0x2986, 0x2988, 0x298A, 0x298C, 0x298E, 0x2990, 0x2992, 0x2994, 0x2996, 0x2998, 0x299A, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2969, 0x296B, 0x296D, 0x296F, 0x2971, 0x2973, 0x2975, 0x2977, 0x2979, 0x297B, 0x297D, 0x297F, 0x2981, 0x2983, 0x2985, 0x2987, 0x2989, 0x298B, 0x298D, 0x298F, 0x2991, 0x2993, 0x2995, 0x2997, 0x2999, 0x299B, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2D9C, 0x2D9E, 0x2DA0, 0x2DA2, 0x2DA4, 0x2DA6, 0x2DA8, 0x2DAA, 0x2DAC, 0x2DAE, 0x2DB0, 0x2DB2, 0x2DB4, 0x2DB6, 0x2DB8, 0x2DBA, 0x2DBC, 0x2DBE, 0x2DC0, 0x2DC2, 0x2DC4, 0x2DC6, 0x2DC8, 0x2DCA, 0x2DCC, 0x2DCE, 0x2000, 0x2000, 0x2000  ; noqa: E501
+    .dw 0x2000, 0x2000, 0x2000, 0x2D9D, 0x2D9F, 0x2DA1, 0x2DA3, 0x2DA5, 0x2DA7, 0x2DA9, 0x2DAB, 0x2DAD, 0x2DAF, 0x2DB1, 0x2DB3, 0x2DB5, 0x2DB7, 0x2DB9, 0x2DBB, 0x2DBD, 0x2DBF, 0x2DC1, 0x2DC3, 0x2DC5, 0x2DC7, 0x2DC9, 0x2DCB, 0x2DCD, 0x2DCF, 0x2000, 0x2000, 0x2000  ; noqa: E501
+_endlegendmap:
 
 
     _gils_window_size := 10
