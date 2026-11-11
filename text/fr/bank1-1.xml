@@ -625,14 +625,14 @@ Casse-pieds![end]</sn:pointer>
     <sn:pointer id="195">[bold]Palom[normal]: C'est qui, ce Golbez?[new]
 [bold]Porom[normal]: Tu ne sais vraiment rien!
 C'est lui qui tire les ficelles à Baron![end]</sn:pointer>
-    <sn:pointer id="196">«Gargl...»[new]
+    <sn:pointer id="196">«[italic]Gargl[/italic]...»[new]
 [bold]Tella[normal]: Une présence maléfique!?[new]
 «Heureux... très heureux... de pouvoir vous
 enterrer...»[new]
 [bold]Cecil[normal]: Qui est là!?[end]</sn:pointer>
     <sn:pointer id="197">«Je suis votre guide vers la mort...»[new]
 «Je suis l'un des quatre Empereurs du seigneur Golbez... Scarmiglione de la Terre... Mes chers morts-vivants... l'heure du repas a sonné!»[end]</sn:pointer>
-    <sn:pointer id="198">«Fshhh... Merci... de m'avoir tué...
+    <sn:pointer id="198">«[italic]Fshhh[/italic]... Merci... de m'avoir tué...
 Goûtez la puissance de Scarmiglione de
 la Terre... plus terrible encore dans la
 mort... et mourez lentement!»[end]</sn:pointer>
@@ -653,13 +653,12 @@ Cecil: A... attendez![end]</sn:pointer>
     <sn:pointer id="205">Cecil est devenu un paladin![delay][0x50][end]</sn:pointer>
     <sn:pointer id="206">Porom: Vous allez bien?[new]
 Palom: T'es vraiment...[new]
-Porom: Shh![new]
+Porom: [italic]Shh[/italic]![new]
 Cecil: Qu'est-ce que je ressens...? C'est étrangement familier... Et cette voix...?[new]
 Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
     <sn:pointer id="207">[bold]Tella[normal]: Ça me revient... Tous mes sorts!
-[0xfa]Tella a retrouvé tous les [0xfa]sorts qu'il
-avait oubliés![end]</sn:pointer>
+[force_bold]Tella a retrouvé tous les sorts qu'il avait oubliés![force_normal][end]</sn:pointer>
     <sn:pointer id="208">Porom: Digne de maître Tella![new]
 Palom: Hé, Porom...[end]</sn:pointer>
     <sn:pointer id="209">Porom: M. Cecil...[new]
@@ -1459,7 +1458,7 @@ lame maudite...![end]</sn:pointer>
 tout le mal![end]</sn:pointer>
     <sn:pointer id="431">Tella: Un paladin...? Je m'en doutais, cette montagne cache quelque chose![new]
 Faisons route ensemble... Tu ne perds rien pour attendre, Golbez! [force_bold]Le sage Tella a rejoint l'équipe![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
-    <sn:pointer id="432">[bold]Scarmiglione[normal]: Gu... pwaaah![end]</sn:pointer>
+    <sn:pointer id="432">[bold]Scarmiglione[normal]: [italic]Gu... pwaaah[/italic]![end]</sn:pointer>
     <sn:pointer id="433">«Mon fils...»[new]
 [bold]Cecil[normal]: Fils?
 Qui êtes-vous?[end]</sn:pointer>

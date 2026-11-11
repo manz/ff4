@@ -6,7 +6,7 @@ the VWF layer kicks in without rewriting the message window.
 .import "core/preamble"
 .include "core/libmz.i"
 .include "dialog/vwf.i"
-.include "strings.i"  ; src/lang/<lang>
+.include "dialog_labels.i"  ; build/gen: utils/dialog_labels.py
 .import "dialog/pointers"
 .import "dialog/vwf"
 .import "core/vanilla"
@@ -120,7 +120,7 @@ end_of_animation:
     .alloc at 0x14f676 {
         .dw 0x2019
         .dw 0x2014
-        yes_cells()
+        dialog_label_yes()  ; pre-rendered in the small VWF
         .dw 0x20ff
         .dw 0x201a
         .dw 0x0000
@@ -138,7 +138,7 @@ end_of_animation:
     .alloc at 0x14F696 {
         .dw 0x2019
         .dw 0x20ff
-        no_cells()
+        dialog_label_no()
         .dw 0x20ff
         .dw 0x201a
         .dw 0x0000

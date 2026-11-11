@@ -895,7 +895,7 @@ Ooh...[end]</sn:pointer>
 
 <sn:pointer id="179">[bold]Golbez[normal]: Come, Scarmiglione![end]</sn:pointer>
 
-<sn:pointer id="180">[bold]Scarmiglione[normal]: -Gurgle-...
+<sn:pointer id="180">[bold]Scarmiglione[normal]: [italic]Gurgle[/italic]...
 Scarmiglione of Earth... at your service...[new]
 [bold]Golbez[normal]: This Cecil is not to be taken lightly. Best we deal with him now.[new]
 Fortunately, he is a Dark Knight. Against the undead you command, his sword will be dulled.
@@ -984,14 +984,14 @@ This is why grown-ups are such a pain![end]</sn:pointer>
 [bold]Porom[normal]: You're so ignorant!
 He's the one controlling Baron![end]</sn:pointer>
 
-<sn:pointer id="196">'-Gurgle-...'[new]
+<sn:pointer id="196">'[italic]Gurgle[/italic]...'[new]
 [bold]Tellah[normal]: An evil presence!?[new]
 'How delightful... how delightful... to bury you all...'[new]
 [bold]Cecil[normal]: Who's there!?[end]</sn:pointer>
 
 <sn:pointer id="197">'I am your guide to death... One of Lord Golbez's Elemental Lords... Scarmiglione of Earth... It is feeding time for my precious undead...!'[end]</sn:pointer>
 
-<sn:pointer id="198">'-Gurgle-... So you have killed me... Now taste the power of Scarmiglione of Earth, more fearsome still in death... and die slowly!'[end]</sn:pointer>
+<sn:pointer id="198">'[italic]Gurgle[/italic]... So you have killed me... Now taste the power of Scarmiglione of Earth, more fearsome still in death... and die slowly!'[end]</sn:pointer>
 
 <sn:pointer id="199">[bold]Scarmiglione[normal]: Curse you...
 That I should fall to the likes of
@@ -1017,7 +1017,7 @@ This is a fight against myself! To atone for my past, I must defeat him... the D
 
 <sn:pointer id="206">[bold]Porom[normal]: Are you all right?[new]
 [bold]Palom[normal]: You really...[new]
-[bold]Porom[normal]: Shh![new]
+[bold]Porom[normal]: [italic]Shh[/italic]![new]
 [bold]Cecil[normal]: What's this feeling...?
 It seems so... familiar...
 What was that voice...?[new]
@@ -1026,8 +1026,7 @@ What was that voice...?[new]
 
 <sn:pointer id="207">[bold]Tellah[normal]: I'm beginning to remember...
 I'm beginning to remember all my spells!
-Tellah remembered all the magic that
-he had forgotten![end]</sn:pointer>
+[force_bold]Tellah remembered all the magic that he had forgotten![force_normal][end]</sn:pointer>
 
 <sn:pointer id="208">[bold]Porom[normal]: That's Master Tellah for you...[new]
 [bold]Palom[normal]: Hey, Porom...[end]</sn:pointer>
@@ -2318,7 +2317,7 @@ Let us go together.
 ...Wait for me, Golbez![new]
 [force_bold]Sage Tellah joined the party![force_normal][music][0x29][delay][0x28][end]</sn:pointer>
 
-<sn:pointer id="432">[bold]Scarmiglione[normal]: Gr...Argh![end]</sn:pointer>
+<sn:pointer id="432">[bold]Scarmiglione[normal]: [italic]Gr...Argh[/italic]![end]</sn:pointer>
 
 <sn:pointer id="433">'My son...'
 [bold]Cecil[normal]: Son?
