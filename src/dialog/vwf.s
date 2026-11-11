@@ -145,6 +145,8 @@ vwfinit:
 
 
     jsr.w _clr
+    lda.b #0x00
+    sta.l window_map_sent  ; the first letter sends the window's tilemap
 
     vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
     jsr.w vblank_upload.wait
@@ -1309,6 +1311,8 @@ loop:
 end:
         pla
         jsr.w _clr
+        lda.b #0x00
+        sta.l window_map_sent  ; the next page's first letter sends the tilemap again
         vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
         jsr.w vblank_upload.wait
         vblank_upload_push(WRAM + 0x348, _vram_tile_set_pointer + 0x348, 0x0690)
@@ -1327,7 +1331,7 @@ _wdisplay:
 _letter_by_letter:
     pla
     plp
-    php  ; the letter's tiles, then the window's tilemap, both in the next vblank
+    php  ; the letter's tiles, with the window's tilemap on a page's first letter, in the next vblank
     rep #0x30
     pha
     phx
@@ -1350,6 +1354,14 @@ _letter_by_letter:
     pla
     plp
     sep #0x20
+    lda.l window_map_sent
+    beq _send_map
+    jsr.w vblank_upload.wait  ; the tilemap is there already: the letter's tiles alone
+    bra window
+
+_send_map:
+    lda.b #0x01
+    sta.l window_map_sent
     lda.b no_wait_for_action
     bne _nowindow
     vblank_upload_push(_winmap, _vram_tile_map_pointer, _endwinmap - _winmap)
