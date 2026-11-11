@@ -103,6 +103,7 @@ VBLANK_UPLOAD_SLOTS := 4
 .struct VblankUploads {
     word count  ; entries waiting for the next vblank
     word bank  ; the next push's source bank, set by its caller
+    byte ticks  ; bumped by each field NMI's drain
     byte[VBLANK_UPLOAD_SLOTS * 8] entries
 }
 .reserve vblank_uploads as VblankUploads in sram_bank71

@@ -17,6 +17,7 @@ _ENTRY := 8  ; VRAM word, source, bytes, source bank
 _VRAM_INCREMENT := 0x80  ; VMAIN: +1 word after the high byte
 _DMA_TO_VRAM := 0x1801  ; DMAP: two registers, VMDATAL/H
 _CHANNEL := 7
+_NMI_GRACE := 16  ; polls of ~13 cycles: past the NMI's few-cycle latency, well inside the vblank
 
 .alloc at 0x0092C9 {
 ; FieldNMI, DP and DB set: `jsl TfrSprites`
@@ -29,6 +30,9 @@ _CHANNEL := 7
 drain:
 """FieldNMI ($00:92C9, M = 8, X = 16 bits): the queued uploads, then the TfrSprites it replaces."""
         jsr.w _upload_all
+        lda.l vblank_uploads.ticks
+        inc
+        sta.l vblank_uploads.ticks
         jml _tfr_sprites
 
 push:
@@ -64,11 +68,29 @@ _room:
         rts
 
 wait:
-"""Wait for the next vblank; upload what its NMI did not. Any width, registers kept."""
+"""
+Wait for the next vblank; upload what its NMI did not. Any width, registers kept.
+
+$4212 shows the vblank a few cycles before the NMI is taken: uploading right away would let the NMI drain the same
+queue under the upload. The NMI gets _NMI_GRACE polls of `ticks` to show up first.
+"""
         php
         sep #0x20
+        rep #0x10
+        pha
+        phx
+        lda.l vblank_uploads.ticks
         jsr.w wait_for_vblank
+        ldx.w #_NMI_GRACE
+_grace:
+        cmp.l vblank_uploads.ticks
+        bne _drained
+        dex
+        bne _grace
         jsr.w _upload_all
+_drained:
+        plx
+        pla
         plp
         rts
 
