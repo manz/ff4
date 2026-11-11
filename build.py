@@ -22,7 +22,7 @@ from katsuji.script.pointers import (
     write_pointers_value_as_binary,
 )
 
-from utils import atb_gauge, battle_labels
+from utils import atb_gauge, battle_labels, dialog_labels
 from utils.bake_names import Glyphs, bake_based_file, bake_pointed_file
 from utils.dakutens import generate_dakutens
 from utils.dialog_layout import DialogLayout, battle_speaker_spaced, dialog_layout
@@ -422,6 +422,9 @@ if __name__ == "__main__":
     # The battle's 8x8 labels (Garde, Rang, Coût PM), pre-rendered in the small VWF into the 8x8 font's free kana slots.
     battle_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
                         Path(MENU_TABLE), Path("build/gen/battle_labels.i"), lang)
+    # The dialogue's Oui / Non and Gils labels, pre-rendered the same way into other free kana slots.
+    dialog_labels.build(Path("build/gen/font_8x8.bin"), Path("build/gen/menu_font.dat"), menu_glyphs,
+                        Path(MENU_TABLE), Path("build/gen/dialog_labels.i"), lang)
     # Spell names baked into small-VWF tiles: the field magic list DMAs them from ROM.
     bake_pointed_file(Path("build/gen/menu_font.dat"), Path("build/gen/magic.dat"), Path("build/gen/magic.ptr"),
                       Path("build/gen/spell_names_vwf.dat"), Path("build/gen/spell_names_vwf.tbl"), glyphs=menu_glyphs)
