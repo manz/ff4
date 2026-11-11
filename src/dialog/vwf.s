@@ -6,6 +6,7 @@ tracking (`dialog_vwf.tile_pos`, `.bits_left`), button-glyph + ending-symbol dra
 .include "core/bank20.i"
 .include "core/libmz.i"
 .include "dialog/vwf.i"
+.include "dialog/vblank_upload.i"
 .include "strings.i"  ; src/lang/<lang>
 .table "text/ff4_menus.tbl"
 .import "core/libmz"
@@ -15,6 +16,7 @@ tracking (`dialog_vwf.tile_pos`, `.bits_left`), button-glyph + ending-symbol dra
 .import "dialog/kerning"
 .import "core/vanilla"
 .import "core/sram_layout"
+.import "dialog/vblank_upload"
 
 .scope field_vwf {
     """SRAM: $70:0000 save, $2000 sram_layout.s, $7000 vwf_ram.s, $7100 battle render state, $7200 rolling_state.i."""
@@ -144,16 +146,16 @@ vwfinit:
 
     jsr.w _clr
 
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer + 0x348, 0x0690, 0x1801)
+    vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
+    jsr.w vblank_upload.wait
+    vblank_upload_push(WRAM, _vram_tile_set_pointer + 0x348, 0x0690)
+    jsr.w vblank_upload.wait
 
 ; copy the 8x8 font tileset
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(0x0AF000, 0x6000, 0x800, 0x1801)
-    jsr.w wait_for_vblank
-    dma_transfer_to_vram_call(0x0AF000 + 0x800, 0x6000 + 0x400, 0x800, 0x1801)
+    vblank_upload_push(0x0AF000, 0x6000, 0x800)
+    jsr.w vblank_upload.wait
+    vblank_upload_push(0x0AF000 + 0x800, 0x6000 + 0x400, 0x800)
+    jsr.w vblank_upload.wait
     jsr.w wait_for_vblank
 
 ; BG3 CHR at $6000
@@ -513,12 +515,12 @@ out. The field's own fades write the brightness the same way: `$80` (its shadow)
         lda.b #0x00
         sta.b _BRIGHTNESS
         sta.w ppu.INIDISP
-        jsr.w wait_for_vblank
-        dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
-        jsr.w wait_for_vblank
-        dma_transfer_to_vram_call(WRAM + 0x690, _vram_tile_set_pointer + 0x348, 0x0690, 0x1801)  ; bytes, words
-        jsr.w wait_for_vblank
-        dma_transfer_to_vram_call(_intromap, _vram_tile_map_pointer, _endintromap - _intromap, 0x1801)
+        vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
+        jsr.w vblank_upload.wait
+        vblank_upload_push(WRAM + 0x690, _vram_tile_set_pointer + 0x348, 0x0690)  ; bytes, words
+        jsr.w vblank_upload.wait
+        vblank_upload_push(_intromap, _vram_tile_map_pointer, _endintromap - _intromap)
+        jsr.w vblank_upload.wait
 _brighter:
         jsr.w _fade_step
         inc.b _BRIGHTNESS
@@ -997,10 +999,10 @@ loop:
 end:
         pla
         jsr.w _clr
-        jsr.w wait_for_vblank
-        dma_transfer_to_vram_call(WRAM, _vram_tile_set_pointer, 0x0690, 0x1801)
-        jsr.w wait_for_vblank
-        dma_transfer_to_vram_call(WRAM + 0x348, _vram_tile_set_pointer + 0x348, 0x0690, 0x1801)
+        vblank_upload_push(WRAM, _vram_tile_set_pointer, 0x0690)
+        jsr.w vblank_upload.wait
+        vblank_upload_push(WRAM + 0x348, _vram_tile_set_pointer + 0x348, 0x0690)
+        jsr.w vblank_upload.wait
         rts
     }
 
@@ -1015,64 +1017,38 @@ _wdisplay:
 _letter_by_letter:
     pla
     plp
-    jsr.w wait_for_vblank
-
-    sep #0x20
-
-
-    php
+    php  ; the letter's tiles, then the window's tilemap, both in the next vblank
+    rep #0x30
     pha
     phx
-
-    lda.b #0x80
-    sta.w ppu.VMAIN
-
-    rep #0x20
-    pha
-
+    phy
+    lda.w #0x00FF & ( WRAM >> 16 )
+    sta.l vblank_uploads.bank
     lda.b dialog_vwf.old_tile_pos
     lsr  ; VRAM word address
     clc
     adc.w #_vram_tile_set_pointer
-    sta.w ppu.VMADDL
-
-
+    tay
     lda.b dialog_vwf.old_tile_pos
     clc
     adc.w #WRAM & 0xFFFF
-    sta.w dma_ch7.A1TL
-
-    pla
-    sep #0x20
-
-    channel = 7
-
-    ldx.w #0x1801
-    stx.w dma_ch7.DMAP
-    lda.b #0xFF & ( WRAM >> 16 )
-    sta.w dma_ch7.A1B
-
-    ldx.w #0x0040
-    stx.w dma_ch7.DASL
-    lda.b #0x01 << 7
-    sta cpu_regs.MDMAEN
-
-    nop
-    nop
-
+    tax
+    lda.w #0x0040
+    jsr.w vblank_upload.push
+    ply
     plx
     pla
     plp
-
-
+    sep #0x20
     lda.b no_wait_for_action
     bne _nowindow
-
-    dma_transfer_to_vram_call(_winmap, _vram_tile_map_pointer, _endwinmap - _winmap, 0x1801)
+    vblank_upload_push(_winmap, _vram_tile_map_pointer, _endwinmap - _winmap)
+    jsr.w vblank_upload.wait
     bra window
 
 _nowindow:
-    dma_transfer_to_vram_call(_intromap, _vram_tile_map_pointer, _endintromap - _intromap, 0x1801)
+    vblank_upload_push(_intromap, _vram_tile_map_pointer, _endintromap - _intromap)
+    jsr.w vblank_upload.wait
     bra window
 
 _whole_page:

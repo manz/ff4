@@ -96,3 +96,13 @@ VRAM_QUEUE_SLOTS := 16
 }
 .reserve vram_queue_state as VramQueue in sram_bank71
 .reserve vram_queue_staging 0x1000 in sram_bank71
+
+; The dialogue's VRAM uploads, drained by the field NMI (dialog/vblank_upload.s): up to 4 of (VRAM word, source,
+; bytes, source bank).
+VBLANK_UPLOAD_SLOTS := 4
+.struct VblankUploads {
+    word count  ; entries waiting for the next vblank
+    word bank  ; the next push's source bank, set by its caller
+    byte[VBLANK_UPLOAD_SLOTS * 8] entries
+}
+.reserve vblank_uploads as VblankUploads in sram_bank71
