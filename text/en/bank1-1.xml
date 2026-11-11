@@ -1026,8 +1026,7 @@ What was that voice...?[new]
 
 <sn:pointer id="207">[bold]Tellah[normal]: I'm beginning to remember...
 I'm beginning to remember all my spells!
-Tellah remembered all the magic that
-he had forgotten![end]</sn:pointer>
+[force_bold]Tellah remembered all the magic that he had forgotten![force_normal][end]</sn:pointer>
 
 <sn:pointer id="208">[bold]Porom[normal]: That's Master Tellah for you...[new]
 [bold]Palom[normal]: Hey, Porom...[end]</sn:pointer>

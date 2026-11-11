@@ -658,8 +658,7 @@ Cecil: Qu'est-ce que je ressens...? C'est étrangement familier... Et cette voix
 Tella: Oh... Oh![new]
 Porom: Maître Tella?[end]</sn:pointer>
     <sn:pointer id="207">[bold]Tella[normal]: Ça me revient... Tous mes sorts!
-[0xfa]Tella a retrouvé tous les [0xfa]sorts qu'il
-avait oubliés![end]</sn:pointer>
+[force_bold]Tella a retrouvé tous les sorts qu'il avait oubliés![force_normal][end]</sn:pointer>
     <sn:pointer id="208">Porom: Digne de maître Tella![new]
 Palom: Hé, Porom...[end]</sn:pointer>
     <sn:pointer id="209">Porom: M. Cecil...[new]
