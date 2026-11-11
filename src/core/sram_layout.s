@@ -115,3 +115,6 @@ VBLANK_UPLOAD_SLOTS := 4
     byte page_lines  ; lines of the current page shown, 0-3
 }
 .reserve scroll_lines as ScrollLines in sram_bank71
+
+; Non-zero once the dialogue window's tilemap is in VRAM: letters then send their tiles alone (dialog/vwf.s).
+.reserve window_map_sent 1 in sram_bank71
