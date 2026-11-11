@@ -228,6 +228,7 @@ parse:
     sta 0xDE
     jsr.w _draw_button
     jsr.w _show_if_whole_pages
+    jsr.w _scroll_last_page
     jmp.w _fin
 
 _nxt1:
@@ -419,6 +420,12 @@ exit:
 
 _newline:
 """Newline control code ($01): reset dialog_vwf.bits_left and snap dialog_vwf.tile_pos."""
+    lda.b no_wait_for_action
+    cmp.b #SCROLL_LINES
+    bne _page_line
+    jsr.w _scroll_line
+    jmp.w main
+_page_line:
     rep #0x20
     lda.w #8
     sep #0x20
@@ -457,7 +464,12 @@ _suit2:
 
 _suit3:
 ; past the fourth line (or code $FC): new page
-
+    lda.b no_wait_for_action
+    cmp.b #SCROLL_LINES
+    bne _page_turn
+    jsr.w _scroll_page_end
+    jmp.w main
+_page_turn:
     jsr.w _draw_button
     jsr.w _show_if_whole_pages  ; before `_clr` empties the page
     lda.b #0x08
@@ -474,11 +486,184 @@ end:
 
     jmp.w main
 
+_scroll_last_page:
+"""At the message's end: in SCROLL_LINES, the last page scrolled in, then the font tiles the fifth line set used."""
+    lda.b no_wait_for_action
+    cmp.b #SCROLL_LINES
+    bne _not_scrolling
+    jsr.w _scroll_page_end
+    vblank_upload_push(_FONT + _FIFTH_SET_TILE * 16, _BG3_CHR + _FIFTH_SET_TILE * 8, _LINE_BYTES)
+    jsr.w vblank_upload.wait
+    lda.b #0x00
+    sta.l scroll_lines.line
+    sta.l scroll_lines.set
+    sta.l scroll_lines.page_lines
+_not_scrolling:
+    rts
+
+_scroll_page_end:
+"""
+SCROLL_LINES, at a page's end ($FC, $00): its unfinished line shown, then blank lines up to its 4, as vanilla's
+auto-scroll took the text a page (4 lines, 64 pixels) at a time. M = 8, X = 16 bits.
+"""
+    {
+        rep #0x20
+        lda.b dialog_vwf.tile_pos
+        sep #0x20
+        bne _unfinished
+        lda.b dialog_vwf.bits_left
+        cmp.b #0x08
+        beq _pad
+_unfinished:
+        jsr.w _scroll_line
+_pad:
+        lda.l scroll_lines.page_lines
+        beq _whole
+        jsr.w _scroll_line
+        bra _pad
+_whole:
+        stz.b dialog_vwf.current_char
+        rts
+    }
+
+    _FONT := 0x0AF000  ; the 8x8 font vwfinit copies to BG3
+    _BG3_CHR := 0x6000
+    _LINE_BYTES := 0x340  ; a line: 26 columns of two 2bpp tiles (8x16)
+    _FIFTH_SET_TILE := 0x80  ; the fifth line set borrows font tiles the prologue never shows
+
+_scroll_line:
+"""
+SCROLL_LINES, at a line's end: the line rendered unseen in the buffer's first line goes just below the band, then
+scrolls up into it, as vanilla's auto-scroll did: a pixel every 8 frames, 16 a line. Five tile sets turn: four lines
+fill the band, a fifth enters as the top one leaves. The BG3 tilemap's 32 rows are 16 line slots; `$bb`, the band's
+scroll (set by the window IRQ each frame), wraps with them. The buffer is cleared for the next line. M = 8, X = 16 bits.
+"""
+    {
+        _COLUMNS := 0x1A
+        _MARGIN := 3  ; blank columns left of a line
+        _ROW_WORDS := 0x20
+        _ROW_MAP := WRAM + _LINE_BYTES  ; the line's two tilemap rows, built in the buffer's second line
+        _BLANK := 0x2000  ; tile 0, in front
+        _BELOW_BAND := 4  ; line slots from the band's top to the slot just below it
+        _SLOTS := 16
+        _SETS := 5
+        _PIXEL_FRAMES := 8
+        _LINE_PIXELS := 16
+        _BAND_SCROLL := 0xBB
+        php
+        rep #0x30
+        pha
+        phx
+        phy
+        lda.l scroll_lines.set
+        and.w #0x00FF
+        asl
+        tax
+        lda.l _set_tiles, x
+        pha  ; the set's first tile
+        ora.w #_BLANK
+        tay
+        ldx.w #0x0000
+_column:
+        lda.w #_BLANK
+        cpx.w #_MARGIN * 2
+        bcc _blank
+        cpx.w #( _MARGIN + _COLUMNS ) * 2
+        bcs _blank
+        tya
+        sta.l _ROW_MAP, x  ; the column's top tile, its bottom one next
+        inc
+        sta.l _ROW_MAP + _ROW_WORDS * 2, x
+        inc
+        tay
+        bra _next
+_blank:
+        sta.l _ROW_MAP, x
+        sta.l _ROW_MAP + _ROW_WORDS * 2, x
+_next:
+        inx
+        inx
+        cpx.w #_ROW_WORDS * 2
+        bne _column
+
+        lda.w #0x00FF & ( WRAM >> 16 )
+        sta.l vblank_uploads.bank
+        pla
+        asl
+        asl
+        asl
+        clc
+        adc.w #_BG3_CHR
+        tay
+        ldx.w #WRAM & 0xFFFF
+        lda.w #_LINE_BYTES
+        jsr.w vblank_upload.push
+        lda.l scroll_lines.line
+        clc
+        adc.w #_BELOW_BAND
+        and.w #_SLOTS - 1
+        xba  ; 64 words a slot
+        lsr
+        lsr
+        clc
+        adc.w #_vram_tile_map_pointer
+        tay
+        ldx.w #_ROW_MAP & 0xFFFF
+        lda.w #_ROW_WORDS * 2 * 2
+        jsr.w vblank_upload.push
+        jsr.w vblank_upload.wait
+
+        sep #0x20
+        lda.l scroll_lines.line
+        inc
+        and.b #_SLOTS - 1
+        sta.l scroll_lines.line
+        lda.l scroll_lines.set
+        inc
+        cmp.b #_SETS
+        bne _set
+        lda.b #0x00
+_set:
+        sta.l scroll_lines.set
+        lda.l scroll_lines.page_lines
+        inc
+        and.b #0x03
+        sta.l scroll_lines.page_lines
+
+        ldy.w #_LINE_PIXELS
+_pixel:
+        lda.b #_PIXEL_FRAMES
+_frame:
+        jsr.w wait_for_vblank
+        dec
+        bne _frame
+        inc.b _BAND_SCROLL
+        dey
+        bne _pixel
+
+        jsr.w _clr
+        rep #0x20
+        stz.b dialog_vwf.tile_pos
+        sep #0x20
+        lda.b #0x08
+        sta.b dialog_vwf.bits_left
+        rep #0x30
+        ply
+        plx
+        pla
+        plp
+        rts
+    }
+
+_set_tiles:
+; each line set's first tile: four after the page's tiles, the fifth in the font
+    .dw 0x100, 0x134, 0x168, 0x19C, _FIFTH_SET_TILE
+
 _draw_button:
     {
         lda.b no_wait_for_action
         cmp.b #WHOLE_PAGES
-        beq _no_button  ; the page turns by itself
+        bcs _no_button  ; the page turns by itself
         jsr.w _get_action_button_id
         cmp #4  ; select
         bne _normal_button
@@ -1012,7 +1197,7 @@ _wdisplay:
     pha
     lda.b no_wait_for_action
     cmp.b #WHOLE_PAGES
-    bne _letter_by_letter
+    bcc _letter_by_letter  ; WHOLE_PAGES and SCROLL_LINES render unseen
     jmp.w _whole_page
 _letter_by_letter:
     pla

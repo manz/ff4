@@ -101,6 +101,22 @@ PATCH_SRAM_LOW = range(0x702000, 0x708000)
 PATCH_SRAM = range(0x710000, 0x718000)
 
 
+SPECIAL_RETURN = 0xFFFC  # where an event special's pushed return lands
+_FIELD_DP = 0x0600
+
+
+def field_special(entry: int) -> Emu:
+    """ff4-late-field.kss jumped into the event special at `entry` (the field's DP, M = 8 bits), its return landing
+    on SPECIAL_RETURN."""
+    emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=60)
+    emu.rearm_cpu()
+    state = emu.get_state()
+    state.pc, state.p, state.e, state.d, state.b, state.x, state.a = entry, 0x20, False, _FIELD_DP, 0, 0, 0
+    emu.set_state(state)
+    emu.push_word(SPECIAL_RETURN - 1)
+    return emu
+
+
 def sram_junk(size: int, seed: int) -> bytes:
     """`size` bytes of reproducible junk, as a cart's battery SRAM holds after another build or a power-off."""
     return random.Random(seed).randbytes(size)

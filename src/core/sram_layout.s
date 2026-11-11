@@ -107,3 +107,11 @@ VBLANK_UPLOAD_SLOTS := 4
     byte[VBLANK_UPLOAD_SLOTS * 8] entries
 }
 .reserve vblank_uploads as VblankUploads in sram_bank71
+
+; The prologue's line scroll (dialog/vwf.s, SCROLL_LINES).
+.struct ScrollLines {
+    byte line  ; lines shown, mod 16: the BG3 tilemap's line slots
+    byte set  ; the next line's tile set, 0-4
+    byte page_lines  ; lines of the current page shown, 0-3
+}
+.reserve scroll_lines as ScrollLines in sram_bank71
