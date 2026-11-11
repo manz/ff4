@@ -9,7 +9,6 @@ from pathlib import Path
 
 import pytest
 from _ff4kintsuki import (
-    BATTLE_MENU_PANEL,
     CMD_ITEM,
     assert_screenshot_matches_golden,
     choose_command,
@@ -19,6 +18,7 @@ from _ff4kintsuki import (
 from kintsuki import Button
 
 GOLDENS = Path(__file__).parent / "goldens" / "battle_status_names"
+STATUS_COLUMN = (160, 140, 256, 224)  # the target window's right half: the HP beside it hang on the fight's timing
 ACTING = 0x7E1822
 CURSOR_TYPE = 0x7E1823  # 5 the inventory list, $0C a party target
 STATUS_BYTES = 0x7E2003  # per slot (0x80 apart): 4 status bytes
@@ -56,7 +56,7 @@ def target_window():
 
 
 def test_the_status_column_golden(target_window) -> None:
-    assert_screenshot_matches_golden(target_window, GOLDENS / "statuses.png", region=BATTLE_MENU_PANEL)
+    assert_screenshot_matches_golden(target_window, GOLDENS / "statuses.png", region=STATUS_COLUMN)
 
 
 def test_a_row_points_at_its_window(target_window) -> None:

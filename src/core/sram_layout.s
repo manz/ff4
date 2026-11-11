@@ -96,3 +96,22 @@ VRAM_QUEUE_SLOTS := 16
 }
 .reserve vram_queue_state as VramQueue in sram_bank71
 .reserve vram_queue_staging 0x1000 in sram_bank71
+
+; The dialogue's VRAM uploads, drained by the field NMI (dialog/vblank_upload.s): up to 4 of (VRAM word, source,
+; bytes, source bank).
+VBLANK_UPLOAD_SLOTS := 4
+.struct VblankUploads {
+    word count  ; entries waiting for the next vblank
+    word bank  ; the next push's source bank, set by its caller
+    byte ticks  ; bumped by each field NMI's drain
+    byte[VBLANK_UPLOAD_SLOTS * 8] entries
+}
+.reserve vblank_uploads as VblankUploads in sram_bank71
+
+; The prologue's line scroll (dialog/vwf.s, SCROLL_LINES).
+.struct ScrollLines {
+    byte line  ; lines shown, mod 16: the BG3 tilemap's line slots
+    byte set  ; the next line's tile set, 0-4
+    byte page_lines  ; lines of the current page shown, 0-3
+}
+.reserve scroll_lines as ScrollLines in sram_bank71

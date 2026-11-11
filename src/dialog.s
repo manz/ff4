@@ -4,3 +4,4 @@ banks, wired into the vanilla text routines.
 """
 .import "dialog/patches"
 .import "dialog/prophecy"
+.import "dialog/prologue"

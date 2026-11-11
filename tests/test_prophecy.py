@@ -1,36 +1,27 @@
-"""dialog/prophecy.s: Mysidia's prophecy (event special $32) told like the prologue, where the dialogue VWF used to
-wait forever for a vblank with NMI off: a black screen after « Une légende ? ». The prologue (special $09) shares
-the window-less path."""
+"""dialog/prophecy.s: Mysidia's prophecy (event special $32), where the dialogue VWF used to wait forever for a vblank
+with NMI off: a black screen after « Une légende ? ». Told now as vanilla did: on the window's blue, a line at a
+time rising to yellow, each page centred."""
 from __future__ import annotations
 
 from pathlib import Path
 
-from _ff4kintsuki import assert_screenshot_matches_golden, kss_path, load_emu_from_kss
+from _ff4kintsuki import assert_screenshot_matches_golden, field_special
 
 GOLDENS = Path(__file__).parent / "goldens" / "prophecy"
-FIELD_DP = 0x7E0600
 PROPHECY = 0x00C772  # Special_32
 ENDING = 0x00C871  # its ending, past the fade out: BG3 scroll, palettes, NMI
 TM = 0x00212C
 FIELD_TM = 0x17  # InitHWRegs' main screen, which the field keeps
-SENTINEL = 0xFFFC  # where the pushed return lands
-FIRST_PAGE = 180  # frames to the first page, faded in and held
-ENOUGH = 1500  # frames: both pages fade in, hold and fade out in about 800
-
-
-def _special(entry: int = PROPHECY):
-    """A field savestate jumped into the special at `entry`, its return landing on SENTINEL."""
-    emu = load_emu_from_kss(kss_path("ff4-late-field.kss"), settle_frames=60)
-    emu.rearm_cpu()
-    state = emu.get_state()
-    state.pc, state.p, state.e, state.d, state.b, state.x, state.a = entry, 0x20, False, FIELD_DP & 0xFFFF, 0, 0, 0
-    emu.set_state(state)
-    emu.push_word(SENTINEL - 1)
-    return emu
+FIRST_PAGE = 1000  # frames to the first page's 3 lines all up, held
+SECOND_LINE_RISING = 560  # frames: the first line up, the second on its way, the last two still hidden
+ENOUGH = 4000  # frames: its 3 pages end in about 3500
+TEXT_COLOURS = [0x7E0CDB + line * 8 + 6 for line in range(4)]  # colour 3 of each line's palette
+BLUE = 0x4000  # vanilla's window blue: a hidden line's text
+YELLOW = 0x43FF  # $4000 | 31 | 31 << 5: a line's text all the way up
 
 
 def test_the_prophecy_reaches_its_ending_and_gives_the_field_its_screens_back() -> None:
-    emu = _special()
+    emu = field_special(PROPHECY)
     try:
         ended: list[int] = []
         main_screens: list[int] = []
@@ -44,7 +35,7 @@ def test_the_prophecy_reaches_its_ending_and_gives_the_field_its_screens_back() 
 
 
 def test_the_prophecy_first_page_golden() -> None:
-    emu = _special()
+    emu = field_special(PROPHECY)
     try:
         emu.run_frames(FIRST_PAGE)
         assert_screenshot_matches_golden(emu, GOLDENS / "first_page.png")
@@ -52,18 +43,14 @@ def test_the_prophecy_first_page_golden() -> None:
         emu.close()
 
 
-PROLOGUE = 0x00D3F4  # Special_09: the prologue, its text auto-scrolled letter by letter
-PROLOGUE_FRAMES = 3600  # it returns after about 3100
 
 
-def test_the_prologue_still_types_to_its_end() -> None:
-    emu = _special(PROLOGUE)
+def test_the_prophecy_shows_its_lines_one_at_a_time() -> None:
+    emu = field_special(PROPHECY)
     try:
-        returned: list[int] = []
-        emu.add_exec_callback(SENTINEL, SENTINEL, lambda _pc, _v: returned.append(emu.frame_count))
-        emu.run_frames(300)
-        assert_screenshot_matches_golden(emu, GOLDENS / "prologue_first_lines.png")
-        emu.run_frames(PROLOGUE_FRAMES - 300)
-        assert returned
+        emu.run_frames(SECOND_LINE_RISING)
+        first, second, third, fourth = (emu.read16(colour) for colour in TEXT_COLOURS)
+        assert (first, third, fourth) == (YELLOW, BLUE, BLUE)
+        assert BLUE < second < YELLOW
     finally:
         emu.close()
