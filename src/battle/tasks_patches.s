@@ -206,6 +206,10 @@ signal_commands:
     plp
     rtl
 
+    MENU_SLOT := TASK_COUNT - 1  ; the top stack: past its floor the menu task runs into the unused slots' stacks, not
+; vanilla's battle window state under $1847 (it peaks near 120 bytes in an item list with the NMI on top; once, a
+; status byte pushed onto $1821 sent the window command jump at $02:9472 into WRAM)
+
 battle_tasks_seed:
 """Battle start: stop leftover tasks, start the menu task and draw every window once. Callable with JSL."""
     php
@@ -213,7 +217,7 @@ battle_tasks_seed:
     rep #0x10
     jsr.l battle_task.reset
     jsr.l atb_gauge.reset
-    lda.b #0x00
+    lda.b #MENU_SLOT
     ldx.w #menu_task
     ldy.w #0x0000
     jsr.l battle_task.start
