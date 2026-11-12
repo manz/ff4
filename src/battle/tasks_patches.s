@@ -206,7 +206,7 @@ signal_commands:
     plp
     rtl
 
-MENU_SLOT := TASK_COUNT - 1  ; the top stack: past its floor the menu task runs into the unused slots' stacks, not
+    MENU_SLOT := TASK_COUNT - 1  ; the top stack: past its floor the menu task runs into the unused slots' stacks, not
 ; vanilla's battle window state under $1847 (it peaks near 120 bytes in an item list with the NMI on top; once, a
 ; status byte pushed onto $1821 sent the window command jump at $02:9472 into WRAM)
 
