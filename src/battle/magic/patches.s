@@ -189,6 +189,12 @@ _LIST_CURSOR_Y_NUDGE := 2
     nop
     nop
 }
+; TextVar_04: keep DrawText's cell offset, was ldy #$00: the name drew over the text before it (« Learned »)
+.alloc at 0x02A56E {
+    nop
+    nop
+    nop
+}
 .alloc at 0x02A573 {
     lda.l magic_names, x
 }

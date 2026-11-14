@@ -62,6 +62,12 @@ the names again in the VWF.
     nop
     nop
 }
+; keep DrawText's cell offset, was ldy #$00: the name drew over the text before it (« Vol : »)
+.alloc at 0x02A59B {
+    nop
+    nop
+    nop
+}
 ; loop counter, was lda #$08
 .alloc at 0x02A5A1 {
     lda #ITEM_UNLEASHED_NAME_MAX
