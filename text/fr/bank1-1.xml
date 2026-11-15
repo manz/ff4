@@ -396,7 +396,7 @@ Cecil: Une invocatrice de Mist.[new]
 Tella: Elle a de grandes dispositions. Avec de l'entraînement, elle maîtrisera d'autres sorts.[force_new]
 Mais quel joli visage endormi... On dirait Anna petite.[new]
 Cecil: Anna, c'est votre...[new]
-Tella: Ma fille unique. Elle s'est enfuie à Damcyan avec un barde... tout ça parce que je refusais de les bénir...[end]</sn:pointer>
+Tella: Ma fille unique. Elle s'est enfuie à Damcyan avec un barde... tout ça parce que je refusais de leur donner ma bénédiction...[end]</sn:pointer>
     <sn:pointer id="115">[bold]Tella[normal]: Et vous, pourquoi allez-vous
 à Damcyan?[new]
 [bold]Cecil[normal]: J'ai une amie à Kaïpo qui
