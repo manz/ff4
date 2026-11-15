@@ -311,9 +311,9 @@ config:
         .text "Mode de combat"
         .db 0x01
         .dw 0x015E
-        .text "Actif"
+        .text "Pause"  ; $16BE = 0: the gauges wait while a menu is open (vanilla ウエイト, left)
         col(7)
-        .text "Pause"
+        .text "Actif"
         .db 0x01
         .dw 0x01C4
         .text "Vitesse du combat"

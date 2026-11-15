@@ -311,9 +311,9 @@ config:
         .text "Battle Mode"
         .db 0x01
         .dw 0x015E
-        .text "Active"
+        .text "Wait"  ; $16BE = 0: the gauges wait while a menu is open (vanilla ウエイト, left)
         col(7)
-        .text "Wait"
+        .text "Active"
         .db 0x01
         .dw 0x01C4
         .text "Battle Speed"
