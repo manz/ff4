@@ -1391,7 +1391,7 @@ Cecil: Quelque chose... se prépare?[end]</sn:pointer>
 vous ferai aucun mal.
 Partez sur-le-champ.»[new]
 [bold]Caïn[normal]: Montre-toi![new]
-«Vous ne comptez donc pas rebrousser chemin...?»[close_window][end]</sn:pointer>
+«Vous tenez donc à poursuivre votre route...?»[close_window][end]</sn:pointer>
     <sn:pointer id="398">Edward: Cecil... Rosa veut être avec toi.[new]
 Cecil: D'accord, Rosa... Nous irons ensemble. Il fait nuit... nous partirons demain matin.[new]
 Pour ce soir, repose-toi bien.[new]
