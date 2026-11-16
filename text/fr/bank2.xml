@@ -86,7 +86,7 @@ Et puis quoi, encore?[end]</sn:string>
 paladin...[end]</sn:string>
 <sn:string index="4">Savez-vous combien nous avons souffert
 à cause de vous?[end]</sn:string>
-<sn:string index="5">Oh, bonjour Palom et Porom.
+<sn:string index="5">Oh, bonjour, Palom et Porom.
 Le mont de l'Épreuve se situe à l'est.[end]</sn:string>
 <sn:string index="6">Vous aussi, vous avez souffert...
 Je prierai pour vous, moi aussi.[end]</sn:string>
@@ -396,7 +396,7 @@ l'opposé d'un chevalier noir.[end]</sn:string>
 <sn:string index="16">Fille: Oui?[new]
 Ancien: Où est Palom?[new]
 Fille: Palom a encore filé![end]</sn:string>
-<sn:string index="17">Garçon: Alors c'est toi le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
+<sn:string index="17">Garçon: Alors c'est toi, le mec de Baron, hein? Le vieux a dit de t'aider, il faut croire que j'ai pas le choix.[new]
 Estime-toi heureux![end]</sn:string>
 <sn:string index="18">[bold]Porom[normal]: Vous êtes M. Cecil,
 n'est-ce pas?
@@ -612,7 +612,7 @@ Pffff... qu'est-ce qui lui prend au roi, en ce moment?[new]
 Il veut que je fasse un nouveau modèle d'aéronef, mais moi je veux pas les changer en machines à tuer![new]
 Les gens en ville s'interrogent aussi... Enfin, de toute façon, sois prudent! Ta lame noire viendra à bout de ces Chimères en un coup![new]
 Moi, je rentre à la maison. Ça fait un moment que j'y suis pas allé, et ma fille me pique des crises![end]</sn:string>
-<sn:string index="13">Avez-vous vu le patron Cid?[new]
+<sn:string index="13">Avez-vous vu Cid, le patron?[new]
 Il nous a laissé l'entretien des aéronefs
 pour réfléchir à je ne sais quoi.[end]</sn:string>
 <sn:string index="14">Patron!

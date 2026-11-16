@@ -365,7 +365,7 @@ Pourrais-je partir avec vous?[new]
 Je... ne peux pas rentrer.
 Pas après ce que j'ai fait.[new]
 Et j'aimerais rencontrer les Sélénites,
-le peuple de mon père KluYa.[new]
+le peuple de KluYa, mon père.[new]
 [bold]FuSoYa[normal]: Je vois...
 Tu as aussi du sang sélénite dans les
 veines...[force_new]
@@ -410,7 +410,7 @@ passeriez pas vos journées à courir
 après les jupons! [delay][0x18][new]
 [bold]Edge[normal]: Oui, oui![new]
 [bold]Chambellan[normal]: Un seul «oui» suffit! [delay][0x18][close_window][end]</sn:pointer>
-    <sn:pointer id="89">[bold]Edge[normal]: Mais Rydia...
+    <sn:pointer id="89">[bold]Edge[normal]: Mais, Rydia...
 Dans ce monde-ci, aucune femme ne
 t'arrive à la cheville... [delay][0x18][close_window][end]</sn:pointer>
     <sn:pointer id="90">[bold]Léviathan[normal]: Quelle fille remarquable,
