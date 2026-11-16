@@ -445,7 +445,7 @@ Edward: Damcyan a déjà été attaqué et notre cristal a été volé! J'ai per
 Allez-vous laisser Fabul subir le même sort que Damcyan?![end]</sn:pointer>
     <sn:pointer id="126">[bold]Yang[normal]: Allons-y, messire Cecil![end]</sn:pointer>
     <sn:pointer id="127">Yang: Ce sont de fines lames! Ils tiendront la première ligne avec moi![new]
-Roi Fabul: Puisque tu en réponds à ce point, je m'en remets à vous![new]
+Roi Fabul: Puisque tu en dis tant de bien, je vous fais confiance![new]
 Quant à vous, mesdemoiselles, vous soignerez les blessés.[new]
 Rosa: Entendu.[new]
 Roi Fabul: Yang, je compte sur toi![new]
@@ -1004,7 +1004,7 @@ Qu'est-ce donc?[new]
 [bold]Edge[normal]: Demande donc à ta conscience![end]</sn:pointer>
     <sn:pointer id="301">Cecil: Ça va?[new]
 Edge: La honte... Moi... me faire battre![new]
-Rydia: Nous aussi, nous poursuivons le cristal que possède Rubicante.[new]
+Rydia: Nous aussi, on court après le cristal que détient Rubicante.[new]
 Edge: Ne vous en mêlez pas! Lui... je vais le démolir... de mes propres mains![new]
 Caïn: C'est un des quatre Empereurs, mon prince.[new]
 Cecil: Tu as goûté à sa force![new]
@@ -1535,7 +1535,7 @@ Avec la télécommande, elle est rentrée
 bien sagement à Baron![new]
 [bold]Yang[normal]: Alors c'est décidé.[new]
 [bold]Rosa[normal]: Cid, on compte sur toi![new]
-[bold]Cid[normal]: Pas vrai?
+[bold]Cid[normal]: Et comment, hein!
 Bon! On part demain matin![new]
 Direction l'entrée du monde souterrain,
 mais d'abord, au lit![end]</sn:pointer>
@@ -1553,7 +1553,7 @@ Les cristaux luisaient silencieusement...[end]</sn:pointer>
     <sn:pointer id="465">[bold]Cecil[normal]: Rosa![end]</sn:pointer>
     <sn:pointer id="466">Giotto: S'il vous faut quoi que ce soit pour les réparations, je le ferai préparer.[new]
 Cid: Je peux bricoler une réparation de fortune...[new]
-Mais la coque ne tiendra pas à la chaleur de la lave. Faut remonter à la surface et la blinder au mithril![new]
+Mais la coque ne résistera pas longtemps à la chaleur de la lave. Faut remonter à la surface et la blinder au mithril![new]
 Allez, je fais un saut là-haut![end]</sn:pointer>
     <sn:pointer id="467">Vous avez obtenu le Cristal d'Obscurité![music][0x29][delay][0x24][end]</sn:pointer>
     <sn:pointer id="468">[bold]Cecil[normal]: Mais...[new]
@@ -1662,7 +1662,7 @@ Accrochez-vous![end]</sn:pointer>
     <sn:pointer id="507">«Ce Ruban protégé par une force sacrée...
 Vous ne l'obtiendrez jamais!»[end]</sn:pointer>
     <sn:pointer id="508">«Le seigneur Zémus abhorre le pouvoir de
-cette épée. Je ne peux pas le laisser libérer!»[end]</sn:pointer>
+cette épée. Je ne puis permettre qu'il soit libéré...!»[end]</sn:pointer>
     <sn:pointer id="509">[bold]Dr Lugeie[normal]: Hyahyahya!
 Cette tour de Babil traverse la terre et
 relie la surface au monde souterrain...[new]

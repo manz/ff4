@@ -300,13 +300,13 @@ rivière souterraine, refuse de me laisser
 passer...[end]</sn:string>
 <sn:string index="1">Oh, de la visite! Avec tous ces monstres,
 les clients se font rares, ces temps-ci.[end]</sn:string>
-<sn:string index="2">Apaisez votre soif du désert avec
-la bière spéciale de Kaïpo![end]</sn:string>
+<sn:string index="2">Gosier desséché par le désert?
+La bière spéciale de Kaïpo![end]</sn:string>
 <sn:string index="3">Seule la famille royale peut pénétrer dans
 la grotte du Fourmilion qui est à l'est de
 Damcyan.[new]
-Si les gens ordinaires y étaient autorisés,
-ça remonterait vraiment les affaires.[end]</sn:string>
+Si les gens ordinaires pouvaient y aller,
+il y aurait de bonnes affaires à faire.[end]</sn:string>
 </sn:area>
 
 <sn:area id="18">
@@ -539,7 +539,7 @@ manger![end]</sn:string>
 <sn:area id="31">
 <sn:string index="0">Je m'appelle Corio.
 J'observe la lune, ici. Il y a deux lunes...[new]
-L'une n'héberge aucune vie, mais l'autre
+L'une n'abrite aucune vie, mais l'autre
 porte des traces d'êtres vivants...
 Et cette lune devient rouge, depuis peu...
 rouge comme le sang...[new]
@@ -1164,7 +1164,7 @@ pourrait avoir de terribles répercussions![end]</sn:string>
 quatre cristaux est vraie, il y a encore de
 l'espoir.[end]</sn:string>
 <sn:string index="23">Troia est gouvernée par nous, les huit clercs.
-Nous étions dotées de la bénédiction du cristal de la Terre, mais maintenant...[end]</sn:string>
+Nous avions reçu la bénédiction du cristal de la Terre, mais maintenant...[end]</sn:string>
 <sn:string index="24">Mais que s'est-il donc passé!?[end]</sn:string>
 <sn:string index="25">Oh non!
 Ce n'est pas seulement Troia.
@@ -1210,7 +1210,7 @@ Tu l'as dit à sa femme?[end]</sn:string>
 
 <sn:area id="90">
 <sn:string index="0">C'étaient des cachots, mais
-maintenant c'est notre salle au trésor.[end]</sn:string>
+maintenant, c'est la salle du trésor.[end]</sn:string>
 <sn:string index="1">Vous mentez!
 Je le vois bien![end]</sn:string>
 <sn:string index="2">Alors prenez donc le trésor.[end]</sn:string>
@@ -1317,7 +1317,7 @@ pendant que tu sélectionnes des objets
 ou des magies... pour rendre la bataille
 encore plus palpitante![end]</sn:string>
 <sn:string index="2">Il y a des endroits dans les grottes où tu
-peux sauvegarder ton jeu.
+peux sauvegarder ta partie.
 Utilise bien ces endroits![end]</sn:string>
 <sn:string index="3">Si tu ne peux plus porter d'objets
 supplémentaires, tu peux les donner au
@@ -1674,7 +1674,7 @@ Il est devenu bien plus fort.[end]</sn:string>
 [bold]Caïn[normal]: Pourquoi ne pas envoyer
 Cecil le chercher pour vous?[new]
 [bold]Golbez[normal]: Lui...?[end]</sn:string>
-<sn:string index="2">[bold]Caïn[normal]: Nous avons Rosa ici.
+<sn:string index="2">[bold]Caïn[normal]: Rosa est entre nos mains.
 Nous pourrions l'échanger contre le
 cristal...
 Qu'en dites-vous?[end]</sn:string>
@@ -2363,7 +2363,7 @@ Alors vous pouvez passer![end]</sn:string>
 <sn:area id="267">
 <sn:string index="0">Lali-ho![end]</sn:string>
 <sn:string index="1">Soyez prudents![end]</sn:string>
-<sn:string index="2">Il y a un canon terriblement gros dans la tour de Babil![end]</sn:string>
+<sn:string index="2">Il y a un canon d'une taille effrayante dans la tour de Babil![end]</sn:string>
 <sn:string index="3">Les monstres du monde souterrain sont forts! Ne baissez pas la garde![end]</sn:string>
 </sn:area>
 
@@ -2412,7 +2412,7 @@ comme quatre![end]</sn:string>
 <sn:string index="4">Un bon somme et ça guérit, Lali![end]</sn:string>
 <sn:string index="5">[italic]Zzz...Zzz[/italic][end]</sn:string>
 <sn:string index="6">Ce vieux n'était pas en état de faire ça![end]</sn:string>
-<sn:string index="7">Ce vieux est brutal, mais c'est un
+<sn:string index="7">Ce vieux est bourru, mais c'est un
 chouette gars![end]</sn:string>
 <sn:string index="8">[italic]Zzz... rrron ...Zzz[/italic][end]</sn:string>
 <sn:string index="9">Ce vieux est incroyable!
@@ -2549,7 +2549,7 @@ l'utiliser...[end]</sn:string>
 <sn:area id="297">
 <sn:string index="0">Directeur -
 [bold]Hironobu Sakaguchi[normal]: On s'y met...?[end]</sn:string>
-<sn:string index="1">Dessin des Cartes - Yasushi Matsumura: Eru, Naito, Naoshi, Hoshiya, Kuwahara, ça faisait longtemps! Qu'est-ce qui ne va pas? ...Hein? Je me suis trompé de personne!?[new]
+<sn:string index="1">Dessin des Cartes - Yasushi Matsumura: Eru, Naito, Naoshi, Hoshiya, Kuwahara, ça faisait longtemps! Qu'est-ce qui vous amène? ...Hein? Je me suis trompé de personne!?[new]
 Oups...[end]</sn:string>
 <sn:string index="2">Graphismes -
 [bold]Masanori Hoshino[normal]: C'est moi qui ai
@@ -2563,8 +2563,8 @@ lequel![end]</sn:string>
 [bold]Keitaro Adachi[normal]: Héhé...
 Les doigts dans le nez![end]</sn:string>
 <sn:string index="7">Nouveau -
-[bold]Toshio Endo[normal]: Mon épaule est
-bloquée!
+[bold]Toshio Endo[normal]: J'ai les épaules
+nouées!
 J'ai mal aux yeux!
 J'ai mal aux oreilles![end]</sn:string>
 <sn:string index="8">Nouveau - Shinichi Tanaka: À partir de notre prochaine sortie, je serai dans l'équipe de programmation.[new]
@@ -2592,8 +2592,8 @@ Revenez me voir![end]</sn:string>
 <sn:string index="2">Compositeur -
 [bold]Nobuo Uematsu[normal]: Hm!
 À te voir comme ça... tu caches un vrai talent pour la musique.
-Veux-tu que je t'enseigne ma clarinette
-venue des pays lointains?[end]</sn:string>
+Veux-tu que je t'enseigne la claaarinette
+venue des barbares d'outre-mer?[end]</sn:string>
 <sn:string index="3">Effets Sonores -
 [bold]Kenji Ito[normal]: Une fois que tu auras terminé
 Final Fantasy IV, essaie Seiken Densetsu![end]</sn:string>

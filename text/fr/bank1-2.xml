@@ -25,7 +25,7 @@ Pour notre Terre Mère, nous aussi, nous
 allons nous battre![end]</sn:pointer>
     <sn:pointer id="9">Yang: Je ne vais pas rester couché pendant que vous vous battez![end]</sn:pointer>
     <sn:pointer id="10">Cecil: Vous tous...!![new]
-Rosa: Le géant... Il hésite![end]</sn:pointer>
+Rosa: Le géant... Il est désorienté![end]</sn:pointer>
     <sn:pointer id="11">[bold]Edge[normal]: Oh, je vois!
 On va lui taper droit dans le cœur![end]</sn:pointer>
     <sn:pointer id="12">Palom: Bon, voilà, c'est comme ça.[new]
@@ -33,7 +33,7 @@ Porom: Pardon de vous l'avoir caché. Mais nous n'avions pas le choix.[new]
 Cecil: Non, c'est normal. Après tout ce que j'ai fait...[new]
 Ancien: Mais tu as surmonté ton passé et tu es devenu paladin...![force_new] !? Cette épée?[new]
 Cecil: Je l'ai reçue au sommet.[new]
-Ancien: Ça alors! Il y est inscrit la même chose que dans la légende transmise à Mysidia depuis des temps immémoriaux![new]
+Ancien: Ça alors! La légende transmise à Mysidia depuis des temps immémoriaux... elle y est inscrite![new]
 Cecil: Une légende?[end]</sn:pointer>
     <sn:pointer id="13">[bold]Edge[normal]: Du moment que tu ne te fais
 plus manipuler...[end]</sn:pointer>
@@ -41,7 +41,7 @@ plus manipuler...[end]</sn:pointer>
 à me tuer![end]</sn:pointer>
     <sn:pointer id="15">[bold]Caïn[normal]: ...Alors moi aussi, j'ai un compte à régler avec ce Zémus![end]</sn:pointer>
     <sn:pointer id="16">Caïn: Rosa...[new]
-Rosa: Golbez est revenu à lui, alors le sortilège s'est dissipé! Ce n'est pas ta faute, Caïn![new]
+Rosa: Golbez aussi a retrouvé la raison, alors le sortilège s'est dissipé! Ce n'est pas ta faute, Caïn![new]
 Caïn: Golbez... aussi?[end]</sn:pointer>
     <sn:pointer id="17">[bold]Edge[normal]: Et comment!
 C'est quasiment à cause de toi que le
@@ -87,8 +87,8 @@ je l'ai combattu...[new]
 [bold]Golbez[normal]: Tu es mon...[new]
 [bold]Cecil[normal]: Mais les rôles auraient pu être
 inversés...
-Si c'était moi qui avais reçu la
-télépathie de Zémus...[new]
+Si la télépathie de Zémus m'avait
+atteint, moi...[new]
 [bold]Golbez[normal]: ...Mais si elle m'a atteint,
 c'est que mon cœur n'était pas
 exempt de mal...[force_new]
@@ -466,7 +466,7 @@ Giotto: Nous avons été invités à leur couronnement![new]
 Luca: Super![delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="109">«Majesté! Vous tirez au flanc, Lali!»[new]
 [delay][0x10][close_window][end]</sn:pointer>
-    <sn:pointer id="110">Giotto: Bordel! Démolissez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
+    <sn:pointer id="110">Giotto: Bon sang! Démolissez-moi ces chars! [delay][0x10][close_window][end]</sn:pointer>
     <sn:pointer id="111">[bold]Caïn[normal]: Cecil...
 Rosa...[delay][0x18][new]
 Tel que je suis, je ne peux pas encore venir vous féliciter...[new]
@@ -556,8 +556,8 @@ Je pourrai alors te prêter ma force...[new]
 [bold]Cecil[normal]: Majesté![end]</sn:pointer>
     <sn:pointer id="154">[bold]Roi Baron[normal]: Tu es venu...[end]</sn:pointer>
     <sn:pointer id="155">[bold]Cecil[normal]: Majesté...[new]
-[bold]Roi Baron[normal]: Ne fais pas ces yeux si
-tristes.[new]
+[bold]Roi Baron[normal]: Ne prends pas cet air si
+triste.[new]
 Un monstre m'a ôté la vie, mais j'ai
 acquis une puissance éternelle.[force_new]
 Si l'invocatrice de Mist m'appelle, je viendrai toujours à ton aide, en Chimère qui terrasse l'ennemi d'un seul coup.[new]
@@ -574,7 +574,7 @@ combattrai à tes côtés![new]
     <sn:pointer id="158">[bold]Cecil[normal]: Caïn![end]</sn:pointer>
     <sn:pointer id="159">[bold]Cecil[normal]: Mais cette lumière...
 Elle m'a appelé... ...Mon fils...[end]</sn:pointer>
-    <sn:pointer id="160">Tella: J'aurai ma vengeance![end]</sn:pointer>
+    <sn:pointer id="160">Tella: Moi, je vais me venger![end]</sn:pointer>
     <sn:pointer id="161">[bold]Cecil[normal]: Tu vas voir...
 Golbez...![end]</sn:pointer>
     <sn:pointer id="162">[bold]Rosa[normal]: Téléport![end]</sn:pointer>
