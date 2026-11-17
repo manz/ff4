@@ -904,7 +904,8 @@ _key_item_save_vram:
 
 key_item_close_impl:
 """
-Restores the saved CHR on close and forgets the slide counter seen. Hooked over `lda #$01 / sta $ec` at the end of the close animation ($00:B05D).
+Restores the saved CHR on close and forgets the slide counter seen. Hooked over `lda #$01 / sta $ec` at the end
+of the close animation ($00:B05D).
 """
 
 
