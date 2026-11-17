@@ -27,3 +27,4 @@ through these.
 .import "ingame/key_item_picker_patches"
 .import "ingame/shop_sell_rolling_patches"
 .import "ingame/equip_inventory_rolling_patches"
+.import "ingame/fat_chocobo_rolling_patches"

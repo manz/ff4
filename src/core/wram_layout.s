@@ -23,7 +23,7 @@ EQUIP_HDMA_SHADOW := EQUIP_HDMA_TABLE + MENU_HDMA_SPAN
 
 .pool menu_ram {
     bss
-    contexts battle, field_menu, treasure, key_item, sell, equip
+    contexts battle, field_menu, treasure, key_item, sell, equip, fat_chocobo
     range 0x7E97A6 0x7E99FF
     strategy order
 }
@@ -50,6 +50,10 @@ EQUIP_HDMA_SHADOW := EQUIP_HDMA_TABLE + MENU_HDMA_SPAN
 
 .reserve equip_hdma_table MENU_HDMA_SPAN at EQUIP_HDMA_TABLE in menu_ram.equip
 .reserve equip_hdma_shadow MENU_HDMA_SPAN at EQUIP_HDMA_SHADOW in menu_ram.equip
+
+; Fat Chocobo's lists take the equip list's tables: the two screens never show together.
+.reserve fat_chocobo_hdma_table MENU_HDMA_SPAN at EQUIP_HDMA_TABLE in menu_ram.fat_chocobo
+.reserve fat_chocobo_hdma_shadow MENU_HDMA_SPAN at EQUIP_HDMA_SHADOW in menu_ram.fat_chocobo
 
 ; The spell-list text buffers ($7E:97A6-$7E:B965) vanilla prebuilt every list into: the direct magic renderer and
 ; the rolling inventory left most of them free. Battle only.

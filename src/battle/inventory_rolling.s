@@ -1837,6 +1837,8 @@ _cursor2_done:
     _EQUIP_HDMA_TABLE := EQUIP_HDMA_TABLE
 ; header + 6 row bands + footer + terminator = 25 bytes.
     EQUIP_HDMA_TABLE_SIZE := 26
+; Fat Chocobo's lists, in the equip list's tables: header + 7 row bands + footer + terminator = 28 bytes.
+    _FAT_CHOCOBO_HDMA_TABLE_SIZE := 28
 
 field_menu_nmi_dma_transfer_check_impl:
 """
@@ -1940,6 +1942,28 @@ _equip_nmi_hdma_copy_loop:
     sep #0x20
 
 _equip_nmi_hdma_copy_done:
+; Fat Chocobo's list table: the equip list's tables (wram_layout.s), BG4VOFS on ch5.
+    sep #0x20
+    lda.l field_menu_rolling.hdma_enable
+    and #0x20
+    beq _fat_chocobo_nmi_hdma_copy_done
+    lda.l fat_chocobo_rolling.hdma_copy_pending
+    beq _fat_chocobo_nmi_hdma_copy_done
+    lda #0x00
+    sta.l fat_chocobo_rolling.hdma_copy_pending
+    rep #0x30
+    ldx.w #0x0000
+
+_fat_chocobo_nmi_hdma_copy_loop:
+    lda.l EQUIP_HDMA_SHADOW, x
+    sta.l _EQUIP_HDMA_TABLE, x
+    inx
+    inx
+    cpx.w #_FAT_CHOCOBO_HDMA_TABLE_SIZE
+    bcc _fat_chocobo_nmi_hdma_copy_loop
+    sep #0x20
+
+_fat_chocobo_nmi_hdma_copy_done:
 
 ; No tilemap DMA for the field list (BG1) or treasure (BG3): their loops send the whole screen after the vblank
 ; wait ($01:9FEC, _treasure_main_check_xfer), and a copy here too ran theirs past vblank, where the PPU drops it.
