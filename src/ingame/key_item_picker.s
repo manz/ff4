@@ -185,8 +185,9 @@ _cell_body:
 
 key_item_cursor_slot_impl:
 """
-Cursor row for `DrawItemSelectCursor` ($00:B11A) as a ring slot: $4B = ($BA + $8C) mod _KEY_ITEM_BUFFER_SLOTS.
-Vanilla's unbounded row walks the hand off the window once the ring wraps.
+Cursor row for `DrawItemSelectCursor` ($00:B11A) as a ring slot: $4B = (buffer_pos + $8C) mod
+_KEY_ITEM_BUFFER_SLOTS, the slot the refresh drew the row's item into. Vanilla's unbounded row walks the hand off
+the window once the list scrolls; the scroll position $BA picks the items, not the slots.
 
 Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla resumes at $00:B144.
 """
@@ -194,7 +195,7 @@ Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla resumes at $00
 
     php
     sep #0x20
-    lda.b 0xBA
+    lda.l key_item_rolling.buffer_pos
     clc
     adc.b menu_dp.bg2_vscroll
 
