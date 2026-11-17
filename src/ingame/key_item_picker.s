@@ -890,7 +890,7 @@ _key_item_save_vram:
 
 key_item_close_impl:
 """
-Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of the close animation ($00:B05D).
+Restores the saved CHR on close and forgets the slide counter seen. Hooked over `lda #$01 / sta $ec` at the end of the close animation ($00:B05D).
 """
 
 
@@ -906,6 +906,9 @@ Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of 
     jsr.w _key_item_sram_to_vram
     jsr.w _key_item_restore_dma
     sep #0x20
+; The next open's slide must reach the open edge again, or the picker shows vanilla's empty window body.
+    lda #0x00
+    sta.l key_item_picker.open_slide_seen
     lda #0x01
     sta.b 0xEC  ; the store this hook displaced
     plp
