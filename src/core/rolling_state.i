@@ -24,6 +24,7 @@ and placement directives cannot nest.
     byte last_scroll  ; vanilla's scroll position ($BA) last rendered
     byte scroll_pos  ; engine scroll position
     byte scroll_frames  ; window-scroll animation frame counter
+    byte scroll_after_push  ; $BB the next window push sets in its vblank, with the rows it uploads (0: none)
     byte[0x0460] chr_save  ; glyph CHR window the picker overwrites, restored on close
     byte[0x0200] map_save  ; BG3 tilemap window band, same
     byte[0x000B] dma_save  ; DMA channel 3 ($4330-$433A), saved across the picker's transfers
