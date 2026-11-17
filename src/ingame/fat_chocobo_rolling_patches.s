@@ -126,7 +126,6 @@ fat_chocobo_init:
 """Trampoline to `fat_chocobo_init_impl` (replaces either Fat Chocobo list draw)."""
     jsr.l fat_chocobo_init_impl
     rts
-
 }
 
 
