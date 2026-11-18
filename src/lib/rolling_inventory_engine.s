@@ -145,7 +145,10 @@ rolling_engine_update_scroll_frame:
 """
 Advance the scroll animation one frame by the list's step (_scroll_step_by_menu): scroll_anim_offset +-= step,
 the cursor sprite Y ($0311) by as much when the cursor-row marker $1B19 is set, scroll_remaining -= step, then the
-profile's HDMA shadow rebuild (the list slid by scroll_anim_offset) and the sprite / BG2 VRAM uploads.
+profile's HDMA shadow rebuild (the list slid by scroll_anim_offset) and the sprite / BG2 VRAM uploads, which wait
+for the vblank. The field, treasure, drops and key item loops tick every other frame: for them one call runs the whole
+slide, a step a frame, so the row takes as many frames as before at twice the steps. Sell, equip and Fat Chocobo call
+it once a frame from their own loops.
 In: X = state ptr.
 """
 
@@ -153,6 +156,9 @@ In: X = state ptr.
         {
             php
             rep #0x10
+
+_frame_step:
+            phx
             sep #0x20
             lda.l rolling_x.menu_id, x
             phx
@@ -249,6 +255,17 @@ _frame_hdma_done:
 ; list draws there.
             jsr.l tfr_sprites_vblank_trampoline
             jsr.l field_menu_nmi_dma_transfer_check_impl
+            rep #0x10
+            plx
+            sep #0x20
+            lda.l rolling_x.scroll_remaining, x
+            beq _frame_out
+            lda.l rolling_x.menu_id, x
+            cmp.b #ROLLING_MENU_ID_SELL  ; sell, equip and Fat Chocobo step from their own loops
+            bcs _frame_out
+            brl _frame_step
+
+_frame_out:
             plp
             rtl
         }
