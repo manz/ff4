@@ -459,6 +459,8 @@ Runs one item's scroll to completion in vanilla's 8 frames, then pushes BG4. Fra
     sep #0x20
     lda #_EQUIP_SCROLL_FRAMES
     sta.l equip_rolling._pad
+; The row scrolling in, rendered by start_scroll: on screen before it slides in, not popped in at the end.
+    jsr.l tfr_bg4_tiles_vblank_trampoline
 
 _equip_scroll_frame:
 ; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla

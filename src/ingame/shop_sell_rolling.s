@@ -480,6 +480,8 @@ end the loop.
     sep #0x20
     lda #_SELL_SCROLL_FRAMES
     sta.l sell_rolling._pad
+; The row scrolling in, rendered by start_scroll: on screen before it slides in, not popped in at the end.
+    jsr.l tfr_bg3_tiles_vblank_trampoline
 
 _sell_scroll_frame:
 ; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla
