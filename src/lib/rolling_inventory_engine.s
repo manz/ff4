@@ -23,6 +23,7 @@ far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
 
 
 .include "core/rolling_state.i"
+.include "lib/rolling_buffer.i"
 .include "core/bank20.i"
 .import "core/vanilla"
 
@@ -142,9 +143,9 @@ _engine_refresh_mod_done:
 
 rolling_engine_update_scroll_frame:
 """
-Advance the scroll animation one frame: scroll_anim_offset +-= 8, the cursor sprite Y ($0311) by 2 when the
-cursor-row marker $1B19 is set, scroll_remaining -= 8, then the profile's HDMA shadow rebuild and the sprite /
-BG2 VRAM uploads. 8 px per frame matches every profile's *_SCROLL_PIXELS_PER_FRAME.
+Advance the scroll animation one frame by the list's step (_scroll_step_by_menu): scroll_anim_offset +-= step,
+the cursor sprite Y ($0311) by as much when the cursor-row marker $1B19 is set, scroll_remaining -= step, then the
+profile's HDMA shadow rebuild (the list slid by scroll_anim_offset) and the sprite / BG2 VRAM uploads.
 In: X = state ptr.
 """
 
@@ -153,12 +154,22 @@ In: X = state ptr.
             php
             rep #0x10
             sep #0x20
+            lda.l rolling_x.menu_id, x
+            phx
+            rep #0x20
+            and.w #0x00FF
+            tax
+            lda.l _scroll_step_by_menu, x
+            and.w #0x00FF
+            sta.l rolling_engine_scratch  ; the step, a word
+            plx
+            sep #0x20
             lda.l rolling_x.scroll_direction, x
             bpl _frame_positive
             rep #0x20
             lda.l rolling_x.scroll_anim_offset, x
             sec
-            sbc.w #8
+            sbc.l rolling_engine_scratch
             sta.l rolling_x.scroll_anim_offset, x
             bra _frame_update_cursor
 
@@ -166,7 +177,7 @@ _frame_positive:
             rep #0x20
             lda.l rolling_x.scroll_anim_offset, x
             clc
-            adc.w #8
+            adc.l rolling_engine_scratch
             sta.l rolling_x.scroll_anim_offset, x
 
 _frame_update_cursor:
@@ -175,18 +186,22 @@ _frame_update_cursor:
             beq _frame_no_cursor
             lda.l rolling_x.scroll_direction, x
             bpl _frame_cursor_down
-            inc.w sprite_data + 0x11
-            inc.w sprite_data + 0x11
+            lda.w sprite_data + 0x11
+            clc
+            adc.l rolling_engine_scratch
+            sta.w sprite_data + 0x11
             bra _frame_no_cursor
 
 _frame_cursor_down:
-            dec.w sprite_data + 0x11
-            dec.w sprite_data + 0x11
+            lda.w sprite_data + 0x11
+            sec
+            sbc.l rolling_engine_scratch
+            sta.w sprite_data + 0x11
 
 _frame_no_cursor:
             lda.l rolling_x.scroll_remaining, x
             sec
-            sbc.b #8
+            sbc.l rolling_engine_scratch
             sta.l rolling_x.scroll_remaining, x
 ; Per-profile HDMA builder by menu_id. Every id needs its own branch: the fall-through is the key-item builder,
 ; so a missing branch scribbles the picker's table.
@@ -238,10 +253,137 @@ _frame_hdma_done:
             rtl
         }
 
+_scroll_step_by_menu:
+; Pixels a scroll frame, by menu_id: field, treasure, drops, key items, sell, equip, Fat Chocobo.
+        .db INVENTORY_SCROLL_PIXELS_PER_FRAME, INVENTORY_SCROLL_PIXELS_PER_FRAME, INVENTORY_SCROLL_PIXELS_PER_FRAME
+        .db INVENTORY_SCROLL_PIXELS_PER_FRAME, VANILLA_SCROLL_PIXELS_PER_FRAME, VANILLA_SCROLL_PIXELS_PER_FRAME
+        .db VANILLA_SCROLL_PIXELS_PER_FRAME
+
+rolling_engine_hdma_rows:
+"""
+Write a list's row bands into its HDMA table: the visible_rows * 16 screen lines from content line
+scroll_anim_offset (-16..16, 0 at rest). Band k shows ring slot (buffer_pos + k) mod (visible_rows + 1) at
+BGnVOFS base_scroll + A + (slot - k) * 16 + scroll_anim_offset. At rest that is one 16-line band a row;
+mid-scroll the first and last bands are partial, so the list slides by the pixel. k runs from -1 (the old top
+row a scroll-down leaves) to visible_rows (the old bottom row a scroll-up leaves): both are the ring's spare slot.
+In: 16-bit A/X/Y. X = state ptr, Y = table offset, DP $40-$42 = the table's long address, A = scroll added to
+every row (the sell list's header shift). Out: Y = table offset past the bands. A clobbered, DP $44-$4B kept.
+"""
+
+
+        {
+            php
+            rep #0x30
+            pha  ; the extra scroll
+            lda.b 0x44
+            pha
+            lda.b 0x46
+            pha
+            lda.b 0x48
+            pha
+            lda.b 0x4A
+            pha
+            lda.l rolling_x.visible_rows, x
+            and.w #0x00FF
+            inc
+            pha  ; buffer slots, at 1,s; the extra scroll at 11,s
+; $44 = the scroll every band shares: base_scroll + extra + anim_offset
+            lda 11, s
+            clc
+            adc.l rolling_x.base_scroll, x
+            clc
+            adc.l rolling_x.scroll_anim_offset, x
+            sta.b 0x44
+; $46 = k of the first band, (anim_offset + 16) / 16 - 1; $48 = the lines of it above the screen, mod 16
+            lda.l rolling_x.scroll_anim_offset, x
+            clc
+            adc.w #16
+            sta.b 0x48
+            lsr
+            lsr
+            lsr
+            lsr
+            dec
+            sta.b 0x46
+            lda.b 0x48
+            and.w #0x000F
+            sta.b 0x48
+; $4A = the screen lines left
+            lda.l rolling_x.visible_rows, x
+            and.w #0x00FF
+            asl
+            asl
+            asl
+            asl
+            sta.b 0x4A
+
+_hdma_rows_band:
+            lda.w #16
+            sec
+            sbc.b 0x48
+            cmp.b 0x4A
+            bcc _hdma_rows_height
+            lda.b 0x4A
+
+_hdma_rows_height:
+            sta.b 0x48
+            sep #0x20
+            sta [0x40], y
+            rep #0x20
+            iny
+; slot = (buffer_pos + k + slots) mod slots, k >= -1
+            lda.l rolling_x.buffer_pos, x
+            and.w #0x00FF
+            clc
+            adc.b 0x46
+            clc
+            adc 1, s
+
+_hdma_rows_mod:
+            cmp 1, s
+            bcc _hdma_rows_slot
+            sec
+            sbc 1, s
+            bra _hdma_rows_mod
+
+_hdma_rows_slot:
+            sec
+            sbc.b 0x46
+            asl
+            asl
+            asl
+            asl  ; (slot - k) * 16
+            clc
+            adc.b 0x44
+            sta [0x40], y
+            iny
+            iny
+            lda.b 0x4A
+            sec
+            sbc.b 0x48
+            sta.b 0x4A
+            inc.b 0x46
+            stz.b 0x48
+            lda.b 0x4A
+            bne _hdma_rows_band
+            pla
+            pla
+            sta.b 0x4A
+            pla
+            sta.b 0x48
+            pla
+            sta.b 0x46
+            pla
+            sta.b 0x44
+            pla
+            plp
+            rtl
+        }
+
 rolling_engine_start_scroll_down:
 """
 Start a scroll-down: advance buffer_pos (wrapping), pre-render the new bottom slot, arm the FSM (state 1,
-remaining 16, direction +8, anim_offset -16), set transfer_pending and seed the HDMA shadow.
+remaining 16, direction +, anim_offset -16), set transfer_pending and seed the HDMA shadow.
 In: X = state ptr, A = scroll_pos (8-bit).
 """
 

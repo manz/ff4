@@ -1831,14 +1831,15 @@ _cursor2_done:
 ; Sell list.
     SELL_HDMA_TABLE := PICKER_HDMA_TABLE
     SELL_HDMA_SHADOW := PICKER_HDMA_SHADOW
-; header + 8 row bands + footer + terminator = 31 bytes.
-    _SELL_HDMA_TABLE_SIZE := 32
+; header + 9 row bands (a scroll's partial ones) + footer + terminator = 34 bytes.
+    _SELL_HDMA_TABLE_SIZE := 34
 ; Equip screen inventory list.
     _EQUIP_HDMA_TABLE := EQUIP_HDMA_TABLE
-; header + 6 row bands + footer + terminator = 25 bytes.
-    EQUIP_HDMA_TABLE_SIZE := 26
-; Fat Chocobo's lists, in the equip list's tables: header + 7 row bands + footer + terminator = 28 bytes.
-    _FAT_CHOCOBO_HDMA_TABLE_SIZE := 28
+; header + 7 row bands (a scroll's partial ones) + footer + terminator = 28 bytes.
+    EQUIP_HDMA_TABLE_SIZE := 28
+; Fat Chocobo's lists, in the equip list's tables: header + 8 row bands (a scroll's partial ones) + footer +
+; terminator = 31 bytes, copied by words.
+    _FAT_CHOCOBO_HDMA_TABLE_SIZE := 32
 
 field_menu_nmi_dma_transfer_check_impl:
 """

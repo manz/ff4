@@ -163,57 +163,15 @@ update_menu_scroll_hdma:
         pha
         ldx.w #0x0000
         jsr.w _menu_hdma_header
-        stz.b 0x42
-
-_row_loop:
-        lda.w field_menu_rolling.buffer_pos
-        and.w #0x00FF
-        clc
-        adc.b 0x42
-
-_mod_loop:
-        cmp.w #MENU_BUFFER_SLOTS
-        bcc _mod_done
-        sec
-        sbc.w #MENU_BUFFER_SLOTS
-        bra _mod_loop
-
-_mod_done:
-        asl
-        asl
-        asl
-        asl
+        txy
+        lda.w #_MENU_HDMA_SHADOW & 0xFFFF
         sta.b 0x40
-        lda.b 0x42
-        and.w #0x00FF
-        asl
-        asl
-        asl
-        asl
-        eor.w #0xFFFF
-        inc
-        clc
-        adc.b 0x40
-        clc
-        adc.w field_menu_rolling.base_scroll
-        sta.b 0x40
-        sep #0x20
-        lda #16
-        sta.l _MENU_HDMA_SHADOW, x
-        inx
-        rep #0x20
-        lda.b 0x40
-        sta.l _MENU_HDMA_SHADOW, x
-        inx
-        inx
-        rep #0x20
-        inc.b 0x42
-        lda.b 0x42
-        cmp.w #MENU_VISIBLE_ITEMS
-        bcs _row_loop_done
-        jmp.w _row_loop
-
-_row_loop_done:
+        lda.w #_MENU_HDMA_SHADOW >> 16
+        sta.b 0x42
+        lda.w #0
+        ldx.w #field_menu_rolling
+        jsr.l rolling_engine.rolling_engine_hdma_rows
+        tyx
         jsr.w _menu_hdma_footer
         sep #0x20
         lda #0x00
