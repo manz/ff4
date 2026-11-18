@@ -52,6 +52,8 @@ _KEY_ITEM_HDMA_BANK := 0x7E
 _KEY_ITEM_HDMA_TABLE_SIZE := 40
 
 _KEY_ITEM_FILTER_BUFFER := 0x0712
+; Vanilla's window scroll $BB on the field's direct page ($0600): the push runs on the render page.
+_KEY_ITEM_FIELD_SCROLL := 0x7E06BB
 
 ; BG3 staging page for the window body, DMA'd to BG3 plane 1 at VRAM word $2C00 (item text on rows 1/3/5/7,
 ; cursor in column 2).
@@ -185,8 +187,9 @@ _cell_body:
 
 key_item_cursor_slot_impl:
 """
-Cursor row for `DrawItemSelectCursor` ($00:B11A) as a ring slot: $4B = ($BA + $8C) mod _KEY_ITEM_BUFFER_SLOTS.
-Vanilla's unbounded row walks the hand off the window once the ring wraps.
+Cursor row for `DrawItemSelectCursor` ($00:B11A) as a ring slot: $4B = (buffer_pos + $8C) mod
+_KEY_ITEM_BUFFER_SLOTS, the slot the refresh drew the row's item into. Vanilla's unbounded row walks the hand off
+the window once the list scrolls; the scroll position $BA picks the items, not the slots.
 
 Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla resumes at $00:B144.
 """
@@ -194,7 +197,7 @@ Replaces `lda $ba / clc / adc $8c / sta $4b` at $00:B13D; vanilla resumes at $00
 
     php
     sep #0x20
-    lda.b 0xBA
+    lda.l key_item_rolling.buffer_pos
     clc
     adc.b menu_dp.bg2_vscroll
 
@@ -544,6 +547,9 @@ Filters the list, fills `key_item_rolling` ($7E:9C60) and inits the engine.
     php
     rep #0x30
     sep #0x20
+; No scroll waits on this opening's first upload.
+    lda.b #0x00
+    sta.l key_item_picker.scroll_after_push
 ; Visible rows, not slots: the engine adds the prefetch slot.
     lda.b #_KEY_ITEM_VISIBLE_ITEMS
     sta.l key_item_rolling.visible_rows
@@ -591,6 +597,9 @@ Filters the list, fills `key_item_rolling` ($7E:9C60) and inits the engine.
     rep #0x10
     ldx.w #key_item_rolling
     jsr.l rolling_engine.rolling_engine_init
+; The engine's init draws the visible rows only: the prefetch slot below them would slide in blank on the first
+; scroll down.
+    jsr.l _key_item_refresh_slots_impl
     plp
     rtl
 
@@ -717,8 +726,9 @@ _limit_ready:
 
 key_item_scroll_down_impl:
 """
-Replaces ScrollItemListDown ($00:B09E): animates $BB +2 px x 8 frames, steps it back one row and re-renders
-the ring at the new scroll position.
+Replaces ScrollItemListDown ($00:B09E): animates $BB +2 px x 8 frames, sliding the prefetch slot's row in from
+below, then re-renders the ring at the new scroll position. $BB steps back one row in the vblank that uploads
+the new rows: earlier, the old rows showed unscrolled for the frames the render takes.
 """
 
 
@@ -742,16 +752,26 @@ _scroll_down_loop:
     lda.b 0xBB
     sec
     sbc.b #_KEY_ITEM_ROW_HEIGHT_PX
-    sta.b 0xBB
+    sta.l key_item_picker.scroll_after_push
     jsr.w _key_item_rerender
     plp
     rtl
 
 key_item_scroll_up_impl:
-"""Mirror of `key_item_scroll_down_impl`."""
+"""
+Replaces ScrollItemListUp: the ring has no slot above the first row, so it re-renders at the new scroll position
+first, $BB one row down in the upload's vblank (the same rows on screen), then animates $BB -2 px x 8 frames,
+sliding the new first row in from above.
+"""
     php
     sep #0x20
     rep #0x10
+    lda.b 0xBB
+    clc
+    adc.b #_KEY_ITEM_ROW_HEIGHT_PX
+    sta.l key_item_picker.scroll_after_push
+    jsr.w _key_item_rerender
+    sep #0x20
     lda #_KEY_ITEM_SCROLL_FRAMES
     sta.l key_item_picker.scroll_frames
 
@@ -766,11 +786,6 @@ _scroll_up_loop:
     dec
     sta.l key_item_picker.scroll_frames
     bne _scroll_up_loop
-    lda.b 0xBB
-    clc
-    adc.b #_KEY_ITEM_ROW_HEIGHT_PX
-    sta.b 0xBB
-    jsr.w _key_item_rerender
     plp
     rtl
 
@@ -889,7 +904,8 @@ _key_item_save_vram:
 
 key_item_close_impl:
 """
-Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of the close animation ($00:B05D).
+Restores the saved CHR on close and forgets the slide counter seen. Hooked over `lda #$01 / sta $ec` at the end
+of the close animation ($00:B05D).
 """
 
 
@@ -905,6 +921,9 @@ Restores the saved CHR on close. Hooked over `lda #$01 / sta $ec` at the end of 
     jsr.w _key_item_sram_to_vram
     jsr.w _key_item_restore_dma
     sep #0x20
+; The next open's slide must reach the open edge again, or the picker shows vanilla's empty window body.
+    lda #0x00
+    sta.l key_item_picker.open_slide_seen
     lda #0x01
     sta.b 0xEC  ; the store this hook displaced
     plp
@@ -985,7 +1004,11 @@ one vblank. No vanilla NMI push exists on the field.
     sep #0x20
     rep #0x10
     lda.l key_item_rolling.transfer_pending
-    beq _push_window_done
+    bne _push_window_pending
+    plp
+    rts
+
+_push_window_pending:
     lda #0x00
     sta.l key_item_rolling.transfer_pending
     jsr.l wait_for_vblank_long
@@ -1012,6 +1035,14 @@ one vblank. No vanilla NMI push exists on the field.
     sep #0x20
     lda #0x08
     sta.l cpu_regs.MDMAEN  ; MDMAEN ch3
+; The scroll that goes with these rows, before the window IRQ reads $BB this frame.
+    lda.l key_item_picker.scroll_after_push
+    beq _push_scroll_kept
+    sta.l _KEY_ITEM_FIELD_SCROLL
+    lda #0x00
+    sta.l key_item_picker.scroll_after_push
+
+_push_scroll_kept:
 
 ; Publish the scroll table (shadow -> active).
     rep #0x30
