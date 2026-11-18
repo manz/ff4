@@ -91,6 +91,14 @@ EQUIP_LIST_BASE_SCROLL := 0xFF98
 EQUIP_LIST_ORIGIN_LINES := 8
 EQUIP_LIST_FIRST_ROW_Y := 0x10000 - EQUIP_LIST_BASE_SCROLL + EQUIP_LIST_ORIGIN_LINES
 EQUIP_LIST_CURSOR_Y_BASE := EQUIP_LIST_FIRST_ROW_Y + 8 - 1
+; Fat Chocobo's lists (deposit: the bag, withdraw: his 126 slots at $7E:1340) on the equip list's rows: vanilla seeds
+; $99 = $FFB0 ($01:CE96), so window line 0 is screen line 80, rows from one tile below, the hand at row * 16 + $5F.
+FAT_CHOCOBO_LIST_VISIBLE_ROWS := 7
+FAT_CHOCOBO_BAG_ITEMS := 48
+FAT_CHOCOBO_STORED_ITEMS := 126
+FAT_CHOCOBO_LIST_BASE_SCROLL := 0xFFB0
+FAT_CHOCOBO_LIST_ORIGIN_LINES := 8
+FAT_CHOCOBO_LIST_FIRST_ROW_Y := 0x10000 - FAT_CHOCOBO_LIST_BASE_SCROLL + FAT_CHOCOBO_LIST_ORIGIN_LINES
 DROPS_FIRST_ITEM_ROW := 5
 DROPS_CURSOR_Y_BASE := DROPS_FIRST_ITEM_ROW * 8 - 1
 
@@ -126,6 +134,7 @@ KEY_ITEM_ROLLING_BASE := 0x7E9C60
 FIELD_MENU_ROLLING_BASE := 0x7E9C90
 SELL_ROLLING_BASE := 0x7E9CC0
 EQUIP_ROLLING_BASE := 0x7E9CF0
+FAT_CHOCOBO_ROLLING_BASE := 0x7E9D20
 
 ; Vanilla's frame tick (WaitVblank $01:818A: `inc $16a3`, wraps at 60). Menus run with NMI off and
 ; their loops iterate a variable number of times per frame, so watch this byte for a change.
@@ -164,6 +173,7 @@ ROLLING_MENU_ID_DROPS := 2
 ROLLING_MENU_ID_KEY_ITEM := 3
 ROLLING_MENU_ID_SELL := 4
 ROLLING_MENU_ID_EQUIP := 5
+ROLLING_MENU_ID_FAT_CHOCOBO := 6
 
 ; Typed views onto each profile's state. field_menu_rolling.hdma_enable / .hdma_copy_pending are also
 ; the shared menu HDMA signals: every rolling menu sets them to ask the field-menu NMI hook to copy
@@ -174,6 +184,7 @@ drops_rolling := (DROPS_ROLLING_BASE as RollingBufferState)
 key_item_rolling := (KEY_ITEM_ROLLING_BASE as RollingBufferState)
 sell_rolling := (SELL_ROLLING_BASE as RollingBufferState)
 equip_rolling := (EQUIP_ROLLING_BASE as RollingBufferState)
+fat_chocobo_rolling := (FAT_CHOCOBO_ROLLING_BASE as RollingBufferState)
 
 ; The profile X points at (X = base low word): `rolling_x.<field>, x`.
 rolling_x := (0x7E0000 as RollingBufferState)
@@ -190,7 +201,7 @@ treasure_scroll_frame_seen := treasure_scroll_cooldown + 1
 ROLLING_SLOT := 0x30
 .pool rolling_ram {
     bss
-    range TREASURE_ROLLING_BASE ( EQUIP_ROLLING_BASE + ROLLING_SLOT - 1 )
+    range TREASURE_ROLLING_BASE ( FAT_CHOCOBO_ROLLING_BASE + ROLLING_SLOT - 1 )
     strategy order
 }
 .reserve treasure_rolling_state sizeof(RollingBufferState) at TREASURE_ROLLING_BASE in rolling_ram
@@ -201,4 +212,5 @@ ROLLING_SLOT := 0x30
 .reserve field_menu_rolling_state sizeof(RollingBufferState) at FIELD_MENU_ROLLING_BASE in rolling_ram
 .reserve sell_rolling_state sizeof(RollingBufferState) at SELL_ROLLING_BASE in rolling_ram
 .reserve equip_rolling_state sizeof(RollingBufferState) at EQUIP_ROLLING_BASE in rolling_ram
+.reserve fat_chocobo_rolling_state sizeof(RollingBufferState) at FAT_CHOCOBO_ROLLING_BASE in rolling_ram
 .assert sizeof(RollingBufferState) + 2 <= ROLLING_SLOT, "a rolling state outgrew its slot"

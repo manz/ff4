@@ -16,6 +16,7 @@ far pointers (fn_render_slot, fn_update_hdma, fn_draw_window).
 .extern update_key_item_scroll_hdma
 .extern update_sell_scroll_hdma
 .extern update_equip_scroll_hdma
+.extern update_fat_scroll_hdma
 .extern clear_inventory_slot
 .extern field_menu_nmi_dma_transfer_check_impl
 .import "ingame/vanilla_trampolines"
@@ -199,6 +200,8 @@ _frame_no_cursor:
             beq _frame_hdma_sell
             cmp.b #ROLLING_MENU_ID_EQUIP
             beq _frame_hdma_equip
+            cmp.b #ROLLING_MENU_ID_FAT_CHOCOBO
+            beq _frame_hdma_fat_chocobo
             jsr.w update_key_item_scroll_hdma
             bra _frame_hdma_done
 
@@ -208,6 +211,10 @@ _frame_hdma_sell:
 
 _frame_hdma_equip:
             jsr.w update_equip_scroll_hdma
+            bra _frame_hdma_done
+
+_frame_hdma_fat_chocobo:
+            jsr.w update_fat_scroll_hdma
             bra _frame_hdma_done
 
 _frame_hdma_field:
@@ -528,6 +535,8 @@ _engine_dispatch_update_scroll_hdma:
             beq _dispatch_sell
             cmp.b #ROLLING_MENU_ID_EQUIP
             beq _dispatch_equip
+            cmp.b #ROLLING_MENU_ID_FAT_CHOCOBO
+            beq _dispatch_fat_chocobo
             jsr.w update_key_item_scroll_hdma
             rts
 
@@ -537,6 +546,10 @@ _dispatch_sell:
 
 _dispatch_equip:
             jsr.w update_equip_scroll_hdma
+            rts
+
+_dispatch_fat_chocobo:
+            jsr.w update_fat_scroll_hdma
             rts
 
 _dispatch_field:
