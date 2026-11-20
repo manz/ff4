@@ -58,7 +58,7 @@ _SELL_ROW_SHIFT := 88 - _SELL_HEADER_LINES
 _SELL_FOOTER_SCROLL := 20 * 8 - ( _SELL_HEADER_LINES + _SELL_VISIBLE_ITEMS * 16 )
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
-_SELL_SCROLL_FRAMES := 8
+_SELL_SCROLL_FRAMES := INVENTORY_SCROLL_TOTAL_PIXELS / VANILLA_SCROLL_PIXELS_PER_FRAME
 
 .alloc _sell_rolling_block in bank20_reloc {
 _sell_ensure_hdma_initialized:
@@ -260,7 +260,7 @@ Renders inventory item `edge_row` ($7E:1440) into $7E:D600 + (slot + 1) * 128 + 
 
 update_sell_scroll_hdma:
 """
-Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 9 at BG3VOFS base_scroll + (slot - r) * 16.
+Builds the HDMA shadow table: header, the row bands (rolling_engine_hdma_rows, slid mid-scroll), footer.
 """
 
 
@@ -276,58 +276,15 @@ Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 9 at BG3VOFS
         pha
         ldx.w #0x0000
         jsr.w _sell_hdma_header
-        stz.b 0x42
-
-_sell_row_loop:
-        lda.w sell_rolling.buffer_pos
-        and.w #0x00FF
-        clc
-        adc.b 0x42
-
-_sell_mod_loop:
-        cmp.w #_SELL_BUFFER_SLOTS
-        bcc _sell_mod_done
-        sec
-        sbc.w #_SELL_BUFFER_SLOTS
-        bra _sell_mod_loop
-
-_sell_mod_done:
-        asl
-        asl
-        asl
-        asl  ; slot * 16
+        txy
+        lda.w #SELL_HDMA_SHADOW & 0xFFFF
         sta.b 0x40
-        lda.b 0x42
-        and.w #0x00FF
-        asl
-        asl
-        asl
-        asl  ; row * 16
-        eor.w #0xFFFF
-        inc  ; -row * 16
-        clc
-        adc.b 0x40
-        clc
-        adc.w sell_rolling.base_scroll
-        clc
-        adc.w #_SELL_ROW_SHIFT  ; the header is that much shorter: the same slot line, 8 px higher
-        sta.b 0x40
-        sep #0x20
-        lda #16
-        sta.l SELL_HDMA_SHADOW, x
-        inx
-        rep #0x20
-        lda.b 0x40
-        sta.l SELL_HDMA_SHADOW, x
-        inx
-        inx
-        inc.b 0x42
-        lda.b 0x42
-        cmp.w #_SELL_VISIBLE_ITEMS
-        bcs _sell_row_loop_done
-        jmp.w _sell_row_loop
-
-_sell_row_loop_done:
+        lda.w #SELL_HDMA_SHADOW >> 16
+        sta.b 0x42
+        lda.w #_SELL_ROW_SHIFT
+        ldx.w #sell_rolling
+        jsr.l rolling_engine.rolling_engine_hdma_rows
+        tyx
         jsr.w _sell_hdma_footer
         sep #0x20
         lda #0x00
@@ -523,6 +480,8 @@ end the loop.
     sep #0x20
     lda #_SELL_SCROLL_FRAMES
     sta.l sell_rolling._pad
+; The row scrolling in, rendered by start_scroll: on screen before it slides in, not popped in at the end.
+    jsr.l tfr_bg3_tiles_vblank_trampoline
 
 _sell_scroll_frame:
 ; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla

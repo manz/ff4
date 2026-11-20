@@ -62,11 +62,11 @@ _FAT_WINDOW_BOTTOM_ROW := 24
 _FAT_FOOTER_TOP := _FAT_HEADER_LINES + _FAT_VISIBLE_ITEMS * _FAT_SLOT_PIXELS
 _FAT_FOOTER_LINES := 224 - _FAT_FOOTER_TOP
 _FAT_FOOTER_SCROLL := _FAT_WINDOW_BOTTOM_ROW * 8 - _FAT_FOOTER_TOP + 0x10000 - _FAT_BASE_SCROLL
-; header + 7 row bands + footer + terminator.
-.assert 3 * ( _FAT_VISIBLE_ITEMS + 2 ) + 1 <= MENU_HDMA_SPAN, "the band table outgrew its span"
+; header + 8 row bands (mid-scroll, one more than the rows) + footer + terminator.
+.assert 3 * ( _FAT_VISIBLE_ITEMS + 3 ) + 1 <= MENU_HDMA_SPAN, "the band table outgrew its span"
 
 ; Vanilla's cadence: 8 frames of 2 px per item.
-_FAT_SCROLL_FRAMES := 8
+_FAT_SCROLL_FRAMES := INVENTORY_SCROLL_TOTAL_PIXELS / VANILLA_SCROLL_PIXELS_PER_FRAME
 
 ; InventoryWindow, the window $01:A172 draws.
 _INVENTORY_WINDOW := 0xDCCE
@@ -289,7 +289,7 @@ _fat_render_done:
 
 update_fat_scroll_hdma:
 """
-Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 8 at BG4VOFS base_scroll + (slot - r) * 16.
+Builds the HDMA shadow table: header, the row bands (rolling_engine_hdma_rows, slid mid-scroll), footer.
 """
 
 
@@ -306,56 +306,15 @@ Builds the HDMA shadow table: row r shows slot (buffer_pos + r) mod 8 at BG4VOFS
         ldx.w #0x0000
         lda.w #_FAT_HEADER_LINES
         jsr.w _fat_hdma_base_band
-        stz.b 0x42
-
-_fat_row_loop:
-        lda.w fat_chocobo_rolling.buffer_pos
-        and.w #0x00FF
-        clc
-        adc.b 0x42
-
-_fat_mod_loop:
-        cmp.w #_FAT_BUFFER_SLOTS
-        bcc _fat_mod_done
-        sec
-        sbc.w #_FAT_BUFFER_SLOTS
-        bra _fat_mod_loop
-
-_fat_mod_done:
-        asl
-        asl
-        asl
-        asl  ; slot * 16
+        txy
+        lda.w #_FAT_HDMA_SHADOW & 0xFFFF
         sta.b 0x40
-        lda.b 0x42
-        and.w #0x00FF
-        asl
-        asl
-        asl
-        asl  ; row * 16
-        eor.w #0xFFFF
-        inc  ; -row * 16
-        clc
-        adc.b 0x40
-        clc
-        adc.w fat_chocobo_rolling.base_scroll
-        sta.b 0x40
-        sep #0x20
-        lda #_FAT_SLOT_PIXELS
-        sta.l _FAT_HDMA_SHADOW, x
-        inx
-        rep #0x20
-        lda.b 0x40
-        sta.l _FAT_HDMA_SHADOW, x
-        inx
-        inx
-        inc.b 0x42
-        lda.b 0x42
-        cmp.w #_FAT_VISIBLE_ITEMS
-        bcs _fat_row_loop_done
-        jmp.w _fat_row_loop
-
-_fat_row_loop_done:
+        lda.w #_FAT_HDMA_SHADOW >> 16
+        sta.b 0x42
+        lda.w #0
+        ldx.w #fat_chocobo_rolling
+        jsr.l rolling_engine.rolling_engine_hdma_rows
+        tyx
         sep #0x20
         lda #_FAT_FOOTER_LINES
         sta.l _FAT_HDMA_SHADOW, x
@@ -525,6 +484,8 @@ Runs one item's scroll to completion in vanilla's 8 frames, then pushes BG4. Fra
     sep #0x20
     lda #_FAT_SCROLL_FRAMES
     sta.l fat_chocobo_rolling._pad
+; The row scrolling in, rendered by start_scroll: on screen before it slides in, not popped in at the end.
+    jsr.l tfr_bg4_tiles_vblank_trampoline
 
 _fat_scroll_frame:
 ; update_scroll_frame waits for the vblank itself (TfrBG2TilesVblank): one step a frame, as vanilla

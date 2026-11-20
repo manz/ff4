@@ -1493,6 +1493,36 @@ _su_exit:
     _SCROLL_WRAP_LIMIT := 0x01D3  ; 467 = 371 + 96 (wrap when >= this value)
     _OUR_BASE_SCROLL := 0x0173  ; 371 - same as original game
 
+_list_scroll_offset:
+"""
+The list's slide from rest, in screen lines (16-bit A out, signed): vanilla moves it a line per step while $EF64
+counts 12 to 1, so 1 - $EF64 scrolling down ($1820 = 2), $EF64 - 1 scrolling up ($1820 = 3), else 0.
+In: 16-bit A, X, Y.
+"""
+    lda 0x7EEF64
+    and.w #0x00FF
+    beq _offset_rest
+    dec
+    sta.b 0x00
+    lda.l menu_hdma_pending
+    and.w #0x00FF
+    cmp.w #0x0003
+    beq _offset_up
+    cmp.w #0x0002
+    bne _offset_rest
+    lda.w #0x0000
+    sec
+    sbc.b 0x00
+    rts
+
+_offset_up:
+    lda.b 0x00
+    rts
+
+_offset_rest:
+    lda.w #0x0000
+    rts
+
 update_list_scroll_hdma_wrapped:
 """
 Replacement for the HDMA-build stub at `$02A7F1` (JMP.L): rebuild the per-scanline V-scroll table at $7F74.
@@ -1529,81 +1559,76 @@ _orig_skip_add:
     jmp.l return_to_bank02  ; Return via bank $02 trampoline
 
 _use_circular_buffer:
-; FF6 LoadItemBG1VScrollHDMATbl: at scanline S with scroll V the displayed VRAM row is V + S, so showing slot N
-; at screen row R (scanline R*12) needs scroll = N*16 - R*12. Per row: slot = (_rolling_buffer_pos + row) % 6,
-; scroll = BASE + slot * 16 - row * 12.
+; FF6 LoadItemBG1VScrollHDMATbl: at scanline S with scroll V the displayed VRAM row is V + S. Each row shows the
+; first 12 lines of its 16-line slot. Mid-scroll the list sits `off` screen lines from rest (vanilla's slide: a line
+; per step, $EF64 counting 12 to 1), so scanline S shows content line C = S + off of row R = C / 12 (R = -1..5:
+; the ring's sixth slot is the row sliding out), slot (_rolling_buffer_pos + R) % 6, at
+; scroll = BASE + slot * 16 - R * 12 + off.
     sei  ; Disable interrupts during HDMA table update
 
-; Save $00-$05 for the caller
-    lda.b 0x00
+; Save $00-$07 for the caller
+    ldx.w #0x0000
+
+_save_dp:
+    lda.b 0x00, x
     pha
-    lda.b 0x01
-    pha
-    lda.b 0x02
-    pha
-    lda.b 0x03
-    pha
-    lda.b 0x04
-    pha
-    lda.b 0x05
-    pha
+    inx
+    cpx.w #0x0008
+    bne _save_dp
 
     rep #0x30  ; 16-bit A, X, Y
+    jsr.w _list_scroll_offset
+    sta.b 0x06  ; $06 = off, signed
+    stz.b 0x02  ; $02 = R
+    stz.b 0x04  ; $04 = R * 12
+    lda.b 0x06
+    bmi _off_up_a_row
+    lda.w #0x000C
+    sec
+    sbc.b 0x06
+    tay  ; row 0 shows 12 - off lines
+    bra _rows_start
 
+_off_up_a_row:
+    dec.b 0x02  ; off < 0: start at row -1, the slot sliding out
+    lda.w #0xFFF4
+    sta.b 0x04
+    lda.w #0x0000
+    sec
+    sbc.b 0x06
+    tay  ; row -1 shows -off lines
+
+_rows_start:
     ldx.w #0x0000  ; HDMA table index
-    stz.b 0x02  ; Row counter (clears $02 and $03 in 16-bit mode)
 
 _row_loop:
-; slot = (_rolling_buffer_pos + row) % 6
+; slot = (_rolling_buffer_pos + R + 6) % 6
     lda.w _rolling_buffer_pos
     and.w #0x00FF
     clc
-    adc.b 0x02  ; + row number
+    adc.b 0x02
+    clc
+    adc.w #BUFFER_SLOTS
 
 _mod6:
-    cmp.w #BUFFER_SLOTS  ; >= 6?
+    cmp.w #BUFFER_SLOTS
     bcc _mod6_done
     sec
     sbc.w #BUFFER_SLOTS
     bra _mod6
 
 _mod6_done:
-
     asl
     asl
     asl
-    asl  ; A = vram_slot * 16
-    sta.b 0x00  ; Save vram_offset
-
-; row * 12 = row * 8 + row * 4
-    lda.b 0x02  ; row (only low byte matters, high is 0)
-    and.w #0x00FF  ; Ensure only low byte
-    asl
-    asl
-    asl  ; row * 8
-    tay  ; Y = row * 8
-    lda.b 0x02
-    and.w #0x00FF
-    asl
-    asl  ; row * 4
-    sta.b 0x04  ; Use $04 for temp (not overlapping)
-    tya  ; A = row * 8
+    asl  ; slot * 16
+    sec
+    sbc.b 0x04  ; - R * 12
     clc
-    adc.b 0x04  ; row * 8 + row * 4 = row * 12
-
-; scroll = BASE + vram_offset - scanline_offset; `eor.w #0xFFFF` as raw bytes (a816 lacks eor.w)
-    .db 0x49
-    .dw 0xffff
-
-    inc
+    adc.b 0x06  ; + off
     clc
-    adc.b 0x00  ; + vram_offset
-    clc
-    adc.w #_OUR_BASE_SCROLL  ; + BASE
+    adc.w #_OUR_BASE_SCROLL
     sta.b 0x00  ; $00 = scroll value for this row
-
-; Same value for all 12 scanlines of this row
-    ldy.w #0x000C  ; 12 scanlines
 
 _scanline_loop:
     lda.b 0x00
@@ -1612,28 +1637,29 @@ _scanline_loop:
     inx
     inx
     inx  ; X += 4 (next HDMA entry)
+    cpx.w #_HDMA_TABLE_SIZE
+    beq _rows_done
     dey
     bne _scanline_loop
 
     inc.b 0x02
-    lda.b 0x02
-    cmp.w #VISIBLE_ROWS  ; 5 rows total
-    bne _row_loop
-
-; Restore $00-$05
-    sep #0x20  ; 8-bit A for PLA
-    pla
-    sta.b 0x05
-    pla
+    lda.b 0x04
+    clc
+    adc.w #0x000C
     sta.b 0x04
+    ldy.w #0x000C
+    bra _row_loop
+
+_rows_done:
+; Restore $00-$07
+    sep #0x20  ; 8-bit A for PLA
+    ldx.w #0x0007
+
+_restore_dp:
     pla
-    sta.b 0x03
-    pla
-    sta.b 0x02
-    pla
-    sta.b 0x01
-    pla
-    sta.b 0x00
+    sta.b 0x00, x
+    dex
+    bpl _restore_dp
 
 ; Force the cursor only during a scroll animation ($1820 = 2 or 3)
     lda.l menu_hdma_pending  ; Animation type
@@ -1831,14 +1857,15 @@ _cursor2_done:
 ; Sell list.
     SELL_HDMA_TABLE := PICKER_HDMA_TABLE
     SELL_HDMA_SHADOW := PICKER_HDMA_SHADOW
-; header + 8 row bands + footer + terminator = 31 bytes.
-    _SELL_HDMA_TABLE_SIZE := 32
+; header + 9 row bands (a scroll's partial ones) + footer + terminator = 34 bytes.
+    _SELL_HDMA_TABLE_SIZE := 34
 ; Equip screen inventory list.
     _EQUIP_HDMA_TABLE := EQUIP_HDMA_TABLE
-; header + 6 row bands + footer + terminator = 25 bytes.
-    EQUIP_HDMA_TABLE_SIZE := 26
-; Fat Chocobo's lists, in the equip list's tables: header + 7 row bands + footer + terminator = 28 bytes.
-    _FAT_CHOCOBO_HDMA_TABLE_SIZE := 28
+; header + 7 row bands (a scroll's partial ones) + footer + terminator = 28 bytes.
+    EQUIP_HDMA_TABLE_SIZE := 28
+; Fat Chocobo's lists, in the equip list's tables: header + 8 row bands (a scroll's partial ones) + footer +
+; terminator = 31 bytes, copied by words.
+    _FAT_CHOCOBO_HDMA_TABLE_SIZE := 32
 
 field_menu_nmi_dma_transfer_check_impl:
 """
