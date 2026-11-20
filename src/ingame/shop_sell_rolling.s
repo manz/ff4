@@ -58,7 +58,7 @@ _SELL_ROW_SHIFT := 88 - _SELL_HEADER_LINES
 _SELL_FOOTER_SCROLL := 20 * 8 - ( _SELL_HEADER_LINES + _SELL_VISIBLE_ITEMS * 16 )
 
 ; Vanilla's scroll cadence: 8 frames of 2px for one 16px item.
-_SELL_SCROLL_FRAMES := 8
+_SELL_SCROLL_FRAMES := INVENTORY_SCROLL_TOTAL_PIXELS / VANILLA_SCROLL_PIXELS_PER_FRAME
 
 .alloc _sell_rolling_block in bank20_reloc {
 _sell_ensure_hdma_initialized:

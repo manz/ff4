@@ -66,7 +66,7 @@ _FAT_FOOTER_SCROLL := _FAT_WINDOW_BOTTOM_ROW * 8 - _FAT_FOOTER_TOP + 0x10000 - _
 .assert 3 * ( _FAT_VISIBLE_ITEMS + 3 ) + 1 <= MENU_HDMA_SPAN, "the band table outgrew its span"
 
 ; Vanilla's cadence: 8 frames of 2 px per item.
-_FAT_SCROLL_FRAMES := 8
+_FAT_SCROLL_FRAMES := INVENTORY_SCROLL_TOTAL_PIXELS / VANILLA_SCROLL_PIXELS_PER_FRAME
 
 ; InventoryWindow, the window $01:A172 draws.
 _INVENTORY_WINDOW := 0xDCCE

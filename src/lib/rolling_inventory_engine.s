@@ -275,6 +275,11 @@ _scroll_step_by_menu:
         .db INVENTORY_SCROLL_PIXELS_PER_FRAME, INVENTORY_SCROLL_PIXELS_PER_FRAME, INVENTORY_SCROLL_PIXELS_PER_FRAME
         .db INVENTORY_SCROLL_PIXELS_PER_FRAME, VANILLA_SCROLL_PIXELS_PER_FRAME, VANILLA_SCROLL_PIXELS_PER_FRAME
         .db VANILLA_SCROLL_PIXELS_PER_FRAME
+_scroll_step_by_menu_end:
+        .assert _scroll_step_by_menu_end - _scroll_step_by_menu == ROLLING_MENU_ID_FAT_CHOCOBO + 1, "id without step"
+        .assert ROLLING_MENU_ID_KEY_ITEM < ROLLING_MENU_ID_SELL, "ids below SELL loop the slide"
+        .assert ROLLING_MENU_ID_SELL < ROLLING_MENU_ID_EQUIP, "SELL and up step from their own loops"
+        .assert ROLLING_MENU_ID_EQUIP < ROLLING_MENU_ID_FAT_CHOCOBO, "SELL and up step from their own loops"
 
 rolling_engine_hdma_rows:
 """
