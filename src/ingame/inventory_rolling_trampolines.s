@@ -318,6 +318,8 @@ treasure_main_loop_far:
     dec.w treasure_scroll_cooldown
 
 _t_main_cd_done:
+; The rows start_scroll rendered reach VRAM before the slide: the tick below runs a whole row's slide.
+    jsr.w _treasure_push_pending
     lda.w treasure_rolling.scroll_state
     beq _treasure_main_check_drops_tick
     jsr.l treasure_update_scroll_frame_impl
@@ -333,6 +335,15 @@ _treasure_main_check_drops_tick:
     bne _treasure_main_block_input
     jsr.l drops_finish_scroll_impl
 _treasure_main_check_xfer:
+    jsr.w _treasure_push_pending
+    lda.w treasure_rolling.scroll_state
+    beq _treasure_main_call_orig
+_treasure_main_block_input:
+    stz.b 0x01
+_treasure_main_call_orig:
+    rtl
+
+_treasure_push_pending:
 ; Re-rendered slots: push BG3 ($7E:D600); vanilla's loop only sends BG2 and sprites.
     lda.w treasure_rolling.transfer_pending
     beq _treasure_main_after_bg3
@@ -345,12 +356,7 @@ _treasure_main_after_bg3:
     jsr.l tfr_bg4_screen_vblank_trampoline
     stz.w drops_rolling.transfer_pending
 _treasure_main_after_xfer:
-    lda.w treasure_rolling.scroll_state
-    beq _treasure_main_call_orig
-_treasure_main_block_input:
-    stz.b 0x01
-_treasure_main_call_orig:
-    rtl
+    rts
 
 treasure_force_hdma_setup_far:
 """

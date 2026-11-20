@@ -13,6 +13,7 @@ from _ff4kintsuki import (
     wait_for_turn,
     walk_into_battle,
 )
+from _rolling_state import addr
 from kintsuki import Button, Emu
 
 FIELD_TABLE = 0x7E9800  # header band, 10 row bands (11 mid-scroll), footer band
@@ -20,6 +21,9 @@ EQUIP_TABLE = 0x7E9980  # the Fat Chocobo's: header band, 7 row bands (8 mid-scr
 BATTLE_VOFS = 0x7E7F74  # the battle item list's BG3 V scroll, one word every 4 bytes, a scanline each
 BATTLE_LINES = 60  # 5 rows of 12 lines
 ITEM = 0x01  # the Item command
+TREASURE_OFFSET = addr("treasure_rolling", "scroll_anim_offset")
+BG3_PAGE = 0x7ED600  # the treasure list's BG3 tilemap, sent to VRAM word $7000
+BG3_PAGE_SIZE = 0x800
 
 
 def _bands(emu: Emu, table: int) -> list[int]:
@@ -114,3 +118,22 @@ def test_the_battle_item_list_slides_through_rows() -> None:
     finally:
         emu.close()
     assert len({lines for lines in seen if lines < 12}) >= 3  # vanilla's slide steps two or three a frame
+
+
+def test_the_treasure_list_slides_its_new_row_in_drawn() -> None:
+    emu = load_emu_from_kss(kss_path("ff4-before-battle-inventory.kss"), settle_frames=600)
+    try:
+        for button in [Button.DOWN, Button.A] + [Button.DOWN] * 15:
+            tap(emu, button, gap=20)
+        emu.run_frames(30)
+        emu.press(0, Button.UP)
+        stale = []
+        for _ in range(40):
+            emu.run_frames(1)
+            if emu.read16(TREASURE_OFFSET):
+                stale.append(bytes(emu.read_range(BG3_PAGE, BG3_PAGE_SIZE))
+                             != bytes(emu.vram_read_range(0x7000 * 2, BG3_PAGE_SIZE)))
+        emu.release(0, Button.UP)
+    finally:
+        emu.close()
+    assert stale and not any(stale)
