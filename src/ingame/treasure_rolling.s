@@ -30,9 +30,6 @@ TREASURE_SCROLL_COOLDOWN_FRAMES := 0x0C  ; 12 frames between scrolls while DOWN/
 
 _TREASURE_SCROLL_STATE_IDLE := 0
 _TREASURE_SCROLL_STATE_SCROLLING := 1
-; Held-DOWN cadence shared with the field menu (src/lib/rolling_buffer.s).
-_TREASURE_SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
-_TREASURE_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 
 ; HDMA tables shared with the field menu (never on screen together): active $7E:9800, shadow $7E:9840.

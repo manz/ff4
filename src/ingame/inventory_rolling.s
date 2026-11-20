@@ -27,9 +27,6 @@ _MENU_ITEM_LIST_HEIGHT := 160  ; 10 items * 16 px
 
 _SCROLL_STATE_IDLE := 0
 _SCROLL_STATE_SCROLLING := 1
-; Shared held-DOWN cadence (src/lib/rolling_buffer.s).
-_SCROLL_PIXELS_PER_FRAME := INVENTORY_SCROLL_PIXELS_PER_FRAME
-_SCROLL_TOTAL_PIXELS := INVENTORY_SCROLL_TOTAL_PIXELS
 
 ; HDMA ch5, direct mode -> BG1VOFS. Entries are (count, lo, hi):
 ;   48 lines of border at base, 10 x 16-line item rows, 16 lines at base + 16, $00 terminator.

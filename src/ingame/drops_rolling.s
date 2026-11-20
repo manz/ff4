@@ -23,8 +23,6 @@ DROPS_VISIBLE_ITEMS := 5
 _DROPS_BUFFER_SLOTS := 6
 DROPS_TOTAL_ITEMS := 8
 _DROPS_SCROLL_LIMIT := 3
-_DROPS_SCROLL_PIXELS_PER_FRAME := 8
-_DROPS_SCROLL_TOTAL_PIXELS := 16
 
 ; Drops scroll position (no vanilla equivalent), in the last byte of the state slot. Keep the full 24-bit
 ; address: a 16-bit constant with `.l` access would hit bank $00 ROM.
