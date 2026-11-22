@@ -7,7 +7,7 @@ overrides = [{ name = "katsuji", extras = ["render"], specifier = "==0.7.0a0" }]
 
 [[package]]
 name = "a816"
-version = "1.3.0a3"
+version = "1.3.0a4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "katsuji", extra = ["render"] },
@@ -15,7 +15,7 @@ dependencies = [
     { name = "pygls" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/93/f0/81c0f251411dc2ba2c9ebfbed7a888e53fd0f1b4b44cc83e0aa593cedba0/a816-1.3.0a3-py3-none-any.whl", hash = "sha256:5ed76c2bbe8b5e373a8bec199c98579fb02d9c2e5197145557c343ab91bb0ab2", size = 454658, upload-time = "2026-10-27T22:59:09.885Z" },
+    { url = "https://files.pythonhosted.org/packages/c1/40/ac86cbdf5a6071141e9effe6fc1b95102e33b882386bedceb29212251473/a816-1.3.0a4-py3-none-any.whl", hash = "sha256:87fb74445e53396eabb091fdf9098dcd55c5df967f983ed5b9a335f2b05afc68", size = 453230, upload-time = "2026-11-22T20:01:42.61Z" },
 ]
 
 [[package]]
@@ -75,8 +75,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "a816", specifier = "==1.3.0a3" },
-    { name = "katsuji", extras = ["render"], specifier = "==0.7.0a0" },
+    { name = "a816", specifier = "==1.3.0a4" },
+    { name = "katsuji", extras = ["render"], specifier = "==0.7.0a1" },
     { name = "kintsuki", specifier = "==0.0.0a24" },
 ]
 
